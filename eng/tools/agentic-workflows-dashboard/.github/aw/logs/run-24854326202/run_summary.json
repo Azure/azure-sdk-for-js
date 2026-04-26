@@ -1,0 +1,337 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24854326202,
+  "processed_at": "2026-04-24T19:18:59.630166403Z",
+  "run": {
+    "databaseId": 24854326202,
+    "number": 6,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/24854326202",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Agentic Triage",
+    "workflowPath": ".github/workflows/issue-triage.lock.yml",
+    "createdAt": "2026-04-23T19:21:53Z",
+    "startedAt": "2026-04-23T19:21:53Z",
+    "updatedAt": "2026-04-23T19:26:13Z",
+    "event": "issues",
+    "headBranch": "main",
+    "headSha": "c4dc674a3f944718b86183d0e4ff4a5c2970ac5e",
+    "displayTitle": "Agentic Triage",
+    "Duration": 260000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 106010,
+    "EstimatedCost": 0,
+    "Turns": 3,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24854326202"
+  },
+  "metrics": {
+    "TokenUsage": 106010,
+    "EstimatedCost": 0,
+    "Turns": 3,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "triage",
+    "label": "Triage",
+    "reason": "The run focused on classification, routing, or issue state updates."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 1
+  },
+  "agentic_assessments": [
+    {
+      "kind": "overkill_for_agentic",
+      "severity": "low",
+      "summary": "This Triage run looks stable enough that deterministic automation may be a simpler fit.",
+      "evidence": "turns=3 tool_types=0 actuation=read_only",
+      "recommendation": "Consider whether a scripted rule or deterministic workflow step could replace this agentic path."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "github.com:443"
+    ],
+    "blocked_domains": [
+      "release-assets.githubusercontent.com:443"
+    ],
+    "total_requests": 15,
+    "allowed_requests": 14,
+    "blocked_requests": 1,
+    "requests_by_domain": {
+      "api.github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 12,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 0,
+        "blocked": 1
+      }
+    }
+  },
+  "policy_analysis": {
+    "policy_summary": "6 rules, SSL Bump disabled, DLP disabled",
+    "rule_hits": [],
+    "total_requests": 0,
+    "allowed_count": 0,
+    "denied_count": 0,
+    "unique_domains": 0
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": [
+    {
+      "message": "No action needed: Issue #38265 already has labels [\"Client\", \"Storage\"] — precondition check in Step 1 requires exiting without further triage action when labels are already present.",
+      "workflow_name": "Agentic Triage",
+      "run_id": 24854326202
+    }
+  ],
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-23T19:23:52.410072191Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T19:23:52.907307231Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T19:23:53.152835916Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T19:24:00.38252046Z",
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 3,
+        "tool_call_count": 3,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 1,
+        "tool_call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "token_usage_summary": {
+    "total_input_tokens": 105570,
+    "total_output_tokens": 440,
+    "total_cache_read_tokens": 69536,
+    "total_cache_write_tokens": 0,
+    "total_requests": 3,
+    "total_duration_ms": 12988,
+    "total_response_bytes": 29026,
+    "cache_efficiency": 0.3971080374173358,
+    "total_effective_tokens": 114284,
+    "ambient_context": {
+      "input_tokens": 34429,
+      "cached_tokens": 0,
+      "effective_tokens": 34429
+    },
+    "by_model": {
+      "claude-sonnet-4.6": {
+        "provider": "copilot",
+        "input_tokens": 105570,
+        "output_tokens": 440,
+        "cache_read_tokens": 69536,
+        "cache_write_tokens": 0,
+        "requests": 3,
+        "duration_ms": 12988,
+        "response_bytes": 29026,
+        "effective_tokens": 114284
+      }
+    }
+  },
+  "github_rate_limit_usage": {
+    "total_requests_made": 4,
+    "core_consumed": 7,
+    "core_remaining": 14991,
+    "core_limit": 15000,
+    "resources": [
+      {
+        "resource": "core",
+        "requests_made": 4,
+        "quota_consumed": 7,
+        "final_remaining": 14991,
+        "limit": 15000
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "agent_usage.json",
+    "aw-prompts/prompt.txt",
+    "aw_info.json",
+    "detection.log",
+    "github_rate_limits.jsonl",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-outputs-items/safe-output-items.jsonl",
+    "safe-outputs-items/temporary-id-map.json",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1776972217234-170.log",
+    "sandbox/firewall/audit/docker-compose.redacted.yml",
+    "sandbox/firewall/audit/iptables-audit.txt",
+    "sandbox/firewall/audit/policy-manifest.json",
+    "sandbox/firewall/audit/squid.conf",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl",
+    "sandbox/firewall/logs/audit.jsonl",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/3_detection.txt",
+    "workflow-logs/4_agent.txt",
+    "workflow-logs/5_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/mention_owners/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-23T19:22:13Z",
+      "completed_at": "2026-04-23T19:22:29Z",
+      "Duration": 16000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-23T19:22:36Z",
+      "completed_at": "2026-04-23T19:24:13Z",
+      "Duration": 97000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-23T19:24:23Z",
+      "completed_at": "2026-04-23T19:25:27Z",
+      "Duration": 64000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-23T19:25:43Z",
+      "completed_at": "2026-04-23T19:25:55Z",
+      "Duration": 12000000000
+    },
+    {
+      "name": "mention_owners",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-23T19:25:27Z",
+      "completed_at": "2026-04-23T19:25:27Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-23T19:26:03Z",
+      "completed_at": "2026-04-23T19:26:12Z",
+      "Duration": 9000000000
+    }
+  ]
+}

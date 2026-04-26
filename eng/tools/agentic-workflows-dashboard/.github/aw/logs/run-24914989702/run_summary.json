@@ -1,0 +1,600 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24914989702,
+  "processed_at": "2026-04-24T23:10:12.51816056Z",
+  "run": {
+    "databaseId": 24914989702,
+    "number": 464,
+    "url": "https://github.com/Azure/azure-sdk-for-net/actions/runs/24914989702",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Agentic Triage",
+    "workflowPath": ".github/workflows/issue-triage.lock.yml",
+    "createdAt": "2026-04-24T22:37:05Z",
+    "startedAt": "2026-04-24T22:37:05Z",
+    "updatedAt": "2026-04-24T22:42:04Z",
+    "event": "issues",
+    "headBranch": "main",
+    "headSha": "f99047a460984ac23c1375c66d0592b240d9ade5",
+    "displayTitle": "Agentic Triage",
+    "Duration": 299000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 144755,
+    "EstimatedCost": 0,
+    "Turns": 3,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24914989702"
+  },
+  "metrics": {
+    "TokenUsage": 144755,
+    "EstimatedCost": 0,
+    "Turns": 3,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "triage",
+    "label": "Triage",
+    "reason": "The run focused on classification, routing, or issue state updates."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 1
+  },
+  "agentic_assessments": [
+    {
+      "kind": "overkill_for_agentic",
+      "severity": "low",
+      "summary": "This Triage run looks stable enough that deterministic automation may be a simpler fit.",
+      "evidence": "turns=3 tool_types=0 actuation=read_only",
+      "recommendation": "Consider whether a scripted rule or deterministic workflow step could replace this agentic path."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "0t3vsblobprodcus362.vsblob.vsassets.io:443",
+      "1javsblobprodcus364.vsblob.vsassets.io:443",
+      "1k9vsblobprodcus379.vsblob.vsassets.io:443",
+      "4m6vsblobprodcus384.vsblob.vsassets.io:443",
+      "4vyvsblobprodcus361.vsblob.vsassets.io:443",
+      "4zjvsblobprodcus390.vsblob.vsassets.io:443",
+      "7devsblobprodcus323.vsblob.vsassets.io:443",
+      "80zvsblobprodcus35.vsblob.vsassets.io:443",
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "centralus-2.in.applicationinsights.azure.com:443",
+      "ckzvsblobprodcus347.vsblob.vsassets.io:443",
+      "crl3.digicert.com",
+      "crl4.digicert.com",
+      "dc.services.visualstudio.com:443",
+      "frdvsblobprodcus327.vsblob.vsassets.io:443",
+      "github.com:443",
+      "k0ivsblobprodcus356.vsblob.vsassets.io:443",
+      "kh4vsblobprodcus325.vsblob.vsassets.io:443",
+      "kxqvsblobprodcus376.vsblob.vsassets.io:443",
+      "m16vsblobprodcus374.vsblob.vsassets.io:443",
+      "m8dvsblobprodcus37.vsblob.vsassets.io:443",
+      "mfjvsblobprodcus373.vsblob.vsassets.io:443",
+      "nn8vsblobprodcus340.vsblob.vsassets.io:443",
+      "o3svsblobprodcus318.vsblob.vsassets.io:443",
+      "pe3vsblobprodcus354.vsblob.vsassets.io:443",
+      "pkgs.dev.azure.com:443",
+      "release-assets.githubusercontent.com:443",
+      "s.symcb.com",
+      "s4uvsblobprodcus326.vsblob.vsassets.io:443",
+      "s8mvsblobprodcus38.vsblob.vsassets.io:443",
+      "sc4vsblobprodcus331.vsblob.vsassets.io:443",
+      "se1vsblobprodcus349.vsblob.vsassets.io:443",
+      "ts-crl.ws.symantec.com",
+      "u3hvsblobprodcus371.vsblob.vsassets.io:443",
+      "u6ovsblobprodcus377.vsblob.vsassets.io:443",
+      "ukkvsblobprodcus352.vsblob.vsassets.io:443",
+      "uy6vsblobprodcus34.vsblob.vsassets.io:443",
+      "vb4vsblobprodcus33.vsblob.vsassets.io:443",
+      "xupvsblobprodcus332.vsblob.vsassets.io:443",
+      "yluvsblobprodcus367.vsblob.vsassets.io:443",
+      "yttvsblobprodcus357.vsblob.vsassets.io:443"
+    ],
+    "total_requests": 126,
+    "allowed_requests": 126,
+    "blocked_requests": 0,
+    "requests_by_domain": {
+      "0t3vsblobprodcus362.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "1javsblobprodcus364.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "1k9vsblobprodcus379.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4m6vsblobprodcus384.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4vyvsblobprodcus361.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4zjvsblobprodcus390.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "7devsblobprodcus323.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "80zvsblobprodcus35.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "api.github.com:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 12,
+        "blocked": 0
+      },
+      "centralus-2.in.applicationinsights.azure.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ckzvsblobprodcus347.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "crl3.digicert.com": {
+        "allowed": 46,
+        "blocked": 0
+      },
+      "crl4.digicert.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "dc.services.visualstudio.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "frdvsblobprodcus327.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "k0ivsblobprodcus356.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "kh4vsblobprodcus325.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "kxqvsblobprodcus376.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "m16vsblobprodcus374.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "m8dvsblobprodcus37.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "mfjvsblobprodcus373.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "nn8vsblobprodcus340.vsblob.vsassets.io:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "o3svsblobprodcus318.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pe3vsblobprodcus354.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pkgs.dev.azure.com:443": {
+        "allowed": 26,
+        "blocked": 0
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s.symcb.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s4uvsblobprodcus326.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s8mvsblobprodcus38.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "sc4vsblobprodcus331.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "se1vsblobprodcus349.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ts-crl.ws.symantec.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "u3hvsblobprodcus371.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "u6ovsblobprodcus377.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ukkvsblobprodcus352.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "uy6vsblobprodcus34.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "vb4vsblobprodcus33.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "xupvsblobprodcus332.vsblob.vsassets.io:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "yluvsblobprodcus367.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "yttvsblobprodcus357.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      }
+    }
+  },
+  "policy_analysis": {
+    "policy_summary": "7 rules, SSL Bump disabled, DLP disabled",
+    "rule_hits": [],
+    "total_requests": 0,
+    "allowed_count": 0,
+    "denied_count": 0,
+    "unique_domains": 0
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": [
+    {
+      "message": "No action needed: Issue #58670 already has labels (\"Search\" and \"auto-generated\"). Per triage precondition checks, issues that already have labels are skipped.",
+      "workflow_name": "Agentic Triage",
+      "run_id": 24914989702
+    }
+  ],
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 5,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-24T22:39:44.918232234Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:44.924651848Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:44.930926888Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:45.204225172Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:45.372477773Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:45.380256108Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:45.388779055Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T22:39:50.290675617Z",
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 7,
+        "tool_call_count": 7,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 1,
+        "tool_call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "token_usage_summary": {
+    "total_input_tokens": 144354,
+    "total_output_tokens": 401,
+    "total_cache_read_tokens": 94826,
+    "total_cache_write_tokens": 0,
+    "total_requests": 3,
+    "total_duration_ms": 10563,
+    "total_response_bytes": 24906,
+    "cache_efficiency": 0.39646291495944475,
+    "total_effective_tokens": 155441,
+    "ambient_context": {
+      "input_tokens": 46779,
+      "cached_tokens": 0,
+      "effective_tokens": 46779
+    },
+    "by_model": {
+      "claude-sonnet-4.6": {
+        "provider": "copilot",
+        "input_tokens": 144354,
+        "output_tokens": 401,
+        "cache_read_tokens": 94826,
+        "cache_write_tokens": 0,
+        "requests": 3,
+        "duration_ms": 10563,
+        "response_bytes": 24906,
+        "effective_tokens": 155441
+      }
+    }
+  },
+  "github_rate_limit_usage": {
+    "total_requests_made": 4,
+    "core_consumed": 5,
+    "core_remaining": 14989,
+    "core_limit": 15000,
+    "resources": [
+      {
+        "resource": "core",
+        "requests_made": 4,
+        "quota_consumed": 5,
+        "final_remaining": 14989,
+        "limit": 15000
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "agent_usage.json",
+    "aw-prompts/prompt.txt",
+    "aw_info.json",
+    "detection.log",
+    "github_rate_limits.jsonl",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-outputs-items/safe-output-items.jsonl",
+    "safe-outputs-items/temporary-id-map.json",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1777070352439-177.log",
+    "sandbox/firewall/audit/docker-compose.redacted.yml",
+    "sandbox/firewall/audit/iptables-audit.txt",
+    "sandbox/firewall/audit/policy-manifest.json",
+    "sandbox/firewall/audit/squid.conf",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl",
+    "sandbox/firewall/logs/audit.jsonl",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/3_detection.txt",
+    "workflow-logs/4_agent.txt",
+    "workflow-logs/5_activation.txt",
+    "workflow-logs/activation/10_Create prompt with built-in context.txt",
+    "workflow-logs/activation/11_Interpolate variables and render templates.txt",
+    "workflow-logs/activation/12_Substitute placeholders.txt",
+    "workflow-logs/activation/13_Validate prompt placeholders.txt",
+    "workflow-logs/activation/14_Print prompt.txt",
+    "workflow-logs/activation/15_Upload activation artifact.txt",
+    "workflow-logs/activation/1_Set up job.txt",
+    "workflow-logs/activation/29_Post Checkout .github and .agents folders.txt",
+    "workflow-logs/activation/2_Setup Scripts.txt",
+    "workflow-logs/activation/30_Post Setup Scripts.txt",
+    "workflow-logs/activation/31_Complete job.txt",
+    "workflow-logs/activation/3_Generate agentic run info.txt",
+    "workflow-logs/activation/4_Add eyes reaction for immediate feedback.txt",
+    "workflow-logs/activation/5_Validate COPILOT_GITHUB_TOKEN secret.txt",
+    "workflow-logs/activation/6_Checkout .github and .agents folders.txt",
+    "workflow-logs/activation/7_Check workflow lock file.txt",
+    "workflow-logs/activation/8_Check compile-agentic version.txt",
+    "workflow-logs/activation/9_Compute current body text.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/10_Install AWF binary.txt",
+    "workflow-logs/agent/11_Parse integrity filter lists.txt",
+    "workflow-logs/agent/12_Download container images.txt",
+    "workflow-logs/agent/13_Write Safe Outputs Config.txt",
+    "workflow-logs/agent/14_Write Safe Outputs Tools.txt",
+    "workflow-logs/agent/15_Generate Safe Outputs MCP Server Config.txt",
+    "workflow-logs/agent/16_Start Safe Outputs MCP HTTP Server.txt",
+    "workflow-logs/agent/17_Start MCP Gateway.txt",
+    "workflow-logs/agent/18_Download activation artifact.txt",
+    "workflow-logs/agent/19_Clean git credentials.txt",
+    "workflow-logs/agent/1_Set up job.txt",
+    "workflow-logs/agent/20_Execute GitHub Copilot CLI.txt",
+    "workflow-logs/agent/21_Detect Copilot errors.txt",
+    "workflow-logs/agent/22_Configure Git credentials.txt",
+    "workflow-logs/agent/23_Copy Copilot session state files to logs.txt",
+    "workflow-logs/agent/24_Stop MCP Gateway.txt",
+    "workflow-logs/agent/25_Redact secrets in logs.txt",
+    "workflow-logs/agent/26_Append agent step summary.txt",
+    "workflow-logs/agent/27_Copy Safe Outputs.txt",
+    "workflow-logs/agent/28_Ingest agent output.txt",
+    "workflow-logs/agent/29_Parse agent logs for step summary.txt",
+    "workflow-logs/agent/2_Setup Scripts.txt",
+    "workflow-logs/agent/30_Parse MCP Gateway logs for step summary.txt",
+    "workflow-logs/agent/31_Print firewall logs.txt",
+    "workflow-logs/agent/32_Parse token usage for step summary.txt",
+    "workflow-logs/agent/33_Write agent output placeholder if missing.txt",
+    "workflow-logs/agent/34_Upload agent artifacts.txt",
+    "workflow-logs/agent/3_Set runtime paths.txt",
+    "workflow-logs/agent/4_Checkout repository.txt",
+    "workflow-logs/agent/5_Create gh-aw temp directory.txt",
+    "workflow-logs/agent/67_Post Checkout repository.txt",
+    "workflow-logs/agent/68_Post Setup Scripts.txt",
+    "workflow-logs/agent/69_Complete job.txt",
+    "workflow-logs/agent/6_Configure gh CLI for GitHub Enterprise.txt",
+    "workflow-logs/agent/7_Configure Git credentials.txt",
+    "workflow-logs/agent/9_Install GitHub Copilot CLI.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/18_Post Setup Scripts.txt",
+    "workflow-logs/conclusion/19_Complete job.txt",
+    "workflow-logs/conclusion/1_Set up job.txt",
+    "workflow-logs/conclusion/2_Setup Scripts.txt",
+    "workflow-logs/conclusion/3_Download agent output artifact.txt",
+    "workflow-logs/conclusion/4_Setup agent output environment variable.txt",
+    "workflow-logs/conclusion/5_Process no-op messages.txt",
+    "workflow-logs/conclusion/6_Log detection run.txt",
+    "workflow-logs/conclusion/7_Record missing tool.txt",
+    "workflow-logs/conclusion/8_Record incomplete.txt",
+    "workflow-logs/conclusion/9_Handle agent failure.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/10_Prepare threat detection files.txt",
+    "workflow-logs/detection/11_Setup threat detection.txt",
+    "workflow-logs/detection/12_Ensure threat-detection directory and log.txt",
+    "workflow-logs/detection/13_Install GitHub Copilot CLI.txt",
+    "workflow-logs/detection/14_Install AWF binary.txt",
+    "workflow-logs/detection/15_Execute GitHub Copilot CLI.txt",
+    "workflow-logs/detection/16_Upload threat detection log.txt",
+    "workflow-logs/detection/17_Parse and conclude threat detection.txt",
+    "workflow-logs/detection/1_Set up job.txt",
+    "workflow-logs/detection/2_Setup Scripts.txt",
+    "workflow-logs/detection/34_Post Setup Scripts.txt",
+    "workflow-logs/detection/35_Complete job.txt",
+    "workflow-logs/detection/3_Download agent output artifact.txt",
+    "workflow-logs/detection/4_Setup agent output environment variable.txt",
+    "workflow-logs/detection/6_Clean stale firewall files from agent artifact.txt",
+    "workflow-logs/detection/7_Download container images.txt",
+    "workflow-logs/detection/8_Check if detection needed.txt",
+    "workflow-logs/detection/9_Clear MCP configuration for detection.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/mention_owners/system.txt",
+    "workflow-logs/safe_outputs/14_Post Setup Scripts.txt",
+    "workflow-logs/safe_outputs/15_Complete job.txt",
+    "workflow-logs/safe_outputs/1_Set up job.txt",
+    "workflow-logs/safe_outputs/2_Setup Scripts.txt",
+    "workflow-logs/safe_outputs/3_Download agent output artifact.txt",
+    "workflow-logs/safe_outputs/4_Setup agent output environment variable.txt",
+    "workflow-logs/safe_outputs/5_Configure GH_HOST for enterprise compatibility.txt",
+    "workflow-logs/safe_outputs/6_Process Safe Outputs.txt",
+    "workflow-logs/safe_outputs/7_Upload Safe Outputs Items.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

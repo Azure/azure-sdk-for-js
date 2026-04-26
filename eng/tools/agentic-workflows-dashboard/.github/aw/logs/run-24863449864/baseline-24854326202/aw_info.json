@@ -1,0 +1,32 @@
+{
+  "engine_id": "copilot",
+  "engine_name": "GitHub Copilot CLI",
+  "model": "auto",
+  "version": "1.0.21",
+  "agent_version": "1.0.21",
+  "workflow_name": "Agentic Triage",
+  "experimental": false,
+  "supports_tools_allowlist": true,
+  "run_id": 24854326202,
+  "run_number": 6,
+  "run_attempt": "1",
+  "repository": "Azure/azure-sdk-for-js",
+  "ref": "refs/heads/main",
+  "sha": "c4dc674a3f944718b86183d0e4ff4a5c2970ac5e",
+  "actor": "jeremymeng",
+  "event_name": "issues",
+  "target_repo": "",
+  "staged": false,
+  "allowed_domains": [
+    "defaults",
+    "registry.npmjs.org"
+  ],
+  "firewall_enabled": true,
+  "awf_version": "v0.25.20",
+  "awmg_version": "",
+  "steps": {
+    "firewall": "squid"
+  },
+  "created_at": "2026-04-23T19:22:20.132Z",
+  "cli_version": "v0.68.3"
+}

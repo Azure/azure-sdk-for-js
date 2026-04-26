@@ -1,0 +1,167 @@
+﻿2026-04-03T11:29:09.1741959Z Current runner version: '2.333.1'
+2026-04-03T11:29:09.1748407Z Runner name: '7b18167fc000009'
+2026-04-03T11:29:09.1749161Z Runner group name: 'azsdk-pool-github-runners'
+2026-04-03T11:29:09.1750184Z Machine name: '7b18167fc000009'
+2026-04-03T11:29:09.1768495Z ##[group]Operating System
+2026-04-03T11:29:09.1769321Z Ubuntu
+2026-04-03T11:29:09.1769813Z 24.04.3
+2026-04-03T11:29:09.1770318Z LTS
+2026-04-03T11:29:09.1770759Z ##[endgroup]
+2026-04-03T11:29:09.1771396Z ##[group]Runner Image
+2026-04-03T11:29:09.1771982Z Image: ubuntu-24.04
+2026-04-03T11:29:09.1772498Z Version: 20260111.209.1
+2026-04-03T11:29:09.1773634Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260111.209/images/ubuntu/Ubuntu2404-Readme.md
+2026-04-03T11:29:09.1775350Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260111.209
+2026-04-03T11:29:09.1776237Z ##[endgroup]
+2026-04-03T11:29:09.1776806Z ##[group]1ES Hosted Pool
+2026-04-03T11:29:09.1777589Z SKU: Standard_D4ads_v5
+2026-04-03T11:29:09.1778250Z Image: ubuntu-24.04
+2026-04-03T11:29:09.1778782Z Image Version: 130.0.0
+2026-04-03T11:29:09.1779263Z Local IP: 10.1.166.101
+2026-04-03T11:29:09.1779899Z Public Outgoing IP(s): 4.154.147.56/30
+2026-04-03T11:29:09.1780509Z Interactive Mode: False
+2026-04-03T11:29:09.1781035Z Request Id: 69838190871
+2026-04-03T11:29:09.1781637Z Pool Name: azsdk-pool-github-runners
+2026-04-03T11:29:09.1782255Z Location: westus2
+2026-04-03T11:29:09.1782760Z Work Folder: /mnt/vss/_work
+2026-04-03T11:29:09.1783397Z Resource Provider: VmssResourceProvider
+2026-04-03T11:29:09.1784236Z Worker Build Version: 31226565
+2026-04-03T11:29:09.1784784Z Network Isolation Policy: None
+2026-04-03T11:29:09.1785418Z ##[endgroup]
+2026-04-03T11:29:09.1786521Z ##[group]GITHUB_TOKEN Permissions
+2026-04-03T11:29:09.1788317Z Contents: read
+2026-04-03T11:29:09.1789030Z Metadata: read
+2026-04-03T11:29:09.1789622Z PullRequests: write
+2026-04-03T11:29:09.1790096Z ##[endgroup]
+2026-04-03T11:29:09.1792329Z Secret source: Actions
+2026-04-03T11:29:09.1793216Z Prepare workflow directory
+2026-04-03T11:29:09.2117784Z Prepare all required actions
+2026-04-03T11:29:09.2154787Z Getting action download info
+2026-04-03T11:29:09.6377506Z Download action repository 'actions/checkout@v6' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-03T11:29:10.1281600Z Complete job name: After APIView
+2026-04-03T11:29:10.2152305Z ##[group]Run actions/checkout@v6
+2026-04-03T11:29:10.2153134Z with:
+2026-04-03T11:29:10.2153530Z   sparse-checkout: eng/common
+2026-04-03T11:29:10.2154304Z   repository: Azure/azure-sdk-for-go
+2026-04-03T11:29:10.2155005Z   token: ***
+2026-04-03T11:29:10.2155390Z   ssh-strict: true
+2026-04-03T11:29:10.2155778Z   ssh-user: git
+2026-04-03T11:29:10.2156176Z   persist-credentials: true
+2026-04-03T11:29:10.2156609Z   clean: true
+2026-04-03T11:29:10.2157008Z   sparse-checkout-cone-mode: true
+2026-04-03T11:29:10.2157469Z   fetch-depth: 1
+2026-04-03T11:29:10.2157843Z   fetch-tags: false
+2026-04-03T11:29:10.2158230Z   show-progress: true
+2026-04-03T11:29:10.2158645Z   lfs: false
+2026-04-03T11:29:10.2159000Z   submodules: false
+2026-04-03T11:29:10.2159389Z   set-safe-directory: true
+2026-04-03T11:29:10.2160061Z ##[endgroup]
+2026-04-03T11:29:10.3155335Z Syncing repository: Azure/azure-sdk-for-go
+2026-04-03T11:29:10.3157034Z ##[group]Getting Git version info
+2026-04-03T11:29:10.3157957Z Working directory is '/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go'
+2026-04-03T11:29:10.3158974Z [command]/usr/bin/git version
+2026-04-03T11:29:10.3220719Z git version 2.52.0
+2026-04-03T11:29:10.3278400Z ##[endgroup]
+2026-04-03T11:29:10.3294892Z Temporarily overriding HOME='/mnt/vss/_work/_temp/5d8308c2-5849-48e6-9c7f-3f9a78182046' before making global git config changes
+2026-04-03T11:29:10.3296677Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-03T11:29:10.3300172Z [command]/usr/bin/git config --global --add safe.directory /mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go
+2026-04-03T11:29:10.3348649Z Deleting the contents of '/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go'
+2026-04-03T11:29:10.3352887Z ##[group]Initializing the repository
+2026-04-03T11:29:10.3357573Z [command]/usr/bin/git init /mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go
+2026-04-03T11:29:10.3458819Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-03T11:29:10.3460285Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-03T11:29:10.3461889Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-03T11:29:10.3462968Z hint: call:
+2026-04-03T11:29:10.3463421Z hint:
+2026-04-03T11:29:10.3464192Z hint: 	git config --global init.defaultBranch <name>
+2026-04-03T11:29:10.3464980Z hint:
+2026-04-03T11:29:10.3465777Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-03T11:29:10.3467042Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-03T11:29:10.3468078Z hint:
+2026-04-03T11:29:10.3468466Z hint: 	git branch -m <name>
+2026-04-03T11:29:10.3468951Z hint:
+2026-04-03T11:29:10.3469526Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-03T11:29:10.3471011Z Initialized empty Git repository in /mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git/
+2026-04-03T11:29:10.3477525Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-go
+2026-04-03T11:29:10.3521772Z ##[endgroup]
+2026-04-03T11:29:10.3522475Z ##[group]Disabling automatic garbage collection
+2026-04-03T11:29:10.3526370Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-03T11:29:10.3563762Z ##[endgroup]
+2026-04-03T11:29:10.3565021Z ##[group]Setting up auth
+2026-04-03T11:29:10.3565797Z Removing SSH command configuration
+2026-04-03T11:29:10.3571633Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-03T11:29:10.3610584Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-03T11:29:10.4016411Z Removing HTTP extra header
+2026-04-03T11:29:10.4022302Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-03T11:29:10.4061073Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-03T11:29:10.4341923Z Removing includeIf entries pointing to credentials config files
+2026-04-03T11:29:10.4348526Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-03T11:29:10.4385563Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-03T11:29:10.4697566Z [command]/usr/bin/git config --file /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-03T11:29:10.4740739Z [command]/usr/bin/git config --local includeIf.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git.path /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:10.4777867Z [command]/usr/bin/git config --local includeIf.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git/worktrees/*.path /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:10.4814754Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:10.4852269Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:10.4892239Z ##[endgroup]
+2026-04-03T11:29:10.4893153Z ##[group]Fetching the repository
+2026-04-03T11:29:10.4901491Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +a86d8bfec20bc66abdf87899a7b4cf8417ad4e37:refs/remotes/origin/main
+2026-04-03T11:29:10.8182425Z From https://github.com/Azure/azure-sdk-for-go
+2026-04-03T11:29:10.8184477Z  * [new ref]         a86d8bfec20bc66abdf87899a7b4cf8417ad4e37 -> origin/main
+2026-04-03T11:29:10.8284405Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-03T11:29:10.8316221Z   origin/main
+2026-04-03T11:29:10.8326573Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-03T11:29:10.8356003Z a86d8bfec20bc66abdf87899a7b4cf8417ad4e37
+2026-04-03T11:29:10.8362020Z ##[endgroup]
+2026-04-03T11:29:10.8363179Z ##[group]Determining the checkout info
+2026-04-03T11:29:10.8364689Z ##[endgroup]
+2026-04-03T11:29:10.8365796Z ##[group]Setting up sparse checkout
+2026-04-03T11:29:10.8368097Z [command]/usr/bin/git sparse-checkout set eng/common
+2026-04-03T11:29:10.8424692Z ##[endgroup]
+2026-04-03T11:29:10.8426516Z ##[group]Checking out the ref
+2026-04-03T11:29:10.8428149Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-03T11:29:11.3407956Z Switched to a new branch 'main'
+2026-04-03T11:29:11.3410230Z branch 'main' set up to track 'origin/main'.
+2026-04-03T11:29:11.3420385Z ##[endgroup]
+2026-04-03T11:29:11.3471846Z [command]/usr/bin/git log -1 --format=%H
+2026-04-03T11:29:11.3502728Z a86d8bfec20bc66abdf87899a7b4cf8417ad4e37
+2026-04-03T11:29:11.3740856Z ##[group]Run . "eng/common/scripts/Helpers/ApiView-Helpers.ps1"
+2026-04-03T11:29:11.3741771Z [36;1m. "eng/common/scripts/Helpers/ApiView-Helpers.ps1"[0m
+2026-04-03T11:29:11.3743359Z [36;1mSet-ApiViewCommentForRelatedIssues -HeadCommitish a86d8bfec20bc66abdf87899a7b4cf8417ad4e37 -AuthToken ***[0m
+2026-04-03T11:29:11.3807753Z shell: /usr/bin/pwsh -command ". '{0}'"
+2026-04-03T11:29:11.3808387Z ##[endgroup]
+2026-04-03T11:29:13.0721050Z Correlation ID: df96c44b-075d-4441-a7bb-18541da7b33a
+2026-04-03T11:29:13.2449734Z OperationId: e689f3f9d729296b650c57fb2b6fc89a
+2026-04-03T11:29:13.2463178Z API changes are not detected in this pull request.
+2026-04-03T11:29:13.3311233Z Post job cleanup.
+2026-04-03T11:29:13.4107347Z [command]/usr/bin/git version
+2026-04-03T11:29:13.4180266Z git version 2.52.0
+2026-04-03T11:29:13.4220058Z Temporarily overriding HOME='/mnt/vss/_work/_temp/bb3e0944-4a7d-4bbc-b89c-58aef51cabbb' before making global git config changes
+2026-04-03T11:29:13.4221792Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-03T11:29:13.4226202Z [command]/usr/bin/git config --global --add safe.directory /mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go
+2026-04-03T11:29:13.4264525Z Removing SSH command configuration
+2026-04-03T11:29:13.4270645Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-03T11:29:13.4311694Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-03T11:29:13.4650211Z Removing HTTP extra header
+2026-04-03T11:29:13.4655758Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-03T11:29:13.4696826Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-03T11:29:13.5002211Z Removing includeIf entries pointing to credentials config files
+2026-04-03T11:29:13.5009465Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-03T11:29:13.5037395Z includeif.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git.path
+2026-04-03T11:29:13.5038304Z includeif.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git/worktrees/*.path
+2026-04-03T11:29:13.5038859Z includeif.gitdir:/github/workspace/.git.path
+2026-04-03T11:29:13.5039351Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-03T11:29:13.5049687Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git.path
+2026-04-03T11:29:13.5076448Z /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5089013Z [command]/usr/bin/git config --local --unset includeif.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git.path /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5128759Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git/worktrees/*.path
+2026-04-03T11:29:13.5156491Z /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5167728Z [command]/usr/bin/git config --local --unset includeif.gitdir:/mnt/vss/_work/azure-sdk-for-go/azure-sdk-for-go/.git/worktrees/*.path /mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5206536Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-03T11:29:13.5232930Z /github/runner_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5242140Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5279381Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-03T11:29:13.5305222Z /github/runner_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5315306Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config
+2026-04-03T11:29:13.5355104Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-03T11:29:13.5651857Z Removing credentials config '/mnt/vss/_work/_temp/git-credentials-5e1dea70-d8c9-4da0-a84c-e388675bc099.config'
+2026-04-03T11:29:13.5796794Z Cleaning up orphan processes

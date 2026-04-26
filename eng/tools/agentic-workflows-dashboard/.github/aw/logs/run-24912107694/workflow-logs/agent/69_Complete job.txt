@@ -1,0 +1,14 @@
+﻿2026-04-24T21:16:48.0693983Z Evaluate and set job outputs
+2026-04-24T21:16:48.0700501Z Set output 'agentic_engine_timeout'
+2026-04-24T21:16:48.0702173Z Set output 'checkout_pr_success'
+2026-04-24T21:16:48.0702973Z Set output 'effective_tokens'
+2026-04-24T21:16:48.0703305Z Set output 'has_patch'
+2026-04-24T21:16:48.0703614Z Set output 'inference_access_error'
+2026-04-24T21:16:48.0703953Z Set output 'mcp_policy_error'
+2026-04-24T21:16:48.0704254Z Set output 'model'
+2026-04-24T21:16:48.0704550Z Set output 'model_not_supported_error'
+2026-04-24T21:16:48.0718232Z Set output 'output'
+2026-04-24T21:16:48.0718556Z Set output 'output_types'
+2026-04-24T21:16:48.0718904Z Set output 'setup-trace-id'
+2026-04-24T21:16:48.0719650Z Cleaning up orphan processes
+2026-04-24T21:16:48.1048611Z Terminate orphan process: pid (3515) (node)

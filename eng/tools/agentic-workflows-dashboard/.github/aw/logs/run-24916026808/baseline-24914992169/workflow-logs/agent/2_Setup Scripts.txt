@@ -1,0 +1,24 @@
+﻿2026-04-24T22:37:50.2078780Z ##[group]Run github/gh-aw-actions/setup@ba90f2186d7ad780ec640f364005fa24e797b360
+2026-04-24T22:37:50.2079495Z with:
+2026-04-24T22:37:50.2079757Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-24T22:37:50.2080051Z   job-name: agent
+2026-04-24T22:37:50.2080272Z   trace-id: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:37:50.2080560Z   safe-output-artifact-client: false
+2026-04-24T22:37:50.2080935Z env:
+2026-04-24T22:37:50.2081114Z   DEFAULT_BRANCH: main
+2026-04-24T22:37:50.2081330Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T22:37:50.2081596Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T22:37:50.2081808Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T22:37:50.2082063Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T22:37:50.2082363Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T22:37:50.2082613Z ##[endgroup]
+2026-04-24T22:37:52.0352307Z Successfully copied 309 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-24T22:37:52.2031406Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-24T22:37:52.2882873Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-24T22:37:52.2966905Z [otlp] INPUT_TRACE_ID=00c2e84cd6319bdc6b65a934df88f9b8 (will reuse activation trace)
+2026-04-24T22:37:52.2968935Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-24T22:37:52.2989378Z [otlp] resolved trace-id=00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:37:52.2990250Z [otlp] trace-id=00c2e84cd6319bdc6b65a934df88f9b8 written to GITHUB_OUTPUT
+2026-04-24T22:37:52.2991182Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-24T22:37:52.2991692Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-24T22:37:52.2996036Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV

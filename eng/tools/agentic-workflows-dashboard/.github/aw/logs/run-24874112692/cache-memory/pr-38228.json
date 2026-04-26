@@ -1,0 +1,13 @@
+{
+  "pr": 38228,
+  "package": "@azure/arm-compute",
+  "version": "24.0.0",
+  "previousVersion": "23.3.0",
+  "type": "first-typespec-migration",
+  "outcome": "clean",
+  "findings": [],
+  "apiSurface": "clean",
+  "ciStatus": "all-passing",
+  "reviewedAt": "2026-04-24",
+  "notes": "All CI checks passing. devDependency issue was fixed. Pre-existing duplicate enums (KnownIPVersion/KnownIPVersions, etc.) exist in both old and new version - not new issues."
+}

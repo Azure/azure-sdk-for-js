@@ -1,0 +1,176 @@
+﻿2026-04-24T22:37:23.3349401Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-24T22:37:23.3350297Z with:
+2026-04-24T22:37:23.3350679Z   persist-credentials: false
+2026-04-24T22:37:23.3351145Z   sparse-checkout: .github
+.agents
+
+2026-04-24T22:37:23.3351658Z   sparse-checkout-cone-mode: true
+2026-04-24T22:37:23.3352116Z   fetch-depth: 1
+2026-04-24T22:37:23.3352519Z   repository: Azure/azure-sdk-for-net
+2026-04-24T22:37:23.3353194Z   token: ***
+2026-04-24T22:37:23.3355117Z   ssh-strict: true
+2026-04-24T22:37:23.3357001Z   ssh-user: git
+2026-04-24T22:37:23.3358240Z   clean: true
+2026-04-24T22:37:23.3358639Z   fetch-tags: false
+2026-04-24T22:37:23.3359044Z   show-progress: true
+2026-04-24T22:37:23.3359704Z   lfs: false
+2026-04-24T22:37:23.3360860Z   submodules: false
+2026-04-24T22:37:23.3361288Z   set-safe-directory: true
+2026-04-24T22:37:23.3361709Z env:
+2026-04-24T22:37:23.3370588Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:37:23.3382314Z   GITHUB_AW_OTEL_TRACE_ID: e912b01af58799b8188d5804c6491285
+2026-04-24T22:37:23.3383008Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: e8eb1e336edb36a5
+2026-04-24T22:37:23.3383570Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070242360
+2026-04-24T22:37:23.3384704Z ##[endgroup]
+2026-04-24T22:37:23.4967558Z Syncing repository: Azure/azure-sdk-for-net
+2026-04-24T22:37:23.4969843Z ##[group]Getting Git version info
+2026-04-24T22:37:23.4970668Z Working directory is '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-24T22:37:23.4971704Z [command]/usr/bin/git version
+2026-04-24T22:37:23.5311160Z git version 2.53.0
+2026-04-24T22:37:23.5312991Z ##[endgroup]
+2026-04-24T22:37:23.5324472Z Temporarily overriding HOME='/home/runner/work/_temp/68f59f69-3a1b-45e0-aa57-bcfc4bbed179' before making global git config changes
+2026-04-24T22:37:23.5332865Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-24T22:37:23.5334698Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-24T22:37:26.1548958Z Deleting the contents of '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-24T22:37:26.1552394Z ##[group]Initializing the repository
+2026-04-24T22:37:26.1555639Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-24T22:37:26.1557187Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-24T22:37:26.1558575Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-24T22:37:26.1561507Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-24T22:37:26.1562766Z hint: call:
+2026-04-24T22:37:26.1564780Z hint:
+2026-04-24T22:37:26.1566361Z hint: 	git config --global init.defaultBranch <name>
+2026-04-24T22:37:26.1567379Z hint:
+2026-04-24T22:37:26.1568300Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-24T22:37:26.1571403Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-24T22:37:26.1572792Z hint:
+2026-04-24T22:37:26.1573458Z hint: 	git branch -m <name>
+2026-04-24T22:37:26.1574254Z hint:
+2026-04-24T22:37:26.1575553Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-24T22:37:26.1579297Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/
+2026-04-24T22:37:26.1584493Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-net
+2026-04-24T22:37:26.1591554Z ##[endgroup]
+2026-04-24T22:37:26.1592934Z ##[group]Disabling automatic garbage collection
+2026-04-24T22:37:26.1594208Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-24T22:37:26.1597766Z ##[endgroup]
+2026-04-24T22:37:26.1599532Z ##[group]Setting up auth
+2026-04-24T22:37:26.1600727Z Removing SSH command configuration
+2026-04-24T22:37:26.1602515Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-24T22:37:26.1608227Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-24T22:37:26.1613051Z Removing HTTP extra header
+2026-04-24T22:37:26.1615571Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-24T22:37:26.1627881Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-24T22:37:26.1635677Z Removing includeIf entries pointing to credentials config files
+2026-04-24T22:37:26.1639399Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-24T22:37:26.1650614Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-24T22:37:26.1664133Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-24T22:37:26.1679916Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.1761706Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.1770701Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.1779776Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.1785094Z ##[endgroup]
+2026-04-24T22:37:26.1786827Z ##[group]Fetching the repository
+2026-04-24T22:37:26.1790188Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +f99047a460984ac23c1375c66d0592b240d9ade5:refs/remotes/origin/main
+2026-04-24T22:37:26.1793834Z From https://github.com/Azure/azure-sdk-for-net
+2026-04-24T22:37:26.1796229Z  * [new ref]         f99047a460984ac23c1375c66d0592b240d9ade5 -> origin/main
+2026-04-24T22:37:26.1800999Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-24T22:37:26.1804318Z   origin/main
+2026-04-24T22:37:26.1807011Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-24T22:37:26.1808626Z f99047a460984ac23c1375c66d0592b240d9ade5
+2026-04-24T22:37:26.1811700Z ##[endgroup]
+2026-04-24T22:37:26.1813948Z ##[group]Determining the checkout info
+2026-04-24T22:37:26.1817091Z ##[endgroup]
+2026-04-24T22:37:26.1818619Z ##[group]Setting up sparse checkout
+2026-04-24T22:37:26.1820064Z [command]/usr/bin/git sparse-checkout set .github .agents
+2026-04-24T22:37:26.1823307Z ##[endgroup]
+2026-04-24T22:37:26.1824775Z ##[group]Checking out the ref
+2026-04-24T22:37:26.1826646Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-24T22:37:26.1828823Z Switched to a new branch 'main'
+2026-04-24T22:37:26.1830008Z branch 'main' set up to track 'origin/main'.
+2026-04-24T22:37:26.1833032Z ##[endgroup]
+2026-04-24T22:37:26.1835143Z [command]/usr/bin/git log -1 --format=%H
+2026-04-24T22:37:26.1836636Z f99047a460984ac23c1375c66d0592b240d9ade5
+2026-04-24T22:37:26.1839618Z ##[group]Removing auth
+2026-04-24T22:37:26.1840638Z Removing SSH command configuration
+2026-04-24T22:37:26.1842285Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-24T22:37:26.1848443Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-24T22:37:26.1853315Z Removing HTTP extra header
+2026-04-24T22:37:26.1857366Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-24T22:37:26.1867930Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-24T22:37:26.1918014Z Removing includeIf entries pointing to credentials config files
+2026-04-24T22:37:26.1922143Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-24T22:37:26.1925733Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-24T22:37:26.1929315Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-24T22:37:26.1931443Z includeif.gitdir:/github/workspace/.git.path
+2026-04-24T22:37:26.1933718Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-24T22:37:26.1937896Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-24T22:37:26.1940995Z /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.1948830Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.1958754Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-24T22:37:26.1963548Z /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.2010830Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.2024532Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-24T22:37:26.2028743Z /github/runner_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.2035464Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.2042000Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-24T22:37:26.2047956Z /github/runner_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.2052993Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config
+2026-04-24T22:37:26.2061610Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-24T22:37:26.2073145Z Removing credentials config '/home/runner/work/_temp/git-credentials-03898802-444e-4d77-b4ac-c7f8972f87fd.config'
+2026-04-24T22:37:26.2079017Z ##[endgroup]

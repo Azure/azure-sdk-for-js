@@ -1,0 +1,78 @@
+﻿2026-04-24T22:38:13.1983916Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/parse_guard_list.sh"
+2026-04-24T22:38:13.1984660Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/parse_guard_list.sh"[0m
+2026-04-24T22:38:13.2008014Z shell: /usr/bin/bash -e {0}
+2026-04-24T22:38:13.2008255Z env:
+2026-04-24T22:38:13.2008435Z   DEFAULT_BRANCH: main
+2026-04-24T22:38:13.2008654Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T22:38:13.2008888Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T22:38:13.2009092Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T22:38:13.2009377Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T22:38:13.2009707Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T22:38:13.2013758Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:38:13.2018320Z   GITHUB_AW_OTEL_TRACE_ID: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:38:13.2018664Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 86fc3810271f8182
+2026-04-24T22:38:13.2018946Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070272299
+2026-04-24T22:38:13.2019212Z   GH_AW_BLOCKED_USERS_VAR: 
+2026-04-24T22:38:13.2019422Z   GH_AW_TRUSTED_USERS_VAR: 
+2026-04-24T22:38:13.2019633Z   GH_AW_APPROVAL_LABELS_VAR: 
+2026-04-24T22:38:13.2019856Z ##[endgroup]
+2026-04-24T22:38:13.2104941Z Guard policy lists parsed successfully
+2026-04-24T22:38:13.2105264Z   blocked-users: []
+2026-04-24T22:38:13.2105478Z   trusted-users: []
+2026-04-24T22:38:13.2105677Z   approval-labels: []

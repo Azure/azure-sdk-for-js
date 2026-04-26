@@ -1,0 +1,144 @@
+From d39a50a6d5318aa4d70b3180baffac435d9d7e9d Mon Sep 17 00:00:00 2001
+From: GitHub Copilot <copilot@github.com>
+Date: Mon, 16 Mar 2026 09:30:52 +0000
+Subject: [PATCH] docs: fix inconsistencies in documentation folder
+
+- Generate-code-from-TypeSpec.md: correct pnpm package name from
+  `@pnpm` to `pnpm` (the `@pnpm` scoped package does not exist on npm)
+
+- resolve-pnpm-lock-merge-conflict.md: add missing `/` path separator
+  in the `git add` command so that the path correctly reads
+  `$(git rev-parse --show-toplevel)/pnpm-lock.yaml`
+
+- Quickstart-on-how-to-write-tests.md: replace outdated mocha/chai
+  patterns with vitest equivalents in both code examples:
+  - Replace `import { assert } from "chai"` with
+    `import { assert, describe, it, beforeEach, afterEach } from "vitest"`
+  - Replace `import { Context } from "mocha"` and `context.currentTest`
+    with `VitestTestContext` from `@azure-tools/test-recorder` and pass
+    context directly to `new Recorder(context)`
+  - Update `beforeEach`/`afterEach`/`it` callback signatures from mocha
+    `function(this: Context)` style to vitest arrow-function `(ctx) =>` style
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/Generate-code-from-TypeSpec.md  |  2 +-
+ .../Quickstart-on-how-to-write-tests.md       | 27 +++++++++----------
+ .../resolve-pnpm-lock-merge-conflict.md       |  2 +-
+ 3 files changed, 15 insertions(+), 16 deletions(-)
+
+diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+index 73df7f4e3..990b5ceef 100644
+--- a/documentation/Generate-code-from-TypeSpec.md
++++ b/documentation/Generate-code-from-TypeSpec.md
+@@ -49,7 +49,7 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
+ Install dependencies to use code-gen-pipeline,  
+ ```ps
+ npm --prefix eng/common/tsp-client ci
+-npm install -g @pnpm
++npm install -g pnpm
+ npm --prefix eng/tools/js-sdk-release-tools ci
+ ```
+ 
+diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+index 4bbb503fe..fae2380b8 100644
+--- a/documentation/Quickstart-on-how-to-write-tests.md
++++ b/documentation/Quickstart-on-how-to-write-tests.md
+@@ -370,7 +370,7 @@ This simple test creates a resource and checks that the service handles it corre
+ 
+ ```typescript
+ import { Recorder } from "@azure-tools/test-recorder";
+-import { assert } from "chai";
++import { assert, describe, it, beforeEach, afterEach } from "vitest";
+ import { PurviewDataMapClient } from "../../src";
+ import { createClient, createRecorder } from "./utils/recordedClient";
+ 
+@@ -380,14 +380,14 @@ describe("My test", () => {
+   let client: PurviewDataMapClient;
+   let glossaryName: string;
+ 
+-  beforeEach(async function () {
+-    recorder = await createRecorder(this);
++  beforeEach(async (ctx) => {
++    recorder = await createRecorder(ctx);
+     // Step 3: Create your client
+     client = await createClient(recorder);
+     glossaryName = "js-testing";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+@@ -415,8 +415,8 @@ describe("My test", () => {
+ ### `utils/recordedClient.ts`
+ 
+ ```typescript
+-import { Context } from "mocha";
+-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
++import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
++import { Recorder } from "@azure-tools/test-recorder";
+ import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
+ import { createTestCredential } from "@azure-tools/test-credential";
+ import { ClientOptions } from "@azure-rest/core-client";
+@@ -439,8 +439,8 @@ const recorderEnvSetup: RecorderStartOptions = {
+  * Should be called first in the test suite to make sure environment variables are
+  * read before they are being used.
+  */
+-export async function createRecorder(context: Context): Promise<Recorder> {
+-  const recorder = new Recorder(context.currentTest);
++export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
++  const recorder = new Recorder(context);
+   await recorder.start(recorderEnvSetup);
+   return recorder;
+ }
+@@ -484,8 +484,7 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
+ 
+ import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { assert } from "chai";
+-import { Context } from "mocha";
++import { assert, describe, it, beforeEach, afterEach } from "vitest";
+ import { MonitorClient } from "../src/monitorClient";
+ 
+ // Step 4: Add environment variables you'd like to mask the values in recordings
+@@ -508,8 +507,8 @@ describe("Monitor client", () => {
+   let client: MonitorClient;
+   let diagnosticName: string;
+ 
+-  beforeEach(async function (this: Context) {
+-    recorder = new Recorder(this.currentTest);
++  beforeEach(async (ctx) => {
++    recorder = new Recorder(ctx);
+     await recorder.start(recorderOptions);
+     // Step 3: create clients
+     subscriptionId = env.SUBSCRIPTION_ID || "";
+@@ -518,11 +517,11 @@ describe("Monitor client", () => {
+     diagnosticName = "my-test-diagnostic-name";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+-  it("should create diagnosticSettings", async function () {
++  it("should create diagnosticSettings", async () => {
+     // Step 3: call createOrUpdate to prepare resource
+     const res = await client.diagnosticSettings.createOrUpdate("workflowsId", diagnosticName, {
+       storageAccountId: "storageId",
+diff --git a/documentation/resolve-pnpm-lock-merge-conflict.md b/documentation/resolve-pnpm-lock-merge-conflict.md
+index 06e592a0e..154ba327e 100644
+--- a/documentation/resolve-pnpm-lock-merge-conflict.md
++++ b/documentation/resolve-pnpm-lock-merge-conflict.md
+@@ -13,5 +13,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
+ Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
+ 
+ ```shell
+-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
++git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
+ ```
+-- 
+2.53.0
+

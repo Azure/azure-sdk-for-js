@@ -1,0 +1,13 @@
+{
+  "pr": 38253,
+  "package": "@azure/arm-computelimit",
+  "version": "1.0.0",
+  "apiVersion": "2026-04-30",
+  "previousApiVersion": "2026-03-20",
+  "outcome": "clean",
+  "findings": [],
+  "ciStatus": "all ADO CI checks passed (buildId=6195789)",
+  "mergeState": "blocked (pending required reviewer approvals: MaryGao, qiaozha, JialinHuang803)",
+  "notes": "First stable release 1.0.0; API version upgraded 2026-03-20 → 2026-04-30 (strictly newer); new VmFamilies operations and FeaturesDisable added; user agent aligned to 1.0.0; no naming issues; no type safety issues; all CI green",
+  "reviewedAt": "2026-04-23"
+}

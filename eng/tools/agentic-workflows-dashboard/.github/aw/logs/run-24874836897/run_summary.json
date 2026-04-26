@@ -1,0 +1,486 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24874836897,
+  "processed_at": "2026-04-24T19:11:22.634316614Z",
+  "run": {
+    "databaseId": 24874836897,
+    "number": 392,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/24874836897",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Management Release Assistant",
+    "workflowPath": ".github/workflows/mgmt-review.lock.yml",
+    "createdAt": "2026-04-24T06:01:35Z",
+    "startedAt": "2026-04-24T06:01:35Z",
+    "updatedAt": "2026-04-24T06:10:21Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-horizondb-6080420",
+    "headSha": "3dcb2f889f20c9ae731ca8c0943246b573b73d8a",
+    "displayTitle": "Management Release Assistant",
+    "Duration": 526000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 1363888,
+    "EstimatedCost": 0,
+    "Turns": 21,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 2,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24874836897"
+  },
+  "metrics": {
+    "TokenUsage": 1363888,
+    "EstimatedCost": 0,
+    "Turns": 21,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "release_ops",
+    "label": "Release / Ops",
+    "reason": "Workflow metadata matches release or operational automation."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "narrow",
+    "actuation_style": "selective_write",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.14285714285714285
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Release / Ops run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=21 tool_types=0 duration=8m46s write_actions=4",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "medium",
+      "summary": "About 85% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.14 turns=21",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "call_count": 5,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "call_count": 11,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "submit_pull_request_review",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-24T06:04:26.426667955Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:26.806618409Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:27.604382142Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:28.194381946Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:36.696649568Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:37.47891568Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:37.48423111Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:38.020159754Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:38.141831103Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:39.264369895Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:50.952844384Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:04:51.772763143Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:05:05.36238481Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:05:05.372615723Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:05:05.38077431Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:05:05.385963575Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:05:52.680145679Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:08:11.617046237Z",
+        "server_name": "safeoutputs",
+        "tool_name": "submit_pull_request_review",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-24T06:08:17.5963631Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 17,
+        "tool_call_count": 17,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 2,
+        "tool_call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "token_usage_summary": {
+    "total_input_tokens": 1353862,
+    "total_output_tokens": 10026,
+    "total_cache_read_tokens": 1241970,
+    "total_cache_write_tokens": 0,
+    "total_requests": 21,
+    "total_duration_ms": 205459,
+    "total_response_bytes": 627469,
+    "cache_efficiency": 0.47844775779018056,
+    "total_effective_tokens": 1518163,
+    "ambient_context": {
+      "input_tokens": 34124,
+      "cached_tokens": 0,
+      "effective_tokens": 34124
+    },
+    "by_model": {
+      "claude-sonnet-4.6": {
+        "provider": "copilot",
+        "input_tokens": 1353862,
+        "output_tokens": 10026,
+        "cache_read_tokens": 1241970,
+        "cache_write_tokens": 0,
+        "requests": 21,
+        "duration_ms": 205459,
+        "response_bytes": 627469,
+        "effective_tokens": 1518163
+      }
+    }
+  },
+  "github_rate_limit_usage": {
+    "total_requests_made": 4,
+    "core_consumed": 28,
+    "core_remaining": 14899,
+    "core_limit": 15000,
+    "resources": [
+      {
+        "resource": "core",
+        "requests_made": 4,
+        "quota_consumed": 28,
+        "final_remaining": 14899,
+        "limit": 15000
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "agent_usage.json",
+    "aw-prompts/prompt.txt",
+    "aw_info.json",
+    "cache-memory/pr-37310.json",
+    "cache-memory/pr-37881.json",
+    "cache-memory/pr-37890.json",
+    "cache-memory/pr-37902.json",
+    "cache-memory/pr-37912.json",
+    "cache-memory/pr-37930.json",
+    "cache-memory/pr-37941.json",
+    "cache-memory/pr-37944.json",
+    "cache-memory/pr-37954.json",
+    "cache-memory/pr-37960.json",
+    "cache-memory/pr-38015.json",
+    "cache-memory/pr-38018.json",
+    "cache-memory/pr-38022.json",
+    "cache-memory/pr-38044.json",
+    "cache-memory/pr-38137.json",
+    "cache-memory/pr-38148.json",
+    "cache-memory/pr-38183.json",
+    "cache-memory/pr-38211.json",
+    "cache-memory/pr-38214.json",
+    "cache-memory/pr-38228.json",
+    "cache-memory/pr-38253.json",
+    "cache-memory/pr-38261.json",
+    "detection.log",
+    "firewall-audit-logs/audit/docker-compose.redacted.yml",
+    "firewall-audit-logs/audit/iptables-audit.txt",
+    "firewall-audit-logs/audit/policy-manifest.json",
+    "firewall-audit-logs/audit/squid.conf",
+    "firewall-audit-logs/logs/access.log",
+    "firewall-audit-logs/logs/api-proxy-logs/token-usage.jsonl",
+    "firewall-audit-logs/logs/audit.jsonl",
+    "firewall-audit-logs/logs/cache.log",
+    "github_rate_limits.jsonl",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "repo-memory-default/pr-37847.json",
+    "repo-memory-default/pr-37944.json",
+    "repo-memory-default/pr-37954.json",
+    "repo-memory-default/pr-37980.json",
+    "repo-memory-default/pr-38013.json",
+    "repo-memory-default/pr-review-history.md",
+    "safe-output-items.jsonl",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1777010649586-167.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_push_repo_memory.txt",
+    "workflow-logs/2_update_cache_memory.txt",
+    "workflow-logs/3_safe_outputs.txt",
+    "workflow-logs/4_detection.txt",
+    "workflow-logs/5_agent.txt",
+    "workflow-logs/6_activation.txt",
+    "workflow-logs/7_pre_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/safe_outputs/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:01:42Z",
+      "completed_at": "2026-04-24T06:01:53Z",
+      "Duration": 11000000000
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:01:58Z",
+      "completed_at": "2026-04-24T06:02:10Z",
+      "Duration": 12000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:02:18Z",
+      "completed_at": "2026-04-24T06:08:45Z",
+      "Duration": 387000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:08:54Z",
+      "completed_at": "2026-04-24T06:09:42Z",
+      "Duration": 48000000000
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:09:49Z",
+      "completed_at": "2026-04-24T06:09:57Z",
+      "Duration": 8000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:09:50Z",
+      "completed_at": "2026-04-24T06:10:05Z",
+      "Duration": 15000000000
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:09:49Z",
+      "completed_at": "2026-04-24T06:09:58Z",
+      "Duration": 9000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-24T06:10:10Z",
+      "completed_at": "2026-04-24T06:10:20Z",
+      "Duration": 10000000000
+    }
+  ]
+}

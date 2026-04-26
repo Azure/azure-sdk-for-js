@@ -1,0 +1,109 @@
+﻿2026-04-24T23:14:25.4312758Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-24T23:14:25.4313179Z with:
+2026-04-24T23:14:25.4314072Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/parse_copilot_log.cjs');
+await main();
+
+2026-04-24T23:14:25.4315159Z   github-token: ***
+2026-04-24T23:14:25.4315372Z   debug: false
+2026-04-24T23:14:25.4315586Z   user-agent: actions/github-script
+2026-04-24T23:14:25.4315853Z   result-encoding: json
+2026-04-24T23:14:25.4316063Z   retries: 0
+2026-04-24T23:14:25.4316295Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-24T23:14:25.4316579Z env:
+2026-04-24T23:14:25.4316762Z   DEFAULT_BRANCH: main
+2026-04-24T23:14:25.4316986Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T23:14:25.4317223Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T23:14:25.4317439Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T23:14:25.4317721Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T23:14:25.4318084Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T23:14:25.4322066Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T23:14:25.4326502Z   GITHUB_AW_OTEL_TRACE_ID: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:14:25.4326859Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 7959ade3538835ed
+2026-04-24T23:14:25.4327165Z   GITHUB_AW_OTEL_JOB_START_MS: 1777072392389
+2026-04-24T23:14:25.4327480Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/sandbox/agent/logs/
+2026-04-24T23:14:25.4327773Z ##[endgroup]
+2026-04-24T23:14:25.5520285Z === Copilot Execution Summary ===
+2026-04-24T23:14:25.5520808Z Model: claude-sonnet-4.6
+2026-04-24T23:14:25.5521060Z 
+2026-04-24T23:14:25.5521145Z Conversation:
+2026-04-24T23:14:25.5521263Z 
+2026-04-24T23:14:25.5521916Z ◆ Let me start by retrieving the issue #38288 and analyzing it for triage.
+2026-04-24T23:14:25.5522510Z 
+2026-04-24T23:14:25.5522766Z ✓ report_intent(intent: Triaging GitHub issue)
+2026-04-24T23:14:25.5523048Z 
+2026-04-24T23:14:25.5523548Z ✓ github-issue_read(method: get, owner: Azure, repo: azure-sdk-for-js, issue_number: 38288)
+2026-04-24T23:14:25.5524081Z 
+2026-04-24T23:14:25.5525073Z ◆ The issue already has labels: "Search" and "auto-generated". Per the precondition checks in Step 1, I should exit without further action if the issue already has labels. 
+2026-04-24T23:14:25.5526095Z   
+2026-04-24T23:14:25.5526609Z   Let me check: "The issue already has labels" - yes, labels are ["Search", "auto-generated"].
+2026-04-24T23:14:25.5528145Z   
+2026-04-24T23:14:25.5528400Z   I should exit without further action.
+2026-04-24T23:14:25.5528590Z 
+2026-04-24T23:14:25.5529134Z ◆ The issue #38288 already has labels (`Search`, `auto-generated`). Per the triage precondition checks, I should exit without further action.
+2026-04-24T23:14:25.5529623Z 
+2026-04-24T23:14:25.5529889Z ✓ safeoutputs-noop(message: No action needed: Issue #38288 already h...)
+2026-04-24T23:14:25.5530179Z 
+2026-04-24T23:14:25.5530519Z ◆ Issue #38288 already has labels (`Search`, `auto-generated`) — triage skipped per precondition check.
+2026-04-24T23:14:25.5530880Z 
+2026-04-24T23:14:25.5530961Z Statistics:
+2026-04-24T23:14:25.5531144Z   Turns: 3
+2026-04-24T23:14:25.5531327Z   Tools: 3/3 succeeded
+2026-04-24T23:14:25.5531560Z   Tokens: 106,987 total (106,552 in / 435 out)

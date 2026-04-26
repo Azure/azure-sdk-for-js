@@ -1,0 +1,112 @@
+﻿2026-04-24T23:15:53.5251665Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-24T23:15:53.5252717Z with:
+2026-04-24T23:15:53.5253392Z   github-token: ***
+2026-04-24T23:15:53.5255959Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/handle_agent_failure.cjs');
+await main();
+
+2026-04-24T23:15:53.5257975Z   debug: false
+2026-04-24T23:15:53.5258425Z   user-agent: actions/github-script
+2026-04-24T23:15:53.5258976Z   result-encoding: json
+2026-04-24T23:15:53.5259728Z   retries: 0
+2026-04-24T23:15:53.5260216Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-24T23:15:53.5260814Z env:
+2026-04-24T23:15:53.5270250Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T23:15:53.5278581Z   GITHUB_AW_OTEL_TRACE_ID: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:15:53.5279492Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 3ab97e9bb5693fc1
+2026-04-24T23:15:53.5280133Z   GITHUB_AW_OTEL_JOB_START_MS: 1777072551130
+2026-04-24T23:15:53.5280752Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-24T23:15:53.5281360Z   GH_AW_WORKFLOW_NAME: Agentic Triage
+2026-04-24T23:15:53.5282131Z   GH_AW_RUN_URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/24916026808
+2026-04-24T23:15:53.5282911Z   GH_AW_AGENT_CONCLUSION: success
+2026-04-24T23:15:53.5283439Z   GH_AW_WORKFLOW_ID: issue-triage
+2026-04-24T23:15:53.5283962Z   GH_AW_ENGINE_ID: copilot
+2026-04-24T23:15:53.5284484Z   GH_AW_SECRET_VERIFICATION_RESULT: success
+2026-04-24T23:15:53.5285070Z   GH_AW_CHECKOUT_PR_SUCCESS: true
+2026-04-24T23:15:53.5285602Z   GH_AW_INFERENCE_ACCESS_ERROR: false
+2026-04-24T23:15:53.5286133Z   GH_AW_MCP_POLICY_ERROR: false
+2026-04-24T23:15:53.5286650Z   GH_AW_AGENTIC_ENGINE_TIMEOUT: false
+2026-04-24T23:15:53.5287201Z   GH_AW_MODEL_NOT_SUPPORTED_ERROR: false
+2026-04-24T23:15:53.5287755Z   GH_AW_LOCKDOWN_CHECK_FAILED: false
+2026-04-24T23:15:53.5288293Z   GH_AW_STALE_LOCK_FILE_FAILED: false
+2026-04-24T23:15:53.5288832Z   GH_AW_GROUP_REPORTS: false
+2026-04-24T23:15:53.5429824Z   GH_AW_FAILURE_REPORT_AS_ISSUE: false
+2026-04-24T23:15:53.5430679Z   GH_AW_TIMEOUT_MINUTES: 10
+2026-04-24T23:15:53.5431297Z ##[endgroup]
+2026-04-24T23:15:53.6847802Z Agent conclusion: success
+2026-04-24T23:15:53.6853623Z Workflow name: Agentic Triage
+2026-04-24T23:15:53.6856670Z Workflow ID: issue-triage
+2026-04-24T23:15:53.6859734Z Secret verification result: success
+2026-04-24T23:15:53.6863228Z Assignment error count: 0
+2026-04-24T23:15:53.6866278Z Assign copilot failure count: 0
+2026-04-24T23:15:53.6869049Z Create discussion error count: 0
+2026-04-24T23:15:53.6872571Z Code push failure count: 0
+2026-04-24T23:15:53.6875626Z Checkout PR success: true
+2026-04-24T23:15:53.6904084Z Inference access error: false
+2026-04-24T23:15:53.6907102Z MCP policy error: false
+2026-04-24T23:15:53.6910556Z Agentic engine timeout: false
+2026-04-24T23:15:53.6913500Z Model not supported error: false
+2026-04-24T23:15:53.6918358Z Push repo-memory result: 
+2026-04-24T23:15:53.6920948Z App token minting failed (safe_outputs/conclusion/activation): false/false/false
+2026-04-24T23:15:53.6922918Z Lockdown check failed: false
+2026-04-24T23:15:53.6924498Z Stale lock file check failed: false
+2026-04-24T23:15:53.6930357Z Agent output content length: 228
+2026-04-24T23:15:53.6933322Z Agent succeeded with only noop outputs - this is not a failure
+2026-04-24T23:15:53.7015930Z Agent job did not fail and no assignment/discussion/code-push/push-repo-memory/app-token/lockdown/stale-lock-file/report-incomplete errors and has safe outputs (conclusion: success), skipping failure handling

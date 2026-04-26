@@ -1,0 +1,141 @@
+﻿2026-04-24T22:40:31.8241926Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-24T22:40:31.8242662Z with:
+2026-04-24T22:40:31.8243256Z   github-token: ***
+2026-04-24T22:40:31.8244871Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/safe_output_handler_manager.cjs');
+await main();
+
+2026-04-24T22:40:31.8247175Z   debug: false
+2026-04-24T22:40:31.8247616Z   user-agent: actions/github-script
+2026-04-24T22:40:31.8248112Z   result-encoding: json
+2026-04-24T22:40:31.8248525Z   retries: 0
+2026-04-24T22:40:31.8248950Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-24T22:40:31.8249742Z env:
+2026-04-24T22:40:31.8250233Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/issue-triage
+2026-04-24T22:40:31.8250976Z   GH_AW_DETECTION_CONCLUSION: success
+2026-04-24T22:40:31.8251473Z   GH_AW_DETECTION_REASON: 
+2026-04-24T22:40:31.8251963Z   GH_AW_EFFECTIVE_TOKENS: 115753
+2026-04-24T22:40:31.8252435Z   GH_AW_ENGINE_ID: copilot
+2026-04-24T22:40:31.8252873Z   GH_AW_ENGINE_MODEL: auto
+2026-04-24T22:40:31.8253310Z   GH_AW_WORKFLOW_ID: issue-triage
+2026-04-24T22:40:31.8253802Z   GH_AW_WORKFLOW_NAME: Agentic Triage
+2026-04-24T22:40:31.8260671Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:40:31.8268277Z   GITHUB_AW_OTEL_TRACE_ID: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:40:31.8268934Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 10ed4d7427722339
+2026-04-24T22:40:31.8269709Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070430935
+2026-04-24T22:40:31.8270226Z   GH_HOST: github.com
+2026-04-24T22:40:31.8270703Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-24T22:40:31.8282284Z   GH_AW_ALLOWED_DOMAINS: api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com
+2026-04-24T22:40:31.8294109Z   GITHUB_SERVER_URL: https://github.com
+2026-04-24T22:40:31.8294650Z   GITHUB_API_URL: https://api.github.com
+2026-04-24T22:40:31.8295327Z   GH_AW_SAFE_OUTPUT_JOBS: {"mention_owners":""}
+2026-04-24T22:40:31.8297294Z   GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
+2026-04-24T22:40:31.8299390Z ##[endgroup]
+2026-04-24T22:40:31.9683469Z Safe Output Handler Manager starting...
+2026-04-24T22:40:31.9691393Z Loaded config from GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
+2026-04-24T22:40:31.9703662Z Agent output content length: 211
+2026-04-24T22:40:31.9706719Z Found 1 message(s) in agent output
+2026-04-24T22:40:31.9713207Z Loading and initializing safe output handlers based on configuration...
+2026-04-24T22:40:31.9737374Z Add comment configuration: max=2, target=*
+2026-04-24T22:40:31.9740743Z Default target repo: Azure/azure-sdk-for-js
+2026-04-24T22:40:31.9745796Z ✓ Loaded and initialized handler for: add_comment
+2026-04-24T22:40:31.9761835Z Close issue configuration: max=1, state_reason=COMPLETED
+2026-04-24T22:40:31.9764846Z Default target repo: Azure/azure-sdk-for-js
+2026-04-24T22:40:31.9770001Z ✓ Loaded and initialized handler for: close_issue
+2026-04-24T22:40:31.9798206Z Add labels configuration: max=7
+2026-04-24T22:40:31.9801445Z Default target repo: Azure/azure-sdk-for-js
+2026-04-24T22:40:31.9804380Z ✓ Loaded and initialized handler for: add_labels
+2026-04-24T22:40:31.9814517Z Remove labels configuration: max=7
+2026-04-24T22:40:31.9817496Z Default target repo: Azure/azure-sdk-for-js
+2026-04-24T22:40:31.9820775Z ✓ Loaded and initialized handler for: remove_labels
+2026-04-24T22:40:31.9862497Z Assign to user configuration: max=1, unassign_first=false
+2026-04-24T22:40:31.9864228Z Default target repo: Azure/azure-sdk-for-js
+2026-04-24T22:40:31.9866012Z ✓ Loaded and initialized handler for: assign_to_user
+2026-04-24T22:40:31.9882964Z Max count: unlimited
+2026-04-24T22:40:31.9884850Z ✓ Loaded and initialized handler for: missing_tool
+2026-04-24T22:40:31.9890329Z Max count: unlimited
+2026-04-24T22:40:32.0167733Z ✓ Loaded and initialized handler for: missing_data
+2026-04-24T22:40:32.0174855Z Max count: 1
+2026-04-24T22:40:32.0176047Z ✓ Loaded and initialized handler for: noop
+2026-04-24T22:40:32.0176656Z Max count: unlimited
+2026-04-24T22:40:32.0177275Z ✓ Loaded and initialized handler for: report_incomplete
+2026-04-24T22:40:32.0177887Z Title prefix: [incomplete]
+2026-04-24T22:40:32.0178356Z Default labels: agentic-workflows
+2026-04-24T22:40:32.0178825Z Max count: 1
+2026-04-24T22:40:32.0181980Z ✓ Loaded and initialized handler for: create_report_incomplete_issue
+2026-04-24T22:40:32.0183998Z Loaded 10 handler(s)
+2026-04-24T22:40:32.0184723Z Collected 0 missing tool(s), 0 missing data item(s), 1 noop message(s), and 0 incomplete signal(s)
+2026-04-24T22:40:32.0185868Z Loaded 1 custom safe output job type(s): mention_owners
+2026-04-24T22:40:32.0186525Z Processing 1 message(s) in order of appearance...
+2026-04-24T22:40:32.0187111Z Processing message 1/1: noop
+2026-04-24T22:40:32.0188445Z ✓ Recorded noop message: No action needed: Issue #38286 already has labels ("Search", "auto-generated"). Per the triage precondition check, issues with existing labels are skipped.
+2026-04-24T22:40:32.0190163Z ✓ Message 1 (noop) completed successfully
+2026-04-24T22:40:32.0191287Z Stored 0 missing tool(s), 0 missing data item(s), 1 noop message(s), and 0 incomplete signal(s) for footer generation
+2026-04-24T22:40:32.0192287Z 📝 Safe output summaries written to step summary
+2026-04-24T22:40:32.0192683Z 
+2026-04-24T22:40:32.0192870Z === Processing Summary ===
+2026-04-24T22:40:32.0193446Z Total messages: 1
+2026-04-24T22:40:32.0193836Z Successful: 1
+2026-04-24T22:40:32.0194208Z Failed: 0
+2026-04-24T22:40:32.0194591Z Temporary IDs registered: 0
+2026-04-24T22:40:32.0195050Z Synthetic updates: 0
+2026-04-24T22:40:32.0195501Z Exported temporary ID map with 0 mapping(s)
+2026-04-24T22:40:32.0196100Z Wrote temporary ID map to file for artifact upload
+2026-04-24T22:40:32.0196690Z Safe Output Handler Manager completed

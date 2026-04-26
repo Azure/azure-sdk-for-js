@@ -1,0 +1,102 @@
+From bc002b6cd7aa24cc7ad1d568066c7f4e61b76f2c Mon Sep 17 00:00:00 2001
+From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+Date: Mon, 13 Apr 2026 09:42:55 +0000
+Subject: [PATCH] docs: fix inconsistencies in documentation folder
+
+- using-azure-identity.md: Update DefaultAzureCredential chain to
+  reflect the full set of credentials it tries (was missing
+  WorkloadIdentityCredential, VisualStudioCodeCredential, AzureCliCredential,
+  AzurePowerShellCredential, AzureDeveloperCliCredential, and BrokerCredential)
+
+- writing-performance-tests.md: Fix tsconfig extends path from
+  tsconfig.package (does not exist) to tsconfig.lib.json
+
+- resolve-pnpm-lock-merge-conflict.md: Fix missing '/' separator before
+  pnpm-lock.yaml in the git add command in the combined shell one-liner
+
+- steps-after-generations.md: Add missing '...' suffix to pnpm build
+  --filter commands so that dependencies are also built (3 occurrences
+  in the Windows and Linux playback/record examples)
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/resolve-pnpm-lock-merge-conflict.md | 2 +-
+ documentation/steps-after-generations.md          | 6 +++---
+ documentation/using-azure-identity.md             | 6 ++++++
+ documentation/writing-performance-tests.md        | 2 +-
+ 4 files changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/documentation/resolve-pnpm-lock-merge-conflict.md b/documentation/resolve-pnpm-lock-merge-conflict.md
+index 31c98106e..f273b78cf 100644
+--- a/documentation/resolve-pnpm-lock-merge-conflict.md
++++ b/documentation/resolve-pnpm-lock-merge-conflict.md
+@@ -15,5 +15,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
+ Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
+ 
+ ```shell
+-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
++git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
+ ```
+diff --git a/documentation/steps-after-generations.md b/documentation/steps-after-generations.md
+index 4cc3f30b9..a4421e4ca 100644
+--- a/documentation/steps-after-generations.md
++++ b/documentation/steps-after-generations.md
+@@ -67,7 +67,7 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Windows, you could use `SET`:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}
++    pnpm build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Linux, you could use below commands:
+ 
+     ```shell
+-      pnpm build --filter=${PACKAGE_NAME}
++      pnpm build --filter=${PACKAGE_NAME}...
+     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+     On Windows, you can use:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}
++    pnpm build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+diff --git a/documentation/using-azure-identity.md b/documentation/using-azure-identity.md
+index e83912248..013102e0a 100644
+--- a/documentation/using-azure-identity.md
++++ b/documentation/using-azure-identity.md
+@@ -314,7 +314,13 @@ which tries each of the following credential types in order until one of them
+ succeeds:
+ 
+ - `EnvironmentCredential`
++- `WorkloadIdentityCredential`
+ - `ManagedIdentityCredential`
++- `VisualStudioCodeCredential`
++- `AzureCliCredential`
++- `AzurePowerShellCredential`
++- `AzureDeveloperCliCredential`
++- `BrokerCredential` (requires `@azure/identity-broker` plugin to be installed via `useIdentityPlugin`)
+ 
+ This credential type is ideal when one of the credentials in the chain will work
+ in the current environment, whether it's your local development or a production
+diff --git a/documentation/writing-performance-tests.md b/documentation/writing-performance-tests.md
+index b64522958..8809f2381 100644
+--- a/documentation/writing-performance-tests.md
++++ b/documentation/writing-performance-tests.md
+@@ -65,7 +65,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
+ 
+ ```json
+ {
+-  "extends": "../../../../tsconfig.package",
++  "extends": "../../../../tsconfig.lib.json",
+   "compilerOptions": {
+     "module": "commonjs",
+     "declarationDir": "./types/latest",
+-- 
+2.53.0
+

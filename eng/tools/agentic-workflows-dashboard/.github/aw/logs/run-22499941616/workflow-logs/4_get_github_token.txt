@@ -1,0 +1,66 @@
+﻿2026-02-27T19:06:41.6234831Z Current runner version: '2.331.0'
+2026-02-27T19:06:41.6258565Z ##[group]Runner Image Provisioner
+2026-02-27T19:06:41.6259343Z Hosted Compute Agent
+2026-02-27T19:06:41.6259910Z Version: 20260213.493
+2026-02-27T19:06:41.6260591Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-02-27T19:06:41.6261252Z Build Date: 2026-02-13T00:28:41Z
+2026-02-27T19:06:41.6261897Z Worker ID: {672d1b56-ca86-442b-b578-77f17778d4b2}
+2026-02-27T19:06:41.6262583Z Azure Region: eastus
+2026-02-27T19:06:41.6263176Z ##[endgroup]
+2026-02-27T19:06:41.6264903Z ##[group]Operating System
+2026-02-27T19:06:41.6265603Z Ubuntu
+2026-02-27T19:06:41.6266197Z 24.04.3
+2026-02-27T19:06:41.6266666Z LTS
+2026-02-27T19:06:41.6267212Z ##[endgroup]
+2026-02-27T19:06:41.6267682Z ##[group]Runner Image
+2026-02-27T19:06:41.6268232Z Image: ubuntu-24.04
+2026-02-27T19:06:41.6268751Z Version: 20260224.36.1
+2026-02-27T19:06:41.6269955Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260224.36/images/ubuntu/Ubuntu2404-Readme.md
+2026-02-27T19:06:41.6271447Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260224.36
+2026-02-27T19:06:41.6272353Z ##[endgroup]
+2026-02-27T19:06:41.6273253Z ##[group]GITHUB_TOKEN Permissions
+2026-02-27T19:06:41.6275912Z Metadata: read
+2026-02-27T19:06:41.6276745Z ##[endgroup]
+2026-02-27T19:06:41.6278899Z Secret source: Actions
+2026-02-27T19:06:41.6280103Z Prepare workflow directory
+2026-02-27T19:06:41.6602781Z Prepare all required actions
+2026-02-27T19:06:41.6641596Z Getting action download info
+2026-02-27T19:06:41.9797275Z Download action repository 'azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8' (SHA:1384c340ab2dda50fed2bee3041d1d87018aa5e8)
+2026-02-27T19:06:42.3371720Z Download action repository 'azure/powershell@6101bc5f8a23168669e44f7e68db621ec5ecbc6e' (SHA:6101bc5f8a23168669e44f7e68db621ec5ecbc6e)
+2026-02-27T19:06:46.5540283Z Complete job name: get_github_token
+2026-02-27T19:06:46.6326589Z ##[group]Run azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8
+2026-02-27T19:06:46.6327638Z with:
+2026-02-27T19:06:46.6327908Z   allow-no-subscriptions: true
+2026-02-27T19:06:46.6328214Z   auth-type: IDENTITY
+2026-02-27T19:06:46.6328515Z   client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
+2026-02-27T19:06:46.6328877Z   enable-AzPSSession: true
+2026-02-27T19:06:46.6329219Z   tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+2026-02-27T19:06:46.6329545Z   environment: azurecloud
+2026-02-27T19:06:46.6329837Z   audience: api://AzureADTokenExchange
+2026-02-27T19:06:46.6330395Z ##[endgroup]
+2026-02-27T19:06:46.6843732Z Running Azure CLI Login.
+2026-02-27T19:06:51.4437311Z [command]/usr/bin/az cloud set -n azurecloud
+2026-02-27T19:06:51.6782701Z Done setting cloud: "azurecloud"
+2026-02-27T19:06:51.6784342Z Attempting Azure CLI login by using user-assigned managed identity...
+2026-02-27T19:06:52.2124987Z ##[error]Identity not found
+
+2026-02-27T19:06:52.2137529Z ##[error]Run the command below to authenticate interactively; additional arguments may be added as needed:
+az logout
+az login
+
+2026-02-27T19:06:52.2980626Z ##[error]Login failed with Error: The process '/usr/bin/az' failed with exit code 1. Double check if the 'auth-type' is correct. Refer to https://github.com/Azure/login#readme for more information.
+2026-02-27T19:06:52.3187870Z Post job cleanup.
+2026-02-27T19:06:52.3605139Z Clearing azure cli accounts from the local cache.
+2026-02-27T19:06:52.3622595Z [command]/usr/bin/az account clear
+2026-02-27T19:07:25.6253182Z {
+2026-02-27T19:07:25.6253587Z   Success: true,
+2026-02-27T19:07:25.6255122Z   Result: '/usr/share/az_14.6.0/Az.Accounts/5.3.2/Az.Accounts.psd1'
+2026-02-27T19:07:25.6256697Z }
+2026-02-27T19:07:25.6258185Z Clearing azure powershell accounts from the local cache.
+2026-02-27T19:07:25.6260189Z [command]/usr/bin/pwsh -Command Clear-AzContext -Scope Process
+2026-02-27T19:07:39.2108727Z [command]/usr/bin/pwsh -Command Clear-AzContext -Scope CurrentUser -Force -ErrorAction SilentlyContinue
+2026-02-27T19:07:44.6037895Z [33;1mWARNING: You're using Az version 14.6.0. The latest version of Az is 15.3.0. Upgrade your Az modules using the following commands:
+2026-02-27T19:07:44.6039306Z   Update-PSResource Az -WhatIf    -- Simulate updating your Az modules.
+2026-02-27T19:07:44.6039877Z   Update-PSResource Az            -- Update your Az modules.
+2026-02-27T19:07:44.6040626Z There will be breaking changes from 14.6.0 to 15.3.0. Open https://go.microsoft.com/fwlink/?linkid=2241373 and check the details.[0m
+2026-02-27T19:07:44.7037815Z Cleaning up orphan processes

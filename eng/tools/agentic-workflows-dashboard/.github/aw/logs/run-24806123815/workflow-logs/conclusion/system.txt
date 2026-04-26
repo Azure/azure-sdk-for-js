@@ -1,0 +1,9 @@
+2026-04-22T22:45:08.2990000Z Evaluating conclusion.if
+2026-04-22T22:45:08.2990000Z Evaluating: (always() && (((needs.agent.result != 'skipped') || (needs.activation.outputs.lockdown_check_failed == 'true'))))
+2026-04-22T22:45:08.2990000Z Expanded: (true && (('failure' != 'skipped') || (needs.activation.outputs.lockdown_check_failed == 'true')))
+2026-04-22T22:45:08.2990000Z Result: true
+2026-04-22T22:45:08.3020000Z Requested labels: ubuntu-slim
+2026-04-22T22:45:08.3020000Z Job defined at: Azure/azure-sdk-for-rust/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-22T22:45:08.3020000Z Waiting for a runner to pick up this job...
+2026-04-22T22:45:13.5180000Z Job is waiting for a hosted runner to come online.
+2026-04-22T22:45:13.5200000Z Job is about to start running on the hosted runner: GitHub Actions 1031970138

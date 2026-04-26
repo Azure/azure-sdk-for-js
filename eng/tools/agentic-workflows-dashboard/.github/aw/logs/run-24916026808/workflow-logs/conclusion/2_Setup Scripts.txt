@@ -1,0 +1,17 @@
+﻿2026-04-24T23:15:45.9704573Z ##[group]Run github/gh-aw-actions/setup@ba90f2186d7ad780ec640f364005fa24e797b360
+2026-04-24T23:15:45.9705821Z with:
+2026-04-24T23:15:45.9706302Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-24T23:15:45.9706882Z   job-name: conclusion
+2026-04-24T23:15:45.9707327Z   trace-id: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:15:45.9707859Z   safe-output-artifact-client: false
+2026-04-24T23:15:45.9708540Z ##[endgroup]
+2026-04-24T23:15:50.7131890Z Successfully copied 309 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-24T23:15:50.8912773Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-24T23:15:50.9562498Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-24T23:15:51.1262494Z [otlp] INPUT_TRACE_ID=08e457404d61d3abfe031ef4fbbacb93 (will reuse activation trace)
+2026-04-24T23:15:51.1268142Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-24T23:15:51.1284755Z [otlp] resolved trace-id=08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:15:51.1287835Z [otlp] trace-id=08e457404d61d3abfe031ef4fbbacb93 written to GITHUB_OUTPUT
+2026-04-24T23:15:51.1290794Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-24T23:15:51.1293434Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-24T23:15:51.1296804Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV

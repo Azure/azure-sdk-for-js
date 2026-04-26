@@ -1,0 +1,77 @@
+﻿2026-04-24T22:41:34.5825053Z ##[group]Run # Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct
+2026-04-24T22:41:34.5826145Z [36;1m# Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct[0m
+2026-04-24T22:41:34.5827140Z [36;1m# GitHub instance (GHES/GHEC). On github.com this is a harmless no-op.[0m
+2026-04-24T22:41:34.5828823Z [36;1mGH_HOST="${GITHUB_SERVER_URL#https://}"[0m
+2026-04-24T22:41:34.5829521Z [36;1mGH_HOST="${GH_HOST#http://}"[0m
+2026-04-24T22:41:34.5830139Z [36;1mecho "GH_HOST=${GH_HOST}" >> "$GITHUB_ENV"[0m
+2026-04-24T22:41:34.5838795Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-04-24T22:41:34.5839487Z env:
+2026-04-24T22:41:34.5840140Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-net/issue-triage
+2026-04-24T22:41:34.5841684Z   GH_AW_DETECTION_CONCLUSION: success
+2026-04-24T22:41:34.5843740Z   GH_AW_DETECTION_REASON: 
+2026-04-24T22:41:34.5943711Z   GH_AW_EFFECTIVE_TOKENS: 155441
+2026-04-24T22:41:34.5944757Z   GH_AW_ENGINE_ID: copilot
+2026-04-24T22:41:34.5945322Z   GH_AW_ENGINE_MODEL: auto
+2026-04-24T22:41:34.5945861Z   GH_AW_WORKFLOW_ID: issue-triage
+2026-04-24T22:41:34.5946379Z   GH_AW_WORKFLOW_NAME: Agentic Triage
+2026-04-24T22:41:34.5954277Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:41:34.5962296Z   GITHUB_AW_OTEL_TRACE_ID: e912b01af58799b8188d5804c6491285
+2026-04-24T22:41:34.5962959Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: bfcc508245595ba2
+2026-04-24T22:41:34.5963711Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070493815
+2026-04-24T22:41:34.5964244Z ##[endgroup]

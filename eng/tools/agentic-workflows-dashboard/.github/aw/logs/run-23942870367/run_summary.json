@@ -1,0 +1,1303 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23942870367,
+  "processed_at": "2026-04-24T23:06:54.334041644Z",
+  "run": {
+    "databaseId": 23942870367,
+    "number": 23,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23942870367",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Analyze CI Test Failures",
+    "workflowPath": ".github/workflows/fix-test-failures.lock.yml",
+    "createdAt": "2026-04-03T10:17:11Z",
+    "startedAt": "2026-04-03T10:17:11Z",
+    "updatedAt": "2026-04-03T10:23:09Z",
+    "event": "schedule",
+    "headBranch": "main",
+    "headSha": "ccf12c8169a9d2a531c4d37f791c27575e0ebcc2",
+    "displayTitle": "Analyze CI Test Failures",
+    "Duration": 358000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 8,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23942870367"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 8,
+    "ToolCalls": [
+      {
+        "Name": "list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Check",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Get",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_me",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_team_members",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_teams",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___pull_request_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "create_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_team_members",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_me",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_team_members",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-pull_request_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_teams",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_teams",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_me",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___pull_request_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_tag",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_branches",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-pull_request_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_file_contents",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_release_by_tag",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_team_members",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_tags",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_pull_requests",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_repositories",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-create_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_pull_requests",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_releases",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_latest_release",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_teams",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_commits",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_code",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_commit",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_me",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      }
+    ],
+    "ToolSequences": [
+      [
+        "list_commits",
+        "issue_read",
+        "Check",
+        "Check",
+        "Check",
+        "Get",
+        "Check",
+        "Check",
+        "noop"
+      ],
+      [
+        "Read",
+        "Read"
+      ],
+      [
+        "safeoutputs___create_issue",
+        "safeoutputs___missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs___missing_data",
+        "github___get_commit",
+        "github___get_file_contents",
+        "github___get_label",
+        "github___get_latest_release",
+        "github___get_me",
+        "github___get_release_by_tag",
+        "github___get_tag",
+        "github___get_team_members",
+        "github___get_teams",
+        "github___issue_read",
+        "github___list_branches",
+        "github___list_commits",
+        "github___list_issue_types",
+        "github___list_issues",
+        "github___list_pull_requests",
+        "github___list_releases",
+        "github___list_tags",
+        "github___pull_request_read",
+        "github___search_code",
+        "github___search_issues",
+        "github___search_pull_requests",
+        "github___search_repositories",
+        "tool",
+        "tool",
+        "list_commits",
+        "tool",
+        "tool",
+        "issue_read"
+      ],
+      [
+        "tool",
+        "tool",
+        "noop"
+      ],
+      [
+        "create_issue",
+        "create_issue",
+        "missing_tool",
+        "missing_tool",
+        "noop",
+        "noop",
+        "missing_data",
+        "missing_data",
+        "noop",
+        "noop"
+      ],
+      [
+        "safeoutputs___create_issue",
+        "safeoutputs-create_issue",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "github___get_commit",
+        "github-get_commit",
+        "github___get_file_contents",
+        "github-get_file_contents",
+        "github___get_label",
+        "github-get_label",
+        "github___get_latest_release",
+        "github-get_latest_release",
+        "github___get_me",
+        "github-get_me",
+        "github___get_release_by_tag",
+        "github-get_release_by_tag",
+        "github___get_tag",
+        "github-get_tag",
+        "github___get_team_members",
+        "github-get_team_members",
+        "github___get_teams",
+        "github-get_teams",
+        "github___issue_read",
+        "github-issue_read",
+        "github___list_branches",
+        "github-list_branches",
+        "github___list_commits",
+        "github-list_commits",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "github___list_issues",
+        "github-list_issues",
+        "github___list_pull_requests",
+        "github-list_pull_requests",
+        "github___list_releases",
+        "github-list_releases",
+        "github___list_tags",
+        "github-list_tags",
+        "github___pull_request_read",
+        "github-pull_request_read",
+        "github___search_code",
+        "github-search_code",
+        "github___search_issues",
+        "github-search_issues",
+        "github___search_pull_requests",
+        "github-search_pull_requests",
+        "github___search_repositories",
+        "github-search_repositories",
+        "tool",
+        "list_commits",
+        "tool",
+        "issue_read"
+      ],
+      [
+        "tool",
+        "noop"
+      ],
+      [
+        "github-get_commit",
+        "github-get_file_contents",
+        "github-get_label",
+        "github-get_latest_release",
+        "github-get_me",
+        "github-get_release_by_tag",
+        "github-get_tag",
+        "github-get_team_members",
+        "github-get_teams",
+        "github-issue_read",
+        "github-list_branches",
+        "github-list_commits",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-list_pull_requests",
+        "github-list_releases",
+        "github-list_tags",
+        "github-pull_request_read",
+        "github-search_code",
+        "github-search_issues",
+        "github-search_pull_requests",
+        "github-search_repositories",
+        "safeoutputs-create_issue",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop",
+        "github-get_commit",
+        "github-get_file_contents",
+        "github-get_label",
+        "github-get_latest_release",
+        "github-get_me",
+        "github-get_release_by_tag",
+        "github-get_tag",
+        "github-get_team_members",
+        "github-get_teams",
+        "github-issue_read",
+        "github-list_branches",
+        "github-list_commits",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-list_pull_requests",
+        "github-list_releases",
+        "github-list_tags",
+        "github-pull_request_read",
+        "github-search_code",
+        "github-search_issues",
+        "github-search_pull_requests",
+        "github-search_repositories",
+        "safeoutputs-create_issue",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop"
+      ]
+    ],
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "research",
+    "label": "Research",
+    "reason": "Workflow naming and instructions suggest exploratory analysis or reporting."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "broad",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Research run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=8 tool_types=62 duration=5m58s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=8",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": [
+    {
+      "message": "CI analysis complete — no unit test failures on main. HEAD commit ccf12c8 (526 check runs) shows zero CI failures. An older commit (f6ba0a2, \"Bump emitter version\") had two 'js - resources - mgmt' build failures caused by a missing manifest-generation path (infrastructure issue, not a unit test regression), and that commit is no longer at HEAD. No GitHub issue created.",
+      "workflow_name": "Analyze CI Test Failures",
+      "run_id": 23942870367
+    }
+  ],
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "list_commits",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-03T10:18:56.543630335Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-03T10:18:56.884914756Z",
+        "server_name": "github",
+        "tool_name": "list_commits",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-03T10:18:56.890583033Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-03T10:18:57.035200044Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-03T10:21:06.318453901Z",
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 4,
+        "tool_call_count": 4,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 1,
+        "tool_call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "detection.log",
+    "firewall-audit-logs/audit/docker-compose.redacted.yml",
+    "firewall-audit-logs/audit/iptables-audit.txt",
+    "firewall-audit-logs/audit/policy-manifest.json",
+    "firewall-audit-logs/audit/squid.conf",
+    "firewall-audit-logs/logs/access.log",
+    "firewall-audit-logs/logs/audit.jsonl",
+    "firewall-audit-logs/logs/cache.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-output-items.jsonl",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1775211520958-148.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/2_detection.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T10:17:25Z",
+      "completed_at": "2026-04-03T10:17:41Z",
+      "Duration": 16000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T10:17:46Z",
+      "completed_at": "2026-04-03T10:21:17Z",
+      "Duration": 211000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T10:21:28Z",
+      "completed_at": "2026-04-03T10:22:21Z",
+      "Duration": 53000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T10:22:39Z",
+      "completed_at": "2026-04-03T10:22:51Z",
+      "Duration": 12000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T10:23:01Z",
+      "completed_at": "2026-04-03T10:23:08Z",
+      "Duration": 7000000000
+    }
+  ]
+}

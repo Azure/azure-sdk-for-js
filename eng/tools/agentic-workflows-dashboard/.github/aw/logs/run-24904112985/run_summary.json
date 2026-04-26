@@ -1,0 +1,81 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24904112985,
+  "processed_at": "2026-04-24T19:02:39.146093475Z",
+  "run": {
+    "databaseId": 24904112985,
+    "number": 21401,
+    "url": "https://github.com/Azure/azure-sdk-for-rust/actions/runs/24904112985",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "GitHub Event Processor",
+    "workflowPath": ".github/workflows/event-processor.yml",
+    "createdAt": "2026-04-24T17:56:33Z",
+    "startedAt": "2026-04-24T17:56:33Z",
+    "updatedAt": "2026-04-24T17:56:59Z",
+    "event": "issue_comment",
+    "headBranch": "main",
+    "headSha": "c4c3e4acbdeca0a4fa509a32b76a4970e63bd144",
+    "displayTitle": "Cosmos: Cut over replace_item, upsert_item, delete_item to driver",
+    "Duration": 26000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24904112985"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "issue_response",
+    "label": "Issue Response",
+    "reason": "The run is primarily interacting with issue, discussion, or comment threads."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "agentic_assessments": [
+    {
+      "kind": "overkill_for_agentic",
+      "severity": "low",
+      "summary": "This Issue Response run looks stable enough that deterministic automation may be a simpler fit.",
+      "evidence": "turns=0 tool_types=0 actuation=read_only",
+      "recommendation": "Consider whether a scripted rule or deterministic workflow step could replace this agentic path."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "event.json",
+    "workflow-logs/0_Handle issue_comment created event with azure login.txt",
+    "workflow-logs/Handle issue_comment created event with azure login/system.txt"
+  ],
+  "job_details": null
+}

@@ -1,0 +1,107 @@
+﻿2026-04-24T21:16:46.9856482Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-04-24T21:16:46.9856662Z with:
+2026-04-24T21:16:46.9856765Z   name: agent
+2026-04-24T21:16:46.9858377Z   path: /tmp/gh-aw/aw-prompts/prompt.txt
+/tmp/gh-aw/sandbox/agent/logs/
+/tmp/gh-aw/redacted-urls.log
+/tmp/gh-aw/mcp-logs/
+/tmp/gh-aw/proxy-logs/
+!/tmp/gh-aw/proxy-logs/proxy-tls/
+/tmp/gh-aw/agent_usage.json
+/tmp/gh-aw/agent-stdio.log
+/tmp/gh-aw/agent/
+/tmp/gh-aw/github_rate_limits.jsonl
+/tmp/gh-aw/safeoutputs.jsonl
+/tmp/gh-aw/agent_output.json
+/tmp/gh-aw/aw-*.patch
+/tmp/gh-aw/aw-*.bundle
+/tmp/gh-aw/sandbox/firewall/logs/
+/tmp/gh-aw/sandbox/firewall/audit/
+
+2026-04-24T21:16:46.9858562Z   if-no-files-found: ignore
+2026-04-24T21:16:46.9858714Z   compression-level: 6
+2026-04-24T21:16:46.9858823Z   overwrite: false
+2026-04-24T21:16:46.9858964Z   include-hidden-files: false
+2026-04-24T21:16:46.9859111Z   archive: true
+2026-04-24T21:16:46.9859264Z env:
+2026-04-24T21:16:46.9859377Z   DEFAULT_BRANCH: main
+2026-04-24T21:16:46.9859531Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T21:16:46.9859757Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T21:16:46.9859890Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T21:16:46.9860094Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T21:16:46.9860261Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T21:16:46.9864470Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T21:16:46.9865130Z   GITHUB_AW_OTEL_TRACE_ID: b1b41ae53d3acfe02d2e47bc77e5def9
+2026-04-24T21:16:46.9865350Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: c5d7f1c8835ab9ac
+2026-04-24T21:16:46.9865492Z   GITHUB_AW_OTEL_JOB_START_MS: 1777065160841
+2026-04-24T21:16:46.9865683Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-24T21:16:46.9865804Z   GH_AW_EFFECTIVE_TOKENS: 1117748
+2026-04-24T21:16:46.9865986Z ##[endgroup]
+2026-04-24T21:16:47.1527625Z With the provided path, there will be 24 files uploaded
+2026-04-24T21:16:47.1532892Z Artifact name is valid!
+2026-04-24T21:16:47.1533513Z Root directory input is valid!
+2026-04-24T21:16:47.3473935Z Uploading artifact: agent.zip
+2026-04-24T21:16:47.3514700Z Beginning upload of artifact content to blob storage
+2026-04-24T21:16:47.5914197Z Uploaded bytes 206598
+2026-04-24T21:16:47.6248943Z Finished uploading artifact content to blob storage!
+2026-04-24T21:16:47.6250162Z SHA256 digest of uploaded artifact is ab8f84ebe89299b2264014a77b5fb06e417116d2761cc82a1d5bb35affc47b23
+2026-04-24T21:16:47.6251364Z Finalizing artifact upload
+2026-04-24T21:16:47.7791599Z Artifact agent successfully finalized. Artifact ID 6633894932
+2026-04-24T21:16:47.7793634Z Artifact agent has been successfully uploaded! Final size is 206598 bytes. Artifact ID is 6633894932
+2026-04-24T21:16:47.7797545Z Artifact download URL: https://github.com/Azure/azure-sdk-for-net/actions/runs/24912107694/artifacts/6633894932

@@ -1,0 +1,110 @@
+﻿2026-04-24T22:39:17.7418779Z ##[group]Run # Fix permissions on firewall logs so they can be uploaded as artifacts
+2026-04-24T22:39:17.7419344Z [36;1m# Fix permissions on firewall logs so they can be uploaded as artifacts[0m
+2026-04-24T22:39:17.7419774Z [36;1m# AWF runs with sudo, creating files owned by root[0m
+2026-04-24T22:39:17.7420202Z [36;1msudo chmod -R a+r /tmp/gh-aw/sandbox/firewall/logs 2>/dev/null || true[0m
+2026-04-24T22:39:17.7420794Z [36;1m# Only run awf logs summary if awf command exists (it may not be installed if workflow failed before install step)[0m
+2026-04-24T22:39:17.7421478Z [36;1mif command -v awf &> /dev/null; then[0m
+2026-04-24T22:39:17.7421804Z [36;1m  awf logs summary | tee -a "$GITHUB_STEP_SUMMARY"[0m
+2026-04-24T22:39:17.7422096Z [36;1melse[0m
+2026-04-24T22:39:17.7422378Z [36;1m  echo 'AWF binary not installed, skipping firewall log summary'[0m
+2026-04-24T22:39:17.7422713Z [36;1mfi[0m
+2026-04-24T22:39:17.7444111Z shell: /usr/bin/bash -e {0}
+2026-04-24T22:39:17.7444353Z env:
+2026-04-24T22:39:17.7444570Z   DEFAULT_BRANCH: main
+2026-04-24T22:39:17.7444786Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T22:39:17.7445018Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T22:39:17.7445231Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T22:39:17.7445503Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T22:39:17.7445828Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T22:39:17.7450028Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:39:17.7454361Z   GITHUB_AW_OTEL_TRACE_ID: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:39:17.7454712Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 86fc3810271f8182
+2026-04-24T22:39:17.7455011Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070272299
+2026-04-24T22:39:17.7455310Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-24T22:39:17.7455600Z   GH_AW_EFFECTIVE_TOKENS: 115753
+2026-04-24T22:39:17.7456021Z   AWF_LOGS_DIR: /tmp/gh-aw/sandbox/firewall/logs
+2026-04-24T22:39:17.7456297Z ##[endgroup]
+2026-04-24T22:39:17.9997908Z <details>
+2026-04-24T22:39:17.9998125Z <summary>Firewall Activity</summary>
+2026-04-24T22:39:17.9998140Z 
+2026-04-24T22:39:17.9998903Z ▼ 15 requests | 14 allowed | 1 blocked | 4 unique domains
+2026-04-24T22:39:17.9999098Z 
+2026-04-24T22:39:17.9999266Z | Domain | Allowed | Denied |
+2026-04-24T22:39:17.9999391Z |--------|---------|--------|
+2026-04-24T22:39:17.9999544Z | api.githubcopilot.com | 12 | 0 |
+2026-04-24T22:39:17.9999688Z | api.github.com | 1 | 0 |
+2026-04-24T22:39:17.9999906Z | release-assets.githubusercontent.com | 0 | 1 |
+2026-04-24T22:39:18.0000387Z | github.com | 1 | 0 |
+2026-04-24T22:39:18.0000395Z 
+2026-04-24T22:39:18.0000494Z <details>
+2026-04-24T22:39:18.0000631Z <summary>Policy Rules</summary>
+2026-04-24T22:39:18.0000637Z 
+2026-04-24T22:39:18.0000773Z | Rule | Action | Hits | Description |
+2026-04-24T22:39:18.0000895Z |------|--------|------|-------------|
+2026-04-24T22:39:18.0001709Z | deny-unsafe-ports | 🚫 deny | 0 | Deny requests to ports not in Safe_ports ACL (only 80, 443, and user-specified ports allowed) |
+2026-04-24T22:39:18.0002206Z | deny-connect-unsafe-ports | 🚫 deny | 0 | Deny CONNECT (HTTPS) to ports not in Safe_ports ACL |
+2026-04-24T22:39:18.0002994Z | deny-raw-ipv4 | 🚫 deny | 0 | Deny requests to raw IPv4 addresses (bypasses domain filtering) |
+2026-04-24T22:39:18.0003462Z | deny-raw-ipv6 | 🚫 deny | 0 | Deny requests to raw IPv6 addresses (bypasses domain filtering) |
+2026-04-24T22:39:18.0003925Z | allow-both-plain | ✅ allow | 14 | Allow HTTP and HTTPS traffic to these domains |
+2026-04-24T22:39:18.0004451Z | deny-default | 🚫 deny | 1 | Deny all traffic not matching any allow rule (default deny) |
+2026-04-24T22:39:18.0004477Z 
+2026-04-24T22:39:18.0004583Z </details>
+2026-04-24T22:39:18.0004591Z 
+2026-04-24T22:39:18.0004696Z </details>
+2026-04-24T22:39:18.0004724Z 

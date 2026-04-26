@@ -1,0 +1,24 @@
+{
+  "pr": 37980,
+  "package": "@azure/arm-storagemover",
+  "version": "3.1.0",
+  "reviewedAt": "2026-04-07",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/storagemover/arm-storagemover/warp.config.yml",
+      "line": 7,
+      "type": "tool",
+      "description": "8 export paths missing './' prefix (e.g. src/api/jobRuns/index.ts)"
+    },
+    {
+      "file": "sdk/storagemover/arm-storagemover/warp.config.yml",
+      "line": 30,
+      "type": "tool",
+      "description": "extends removed; targets inlined without moduleType:commonjs; polyfillSuffix added non-standardly"
+    }
+  ],
+  "mergeState": "blocked",
+  "ciStatus": "all-passed (checkenforcer success)",
+  "notes": "Re-generation of 3.1.0 (date changed from 2026-03-17 to 2026-04-06); API version 2025-12-01; emitter 0.52.0; warp.config.yml generation regression"
+}

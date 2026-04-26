@@ -1,0 +1,18 @@
+{
+  "pr": 37941,
+  "package": "@azure/arm-commerce",
+  "version": "4.0.0-beta.4",
+  "reviewedAt": "2026-04-07",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/commerce/arm-commerce/src/api/usageManagementContext.ts",
+      "line": 37,
+      "type": "tool",
+      "description": "userAgentInfo set to azsdk-js-arm-commerce/1.0.0-beta.1 but package version is 4.0.0-beta.4 (version mismatch)"
+    }
+  ],
+  "mergeState": "auto-fixed pnpm-lock conflict (commit e94c3bc), version mismatch still outstanding",
+  "ciStatus": "pending (re-triggered after lockfile fix)",
+  "notes": "TypeSpec migration to 4.0.0-beta.4; pnpm-lock fixed by updating catalog versions; api-version 2015-06-01-preview"
+}

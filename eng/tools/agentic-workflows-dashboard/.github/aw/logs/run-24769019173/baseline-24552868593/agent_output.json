@@ -1,0 +1,1 @@
+{"items":[{"message":"No action taken: Issue #38185 already has labels (question, customer-reported, needs-triage). Per the triage precondition check, issues that already have labels are skipped to avoid duplicate or conflicting triage actions.","type":"noop"}],"errors":[]}

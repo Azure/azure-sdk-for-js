@@ -1,0 +1,92 @@
+﻿2026-04-24T23:15:52.5684607Z ##[group]Run mkdir -p /tmp/gh-aw/
+2026-04-24T23:15:52.5687123Z [36;1mmkdir -p /tmp/gh-aw/[0m
+2026-04-24T23:15:52.5688723Z [36;1mfind "/tmp/gh-aw/" -type f -print[0m
+2026-04-24T23:15:52.5689991Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-24T23:15:52.5703948Z shell: /usr/bin/bash -e {0}
+2026-04-24T23:15:52.5704578Z env:
+2026-04-24T23:15:52.5965768Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T23:15:52.5974908Z   GITHUB_AW_OTEL_TRACE_ID: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:15:52.5975659Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 3ab97e9bb5693fc1
+2026-04-24T23:15:52.5976302Z   GITHUB_AW_OTEL_JOB_START_MS: 1777072551130
+2026-04-24T23:15:52.5976852Z ##[endgroup]
+2026-04-24T23:15:52.6227703Z /tmp/gh-aw/mcp-logs/stderr.log
+2026-04-24T23:15:52.6244052Z /tmp/gh-aw/mcp-logs/safeoutputs.log
+2026-04-24T23:15:52.6244730Z /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026-04-24T23:15:52.6245321Z /tmp/gh-aw/mcp-logs/rpc-messages.jsonl
+2026-04-24T23:15:52.6245899Z /tmp/gh-aw/mcp-logs/github.log
+2026-04-24T23:15:52.6246652Z /tmp/gh-aw/mcp-logs/safeoutputs/server.log
+2026-04-24T23:15:52.6247280Z /tmp/gh-aw/mcp-logs/start-gateway.log
+2026-04-24T23:15:52.6247861Z /tmp/gh-aw/mcp-logs/gateway.md
+2026-04-24T23:15:52.6248396Z /tmp/gh-aw/mcp-logs/tools.json
+2026-04-24T23:15:52.6248930Z /tmp/gh-aw/github_rate_limits.jsonl
+2026-04-24T23:15:52.6250104Z /tmp/gh-aw/safeoutputs.jsonl
+2026-04-24T23:15:52.6250797Z /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T23:15:52.6251466Z /tmp/gh-aw/sandbox/firewall/audit/policy-manifest.json
+2026-04-24T23:15:52.6252225Z /tmp/gh-aw/sandbox/firewall/audit/iptables-audit.txt
+2026-04-24T23:15:52.6252992Z /tmp/gh-aw/sandbox/firewall/audit/docker-compose.redacted.yml
+2026-04-24T23:15:52.6253714Z /tmp/gh-aw/sandbox/firewall/audit/squid.conf
+2026-04-24T23:15:52.6254323Z /tmp/gh-aw/sandbox/firewall/logs/access.log
+2026-04-24T23:15:52.6254939Z /tmp/gh-aw/sandbox/firewall/logs/audit.jsonl
+2026-04-24T23:15:52.6255545Z /tmp/gh-aw/sandbox/firewall/logs/cache.log
+2026-04-24T23:15:52.6256277Z /tmp/gh-aw/sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl
+2026-04-24T23:15:52.6257087Z /tmp/gh-aw/sandbox/agent/logs/process-1777072438812-170.log
+2026-04-24T23:15:52.6257731Z /tmp/gh-aw/otel.jsonl
+2026-04-24T23:15:52.6258187Z /tmp/gh-aw/agent_output.json
+2026-04-24T23:15:52.6258701Z /tmp/gh-aw/agent-stdio.log
+2026-04-24T23:15:52.6259194Z /tmp/gh-aw/agent_usage.json

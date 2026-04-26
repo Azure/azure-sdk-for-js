@@ -1,0 +1,32 @@
+﻿2026-04-24T22:37:17.4399169Z Current runner version: '2.333.1'
+2026-04-24T22:37:17.4424844Z ##[group]Runner Image Provisioner
+2026-04-24T22:37:17.4426166Z Hosted Compute Agent
+2026-04-24T22:37:17.4426801Z Version: 20260213.493
+2026-04-24T22:37:17.4427364Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-24T22:37:17.4428035Z Build Date: 2026-02-13T00:28:41Z
+2026-04-24T22:37:17.4428723Z Worker ID: {7c0b22eb-b9b0-46eb-97e7-0efeae97f5ec}
+2026-04-24T22:37:17.4429349Z Azure Region: centralus
+2026-04-24T22:37:17.4429862Z ##[endgroup]
+2026-04-24T22:37:17.4431489Z ##[group]VM Image
+2026-04-24T22:37:17.4432072Z - OS: Linux (x64)
+2026-04-24T22:37:17.4434553Z - Source: Docker
+2026-04-24T22:37:17.4435529Z - Name: ubuntu:24.04
+2026-04-24T22:37:17.4436080Z - Version: 20260413.54.1
+2026-04-24T22:37:17.4436586Z ##[endgroup]
+2026-04-24T22:37:17.4437995Z ##[group]GITHUB_TOKEN Permissions
+2026-04-24T22:37:17.4440654Z Actions: read
+2026-04-24T22:37:17.4441907Z Contents: read
+2026-04-24T22:37:17.4443025Z Discussions: write
+2026-04-24T22:37:17.4444801Z Issues: write
+2026-04-24T22:37:17.4446221Z Metadata: read
+2026-04-24T22:37:17.4447311Z PullRequests: write
+2026-04-24T22:37:17.4452975Z ##[endgroup]
+2026-04-24T22:37:17.4455970Z Secret source: Actions
+2026-04-24T22:37:17.4456741Z Prepare workflow directory
+2026-04-24T22:37:17.4919635Z Prepare all required actions
+2026-04-24T22:37:17.5007780Z Getting action download info
+2026-04-24T22:37:18.1553705Z Download action repository 'github/gh-aw-actions@ba90f2186d7ad780ec640f364005fa24e797b360' (SHA:ba90f2186d7ad780ec640f364005fa24e797b360)
+2026-04-24T22:37:18.9076675Z Download action repository 'actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553' (SHA:373c709c69115d41ff229c7e5df9f8788daa9553)
+2026-04-24T22:37:19.3932514Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-24T22:37:19.4891681Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-04-24T22:37:20.3761829Z Complete job name: activation

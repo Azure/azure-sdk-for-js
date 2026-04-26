@@ -1,0 +1,89 @@
+﻿2026-04-24T22:37:28.7131124Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-04-24T22:37:28.7132955Z with:
+2026-04-24T22:37:28.7133617Z   name: activation
+2026-04-24T22:37:28.7134951Z   path: /tmp/gh-aw/aw_info.json
+/tmp/gh-aw/aw-prompts/prompt.txt
+/tmp/gh-aw/github_rate_limits.jsonl
+
+2026-04-24T22:37:28.7137252Z   if-no-files-found: ignore
+2026-04-24T22:37:28.7138535Z   retention-days: 1
+2026-04-24T22:37:28.7139288Z   compression-level: 6
+2026-04-24T22:37:28.7140151Z   overwrite: false
+2026-04-24T22:37:28.7140906Z   include-hidden-files: false
+2026-04-24T22:37:28.7141741Z   archive: true
+2026-04-24T22:37:28.7142421Z env:
+2026-04-24T22:37:28.7159718Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:37:28.7178562Z   GITHUB_AW_OTEL_TRACE_ID: e912b01af58799b8188d5804c6491285
+2026-04-24T22:37:28.7179827Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: e8eb1e336edb36a5
+2026-04-24T22:37:28.7180893Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070242360
+2026-04-24T22:37:28.7182321Z ##[endgroup]
+2026-04-24T22:37:29.5283782Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-04-24T22:37:29.5284979Z The least common ancestor is /tmp/gh-aw. This will be the root directory of the artifact
+2026-04-24T22:37:29.5285871Z With the provided path, there will be 3 files uploaded
+2026-04-24T22:37:29.5292637Z Artifact name is valid!
+2026-04-24T22:37:29.5300378Z Root directory input is valid!
+2026-04-24T22:37:29.5304343Z Uploading artifact: activation.zip
+2026-04-24T22:37:29.5306091Z Beginning upload of artifact content to blob storage
+2026-04-24T22:37:32.9293747Z Uploaded bytes 10782
+2026-04-24T22:37:32.9843836Z Finished uploading artifact content to blob storage!
+2026-04-24T22:37:32.9855653Z SHA256 digest of uploaded artifact is 310b79c3d1cc753bec8013bb9366e0c619ad084abf2498b35d4c926c9b62f146
+2026-04-24T22:37:32.9866105Z Finalizing artifact upload
+2026-04-24T22:37:33.1969407Z Artifact activation successfully finalized. Artifact ID 6634926101
+2026-04-24T22:37:33.1972742Z Artifact activation has been successfully uploaded! Final size is 10782 bytes. Artifact ID is 6634926101
+2026-04-24T22:37:33.1986706Z Artifact download URL: https://github.com/Azure/azure-sdk-for-net/actions/runs/24914989702/artifacts/6634926101

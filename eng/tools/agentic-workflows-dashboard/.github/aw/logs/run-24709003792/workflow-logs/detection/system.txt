@@ -1,0 +1,9 @@
+2026-04-21T07:16:58.8710000Z Evaluating detection.if
+2026-04-21T07:16:58.8710000Z Evaluating: (always() && (needs.agent.result != 'skipped') && (((needs.agent.outputs.output_types != '') || (needs.agent.outputs.has_patch == 'true'))))
+2026-04-21T07:16:58.8710000Z Expanded: (true && ('success' != 'skipped') && (('add_comment' != '') || (needs.agent.outputs.has_patch == 'true')))
+2026-04-21T07:16:58.8710000Z Result: true
+2026-04-21T07:16:58.8720000Z Requested labels: ubuntu-latest
+2026-04-21T07:16:58.8720000Z Job defined at: Azure/azure-sdk-for-go/.github/workflows/mgmt-review.lock.yml@refs/heads/main
+2026-04-21T07:16:58.8720000Z Waiting for a runner to pick up this job...
+2026-04-21T07:17:03.8210000Z Job is about to start running on the hosted runner: GitHub Actions 1031621160
+2026-04-21T07:17:03.8200000Z Job is waiting for a hosted runner to come online.

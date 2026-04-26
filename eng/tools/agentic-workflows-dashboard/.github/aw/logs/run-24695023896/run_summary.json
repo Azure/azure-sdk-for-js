@@ -1,0 +1,603 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24695023896,
+  "processed_at": "2026-04-24T23:14:58.427655475Z",
+  "run": {
+    "databaseId": 24695023896,
+    "number": 87,
+    "url": "https://github.com/Azure/azure-sdk-for-rust/actions/runs/24695023896",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Agentic Triage",
+    "workflowPath": ".github/workflows/issue-triage.lock.yml",
+    "createdAt": "2026-04-20T23:09:19Z",
+    "startedAt": "2026-04-20T23:09:19Z",
+    "updatedAt": "2026-04-20T23:14:04Z",
+    "event": "issues",
+    "headBranch": "main",
+    "headSha": "a922d7a28385ccc8637e8fbfe4e711e19e45cf96",
+    "displayTitle": "Agentic Triage",
+    "Duration": 285000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 14,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24695023896"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 14,
+    "ToolCalls": [
+      {
+        "Name": "Look",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Placeholder",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "General-purpose",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Check",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___pull_request_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "remove_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___pull_request_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_pull_requests",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-pull_request_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      }
+    ],
+    "ToolSequences": [
+      [
+        "Read",
+        "Placeholder",
+        "General-purpose",
+        "Check",
+        "Look"
+      ],
+      [
+        "safeoutputs___add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs___remove_labels",
+        "safeoutputs___assign_to_user",
+        "safeoutputs___missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs___missing_data",
+        "github___get_label",
+        "github___issue_read",
+        "github___list_issue_types",
+        "github___list_issues",
+        "github___list_pull_requests",
+        "github___pull_request_read",
+        "github___search_issues",
+        "github___search_pull_requests"
+      ],
+      [
+        "add_comment",
+        "add_comment",
+        "add_labels",
+        "add_labels",
+        "remove_labels",
+        "remove_labels",
+        "assign_to_user",
+        "assign_to_user",
+        "missing_tool",
+        "missing_tool",
+        "noop",
+        "noop",
+        "missing_data",
+        "missing_data"
+      ],
+      [
+        "safeoutputs___add_comment",
+        "safeoutputs-add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs-add_labels",
+        "safeoutputs___remove_labels",
+        "safeoutputs-remove_labels",
+        "safeoutputs___assign_to_user",
+        "safeoutputs-assign_to_user",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "github___get_label",
+        "github-get_label",
+        "github___issue_read",
+        "github-issue_read",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "github___list_issues",
+        "github-list_issues",
+        "github___list_pull_requests",
+        "github-list_pull_requests",
+        "github___pull_request_read",
+        "github-pull_request_read",
+        "github___search_issues",
+        "github-search_issues",
+        "github___search_pull_requests",
+        "github-search_pull_requests"
+      ]
+    ],
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "triage",
+    "label": "Triage",
+    "reason": "The run focused on classification, routing, or issue state updates."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "broad",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Triage run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=14 tool_types=42 duration=4m45s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "poor_agentic_control",
+      "severity": "medium",
+      "summary": "The run showed signs of broad or weakly controlled agentic behavior.",
+      "evidence": "friction=0 execution=exploratory actuation=read_only",
+      "recommendation": "Tighten instructions, reduce unnecessary tools, or delay write actions until the workflow has stronger evidence."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=14",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    },
+    {
+      "kind": "model_downgrade_available",
+      "severity": "low",
+      "summary": "This Triage run may not need a frontier model. A smaller model (e.g. gpt-4.1-mini, claude-haiku-4-5) could handle the task at lower cost.",
+      "evidence": "domain=triage resource_profile=heavy actuation=read_only",
+      "recommendation": "Try engine.model: gpt-4.1-mini or claude-haiku-4-5 in the workflow frontmatter."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "firewall-audit-logs/audit/docker-compose.redacted.yml",
+    "firewall-audit-logs/audit/iptables-audit.txt",
+    "firewall-audit-logs/audit/policy-manifest.json",
+    "firewall-audit-logs/audit/squid.conf",
+    "firewall-audit-logs/logs/access.log",
+    "firewall-audit-logs/logs/audit.jsonl",
+    "firewall-audit-logs/logs/cache.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-output-items.jsonl",
+    "sandbox/agent/logs/process-1776726630510-136.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/2_detection.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

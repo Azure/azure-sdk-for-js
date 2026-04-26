@@ -1,0 +1,100 @@
+﻿2026-04-24T22:40:16.4790743Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-24T22:40:16.4791148Z with:
+2026-04-24T22:40:16.4792483Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/parse_threat_detection_results.cjs');
+await main();
+
+2026-04-24T22:40:16.4793627Z   github-token: ***
+2026-04-24T22:40:16.4793835Z   debug: false
+2026-04-24T22:40:16.4794071Z   user-agent: actions/github-script
+2026-04-24T22:40:16.4794325Z   result-encoding: json
+2026-04-24T22:40:16.4794521Z   retries: 0
+2026-04-24T22:40:16.4794735Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-24T22:40:16.4795004Z env:
+2026-04-24T22:40:16.4799074Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:40:16.4804111Z   GITHUB_AW_OTEL_TRACE_ID: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:40:16.4804480Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 2e30d4bd16e0f190
+2026-04-24T22:40:16.4804778Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070375090
+2026-04-24T22:40:16.4805083Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T22:40:16.4805362Z   RUN_DETECTION: true
+2026-04-24T22:40:16.4805581Z   GH_AW_DETECTION_CONTINUE_ON_ERROR: true
+2026-04-24T22:40:16.4805835Z ##[endgroup]
+2026-04-24T22:40:16.5801688Z ════════════════════════════════════════════════════════
+2026-04-24T22:40:16.5803826Z 🛡️  Threat Detection: Parse Results & Conclude
+2026-04-24T22:40:16.5804582Z ════════════════════════════════════════════════════════
+2026-04-24T22:40:16.5805186Z 📋 RUN_DETECTION env: "true"
+2026-04-24T22:40:16.5805668Z 📋 continue-on-error: true
+2026-04-24T22:40:16.5806258Z 📁 Threat detection directory: /tmp/gh-aw/threat-detection
+2026-04-24T22:40:16.5807067Z 📄 Detection log path: /tmp/gh-aw/threat-detection/detection.log
+2026-04-24T22:40:16.5807870Z 🔍 Detection is required. Proceeding to parse detection log...
+2026-04-24T22:40:16.5808701Z ✔️  Detection log file exists: /tmp/gh-aw/threat-detection/detection.log
+2026-04-24T22:40:16.5809473Z 📊 Detection log stats: 146 lines, 8515 bytes
+2026-04-24T22:40:16.5810096Z 📄 Lines containing THREAT_DETECTION_RESULT (1 of 146):
+2026-04-24T22:40:16.5811014Z    [109] THREAT_DETECTION_RESULT:{"prompt_injection":false,"secret_leak":false,"malicious_patch":false,"reasons":[]}
+2026-04-24T22:40:16.5812322Z 🔎 Parsing THREAT_DETECTION_RESULT from detection log...
+2026-04-24T22:40:16.5815404Z 📋 Threat detection verdict:
+2026-04-24T22:40:16.5816221Z    prompt_injection : false
+2026-04-24T22:40:16.5816606Z    secret_leak      : false
+2026-04-24T22:40:16.5816958Z    malicious_patch  : false
+2026-04-24T22:40:16.5817323Z    reasons          : (none)
+2026-04-24T22:40:16.5817889Z ✅ No security threats detected. Safe outputs may proceed.
+2026-04-24T22:40:16.5825653Z ════════════════════════════════════════════════════════
+2026-04-24T22:40:16.5826300Z 🛡️  Threat detection conclusion complete.
+2026-04-24T22:40:16.5826946Z ════════════════════════════════════════════════════════

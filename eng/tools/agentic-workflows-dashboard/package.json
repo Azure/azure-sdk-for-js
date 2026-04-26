@@ -1,0 +1,33 @@
+{
+  "name": "agentic-workflows-dashboard",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Collector for agentic workflow metrics across Azure SDK repos",
+  "main": "dist/collector.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/collector.js",
+    "dev": "tsx src/collector.ts",
+    "audit": "node dist/audit-enrichment.js",
+    "audit:dry-run": "node dist/audit-enrichment.js --dry-run --verbose",
+    "audit:dev": "tsx src/audit-enrichment.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.0.0",
+    "@azure/monitor-ingestion": "^1.1.0",
+    "@azure/monitor-query": "^1.3.0",
+    "@octokit/rest": "^21.0.0",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.0.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

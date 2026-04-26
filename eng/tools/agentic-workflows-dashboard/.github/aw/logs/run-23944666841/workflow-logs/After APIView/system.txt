@@ -1,0 +1,46 @@
+2026-04-03T11:28:59.6350000Z Evaluating post-apiview.if
+2026-04-03T11:28:59.6350000Z Evaluating: (success() && (((toJson(github.event.check_run.pull_requests) != '[]') && (github.event.check_run.check_suite.app.name == 'Azure Pipelines') && ((contains(github.event.check_run.name, 'Build Build') || contains(github.event.check_run.name, 'Build Analyze'))))))
+2026-04-03T11:28:59.6350000Z Expanded: (true && (('[
+  {
+    "base": {
+      "ref": "main",
+      "repo": {
+        "id": 447631960,
+        "name": "azure-sdk-for-go",
+        "url": "https://api.github.com/repos/yoki31/azure-sdk-for-go"
+      },
+      "sha": "0637c33f5a11e5ee4e987702f3154bc394d89ea6"
+    },
+    "head": {
+      "ref": "main",
+      "repo": {
+        "id": 22855240,
+        "name": "azure-sdk-for-go",
+        "url": "https://api.github.com/repos/Azure/azure-sdk-for-go"
+      },
+      "sha": "a86d8bfec20bc66abdf87899a7b4cf8417ad4e37"
+    },
+    "id": 821893846,
+    "number": 1,
+    "url": "https://api.github.com/repos/yoki31/azure-sdk-for-go/pulls/1"
+  },
+  {
+    "base": {
+      "ref": "main",
+      "repo": {
+        "id": 416215656,
+        "name": "azure-sdk-for-go",
+        "url": "https://api.github.com/repos/dgfug/azure-sdk-for-go"
+      },
+      "sha": "ae68cfef6fe6d221b2eabbae615346aced99fdf4"
+    },
+    "head": {
+      "ref": "main",
+      "repo": {
+        "id": 22855240,
+        "nam
+2026-04-03T11:28:59.6350000Z Result: true
+2026-04-03T11:28:59.6380000Z Requested labels: self-hosted, 1ES.Pool=azsdk-pool-github-runners, JobId=azsdk-23944666841-847874-1
+2026-04-03T11:28:59.6380000Z Job defined at: Azure/azure-sdk-for-go/.github/workflows/post-apiview.yml@refs/heads/main
+2026-04-03T11:28:59.6380000Z Waiting for a runner to pick up this job...
+2026-04-03T11:29:07.4760000Z Job is about to start running on the runner: 7b18167fc000009

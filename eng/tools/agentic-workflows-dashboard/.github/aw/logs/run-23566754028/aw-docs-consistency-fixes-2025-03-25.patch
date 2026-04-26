@@ -1,0 +1,536 @@
+From 6952e3228842a81d93a2f03668655b1d6e7e9505 Mon Sep 17 00:00:00 2001
+From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+Date: Wed, 25 Mar 2026 22:25:35 +0000
+Subject: [PATCH] docs: fix inconsistencies in documentation folder
+
+- Replace `pnpm build --filter` with `pnpm turbo build --filter` across
+  all docs (linting.md, Quickstart-on-how-to-write-tests.md,
+  RLC-Swagger-quickstart.md, steps-after-generations.md,
+  writing-performance-tests.md). The turbo-based command is required to
+  correctly build a package and all its local dependencies via Turborepo.
+
+- Replace `pnpm update` with `pnpm install` in RLC-Swagger-quickstart.md
+  and steps-after-generations.md; `pnpm update` upgrades versions in the
+  lockfile, while `pnpm install` is the correct command to refresh
+  workspace dependencies.
+
+- Replace `pnpm -F {./}... build` with `npx turbo build` in
+  golden-testing-commands.md to use the Turborepo-native command
+  recommended in CONTRIBUTING.md.
+
+- Replace all `npm run test:*`, `npm run unit-test:*`,
+  `npm run integration-test:*`, and `npm run perf-test:*` with their
+  `pnpm run` equivalents in golden-testing-commands.md and
+  writing-performance-tests.md. This repo enforces pnpm as the package
+  manager.
+
+- Update test code examples in Quickstart-on-how-to-write-tests.md to
+  use the current vitest framework instead of the now-replaced mocha/chai:
+  - Remove `import { Context } from "mocha"` (two occurrences)
+  - Remove `import { assert } from "chai"`
+  - Import `TestInfo` from `@azure-tools/test-recorder` for the
+    recordedClient helper parameter type
+  - Use `beforeEach(async (ctx) =>` / `new Recorder(ctx)` vitest pattern
+    instead of `beforeEach(async function (this: Context)` /
+    `new Recorder(this.currentTest)`
+  - Import test utilities (assert, describe, it, beforeEach, afterEach)
+    from `"vitest"`
+  - Add `.js` extensions to local imports per ESM requirements
+
+- Replace deprecated `dev-tool customization apply-v2` with
+  `dev-tool customization apply` in migrating-to-typespec.md. The
+  apply-v2 command emits a deprecation warning and delegates to apply.
+
+- Replace `npm run generate:client`, `npm run build`, `npm run test`
+  user-facing shell commands with `pnpm run` equivalents in
+  migrating-to-typespec.md.
+
+- Fix `npm install -g @pnpm` to `npm install -g pnpm` in
+  Generate-code-from-TypeSpec.md; `@pnpm` is not a valid npm package.
+
+- Fix missing path separator in resolve-pnpm-lock-merge-conflict.md:
+  `git add `git rev-parse --show-toplevel`pnpm-lock.yaml` was missing
+  the `/` between the directory and filename.
+
+- Update example Node.js versions from "12,14" (both EOL) to "20,22"
+  in run-your-azure-ts-js-samples-with-multiple-node-versions.md.
+
+- Update stale hardcoded commit-SHA link to storage perf-tests in
+  writing-performance-tests.md to point to the current main branch and
+  correct path (`sdk/storage/storage-blob-perf-tests/README.md`).
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/Generate-code-from-TypeSpec.md  |  2 +-
+ .../Quickstart-on-how-to-write-tests.md       | 42 +++++++++----------
+ documentation/RLC-Swagger-quickstart.md       | 14 +++----
+ documentation/golden-testing-commands.md      | 20 ++++-----
+ documentation/linting.md                      |  2 +-
+ documentation/migrating-to-typespec.md        | 16 +++----
+ .../resolve-pnpm-lock-merge-conflict.md       |  2 +-
+ ...-js-samples-with-multiple-node-versions.md |  2 +-
+ documentation/steps-after-generations.md      | 16 ++++---
+ documentation/writing-performance-tests.md    | 18 ++++----
+ 10 files changed, 66 insertions(+), 68 deletions(-)
+
+diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+index 73df7f4e32..990b5ceef5 100644
+--- a/documentation/Generate-code-from-TypeSpec.md
++++ b/documentation/Generate-code-from-TypeSpec.md
+@@ -49,7 +49,7 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
+ Install dependencies to use code-gen-pipeline,  
+ ```ps
+ npm --prefix eng/common/tsp-client ci
+-npm install -g @pnpm
++npm install -g pnpm
+ npm --prefix eng/tools/js-sdk-release-tools ci
+ ```
+ 
+diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+index 4bbb503fe0..2b2db134a2 100644
+--- a/documentation/Quickstart-on-how-to-write-tests.md
++++ b/documentation/Quickstart-on-how-to-write-tests.md
+@@ -129,11 +129,11 @@ After writing your test cases you need to run your test cases and record the tes
+ 
+ ## Run tests in record mode
+ 
+-Before running tests, it's advised to update the dependencies and build our project by running the command `pnpm install && pnpm build --filter=<package-name>...`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
++Before running tests, it's advised to update the dependencies and build our project by running the command `pnpm install && pnpm turbo build --filter=<package-name>...`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
+ 
+ ```Shell
+ > pnpm install
+-> pnpm build --filter=@azure-rest/purview-datamap...
++> pnpm turbo build --filter=@azure-rest/purview-datamap...
+ ```
+ 
+ Then, we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
+@@ -369,10 +369,11 @@ This simple test creates a resource and checks that the service handles it corre
+ ### `glossary.spec.ts`
+ 
+ ```typescript
+-import { Recorder } from "@azure-tools/test-recorder";
+-import { assert } from "chai";
+-import { PurviewDataMapClient } from "../../src";
+-import { createClient, createRecorder } from "./utils/recordedClient";
++import { assert, describe, it, beforeEach, afterEach } from "vitest";
++import type { Recorder } from "@azure-tools/test-recorder";
++import type { PurviewDataMapClient } from "../../src/index.js";
++import { createClient, createRecorder } from "./utils/recordedClient.js";
++import { isUnexpected } from "../../src/isUnexpected.js";
+ 
+ describe("My test", () => {
+   let recorder: Recorder;
+@@ -380,14 +381,14 @@ describe("My test", () => {
+   let client: PurviewDataMapClient;
+   let glossaryName: string;
+ 
+-  beforeEach(async function () {
+-    recorder = await createRecorder(this);
++  beforeEach(async (ctx) => {
++    recorder = await createRecorder(ctx);
+     // Step 3: Create your client
+     client = await createClient(recorder);
+     glossaryName = "js-testing";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+@@ -415,11 +416,11 @@ describe("My test", () => {
+ ### `utils/recordedClient.ts`
+ 
+ ```typescript
+-import { Context } from "mocha";
++import type { TestInfo } from "@azure-tools/test-recorder";
+ import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
++import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { ClientOptions } from "@azure-rest/core-client";
++import type { ClientOptions } from "@azure-rest/core-client";
+ 
+ const envSetupForPlayback: Record<string, string> = {
+   ENDPOINT: "https://endpoint",
+@@ -439,8 +440,8 @@ const recorderEnvSetup: RecorderStartOptions = {
+  * Should be called first in the test suite to make sure environment variables are
+  * read before they are being used.
+  */
+-export async function createRecorder(context: Context): Promise<Recorder> {
+-  const recorder = new Recorder(context.currentTest);
++export async function createRecorder(context: TestInfo): Promise<Recorder> {
++  const recorder = new Recorder(context);
+   await recorder.start(recorderEnvSetup);
+   return recorder;
+ }
+@@ -484,9 +485,8 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
+ 
+ import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { assert } from "chai";
+-import { Context } from "mocha";
+-import { MonitorClient } from "../src/monitorClient";
++import { assert, describe, it, beforeEach, afterEach } from "vitest";
++import { MonitorClient } from "../src/monitorClient.js";
+ 
+ // Step 4: Add environment variables you'd like to mask the values in recordings
+ const replaceableVariables: Record<string, string> = {
+@@ -508,8 +508,8 @@ describe("Monitor client", () => {
+   let client: MonitorClient;
+   let diagnosticName: string;
+ 
+-  beforeEach(async function (this: Context) {
+-    recorder = new Recorder(this.currentTest);
++  beforeEach(async (ctx) => {
++    recorder = new Recorder(ctx);
+     await recorder.start(recorderOptions);
+     // Step 3: create clients
+     subscriptionId = env.SUBSCRIPTION_ID || "";
+@@ -518,11 +518,11 @@ describe("Monitor client", () => {
+     diagnosticName = "my-test-diagnostic-name";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+-  it("should create diagnosticSettings", async function () {
++  it("should create diagnosticSettings", async () => {
+     // Step 3: call createOrUpdate to prepare resource
+     const res = await client.diagnosticSettings.createOrUpdate("workflowsId", diagnosticName, {
+       storageAccountId: "storageId",
+diff --git a/documentation/RLC-Swagger-quickstart.md b/documentation/RLC-Swagger-quickstart.md
+index 7041960012..c98a3ffae2 100644
+--- a/documentation/RLC-Swagger-quickstart.md
++++ b/documentation/RLC-Swagger-quickstart.md
+@@ -109,8 +109,8 @@ We are working on to automatically generate everything right now, but currently,
+     After that, you can get a workable package, and run the following commands to get a artifact if you like.
+ 
+     ```shell
+-    pnpm update
+-    pnpm build --filter=<your-package-name>...
++    pnpm install
++    pnpm turbo build --filter=<your-package-name>...
+     cd <your-sdk-folder>
+     pnpm pack
+     ```
+@@ -155,14 +155,14 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Linux, you could use `export` to set env variable:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}...
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+     On Windows, you could use `SET`:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}...
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+@@ -171,14 +171,14 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Linux, you could use below commands:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}...
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+     On Windows, you can use:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}...
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+@@ -266,7 +266,7 @@ Now, we can use the exact same steps to build an releasable artifact.
+ 
+ ```shell
+ pnpm install
+-pnpm build --filter=<your-package-name>...
++pnpm turbo build --filter=<your-package-name>...
+ cd <your-sdk-folder>
+ export TEST_MODE=record && pnpm test
+ pnpm pack
+diff --git a/documentation/golden-testing-commands.md b/documentation/golden-testing-commands.md
+index f746dfdc2c..42078d4f4d 100644
+--- a/documentation/golden-testing-commands.md
++++ b/documentation/golden-testing-commands.md
+@@ -9,16 +9,16 @@ If you're looking to be onboarded to the asset-sync workflow to push out the tes
+ | script name             | What does it do?                                                                                                |
+ |:------------------------|:----------------------------------------------------------------------------------------------------------------|
+ | `pnpm install`          | Updates dependencies                                                                                            |
+-| `pnpm -F {./}... build` | Expected to be run from inside your package(`sdk/service-name/package-name`). Builds the whole dependency tree. |
++| `npx turbo build`       | Expected to be run from inside your package(`sdk/service-name/package-name`). Builds the whole dependency tree. |
+ |                         |                                                                                                                 |
+ 
+ ## Commands - to run the tests inside the package directory
+ 
+-| script name            | command(usually)                     |
+-|:-----------------------|:-------------------------------------|
+-| `npm run test:browser` | `dev-tool run test:vitest --browser` |
+-| `npm run test:node`    | `dev-tool run test:vitest`           |
+-|                        |                                      |
++| script name              | command(usually)                     |
++|:-------------------------|:-------------------------------------|
++| `pnpm run test:browser`  | `dev-tool run test:vitest --browser` |
++| `pnpm run test:node`     | `dev-tool run test:vitest`           |
++|                          |                                      |
+ 
+ ## After migrating to asset-sync
+ 
+@@ -27,7 +27,7 @@ Expects that you have [powershell] installed.
+ 
+ | script command | What does it do?                                                                                                                                                                                                                                                                                                                     |
+ | :----------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+-| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `npm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
++| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `pnpm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
+ | `npx dev-tool test-proxy migrate --initial-push` | **[Only once per package]** To migrate the test recordings to the assets repo for the first time. Also generates `assets.json`                                                                                                                                                                                                           |
+ | `npx dev-tool test-proxy push`                   | To push the test recordings to the assets repo.                                                                                                                                                                                                                                                                |
+ | `npx dev-tool test-proxy reset`                  | Reverts the local changes to recordings and resets to what is currently checked in to the assets repo. This is a destructive operation.                                                                                                                                                                                              |
+@@ -62,17 +62,17 @@ export default mergeConfig(
+ ```ts
+    it.only("test title...")
+ ```
+-Run the test command such as `npm run unit-test:node` to run the test
++Run the test command such as `pnpm run unit-test:node` to run the test
+ 
+ [powershell]: https://github.com/PowerShell/PowerShell
+ 
+ ## [Method 2] --testNamePattern
+ ```bash
+-npm run integration-test:node -- --testNamePattern "simple"
++pnpm run integration-test:node -- --testNamePattern "simple"
+ ```
+ Reference - [Filtering Tests — Introduction to Testing JavaScript with Vitest](https://stevekinney.net/courses/testing/filtering-tests)
+ 
+ ## [Method 3] -- test file
+ ```bash
+-npm run test:node -- test/public/metricsClient.spec.ts
++pnpm run test:node -- test/public/metricsClient.spec.ts
+ ```
+\ No newline at end of file
+diff --git a/documentation/linting.md b/documentation/linting.md
+index 12e89199ef..3e9f1c4185 100644
+--- a/documentation/linting.md
++++ b/documentation/linting.md
+@@ -7,7 +7,7 @@ In this document, we describe how to address common linting issues for a package
+ Our custom linting rules and recommended configurations is hosted in the `@azure/eslint-plugin-azure-sdk` package. You MUST build it first before linting any SDK packages.
+ 
+ - `pnpm install`
+-- `pnpm build --filter=@azure/eslint-plugin-azure-sdk...`
++- `pnpm turbo build --filter=@azure/eslint-plugin-azure-sdk...`
+ 
+ It also gets built as a dependency of any SDK packages.
+ 
+diff --git a/documentation/migrating-to-typespec.md b/documentation/migrating-to-typespec.md
+index 02fd2543c6..fa7b63fbff 100644
+--- a/documentation/migrating-to-typespec.md
++++ b/documentation/migrating-to-typespec.md
+@@ -100,7 +100,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
+ ```json
+ {
+   "scripts": {
+-    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply-v2 --skip index.ts",
++    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply --skip index.ts",
+     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+     "test": "npm run test:node && npm run test:browser",
+     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
+@@ -140,7 +140,7 @@ Run the TypeSpec client generation:
+ 
+ ```bash
+ cd sdk/your-service/your-package
+-npm run generate:client
++pnpm run generate:client
+ ```
+ 
+ ### Step 7: Apply Customizations
+@@ -148,7 +148,7 @@ npm run generate:client
+ Use the dev-tool customization command to copy generated files to `src/` and merge with existing customizations:
+ 
+ ```bash
+-npx dev-tool customization apply-v2 --skip index.ts
++npx dev-tool customization apply --skip index.ts
+ ```
+ 
+ This command:
+@@ -237,19 +237,19 @@ Delete the following files that are no longer needed:
+ 1. **Generate and apply customizations:**
+ 
+    ```bash
+-   npm run generate:client
++   pnpm run generate:client
+    ```
+ 
+ 2. **Build the package:**
+ 
+    ```bash
+-   npm run build
++   pnpm run build
+    ```
+ 
+ 3. **Run tests:**
+ 
+    ```bash
+-   npm run test
++   pnpm run test
+    ```
+ 
+ 4. **Validate the API surface:** Use API Extractor to ensure your public API hasn't changed unexpectedly.
+@@ -268,8 +268,8 @@ Delete the following files that are no longer needed:
+ After migration, your development workflow becomes:
+ 
+ 1. **Update TypeSpec definitions** in azure-rest-api-specs
+-2. **Generate new code:** `npm run generate:client`
+-3. **Build and test:** `npm run build && npm run test`
++2. **Generate new code:** `pnpm run generate:client`
++3. **Build and test:** `pnpm run build && pnpm run test`
+ 
+ ### Version Management
+ 
+diff --git a/documentation/resolve-pnpm-lock-merge-conflict.md b/documentation/resolve-pnpm-lock-merge-conflict.md
+index 31c98106ee..f273b78cf4 100644
+--- a/documentation/resolve-pnpm-lock-merge-conflict.md
++++ b/documentation/resolve-pnpm-lock-merge-conflict.md
+@@ -15,5 +15,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
+ Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
+ 
+ ```shell
+-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
++git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
+ ```
+diff --git a/documentation/run-your-azure-ts-js-samples-with-multiple-node-versions.md b/documentation/run-your-azure-ts-js-samples-with-multiple-node-versions.md
+index 934855bfa1..2590bf7f57 100644
+--- a/documentation/run-your-azure-ts-js-samples-with-multiple-node-versions.md
++++ b/documentation/run-your-azure-ts-js-samples-with-multiple-node-versions.md
+@@ -6,6 +6,6 @@
+ 2. make sure the docker daemon is up and running.
+ 3. download the artifact created by the release pipeline and save the path for it.
+ 4. navigate to your package directory in the command line and make sure your samples directory and `.env` file exist
+-5. run `npx dev-tool samples check-node-versions --artifact-path <artifact path> --node-versions "12,14"` or you can use any other combination of node versions including specifying the full semver for it.
++5. run `npx dev-tool samples check-node-versions --artifact-path <artifact path> --node-versions "20,22"` or you can use any other combination of node versions including specifying the full semver for it.
+ 
+ The tool will spin up docker containers based on images where each contain one of the requested node versions. Each container will install all samples dependencies and then run all TS and JS samples. If an error occurs in one of the samples, it will be shown in red.
+\ No newline at end of file
+diff --git a/documentation/steps-after-generations.md b/documentation/steps-after-generations.md
+index 4cc3f30b97..c69d756fbe 100644
+--- a/documentation/steps-after-generations.md
++++ b/documentation/steps-after-generations.md
+@@ -9,11 +9,9 @@ After this finishes, you will see the generated code in `src` folder in your **{
+ 
+ ```shell
+ pnpm install
+-pnpm build --filter=<your-package-name>...
++pnpm turbo build --filter=<your-package-name>...
+ ```
+ 
+-# Customizing the generated code
+-
+ If the generated code does not fit your needs, you can use the JavaScript customization workflow to make edits. This should only be done in coordination with the JavaScript architects. For more information, see the [Modular (DPG) Customization Guide](https://aka.ms/azsdk/js/customization).
+ 
+ # Generate CHANGELOG.md
+@@ -60,14 +58,14 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Linux, you could use `export` to set env variable:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}...
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+     On Windows, you could use `SET`:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+@@ -76,13 +74,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Linux, you could use below commands:
+ 
+     ```shell
+-      pnpm build --filter=${PACKAGE_NAME}
++      pnpm turbo build --filter=${PACKAGE_NAME}...
+     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+     On Windows, you can use:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}
++    pnpm turbo build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+@@ -155,8 +153,8 @@ cd ${PROJECT_ROOT} && pnpm lint:fix
+ Now, we can use the exact same steps to build a releasable artifact.
+ 
+ ```shell
+-pnpm update
+-pnpm build --filter=<your-package-name>...
++pnpm install
++pnpm turbo build --filter=<your-package-name>...
+ cd <your-sdk-folder>
+ export TEST_MODE=record && pnpm test
+ pnpm pack
+diff --git a/documentation/writing-performance-tests.md b/documentation/writing-performance-tests.md
+index b645229580..05e8fb9c00 100644
+--- a/documentation/writing-performance-tests.md
++++ b/documentation/writing-performance-tests.md
+@@ -237,13 +237,13 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
+ 
+ ### [Command to run](#command-to-run)
+ 
+-To run a particular test, use `npm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
++To run a particular test, use `pnpm run perf-test:node` - takes the test class name as the argument along with the command line arguments you may provide.
+ 
+-- Run `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
++- Run `pnpm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
+ 
+ ### [Adding Readme/Instructions](#adding-readme/instructions)
+ 
+-Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob/README.md) and [storage-blob-perf-tests-readme-track-1](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/README.md) and have similar set of instructions for your perf project.
++Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md) and have similar set of instructions for your perf project.
+ 
+ ### [Testing an older track 2 version](#testing-an-older-track-2-version)
+ 
+@@ -252,8 +252,8 @@ Example: Currently `@azure/<service-sdk>` is at 12.4.0 on master and you want to
+ - In the track 2 perf tests project, update dependency `@azure/<service-sdk>` version in `package.json` to `12.2.0`
+ - `pnpm install` (generates a new pnpm-lock file)
+ - Navigate to `sdk\storage\perf-tests\<service-sdk>`
+-- `pnpm build --filter @azure-tests/perf-<service-sdk>...`
+-- Run the tests as suggested before, example `npm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
++- `pnpm turbo build --filter=@azure-tests/perf-<service-sdk>...`
++- Run the tests as suggested before, example `pnpm run perf-test:node -- TestClassName --warmup 2 --duration 7 --iterations 2 --parallel 50`
+ 
+ ## [Using Proxy Tool](#using-proxy-tool)
+ 
+@@ -287,14 +287,14 @@ To use the proxy-tool in your test pass this option in cli `--test-proxy http://
+ 
+ Sample command(using storage-blob perf tests as example (Core-v1)!)
+ 
+-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
++> pnpm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --test-proxy http://localhost:5000
+ 
+-> npm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
++> pnpm run perf-test:node -- StorageBlobDownloadTest --warmup 2 --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+ 
+ Sample command(using data-tables perf tests as example (Core-v2)!)
+ 
+-> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
++> pnpm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2 --test-proxy http://localhost:5000
+ 
+-> npm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
++> pnpm run perf-test:node -- ListComplexEntitiesTest --duration 7 --iterations 2 --parallel 2
+ 
+ **Using proxy-tool** part is still under construction. Please reach out to the owners/team if you face issues.
+-- 
+2.53.0
+

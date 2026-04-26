@@ -1,0 +1,92 @@
+﻿2026-04-24T22:39:35.7434958Z ##[group]Run mkdir -p /tmp/gh-aw/
+2026-04-24T22:39:35.7435390Z [36;1mmkdir -p /tmp/gh-aw/[0m
+2026-04-24T22:39:35.7435732Z [36;1mfind "/tmp/gh-aw/" -type f -print[0m
+2026-04-24T22:39:35.7436210Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-24T22:39:35.7461964Z shell: /usr/bin/bash -e {0}
+2026-04-24T22:39:35.7462273Z env:
+2026-04-24T22:39:35.7466522Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:39:35.7471869Z   GITHUB_AW_OTEL_TRACE_ID: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:39:35.7472298Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 2e30d4bd16e0f190
+2026-04-24T22:39:35.7472648Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070375090
+2026-04-24T22:39:35.7472948Z ##[endgroup]
+2026-04-24T22:39:35.7558418Z /tmp/gh-aw/otel.jsonl
+2026-04-24T22:39:35.7558964Z /tmp/gh-aw/agent_output.json
+2026-04-24T22:39:35.7559445Z /tmp/gh-aw/agent_usage.json
+2026-04-24T22:39:35.7560005Z /tmp/gh-aw/safeoutputs.jsonl
+2026-04-24T22:39:35.7560572Z /tmp/gh-aw/github_rate_limits.jsonl
+2026-04-24T22:39:35.7561233Z /tmp/gh-aw/sandbox/firewall/audit/iptables-audit.txt
+2026-04-24T22:39:35.7562200Z /tmp/gh-aw/sandbox/firewall/audit/policy-manifest.json
+2026-04-24T22:39:35.7563068Z /tmp/gh-aw/sandbox/firewall/audit/docker-compose.redacted.yml
+2026-04-24T22:39:35.7563999Z /tmp/gh-aw/sandbox/firewall/audit/squid.conf
+2026-04-24T22:39:35.7564556Z /tmp/gh-aw/sandbox/firewall/logs/cache.log
+2026-04-24T22:39:35.7564951Z /tmp/gh-aw/sandbox/firewall/logs/audit.jsonl
+2026-04-24T22:39:35.7565348Z /tmp/gh-aw/sandbox/firewall/logs/access.log
+2026-04-24T22:39:35.7565837Z /tmp/gh-aw/sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl
+2026-04-24T22:39:35.7566356Z /tmp/gh-aw/sandbox/agent/logs/process-1777070329630-175.log
+2026-04-24T22:39:35.7566742Z /tmp/gh-aw/agent-stdio.log
+2026-04-24T22:39:35.7567049Z /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T22:39:35.7567499Z /tmp/gh-aw/mcp-logs/safeoutputs.log
+2026-04-24T22:39:35.7567841Z /tmp/gh-aw/mcp-logs/github.log
+2026-04-24T22:39:35.7568161Z /tmp/gh-aw/mcp-logs/stderr.log
+2026-04-24T22:39:35.7568477Z /tmp/gh-aw/mcp-logs/rpc-messages.jsonl
+2026-04-24T22:39:35.7568824Z /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026-04-24T22:39:35.7569162Z /tmp/gh-aw/mcp-logs/start-gateway.log
+2026-04-24T22:39:35.7569503Z /tmp/gh-aw/mcp-logs/gateway.md
+2026-04-24T22:39:35.7569802Z /tmp/gh-aw/mcp-logs/tools.json
+2026-04-24T22:39:35.7570133Z /tmp/gh-aw/mcp-logs/safeoutputs/server.log

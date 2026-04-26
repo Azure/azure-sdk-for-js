@@ -1,0 +1,71 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23944666841,
+  "processed_at": "2026-04-24T19:02:09.721001006Z",
+  "run": {
+    "databaseId": 23944666841,
+    "number": 847874,
+    "url": "https://github.com/Azure/azure-sdk-for-go/actions/runs/23944666841",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "After APIView",
+    "workflowPath": ".github/workflows/post-apiview.yml",
+    "createdAt": "2026-04-03T11:28:58Z",
+    "startedAt": "2026-04-03T11:28:58Z",
+    "updatedAt": "2026-04-03T11:29:16Z",
+    "event": "check_run",
+    "headBranch": "main",
+    "headSha": "a86d8bfec20bc66abdf87899a7b4cf8417ad4e37",
+    "displayTitle": "After APIView",
+    "Duration": 18000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23944666841"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "general_automation",
+    "label": "General Automation",
+    "reason": "The run does not strongly match a narrower workflow domain yet."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/0_After APIView.txt",
+    "workflow-logs/After APIView/system.txt"
+  ],
+  "job_details": null
+}

@@ -1,0 +1,272 @@
+﻿2026-04-24T22:37:51.4187992Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-24T22:37:51.4188382Z with:
+2026-04-24T22:37:51.4188585Z   persist-credentials: false
+2026-04-24T22:37:51.4188856Z   repository: Azure/azure-sdk-for-net
+2026-04-24T22:37:51.4189456Z   token: ***
+2026-04-24T22:37:51.4189659Z   ssh-strict: true
+2026-04-24T22:37:51.4189861Z   ssh-user: git
+2026-04-24T22:37:51.4190041Z   clean: true
+2026-04-24T22:37:51.4190244Z   sparse-checkout-cone-mode: true
+2026-04-24T22:37:51.4190484Z   fetch-depth: 1
+2026-04-24T22:37:51.4190682Z   fetch-tags: false
+2026-04-24T22:37:51.4190881Z   show-progress: true
+2026-04-24T22:37:51.4191072Z   lfs: false
+2026-04-24T22:37:51.4191251Z   submodules: false
+2026-04-24T22:37:51.4191741Z   set-safe-directory: true
+2026-04-24T22:37:51.4191964Z env:
+2026-04-24T22:37:51.4192144Z   DEFAULT_BRANCH: main
+2026-04-24T22:37:51.4192353Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T22:37:51.4192582Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T22:37:51.4192791Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T22:37:51.4193089Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T22:37:51.4193405Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T22:37:51.4197398Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:37:51.4201913Z   GITHUB_AW_OTEL_TRACE_ID: e912b01af58799b8188d5804c6491285
+2026-04-24T22:37:51.4202262Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 28896b455d133f5f
+2026-04-24T22:37:51.4202548Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070271382
+2026-04-24T22:37:51.4202803Z ##[endgroup]
+2026-04-24T22:37:51.5119777Z Syncing repository: Azure/azure-sdk-for-net
+2026-04-24T22:37:51.5121225Z ##[group]Getting Git version info
+2026-04-24T22:37:51.5121914Z Working directory is '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-24T22:37:51.5122567Z [command]/usr/bin/git version
+2026-04-24T22:37:51.9231493Z git version 2.53.0
+2026-04-24T22:37:51.9256018Z ##[endgroup]
+2026-04-24T22:37:51.9270914Z Temporarily overriding HOME='/home/runner/work/_temp/9c759200-d3eb-49a6-b4f1-53d6c17c62d7' before making global git config changes
+2026-04-24T22:37:51.9272135Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-24T22:37:51.9277378Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-24T22:37:51.9316046Z Deleting the contents of '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-24T22:37:51.9320036Z ##[group]Initializing the repository
+2026-04-24T22:37:51.9324376Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-24T22:37:51.9562379Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-24T22:37:51.9563031Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-24T22:37:51.9564119Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-24T22:37:51.9564599Z hint: call:
+2026-04-24T22:37:51.9564773Z hint:
+2026-04-24T22:37:51.9565049Z hint: 	git config --global init.defaultBranch <name>
+2026-04-24T22:37:51.9565503Z hint:
+2026-04-24T22:37:51.9565931Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-24T22:37:51.9566631Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-24T22:37:51.9566975Z hint:
+2026-04-24T22:37:51.9567173Z hint: 	git branch -m <name>
+2026-04-24T22:37:51.9567457Z hint:
+2026-04-24T22:37:51.9567850Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-24T22:37:51.9568495Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/
+2026-04-24T22:37:51.9575468Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-net
+2026-04-24T22:37:51.9610896Z ##[endgroup]
+2026-04-24T22:37:51.9611496Z ##[group]Disabling automatic garbage collection
+2026-04-24T22:37:51.9615440Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-24T22:37:51.9646475Z ##[endgroup]
+2026-04-24T22:37:51.9646842Z ##[group]Setting up auth
+2026-04-24T22:37:51.9648339Z Removing SSH command configuration
+2026-04-24T22:37:51.9655273Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-24T22:37:51.9689112Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-24T22:37:52.1499987Z Removing HTTP extra header
+2026-04-24T22:37:52.1501104Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-24T22:37:52.1541514Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-24T22:37:52.1790603Z Removing includeIf entries pointing to credentials config files
+2026-04-24T22:37:52.1798946Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-24T22:37:52.1836427Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-24T22:37:52.2098400Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-24T22:37:52.2144319Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:37:52.2181278Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:37:52.2218276Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:37:52.2258552Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:37:52.2301724Z ##[endgroup]
+2026-04-24T22:37:52.2302303Z ##[group]Fetching the repository
+2026-04-24T22:37:52.2314137Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f99047a460984ac23c1375c66d0592b240d9ade5:refs/remotes/origin/main
+2026-04-24T22:38:25.1158096Z From https://github.com/Azure/azure-sdk-for-net
+2026-04-24T22:38:25.1158800Z  * [new ref]             f99047a460984ac23c1375c66d0592b240d9ade5 -> origin/main
+2026-04-24T22:38:25.1198407Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-24T22:38:25.1227437Z   origin/main
+2026-04-24T22:38:25.1236865Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-24T22:38:25.1262602Z f99047a460984ac23c1375c66d0592b240d9ade5
+2026-04-24T22:38:25.1266435Z ##[endgroup]
+2026-04-24T22:38:25.1266948Z ##[group]Determining the checkout info
+2026-04-24T22:38:25.1267940Z ##[endgroup]
+2026-04-24T22:38:25.1272570Z [command]/usr/bin/git sparse-checkout disable
+2026-04-24T22:38:25.1312669Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-04-24T22:38:25.1340150Z ##[group]Checking out the ref
+2026-04-24T22:38:25.1345963Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-24T22:38:26.2983069Z Updating files:  14% (16687/118020)
+2026-04-24T22:38:26.3626621Z Updating files:  15% (17703/118020)
+2026-04-24T22:38:26.4314736Z Updating files:  16% (18884/118020)
+2026-04-24T22:38:26.4965281Z Updating files:  17% (20064/118020)
+2026-04-24T22:38:26.5590757Z Updating files:  18% (21244/118020)
+2026-04-24T22:38:26.6180377Z Updating files:  19% (22424/118020)
+2026-04-24T22:38:26.6889161Z Updating files:  20% (23604/118020)
+2026-04-24T22:38:26.7530175Z Updating files:  21% (24785/118020)
+2026-04-24T22:38:26.8094260Z Updating files:  22% (25965/118020)
+2026-04-24T22:38:26.8709821Z Updating files:  23% (27145/118020)
+2026-04-24T22:38:26.9437436Z Updating files:  24% (28325/118020)
+2026-04-24T22:38:27.0062751Z Updating files:  25% (29505/118020)
+2026-04-24T22:38:27.0772777Z Updating files:  26% (30686/118020)
+2026-04-24T22:38:27.1492648Z Updating files:  27% (31866/118020)
+2026-04-24T22:38:27.2167097Z Updating files:  28% (33046/118020)
+2026-04-24T22:38:27.2368335Z Updating files:  29% (34226/118020)
+2026-04-24T22:38:27.2784365Z Updating files:  29% (34593/118020)
+2026-04-24T22:38:27.3412241Z Updating files:  30% (35406/118020)
+2026-04-24T22:38:27.4112328Z Updating files:  31% (36587/118020)
+2026-04-24T22:38:27.4794456Z Updating files:  32% (37767/118020)
+2026-04-24T22:38:27.5463329Z Updating files:  33% (38947/118020)
+2026-04-24T22:38:27.6168909Z Updating files:  34% (40127/118020)
+2026-04-24T22:38:27.6748110Z Updating files:  35% (41307/118020)
+2026-04-24T22:38:27.7416668Z Updating files:  36% (42488/118020)
+2026-04-24T22:38:27.8069903Z Updating files:  37% (43668/118020)
+2026-04-24T22:38:27.8709307Z Updating files:  38% (44848/118020)
+2026-04-24T22:38:27.9382342Z Updating files:  39% (46028/118020)
+2026-04-24T22:38:28.0030581Z Updating files:  40% (47208/118020)
+2026-04-24T22:38:28.0696305Z Updating files:  41% (48389/118020)
+2026-04-24T22:38:28.1357517Z Updating files:  42% (49569/118020)
+2026-04-24T22:38:28.2240560Z Updating files:  43% (50749/118020)
+2026-04-24T22:38:28.2368988Z Updating files:  44% (51929/118020)
+2026-04-24T22:38:28.2884362Z Updating files:  44% (52169/118020)
+2026-04-24T22:38:28.3565506Z Updating files:  45% (53109/118020)
+2026-04-24T22:38:28.4344192Z Updating files:  46% (54290/118020)
+2026-04-24T22:38:28.5058077Z Updating files:  47% (55470/118020)
+2026-04-24T22:38:28.6500454Z Updating files:  48% (56650/118020)
+2026-04-24T22:38:28.7121196Z Updating files:  49% (57830/118020)
+2026-04-24T22:38:28.7824531Z Updating files:  50% (59010/118020)
+2026-04-24T22:38:28.8497753Z Updating files:  51% (60191/118020)
+2026-04-24T22:38:28.9191107Z Updating files:  52% (61371/118020)
+2026-04-24T22:38:28.9796269Z Updating files:  53% (62551/118020)
+2026-04-24T22:38:29.0478806Z Updating files:  54% (63731/118020)
+2026-04-24T22:38:29.1205952Z Updating files:  55% (64911/118020)
+2026-04-24T22:38:29.1837815Z Updating files:  56% (66092/118020)
+2026-04-24T22:38:29.2367312Z Updating files:  57% (67272/118020)
+2026-04-24T22:38:29.2516450Z Updating files:  57% (68191/118020)
+2026-04-24T22:38:29.3124660Z Updating files:  58% (68452/118020)
+2026-04-24T22:38:29.3784749Z Updating files:  59% (69632/118020)
+2026-04-24T22:38:29.4424832Z Updating files:  60% (70812/118020)
+2026-04-24T22:38:29.5082007Z Updating files:  61% (71993/118020)
+2026-04-24T22:38:29.5769847Z Updating files:  62% (73173/118020)
+2026-04-24T22:38:29.6474427Z Updating files:  63% (74353/118020)
+2026-04-24T22:38:29.7038543Z Updating files:  64% (75533/118020)
+2026-04-24T22:38:29.7780495Z Updating files:  65% (76713/118020)
+2026-04-24T22:38:29.8404699Z Updating files:  66% (77894/118020)
+2026-04-24T22:38:29.9702250Z Updating files:  67% (79074/118020)
+2026-04-24T22:38:30.0410466Z Updating files:  68% (80254/118020)
+2026-04-24T22:38:30.1080958Z Updating files:  69% (81434/118020)
+2026-04-24T22:38:30.1735414Z Updating files:  70% (82614/118020)
+2026-04-24T22:38:30.2368382Z Updating files:  71% (83795/118020)
+2026-04-24T22:38:30.2373678Z Updating files:  71% (84963/118020)
+2026-04-24T22:38:30.3062127Z Updating files:  72% (84975/118020)
+2026-04-24T22:38:30.3711518Z Updating files:  73% (86155/118020)
+2026-04-24T22:38:30.4397201Z Updating files:  74% (87335/118020)
+2026-04-24T22:38:30.5025783Z Updating files:  75% (88515/118020)
+2026-04-24T22:38:30.5721743Z Updating files:  76% (89696/118020)
+2026-04-24T22:38:30.6416039Z Updating files:  77% (90876/118020)
+2026-04-24T22:38:30.7126995Z Updating files:  78% (92056/118020)
+2026-04-24T22:38:30.7862858Z Updating files:  79% (93236/118020)
+2026-04-24T22:38:30.8503570Z Updating files:  80% (94416/118020)
+2026-04-24T22:38:30.9164773Z Updating files:  81% (95597/118020)
+2026-04-24T22:38:30.9892024Z Updating files:  82% (96777/118020)
+2026-04-24T22:38:31.0628352Z Updating files:  83% (97957/118020)
+2026-04-24T22:38:31.1319433Z Updating files:  84% (99137/118020)
+2026-04-24T22:38:31.1943375Z Updating files:  85% (100317/118020)
+2026-04-24T22:38:31.2366395Z Updating files:  86% (101498/118020)
+2026-04-24T22:38:31.2606797Z Updating files:  86% (102219/118020)
+2026-04-24T22:38:31.3303224Z Updating files:  87% (102678/118020)
+2026-04-24T22:38:31.4036632Z Updating files:  88% (103858/118020)
+2026-04-24T22:38:31.4665564Z Updating files:  89% (105038/118020)
+2026-04-24T22:38:31.5342093Z Updating files:  90% (106218/118020)
+2026-04-24T22:38:31.6036110Z Updating files:  91% (107399/118020)
+2026-04-24T22:38:31.6645957Z Updating files:  92% (108579/118020)
+2026-04-24T22:38:31.7304213Z Updating files:  93% (109759/118020)
+2026-04-24T22:38:31.7878864Z Updating files:  94% (110939/118020)
+2026-04-24T22:38:31.8590522Z Updating files:  95% (112119/118020)
+2026-04-24T22:38:32.0894760Z Updating files:  96% (113300/118020)
+2026-04-24T22:38:32.1597321Z Updating files:  97% (114480/118020)
+2026-04-24T22:38:32.2367928Z Updating files:  98% (115660/118020)
+2026-04-24T22:38:32.2474546Z Updating files:  98% (116670/118020)
+2026-04-24T22:38:32.3154238Z Updating files:  99% (116840/118020)
+2026-04-24T22:38:32.3155080Z Updating files: 100% (118020/118020)
+2026-04-24T22:38:32.3155501Z Updating files: 100% (118020/118020), done.
+2026-04-24T22:38:32.4573224Z Switched to a new branch 'main'
+2026-04-24T22:38:32.4574263Z branch 'main' set up to track 'origin/main'.
+2026-04-24T22:38:32.4707213Z ##[endgroup]
+2026-04-24T22:38:32.4751118Z [command]/usr/bin/git log -1 --format=%H
+2026-04-24T22:38:32.4779074Z f99047a460984ac23c1375c66d0592b240d9ade5
+2026-04-24T22:38:32.4789737Z ##[group]Removing auth
+2026-04-24T22:38:32.4790114Z Removing SSH command configuration
+2026-04-24T22:38:32.4795635Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-24T22:38:32.4830413Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-24T22:38:32.5167803Z Removing HTTP extra header
+2026-04-24T22:38:32.5173396Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-24T22:38:32.5211752Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-24T22:38:32.5557305Z Removing includeIf entries pointing to credentials config files
+2026-04-24T22:38:32.5564328Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-24T22:38:32.5595526Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-24T22:38:32.5596563Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-24T22:38:32.5597313Z includeif.gitdir:/github/workspace/.git.path
+2026-04-24T22:38:32.5597813Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-24T22:38:32.5607416Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-24T22:38:32.5636096Z /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5648499Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5687513Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-24T22:38:32.5726163Z /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5736531Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5772612Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-24T22:38:32.5797747Z /github/runner_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5806659Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5842143Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-24T22:38:32.5866183Z /github/runner_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5874556Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config
+2026-04-24T22:38:32.5909623Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-24T22:38:32.6263468Z Removing credentials config '/home/runner/work/_temp/git-credentials-317ec4e6-6d8f-4d08-8126-6c88cd9e3a85.config'
+2026-04-24T22:38:32.6274563Z ##[endgroup]

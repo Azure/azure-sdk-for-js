@@ -1,0 +1,124 @@
+﻿2026-04-24T22:37:27.8848930Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"
+2026-04-24T22:37:27.8851331Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"[0m
+2026-04-24T22:37:27.8852629Z [36;1m{[0m
+2026-04-24T22:37:27.8853452Z [36;1mcat << 'GH_AW_PROMPT_17145ddcac421252_EOF'[0m
+2026-04-24T22:37:27.8854504Z [36;1m<system>[0m
+2026-04-24T22:37:27.8855661Z [36;1mGH_AW_PROMPT_17145ddcac421252_EOF[0m
+2026-04-24T22:37:27.8856826Z [36;1mcat "${RUNNER_TEMP}/gh-aw/prompts/xpia.md"[0m
+2026-04-24T22:37:27.8858183Z [36;1mcat "${RUNNER_TEMP}/gh-aw/prompts/temp_folder_prompt.md"[0m
+2026-04-24T22:37:27.8859567Z [36;1mcat "${RUNNER_TEMP}/gh-aw/prompts/markdown.md"[0m
+2026-04-24T22:37:27.8861472Z [36;1mcat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_prompt.md"[0m
+2026-04-24T22:37:27.8865752Z [36;1mcat << 'GH_AW_PROMPT_17145ddcac421252_EOF'[0m
+2026-04-24T22:37:27.8866943Z [36;1m<safe-output-tools>[0m
+2026-04-24T22:37:27.8869832Z [36;1mTools: add_comment(max:2), close_issue, add_labels(max:7), remove_labels(max:7), assign_to_user, missing_tool, missing_data, noop, mention_owners[0m
+2026-04-24T22:37:27.8872126Z [36;1m</safe-output-tools>[0m
+2026-04-24T22:37:27.8873901Z [36;1m<github-context>[0m
+2026-04-24T22:37:27.8875500Z [36;1mThe following GitHub context information is available for this workflow:[0m
+2026-04-24T22:37:27.8877028Z [36;1m{{#if __GH_AW_GITHUB_ACTOR__ }}[0m
+2026-04-24T22:37:27.8878108Z [36;1m- **actor**: __GH_AW_GITHUB_ACTOR__[0m
+2026-04-24T22:37:27.8879095Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8879912Z [36;1m{{#if __GH_AW_GITHUB_REPOSITORY__ }}[0m
+2026-04-24T22:37:27.8881094Z [36;1m- **repository**: __GH_AW_GITHUB_REPOSITORY__[0m
+2026-04-24T22:37:27.8882165Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8883008Z [36;1m{{#if __GH_AW_GITHUB_WORKSPACE__ }}[0m
+2026-04-24T22:37:27.8884150Z [36;1m- **workspace**: __GH_AW_GITHUB_WORKSPACE__[0m
+2026-04-24T22:37:27.8885388Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8886275Z [36;1m{{#if __GH_AW_GITHUB_EVENT_ISSUE_NUMBER__ }}[0m
+2026-04-24T22:37:27.8887861Z [36;1m- **issue-number**: #__GH_AW_GITHUB_EVENT_ISSUE_NUMBER__[0m
+2026-04-24T22:37:27.8889043Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8889957Z [36;1m{{#if __GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER__ }}[0m
+2026-04-24T22:37:27.8891419Z [36;1m- **discussion-number**: #__GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER__[0m
+2026-04-24T22:37:27.8892732Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8893657Z [36;1m{{#if __GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER__ }}[0m
+2026-04-24T22:37:27.8895387Z [36;1m- **pull-request-number**: #__GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER__[0m
+2026-04-24T22:37:27.8897641Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8898553Z [36;1m{{#if __GH_AW_GITHUB_EVENT_COMMENT_ID__ }}[0m
+2026-04-24T22:37:27.8899818Z [36;1m- **comment-id**: __GH_AW_GITHUB_EVENT_COMMENT_ID__[0m
+2026-04-24T22:37:27.8900947Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8901721Z [36;1m{{#if __GH_AW_GITHUB_RUN_ID__ }}[0m
+2026-04-24T22:37:27.8902866Z [36;1m- **workflow-run-id**: __GH_AW_GITHUB_RUN_ID__[0m
+2026-04-24T22:37:27.8903978Z [36;1m{{/if}}[0m
+2026-04-24T22:37:27.8905688Z [36;1m</github-context>[0m
+2026-04-24T22:37:27.8906590Z [36;1m[0m
+2026-04-24T22:37:27.8907344Z [36;1mGH_AW_PROMPT_17145ddcac421252_EOF[0m
+2026-04-24T22:37:27.8908842Z [36;1mcat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"[0m
+2026-04-24T22:37:27.8910536Z [36;1mcat << 'GH_AW_PROMPT_17145ddcac421252_EOF'[0m
+2026-04-24T22:37:27.8911599Z [36;1m</system>[0m
+2026-04-24T22:37:27.8912603Z [36;1m{{#runtime-import .github/workflows/issue-triage.md}}[0m
+2026-04-24T22:37:27.8913870Z [36;1mGH_AW_PROMPT_17145ddcac421252_EOF[0m
+2026-04-24T22:37:27.8915773Z [36;1m} > "$GH_AW_PROMPT"[0m
+2026-04-24T22:37:27.8922007Z shell: /usr/bin/bash -e {0}
+2026-04-24T22:37:27.8922860Z env:
+2026-04-24T22:37:27.8943123Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:37:27.8964974Z   GITHUB_AW_OTEL_TRACE_ID: e912b01af58799b8188d5804c6491285
+2026-04-24T22:37:27.8966876Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: e8eb1e336edb36a5
+2026-04-24T22:37:27.8968016Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070242360
+2026-04-24T22:37:27.8969126Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T22:37:27.8970563Z   GH_AW_SAFE_OUTPUTS: /home/runner/work/_temp/gh-aw/safeoutputs/outputs.jsonl
+2026-04-24T22:37:27.8972308Z   GH_AW_EXPR_726AD1D2: 58670
+2026-04-24T22:37:27.8973219Z   GH_AW_GITHUB_ACTOR: efrainretana
+2026-04-24T22:37:27.8974170Z   GH_AW_GITHUB_EVENT_COMMENT_ID: 
+2026-04-24T22:37:27.8975598Z   GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: 
+2026-04-24T22:37:27.8976658Z   GH_AW_GITHUB_EVENT_INPUTS_ISSUE_NUMBER: 
+2026-04-24T22:37:27.8978142Z   GH_AW_GITHUB_EVENT_ISSUE_NUMBER: 58670
+2026-04-24T22:37:27.8979181Z   GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: 
+2026-04-24T22:37:27.8980297Z   GH_AW_GITHUB_REPOSITORY: Azure/azure-sdk-for-net
+2026-04-24T22:37:27.8981401Z   GH_AW_GITHUB_RUN_ID: 24914989702
+2026-04-24T22:37:27.8982741Z   GH_AW_GITHUB_WORKSPACE: /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-24T22:37:27.8984496Z ##[endgroup]

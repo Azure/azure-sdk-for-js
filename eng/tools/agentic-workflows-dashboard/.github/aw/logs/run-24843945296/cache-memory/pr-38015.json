@@ -1,0 +1,18 @@
+{
+  "pr": 38015,
+  "package": "@azure/arm-commerce",
+  "version": "4.0.0-beta.4",
+  "reviewedAt": "2026-04-07",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/commerce/arm-commerce/src/api/usageManagementContext.ts",
+      "line": 37,
+      "type": "tool",
+      "description": "userAgentInfo set to azsdk-js-arm-commerce/1.0.0-beta.1 but package version is 4.0.0-beta.4 (same bug as PR #37941, persists after regeneration)"
+    }
+  ],
+  "mergeState": "dirty (stale; PR branch merge commit postdates latest main)",
+  "ciStatus": "not run (draft PR; checkenforcer pending from old status 2026-04-03)",
+  "notes": "TypeSpec migration to 4.0.0-beta.4; second generation attempt (previous was PR #37941); same version mismatch bug persists; api-version 2015-06-01-preview"
+}

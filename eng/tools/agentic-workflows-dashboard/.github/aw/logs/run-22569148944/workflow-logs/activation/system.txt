@@ -1,0 +1,8 @@
+2026-03-02T09:13:44.7780000Z Requested labels: ubuntu-slim
+2026-03-02T09:13:44.7780000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/docs-consistency-check.lock.yml@refs/heads/main
+2026-03-02T09:13:44.7780000Z Waiting for a runner to pick up this job...
+2026-03-02T09:13:44.7750000Z Evaluating activation.if
+2026-03-02T09:13:44.7750000Z Evaluating: success()
+2026-03-02T09:13:44.7750000Z Result: true
+2026-03-02T09:13:45.3900000Z Job is waiting for a hosted runner to come online.
+2026-03-02T09:13:45.3880000Z Job is about to start running on the hosted runner: GitHub Actions 1024274998

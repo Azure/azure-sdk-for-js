@@ -1,0 +1,26 @@
+﻿2026-04-24T22:40:29.5330149Z ##[group]Run github/gh-aw-actions/setup@ba90f2186d7ad780ec640f364005fa24e797b360
+2026-04-24T22:40:29.5331327Z with:
+2026-04-24T22:40:29.5331807Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-24T22:40:29.5332396Z   job-name: safe_outputs
+2026-04-24T22:40:29.5332865Z   trace-id: 00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:40:29.5333403Z   safe-output-artifact-client: false
+2026-04-24T22:40:29.5334072Z env:
+2026-04-24T22:40:29.5334574Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/issue-triage
+2026-04-24T22:40:29.5335213Z   GH_AW_DETECTION_CONCLUSION: success
+2026-04-24T22:40:29.5335700Z   GH_AW_DETECTION_REASON: 
+2026-04-24T22:40:29.5336154Z   GH_AW_EFFECTIVE_TOKENS: 115753
+2026-04-24T22:40:29.5336613Z   GH_AW_ENGINE_ID: copilot
+2026-04-24T22:40:29.5337053Z   GH_AW_ENGINE_MODEL: auto
+2026-04-24T22:40:29.5337503Z   GH_AW_WORKFLOW_ID: issue-triage
+2026-04-24T22:40:29.5338028Z   GH_AW_WORKFLOW_NAME: Agentic Triage
+2026-04-24T22:40:29.5338546Z ##[endgroup]
+2026-04-24T22:40:30.9434123Z Successfully copied 309 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-24T22:40:30.9435277Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-24T22:40:30.9436312Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-24T22:40:30.9437302Z [otlp] INPUT_TRACE_ID=00c2e84cd6319bdc6b65a934df88f9b8 (will reuse activation trace)
+2026-04-24T22:40:30.9438169Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-24T22:40:30.9438879Z [otlp] resolved trace-id=00c2e84cd6319bdc6b65a934df88f9b8
+2026-04-24T22:40:30.9439997Z [otlp] trace-id=00c2e84cd6319bdc6b65a934df88f9b8 written to GITHUB_OUTPUT
+2026-04-24T22:40:30.9440758Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-24T22:40:30.9441396Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-24T22:40:30.9442070Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV

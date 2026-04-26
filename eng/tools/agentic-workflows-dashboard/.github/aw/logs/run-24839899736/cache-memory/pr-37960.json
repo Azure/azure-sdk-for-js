@@ -1,0 +1,24 @@
+{
+  "pr": 37960,
+  "package": "@azure/arm-search",
+  "version": "4.0.0-beta.2",
+  "reviewedAt": "2026-04-03",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "CHANGELOG.md",
+      "line": 46,
+      "type": "tool",
+      "description": "checkNameAvailability signature changed (CheckNameAvailabilityInput → name: string) but CHANGELOG Breaking Changes entry was removed by regeneration tool"
+    },
+    {
+      "file": "review/arm-search-api-sharedPrivateLinkResources-node.api.md",
+      "line": 28,
+      "type": "tool",
+      "description": "clientRequestId removed from SharedPrivateLinkResourcesCreateOrUpdateOptionalParams and SharedPrivateLinkResourcesDeleteOptionalParams, not documented in CHANGELOG Breaking Changes"
+    }
+  ],
+  "mergeState": "blocked",
+  "ciStatus": "all-passed (checkenforcer success)",
+  "notes": "Second generation attempt for 4.0.0-beta.2 (replaces PR #37881); emitter upgraded to 0.52.0; tsp commit updated to 34f7cd985814"
+}

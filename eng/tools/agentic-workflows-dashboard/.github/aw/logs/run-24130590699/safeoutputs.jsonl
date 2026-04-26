@@ -1,0 +1,1 @@
+{"message":"CI is currently green on main. The HEAD commit (7fd23d89) has 1001 check runs with 0 CI pipeline failures. Earlier commits had failures in transcription, links-mgmt, schemaregistry, commerce-mgmt, core, and monitor, but all were resolved before the current HEAD. No new GitHub issue is needed.","type":"noop"}

@@ -1,0 +1,32 @@
+{
+  "engine_id": "copilot",
+  "engine_name": "GitHub Copilot CLI",
+  "model": "auto",
+  "version": "latest",
+  "agent_version": "latest",
+  "workflow_name": "Agentic Triage",
+  "experimental": false,
+  "supports_tools_allowlist": true,
+  "run_id": 24856252622,
+  "run_number": 93,
+  "run_attempt": "1",
+  "repository": "Azure/azure-sdk-for-rust",
+  "ref": "refs/heads/main",
+  "sha": "6342afdb3278ed1209032fc7b35821e057f0a739",
+  "actor": "heaths",
+  "event_name": "issues",
+  "target_repo": "",
+  "staged": false,
+  "allowed_domains": [
+    "github",
+    "threat-detection"
+  ],
+  "firewall_enabled": true,
+  "awf_version": "v0.25.1",
+  "awmg_version": "",
+  "steps": {
+    "firewall": "squid"
+  },
+  "created_at": "2026-04-23T20:06:51.661Z",
+  "cli_version": "v0.64.1"
+}

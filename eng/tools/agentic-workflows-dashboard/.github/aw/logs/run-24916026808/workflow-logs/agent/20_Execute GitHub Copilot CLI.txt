@@ -1,0 +1,240 @@
+﻿2026-04-24T23:13:43.8431141Z ##[group]Run set -o pipefail
+2026-04-24T23:13:43.8431606Z [36;1mset -o pipefail[0m
+2026-04-24T23:13:43.8431894Z [36;1mtouch /tmp/gh-aw/agent-step-summary.md[0m
+2026-04-24T23:13:43.8432251Z [36;1m(umask 177 && touch /tmp/gh-aw/agent-stdio.log)[0m
+2026-04-24T23:13:43.8432854Z [36;1m# shellcheck disable=SC1003[0m
+2026-04-24T23:13:43.8444235Z [36;1msudo -E awf --container-workdir "${GITHUB_WORKSPACE}" --mount "${RUNNER_TEMP}/gh-aw:${RUNNER_TEMP}/gh-aw:ro" --mount "${RUNNER_TEMP}/gh-aw:/host${RUNNER_TEMP}/gh-aw:ro" --env-all --exclude-env COPILOT_GITHUB_TOKEN --exclude-env GITHUB_MCP_SERVER_TOKEN --exclude-env MCP_GATEWAY_API_KEY --allow-domains api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com --log-level info --proxy-logs-dir /tmp/gh-aw/sandbox/firewall/logs --audit-dir /tmp/gh-aw/sandbox/firewall/audit --enable-host-access --image-tag 0.25.20 --skip-pull --enable-api-proxy \[0m
+2026-04-24T23:13:43.8456479Z [36;1m  -- /bin/bash -c 'node ${RUNNER_TEMP}/gh-aw/actions/copilot_driver.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-all-tools --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log[0m
+2026-04-24T23:13:43.8479069Z shell: /usr/bin/bash -e {0}
+2026-04-24T23:13:43.8479330Z env:
+2026-04-24T23:13:43.8479522Z   DEFAULT_BRANCH: main
+2026-04-24T23:13:43.8479753Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T23:13:43.8479988Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T23:13:43.8480213Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T23:13:43.8480493Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T23:13:43.8480813Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T23:13:43.8485026Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T23:13:43.8489615Z   GITHUB_AW_OTEL_TRACE_ID: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:13:43.8489974Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 7959ade3538835ed
+2026-04-24T23:13:43.8490279Z   GITHUB_AW_OTEL_JOB_START_MS: 1777072392389
+2026-04-24T23:13:43.8490560Z   COPILOT_AGENT_RUNNER_TYPE: STANDALONE
+2026-04-24T23:13:43.8491291Z   COPILOT_GITHUB_TOKEN: ***
+2026-04-24T23:13:43.8491538Z   COPILOT_MODEL: 
+2026-04-24T23:13:43.8491805Z   GH_AW_MCP_CONFIG: /home/runner/.copilot/mcp-config.json
+2026-04-24T23:13:43.8492119Z   GH_AW_PHASE: agent
+2026-04-24T23:13:43.8492540Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T23:13:43.8492934Z   GH_AW_SAFE_OUTPUTS: /home/runner/work/_temp/gh-aw/safeoutputs/outputs.jsonl
+2026-04-24T23:13:43.8493308Z   GH_AW_VERSION: v0.68.3
+2026-04-24T23:13:43.8493561Z   GITHUB_API_URL: https://api.github.com
+2026-04-24T23:13:43.8493848Z   GITHUB_AW: true
+2026-04-24T23:13:43.8494057Z   GITHUB_HEAD_REF: 
+2026-04-24T23:13:43.8494391Z   GITHUB_MCP_SERVER_TOKEN: ***
+2026-04-24T23:13:43.8494637Z   GITHUB_REF_NAME: main
+2026-04-24T23:13:43.8494875Z   GITHUB_SERVER_URL: https://github.com
+2026-04-24T23:13:43.8495194Z   GITHUB_STEP_SUMMARY: /tmp/gh-aw/agent-step-summary.md
+2026-04-24T23:13:43.8495600Z   GITHUB_WORKSPACE: /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-24T23:13:43.8496033Z   GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+2026-04-24T23:13:43.8496377Z   GIT_AUTHOR_NAME: github-actions[bot]
+2026-04-24T23:13:43.8496719Z   GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+2026-04-24T23:13:43.8497076Z   GIT_COMMITTER_NAME: github-actions[bot]
+2026-04-24T23:13:43.8497348Z   XDG_CONFIG_HOME: /home/runner
+2026-04-24T23:13:43.8497585Z ##[endgroup]
+2026-04-24T23:13:43.9256862Z [INFO] Auto-detected DNS servers from /run/systemd/resolve/resolv.conf: 168.63.129.16
+2026-04-24T23:13:43.9264240Z [WARN] ⚠️  Using --env-all: All host environment variables will be passed to container
+2026-04-24T23:13:43.9264831Z [WARN]    This may expose sensitive credentials if logs or configs are shared
+2026-04-24T23:13:43.9266304Z [WARN] ⚠️  Host access enabled with host.docker.internal in allowed domains
+2026-04-24T23:13:43.9266861Z [WARN]    Containers can access ANY service running on the host machine
+2026-04-24T23:13:43.9267471Z [WARN]    Only use this for trusted workloads (e.g., MCP gateways)
+2026-04-24T23:13:43.9268038Z [INFO] API proxy enabled: OpenAI=false, Anthropic=false, Copilot=true, Gemini=false
+2026-04-24T23:13:43.9278450Z [INFO] Allowed domains: api.business.githubcopilot.com, api.enterprise.githubcopilot.com, api.github.com, api.githubcopilot.com, api.individual.githubcopilot.com, api.snapcraft.io, archive.ubuntu.com, azure.archive.ubuntu.com, crl.geotrust.com, crl.globalsign.com, crl.identrust.com, crl.sectigo.com, crl.thawte.com, crl.usertrust.com, crl.verisign.com, crl3.digicert.com, crl4.digicert.com, crls.ssl.com, github.com, host.docker.internal, json-schema.org, json.schemastore.org, keyserver.ubuntu.com, ocsp.digicert.com, ocsp.geotrust.com, ocsp.globalsign.com, ocsp.identrust.com, ocsp.sectigo.com, ocsp.ssl.com, ocsp.thawte.com, ocsp.usertrust.com, ocsp.verisign.com, packagecloud.io, packages.cloud.google.com, packages.microsoft.com, ppa.launchpad.net, raw.githubusercontent.com, registry.npmjs.org, s.symcb.com, s.symcd.com, security.ubuntu.com, telemetry.enterprise.githubcopilot.com, ts-crl.ws.symantec.com, ts-ocsp.ws.symantec.com, www.googleapis.com
+2026-04-24T23:13:43.9284474Z [INFO] Setting up host-level firewall network and iptables rules...
+2026-04-24T23:13:44.0045323Z [SUCCESS] Created network 'awf-net' with bridge 'fw-bridge'
+2026-04-24T23:13:44.0050919Z [INFO] Setting up host-level iptables rules...
+2026-04-24T23:13:44.0780386Z [INFO] Host access enabled: allowing traffic to gateway IPs 172.30.0.1, 172.17.0.1 on ports 80, 443
+2026-04-24T23:13:44.1269964Z [SUCCESS] Host-level iptables rules configured successfully
+2026-04-24T23:13:44.1331074Z [INFO] Generating configuration files...
+2026-04-24T23:13:45.3050550Z [WARN] --enable-api-proxy is active but GEMINI_API_KEY is not set.
+2026-04-24T23:13:45.3051598Z [WARN]    The api-proxy Gemini listener (port 10003) will return 503 responses until GEMINI_API_KEY is provided.
+2026-04-24T23:13:45.3052765Z [WARN]    This is expected when Gemini is not being used.
+2026-04-24T23:13:45.3053470Z [INFO] API proxy sidecar enabled - API keys will be held securely in sidecar container
+2026-04-24T23:13:45.3054355Z [INFO] API proxy will route through Squid to respect domain whitelisting
+2026-04-24T23:13:45.3198103Z [INFO] Starting containers...
+2026-04-24T23:13:45.4836817Z  Container awf-api-proxy  Creating
+2026-04-24T23:13:45.4837348Z  Container awf-squid  Creating
+2026-04-24T23:13:45.5326714Z  Container awf-api-proxy  Created
+2026-04-24T23:13:45.5335743Z  Container awf-squid  Created
+2026-04-24T23:13:45.5336365Z  Container awf-agent  Creating
+2026-04-24T23:13:45.5542221Z  Container awf-agent  Created
+2026-04-24T23:13:45.5543036Z  Container awf-iptables-init  Creating
+2026-04-24T23:13:45.5635933Z  Container awf-iptables-init  Created
+2026-04-24T23:13:45.5647484Z  Container awf-squid  Starting
+2026-04-24T23:13:45.5648399Z  Container awf-api-proxy  Starting
+2026-04-24T23:13:45.7140291Z  Container awf-api-proxy  Started
+2026-04-24T23:13:45.7442199Z  Container awf-squid  Started
+2026-04-24T23:13:45.7443484Z  Container awf-squid  Waiting
+2026-04-24T23:13:45.7443783Z  Container awf-api-proxy  Waiting
+2026-04-24T23:13:51.2455984Z  Container awf-api-proxy  Healthy
+2026-04-24T23:13:51.2456523Z  Container awf-squid  Healthy
+2026-04-24T23:13:51.2456911Z  Container awf-agent  Starting
+2026-04-24T23:13:51.3881408Z  Container awf-agent  Started
+2026-04-24T23:13:51.3881989Z  Container awf-agent  Waiting
+2026-04-24T23:13:56.8904915Z  Container awf-agent  Healthy
+2026-04-24T23:13:56.8905407Z  Container awf-iptables-init  Starting
+2026-04-24T23:13:56.9621250Z  Container awf-iptables-init  Started
+2026-04-24T23:13:56.9660755Z [SUCCESS] Containers started successfully
+2026-04-24T23:13:56.9664755Z [INFO] Executing agent command...
+2026-04-24T23:13:56.9839485Z [entrypoint] Agentic Workflow Firewall - Agent Container
+2026-04-24T23:13:57.4178754Z [entrypoint] ==================================
+2026-04-24T23:13:57.4179294Z [entrypoint] Adjusting awfuser UID:GID from 1000:1000 to 1001:1001
+2026-04-24T23:13:57.4179701Z [entrypoint] UID/GID adjustment complete
+2026-04-24T23:13:57.4180025Z [entrypoint] Configuring DNS...
+2026-04-24T23:13:57.4180401Z [entrypoint] DNS configured with Docker embedded DNS (127.0.0.11) only
+2026-04-24T23:13:57.4180900Z [entrypoint] Waiting for iptables initialization from init container...
+2026-04-24T23:13:57.4181326Z [entrypoint] iptables initialization complete
+2026-04-24T23:13:57.4197600Z [health-check] API Proxy Pre-flight Check
+2026-04-24T23:13:57.4198066Z [health-check] ==========================================
+2026-04-24T23:13:57.4201771Z [health-check] Checking GitHub Copilot API proxy configuration...
+2026-04-24T23:13:57.4202695Z [health-check] COPILOT_API_URL=http://172.30.0.30:10002
+2026-04-24T23:13:57.4203428Z [health-check] ✓ COPILOT_GITHUB_TOKEN is placeholder value (correct)
+2026-04-24T23:13:57.4203932Z [health-check] ✓ COPILOT_TOKEN is placeholder value (correct)
+2026-04-24T23:13:57.4204445Z [health-check] Testing connectivity to GitHub Copilot API proxy at http://172.30.0.30:10002...
+2026-04-24T23:13:57.4527856Z [health-check] ✓ GitHub Copilot API proxy is reachable at http://172.30.0.30:10002
+2026-04-24T23:13:57.4528661Z [health-check] ==========================================
+2026-04-24T23:13:57.4529522Z [health-check] ✓ All API proxy health checks passed
+2026-04-24T23:13:57.4530110Z [health-check] ✓ Credential isolation verified
+2026-04-24T23:13:57.4530552Z [health-check] ✓ Connectivity established
+2026-04-24T23:13:57.4530875Z [health-check] ==========================================
+2026-04-24T23:13:57.4535654Z [entrypoint] Pre-seeding JVM build tool proxy configuration (squid-proxy:3128)...
+2026-04-24T23:13:57.4698267Z [entrypoint] ✓ Created Maven proxy config (/host/home/runner/.m2/settings.xml)
+2026-04-24T23:13:57.4738923Z [entrypoint] ✓ Created Gradle proxy config (/host/home/runner/.gradle/gradle.properties)
+2026-04-24T23:13:57.4760862Z [entrypoint] ✓ Set JAVA_TOOL_OPTIONS with proxy and nonProxyHosts flags
+2026-04-24T23:13:57.4761820Z [entrypoint] Proxy configuration:
+2026-04-24T23:13:57.4762625Z [entrypoint]   HTTP_PROXY=http://172.30.0.10:3128
+2026-04-24T23:13:57.4763164Z [entrypoint]   HTTPS_PROXY=http://172.30.0.10:3128
+2026-04-24T23:13:57.4763655Z [entrypoint] Network information:
+2026-04-24T23:13:57.4837364Z [entrypoint]   IP address: 172.30.0.20 
+2026-04-24T23:13:57.4849423Z [entrypoint]   Hostname: f609d8a7a881
+2026-04-24T23:13:57.7714351Z [entrypoint] ==================================
+2026-04-24T23:13:57.7715042Z [entrypoint] Chroot mode enabled - dropping CAP_SYS_CHROOT and CAP_SYS_ADMIN
+2026-04-24T23:13:57.7748956Z [entrypoint] Switching to awfuser (UID: 1001, GID: 1001)
+2026-04-24T23:13:57.7750773Z [entrypoint] Executing command: /bin/bash -c /bin/bash -c 'node ${RUNNER_TEMP}/gh-aw/actions/copilot_driver.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-all-tools --allow-all-paths --add-dir "${GITHUB_WORKSPACE}" --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"'
+2026-04-24T23:13:57.7752011Z 
+2026-04-24T23:13:57.7757908Z [entrypoint] Chroot mode: running command inside host filesystem (/host)
+2026-04-24T23:13:57.8115228Z [entrypoint] Mounted procfs at /host/proc (nosuid,nodev,noexec)
+2026-04-24T23:13:57.8198395Z [entrypoint] One-shot token library copied to chroot at /tmp/awf-lib/one-shot-token.so
+2026-04-24T23:13:57.8336499Z [entrypoint] DNS configuration created in chroot (/host/etc/resolv.conf)
+2026-04-24T23:13:57.8433767Z [entrypoint] Chroot working directory: /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-24T23:13:57.8464360Z [entrypoint] Running as host user: runner (UID: 1001)
+2026-04-24T23:13:57.8464959Z [entrypoint] Using host PATH for chroot
+2026-04-24T23:13:57.8478288Z [entrypoint] Adding JAVA_HOME/bin to PATH: /usr/lib/jvm/temurin-17-jdk-amd64/bin
+2026-04-24T23:13:57.8595945Z [entrypoint] DNS configuration will be removed on exit
+2026-04-24T23:13:57.8614536Z [entrypoint] Transferred /host/tmp/gh-aw ownership to chroot user (1001:1001)
+2026-04-24T23:13:57.8837264Z [entrypoint][WARN] Failed to transfer /host/home/runner/work/_temp/gh-aw/safeoutputs ownership to chroot user
+2026-04-24T23:13:57.8865326Z [entrypoint] Ensured ~/.gemini ownership for chroot user (1001:1001)
+2026-04-24T23:13:57.9817458Z [copilot-driver] 2026-04-24T23:13:57.922Z starting: command=/usr/local/bin/copilot maxRetries=3 initialDelayMs=5000 backoffMultiplier=2 maxDelayMs=60000 nodeVersion=v20.20.2 platform=linux
+2026-04-24T23:13:57.9830346Z [copilot-driver] 2026-04-24T23:13:57.982Z pre-flight: command is accessible and executable: /usr/local/bin/copilot
+2026-04-24T23:13:57.9834345Z [copilot-driver] 2026-04-24T23:13:57.983Z attempt 1: spawning: /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --no-ask-user --allow-all-tools --allow-all-paths --add-dir /home/runner/work/azure-sdk-for-js/azure-sdk-for-js --prompt <redacted>
+2026-04-24T23:13:57.9864831Z [copilot-driver] 2026-04-24T23:13:57.986Z attempt 1: process started (pid=158)
+2026-04-24T23:13:58.9046355Z [entrypoint] Unsetting sensitive tokens from parent shell environment...
+2026-04-24T23:13:58.9046934Z [entrypoint] Unset COPILOT_GITHUB_TOKEN from /proc/1/environ
+2026-04-24T23:14:14.2186183Z ● issue_read (MCP: github) · method: "get", owner: "Azure", repo: "azure-sdk-for-js", issue_number:…
+2026-04-24T23:14:14.2186947Z   └ [{"assignees":["efrainretana","Copilot"],"author_association":"MEMBER","body"...
+2026-04-24T23:14:14.2187267Z 
+2026-04-24T23:14:19.0320370Z The issue #38288 already has labels (`Search`, `auto-generated`). Per the triage precondition checks, I should exit without further action.
+2026-04-24T23:14:19.0321404Z 
+2026-04-24T23:14:20.0387675Z ● noop (MCP: safeoutputs) · message: "No action needed: Issue #38288 already has labels ("Search",…"
+2026-04-24T23:14:20.0388528Z   └ {"result":"success"}
+2026-04-24T23:14:20.0388757Z 
+2026-04-24T23:14:22.0668645Z Issue #38288 already has labels (`Search`, `auto-generated`) — triage skipped per precondition check.
+2026-04-24T23:14:22.0669127Z 
+2026-04-24T23:14:22.0751889Z 
+2026-04-24T23:14:22.0752600Z Total usage est:        1 Premium request
+2026-04-24T23:14:22.0753172Z API time spent:         10s
+2026-04-24T23:14:22.0753651Z Total session time:     23s
+2026-04-24T23:14:22.0754063Z Total code changes:     +0 -0
+2026-04-24T23:14:22.0754318Z Breakdown by AI model:
+2026-04-24T23:14:22.0754669Z  claude-sonnet-4.6        106.6k in, 435 out, 69.8k cached (Est. 1 Premium request)
+2026-04-24T23:14:22.2141939Z [copilot-driver] 2026-04-24T23:14:22.213Z attempt 1: process exit event exitCode=0
+2026-04-24T23:14:22.2144491Z [copilot-driver] 2026-04-24T23:14:22.213Z attempt 1: process closed exitCode=0 duration=24s stdout=574B stderr=236B hasOutput=true
+2026-04-24T23:14:22.2146029Z [copilot-driver] 2026-04-24T23:14:22.214Z success on attempt 1: totalDuration=24s
+2026-04-24T23:14:22.4922133Z [INFO] Stopping containers...
+2026-04-24T23:14:22.5710096Z  Container awf-iptables-init  Stopping
+2026-04-24T23:14:22.5712960Z  Container awf-iptables-init  Stopped
+2026-04-24T23:14:22.5713472Z  Container awf-iptables-init  Removing
+2026-04-24T23:14:22.5748469Z  Container awf-iptables-init  Removed
+2026-04-24T23:14:22.5749061Z  Container awf-agent  Stopping
+2026-04-24T23:14:22.5751348Z  Container awf-agent  Stopped
+2026-04-24T23:14:22.5751799Z  Container awf-agent  Removing
+2026-04-24T23:14:22.5817404Z  Container awf-agent  Removed
+2026-04-24T23:14:22.5818288Z  Container awf-squid  Stopping
+2026-04-24T23:14:22.5818893Z  Container awf-api-proxy  Stopping
+2026-04-24T23:14:22.6556656Z  Container awf-api-proxy  Stopped
+2026-04-24T23:14:22.6557629Z  Container awf-api-proxy  Removing
+2026-04-24T23:14:22.6602255Z  Container awf-api-proxy  Removed
+2026-04-24T23:14:23.6779453Z  Container awf-squid  Stopped
+2026-04-24T23:14:23.6780292Z  Container awf-squid  Removing
+2026-04-24T23:14:23.6845625Z  Container awf-squid  Removed
+2026-04-24T23:14:23.6893548Z [SUCCESS] Containers stopped successfully
+2026-04-24T23:14:23.7365719Z [INFO] Agent session state preserved at: /tmp/awf-agent-session-state-1777072423920
+2026-04-24T23:14:23.7387485Z [INFO] API proxy logs available at: /tmp/gh-aw/sandbox/firewall/logs/api-proxy-logs
+2026-04-24T23:14:23.7408732Z [INFO] CLI proxy logs available at: /tmp/gh-aw/sandbox/firewall/logs/cli-proxy-logs
+2026-04-24T23:14:23.7430632Z [INFO] Squid logs available at: /tmp/gh-aw/sandbox/firewall/logs
+2026-04-24T23:14:23.7451835Z [INFO] Audit artifacts available at: /tmp/gh-aw/sandbox/firewall/audit
+2026-04-24T23:14:23.7497085Z [SUCCESS] Command completed successfully
+2026-04-24T23:14:23.7497539Z Process exiting with code: 0

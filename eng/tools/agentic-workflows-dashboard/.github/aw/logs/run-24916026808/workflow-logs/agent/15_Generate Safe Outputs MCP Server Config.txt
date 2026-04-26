@@ -1,0 +1,85 @@
+﻿2026-04-24T23:13:36.6797621Z ##[group]Run # Generate a secure random API key (360 bits of entropy, 40+ chars)
+2026-04-24T23:13:36.6798175Z [36;1m# Generate a secure random API key (360 bits of entropy, 40+ chars)[0m
+2026-04-24T23:13:36.6798594Z [36;1m# Mask immediately to prevent timing vulnerabilities[0m
+2026-04-24T23:13:36.6798955Z [36;1mAPI_KEY=$(openssl rand -base64 45 | tr -d '/+=')[0m
+2026-04-24T23:13:36.6799273Z [36;1mecho "::add-mask::${API_KEY}"[0m
+2026-04-24T23:13:36.6799520Z [36;1m[0m
+2026-04-24T23:13:36.6799688Z [36;1mPORT=3001[0m
+2026-04-24T23:13:36.6799882Z [36;1m[0m
+2026-04-24T23:13:36.6800061Z [36;1m# Set outputs for next steps[0m
+2026-04-24T23:13:36.6800481Z [36;1m{[0m
+2026-04-24T23:13:36.6800693Z [36;1m  echo "safe_outputs_api_key=${API_KEY}"[0m
+2026-04-24T23:13:36.6800985Z [36;1m  echo "safe_outputs_port=${PORT}"[0m
+2026-04-24T23:13:36.6801251Z [36;1m} >> "$GITHUB_OUTPUT"[0m
+2026-04-24T23:13:36.6801473Z [36;1m[0m
+2026-04-24T23:13:36.6801727Z [36;1mecho "Safe Outputs MCP server will run on port ${PORT}"[0m
+2026-04-24T23:13:36.6824479Z shell: /usr/bin/bash -e {0}
+2026-04-24T23:13:36.6824718Z env:
+2026-04-24T23:13:36.6824903Z   DEFAULT_BRANCH: main
+2026-04-24T23:13:36.6825119Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-04-24T23:13:36.6825345Z   GH_AW_ASSETS_BRANCH: 
+2026-04-24T23:13:36.6825557Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-04-24T23:13:36.6825822Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-04-24T23:13:36.6826137Z   GH_AW_WORKFLOW_ID_SANITIZED: issuetriage
+2026-04-24T23:13:36.6830545Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T23:13:36.6835100Z   GITHUB_AW_OTEL_TRACE_ID: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:13:36.6835447Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 7959ade3538835ed
+2026-04-24T23:13:36.6835742Z   GITHUB_AW_OTEL_JOB_START_MS: 1777072392389
+2026-04-24T23:13:36.6835987Z ##[endgroup]
+2026-04-24T23:13:36.6924079Z Safe Outputs MCP server will run on port 3001

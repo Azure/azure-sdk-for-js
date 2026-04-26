@@ -1,0 +1,82 @@
+﻿2026-04-24T22:40:28.1280998Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-24T22:40:28.1281542Z with:
+2026-04-24T22:40:28.1282063Z   name: agent
+2026-04-24T22:40:28.1282325Z   path: /tmp/gh-aw/
+2026-04-24T22:40:28.1282604Z   merge-multiple: false
+2026-04-24T22:40:28.1282921Z   repository: Azure/azure-sdk-for-net
+2026-04-24T22:40:28.1283272Z   run-id: 24914989702
+2026-04-24T22:40:28.1283567Z   skip-decompress: false
+2026-04-24T22:40:28.1283871Z   digest-mismatch: error
+2026-04-24T22:40:28.1284148Z env:
+2026-04-24T22:40:28.1289084Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T22:40:28.1294672Z   GITHUB_AW_OTEL_TRACE_ID: e912b01af58799b8188d5804c6491285
+2026-04-24T22:40:28.1295108Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 55ca349cd79ba219
+2026-04-24T22:40:28.1295498Z   GITHUB_AW_OTEL_JOB_START_MS: 1777070428108
+2026-04-24T22:40:28.1295830Z ##[endgroup]
+2026-04-24T22:40:28.2673407Z Downloading single artifact
+2026-04-24T22:40:28.3329981Z Preparing to download the following artifacts:
+2026-04-24T22:40:28.3331372Z - agent (ID: 6634951668, Size: 124227, Expected Digest: sha256:f34ca9f3e75de5a64989a41d39d27869982ab80dab39392e95e6a204c061ec34)
+2026-04-24T22:40:28.4320976Z Redirecting to blob download url: https://productionresultssa3.blob.core.windows.net/actions-results/0cb39f47-906b-4618-bfec-ce04c891a8d6/workflow-job-run-c6e3fffc-3cc5-5f0d-8395-6789a7444c51/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-24T22:40:28.4323740Z Starting download of artifact to: /tmp/gh-aw
+2026-04-24T22:40:28.4594800Z (node:3063) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-24T22:40:28.4596970Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-24T22:40:28.4845002Z SHA256 digest of downloaded artifact is f34ca9f3e75de5a64989a41d39d27869982ab80dab39392e95e6a204c061ec34
+2026-04-24T22:40:28.4846345Z Artifact download completed successfully.
+2026-04-24T22:40:28.4847093Z Total of 1 artifact(s) downloaded
+2026-04-24T22:40:28.4850699Z Download artifact has finished successfully

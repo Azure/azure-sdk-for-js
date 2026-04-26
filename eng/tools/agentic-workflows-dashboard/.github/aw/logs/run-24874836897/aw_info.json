@@ -1,0 +1,33 @@
+{
+  "engine_id": "copilot",
+  "engine_name": "GitHub Copilot CLI",
+  "model": "auto",
+  "version": "1.0.20",
+  "agent_version": "1.0.20",
+  "workflow_name": "Management Release Assistant",
+  "experimental": false,
+  "supports_tools_allowlist": true,
+  "run_id": 24874836897,
+  "run_number": 392,
+  "run_attempt": "1",
+  "repository": "Azure/azure-sdk-for-js",
+  "ref": "refs/heads/main",
+  "sha": "3371b38b6898ed86add736db7649a4e97c257a5a",
+  "actor": "JialinHuang803",
+  "event_name": "pull_request_target",
+  "target_repo": "",
+  "staged": false,
+  "allowed_domains": [
+    "defaults",
+    "node",
+    "dev.azure.com"
+  ],
+  "firewall_enabled": true,
+  "awf_version": "v0.25.18",
+  "awmg_version": "",
+  "steps": {
+    "firewall": "squid"
+  },
+  "created_at": "2026-04-24T06:02:04.420Z",
+  "cli_version": "v0.68.0"
+}

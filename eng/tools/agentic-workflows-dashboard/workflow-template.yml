@@ -1,0 +1,91 @@
+# GitHub Workflow Template for Agentic Workflows Metrics Collector
+#
+# This workflow should be placed in azure-sdk-tools/.github/workflows/
+# or wherever the dashboard will be hosted.
+
+# Save as: aw-metrics-collector.yml
+
+name: Agentic Workflows Metrics Collector
+
+on:
+  schedule:
+    # Run hourly at minute 15 (to avoid top-of-hour congestion)
+    - cron: "15 * * * *"
+  workflow_dispatch:
+    inputs:
+      lookback_hours:
+        description: "Hours to look back"
+        type: number
+        default: 24
+      dry_run:
+        description: "Dry run (don't push to Azure Monitor)"
+        type: boolean
+        default: false
+      repos:
+        description: "Comma-separated repos (empty for all)"
+        type: string
+        default: ""
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          sparse-checkout: |
+            eng/tools/agentic-workflows-dashboard
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        working-directory: eng/tools/agentic-workflows-dashboard
+        run: npm ci
+
+      - name: Build collector
+        working-directory: eng/tools/agentic-workflows-dashboard
+        run: npm run build
+
+      - name: Run collector (scheduled)
+        if: github.event_name == 'schedule'
+        working-directory: eng/tools/agentic-workflows-dashboard
+        run: |
+          node dist/collector.js \
+            --lookback 2 \
+            --verbose
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AZURE_MONITOR_DCE_ENDPOINT: ${{ secrets.AZURE_MONITOR_DCE_ENDPOINT }}
+          AZURE_MONITOR_DCR_ID: ${{ secrets.AZURE_MONITOR_DCR_ID }}
+
+      - name: Run collector (manual)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: eng/tools/agentic-workflows-dashboard
+        run: |
+          node dist/collector.js \
+            --lookback ${{ inputs.lookback_hours }} \
+            ${{ inputs.dry_run && '--dry-run' || '' }} \
+            ${{ inputs.repos && format('--repos {0}', inputs.repos) || '' }} \
+            --verbose
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AZURE_MONITOR_DCE_ENDPOINT: ${{ secrets.AZURE_MONITOR_DCE_ENDPOINT }}
+          AZURE_MONITOR_DCR_ID: ${{ secrets.AZURE_MONITOR_DCR_ID }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Agentic Workflows Collector" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Trigger: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Lookback: ${{ github.event_name == 'schedule' && '2 hours' || format('{0} hours', inputs.lookback_hours) }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Dry run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}" >> $GITHUB_STEP_SUMMARY

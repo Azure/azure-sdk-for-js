@@ -1,0 +1,2679 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24843833271,
+  "processed_at": "2026-04-24T23:11:39.227415116Z",
+  "run": {
+    "databaseId": 24843833271,
+    "number": 456,
+    "url": "https://github.com/Azure/azure-sdk-for-net/actions/runs/24843833271",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Agentic Triage",
+    "workflowPath": ".github/workflows/issue-triage.lock.yml",
+    "createdAt": "2026-04-23T15:28:33Z",
+    "startedAt": "2026-04-23T15:28:33Z",
+    "updatedAt": "2026-04-23T15:38:05Z",
+    "event": "workflow_dispatch",
+    "headBranch": "main",
+    "headSha": "601109e015e41c8aecfad93ec1a478c9a4ee207a",
+    "displayTitle": "Agentic Triage",
+    "Duration": 572000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 12,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24843833271"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 12,
+    "ToolCalls": [
+      {
+        "Name": "search_issues",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Search",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Find",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "get_label",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Parse",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Extract",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 30,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-close_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "search_issues",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___close_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "get_label",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "close_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "remove_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "report_incomplete",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "mention_owners",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 15,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "search_issues",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "get_label",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___close_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-close_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-add_codegen_suppress",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_check_project_in_public_repo",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_add_label_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_get_copilot_review",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_update_version",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-batch_fix",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-validate_tsp_config",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_request_copilot_review",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_release_plan_for_spec_pr",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-build_and_classify",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pipeline_status",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_language_exclusion_justification",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_analyze_pipeline",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pull_request_link_for_current_branch",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-migrate_test_samples",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-report_incomplete",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-rename_codegen_type",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-verify_generated_unchanged",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_upgrade",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_customized_code_update",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_get_review_url",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-snapshot_generated",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_build_code",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_translate_samples",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_init_project",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_failed_test_cases",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-finalize_migration",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_remove_label_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_run_typespec_validation",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_abandon_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_run_check",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-run_code_generation",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-add_using_directive",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-nullable_annotation_fix",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-discover_project",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_generate_samples",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_api_spec_pull_request_in_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_generate_code",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_view",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-commit_iteration",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-mention_owners",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_analyze_log_file",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_update_changelog_content",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_modified_typespec_projects",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_failed_test_case_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-close_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_link_namespace_approval_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_failed_test_run_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_release_sdk",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_verify_setup",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_github_user_details",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_generate_authoring_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_link_sdk_pull_request_to_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-run_tests",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-regex_replacement",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-fetch_to_fromlro",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-pregen_cleanup",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-classify_errors",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_check_service_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_create_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_update_metadata",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_get_comments",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_create_pull_request",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pull_request",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-remove_using_directive",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_run_tests",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_sdk_details_in_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_sdk_pull_request_link",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_service_details_by_typespec_path",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_convert_swagger_to_typespec",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_delegate_apiview_feedback",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_update_cache",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pipeline_llm_artifacts",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_check_api_spec_ready_for_sdk",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_check_package",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_run_generate_sdk",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_pack",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_create_service_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      }
+    ],
+    "ToolSequences": [
+      [
+        "issue_read",
+        "search_issues",
+        "issue_read",
+        "search_issues",
+        "search_issues",
+        "Search",
+        "Read",
+        "Search",
+        "Search",
+        "Search",
+        "Search",
+        "Find",
+        "Read",
+        "search_issues",
+        "search_issues",
+        "search_issues",
+        "get_label",
+        "get_label",
+        "Read",
+        "get_label",
+        "add_labels",
+        "assign_to_user",
+        "add_comment",
+        "add_comment"
+      ],
+      [
+        "Read",
+        "Parse",
+        "Extract",
+        "Extract"
+      ],
+      [
+        "safeoutputs___close_issue",
+        "github___get_label",
+        "safeoutputs-close_issue",
+        "github-get_label",
+        "safeoutputs___add_comment",
+        "github___issue_read",
+        "safeoutputs-add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs-add_labels",
+        "github-issue_read",
+        "github___list_issue_types",
+        "safeoutputs___remove_labels",
+        "github-list_issue_types",
+        "github___list_issues",
+        "safeoutputs-remove_labels",
+        "safeoutputs___assign_to_user",
+        "github-list_issues",
+        "github___search_issues",
+        "safeoutputs-assign_to_user",
+        "safeoutputs___missing_tool",
+        "github-search_issues",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "safeoutputs___report_incomplete",
+        "safeoutputs-report_incomplete",
+        "safeoutputs___mention_owners",
+        "safeoutputs-mention_owners",
+        "tool",
+        "tool",
+        "issue_read"
+      ],
+      [
+        "tool",
+        "tool",
+        "issue_read",
+        "tool",
+        "tool",
+        "search_issues"
+      ],
+      [
+        "tool",
+        "tool",
+        "search_issues",
+        "tool",
+        "tool",
+        "search_issues",
+        "tool",
+        "tool",
+        "search_issues",
+        "tool",
+        "tool",
+        "search_issues",
+        "tool",
+        "tool",
+        "search_issues",
+        "tool",
+        "tool",
+        "get_label",
+        "tool",
+        "tool",
+        "get_label",
+        "tool",
+        "tool",
+        "get_label",
+        "tool",
+        "tool",
+        "add_labels"
+      ],
+      [
+        "tool",
+        "tool",
+        "assign_to_user",
+        "tool",
+        "tool",
+        "add_comment",
+        "tool",
+        "tool",
+        "add_comment"
+      ],
+      [
+        "close_issue",
+        "close_issue",
+        "add_comment",
+        "add_comment",
+        "add_labels",
+        "add_labels",
+        "remove_labels",
+        "remove_labels",
+        "assign_to_user",
+        "assign_to_user",
+        "missing_tool",
+        "missing_tool",
+        "noop",
+        "noop",
+        "missing_data",
+        "missing_data",
+        "report_incomplete",
+        "report_incomplete",
+        "mention_owners",
+        "mention_owners",
+        "add_labels",
+        "add_labels",
+        "assign_to_user",
+        "assign_to_user",
+        "add_comment",
+        "add_comment",
+        "add_comment",
+        "add_comment"
+      ],
+      [
+        "safeoutputs___close_issue",
+        "github___get_label",
+        "safeoutputs-close_issue",
+        "safeoutputs___add_comment",
+        "github-get_label",
+        "github___issue_read",
+        "safeoutputs-add_comment",
+        "safeoutputs___add_labels",
+        "github-issue_read",
+        "safeoutputs-add_labels",
+        "safeoutputs___remove_labels",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "safeoutputs-remove_labels",
+        "github___list_issues",
+        "github-list_issues",
+        "safeoutputs___assign_to_user",
+        "safeoutputs-assign_to_user",
+        "github___search_issues",
+        "github-search_issues",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "safeoutputs___report_incomplete",
+        "safeoutputs-report_incomplete",
+        "safeoutputs___mention_owners",
+        "safeoutputs-mention_owners",
+        "tool",
+        "issue_read"
+      ],
+      [
+        "tool",
+        "issue_read",
+        "tool",
+        "search_issues",
+        "tool",
+        "search_issues",
+        "tool",
+        "search_issues",
+        "tool",
+        "search_issues",
+        "tool",
+        "search_issues",
+        "tool",
+        "search_issues",
+        "tool",
+        "get_label",
+        "tool",
+        "get_label",
+        "tool",
+        "get_label",
+        "tool",
+        "add_labels"
+      ],
+      [
+        "tool",
+        "assign_to_user",
+        "tool",
+        "add_comment",
+        "tool",
+        "add_comment"
+      ],
+      [
+        "generator-agent-regex_replacement",
+        "generator-agent-fetch_to_fromlro",
+        "generator-agent-snapshot_generated",
+        "generator-agent-pregen_cleanup",
+        "generator-agent-remove_using_directive",
+        "generator-agent-commit_iteration",
+        "generator-agent-batch_fix",
+        "generator-agent-validate_tsp_config",
+        "generator-agent-rename_codegen_type",
+        "generator-agent-run_code_generation",
+        "generator-agent-classify_errors",
+        "generator-agent-run_tests",
+        "generator-agent-add_using_directive",
+        "generator-agent-migrate_test_samples",
+        "generator-agent-build_and_classify",
+        "generator-agent-nullable_annotation_fix",
+        "generator-agent-add_codegen_suppress",
+        "generator-agent-finalize_migration",
+        "generator-agent-verify_generated_unchanged",
+        "generator-agent-discover_project",
+        "generator-agent-regex_replacement",
+        "generator-agent-fetch_to_fromlro",
+        "generator-agent-snapshot_generated",
+        "generator-agent-pregen_cleanup",
+        "generator-agent-remove_using_directive",
+        "generator-agent-commit_iteration",
+        "generator-agent-batch_fix",
+        "generator-agent-validate_tsp_config",
+        "generator-agent-rename_codegen_type",
+        "generator-agent-run_code_generation",
+        "generator-agent-classify_errors",
+        "generator-agent-run_tests",
+        "generator-agent-add_using_directive",
+        "generator-agent-migrate_test_samples",
+        "generator-agent-build_and_classify",
+        "generator-agent-nullable_annotation_fix",
+        "generator-agent-add_codegen_suppress",
+        "generator-agent-finalize_migration",
+        "generator-agent-verify_generated_unchanged",
+        "generator-agent-discover_project",
+        "github-get_label",
+        "github-issue_read",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-search_issues",
+        "safeoutputs-add_comment",
+        "safeoutputs-add_labels",
+        "safeoutputs-assign_to_user",
+        "safeoutputs-close_issue",
+        "safeoutputs-mention_owners",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop",
+        "safeoutputs-remove_labels",
+        "safeoutputs-report_incomplete",
+        "github-get_label",
+        "github-issue_read",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-search_issues",
+        "safeoutputs-add_comment",
+        "safeoutputs-add_labels",
+        "safeoutputs-assign_to_user",
+        "safeoutputs-close_issue",
+        "safeoutputs-mention_owners",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop",
+        "safeoutputs-remove_labels",
+        "safeoutputs-report_incomplete",
+        "azure-sdk-mcp-azsdk_upgrade",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_label_owner",
+        "azure-sdk-mcp-azsdk_package_run_tests",
+        "azure-sdk-mcp-azsdk_update_release_plan",
+        "azure-sdk-mcp-azsdk_link_namespace_approval_issue",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_owner",
+        "azure-sdk-mcp-azsdk_package_generate_samples",
+        "azure-sdk-mcp-azsdk_analyze_log_file",
+        "azure-sdk-mcp-azsdk_apiview_request_copilot_review",
+        "azure-sdk-mcp-azsdk_run_generate_sdk",
+        "azure-sdk-mcp-azsdk_update_sdk_details_in_release_plan",
+        "azure-sdk-mcp-azsdk_convert_swagger_to_typespec",
+        "azure-sdk-mcp-azsdk_package_build_code",
+        "azure-sdk-mcp-azsdk_get_pipeline_status",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_label",
+        "azure-sdk-mcp-azsdk_package_pack",
+        "azure-sdk-mcp-azsdk_check_service_label",
+        "azure-sdk-mcp-azsdk_get_pull_request",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_label",
+        "azure-sdk-mcp-azsdk_package_update_changelog_content",
+        "azure-sdk-mcp-azsdk_create_release_plan",
+        "azure-sdk-mcp-azsdk_package_translate_samples",
+        "azure-sdk-mcp-azsdk_customized_code_update",
+        "azure-sdk-mcp-azsdk_typespec_check_project_in_public_repo",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_label_owner",
+        "azure-sdk-mcp-azsdk_typespec_delegate_apiview_feedback",
+        "azure-sdk-mcp-azsdk_update_api_spec_pull_request_in_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan",
+        "azure-sdk-mcp-azsdk_typespec_init_project",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_update_cache",
+        "azure-sdk-mcp-azsdk_apiview_get_copilot_review",
+        "azure-sdk-mcp-azsdk_get_failed_test_run_data",
+        "azure-sdk-mcp-azsdk_update_language_exclusion_justification",
+        "azure-sdk-mcp-azsdk_release_sdk",
+        "azure-sdk-mcp-azsdk_verify_setup",
+        "azure-sdk-mcp-azsdk_get_sdk_pull_request_link",
+        "azure-sdk-mcp-azsdk_get_modified_typespec_projects",
+        "azure-sdk-mcp-azsdk_package_run_check",
+        "azure-sdk-mcp-azsdk_get_github_user_details",
+        "azure-sdk-mcp-azsdk_apiview_get_review_url",
+        "azure-sdk-mcp-azsdk_run_typespec_validation",
+        "azure-sdk-mcp-azsdk_typespec_generate_authoring_plan",
+        "azure-sdk-mcp-azsdk_package_update_metadata",
+        "azure-sdk-mcp-azsdk_get_failed_test_case_data",
+        "azure-sdk-mcp-azsdk_abandon_release_plan",
+        "azure-sdk-mcp-azsdk_package_generate_code",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_view",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_owner",
+        "azure-sdk-mcp-azsdk_package_update_version",
+        "azure-sdk-mcp-azsdk_link_sdk_pull_request_to_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan_for_spec_pr",
+        "azure-sdk-mcp-azsdk_apiview_get_comments",
+        "azure-sdk-mcp-azsdk_analyze_pipeline",
+        "azure-sdk-mcp-azsdk_get_failed_test_cases",
+        "azure-sdk-mcp-azsdk_get_pull_request_link_for_current_branch",
+        "azure-sdk-mcp-azsdk_get_service_details_by_typespec_path",
+        "azure-sdk-mcp-azsdk_get_pipeline_llm_artifacts",
+        "azure-sdk-mcp-azsdk_create_pull_request",
+        "azure-sdk-mcp-azsdk_check_api_spec_ready_for_sdk",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_check_package",
+        "azure-sdk-mcp-azsdk_create_service_label",
+        "azure-sdk-mcp-azsdk_upgrade",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_label_owner",
+        "azure-sdk-mcp-azsdk_package_run_tests",
+        "azure-sdk-mcp-azsdk_update_release_plan",
+        "azure-sdk-mcp-azsdk_link_namespace_approval_issue",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_owner",
+        "azure-sdk-mcp-azsdk_package_generate_samples",
+        "azure-sdk-mcp-azsdk_analyze_log_file",
+        "azure-sdk-mcp-azsdk_apiview_request_copilot_review",
+        "azure-sdk-mcp-azsdk_run_generate_sdk",
+        "azure-sdk-mcp-azsdk_update_sdk_details_in_release_plan",
+        "azure-sdk-mcp-azsdk_convert_swagger_to_typespec",
+        "azure-sdk-mcp-azsdk_package_build_code",
+        "azure-sdk-mcp-azsdk_get_pipeline_status",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_label",
+        "azure-sdk-mcp-azsdk_package_pack",
+        "azure-sdk-mcp-azsdk_check_service_label",
+        "azure-sdk-mcp-azsdk_get_pull_request",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_label",
+        "azure-sdk-mcp-azsdk_package_update_changelog_content",
+        "azure-sdk-mcp-azsdk_create_release_plan",
+        "azure-sdk-mcp-azsdk_package_translate_samples",
+        "azure-sdk-mcp-azsdk_customized_code_update",
+        "azure-sdk-mcp-azsdk_typespec_check_project_in_public_repo",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_label_owner",
+        "azure-sdk-mcp-azsdk_typespec_delegate_apiview_feedback",
+        "azure-sdk-mcp-azsdk_update_api_spec_pull_request_in_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan",
+        "azure-sdk-mcp-azsdk_typespec_init_project",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_update_cache",
+        "azure-sdk-mcp-azsdk_apiview_get_copilot_review",
+        "azure-sdk-mcp-azsdk_get_failed_test_run_data",
+        "azure-sdk-mcp-azsdk_update_language_exclusion_justification",
+        "azure-sdk-mcp-azsdk_release_sdk",
+        "azure-sdk-mcp-azsdk_verify_setup",
+        "azure-sdk-mcp-azsdk_get_sdk_pull_request_link",
+        "azure-sdk-mcp-azsdk_get_modified_typespec_projects",
+        "azure-sdk-mcp-azsdk_package_run_check",
+        "azure-sdk-mcp-azsdk_get_github_user_details",
+        "azure-sdk-mcp-azsdk_apiview_get_review_url",
+        "azure-sdk-mcp-azsdk_run_typespec_validation",
+        "azure-sdk-mcp-azsdk_typespec_generate_authoring_plan",
+        "azure-sdk-mcp-azsdk_package_update_metadata",
+        "azure-sdk-mcp-azsdk_get_failed_test_case_data",
+        "azure-sdk-mcp-azsdk_abandon_release_plan",
+        "azure-sdk-mcp-azsdk_package_generate_code",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_view",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_owner",
+        "azure-sdk-mcp-azsdk_package_update_version",
+        "azure-sdk-mcp-azsdk_link_sdk_pull_request_to_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan_for_spec_pr",
+        "azure-sdk-mcp-azsdk_apiview_get_comments",
+        "azure-sdk-mcp-azsdk_analyze_pipeline",
+        "azure-sdk-mcp-azsdk_get_failed_test_cases",
+        "azure-sdk-mcp-azsdk_get_pull_request_link_for_current_branch",
+        "azure-sdk-mcp-azsdk_get_service_details_by_typespec_path",
+        "azure-sdk-mcp-azsdk_get_pipeline_llm_artifacts",
+        "azure-sdk-mcp-azsdk_create_pull_request",
+        "azure-sdk-mcp-azsdk_check_api_spec_ready_for_sdk",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_check_package",
+        "azure-sdk-mcp-azsdk_create_service_label"
+      ]
+    ],
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "triage",
+    "label": "Triage",
+    "reason": "The run focused on classification, routing, or issue state updates."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "broad",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Triage run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=12 tool_types=130 duration=9m32s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "poor_agentic_control",
+      "severity": "medium",
+      "summary": "The run showed signs of broad or weakly controlled agentic behavior.",
+      "evidence": "friction=0 execution=exploratory actuation=read_only",
+      "recommendation": "Tighten instructions, reduce unnecessary tools, or delay write actions until the workflow has stronger evidence."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=12",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    },
+    {
+      "kind": "model_downgrade_available",
+      "severity": "low",
+      "summary": "This Triage run may not need a frontier model. A smaller model (e.g. gpt-4.1-mini, claude-haiku-4-5) could handle the task at lower cost.",
+      "evidence": "domain=triage resource_profile=heavy actuation=read_only",
+      "recommendation": "Try engine.model: gpt-4.1-mini or claude-haiku-4-5 in the workflow frontmatter."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "0t3vsblobprodcus362.vsblob.vsassets.io:443",
+      "1javsblobprodcus364.vsblob.vsassets.io:443",
+      "1k9vsblobprodcus379.vsblob.vsassets.io:443",
+      "4m6vsblobprodcus384.vsblob.vsassets.io:443",
+      "4vyvsblobprodcus361.vsblob.vsassets.io:443",
+      "4zjvsblobprodcus390.vsblob.vsassets.io:443",
+      "7devsblobprodcus323.vsblob.vsassets.io:443",
+      "80zvsblobprodcus35.vsblob.vsassets.io:443",
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "ckzvsblobprodcus347.vsblob.vsassets.io:443",
+      "crl3.digicert.com",
+      "crl4.digicert.com",
+      "dc.services.visualstudio.com:443",
+      "frdvsblobprodcus327.vsblob.vsassets.io:443",
+      "github.com:443",
+      "k0ivsblobprodcus356.vsblob.vsassets.io:443",
+      "kh4vsblobprodcus325.vsblob.vsassets.io:443",
+      "kxqvsblobprodcus376.vsblob.vsassets.io:443",
+      "m16vsblobprodcus374.vsblob.vsassets.io:443",
+      "m8dvsblobprodcus37.vsblob.vsassets.io:443",
+      "mfjvsblobprodcus373.vsblob.vsassets.io:443",
+      "nn8vsblobprodcus340.vsblob.vsassets.io:443",
+      "o3svsblobprodcus318.vsblob.vsassets.io:443",
+      "pe3vsblobprodcus354.vsblob.vsassets.io:443",
+      "pkgs.dev.azure.com:443",
+      "release-assets.githubusercontent.com:443",
+      "s.symcb.com",
+      "s4uvsblobprodcus326.vsblob.vsassets.io:443",
+      "s8mvsblobprodcus38.vsblob.vsassets.io:443",
+      "sc4vsblobprodcus331.vsblob.vsassets.io:443",
+      "se1vsblobprodcus349.vsblob.vsassets.io:443",
+      "ts-crl.ws.symantec.com",
+      "u3hvsblobprodcus371.vsblob.vsassets.io:443",
+      "u6ovsblobprodcus377.vsblob.vsassets.io:443",
+      "ukkvsblobprodcus352.vsblob.vsassets.io:443",
+      "uy6vsblobprodcus34.vsblob.vsassets.io:443",
+      "vb4vsblobprodcus33.vsblob.vsassets.io:443",
+      "xupvsblobprodcus332.vsblob.vsassets.io:443",
+      "yluvsblobprodcus367.vsblob.vsassets.io:443",
+      "yttvsblobprodcus357.vsblob.vsassets.io:443"
+    ],
+    "blocked_domains": [
+      "centralus-2.in.applicationinsights.azure.com:443"
+    ],
+    "total_requests": 144,
+    "allowed_requests": 140,
+    "blocked_requests": 4,
+    "requests_by_domain": {
+      "0t3vsblobprodcus362.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "1javsblobprodcus364.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "1k9vsblobprodcus379.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4m6vsblobprodcus384.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4vyvsblobprodcus361.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4zjvsblobprodcus390.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "7devsblobprodcus323.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "80zvsblobprodcus35.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "api.github.com:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 31,
+        "blocked": 0
+      },
+      "centralus-2.in.applicationinsights.azure.com:443": {
+        "allowed": 0,
+        "blocked": 4
+      },
+      "ckzvsblobprodcus347.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "crl3.digicert.com": {
+        "allowed": 43,
+        "blocked": 0
+      },
+      "crl4.digicert.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "dc.services.visualstudio.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "frdvsblobprodcus327.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "k0ivsblobprodcus356.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "kh4vsblobprodcus325.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "kxqvsblobprodcus376.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "m16vsblobprodcus374.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "m8dvsblobprodcus37.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "mfjvsblobprodcus373.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "nn8vsblobprodcus340.vsblob.vsassets.io:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "o3svsblobprodcus318.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pe3vsblobprodcus354.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pkgs.dev.azure.com:443": {
+        "allowed": 26,
+        "blocked": 0
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s.symcb.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s4uvsblobprodcus326.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s8mvsblobprodcus38.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "sc4vsblobprodcus331.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "se1vsblobprodcus349.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ts-crl.ws.symantec.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "u3hvsblobprodcus371.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "u6ovsblobprodcus377.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ukkvsblobprodcus352.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "uy6vsblobprodcus34.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "vb4vsblobprodcus33.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "xupvsblobprodcus332.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "yluvsblobprodcus367.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "yttvsblobprodcus357.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      }
+    }
+  },
+  "policy_analysis": {
+    "policy_summary": "7 rules, SSL Bump disabled, DLP disabled",
+    "rule_hits": [],
+    "total_requests": 0,
+    "allowed_count": 0,
+    "denied_count": 0,
+    "unique_domains": 0
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "get_label",
+        "call_count": 3,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "call_count": 4,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "call_count": 6,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 37,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "add_labels",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "assign_to_user",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-23T15:31:07.916104844Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:07.924608071Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:07.932878775Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:08.301732653Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:08.608706559Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:08.617452615Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:08.62593173Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.540124148Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.54848342Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.556619026Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.858322642Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.86229027Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.882551722Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:30.894363828Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:31.19147077Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.476686762Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.485666734Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.509554356Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.510343045Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.519108848Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.533563525Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.773789059Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:31:41.804540571Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:40.7393762Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:40.747309288Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:40.759296887Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:41.042986992Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:44.620113275Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:44.628716355Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:44.641294063Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:44.894897724Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:51.391458494Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:51.400658489Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:51.412823467Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:51.677209935Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:59.781115738Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:59.789597506Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:59.80429597Z",
+        "server_name": "github",
+        "tool_name": "get_label",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:59.809970185Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:59.818938409Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:32:59.830961618Z",
+        "server_name": "github",
+        "tool_name": "get_label",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:00.128633714Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:00.138023625Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:00.165381477Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:00.174595071Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:41.645336504Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:41.653818123Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:41.666909837Z",
+        "server_name": "github",
+        "tool_name": "get_label",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:42.006213667Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:42.014448918Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:33:54.127828878Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_labels",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:34:01.015829908Z",
+        "server_name": "safeoutputs",
+        "tool_name": "assign_to_user",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:34:05.366093024Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-23T15:34:28.909779712Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 50,
+        "tool_call_count": 50,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 4,
+        "tool_call_count": 4,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "token_usage_summary": {
+    "total_input_tokens": 1188270,
+    "total_output_tokens": 5971,
+    "total_cache_read_tokens": 1129615,
+    "total_cache_write_tokens": 0,
+    "total_requests": 22,
+    "total_duration_ms": 193299,
+    "total_response_bytes": 384138,
+    "cache_efficiency": 0.48734730152703865,
+    "total_effective_tokens": 1325116,
+    "ambient_context": {
+      "input_tokens": 47074,
+      "cached_tokens": 0,
+      "effective_tokens": 47074
+    },
+    "by_model": {
+      "claude-sonnet-4.6": {
+        "provider": "copilot",
+        "input_tokens": 1188270,
+        "output_tokens": 5971,
+        "cache_read_tokens": 1129615,
+        "cache_write_tokens": 0,
+        "requests": 22,
+        "duration_ms": 193299,
+        "response_bytes": 384138,
+        "effective_tokens": 1325116
+      }
+    }
+  },
+  "github_rate_limit_usage": {
+    "total_requests_made": 4,
+    "core_consumed": 6,
+    "core_remaining": 14949,
+    "core_limit": 15000,
+    "resources": [
+      {
+        "resource": "core",
+        "requests_made": 4,
+        "quota_consumed": 6,
+        "final_remaining": 14949,
+        "limit": 15000
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "agent_usage.json",
+    "aw-prompts/prompt.txt",
+    "detection.log",
+    "github_rate_limits.jsonl",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-outputs-items/safe-output-items.jsonl",
+    "safe-outputs-items/temporary-id-map.json",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1776958232909-172.log",
+    "sandbox/firewall/audit/docker-compose.redacted.yml",
+    "sandbox/firewall/audit/iptables-audit.txt",
+    "sandbox/firewall/audit/policy-manifest.json",
+    "sandbox/firewall/audit/squid.conf",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl",
+    "sandbox/firewall/logs/audit.jsonl",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/3_detection.txt",
+    "workflow-logs/4_agent.txt",
+    "workflow-logs/5_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/mention_owners/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

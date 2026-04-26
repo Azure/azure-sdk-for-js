@@ -1,0 +1,170 @@
+﻿2026-04-24T21:18:36.8589748Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-24T21:18:36.8590722Z with:
+2026-04-24T21:18:36.8591440Z   github-token: ***
+2026-04-24T21:18:36.8593582Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/safe_output_handler_manager.cjs');
+await main();
+
+2026-04-24T21:18:36.8595836Z   debug: false
+2026-04-24T21:18:36.8596330Z   user-agent: actions/github-script
+2026-04-24T21:18:36.8596905Z   result-encoding: json
+2026-04-24T21:18:36.8597406Z   retries: 0
+2026-04-24T21:18:36.8597919Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-24T21:18:36.8598949Z env:
+2026-04-24T21:18:36.8599537Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-net/issue-triage
+2026-04-24T21:18:36.8600303Z   GH_AW_DETECTION_CONCLUSION: success
+2026-04-24T21:18:36.8600896Z   GH_AW_DETECTION_REASON: 
+2026-04-24T21:18:36.8601482Z   GH_AW_EFFECTIVE_TOKENS: 1117748
+2026-04-24T21:18:36.8602303Z   GH_AW_ENGINE_ID: copilot
+2026-04-24T21:18:36.8602835Z   GH_AW_ENGINE_MODEL: auto
+2026-04-24T21:18:36.8603369Z   GH_AW_WORKFLOW_ID: issue-triage
+2026-04-24T21:18:36.8604042Z   GH_AW_WORKFLOW_NAME: Agentic Triage
+2026-04-24T21:18:36.8611381Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T21:18:36.8621398Z   GITHUB_AW_OTEL_TRACE_ID: b1b41ae53d3acfe02d2e47bc77e5def9
+2026-04-24T21:18:36.8622412Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 098ed14cb28507ae
+2026-04-24T21:18:36.8623123Z   GITHUB_AW_OTEL_JOB_START_MS: 1777065515241
+2026-04-24T21:18:36.8623725Z   GH_HOST: github.com
+2026-04-24T21:18:36.8624294Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-24T21:18:36.8659383Z   GH_AW_ALLOWED_DOMAINS: *.githubusercontent.com,*.in.applicationinsights.azure.com,*.vsblob.vsassets.io,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.nuget.org,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,azuresearch-usnc.nuget.org,azuresearch-ussc.nuget.org,builds.dotnet.microsoft.com,ci.dot.net,codeload.github.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,dc.services.visualstudio.com,dist.nuget.org,docs.github.com,dot.net,dotnet.microsoft.com,dotnetcli.blob.core.windows.net,github-cloud.githubusercontent.com,github-cloud.s3.amazonaws.com,github.blog,github.com,github.githubassets.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,lfs.github.com,nuget.org,nuget.pkg.github.com,nugetregistryv2prod.blob.core.windows.net,objects.githubusercontent.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,oneocsp.microsoft.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,pkgs.dev.azure.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com,www.microsoft.com
+2026-04-24T21:18:36.8698742Z   GITHUB_SERVER_URL: https://github.com
+2026-04-24T21:18:36.8700316Z   GITHUB_API_URL: https://api.github.com
+2026-04-24T21:18:36.8701003Z   GH_AW_SAFE_OUTPUT_JOBS: {"mention_owners":""}
+2026-04-24T21:18:36.8703548Z   GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
+2026-04-24T21:18:36.8706618Z ##[endgroup]
+2026-04-24T21:18:37.0472914Z Safe Output Handler Manager starting...
+2026-04-24T21:18:37.0489968Z Loaded config from GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"max":2,"target":"*"},"add_labels":{"max":7,"target":"*"},"assign_to_user":{"max":1,"target":"*"},"close_issue":{"max":1,"target":"*"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"false"},"remove_labels":{"max":7,"target":"*"},"report_incomplete":{}}
+2026-04-24T21:18:37.0504537Z Agent output content length: 3920
+2026-04-24T21:18:37.0508059Z Found 4 message(s) in agent output
+2026-04-24T21:18:37.0516415Z Loading and initializing safe output handlers based on configuration...
+2026-04-24T21:18:37.0543869Z Add comment configuration: max=2, target=*
+2026-04-24T21:18:37.0551947Z Default target repo: Azure/azure-sdk-for-net
+2026-04-24T21:18:37.0557613Z ✓ Loaded and initialized handler for: add_comment
+2026-04-24T21:18:37.0577942Z Close issue configuration: max=1, state_reason=COMPLETED
+2026-04-24T21:18:37.0582456Z Default target repo: Azure/azure-sdk-for-net
+2026-04-24T21:18:37.0590244Z ✓ Loaded and initialized handler for: close_issue
+2026-04-24T21:18:37.0609313Z Add labels configuration: max=7
+2026-04-24T21:18:37.0612786Z Default target repo: Azure/azure-sdk-for-net
+2026-04-24T21:18:37.0615947Z ✓ Loaded and initialized handler for: add_labels
+2026-04-24T21:18:37.0628987Z Remove labels configuration: max=7
+2026-04-24T21:18:37.0634984Z Default target repo: Azure/azure-sdk-for-net
+2026-04-24T21:18:37.0638271Z ✓ Loaded and initialized handler for: remove_labels
+2026-04-24T21:18:37.0708029Z Assign to user configuration: max=1, unassign_first=false
+2026-04-24T21:18:37.0710087Z Default target repo: Azure/azure-sdk-for-net
+2026-04-24T21:18:37.0712318Z ✓ Loaded and initialized handler for: assign_to_user
+2026-04-24T21:18:37.0749339Z Max count: unlimited
+2026-04-24T21:18:37.0751317Z ✓ Loaded and initialized handler for: missing_tool
+2026-04-24T21:18:37.0764233Z Max count: unlimited
+2026-04-24T21:18:37.0767937Z ✓ Loaded and initialized handler for: missing_data
+2026-04-24T21:18:37.0772741Z Max count: 1
+2026-04-24T21:18:37.0774346Z ✓ Loaded and initialized handler for: noop
+2026-04-24T21:18:37.0778819Z Max count: unlimited
+2026-04-24T21:18:37.0780584Z ✓ Loaded and initialized handler for: report_incomplete
+2026-04-24T21:18:37.0820867Z Title prefix: [incomplete]
+2026-04-24T21:18:37.6245088Z Default labels: agentic-workflows
+2026-04-24T21:18:37.6253805Z Max count: 1
+2026-04-24T21:18:37.6255326Z ✓ Loaded and initialized handler for: create_report_incomplete_issue
+2026-04-24T21:18:37.6257669Z Loaded 10 handler(s)
+2026-04-24T21:18:37.6258769Z Collected 0 missing tool(s), 0 missing data item(s), 0 noop message(s), and 0 incomplete signal(s)
+2026-04-24T21:18:37.6262612Z Loaded 1 custom safe output job type(s): mention_owners
+2026-04-24T21:18:37.6263447Z Processing 4 message(s) in order of appearance...
+2026-04-24T21:18:37.6264374Z Processing message 1/4: add_labels
+2026-04-24T21:18:37.6265001Z Target repository: Azure/azure-sdk-for-net
+2026-04-24T21:18:37.6265996Z Requested labels: ["customer-reported","question","Provisioning","SQL","needs-team-attention"]
+2026-04-24T21:18:37.6267570Z Adding 5 labels to issue #58665 in Azure/azure-sdk-for-net: ["customer-reported","question","Provisioning","SQL","needs-team-attention"]
+2026-04-24T21:18:38.4154126Z Successfully added 5 labels to issue #58665 in Azure/azure-sdk-for-net
+2026-04-24T21:18:38.4156017Z 📝 Manifest: logged add_labels #58665
+2026-04-24T21:18:38.4157036Z ✓ Message 1 (add_labels) completed successfully
+2026-04-24T21:18:38.4233861Z Processing message 2/4: assign_to_user
+2026-04-24T21:18:38.4234746Z Target repository: Azure/azure-sdk-for-net
+2026-04-24T21:18:38.4235405Z Requested assignees: ["ArthurMa1978"]
+2026-04-24T21:18:38.4236231Z Assigning 1 users to issue #58665 in Azure/azure-sdk-for-net: ["ArthurMa1978"]
+2026-04-24T21:18:39.3697842Z Successfully assigned 1 user(s) to issue #58665 in Azure/azure-sdk-for-net
+2026-04-24T21:18:39.3699880Z 📝 Manifest: logged assign_to_user
+2026-04-24T21:18:39.3700793Z ✓ Message 2 (assign_to_user) completed successfully
+2026-04-24T21:18:39.3701999Z Processing message 3/4: add_comment
+2026-04-24T21:18:39.3714079Z Target repository: Azure/azure-sdk-for-net
+2026-04-24T21:18:39.3718197Z Using explicitly provided item_number: #58665
+2026-04-24T21:18:39.7018172Z [MENTIONS] Allowing parent entity authors in comment: tekgiant
+2026-04-24T21:18:39.7082063Z Adding comment to issue/PR #58665 in Azure/azure-sdk-for-net
+2026-04-24T21:18:40.3678365Z Created comment: https://github.com/Azure/azure-sdk-for-net/issues/58665#issuecomment-4316470508
+2026-04-24T21:18:40.3685774Z 📝 Manifest: logged add_comment → https://github.com/Azure/azure-sdk-for-net/issues/58665#issuecomment-4316470508
+2026-04-24T21:18:40.3691036Z ✓ Message 3 (add_comment) completed successfully
+2026-04-24T21:18:40.3694742Z Processing message 4/4: add_comment
+2026-04-24T21:18:40.3698416Z Target repository: Azure/azure-sdk-for-net
+2026-04-24T21:18:40.3701222Z Using explicitly provided item_number: #58665
+2026-04-24T21:18:40.5706749Z [MENTIONS] Allowing parent entity authors in comment: tekgiant
+2026-04-24T21:18:40.5845087Z Adding comment to issue/PR #58665 in Azure/azure-sdk-for-net
+2026-04-24T21:18:41.1205094Z Created comment: https://github.com/Azure/azure-sdk-for-net/issues/58665#issuecomment-4316470569
+2026-04-24T21:18:41.1211324Z 📝 Manifest: logged add_comment → https://github.com/Azure/azure-sdk-for-net/issues/58665#issuecomment-4316470569
+2026-04-24T21:18:41.1217242Z ✓ Message 4 (add_comment) completed successfully
+2026-04-24T21:18:41.1223354Z Stored 0 missing tool(s), 0 missing data item(s), 0 noop message(s), and 0 incomplete signal(s) for footer generation
+2026-04-24T21:18:41.1250762Z 📝 Safe output summaries written to step summary
+2026-04-24T21:18:41.1256439Z 
+2026-04-24T21:18:41.1257010Z === Processing Summary ===
+2026-04-24T21:18:41.1261007Z Total messages: 4
+2026-04-24T21:18:41.1265439Z Successful: 4
+2026-04-24T21:18:41.1268969Z Failed: 0
+2026-04-24T21:18:41.1273351Z Temporary IDs registered: 0
+2026-04-24T21:18:41.1278309Z Synthetic updates: 0
+2026-04-24T21:18:41.1292490Z Exported temporary ID map with 0 mapping(s)
+2026-04-24T21:18:41.1297689Z Wrote temporary ID map to file for artifact upload
+2026-04-24T21:18:41.1319564Z Exported comment_id: 4316470508
+2026-04-24T21:18:41.1325833Z Exported comment_url: https://github.com/Azure/azure-sdk-for-net/issues/58665#issuecomment-4316470508
+2026-04-24T21:18:41.1332494Z Safe Output Handler Manager completed

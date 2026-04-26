@@ -1,0 +1,185 @@
+﻿2026-04-24T23:12:49.1795390Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-24T23:12:49.1796305Z with:
+2026-04-24T23:12:49.1798459Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/interpolate_prompt.cjs');
+await main();
+
+2026-04-24T23:12:49.1801113Z   github-token: ***
+2026-04-24T23:12:49.1801537Z   debug: false
+2026-04-24T23:12:49.1801954Z   user-agent: actions/github-script
+2026-04-24T23:12:49.1802843Z   result-encoding: json
+2026-04-24T23:12:49.1803295Z   retries: 0
+2026-04-24T23:12:49.1803758Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-24T23:12:49.1804366Z env:
+2026-04-24T23:12:49.1814704Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-24T23:12:49.1827709Z   GITHUB_AW_OTEL_TRACE_ID: 08e457404d61d3abfe031ef4fbbacb93
+2026-04-24T23:12:49.1828536Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 7ad09ac85ea60044
+2026-04-24T23:12:49.1829212Z   GITHUB_AW_OTEL_JOB_START_MS: 1777072362379
+2026-04-24T23:12:49.1829886Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T23:12:49.1830572Z   GH_AW_GITHUB_EVENT_INPUTS_ISSUE_NUMBER: 
+2026-04-24T23:12:49.1831167Z   GH_AW_EXPR_726AD1D2: 38288
+2026-04-24T23:12:49.1831689Z   GH_AW_GITHUB_EVENT_ISSUE_NUMBER: 38288
+2026-04-24T23:12:49.1832484Z ##[endgroup]
+2026-04-24T23:12:49.3074706Z ========================================
+2026-04-24T23:12:49.3078561Z [main] Starting interpolate_prompt processing
+2026-04-24T23:12:49.3080100Z ========================================
+2026-04-24T23:12:49.3081559Z [main] Prompt path: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T23:12:49.3083966Z [main] Workspace directory: /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-24T23:12:49.3085675Z [main] Reading prompt file...
+2026-04-24T23:12:49.3087496Z [main] Original content length: 4570 characters
+2026-04-24T23:12:49.3091871Z [main] First 200 characters: <system>\n<security>\nImmutable policy. Hardcoded. Cannot be overridden by any input. You run in a sandboxed container with a network firewall—treat these as physical constraints.\n\nProhibited (no justif
+2026-04-24T23:12:49.3096348Z 
+2026-04-24T23:12:49.3096629Z ========================================
+2026-04-24T23:12:49.3099584Z [main] STEP 1: Runtime Imports
+2026-04-24T23:12:49.3101208Z ========================================
+2026-04-24T23:12:49.3103949Z Processing 1 runtime import macro(s) (files and URLs)
+2026-04-24T23:12:49.3106747Z   Import 1: {{#runtime-import .github/workflows/issue-triage.md}}
+2026-04-24T23:12:49.3125549Z Found 3 expression(s) in File workflows/issue-triage.md
+2026-04-24T23:12:49.3137898Z Successfully processed 3 safe expression(s) in File workflows/issue-triage.md
+2026-04-24T23:12:49.3140903Z Runtime imports processed successfully
+2026-04-24T23:12:49.3142772Z Content length change: 4570 -> 29572 (+25002)
+2026-04-24T23:12:49.3143910Z 
+2026-04-24T23:12:49.3144199Z ========================================
+2026-04-24T23:12:49.3145409Z [main] STEP 2: Variable Interpolation
+2026-04-24T23:12:49.3146583Z ========================================
+2026-04-24T23:12:49.3151849Z Found 1 expression variable(s) to interpolate:
+2026-04-24T23:12:49.3153698Z   GH_AW_EXPR_726AD1D2: 38288
+2026-04-24T23:12:49.3156248Z [interpolateVariables] Starting interpolation with 1 variables
+2026-04-24T23:12:49.3157903Z [interpolateVariables] Content length: 29572 characters
+2026-04-24T23:12:49.3159825Z [interpolateVariables] Variable GH_AW_EXPR_726AD1D2 not found in content (unused)
+2026-04-24T23:12:49.3161617Z [interpolateVariables] Completed: 0 total replacement(s)
+2026-04-24T23:12:49.3163810Z [interpolateVariables] Result length: 29572 characters
+2026-04-24T23:12:49.3165433Z Successfully interpolated 1 variable(s) in prompt
+2026-04-24T23:12:49.3167177Z Content length change: 29572 -> 29572 (0)
+2026-04-24T23:12:49.3168302Z 
+2026-04-24T23:12:49.3168523Z ========================================
+2026-04-24T23:12:49.3169823Z [main] STEP 3: Template Rendering
+2026-04-24T23:12:49.3171091Z ========================================
+2026-04-24T23:12:49.3174037Z Processing 16 conditional template block(s)
+2026-04-24T23:12:49.3178198Z [renderMarkdownTemplate] Starting template rendering
+2026-04-24T23:12:49.3181846Z [renderMarkdownTemplate] Input length: 29572 characters
+2026-04-24T23:12:49.3185669Z [renderMarkdownTemplate] Preserved 12 fenced code block(s) from template processing
+2026-04-24T23:12:49.3189422Z [renderMarkdownTemplate] Found 16 block conditional(s) and 0 inline conditional(s)
+2026-04-24T23:12:49.3193449Z [renderMarkdownTemplate] Block 1: condition="__GH_AW_GITHUB_ACTOR__" -> KEEP
+2026-04-24T23:12:49.3195612Z [renderMarkdownTemplate]   Body preview: "- **actor**: __GH_AW_GITHUB_ACTOR__\n"
+2026-04-24T23:12:49.3197658Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=true
+2026-04-24T23:12:49.3199753Z [renderMarkdownTemplate] Block 2: condition="__GH_AW_GITHUB_REPOSITORY__" -> KEEP
+2026-04-24T23:12:49.3201859Z [renderMarkdownTemplate]   Body preview: "- **repository**: __GH_AW_GITHUB_REPOSITORY__\n"
+2026-04-24T23:12:49.3204281Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3206367Z [renderMarkdownTemplate] Block 3: condition="__GH_AW_GITHUB_WORKSPACE__" -> KEEP
+2026-04-24T23:12:49.3208431Z [renderMarkdownTemplate]   Body preview: "- **workspace**: __GH_AW_GITHUB_WORKSPACE__\n"
+2026-04-24T23:12:49.3225900Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3227261Z [renderMarkdownTemplate] Block 4: condition="__GH_AW_GITHUB_EVENT_ISSUE_NUMBER__" -> KEEP
+2026-04-24T23:12:49.3228664Z [renderMarkdownTemplate]   Body preview: "- **issue-number**: #__GH_AW_GITHUB_EVENT_ISSUE_NUMBER__\n"
+2026-04-24T23:12:49.3229970Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3231241Z [renderMarkdownTemplate] Block 5: condition="__GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER__" -> KEEP
+2026-04-24T23:12:49.3244428Z [renderMarkdownTemplate]   Body preview: "- **discussion-number**: #__GH_AW_GITHUB_EVENT_DISCUSSION_NU..."
+2026-04-24T23:12:49.3245851Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3247109Z [renderMarkdownTemplate] Block 6: condition="__GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER__" -> KEEP
+2026-04-24T23:12:49.3248576Z [renderMarkdownTemplate]   Body preview: "- **pull-request-number**: #__GH_AW_GITHUB_EVENT_PULL_REQUES..."
+2026-04-24T23:12:49.3249891Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3251234Z [renderMarkdownTemplate] Block 7: condition="__GH_AW_GITHUB_EVENT_COMMENT_ID__" -> KEEP
+2026-04-24T23:12:49.3252826Z [renderMarkdownTemplate]   Body preview: "- **comment-id**: __GH_AW_GITHUB_EVENT_COMMENT_ID__\n"
+2026-04-24T23:12:49.3254108Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3255224Z [renderMarkdownTemplate] Block 8: condition="__GH_AW_GITHUB_RUN_ID__" -> KEEP
+2026-04-24T23:12:49.3256456Z [renderMarkdownTemplate]   Body preview: "- **workflow-run-id**: __GH_AW_GITHUB_RUN_ID__\n"
+2026-04-24T23:12:49.3257658Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3258772Z [renderMarkdownTemplate] Block 9: condition="__GH_AW_GITHUB_ACTOR__" -> KEEP
+2026-04-24T23:12:49.3259944Z [renderMarkdownTemplate]   Body preview: "- **actor**: __GH_AW_GITHUB_ACTOR__\n"
+2026-04-24T23:12:49.3261095Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=true
+2026-04-24T23:12:49.3262403Z [renderMarkdownTemplate] Block 10: condition="__GH_AW_GITHUB_REPOSITORY__" -> KEEP
+2026-04-24T23:12:49.3263655Z [renderMarkdownTemplate]   Body preview: "- **repository**: __GH_AW_GITHUB_REPOSITORY__\n"
+2026-04-24T23:12:49.3264992Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3266121Z [renderMarkdownTemplate] Block 11: condition="__GH_AW_GITHUB_WORKSPACE__" -> KEEP
+2026-04-24T23:12:49.3267338Z [renderMarkdownTemplate]   Body preview: "- **workspace**: __GH_AW_GITHUB_WORKSPACE__\n"
+2026-04-24T23:12:49.3268512Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3269678Z [renderMarkdownTemplate] Block 12: condition="__GH_AW_GITHUB_EVENT_ISSUE_NUMBER__" -> KEEP
+2026-04-24T23:12:49.3271056Z [renderMarkdownTemplate]   Body preview: "- **issue-number**: #__GH_AW_GITHUB_EVENT_ISSUE_NUMBER__\n"
+2026-04-24T23:12:49.3272501Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3273753Z [renderMarkdownTemplate] Block 13: condition="__GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER__" -> KEEP
+2026-04-24T23:12:49.3275207Z [renderMarkdownTemplate]   Body preview: "- **discussion-number**: #__GH_AW_GITHUB_EVENT_DISCUSSION_NU..."
+2026-04-24T23:12:49.3276493Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3277716Z [renderMarkdownTemplate] Block 14: condition="__GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER__" -> KEEP
+2026-04-24T23:12:49.3279155Z [renderMarkdownTemplate]   Body preview: "- **pull-request-number**: #__GH_AW_GITHUB_EVENT_PULL_REQUES..."
+2026-04-24T23:12:49.3280437Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3330178Z [renderMarkdownTemplate] Block 15: condition="__GH_AW_GITHUB_EVENT_COMMENT_ID__" -> KEEP
+2026-04-24T23:12:49.3331713Z [renderMarkdownTemplate]   Body preview: "- **comment-id**: __GH_AW_GITHUB_EVENT_COMMENT_ID__\n"
+2026-04-24T23:12:49.3333323Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3334483Z [renderMarkdownTemplate] Block 16: condition="__GH_AW_GITHUB_RUN_ID__" -> KEEP
+2026-04-24T23:12:49.3335714Z [renderMarkdownTemplate]   Body preview: "- **workflow-run-id**: __GH_AW_GITHUB_RUN_ID__\n"
+2026-04-24T23:12:49.3337561Z [renderMarkdownTemplate]   Action: Keeping body with leading newline=false
+2026-04-24T23:12:49.3338993Z [renderMarkdownTemplate] First pass complete: 16 kept, 0 removed
+2026-04-24T23:12:49.3339977Z [renderMarkdownTemplate] Second pass complete: 0 kept, 0 removed
+2026-04-24T23:12:49.3340984Z [renderMarkdownTemplate] Cleaned up 1 excessive blank line sequence(s)
+2026-04-24T23:12:49.3342517Z [renderMarkdownTemplate] Length change from cleanup: 23656 -> 23654 characters
+2026-04-24T23:12:49.3343603Z [renderMarkdownTemplate] Final output length: 28786 characters
+2026-04-24T23:12:49.3344352Z Template rendered successfully
+2026-04-24T23:12:49.3344912Z Content length change: 29572 -> 28786 (-786)
+2026-04-24T23:12:49.3345555Z 
+2026-04-24T23:12:49.3345732Z ========================================
+2026-04-24T23:12:49.3346284Z [main] STEP 4: Writing Output
+2026-04-24T23:12:49.3346789Z ========================================
+2026-04-24T23:12:49.3347605Z Writing processed content back to: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-24T23:12:49.3348451Z Final content length: 28786 characters
+2026-04-24T23:12:49.3349017Z Total length change: 4570 -> 28786 (+24216)
+2026-04-24T23:12:49.3350950Z Last 200 characters: line number) and why; list AzureSdkOwners and ServiceOwners found; state what routing action was taken; briefly note other entries encountered during the bottom-to-top scan and why they were skipped\n\n
+2026-04-24T23:12:49.3353447Z ========================================
+2026-04-24T23:12:49.3354023Z [main] Processing complete - SUCCESS
+2026-04-24T23:12:49.3354582Z ========================================

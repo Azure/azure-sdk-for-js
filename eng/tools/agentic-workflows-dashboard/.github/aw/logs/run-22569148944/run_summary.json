@@ -1,0 +1,225 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 22569148944,
+  "processed_at": "2026-04-24T23:03:57.653392047Z",
+  "run": {
+    "databaseId": 22569148944,
+    "number": 16,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/22569148944",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Documentation Consistency Check",
+    "workflowPath": ".github/workflows/docs-consistency-check.lock.yml",
+    "createdAt": "2026-03-02T09:13:43Z",
+    "startedAt": "2026-03-02T09:13:43Z",
+    "updatedAt": "2026-03-02T09:24:19Z",
+    "event": "schedule",
+    "headBranch": "main",
+    "headSha": "70a6f986945f663a2fbec6acd834149b0392a131",
+    "displayTitle": "Documentation Consistency Check",
+    "Duration": 636000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 3690253,
+    "EstimatedCost": 0,
+    "Turns": 44,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-22569148944"
+  },
+  "metrics": {
+    "TokenUsage": 3690253,
+    "EstimatedCost": 0,
+    "Turns": 44,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "general_automation",
+    "label": "General Automation",
+    "reason": "The run does not strongly match a narrower workflow domain yet."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This General Automation run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=44 tool_types=0 duration=10m36s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=44",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "github.com:443",
+      "registry.npmjs.org:443"
+    ],
+    "blocked_domains": [
+      "release-assets.githubusercontent.com:443"
+    ],
+    "total_requests": 69,
+    "allowed_requests": 68,
+    "blocked_requests": 1,
+    "requests_by_domain": {
+      "api.github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 50,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "registry.npmjs.org:443": {
+        "allowed": 15,
+        "blocked": 0
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 0,
+        "blocked": 1
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "create_pull_request",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-03-02T09:21:58.359381814Z",
+        "server_name": "safeoutputs",
+        "tool_name": "create_pull_request",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "safeoutputs",
+        "request_count": 1,
+        "tool_call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "aw.patch",
+    "aw_info.json",
+    "detection.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "outputs.jsonl",
+    "safe-output-items.jsonl",
+    "sandbox/agent/logs/conversation.md",
+    "sandbox/agent/logs/process-1772442919427-141.log",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/2_detection.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-02T09:13:47Z",
+      "completed_at": "2026-03-02T09:14:11Z",
+      "Duration": 24000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-02T09:14:15Z",
+      "completed_at": "2026-03-02T09:22:23Z",
+      "Duration": 488000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-02T09:22:28Z",
+      "completed_at": "2026-03-02T09:23:07Z",
+      "Duration": 39000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-02T09:23:12Z",
+      "completed_at": "2026-03-02T09:23:52Z",
+      "Duration": 40000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-02T09:23:57Z",
+      "completed_at": "2026-03-02T09:24:18Z",
+      "Duration": 21000000000
+    }
+  ]
+}

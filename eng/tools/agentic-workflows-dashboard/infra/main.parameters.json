@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "eastus2"
+    },
+    "environment": {
+      "value": "prod"
+    },
+    "githubOrg": {
+      "value": "Azure"
+    },
+    "githubRepo": {
+      "value": "azure-sdk-tools"
+    },
+    "additionalPublisherPrincipalIds": {
+      "value": [
+        "51291b7b-d07c-424e-b934-042c148c6a56"
+      ]
+    }
+  }
+}

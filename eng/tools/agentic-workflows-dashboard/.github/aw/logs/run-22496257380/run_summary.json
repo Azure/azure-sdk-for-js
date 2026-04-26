@@ -1,0 +1,236 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 22496257380,
+  "processed_at": "2026-04-24T23:04:33.138990512Z",
+  "run": {
+    "databaseId": 22496257380,
+    "number": 8,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/22496257380",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Documentation Consistency Check",
+    "workflowPath": ".github/workflows/docs-consistency-check.lock.yml",
+    "createdAt": "2026-02-27T17:16:19Z",
+    "startedAt": "2026-02-27T17:16:19Z",
+    "updatedAt": "2026-02-27T17:27:42Z",
+    "event": "workflow_dispatch",
+    "headBranch": "aw/issue-instead-of-pr",
+    "headSha": "06159b63d16a461fe213b55825271181779a524c",
+    "displayTitle": "Documentation Consistency Check",
+    "Duration": 683000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 4744092,
+    "EstimatedCost": 0,
+    "Turns": 50,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-22496257380"
+  },
+  "metrics": {
+    "TokenUsage": 4744092,
+    "EstimatedCost": 0,
+    "Turns": 50,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Code Fix run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=50 tool_types=0 duration=11m23s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=50",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.githubcopilot.com:443",
+      "github.com:443",
+      "registry.npmjs.org:443"
+    ],
+    "total_requests": 74,
+    "allowed_requests": 74,
+    "blocked_requests": 0,
+    "requests_by_domain": {
+      "api.githubcopilot.com:443": {
+        "allowed": 56,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 3,
+        "blocked": 0
+      },
+      "registry.npmjs.org:443": {
+        "allowed": 15,
+        "blocked": 0
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": [
+    {
+      "message": "Documentation consistency check complete. Found and fixed 3 categories of inconsistencies across documentation/ folder. PR submitted with changes to Quickstart-on-how-to-write-tests.md (mocha/chai → vitest), using-azure-identity.md (incomplete DefaultAzureCredential chain), and resolve-pnpm-lock-merge-conflict.md (missing path separator in git command).",
+      "workflow_name": "Documentation Consistency Check",
+      "run_id": 22496257380
+    }
+  ],
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "create_pull_request",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-02-27T17:24:07.0795897Z",
+        "server_name": "safeoutputs",
+        "tool_name": "create_pull_request",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-02-27T17:24:57.594075883Z",
+        "server_name": "safeoutputs",
+        "tool_name": "noop",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "safeoutputs",
+        "request_count": 2,
+        "tool_call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "aw.patch",
+    "aw_info.json",
+    "detection.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "outputs.jsonl",
+    "safe-output-items.jsonl",
+    "sandbox/agent/logs/conversation.md",
+    "sandbox/agent/logs/process-1772212679531-141.log",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/2_detection.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-27T17:16:24Z",
+      "completed_at": "2026-02-27T17:16:52Z",
+      "Duration": 28000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-27T17:16:58Z",
+      "completed_at": "2026-02-27T17:25:24Z",
+      "Duration": 506000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-27T17:25:28Z",
+      "completed_at": "2026-02-27T17:26:10Z",
+      "Duration": 42000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-27T17:26:13Z",
+      "completed_at": "2026-02-27T17:27:04Z",
+      "Duration": 51000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-27T17:27:17Z",
+      "completed_at": "2026-02-27T17:27:41Z",
+      "Duration": 24000000000
+    }
+  ]
+}
