@@ -1018,12 +1018,12 @@ describe("sample", () => {
       expect(result.outputText).toContain('console.log("hello")');
     });
 
-    it("preserves helper call when helper uses untyped parameter (any)", () => {
-      // This tests an edge case: helper takes `any` but the call passes a dead binding
-      // Currently, the compiler keeps the call because:
-      // 1. logThing has no type dependencies → survives
-      // 2. logThing(recorder) has root logThing which is alive → survives
-      // Note: This produces output with a reference to undefined `recorder`.
+    it("errors when helper call uses dead binding as argument", () => {
+      // This tests the case where a live call has a dead argument.
+      // The compiler now correctly detects this as tangled (c5-1 fix) because:
+      // 1. logThing survives (no type dependencies)
+      // 2. logThing(recorder) references both logThing (alive) and recorder (dead)
+      // 3. Mixed live/dead refs → tangled → error
       // In practice, test helpers should have typed parameters which causes proper cascade.
       const input = `\
 /** @summary helper with any param */
@@ -1042,12 +1042,7 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
-      // Recorder import is eliminated
-      expect(result.outputText).not.toContain("Recorder");
-      // logThing survives and so does its call (current behavior - root-based liveness)
-      expect(result.outputText).toContain("logThing");
-      expect(result.outputText).toContain('console.log("hello")');
+      expect(() => compileSampleTest(input, { packageName: "@azure/client" })).toThrow(/tangled/i);
     });
   });
 
@@ -1289,6 +1284,27 @@ describe("sample", () => {
       // Dead cleanup should be eliminated, no try/finally needed
       expect(result.outputText).not.toContain("try {");
       expect(result.outputText).not.toContain("recorder.stop");
+    });
+
+    it("preserves imports referenced only in cleanup hooks (c5-2)", () => {
+      const input = `\
+/** @summary import in cleanup only */
+import { cleanupHelper } from "./helpers.js";
+import { describe, it, afterAll } from "vitest";
+
+describe("sample", () => {
+  afterAll(async () => {
+    await cleanupHelper();
+  });
+  it("test", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // Import used only in afterAll must survive
+      expect(result.outputText).toContain("cleanupHelper");
+      expect(result.outputText).toContain('import { cleanupHelper } from "./helpers.js"');
     });
   });
 });

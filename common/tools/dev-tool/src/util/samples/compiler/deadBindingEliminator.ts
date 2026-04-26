@@ -74,6 +74,12 @@ interface EliminationUnit {
    * Used during output reconstruction to rebuild partial export declarations.
    */
   exportSpecifier?: ts.ExportSpecifier;
+  /**
+   * For call/assignment expressions: the root symbol that determines liveness.
+   * When root is dead, the expression is dead (side effects salvaged).
+   * When root is live but other refs are dead, it's tangled.
+   */
+  rootSymbol?: ts.Symbol;
 }
 
 // ── Side-effect analysis ─────────────────────────────────────────────
@@ -446,8 +452,13 @@ function lowerToUnits(
       continue;
     }
 
-    // Special: if(false) or if(!true) { ... } → always dead
-    if (ts.isIfStatement(stmt) && isAlwaysFalseCondition(stmt.expression)) {
+    // Special: if(false) or if(!true) { ... } without else → always dead
+    // If there's an else branch, we can't eliminate the whole statement since else is live
+    if (
+      ts.isIfStatement(stmt) &&
+      isAlwaysFalseCondition(stmt.expression) &&
+      stmt.elseStatement === undefined
+    ) {
       units.push({
         declares: [],
         runtimeRefs: new Set(),
@@ -494,9 +505,11 @@ function lowerExpressionStatement(
   if (callRoot) {
     const rootSym = analyzer.getSymbol(callRoot);
     if (rootSym) {
-      // Root resolves — use root-only ref with salvageable args
-      const refs = new Set<ts.Symbol>();
-      refs.add(rootSym);
+      // Root resolves — collect all refs but track root specially
+      // This allows dead-root calls to be salvaged, while catching
+      // live-root calls with dead args as tangled errors
+      const wrapperStmt = ts.factory.createExpressionStatement(expr);
+      const refs = collectRuntimeRefs(wrapperStmt, analyzer);
       const salvageable = collectSideEffectArgs(expr);
       return {
         declares: [],
@@ -504,6 +517,7 @@ function lowerExpressionStatement(
         originalIndex,
         salvageableEffects: salvageable,
         isTypeOnly: false,
+        rootSymbol: rootSym, // Track root for dead-call detection
       };
     }
     // Root is a global/unresolved — fall through to general analysis
@@ -515,9 +529,9 @@ function lowerExpressionStatement(
     if (rootId) {
       const rootSym = analyzer.getSymbol(rootId);
       if (rootSym) {
-        // LHS root resolves — use root-only ref with salvageable effects
-        const refs = new Set<ts.Symbol>();
-        refs.add(rootSym);
+        // LHS root resolves — collect all refs but track root specially
+        const wrapperStmt = ts.factory.createExpressionStatement(expr);
+        const refs = collectRuntimeRefs(wrapperStmt, analyzer);
         const salvageable: ts.Expression[] = [];
         salvageable.push(...collectLhsSideEffects(expr.left));
         if (hasSideEffects(expr.right)) {
@@ -529,6 +543,7 @@ function lowerExpressionStatement(
           originalIndex,
           salvageableEffects: salvageable,
           isTypeOnly: false,
+          rootSymbol: rootSym, // Track root for dead-assign detection
         };
       }
       // LHS root is unresolved — fall through to general analysis
@@ -660,6 +675,10 @@ type UnitStatus = "alive" | "dead" | "tangled";
  * 6. No runtimeRefs are poisoned → alive
  *
  * Special: units with dead type-only refs (but no runtime refs) are also dead.
+ *
+ * For expressions with a rootSymbol (calls/assignments):
+ * - If root is dead, the whole expression is dead (allows salvage)
+ * - If root is live but other refs are dead, it's tangled (error)
  */
 function classifyUnit(
   unit: EliminationUnit,
@@ -682,6 +701,13 @@ function classifyUnit(
 
   // Rules 4-6: check runtimeRefs against poison
   if (unit.runtimeRefs.size > 0) {
+    // Special handling for call/assignment expressions with a root symbol:
+    // If root is dead, treat the whole expression as dead (not tangled)
+    // This allows side-effect salvaging from args when root is eliminated
+    if (unit.rootSymbol && poisonedSymbols.has(unit.rootSymbol)) {
+      return "dead";
+    }
+
     let hasDeadRef = false;
     let hasLiveRef = false;
     for (const sym of unit.runtimeRefs) {

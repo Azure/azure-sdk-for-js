@@ -366,6 +366,8 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     ...itBlockTexts.flat(),
     ...beforeAllTexts,
     ...beforeEachTexts,
+    ...afterEachTexts,
+    ...afterAllTexts,
   ].join("\n");
   const referencedNames = new Set<string>(allBodyText.match(/\b[A-Za-z_$][A-Za-z0-9_$]*\b/g) ?? []);
   const { imports: rewrittenImports } = rewriteImports(
