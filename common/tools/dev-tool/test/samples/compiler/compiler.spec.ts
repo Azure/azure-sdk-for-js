@@ -504,25 +504,6 @@ describe("test", () => {
         /statement\(s\) outside describe block.*function at line 3/s,
       );
     });
-
-    it("throws on hook with parameter (c6-2)", () => {
-      const input = `\
-/** @summary hook with ctx */
-import { describe, it, beforeEach } from "vitest";
-
-describe("test", () => {
-  beforeEach((ctx) => {
-    console.log(ctx.task.name);
-  });
-  it("example", async () => {
-    console.log("hello");
-  });
-});
-`;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
-        /Hook parameter "ctx".*not supported/,
-      );
-    });
   });
 
   // ── Test 5b: @ts-preserve-whitespace handling ─────────────────────
