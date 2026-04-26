@@ -1306,6 +1306,39 @@ describe("sample", () => {
       expect(result.outputText).toContain("cleanupHelper");
       expect(result.outputText).toContain('import { cleanupHelper } from "./helpers.js"');
     });
+
+    it("multi-it with beforeEach runs setup before each function (c6-1)", () => {
+      const input = `\
+/** @summary multi-it beforeEach */
+import { Client } from "../src/index.js";
+import { describe, it, beforeEach } from "vitest";
+
+describe("sample", () => {
+  let client: Client;
+  beforeEach(() => {
+    client = new Client();
+  });
+  it("first", async () => {
+    await client.doFirst();
+  });
+  it("second", async () => {
+    await client.doSecond();
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // beforeEach setup should appear twice (once per function)
+      expect((result.outputText.match(/client = new Client\(\)/g) || []).length).toBe(2);
+      // Each function call should have beforeEach before it
+      const output = result.outputText;
+      const firstSetup = output.indexOf("client = new Client()");
+      const firstCall = output.indexOf("await first()");
+      const secondSetup = output.indexOf("client = new Client()", firstSetup + 1);
+      const secondCall = output.indexOf("await second()");
+      expect(firstSetup).toBeLessThan(firstCall);
+      expect(secondSetup).toBeLessThan(secondCall);
+      expect(firstCall).toBeLessThan(secondSetup);
+    });
   });
 });
 

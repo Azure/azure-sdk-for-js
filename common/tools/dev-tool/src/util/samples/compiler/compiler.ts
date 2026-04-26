@@ -394,14 +394,15 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     return { name, bodyTexts: itBlockTexts[i] };
   });
 
-  // Step 9: Assemble final output text (beforeAll preamble comes before beforeEach)
+  // Step 9: Assemble final output text
   const rawOutputText = assembleOutput(
     parsed.metadata,
     importTexts,
     survivingDescribeTexts,
     survivingVarTexts,
     functions,
-    [...beforeAllTexts, ...beforeEachTexts],
+    beforeAllTexts,
+    beforeEachTexts,
     afterEachTexts,
     afterAllTexts,
     platform,
@@ -458,13 +459,15 @@ function assembleOutput(
   describeTexts: string[],
   describeVarTexts: string[],
   functions: Array<{ name: string; bodyTexts: string[] }>,
-  mainPreambleTexts: string[],
+  beforeAllTexts: string[],
+  beforeEachTexts: string[],
   afterEachTexts: string[],
   afterAllTexts: string[],
   platform?: "node" | "browser",
 ): string {
   const lines: string[] = [];
-  const hasCleanup = afterEachTexts.length > 0 || afterAllTexts.length > 0;
+  const hasCleanup =
+    beforeEachTexts.length > 0 || afterEachTexts.length > 0 || afterAllTexts.length > 0;
 
   // Copyright header
   lines.push("// Copyright (c) Microsoft Corporation.");
@@ -494,9 +497,11 @@ function assembleOutput(
 
   if (functions.length === 1) {
     // Single-it optimization: inline everything into main(), promote let→const
+    // For single-it, beforeAll and beforeEach are semantically identical (both run once)
+    const combinedPreamble = [...beforeAllTexts, ...beforeEachTexts];
     const { remainingVars, statements: promotedPreamble } = promoteLetToConst(
       describeVarTexts,
-      mainPreambleTexts,
+      combinedPreamble,
       functions[0].bodyTexts,
     );
 
@@ -575,27 +580,38 @@ function assembleOutput(
     }
 
     lines.push("export async function main(): Promise<void> {");
-    for (const stmt of mainPreambleTexts) {
+    // beforeAll runs once at the start
+    for (const stmt of beforeAllTexts) {
       for (const line of stmt.split("\n")) {
         lines.push("  " + line);
       }
     }
 
     if (hasCleanup) {
-      // Wrap all function calls in try/finally
+      // Wrap all function calls in try/finally for afterAll
       lines.push("  try {");
       for (const fn of functions) {
-        // For multi-it with afterEach, wrap each call individually
-        if (afterEachTexts.length > 0) {
-          lines.push(`    try {`);
-          lines.push(`      await ${fn.name}();`);
-          lines.push(`    } finally {`);
-          for (const stmt of afterEachTexts) {
+        // For multi-it: beforeEach → fn → afterEach for each function
+        if (beforeEachTexts.length > 0 || afterEachTexts.length > 0) {
+          // Emit beforeEach
+          for (const stmt of beforeEachTexts) {
             for (const line of stmt.split("\n")) {
-              lines.push("      " + line);
+              lines.push("    " + line);
             }
           }
-          lines.push(`    }`);
+          if (afterEachTexts.length > 0) {
+            lines.push(`    try {`);
+            lines.push(`      await ${fn.name}();`);
+            lines.push(`    } finally {`);
+            for (const stmt of afterEachTexts) {
+              for (const line of stmt.split("\n")) {
+                lines.push("      " + line);
+              }
+            }
+            lines.push(`    }`);
+          } else {
+            lines.push(`    await ${fn.name}();`);
+          }
         } else {
           lines.push(`    await ${fn.name}();`);
         }
