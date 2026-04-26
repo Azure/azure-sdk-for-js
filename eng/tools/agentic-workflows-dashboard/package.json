@@ -1,20 +1,19 @@
 {
   "name": "agentic-workflows-dashboard",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Collector for agentic workflow metrics across Azure SDK repos",
-  "main": "dist/collector.js",
+  "description": "Azure SDK Agentic Workflows Dashboard CLI",
+  "main": "dist/cli.js",
+  "bin": {
+    "aw-dashboard": "dist/cli.js"
+  },
   "scripts": {
     "build": "tsgo",
     "build:tsc": "tsc",
-    "start": "node dist/collector.js",
-    "collect": "node dist/collector.js",
-    "collect:dry-run": "node dist/collector.js --dry-run --verbose",
-    "audit": "node dist/audit-enrichment.js",
-    "audit:dry-run": "node dist/audit-enrichment.js --dry-run --verbose",
-    "audit:dev": "tsx src/audit-enrichment.ts",
-    "check-lockfiles": "node dist/check-lockfiles.js",
-    "check-lockfiles:verbose": "node dist/check-lockfiles.js --verbose",
+    "start": "node dist/cli.js",
+    "deploy": "node dist/cli.js deploy",
+    "prime": "node dist/cli.js prime",
+    "status": "node dist/cli.js status",
     "test": "vitest run",
     "test:watch": "vitest"
   },

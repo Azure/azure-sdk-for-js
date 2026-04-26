@@ -2,6 +2,121 @@
 
 Comprehensive tracking dashboard for all agentic workflows across Azure SDK repos.
 
+## CLI
+
+Three commands for the complete workflow:
+
+```bash
+# Deploy: Collect runs and audit data → Azure Monitor
+aw-dashboard deploy --days 7 --verbose
+
+# Prime: Bootstrap audit data from GitHub API (no Azure inventory needed)
+aw-dashboard prime --repo Azure/azure-sdk-for-js --limit 50
+
+# Status: Display metrics in terminal
+aw-dashboard status --days 30 --verbose
+```
+
+## Quick Start
+
+```bash
+# 1. Install and build
+npm install && npm run build
+
+# 2. Verify prerequisites
+gh auth status          # GitHub CLI logged in
+gh aw --help            # gh-aw extension installed
+
+# 3. Dry run (no Azure credentials needed)
+node dist/cli.js deploy --dry-run --verbose
+
+# 4. For live mode
+az login  # or use managed identity
+export AZURE_MONITOR_DCE_ENDPOINT="https://..."
+export AZURE_MONITOR_DCR_ID="dcr-..."
+export AZURE_MONITOR_WORKSPACE_ID="..."  # for status command
+node dist/cli.js deploy --days 7
+
+# 5. View metrics
+node dist/cli.js status --verbose
+```
+
+## Commands
+
+### `deploy`
+
+Collects workflow runs from GitHub API and optionally enriches with audit data.
+
+```bash
+aw-dashboard deploy [options]
+
+Options:
+  -r, --repo <repo>   Specific repo (owner/name)
+  -d, --days <n>      Lookback period (default: 7)
+  -l, --limit <n>     Max runs per workflow (default: 100)
+  --skip-audit        Skip audit enrichment
+  --dry-run           Validate without Azure ingestion
+  -v, --verbose       Detailed output
+```
+
+### `prime`
+
+Bootstrap audit data directly from GitHub API. Use when:
+- Setting up a new dashboard
+- Testing without Azure Monitor inventory
+- Debugging specific runs
+
+```bash
+aw-dashboard prime [options]
+
+Options:
+  -r, --repo <repo>   Specific repo (owner/name)
+  -d, --days <n>      Lookback period (default: 7)
+  -l, --limit <n>     Max runs to audit (default: 50)
+  --dry-run           Validate without Azure ingestion
+  -v, --verbose       Detailed output
+```
+
+### `status`
+
+Query Azure Monitor and display dashboard metrics in the terminal.
+
+```bash
+aw-dashboard status [options]
+
+Options:
+  -r, --repo <repo>   Filter to specific repo
+  -d, --days <n>      Lookback period (default: 7)
+  --json              Output as JSON
+  -v, --verbose       Show per-repo breakdown
+```
+
+Output includes:
+- Workflow run counts and success rates
+- Token usage and estimated costs
+- Audit coverage percentage
+- Pipeline health (staleness indicators)
+
+## Environment Variables
+
+| Variable | Required For | Description |
+|----------|-------------|-------------|
+| `AZURE_MONITOR_DCE_ENDPOINT` | deploy, prime | Data Collection Endpoint URL |
+| `AZURE_MONITOR_DCR_ID` | deploy, prime | Data Collection Rule ID |
+| `AZURE_MONITOR_WORKSPACE_ID` | status | Log Analytics Workspace ID |
+| `GITHUB_TOKEN` | all | GitHub token (or use `gh auth token`) |
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | Success |
+| 2 | Usage/argument error |
+| 3 | Missing configuration |
+| 4 | Authentication error |
+| 5 | Data integrity error |
+| 6 | Ingestion error |
+
 ## Architecture
 
 ```
@@ -26,40 +141,6 @@ Azure Monitor / Log Analytics
   ├── WorkflowRuns_CL (run facts)
   ├── WorkflowAudit_CL (token/turn enrichment)
   └── Workbook Dashboards
-```
-
-## Quick Start (5 minutes)
-
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Verify GitHub CLI
-gh auth status
-# If not logged in: gh auth login
-
-# 3. Verify gh aw extension
-gh aw --help
-# If not installed: see https://github.com/github/gh-aw
-
-# 4. Build
-npm run build
-
-# 5. Run collector (dry run)
-node dist/collector.js --dry-run --verbose
-# Expected: Lists workflows from all repos, shows record counts
-
-# 6. Run audit enrichment (dry run)  
-node dist/audit-enrichment.js --dry-run --verbose --limit 5
-# Expected: Shows preflight checks, processes audits, prints records
-
-# 7. For live mode (push to Azure Monitor)
-az login  # or use managed identity
-export AZURE_MONITOR_DCE_ENDPOINT="https://..."
-export AZURE_MONITOR_DCR_ID="dcr-..."
-export AZURE_MONITOR_WORKSPACE_ID="..."  # for audit inventory mode
-node dist/collector.js --lookback 24
-node dist/audit-enrichment.js --days 7
 ```
 
 ## Implementation Progress
@@ -196,97 +277,6 @@ const TARGET_REPOS = [
   "Azure/azure-sdk-for-java",
 ];
 ```
-
-## Usage
-
-### Collector (Run Inventory)
-
-```bash
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Run collector (dry run)
-node dist/collector.js --dry-run --lookback 24 --verbose
-
-# Run collector (push to Azure Monitor)
-AZURE_MONITOR_DCE_ENDPOINT="https://..." \
-AZURE_MONITOR_DCR_ID="dcr-..." \
-GITHUB_TOKEN=$(gh auth token) \
-node dist/collector.js --lookback 24
-
-# Run with specific repo
-node dist/collector.js --repo Azure/azure-sdk-for-js --lookback 72
-
-# Backfill historical data (30 days)
-node dist/collector.js --backfill --days 30
-```
-
-### Audit Enrichment (Token Usage)
-
-Requires `gh` CLI with `gh aw` extension installed.
-
-```bash
-# View help and all options
-node dist/audit-enrichment.js --help
-
-# Dry run with verbose output
-npm run audit:dry-run
-
-# Audit a single repo (for debugging)
-node dist/audit-enrichment.js --repo Azure/azure-sdk-for-js --limit 10 --dry-run
-
-# Run with GitHub API mode (no Azure inventory lookup)
-node dist/audit-enrichment.js --github-api --days 3
-
-# Full audit (requires Azure credentials)
-AZURE_MONITOR_WORKSPACE_ID="..." \
-AZURE_MONITOR_DCE_ENDPOINT="https://..." \
-AZURE_MONITOR_DCR_ID="dcr-..." \
-node dist/audit-enrichment.js --days 7
-```
-
-**Audit Status Values:**
-| Status | Description |
-|--------|-------------|
-| `success` | Audit completed, token data present |
-| `zero_tokens` | Audit completed, but no billable usage |
-| `no_firewall` | Audit ran, but firewall section missing |
-| `audit_failed` | `gh aw audit` command failed (retried up to 3x) |
-
-**Exit Codes:**
-| Code | Meaning |
-|------|---------|
-| 0 | Success |
-| 2 | Usage/argument error |
-| 3 | Missing configuration |
-| 4 | Authentication error |
-| 5 | Data integrity error |
-| 6 | Ingestion error |
-
-### Lockfile Staleness Check
-
-Checks if `.lock.yml` files need to be recompiled.
-
-```bash
-# Check all monitored repos
-node dist/check-lockfiles.js --verbose
-
-# Check specific repo
-node dist/check-lockfiles.js --repo Azure/azure-sdk-for-js
-
-# JSON output for automation
-node dist/check-lockfiles.js --json > staleness.json
-
-# Quick check with npm
-npm run check-lockfiles
-```
-
-**Exit codes:**
-- `0` - All lockfiles up-to-date
-- `5` - One or more lockfiles are stale (run `gh aw compile`)
 
 ## Sample Queries
 

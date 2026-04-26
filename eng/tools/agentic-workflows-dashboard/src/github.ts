@@ -15,7 +15,7 @@ export class GitHubClient {
   private octokit: Octokit;
   private verbose: boolean;
 
-  constructor(token: string, verbose = false) {
+  constructor(token?: string, verbose = false) {
     this.octokit = new Octokit({ auth: token });
     this.verbose = verbose;
   }
