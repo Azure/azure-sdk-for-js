@@ -1,23 +1,35 @@
 #!/usr/bin/env node
 /**
- * Lockfile Staleness Checker (v23)
- * 
+ * Lockfile Staleness Checker (v24)
+ *
  * Checks if compiled .lock.yml files are stale by comparing them
  * against freshly compiled output from `gh aw compile`.
- * 
+ *
  * This script:
  * 1. Clones/fetches each monitored repo (shallow)
- * 2. Runs `gh aw compile --no-emit --json` to check compilation
+ * 2. Runs `gh aw compile` to regenerate lockfiles
  * 3. Compares compiled output to existing lock files
- * 4. Reports staleness to stdout or Azure Monitor
+ * 4. Reports staleness to stdout or JSON
+ *
+ * Modernized in v24:
+ * - node: prefixed imports
+ * - fs/promises for async file operations
+ * - promisified child_process.exec
+ * - Parallel repo checking with Promise.allSettled
  */
 
 import { program } from "commander";
-import { execSync, execFileSync } from "child_process";
-import { existsSync, mkdirSync, rmSync, readFileSync, writeFileSync } from "fs";
-import { join } from "path";
+import { exec as execCallback, execFile as execFileCallback } from "node:child_process";
+import { promisify } from "node:util";
+import * as fsp from "node:fs/promises";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as crypto from "node:crypto";
 import { MONITORED_REPOS } from "./config.js";
-import { createHash } from "crypto";
+
+// Promisified exec for async/await usage
+const exec = promisify(execCallback);
+const execFile = promisify(execFileCallback);
 
 // Exit codes
 export const EXIT_SUCCESS = 0;
@@ -48,24 +60,128 @@ interface RepoLockfileStatus {
 /**
  * Check if gh CLI and gh aw extension are available
  */
-function checkPrerequisites(): { ok: boolean; error?: string } {
+async function checkPrerequisites(): Promise<{ ok: boolean; error?: string }> {
   try {
-    execFileSync("gh", ["--version"], { stdio: "pipe" });
-    execFileSync("gh", ["aw", "--help"], { stdio: "pipe" });
+    await execFile("gh", ["--version"]);
+    await execFile("gh", ["aw", "--help"]);
     return { ok: true };
-  } catch (err) {
-    return { 
-      ok: false, 
-      error: "gh CLI with gh aw extension is required. Install from https://github.com/github/gh-aw" 
+  } catch {
+    return {
+      ok: false,
+      error: "gh CLI with gh aw extension is required. Install from https://github.com/github/gh-aw",
     };
   }
 }
 
 /**
- * Hash file contents for comparison
+ * Hash file contents for comparison (first 12 chars of SHA256)
  */
-function hashFile(content: string): string {
-  return createHash("sha256").update(content).digest("hex").substring(0, 12);
+function hashContent(content: string): string {
+  return crypto.createHash("sha256").update(content).digest("hex").slice(0, 12);
+}
+
+/**
+ * Check if a path exists (async)
+ */
+async function pathExists(p: string): Promise<boolean> {
+  try {
+    await fsp.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * List markdown files in a directory
+ */
+async function listMarkdownFiles(dir: string): Promise<string[]> {
+  try {
+    const entries = await fsp.readdir(dir, { withFileTypes: true });
+    return entries
+      .filter((e) => e.isFile() && e.name.endsWith(".md"))
+      .map((e) => e.name);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Clone or update a repo with sparse checkout
+ */
+async function ensureRepoClone(repo: string, workDir: string, verbose: boolean): Promise<string> {
+  const repoDir = path.join(workDir, repo.replace("/", "_"));
+
+  if (await pathExists(repoDir)) {
+    if (verbose) console.log(`  🔄 Updating ${repo}...`);
+    await exec(`git -C "${repoDir}" pull --depth 1`);
+  } else {
+    if (verbose) console.log(`  📥 Cloning ${repo}...`);
+    await exec(
+      `git clone --depth 1 --filter=blob:none --sparse https://github.com/${repo}.git "${repoDir}"`,
+    );
+    await exec(`git -C "${repoDir}" sparse-checkout set .github/workflows .github/aw`);
+  }
+
+  return repoDir;
+}
+
+/**
+ * Check a single workflow's lockfile staleness
+ */
+async function checkWorkflowLockfile(
+  workflowName: string,
+  repo: string,
+  workflowsDir: string,
+  repoDir: string,
+  verbose: boolean,
+): Promise<WorkflowLockfileStatus> {
+  const lockFileName = `${workflowName}.lock.yml`;
+  const lockfilePath = path.join(workflowsDir, lockFileName);
+
+  const status: WorkflowLockfileStatus = {
+    workflow: workflowName,
+    repo,
+    hasLockfile: await pathExists(lockfilePath),
+    isStale: false,
+  };
+
+  if (!status.hasLockfile) {
+    status.error = "Missing lockfile";
+    return status;
+  }
+
+  try {
+    // Read existing lockfile
+    const existingContent = await fsp.readFile(lockfilePath, "utf-8");
+    status.lockHash = hashContent(existingContent);
+
+    // Compile from repo root (gh aw compile writes to .github/workflows/)
+    await exec(`gh aw compile "${workflowName}"`, { cwd: repoDir });
+
+    // Read newly compiled lockfile
+    const newContent = await fsp.readFile(lockfilePath, "utf-8");
+    status.sourceHash = hashContent(newContent);
+
+    // Compare hashes
+    status.isStale = status.lockHash !== status.sourceHash;
+
+    if (verbose) {
+      if (status.isStale) {
+        console.log(`  ⚠️ ${workflowName}: STALE (${status.lockHash} → ${status.sourceHash})`);
+      } else {
+        console.log(`  ✓ ${workflowName}: up-to-date`);
+      }
+    }
+
+    // Restore original lockfile to preserve repo state
+    await fsp.writeFile(lockfilePath, existingContent);
+  } catch (err) {
+    status.error = err instanceof Error ? err.message : String(err);
+    if (verbose) console.log(`  ❌ ${workflowName}: ${status.error}`);
+  }
+
+  return status;
 }
 
 /**
@@ -74,7 +190,7 @@ function hashFile(content: string): string {
 async function checkRepoLockfiles(
   repo: string,
   workDir: string,
-  verbose: boolean
+  verbose: boolean,
 ): Promise<RepoLockfileStatus> {
   const result: RepoLockfileStatus = {
     repo,
@@ -85,104 +201,46 @@ async function checkRepoLockfiles(
     workflows: [],
   };
 
-  const repoDir = join(workDir, repo.replace("/", "_"));
-  
   try {
-    // Clone or update repo (shallow)
-    if (!existsSync(repoDir)) {
-      if (verbose) console.log(`  📥 Cloning ${repo}...`);
-      execSync(
-        `git clone --depth 1 --filter=blob:none --sparse https://github.com/${repo}.git ${repoDir}`,
-        { stdio: "pipe" }
-      );
-      execSync(
-        `git -C ${repoDir} sparse-checkout set .github/workflows .github/aw`,
-        { stdio: "pipe" }
-      );
-    } else {
-      if (verbose) console.log(`  🔄 Updating ${repo}...`);
-      execSync(`git -C ${repoDir} pull --depth 1`, { stdio: "pipe" });
-    }
+    const repoDir = await ensureRepoClone(repo, workDir, verbose);
+    const workflowsDir = path.join(repoDir, ".github", "workflows");
 
-    // Find workflow markdown files
-    const workflowsDir = join(repoDir, ".github", "workflows");
-    if (!existsSync(workflowsDir)) {
+    if (!(await pathExists(workflowsDir))) {
       result.error = "No .github/workflows directory";
       return result;
     }
 
     // List all .md files (workflow sources)
-    const files = execSync(`ls -1 "${workflowsDir}"/*.md 2>/dev/null || true`, { 
-      encoding: "utf-8",
-      cwd: repoDir 
-    }).trim().split("\n").filter(f => f);
+    const mdFiles = await listMarkdownFiles(workflowsDir);
 
-    if (files.length === 0) {
+    if (mdFiles.length === 0) {
       if (verbose) console.log(`  ⚠️ No workflow .md files found`);
       return result;
     }
 
-    result.totalWorkflows = files.length;
+    result.totalWorkflows = mdFiles.length;
 
-    for (const mdFile of files) {
-      const workflowName = mdFile.replace(/.*\//, "").replace(".md", "");
-      const lockFileName = `${workflowName}.lock.yml`;
-      const existingLockPath = join(workflowsDir, lockFileName);
-      
-      const status: WorkflowLockfileStatus = {
-        workflow: workflowName,
+    // Check each workflow (sequentially to avoid concurrent gh aw compile conflicts)
+    for (const mdFile of mdFiles) {
+      const workflowName = mdFile.replace(".md", "");
+      const status = await checkWorkflowLockfile(
+        workflowName,
         repo,
-        hasLockfile: existsSync(existingLockPath),
-        isStale: false,
-      };
+        workflowsDir,
+        repoDir,
+        verbose,
+      );
+
+      result.workflows.push(status);
 
       if (!status.hasLockfile) {
         result.missingLockfiles++;
-        status.error = "Missing lockfile";
-        result.workflows.push(status);
-        continue;
+      } else if (status.isStale) {
+        result.staleLockfiles++;
+      } else if (!status.error) {
+        result.upToDateLockfiles++;
       }
-
-      try {
-        // Read existing lockfile
-        const existingContent = readFileSync(existingLockPath, "utf-8");
-        status.lockHash = hashFile(existingContent);
-
-        // Compile from repo root (gh aw compile looks in .github/workflows/)
-        execSync(`gh aw compile "${workflowName}"`, { 
-          cwd: repoDir, 
-          stdio: "pipe",
-          encoding: "utf-8"
-        });
-
-        // Read newly compiled lockfile (written to same location)
-        const newContent = readFileSync(existingLockPath, "utf-8");
-        status.sourceHash = hashFile(newContent);
-
-        // Compare hashes
-        if (status.lockHash !== status.sourceHash) {
-          status.isStale = true;
-          result.staleLockfiles++;
-          if (verbose) {
-            console.log(`  ⚠️ ${workflowName}: STALE (${status.lockHash} → ${status.sourceHash})`);
-          }
-        } else {
-          result.upToDateLockfiles++;
-          if (verbose) {
-            console.log(`  ✓ ${workflowName}: up-to-date`);
-          }
-        }
-
-        // Restore original lockfile to preserve repo state
-        writeFileSync(existingLockPath, existingContent);
-      } catch (err) {
-        status.error = err instanceof Error ? err.message : String(err);
-        if (verbose) console.log(`  ❌ ${workflowName}: ${status.error}`);
-      }
-
-      result.workflows.push(status);
     }
-
   } catch (err) {
     result.error = err instanceof Error ? err.message : String(err);
   }
@@ -191,43 +249,82 @@ async function checkRepoLockfiles(
 }
 
 /**
- * Main check function
+ * Main check function - checks multiple repos in parallel
  */
 async function checkLockfiles(options: {
   repos: string[];
   verbose: boolean;
   json: boolean;
   workDir: string;
+  parallel: boolean;
 }): Promise<RepoLockfileStatus[]> {
-  const results: RepoLockfileStatus[] = [];
-
   // Check prerequisites
-  const prereqs = checkPrerequisites();
+  const prereqs = await checkPrerequisites();
   if (!prereqs.ok) {
     console.error(`❌ ${prereqs.error}`);
     process.exit(EXIT_CONFIG_ERROR);
   }
 
   // Create work directory
-  mkdirSync(options.workDir, { recursive: true });
+  await fsp.mkdir(options.workDir, { recursive: true });
 
   console.log(`\n🔍 Checking lockfile staleness across ${options.repos.length} repos\n`);
 
-  for (const repo of options.repos) {
-    console.log(`📁 ${repo}`);
-    const status = await checkRepoLockfiles(repo, options.workDir, options.verbose);
-    results.push(status);
+  // Check repos (sequentially for cleaner output, or parallel if --parallel)
+  const results: RepoLockfileStatus[] = [];
 
-    if (status.error) {
-      console.log(`  ❌ Error: ${status.error}`);
-    } else {
-      const staleCount = status.staleLockfiles;
-      const icon = staleCount > 0 ? "⚠️" : "✓";
-      console.log(`  ${icon} ${status.totalWorkflows} workflows: ${status.upToDateLockfiles} current, ${staleCount} stale, ${status.missingLockfiles} missing`);
+  if (options.parallel && options.repos.length > 1) {
+    // Parallel mode: check all repos concurrently
+    const settled = await Promise.allSettled(
+      options.repos.map((repo) => checkRepoLockfiles(repo, options.workDir, options.verbose)),
+    );
+
+    for (const [i, result] of settled.entries()) {
+      const repo = options.repos[i] ?? `unknown-${i}`;
+      console.log(`📁 ${repo}`);
+
+      if (result.status === "fulfilled") {
+        results.push(result.value);
+        printRepoSummary(result.value);
+      } else {
+        const errorResult: RepoLockfileStatus = {
+          repo,
+          totalWorkflows: 0,
+          staleLockfiles: 0,
+          missingLockfiles: 0,
+          upToDateLockfiles: 0,
+          workflows: [],
+          error: result.reason instanceof Error ? result.reason.message : String(result.reason),
+        };
+        results.push(errorResult);
+        console.log(`  ❌ Error: ${errorResult.error}`);
+      }
+    }
+  } else {
+    // Sequential mode: cleaner output
+    for (const repo of options.repos) {
+      console.log(`📁 ${repo}`);
+      const status = await checkRepoLockfiles(repo, options.workDir, options.verbose);
+      results.push(status);
+      printRepoSummary(status);
     }
   }
 
   return results;
+}
+
+/**
+ * Print summary line for a repo
+ */
+function printRepoSummary(status: RepoLockfileStatus): void {
+  if (status.error) {
+    console.log(`  ❌ Error: ${status.error}`);
+  } else {
+    const icon = status.staleLockfiles > 0 ? "⚠️" : "✓";
+    console.log(
+      `  ${icon} ${status.totalWorkflows} workflows: ${status.upToDateLockfiles} current, ${status.staleLockfiles} stale, ${status.missingLockfiles} missing`,
+    );
+  }
 }
 
 // CLI setup
@@ -239,17 +336,22 @@ program
   .option("--repos <repos>", "Comma-separated list of repos")
   .option("-v, --verbose", "Verbose output")
   .option("--json", "Output results as JSON")
+  .option("--parallel", "Check repos in parallel (faster, but noisier output)")
   .option("--work-dir <dir>", "Working directory for clones", "/tmp/aw-lockfile-check")
   .option("--cleanup", "Remove work directory after check")
-  .addHelpText("after", `
+  .addHelpText(
+    "after",
+    `
 Examples:
   $ node dist/check-lockfiles.js --verbose
   $ node dist/check-lockfiles.js --repo Azure/azure-sdk-for-js
   $ node dist/check-lockfiles.js --json > staleness.json
+  $ node dist/check-lockfiles.js --parallel  # Faster for multiple repos
 
 This script helps identify when lockfiles need to be recompiled with:
   $ gh aw compile
-`)
+`,
+  )
   .action(async (options) => {
     // Determine repos
     let repos = MONITORED_REPOS;
@@ -262,9 +364,10 @@ This script helps identify when lockfiles need to be recompiled with:
     try {
       const results = await checkLockfiles({
         repos,
-        verbose: options.verbose || false,
-        json: options.json || false,
+        verbose: options.verbose ?? false,
+        json: options.json ?? false,
         workDir: options.workDir,
+        parallel: options.parallel ?? false,
       });
 
       // Summary
@@ -286,8 +389,8 @@ This script helps identify when lockfiles need to be recompiled with:
         console.log(JSON.stringify(results, null, 2));
       }
 
-      if (options.cleanup && existsSync(options.workDir)) {
-        rmSync(options.workDir, { recursive: true, force: true });
+      if (options.cleanup && (await pathExists(options.workDir))) {
+        await fsp.rm(options.workDir, { recursive: true, force: true });
       }
 
       process.exit(totalStale > 0 ? EXIT_DATA_ERROR : EXIT_SUCCESS);

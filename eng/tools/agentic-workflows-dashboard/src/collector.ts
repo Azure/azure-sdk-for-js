@@ -144,7 +144,13 @@ async function collect(config: CollectorConfig): Promise<CollectionSummary> {
 
   // Process each repository
   for (const repoFullName of config.repos) {
-    const [owner, repo] = repoFullName.split("/");
+    const parts = repoFullName.split("/");
+    const owner = parts[0];
+    const repo = parts[1];
+    if (!owner || !repo) {
+      console.error(`  ❌ Invalid repo format: ${repoFullName} (expected owner/repo)`);
+      continue;
+    }
     console.log(`\n📦 Processing ${repoFullName}...`);
     summary.totalRepos++;
 

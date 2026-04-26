@@ -124,9 +124,10 @@ export class GitHubClient {
               : null,
             head_branch: run.head_branch || "",
             head_sha: run.head_sha,
-            head_repository: run.head_repository
-              ? { full_name: run.head_repository.full_name, fork: run.head_repository.fork }
-              : undefined,
+            // Only include head_repository if it exists (exactOptionalPropertyTypes)
+            ...(run.head_repository
+              ? { head_repository: { full_name: run.head_repository.full_name, fork: run.head_repository.fork } }
+              : {}),
             html_url: run.html_url,
             pull_requests: run.pull_requests?.map((pr) => ({ number: pr.number })) || [],
           });

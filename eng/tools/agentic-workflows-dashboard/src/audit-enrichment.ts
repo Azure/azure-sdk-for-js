@@ -435,20 +435,19 @@ async function getRunsFromInventory(
   }
   
   // Success status - tables are guaranteed to exist
-  if (result.tables.length > 0) {
-    const table = result.tables[0];
-    return table.rows.map((row: any[]) => ({
-      runId: row[0] as number,
-      runAttempt: row[1] as number,
-      repo: row[2] as string,
-      workflowName: row[3] as string,
-      createdAt: row[4] as string,
-      completedAt: row[5] as string,
-      pullRequestNumber: row[6] as number ?? 0,
-    }));
+  const table = result.tables[0];
+  if (!table) {
+    return [];
   }
-  
-  return [];
+  return table.rows.map((row: unknown[]) => ({
+    runId: row[0] as number,
+    runAttempt: row[1] as number,
+    repo: row[2] as string,
+    workflowName: row[3] as string,
+    createdAt: row[4] as string,
+    completedAt: row[5] as string,
+    pullRequestNumber: (row[6] as number) ?? 0,
+  }));
 }
 
 // v13: Result type for github-api fallback with error tracking
@@ -1140,7 +1139,9 @@ async function processAudits(config: AuditConfig): Promise<{ records: AuditRecor
 const isMainModule = (() => {
   try {
     const thisFile = fileURLToPath(import.meta.url);
-    const entryFile = resolve(process.argv[1]);
+    const entryArg = process.argv[1];
+    if (!entryArg) return false;
+    const entryFile = resolve(entryArg);
     return thisFile === entryFile;
   } catch {
     return false;

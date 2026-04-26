@@ -55,9 +55,13 @@ export function calculateModelCost(
   inputTokens: number,
   outputTokens: number,
   cacheReadTokens: number,
-  cacheWriteTokens: number
+  cacheWriteTokens: number,
 ): number {
-  const pricing = MODEL_PRICING[modelId] || MODEL_PRICING["default"];
+  const pricing = MODEL_PRICING[modelId] ?? MODEL_PRICING["default"];
+  if (!pricing) {
+    // This should never happen since "default" always exists
+    return 0;
+  }
   
   // v21: Use sanitizeFiniteNonNegative for all token values
   const validInput = sanitizeFiniteNonNegative(inputTokens);
@@ -80,11 +84,11 @@ export function calculateModelCost(
  * v6: Added input validation
  * v21: Uses sanitizeFiniteNonNegative for Infinity protection
  */
-export function calculateCacheSavings(
-  modelId: string,
-  cacheReadTokens: number
-): number {
-  const pricing = MODEL_PRICING[modelId] || MODEL_PRICING["default"];
+export function calculateCacheSavings(modelId: string, cacheReadTokens: number): number {
+  const pricing = MODEL_PRICING[modelId] ?? MODEL_PRICING["default"];
+  if (!pricing) {
+    return 0;
+  }
   // v21: Use sanitizeFiniteNonNegative for Infinity protection
   const validCacheRead = sanitizeFiniteNonNegative(cacheReadTokens);
   const savingsPerToken = pricing.input - pricing.cachedInput;
@@ -121,16 +125,18 @@ export function calculateCacheHitRate(
  * Select primary model (most input tokens)
  */
 export function selectPrimaryModel(
-  byModel: Record<string, { input_tokens: number }> | undefined
+  byModel: Record<string, { input_tokens: number }> | undefined,
 ): string {
   if (!byModel || Object.keys(byModel).length === 0) {
     return "unknown";
   }
 
   const modelIds = Object.keys(byModel);
-  return modelIds.reduce((a, b) =>
-    byModel[a].input_tokens > byModel[b].input_tokens ? a : b
-  );
+  return modelIds.reduce((a, b) => {
+    const aTokens = byModel[a]?.input_tokens ?? 0;
+    const bTokens = byModel[b]?.input_tokens ?? 0;
+    return aTokens > bTokens ? a : b;
+  });
 }
 
 /**
@@ -190,7 +196,7 @@ export function getAnalysisTimestamp(
 export async function processWithConcurrency<T, R>(
   items: T[],
   fn: (item: T, index: number) => Promise<R>,
-  concurrency: number
+  concurrency: number,
 ): Promise<R[]> {
   const results: R[] = new Array(items.length);
   let nextIndex = 0;
@@ -198,7 +204,10 @@ export async function processWithConcurrency<T, R>(
   async function worker(): Promise<void> {
     while (nextIndex < items.length) {
       const index = nextIndex++;
-      results[index] = await fn(items[index], index);
+      const item = items[index];
+      if (item !== undefined) {
+        results[index] = await fn(item, index);
+      }
     }
   }
 
@@ -222,7 +231,8 @@ export function createRunKey(runId: number, runAttempt: number): string {
  */
 export function parseIsoDurationDays(duration: string): number {
   const match = duration.match(/P(\d+)D/);
-  return match ? parseInt(match[1], 10) : 30;
+  const days = match?.[1];
+  return days ? parseInt(days, 10) : 30;
 }
 
 /**
