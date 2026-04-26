@@ -629,36 +629,4 @@ const a = 1, b = dead.x, c = 3;`;
     expect(result.outputText).toContain("c = 3");
     expect(result.outputText).not.toContain("dead");
   });
-
-  // ── if(false) elimination (c5-3) ─────────────────────────────────────
-
-  it("eliminates if(false) without else branch", () => {
-    const source = `const x = 1;
-if (false) { console.log("dead"); }
-const y = 2;`;
-    const result = eliminate(source, []);
-    expect(result.outputText).not.toContain("dead");
-    expect(result.outputText).toContain("const x = 1");
-    expect(result.outputText).toContain("const y = 2");
-  });
-
-  it("preserves else branch when if(false) has else (c5-3 fix)", () => {
-    const source = `const x = 1;
-if (false) { console.log("dead"); } else { console.log("alive"); }
-const y = 2;`;
-    const result = eliminate(source, []);
-    // The whole if/else statement survives (we don't currently collapse to just else)
-    // but critically, the else content is NOT eliminated
-    expect(result.outputText).toContain("alive");
-    expect(result.outputText).toContain("const x = 1");
-    expect(result.outputText).toContain("const y = 2");
-  });
-
-  it("preserves else-if chain when if(false) has else-if", () => {
-    const source = `const x = 1;
-if (false) { console.log("dead"); } else if (true) { console.log("alive"); }
-const y = 2;`;
-    const result = eliminate(source, []);
-    expect(result.outputText).toContain("alive");
-  });
 });

@@ -280,16 +280,6 @@ function collectRuntimeRefs(node: ts.Node, analyzer: BindingAnalyzer): Set<ts.Sy
  * - All other statements → 1 unit
  */
 
-/** Returns true if `expr` is statically always-false (e.g. `false` or `!true`). */
-function isAlwaysFalseCondition(expr: ts.Expression): boolean {
-  if (expr.kind === ts.SyntaxKind.FalseKeyword) return true;
-  return (
-    ts.isPrefixUnaryExpression(expr) &&
-    expr.operator === ts.SyntaxKind.ExclamationToken &&
-    expr.operand.kind === ts.SyntaxKind.TrueKeyword
-  );
-}
-
 function lowerToUnits(
   statements: readonly ts.Statement[],
   analyzer: BindingAnalyzer,
@@ -448,23 +438,6 @@ function lowerToUnits(
         originalIndex: i,
         salvageableEffects: [],
         isTypeOnly: false,
-      });
-      continue;
-    }
-
-    // Special: if(false) or if(!true) { ... } without else → always dead
-    // If there's an else branch, we can't eliminate the whole statement since else is live
-    if (
-      ts.isIfStatement(stmt) &&
-      isAlwaysFalseCondition(stmt.expression) &&
-      stmt.elseStatement === undefined
-    ) {
-      units.push({
-        declares: [],
-        runtimeRefs: new Set(),
-        originalIndex: i,
-        salvageableEffects: [],
-        isTypeOnly: true, // marks as always-dead
       });
       continue;
     }
