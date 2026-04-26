@@ -225,25 +225,31 @@ node analyzeInvoice.js
 ```
 
 > **Note:** Samples use `dotenv/config` to load environment variables from a `.env` file in the **current working directory**.
-> The `setup_samples.sh` script automatically copies `.env` from the package root into the samples folder.
-> If you update your `.env`, re-run `setup_samples.sh` or manually copy it:
+> The `setup_user_env.sh` script (from `cu-sdk-setup`) automatically copies `.env` from the package root into the samples folder.
+> If you update your `.env`, re-run `setup_user_env.sh --verify-only` or manually copy it:
 >
 > ```bash
 > cp sdk/contentunderstanding/ai-content-understanding/.env sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript/.env
 > ```
 >
-> Alternatively, use the `run_single_sample.sh` convenience script which sources `.env` automatically.
+> Alternatively, use the `run_sample.sh` convenience script which sources `.env` automatically.
+>
+> ```bash
+> .github/skills/cu-sdk-sample-run/scripts/run_sample.sh analyzeUrl
+> ```
 
 ### After the Sample Runs — Review Results and Explain the Sample
 
 After the sample completes, the skill **must** do the following for the user (do not skip):
 
 1. **Show the terminal command to re-run this sample directly**, so the user can iterate without the skill. For example:
+
    ```bash
    cd samples/v1/javascript && node analyzeUrl.js
    # or for TypeScript samples:
    cd samples/v1/typescript && npx tsx src/analyzeUrl.ts
    ```
+
    Substitute `analyzeUrl` with the sample the user just ran.
 
 2. **Briefly explain the key code concepts** demonstrated in the sample. Tailor the explanation to the specific sample; common concepts include:
@@ -294,53 +300,42 @@ After the sample completes, the skill **must** do the following for the user (do
    node analyzeInvoice.js
    ```
 
+### List Available Samples
+
+```bash
+.github/skills/cu-sdk-sample-run/scripts/run_sample.sh --list
+```
+
 ## Scripts
 
-This skill includes helper scripts in the `scripts/` directory. The primary script is for **environment setup**; running samples should be done directly with `node`.
+This skill includes a single helper script in the `scripts/` directory.
 
-### `setup_samples.sh` -- Environment Setup (Primary Script)
+### `run_sample.sh` — Run a sample (sources `.env` automatically)
 
-Sets up the samples environment by installing the SDK package and copying `.env`. **This is the main script you should use.**
-
-By default, tries `npm install` from the registry. If the package isn't published, falls back to local build + tarball automatically.
+A convenience wrapper that sources `.env` from the samples directory (or the package root) and runs the sample. Detects compiled JavaScript first; if only the TypeScript source is available, falls back to `npx tsx`.
 
 ```bash
-# Default: try npm, fall back to local build + tarball
-./setup_samples.sh
+# Run a JavaScript sample by name (with or without .js extension)
+.github/skills/cu-sdk-sample-run/scripts/run_sample.sh analyzeUrl
+.github/skills/cu-sdk-sample-run/scripts/run_sample.sh analyzeInvoice.js
+.github/skills/cu-sdk-sample-run/scripts/run_sample.sh updateDefaults
 
-# Force local build + tarball (e.g., testing local changes)
-./setup_samples.sh --local
-
-# Local mode: skip build if already built
-./setup_samples.sh --local --skip-build
-
-# Local mode: skip pnpm install at repo root
-./setup_samples.sh --local --skip-pnpm-install
+# List all available samples (both compiled JS and TypeScript sources)
+.github/skills/cu-sdk-sample-run/scripts/run_sample.sh --list
 ```
 
-### `run_single_sample.sh` -- Env-Sourcing Convenience Wrapper
-
-A thin wrapper that sources the `.env` file and then runs `node <sample>.js`. Useful only if your shell doesn't already have the environment variables exported. **Prefer running `node <sample>.js` directly** when your environment is already configured.
-
-```bash
-# Only needed if env vars are not already exported
-./run_single_sample.sh analyzeUrl
-./run_single_sample.sh analyzeInvoice.js
-
-# Dry run (see what would be executed)
-./run_single_sample.sh analyzeUrl --dry-run
-```
+For environment setup (installing the SDK, building a local tarball, writing `.env`), use the `cu-sdk-setup` skill's `setup_user_env.sh` / `setup_user_env.ps1` script.
 
 ## Troubleshooting
 
-| Error                                                             | Solution                                                                                 |
-| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `Cannot find module '@azure/ai-content-understanding'`            | Run `setup_samples.sh` to build and install the package tarball in the samples directory |
-| `Missing environment variables` / `CONTENTUNDERSTANDING_ENDPOINT` | Create a `.env` file in the package root with required variables                         |
-| `Access denied` or authorization errors                           | Ensure **Cognitive Services User** role is assigned; check API key or run `az login`     |
-| `Model deployment not found`                                      | Run `updateDefaults.js` first to configure model mappings                                |
-| `File not found` for binary samples                               | Some samples need a local file path; check the `filePath` variable in the sample         |
-| `Permission denied` when running scripts                          | Make scripts executable: `chmod +x .github/skills/cu-sdk-sample-run/scripts/*.sh`        |
+| Error                                                             | Solution                                                                                                                              |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `Cannot find module '@azure/ai-content-understanding'`            | Run `setup_user_env.sh` (from `cu-sdk-setup`) to install the package (with automatic local-build fallback) into the samples directory |
+| `Missing environment variables` / `CONTENTUNDERSTANDING_ENDPOINT` | Create a `.env` file in the package root with required variables                                                                      |
+| `Access denied` or authorization errors                           | Ensure **Cognitive Services User** role is assigned; check API key or run `az login`                                                  |
+| `Model deployment not found`                                      | Run `updateDefaults.js` first to configure model mappings                                                                             |
+| `File not found` for binary samples                               | Some samples need a local file path; check the `filePath` variable in the sample                                                      |
+| `Permission denied` when running scripts                          | Make scripts executable: `chmod +x .github/skills/cu-sdk-sample-run/scripts/*.sh`                                                     |
 
 ## Related Skills
 
