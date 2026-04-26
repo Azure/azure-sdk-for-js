@@ -394,7 +394,10 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     return { name, bodyTexts: itBlockTexts[i] };
   });
 
-  // Step 9: Assemble final output text (beforeAll preamble comes before beforeEach)
+  // Step 9: Assemble final output text
+  // NOTE: beforeAll and beforeEach are intentionally combined into a single preamble.
+  // Tests use beforeEach to recreate clients for recording/isolation, but samples don't
+  // need that - they should create resources once and reuse them across all operations.
   const rawOutputText = assembleOutput(
     parsed.metadata,
     importTexts,
