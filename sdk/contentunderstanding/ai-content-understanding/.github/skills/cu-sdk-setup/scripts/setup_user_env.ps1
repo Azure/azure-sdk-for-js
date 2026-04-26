@@ -555,7 +555,7 @@ if ($script:Fail -eq 0) {
         Write-Host "  3. Run a sample:"
         Write-Host "       node analyzeUrl.js"
         Write-Host "     Or use the helper script (sources .env automatically):"
-        Write-Host "       .github\skills\cu-sdk-sample-run\scripts\run_sample.ps1 analyzeUrl"
+        Write-Host "       bash .github/skills/cu-sdk-sample-run/scripts/run_sample.sh analyzeUrl"
     }
 } else {
     Write-Host "Result: $($script:Fail) failed, $($script:Pass) passed (out of $total checks)" -ForegroundColor Red
