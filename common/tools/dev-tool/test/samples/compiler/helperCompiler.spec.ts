@@ -682,4 +682,40 @@ export function realWork(): string { return "hello"; }
     expect(result.survivingExports).toContain("Foo");
     expect(result.survivingExports).toContain("Bar");
   });
+
+  // ── F6: Side-effect imports ─────────────────────────────────────────
+
+  it("helper with only side-effect import is not empty", () => {
+    const source = `
+import "dotenv/config";
+`;
+    const result = compileHelper(source, "@azure/test", "setup.ts");
+    // Side-effect imports must be preserved - they execute at import time
+    expect(result.isEmpty).toBe(false);
+    expect(result.isTypeOnly).toBe(false);
+    expect(result.outputText).toContain('import "dotenv/config"');
+  });
+
+  it("helper with side-effect import and runtime exports is not empty", () => {
+    const source = `
+import "dotenv/config";
+export function getEnv(key: string): string | undefined {
+  return process.env[key];
+}
+`;
+    const result = compileHelper(source, "@azure/test", "env.ts");
+    expect(result.isEmpty).toBe(false);
+    expect(result.isTypeOnly).toBe(false);
+    expect(result.outputText).toContain('import "dotenv/config"');
+    expect(result.outputText).toContain("export function getEnv");
+  });
+
+  it("side-effect import from test package does not prevent empty", () => {
+    const source = `
+import "@azure-tools/test-utils";
+`;
+    const result = compileHelper(source, "@azure/test", "testSetup.ts");
+    // Test package side-effect imports are dropped
+    expect(result.isEmpty).toBe(true);
+  });
 });

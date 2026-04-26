@@ -25,7 +25,7 @@ import { extractEnvVarNames } from "./envVarExtractor.js";
 import type { HelperResolver, CompiledHelper } from "./helperCompiler.js";
 
 /** Cache for compiled helpers, keyed by canonical path. Shared across sample compilations. */
-export type HelperCache = Map<string, { helper: CompiledHelper }>;
+export type HelperCache = Map<string, CompiledHelper>;
 
 export interface CompileOptions {
   /** Package name for import rewriting (e.g., "@azure/storage-blob") */
@@ -51,13 +51,25 @@ export interface CompileOptions {
    * import the same helpers.
    */
   helperCache?: HelperCache;
+  /**
+   * When true, unresolved local helper imports cause a CompilerError instead of a warning.
+   * Use in production/integration paths to ensure all helpers are properly resolved.
+   */
+  strict?: boolean;
 }
 
 /**
  * Compile a sample-test source file into publishable sample code.
  */
 export function compileSampleTest(sourceText: string, options: CompileOptions): CompiledSample {
-  const { packageName, fileName = "<sample-test>", resolveHelper, platform, helperCache } = options;
+  const {
+    packageName,
+    fileName = "<sample-test>",
+    resolveHelper,
+    platform,
+    helperCache,
+    strict,
+  } = options;
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
   // Step 1: Parse source text into AST
@@ -119,12 +131,18 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   if (resolveHelper) {
     const visited = new Set<string>();
     // Use shared cache if provided, otherwise create a local one
-    const effectiveCache = helperCache ?? new Map<string, { helper: CompiledHelper }>();
+    const effectiveCache = helperCache ?? new Map<string, CompiledHelper>();
     for (const ci of classified) {
       if (ci.category !== "localHelper") continue;
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
+        if (strict) {
+          throw new CompilerError(
+            `Unresolved local helper import "${ci.moduleSpecifier}" in "${fileName}"`,
+            fileName,
+          );
+        }
         warnings.push(`Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
       }
@@ -132,7 +150,9 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       let helper: CompiledHelper;
       const cached = effectiveCache.get(resolved.canonicalPath);
       if (cached) {
-        helper = cached.helper;
+        helper = cached;
+        // Cache hit: still need to populate per-sample state (helperFiles, envVars)
+        // but don't re-emit warnings (they were already surfaced on first compilation)
       } else {
         visited.add(resolved.canonicalPath);
 
@@ -142,28 +162,30 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
           resolved.canonicalPath,
           resolveHelper,
           visited,
+          effectiveCache, // Pass cache for nested helper reuse
         );
-        effectiveCache.set(resolved.canonicalPath, { helper });
+        effectiveCache.set(resolved.canonicalPath, helper);
 
         // Surface warnings from helper compilations (only once per helper)
         warnings.push(...helper.warnings);
+      }
 
-        if (!helper.isEmpty) {
-          // Helper has survivors (runtime or type-only): store compiled output
-          const relKey = toRelativeHelperKey(resolved.canonicalPath);
-          if (!storedHelperKeys.has(resolved.canonicalPath)) {
-            storedHelperKeys.add(resolved.canonicalPath);
-            helperFiles.set(relKey, helper.outputText);
-            helperEnvVars.push(...helper.envVars);
-          }
+      // Populate helperFiles and envVars for this sample (both cache hit and miss)
+      if (!helper.isEmpty) {
+        // Helper has survivors (runtime or type-only): store compiled output
+        const relKey = toRelativeHelperKey(resolved.canonicalPath);
+        if (!storedHelperKeys.has(resolved.canonicalPath)) {
+          storedHelperKeys.add(resolved.canonicalPath);
+          helperFiles.set(relKey, helper.outputText);
+          helperEnvVars.push(...helper.envVars);
+        }
 
-          // Collect transitive nested helper files (already flattened by compileHelper)
-          for (const [nestedCanonical, nestedHelper] of helper.nestedHelpers) {
-            if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonical)) {
-              storedHelperKeys.add(nestedCanonical);
-              helperFiles.set(toRelativeHelperKey(nestedCanonical), nestedHelper.outputText);
-              helperEnvVars.push(...nestedHelper.envVars);
-            }
+        // Collect transitive nested helper files (already flattened by compileHelper)
+        for (const [nestedCanonical, nestedHelper] of helper.nestedHelpers) {
+          if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonical)) {
+            storedHelperKeys.add(nestedCanonical);
+            helperFiles.set(toRelativeHelperKey(nestedCanonical), nestedHelper.outputText);
+            helperEnvVars.push(...nestedHelper.envVars);
           }
         }
       }

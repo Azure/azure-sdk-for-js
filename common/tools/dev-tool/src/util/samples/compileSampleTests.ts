@@ -208,6 +208,7 @@ export async function compileSampleTests(
         resolveHelper,
         platform,
         helperCache: sharedHelperCache,
+        strict: true, // Fatal on unresolved helpers in production path
       });
 
       if (result.warnings.length > 0) {

@@ -364,11 +364,27 @@ export function compileHelper(
     return true;
   });
 
-  // A helper is truly empty when no statements survived at all (pure test infrastructure).
-  // A helper is type-only when it has type survivors but no runtime survivors.
+  // Check for surviving side-effect imports (e.g., `import "dotenv/config"`).
+  // A side-effect import survives if:
+  // 1. It has no importClause (bare import)
+  // 2. It's not a test package import
+  // 3. It's not from an empty helper
+  const hasLiveSideEffectImport = classified.some((ci) => {
+    if (ci.category === "test") return false;
+    if (emptyHelperSpecifiers.has(ci.moduleSpecifier)) return false;
+    // A side-effect import has no importClause
+    return ci.node.importClause === undefined;
+  });
+
+  // A helper is truly empty when no statements survived AND no side-effect imports.
+  // A helper is type-only when it has type survivors but no runtime survivors (no side-effects).
   // Type-only helpers still need to be emitted for `import type` consumers.
-  const isTrulyEmpty = allSurvivors.length === 0;
-  const isTypeOnly = !isTrulyEmpty && runtimeSurvivors.length === 0 && typeSurvivors.length > 0;
+  const isTrulyEmpty = allSurvivors.length === 0 && !hasLiveSideEffectImport;
+  const isTypeOnly =
+    !isTrulyEmpty &&
+    runtimeSurvivors.length === 0 &&
+    typeSurvivors.length > 0 &&
+    !hasLiveSideEffectImport;
 
   if (isTrulyEmpty) {
     return {

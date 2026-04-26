@@ -589,9 +589,9 @@ describe("ordered", function () {
     expect(result.beforeEachHooks[0].kind).toBe("beforeEach");
   });
 
-  // ── F1: Top-level non-import statement warning ──────────────────────
+  // ── F1: Top-level non-import statement error ────────────────────────
 
-  it("warns about non-import top-level statements outside describe", () => {
+  it("throws on non-import top-level statements outside describe", () => {
     const input = `
 /** @summary test */
 import { describe, it } from "vitest";
@@ -604,10 +604,9 @@ describe("test", () => {
   });
 });
 `;
-    const result = parse(input);
-    expect(result).not.toBeNull();
-    expect(result!.warnings.length).toBeGreaterThan(0);
-    expect(result!.warnings[0]).toContain("Non-import statement outside describe");
+    expect(() => parse(input)).toThrow(
+      /statement\(s\) outside describe block.*variable at line 5/s,
+    );
   });
 
   it("emits no warnings for valid file with only imports and describe", () => {

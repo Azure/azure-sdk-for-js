@@ -128,8 +128,11 @@ export function parseSampleTestFile(
     throw new CompilerError("No it blocks found in describe", fileName);
   }
 
-  // Detect non-import, non-describe top-level statements
+  // Detect non-import, non-describe top-level statements.
+  // These cannot be preserved by the compiler — if they are referenced inside the describe,
+  // the output would be broken. Make this a fatal error.
   const warnings: string[] = [];
+  const invalidTopLevel: { line: number; kind: string }[] = [];
   for (const stmt of sourceFile.statements) {
     // Skip imports and the describe statement
     if (ts.isImportDeclaration(stmt)) {
@@ -138,9 +141,23 @@ export function parseSampleTestFile(
     if (stmt === describeStatement) {
       continue;
     }
-    // Any other top-level statement should be warned about
+    // Any other top-level statement is an error
     const line = sourceFile.getLineAndCharacterOfPosition(stmt.getStart()).line + 1;
-    warnings.push(`Non-import statement outside describe block will be dropped (line ${line})`);
+    let kind = "statement";
+    if (ts.isFunctionDeclaration(stmt)) kind = "function";
+    else if (ts.isClassDeclaration(stmt)) kind = "class";
+    else if (ts.isVariableStatement(stmt)) kind = "variable";
+    else if (ts.isTypeAliasDeclaration(stmt)) kind = "type alias";
+    else if (ts.isInterfaceDeclaration(stmt)) kind = "interface";
+    invalidTopLevel.push({ line, kind });
+  }
+  if (invalidTopLevel.length > 0) {
+    const details = invalidTopLevel.map((t) => `  - ${t.kind} at line ${t.line}`).join("\n");
+    throw new CompilerError(
+      `Found ${invalidTopLevel.length} statement(s) outside describe block. ` +
+        `Move these inside the describe or into a helper file:\n${details}`,
+      fileName,
+    );
   }
 
   return {

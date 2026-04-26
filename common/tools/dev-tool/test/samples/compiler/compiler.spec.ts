@@ -486,6 +486,24 @@ describe("second", () => {
         /Multiple top-level describe blocks/,
       );
     });
+
+    it("throws on top-level statements outside describe", () => {
+      const input = `\
+/** @summary outside describe */
+import { describe, it } from "vitest";
+function formatDate(d: Date): string {
+  return d.toISOString();
+}
+describe("test", () => {
+  it("example", async () => {
+    console.log(formatDate(new Date()));
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /statement\(s\) outside describe block.*function at line 3/s,
+      );
+    });
   });
 
   // ── Test 5b: @ts-preserve-whitespace handling ─────────────────────
@@ -831,9 +849,9 @@ import { Client } from "../src/index.js";
 import { forPublishing } from "@azure-tools/test-publishing";
 import { describe, it } from "vitest";
 
-const mock = vi.fn();
-
 describe("test", () => {
+  const mock = vi.fn();
+
   it("x", async () => {
     const items = [1, 2, 3];
     const doubled = forPublishing(items, () => items.map((mock) => mock * 2));
@@ -841,7 +859,7 @@ describe("test", () => {
   });
 });
 `;
-      // "mock" in the arrow param shadows the dead top-level mock — should not false-positive
+      // "mock" in the arrow param shadows the dead describe-scope mock — should not false-positive
       const result = compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("items.map((mock) => mock * 2)");
     });

@@ -272,4 +272,27 @@ describe("node", () => {
       expect(result).toBeNull();
     });
   });
+
+  describe("strict mode errors", () => {
+    it("throws on unresolved helper imports", async () => {
+      writeSample(
+        "samples/node/withMissingHelper.spec.ts",
+        `\
+/** @summary missing helper */
+import { describe, it } from "vitest";
+import { helper } from "./missing.js";
+
+describe("test", () => {
+  it("test", async () => {
+    helper();
+  });
+});
+`,
+      );
+
+      await expect(compileSampleTests(projectDir, "@azure/test")).rejects.toThrow(
+        /Unresolved local helper import.*missing\.js/,
+      );
+    });
+  });
 });
