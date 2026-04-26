@@ -32,8 +32,10 @@ interface DashboardMetrics {
     success: number;
     failure: number;
     cancelled: number;
+    skipped: number;
     other: number;
     successRate: number;
+    effectiveSuccessRate: number; // success / (total - skipped)
   };
   audits: {
     total: number;
@@ -83,7 +85,7 @@ async function queryMetrics(
       start: start.toISOString(),
       end: now.toISOString(),
     },
-    runs: { total: 0, success: 0, failure: 0, cancelled: 0, other: 0, successRate: 0 },
+    runs: { total: 0, success: 0, failure: 0, cancelled: 0, skipped: 0, other: 0, successRate: 0, effectiveSuccessRate: 0 },
     audits: { total: 0, withTokenData: 0, coverage: 0 },
     tokens: { totalInput: 0, totalOutput: 0, totalCacheRead: 0, cacheHitRate: 0 },
     cost: { totalUSD: 0, savingsUSD: 0 },
@@ -102,7 +104,8 @@ async function queryMetrics(
         Total = count(),
         Success = countif(Conclusion == "success"),
         Failure = countif(Conclusion == "failure"),
-        Cancelled = countif(Conclusion == "cancelled")
+        Cancelled = countif(Conclusion == "cancelled"),
+        Skipped = countif(Conclusion == "skipped")
   `;
 
   // Query 2: Audit summary
@@ -163,9 +166,15 @@ async function queryMetrics(
         metrics.runs.success = row[1] ?? 0;
         metrics.runs.failure = row[2] ?? 0;
         metrics.runs.cancelled = row[3] ?? 0;
-        metrics.runs.other = metrics.runs.total - metrics.runs.success - metrics.runs.failure - metrics.runs.cancelled;
+        metrics.runs.skipped = row[4] ?? 0;
+        metrics.runs.other = metrics.runs.total - metrics.runs.success - metrics.runs.failure - metrics.runs.cancelled - metrics.runs.skipped;
         metrics.runs.successRate = metrics.runs.total > 0 
           ? Math.round((100 * metrics.runs.success) / metrics.runs.total * 10) / 10 
+          : 0;
+        // Effective success rate excludes skipped runs
+        const effectiveTotal = metrics.runs.total - metrics.runs.skipped;
+        metrics.runs.effectiveSuccessRate = effectiveTotal > 0
+          ? Math.round((100 * metrics.runs.success) / effectiveTotal * 10) / 10
           : 0;
       }
     }
@@ -256,10 +265,12 @@ function printMetrics(metrics: DashboardMetrics, verbose: boolean): void {
   console.log("\n📊 Agentic Workflows Dashboard Status");
   console.log(`   Time range: Last ${metrics.timeRange.days} days\n`);
 
-  // Runs section
+  // Runs section - show effective success rate (excluding skipped)
+  const effectiveTotal = metrics.runs.total - metrics.runs.skipped;
   console.log("🏃 Workflow Runs");
-  console.log(`   Total: ${formatNumber(metrics.runs.total)}`);
-  console.log(`   Success: ${formatNumber(metrics.runs.success)} (${metrics.runs.successRate}%)`);
+  console.log(`   Total: ${formatNumber(metrics.runs.total)} (${formatNumber(metrics.runs.skipped)} skipped)`);
+  console.log(`   Executed: ${formatNumber(effectiveTotal)}`);
+  console.log(`   Success: ${formatNumber(metrics.runs.success)} (${metrics.runs.effectiveSuccessRate}%)`);
   console.log(`   Failure: ${formatNumber(metrics.runs.failure)}`);
   console.log(`   Cancelled: ${formatNumber(metrics.runs.cancelled)}`);
 
