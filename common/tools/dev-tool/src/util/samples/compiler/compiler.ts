@@ -266,6 +266,24 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     .filter(ts.isVariableStatement)
     .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
 
+  // Validate that hooks don't use parameters (e.g., `beforeEach((ctx) => ...)`).
+  // Hook context is test infrastructure that doesn't translate to samples.
+  const allHooks = [
+    ...subParsed.beforeAllHooks,
+    ...subParsed.beforeEachHooks,
+    ...subParsed.afterEachHooks,
+    ...subParsed.afterAllHooks,
+  ];
+  for (const hook of allHooks) {
+    if (hook.paramName) {
+      throw new CompilerError(
+        `Hook parameter "${hook.paramName}" in ${hook.kind}() is not supported. ` +
+          `Hook context is test infrastructure that doesn't translate to samples.`,
+        fileName,
+      );
+    }
+  }
+
   // beforeAll hooks — surviving statements become preamble BEFORE beforeEach
   const beforeAllTexts: string[] = [];
   for (const hook of subParsed.beforeAllHooks) {
