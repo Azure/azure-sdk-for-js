@@ -156,9 +156,7 @@ function parseLetCandidate(text: string): LetCandidate | undefined {
  * Parse a preamble text to see if it's a simple assignment expression statement:
  * `name = expr` (not `name += expr`, `name ??= expr`, etc.)
  */
-function parseSimpleAssignment(
-  text: string,
-): { name: string; valueText: string } | undefined {
+function parseSimpleAssignment(text: string): { name: string; valueText: string } | undefined {
   const src = ts.createSourceFile("_.ts", text, ts.ScriptTarget.Latest, true);
   if (src.statements.length !== 1) return undefined;
 

@@ -40,12 +40,7 @@ function copyLeadingComments<T extends ts.Node>(
     ) {
       continue;
     }
-    result = ts.addSyntheticLeadingComment(
-      result,
-      range.kind,
-      text,
-      range.hasTrailingNewLine,
-    );
+    result = ts.addSyntheticLeadingComment(result, range.kind, text, range.hasTrailingNewLine);
   }
   return result;
 }
@@ -69,23 +64,17 @@ function cloneSpecifier(spec: ts.ImportSpecifier): ts.ImportSpecifier {
 /**
  * Clone import attributes (the `with { type: "json" }` clause) as fresh nodes.
  */
-function cloneAttributes(
-  attrs: ts.ImportAttributes | undefined,
-): ts.ImportAttributes | undefined {
+function cloneAttributes(attrs: ts.ImportAttributes | undefined): ts.ImportAttributes | undefined {
   if (!attrs) return undefined;
   const elements = attrs.elements.map((el) =>
     ts.factory.createImportAttribute(
       ts.isIdentifier(el.name)
         ? ts.factory.createIdentifier(el.name.text)
         : ts.factory.createStringLiteral((el.name as ts.StringLiteral).text),
-      ts.isStringLiteral(el.value)
-        ? ts.factory.createStringLiteral(el.value.text)
-        : el.value,
+      ts.isStringLiteral(el.value) ? ts.factory.createStringLiteral(el.value.text) : el.value,
     ),
   );
-  return ts.factory.createImportAttributes(
-    ts.factory.createNodeArray(elements),
-  );
+  return ts.factory.createImportAttributes(ts.factory.createNodeArray(elements));
 }
 
 /**
@@ -283,9 +272,7 @@ export function rewriteImports(
           const localName = spec.name.text;
           const isUnreferenced = referencedNames && !referencedNames.has(localName);
           if (!isDead && !isUnreferenced) {
-            const key = spec.propertyName
-              ? `${spec.propertyName.text} as ${localName}`
-              : localName;
+            const key = spec.propertyName ? `${spec.propertyName.text} as ${localName}` : localName;
             if (isTypeOnlyImport || spec.isTypeOnly) {
               if (!seenTypeOnly.has(key)) {
                 seenTypeOnly.add(key);
@@ -311,16 +298,19 @@ export function rewriteImports(
             })()
           : false;
         // Also check referencedNames for default import
-        if (!defaultDead && defaultName && referencedNames && !referencedNames.has(defaultName.text)) {
+        if (
+          !defaultDead &&
+          defaultName &&
+          referencedNames &&
+          !referencedNames.has(defaultName.text)
+        ) {
           defaultDead = true;
         }
         const keepDefault = defaultName && !defaultDead;
         const hasNs = clause.namedBindings && ts.isNamespaceImport(clause.namedBindings);
         let nsDead = hasNs
           ? (() => {
-              const sym = analyzer.getSymbol(
-                (clause.namedBindings as ts.NamespaceImport).name,
-              );
+              const sym = analyzer.getSymbol((clause.namedBindings as ts.NamespaceImport).name);
               return sym ? deadSymbols.has(sym) : false;
             })()
           : true;

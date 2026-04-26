@@ -226,25 +226,38 @@ function parseMetadata(sourceFile: ts.SourceFile): SampleMetadata | null {
  */
 function findDescribeStatement(
   sourceFile: ts.SourceFile,
-  _fileName: string,
+  fileName: string,
 ): ts.ExpressionStatement | undefined {
+  let foundDescribe: ts.ExpressionStatement | undefined;
+
   for (const stmt of sourceFile.statements) {
     if (ts.isExpressionStatement(stmt) && ts.isCallExpression(stmt.expression)) {
       const callee = stmt.expression.expression;
-      if (ts.isIdentifier(callee) && callee.text === "describe") {
-        return stmt;
-      }
-      if (
-        ts.isPropertyAccessExpression(callee) &&
-        ts.isIdentifier(callee.expression) &&
-        callee.expression.text === "describe" &&
-        (callee.name.text === "skip" || callee.name.text === "only")
-      ) {
-        return stmt;
+      const isDescribe =
+        (ts.isIdentifier(callee) && callee.text === "describe") ||
+        (ts.isPropertyAccessExpression(callee) &&
+          ts.isIdentifier(callee.expression) &&
+          callee.expression.text === "describe" &&
+          (callee.name.text === "skip" || callee.name.text === "only"));
+
+      if (isDescribe) {
+        if (foundDescribe) {
+          // Multiple top-level describes found — this is an error
+          const firstLine =
+            sourceFile.getLineAndCharacterOfPosition(foundDescribe.getStart()).line + 1;
+          const secondLine = sourceFile.getLineAndCharacterOfPosition(stmt.getStart()).line + 1;
+          throw new CompilerError(
+            `Multiple top-level describe blocks found (lines ${firstLine} and ${secondLine}). ` +
+              `Sample-test files must have exactly one top-level describe.`,
+            fileName,
+          );
+        }
+        foundDescribe = stmt;
       }
     }
   }
-  return undefined;
+
+  return foundDescribe;
 }
 
 /**

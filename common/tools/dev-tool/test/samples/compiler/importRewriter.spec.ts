@@ -67,9 +67,7 @@ describe("rewriteImports", () => {
     );
     const { imports } = rewriteImports(classified, PKG, NO_DEAD, analyzer);
     // Should have exactly one import from PKG
-    const pkgImports = imports.filter(
-      (d) => (d.moduleSpecifier as ts.StringLiteral).text === PKG,
-    );
+    const pkgImports = imports.filter((d) => (d.moduleSpecifier as ts.StringLiteral).text === PKG);
     expect(pkgImports).toHaveLength(1);
     const text = printImport(pkgImports[0]);
     expect(text).toContain("A");
@@ -174,10 +172,7 @@ describe("rewriteImports", () => {
 
   // 11. Side-effect external import kept
   it("keeps side-effect external imports", () => {
-    const { classified, analyzer } = setupImports(
-      ['import "some-polyfill";'],
-      ["external"],
-    );
+    const { classified, analyzer } = setupImports(['import "some-polyfill";'], ["external"]);
     const { imports } = rewriteImports(classified, PKG, NO_DEAD, analyzer);
     const texts = printAll(imports);
     expect(texts).toContainEqual(expect.stringContaining("some-polyfill"));
@@ -185,10 +180,7 @@ describe("rewriteImports", () => {
 
   // 12. Side-effect test import removed
   it("removes side-effect test imports", () => {
-    const { classified, analyzer } = setupImports(
-      ['import "@azure-tools/test-utils";'],
-      ["test"],
-    );
+    const { classified, analyzer } = setupImports(['import "@azure-tools/test-utils";'], ["test"]);
     const { imports } = rewriteImports(classified, PKG, NO_DEAD, analyzer);
     const texts = printAll(imports);
     expect(texts.some((t) => t.includes("@azure-tools/test-utils"))).toBe(false);
@@ -243,10 +235,7 @@ describe("rewriteImports", () => {
 
   // 16. Type-only test import removed
   it("removes type-only test imports", () => {
-    const { classified, analyzer } = setupImports(
-      ['import type { Foo } from "vitest";'],
-      ["test"],
-    );
+    const { classified, analyzer } = setupImports(['import type { Foo } from "vitest";'], ["test"]);
     const { imports } = rewriteImports(classified, PKG, NO_DEAD, analyzer);
     const texts = printAll(imports);
     expect(texts.some((t) => t.includes("vitest"))).toBe(false);
@@ -322,10 +311,7 @@ describe("rewriteImports", () => {
 
   // Side-effect source imports
   it("preserves side-effect source import rewritten to package name", () => {
-    const { classified, analyzer } = setupImports(
-      ['import "./types/index.js";'],
-      ["sourceCode"],
-    );
+    const { classified, analyzer } = setupImports(['import "./types/index.js";'], ["sourceCode"]);
     const { imports } = rewriteImports(classified, PKG, NO_DEAD, analyzer);
     const texts = printAll(imports);
     expect(texts).toHaveLength(1);
@@ -459,10 +445,7 @@ describe("rewriteImports", () => {
     // 23. Same-name imports from different modules resolved by symbol identity
     it("prunes by symbol identity, not by name string", () => {
       const { classified, analyzer } = setupImports(
-        [
-          'import { Thing } from "@azure/identity";',
-          'import { Thing } from "./helper.js";',
-        ],
+        ['import { Thing } from "@azure/identity";', 'import { Thing } from "./helper.js";'],
         ["external", "localHelper"],
       );
 
@@ -503,11 +486,7 @@ describe("rewriteImports", () => {
 
   it("preserves side-effect import order before sorted declarative imports", () => {
     const { classified, analyzer } = setupImports(
-      [
-        'import "z-polyfill";',
-        'import "a-polyfill";',
-        'import { Foo } from "@azure/identity";',
-      ],
+      ['import "z-polyfill";', 'import "a-polyfill";', 'import { Foo } from "@azure/identity";'],
       ["external", "external", "external"],
     );
     const { imports } = rewriteImports(classified, PKG, NO_DEAD, analyzer);
@@ -531,8 +510,6 @@ describe("rewriteImports", () => {
       ["sourceCode", "sourceCode"],
     );
     expect(() => rewriteImports(classified, PKG, NO_DEAD, analyzer)).toThrow(CompilerError);
-    expect(() => rewriteImports(classified, PKG, NO_DEAD, analyzer)).toThrow(
-      /[Mm]ultiple default/,
-    );
+    expect(() => rewriteImports(classified, PKG, NO_DEAD, analyzer)).toThrow(/[Mm]ultiple default/);
   });
 });

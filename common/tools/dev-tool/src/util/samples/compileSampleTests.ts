@@ -16,7 +16,7 @@ import path from "node:path";
 import { tmpdir } from "node:os";
 import { findMatchingFiles } from "../findMatchingFiles.js";
 import { createPrinter } from "../printer.js";
-import { compileSampleTest } from "./compiler/compiler.js";
+import { compileSampleTest, type HelperCache } from "./compiler/compiler.js";
 import type { HelperResolver, ResolvedHelper } from "./compiler/helperCompiler.js";
 
 const log = createPrinter("sample-tests");
@@ -176,6 +176,8 @@ export async function compileSampleTests(
   let compiledCount = 0;
   const allEnvVars = new Set<string>();
   const writtenHelpers = new Map<string, string>();
+  // Shared helper cache across all sample compilations to avoid redundant work
+  const sharedHelperCache: HelperCache = new Map();
 
   try {
     for (const filePath of testFiles) {
@@ -205,6 +207,7 @@ export async function compileSampleTests(
         fileName: filePath, // Absolute path needed for helper path computation
         resolveHelper,
         platform,
+        helperCache: sharedHelperCache,
       });
 
       if (result.warnings.length > 0) {

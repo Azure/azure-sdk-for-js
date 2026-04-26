@@ -35,8 +35,10 @@ export interface CompiledHelper {
   survivingExports: Set<string>;
   /** Environment variables referenced */
   envVars: string[];
-  /** True if no exported statements survived (pure test helper) */
+  /** True if no runtime statements survived (pure test helper or type-only) */
   isEmpty: boolean;
+  /** True if helper has only type exports (interfaces, type aliases) - still needs to be emitted */
+  isTypeOnly: boolean;
   /** Nested helpers compiled during this helper's compilation */
   nestedHelpers: Map<string, CompiledHelper>;
   /** Warnings produced during compilation (e.g., unresolved nested helpers) */
@@ -44,10 +46,7 @@ export interface CompiledHelper {
 }
 
 /** Callback to resolve a helper import specifier to source text. */
-export type HelperResolver = (
-  fromFile: string,
-  specifier: string,
-) => ResolvedHelper | undefined;
+export type HelperResolver = (fromFile: string, specifier: string) => ResolvedHelper | undefined;
 
 /**
  * Recursively collect all identifier names from a binding name (including destructuring).
@@ -67,9 +66,7 @@ function collectAllBindingNames(name: ts.BindingName, out: Set<string>): void {
 /**
  * Collect export names from surviving statements.
  */
-function collectSurvivingExportsFromStatements(
-  statements: readonly ts.Statement[],
-): Set<string> {
+function collectSurvivingExportsFromStatements(statements: readonly ts.Statement[]): Set<string> {
   const exports = new Set<string>();
 
   for (const stmt of statements) {
@@ -77,7 +74,7 @@ function collectSurvivingExportsFromStatements(
     if (ts.isExportDeclaration(stmt)) {
       // Skip type-only exports (e.g., export type { Foo } from "...")
       if (stmt.isTypeOnly) continue;
-      
+
       if (stmt.exportClause && ts.isNamedExports(stmt.exportClause)) {
         for (const spec of stmt.exportClause.elements) {
           exports.add(spec.name.text);
@@ -119,12 +116,15 @@ function collectSurvivingExportsFromStatements(
       }
     } else if (ts.isEnumDeclaration(stmt)) {
       exports.add(stmt.name.text);
+    } else if (ts.isInterfaceDeclaration(stmt)) {
+      exports.add(stmt.name.text);
+    } else if (ts.isTypeAliasDeclaration(stmt)) {
+      exports.add(stmt.name.text);
     }
   }
 
   return exports;
 }
-
 
 /**
  * Compile a local helper file.
@@ -176,9 +176,7 @@ export function compileHelper(
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
-        warnings.push(
-          `Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`,
-        );
+        warnings.push(`Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
       }
 
@@ -297,33 +295,20 @@ export function compileHelper(
   const nonImportStatements: ts.Statement[] = [];
   for (const s of analyzer.sourceFile.statements) {
     if (ts.isImportDeclaration(s)) continue;
-    if (
-      ts.isExportDeclaration(s) &&
-      s.moduleSpecifier &&
-      ts.isStringLiteral(s.moduleSpecifier)
-    ) {
+    if (ts.isExportDeclaration(s) && s.moduleSpecifier && ts.isStringLiteral(s.moduleSpecifier)) {
       const modSpec = s.moduleSpecifier.text;
       if (emptyHelperSpecifiers.has(modSpec)) continue;
 
       // Rewrite named re-exports against child's surviving exports
       const childExports = childSurvivingExports.get(modSpec);
-      if (
-        childExports &&
-        s.exportClause &&
-        ts.isNamedExports(s.exportClause)
-      ) {
+      if (childExports && s.exportClause && ts.isNamedExports(s.exportClause)) {
         const surviving = s.exportClause.elements.filter((spec) =>
-          childExports.has(
-            (spec.propertyName ?? spec.name).text,
-          ),
+          childExports.has((spec.propertyName ?? spec.name).text),
         );
         if (surviving.length === 0) continue; // all specifiers dead
         if (surviving.length < s.exportClause.elements.length) {
           // Rewrite the export declaration with only surviving specifiers
-          const newClause = ts.factory.updateNamedExports(
-            s.exportClause,
-            surviving,
-          );
+          const newClause = ts.factory.updateNamedExports(s.exportClause, surviving);
           const newDecl = ts.factory.updateExportDeclaration(
             s,
             s.modifiers,
@@ -340,36 +325,58 @@ export function compileHelper(
     nonImportStatements.push(s);
   }
 
-  // Run dead-binding elimination (no mini-file — shared analyzer has full scope)
-  const elimination = eliminateDeadStatements(
-    nonImportStatements,
-    deadSymbols,
-    analyzer,
-    fileName,
-  );
+  // Separate type declarations from runtime statements.
+  // Type declarations (interfaces, type aliases) should be preserved if exported,
+  // as they may be consumed via `import type` by other modules.
+  const typeDeclarations: ts.Statement[] = [];
+  const runtimeStatements: ts.Statement[] = [];
+  for (const s of nonImportStatements) {
+    if (ts.isInterfaceDeclaration(s) || ts.isTypeAliasDeclaration(s)) {
+      // Keep exported type declarations
+      const hasExportModifier = s.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
+      if (hasExportModifier) {
+        typeDeclarations.push(s);
+      }
+      // Non-exported type declarations are dropped (internal implementation detail)
+    } else {
+      runtimeStatements.push(s);
+    }
+  }
 
-  // Collect surviving exports from surviving statements
-  const survivingExports = collectSurvivingExportsFromStatements(
-    elimination.survivingStatements,
-  );
+  // Run dead-binding elimination only on runtime statements
+  const elimination = eliminateDeadStatements(runtimeStatements, deadSymbols, analyzer, fileName);
 
-  // A helper is empty only when no runtime statements survived elimination.
-  // Side-effect modules (e.g. polyfills) have no exports but DO have surviving
-  // statements — they must NOT be marked empty.
-  // Type-only survivors (type aliases, interfaces, type-only exports) do not count as runtime.
-  const runtimeSurvivors = elimination.survivingStatements.filter((s) => {
+  // Combine type declarations with surviving runtime statements
+  const allSurvivors = [...typeDeclarations, ...elimination.survivingStatements];
+
+  // Collect surviving exports from all surviving statements
+  const survivingExports = collectSurvivingExportsFromStatements(allSurvivors);
+
+  // Classify survivors: type-only (interfaces, type aliases) vs runtime
+  const typeSurvivors = allSurvivors.filter((s) => {
+    if (ts.isTypeAliasDeclaration(s) || ts.isInterfaceDeclaration(s)) return true;
+    if (ts.isExportDeclaration(s) && s.isTypeOnly) return true;
+    return false;
+  });
+  const runtimeSurvivors = allSurvivors.filter((s) => {
     if (ts.isTypeAliasDeclaration(s) || ts.isInterfaceDeclaration(s)) return false;
     if (ts.isExportDeclaration(s) && s.isTypeOnly) return false;
     return true;
   });
-  const isEmpty = runtimeSurvivors.length === 0;
 
-  if (isEmpty) {
+  // A helper is truly empty when no statements survived at all (pure test infrastructure).
+  // A helper is type-only when it has type survivors but no runtime survivors.
+  // Type-only helpers still need to be emitted for `import type` consumers.
+  const isTrulyEmpty = allSurvivors.length === 0;
+  const isTypeOnly = !isTrulyEmpty && runtimeSurvivors.length === 0 && typeSurvivors.length > 0;
+
+  if (isTrulyEmpty) {
     return {
       outputText: "",
       survivingExports: new Set(),
       envVars: [],
       isEmpty: true,
+      isTypeOnly: false,
       nestedHelpers,
       warnings,
     };
@@ -396,7 +403,7 @@ export function compileHelper(
   // Strip any leading copyright/license comment lines from the first statement —
   // the printer emits the node's leading trivia which may contain the original
   // file-level copyright header, but we prepend our own below.
-  const stmtTexts = elimination.survivingStatements.map((s, index) => {
+  const stmtTexts = allSurvivors.map((s, index) => {
     const text = printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile);
     if (index !== 0) return text;
     return text.replace(/^(?:\/\/ Copyright[^\n]*\n|\/\/ Licensed[^\n]*\n)*\n?/, "");
@@ -429,6 +436,7 @@ export function compileHelper(
     survivingExports,
     envVars: extractEnvVarNames(outputText),
     isEmpty: false,
+    isTypeOnly,
     nestedHelpers,
     warnings,
   };

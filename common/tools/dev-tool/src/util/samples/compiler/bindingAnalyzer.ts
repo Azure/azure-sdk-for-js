@@ -81,7 +81,12 @@ export function createAnalyzer(sourceText: string, _fileName: string): BindingAn
   // Use a safe internal filename for the ts.Program — angle brackets or other
   // special characters in the caller's fileName can break path resolution.
   const internalFileName = "__analyzer__.ts";
-  const sourceFile = ts.createSourceFile(internalFileName, sourceText, ts.ScriptTarget.Latest, true);
+  const sourceFile = ts.createSourceFile(
+    internalFileName,
+    sourceText,
+    ts.ScriptTarget.Latest,
+    true,
+  );
 
   const host: ts.CompilerHost = {
     getSourceFile: (name, _target) => (name === internalFileName ? sourceFile : undefined),
@@ -289,7 +294,9 @@ function collectBindingIdentifiers(name: ts.BindingName): ts.Identifier[] {
     return name.elements.flatMap((e) => collectBindingIdentifiers(e.name));
   }
   if (ts.isArrayBindingPattern(name)) {
-    return name.elements.filter(ts.isBindingElement).flatMap((e) => collectBindingIdentifiers(e.name));
+    return name.elements
+      .filter(ts.isBindingElement)
+      .flatMap((e) => collectBindingIdentifiers(e.name));
   }
   return [];
 }

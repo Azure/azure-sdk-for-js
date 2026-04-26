@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { classifyImport, classifyImports } from "../../../src/util/samples/compiler/importClassifier.js";
+import {
+  classifyImport,
+  classifyImports,
+} from "../../../src/util/samples/compiler/importClassifier.js";
 import { parseSource, getImports } from "./helpers.js";
 import type { ImportCategory } from "../../../src/util/samples/compiler/types.js";
 
@@ -29,9 +32,9 @@ describe("importClassifier", () => {
     });
 
     it("classifies @azure-tools/test-publishing as test", () => {
-      expect(
-        classify('import { something } from "@azure-tools/test-publishing";').category,
-      ).toBe("test");
+      expect(classify('import { something } from "@azure-tools/test-publishing";').category).toBe(
+        "test",
+      );
     });
 
     it("classifies @azure-tools/test-credential as test", () => {
@@ -51,9 +54,9 @@ describe("importClassifier", () => {
     });
 
     it("classifies hypothetical @azure-tools/test-something-new as test", () => {
-      expect(
-        classify('import { foo } from "@azure-tools/test-something-new";').category,
-      ).toBe("test");
+      expect(classify('import { foo } from "@azure-tools/test-something-new";').category).toBe(
+        "test",
+      );
     });
 
     it("classifies type-only import from vitest as test", () => {
@@ -90,9 +93,9 @@ describe("importClassifier", () => {
 
     // --- dataFile category ---
     it("classifies ./data.json with import assertions as dataFile", () => {
-      expect(
-        classify('import data from "./data.json" assert { type: "json" };').category,
-      ).toBe("dataFile");
+      expect(classify('import data from "./data.json" assert { type: "json" };').category).toBe(
+        "dataFile",
+      );
     });
 
     it("classifies ./data.json without import assertions as dataFile", () => {
@@ -124,9 +127,7 @@ describe("importClassifier", () => {
 
     // --- mixed / edge cases ---
     it("classifies named + default mixed import", () => {
-      expect(
-        classify('import def, { named } from "@azure/identity";').category,
-      ).toBe("external");
+      expect(classify('import def, { named } from "@azure/identity";').category).toBe("external");
     });
   });
 

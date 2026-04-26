@@ -22,7 +22,10 @@ import { rewriteImports } from "./importRewriter.js";
 import { promoteLetToConst } from "./letConstPromoter.js";
 import { compileHelper } from "./helperCompiler.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
-import type { HelperResolver } from "./helperCompiler.js";
+import type { HelperResolver, CompiledHelper } from "./helperCompiler.js";
+
+/** Cache for compiled helpers, keyed by canonical path. Shared across sample compilations. */
+export type HelperCache = Map<string, { helper: CompiledHelper }>;
 
 export interface CompileOptions {
   /** Package name for import rewriting (e.g., "@azure/storage-blob") */
@@ -42,16 +45,19 @@ export interface CompileOptions {
    * Defaults to "node" (compatible with both Node.js and browser when bundled).
    */
   platform?: "node" | "browser";
+  /**
+   * Shared helper compilation cache. When provided, compiled helpers are cached
+   * across multiple sample compilations, avoiding redundant work when many samples
+   * import the same helpers.
+   */
+  helperCache?: HelperCache;
 }
 
 /**
  * Compile a sample-test source file into publishable sample code.
  */
-export function compileSampleTest(
-  sourceText: string,
-  options: CompileOptions,
-): CompiledSample {
-  const { packageName, fileName = "<sample-test>", resolveHelper, platform } = options;
+export function compileSampleTest(sourceText: string, options: CompileOptions): CompiledSample {
+  const { packageName, fileName = "<sample-test>", resolveHelper, platform, helperCache } = options;
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
   // Step 1: Parse source text into AST
@@ -80,9 +86,7 @@ export function compileSampleTest(
     substituteSampleOnly(step3File, step3Analyzer.checker, fileName);
 
   // Step 4: Print and re-parse to get a clean AST with substitutions applied
-  const substitutedText = sampleOnlyCount > 0
-    ? printer.printFile(postSampleOnlyFile)
-    : step3Text;
+  const substitutedText = sampleOnlyCount > 0 ? printer.printFile(postSampleOnlyFile) : step3Text;
 
   // Step 4b: Create ONE analyzer for the full substituted file (scope-aware symbol resolution)
   const analyzer = createAnalyzer(substitutedText, fileName);
@@ -114,20 +118,19 @@ export function compileSampleTest(
 
   if (resolveHelper) {
     const visited = new Set<string>();
-    const helperCache = new Map<string, { helper: ReturnType<typeof compileHelper> }>();
+    // Use shared cache if provided, otherwise create a local one
+    const effectiveCache = helperCache ?? new Map<string, { helper: CompiledHelper }>();
     for (const ci of classified) {
       if (ci.category !== "localHelper") continue;
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
-        warnings.push(
-          `Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`,
-        );
+        warnings.push(`Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
       }
 
-      let helper: ReturnType<typeof compileHelper>;
-      const cached = helperCache.get(resolved.canonicalPath);
+      let helper: CompiledHelper;
+      const cached = effectiveCache.get(resolved.canonicalPath);
       if (cached) {
         helper = cached.helper;
       } else {
@@ -140,13 +143,13 @@ export function compileSampleTest(
           resolveHelper,
           visited,
         );
-        helperCache.set(resolved.canonicalPath, { helper });
+        effectiveCache.set(resolved.canonicalPath, { helper });
 
         // Surface warnings from helper compilations (only once per helper)
         warnings.push(...helper.warnings);
 
         if (!helper.isEmpty) {
-          // Helper has survivors: store compiled output under relative path
+          // Helper has survivors (runtime or type-only): store compiled output
           const relKey = toRelativeHelperKey(resolved.canonicalPath);
           if (!storedHelperKeys.has(resolved.canonicalPath)) {
             storedHelperKeys.add(resolved.canonicalPath);
@@ -166,6 +169,8 @@ export function compileSampleTest(
       }
 
       // Process THIS import's specifiers against the (possibly cached) result
+      // Only mark bindings as dead if the helper is truly empty (no survivors at all).
+      // Type-only helpers still need their import bindings preserved.
       if (helper.isEmpty) {
         for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
           deadSymbols.add(sym);
@@ -176,9 +181,10 @@ export function compileSampleTest(
   }
 
   // Filter out empty helper imports before further processing
-  const filteredClassified = emptyHelperSpecifiers.size > 0
-    ? classified.filter((ci) => !emptyHelperSpecifiers.has(ci.moduleSpecifier))
-    : classified;
+  const filteredClassified =
+    emptyHelperSpecifiers.size > 0
+      ? classified.filter((ci) => !emptyHelperSpecifiers.has(ci.moduleSpecifier))
+      : classified;
 
   // Step 5b: Validate that forPublishing expressions don't reference dead bindings
   for (const sub of substitutions) {
@@ -201,11 +207,16 @@ export function compileSampleTest(
     analyzer,
     fileName,
   );
+  // Accumulate newly dead symbols from cascade
+  for (const sym of describeResult.newlyDeadSymbols) {
+    deadSymbols.add(sym);
+  }
   // Keep all surviving describe statements in original order AND extract var-only subset for
   // let→const promotion. The ordered list is used during assembly so that non-var statements
   // (expression statements, function declarations, etc.) stay in their original positions.
-  const survivingDescribeTexts = describeResult.survivingStatements
-    .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+  const survivingDescribeTexts = describeResult.survivingStatements.map((s) =>
+    printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
+  );
   const survivingVarTexts = describeResult.survivingStatements
     .filter(ts.isVariableStatement)
     .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
@@ -213,12 +224,10 @@ export function compileSampleTest(
   // beforeAll hooks — surviving statements become preamble BEFORE beforeEach
   const beforeAllTexts: string[] = [];
   for (const hook of subParsed.beforeAllHooks) {
-    const hookResult = eliminateDeadStatements(
-      hook.body,
-      deadSymbols,
-      analyzer,
-      fileName,
-    );
+    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
+    for (const sym of hookResult.newlyDeadSymbols) {
+      deadSymbols.add(sym);
+    }
     for (const s of hookResult.survivingStatements) {
       beforeAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
     }
@@ -230,12 +239,10 @@ export function compileSampleTest(
   // beforeEach hooks — surviving statements become main() preamble
   const beforeEachTexts: string[] = [];
   for (const hook of subParsed.beforeEachHooks) {
-    const hookResult = eliminateDeadStatements(
-      hook.body,
-      deadSymbols,
-      analyzer,
-      fileName,
-    );
+    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
+    for (const sym of hookResult.newlyDeadSymbols) {
+      deadSymbols.add(sym);
+    }
     for (const s of hookResult.survivingStatements) {
       beforeEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
     }
@@ -247,12 +254,10 @@ export function compileSampleTest(
   // it block bodies
   const itBlockTexts: string[][] = [];
   for (const itBlock of subParsed.itBlocks) {
-    const itResult = eliminateDeadStatements(
-      itBlock.body,
-      deadSymbols,
-      analyzer,
-      fileName,
-    );
+    const itResult = eliminateDeadStatements(itBlock.body, deadSymbols, analyzer, fileName);
+    for (const sym of itResult.newlyDeadSymbols) {
+      deadSymbols.add(sym);
+    }
     const texts = itResult.survivingStatements.map((s) =>
       printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
     );
@@ -320,6 +325,7 @@ export function compileSampleTest(
     survivingVarTexts,
     functions,
     [...beforeAllTexts, ...beforeEachTexts],
+    platform,
   );
 
   // Step 10: Extract snippets and environment variables (before stripping markers)
@@ -374,6 +380,7 @@ function assembleOutput(
   describeVarTexts: string[],
   functions: Array<{ name: string; bodyTexts: string[] }>,
   mainPreambleTexts: string[],
+  platform?: "node" | "browser",
 ): string {
   const lines: string[] = [];
 
@@ -474,11 +481,19 @@ function assembleOutput(
     lines.push("");
   }
 
-  // catch handler
-  lines.push("main().catch((error) => {");
-  lines.push("  console.error(error);");
-  lines.push("  process.exit(1);");
-  lines.push("});");
+  // catch handler (platform-aware)
+  if (platform === "browser") {
+    // Browser samples shouldn't use process.exit()
+    lines.push("main().catch((error) => {");
+    lines.push("  console.error(error);");
+    lines.push("});");
+  } else {
+    // Node.js samples use process.exit(1) for non-zero exit on error
+    lines.push("main().catch((error) => {");
+    lines.push("  console.error(error);");
+    lines.push("  process.exit(1);");
+    lines.push("});");
+  }
   lines.push("");
 
   return lines.join("\n");
@@ -574,5 +589,3 @@ function extractSnippets(text: string, fileName?: string): Map<string, string> {
 
   return snippets;
 }
-
-

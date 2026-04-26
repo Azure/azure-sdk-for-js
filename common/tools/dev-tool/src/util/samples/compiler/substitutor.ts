@@ -206,11 +206,7 @@ export function substituteForPublishing(
           ts.isIdentifier(node.expression) &&
           node.expression.text === forPublishingLocalName
         ) {
-          const publishedExpr = validateAndExtract(
-            node as ts.CallExpression,
-            fileName,
-            sourceFile,
-          );
+          const publishedExpr = validateAndExtract(node as ts.CallExpression, fileName, sourceFile);
 
           substitutions.push({
             originalNode: node as ts.CallExpression,
@@ -262,11 +258,7 @@ function validateAndExtractSampleOnly(
 
   if (!ts.isArrowFunction(arg)) {
     const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
-    throw new CompilerError(
-      "Argument to sampleOnly must be an arrow function",
-      fileName,
-      line + 1,
-    );
+    throw new CompilerError("Argument to sampleOnly must be an arrow function", fileName, line + 1);
   }
 
   if (arg.parameters.length > 0) {

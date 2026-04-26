@@ -208,9 +208,7 @@ describe("operations", () => {
 
     it("main() calls all three functions in order", () => {
       const result = compileSampleTest(multiInput, { packageName: "@azure/my-client" });
-      const mainMatch = result.outputText.match(
-        /async function main\(\)[^}]*\{([\s\S]*?)\n\}/,
-      );
+      const mainMatch = result.outputText.match(/async function main\(\)[^}]*\{([\s\S]*?)\n\}/);
       expect(mainMatch).toBeTruthy();
       const mainBody = mainMatch![1];
       const createIdx = mainBody.indexOf("await createItem()");
@@ -468,6 +466,26 @@ describe("x", () => {
         /Duplicate snippet name.*Dup/,
       );
     });
+
+    it("throws on multiple top-level describe blocks", () => {
+      const input = `\
+/** @summary multiple describes */
+import { describe, it } from "vitest";
+describe("first", () => {
+  it("test1", async () => {
+    console.log("one");
+  });
+});
+describe("second", () => {
+  it("test2", async () => {
+    console.log("two");
+  });
+});
+`;
+      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+        /Multiple top-level describe blocks/,
+      );
+    });
   });
 
   // ── Test 5b: @ts-preserve-whitespace handling ─────────────────────
@@ -653,7 +671,9 @@ describe("hello", () => {
 `;
       const result = compileSampleTest(plainDescription, { packageName: "@azure/client" });
       expect(result.metadata.summary).toBe("Demonstrates how to say hello without @summary.");
-      expect(result.outputText).toContain("@summary Demonstrates how to say hello without @summary.");
+      expect(result.outputText).toContain(
+        "@summary Demonstrates how to say hello without @summary.",
+      );
     });
 
     it("browser platform auto-sets skipJavascript", () => {
@@ -1018,6 +1038,63 @@ describe("test", () => {
       expect(result.outputText).toContain('import { MyClient } from "@azure/foo"');
     });
   });
+
+  // ── Browser platform ─────────────────────────────────────────────────
+
+  describe("browser platform", () => {
+    it("omits process.exit(1) for browser samples", () => {
+      const input = `\
+/** @summary browser sample */
+import { describe, it } from "vitest";
+
+describe("sample", () => {
+  it("test", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, {
+        packageName: "@azure/foo",
+        platform: "browser",
+      });
+      expect(result.outputText).not.toContain("process.exit(1)");
+      expect(result.outputText).toContain("main().catch((error) => {");
+      expect(result.outputText).toContain("console.error(error)");
+    });
+
+    it("includes process.exit(1) for node samples", () => {
+      const input = `\
+/** @summary node sample */
+import { describe, it } from "vitest";
+
+describe("sample", () => {
+  it("test", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, {
+        packageName: "@azure/foo",
+        platform: "node",
+      });
+      expect(result.outputText).toContain("process.exit(1)");
+    });
+
+    it("includes process.exit(1) by default (no platform)", () => {
+      const input = `\
+/** @summary default sample */
+import { describe, it } from "vitest";
+
+describe("sample", () => {
+  it("test", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      expect(result.outputText).toContain("process.exit(1)");
+    });
+  });
 });
 
 // ── Import graph following (helper compilation) ────────────────────────
@@ -1379,9 +1456,7 @@ describe("generateSampleEnv", () => {
   it("returns header when no vars discovered", () => {
     const { content } = generateSampleEnv([]);
     expect(content).toContain("Copyright");
-    const varLines = content
-      .split("\n")
-      .filter((l) => !l.startsWith("#") && l.trim());
+    const varLines = content.split("\n").filter((l) => !l.startsWith("#") && l.trim());
     expect(varLines).toHaveLength(0);
   });
 
@@ -1450,9 +1525,9 @@ describe("test", () => {
 `;
     const result = compileSampleTest(input, { packageName: "@azure/client" });
     // Statement order must be preserved: config → console.log → client
-    const configIdx = result.outputText.indexOf('config');
+    const configIdx = result.outputText.indexOf("config");
     const logIdx = result.outputText.indexOf('"initializing"');
-    const clientIdx = result.outputText.indexOf('new Client');
+    const clientIdx = result.outputText.indexOf("new Client");
     expect(configIdx).toBeLessThan(logIdx);
     expect(logIdx).toBeLessThan(clientIdx);
   });

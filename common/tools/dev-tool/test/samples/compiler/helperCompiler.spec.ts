@@ -173,7 +173,10 @@ export function createRecorder(): Recorder { return new Recorder(); }
 
     const resolver: HelperResolver = (_fromFile, specifier) => {
       if (specifier === "./testUtils.js") {
-        return { canonicalPath: "/test/public/samples/testUtils.ts", sourceText: emptyNestedSource };
+        return {
+          canonicalPath: "/test/public/samples/testUtils.ts",
+          sourceText: emptyNestedSource,
+        };
       }
       return undefined;
     };
@@ -203,10 +206,16 @@ export function realWork(): string {
   it("handles circular imports gracefully", () => {
     const resolver: HelperResolver = (fromFile, specifier) => {
       if (specifier === "./b.js" && fromFile === "a.ts") {
-        return { canonicalPath: "/b.ts", sourceText: `import { x } from "./a.js";\nexport const y = 1;\n` };
+        return {
+          canonicalPath: "/b.ts",
+          sourceText: `import { x } from "./a.js";\nexport const y = 1;\n`,
+        };
       }
       if (specifier === "./a.js" && fromFile === "/b.ts") {
-        return { canonicalPath: "/a.ts", sourceText: `import { y } from "./b.js";\nexport const x = 1;\n` };
+        return {
+          canonicalPath: "/a.ts",
+          sourceText: `import { y } from "./b.js";\nexport const x = 1;\n`,
+        };
       }
       return undefined;
     };
@@ -647,14 +656,17 @@ export const valueA = 2;
 
   // ── F5: Type-only helpers ───────────────────────────────────────────
 
-  it("marks type-only helper as empty", () => {
+  it("type-only helper is not empty but is marked isTypeOnly", () => {
     const source = `
 export type Foo = string;
 export interface Bar { x: number; }
 `;
     const result = compileHelper(source, "@azure/test", "helper.ts");
-    expect(result.isEmpty).toBe(true);
-    expect(result.survivingExports.size).toBe(0);
+    // Type-only helpers are NOT empty - they need to be emitted for import type consumers
+    expect(result.isEmpty).toBe(false);
+    expect(result.isTypeOnly).toBe(true);
+    expect(result.survivingExports).toContain("Foo");
+    expect(result.survivingExports).toContain("Bar");
   });
 
   it("helper with type exports AND runtime exports is not empty", () => {
@@ -665,6 +677,9 @@ export function realWork(): string { return "hello"; }
 `;
     const result = compileHelper(source, "@azure/test", "mixed-types.ts");
     expect(result.isEmpty).toBe(false);
+    expect(result.isTypeOnly).toBe(false); // Has runtime exports
     expect(result.survivingExports).toContain("realWork");
+    expect(result.survivingExports).toContain("Foo");
+    expect(result.survivingExports).toContain("Bar");
   });
 });

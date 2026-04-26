@@ -201,10 +201,7 @@ function collectLhsSideEffects(node: ts.Expression): ts.Expression[] {
 /**
  * Collect symbols declared within a subtree (for exclusion from reference analysis).
  */
-function collectDeclaredInNode(
-  node: ts.Node,
-  analyzer: BindingAnalyzer,
-): Set<ts.Symbol> {
+function collectDeclaredInNode(node: ts.Node, analyzer: BindingAnalyzer): Set<ts.Symbol> {
   const symbols = new Set<ts.Symbol>();
 
   function visit(n: ts.Node): void {
@@ -242,10 +239,7 @@ function collectDeclaredInNode(
  * Type-only positions (annotations, type assertions, heritage clauses) are excluded.
  * Locally declared symbols within the node (parameters, block vars) are excluded.
  */
-function collectRuntimeRefs(
-  node: ts.Node,
-  analyzer: BindingAnalyzer,
-): Set<ts.Symbol> {
+function collectRuntimeRefs(node: ts.Node, analyzer: BindingAnalyzer): Set<ts.Symbol> {
   const refs = new Set<ts.Symbol>();
   const declaredInNode = collectDeclaredInNode(node, analyzer);
 
@@ -516,10 +510,7 @@ function lowerExpressionStatement(
   }
 
   // Assignment: LHS root determines liveness when it resolves to a local symbol
-  if (
-    ts.isBinaryExpression(expr) &&
-    expr.operatorToken.kind === ts.SyntaxKind.EqualsToken
-  ) {
+  if (ts.isBinaryExpression(expr) && expr.operatorToken.kind === ts.SyntaxKind.EqualsToken) {
     const rootId = getRootIdentifier(expr.left);
     if (rootId) {
       const rootSym = analyzer.getSymbol(rootId);
@@ -560,10 +551,7 @@ function lowerExpressionStatement(
  * Check if a node has dead type-only references (e.g., `let x: DeadType;`).
  * These make a unit eliminable even without runtime dead refs.
  */
-function hasDeadTypeReference(
-  node: ts.Node,
-  analyzer: BindingAnalyzer,
-): boolean {
+function hasDeadTypeReference(node: ts.Node, analyzer: BindingAnalyzer): boolean {
   let found = false;
   function visit(n: ts.Node): void {
     if (found) return;
@@ -627,10 +615,7 @@ function collectBindingSymbols(
  * Collect type-only references from a node, returning their symbols.
  * Used during propagation to check if dead type refs make a unit eliminable.
  */
-function collectTypeOnlyRefs(
-  node: ts.Node,
-  analyzer: BindingAnalyzer,
-): Set<ts.Symbol> {
+function collectTypeOnlyRefs(node: ts.Node, analyzer: BindingAnalyzer): Set<ts.Symbol> {
   const refs = new Set<ts.Symbol>();
   const declaredInNode = collectDeclaredInNode(node, analyzer);
 
@@ -771,9 +756,8 @@ function propagatePoison(
         } else {
           const stmt = statements[units[i].originalIndex];
           const line =
-            analyzer.sourceFile.getLineAndCharacterOfPosition(
-              stmt.getStart(analyzer.sourceFile),
-            ).line + 1;
+            analyzer.sourceFile.getLineAndCharacterOfPosition(stmt.getStart(analyzer.sourceFile))
+              .line + 1;
           throw new CompilerError(
             "Dead binding is tangled with live code and cannot be cleanly separated",
             fileName,
@@ -815,10 +799,7 @@ function shouldEmitSalvagedEffect(
   poisonedSymbols: Set<ts.Symbol>,
   analyzer: BindingAnalyzer,
 ): boolean {
-  const refs = collectRuntimeRefs(
-    ts.factory.createExpressionStatement(effect),
-    analyzer,
-  );
+  const refs = collectRuntimeRefs(ts.factory.createExpressionStatement(effect), analyzer);
   if (refs.size === 0) return true; // No local refs → emit (pure side effect)
   // Reject if ANY ref is poisoned — emitting would reference removed bindings
   for (const sym of refs) {
@@ -875,12 +856,7 @@ function reconstructStatements(
 
     // Check if this is a split export declaration
     if (stmtUnits.some((u) => u.exportSpecifier !== undefined)) {
-      reconstructExportDeclaration(
-        stmt as ts.ExportDeclaration,
-        stmtUnits,
-        stmtStatuses,
-        output,
-      );
+      reconstructExportDeclaration(stmt as ts.ExportDeclaration, stmtUnits, stmtStatuses, output);
       continue;
     }
 
