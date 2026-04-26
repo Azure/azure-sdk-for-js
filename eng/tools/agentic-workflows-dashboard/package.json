@@ -7,10 +7,13 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/collector.js",
-    "dev": "tsx src/collector.ts",
+    "collect": "node dist/collector.js",
+    "collect:dry-run": "node dist/collector.js --dry-run --verbose",
     "audit": "node dist/audit-enrichment.js",
     "audit:dry-run": "node dist/audit-enrichment.js --dry-run --verbose",
     "audit:dev": "tsx src/audit-enrichment.ts",
+    "check-lockfiles": "node dist/check-lockfiles.js",
+    "check-lockfiles:verbose": "node dist/check-lockfiles.js --verbose",
     "test": "vitest run",
     "test:watch": "vitest"
   },

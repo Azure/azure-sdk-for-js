@@ -266,6 +266,28 @@ node dist/audit-enrichment.js --days 7
 | 5 | Data integrity error |
 | 6 | Ingestion error |
 
+### Lockfile Staleness Check
+
+Checks if `.lock.yml` files need to be recompiled.
+
+```bash
+# Check all monitored repos
+node dist/check-lockfiles.js --verbose
+
+# Check specific repo
+node dist/check-lockfiles.js --repo Azure/azure-sdk-for-js
+
+# JSON output for automation
+node dist/check-lockfiles.js --json > staleness.json
+
+# Quick check with npm
+npm run check-lockfiles
+```
+
+**Exit codes:**
+- `0` - All lockfiles up-to-date
+- `5` - One or more lockfiles are stale (run `gh aw compile`)
+
 ## Sample Queries
 
 ```kusto
