@@ -5,7 +5,8 @@
   "description": "Collector for agentic workflow metrics across Azure SDK repos",
   "main": "dist/collector.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsgo",
+    "build:tsc": "tsc",
     "start": "node dist/collector.js",
     "collect": "node dist/collector.js",
     "collect:dry-run": "node dist/collector.js --dry-run --verbose",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@typescript/native-preview": "^7.0.0-dev",
     "typescript": "^5.4.0",
     "tsx": "^4.0.0",
     "vitest": "^2.0.0"
