@@ -294,5 +294,35 @@ describe("test", () => {
         /Unresolved local helper import.*missing\.js/,
       );
     });
+
+    it("throws on unresolved nested helper imports", async () => {
+      // Write a helper that imports another helper that doesn't exist
+      writeHelper(
+        "samples/node/helper.ts",
+        `\
+import { nestedHelper } from "./nestedMissing.js";
+export function helper() { nestedHelper(); }
+`,
+      );
+
+      writeSample(
+        "samples/node/withNestedMissing.spec.ts",
+        `\
+/** @summary nested missing helper */
+import { describe, it } from "vitest";
+import { helper } from "./helper.js";
+
+describe("test", () => {
+  it("test", async () => {
+    helper();
+  });
+});
+`,
+      );
+
+      await expect(compileSampleTests(projectDir, "@azure/test")).rejects.toThrow(
+        /Unresolved nested helper import.*nestedMissing\.js/,
+      );
+    });
   });
 });

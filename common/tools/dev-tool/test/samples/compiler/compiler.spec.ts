@@ -535,6 +535,57 @@ describe("ws", () => {
     });
   });
 
+  // ── Test 5c: Local type declarations preserved ─────────────────────
+
+  describe("local type declarations", () => {
+    it("preserves interface used as annotation", () => {
+      const input = `\
+/** @summary local interface */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("types", () => {
+  interface Options {
+    timeout: number;
+    retries: number;
+  }
+
+  it("example", async () => {
+    const options: Options = { timeout: 30, retries: 3 };
+    const client = new Client(options);
+    console.log(client);
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("interface Options");
+      expect(result.outputText).toContain("timeout: number");
+      expect(result.outputText).toContain("const options: Options");
+    });
+
+    it("preserves type alias used as annotation", () => {
+      const input = `\
+/** @summary local type alias */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("types", () => {
+  type Config = { url: string; key: string };
+
+  it("example", async () => {
+    const config: Config = { url: "https://example.com", key: "abc" };
+    const client = new Client(config);
+    console.log(client);
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("type Config");
+      expect(result.outputText).toContain("url: string");
+      expect(result.outputText).toContain("const config: Config");
+    });
+  });
+
   // ── Test 6: Environment variable extraction ─────────────────────
 
   describe("environment variable extraction", () => {
@@ -1113,6 +1164,133 @@ describe("sample", () => {
       expect(result.outputText).toContain("process.exit(1)");
     });
   });
+
+  // ── afterEach/afterAll hooks ────────────────────────────────────────
+
+  describe("cleanup hooks", () => {
+    it("single-it with afterEach uses try/finally", () => {
+      const input = `\
+/** @summary afterEach test */
+import { Client } from "../src/index.js";
+import { describe, it, afterEach } from "vitest";
+
+describe("sample", () => {
+  let client: Client;
+  afterEach(async () => {
+    await client.close();
+  });
+  it("test", async () => {
+    client = new Client();
+    console.log(client);
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("try {");
+      expect(result.outputText).toContain("} finally {");
+      expect(result.outputText).toContain("await client.close()");
+    });
+
+    it("single-it with afterAll uses try/finally", () => {
+      const input = `\
+/** @summary afterAll test */
+import { Pool } from "../src/index.js";
+import { describe, it, afterAll } from "vitest";
+
+describe("sample", () => {
+  const pool = new Pool();
+  afterAll(async () => {
+    await pool.dispose();
+  });
+  it("test", async () => {
+    console.log(pool);
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("try {");
+      expect(result.outputText).toContain("} finally {");
+      expect(result.outputText).toContain("await pool.dispose()");
+    });
+
+    it("multi-it with afterEach wraps each call", () => {
+      const input = `\
+/** @summary multi-it afterEach */
+import { Client } from "../src/index.js";
+import { describe, it, afterEach } from "vitest";
+
+describe("sample", () => {
+  let client: Client;
+  afterEach(async () => {
+    await client.reset();
+  });
+  it("first", async () => {
+    client = new Client();
+    console.log("first");
+  });
+  it("second", async () => {
+    console.log("second");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // Each function call should be wrapped
+      expect(result.outputText).toContain("await first()");
+      expect(result.outputText).toContain("await second()");
+      // afterEach should appear after each
+      const output = result.outputText;
+      expect((output.match(/await client\.reset\(\)/g) || []).length).toBe(2);
+    });
+
+    it("multi-it with afterAll wraps all in one try/finally", () => {
+      const input = `\
+/** @summary multi-it afterAll */
+import { Pool } from "../src/index.js";
+import { describe, it, afterAll } from "vitest";
+
+describe("sample", () => {
+  const pool = new Pool();
+  afterAll(async () => {
+    await pool.dispose();
+  });
+  it("first", async () => {
+    console.log("first");
+  });
+  it("second", async () => {
+    console.log("second");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      expect(result.outputText).toContain("try {");
+      expect(result.outputText).toContain("} finally {");
+      expect(result.outputText).toContain("await pool.dispose()");
+      // afterAll should only appear once
+      expect((result.outputText.match(/await pool\.dispose\(\)/g) || []).length).toBe(1);
+    });
+
+    it("eliminates afterEach that only uses dead bindings", () => {
+      const input = `\
+/** @summary dead afterEach */
+import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, afterEach } from "vitest";
+
+describe("sample", () => {
+  let recorder: Recorder;
+  afterEach(async () => {
+    await recorder.stop();
+  });
+  it("test", async () => {
+    console.log("hello");
+  });
+});
+`;
+      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      // Dead cleanup should be eliminated, no try/finally needed
+      expect(result.outputText).not.toContain("try {");
+      expect(result.outputText).not.toContain("recorder.stop");
+    });
+  });
 });
 
 // ── Import graph following (helper compilation) ────────────────────────
@@ -1415,27 +1593,31 @@ describe("test", () => {
     expect(globalIdx).toBeLessThan(localIdx);
   });
 
-  it("afterAll cleanup is dropped from compiled output", () => {
+  it("afterAll cleanup appears in compiled output", () => {
     const input = `\
-/** @summary afterAll dropped */
+/** @summary afterAll kept */
 import { describe, it, afterAll } from "vitest";
 import { MyClient } from "../src/index.js";
 
 describe("test", () => {
+  let client: MyClient;
+
   afterAll(async () => {
-    await cleanupGlobal();
+    await client.close();
   });
 
   it("does stuff", async () => {
+    client = new MyClient();
     const x = 1;
   });
 });
 `;
     const result = compileSampleTest(input, { packageName: "@azure/test" });
-    // afterAll body should NOT appear in output
-    expect(result.outputText).not.toContain("cleanupGlobal");
-    // The sample should still compile correctly
-    expect(result.outputText).toContain("main()");
+    // afterAll body should appear in output (now supported)
+    expect(result.outputText).toContain("await client.close()");
+    // Should use try/finally pattern
+    expect(result.outputText).toContain("try {");
+    expect(result.outputText).toContain("} finally {");
   });
 });
 

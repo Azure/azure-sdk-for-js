@@ -163,6 +163,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
           resolveHelper,
           visited,
           effectiveCache, // Pass cache for nested helper reuse
+          strict, // Propagate strict mode to nested helpers
         );
         effectiveCache.set(resolved.canonicalPath, helper);
 
@@ -223,8 +224,23 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
 
   // Step 6: Eliminate dead statements per scope (shared analyzer, no mini-files)
   // Describe statements first — cascade feeds other scopes
+  //
+  // Separate type declarations (interfaces, type aliases) from runtime statements.
+  // Unlike helpers where only exported types are preserved, in samples we keep ALL
+  // local type declarations since they may be used as annotations in surviving code.
+  const describeTypeDeclarations: ts.Statement[] = [];
+  const describeRuntimeStatements: ts.Statement[] = [];
+  for (const s of subParsed.describeStatements) {
+    if (ts.isInterfaceDeclaration(s) || ts.isTypeAliasDeclaration(s)) {
+      describeTypeDeclarations.push(s);
+    } else {
+      describeRuntimeStatements.push(s);
+    }
+  }
+
+  // Run dead-binding elimination only on runtime statements
   const describeResult = eliminateDeadStatements(
-    subParsed.describeStatements,
+    describeRuntimeStatements,
     deadSymbols,
     analyzer,
     fileName,
@@ -233,13 +249,20 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   for (const sym of describeResult.newlyDeadSymbols) {
     deadSymbols.add(sym);
   }
+
+  // Combine type declarations with surviving runtime statements
+  const allSurvivingDescribeStatements = [
+    ...describeTypeDeclarations,
+    ...describeResult.survivingStatements,
+  ];
+
   // Keep all surviving describe statements in original order AND extract var-only subset for
   // let→const promotion. The ordered list is used during assembly so that non-var statements
   // (expression statements, function declarations, etc.) stay in their original positions.
-  const survivingDescribeTexts = describeResult.survivingStatements.map((s) =>
+  const survivingDescribeTexts = allSurvivingDescribeStatements.map((s) =>
     printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
   );
-  const survivingVarTexts = describeResult.survivingStatements
+  const survivingVarTexts = allSurvivingDescribeStatements
     .filter(ts.isVariableStatement)
     .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
 
@@ -287,6 +310,36 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       texts.push(itBlock.trailingComments);
     }
     itBlockTexts.push(texts);
+  }
+
+  // afterEach hooks — surviving statements become cleanup after each sample body
+  const afterEachTexts: string[] = [];
+  for (const hook of subParsed.afterEachHooks) {
+    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
+    for (const sym of hookResult.newlyDeadSymbols) {
+      deadSymbols.add(sym);
+    }
+    for (const s of hookResult.survivingStatements) {
+      afterEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    }
+    if (hook.trailingComments) {
+      afterEachTexts.push(hook.trailingComments);
+    }
+  }
+
+  // afterAll hooks — surviving statements become cleanup at the end of main()
+  const afterAllTexts: string[] = [];
+  for (const hook of subParsed.afterAllHooks) {
+    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
+    for (const sym of hookResult.newlyDeadSymbols) {
+      deadSymbols.add(sym);
+    }
+    for (const s of hookResult.survivingStatements) {
+      afterAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    }
+    if (hook.trailingComments) {
+      afterAllTexts.push(hook.trailingComments);
+    }
   }
 
   // Step 6b: Validate forPublishing expressions against extended dead set (includes cascaded)
@@ -347,6 +400,8 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     survivingVarTexts,
     functions,
     [...beforeAllTexts, ...beforeEachTexts],
+    afterEachTexts,
+    afterAllTexts,
     platform,
   );
 
@@ -402,9 +457,12 @@ function assembleOutput(
   describeVarTexts: string[],
   functions: Array<{ name: string; bodyTexts: string[] }>,
   mainPreambleTexts: string[],
+  afterEachTexts: string[],
+  afterAllTexts: string[],
   platform?: "node" | "browser",
 ): string {
   const lines: string[] = [];
+  const hasCleanup = afterEachTexts.length > 0 || afterAllTexts.length > 0;
 
   // Copyright header
   lines.push("// Copyright (c) Microsoft Corporation.");
@@ -461,10 +519,34 @@ function assembleOutput(
       }
     }
 
-    // Inline the single function's body
-    for (const stmt of functions[0].bodyTexts) {
-      for (const line of stmt.split("\n")) {
-        lines.push("  " + line);
+    if (hasCleanup) {
+      // Wrap body in try/finally for cleanup
+      lines.push("  try {");
+      for (const stmt of functions[0].bodyTexts) {
+        for (const line of stmt.split("\n")) {
+          lines.push("    " + line);
+        }
+      }
+      lines.push("  } finally {");
+      // afterEach cleanup
+      for (const stmt of afterEachTexts) {
+        for (const line of stmt.split("\n")) {
+          lines.push("    " + line);
+        }
+      }
+      // afterAll cleanup
+      for (const stmt of afterAllTexts) {
+        for (const line of stmt.split("\n")) {
+          lines.push("    " + line);
+        }
+      }
+      lines.push("  }");
+    } else {
+      // No cleanup, inline body directly
+      for (const stmt of functions[0].bodyTexts) {
+        for (const line of stmt.split("\n")) {
+          lines.push("  " + line);
+        }
       }
     }
 
@@ -496,8 +578,38 @@ function assembleOutput(
         lines.push("  " + line);
       }
     }
-    for (const fn of functions) {
-      lines.push(`  await ${fn.name}();`);
+
+    if (hasCleanup) {
+      // Wrap all function calls in try/finally
+      lines.push("  try {");
+      for (const fn of functions) {
+        // For multi-it with afterEach, wrap each call individually
+        if (afterEachTexts.length > 0) {
+          lines.push(`    try {`);
+          lines.push(`      await ${fn.name}();`);
+          lines.push(`    } finally {`);
+          for (const stmt of afterEachTexts) {
+            for (const line of stmt.split("\n")) {
+              lines.push("      " + line);
+            }
+          }
+          lines.push(`    }`);
+        } else {
+          lines.push(`    await ${fn.name}();`);
+        }
+      }
+      lines.push("  } finally {");
+      // afterAll cleanup at the end
+      for (const stmt of afterAllTexts) {
+        for (const line of stmt.split("\n")) {
+          lines.push("    " + line);
+        }
+      }
+      lines.push("  }");
+    } else {
+      for (const fn of functions) {
+        lines.push(`  await ${fn.name}();`);
+      }
     }
     lines.push("}");
     lines.push("");

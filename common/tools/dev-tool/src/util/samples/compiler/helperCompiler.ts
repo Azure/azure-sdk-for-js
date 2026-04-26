@@ -18,6 +18,7 @@ import { eliminateDeadStatements } from "./deadBindingEliminator.js";
 import { createAnalyzer } from "./bindingAnalyzer.js";
 import { rewriteImports } from "./importRewriter.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
+import { CompilerError } from "./types.js";
 
 /** Resolved helper file returned by the resolver callback. */
 export interface ResolvedHelper {
@@ -135,6 +136,7 @@ function collectSurvivingExportsFromStatements(statements: readonly ts.Statement
  * @param resolveHelper - Optional callback to resolve nested helper imports
  * @param recursionStack - Set of canonical paths in the current call chain (cycle detection)
  * @param helperCache - Cache of previously compiled helper results
+ * @param strict - When true, unresolved nested helpers throw instead of warning
  */
 export function compileHelper(
   sourceText: string,
@@ -143,6 +145,7 @@ export function compileHelper(
   resolveHelper?: HelperResolver,
   recursionStack?: Set<string>,
   helperCache?: Map<string, CompiledHelper>,
+  strict?: boolean,
 ): CompiledHelper {
   const currentStack = recursionStack ?? new Set<string>();
   const currentCache = helperCache ?? new Map<string, CompiledHelper>();
@@ -176,6 +179,12 @@ export function compileHelper(
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
+        if (strict) {
+          throw new CompilerError(
+            `Unresolved nested helper import "${ci.moduleSpecifier}" in "${fileName}"`,
+            fileName,
+          );
+        }
         warnings.push(`Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
       }
@@ -197,6 +206,7 @@ export function compileHelper(
             resolveHelper,
             currentStack,
             currentCache,
+            strict,
           );
           currentCache.set(resolved.canonicalPath, nested);
         } finally {
@@ -244,6 +254,12 @@ export function compileHelper(
 
       const resolved = resolveHelper(fileName, specifier);
       if (!resolved) {
+        if (strict) {
+          throw new CompilerError(
+            `Unresolved nested helper re-export "${specifier}" in "${fileName}"`,
+            fileName,
+          );
+        }
         warnings.push(
           `Could not resolve nested helper re-export "${specifier}" from "${fileName}"`,
         );
@@ -267,6 +283,7 @@ export function compileHelper(
             resolveHelper,
             currentStack,
             currentCache,
+            strict,
           );
           currentCache.set(resolved.canonicalPath, nested);
         } finally {

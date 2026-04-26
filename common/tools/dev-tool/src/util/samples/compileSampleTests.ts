@@ -122,8 +122,12 @@ export function generateSampleEnv(
 /**
  * Create a helper resolver that reads files relative to the importing file.
  * Resolution is constrained to paths under testPublicPath.
+ * File reads are memoized by canonical path to avoid redundant disk I/O.
  */
 function createHelperResolver(testPublicPath: string): HelperResolver {
+  // Memoize file reads by canonical path
+  const sourceTextCache = new Map<string, string>();
+
   return (fromFile: string, specifier: string): ResolvedHelper | undefined => {
     // Resolve the specifier relative to the importing file's directory
     const fromDir = path.dirname(
@@ -144,9 +148,16 @@ function createHelperResolver(testPublicPath: string): HelperResolver {
       return undefined;
     }
 
+    // Check cache first to avoid redundant file reads
+    let sourceText = sourceTextCache.get(canonical);
+    if (sourceText === undefined) {
+      sourceText = readFileSync(canonical, "utf-8");
+      sourceTextCache.set(canonical, sourceText);
+    }
+
     return {
       canonicalPath: canonical,
-      sourceText: readFileSync(canonical, "utf-8"),
+      sourceText,
     };
   };
 }
