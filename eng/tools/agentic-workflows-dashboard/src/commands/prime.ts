@@ -48,7 +48,7 @@ interface PrimeOptions {
 
 interface AuditRecord {
   TimeGenerated: string;
-  AuditVersion: string;
+  AuditVersion: number;
   Repository: string;
   WorkflowName: string;
   RunId: number;
@@ -58,32 +58,46 @@ interface AuditRecord {
   PullRequestNumber: number;
   AuditStatus: string;
   HasTokenData: boolean;
-  PrimaryModel: string;
-  TotalInputTokens: number;
-  TotalOutputTokens: number;
-  TotalCacheReadTokens: number;
-  TotalCacheWriteTokens: number;
-  EstimatedCostUSD: number;
-  CacheSavingsUSD: number;
+  ModelId: string;
+  InputTokens: number;
+  OutputTokens: number;
+  CacheReadTokens: number;
+  CacheWriteTokens: number;
   CacheHitRate: number;
-  TurnCount: number;
-  ToolCallCount: number;
-  Duration_ISO8601: string;
-  RawAuditJson: string;
+  CacheEfficiency: number;
+  EstimatedCostUSD: number;
+  EstimatedSavingsUSD: number;
+  Turns: number;
+  ToolCalls: number;
+  ErrorCount: number;
+  WarningCount: number;
+  RequestCount: number;
+  DurationMs: number;
+  GitHubApiRequests: number;
+  IsPrimaryModel: boolean;
 }
 
 interface AuditResult {
-  status: "success" | "failed" | "pending";
-  usage?: {
+  overview?: {
+    status?: string;
+    conclusion?: string;
+    duration?: string;
+  };
+  firewall_token_usage?: {
     total_input_tokens: number;
     total_output_tokens: number;
     total_cache_read_tokens: number;
     total_cache_write_tokens: number;
     by_model?: Record<string, { input_tokens: number }>;
   };
-  turn_count?: number;
-  tool_call_count?: number;
-  duration?: string;
+  metrics?: {
+    turns?: number;
+    error_count?: number;
+    warning_count?: number;
+  };
+  tool_usage?: {
+    total_calls?: number;
+  };
 }
 
 /**
@@ -139,7 +153,8 @@ function createAuditRecord(
   run: GitHubWorkflowRun,
   audit: AuditResult,
 ): AuditRecord {
-  const usage = audit.usage ?? {
+  // Use firewall_token_usage (new format) instead of usage (old format)
+  const usage = audit.firewall_token_usage ?? {
     total_input_tokens: 0,
     total_output_tokens: 0,
     total_cache_read_tokens: 0,
@@ -156,12 +171,23 @@ function createAuditRecord(
   const savings = calculateCacheSavings(primaryModel, cacheReadTokens);
   const cacheHitRate = calculateCacheHitRate(inputTokens, cacheReadTokens);
 
+  // Cache efficiency = cache_read / (input + cache_read)
+  const totalTokens = inputTokens + cacheReadTokens;
+  const cacheEfficiency = totalTokens > 0 ? cacheReadTokens / totalTokens : 0;
+
   // Determine if we have real token data
   const hasTokenData = inputTokens > 0 || outputTokens > 0;
 
+  // Get status from overview.conclusion
+  const status = audit.overview?.conclusion ?? "unknown";
+
+  // Parse duration string like "14.5m" to milliseconds
+  const durationStr = audit.overview?.duration ?? "0s";
+  const durationMs = parseDurationToMs(durationStr);
+
   return {
     TimeGenerated: new Date().toISOString(),
-    AuditVersion: AUDIT_VERSION,
+    AuditVersion: parseInt(AUDIT_VERSION, 10),
     Repository: repo,
     WorkflowName: workflowName,
     RunId: run.id,
@@ -169,21 +195,40 @@ function createAuditRecord(
     CreatedAt: run.created_at,
     CompletedAt: run.updated_at,
     PullRequestNumber: run.pull_requests?.[0]?.number ?? 0,
-    AuditStatus: audit.status,
+    AuditStatus: status,
     HasTokenData: hasTokenData,
-    PrimaryModel: primaryModel,
-    TotalInputTokens: inputTokens,
-    TotalOutputTokens: outputTokens,
-    TotalCacheReadTokens: cacheReadTokens,
-    TotalCacheWriteTokens: cacheWriteTokens,
-    EstimatedCostUSD: cost,
-    CacheSavingsUSD: savings,
+    ModelId: primaryModel,
+    InputTokens: inputTokens,
+    OutputTokens: outputTokens,
+    CacheReadTokens: cacheReadTokens,
+    CacheWriteTokens: cacheWriteTokens,
     CacheHitRate: cacheHitRate,
-    TurnCount: audit.turn_count ?? 0,
-    ToolCallCount: audit.tool_call_count ?? 0,
-    Duration_ISO8601: audit.duration ?? "PT0S",
-    RawAuditJson: JSON.stringify(audit),
+    CacheEfficiency: cacheEfficiency,
+    EstimatedCostUSD: cost,
+    EstimatedSavingsUSD: savings,
+    Turns: audit.metrics?.turns ?? 0,
+    ToolCalls: audit.tool_usage?.total_calls ?? 0,
+    ErrorCount: audit.metrics?.error_count ?? 0,
+    WarningCount: audit.metrics?.warning_count ?? 0,
+    RequestCount: 0, // Not available in current audit format
+    DurationMs: durationMs,
+    GitHubApiRequests: 0, // Not available in current audit format
+    IsPrimaryModel: true,
   };
+}
+
+/** Parse duration strings like "14.5m", "2h", "30s" to milliseconds */
+function parseDurationToMs(duration: string): number {
+  const match = duration.match(/^([\d.]+)([smh])$/);
+  if (!match) return 0;
+  const value = parseFloat(match[1] ?? "0");
+  const unit = match[2];
+  switch (unit) {
+    case "s": return Math.round(value * 1000);
+    case "m": return Math.round(value * 60 * 1000);
+    case "h": return Math.round(value * 60 * 60 * 1000);
+    default: return 0;
+  }
 }
 
 /**
@@ -326,7 +371,7 @@ export async function primeCommand(options: PrimeOptions): Promise<void> {
             const record = createAuditRecord(repoFullName, workflow, run, result.data);
             auditRecords.push(record);
             if (verbose) {
-              console.log(`    ✓ ${run.id}: ${result.data.status}`);
+              console.log(`    ✓ ${run.id}: ${result.data.overview?.conclusion ?? "completed"}`);
             }
           } else {
             totalFailed++;
