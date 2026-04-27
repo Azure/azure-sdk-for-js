@@ -21,4 +21,5 @@ export * from "./policies/StorageCorrectContentLengthPolicy.js";
 export * from "./policies/StorageRetryPolicyV2.js";
 export * from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
+export * from "./policies/StorageRedirectRangeHeaderPolicy.js";
 export * from "./credentials/UserDelegationKeyCredential.js";

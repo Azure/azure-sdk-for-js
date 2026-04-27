@@ -21,7 +21,7 @@ import type {
   ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,
@@ -45,6 +45,8 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
@@ -758,6 +760,9 @@ export function toQuerySerialization(
       return {
         format: {
           type: "parquet",
+          parquetTextConfiguration: {
+            additionalProperties: (textConfiguration as any).additionalProperties,
+          },
         },
       };
 
@@ -1021,6 +1026,40 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  if (result._response.parsedBody !== undefined) {
+    const { _response, ...rest } = result._response.parsedBody as any;
+    compatResponse.parsedBody = rest;
+  }
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }
 
 interface UploadChecksumParametersLike {
