@@ -2457,9 +2457,6 @@ export class BlobClient extends StorageClient {
       "BlobClient-setImmutabilityPolicy",
       options,
       async (updatedOptions) => {
-        if (immutabilityPolicy.expiriesOn === undefined) {
-          throw new Error("immutabilityPolicy.expiriesOn must be a valid Date object");
-        }
         const result = adjustResponse(
           await this.blobContext.setImmutabilityPolicy({
             immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
