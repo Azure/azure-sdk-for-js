@@ -1,3 +1,38 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
 exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/akriService": "src/api/akriService/index.ts"
+  "./api/akriConnector": "src/api/akriConnector/index.ts"
+  "./api/akriConnectorTemplate": "src/api/akriConnectorTemplate/index.ts"
+  "./api/registryEndpoint": "src/api/registryEndpoint/index.ts"
+  "./api/dataflowGraph": "src/api/dataflowGraph/index.ts"
+  "./api/dataflowEndpoint": "src/api/dataflowEndpoint/index.ts"
+  "./api/dataflow": "src/api/dataflow/index.ts"
+  "./api/dataflowProfile": "src/api/dataflowProfile/index.ts"
+  "./api/brokerAuthorization": "src/api/brokerAuthorization/index.ts"
+  "./api/brokerAuthentication": "src/api/brokerAuthentication/index.ts"
+  "./api/brokerListener": "src/api/brokerListener/index.ts"
+  "./api/broker": "src/api/broker/index.ts"
+  "./api/instance": "src/api/instance/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

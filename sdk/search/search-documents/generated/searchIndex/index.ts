@@ -3,7 +3,6 @@
 
 export { SearchIndexClient } from "./searchIndexClient.js";
 export type {
-  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,

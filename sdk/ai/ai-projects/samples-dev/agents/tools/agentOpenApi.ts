@@ -14,12 +14,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
+import type {
   OpenApiTool,
   OpenApiFunctionDefinition,
   OpenApiAnonymousAuthDetails,
 } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { fileURLToPath } from "node:url";
 import * as fs from "node:fs/promises";
 import * as path from "path";
@@ -83,7 +83,7 @@ export async function main(): Promise<void> {
     },
     {
       body: {
-        agent: { name: agent.name, type: "agent_reference" },
+        agent_reference: { name: agent.name, type: "agent_reference" },
         tool_choice: "required",
       },
     },

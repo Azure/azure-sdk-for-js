@@ -1,6 +1,18 @@
 # Release History
 
-## 4.11.0 (Unreleased)
+## 4.11.2 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed an issue where `contentType` passed to `setSecret()` and `updateSecretProperties()` was not forwarded to the service request body. [#38301](https://github.com/Azure/azure-sdk-for-js/pull/38301)
+
+## 4.11.1 (2026-04-09)
+
+### Bugs Fixed
+
+- Fix dependency issue.
+
+## 4.11.0 (2026-04-01)
 
 ### Features Added
 

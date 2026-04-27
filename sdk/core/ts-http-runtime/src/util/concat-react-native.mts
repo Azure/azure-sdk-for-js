@@ -1,14 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isWebReadableStream } from "./typeGuards.js";
+import { isWebReadableStream } from "#platform/typeGuards";
 
 /**
  * Accepted binary data types for concat
  *
+ * React Native doesn't natively provide ReadableStream or NodeJS.ReadableStream,
+ * but apps may polyfill them. The structural stream type lets callers pass polyfilled
+ * stream objects; they are handled at runtime via duck-typing (isWebReadableStream).
+ *
  * @internal
  */
-export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+export type ConcatSource =
+  | Uint8Array<ArrayBuffer>
+  | Blob
+  | { getReader(): unknown; tee(): unknown };
 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.
@@ -37,9 +44,7 @@ export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | 
  *
  * @internal
  */
-export async function concat(
-  sources: (ConcatSource | (() => ConcatSource))[],
-): Promise<(() => NodeJS.ReadableStream) | Blob> {
+export async function concat(sources: (ConcatSource | (() => ConcatSource))[]): Promise<Blob> {
   const parts: (Blob | Uint8Array)[] = [];
   for (const source of sources) {
     const resolved = typeof source === "function" ? source() : source;
@@ -47,7 +52,7 @@ export async function concat(
       parts.push(resolved);
     } else if (isWebReadableStream(resolved)) {
       // Requires ReadableStream + Response polyfills in RN
-      parts.push(await new Response(resolved).blob());
+      parts.push(await new Response(resolved as never).blob());
     } else {
       throw new Error(`Unsupported source type: ${typeof resolved}`);
     }

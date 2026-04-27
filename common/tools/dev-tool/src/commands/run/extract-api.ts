@@ -47,8 +47,8 @@ async function getTsconfigFile(projectPath: string, runtime: string): Promise<st
   // for other runtimes use the runtime name directly.
   const name = runtime === "node" ? "tsconfig.src.esm.json" : `tsconfig.src.${runtime}.json`;
 
-  // 1. Try runtime-specific tsconfig in the package directory
-  const candidate = path.join(projectPath, name);
+  // 1. Try runtime-specific tsconfig in the config/ subdirectory
+  const candidate = path.join(projectPath, "config", name);
   try {
     await stat(candidate);
     return candidate;

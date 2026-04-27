@@ -13,6 +13,14 @@ import type { PollerLike } from '@azure/core-lro';
 export function $delete(context: AzureStackHCIContext, resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
+export function changeRing(context: AzureStackHCIContext, resourceGroupName: string, clusterName: string, changeRingRequest: ChangeRingRequest, options?: ClustersChangeRingOptionalParams): PollerLike<OperationState<Cluster>, Cluster>;
+
+// @public
+export interface ClustersChangeRingOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ClustersConfigureRemoteSupportOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }

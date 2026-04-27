@@ -53,8 +53,8 @@ export {
   StorageBrowserPolicyFactory,
   StorageSharedKeyCredential,
   StorageSharedKeyCredentialPolicy,
-  UserDelegationKey,
-  CredentialPolicyCreator,
+  type UserDelegationKey,
+  type CredentialPolicyCreator,
 } from "@azure/storage-common";
 export {
   type BlobServiceProperties as DataLakeServiceProperties,

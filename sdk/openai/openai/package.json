@@ -70,7 +70,11 @@
     "test:node:live": "npm run test:node",
     "update-snippets": "dev-tool run update-snippets && node scripts/fixSnippets.mjs"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/openai/openai"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -89,7 +93,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {

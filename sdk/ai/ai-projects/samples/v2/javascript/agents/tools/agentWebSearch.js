@@ -55,7 +55,7 @@ async function main() {
       input: "Show me the latest London Underground service updates",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response: ${response.output_text}`);

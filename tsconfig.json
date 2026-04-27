@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2023",
     "module": "NodeNext",
-    "lib": [],
+    "lib": ["ES2023"],
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,

@@ -9,16 +9,13 @@ import {
 import {
   SearchIndexerDataSourceConnection,
   ListDataSourcesResult,
-  IndexerResyncBody,
   SearchIndexer,
   ListIndexersResult,
   SearchIndexerStatus,
   SearchIndexerSkillset,
   ListSkillsetsResult,
-  SkillNames,
 } from "../models/azure/search/documents/indexes/models.js";
 import {
-  resetSkills,
   createSkillset,
   getSkillsets,
   getSkillset,
@@ -31,8 +28,6 @@ import {
   deleteIndexer,
   createOrUpdateIndexer,
   runIndexer,
-  resetDocuments,
-  resync,
   resetIndexer,
   createDataSourceConnection,
   getDataSourceConnections,
@@ -41,7 +36,6 @@ import {
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
 import {
-  ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -54,8 +48,6 @@ import {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
-  ResetDocumentsOptionalParams,
-  ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
   GetDataSourceConnectionsOptionalParams,
@@ -87,15 +79,6 @@ export class SearchIndexerClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-  }
-
-  /** Reset an existing skillset in a search service. */
-  resetSkills(
-    skillNames: SkillNames,
-    name: string,
-    options: ResetSkillsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
-    return resetSkills(this._client, skillNames, name, options);
   }
 
   /** Creates a new skillset in a search service. */
@@ -192,23 +175,6 @@ export class SearchIndexerClient {
     options: RunIndexerOptionalParams = { requestOptions: {} },
   ): Promise<void> {
     return runIndexer(this._client, name, options);
-  }
-
-  /** Resets specific documents in the datasource to be selectively re-ingested by the indexer. */
-  resetDocuments(
-    name: string,
-    options: ResetDocumentsOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
-    return resetDocuments(this._client, name, options);
-  }
-
-  /** Resync selective options from the datasource to be re-ingested by the indexer." */
-  resync(
-    indexerResync: IndexerResyncBody,
-    name: string,
-    options: ResyncOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
-    return resync(this._client, indexerResync, name, options);
   }
 
   /** Resets the change tracking state associated with an indexer. */
