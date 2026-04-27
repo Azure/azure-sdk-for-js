@@ -22,7 +22,7 @@ Before starting the migration, ensure you have:
 
 1. **TypeSpec definitions ready**: Your service's TypeSpec definitions should be complete and merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs)
 2. **Local development environment**:
-   - [Node.js LTS version](https://nodejs.org/en/about/releases/)
+   - [Node.js 20 or later](https://nodejs.org/en/download/)
    - Local clone of your fork of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)
    - Local clone of your fork of [azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs)
 3. **Understanding of your current SDK**: Know which packages in azure-sdk-for-js belong to your service
@@ -100,7 +100,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
 ```json
 {
   "scripts": {
-    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply-v2 --skip index.ts",
+    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply --skip index.ts",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
@@ -148,7 +148,7 @@ npm run generate:client
 Use the dev-tool customization command to copy generated files to `src/` and merge with existing customizations:
 
 ```bash
-npx dev-tool customization apply-v2 --skip index.ts
+npx dev-tool customization apply --skip index.ts
 ```
 
 This command:

@@ -40,7 +40,7 @@ Please note that this quickstart is based on version 4.x of the recorder tool (`
 
 - pnpm
   - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
-- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [Node.js 20 or later](https://nodejs.org/en/download/)
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 
