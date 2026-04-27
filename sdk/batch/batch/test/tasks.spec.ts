@@ -341,7 +341,6 @@ describe("Task Operations Test", () => {
     );
   });
 
-
   it("should create a task with a user identity successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
     const taskId = "TaskWithUserIdentity";
