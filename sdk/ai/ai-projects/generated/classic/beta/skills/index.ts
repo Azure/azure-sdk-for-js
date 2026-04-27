@@ -36,13 +36,13 @@ export interface BetaSkillsOperations {
    *         to the operation to override the generated name.
    */
   delete: (
-    skillName: string,
+    name: string,
     foundryFeatures: "Skills=V1Preview",
     options?: BetaSkillsDeleteOptionalParams,
   ) => Promise<DeleteSkillResponse>;
   /** Updates an existing skill. */
   update: (
-    skillName: string,
+    name: string,
     foundryFeatures: "Skills=V1Preview",
     options?: BetaSkillsUpdateOptionalParams,
   ) => Promise<SkillObject>;
@@ -53,17 +53,17 @@ export interface BetaSkillsOperations {
   ) => PagedAsyncIterableIterator<SkillObject>;
   /** Downloads a skill package. */
   download: (
-    skillName: string,
+    name: string,
     foundryFeatures: "Skills=V1Preview",
     options?: BetaSkillsDownloadOptionalParams,
   ) => Promise<BetaSkillsDownloadResponse>;
   /** Retrieves a skill. */
   get: (
-    skillName: string,
+    name: string,
     foundryFeatures: "Skills=V1Preview",
     options?: BetaSkillsGetOptionalParams,
   ) => Promise<SkillObject>;
-  /** Creates a skill from a gzip package. */
+  /** Creates a skill from a zip package. */
   createFromPackage: (
     body: Uint8Array,
     foundryFeatures: "Skills=V1Preview",
@@ -80,27 +80,27 @@ export interface BetaSkillsOperations {
 function _getBetaSkills(context: AIProjectContext) {
   return {
     delete: (
-      skillName: string,
+      name: string,
       foundryFeatures: "Skills=V1Preview",
       options?: BetaSkillsDeleteOptionalParams,
-    ) => $delete(context, skillName, foundryFeatures, options),
+    ) => $delete(context, name, foundryFeatures, options),
     update: (
-      skillName: string,
+      name: string,
       foundryFeatures: "Skills=V1Preview",
       options?: BetaSkillsUpdateOptionalParams,
-    ) => update(context, skillName, foundryFeatures, options),
+    ) => update(context, name, foundryFeatures, options),
     list: (foundryFeatures: "Skills=V1Preview", options?: BetaSkillsListOptionalParams) =>
       list(context, foundryFeatures, options),
     download: (
-      skillName: string,
+      name: string,
       foundryFeatures: "Skills=V1Preview",
       options?: BetaSkillsDownloadOptionalParams,
-    ) => download(context, skillName, foundryFeatures, options),
+    ) => download(context, name, foundryFeatures, options),
     get: (
-      skillName: string,
+      name: string,
       foundryFeatures: "Skills=V1Preview",
       options?: BetaSkillsGetOptionalParams,
-    ) => get(context, skillName, foundryFeatures, options),
+    ) => get(context, name, foundryFeatures, options),
     createFromPackage: (
       body: Uint8Array,
       foundryFeatures: "Skills=V1Preview",

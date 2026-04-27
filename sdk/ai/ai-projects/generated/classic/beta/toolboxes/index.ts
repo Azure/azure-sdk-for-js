@@ -29,7 +29,7 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 export interface BetaToolboxesOperations {
   /** Delete a specific version of a toolbox. */
   deleteVersion: (
-    toolboxName: string,
+    name: string,
     version: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: DeleteVersionOptionalParams,
@@ -41,27 +41,27 @@ export interface BetaToolboxesOperations {
    *         to the operation to override the generated name.
    */
   delete: (
-    toolboxName: string,
+    name: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesDeleteOptionalParams,
   ) => Promise<void>;
   /** Update a toolbox to point to a specific version. */
   update: (
-    toolboxName: string,
+    name: string,
     defaultVersion: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesUpdateOptionalParams,
   ) => Promise<ToolboxObject>;
   /** Retrieve a specific version of a toolbox. */
   getVersion: (
-    toolboxName: string,
+    name: string,
     version: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: GetVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
   /** List all versions of a toolbox. */
   listVersions: (
-    toolboxName: string,
+    name: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: ListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ToolboxVersionObject>;
@@ -72,13 +72,13 @@ export interface BetaToolboxesOperations {
   ) => PagedAsyncIterableIterator<ToolboxObject>;
   /** Retrieve a toolbox. */
   get: (
-    toolboxName: string,
+    name: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesGetOptionalParams,
   ) => Promise<ToolboxObject>;
   /** Create a new version of a toolbox. If the toolbox does not exist, it will be created. */
   createVersion: (
-    toolboxName: string,
+    name: string,
     tools: ToolUnion[],
     foundryFeatures: "Toolboxes=V1Preview",
     options?: CreateVersionOptionalParams,
@@ -88,46 +88,46 @@ export interface BetaToolboxesOperations {
 function _getBetaToolboxes(context: AIProjectContext) {
   return {
     deleteVersion: (
-      toolboxName: string,
+      name: string,
       version: string,
       foundryFeatures: "Toolboxes=V1Preview",
       options?: DeleteVersionOptionalParams,
-    ) => deleteVersion(context, toolboxName, version, foundryFeatures, options),
+    ) => deleteVersion(context, name, version, foundryFeatures, options),
     delete: (
-      toolboxName: string,
+      name: string,
       foundryFeatures: "Toolboxes=V1Preview",
       options?: BetaToolboxesDeleteOptionalParams,
-    ) => $delete(context, toolboxName, foundryFeatures, options),
+    ) => $delete(context, name, foundryFeatures, options),
     update: (
-      toolboxName: string,
+      name: string,
       defaultVersion: string,
       foundryFeatures: "Toolboxes=V1Preview",
       options?: BetaToolboxesUpdateOptionalParams,
-    ) => update(context, toolboxName, defaultVersion, foundryFeatures, options),
+    ) => update(context, name, defaultVersion, foundryFeatures, options),
     getVersion: (
-      toolboxName: string,
+      name: string,
       version: string,
       foundryFeatures: "Toolboxes=V1Preview",
       options?: GetVersionOptionalParams,
-    ) => getVersion(context, toolboxName, version, foundryFeatures, options),
+    ) => getVersion(context, name, version, foundryFeatures, options),
     listVersions: (
-      toolboxName: string,
+      name: string,
       foundryFeatures: "Toolboxes=V1Preview",
       options?: ListVersionsOptionalParams,
-    ) => listVersions(context, toolboxName, foundryFeatures, options),
+    ) => listVersions(context, name, foundryFeatures, options),
     list: (foundryFeatures: "Toolboxes=V1Preview", options?: BetaToolboxesListOptionalParams) =>
       list(context, foundryFeatures, options),
     get: (
-      toolboxName: string,
+      name: string,
       foundryFeatures: "Toolboxes=V1Preview",
       options?: BetaToolboxesGetOptionalParams,
-    ) => get(context, toolboxName, foundryFeatures, options),
+    ) => get(context, name, foundryFeatures, options),
     createVersion: (
-      toolboxName: string,
+      name: string,
       tools: ToolUnion[],
       foundryFeatures: "Toolboxes=V1Preview",
       options?: CreateVersionOptionalParams,
-    ) => createVersion(context, toolboxName, tools, foundryFeatures, options),
+    ) => createVersion(context, name, tools, foundryFeatures, options),
   };
 }
 
