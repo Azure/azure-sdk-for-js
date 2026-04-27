@@ -1680,6 +1680,7 @@ sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @Ji
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
+sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
