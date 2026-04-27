@@ -151,10 +151,7 @@ function resolveAndCompileNestedHelper(
   const resolved = resolveHelper(fromFile, specifier);
   if (!resolved) {
     if (strict) {
-      throw new CompilerError(
-        `Unresolved nested helper "${specifier}" in "${fromFile}"`,
-        fromFile,
-      );
+      throw new CompilerError(`Unresolved nested helper "${specifier}" in "${fromFile}"`, fromFile);
     }
     warnings.push(`Could not resolve nested helper "${specifier}" from "${fromFile}"`);
     return undefined;
@@ -167,7 +164,10 @@ function resolveAndCompileNestedHelper(
 
   // Cache hit — reuse previously compiled result
   if (currentCache.has(resolved.canonicalPath)) {
-    return { helper: currentCache.get(resolved.canonicalPath)!, canonicalPath: resolved.canonicalPath };
+    return {
+      helper: currentCache.get(resolved.canonicalPath)!,
+      canonicalPath: resolved.canonicalPath,
+    };
   }
 
   // Recursively compile
@@ -293,7 +293,7 @@ function compileHelperImpl(
         isSourceImport,
         currentStack,
         currentCache,
-        strict,
+        strict ?? false,
         warnings,
       );
 
@@ -352,7 +352,7 @@ function compileHelperImpl(
         isSourceImport,
         currentStack,
         currentCache,
-        strict,
+        strict ?? false,
         warnings,
       );
 
@@ -546,7 +546,7 @@ function compileHelperImpl(
 
 // ── High-Level API ───────────────────────────────────────────────────────────
 
-import type { ClassifiedImport } from "./importClassifier.js";
+import type { ClassifiedImport } from "./types.js";
 import type { BindingAnalyzer } from "./bindingAnalyzer.js";
 
 /** Result of resolving the full helper import graph for a sample. */

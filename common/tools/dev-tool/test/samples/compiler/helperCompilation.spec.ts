@@ -329,7 +329,7 @@ describe("test", () => {
 });
 `;
     // Resolver resolves the first helper but not the nested one
-    const resolver = (fromFile: string, specifier: string) => {
+    const resolver = (_fromFile: string, specifier: string) => {
       if (specifier === "./helpers.js") {
         return { canonicalPath: "/project/test/helpers.ts", sourceText: helperWithNested };
       }

@@ -937,6 +937,7 @@ describe("browser", () => {
       const result = compileSampleTest(browserSample, {
         packageName: "@azure/client",
         platform: "browser",
+        isSourceImport: testIsSourceImport,
       });
       expect(result.metadata.skipJavascript).toBe(true);
       expect(result.outputText).toContain("@azsdk-skip-javascript");
@@ -956,6 +957,7 @@ describe("node", () => {
       const result = compileSampleTest(nodeSample, {
         packageName: "@azure/client",
         platform: "node",
+        isSourceImport: testIsSourceImport,
       });
       expect(result.metadata.skipJavascript).toBeUndefined();
       expect(result.outputText).not.toContain("@azsdk-skip-javascript");

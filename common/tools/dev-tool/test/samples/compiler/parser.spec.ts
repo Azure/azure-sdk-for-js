@@ -191,19 +191,6 @@ describe("async", function () {
 });
 `;
 
-const beforeEachWithCtx = `
-/** @summary ctx param */
-import { describe, it, beforeEach } from "vitest";
-
-describe("ctx", function () {
-  beforeEach(async (ctx) => {
-    ctx.setup();
-  });
-
-  it("test", async function () {});
-});
-`;
-
 const withImports = `
 /** @summary imports test */
 import { describe, it } from "vitest";

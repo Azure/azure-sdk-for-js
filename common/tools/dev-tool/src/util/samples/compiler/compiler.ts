@@ -32,10 +32,10 @@
 
 import ts from "typescript";
 import type { CompiledSample, ClassifiedImport, SampleMetadata, Substitution } from "./types.js";
-import { CompilerError, type ParsedSampleTestFile } from "./types.js";
+import { CompilerError } from "./types.js";
 import { parseSampleTestFile } from "./parser.js";
-import { classifyImports, type SourceImportPredicate } from "./importClassifier.js";
-import { substituteTestPublishing, type CombinedSubstitutionResult } from "./substitutor.js";
+import { classifyImports } from "./importClassifier.js";
+import { substituteTestPublishing } from "./substitutor.js";
 import { eliminateDeadStatements } from "./deadBindingEliminator.js";
 import { createAnalyzer, resolveNamesToSymbols, type BindingAnalyzer } from "./bindingAnalyzer.js";
 import { descriptionToFunctionName } from "./codeGenerator.js";
@@ -44,7 +44,7 @@ import { promoteLetToConst } from "./letConstPromoter.js";
 import { resolveHelperGraph } from "./helpers.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
 import type { HelperResolver, CompiledHelper } from "./helpers.js";
-import type { ParsedHook, ParsedItBlock } from "./types.js";
+import type { ParsedHook } from "./types.js";
 
 // ── Internal Helpers ─────────────────────────────────────────────────────────
 
@@ -79,7 +79,7 @@ function eliminateScope(
     texts.push(trailingComments);
   }
   return {
-    survivingStatements: result.survivingStatements,
+    survivingStatements: [...result.survivingStatements],
     newlyDeadSymbols: [...result.newlyDeadSymbols],
     texts,
   };
@@ -159,9 +159,7 @@ function validateForPublishingReferences(
 ): void {
   for (const sub of substitutions) {
     // Filter out compiler-processed names (sampleOnly, forPublishing) to avoid false positives
-    const filteredFreeVars = [...sub.freeVariables].filter(
-      (n) => !COMPILER_PROCESSED_NAMES.has(n),
-    );
+    const filteredFreeVars = [...sub.freeVariables].filter((n) => !COMPILER_PROCESSED_NAMES.has(n));
     const freeSymbols = resolveNamesToSymbols(analyzer, filteredFreeVars, describeStatements);
     for (const sym of freeSymbols) {
       if (deadSymbols.has(sym)) {

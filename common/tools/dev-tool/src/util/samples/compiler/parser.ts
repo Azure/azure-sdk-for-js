@@ -425,14 +425,6 @@ function extractCallback(call: ts.CallExpression): ExtractedCallback | undefined
   return undefined;
 }
 
-/** Check if a function-like has the async modifier. */
-function hasAsyncModifier(
-  node: ts.FunctionExpression | ts.ArrowFunction | ts.FunctionDeclaration,
-): boolean {
-  const mods = ts.canHaveModifiers(node) ? ts.getModifiers(node) : undefined;
-  return mods?.some((m) => m.kind === ts.SyntaxKind.AsyncKeyword) ?? false;
-}
-
 /**
  * Parse a beforeEach/afterEach call into a ParsedHook.
  */

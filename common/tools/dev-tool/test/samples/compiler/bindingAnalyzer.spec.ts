@@ -280,11 +280,7 @@ class Foo implements IFoo {
       let implementsRef: ts.Identifier | undefined;
       const classDecl = analyzer.sourceFile.statements[1];
       function walk(n: ts.Node) {
-        if (
-          ts.isIdentifier(n) &&
-          n.text === "IFoo" &&
-          ts.isExpressionWithTypeArguments(n.parent)
-        ) {
+        if (ts.isIdentifier(n) && n.text === "IFoo" && ts.isExpressionWithTypeArguments(n.parent)) {
           implementsRef = n;
         }
         ts.forEachChild(n, walk);
