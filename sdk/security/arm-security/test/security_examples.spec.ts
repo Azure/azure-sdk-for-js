@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { SecurityCenter } from "../src/securityCenter.js";
-import { SecurityContact } from "../src/models/index.js";
+import type { SecurityContact } from "../src/models/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -78,7 +79,7 @@ describe("security test", () => {
   it("SecurityContact list test", async () => {
     const resArray = new Array();
     const res = client.securityContacts.list();
-    for await (let item of res.byPage()) {
+    for await (const item of res.byPage()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -87,7 +88,7 @@ describe("security test", () => {
   it("SecurityContact delete test", async () => {
     const resArray = new Array();
     await client.securityContacts.delete(securityContactName);
-    for await (let item of client.securityContacts.list()) {
+    for await (const item of client.securityContacts.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

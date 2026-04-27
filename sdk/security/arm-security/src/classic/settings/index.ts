@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import { list, update, get } from "../../api/settings/operations.js";
+import type {
+  SettingsListOptionalParams,
+  SettingsUpdateOptionalParams,
+  SettingsGetOptionalParams,
+} from "../../api/settings/options.js";
+import type { SettingName } from "../../models/common/models.js";
+import type { SettingUnion } from "../../models/settingsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+
+/** Interface representing a Settings operations. */
+export interface SettingsOperations {
+  /** Settings about different configurations in Microsoft Defender for Cloud */
+  list: (options?: SettingsListOptionalParams) => PagedAsyncIterableIterator<SettingUnion>;
+  /** updating settings about different configurations in Microsoft Defender for Cloud */
+  update: (
+    settingName: SettingName,
+    setting: SettingUnion,
+    options?: SettingsUpdateOptionalParams,
+  ) => Promise<SettingUnion>;
+  /** Settings of different configurations in Microsoft Defender for Cloud */
+  get: (settingName: SettingName, options?: SettingsGetOptionalParams) => Promise<SettingUnion>;
+}
+
+function _getSettings(context: SecurityCenterContext) {
+  return {
+    list: (options?: SettingsListOptionalParams) => list(context, options),
+    update: (
+      settingName: SettingName,
+      setting: SettingUnion,
+      options?: SettingsUpdateOptionalParams,
+    ) => update(context, settingName, setting, options),
+    get: (settingName: SettingName, options?: SettingsGetOptionalParams) =>
+      get(context, settingName, options),
+  };
+}
+
+export function _getSettingsOperations(context: SecurityCenterContext): SettingsOperations {
+  return {
+    ..._getSettings(context),
+  };
+}
