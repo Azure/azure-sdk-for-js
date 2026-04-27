@@ -86,7 +86,8 @@ try {
   )
 
   Commit-Group "[ai-projects] regen: changelog" @(
-    "$pkg/CHANGELOG.md"
+    "$pkg/CHANGELOG.md",
+    "$pkg/package.json"
   )
 
   # Optional: skill scaffolding for the regen workflow itself.
