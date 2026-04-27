@@ -2,28 +2,28 @@
 // Licensed under the MIT License.
 
 import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
-import { list } from "../../api/resourceGuardProxies/operations.js";
-import type { ResourceGuardProxiesListOptionalParams } from "../../api/resourceGuardProxies/options.js";
+import { get } from "../../api/resourceGuardProxies/operations.js";
+import type { ResourceGuardProxiesGetOptionalParams } from "../../api/resourceGuardProxies/options.js";
 import type { ResourceGuardProxyBaseResource } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceGuardProxies operations. */
 export interface ResourceGuardProxiesOperations {
   /** List the ResourceGuardProxies under vault */
-  list: (
+  get: (
     vaultName: string,
     resourceGroupName: string,
-    options?: ResourceGuardProxiesListOptionalParams,
+    options?: ResourceGuardProxiesGetOptionalParams,
   ) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
 }
 
 function _getResourceGuardProxies(context: RecoveryServicesBackupContext) {
   return {
-    list: (
+    get: (
       vaultName: string,
       resourceGroupName: string,
-      options?: ResourceGuardProxiesListOptionalParams,
-    ) => list(context, vaultName, resourceGroupName, options),
+      options?: ResourceGuardProxiesGetOptionalParams,
+    ) => get(context, vaultName, resourceGroupName, options),
   };
 }
 

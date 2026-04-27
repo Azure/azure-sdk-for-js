@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { list } from "./operations.js";
-export type { ResourceGuardProxiesListOptionalParams } from "./options.js";
+export { get } from "./operations.js";
+export type { ResourceGuardProxiesGetOptionalParams } from "./options.js";

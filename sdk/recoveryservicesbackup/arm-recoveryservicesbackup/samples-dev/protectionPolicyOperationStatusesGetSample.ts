@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary provides the status of the asynchronous operations like backup, restore. The status can be in progress, completed
  * or failed. You can refer to the Operation Status enum for all the possible states of an operation. Some operations
  * create jobs. This method returns the list of jobs associated with operation.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ProtectionPolicyOperationStatuses_Get.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ProtectionPolicyOperationStatuses_Get.json
  */
 async function getProtectionPolicyOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

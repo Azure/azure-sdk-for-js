@@ -13,15 +13,15 @@ import {
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ResourceGuardProxiesListOptionalParams } from "./options.js";
+import type { ResourceGuardProxiesGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _listSend(
+export function _getSend(
   context: Client,
   vaultName: string,
   resourceGroupName: string,
-  options: ResourceGuardProxiesListOptionalParams = { requestOptions: {} },
+  options: ResourceGuardProxiesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies{?api%2Dversion}",
@@ -29,7 +29,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,7 +41,7 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
+export async function _getDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ResourceGuardProxyBaseResourceList> {
   const expectedStatuses = ["200"];
@@ -56,21 +56,21 @@ export async function _listDeserialize(
 }
 
 /** List the ResourceGuardProxies under vault */
-export function list(
+export function get(
   context: Client,
   vaultName: string,
   resourceGroupName: string,
-  options: ResourceGuardProxiesListOptionalParams = { requestOptions: {} },
+  options: ResourceGuardProxiesGetOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, vaultName, resourceGroupName, options),
-    _listDeserialize,
+    () => _getSend(context, vaultName, resourceGroupName, options),
+    _getDeserialize,
     ["200"],
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-01-31-preview",
     },
   );
 }

@@ -820,7 +820,7 @@ export interface BackupEngineBase {
 }
 
 // @public
-export interface BackupEngineBaseResource extends Resource {
+export interface BackupEngineBaseResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupEngineBaseUnion;
@@ -995,7 +995,7 @@ export interface BackupResourceConfig {
 }
 
 // @public
-export interface BackupResourceConfigResource extends Resource {
+export interface BackupResourceConfigResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupResourceConfig;
@@ -1020,7 +1020,7 @@ export interface BackupResourceEncryptionConfigExtended extends BackupResourceEn
 }
 
 // @public (undocumented)
-export interface BackupResourceEncryptionConfigExtendedResource extends Resource {
+export interface BackupResourceEncryptionConfigExtendedResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupResourceEncryptionConfigExtended;
@@ -1081,7 +1081,7 @@ export interface BackupResourceVaultConfig {
 }
 
 // @public
-export interface BackupResourceVaultConfigResource extends Resource {
+export interface BackupResourceVaultConfigResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupResourceVaultConfig;
@@ -1854,7 +1854,7 @@ export interface JobOperationResultsOperations {
 }
 
 // @public
-export interface JobResource extends Resource {
+export interface JobResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: JobUnion;
@@ -2426,7 +2426,8 @@ export enum KnownVaultSubResourceType {
 export enum KnownVersions {
     V20250201 = "2025-02-01",
     V20250801 = "2025-08-01",
-    V20260101Preview = "2026-01-01-preview"
+    V20260101 = "2026-01-01",
+    V20260131Preview = "2026-01-31-preview"
 }
 
 // @public
@@ -2634,10 +2635,6 @@ export interface MoveRPAcrossTiersRequest {
 export interface NameInfo {
     localizedValue?: string;
     value?: string;
-}
-
-// @public
-export interface OkResponse {
 }
 
 // @public
@@ -2857,7 +2854,7 @@ export interface PrivateEndpointConnectionPutOptionalParams extends OperationOpt
 }
 
 // @public
-export interface PrivateEndpointConnectionResource extends Resource {
+export interface PrivateEndpointConnectionResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: PrivateEndpointConnection;
@@ -2962,7 +2959,7 @@ export interface ProtectedItemOperationStatusesOperations {
 }
 
 // @public
-export interface ProtectedItemResource extends Resource {
+export interface ProtectedItemResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectedItemUnion;
@@ -3032,7 +3029,7 @@ export interface ProtectionContainerRefreshOperationResultsOperations {
 }
 
 // @public
-export interface ProtectionContainerResource extends Resource {
+export interface ProtectionContainerResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectionContainerUnion;
@@ -3113,7 +3110,7 @@ export interface ProtectionIntentOperations {
 }
 
 // @public
-export interface ProtectionIntentResource extends Resource {
+export interface ProtectionIntentResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectionIntentUnion;
@@ -3182,7 +3179,7 @@ export interface ProtectionPolicyOperationStatusesOperations {
 }
 
 // @public
-export interface ProtectionPolicyResource extends Resource {
+export interface ProtectionPolicyResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectionPolicyUnion;
@@ -3200,6 +3197,10 @@ export type ProtectionStatus = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type RecoveryMode = string;
@@ -3241,7 +3242,7 @@ export interface RecoveryPointRehydrationInfo {
 }
 
 // @public
-export interface RecoveryPointResource extends Resource {
+export interface RecoveryPointResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: RecoveryPointUnion;
@@ -3321,20 +3322,20 @@ export class RecoveryServicesBackupClient {
     readonly backupUsageSummaries: BackupUsageSummariesOperations;
     readonly backupWorkloadItems: BackupWorkloadItemsOperations;
     // @deprecated (undocumented)
-    beginBmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>>;
+    beginBmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginBmsPrepareDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<OkResponse>;
+    beginBmsPrepareDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<void>;
     // @deprecated (undocumented)
-    beginBmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>>;
+    beginBmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginBmsTriggerDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<OkResponse>;
+    beginBmsTriggerDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<void>;
     // @deprecated (undocumented)
     beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginMoveRecoveryPointAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<void>;
-    bmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+    bmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
     readonly bmsPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResultOperations;
-    bmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+    bmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
     readonly deletedProtectionContainers: DeletedProtectionContainersOperations;
     readonly exportJobsOperationResults: ExportJobsOperationResultsOperations;
     readonly featureSupport: FeatureSupportOperations;
@@ -3404,12 +3405,12 @@ export interface ResourceGuardOperationDetail {
 }
 
 // @public
-export interface ResourceGuardProxiesListOptionalParams extends OperationOptions {
+export interface ResourceGuardProxiesGetOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface ResourceGuardProxiesOperations {
-    list: (vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesListOptionalParams) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
+    get: (vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesGetOptionalParams) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
 }
 
 // @public
@@ -3425,7 +3426,7 @@ export interface ResourceGuardProxyBase {
 }
 
 // @public (undocumented)
-export interface ResourceGuardProxyBaseResource extends Resource {
+export interface ResourceGuardProxyBaseResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ResourceGuardProxyBase;

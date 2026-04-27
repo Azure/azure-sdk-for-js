@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
  * scoped results.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/BackupPolicies_List.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/BackupPolicies_List.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVm
  *
  * @summary lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
  * scoped results.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/V2Policy/v2-List-Policies.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/V2Policy/v2-List-Policies.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVmWithBothV1AndV2Policies(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVm
  *
  * @summary lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch
  * scoped results.
- * x-ms-original-file: 2026-01-01-preview/AzureWorkload/BackupPolicies_List.json
+ * x-ms-original-file: 2026-01-31-preview/AzureWorkload/BackupPolicies_List.json
  */
 async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload(): Promise<void> {
   const credential = new DefaultAzureCredential();

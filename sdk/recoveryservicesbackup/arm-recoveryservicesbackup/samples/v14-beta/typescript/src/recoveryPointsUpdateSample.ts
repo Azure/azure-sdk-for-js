@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updateRecoveryPoint to update recovery point for given RecoveryPointID.
  *
  * @summary updateRecoveryPoint to update recovery point for given RecoveryPointID.
- * x-ms-original-file: 2026-01-01-preview/Common/RecoveryPoints_Update.json
+ * x-ms-original-file: 2026-01-31-preview/Common/RecoveryPoints_Update.json
  */
 async function updateAzureVmRecoveryPointDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

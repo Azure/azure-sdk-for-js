@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.RecoveryServices": "2026-01-01-preview"
+    "Microsoft.RecoveryServices": "2026-01-31-preview"
   },
-  "emitterVersion": "0.50.2",
+  "emitterVersion": "0.52.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RecoveryServices",
     "CrossLanguageDefinitionId": {
@@ -10,7 +10,6 @@
       "@azure/arm-recoveryservicesbackup!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
       "@azure/arm-recoveryservicesbackup!ArmErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
       "@azure/arm-recoveryservicesbackup!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
-      "@azure/arm-recoveryservicesbackup!OkResponse:interface": "TypeSpec.Http.OkResponse",
       "@azure/arm-recoveryservicesbackup!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-recoveryservicesbackup!TriggerDataMoveRequest:interface": "Microsoft.RecoveryServices.TriggerDataMoveRequest",
       "@azure/arm-recoveryservicesbackup!OperationStatus:interface": "Microsoft.RecoveryServices.OperationStatus",
@@ -33,6 +32,7 @@
       "@azure/arm-recoveryservicesbackup!ClientDiscoveryForLogSpecification:interface": "Microsoft.RecoveryServices.ClientDiscoveryForLogSpecification",
       "@azure/arm-recoveryservicesbackup!BackupResourceConfigResource:interface": "Microsoft.RecoveryServices.BackupResourceConfigResource",
       "@azure/arm-recoveryservicesbackup!BackupResourceConfig:interface": "Microsoft.RecoveryServices.BackupResourceConfig",
+      "@azure/arm-recoveryservicesbackup!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-recoveryservicesbackup!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-recoveryservicesbackup!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
       "@azure/arm-recoveryservicesbackup!VaultStorageConfigOperationResultResponse:interface": "Microsoft.RecoveryServices.VaultStorageConfigOperationResultResponse",
@@ -427,7 +427,7 @@
       "@azure/arm-recoveryservicesbackup!BackupProtectionIntentOperations#list:member": "Microsoft.RecoveryServices.BackupProtectionIntent.list",
       "@azure/arm-recoveryservicesbackup!FeatureSupportOperations#validate:member": "Microsoft.RecoveryServices.FeatureSupport.validate",
       "@azure/arm-recoveryservicesbackup!BackupStatusOperations#get:member": "Microsoft.RecoveryServices.BackupStatus.get",
-      "@azure/arm-recoveryservicesbackup!ResourceGuardProxiesOperations#list:member": "Microsoft.RecoveryServices.ResourceGuardProxies.get",
+      "@azure/arm-recoveryservicesbackup!ResourceGuardProxiesOperations#get:member": "Microsoft.RecoveryServices.ResourceGuardProxies.get",
       "@azure/arm-recoveryservicesbackup!ResourceGuardProxyOperations#unlockDelete:member": "Microsoft.RecoveryServices.ResourceGuardProxy.unlockDelete",
       "@azure/arm-recoveryservicesbackup!ResourceGuardProxyOperations#delete:member": "Microsoft.RecoveryServices.ResourceGuardProxy.delete",
       "@azure/arm-recoveryservicesbackup!ResourceGuardProxyOperations#put:member": "Microsoft.RecoveryServices.ResourceGuardProxy.put",

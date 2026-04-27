@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to used to remove intent from an item
  *
  * @summary used to remove intent from an item
- * x-ms-original-file: 2026-01-01-preview/AzureWorkload/BackupProtectionIntent_Delete.json
+ * x-ms-original-file: 2026-01-31-preview/AzureWorkload/BackupProtectionIntent_Delete.json
  */
 async function deleteProtectionIntentFromItem() {
   const credential = new DefaultAzureCredential();

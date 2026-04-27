@@ -4,7 +4,6 @@
 import type { RecoveryServicesBackupContext as Client } from "./index.js";
 import type {
   PrepareDataMoveRequest,
-  OkResponse,
   TriggerDataMoveRequest,
   OperationStatus,
   MoveRPAcrossTiersRequest,
@@ -12,7 +11,6 @@ import type {
 import {
   prepareDataMoveRequestSerializer,
   errorResponseDeserializer,
-  okResponseDeserializer,
   triggerDataMoveRequestSerializer,
   operationStatusDeserializer,
   moveRPAcrossTiersRequestSerializer,
@@ -50,7 +48,7 @@ export function _moveRecoveryPointSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +101,7 @@ export function moveRecoveryPoint(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -121,7 +119,7 @@ export function _getOperationStatusSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +176,7 @@ export function _bmsTriggerDataMoveSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,9 +189,7 @@ export function _bmsTriggerDataMoveSend(
   });
 }
 
-export async function _bmsTriggerDataMoveDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OkResponse> {
+export async function _bmsTriggerDataMoveDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -202,7 +198,7 @@ export async function _bmsTriggerDataMoveDeserialize(
     throw error;
   }
 
-  return okResponseDeserializer(result.body);
+  return;
 }
 
 /** Triggers Data Move Operation on target vault */
@@ -212,15 +208,15 @@ export function bmsTriggerDataMove(
   resourceGroupName: string,
   parameters: TriggerDataMoveRequest,
   options: BMSTriggerDataMoveOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<OkResponse>, OkResponse> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _bmsTriggerDataMoveDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _bmsTriggerDataMoveSend(context, vaultName, resourceGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
-  }) as PollerLike<OperationState<OkResponse>, OkResponse>;
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _bmsPrepareDataMoveSend(
@@ -236,7 +232,7 @@ export function _bmsPrepareDataMoveSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,9 +245,7 @@ export function _bmsPrepareDataMoveSend(
   });
 }
 
-export async function _bmsPrepareDataMoveDeserialize(
-  result: PathUncheckedResponse,
-): Promise<OkResponse> {
+export async function _bmsPrepareDataMoveDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -260,7 +254,7 @@ export async function _bmsPrepareDataMoveDeserialize(
     throw error;
   }
 
-  return okResponseDeserializer(result.body);
+  return;
 }
 
 /** Prepares source vault for Data Move operation */
@@ -270,13 +264,13 @@ export function bmsPrepareDataMove(
   resourceGroupName: string,
   parameters: PrepareDataMoveRequest,
   options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<OkResponse>, OkResponse> {
+): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _bmsPrepareDataMoveDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _bmsPrepareDataMoveSend(context, vaultName, resourceGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
-  }) as PollerLike<OperationState<OkResponse>, OkResponse>;
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
+  }) as PollerLike<OperationState<void>, void>;
 }

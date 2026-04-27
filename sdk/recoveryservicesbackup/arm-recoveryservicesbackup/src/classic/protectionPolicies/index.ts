@@ -19,11 +19,6 @@ export interface ProtectionPoliciesOperations {
    * Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
    * operation can be fetched using GetProtectionPolicyOperationResult API.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     vaultName: string,
     resourceGroupName: string,

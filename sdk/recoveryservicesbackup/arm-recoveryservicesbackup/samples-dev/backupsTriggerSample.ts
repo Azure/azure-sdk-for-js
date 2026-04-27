@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary triggers backup for specified backed up item. This is an asynchronous operation. To know the status of the
  * operation, call GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/Common/TriggerBackup_Post.json
+ * x-ms-original-file: 2026-01-31-preview/Common/TriggerBackup_Post.json
  */
 async function triggerBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

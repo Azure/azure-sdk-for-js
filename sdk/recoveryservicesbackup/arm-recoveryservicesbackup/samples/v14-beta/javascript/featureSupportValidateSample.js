@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to it will validate if given feature with resource properties is supported in service
  *
  * @summary it will validate if given feature with resource properties is supported in service
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/BackupFeature_Validate.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/BackupFeature_Validate.json
  */
 async function checkAzureVmBackupFeatureSupport() {
   const credential = new DefaultAzureCredential();

@@ -8,10 +8,10 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: RecoveryServicesBackupContext, vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesListOptionalParams): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
+export function get(context: RecoveryServicesBackupContext, vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesGetOptionalParams): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
 
 // @public
-export interface ResourceGuardProxiesListOptionalParams extends OperationOptions {
+export interface ResourceGuardProxiesGetOptionalParams extends OperationOptions {
 }
 
 // (No @packageDocumentation comment for this package)

@@ -865,7 +865,7 @@
 # PRLabel: %Mgmt
 /sdk/recoveryservices/arm-recoveryservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/recoveryservicesbackup/arm-recoveryservicesbackup/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

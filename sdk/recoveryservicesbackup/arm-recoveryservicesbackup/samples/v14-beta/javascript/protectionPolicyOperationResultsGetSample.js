@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to provides the result of an operation.
  *
  * @summary provides the result of an operation.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
  */
 async function getProtectionPolicyOperationResults() {
   const credential = new DefaultAzureCredential();
