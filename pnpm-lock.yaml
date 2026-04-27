@@ -3408,7 +3408,7 @@ importers:
         specifier: workspace:^
         version: link:../../keyvault/arm-keyvault
       '@azure/arm-resources':
-        specifier: catalog:arm
+        specifier: workspace:^
         version: link:../../resources/arm-resources
       '@azure/dev-tool':
         specifier: workspace:^
