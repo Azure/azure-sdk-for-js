@@ -113,4 +113,34 @@ describe("The Secrets client should set the serviceVersion", () => {
       }),
     );
   });
+
+  it("should include contentType in the setSecret request body", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+
+    await client.setSecret("secretName", "value", { contentType: KnownContentType.PEM });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        body: expect.stringContaining('"contentType":"application/x-pem-file"'),
+      }),
+    );
+  });
+
+  it("should include contentType in the updateSecretProperties request body", async () => {
+    const client = new SecretClient(keyVaultUrl, credential, {
+      httpClient: mockHttpClient,
+    });
+
+    await client.updateSecretProperties("secretName", "secretVersion", {
+      contentType: KnownContentType.PFX,
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        body: expect.stringContaining('"contentType":"application/x-pkcs12"'),
+      }),
+    );
+  });
 });
