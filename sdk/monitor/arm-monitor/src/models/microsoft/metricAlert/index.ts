@@ -31,6 +31,7 @@ export type {
   MetricAlertErrorResponse,
   MetricAlertResourcePatch,
   MetricAlertPropertiesPatch,
+  MetricAlertStatusCollection,
   MetricAlertStatus,
   MetricAlertStatusProperties,
 } from "./models.js";

@@ -14,16 +14,12 @@ async function getAnAlertRuleStatus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "009f6022-67ec-423e-9aa7-691182870588";
   const client = new MonitorClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.metricAlertsStatus.listByName(
+  const result = await client.metricAlertsStatus.listByName(
     "EastUs",
     "custom1",
     "cmVzb3VyY2VJZD0vc3Vic2NyaXB0aW9ucy8xNGRkZjBjNS03N2M1LTRiNTMtODRmNi1lMWZhNDNhZDY4ZjcvcmVzb3VyY2VHcm91cHMvZ2lndGVzdC9wcm92aWRlcnMvTWljcm9zb2Z0LkNvbXB1dGUvdmlydHVhbE1hY2hpbmVzL2dpZ3dhZG1l",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {

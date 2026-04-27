@@ -14,12 +14,8 @@ async function getAnAlertRuleStatus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const client = new MonitorClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.metricAlertsStatus.list("gigtest", "chiricutin")) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  const result = await client.metricAlertsStatus.list("gigtest", "chiricutin");
+  console.log(result);
 }
 
 async function main() {

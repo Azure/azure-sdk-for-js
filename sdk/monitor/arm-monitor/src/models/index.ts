@@ -15,8 +15,6 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
-  PrivateEndpointConnectionListResult,
-  PrivateEndpointConnection,
   Sku,
   SkuTier,
   ManagedServiceIdentity,

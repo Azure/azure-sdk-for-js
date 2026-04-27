@@ -1181,12 +1181,12 @@ export function metricAlertResourceArrayDeserializer(result: Array<MetricAlertRe
 }
 
 /** Represents a collection of alert rule resources. */
-export interface _MetricAlertStatusCollection {
+export interface MetricAlertStatusCollection {
   /** The values for the alert rule resources. */
   value?: MetricAlertStatus[];
 }
 
-export function _metricAlertStatusCollectionDeserializer(item: any): _MetricAlertStatusCollection {
+export function metricAlertStatusCollectionDeserializer(item: any): MetricAlertStatusCollection {
   return {
     value: !item["value"] ? item["value"] : metricAlertStatusArrayDeserializer(item["value"]),
   };

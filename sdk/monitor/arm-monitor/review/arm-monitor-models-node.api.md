@@ -182,16 +182,6 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
-}
-
-// @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
-}
-
-// @public
 export interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;

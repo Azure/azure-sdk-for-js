@@ -7,8 +7,7 @@ import type {
   MetricAlertsStatusListByNameOptionalParams,
   MetricAlertsStatusListOptionalParams,
 } from "../../api/metricAlertsStatus/options.js";
-import type { MetricAlertStatus } from "../../models/microsoft/metricAlert/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MetricAlertStatusCollection } from "../../models/microsoft/metricAlert/models.js";
 
 /** Interface representing a MetricAlertsStatus operations. */
 export interface MetricAlertsStatusOperations {
@@ -18,13 +17,13 @@ export interface MetricAlertsStatusOperations {
     ruleName: string,
     statusName: string,
     options?: MetricAlertsStatusListByNameOptionalParams,
-  ) => PagedAsyncIterableIterator<MetricAlertStatus>;
+  ) => Promise<MetricAlertStatusCollection>;
   /** Retrieve an alert rule status. */
   list: (
     resourceGroupName: string,
     ruleName: string,
     options?: MetricAlertsStatusListOptionalParams,
-  ) => PagedAsyncIterableIterator<MetricAlertStatus>;
+  ) => Promise<MetricAlertStatusCollection>;
 }
 
 function _getMetricAlertsStatus(context: MonitorContext) {

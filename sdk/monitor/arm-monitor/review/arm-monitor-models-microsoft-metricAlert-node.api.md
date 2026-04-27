@@ -201,6 +201,11 @@ export interface MetricAlertStatus {
 }
 
 // @public
+export interface MetricAlertStatusCollection {
+    value?: MetricAlertStatus[];
+}
+
+// @public
 export interface MetricAlertStatusProperties {
     dimensions?: Record<string, string>;
     status?: string;
