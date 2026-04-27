@@ -94,3 +94,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-alertprocessingrules?view=
 https://www.npmjs.com/package/@azure/arm-alertprocessingrules
 https://learn.microsoft.com/javascript/api/@azure/arm-alertrulerecommendations?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-alertrulerecommendations
+https://learn.microsoft.com/javascript/api/@azure/arm-alertsmanagement?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-alertsmanagement
