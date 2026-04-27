@@ -102,6 +102,48 @@ function collectBindingNames(name: ts.BindingName, out: Set<string>): void {
 }
 
 /**
+ * Common validation for intrinsic call expression arrow functions.
+ * Returns the expression body from the arrow function argument.
+ */
+function validateArrowArgument(
+  arg: ts.Expression,
+  intrinsicName: string,
+  fileName: string,
+  sourceFile: ts.SourceFile,
+): ts.Expression {
+  if (!ts.isArrowFunction(arg)) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
+    throw new CompilerError(
+      `Argument to ${intrinsicName} must be an arrow function`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  if (arg.parameters.length > 0) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
+    throw new CompilerError(
+      `Arrow function in ${intrinsicName} must take no parameters (use a thunk: () => expr)`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  const body = arg.body;
+
+  if (ts.isBlock(body)) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(body.getStart(sourceFile));
+    throw new CompilerError(
+      `Arrow function in ${intrinsicName} must have an expression body, not a block body`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  return body as ts.Expression;
+}
+
+/**
  * Validate a `forPublishing(...)` call expression and extract the published expression.
  */
 function validateAndExtract(
@@ -120,38 +162,7 @@ function validateAndExtract(
     );
   }
 
-  const second = args[1];
-
-  if (!ts.isArrowFunction(second)) {
-    const { line } = sourceFile.getLineAndCharacterOfPosition(second.getStart(sourceFile));
-    throw new CompilerError(
-      "Second argument to forPublishing must be an arrow function",
-      fileName,
-      line + 1,
-    );
-  }
-
-  if (second.parameters.length > 0) {
-    const { line } = sourceFile.getLineAndCharacterOfPosition(second.getStart(sourceFile));
-    throw new CompilerError(
-      "Arrow function in forPublishing must take no parameters (use a thunk: () => expr)",
-      fileName,
-      line + 1,
-    );
-  }
-
-  const body = second.body;
-
-  if (ts.isBlock(body)) {
-    const { line } = sourceFile.getLineAndCharacterOfPosition(body.getStart(sourceFile));
-    throw new CompilerError(
-      "Arrow function in forPublishing must have an expression body, not a block body",
-      fileName,
-      line + 1,
-    );
-  }
-
-  return body as ts.Expression;
+  return validateArrowArgument(args[1], "forPublishing", fileName, sourceFile);
 }
 
 /**
@@ -254,34 +265,7 @@ function validateAndExtractSampleOnly(
     );
   }
 
-  const arg = args[0];
-
-  if (!ts.isArrowFunction(arg)) {
-    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
-    throw new CompilerError("Argument to sampleOnly must be an arrow function", fileName, line + 1);
-  }
-
-  if (arg.parameters.length > 0) {
-    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
-    throw new CompilerError(
-      "Arrow function in sampleOnly must take no parameters (use a thunk: () => expr)",
-      fileName,
-      line + 1,
-    );
-  }
-
-  const body = arg.body;
-
-  if (ts.isBlock(body)) {
-    const { line } = sourceFile.getLineAndCharacterOfPosition(body.getStart(sourceFile));
-    throw new CompilerError(
-      "Arrow function in sampleOnly must have an expression body, not a block body",
-      fileName,
-      line + 1,
-    );
-  }
-
-  return body as ts.Expression;
+  return validateArrowArgument(args[0], "sampleOnly", fileName, sourceFile);
 }
 
 /**
