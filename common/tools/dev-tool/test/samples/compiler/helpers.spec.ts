@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { compileHelper } from "../../../src/util/samples/compiler/helperCompiler.js";
-import type { HelperResolver } from "../../../src/util/samples/compiler/helperCompiler.js";
+import { compileHelper } from "../../../src/util/samples/compiler/helpers.js";
+import type { HelperResolver } from "../../../src/util/samples/compiler/helpers.js";
 import { CompilerError } from "../../../src/util/samples/compiler/types.js";
 
 /**

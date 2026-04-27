@@ -41,9 +41,9 @@ import { createAnalyzer, resolveNamesToSymbols, type BindingAnalyzer } from "./b
 import { descriptionToFunctionName } from "./codeGenerator.js";
 import { rewriteImports } from "./importRewriter.js";
 import { promoteLetToConst } from "./letConstPromoter.js";
-import { resolveHelperGraph } from "./helperCompiler.js";
+import { resolveHelperGraph } from "./helpers.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
-import type { HelperResolver, CompiledHelper } from "./helperCompiler.js";
+import type { HelperResolver, CompiledHelper } from "./helpers.js";
 import type { ParsedHook, ParsedItBlock } from "./types.js";
 
 // ── Internal Helpers ─────────────────────────────────────────────────────────

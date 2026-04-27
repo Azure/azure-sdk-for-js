@@ -17,7 +17,7 @@ import { tmpdir } from "node:os";
 import { findMatchingFiles } from "../findMatchingFiles.js";
 import { createPrinter } from "../printer.js";
 import { compileSampleTest, type HelperCache } from "./compiler/compiler.js";
-import type { HelperResolver, ResolvedHelper } from "./compiler/helperCompiler.js";
+import type { HelperResolver, ResolvedHelper } from "./compiler/helpers.js";
 import type { SourceImportPredicate } from "./compiler/importClassifier.js";
 
 const log = createPrinter("sample-tests");
