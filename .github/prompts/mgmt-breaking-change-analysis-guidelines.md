@@ -498,7 +498,7 @@ Root Cause column rules:
 - **Cascading entries**: write `Cascading from row N: <brief explanation>` linking to the upstream entry
 - **Multi-cause "new signature" entries**: list all causes numbered, e.g., "(1) ... (2) ...". Each cause may be independent or cascading.
 - If a "new signature" entry has causes spanning both Type 1 and Type 2, place it in the table of the primary cause and note the secondary cause (e.g., "Also has Type 2b cause: emitter unwraps return type.")
-- Keep root causes in **plain language** -- no internal pattern codes
+- Keep root causes in **plain language** -- no internal pattern codes. Do NOT write specifc pattern numbers like "Pattern 5" in the report output. Instead, describe the root cause descriptively: "Intersection type alias converted to interface", "List wrapper removed; paging uses PagedAsyncIterableIterator directly", etc. The reviewer has no context about internal pattern numbers.
 
 ### Type 2: TypeSpec / Emitter Migration
 
@@ -526,7 +526,7 @@ Groups items by root cause. For items sharing the same root cause, show only one
 
 #### Detailed List
 
-One entry per CHANGELOG item. Uses numbered list with indented blockquote for root cause.
+One entry per CHANGELOG item. **Every individual entry must be listed** -- do not group entries into summary counts like "Model aliases (~69 entries)" without listing them. Use collapsible `<details>` sections to manage length when a single root cause group has more than 10 entries, but still list each entry inside the collapsed section.
 
 ```markdown
 #### Details
@@ -556,7 +556,7 @@ Format rules for the detailed list:
 - **Repeated cause**: `> Same as row N.`
 - **Cascading**: `> Cascading from row N: brief explanation.`
 - **Multi-cause**: `> (1) first cause. (2) second cause.`
-- Keep root causes in **plain language** -- no internal pattern codes
+- Keep root causes in **plain language** -- no internal pattern codes (e.g., never write "Pattern 7" or "approved pattern 5" in the report)
 
 Sub-Type values:
 - **Conversion** (Type 2a): Original swagger differs from TypeSpec-generated swagger at the same API version
