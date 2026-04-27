@@ -5,6 +5,7 @@ import ts from "typescript";
 import type { ClassifiedImport } from "./types.js";
 import { CompilerError } from "./types.js";
 import type { BindingAnalyzer } from "./bindingAnalyzer.js";
+import { getModuleSpecifier } from "./astUtils.js";
 
 /**
  * Copy leading comments from an original source node onto a newly created node.
@@ -442,8 +443,8 @@ export function rewriteImports(
       }
     }
     declarative.sort((a, b) => {
-      const specA = (a.moduleSpecifier as ts.StringLiteral).text;
-      const specB = (b.moduleSpecifier as ts.StringLiteral).text;
+      const specA = getModuleSpecifier(a) ?? "";
+      const specB = getModuleSpecifier(b) ?? "";
       return specA.localeCompare(specB);
     });
     // Replace in-place

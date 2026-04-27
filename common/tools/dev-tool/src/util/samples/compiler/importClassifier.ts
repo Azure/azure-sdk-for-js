@@ -4,6 +4,7 @@
 import path from "node:path";
 import ts from "typescript";
 import { TEST_PACKAGES, type ImportCategory, type ClassifiedImport } from "./types.js";
+import { getModuleSpecifier } from "./astUtils.js";
 
 /**
  * Callback to determine if a resolved import path points to source code.
@@ -62,7 +63,7 @@ export function classifyImport(
   importingFilePath: string,
   isSourceImport: SourceImportPredicate,
 ): ClassifiedImport {
-  const moduleSpecifier = (node.moduleSpecifier as ts.StringLiteral).text;
+  const moduleSpecifier = getModuleSpecifier(node) ?? "";
   return {
     node,
     category: categorize(moduleSpecifier, importingFilePath, isSourceImport),
