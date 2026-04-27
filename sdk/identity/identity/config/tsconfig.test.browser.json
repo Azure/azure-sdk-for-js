@@ -1,13 +1,11 @@
 {
-  "extends": "../../../tsconfig.browser.base.json",
   "references": [
     { "path": "./tsconfig.test.browser.public.json" },
     { "path": "./tsconfig.test.browser.internal.json" }
   ],
-  "files": [],
-  "include": [],
   "compilerOptions": {
-    "noEmit": true,
-    "types": []
-  }
+    "composite": true,
+    "noEmit": true
+  },
+  "files": []
 }
