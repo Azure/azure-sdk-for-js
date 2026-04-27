@@ -14,6 +14,7 @@ import {
   FileRangeWriteFromUrlType,
 } from "../../models/azure/storage/files/shares/models.js";
 import { FileDownloadResponse } from "../../models/models.js";
+import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -108,9 +109,9 @@ export async function _createHardLinkDeserialize(result: PathUncheckedResponse):
 export function _createHardLinkDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  fileCreationTime?: string;
-  fileLastWriteTime?: string;
-  fileChangeTime?: string;
+  fileCreationTime?: Date;
+  fileLastWriteTime?: Date;
+  fileChangeTime?: Date;
   fileId?: string;
   fileParentId?: string;
   linkCount?: number;
@@ -130,17 +131,17 @@ export function _createHardLinkDeserializeHeaders(result: PathUncheckedResponse)
       result.headers["x-ms-file-creation-time"] === undefined ||
       result.headers["x-ms-file-creation-time"] === null
         ? result.headers["x-ms-file-creation-time"]
-        : result.headers["x-ms-file-creation-time"],
+        : new Date(result.headers["x-ms-file-creation-time"]),
     fileLastWriteTime:
       result.headers["x-ms-file-last-write-time"] === undefined ||
       result.headers["x-ms-file-last-write-time"] === null
         ? result.headers["x-ms-file-last-write-time"]
-        : result.headers["x-ms-file-last-write-time"],
+        : new Date(result.headers["x-ms-file-last-write-time"]),
     fileChangeTime:
       result.headers["x-ms-file-change-time"] === undefined ||
       result.headers["x-ms-file-change-time"] === null
         ? result.headers["x-ms-file-change-time"]
-        : result.headers["x-ms-file-change-time"],
+        : new Date(result.headers["x-ms-file-change-time"]),
     fileId:
       result.headers["x-ms-file-id"] === undefined || result.headers["x-ms-file-id"] === null
         ? result.headers["x-ms-file-id"]
@@ -210,9 +211,9 @@ export async function createHardLink(
   {
     etag: string;
     lastModified: Date;
-    fileCreationTime?: string;
-    fileLastWriteTime?: string;
-    fileChangeTime?: string;
+    fileCreationTime?: Date;
+    fileLastWriteTime?: Date;
+    fileChangeTime?: Date;
     fileId?: string;
     fileParentId?: string;
     linkCount?: number;
@@ -229,9 +230,9 @@ export async function createHardLink(
     {
       etag: string;
       lastModified: Date;
-      fileCreationTime?: string;
-      fileLastWriteTime?: string;
-      fileChangeTime?: string;
+      fileCreationTime?: Date;
+      fileLastWriteTime?: Date;
+      fileChangeTime?: Date;
       fileId?: string;
       fileParentId?: string;
       linkCount?: number;
@@ -264,7 +265,7 @@ export function _getSymbolicLinkSend(
     "?restype=symboliclink{?timeout,sharesnapshot}",
     {
       timeout: options?.timeoutInSeconds,
-      sharesnapshot: options?.sharesnapshot,
+      sharesnapshot: options?.shareSnapshot,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -454,9 +455,9 @@ export async function _createSymbolicLinkDeserialize(result: PathUncheckedRespon
 export function _createSymbolicLinkDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  fileCreationTime?: string;
-  fileLastWriteTime?: string;
-  fileChangeTime?: string;
+  fileCreationTime?: Date;
+  fileLastWriteTime?: Date;
+  fileChangeTime?: Date;
   fileId?: string;
   fileParentId?: string;
   fileMode?: string;
@@ -475,17 +476,17 @@ export function _createSymbolicLinkDeserializeHeaders(result: PathUncheckedRespo
       result.headers["x-ms-file-creation-time"] === undefined ||
       result.headers["x-ms-file-creation-time"] === null
         ? result.headers["x-ms-file-creation-time"]
-        : result.headers["x-ms-file-creation-time"],
+        : new Date(result.headers["x-ms-file-creation-time"]),
     fileLastWriteTime:
       result.headers["x-ms-file-last-write-time"] === undefined ||
       result.headers["x-ms-file-last-write-time"] === null
         ? result.headers["x-ms-file-last-write-time"]
-        : result.headers["x-ms-file-last-write-time"],
+        : new Date(result.headers["x-ms-file-last-write-time"]),
     fileChangeTime:
       result.headers["x-ms-file-change-time"] === undefined ||
       result.headers["x-ms-file-change-time"] === null
         ? result.headers["x-ms-file-change-time"]
-        : result.headers["x-ms-file-change-time"],
+        : new Date(result.headers["x-ms-file-change-time"]),
     fileId:
       result.headers["x-ms-file-id"] === undefined || result.headers["x-ms-file-id"] === null
         ? result.headers["x-ms-file-id"]
@@ -551,9 +552,9 @@ export async function createSymbolicLink(
   {
     etag: string;
     lastModified: Date;
-    fileCreationTime?: string;
-    fileLastWriteTime?: string;
-    fileChangeTime?: string;
+    fileCreationTime?: Date;
+    fileLastWriteTime?: Date;
+    fileChangeTime?: Date;
     fileId?: string;
     fileParentId?: string;
     fileMode?: string;
@@ -569,9 +570,9 @@ export async function createSymbolicLink(
     {
       etag: string;
       lastModified: Date;
-      fileCreationTime?: string;
-      fileLastWriteTime?: string;
-      fileChangeTime?: string;
+      fileCreationTime?: Date;
+      fileLastWriteTime?: Date;
+      fileChangeTime?: Date;
       fileId?: string;
       fileParentId?: string;
       fileMode?: string;
@@ -839,7 +840,7 @@ export function _forceCloseHandlesSend(
     {
       timeout: options?.timeoutInSeconds,
       marker: options?.marker,
-      sharesnapshot: options?.sharesnapshot,
+      sharesnapshot: options?.shareSnapshot,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -983,7 +984,7 @@ export function _listHandlesSend(
       marker: options?.marker,
       maxresults: options?.maxResults,
       timeout: options?.timeoutInSeconds,
-      sharesnapshot: options?.sharesnapshot,
+      sharesnapshot: options?.shareSnapshot,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1419,7 +1420,7 @@ export function _getRangeListSend(
   const path = expandUrlTemplate(
     "?comp=rangelist{?sharesnapshot,prevsharesnapshot,timeout}",
     {
-      sharesnapshot: options?.sharesnapshot,
+      sharesnapshot: options?.shareSnapshot,
       prevsharesnapshot: options?.prevsharesnapshot,
       timeout: options?.timeoutInSeconds,
     },
@@ -1597,13 +1598,25 @@ export function _uploadRangeFromUrlSend(
         "x-ms-write": fileRangeWriteFromUrl,
         "content-length": contentLength,
         ...(options?.sourceContentCrc64 !== undefined
-          ? { "x-ms-source-content-crc64": options?.sourceContentCrc64 }
+          ? {
+              "x-ms-source-content-crc64": !options?.sourceContentCrc64
+                ? options?.sourceContentCrc64
+                : uint8ArrayToString(options?.sourceContentCrc64, "base64"),
+            }
           : {}),
         ...(options?.sourceIfMatchCrc64 !== undefined
-          ? { "x-ms-source-if-match-crc64": options?.sourceIfMatchCrc64 }
+          ? {
+              "x-ms-source-if-match-crc64": !options?.sourceIfMatchCrc64
+                ? options?.sourceIfMatchCrc64
+                : uint8ArrayToString(options?.sourceIfMatchCrc64, "base64"),
+            }
           : {}),
         ...(options?.sourceIfNoneMatchCrc64 !== undefined
-          ? { "x-ms-source-if-none-match-crc64": options?.sourceIfNoneMatchCrc64 }
+          ? {
+              "x-ms-source-if-none-match-crc64": !options?.sourceIfNoneMatchCrc64
+                ? options?.sourceIfNoneMatchCrc64
+                : uint8ArrayToString(options?.sourceIfNoneMatchCrc64, "base64"),
+            }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.copySourceAuthorization !== undefined
@@ -1649,7 +1662,8 @@ export async function _uploadRangeFromUrlDeserialize(result: PathUncheckedRespon
 export function _uploadRangeFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentCrc64?: string;
+  contentMD5?: Uint8Array;
+  contentCrc64?: Uint8Array;
   requestServerEncrypted?: boolean;
   fileLastWriteTime?: Date;
   version: string;
@@ -1660,11 +1674,19 @@ export function _uploadRangeFromUrlDeserializeHeaders(result: PathUncheckedRespo
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
+    contentMD5:
+      result.headers["content-md5"] === undefined || result.headers["content-md5"] === null
+        ? result.headers["content-md5"]
+        : typeof result.headers["content-md5"] === "string"
+          ? stringToUint8Array(result.headers["content-md5"], "base64")
+          : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
-        : result.headers["x-ms-content-crc64"],
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
     requestServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
       result.headers["x-ms-request-server-encrypted"] === null
@@ -1721,7 +1743,8 @@ export async function uploadRangeFromUrl(
   {
     etag: string;
     lastModified: Date;
-    contentCrc64?: string;
+    contentMD5?: Uint8Array;
+    contentCrc64?: Uint8Array;
     requestServerEncrypted?: boolean;
     fileLastWriteTime?: Date;
     version: string;
@@ -1733,7 +1756,8 @@ export async function uploadRangeFromUrl(
     {
       etag: string;
       lastModified: Date;
-      contentCrc64?: string;
+      contentMD5?: Uint8Array;
+      contentCrc64?: Uint8Array;
       requestServerEncrypted?: boolean;
       fileLastWriteTime?: Date;
       version: string;
@@ -2583,6 +2607,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   requestServerEncrypted?: boolean;
+  lastModified: Date;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -2595,6 +2620,7 @@ export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-request-server-encrypted"] === null
         ? result.headers["x-ms-request-server-encrypted"]
         : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    lastModified: new Date(result.headers["last-modified"]),
     version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -2637,6 +2663,7 @@ export async function setMetadata(
   {
     etag: string;
     requestServerEncrypted?: boolean;
+    lastModified: Date;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -2646,6 +2673,7 @@ export async function setMetadata(
     {
       etag: string;
       requestServerEncrypted?: boolean;
+      lastModified: Date;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -3068,7 +3096,7 @@ export function _getPropertiesSend(
   const path = expandUrlTemplate(
     "{?sharesnapshot,timeout}",
     {
-      sharesnapshot: options?.sharesnapshot,
+      sharesnapshot: options?.shareSnapshot,
       timeout: options?.timeoutInSeconds,
     },
     {
@@ -3117,9 +3145,9 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  lastModified: string;
+  lastModified: Date;
   fileType: "File";
-  contentLength: number;
+  contentLength?: number;
   contentType?: string;
   etag: string;
   contentMD5?: Uint8Array;
@@ -3127,7 +3155,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   cacheControl?: string;
   contentDisposition?: string;
   contentLanguage?: string;
-  copyCompletedOn?: string;
+  copyCompletedOn?: Date;
   copyStatusDescription?: string;
   copyId?: string;
   copyProgress?: string;
@@ -3155,9 +3183,12 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   date: Date;
 } {
   return {
-    lastModified: result.headers["last-modified"],
+    lastModified: new Date(result.headers["last-modified"]),
     fileType: result.headers["x-ms-type"] as any,
-    contentLength: Number(result.headers["content-length"]),
+    contentLength:
+      result.headers["content-length"] === undefined || result.headers["content-length"] === null
+        ? result.headers["content-length"]
+        : Number(result.headers["content-length"]),
     contentType:
       result.headers["content-type"] === undefined || result.headers["content-type"] === null
         ? result.headers["content-type"]
@@ -3192,7 +3223,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-copy-completion-time"] === undefined ||
       result.headers["x-ms-copy-completion-time"] === null
         ? result.headers["x-ms-copy-completion-time"]
-        : result.headers["x-ms-copy-completion-time"],
+        : new Date(result.headers["x-ms-copy-completion-time"]),
     copyStatusDescription:
       result.headers["x-ms-copy-status-description"] === undefined ||
       result.headers["x-ms-copy-status-description"] === null
@@ -3324,9 +3355,9 @@ export async function getProperties(
   options: FileGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    lastModified: string;
+    lastModified: Date;
     fileType: "File";
-    contentLength: number;
+    contentLength?: number;
     contentType?: string;
     etag: string;
     contentMD5?: Uint8Array;
@@ -3334,7 +3365,7 @@ export async function getProperties(
     cacheControl?: string;
     contentDisposition?: string;
     contentLanguage?: string;
-    copyCompletedOn?: string;
+    copyCompletedOn?: Date;
     copyStatusDescription?: string;
     copyId?: string;
     copyProgress?: string;
@@ -3363,9 +3394,9 @@ export async function getProperties(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      lastModified: string;
+      lastModified: Date;
       fileType: "File";
-      contentLength: number;
+      contentLength?: number;
       contentType?: string;
       etag: string;
       contentMD5?: Uint8Array;
@@ -3373,7 +3404,7 @@ export async function getProperties(
       cacheControl?: string;
       contentDisposition?: string;
       contentLanguage?: string;
-      copyCompletedOn?: string;
+      copyCompletedOn?: Date;
       copyStatusDescription?: string;
       copyId?: string;
       copyProgress?: string;
@@ -3448,14 +3479,14 @@ export function _downloadSend(
         ...(options?.structuredBodyType !== undefined
           ? { "x-ms-structured-body": options?.structuredBodyType }
           : {}),
-        accept: "application/xml",
+        accept: "application/octet-stream",
         ...options.requestOptions?.headers,
       },
     });
 }
 
 export async function _downloadDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & FileDownloadResponse,
 ): Promise<FileDownloadResponse> {
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
@@ -3470,14 +3501,12 @@ export async function _downloadDeserialize(
     throw error;
   }
 
-  return {
-    body: typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body,
-  };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
-  lastModified: string;
-  contentLength: number;
+  lastModified: Date;
+  contentLength?: number;
   contentRange?: string;
   etag: string;
   contentMD5?: Uint8Array;
@@ -3486,7 +3515,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   contentDisposition?: string;
   contentLanguage?: string;
   acceptRanges?: string;
-  copyCompletedOn?: string;
+  copyCompletedOn?: Date;
   copyStatusDescription?: string;
   copyId?: string;
   copyProgress?: string;
@@ -3515,11 +3544,14 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   requestId: string;
   clientRequestId?: string;
   date: Date;
-  contentType: "application/xml";
+  contentType: "application/octet-stream";
 } {
   return {
-    lastModified: result.headers["last-modified"],
-    contentLength: Number(result.headers["content-length"]),
+    lastModified: new Date(result.headers["last-modified"]),
+    contentLength:
+      result.headers["content-length"] === undefined || result.headers["content-length"] === null
+        ? result.headers["content-length"]
+        : Number(result.headers["content-length"]),
     contentRange:
       result.headers["content-range"] === undefined || result.headers["content-range"] === null
         ? result.headers["content-range"]
@@ -3558,7 +3590,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-copy-completion-time"] === undefined ||
       result.headers["x-ms-copy-completion-time"] === null
         ? result.headers["x-ms-copy-completion-time"]
-        : result.headers["x-ms-copy-completion-time"],
+        : new Date(result.headers["x-ms-copy-completion-time"]),
     copyStatusDescription:
       result.headers["x-ms-copy-status-description"] === undefined ||
       result.headers["x-ms-copy-status-description"] === null
@@ -3708,8 +3740,8 @@ export async function download(
   options: FileDownloadOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    lastModified: string;
-    contentLength: number;
+    lastModified: Date;
+    contentLength?: number;
     contentRange?: string;
     etag: string;
     contentMD5?: Uint8Array;
@@ -3718,7 +3750,7 @@ export async function download(
     contentDisposition?: string;
     contentLanguage?: string;
     acceptRanges?: string;
-    copyCompletedOn?: string;
+    copyCompletedOn?: Date;
     copyStatusDescription?: string;
     copyId?: string;
     copyProgress?: string;
@@ -3747,13 +3779,13 @@ export async function download(
     requestId: string;
     clientRequestId?: string;
     date: Date;
-    contentType: "application/xml";
+    contentType: "application/octet-stream";
   } & FileDownloadResponse &
     StorageCompatResponseInfo<
       FileDownloadResponse,
       {
-        lastModified: string;
-        contentLength: number;
+        lastModified: Date;
+        contentLength?: number;
         contentRange?: string;
         etag: string;
         contentMD5?: Uint8Array;
@@ -3762,7 +3794,7 @@ export async function download(
         contentDisposition?: string;
         contentLanguage?: string;
         acceptRanges?: string;
-        copyCompletedOn?: string;
+        copyCompletedOn?: Date;
         copyStatusDescription?: string;
         copyId?: string;
         copyProgress?: string;
@@ -3791,15 +3823,16 @@ export async function download(
         requestId: string;
         clientRequestId?: string;
         date: Date;
-        contentType: "application/xml";
+        contentType: "application/octet-stream";
       }
     >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _downloadSend(context, {
+  const streamableMethod = _downloadSend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
+  const result = await getBinaryStreamResponse(streamableMethod);
   const parsedBody = await _downloadDeserialize(result);
   const parsedHeaders = _downloadDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
@@ -3807,7 +3840,7 @@ export async function download(
 
 export function _createSend(
   context: Client,
-  contentLength: number,
+  fileContentLength: number,
   options: FileCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -3829,7 +3862,7 @@ export function _createSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        "x-ms-content-length": contentLength,
+        "x-ms-content-length": fileContentLength,
         "x-ms-type": "file",
         ...(options?.fileContentType !== undefined
           ? { "x-ms-content-type": options?.fileContentType }
@@ -3897,8 +3930,8 @@ export function _createSend(
         ...(options?.filePropertySemantics !== undefined
           ? { "x-ms-file-property-semantics": options?.filePropertySemantics }
           : {}),
-        ...(options?.optionalContentLength !== undefined
-          ? { "content-length": options?.optionalContentLength }
+        ...(options?.contentLength !== undefined
+          ? { "content-length": options?.contentLength }
           : {}),
         ...(options?.structuredBodyType !== undefined
           ? { "x-ms-structured-body": options?.structuredBodyType }
@@ -4059,7 +4092,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
 /** Creates a new file or replaces a file. Note it only initializes the file with no content. */
 export async function create(
   context: Client,
-  contentLength: number,
+  fileContentLength: number,
   options: FileCreateOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -4112,7 +4145,7 @@ export async function create(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _createSend(context, contentLength, {
+  const result = await _createSend(context, fileContentLength, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });

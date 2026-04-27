@@ -744,6 +744,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   requestServerEncrypted?: boolean;
+  lastModified: Date;
   version: string;
   requestId: string;
   clientRequestId?: string;
@@ -756,6 +757,7 @@ export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-request-server-encrypted"] === null
         ? result.headers["x-ms-request-server-encrypted"]
         : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    lastModified: new Date(result.headers["last-modified"]),
     version: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -798,6 +800,7 @@ export async function setMetadata(
   {
     etag: string;
     requestServerEncrypted?: boolean;
+    lastModified: Date;
     version: string;
     requestId: string;
     clientRequestId?: string;
@@ -807,6 +810,7 @@ export async function setMetadata(
     {
       etag: string;
       requestServerEncrypted?: boolean;
+      lastModified: Date;
       version: string;
       requestId: string;
       clientRequestId?: string;

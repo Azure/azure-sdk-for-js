@@ -16,16 +16,1287 @@ import {
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/**
+ * The error response.
+ *
+ * This defines the wire format only. Language SDKs wrap this in idiomatic error types.
+ */
+export interface ErrorModel {
+  /** The error code. */
+  code?: StorageErrorCode;
+  /** The error message. */
+  message?: string;
+  /** Copy source status code */
+  copySourceStatusCode?: number;
+  /** Copy source error code */
+  copySourceErrorCode?: string;
+  /** Copy source error message */
+  copySourceErrorMessage?: string;
+  errorCode?: string;
+}
+
+export function errorDeserializer(item: any): ErrorModel {
+  return {
+    code: item["code"],
+    message: item["message"],
+    copySourceStatusCode: item["copySourceStatusCode"],
+    copySourceErrorCode: item["copySourceErrorCode"],
+    copySourceErrorMessage: item["copySourceErrorMessage"],
+  };
+}
+
+export function errorXmlDeserializer(xmlString: string): ErrorModel {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "code",
+      xmlOptions: { name: "Code" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "message",
+      xmlOptions: { name: "Message" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "copySourceStatusCode",
+      xmlOptions: { name: "CopySourceStatusCode" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "copySourceErrorCode",
+      xmlOptions: { name: "CopySourceErrorCode" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "copySourceErrorMessage",
+      xmlOptions: { name: "CopySourceErrorMessage" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error", undefined, undefined, {
+    propertyName: "additionalProperties",
+    excludeNames: [
+      "Code",
+      "Message",
+      "CopySourceStatusCode",
+      "CopySourceErrorCode",
+      "CopySourceErrorMessage",
+    ],
+  });
+}
+
+/** Error codes returned by the service */
+export enum KnownStorageErrorCode {
+  /** AccountAlreadyExists */
+  AccountAlreadyExists = "AccountAlreadyExists",
+  /** AccountBeingCreated */
+  AccountBeingCreated = "AccountBeingCreated",
+  /** AccountIsDisabled */
+  AccountIsDisabled = "AccountIsDisabled",
+  /** AuthenticationFailed */
+  AuthenticationFailed = "AuthenticationFailed",
+  /** AuthorizationFailure */
+  AuthorizationFailure = "AuthorizationFailure",
+  /** ConditionHeadersNotSupported */
+  ConditionHeadersNotSupported = "ConditionHeadersNotSupported",
+  /** ConditionNotMet */
+  ConditionNotMet = "ConditionNotMet",
+  /** EmptyMetadataKey */
+  EmptyMetadataKey = "EmptyMetadataKey",
+  /** FileShareProvisionedBandwidthDowngradeNotAllowed */
+  FileShareProvisionedBandwidthDowngradeNotAllowed = "FileShareProvisionedBandwidthDowngradeNotAllowed",
+  /** FileShareProvisionedIopsDowngradeNotAllowed */
+  FileShareProvisionedIopsDowngradeNotAllowed = "FileShareProvisionedIopsDowngradeNotAllowed",
+  /** InsufficientAccountPermissions */
+  InsufficientAccountPermissions = "InsufficientAccountPermissions",
+  /** InternalError */
+  InternalError = "InternalError",
+  /** InvalidAuthenticationInfo */
+  InvalidAuthenticationInfo = "InvalidAuthenticationInfo",
+  /** InvalidHeaderValue */
+  InvalidHeaderValue = "InvalidHeaderValue",
+  /** InvalidHttpVerb */
+  InvalidHttpVerb = "InvalidHttpVerb",
+  /** InvalidInput */
+  InvalidInput = "InvalidInput",
+  /** InvalidMd5 */
+  InvalidMd5 = "InvalidMd5",
+  /** InvalidMetadata */
+  InvalidMetadata = "InvalidMetadata",
+  /** InvalidQueryParameterValue */
+  InvalidQueryParameterValue = "InvalidQueryParameterValue",
+  /** InvalidRange */
+  InvalidRange = "InvalidRange",
+  /** InvalidResourceName */
+  InvalidResourceName = "InvalidResourceName",
+  /** InvalidUri */
+  InvalidUri = "InvalidUri",
+  /** InvalidXmlDocument */
+  InvalidXmlDocument = "InvalidXmlDocument",
+  /** InvalidXmlNodeValue */
+  InvalidXmlNodeValue = "InvalidXmlNodeValue",
+  /** Md5Mismatch */
+  Md5Mismatch = "Md5Mismatch",
+  /** MetadataTooLarge */
+  MetadataTooLarge = "MetadataTooLarge",
+  /** MissingContentLengthHeader */
+  MissingContentLengthHeader = "MissingContentLengthHeader",
+  /** MissingRequiredQueryParameter */
+  MissingRequiredQueryParameter = "MissingRequiredQueryParameter",
+  /** MissingRequiredHeader */
+  MissingRequiredHeader = "MissingRequiredHeader",
+  /** MissingRequiredXmlNode */
+  MissingRequiredXmlNode = "MissingRequiredXmlNode",
+  /** MultipleConditionHeadersNotSupported */
+  MultipleConditionHeadersNotSupported = "MultipleConditionHeadersNotSupported",
+  /** OperationTimedOut */
+  OperationTimedOut = "OperationTimedOut",
+  /** OutOfRangeInput */
+  OutOfRangeInput = "OutOfRangeInput",
+  /** OutOfRangeQueryParameterValue */
+  OutOfRangeQueryParameterValue = "OutOfRangeQueryParameterValue",
+  /** RequestBodyTooLarge */
+  RequestBodyTooLarge = "RequestBodyTooLarge",
+  /** ResourceTypeMismatch */
+  ResourceTypeMismatch = "ResourceTypeMismatch",
+  /** RequestUrlFailedToParse */
+  RequestUrlFailedToParse = "RequestUrlFailedToParse",
+  /** ResourceAlreadyExists */
+  ResourceAlreadyExists = "ResourceAlreadyExists",
+  /** ResourceNotFound */
+  ResourceNotFound = "ResourceNotFound",
+  /** ServerBusy */
+  ServerBusy = "ServerBusy",
+  /** UnsupportedHeader */
+  UnsupportedHeader = "UnsupportedHeader",
+  /** UnsupportedXmlNode */
+  UnsupportedXmlNode = "UnsupportedXmlNode",
+  /** UnsupportedQueryParameter */
+  UnsupportedQueryParameter = "UnsupportedQueryParameter",
+  /** UnsupportedHttpVerb */
+  UnsupportedHttpVerb = "UnsupportedHttpVerb",
+  /** CannotDeleteFileOrDirectory */
+  CannotDeleteFileOrDirectory = "CannotDeleteFileOrDirectory",
+  /** ClientCacheFlushDelay */
+  ClientCacheFlushDelay = "ClientCacheFlushDelay",
+  /** DeletePending */
+  DeletePending = "DeletePending",
+  /** DirectoryNotEmpty */
+  DirectoryNotEmpty = "DirectoryNotEmpty",
+  /** FileLockConflict */
+  FileLockConflict = "FileLockConflict",
+  /** InvalidFileOrDirectoryPathName */
+  InvalidFileOrDirectoryPathName = "InvalidFileOrDirectoryPathName",
+  /** ParentNotFound */
+  ParentNotFound = "ParentNotFound",
+  /** ReadOnlyAttribute */
+  ReadOnlyAttribute = "ReadOnlyAttribute",
+  /** ShareAlreadyExists */
+  ShareAlreadyExists = "ShareAlreadyExists",
+  /** ShareBeingDeleted */
+  ShareBeingDeleted = "ShareBeingDeleted",
+  /** ShareDisabled */
+  ShareDisabled = "ShareDisabled",
+  /** ShareNotFound */
+  ShareNotFound = "ShareNotFound",
+  /** SharingViolation */
+  SharingViolation = "SharingViolation",
+  /** ShareSnapshotInProgress */
+  ShareSnapshotInProgress = "ShareSnapshotInProgress",
+  /** ShareSnapshotCountExceeded */
+  ShareSnapshotCountExceeded = "ShareSnapshotCountExceeded",
+  /** ShareSnapshotOperationNotSupported */
+  ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
+  /** ShareHasSnapshots */
+  ShareHasSnapshots = "ShareHasSnapshots",
+  /** PreviousSnapshotNotFound */
+  PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
+  /** ContainerQuotaDowngradeNotAllowed */
+  ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
+  /** AuthorizationSourceIPMismatch */
+  AuthorizationSourceIPMismatch = "AuthorizationSourceIPMismatch",
+  /** AuthorizationProtocolMismatch */
+  AuthorizationProtocolMismatch = "AuthorizationProtocolMismatch",
+  /** AuthorizationPermissionMismatch */
+  AuthorizationPermissionMismatch = "AuthorizationPermissionMismatch",
+  /** AuthorizationServiceMismatch */
+  AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
+  /** AuthorizationResourceTypeMismatch */
+  AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
+  /** FeatureVersionMismatch */
+  FeatureVersionMismatch = "FeatureVersionMismatch",
+  /** ShareSnapshotNotFound */
+  ShareSnapshotNotFound = "ShareSnapshotNotFound",
+  /** FileShareProvisionedIopsInvalid */
+  FileShareProvisionedIopsInvalid = "FileShareProvisionedIopsInvalid",
+  /** FileShareProvisionedBandwidthInvalid */
+  FileShareProvisionedBandwidthInvalid = "FileShareProvisionedBandwidthInvalid",
+  /** FileShareProvisionedStorageInvalid */
+  FileShareProvisionedStorageInvalid = "FileShareProvisionedStorageInvalid",
+  /** TotalSharesProvisionedCapacityExceedsAccountLimit */
+  TotalSharesProvisionedCapacityExceedsAccountLimit = "TotalSharesProvisionedCapacityExceedsAccountLimit",
+  /** TotalSharesProvisionedIopsExceedsAccountLimit */
+  TotalSharesProvisionedIopsExceedsAccountLimit = "TotalSharesProvisionedIopsExceedsAccountLimit",
+  /** TotalSharesProvisionedBandwidthExceedsAccountLimit */
+  TotalSharesProvisionedBandwidthExceedsAccountLimit = "TotalSharesProvisionedBandwidthExceedsAccountLimit",
+  /** TotalSharesCountExceedsAccountLimit */
+  TotalSharesCountExceedsAccountLimit = "TotalSharesCountExceedsAccountLimit",
+}
+
+/**
+ * Error codes returned by the service \
+ * {@link KnownStorageErrorCode} can be used interchangeably with StorageErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccountAlreadyExists**: AccountAlreadyExists \
+ * **AccountBeingCreated**: AccountBeingCreated \
+ * **AccountIsDisabled**: AccountIsDisabled \
+ * **AuthenticationFailed**: AuthenticationFailed \
+ * **AuthorizationFailure**: AuthorizationFailure \
+ * **ConditionHeadersNotSupported**: ConditionHeadersNotSupported \
+ * **ConditionNotMet**: ConditionNotMet \
+ * **EmptyMetadataKey**: EmptyMetadataKey \
+ * **FileShareProvisionedBandwidthDowngradeNotAllowed**: FileShareProvisionedBandwidthDowngradeNotAllowed \
+ * **FileShareProvisionedIopsDowngradeNotAllowed**: FileShareProvisionedIopsDowngradeNotAllowed \
+ * **InsufficientAccountPermissions**: InsufficientAccountPermissions \
+ * **InternalError**: InternalError \
+ * **InvalidAuthenticationInfo**: InvalidAuthenticationInfo \
+ * **InvalidHeaderValue**: InvalidHeaderValue \
+ * **InvalidHttpVerb**: InvalidHttpVerb \
+ * **InvalidInput**: InvalidInput \
+ * **InvalidMd5**: InvalidMd5 \
+ * **InvalidMetadata**: InvalidMetadata \
+ * **InvalidQueryParameterValue**: InvalidQueryParameterValue \
+ * **InvalidRange**: InvalidRange \
+ * **InvalidResourceName**: InvalidResourceName \
+ * **InvalidUri**: InvalidUri \
+ * **InvalidXmlDocument**: InvalidXmlDocument \
+ * **InvalidXmlNodeValue**: InvalidXmlNodeValue \
+ * **Md5Mismatch**: Md5Mismatch \
+ * **MetadataTooLarge**: MetadataTooLarge \
+ * **MissingContentLengthHeader**: MissingContentLengthHeader \
+ * **MissingRequiredQueryParameter**: MissingRequiredQueryParameter \
+ * **MissingRequiredHeader**: MissingRequiredHeader \
+ * **MissingRequiredXmlNode**: MissingRequiredXmlNode \
+ * **MultipleConditionHeadersNotSupported**: MultipleConditionHeadersNotSupported \
+ * **OperationTimedOut**: OperationTimedOut \
+ * **OutOfRangeInput**: OutOfRangeInput \
+ * **OutOfRangeQueryParameterValue**: OutOfRangeQueryParameterValue \
+ * **RequestBodyTooLarge**: RequestBodyTooLarge \
+ * **ResourceTypeMismatch**: ResourceTypeMismatch \
+ * **RequestUrlFailedToParse**: RequestUrlFailedToParse \
+ * **ResourceAlreadyExists**: ResourceAlreadyExists \
+ * **ResourceNotFound**: ResourceNotFound \
+ * **ServerBusy**: ServerBusy \
+ * **UnsupportedHeader**: UnsupportedHeader \
+ * **UnsupportedXmlNode**: UnsupportedXmlNode \
+ * **UnsupportedQueryParameter**: UnsupportedQueryParameter \
+ * **UnsupportedHttpVerb**: UnsupportedHttpVerb \
+ * **CannotDeleteFileOrDirectory**: CannotDeleteFileOrDirectory \
+ * **ClientCacheFlushDelay**: ClientCacheFlushDelay \
+ * **DeletePending**: DeletePending \
+ * **DirectoryNotEmpty**: DirectoryNotEmpty \
+ * **FileLockConflict**: FileLockConflict \
+ * **InvalidFileOrDirectoryPathName**: InvalidFileOrDirectoryPathName \
+ * **ParentNotFound**: ParentNotFound \
+ * **ReadOnlyAttribute**: ReadOnlyAttribute \
+ * **ShareAlreadyExists**: ShareAlreadyExists \
+ * **ShareBeingDeleted**: ShareBeingDeleted \
+ * **ShareDisabled**: ShareDisabled \
+ * **ShareNotFound**: ShareNotFound \
+ * **SharingViolation**: SharingViolation \
+ * **ShareSnapshotInProgress**: ShareSnapshotInProgress \
+ * **ShareSnapshotCountExceeded**: ShareSnapshotCountExceeded \
+ * **ShareSnapshotOperationNotSupported**: ShareSnapshotOperationNotSupported \
+ * **ShareHasSnapshots**: ShareHasSnapshots \
+ * **PreviousSnapshotNotFound**: PreviousSnapshotNotFound \
+ * **ContainerQuotaDowngradeNotAllowed**: ContainerQuotaDowngradeNotAllowed \
+ * **AuthorizationSourceIPMismatch**: AuthorizationSourceIPMismatch \
+ * **AuthorizationProtocolMismatch**: AuthorizationProtocolMismatch \
+ * **AuthorizationPermissionMismatch**: AuthorizationPermissionMismatch \
+ * **AuthorizationServiceMismatch**: AuthorizationServiceMismatch \
+ * **AuthorizationResourceTypeMismatch**: AuthorizationResourceTypeMismatch \
+ * **FeatureVersionMismatch**: FeatureVersionMismatch \
+ * **ShareSnapshotNotFound**: ShareSnapshotNotFound \
+ * **FileShareProvisionedIopsInvalid**: FileShareProvisionedIopsInvalid \
+ * **FileShareProvisionedBandwidthInvalid**: FileShareProvisionedBandwidthInvalid \
+ * **FileShareProvisionedStorageInvalid**: FileShareProvisionedStorageInvalid \
+ * **TotalSharesProvisionedCapacityExceedsAccountLimit**: TotalSharesProvisionedCapacityExceedsAccountLimit \
+ * **TotalSharesProvisionedIopsExceedsAccountLimit**: TotalSharesProvisionedIopsExceedsAccountLimit \
+ * **TotalSharesProvisionedBandwidthExceedsAccountLimit**: TotalSharesProvisionedBandwidthExceedsAccountLimit \
+ * **TotalSharesCountExceedsAccountLimit**: TotalSharesCountExceedsAccountLimit
+ */
+export type StorageErrorCode = string;
+
+/** An enumeration of directories and files. */
+export interface ListFilesAndDirectoriesSegmentResponse {
+  /** The service endpoint. */
+  serviceEndpoint: string;
+  /** The share name. */
+  shareName: string;
+  /** The share snapshot. */
+  shareSnapshot?: string;
+  /** Whether the listing is encoded. */
+  encoded?: boolean;
+  /** The directory path. */
+  directoryPath: string;
+  /** The prefix. */
+  prefix: StringEncoded;
+  /** The marker. */
+  marker?: string;
+  /** The max results. */
+  maxResults?: number;
+  /** Abstract for entries that can be listed from Directory. */
+  segment: FilesAndDirectoriesListSegment;
+  /** The next marker. */
+  continuationToken: string;
+  /** The directory ID. */
+  directoryId?: string;
+}
+
+export function listFilesAndDirectoriesSegmentResponseDeserializer(
+  item: any,
+): ListFilesAndDirectoriesSegmentResponse {
+  return {
+    serviceEndpoint: item["serviceEndpoint"],
+    shareName: item["shareName"],
+    shareSnapshot: item["shareSnapshot"],
+    encoded: item["encoded"],
+    directoryPath: item["directoryPath"],
+    prefix: stringEncodedDeserializer(item["prefix"]),
+    marker: item["marker"],
+    maxResults: item["maxResults"],
+    segment: filesAndDirectoriesListSegmentDeserializer(item["segment"]),
+    continuationToken: item["continuationToken"],
+    directoryId: item["directoryId"],
+  };
+}
+
+export function listFilesAndDirectoriesSegmentResponseXmlDeserializer(
+  xmlString: string,
+): ListFilesAndDirectoriesSegmentResponse {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "serviceEndpoint",
+      xmlOptions: { name: "ServiceEndpoint", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "shareName",
+      xmlOptions: { name: "ShareName", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "shareSnapshot",
+      xmlOptions: { name: "ShareSnapshot", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "encoded",
+      xmlOptions: { name: "Encoded", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "boolean",
+    },
+    {
+      propertyName: "directoryPath",
+      xmlOptions: { name: "DirectoryPath", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "prefix",
+      xmlOptions: { name: "Prefix" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "marker",
+      xmlOptions: { name: "Marker" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "maxResults",
+      xmlOptions: { name: "MaxResults" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "segment",
+      xmlOptions: { name: "Entries" },
+      type: "object",
+      deserializer: filesAndDirectoriesListSegmentXmlObjectDeserializer,
+    },
+    {
+      propertyName: "continuationToken",
+      xmlOptions: { name: "NextMarker" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "directoryId",
+      xmlOptions: { name: "DirectoryId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<ListFilesAndDirectoriesSegmentResponse>(
+    xmlString,
+    properties,
+    "EnumerationResults",
+  );
+}
+
+/** An encoded string value. */
+export interface StringEncoded {
+  /** Whether the value is encoded. */
+  encoded?: boolean;
+  /** The string content. */
+  content?: string;
+}
+
+export function stringEncodedDeserializer(item: any): StringEncoded {
+  return {
+    encoded: item["encoded"],
+    content: item["content"],
+  };
+}
+
+export function stringEncodedXmlDeserializer(xmlString: string): StringEncoded {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "encoded",
+      xmlOptions: { name: "Encoded", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "boolean",
+    },
+    {
+      propertyName: "content",
+      xmlOptions: { name: "content", unwrapped: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<StringEncoded>(xmlString, properties, "StringEncoded");
+}
+
+export function stringEncodedXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): StringEncoded {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "encoded",
+      xmlOptions: { name: "Encoded", attribute: true },
+      type: "primitive",
+      primitiveSubtype: "boolean",
+    },
+    {
+      propertyName: "content",
+      xmlOptions: { name: "content", unwrapped: true },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<StringEncoded>(xmlObject, properties);
+}
+
+/** Abstract for entries that can be listed from Directory. */
+export interface FilesAndDirectoriesListSegment {
+  /** The directory items. */
+  directoryItems: DirectoryItem[];
+  /** The file items. */
+  fileItems: FileItem[];
+}
+
+export function filesAndDirectoriesListSegmentDeserializer(
+  item: any,
+): FilesAndDirectoriesListSegment {
+  return {
+    directoryItems: directoryItemArrayDeserializer(item["directoryItems"]),
+    fileItems: fileItemArrayDeserializer(item["fileItems"]),
+  };
+}
+
+export function filesAndDirectoriesListSegmentXmlDeserializer(
+  xmlString: string,
+): FilesAndDirectoriesListSegment {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "directoryItems",
+      xmlOptions: { name: "Directory", unwrapped: true, itemsName: "Directory" },
+      type: "array",
+      deserializer: directoryItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileItems",
+      xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
+      type: "array",
+      deserializer: fileItemXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<FilesAndDirectoriesListSegment>(
+    xmlString,
+    properties,
+    "FilesAndDirectoriesListSegment",
+  );
+}
+
+export function filesAndDirectoriesListSegmentXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): FilesAndDirectoriesListSegment {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "directoryItems",
+      xmlOptions: { name: "Directory", unwrapped: true, itemsName: "Directory" },
+      type: "array",
+      deserializer: directoryItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileItems",
+      xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
+      type: "array",
+      deserializer: fileItemXmlObjectDeserializer,
+    },
+  ];
+  return deserializeXmlObject<FilesAndDirectoriesListSegment>(xmlObject, properties);
+}
+
+export function directoryItemArrayDeserializer(result: Array<DirectoryItem>): any[] {
+  return result.map((item) => {
+    return directoryItemDeserializer(item);
+  });
+}
+
+/** A listed directory item. */
+export interface DirectoryItem {
+  /** The directory name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties?: FileProperty;
+  /** The file attributes. */
+  attributes?: string;
+  /** The permission key. */
+  permissionKey?: string;
+}
+
+export function directoryItemDeserializer(item: any): DirectoryItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : filePropertyDeserializer(item["properties"]),
+    attributes: item["attributes"],
+    permissionKey: item["permissionKey"],
+  };
+}
+
+export function directoryItemXmlDeserializer(xmlString: string): DirectoryItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "attributes",
+      xmlOptions: { name: "Attributes" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "permissionKey",
+      xmlOptions: { name: "PermissionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<DirectoryItem>(xmlString, properties, "Directory");
+}
+
+export function directoryItemXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): DirectoryItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "attributes",
+      xmlOptions: { name: "Attributes" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "permissionKey",
+      xmlOptions: { name: "PermissionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<DirectoryItem>(xmlObject, properties);
+}
+
+/** File properties. */
+export interface FileProperty {
+  /**
+   * Content length of the file. This value may not be up-to-date since an SMB
+   * client may have modified the file locally. The value of Content-Length may not
+   * reflect that fact until the handle is closed or the op-lock is broken. To
+   * retrieve current property values, call Get File Properties.
+   */
+  contentLength: number;
+  /** The creation time. */
+  creationTime?: Date;
+  /** The last access time. */
+  lastAccessTime?: Date;
+  /** The last write time. */
+  lastWriteTime?: Date;
+  /** The change time. */
+  changeTime?: Date;
+  /** The last modified time. */
+  lastModified?: Date;
+  /** The ETag of the file. */
+  etag?: string;
+}
+
+export function filePropertyDeserializer(item: any): FileProperty {
+  return {
+    contentLength: item["contentLength"],
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+    lastAccessTime: !item["lastAccessTime"]
+      ? item["lastAccessTime"]
+      : new Date(item["lastAccessTime"]),
+    lastWriteTime: !item["lastWriteTime"] ? item["lastWriteTime"] : new Date(item["lastWriteTime"]),
+    changeTime: !item["changeTime"] ? item["changeTime"] : new Date(item["changeTime"]),
+    lastModified: !item["lastModified"] ? item["lastModified"] : new Date(item["lastModified"]),
+    etag: item["etag"],
+  };
+}
+
+export function filePropertyXmlDeserializer(xmlString: string): FileProperty {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "contentLength",
+      xmlOptions: { name: "Content-Length" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "creationTime",
+      xmlOptions: { name: "CreationTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastAccessTime",
+      xmlOptions: { name: "LastAccessTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastWriteTime",
+      xmlOptions: { name: "LastWriteTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "changeTime",
+      xmlOptions: { name: "ChangeTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastModified",
+      xmlOptions: { name: "Last-Modified" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "etag",
+      xmlOptions: { name: "Etag" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<FileProperty>(xmlString, properties, "FileProperty");
+}
+
+export function filePropertyXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): FileProperty {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "contentLength",
+      xmlOptions: { name: "Content-Length" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "creationTime",
+      xmlOptions: { name: "CreationTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastAccessTime",
+      xmlOptions: { name: "LastAccessTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastWriteTime",
+      xmlOptions: { name: "LastWriteTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "changeTime",
+      xmlOptions: { name: "ChangeTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastModified",
+      xmlOptions: { name: "Last-Modified" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "etag",
+      xmlOptions: { name: "Etag" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<FileProperty>(xmlObject, properties);
+}
+
+export function fileItemArrayDeserializer(result: Array<FileItem>): any[] {
+  return result.map((item) => {
+    return fileItemDeserializer(item);
+  });
+}
+
+/** A listed file item. */
+export interface FileItem {
+  /** The file name. */
+  name: StringEncoded;
+  /** The file ID. */
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  /** The file attributes. */
+  attributes?: string;
+  /** The permission key. */
+  permissionKey?: string;
+}
+
+export function fileItemDeserializer(item: any): FileItem {
+  return {
+    name: stringEncodedDeserializer(item["name"]),
+    fileId: item["fileId"],
+    properties: filePropertyDeserializer(item["properties"]),
+    attributes: item["attributes"],
+    permissionKey: item["permissionKey"],
+  };
+}
+
+export function fileItemXmlDeserializer(xmlString: string): FileItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "attributes",
+      xmlOptions: { name: "Attributes" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "permissionKey",
+      xmlOptions: { name: "PermissionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<FileItem>(xmlString, properties, "File");
+}
+
+export function fileItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): FileItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "name",
+      xmlOptions: { name: "Name" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "properties",
+      xmlOptions: { name: "Properties" },
+      type: "object",
+      deserializer: filePropertyXmlObjectDeserializer,
+    },
+    {
+      propertyName: "attributes",
+      xmlOptions: { name: "Attributes" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "permissionKey",
+      xmlOptions: { name: "PermissionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<FileItem>(xmlObject, properties);
+}
+
+/** An enumeration of handles. */
+export interface ListHandlesResponse {
+  /** The handle list. */
+  handleList?: HandleItem[];
+  /** The next marker. */
+  continuationToken: string;
+}
+
+export function listHandlesResponseDeserializer(item: any): ListHandlesResponse {
+  return {
+    handleList: !item["handleList"]
+      ? item["handleList"]
+      : handleItemArrayDeserializer(item["handleList"]),
+    continuationToken: item["continuationToken"],
+  };
+}
+
+export function listHandlesResponseXmlDeserializer(xmlString: string): ListHandlesResponse {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "handleList",
+      xmlOptions: { name: "Entries", itemsName: "Handle" },
+      type: "array",
+      deserializer: handleItemXmlObjectDeserializer,
+    },
+    {
+      propertyName: "continuationToken",
+      xmlOptions: { name: "NextMarker" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<ListHandlesResponse>(xmlString, properties, "EnumerationResults");
+}
+
+export function handleItemArrayDeserializer(result: Array<HandleItem>): any[] {
+  return result.map((item) => {
+    return handleItemDeserializer(item);
+  });
+}
+
+/** A listed Azure Storage handle item. */
+export interface HandleItem {
+  /** XSMB service handle ID */
+  handleId: string;
+  /** The path. */
+  path: StringEncoded;
+  /** FileId uniquely identifies the file or directory. */
+  fileId: string;
+  /** ParentId uniquely identifies the parent directory of the object. */
+  parentId?: string;
+  /** SMB session ID in context of which the file handle was opened */
+  sessionId: string;
+  /** Client IP that opened the handle */
+  clientIp: string;
+  /** Name of the client machine where the share is being mounted */
+  clientName: string;
+  /**
+   * Time when the session that previously opened the handle has last been
+   * reconnected. (UTC)
+   */
+  openTime: Date;
+  /** Time handle was last connected to (UTC) */
+  lastReconnectTime?: Date;
+  /** The access rights. */
+  accessRightList?: AccessRight[];
+}
+
+export function handleItemDeserializer(item: any): HandleItem {
+  return {
+    handleId: item["handleId"],
+    path: stringEncodedDeserializer(item["path"]),
+    fileId: item["fileId"],
+    parentId: item["parentId"],
+    sessionId: item["sessionId"],
+    clientIp: item["clientIp"],
+    clientName: item["clientName"],
+    openTime: new Date(item["openTime"]),
+    lastReconnectTime: !item["lastReconnectTime"]
+      ? item["lastReconnectTime"]
+      : new Date(item["lastReconnectTime"]),
+    accessRightList: !item["accessRightList"]
+      ? item["accessRightList"]
+      : item["accessRightList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function handleItemXmlDeserializer(xmlString: string): HandleItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "handleId",
+      xmlOptions: { name: "HandleId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "path",
+      xmlOptions: { name: "Path" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "parentId",
+      xmlOptions: { name: "ParentId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "sessionId",
+      xmlOptions: { name: "SessionId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "clientIp",
+      xmlOptions: { name: "ClientIp" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "clientName",
+      xmlOptions: { name: "ClientName" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "openTime",
+      xmlOptions: { name: "OpenTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastReconnectTime",
+      xmlOptions: { name: "LastReconnectTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "accessRightList",
+      xmlOptions: { name: "AccessRightList", itemsName: "AccessRight" },
+      type: "array",
+      itemType: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<HandleItem>(xmlString, properties, "Handle");
+}
+
+export function handleItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): HandleItem {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "handleId",
+      xmlOptions: { name: "HandleId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "path",
+      xmlOptions: { name: "Path" },
+      type: "object",
+      deserializer: stringEncodedXmlObjectDeserializer,
+    },
+    {
+      propertyName: "fileId",
+      xmlOptions: { name: "FileId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "parentId",
+      xmlOptions: { name: "ParentId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "sessionId",
+      xmlOptions: { name: "SessionId" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "clientIp",
+      xmlOptions: { name: "ClientIp" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "clientName",
+      xmlOptions: { name: "ClientName" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "openTime",
+      xmlOptions: { name: "OpenTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "lastReconnectTime",
+      xmlOptions: { name: "LastReconnectTime" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "accessRightList",
+      xmlOptions: { name: "AccessRightList", itemsName: "AccessRight" },
+      type: "array",
+      itemType: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<HandleItem>(xmlObject, properties);
+}
+
+/** Access rights of the access policy. */
+export type AccessRight = "Read" | "Write" | "Delete";
+
+/** The list of file ranges */
+export interface ShareFileRangeList {
+  /** The file ranges. */
+  ranges?: FileRange[];
+  /** The clear ranges. */
+  clearRanges?: ClearRange[];
+}
+
+export function shareFileRangeListDeserializer(item: any): ShareFileRangeList {
+  return {
+    ranges: !item["ranges"] ? item["ranges"] : fileRangeArrayDeserializer(item["ranges"]),
+    clearRanges: !item["clearRanges"]
+      ? item["clearRanges"]
+      : clearRangeArrayDeserializer(item["clearRanges"]),
+  };
+}
+
+export function shareFileRangeListXmlDeserializer(xmlString: string): ShareFileRangeList {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "ranges",
+      xmlOptions: { name: "Range", unwrapped: true, itemsName: "Range" },
+      type: "array",
+      deserializer: fileRangeXmlObjectDeserializer,
+    },
+    {
+      propertyName: "clearRanges",
+      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
+      type: "array",
+      deserializer: clearRangeXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<ShareFileRangeList>(xmlString, properties, "Ranges");
+}
+
+export function fileRangeArrayDeserializer(result: Array<FileRange>): any[] {
+  return result.map((item) => {
+    return fileRangeDeserializer(item);
+  });
+}
+
+/** An Azure Storage file range. */
+export interface FileRange {
+  /** Start of the range. */
+  start: number;
+  /** End of the range. */
+  end: number;
+}
+
+export function fileRangeDeserializer(item: any): FileRange {
+  return {
+    start: item["start"],
+    end: item["end"],
+  };
+}
+
+export function fileRangeXmlDeserializer(xmlString: string): FileRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "start",
+      xmlOptions: { name: "Start" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "end",
+      xmlOptions: { name: "End" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<FileRange>(xmlString, properties, "Range");
+}
+
+export function fileRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): FileRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "start",
+      xmlOptions: { name: "Start" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "end",
+      xmlOptions: { name: "End" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<FileRange>(xmlObject, properties);
+}
+
+export function clearRangeArrayDeserializer(result: Array<ClearRange>): any[] {
+  return result.map((item) => {
+    return clearRangeDeserializer(item);
+  });
+}
+
+/** A clear range. */
+export interface ClearRange {
+  /** Start of the range. */
+  start: number;
+  /** End of the range. */
+  end: number;
+}
+
+export function clearRangeDeserializer(item: any): ClearRange {
+  return {
+    start: item["start"],
+    end: item["end"],
+  };
+}
+
+export function clearRangeXmlDeserializer(xmlString: string): ClearRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "start",
+      xmlOptions: { name: "Start" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "end",
+      xmlOptions: { name: "End" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<ClearRange>(xmlString, properties, "ClearRange");
+}
+
+export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): ClearRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "start",
+      xmlOptions: { name: "Start" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "end",
+      xmlOptions: { name: "End" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<ClearRange>(xmlObject, properties);
+}
+
 /** Storage service properties. */
 export interface FileServiceProperties {
   /** A summary of request statistics grouped by API in hourly aggregates for files. */
   hourMetrics?: Metrics;
   /** A summary of request statistics grouped by API in minute aggregates for files. */
   minuteMetrics?: Metrics;
-  /** The set of CORS rules. */
-  cors?: CorsRule[];
   /** Protocol settings */
   protocol?: ShareProtocolSettings;
+  /** The set of CORS rules. */
+  cors?: CorsRule[];
 }
 
 export function fileServicePropertiesSerializer(item: FileServiceProperties): any {
@@ -36,10 +1307,10 @@ export function fileServicePropertiesSerializer(item: FileServiceProperties): an
     minuteMetrics: !item["minuteMetrics"]
       ? item["minuteMetrics"]
       : metricsSerializer(item["minuteMetrics"]),
-    cors: !item["cors"] ? item["cors"] : corsRuleArraySerializer(item["cors"]),
     protocol: !item["protocol"]
       ? item["protocol"]
       : shareProtocolSettingsSerializer(item["protocol"]),
+    cors: !item["cors"] ? item["cors"] : corsRuleArraySerializer(item["cors"]),
   };
 }
 
@@ -51,10 +1322,10 @@ export function fileServicePropertiesDeserializer(item: any): FileServicePropert
     minuteMetrics: !item["minuteMetrics"]
       ? item["minuteMetrics"]
       : metricsDeserializer(item["minuteMetrics"]),
-    cors: !item["cors"] ? item["cors"] : corsRuleArrayDeserializer(item["cors"]),
     protocol: !item["protocol"]
       ? item["protocol"]
       : shareProtocolSettingsDeserializer(item["protocol"]),
+    cors: !item["cors"] ? item["cors"] : corsRuleArrayDeserializer(item["cors"]),
   };
 }
 
@@ -73,16 +1344,16 @@ export function fileServicePropertiesXmlSerializer(item: FileServiceProperties):
       serializer: metricsXmlObjectSerializer,
     },
     {
-      propertyName: "cors",
-      xmlOptions: { name: "Cors", itemsName: "CorsRule" },
-      type: "array",
-      serializer: corsRuleXmlObjectSerializer,
-    },
-    {
       propertyName: "protocol",
       xmlOptions: { name: "ProtocolSettings" },
       type: "object",
       serializer: shareProtocolSettingsXmlObjectSerializer,
+    },
+    {
+      propertyName: "cors",
+      xmlOptions: { name: "Cors", itemsName: "CorsRule" },
+      type: "array",
+      serializer: corsRuleXmlObjectSerializer,
     },
   ];
   return serializeToXml(item, properties, "StorageServiceProperties");
@@ -103,16 +1374,16 @@ export function fileServicePropertiesXmlDeserializer(xmlString: string): FileSer
       deserializer: metricsXmlObjectDeserializer,
     },
     {
-      propertyName: "cors",
-      xmlOptions: { name: "Cors", itemsName: "CorsRule" },
-      type: "array",
-      deserializer: corsRuleXmlObjectDeserializer,
-    },
-    {
       propertyName: "protocol",
       xmlOptions: { name: "ProtocolSettings" },
       type: "object",
       deserializer: shareProtocolSettingsXmlObjectDeserializer,
+    },
+    {
+      propertyName: "cors",
+      xmlOptions: { name: "Cors", itemsName: "CorsRule" },
+      type: "array",
+      deserializer: corsRuleXmlObjectDeserializer,
     },
   ];
   return deserializeFromXml<FileServiceProperties>(
@@ -320,166 +1591,6 @@ export function retentionPolicyXmlObjectDeserializer(
     },
   ];
   return deserializeXmlObject<RetentionPolicy>(xmlObject, properties);
-}
-
-export function corsRuleArraySerializer(result: Array<CorsRule>): any[] {
-  return result.map((item) => {
-    return corsRuleSerializer(item);
-  });
-}
-
-export function corsRuleArrayDeserializer(result: Array<CorsRule>): any[] {
-  return result.map((item) => {
-    return corsRuleDeserializer(item);
-  });
-}
-
-/**
- * CORS is an HTTP feature that enables a web application running under one domain
- * to access resources in another domain. Web browsers implement a security
- * restriction known as same-origin policy that prevents a web page from calling
- * APIs in a different domain; CORS provides a secure way to allow one domain (the
- * origin domain) to call APIs in another domain.
- */
-export interface CorsRule {
-  /**
-   * The origin domains that are permitted to make a request against the storage
-   * service via CORS. The origin domain is the domain from which the request
-   * originates. Note that the origin must be an exact case-sensitive match with the
-   * origin that the user age sends to the service. You can also use the wildcard
-   * character '*' to allow all origin domains to make requests via CORS.
-   */
-  allowedOrigins: string;
-  /**
-   * The methods (HTTP request verbs) that the origin domain may use for a CORS
-   * request. (comma separated)
-   */
-  allowedMethods: string;
-  /** The request headers that the origin domain may specify on the CORS request. */
-  allowedHeaders: string;
-  /**
-   * The response headers that may be sent in the response to the CORS request and
-   * exposed by the browser to the request issuer.
-   */
-  exposedHeaders: string;
-  /**
-   * The maximum amount time that a browser should cache the preflight OPTIONS
-   * request.
-   */
-  maxAgeInSeconds: number;
-}
-
-export function corsRuleSerializer(item: CorsRule): any {
-  return {
-    allowedOrigins: item["allowedOrigins"],
-    allowedMethods: item["allowedMethods"],
-    allowedHeaders: item["allowedHeaders"],
-    exposedHeaders: item["exposedHeaders"],
-    maxAgeInSeconds: item["maxAgeInSeconds"],
-  };
-}
-
-export function corsRuleDeserializer(item: any): CorsRule {
-  return {
-    allowedOrigins: item["allowedOrigins"],
-    allowedMethods: item["allowedMethods"],
-    allowedHeaders: item["allowedHeaders"],
-    exposedHeaders: item["exposedHeaders"],
-    maxAgeInSeconds: item["maxAgeInSeconds"],
-  };
-}
-
-export function corsRuleXmlSerializer(item: CorsRule): string {
-  const properties: XmlPropertyMetadata[] = [
-    { propertyName: "allowedOrigins", xmlOptions: { name: "AllowedOrigins" }, type: "primitive" },
-    { propertyName: "allowedMethods", xmlOptions: { name: "AllowedMethods" }, type: "primitive" },
-    { propertyName: "allowedHeaders", xmlOptions: { name: "AllowedHeaders" }, type: "primitive" },
-    { propertyName: "exposedHeaders", xmlOptions: { name: "ExposedHeaders" }, type: "primitive" },
-    { propertyName: "maxAgeInSeconds", xmlOptions: { name: "MaxAgeInSeconds" }, type: "primitive" },
-  ];
-  return serializeToXml(item, properties, "CorsRule");
-}
-
-export function corsRuleXmlDeserializer(xmlString: string): CorsRule {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "allowedOrigins",
-      xmlOptions: { name: "AllowedOrigins" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "allowedMethods",
-      xmlOptions: { name: "AllowedMethods" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "allowedHeaders",
-      xmlOptions: { name: "AllowedHeaders" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "exposedHeaders",
-      xmlOptions: { name: "ExposedHeaders" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "maxAgeInSeconds",
-      xmlOptions: { name: "MaxAgeInSeconds" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-  ];
-  return deserializeFromXml<CorsRule>(xmlString, properties, "CorsRule");
-}
-
-export function corsRuleXmlObjectSerializer(item: CorsRule): XmlSerializedObject {
-  return {
-    AllowedOrigins: item["allowedOrigins"],
-    AllowedMethods: item["allowedMethods"],
-    AllowedHeaders: item["allowedHeaders"],
-    ExposedHeaders: item["exposedHeaders"],
-    MaxAgeInSeconds: item["maxAgeInSeconds"],
-  };
-}
-
-export function corsRuleXmlObjectDeserializer(xmlObject: Record<string, unknown>): CorsRule {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "allowedOrigins",
-      xmlOptions: { name: "AllowedOrigins" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "allowedMethods",
-      xmlOptions: { name: "AllowedMethods" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "allowedHeaders",
-      xmlOptions: { name: "AllowedHeaders" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "exposedHeaders",
-      xmlOptions: { name: "ExposedHeaders" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "maxAgeInSeconds",
-      xmlOptions: { name: "MaxAgeInSeconds" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-  ];
-  return deserializeXmlObject<CorsRule>(xmlObject, properties);
 }
 
 /** Protocol settings */
@@ -924,322 +2035,165 @@ export function shareNfsSettingsEncryptionInTransitXmlObjectDeserializer(
   return deserializeXmlObject<ShareNfsSettingsEncryptionInTransit>(xmlObject, properties);
 }
 
-/**
- * The error response.
- *
- * This defines the wire format only. Language SDKs wrap this in idiomatic error types.
- */
-export interface ErrorModel {
-  /** The error code. */
-  code?: StorageErrorCode;
-  /** The error message. */
-  message?: string;
-  /** Copy source status code */
-  copySourceStatusCode?: number;
-  /** Copy source error code */
-  copySourceErrorCode?: string;
-  /** Copy source error message */
-  copySourceErrorMessage?: string;
-  errorCode?: string;
-}
-
-export function errorDeserializer(item: any): ErrorModel {
-  return {
-    code: item["code"],
-    message: item["message"],
-    copySourceStatusCode: item["copySourceStatusCode"],
-    copySourceErrorCode: item["copySourceErrorCode"],
-    copySourceErrorMessage: item["copySourceErrorMessage"],
-  };
-}
-
-export function errorXmlDeserializer(xmlString: string): ErrorModel {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "code",
-      xmlOptions: { name: "Code" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "message",
-      xmlOptions: { name: "Message" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "copySourceStatusCode",
-      xmlOptions: { name: "CopySourceStatusCode" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "copySourceErrorCode",
-      xmlOptions: { name: "CopySourceErrorCode" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "copySourceErrorMessage",
-      xmlOptions: { name: "CopySourceErrorMessage" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error", undefined, undefined, {
-    propertyName: "additionalProperties",
-    excludeNames: [
-      "Code",
-      "Message",
-      "CopySourceStatusCode",
-      "CopySourceErrorCode",
-      "CopySourceErrorMessage",
-    ],
+export function corsRuleArraySerializer(result: Array<CorsRule>): any[] {
+  return result.map((item) => {
+    return corsRuleSerializer(item);
   });
 }
 
-/** Error codes returned by the service */
-export enum KnownStorageErrorCode {
-  /** AccountAlreadyExists */
-  AccountAlreadyExists = "AccountAlreadyExists",
-  /** AccountBeingCreated */
-  AccountBeingCreated = "AccountBeingCreated",
-  /** AccountIsDisabled */
-  AccountIsDisabled = "AccountIsDisabled",
-  /** AuthenticationFailed */
-  AuthenticationFailed = "AuthenticationFailed",
-  /** AuthorizationFailure */
-  AuthorizationFailure = "AuthorizationFailure",
-  /** ConditionHeadersNotSupported */
-  ConditionHeadersNotSupported = "ConditionHeadersNotSupported",
-  /** ConditionNotMet */
-  ConditionNotMet = "ConditionNotMet",
-  /** EmptyMetadataKey */
-  EmptyMetadataKey = "EmptyMetadataKey",
-  /** FileShareProvisionedBandwidthDowngradeNotAllowed */
-  FileShareProvisionedBandwidthDowngradeNotAllowed = "FileShareProvisionedBandwidthDowngradeNotAllowed",
-  /** FileShareProvisionedIopsDowngradeNotAllowed */
-  FileShareProvisionedIopsDowngradeNotAllowed = "FileShareProvisionedIopsDowngradeNotAllowed",
-  /** InsufficientAccountPermissions */
-  InsufficientAccountPermissions = "InsufficientAccountPermissions",
-  /** InternalError */
-  InternalError = "InternalError",
-  /** InvalidAuthenticationInfo */
-  InvalidAuthenticationInfo = "InvalidAuthenticationInfo",
-  /** InvalidHeaderValue */
-  InvalidHeaderValue = "InvalidHeaderValue",
-  /** InvalidHttpVerb */
-  InvalidHttpVerb = "InvalidHttpVerb",
-  /** InvalidInput */
-  InvalidInput = "InvalidInput",
-  /** InvalidMd5 */
-  InvalidMd5 = "InvalidMd5",
-  /** InvalidMetadata */
-  InvalidMetadata = "InvalidMetadata",
-  /** InvalidQueryParameterValue */
-  InvalidQueryParameterValue = "InvalidQueryParameterValue",
-  /** InvalidRange */
-  InvalidRange = "InvalidRange",
-  /** InvalidResourceName */
-  InvalidResourceName = "InvalidResourceName",
-  /** InvalidUri */
-  InvalidUri = "InvalidUri",
-  /** InvalidXmlDocument */
-  InvalidXmlDocument = "InvalidXmlDocument",
-  /** InvalidXmlNodeValue */
-  InvalidXmlNodeValue = "InvalidXmlNodeValue",
-  /** Md5Mismatch */
-  Md5Mismatch = "Md5Mismatch",
-  /** MetadataTooLarge */
-  MetadataTooLarge = "MetadataTooLarge",
-  /** MissingContentLengthHeader */
-  MissingContentLengthHeader = "MissingContentLengthHeader",
-  /** MissingRequiredQueryParameter */
-  MissingRequiredQueryParameter = "MissingRequiredQueryParameter",
-  /** MissingRequiredHeader */
-  MissingRequiredHeader = "MissingRequiredHeader",
-  /** MissingRequiredXmlNode */
-  MissingRequiredXmlNode = "MissingRequiredXmlNode",
-  /** MultipleConditionHeadersNotSupported */
-  MultipleConditionHeadersNotSupported = "MultipleConditionHeadersNotSupported",
-  /** OperationTimedOut */
-  OperationTimedOut = "OperationTimedOut",
-  /** OutOfRangeInput */
-  OutOfRangeInput = "OutOfRangeInput",
-  /** OutOfRangeQueryParameterValue */
-  OutOfRangeQueryParameterValue = "OutOfRangeQueryParameterValue",
-  /** RequestBodyTooLarge */
-  RequestBodyTooLarge = "RequestBodyTooLarge",
-  /** ResourceTypeMismatch */
-  ResourceTypeMismatch = "ResourceTypeMismatch",
-  /** RequestUrlFailedToParse */
-  RequestUrlFailedToParse = "RequestUrlFailedToParse",
-  /** ResourceAlreadyExists */
-  ResourceAlreadyExists = "ResourceAlreadyExists",
-  /** ResourceNotFound */
-  ResourceNotFound = "ResourceNotFound",
-  /** ServerBusy */
-  ServerBusy = "ServerBusy",
-  /** UnsupportedHeader */
-  UnsupportedHeader = "UnsupportedHeader",
-  /** UnsupportedXmlNode */
-  UnsupportedXmlNode = "UnsupportedXmlNode",
-  /** UnsupportedQueryParameter */
-  UnsupportedQueryParameter = "UnsupportedQueryParameter",
-  /** UnsupportedHttpVerb */
-  UnsupportedHttpVerb = "UnsupportedHttpVerb",
-  /** CannotDeleteFileOrDirectory */
-  CannotDeleteFileOrDirectory = "CannotDeleteFileOrDirectory",
-  /** ClientCacheFlushDelay */
-  ClientCacheFlushDelay = "ClientCacheFlushDelay",
-  /** DeletePending */
-  DeletePending = "DeletePending",
-  /** DirectoryNotEmpty */
-  DirectoryNotEmpty = "DirectoryNotEmpty",
-  /** FileLockConflict */
-  FileLockConflict = "FileLockConflict",
-  /** InvalidFileOrDirectoryPathName */
-  InvalidFileOrDirectoryPathName = "InvalidFileOrDirectoryPathName",
-  /** ParentNotFound */
-  ParentNotFound = "ParentNotFound",
-  /** ReadOnlyAttribute */
-  ReadOnlyAttribute = "ReadOnlyAttribute",
-  /** ShareAlreadyExists */
-  ShareAlreadyExists = "ShareAlreadyExists",
-  /** ShareBeingDeleted */
-  ShareBeingDeleted = "ShareBeingDeleted",
-  /** ShareDisabled */
-  ShareDisabled = "ShareDisabled",
-  /** ShareNotFound */
-  ShareNotFound = "ShareNotFound",
-  /** SharingViolation */
-  SharingViolation = "SharingViolation",
-  /** ShareSnapshotInProgress */
-  ShareSnapshotInProgress = "ShareSnapshotInProgress",
-  /** ShareSnapshotCountExceeded */
-  ShareSnapshotCountExceeded = "ShareSnapshotCountExceeded",
-  /** ShareSnapshotOperationNotSupported */
-  ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
-  /** ShareHasSnapshots */
-  ShareHasSnapshots = "ShareHasSnapshots",
-  /** PreviousSnapshotNotFound */
-  PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
-  /** ContainerQuotaDowngradeNotAllowed */
-  ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
-  /** AuthorizationSourceIPMismatch */
-  AuthorizationSourceIPMismatch = "AuthorizationSourceIPMismatch",
-  /** AuthorizationProtocolMismatch */
-  AuthorizationProtocolMismatch = "AuthorizationProtocolMismatch",
-  /** AuthorizationPermissionMismatch */
-  AuthorizationPermissionMismatch = "AuthorizationPermissionMismatch",
-  /** AuthorizationServiceMismatch */
-  AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
-  /** AuthorizationResourceTypeMismatch */
-  AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
-  /** FeatureVersionMismatch */
-  FeatureVersionMismatch = "FeatureVersionMismatch",
-  /** ShareSnapshotNotFound */
-  ShareSnapshotNotFound = "ShareSnapshotNotFound",
-  /** FileShareProvisionedIopsInvalid */
-  FileShareProvisionedIopsInvalid = "FileShareProvisionedIopsInvalid",
-  /** FileShareProvisionedBandwidthInvalid */
-  FileShareProvisionedBandwidthInvalid = "FileShareProvisionedBandwidthInvalid",
-  /** FileShareProvisionedStorageInvalid */
-  FileShareProvisionedStorageInvalid = "FileShareProvisionedStorageInvalid",
-  /** TotalSharesProvisionedCapacityExceedsAccountLimit */
-  TotalSharesProvisionedCapacityExceedsAccountLimit = "TotalSharesProvisionedCapacityExceedsAccountLimit",
-  /** TotalSharesProvisionedIopsExceedsAccountLimit */
-  TotalSharesProvisionedIopsExceedsAccountLimit = "TotalSharesProvisionedIopsExceedsAccountLimit",
-  /** TotalSharesProvisionedBandwidthExceedsAccountLimit */
-  TotalSharesProvisionedBandwidthExceedsAccountLimit = "TotalSharesProvisionedBandwidthExceedsAccountLimit",
-  /** TotalSharesCountExceedsAccountLimit */
-  TotalSharesCountExceedsAccountLimit = "TotalSharesCountExceedsAccountLimit",
+export function corsRuleArrayDeserializer(result: Array<CorsRule>): any[] {
+  return result.map((item) => {
+    return corsRuleDeserializer(item);
+  });
 }
 
 /**
- * Error codes returned by the service \
- * {@link KnownStorageErrorCode} can be used interchangeably with StorageErrorCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AccountAlreadyExists**: AccountAlreadyExists \
- * **AccountBeingCreated**: AccountBeingCreated \
- * **AccountIsDisabled**: AccountIsDisabled \
- * **AuthenticationFailed**: AuthenticationFailed \
- * **AuthorizationFailure**: AuthorizationFailure \
- * **ConditionHeadersNotSupported**: ConditionHeadersNotSupported \
- * **ConditionNotMet**: ConditionNotMet \
- * **EmptyMetadataKey**: EmptyMetadataKey \
- * **FileShareProvisionedBandwidthDowngradeNotAllowed**: FileShareProvisionedBandwidthDowngradeNotAllowed \
- * **FileShareProvisionedIopsDowngradeNotAllowed**: FileShareProvisionedIopsDowngradeNotAllowed \
- * **InsufficientAccountPermissions**: InsufficientAccountPermissions \
- * **InternalError**: InternalError \
- * **InvalidAuthenticationInfo**: InvalidAuthenticationInfo \
- * **InvalidHeaderValue**: InvalidHeaderValue \
- * **InvalidHttpVerb**: InvalidHttpVerb \
- * **InvalidInput**: InvalidInput \
- * **InvalidMd5**: InvalidMd5 \
- * **InvalidMetadata**: InvalidMetadata \
- * **InvalidQueryParameterValue**: InvalidQueryParameterValue \
- * **InvalidRange**: InvalidRange \
- * **InvalidResourceName**: InvalidResourceName \
- * **InvalidUri**: InvalidUri \
- * **InvalidXmlDocument**: InvalidXmlDocument \
- * **InvalidXmlNodeValue**: InvalidXmlNodeValue \
- * **Md5Mismatch**: Md5Mismatch \
- * **MetadataTooLarge**: MetadataTooLarge \
- * **MissingContentLengthHeader**: MissingContentLengthHeader \
- * **MissingRequiredQueryParameter**: MissingRequiredQueryParameter \
- * **MissingRequiredHeader**: MissingRequiredHeader \
- * **MissingRequiredXmlNode**: MissingRequiredXmlNode \
- * **MultipleConditionHeadersNotSupported**: MultipleConditionHeadersNotSupported \
- * **OperationTimedOut**: OperationTimedOut \
- * **OutOfRangeInput**: OutOfRangeInput \
- * **OutOfRangeQueryParameterValue**: OutOfRangeQueryParameterValue \
- * **RequestBodyTooLarge**: RequestBodyTooLarge \
- * **ResourceTypeMismatch**: ResourceTypeMismatch \
- * **RequestUrlFailedToParse**: RequestUrlFailedToParse \
- * **ResourceAlreadyExists**: ResourceAlreadyExists \
- * **ResourceNotFound**: ResourceNotFound \
- * **ServerBusy**: ServerBusy \
- * **UnsupportedHeader**: UnsupportedHeader \
- * **UnsupportedXmlNode**: UnsupportedXmlNode \
- * **UnsupportedQueryParameter**: UnsupportedQueryParameter \
- * **UnsupportedHttpVerb**: UnsupportedHttpVerb \
- * **CannotDeleteFileOrDirectory**: CannotDeleteFileOrDirectory \
- * **ClientCacheFlushDelay**: ClientCacheFlushDelay \
- * **DeletePending**: DeletePending \
- * **DirectoryNotEmpty**: DirectoryNotEmpty \
- * **FileLockConflict**: FileLockConflict \
- * **InvalidFileOrDirectoryPathName**: InvalidFileOrDirectoryPathName \
- * **ParentNotFound**: ParentNotFound \
- * **ReadOnlyAttribute**: ReadOnlyAttribute \
- * **ShareAlreadyExists**: ShareAlreadyExists \
- * **ShareBeingDeleted**: ShareBeingDeleted \
- * **ShareDisabled**: ShareDisabled \
- * **ShareNotFound**: ShareNotFound \
- * **SharingViolation**: SharingViolation \
- * **ShareSnapshotInProgress**: ShareSnapshotInProgress \
- * **ShareSnapshotCountExceeded**: ShareSnapshotCountExceeded \
- * **ShareSnapshotOperationNotSupported**: ShareSnapshotOperationNotSupported \
- * **ShareHasSnapshots**: ShareHasSnapshots \
- * **PreviousSnapshotNotFound**: PreviousSnapshotNotFound \
- * **ContainerQuotaDowngradeNotAllowed**: ContainerQuotaDowngradeNotAllowed \
- * **AuthorizationSourceIPMismatch**: AuthorizationSourceIPMismatch \
- * **AuthorizationProtocolMismatch**: AuthorizationProtocolMismatch \
- * **AuthorizationPermissionMismatch**: AuthorizationPermissionMismatch \
- * **AuthorizationServiceMismatch**: AuthorizationServiceMismatch \
- * **AuthorizationResourceTypeMismatch**: AuthorizationResourceTypeMismatch \
- * **FeatureVersionMismatch**: FeatureVersionMismatch \
- * **ShareSnapshotNotFound**: ShareSnapshotNotFound \
- * **FileShareProvisionedIopsInvalid**: FileShareProvisionedIopsInvalid \
- * **FileShareProvisionedBandwidthInvalid**: FileShareProvisionedBandwidthInvalid \
- * **FileShareProvisionedStorageInvalid**: FileShareProvisionedStorageInvalid \
- * **TotalSharesProvisionedCapacityExceedsAccountLimit**: TotalSharesProvisionedCapacityExceedsAccountLimit \
- * **TotalSharesProvisionedIopsExceedsAccountLimit**: TotalSharesProvisionedIopsExceedsAccountLimit \
- * **TotalSharesProvisionedBandwidthExceedsAccountLimit**: TotalSharesProvisionedBandwidthExceedsAccountLimit \
- * **TotalSharesCountExceedsAccountLimit**: TotalSharesCountExceedsAccountLimit
+ * CORS is an HTTP feature that enables a web application running under one domain
+ * to access resources in another domain. Web browsers implement a security
+ * restriction known as same-origin policy that prevents a web page from calling
+ * APIs in a different domain; CORS provides a secure way to allow one domain (the
+ * origin domain) to call APIs in another domain.
  */
-export type StorageErrorCode = string;
+export interface CorsRule {
+  /**
+   * The origin domains that are permitted to make a request against the storage
+   * service via CORS. The origin domain is the domain from which the request
+   * originates. Note that the origin must be an exact case-sensitive match with the
+   * origin that the user age sends to the service. You can also use the wildcard
+   * character '*' to allow all origin domains to make requests via CORS.
+   */
+  allowedOrigins: string;
+  /**
+   * The methods (HTTP request verbs) that the origin domain may use for a CORS
+   * request. (comma separated)
+   */
+  allowedMethods: string;
+  /** The request headers that the origin domain may specify on the CORS request. */
+  allowedHeaders: string;
+  /**
+   * The response headers that may be sent in the response to the CORS request and
+   * exposed by the browser to the request issuer.
+   */
+  exposedHeaders: string;
+  /**
+   * The maximum amount time that a browser should cache the preflight OPTIONS
+   * request.
+   */
+  maxAgeInSeconds: number;
+}
+
+export function corsRuleSerializer(item: CorsRule): any {
+  return {
+    allowedOrigins: item["allowedOrigins"],
+    allowedMethods: item["allowedMethods"],
+    allowedHeaders: item["allowedHeaders"],
+    exposedHeaders: item["exposedHeaders"],
+    maxAgeInSeconds: item["maxAgeInSeconds"],
+  };
+}
+
+export function corsRuleDeserializer(item: any): CorsRule {
+  return {
+    allowedOrigins: item["allowedOrigins"],
+    allowedMethods: item["allowedMethods"],
+    allowedHeaders: item["allowedHeaders"],
+    exposedHeaders: item["exposedHeaders"],
+    maxAgeInSeconds: item["maxAgeInSeconds"],
+  };
+}
+
+export function corsRuleXmlSerializer(item: CorsRule): string {
+  const properties: XmlPropertyMetadata[] = [
+    { propertyName: "allowedOrigins", xmlOptions: { name: "AllowedOrigins" }, type: "primitive" },
+    { propertyName: "allowedMethods", xmlOptions: { name: "AllowedMethods" }, type: "primitive" },
+    { propertyName: "allowedHeaders", xmlOptions: { name: "AllowedHeaders" }, type: "primitive" },
+    { propertyName: "exposedHeaders", xmlOptions: { name: "ExposedHeaders" }, type: "primitive" },
+    { propertyName: "maxAgeInSeconds", xmlOptions: { name: "MaxAgeInSeconds" }, type: "primitive" },
+  ];
+  return serializeToXml(item, properties, "CorsRule");
+}
+
+export function corsRuleXmlDeserializer(xmlString: string): CorsRule {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "allowedOrigins",
+      xmlOptions: { name: "AllowedOrigins" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "allowedMethods",
+      xmlOptions: { name: "AllowedMethods" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "allowedHeaders",
+      xmlOptions: { name: "AllowedHeaders" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "exposedHeaders",
+      xmlOptions: { name: "ExposedHeaders" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "maxAgeInSeconds",
+      xmlOptions: { name: "MaxAgeInSeconds" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeFromXml<CorsRule>(xmlString, properties, "CorsRule");
+}
+
+export function corsRuleXmlObjectSerializer(item: CorsRule): XmlSerializedObject {
+  return {
+    AllowedOrigins: item["allowedOrigins"],
+    AllowedMethods: item["allowedMethods"],
+    AllowedHeaders: item["allowedHeaders"],
+    ExposedHeaders: item["exposedHeaders"],
+    MaxAgeInSeconds: item["maxAgeInSeconds"],
+  };
+}
+
+export function corsRuleXmlObjectDeserializer(xmlObject: Record<string, unknown>): CorsRule {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "allowedOrigins",
+      xmlOptions: { name: "AllowedOrigins" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "allowedMethods",
+      xmlOptions: { name: "AllowedMethods" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "allowedHeaders",
+      xmlOptions: { name: "AllowedHeaders" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "exposedHeaders",
+      xmlOptions: { name: "ExposedHeaders" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "maxAgeInSeconds",
+      xmlOptions: { name: "MaxAgeInSeconds" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+  ];
+  return deserializeXmlObject<CorsRule>(xmlObject, properties);
+}
 
 /** An enumeration of shares. */
 export interface ListSharesResponse {
@@ -2278,960 +3232,6 @@ export function shareStatsXmlDeserializer(xmlString: string): ShareStats {
   return deserializeFromXml<ShareStats>(xmlString, properties, "ShareStats");
 }
 
-/** An enumeration of directories and files. */
-export interface ListFilesAndDirectoriesSegmentResponse {
-  /** The service endpoint. */
-  serviceEndpoint: string;
-  /** The share name. */
-  shareName: string;
-  /** The share snapshot. */
-  shareSnapshot?: string;
-  /** Whether the listing is encoded. */
-  encoded?: boolean;
-  /** The directory path. */
-  directoryPath: string;
-  /** The prefix. */
-  prefix: StringEncoded;
-  /** The marker. */
-  marker?: string;
-  /** The max results. */
-  maxResults?: number;
-  /** Abstract for entries that can be listed from Directory. */
-  segment: FilesAndDirectoriesListSegment;
-  /** The next marker. */
-  continuationToken: string;
-  /** The directory ID. */
-  directoryId?: string;
-}
-
-export function listFilesAndDirectoriesSegmentResponseDeserializer(
-  item: any,
-): ListFilesAndDirectoriesSegmentResponse {
-  return {
-    serviceEndpoint: item["serviceEndpoint"],
-    shareName: item["shareName"],
-    shareSnapshot: item["shareSnapshot"],
-    encoded: item["encoded"],
-    directoryPath: item["directoryPath"],
-    prefix: stringEncodedDeserializer(item["prefix"]),
-    marker: item["marker"],
-    maxResults: item["maxResults"],
-    segment: filesAndDirectoriesListSegmentDeserializer(item["segment"]),
-    continuationToken: item["continuationToken"],
-    directoryId: item["directoryId"],
-  };
-}
-
-export function listFilesAndDirectoriesSegmentResponseXmlDeserializer(
-  xmlString: string,
-): ListFilesAndDirectoriesSegmentResponse {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "serviceEndpoint",
-      xmlOptions: { name: "ServiceEndpoint", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "shareName",
-      xmlOptions: { name: "ShareName", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "shareSnapshot",
-      xmlOptions: { name: "ShareSnapshot", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "encoded",
-      xmlOptions: { name: "Encoded", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
-    {
-      propertyName: "directoryPath",
-      xmlOptions: { name: "DirectoryPath", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "prefix",
-      xmlOptions: { name: "Prefix" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "marker",
-      xmlOptions: { name: "Marker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "maxResults",
-      xmlOptions: { name: "MaxResults" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "segment",
-      xmlOptions: { name: "Entries" },
-      type: "object",
-      deserializer: filesAndDirectoriesListSegmentXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "directoryId",
-      xmlOptions: { name: "DirectoryId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<ListFilesAndDirectoriesSegmentResponse>(
-    xmlString,
-    properties,
-    "EnumerationResults",
-  );
-}
-
-/** An encoded string value. */
-export interface StringEncoded {
-  /** Whether the value is encoded. */
-  encoded?: boolean;
-  /** The string content. */
-  content?: string;
-}
-
-export function stringEncodedDeserializer(item: any): StringEncoded {
-  return {
-    encoded: item["encoded"],
-    content: item["content"],
-  };
-}
-
-export function stringEncodedXmlDeserializer(xmlString: string): StringEncoded {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "encoded",
-      xmlOptions: { name: "Encoded", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
-    {
-      propertyName: "content",
-      xmlOptions: { name: "content", unwrapped: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<StringEncoded>(xmlString, properties, "StringEncoded");
-}
-
-export function stringEncodedXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): StringEncoded {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "encoded",
-      xmlOptions: { name: "Encoded", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "boolean",
-    },
-    {
-      propertyName: "content",
-      xmlOptions: { name: "content", unwrapped: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<StringEncoded>(xmlObject, properties);
-}
-
-/** Abstract for entries that can be listed from Directory. */
-export interface FilesAndDirectoriesListSegment {
-  /** The directory items. */
-  directoryItems: DirectoryItem[];
-  /** The file items. */
-  fileItems: FileItem[];
-}
-
-export function filesAndDirectoriesListSegmentDeserializer(
-  item: any,
-): FilesAndDirectoriesListSegment {
-  return {
-    directoryItems: directoryItemArrayDeserializer(item["directoryItems"]),
-    fileItems: fileItemArrayDeserializer(item["fileItems"]),
-  };
-}
-
-export function filesAndDirectoriesListSegmentXmlDeserializer(
-  xmlString: string,
-): FilesAndDirectoriesListSegment {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "directoryItems",
-      xmlOptions: { name: "Directory", unwrapped: true, itemsName: "Directory" },
-      type: "array",
-      deserializer: directoryItemXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileItems",
-      xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
-      type: "array",
-      deserializer: fileItemXmlObjectDeserializer,
-    },
-  ];
-  return deserializeFromXml<FilesAndDirectoriesListSegment>(
-    xmlString,
-    properties,
-    "FilesAndDirectoriesListSegment",
-  );
-}
-
-export function filesAndDirectoriesListSegmentXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): FilesAndDirectoriesListSegment {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "directoryItems",
-      xmlOptions: { name: "Directory", unwrapped: true, itemsName: "Directory" },
-      type: "array",
-      deserializer: directoryItemXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileItems",
-      xmlOptions: { name: "File", unwrapped: true, itemsName: "File" },
-      type: "array",
-      deserializer: fileItemXmlObjectDeserializer,
-    },
-  ];
-  return deserializeXmlObject<FilesAndDirectoriesListSegment>(xmlObject, properties);
-}
-
-export function directoryItemArrayDeserializer(result: Array<DirectoryItem>): any[] {
-  return result.map((item) => {
-    return directoryItemDeserializer(item);
-  });
-}
-
-/** A listed directory item. */
-export interface DirectoryItem {
-  /** The directory name. */
-  name: StringEncoded;
-  /** The file ID. */
-  fileId?: string;
-  /** File properties. */
-  properties?: FileProperty;
-  /** The file attributes. */
-  attributes?: string;
-  /** The permission key. */
-  permissionKey?: string;
-}
-
-export function directoryItemDeserializer(item: any): DirectoryItem {
-  return {
-    name: stringEncodedDeserializer(item["name"]),
-    fileId: item["fileId"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : filePropertyDeserializer(item["properties"]),
-    attributes: item["attributes"],
-    permissionKey: item["permissionKey"],
-  };
-}
-
-export function directoryItemXmlDeserializer(xmlString: string): DirectoryItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "name",
-      xmlOptions: { name: "Name" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileId",
-      xmlOptions: { name: "FileId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "properties",
-      xmlOptions: { name: "Properties" },
-      type: "object",
-      deserializer: filePropertyXmlObjectDeserializer,
-    },
-    {
-      propertyName: "attributes",
-      xmlOptions: { name: "Attributes" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "permissionKey",
-      xmlOptions: { name: "PermissionKey" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<DirectoryItem>(xmlString, properties, "Directory");
-}
-
-export function directoryItemXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): DirectoryItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "name",
-      xmlOptions: { name: "Name" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileId",
-      xmlOptions: { name: "FileId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "properties",
-      xmlOptions: { name: "Properties" },
-      type: "object",
-      deserializer: filePropertyXmlObjectDeserializer,
-    },
-    {
-      propertyName: "attributes",
-      xmlOptions: { name: "Attributes" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "permissionKey",
-      xmlOptions: { name: "PermissionKey" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<DirectoryItem>(xmlObject, properties);
-}
-
-/** File properties. */
-export interface FileProperty {
-  /**
-   * Content length of the file. This value may not be up-to-date since an SMB
-   * client may have modified the file locally. The value of Content-Length may not
-   * reflect that fact until the handle is closed or the op-lock is broken. To
-   * retrieve current property values, call Get File Properties.
-   */
-  contentLength: number;
-  /** The creation time. */
-  creationTime?: Date;
-  /** The last access time. */
-  lastAccessTime?: Date;
-  /** The last write time. */
-  lastWriteTime?: Date;
-  /** The change time. */
-  changeTime?: Date;
-  /** The last modified time. */
-  lastModified?: Date;
-  /** The ETag of the file. */
-  etag?: string;
-}
-
-export function filePropertyDeserializer(item: any): FileProperty {
-  return {
-    contentLength: item["contentLength"],
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    lastAccessTime: !item["lastAccessTime"]
-      ? item["lastAccessTime"]
-      : new Date(item["lastAccessTime"]),
-    lastWriteTime: !item["lastWriteTime"] ? item["lastWriteTime"] : new Date(item["lastWriteTime"]),
-    changeTime: !item["changeTime"] ? item["changeTime"] : new Date(item["changeTime"]),
-    lastModified: !item["lastModified"] ? item["lastModified"] : new Date(item["lastModified"]),
-    etag: item["etag"],
-  };
-}
-
-export function filePropertyXmlDeserializer(xmlString: string): FileProperty {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "contentLength",
-      xmlOptions: { name: "Content-Length" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "creationTime",
-      xmlOptions: { name: "CreationTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastAccessTime",
-      xmlOptions: { name: "LastAccessTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastWriteTime",
-      xmlOptions: { name: "LastWriteTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "changeTime",
-      xmlOptions: { name: "ChangeTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastModified",
-      xmlOptions: { name: "Last-Modified" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "etag",
-      xmlOptions: { name: "Etag" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<FileProperty>(xmlString, properties, "FileProperty");
-}
-
-export function filePropertyXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): FileProperty {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "contentLength",
-      xmlOptions: { name: "Content-Length" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "creationTime",
-      xmlOptions: { name: "CreationTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastAccessTime",
-      xmlOptions: { name: "LastAccessTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastWriteTime",
-      xmlOptions: { name: "LastWriteTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "changeTime",
-      xmlOptions: { name: "ChangeTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastModified",
-      xmlOptions: { name: "Last-Modified" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "etag",
-      xmlOptions: { name: "Etag" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<FileProperty>(xmlObject, properties);
-}
-
-export function fileItemArrayDeserializer(result: Array<FileItem>): any[] {
-  return result.map((item) => {
-    return fileItemDeserializer(item);
-  });
-}
-
-/** A listed file item. */
-export interface FileItem {
-  /** The file name. */
-  name: StringEncoded;
-  /** The file ID. */
-  fileId?: string;
-  /** File properties. */
-  properties: FileProperty;
-  /** The file attributes. */
-  attributes?: string;
-  /** The permission key. */
-  permissionKey?: string;
-}
-
-export function fileItemDeserializer(item: any): FileItem {
-  return {
-    name: stringEncodedDeserializer(item["name"]),
-    fileId: item["fileId"],
-    properties: filePropertyDeserializer(item["properties"]),
-    attributes: item["attributes"],
-    permissionKey: item["permissionKey"],
-  };
-}
-
-export function fileItemXmlDeserializer(xmlString: string): FileItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "name",
-      xmlOptions: { name: "Name" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileId",
-      xmlOptions: { name: "FileId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "properties",
-      xmlOptions: { name: "Properties" },
-      type: "object",
-      deserializer: filePropertyXmlObjectDeserializer,
-    },
-    {
-      propertyName: "attributes",
-      xmlOptions: { name: "Attributes" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "permissionKey",
-      xmlOptions: { name: "PermissionKey" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<FileItem>(xmlString, properties, "File");
-}
-
-export function fileItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): FileItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "name",
-      xmlOptions: { name: "Name" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileId",
-      xmlOptions: { name: "FileId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "properties",
-      xmlOptions: { name: "Properties" },
-      type: "object",
-      deserializer: filePropertyXmlObjectDeserializer,
-    },
-    {
-      propertyName: "attributes",
-      xmlOptions: { name: "Attributes" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "permissionKey",
-      xmlOptions: { name: "PermissionKey" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<FileItem>(xmlObject, properties);
-}
-
-/** An enumeration of handles. */
-export interface ListHandlesResponse {
-  /** The handle list. */
-  handleList?: HandleItem[];
-  /** The next marker. */
-  continuationToken: string;
-}
-
-export function listHandlesResponseDeserializer(item: any): ListHandlesResponse {
-  return {
-    handleList: !item["handleList"]
-      ? item["handleList"]
-      : handleItemArrayDeserializer(item["handleList"]),
-    continuationToken: item["continuationToken"],
-  };
-}
-
-export function listHandlesResponseXmlDeserializer(xmlString: string): ListHandlesResponse {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "handleList",
-      xmlOptions: { name: "Entries", itemsName: "Handle" },
-      type: "array",
-      deserializer: handleItemXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<ListHandlesResponse>(xmlString, properties, "EnumerationResults");
-}
-
-export function handleItemArrayDeserializer(result: Array<HandleItem>): any[] {
-  return result.map((item) => {
-    return handleItemDeserializer(item);
-  });
-}
-
-/** A listed Azure Storage handle item. */
-export interface HandleItem {
-  /** XSMB service handle ID */
-  handleId: string;
-  /** The path. */
-  path: StringEncoded;
-  /** FileId uniquely identifies the file or directory. */
-  fileId: string;
-  /** ParentId uniquely identifies the parent directory of the object. */
-  parentId?: string;
-  /** SMB session ID in context of which the file handle was opened */
-  sessionId: string;
-  /** Client IP that opened the handle */
-  clientIp: string;
-  /** Name of the client machine where the share is being mounted */
-  clientName: string;
-  /**
-   * Time when the session that previously opened the handle has last been
-   * reconnected. (UTC)
-   */
-  openTime: Date;
-  /** Time handle was last connected to (UTC) */
-  lastReconnectTime?: Date;
-  /** The access rights. */
-  accessRightList?: AccessRight[];
-}
-
-export function handleItemDeserializer(item: any): HandleItem {
-  return {
-    handleId: item["handleId"],
-    path: stringEncodedDeserializer(item["path"]),
-    fileId: item["fileId"],
-    parentId: item["parentId"],
-    sessionId: item["sessionId"],
-    clientIp: item["clientIp"],
-    clientName: item["clientName"],
-    openTime: new Date(item["openTime"]),
-    lastReconnectTime: !item["lastReconnectTime"]
-      ? item["lastReconnectTime"]
-      : new Date(item["lastReconnectTime"]),
-    accessRightList: !item["accessRightList"]
-      ? item["accessRightList"]
-      : item["accessRightList"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function handleItemXmlDeserializer(xmlString: string): HandleItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "handleId",
-      xmlOptions: { name: "HandleId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "path",
-      xmlOptions: { name: "Path" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileId",
-      xmlOptions: { name: "FileId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "parentId",
-      xmlOptions: { name: "ParentId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "sessionId",
-      xmlOptions: { name: "SessionId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "clientIp",
-      xmlOptions: { name: "ClientIp" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "clientName",
-      xmlOptions: { name: "ClientName" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "openTime",
-      xmlOptions: { name: "OpenTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastReconnectTime",
-      xmlOptions: { name: "LastReconnectTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "accessRightList",
-      xmlOptions: { name: "AccessRightList", itemsName: "AccessRight" },
-      type: "array",
-      itemType: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeFromXml<HandleItem>(xmlString, properties, "Handle");
-}
-
-export function handleItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): HandleItem {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "handleId",
-      xmlOptions: { name: "HandleId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "path",
-      xmlOptions: { name: "Path" },
-      type: "object",
-      deserializer: stringEncodedXmlObjectDeserializer,
-    },
-    {
-      propertyName: "fileId",
-      xmlOptions: { name: "FileId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "parentId",
-      xmlOptions: { name: "ParentId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "sessionId",
-      xmlOptions: { name: "SessionId" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "clientIp",
-      xmlOptions: { name: "ClientIp" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "clientName",
-      xmlOptions: { name: "ClientName" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "openTime",
-      xmlOptions: { name: "OpenTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "lastReconnectTime",
-      xmlOptions: { name: "LastReconnectTime" },
-      type: "date",
-      dateEncoding: "rfc7231",
-    },
-    {
-      propertyName: "accessRightList",
-      xmlOptions: { name: "AccessRightList", itemsName: "AccessRight" },
-      type: "array",
-      itemType: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<HandleItem>(xmlObject, properties);
-}
-
-/** Access rights of the access policy. */
-export type AccessRight = "Read" | "Write" | "Delete";
-
-/** The list of file ranges */
-export interface ShareFileRangeList {
-  /** The file ranges. */
-  ranges?: FileRange[];
-  /** The clear ranges. */
-  clearRanges?: ClearRange[];
-}
-
-export function shareFileRangeListDeserializer(item: any): ShareFileRangeList {
-  return {
-    ranges: !item["ranges"] ? item["ranges"] : fileRangeArrayDeserializer(item["ranges"]),
-    clearRanges: !item["clearRanges"]
-      ? item["clearRanges"]
-      : clearRangeArrayDeserializer(item["clearRanges"]),
-  };
-}
-
-export function shareFileRangeListXmlDeserializer(xmlString: string): ShareFileRangeList {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "ranges",
-      xmlOptions: { name: "Range", unwrapped: true, itemsName: "Range" },
-      type: "array",
-      deserializer: fileRangeXmlObjectDeserializer,
-    },
-    {
-      propertyName: "clearRanges",
-      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
-      type: "array",
-      deserializer: clearRangeXmlObjectDeserializer,
-    },
-  ];
-  return deserializeFromXml<ShareFileRangeList>(xmlString, properties, "Ranges");
-}
-
-export function fileRangeArrayDeserializer(result: Array<FileRange>): any[] {
-  return result.map((item) => {
-    return fileRangeDeserializer(item);
-  });
-}
-
-/** An Azure Storage file range. */
-export interface FileRange {
-  /** Start of the range. */
-  start: number;
-  /** End of the range. */
-  end: number;
-}
-
-export function fileRangeDeserializer(item: any): FileRange {
-  return {
-    start: item["start"],
-    end: item["end"],
-  };
-}
-
-export function fileRangeXmlDeserializer(xmlString: string): FileRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "start",
-      xmlOptions: { name: "Start" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "end",
-      xmlOptions: { name: "End" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-  ];
-  return deserializeFromXml<FileRange>(xmlString, properties, "Range");
-}
-
-export function fileRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): FileRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "start",
-      xmlOptions: { name: "Start" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "end",
-      xmlOptions: { name: "End" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-  ];
-  return deserializeXmlObject<FileRange>(xmlObject, properties);
-}
-
-export function clearRangeArrayDeserializer(result: Array<ClearRange>): any[] {
-  return result.map((item) => {
-    return clearRangeDeserializer(item);
-  });
-}
-
-/** A clear range. */
-export interface ClearRange {
-  /** Start of the range. */
-  start: number;
-  /** End of the range. */
-  end: number;
-}
-
-export function clearRangeDeserializer(item: any): ClearRange {
-  return {
-    start: item["start"],
-    end: item["end"],
-  };
-}
-
-export function clearRangeXmlDeserializer(xmlString: string): ClearRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "start",
-      xmlOptions: { name: "Start" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "end",
-      xmlOptions: { name: "End" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-  ];
-  return deserializeFromXml<ClearRange>(xmlString, properties, "ClearRange");
-}
-
-export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): ClearRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "start",
-      xmlOptions: { name: "Start" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "end",
-      xmlOptions: { name: "End" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-  ];
-  return deserializeXmlObject<ClearRange>(xmlObject, properties);
-}
-
 /** The share token intent. */
 export enum KnownShareTokenIntent {
   /** backup */
@@ -3246,34 +3246,6 @@ export enum KnownShareTokenIntent {
  * **backup**: backup
  */
 export type ShareTokenIntent = string;
-/** The type of share information to include in the listing. */
-export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
-
-/** The access tier of the share. */
-export enum KnownShareAccessTier {
-  /** TransactionOptimized */
-  TransactionOptimized = "TransactionOptimized",
-  /** Hot */
-  Hot = "Hot",
-  /** Cool */
-  Cool = "Cool",
-  /** Premium */
-  Premium = "Premium",
-}
-
-/**
- * The access tier of the share. \
- * {@link KnownShareAccessTier} can be used interchangeably with ShareAccessTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TransactionOptimized**: TransactionOptimized \
- * **Hot**: Hot \
- * **Cool**: Cool \
- * **Premium**: Premium
- */
-export type ShareAccessTier = string;
-/** The delete snapshots option type. */
-export type DeleteSnapshotsOptionType = "include" | "include-leased";
 
 /** The file property semantics. */
 export enum KnownFilePropertySemantics {
@@ -3329,6 +3301,34 @@ export type PermissionCopyModeType = "source" | "override";
 export type ModeCopyMode = "source" | "override";
 /** The owner copy mode. */
 export type OwnerCopyMode = "source" | "override";
+/** The type of share information to include in the listing. */
+export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
+
+/** The access tier of the share. */
+export enum KnownShareAccessTier {
+  /** TransactionOptimized */
+  TransactionOptimized = "TransactionOptimized",
+  /** Hot */
+  Hot = "Hot",
+  /** Cool */
+  Cool = "Cool",
+  /** Premium */
+  Premium = "Premium",
+}
+
+/**
+ * The access tier of the share. \
+ * {@link KnownShareAccessTier} can be used interchangeably with ShareAccessTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TransactionOptimized**: TransactionOptimized \
+ * **Hot**: Hot \
+ * **Cool**: Cool \
+ * **Premium**: Premium
+ */
+export type ShareAccessTier = string;
+/** The delete snapshots option type. */
+export type DeleteSnapshotsOptionType = "include" | "include-leased";
 
 /** The available API versions */
 export enum KnownVersions {

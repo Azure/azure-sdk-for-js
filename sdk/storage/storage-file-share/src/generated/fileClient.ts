@@ -31,18 +31,18 @@ export class FileClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.file = _getFileOperations(this._client);
-    this.directory = _getDirectoryOperations(this._client);
     this.share = _getShareOperations(this._client);
     this.service = _getServiceOperations(this._client);
+    this.file = _getFileOperations(this._client);
+    this.directory = _getDirectoryOperations(this._client);
   }
 
-  /** The operation groups for file */
-  public readonly file: FileOperations;
-  /** The operation groups for directory */
-  public readonly directory: DirectoryOperations;
   /** The operation groups for share */
   public readonly share: ShareOperations;
   /** The operation groups for service */
   public readonly service: ServiceOperations;
+  /** The operation groups for file */
+  public readonly file: FileOperations;
+  /** The operation groups for directory */
+  public readonly directory: DirectoryOperations;
 }

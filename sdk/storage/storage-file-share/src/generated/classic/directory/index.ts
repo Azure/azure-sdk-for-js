@@ -150,6 +150,7 @@ export interface DirectoryOperations {
     {
       etag: string;
       requestServerEncrypted?: boolean;
+      lastModified: Date;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -159,6 +160,7 @@ export interface DirectoryOperations {
       {
         etag: string;
         requestServerEncrypted?: boolean;
+        lastModified: Date;
         version: string;
         requestId: string;
         clientRequestId?: string;

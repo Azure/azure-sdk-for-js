@@ -2284,7 +2284,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  quota: number;
+  quota?: number;
   provisionedIops?: number;
   provisionedIngressMBps?: number;
   provisionedEgressMBps?: number;
@@ -2294,7 +2294,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   leaseState?: string;
   leaseStatus?: string;
   accessTier?: string;
-  accessTierChangeTime?: string;
+  accessTierChangeTime?: Date;
   accessTierTransitionState?: string;
   enabledProtocols?: string;
   rootSquash?: string;
@@ -2315,7 +2315,11 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    quota: Number(result.headers["x-ms-share-quota"]),
+    quota:
+      result.headers["x-ms-share-quota"] === undefined ||
+      result.headers["x-ms-share-quota"] === null
+        ? result.headers["x-ms-share-quota"]
+        : Number(result.headers["x-ms-share-quota"]),
     provisionedIops:
       result.headers["x-ms-share-provisioned-iops"] === undefined ||
       result.headers["x-ms-share-provisioned-iops"] === null
@@ -2365,7 +2369,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-access-tier-change-time"] === undefined ||
       result.headers["x-ms-access-tier-change-time"] === null
         ? result.headers["x-ms-access-tier-change-time"]
-        : result.headers["x-ms-access-tier-change-time"],
+        : new Date(result.headers["x-ms-access-tier-change-time"]),
     accessTierTransitionState:
       result.headers["x-ms-access-tier-transition-state"] === undefined ||
       result.headers["x-ms-access-tier-transition-state"] === null
@@ -2470,7 +2474,7 @@ export async function getProperties(
   {
     etag: string;
     lastModified: Date;
-    quota: number;
+    quota?: number;
     provisionedIops?: number;
     provisionedIngressMBps?: number;
     provisionedEgressMBps?: number;
@@ -2480,7 +2484,7 @@ export async function getProperties(
     leaseState?: string;
     leaseStatus?: string;
     accessTier?: string;
-    accessTierChangeTime?: string;
+    accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
     enabledProtocols?: string;
     rootSquash?: string;
@@ -2502,7 +2506,7 @@ export async function getProperties(
     {
       etag: string;
       lastModified: Date;
-      quota: number;
+      quota?: number;
       provisionedIops?: number;
       provisionedIngressMBps?: number;
       provisionedEgressMBps?: number;
@@ -2512,7 +2516,7 @@ export async function getProperties(
       leaseState?: string;
       leaseStatus?: string;
       accessTier?: string;
-      accessTierChangeTime?: string;
+      accessTierChangeTime?: Date;
       accessTierTransitionState?: string;
       enabledProtocols?: string;
       rootSquash?: string;

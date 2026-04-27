@@ -452,7 +452,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      quota: number;
+      quota?: number;
       provisionedIops?: number;
       provisionedIngressMBps?: number;
       provisionedEgressMBps?: number;
@@ -462,7 +462,7 @@ export interface ShareOperations {
       leaseState?: string;
       leaseStatus?: string;
       accessTier?: string;
-      accessTierChangeTime?: string;
+      accessTierChangeTime?: Date;
       accessTierTransitionState?: string;
       enabledProtocols?: string;
       rootSquash?: string;
@@ -484,7 +484,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        quota: number;
+        quota?: number;
         provisionedIops?: number;
         provisionedIngressMBps?: number;
         provisionedEgressMBps?: number;
@@ -494,7 +494,7 @@ export interface ShareOperations {
         leaseState?: string;
         leaseStatus?: string;
         accessTier?: string;
-        accessTierChangeTime?: string;
+        accessTierChangeTime?: Date;
         accessTierTransitionState?: string;
         enabledProtocols?: string;
         rootSquash?: string;

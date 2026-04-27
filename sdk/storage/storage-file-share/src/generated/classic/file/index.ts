@@ -69,9 +69,9 @@ export interface FileOperations {
     {
       etag: string;
       lastModified: Date;
-      fileCreationTime?: string;
-      fileLastWriteTime?: string;
-      fileChangeTime?: string;
+      fileCreationTime?: Date;
+      fileLastWriteTime?: Date;
+      fileChangeTime?: Date;
       fileId?: string;
       fileParentId?: string;
       linkCount?: number;
@@ -88,9 +88,9 @@ export interface FileOperations {
       {
         etag: string;
         lastModified: Date;
-        fileCreationTime?: string;
-        fileLastWriteTime?: string;
-        fileChangeTime?: string;
+        fileCreationTime?: Date;
+        fileLastWriteTime?: Date;
+        fileChangeTime?: Date;
         fileId?: string;
         fileParentId?: string;
         linkCount?: number;
@@ -138,9 +138,9 @@ export interface FileOperations {
     {
       etag: string;
       lastModified: Date;
-      fileCreationTime?: string;
-      fileLastWriteTime?: string;
-      fileChangeTime?: string;
+      fileCreationTime?: Date;
+      fileLastWriteTime?: Date;
+      fileChangeTime?: Date;
       fileId?: string;
       fileParentId?: string;
       fileMode?: string;
@@ -156,9 +156,9 @@ export interface FileOperations {
       {
         etag: string;
         lastModified: Date;
-        fileCreationTime?: string;
-        fileLastWriteTime?: string;
-        fileChangeTime?: string;
+        fileCreationTime?: Date;
+        fileLastWriteTime?: Date;
+        fileChangeTime?: Date;
         fileId?: string;
         fileParentId?: string;
         fileMode?: string;
@@ -342,7 +342,8 @@ export interface FileOperations {
     {
       etag: string;
       lastModified: Date;
-      contentCrc64?: string;
+      contentMD5?: Uint8Array;
+      contentCrc64?: Uint8Array;
       requestServerEncrypted?: boolean;
       fileLastWriteTime?: Date;
       version: string;
@@ -354,7 +355,8 @@ export interface FileOperations {
       {
         etag: string;
         lastModified: Date;
-        contentCrc64?: string;
+        contentMD5?: Uint8Array;
+        contentCrc64?: Uint8Array;
         requestServerEncrypted?: boolean;
         fileLastWriteTime?: Date;
         version: string;
@@ -507,6 +509,7 @@ export interface FileOperations {
     {
       etag: string;
       requestServerEncrypted?: boolean;
+      lastModified: Date;
       version: string;
       requestId: string;
       clientRequestId?: string;
@@ -516,6 +519,7 @@ export interface FileOperations {
       {
         etag: string;
         requestServerEncrypted?: boolean;
+        lastModified: Date;
         version: string;
         requestId: string;
         clientRequestId?: string;
@@ -601,9 +605,9 @@ export interface FileOperations {
     options?: FileGetPropertiesOptionalParams,
   ) => Promise<
     {
-      lastModified: string;
+      lastModified: Date;
       fileType: "File";
-      contentLength: number;
+      contentLength?: number;
       contentType?: string;
       etag: string;
       contentMD5?: Uint8Array;
@@ -611,7 +615,7 @@ export interface FileOperations {
       cacheControl?: string;
       contentDisposition?: string;
       contentLanguage?: string;
-      copyCompletedOn?: string;
+      copyCompletedOn?: Date;
       copyStatusDescription?: string;
       copyId?: string;
       copyProgress?: string;
@@ -640,9 +644,9 @@ export interface FileOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        lastModified: string;
+        lastModified: Date;
         fileType: "File";
-        contentLength: number;
+        contentLength?: number;
         contentType?: string;
         etag: string;
         contentMD5?: Uint8Array;
@@ -650,7 +654,7 @@ export interface FileOperations {
         cacheControl?: string;
         contentDisposition?: string;
         contentLanguage?: string;
-        copyCompletedOn?: string;
+        copyCompletedOn?: Date;
         copyStatusDescription?: string;
         copyId?: string;
         copyProgress?: string;
@@ -684,8 +688,8 @@ export interface FileOperations {
     options?: FileDownloadOptionalParams,
   ) => Promise<
     {
-      lastModified: string;
-      contentLength: number;
+      lastModified: Date;
+      contentLength?: number;
       contentRange?: string;
       etag: string;
       contentMD5?: Uint8Array;
@@ -694,7 +698,7 @@ export interface FileOperations {
       contentDisposition?: string;
       contentLanguage?: string;
       acceptRanges?: string;
-      copyCompletedOn?: string;
+      copyCompletedOn?: Date;
       copyStatusDescription?: string;
       copyId?: string;
       copyProgress?: string;
@@ -723,13 +727,13 @@ export interface FileOperations {
       requestId: string;
       clientRequestId?: string;
       date: Date;
-      contentType: "application/xml";
+      contentType: "application/octet-stream";
     } & FileDownloadResponse &
       StorageCompatResponseInfo<
         FileDownloadResponse,
         {
-          lastModified: string;
-          contentLength: number;
+          lastModified: Date;
+          contentLength?: number;
           contentRange?: string;
           etag: string;
           contentMD5?: Uint8Array;
@@ -738,7 +742,7 @@ export interface FileOperations {
           contentDisposition?: string;
           contentLanguage?: string;
           acceptRanges?: string;
-          copyCompletedOn?: string;
+          copyCompletedOn?: Date;
           copyStatusDescription?: string;
           copyId?: string;
           copyProgress?: string;
@@ -767,13 +771,13 @@ export interface FileOperations {
           requestId: string;
           clientRequestId?: string;
           date: Date;
-          contentType: "application/xml";
+          contentType: "application/octet-stream";
         }
       >
   >;
   /** Creates a new file or replaces a file. Note it only initializes the file with no content. */
   create: (
-    contentLength: number,
+    fileContentLength: number,
     options?: FileCreateOptionalParams,
   ) => Promise<
     {
@@ -871,8 +875,8 @@ function _getFile(context: FileContext) {
     delete: (options?: FileDeleteOptionalParams) => $delete(context, options),
     getProperties: (options?: FileGetPropertiesOptionalParams) => getProperties(context, options),
     download: (options?: FileDownloadOptionalParams) => download(context, options),
-    create: (contentLength: number, options?: FileCreateOptionalParams) =>
-      create(context, contentLength, options),
+    create: (fileContentLength: number, options?: FileCreateOptionalParams) =>
+      create(context, fileContentLength, options),
   };
 }
 

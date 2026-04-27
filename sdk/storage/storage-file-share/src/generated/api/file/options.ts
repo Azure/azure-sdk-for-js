@@ -31,8 +31,8 @@ export interface FileGetSymbolicLinkOptionalParams extends OperationOptions {
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  sharesnapshot?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }
@@ -71,7 +71,7 @@ export interface FileRenameOptionalParams extends OperationOptions {
   ignoreReadOnly?: boolean;
   /** Required if the source file has an active lease. */
   sourceLeaseId?: string;
-  /** Required if the destination file has an active lease. */
+  /** Required if the destination has an active lease. */
   destinationLeaseId?: string;
   /** If specified, the provided file attributes shall be set. */
   fileAttributes?: string;
@@ -107,8 +107,8 @@ export interface FileForceCloseHandlesOptionalParams extends OperationOptions {
   timeoutInSeconds?: number;
   /** A string value that identifies the portion of the list to be returned with the next listing operation. */
   marker?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  sharesnapshot?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
@@ -125,8 +125,8 @@ export interface FileListHandlesOptionalParams extends OperationOptions {
   maxResults?: number;
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  sharesnapshot?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
@@ -199,8 +199,8 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
 export interface FileGetRangeListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  sharesnapshot?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
   /** The previous snapshot parameter is an opaque DateTime value that specifies a previous file snapshot to compare against. */
   prevsharesnapshot?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -226,11 +226,11 @@ export interface FileUploadRangeFromUrlOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Specify the CRC64 hash of the source content. */
-  sourceContentCrc64?: string;
+  sourceContentCrc64?: Uint8Array;
   /** Specify the CRC64 hash value to check for source content integrity. */
-  sourceIfMatchCrc64?: string;
+  sourceIfMatchCrc64?: Uint8Array;
   /** Specify the CRC64 hash value to check for source content mismatch. */
-  sourceIfNoneMatchCrc64?: string;
+  sourceIfNoneMatchCrc64?: Uint8Array;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
@@ -253,7 +253,7 @@ export interface FileUploadRangeOptionalParams extends OperationOptions {
   contentType?: "application/octet-stream";
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
-  /** An MD5 hash of the content. This hash is used to verify the integrity of data during transport. */
+  /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. */
   contentMD5?: Uint8Array;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
@@ -263,9 +263,9 @@ export interface FileUploadRangeOptionalParams extends OperationOptions {
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
-  /** Optional. Used for structured put operations. */
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
   structuredBodyType?: string;
-  /** Optional. Used for structured put operations to specify content length. */
+  /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
   /** Initial data. */
   body?: Uint8Array;
@@ -409,8 +409,8 @@ export interface FileDeleteOptionalParams extends OperationOptions {
 export interface FileGetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  sharesnapshot?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** If specified, the lease ID must match the lease ID of the file. */
@@ -437,7 +437,7 @@ export interface FileDownloadOptionalParams extends OperationOptions {
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
-  /** Optional. Used for structured get operations. */
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
   structuredBodyType?: string;
 }
 
@@ -495,9 +495,9 @@ export interface FileCreateOptionalParams extends OperationOptions {
   contentMD5?: Uint8Array;
   /** SMB only. Default value is New. */
   filePropertySemantics?: FilePropertySemantics;
-  /** Optional. Specifies the content length of the file. */
-  optionalContentLength?: number;
-  /** Required if the request body is a structured message. Specifies the message schema version and properties. */
+  /** Specifies the number of bytes being transmitted in the request body. When the x-ms-write header is set to clear, the value of this header must be set to zero." */
+  contentLength?: number;
+  /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */
   structuredBodyType?: string;
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;

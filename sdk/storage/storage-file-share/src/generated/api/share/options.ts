@@ -103,7 +103,7 @@ export interface ShareSetPropertiesOptionalParams extends OperationOptions {
   paidBurstingMaxBandwidthMibps?: number;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
-  /** Optional. Specifies the provisioned number of input/output operations per second (IOPS) of the share. */
+  /** Optional. Specifies the provisioned IOPS of the share. */
   shareProvisionedIops?: number;
   /** Optional. Specifies the provisioned bandwidth of the share, in MiBps. */
   shareProvisionedBandwidthMibps?: number;
