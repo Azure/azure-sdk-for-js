@@ -57,7 +57,11 @@
     "update-snippets": "dev-tool run update-snippets",
     "generate-samples": "npm run build && npx dev-tool samples publish"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/cosmosdb/cosmos"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

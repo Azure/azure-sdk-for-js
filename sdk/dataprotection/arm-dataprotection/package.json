@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-dataprotection",
-  "version": "4.0.0",
+  "version": "5.0.0-beta.1",
   "description": "A generated SDK for DataProtectionClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -27,7 +27,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/dataprotection/arm-dataprotection"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -474,6 +478,24 @@
       "require": {
         "types": "./dist/commonjs/api/resourceGuards/index.d.ts",
         "default": "./dist/commonjs/api/resourceGuards/index.js"
+      }
+    },
+    "./api/deletedBackupVaults": {
+      "browser": {
+        "types": "./dist/browser/api/deletedBackupVaults/index.d.ts",
+        "default": "./dist/browser/api/deletedBackupVaults/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/deletedBackupVaults/index.d.ts",
+        "default": "./dist/react-native/api/deletedBackupVaults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deletedBackupVaults/index.d.ts",
+        "default": "./dist/esm/api/deletedBackupVaults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deletedBackupVaults/index.d.ts",
+        "default": "./dist/commonjs/api/deletedBackupVaults/index.js"
       }
     },
     "./api/backupVaultOperationResults": {

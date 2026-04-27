@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeInvoice.ts - Analyze an invoice and extract structured fields.
+ * Sample test for analyzeInvoice.ts - Analyze an invoice and extract structured fields.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -82,6 +82,23 @@ describe("Sample: analyzeInvoice", () => {
       // Verify page information
       console.log(`Document unit: ${documentContent.unit ?? "unknown"}`);
       console.log(`Pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber}`);
+    }
+
+    // Verify usage details from operationState (available after pollUntilDone completes)
+    const usage = poller.operationState?.usage;
+    assert.ok(usage, "operationState should have usage after completion");
+    assert.isDefined(usage!.contextualizationTokens, "Should have contextualization tokens");
+    assert.isDefined(usage!.tokens, "Should have tokens dictionary");
+    console.log("\nUsage Details:");
+    if (usage!.documentPagesStandard !== undefined) {
+      console.log(`  Document pages (standard): ${usage!.documentPagesStandard}`);
+    }
+    console.log(`  Contextualization tokens: ${usage!.contextualizationTokens}`);
+    if (usage!.tokens) {
+      console.log("  Model tokens:");
+      for (const [model, count] of Object.entries(usage!.tokens)) {
+        console.log(`    ${model}: ${count}`);
+      }
     }
   });
 });

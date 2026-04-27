@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.react-native.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-client": ["../src/index.ts"],
+      "@azure/core-client/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

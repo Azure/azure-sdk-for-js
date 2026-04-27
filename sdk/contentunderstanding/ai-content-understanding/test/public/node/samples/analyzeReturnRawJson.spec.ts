@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeReturnRawJson.ts - Return raw JSON from analysis using pipeline policy.
+ * Sample test for analyzeReturnRawJson.ts - Return raw JSON from analysis using pipeline policy.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

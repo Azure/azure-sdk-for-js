@@ -3,41 +3,34 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
+ * This sample demonstrates how to retrieves the metrics determined by the given filter for the given collection and region, split by partition.
  *
- * @summary Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCollectionPartitionRegionGetMetrics.json
+ * @summary retrieves the metrics determined by the given filter for the given collection and region, split by partition.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCollectionPartitionRegionGetMetrics.json
  */
-async function cosmosDbDatabaseAccountRegionGetMetrics() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const region = "North Europe";
-  const databaseRid = "databaseRid";
-  const collectionRid = "collectionRid";
-  const filter =
-    "$filter=(name.value eq 'Max RUs Per Second') and timeGrain eq duration'PT1M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T23:58:55.2780000Z";
+async function cosmosDBDatabaseAccountRegionGetMetrics() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.collectionPartitionRegion.listMetrics(
-    resourceGroupName,
-    accountName,
-    region,
-    databaseRid,
-    collectionRid,
-    filter,
+    "rg1",
+    "ddb1",
+    "North Europe",
+    "databaseRid",
+    "collectionRid",
+    "$filter=(name.value eq 'Max RUs Per Second') and timeGrain eq duration'PT1M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T23:58:55.2780000Z",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbDatabaseAccountRegionGetMetrics();
+  await cosmosDBDatabaseAccountRegionGetMetrics();
 }
 
 main().catch(console.error);
