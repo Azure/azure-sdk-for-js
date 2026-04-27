@@ -1,44 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureLogger } from "@azure/logger";
 import type { RequestBodyType } from "../src/interfaces.js";
 import { assert } from "vitest";
+import { stringToUint8Array } from "@azure/core-util";
 
-function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
-  return (
-    typeof x === "object" &&
-    x !== null &&
-    typeof (x as NodeJS.ReadableStream).read === "function" &&
-    typeof (x as NodeJS.ReadableStream).pipe === "function"
-  );
-}
-
-export function makeTestLogger(): {
-  logger: AzureLogger;
-  params: { info: string[]; error: string[] };
-} {
-  const logParams: {
-    info: string[];
-    error: string[];
-  } = {
-    info: [],
-    error: [],
-  };
-
-  const logger: AzureLogger = {
-    info(...params) {
-      logParams.info.push(params.join(" "));
-    },
-    error(...params) {
-      logParams.error.push(params.join(" "));
-    },
-  } as AzureLogger;
-
-  return {
-    logger,
-    params: logParams,
-  };
+function isAsyncIterable(value: unknown): value is AsyncIterable<Uint8Array> {
+  return Symbol.asyncIterator in Object(value);
 }
 
 export function assertUint8ArraySame(
@@ -59,18 +27,26 @@ export async function assertBodyMatches(
 
   const actual = typeof resettableActual === "function" ? resettableActual() : resettableActual;
 
-  if (actual instanceof Blob) {
-    const actualBytes = new Uint8Array(await actual.arrayBuffer());
-    assertUint8ArraySame(actualBytes, expected, "body does not match");
-  } else if (isNodeReadableStream(actual)) {
-    const buffers: Buffer[] = [];
-    for await (const buffer of actual) {
-      buffers.push(buffer as Buffer);
+  let actualBytes: Uint8Array;
+  if (actual instanceof Uint8Array) {
+    actualBytes = actual;
+  } else if (actual instanceof Blob) {
+    actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());
+  } else if (isAsyncIterable(actual)) {
+    // ReadableStream or NodeJS.ReadableStream — collect chunks via async iteration.
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of actual) {
+      chunks.push(chunk instanceof Uint8Array ? chunk : stringToUint8Array(String(chunk), "utf-8"));
     }
-
-    const actualBytes = new Uint8Array(Buffer.concat(buffers));
-    assertUint8ArraySame(actualBytes, expected, "body does not match");
+    const totalLength = chunks.reduce((sum, c) => sum + c.byteLength, 0);
+    actualBytes = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      actualBytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
   } else {
-    assert.fail(`Requst body of unexpected type: ${actual.toString()}`);
+    assert.fail(`Unexpected body type: ${typeof actual}`);
   }
+  assertUint8ArraySame(actualBytes, expected, "body does not match");
 }

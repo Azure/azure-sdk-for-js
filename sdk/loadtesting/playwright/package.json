@@ -1,10 +1,14 @@
 {
   "name": "@azure/playwright",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Package to integrate your Playwright test suite with Azure Playwright service",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/playwright/README.md",
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/loadtesting/playwright"
+  },
   "keywords": [
     "azure",
     "cloud",

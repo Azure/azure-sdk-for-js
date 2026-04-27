@@ -4,7 +4,7 @@
 import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
 import { RestError } from "../restError.js";
 import { createHttpHeaders } from "../httpHeaders.js";
-import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { stringToUint8Array } from "#platform/bytesEncoding";
 import { isBinaryBody } from "../util/typeGuards.js";
 
 /**

@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.9.2",
+  "version": "4.9.3",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -57,7 +57,11 @@
     "update-snippets": "dev-tool run update-snippets",
     "generate-samples": "npm run build && npx dev-tool samples publish"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/cosmosdb/cosmos"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

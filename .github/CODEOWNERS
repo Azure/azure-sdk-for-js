@@ -274,6 +274,10 @@
 # PRLabel: %Operator Nexus - Network Cloud
 /sdk/networkcloud/    @Azure/azure-sdk-write-networkcloud
 
+# ServiceLabel: %PostgreSQL Auth
+# PRLabel: %Postgresql
+/sdk/postgresql/postgresql-auth/ @alxhghs @carlovi81 @mattboentoro @nasc17 @nehrao1 @rmendiza
+
 # PRLabel: %Purview
 /sdk/purview/    @qiaozha
 
@@ -393,7 +397,7 @@
 # PRLabel: %Mgmt
 /sdk/azurestack/arm-azurestack/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/azurestackhci/arm-azurestackhci/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -429,7 +433,7 @@
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/communication/arm-communication/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -462,7 +466,7 @@
 # PRLabel: %Mgmt
 /sdk/containerregistry/arm-containerregistry/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -471,7 +475,7 @@
 # PRLabel: %Mgmt
 /sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -651,7 +655,7 @@
 # PRLabel: %Mgmt
 /sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -786,7 +790,7 @@
 # PRLabel: %Mgmt
 /sdk/mysql/arm-mysql-flexible/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1660,7 +1664,19 @@ sdk/previewalertrule/arm-previewalertrule/ @qiaozha @MaryGao @JialinHuang803
 sdk/appnetwork/arm-appnetwork/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/horizondb/arm-horizondb/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
@@ -1732,6 +1748,8 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/sentinel.lock.yml     @deyaaeldeen @jeremymeng
 /.github/workflows/tester.md             @deyaaeldeen @jeremymeng
 /.github/workflows/tester.lock.yml       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.md       @deyaaeldeen @jeremymeng
+/.github/workflows/issue-triage.lock.yml @deyaaeldeen @jeremymeng
 /.github/agents/agentic-workflows.agent.md @deyaaeldeen @jeremymeng
 /.github/agents/archie.agent.md          @deyaaeldeen @jeremymeng @maorleger
 /.github/agents/dash.agent.md            @deyaaeldeen @jeremymeng

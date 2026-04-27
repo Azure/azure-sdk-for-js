@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -35,7 +34,6 @@ export {
   createOrUpdateSynonymMap,
 } from "./operations.js";
 export type {
-  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -67,8 +65,5 @@ export type {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./options.js";
-export {
-  createSearchIndex,
-  type SearchIndexContext,
-  type SearchIndexClientOptionalParams,
-} from "./searchIndexContext.js";
+export type { SearchIndexContext, SearchIndexClientOptionalParams } from "./searchIndexContext.js";
+export { createSearchIndex } from "./searchIndexContext.js";

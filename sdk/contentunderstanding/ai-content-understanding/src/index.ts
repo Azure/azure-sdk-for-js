@@ -13,6 +13,8 @@ import type {
 export {
   ContentUnderstandingClient,
   type AnalysisResultPoller,
+  type AnalysisOperationMetadata,
+  type AnalysisOperationState,
   type AnalyzeOptionalParams,
   type AnalyzeBinaryOptionalParams,
 } from "./contentUnderstandingClient.js";

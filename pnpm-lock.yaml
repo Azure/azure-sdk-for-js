@@ -1089,6 +1089,152 @@ importers:
         specifier: ^4.2.1
         version: 4.3.6
 
+  sdk/alertprocessingrules/arm-alertprocessingrules:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.39
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.59.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+
+  sdk/alertrulerecommendations/arm-alertrulerecommendations:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.39
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.59.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+
   sdk/analysisservices/arm-analysisservices:
     dependencies:
       '@azure/abort-controller':
@@ -4417,7 +4563,7 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
-        specifier: ^1.20.0
+        specifier: ^1.23.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
         specifier: ^1.12.0
@@ -4547,24 +4693,27 @@ importers:
 
   sdk/communication/arm-communication:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -4581,12 +4730,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
@@ -6405,9 +6554,15 @@ importers:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
@@ -7826,6 +7981,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -7844,6 +8002,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7890,9 +8051,6 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
     devDependencies:
-      '@azure-tools/vite-plugin-browser-test-map':
-        specifier: workspace:^
-        version: link:../../../common/tools/vite-plugin-browser-test-map
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -7908,6 +8066,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@types/ws':
         specifier: ^8.5.10
         version: 8.18.1
@@ -7932,6 +8093,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7966,6 +8130,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -7984,6 +8151,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8030,6 +8200,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8048,6 +8221,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8088,6 +8264,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8106,6 +8285,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8137,6 +8319,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8155,6 +8340,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8195,6 +8383,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8213,6 +8404,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8238,6 +8432,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8256,6 +8453,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8302,6 +8502,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8320,6 +8523,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8421,6 +8627,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8445,6 +8654,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8476,6 +8688,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8494,6 +8709,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8528,6 +8746,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8546,6 +8767,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8574,6 +8798,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@types/trusted-types':
         specifier: ^2.0.0
         version: 2.0.7
@@ -8595,6 +8822,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8623,6 +8853,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@types/react':
+        specifier: catalog:testing
+        version: 19.2.14
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
@@ -8644,6 +8877,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8717,24 +8953,27 @@ importers:
 
   sdk/cosmosdb/arm-cosmosdb:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8751,12 +8990,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
@@ -14702,6 +14941,85 @@ importers:
         version: 4.13.0
       '@types/node':
         specifier: ^20.0.0
+        version: 20.19.39
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.59.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+
+  sdk/horizondb/arm-horizondb:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
         version: 20.19.39
       '@vitest/browser-playwright':
         specifier: catalog:testing
@@ -23479,6 +23797,64 @@ importers:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
 
+  sdk/postgresql/postgresql-auth:
+    dependencies:
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      pg:
+        specifier: '>=8.0.0'
+        version: 8.20.0
+      sequelize:
+        specifier: '>=6.0.0'
+        version: 6.37.8(pg@8.20.0)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.39
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+
   sdk/powerbidedicated/arm-powerbidedicated:
     dependencies:
       '@azure/abort-controller':
@@ -25021,6 +25397,85 @@ importers:
         specifier: catalog:testing
         version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
 
+  sdk/relationships/arm-relationships:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.39
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.2(vitest@4.1.2)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.59.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+
   sdk/relay/arm-relay:
     dependencies:
       '@azure/abort-controller':
@@ -26353,9 +26808,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/openai':
-        specifier: 1.0.0-beta.12
-        version: 1.0.0-beta.12
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
@@ -26374,6 +26826,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
+      openai:
+        specifier: ^6.16.0
+        version: 6.33.0(ws@8.20.0)(zod@4.3.6)
       playwright:
         specifier: catalog:testing
         version: 1.59.1
@@ -32811,10 +33266,6 @@ packages:
     resolution: {integrity: sha1-NfFuHBgMqVRcJgrBJLdRvh2pwIw=}
     engines: {node: '>=20.0.0'}
 
-  '@azure/core-sse@2.3.0':
-    resolution: {integrity: sha1-MRiV8ZT5tPbjuWv7H28o73mz7b0=}
-    engines: {node: '>=20.0.0'}
-
   '@azure/core-tracing@1.3.1':
     resolution: {integrity: sha1-6XEEXJAeqcEQYWsOHbJyUHeB1fY=}
     engines: {node: '>=20.0.0'}
@@ -32911,11 +33362,6 @@ packages:
   '@azure/msal-node@5.1.2':
     resolution: {integrity: sha1-FeqtaVmWayqII0+1aJLXuNavnWI=}
     engines: {node: '>=20'}
-
-  '@azure/openai@1.0.0-beta.12':
-    resolution: {integrity: sha1-sUZ6GcHcAVxZ4utvghvrP68cqhA=}
-    engines: {node: '>=18.0.0'}
-    deprecated: 'The Azure OpenAI client library for JavaScript beta has been retired. Please migrate to the stable OpenAI SDK for JavaScript using the migration guide: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/MIGRATION.md.'
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.7':
     resolution: {integrity: sha1-21XICnd4NxMS+P+Vp7hUoU6I3XY=}
@@ -33361,6 +33807,12 @@ packages:
 
   '@epic-web/invariant@1.0.0':
     resolution: {integrity: sha1-EHPl3ubdVAQQeEmQ63PkrNJcmBM=}
+
+  '@esbuild/darwin-arm64@0.27.7':
+    resolution: {integrity: sha1-byMAD7m0C34Et9BgbAaTvQYy8yI=}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [darwin]
 
   '@esbuild/darwin-x64@0.27.7':
     resolution: {integrity: sha1-Jzk90YuxJjxmOXnF8VduAMLQJL4=}
@@ -34495,6 +34947,11 @@ packages:
       rollup:
         optional: true
 
+  '@rollup/rollup-darwin-arm64@4.60.1':
+    resolution: {integrity: sha1-Vcy1SHwCQZlUxXp6gGAohdYW4e4=}
+    cpu: [arm64]
+    os: [darwin]
+
   '@rollup/rollup-darwin-x64@4.60.1':
     resolution: {integrity: sha1-JUtlQEsUSIyDIl6IuIGTdq1xp4Q=}
     cpu: [x64]
@@ -34583,6 +35040,11 @@ packages:
   '@turbo/darwin-64@2.9.3':
     resolution: {integrity: sha1-XXgtNB3evCCCLQm6E5MjjURnrns=}
     cpu: [x64]
+    os: [darwin]
+
+  '@turbo/darwin-arm64@2.9.3':
+    resolution: {integrity: sha1-dc1mLZwqVyUyzoLXyuGjDiSX1pM=}
+    cpu: [arm64]
     os: [darwin]
 
   '@turbo/linux-64@2.9.3':
@@ -34763,6 +35225,9 @@ packages:
 
   '@types/unzipper@0.10.11':
     resolution: {integrity: sha1-KmBa5jn8IO5ohr4PfSjcYcHm09M=}
+
+  '@types/validator@13.15.10':
+    resolution: {integrity: sha1-dCt37DTVhVS5SnahTO8w1Z48Frk=}
 
   '@types/webrtc@0.0.37':
     resolution: {integrity: sha1-aTZj3F3oxshUBvbPVmHMwehOTGg=}
@@ -35543,6 +36008,9 @@ packages:
     resolution: {integrity: sha1-dz8OaVJ6gxXHKF1e5zxEWdIKgCA=}
     engines: {node: '>=12'}
 
+  dottie@2.0.7:
+    resolution: {integrity: sha1-/RtGWhIRs11WYOlbabttW1gJs8Q=}
+
   dunder-proto@1.0.1:
     resolution: {integrity: sha1-165mfh3INIL4tw/Q9u78UNow9Yo=}
     engines: {node: '>= 0.4'}
@@ -36168,6 +36636,10 @@ packages:
   indent-string@5.0.0:
     resolution: {integrity: sha1-T9KYD8yvhiLRTGTWlPTPM8gZUaU=}
     engines: {node: '>=12'}
+
+  inflection@1.13.4:
+    resolution: {integrity: sha1-ZappbE4tpiJbFI16FUxEk2ZjOjI=}
+    engines: {'0': node >= 0.4.0}
 
   inflight@1.0.6:
     resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
@@ -36801,6 +37273,9 @@ packages:
   module-details-from-path@1.0.4:
     resolution: {integrity: sha1-tmL9zZP2yD0/JSidoM6ByNloW5Q=}
 
+  moment-timezone@0.5.48:
+    resolution: {integrity: sha1-ERcnuydHNKUYrhVLXKWJKD8FiWc=}
+
   moment@2.30.1:
     resolution: {integrity: sha1-+MkcB7enhuMMWZJt9TC06slpdK4=}
 
@@ -37061,9 +37536,20 @@ packages:
   pathe@2.0.3:
     resolution: {integrity: sha1-PsvsVUIWhbcKnahyss/z4cvtFxY=}
 
+  pg-cloudflare@1.3.0:
+    resolution: {integrity: sha1-OGA11L/PGnBFsCb4shrPU1PxTWU=}
+
+  pg-connection-string@2.12.0:
+    resolution: {integrity: sha1-QIT5F5ArstquPcE3b+JKx7TqzPI=}
+
   pg-int8@1.0.1:
     resolution: {integrity: sha1-lDvUY79bcbQXARX4D478mgwOt4w=}
     engines: {node: '>=4.0.0'}
+
+  pg-pool@3.13.0:
+    resolution: {integrity: sha1-QWSC6XAOj4DGhaauVoFpekE8E6M=}
+    peerDependencies:
+      pg: '>=8.0'
 
   pg-protocol@1.13.0:
     resolution: {integrity: sha1-/a9tAgvKWQ1Yu5kbSxb8RI7+BRE=}
@@ -37071,6 +37557,18 @@ packages:
   pg-types@2.2.0:
     resolution: {integrity: sha1-LQJQ1jZFT3z6O2rgOC/fqAYyVKM=}
     engines: {node: '>=4'}
+
+  pg@8.20.0:
+    resolution: {integrity: sha1-GidN6UTLMp/W3Xem03GgBbprE20=}
+    engines: {node: '>= 16.0.0'}
+    peerDependencies:
+      pg-native: '>=3.0.1'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+
+  pgpass@1.0.5:
+    resolution: {integrity: sha1-m4c+SlZLsQ+np9vVUxJyjUIqIj0=}
 
   picocolors@1.1.1:
     resolution: {integrity: sha1-PTIa8+q5ObCDyPkpodEs2oHCa2s=}
@@ -37357,6 +37855,9 @@ packages:
     resolution: {integrity: sha1-MKTTin5wS9ltxf/L584qknTEHJU=}
     engines: {node: '>=10'}
 
+  retry-as-promised@7.1.1:
+    resolution: {integrity: sha1-NiYkbwTBlB/xDOvPo98Fd/2Kstc=}
+
   reusify@1.1.0:
     resolution: {integrity: sha1-D+E7lSLhRz9RtVjueW4I8R+bSJ8=}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -37459,6 +37960,43 @@ packages:
   send@1.2.1:
     resolution: {integrity: sha1-nqt0O4dPNVD0CiaGe/KGrWDT8+0=}
     engines: {node: '>= 18'}
+
+  sequelize-pool@7.1.0:
+    resolution: {integrity: sha1-IQs5GvQAJ2L4IxiP1uz8dBMCB2g=}
+    engines: {node: '>= 10.0.0'}
+
+  sequelize@6.37.8:
+    resolution: {integrity: sha1-cOYsnmgqIAkAUJMQRZHlnsLQ7Sw=}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      ibm_db: '*'
+      mariadb: '*'
+      mysql2: '*'
+      oracledb: '*'
+      pg: '*'
+      pg-hstore: '*'
+      snowflake-sdk: '*'
+      sqlite3: '*'
+      tedious: '*'
+    peerDependenciesMeta:
+      ibm_db:
+        optional: true
+      mariadb:
+        optional: true
+      mysql2:
+        optional: true
+      oracledb:
+        optional: true
+      pg:
+        optional: true
+      pg-hstore:
+        optional: true
+      snowflake-sdk:
+        optional: true
+      sqlite3:
+        optional: true
+      tedious:
+        optional: true
 
   serialize-error@2.1.0:
     resolution: {integrity: sha1-ULZ51WNc34Rme9yOWa9OW4HV9go=}
@@ -37769,6 +38307,9 @@ packages:
     resolution: {integrity: sha1-O+NDIaiKgg7RvYDfqjPkefu43TU=}
     engines: {node: '>=0.6'}
 
+  toposort-class@1.0.1:
+    resolution: {integrity: sha1-f/0feMi+KMO6Rc1OGj9e4ZO9mYg=}
+
   totalist@3.0.1:
     resolution: {integrity: sha1-ujo9YAyRWxqXhyNI95wSdHX2rPg=}
     engines: {node: '>=6'}
@@ -37957,6 +38498,10 @@ packages:
     resolution: {integrity: sha1-oxZXPptJ88zZDbtutSs/BsbWBOg=}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
+  validator@13.15.35:
+    resolution: {integrity: sha1-gc9FXFHxW2nY00C+WRTz+rANv38=}
+    engines: {node: '>= 0.10'}
+
   vary@1.1.2:
     resolution: {integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=}
     engines: {node: '>= 0.8'}
@@ -38068,6 +38613,9 @@ packages:
   winston-transport@4.9.0:
     resolution: {integrity: sha1-O7o0XeECl2VOpvM1GUJFYAA7O/k=}
     engines: {node: '>= 12.0.0'}
+
+  wkx@0.5.0:
+    resolution: {integrity: sha1-xsNwGaz0DlF8xrlGV6JaPUqjPow=}
 
   word-wrap@1.2.5:
     resolution: {integrity: sha1-0sRcbdT7zmIaZvE2y+Mor9BBCzQ=}
@@ -38508,10 +39056,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/core-sse@2.3.0':
-    dependencies:
-      tslib: 2.8.1
-
   '@azure/core-tracing@1.3.1':
     dependencies:
       tslib: 2.8.1
@@ -38688,18 +39232,6 @@ snapshots:
       '@azure/msal-common': 16.4.1
       jsonwebtoken: 9.0.3
       uuid: 8.3.2
-
-  '@azure/openai@1.0.0-beta.12':
-    dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.23.0
-      '@azure/core-sse': 2.3.0
-      '@azure/core-util': 1.13.1
-      '@azure/logger': 1.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.7':
     dependencies:
@@ -39272,6 +39804,9 @@ snapshots:
   '@cspell/url@9.8.0': {}
 
   '@epic-web/invariant@1.0.0': {}
+
+  '@esbuild/darwin-arm64@0.27.7':
+    optional: true
 
   '@esbuild/darwin-x64@0.27.7':
     optional: true
@@ -40595,6 +41130,9 @@ snapshots:
     optionalDependencies:
       rollup: 4.60.1
 
+  '@rollup/rollup-darwin-arm64@4.60.1':
+    optional: true
+
   '@rollup/rollup-darwin-x64@4.60.1':
     optional: true
 
@@ -40675,6 +41213,9 @@ snapshots:
       tinyglobby: 0.2.15
 
   '@turbo/darwin-64@2.9.3':
+    optional: true
+
+  '@turbo/darwin-arm64@2.9.3':
     optional: true
 
   '@turbo/linux-64@2.9.3':
@@ -40878,6 +41419,8 @@ snapshots:
   '@types/unzipper@0.10.11':
     dependencies:
       '@types/node': 20.19.39
+
+  '@types/validator@13.15.10': {}
 
   '@types/webrtc@0.0.37': {}
 
@@ -41793,6 +42336,8 @@ snapshots:
 
   dotenv@16.6.1: {}
 
+  dottie@2.0.7: {}
+
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -41856,6 +42401,7 @@ snapshots:
 
   esbuild@0.27.7:
     optionalDependencies:
+      '@esbuild/darwin-arm64': 0.27.7
       '@esbuild/darwin-x64': 0.27.7
       '@esbuild/linux-x64': 0.27.7
       '@esbuild/win32-arm64': 0.27.7
@@ -42479,6 +43025,8 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   indent-string@5.0.0: {}
+
+  inflection@1.13.4: {}
 
   inflight@1.0.6:
     dependencies:
@@ -43250,6 +43798,10 @@ snapshots:
 
   module-details-from-path@1.0.4: {}
 
+  moment-timezone@0.5.48:
+    dependencies:
+      moment: 2.30.1
+
   moment@2.30.1: {}
 
   move-file-cli@3.0.0:
@@ -43487,7 +44039,16 @@ snapshots:
 
   pathe@2.0.3: {}
 
+  pg-cloudflare@1.3.0:
+    optional: true
+
+  pg-connection-string@2.12.0: {}
+
   pg-int8@1.0.1: {}
+
+  pg-pool@3.13.0(pg@8.20.0):
+    dependencies:
+      pg: 8.20.0
 
   pg-protocol@1.13.0: {}
 
@@ -43498,6 +44059,20 @@ snapshots:
       postgres-bytea: 1.0.1
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
+
+  pg@8.20.0:
+    dependencies:
+      pg-connection-string: 2.12.0
+      pg-pool: 3.13.0(pg@8.20.0)
+      pg-protocol: 1.13.0
+      pg-types: 2.2.0
+      pgpass: 1.0.5
+    optionalDependencies:
+      pg-cloudflare: 1.3.0
+
+  pgpass@1.0.5:
+    dependencies:
+      split2: 4.2.0
 
   picocolors@1.1.1: {}
 
@@ -43851,6 +44426,8 @@ snapshots:
 
   ret@0.5.0: {}
 
+  retry-as-promised@7.1.1: {}
+
   reusify@1.1.0: {}
 
   rfdc@1.4.1: {}
@@ -43890,6 +44467,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.8
     optionalDependencies:
+      '@rollup/rollup-darwin-arm64': 4.60.1
       '@rollup/rollup-darwin-x64': 4.60.1
       '@rollup/rollup-linux-x64-gnu': 4.60.1
       '@rollup/rollup-linux-x64-musl': 4.60.1
@@ -43983,6 +44561,31 @@ snapshots:
       on-finished: 2.4.1
       range-parser: 1.2.1
       statuses: 2.0.2
+    transitivePeerDependencies:
+      - supports-color
+
+  sequelize-pool@7.1.0: {}
+
+  sequelize@6.37.8(pg@8.20.0):
+    dependencies:
+      '@types/debug': 4.1.13
+      '@types/validator': 13.15.10
+      debug: 4.4.3
+      dottie: 2.0.7
+      inflection: 1.13.4
+      lodash: 4.18.1
+      moment: 2.30.1
+      moment-timezone: 0.5.48
+      pg-connection-string: 2.12.0
+      retry-as-promised: 7.1.1
+      semver: 7.7.4
+      sequelize-pool: 7.1.0
+      toposort-class: 1.0.1
+      uuid: 8.3.2
+      validator: 13.15.35
+      wkx: 0.5.0
+    optionalDependencies:
+      pg: 8.20.0
     transitivePeerDependencies:
       - supports-color
 
@@ -44295,6 +44898,8 @@ snapshots:
 
   toidentifier@1.0.1: {}
 
+  toposort-class@1.0.1: {}
+
   totalist@3.0.1: {}
 
   tree-dump@1.1.0(tslib@2.8.1):
@@ -44337,6 +44942,7 @@ snapshots:
   turbo@2.9.3:
     optionalDependencies:
       '@turbo/darwin-64': 2.9.3
+      '@turbo/darwin-arm64': 2.9.3
       '@turbo/linux-64': 2.9.3
       '@turbo/windows-64': 2.9.3
 
@@ -44449,6 +45055,8 @@ snapshots:
 
   validate-npm-package-name@5.0.1: {}
 
+  validator@13.15.35: {}
+
   vary@1.1.2: {}
 
   vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3):
@@ -44531,6 +45139,10 @@ snapshots:
       logform: 2.7.0
       readable-stream: 3.6.2
       triple-beam: 1.4.1
+
+  wkx@0.5.0:
+    dependencies:
+      '@types/node': 20.19.39
 
   word-wrap@1.2.5: {}
 

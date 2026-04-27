@@ -29,6 +29,10 @@ export class UsageManagementClient {
     this._client = createUsageManagement(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
+      redirectOptions: {
+        allowCrossOriginRedirects: true,
+        ...options?.redirectOptions,
+      },
     });
     this.pipeline = this._client.pipeline;
     this.rateCard = _getRateCardOperations(this._client);

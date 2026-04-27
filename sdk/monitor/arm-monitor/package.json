@@ -49,7 +49,11 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/arm-monitor"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -85,7 +89,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

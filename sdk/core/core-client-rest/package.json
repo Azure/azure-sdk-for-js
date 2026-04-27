@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "type": "module",
@@ -35,7 +35,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/core/core-client-rest"
+  },
   "keywords": [
     "azure",
     "cloud"
@@ -48,7 +52,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client-rest/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
@@ -79,12 +83,14 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
+    "@types/react": "catalog:testing",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

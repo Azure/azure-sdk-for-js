@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/arm-horizondb-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-horizondb client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/horizondb/arm-horizondb"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/horizondb/arm-horizondb",
+  "dependencies": {
+    "@azure/arm-horizondb": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}

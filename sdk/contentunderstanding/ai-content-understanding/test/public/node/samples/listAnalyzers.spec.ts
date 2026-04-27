@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for listAnalyzers.ts - List all available analyzers.
+ * Sample test for listAnalyzers.ts - List all available analyzers.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
