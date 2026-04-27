@@ -283,3 +283,136 @@ describe("test", () => {
     expect(result.helperFiles.has("./helpers/util.ts")).toBe(true);
   });
 });
+
+// ── Strict mode and helperCache tests ────────────────────────────────
+
+describe("compileSampleTest — strict mode", () => {
+  const sampleFileName = "/project/test/sample.spec.ts";
+
+  it("throws CompilerError for unresolved helper when strict: true", () => {
+    const input = `\
+/** @summary strict test */
+import { helper } from "./missing.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    helper();
+  });
+});
+`;
+    expect(() =>
+      compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/test",
+        fileName: sampleFileName,
+        resolveHelper: () => undefined,
+        strict: true,
+      }),
+    ).toThrow(/Unresolved local helper/);
+  });
+
+  it("throws CompilerError for unresolved nested helper when strict: true", () => {
+    const helperWithNested = `
+import { nested } from "./nested.js";
+export function helper() { return nested(); }
+`;
+    const input = `\
+/** @summary strict nested test */
+import { helper } from "./helpers.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    helper();
+  });
+});
+`;
+    // Resolver resolves the first helper but not the nested one
+    const resolver = (fromFile: string, specifier: string) => {
+      if (specifier === "./helpers.js") {
+        return { canonicalPath: "/project/test/helpers.ts", sourceText: helperWithNested };
+      }
+      return undefined; // nested.js not found
+    };
+
+    expect(() =>
+      compileSampleTest(input, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/test",
+        fileName: sampleFileName,
+        resolveHelper: resolver,
+        strict: true,
+      }),
+    ).toThrow(/Unresolved nested helper/);
+  });
+});
+
+describe("compileSampleTest — helperCache reuse", () => {
+  const sampleFileName = "/project/test/sample.spec.ts";
+  const sharedHelperSource = `
+export function sharedUtil(): string { return "shared"; }
+`;
+
+  it("reuses cached helper across multiple compilations", () => {
+    const inputA = `\
+/** @summary sample A */
+import { sharedUtil } from "./shared.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    console.log(sharedUtil());
+  });
+});
+`;
+    const inputB = `\
+/** @summary sample B */
+import { sharedUtil } from "./shared.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("y", async () => {
+    console.log(sharedUtil());
+  });
+});
+`;
+    const resolver = (_: string, specifier: string) => {
+      if (specifier === "./shared.js") {
+        return { canonicalPath: "/project/test/shared.ts", sourceText: sharedHelperSource };
+      }
+      return undefined;
+    };
+
+    // Shared cache across compilations
+    const helperCache = new Map();
+
+    // First compilation populates cache
+    const resultA = compileSampleTest(inputA, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+      fileName: sampleFileName,
+      resolveHelper: resolver,
+      helperCache,
+    });
+
+    expect(resultA.helperFiles.size).toBe(1);
+    expect(helperCache.size).toBe(1);
+    expect(helperCache.has("/project/test/shared.ts")).toBe(true);
+
+    // Second compilation reuses cache
+    const resultB = compileSampleTest(inputB, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+      fileName: "/project/test/sample2.spec.ts",
+      resolveHelper: resolver,
+      helperCache,
+    });
+
+    expect(resultB.helperFiles.size).toBe(1);
+    // Cache size unchanged (reused)
+    expect(helperCache.size).toBe(1);
+    // Both results have the same helper content
+    expect(resultA.helperFiles.get("./shared.ts")).toBe(resultB.helperFiles.get("./shared.ts"));
+  });
+});

@@ -36,3 +36,21 @@ export function getImportedName(spec: ts.ImportSpecifier | ts.ExportSpecifier): 
 export function getLocalName(spec: ts.ImportSpecifier | ts.ExportSpecifier): string {
   return spec.name.text;
 }
+
+/**
+ * Recursively collect all identifier names from a binding name (including destructuring).
+ *
+ * For `const { a, b: c } = obj`, collects "a" and "c".
+ * For `const [x, y] = arr`, collects "x" and "y".
+ */
+export function collectBindingNames(name: ts.BindingName, out: Set<string>): void {
+  if (ts.isIdentifier(name)) {
+    out.add(name.text);
+  } else if (ts.isObjectBindingPattern(name) || ts.isArrayBindingPattern(name)) {
+    for (const el of name.elements) {
+      if (ts.isBindingElement(el)) {
+        collectBindingNames(el.name, out);
+      }
+    }
+  }
+}

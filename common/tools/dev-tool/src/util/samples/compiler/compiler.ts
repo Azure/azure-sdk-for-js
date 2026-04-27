@@ -246,8 +246,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
         // Cache hit: still need to populate per-sample state (helperFiles, envVars)
         // but don't re-emit warnings (they were already surfaced on first compilation)
       } else {
-        visited.add(resolved.canonicalPath);
-
+        // compileHelper handles cycle detection internally via recursionStack
         helper = compileHelper(
           resolved.sourceText,
           packageName,

@@ -747,7 +747,7 @@ function propagatePoison(
   analyzer: BindingAnalyzer,
   fileName: string,
   options?: { treatTangledAsDead?: boolean },
-): { statuses: UnitStatus[]; newlyPoisoned: Set<ts.Symbol> } {
+): { statuses: UnitStatus[]; newlyPoisoned: Set<ts.Symbol>; allPoisoned: Set<ts.Symbol> } {
   // Work with a local copy to avoid mutating caller's set
   const poisonedSymbols = new Set(initialPoisoned);
   const newlyPoisoned = new Set<ts.Symbol>();

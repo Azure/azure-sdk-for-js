@@ -18,6 +18,7 @@ import { classifyImports, type SourceImportPredicate } from "./importClassifier.
 import { eliminateDeadStatements } from "./deadBindingEliminator.js";
 import { createAnalyzer } from "./bindingAnalyzer.js";
 import { rewriteImports } from "./importRewriter.js";
+import { collectBindingNames } from "./astUtils.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
 import { CompilerError } from "./types.js";
 
@@ -57,21 +58,6 @@ export interface CompiledHelper {
 
 /** Callback to resolve a helper import specifier to source text. */
 export type HelperResolver = (fromFile: string, specifier: string) => ResolvedHelper | undefined;
-
-/**
- * Recursively collect all identifier names from a binding name (including destructuring).
- */
-function collectAllBindingNames(name: ts.BindingName, out: Set<string>): void {
-  if (ts.isIdentifier(name)) {
-    out.add(name.text);
-  } else if (ts.isObjectBindingPattern(name)) {
-    for (const el of name.elements) collectAllBindingNames(el.name, out);
-  } else if (ts.isArrayBindingPattern(name)) {
-    for (const el of name.elements) {
-      if (ts.isBindingElement(el)) collectAllBindingNames(el.name, out);
-    }
-  }
-}
 
 /**
  * Collect export names from surviving statements.
@@ -122,7 +108,7 @@ function collectSurvivingExportsFromStatements(statements: readonly ts.Statement
       exports.add(stmt.name.text);
     } else if (ts.isVariableStatement(stmt)) {
       for (const decl of stmt.declarationList.declarations) {
-        collectAllBindingNames(decl.name, exports);
+        collectBindingNames(decl.name, exports);
       }
     } else if (ts.isEnumDeclaration(stmt)) {
       exports.add(stmt.name.text);
@@ -209,10 +195,11 @@ function resolveAndCompileNestedHelper(
  *
  * @param sourceText - The helper file's source text
  * @param packageName - Package name for source-code import rewriting
- * @param fileName - File name for error messages and cycle detection
+ * @param fileName - Canonical file path for error messages and cycle detection
  * @param isSourceImport - Predicate to classify resolved paths as source vs helper imports
  * @param resolveHelper - Optional callback to resolve nested helper imports
- * @param recursionStack - Set of canonical paths in the current call chain (cycle detection)
+ * @param recursionStack - Set of canonical paths in the current call chain (cycle detection).
+ *                         This function adds fileName to the stack on entry and removes on exit.
  * @param helperCache - Cache of previously compiled helper results
  * @param strict - When true, unresolved nested helpers throw instead of warning
  */
@@ -230,6 +217,47 @@ export function compileHelper(
   const currentCache = helperCache ?? new Map<string, CompiledHelper>();
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
+  // Add this file to recursion stack (cycle detection for nested helpers)
+  // The stack tracks files currently being compiled in this call chain.
+  const wasInStack = currentStack.has(fileName);
+  if (!wasInStack) {
+    currentStack.add(fileName);
+  }
+
+  try {
+    return compileHelperImpl(
+      sourceText,
+      packageName,
+      fileName,
+      isSourceImport,
+      resolveHelper,
+      currentStack,
+      currentCache,
+      strict,
+      printer,
+    );
+  } finally {
+    // Only remove if we added it
+    if (!wasInStack) {
+      currentStack.delete(fileName);
+    }
+  }
+}
+
+/**
+ * Internal implementation of compileHelper (after stack management).
+ */
+function compileHelperImpl(
+  sourceText: string,
+  packageName: string,
+  fileName: string,
+  isSourceImport: SourceImportPredicate,
+  resolveHelper: HelperResolver | undefined,
+  currentStack: Set<string>,
+  currentCache: Map<string, CompiledHelper>,
+  strict: boolean | undefined,
+  printer: ts.Printer,
+): CompiledHelper {
   // Create ONE analyzer for the full helper file (scope-aware symbol resolution)
   const analyzer = createAnalyzer(sourceText, fileName);
 

@@ -4,6 +4,7 @@
 import ts from "typescript";
 import { Substitution, CompilerError } from "./types.js";
 import { isDeclarationName } from "./bindingAnalyzer.js";
+import { collectBindingNames } from "./astUtils.js";
 
 /**
  * Result of the forPublishing substitution pass.
@@ -87,18 +88,6 @@ export function collectFreeVariables(node: ts.Expression): Set<string> {
 
   visit(node);
   return names;
-}
-
-function collectBindingNames(name: ts.BindingName, out: Set<string>): void {
-  if (ts.isIdentifier(name)) {
-    out.add(name.text);
-  } else if (ts.isObjectBindingPattern(name) || ts.isArrayBindingPattern(name)) {
-    for (const el of name.elements) {
-      if (ts.isBindingElement(el)) {
-        collectBindingNames(el.name, out);
-      }
-    }
-  }
 }
 
 /**
