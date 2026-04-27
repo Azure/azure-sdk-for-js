@@ -5,8 +5,26 @@
 ```ts
 
 // @public
+export type ContentUnderstandingSkillChunkingMethod = string;
+
+// @public
+export enum KnownContentUnderstandingSkillChunkingMethod {
+    FixedSize = "fixedSize",
+    Semantic = "semantic"
+}
+
+// @public
 export enum KnownVersions {
-    V20260401 = "2026-04-01"
+    V20251101Preview = "2025-11-01-preview",
+    V20260401 = "2026-04-01",
+    V20260501Preview = "2026-05-01-preview"
+}
+
+// @public
+export interface SharePointConnectorAppRegistration {
+    applicationId: string;
+    federatedCredentialId: string;
+    tenantId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

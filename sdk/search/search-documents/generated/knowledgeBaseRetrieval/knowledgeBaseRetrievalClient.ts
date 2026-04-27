@@ -15,7 +15,7 @@ import { RetrieveOptionalParams } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KnowledgeBaseRetrievalClientOptionalParams } from "./api/knowledgeBaseRetrievalContext.js";
+export type { KnowledgeBaseRetrievalClientOptionalParams } from "./api/knowledgeBaseRetrievalContext.js";
 
 export class KnowledgeBaseRetrievalClient {
   private _client: KnowledgeBaseRetrievalContext;
@@ -25,13 +25,14 @@ export class KnowledgeBaseRetrievalClient {
   constructor(
     endpointParam: string,
     credential: KeyCredential | TokenCredential,
+    knowledgeBaseName: string,
     options: KnowledgeBaseRetrievalClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createKnowledgeBaseRetrieval(endpointParam, credential, {
+    this._client = createKnowledgeBaseRetrieval(endpointParam, credential, knowledgeBaseName, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
@@ -40,10 +41,9 @@ export class KnowledgeBaseRetrievalClient {
 
   /** KnowledgeBase retrieves relevant data from backing stores. */
   retrieve(
-    knowledgeBaseName: string,
     retrievalRequest: KnowledgeBaseRetrievalRequest,
     options: RetrieveOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeBaseRetrievalResponse> {
-    return retrieve(this._client, knowledgeBaseName, retrievalRequest, options);
+    return retrieve(this._client, retrievalRequest, options);
   }
 }

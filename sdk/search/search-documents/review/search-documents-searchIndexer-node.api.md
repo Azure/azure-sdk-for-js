@@ -29,22 +29,27 @@ export interface CreateOrUpdateDataSourceConnectionOptionalParams extends Operat
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    disableCacheReprocessingChangeDetection?: boolean;
     ifMatch?: string;
     ifNoneMatch?: string;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    disableCacheReprocessingChangeDetection?: boolean;
     ifMatch?: string;
     ifNoneMatch?: string;
+    skipIndexerResetRequirementForCache?: boolean;
 }
 
 // @public
@@ -123,7 +128,27 @@ export interface GetSkillsetsOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ResetDocumentsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    keysOrIds?: DocumentKeysOrIds;
+    overwrite?: boolean;
+}
+
+// @public
 export interface ResetIndexerOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
+export interface ResetSkillsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
+export interface ResyncOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
@@ -154,7 +179,10 @@ export class SearchIndexerClient {
     getSkillset(name: string, options?: GetSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
     getSkillsets(options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
     readonly pipeline: Pipeline;
+    resetDocuments(name: string, options?: ResetDocumentsOptionalParams): Promise<void>;
     resetIndexer(name: string, options?: ResetIndexerOptionalParams): Promise<void>;
+    resetSkills(skillNames: SkillNames, name: string, options?: ResetSkillsOptionalParams): Promise<void>;
+    resync(indexerResync: IndexerResyncBody, name: string, options?: ResyncOptionalParams): Promise<void>;
     runIndexer(name: string, options?: RunIndexerOptionalParams): Promise<void>;
 }
 

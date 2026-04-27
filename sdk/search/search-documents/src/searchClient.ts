@@ -36,6 +36,7 @@ import type {
   NarrowedModel,
   QueryAnswer,
   QueryCaption,
+  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchFieldArray,
@@ -322,6 +323,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       answers,
       captions,
       debugMode,
+      queryRewrites,
       ...restSemanticOptions
     } = semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
@@ -343,6 +345,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       semanticConfigurationName: configurationName,
       debug: debugMode,
       vectorFilterMode: filterMode,
+      queryRewrites: this.convertQueryRewrites(queryRewrites),
     };
 
     return tracingClient.withSpan(
@@ -862,10 +865,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
-        const { fields, ...restFields } = vectorQuery;
+        const { fields, queryRewrites, ...restFields } = vectorQuery;
         return {
           ...restFields,
           fields: this.convertVectorQueryFields(fields),
+          queryRewrites: this.convertQueryRewrites(queryRewrites),
         };
       }
       case "vector":
@@ -878,5 +882,24 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         return vectorQuery as any;
       }
     }
+  }
+
+  private convertQueryRewrites(rewrites?: QueryRewrites): string | undefined {
+    if (!rewrites) {
+      return rewrites;
+    }
+
+    const { rewritesType: output, count } = rewrites;
+    const config = [];
+
+    if (count) {
+      config.push(`count-${count}`);
+    }
+
+    if (config.length) {
+      return output + `|${config.join(",")}`;
+    }
+
+    return output;
   }
 }

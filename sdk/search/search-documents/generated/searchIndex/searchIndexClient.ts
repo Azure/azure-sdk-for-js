@@ -18,10 +18,12 @@ import {
   KnowledgeBase,
   KnowledgeSourceUnion,
   SearchServiceStatistics,
+  IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
 import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
+  listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -54,6 +56,7 @@ import {
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
 import {
+  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -88,7 +91,7 @@ import {
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
+export type { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
 
 export class SearchIndexClient {
   private _client: SearchIndexContext;
@@ -109,6 +112,13 @@ export class SearchIndexClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+  }
+
+  /** Retrieves a summary of statistics for all indexes in the search service. */
+  listIndexStatsSummary(
+    options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<IndexStatisticsSummary> {
+    return listIndexStatsSummary(this._client, options);
   }
 
   /** Gets service level statistics for a search service. */

@@ -276,6 +276,9 @@ export function listIndexes(context: SearchIndexContext, options?: ListIndexesOp
 export interface ListIndexesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    count?: boolean;
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -285,7 +288,22 @@ export function listIndexesWithSelectedProperties(context: SearchIndexContext, o
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    count?: boolean;
     select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export function listIndexStatsSummary(context: SearchIndexContext, options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
+
+// @public
+export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    count?: boolean;
+    skip?: number;
+    top?: number;
 }
 
 // @public

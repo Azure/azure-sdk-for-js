@@ -20,7 +20,14 @@ export interface AutocompleteResult {
 }
 
 // @public
+export interface DebugInfo {
+    readonly queryRewrites?: QueryRewritesDebugInfo;
+}
+
+// @public
 export interface DocumentDebugInfo {
+    readonly innerHits?: Record<string, QueryResultDocumentInnerHit[]>;
+    readonly semantic?: SemanticDebugInfo;
     readonly vectors?: VectorsDebugInfo;
 }
 
@@ -47,7 +54,22 @@ export interface ErrorResponse {
 // @public
 export interface FacetResult {
     additionalProperties?: Record<string, any>;
+    readonly avg?: number;
+    readonly cardinality?: number;
     readonly count?: number;
+    readonly facets?: Record<string, FacetResult[]>;
+    readonly max?: number;
+    readonly min?: number;
+    readonly sum?: number;
+}
+
+// @public
+export type HybridCountAndFacetMode = string;
+
+// @public
+export interface HybridSearch {
+    countAndFacetMode?: HybridCountAndFacetMode;
+    maxTextRecallSize?: number;
 }
 
 // @public
@@ -78,6 +100,12 @@ export interface IndexingResult {
 }
 
 // @public
+export enum KnownHybridCountAndFacetMode {
+    CountAllResults = "countAllResults",
+    CountRetrievableResults = "countRetrievableResults"
+}
+
+// @public
 export enum KnownQueryAnswerType {
     Extractive = "extractive",
     None = "none"
@@ -97,6 +125,94 @@ export enum KnownQueryDebugMode {
     QueryRewrites = "queryRewrites",
     Semantic = "semantic",
     Vector = "vector"
+}
+
+// @public
+export enum KnownQueryLanguage {
+    ArEg = "ar-eg",
+    ArJo = "ar-jo",
+    ArKw = "ar-kw",
+    ArMa = "ar-ma",
+    ArSa = "ar-sa",
+    BgBg = "bg-bg",
+    BnIn = "bn-in",
+    CaEs = "ca-es",
+    CsCz = "cs-cz",
+    DaDk = "da-dk",
+    DeDe = "de-de",
+    ElGr = "el-gr",
+    EnAu = "en-au",
+    EnCa = "en-ca",
+    EnGb = "en-gb",
+    EnIn = "en-in",
+    EnUs = "en-us",
+    EsEs = "es-es",
+    EsMx = "es-mx",
+    EtEe = "et-ee",
+    EuEs = "eu-es",
+    FaAe = "fa-ae",
+    FiFi = "fi-fi",
+    FrCa = "fr-ca",
+    FrFr = "fr-fr",
+    GaIe = "ga-ie",
+    GlEs = "gl-es",
+    GuIn = "gu-in",
+    HeIl = "he-il",
+    HiIn = "hi-in",
+    HrBa = "hr-ba",
+    HrHr = "hr-hr",
+    HuHu = "hu-hu",
+    HyAm = "hy-am",
+    IdId = "id-id",
+    IsIs = "is-is",
+    ItIt = "it-it",
+    JaJp = "ja-jp",
+    KnIn = "kn-in",
+    KoKr = "ko-kr",
+    LtLt = "lt-lt",
+    LvLv = "lv-lv",
+    MlIn = "ml-in",
+    MrIn = "mr-in",
+    MsBn = "ms-bn",
+    MsMy = "ms-my",
+    NbNo = "nb-no",
+    NlBe = "nl-be",
+    NlNl = "nl-nl",
+    None = "none",
+    NoNo = "no-no",
+    PaIn = "pa-in",
+    PlPl = "pl-pl",
+    PtBr = "pt-br",
+    PtPt = "pt-pt",
+    RoRo = "ro-ro",
+    RuRu = "ru-ru",
+    SkSk = "sk-sk",
+    SlSl = "sl-sl",
+    SrBa = "sr-ba",
+    SrMe = "sr-me",
+    SrRs = "sr-rs",
+    SvSe = "sv-se",
+    TaIn = "ta-in",
+    TeIn = "te-in",
+    ThTh = "th-th",
+    TrTr = "tr-tr",
+    UkUa = "uk-ua",
+    UrPk = "ur-pk",
+    ViVn = "vi-vn",
+    ZhCn = "zh-cn",
+    ZhTw = "zh-tw"
+}
+
+// @public
+export enum KnownQueryRewritesType {
+    Generative = "generative",
+    None = "none"
+}
+
+// @public
+export enum KnownQuerySpellerType {
+    Lexicon = "lexicon",
+    None = "none"
 }
 
 // @public
@@ -120,6 +236,18 @@ export enum KnownSemanticErrorReason {
 }
 
 // @public
+export enum KnownSemanticFieldState {
+    Partial = "partial",
+    Unused = "unused",
+    Used = "used"
+}
+
+// @public
+export enum KnownSemanticQueryRewritesResultType {
+    OriginalQueryOnly = "originalQueryOnly"
+}
+
+// @public
 export enum KnownSemanticSearchResultsType {
     BaseResults = "baseResults",
     RerankedResults = "rerankedResults"
@@ -138,6 +266,12 @@ export enum KnownVectorQueryKind {
     ImageUrl = "imageUrl",
     Text = "text",
     Vector = "vector"
+}
+
+// @public
+export enum KnownVectorThresholdKind {
+    SearchScore = "searchScore",
+    VectorSimilarity = "vectorSimilarity"
 }
 
 // @public
@@ -171,11 +305,51 @@ export type QueryCaptionType = string;
 export type QueryDebugMode = string;
 
 // @public
+export type QueryLanguage = string;
+
+// @public
+export interface QueryResultDocumentInnerHit {
+    readonly ordinal?: number;
+    readonly vectors?: Record<string, SingleVectorFieldResult>[];
+}
+
+// @public
+export interface QueryResultDocumentRerankerInput {
+    readonly content?: string;
+    readonly keywords?: string;
+    readonly title?: string;
+}
+
+// @public
+export interface QueryResultDocumentSemanticField {
+    readonly name?: string;
+    readonly state?: SemanticFieldState;
+}
+
+// @public
 export interface QueryResultDocumentSubscores {
     readonly documentBoost?: number;
     readonly text?: TextResult;
     readonly vectors?: Record<string, SingleVectorFieldResult>[];
 }
+
+// @public
+export interface QueryRewritesDebugInfo {
+    readonly text?: QueryRewritesValuesDebugInfo;
+    readonly vectors?: QueryRewritesValuesDebugInfo[];
+}
+
+// @public
+export type QueryRewritesType = string;
+
+// @public
+export interface QueryRewritesValuesDebugInfo {
+    readonly inputQuery?: string;
+    readonly rewrites?: string[];
+}
+
+// @public
+export type QuerySpellerType = string;
 
 // @public
 export type QueryType = string;
@@ -188,12 +362,14 @@ export interface SearchDocumentsResult {
     readonly answers?: QueryAnswerResult[];
     readonly count?: number;
     readonly coverage?: number;
+    readonly debugInfo?: DebugInfo;
     readonly facets?: Record<string, FacetResult[]>;
     readonly nextLink?: string;
     readonly nextPageParameters?: SearchRequest;
     readonly results: SearchResult[];
     readonly semanticPartialResponseReason?: SemanticErrorReason;
     readonly semanticPartialResponseType?: SemanticSearchResultsType;
+    readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 // @public
@@ -209,9 +385,13 @@ export interface SearchRequest {
     highlightFields?: string[];
     highlightPostTag?: string;
     highlightPreTag?: string;
+    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
+    queryLanguage?: QueryLanguage;
+    queryRewrites?: QueryRewritesType;
+    querySpeller?: QuerySpellerType;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -222,6 +402,7 @@ export interface SearchRequest {
     select?: string;
     semanticConfigurationName?: string;
     semanticErrorHandling?: SemanticErrorMode;
+    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
@@ -243,10 +424,30 @@ export interface SearchResult {
 }
 
 // @public
+export interface SearchScoreThreshold extends VectorThreshold {
+    kind: "searchScore";
+    value: number;
+}
+
+// @public
+export interface SemanticDebugInfo {
+    readonly contentFields?: QueryResultDocumentSemanticField[];
+    readonly keywordFields?: QueryResultDocumentSemanticField[];
+    readonly rerankerInput?: QueryResultDocumentRerankerInput;
+    readonly titleField?: QueryResultDocumentSemanticField;
+}
+
+// @public
 export type SemanticErrorMode = string;
 
 // @public
 export type SemanticErrorReason = string;
+
+// @public
+export type SemanticFieldState = string;
+
+// @public
+export type SemanticQueryRewritesResultType = string;
 
 // @public
 export type SemanticSearchResultsType = string;
@@ -292,6 +493,7 @@ export interface VectorizableImageUrlQuery extends VectorQuery {
 // @public
 export interface VectorizableTextQuery extends VectorQuery {
     kind: "text";
+    queryRewrites?: QueryRewritesType;
     text: string;
 }
 
@@ -305,9 +507,12 @@ export interface VectorizedQuery extends VectorQuery {
 export interface VectorQuery {
     exhaustive?: boolean;
     fields?: string;
+    filterOverride?: string;
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
     oversampling?: number;
+    perDocumentVectorLimit?: number;
+    threshold?: VectorThresholdUnion;
     weight?: number;
 }
 
@@ -321,6 +526,23 @@ export type VectorQueryUnion = VectorizedQuery | VectorizableTextQuery | Vectori
 export interface VectorsDebugInfo {
     readonly subscores?: QueryResultDocumentSubscores;
 }
+
+// @public
+export interface VectorSimilarityThreshold extends VectorThreshold {
+    kind: "vectorSimilarity";
+    value: number;
+}
+
+// @public
+export interface VectorThreshold {
+    kind: VectorThresholdKind;
+}
+
+// @public
+export type VectorThresholdKind = string;
+
+// @public
+export type VectorThresholdUnion = VectorSimilarityThreshold | SearchScoreThreshold | VectorThreshold;
 
 // (No @packageDocumentation comment for this package)
 

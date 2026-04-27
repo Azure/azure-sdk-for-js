@@ -20,15 +20,14 @@ import {
 
 export function _retrieveSend(
   context: Client,
-  knowledgeBaseName: string,
   retrievalRequest: KnowledgeBaseRetrievalRequest,
   options: RetrieveOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
-      knowledgeBaseName: knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      knowledgeBaseName: context.knowledgeBaseName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -39,7 +38,12 @@ export function _retrieveSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -67,10 +71,9 @@ export async function _retrieveDeserialize(
 /** KnowledgeBase retrieves relevant data from backing stores. */
 export async function retrieve(
   context: Client,
-  knowledgeBaseName: string,
   retrievalRequest: KnowledgeBaseRetrievalRequest,
   options: RetrieveOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBaseRetrievalResponse> {
-  const result = await _retrieveSend(context, knowledgeBaseName, retrievalRequest, options);
+  const result = await _retrieveSend(context, retrievalRequest, options);
   return _retrieveDeserialize(result);
 }
