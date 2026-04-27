@@ -17,7 +17,11 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/purview/purview-administration-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

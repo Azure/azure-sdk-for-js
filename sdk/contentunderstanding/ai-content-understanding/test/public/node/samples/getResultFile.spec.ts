@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for getResultFile.ts - Retrieve result files from video analysis.
+ * Sample test for getResultFile.ts - Retrieve result files from video analysis.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -50,7 +50,7 @@ describe("Sample: getResultFile", () => {
 
     // Get the operation ID
 
-    const operationId = poller.operationId;
+    const operationId = poller.operationState?.operationId;
 
     console.log(`Operation ID: ${operationId ?? "(unknown)"}`);
     console.log("Analysis completed!");

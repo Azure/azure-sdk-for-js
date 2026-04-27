@@ -41,8 +41,12 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/changes/arm-changes",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/changes/arm-changes/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/changes/arm-changes"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeBinary.ts - Analyze a PDF file from disk.
+ * Sample test for analyzeBinary.ts - Analyze a PDF file from disk.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

@@ -27,11 +27,15 @@
     "LICENSE"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/voicelive/ai-voicelive"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/voicelive/ai/ai-voicelive/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voicelive/ai-voicelive/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": []

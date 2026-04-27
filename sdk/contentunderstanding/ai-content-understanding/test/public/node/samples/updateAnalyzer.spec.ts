@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for updateAnalyzer.ts - Update an existing custom analyzer.
+ * Sample test for updateAnalyzer.ts - Update an existing custom analyzer.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
