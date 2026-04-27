@@ -18,6 +18,33 @@ Key links:
 - [Product documentation][product_docs]
 - [Samples][samples_directory]
 
+## Table of Contents
+
+- [Getting started](#getting-started)
+  - [Currently supported environments](#currently-supported-environments)
+  - [Prerequisites](#prerequisites)
+  - [Install the `@azure/ai-content-understanding` package](#install-the-azureai-content-understanding-package)
+  - [Configure your Microsoft Foundry resource](#configure-your-microsoft-foundry-resource)
+  - [Authenticate the client](#authenticate-the-client)
+  - [JavaScript Bundle](#javascript-bundle)
+- [Key concepts](#key-concepts)
+  - [Prebuilt analyzers](#prebuilt-analyzers)
+  - [Custom analyzers](#custom-analyzers)
+  - [Content types](#content-types)
+  - [Asynchronous operations](#asynchronous-operations)
+  - [Main classes](#main-classes)
+  - [Thread safety](#thread-safety)
+- [Examples](#examples)
+- [Troubleshooting](#troubleshooting)
+- [Testing](#testing)
+- [GitHub Copilot Skills](#github-copilot-skills)
+  - [Available Skills](#available-skills)
+  - [Using Skills in VS Code](#using-skills-in-vs-code)
+  - [Troubleshooting Skill Selection](#troubleshooting-skill-selection)
+- [Next steps](#next-steps)
+- [Contributing](#contributing)
+- [Related projects](#related-projects)
+
 ## Getting started
 
 ### Currently supported environments
@@ -558,8 +585,42 @@ For full setup instructions and available samples, see:
 - [TypeScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript/README.md)
 - [JavaScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript/README.md)
 
+## GitHub Copilot Skills
+
+This package includes [GitHub Copilot][github_copilot] skills under `.github/skills/` that provide interactive, AI-assisted workflows for common tasks. In VS Code, Copilot can use these skills to help with environment setup, running samples, and understanding the service.
+
+### Available Skills
+
+| Skill | Description | How to Use |
+|-------|-------------|------------|
+| [**cu-sdk-setup**][cu_sdk_setup_skill] | Interactive environment setup — installs the SDK, configures `.env` with endpoint and credentials, and runs the one-time `updateDefaults.js` model configuration | In VS Code Copilot Chat, ask: *"Set up my JavaScript environment for Content Understanding"* or reference the skill directly |
+| [**cu-sdk-sample-run**][cu_sdk_sample_run_skill] | Guided sample runner — helps you choose and run specific JavaScript samples with Node.js | Ask: *"Run analyzeUrl sample"* or *"Run the invoice analysis sample"* |
+| [**cu-sdk-common-knowledge**][cu_sdk_common_knowledge_skill] | Domain knowledge reference — answers questions about Content Understanding concepts, analyzers, field schemas, API operations, and JavaScript SDK usage | Ask: *"What prebuilt analyzers are available?"* or *"How do I create a custom analyzer?"* |
+
+### Using Skills in VS Code
+
+1. In VS Code, open the package folder `sdk/contentunderstanding/ai-content-understanding` (File → Open Folder). This is required for VS Code to discover the skills in `.github/skills/`.
+2. Ensure [GitHub Copilot][github_copilot] is installed and activated
+3. Open Copilot Chat from the Chat view or Command Palette
+4. Ask a question related to Content Understanding; Copilot can use the relevant skill when appropriate
+
+**Example prompts:**
+- *"Set up my JS environment for Content Understanding"* → likely uses `cu-sdk-setup`
+- *"Run analyzeInvoice.js"* → likely uses `cu-sdk-sample-run`
+- *"Explain how custom analyzers work"* → likely uses `cu-sdk-common-knowledge`
+
+### Troubleshooting Skill Selection
+
+If Copilot does not use the expected skill, try the following:
+
+1. Be explicit about intent and context in one prompt (for example: *"Use cu-sdk-sample-run to run analyzeUrl"*).
+2. Include your goal and current state (for example: *"My `.env` is configured; help me run analyzeInvoice.js"*).
+3. Ask for a step-by-step interactive flow when needed (for example: *"Guide me step by step to set up my environment"*).
+4. For build or runtime errors, mention the exact error text so Copilot can apply the right troubleshooting path.
+
 ## Next steps
 
+* [Update Defaults sample][sample_update_defaults] - Required one-time setup to configure model deployments for prebuilt and custom analyzers
 * Explore the [samples directory][samples_directory] for complete code examples
 * Read the [Azure AI Content Understanding documentation][product_docs] for detailed service information
 
@@ -589,3 +650,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [handling_failures]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
 [diagnostics]: https://learn.microsoft.com/javascript/api/@azure/logger?view=azure-node-latest
 [client_lifetime]: https://learn.microsoft.com/azure/developer/javascript/sdk/use-azure-sdk
+[github_copilot]: https://github.com/features/copilot
+[cu_sdk_setup_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-setup
+[cu_sdk_sample_run_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-sample-run
+[cu_sdk_common_knowledge_skill]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-common-knowledge
