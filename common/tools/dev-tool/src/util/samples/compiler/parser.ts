@@ -400,8 +400,9 @@ interface ExtractedCallback {
  * Extract the body block from the callback argument of a call expression.
  * Handles: function expressions, arrow functions (block body and expression body).
  *
- * For async expression-bodied arrows (`async () => expr`), wraps as `{ await expr; }`
- * to preserve semantics.
+ * For expression-bodied arrows (both async and non-async), wraps as `{ await expr; }`
+ * to preserve promise semantics. The sample's main() function is always async,
+ * so awaiting promise-returning expressions ensures they complete before the sample exits.
  */
 function extractCallback(call: ts.CallExpression): ExtractedCallback | undefined {
   // The callback is typically the last argument (or second for it/describe)
@@ -413,13 +414,14 @@ function extractCallback(call: ts.CallExpression): ExtractedCallback | undefined
       if (ts.isBlock(arg.body)) {
         return { body: arg.body, isAsync };
       }
-      // Expression body (e.g. () => expr): wrap in a synthetic block
-      // For async expression bodies, wrap as `await expr` to preserve semantics
+      // Expression body (e.g. () => expr): wrap in a synthetic block with await.
+      // Always await since samples run in async main() — this ensures promise-returning
+      // expressions complete before the sample exits (e.g., `() => client.doThing()`).
       if (ts.isArrowFunction(arg) && !ts.isBlock(arg.body)) {
-        const expr = isAsync ? ts.factory.createAwaitExpression(arg.body) : arg.body;
+        const awaitedExpr = ts.factory.createAwaitExpression(arg.body);
         return {
-          body: ts.factory.createBlock([ts.factory.createExpressionStatement(expr)]),
-          isAsync,
+          body: ts.factory.createBlock([ts.factory.createExpressionStatement(awaitedExpr)]),
+          isAsync: true, // Mark as async since we're awaiting
         };
       }
     }

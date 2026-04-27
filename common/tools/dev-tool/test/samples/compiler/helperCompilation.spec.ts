@@ -415,4 +415,63 @@ describe("test", () => {
     // Both results have the same helper content
     expect(resultA.helperFiles.get("./shared.ts")).toBe(resultB.helperFiles.get("./shared.ts"));
   });
+
+  it("cached helpers still contribute warnings to each sample", () => {
+    // Helper that imports an unresolved nested helper (produces a warning)
+    const helperWithWarning = `
+import { nested } from "./nested.js";
+export function helper() { return nested(); }
+`;
+    const inputA = `\
+/** @summary sample A */
+import { helper } from "./withWarning.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", async () => {
+    console.log(helper());
+  });
+});
+`;
+    const inputB = `\
+/** @summary sample B */
+import { helper } from "./withWarning.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("y", async () => {
+    console.log(helper());
+  });
+});
+`;
+    const resolver = (_: string, specifier: string) => {
+      if (specifier === "./withWarning.js") {
+        return { canonicalPath: "/project/test/withWarning.ts", sourceText: helperWithWarning };
+      }
+      return undefined; // nested.js not resolved - triggers warning
+    };
+
+    const helperCache = new Map();
+
+    // First compilation
+    const resultA = compileSampleTest(inputA, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+      fileName: sampleFileName,
+      resolveHelper: resolver,
+      helperCache,
+    });
+    expect(resultA.warnings.some((w) => w.includes("nested.js"))).toBe(true);
+
+    // Second compilation with shared cache should also get warnings
+    const resultB = compileSampleTest(inputB, {
+      isSourceImport: testIsSourceImport,
+      packageName: "@azure/test",
+      fileName: "/project/test/sample2.spec.ts",
+      resolveHelper: resolver,
+      helperCache,
+    });
+    // Both samples should receive the warning, even though helper was cached
+    expect(resultB.warnings.some((w) => w.includes("nested.js"))).toBe(true);
+  });
 });

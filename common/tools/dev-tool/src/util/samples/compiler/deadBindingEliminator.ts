@@ -773,12 +773,20 @@ function propagatePoison(
             }
           }
         } else {
-          const stmt = statements[units[i].originalIndex];
+          const unit = units[i];
+          const stmt = statements[unit.originalIndex];
           const line =
             analyzer.sourceFile.getLineAndCharacterOfPosition(stmt.getStart(analyzer.sourceFile))
               .line + 1;
+
+          // Build informative error message with symbol names
+          const deadRefs = [...unit.runtimeRefs].filter((s) => poisonedSymbols.has(s));
+          const liveRefs = [...unit.runtimeRefs].filter((s) => !poisonedSymbols.has(s));
+          const deadNames = deadRefs.map((s) => s.name).join(", ");
+          const liveNames = liveRefs.map((s) => s.name).join(", ");
+
           throw new CompilerError(
-            "Dead binding is tangled with live code and cannot be cleanly separated",
+            `Statement mixes dead bindings (${deadNames || "none"}) with live bindings (${liveNames || "none"}) and cannot be cleanly separated`,
             fileName,
             line,
           );

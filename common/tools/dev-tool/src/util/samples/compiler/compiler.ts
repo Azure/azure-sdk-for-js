@@ -104,6 +104,37 @@ function eliminateHooks(
   return texts;
 }
 
+/** Names of compiler-handled intrinsics that should not be validated as dead bindings. */
+const COMPILER_PROCESSED_NAMES = new Set(["sampleOnly", "forPublishing"]);
+
+/**
+ * Validate that forPublishing expressions don't reference dead bindings.
+ * Throws CompilerError if any free variable in a substitution resolves to a dead symbol.
+ */
+function validateForPublishingReferences(
+  substitutions: readonly Substitution[],
+  deadSymbols: Set<ts.Symbol>,
+  analyzer: BindingAnalyzer,
+  describeStatements: readonly ts.Statement[],
+  fileName: string,
+): void {
+  for (const sub of substitutions) {
+    // Filter out compiler-processed names (sampleOnly, forPublishing) to avoid false positives
+    const filteredFreeVars = [...sub.freeVariables].filter(
+      (n) => !COMPILER_PROCESSED_NAMES.has(n),
+    );
+    const freeSymbols = resolveNamesToSymbols(analyzer, filteredFreeVars, describeStatements);
+    for (const sym of freeSymbols) {
+      if (deadSymbols.has(sym)) {
+        throw new CompilerError(
+          `Symbol "${sym.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
+          fileName,
+        );
+      }
+    }
+  }
+}
+
 // ── Public API ───────────────────────────────────────────────────────────────
 
 /** Cache for compiled helpers, keyed by canonical path. Shared across sample compilations. */
@@ -243,8 +274,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       const cached = effectiveCache.get(resolved.canonicalPath);
       if (cached) {
         helper = cached;
-        // Cache hit: still need to populate per-sample state (helperFiles, envVars)
-        // but don't re-emit warnings (they were already surfaced on first compilation)
+        // Cache hit: still need to populate per-sample state (helperFiles, envVars, warnings)
       } else {
         // compileHelper handles cycle detection internally via recursionStack
         helper = compileHelper(
@@ -258,10 +288,11 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
           strict, // Propagate strict mode to nested helpers
         );
         effectiveCache.set(resolved.canonicalPath, helper);
-
-        // Surface warnings from helper compilations (only once per helper)
-        warnings.push(...helper.warnings);
       }
+
+      // Surface warnings from helper compilations (for both cache hit and miss)
+      // Each sample compilation gets the warnings from its helpers, even if cached
+      warnings.push(...helper.warnings);
 
       // Populate helperFiles and envVars for this sample (both cache hit and miss)
       if (!helper.isEmpty) {
@@ -303,28 +334,13 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
 
   // Step 5b: Early validation - check forPublishing expressions against import-level dead bindings
   // This catches obvious errors early (before DCE). Full validation happens at Step 6b after DCE.
-  // Pass describe-scope statements so we can find symbols declared inside describe block.
-  //
-  // Note: Filter out compiler-processed constructs (sampleOnly, forPublishing) from free variables.
-  // These are marked as dead bindings (test imports) but are handled by the compiler, not DCE.
-  // The freeVariables were captured before sampleOnly substitution, so they may include stale refs.
-  const compilerProcessedNames = new Set(["sampleOnly", "forPublishing"]);
-  for (const sub of substitutions) {
-    const filteredFreeVars = [...sub.freeVariables].filter((n) => !compilerProcessedNames.has(n));
-    const freeSymbols = resolveNamesToSymbols(
-      analyzer,
-      filteredFreeVars,
-      subParsed.describeStatements,
-    );
-    for (const sym of freeSymbols) {
-      if (deadSymbols.has(sym)) {
-        throw new CompilerError(
-          `Symbol "${sym.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
-          fileName,
-        );
-      }
-    }
-  }
+  validateForPublishingReferences(
+    substitutions,
+    deadSymbols,
+    analyzer,
+    subParsed.describeStatements,
+    fileName,
+  );
 
   // Step 6: Eliminate dead statements per scope (shared analyzer, no mini-files)
   // Describe statements first — cascade feeds other scopes
@@ -430,26 +446,13 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   );
 
   // Step 6b: Validate forPublishing expressions against extended dead set (includes cascaded)
-  // Pass describe-scope statements so we can find symbols declared inside describe block
-  // (not just top-level file statements).
-  // Filter out compiler-processed names (same as Step 5b) to avoid false positives from
-  // stale freeVariables captured before sampleOnly substitution.
-  for (const sub of substitutions) {
-    const filteredFreeVars = [...sub.freeVariables].filter((n) => !compilerProcessedNames.has(n));
-    const freeSymbols = resolveNamesToSymbols(
-      analyzer,
-      filteredFreeVars,
-      subParsed.describeStatements,
-    );
-    for (const sym of freeSymbols) {
-      if (deadSymbols.has(sym)) {
-        throw new CompilerError(
-          `Symbol "${sym.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
-          fileName,
-        );
-      }
-    }
-  }
+  validateForPublishingReferences(
+    substitutions,
+    deadSymbols,
+    analyzer,
+    subParsed.describeStatements,
+    fileName,
+  );
 
   // Step 7: Rewrite imports
   const dummyFile = createSourceFile("output.ts", "");

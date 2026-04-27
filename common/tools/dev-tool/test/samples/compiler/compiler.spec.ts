@@ -103,6 +103,26 @@ describe("compileSampleTest", () => {
       expect(result.outputText).not.toContain('it("');
     });
 
+    it("awaits expression-bodied callbacks to preserve promise semantics", () => {
+      // Non-async expression-bodied arrow: () => client.doThing()
+      // Should be awaited in the output to ensure promise completion
+      const expressionBodyInput = `\
+/** @summary expression body test */
+import { Client } from "../src/index.js";
+import { describe, it } from "vitest";
+
+describe("test", () => {
+  it("x", () => new Client().doSomething());
+});
+`;
+      const result = compileSampleTest(expressionBodyInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/test",
+      });
+      // Should have await in the output
+      expect(result.outputText).toContain("await new Client().doSomething()");
+    });
+
     it("preserves the function body statements", () => {
       const result = compileSampleTest(minimalInput, {
         isSourceImport: testIsSourceImport,
@@ -1240,7 +1260,7 @@ describe("sample", () => {
           isSourceImport: testIsSourceImport,
           packageName: "@azure/client",
         }),
-      ).toThrow(/tangled/i);
+      ).toThrow(/mixes dead bindings.*with live bindings/i);
     });
   });
 

@@ -464,7 +464,7 @@ export function helper() { vi.fn(); return LIVE_VAL; }
       CompilerError,
     );
     expect(() => compileHelper(source, "@azure/test", "tangled.ts", testIsSourceImport)).toThrow(
-      /tangled/i,
+      /mixes dead bindings.*with live bindings/i,
     );
   });
 
