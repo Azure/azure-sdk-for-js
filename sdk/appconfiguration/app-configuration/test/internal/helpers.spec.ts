@@ -281,6 +281,7 @@ describe("helper methods", () => {
       isReadOnly: true,
       key: "hello",
       value: undefined,
+      lastModified: undefined,
       statusCode: 204,
       _response: fakeHttp204Response._response,
     } as unknown);
@@ -307,6 +308,7 @@ describe("helper methods", () => {
       isReadOnly: true,
       key: "hello",
       value: undefined,
+      lastModified: undefined,
       _response: fakeHttp204Response._response,
     } as unknown);
   });

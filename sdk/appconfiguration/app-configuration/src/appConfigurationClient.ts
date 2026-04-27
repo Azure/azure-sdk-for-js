@@ -44,7 +44,7 @@ import {
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
@@ -182,7 +182,7 @@ export class AppConfigurationClient {
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-          ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -279,6 +279,10 @@ export class AppConfigurationClient {
               label: configurationSetting.label,
               entity: keyValue,
               ...updatedOptions,
+              requestOptions: {
+                ...updatedOptions.requestOptions,
+                skipUrlEncoding: true,
+              },
             },
           );
           const response = transformKeyValueResponse(originalResponse);
@@ -335,6 +339,10 @@ export class AppConfigurationClient {
           onResponse: (response) => {
             status = response.status;
           },
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
 
         const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
@@ -383,6 +391,10 @@ export class AppConfigurationClient {
             onResponse: (response) => {
               status = response.status;
               rawResponse = response;
+            },
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
             },
           });
 
@@ -436,53 +448,53 @@ export class AppConfigurationClient {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const etag = pageEtags?.shift();
-        try {
-          const response = await this.sendConfigurationSettingsRequest(
-            { ...options, etag },
-            pageLink,
-          );
-          const currentResponse: ListConfigurationSettingPage = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-            _response: response._response,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        } catch (error) {
-          const err = error as RestError;
-
-          const link = err.response?.headers?.get("link");
-          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-
-          if (err.statusCode === 304) {
-            err.message = `Status 304: No updates for this page`;
-            logger.info(
-              `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.sendConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
             );
-            return {
-              page: {
-                items: [],
-                etag,
-                _response: { ...err.response, status: 304 },
-              } as unknown as ListConfigurationSettingPage,
-              nextPageLink: continuationToken,
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              items: response.items != null ? response.items?.map(transformKeyValue) : [],
+              continuationToken: response.nextLink
+                ? extractAfterTokenFromNextLink(response.nextLink)
+                : undefined,
+              _response: response._response,
             };
-          }
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
 
-          throw err;
-        }
-      },
-      toElements: (page) => page.items,
-    };
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -510,54 +522,54 @@ export class AppConfigurationClient {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const etag = pageEtags?.shift();
-        try {
-          const response = await this.checkConfigurationSettingsRequest(
-            { ...options, etag },
-            pageLink,
-          );
-          const link = response._response?.headers?.["link"] as string | undefined;
-          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-          const currentResponse: ListConfigurationSettingPage = {
-            ...response,
-            etag: response._response?.headers?.["etag"] as string | undefined,
-            items: [],
-            continuationToken: continuationToken,
-            _response: response._response,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        } catch (error) {
-          const err = error as RestError;
-
-          const link = err.response?.headers?.get("link");
-          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-
-          if (err.statusCode === 304) {
-            err.message = `Status 304: No updates for this page`;
-            logger.info(
-              `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
+          try {
+            const response = await this.checkConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
             );
-            return {
-              page: {
-                items: [],
-                etag,
-                _response: { ...err.response, status: 304 },
-              } as unknown as ListConfigurationSettingPage,
-              nextPageLink: continuationToken,
+            const link = response._response?.headers?.get("link") as string | undefined;
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              etag: response._response?.headers?.get("etag") as string | undefined,
+              items: [],
+              continuationToken: continuationToken,
+              _response: response._response,
             };
-          }
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
 
-          throw err;
-        }
-      },
-      toElements: (page) => page.items,
-    };
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[checkConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+              return {
+                page: {
+                  items: [],
+                  etag,
+                  _response: { ...err.response, status: 304 },
+                } as unknown as ListConfigurationSettingPage,
+                nextPageLink: continuationToken,
+              };
+            }
+
+            throw err;
+          }
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -586,27 +598,27 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const response = await this.sendConfigurationSettingsRequest(
-          { snapshotName, ...options },
-          pageLink,
-        );
-        const currentResponse = {
-          ...response,
-          items: response.items != null ? response.items?.map(transformKeyValue) : [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-        };
-        return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
-        };
-      },
-      toElements: (page) => page.items,
-    };
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(
+            { snapshotName, ...options },
+            pageLink,
+          );
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -669,6 +681,10 @@ export class AppConfigurationClient {
           ...formatAcceptDateTime(options),
           ...formatLabelsFiltersAndSelect(options),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         const parsed = await _getLabelsDeserialize(rawResponse);
         return Object.assign(parsed, { _response: rawResponse });
@@ -690,6 +706,10 @@ export class AppConfigurationClient {
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         const parsed = await _getKeyValuesDeserialize(rawResponse);
         return Object.assign(parsed, { _response: rawResponse });
@@ -711,9 +731,18 @@ export class AppConfigurationClient {
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         await _checkKeyValuesDeserialize(rawResponse);
-        return { _response: rawResponse };
+        return {
+          _response: {
+            ...rawResponse,
+            headers: createHttpHeaders(rawResponse.headers),
+          },
+        };
       },
     );
   }
@@ -774,6 +803,10 @@ export class AppConfigurationClient {
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(updatedOptions),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         const parsed = await _getRevisionsDeserialize(rawResponse);
         return Object.assign(parsed, { _response: rawResponse });
@@ -820,6 +853,11 @@ export class AppConfigurationClient {
             label: configurationSetting.label,
             entity: keyValue,
             ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           }),
         );
         assertResponse(response);
@@ -848,6 +886,11 @@ export class AppConfigurationClient {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
+
+            requestOptions: {
+              ...newOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
@@ -855,6 +898,11 @@ export class AppConfigurationClient {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
+
+            requestOptions: {
+              ...newOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           });
         }
         response = transformKeyValueResponse(response);
@@ -903,13 +951,19 @@ export class AppConfigurationClient {
                 "application/vnd.microsoft.appconfig.snapshot+json",
                 snapshot.name,
                 generatedSnapshot,
-                updatedOptions,
+                {
+                  ...updatedOptions,
+                  requestOptions: {
+                    ...updatedOptions.requestOptions,
+                    skipUrlEncoding: true,
+                  },
+                },
               ),
             resourceLocationConfig: "original-uri",
           },
         );
         return wrapPoller(poller);
-      }
+      },
     );
   }
 
@@ -943,7 +997,13 @@ export class AppConfigurationClient {
                 "application/vnd.microsoft.appconfig.snapshot+json",
                 snapshot.name,
                 generatedSnapshot,
-                updatedOptions,
+                {
+                  ...updatedOptions,
+                  requestOptions: {
+                    ...updatedOptions.requestOptions,
+                    skipUrlEncoding: true,
+                  },
+                },
               ),
             resourceLocationConfig: "original-uri",
           },
@@ -980,6 +1040,10 @@ export class AppConfigurationClient {
         logger.info("[getSnapshot] Get a snapshot");
         const originalResponse = await this.client.getSnapshot(name, {
           ...updatedOptions,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
@@ -1026,6 +1090,10 @@ export class AppConfigurationClient {
               { etag: options.etag },
               { onlyIfUnchanged: true, ...options },
             ),
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           },
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -1072,6 +1140,10 @@ export class AppConfigurationClient {
               { etag: options.etag },
               { onlyIfUnchanged: true, ...options },
             ),
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
           },
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -1139,6 +1211,10 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatSnapshotFiltersAndSelect(options),
           after: pageLink,
+          requestOptions: {
+            ...updatedOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
         });
         const parsed = await _getSnapshotsDeserialize(rawResponse);
         return Object.assign(parsed, { _response: rawResponse });

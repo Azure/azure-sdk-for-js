@@ -136,7 +136,8 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
-    tags: listConfigOptions.tagsFilter,
+    // Ensure the tags are URL-encoded when encoding
+    tags: listConfigOptions.tagsFilter?.map((t) => encodeURIComponent(t)),
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
