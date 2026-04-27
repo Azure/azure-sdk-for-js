@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-purview": [
-        "./dist/esm"
-      ]
+      "@azure/arm-purview": ["./dist/esm"]
     }
   }
 }
