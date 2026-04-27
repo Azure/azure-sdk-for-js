@@ -367,6 +367,7 @@ export type {
   KnownApiVersions,
   BetaSkillsDownloadResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsGetSessionLogStreamResponse,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export type {

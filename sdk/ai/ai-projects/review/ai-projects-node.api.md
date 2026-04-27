@@ -457,6 +457,12 @@ export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOp
     foundryFeatures?: "HostedAgents=V1Preview";
 }
 
+// @public (undocumented)
+export type BetaAgentsGetSessionLogStreamResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
 // @public
 export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentEndpoints=V1Preview";
@@ -479,7 +485,7 @@ export interface BetaAgentsOperations {
     downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionFiles: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsGetSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
-    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<SessionLogEvent>;
+    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsGetSessionLogStreamResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;

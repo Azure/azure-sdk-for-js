@@ -9469,3 +9469,20 @@ export type BetaAgentsDownloadSessionFileResponse = {
    */
   readableStreamBody?: NodeJS.ReadableStream;
 };
+
+export type BetaAgentsGetSessionLogStreamResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream containing the raw SSE event stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};

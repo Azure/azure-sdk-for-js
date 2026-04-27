@@ -363,4 +363,5 @@ export type {
   KnownApiVersions,
   BetaSkillsDownloadResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsGetSessionLogStreamResponse,
 } from "./models.js";

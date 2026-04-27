@@ -30,7 +30,7 @@ import type {
   Agent,
   VersionIndicatorUnion,
   AgentSessionResource,
-  SessionLogEvent,
+  BetaAgentsGetSessionLogStreamResponse,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
@@ -110,7 +110,7 @@ export interface BetaAgentsOperations {
     agentVersion: string,
     sessionId: string,
     options?: BetaAgentsGetSessionLogStreamOptionalParams,
-  ) => Promise<SessionLogEvent>;
+  ) => Promise<BetaAgentsGetSessionLogStreamResponse>;
   /** Returns a list of sessions for the specified agent. */
   listSessions: (
     agentName: string,

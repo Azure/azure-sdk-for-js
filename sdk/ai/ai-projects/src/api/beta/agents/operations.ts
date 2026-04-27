@@ -10,7 +10,7 @@ import type {
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
-  SessionLogEvent,
+  BetaAgentsGetSessionLogStreamResponse,
 } from "../../../models/models.js";
 import {
   agentDeserializer,
@@ -22,7 +22,6 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
-  sessionLogEventDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -55,7 +54,7 @@ export function _deleteSessionFileSend(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api-version}",
     {
       agent_name: agentName,
-      agent_session_id: sessionId,
+      session_id: sessionId,
       path: path,
       recursive: options?.recursive,
       "api-version": context.apiVersion,
@@ -112,7 +111,7 @@ export function _getSessionFilesSend(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api-version}",
     {
       agent_name: agentName,
-      agent_session_id: sessionId,
+      session_id: sessionId,
       path: path,
       "api-version": context.apiVersion,
     },
@@ -172,7 +171,7 @@ export function _downloadSessionFileSend(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
-      agent_session_id: sessionId,
+      session_id: sessionId,
       path: path,
       "api-version": context.apiVersion,
     },
@@ -231,7 +230,7 @@ export function _uploadSessionFileSend(
     "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api-version}",
     {
       agent_name: agentName,
-      agent_session_id: sessionId,
+      session_id: sessionId,
       path: path,
       "api-version": context.apiVersion,
     },
@@ -320,8 +319,8 @@ export function _getSessionLogStreamSend(
 }
 
 export async function _getSessionLogStreamDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SessionLogEvent> {
+  result: PathUncheckedResponse & BetaAgentsGetSessionLogStreamResponse,
+): Promise<BetaAgentsGetSessionLogStreamResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -330,7 +329,7 @@ export async function _getSessionLogStreamDeserialize(
     throw error;
   }
 
-  return sessionLogEventDeserializer(result.body);
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /**
@@ -360,6 +359,10 @@ export async function _getSessionLogStreamDeserialize(
  *
  * The stream remains open until the client disconnects or the server
  * terminates the connection. Clients should handle reconnection as needed.
+ *
+ * The returned `readableStreamBody` (Node.js) or `blobBody` (browser) exposes
+ * the raw SSE byte stream. Callers are responsible for parsing the individual
+ * `event:` / `data:` frames.
  */
 export async function getSessionLogStream(
   context: Client,
@@ -367,14 +370,15 @@ export async function getSessionLogStream(
   agentVersion: string,
   sessionId: string,
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
-): Promise<SessionLogEvent> {
-  const result = await _getSessionLogStreamSend(
+): Promise<BetaAgentsGetSessionLogStreamResponse> {
+  const streamableMethod = _getSessionLogStreamSend(
     context,
     agentName,
     agentVersion,
     sessionId,
     options,
   );
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getSessionLogStreamDeserialize(result);
 }
 

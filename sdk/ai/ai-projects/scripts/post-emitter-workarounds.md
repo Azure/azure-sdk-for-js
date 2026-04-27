@@ -25,7 +25,7 @@ Merge guidelines for newly emitted code from the .\incoming directory:
   - `_updateAgentSend` / `_createAgentSend` → `_updateSend` / `_createSend`
   - `AgentsUpdateAgentOptionalParams` / `AgentsCreateAgentOptionalParams` → `AgentsUpdateOptionalParams` / `AgentsCreateOptionalParams`
   - `DeleteVersionOptionalParams` (and siblings on toolboxes) → `BetaToolboxesDeleteVersionOptionalParams` (and siblings)
-  - `agentSessionId` (positional param on beta agents session ops) → `sessionId`
+  - `agentSessionId` (positional param on beta agents **session management** ops: `deleteSession`, `getSession`, `createSession`, `getSessionLogStream`) → `sessionId`. **Note:** the session **file** operations (`deleteSessionFile`, `getSessionFiles`, `downloadSessionFile`, `uploadSessionFile`) keep the spec-side name `agentSessionId` as their public parameter.
   - `name` (positional param on beta toolbox ops) → `toolboxName`
   - `listSessionFiles` (on `project.beta.agents`) → `getSessionFiles`
 - Known duplicate-export hot spots in `src/models/models.ts` after a regen — sweep these and keep only the earlier definition: `MCPToolFilter` / `mcpToolFilterSerializer` / `mcpToolFilterDeserializer`, and `MCPToolRequireApproval` / `mcpToolRequireApprovalSerializer` / `mcpToolRequireApprovalDeserializer`.
