@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
- *
- * @summary Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth_List.json
- */
-
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
+ *
+ * @summary callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
+ * x-ms-original-file: 2025-03-01-preview/GitHubOAuth_List.json
+ */
 async function listGitHubOAuth(): Promise<void> {
-  const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
-  const location = "eastus2euap";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
-  const result = await client.listGitHubOAuth(location);
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.listGitHubOAuth("eastus2euap")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
