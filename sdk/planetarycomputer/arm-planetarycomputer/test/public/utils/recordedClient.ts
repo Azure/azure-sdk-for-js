@@ -16,7 +16,8 @@ const recorderEnvSetup: RecorderStartOptions = {
     generalSanitizers: [
       {
         regex: true,
-        target: "https://[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+\\.geocatalog\\.spatio\\.azure\\.com",
+        target:
+          "https://[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+\\.geocatalog\\.spatio\\.azure\\.com",
         value: "https://sanitized.sanitized.sanitized.geocatalog.spatio.azure.com",
       },
       {
@@ -26,7 +27,7 @@ const recorderEnvSetup: RecorderStartOptions = {
       },
       {
         regex: true,
-        target: "/userAssignedIdentities/[^\"]+",
+        target: '/userAssignedIdentities/[^"]+',
         value: "/userAssignedIdentities/sanitized-identity",
       },
     ],
