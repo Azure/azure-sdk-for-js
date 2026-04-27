@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
+import ts from "typescript";
 import { parseSampleTestFile } from "../../../src/util/samples/compiler/parser.js";
 import { CompilerError } from "../../../src/util/samples/compiler/types.js";
 import { parseSource } from "./helpers.js";
@@ -299,7 +300,6 @@ describe("parseSampleTestFile", () => {
     expect(result!.itBlocks[0].body.length).toBeGreaterThan(0);
     expect(result!.beforeEachHooks).toHaveLength(0);
     expect(result!.afterEachHooks).toHaveLength(0);
-    expect(result!.describeVariables).toHaveLength(0);
   });
 
   it("parses multiple it blocks in order", () => {
@@ -310,12 +310,11 @@ describe("parseSampleTestFile", () => {
     expect(result.itBlocks[2].description).toBe("third");
   });
 
-  it("extracts beforeEach body and parameter name", () => {
+  it("extracts beforeEach body", () => {
     const result = parse(withBeforeEach)!;
     expect(result.beforeEachHooks).toHaveLength(1);
     expect(result.beforeEachHooks[0].kind).toBe("beforeEach");
     expect(result.beforeEachHooks[0].body.length).toBeGreaterThan(0);
-    expect(result.beforeEachHooks[0].paramName).toBe("ctx");
   });
 
   it("extracts afterEach body", () => {
@@ -325,9 +324,13 @@ describe("parseSampleTestFile", () => {
     expect(result.afterEachHooks[0].body.length).toBeGreaterThan(0);
   });
 
-  it("captures describe-level variables", () => {
+  it("captures describe-level variables in describeStatements", () => {
     const result = parse(withDescribeVars)!;
-    expect(result.describeVariables).toHaveLength(2);
+    // Variables are now part of describeStatements (no separate describeVariables)
+    const varStmts = result.describeStatements.filter(
+      (s) => s.kind === ts.SyntaxKind.VariableStatement,
+    );
+    expect(varStmts).toHaveLength(2);
   });
 
   it("parses @azsdk-weight", () => {
@@ -386,12 +389,6 @@ describe("parseSampleTestFile", () => {
     expect(result.itBlocks[0].body).toHaveLength(2);
   });
 
-  it("captures beforeEach ctx parameter name", () => {
-    const result = parse(beforeEachWithCtx)!;
-    expect(result.beforeEachHooks).toHaveLength(1);
-    expect(result.beforeEachHooks[0].paramName).toBe("ctx");
-  });
-
   it("captures all import declarations", () => {
     const result = parse(withImports)!;
     expect(result.imports).toHaveLength(3);
@@ -417,12 +414,6 @@ describe("parseSampleTestFile", () => {
     const result = parse(withDescribeFunction)!;
     // describeStatements should include both the variable and the function declaration
     expect(result.describeStatements).toHaveLength(2);
-  });
-
-  it("keeps describeVariables backward-compatible (only VariableStatements)", () => {
-    const result = parse(withDescribeFunction)!;
-    // describeVariables should only include the variable, not the function
-    expect(result.describeVariables).toHaveLength(1);
   });
 
   it("does not include function declarations in itBlocks", () => {

@@ -19,6 +19,15 @@
  *
  * Each phase produces explicit outputs consumed by later phases. The deadSymbols set
  * is the main cross-phase state, accumulated through classify → helper resolution → DCE.
+ *
+ * DESIGN: beforeAll/beforeEach semantics
+ *
+ * Tests use beforeEach to recreate clients for recording/isolation between test cases.
+ * But samples demonstrate real-world usage where you create resources once and reuse them.
+ * Running beforeEach per-operation would be wasteful and unlike real application code.
+ *
+ * For multi-it samples, beforeAll+beforeEach run once at main() start, then all functions
+ * execute with afterEach running after each function and afterAll at the end.
  */
 
 import path from "node:path";
@@ -479,23 +488,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     return { name, bodyTexts: itBlockTexts[i] };
   });
 
-  // Step 9: Assemble final output text
-  //
-  // DESIGN DECISION: beforeAll and beforeEach are intentionally combined into a single preamble.
-  //
-  // Why: Tests use beforeEach to recreate clients for recording/isolation between test cases.
-  // But samples demonstrate real-world usage where you create resources once and reuse them.
-  // Running beforeEach per-operation would be wasteful and unlike real application code.
-  //
-  // The output structure:
-  // - Single-it: inline body into main(), preamble runs once before
-  // - Multi-it: beforeAll+beforeEach run once at main() start, then all functions execute
-  //   with afterEach running after each function and afterAll at the end
-  //
-  // If a sample truly needs fresh state per operation, it should use a single-it structure
-  // or move the state management into each it-block.
-  //
-  // Warn if multi-it sample has beforeEach with surviving statements (unusual pattern)
+  // Step 9: Assemble final output (see module header for beforeAll/beforeEach semantics)
   if (functions.length > 1 && beforeEachTexts.length > 0) {
     warnings.push(
       "Multi-it sample has beforeEach hook. Note: beforeEach runs once at start (not per-function) " +

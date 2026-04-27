@@ -56,8 +56,6 @@ export interface ParsedItBlock {
   body: ts.Statement[];
   /** Comments between the last body statement and the closing brace */
   trailingComments: string;
-  /** Whether the callback was async (needed for expression-body handling) */
-  isAsync: boolean;
   /** The original node */
   node: ts.ExpressionStatement;
 }
@@ -71,10 +69,6 @@ export interface ParsedHook {
   body: ts.Statement[];
   /** Comments between the last body statement and the closing brace */
   trailingComments: string;
-  /** The parameter name if present (e.g., `ctx` in `beforeEach(async (ctx) => ...)`) */
-  paramName?: string;
-  /** Whether the callback was async (needed for expression-body handling) */
-  isAsync: boolean;
   /** The original node */
   node: ts.ExpressionStatement;
 }
@@ -86,8 +80,6 @@ export interface ParsedSampleTestFile {
   metadata: SampleMetadata;
   /** The describe block description */
   describeDescription: string;
-  /** `let` and `const` declarations at describe scope */
-  describeVariables: ts.VariableStatement[];
   /** All non-hook, non-it statements at describe scope (variables, functions, classes, etc.) */
   describeStatements: ts.Statement[];
   /** Parsed it blocks in declaration order */

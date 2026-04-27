@@ -64,7 +64,6 @@ export function parseSampleTestFile(
     checkForNestedDescribe(stmt);
   }
 
-  const describeVariables: ts.VariableStatement[] = [];
   const describeStatements: ts.Statement[] = [];
   const itBlocks: ParsedItBlock[] = [];
   const beforeAllHooks: ParsedHook[] = [];
@@ -74,50 +73,44 @@ export function parseSampleTestFile(
 
   for (const stmt of callbackBody.statements) {
     if (ts.isVariableStatement(stmt)) {
-      describeVariables.push(stmt);
       describeStatements.push(stmt);
       continue;
     }
 
     if (ts.isExpressionStatement(stmt) && ts.isCallExpression(stmt.expression)) {
       const call = stmt.expression;
-      const calleeName = getCalleeName(call);
+      const kind = classifyCall(call);
 
-      if (calleeName === "it" || calleeName === "it.skip" || calleeName === "it.only") {
-        const description = extractStringArgument(call);
-        const extracted = extractCallback(call);
-        itBlocks.push({
-          description,
-          body: extracted ? Array.from(extracted.body.statements) : [],
-          trailingComments: extracted ? extractTrailingComments(extracted.body, sourceFile) : "",
-          isAsync: extracted?.isAsync ?? false,
-          node: stmt,
-        });
-        continue;
-      }
+      switch (kind) {
+        case CallKind.It:
+        case CallKind.ItSkip:
+        case CallKind.ItOnly: {
+          const description = extractStringArgument(call);
+          const extracted = extractCallback(call);
+          itBlocks.push({
+            description,
+            body: extracted ? Array.from(extracted.body.statements) : [],
+            trailingComments: extracted ? extractTrailingComments(extracted.body, sourceFile) : "",
+            node: stmt,
+          });
+          continue;
+        }
 
-      if (calleeName === "beforeAll") {
-        const hook = parseHook("beforeAll", call, stmt, sourceFile);
-        beforeAllHooks.push(hook);
-        continue;
-      }
+        case CallKind.BeforeAll:
+          beforeAllHooks.push(parseHook("beforeAll", call, stmt, sourceFile));
+          continue;
 
-      if (calleeName === "beforeEach") {
-        const hook = parseHook("beforeEach", call, stmt, sourceFile);
-        beforeEachHooks.push(hook);
-        continue;
-      }
+        case CallKind.BeforeEach:
+          beforeEachHooks.push(parseHook("beforeEach", call, stmt, sourceFile));
+          continue;
 
-      if (calleeName === "afterAll") {
-        const hook = parseHook("afterAll", call, stmt, sourceFile);
-        afterAllHooks.push(hook);
-        continue;
-      }
+        case CallKind.AfterAll:
+          afterAllHooks.push(parseHook("afterAll", call, stmt, sourceFile));
+          continue;
 
-      if (calleeName === "afterEach") {
-        const hook = parseHook("afterEach", call, stmt, sourceFile);
-        afterEachHooks.push(hook);
-        continue;
+        case CallKind.AfterEach:
+          afterEachHooks.push(parseHook("afterEach", call, stmt, sourceFile));
+          continue;
       }
     }
 
@@ -173,7 +166,6 @@ export function parseSampleTestFile(
   return {
     metadata,
     describeDescription,
-    describeVariables,
     describeStatements,
     itBlocks,
     beforeAllHooks,
@@ -338,17 +330,53 @@ function findDescribeStatement(
 }
 
 /**
- * Get the callee name from a call expression: "it", "it.skip", "beforeEach", etc.
+ * Known test call kinds for structured dispatch.
  */
-function getCalleeName(call: ts.CallExpression): string {
+const enum CallKind {
+  It = "it",
+  ItSkip = "it.skip",
+  ItOnly = "it.only",
+  BeforeAll = "beforeAll",
+  BeforeEach = "beforeEach",
+  AfterAll = "afterAll",
+  AfterEach = "afterEach",
+  Unknown = "",
+}
+
+/**
+ * Classify a call expression into a known test call kind.
+ */
+function classifyCall(call: ts.CallExpression): CallKind {
   const expr = call.expression;
   if (ts.isIdentifier(expr)) {
-    return expr.text;
+    switch (expr.text) {
+      case "it":
+        return CallKind.It;
+      case "beforeAll":
+        return CallKind.BeforeAll;
+      case "beforeEach":
+        return CallKind.BeforeEach;
+      case "afterAll":
+        return CallKind.AfterAll;
+      case "afterEach":
+        return CallKind.AfterEach;
+      default:
+        return CallKind.Unknown;
+    }
   }
   if (ts.isPropertyAccessExpression(expr) && ts.isIdentifier(expr.expression)) {
-    return `${expr.expression.text}.${expr.name.text}`;
+    if (expr.expression.text === "it") {
+      switch (expr.name.text) {
+        case "skip":
+          return CallKind.ItSkip;
+        case "only":
+          return CallKind.ItOnly;
+        default:
+          return CallKind.Unknown;
+      }
+    }
   }
-  return "";
+  return CallKind.Unknown;
 }
 
 /**
@@ -417,27 +445,11 @@ function parseHook(
   sourceFile: ts.SourceFile,
 ): ParsedHook {
   const extracted = extractCallback(call);
-  let paramName: string | undefined;
-
-  // Find the callback to get parameter name
-  for (const arg of call.arguments) {
-    if (ts.isFunctionExpression(arg) || ts.isArrowFunction(arg)) {
-      if (arg.parameters.length > 0) {
-        const param = arg.parameters[0];
-        if (ts.isIdentifier(param.name)) {
-          paramName = param.name.text;
-        }
-      }
-      break;
-    }
-  }
 
   return {
     kind,
     body: extracted ? Array.from(extracted.body.statements) : [],
     trailingComments: extracted ? extractTrailingComments(extracted.body, sourceFile) : "",
-    paramName,
-    isAsync: extracted?.isAsync ?? false,
     node,
   };
 }
