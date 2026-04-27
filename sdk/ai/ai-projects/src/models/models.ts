@@ -99,14 +99,14 @@ export interface AgentVersion {
   created_at: Date;
   /** The definition of the agent. */
   definition: AgentDefinitionUnion;
+  /** The provisioning status of the agent version. Defaults to 'active' for non-hosted agents. For hosted agents, reflects infrastructure readiness. */
+  status?: AgentVersionStatus;
   /** The instance identity of the agent */
   readonly instance_identity?: AgentIdentity;
   /** The blueprint for the agent */
   readonly blueprint?: AgentIdentity;
   /** The blueprint for the agent */
   readonly blueprint_reference?: AgentBlueprintReferenceUnion;
-  /** The current status of the agent version. */
-  status?: "creating" | "active" | "failed" | "deleting" | "deleted";
   /** The unique GUID identifier of the agent. */
   readonly agent_guid?: string;
 }
@@ -250,6 +250,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   protocol_versions?: ProtocolVersionRecord[];
   /** Code-based deployment configuration. Provide this for code-based deployments. Mutually exclusive with container_configuration — the service validates that exactly one is set. */
   code_configuration?: CodeConfiguration;
+  /** Optional customer-supplied telemetry configuration for exporting container logs, traces, and metrics. */
+  telemetry_config?: TelemetryConfig;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -273,6 +275,9 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     code_configuration: !item["code_configuration"]
       ? item["code_configuration"]
       : codeConfigurationSerializer(item["code_configuration"]),
+    telemetry_config: !item["telemetry_config"]
+      ? item["telemetry_config"]
+      : telemetryConfigSerializer(item["telemetry_config"]),
   };
 }
 
@@ -303,6 +308,9 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     code_configuration: !item["code_configuration"]
       ? item["code_configuration"]
       : codeConfigurationDeserializer(item["code_configuration"]),
+    telemetry_config: !item["telemetry_config"]
+      ? item["telemetry_config"]
+      : telemetryConfigDeserializer(item["telemetry_config"]),
   };
 }
 
@@ -347,6 +355,7 @@ export type ToolUnion =
   | CaptureStructuredOutputsTool
   | A2APreviewTool
   | WorkIQPreviewTool
+  | FabricIQPreviewTool
   | MemorySearchPreviewTool
   | CodeInterpreterTool
   | FunctionTool
@@ -399,6 +408,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "work_iq_preview":
       return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
+
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
 
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
@@ -488,6 +500,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "work_iq_preview":
       return workIQPreviewToolDeserializer(item as WorkIQPreviewTool);
 
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolDeserializer(item as FabricIQPreviewTool);
+
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
@@ -565,6 +580,7 @@ export type ToolType =
   | "sharepoint_grounding_preview"
   | "memory_search_preview"
   | "work_iq_preview"
+  | "fabric_iq_preview"
   | "azure_ai_search"
   | "azure_function"
   | "bing_grounding"
@@ -1615,6 +1631,133 @@ export function workIQPreviewToolParametersDeserializer(item: any): WorkIQPrevie
   };
 }
 
+/** model interface FabricIQPreviewTool */
+export interface FabricIQPreviewTool extends Tool {
+  /** The object type, which is always 'fabric_iq_preview'. */
+  type: "fabric_iq_preview";
+  /** The FabricIQ tool parameters. */
+  fabric_iq_preview: FabricIQPreviewToolParameters;
+}
+
+export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
+  return {
+    type: item["type"],
+    fabric_iq_preview: fabricIQPreviewToolParametersSerializer(item["fabric_iq_preview"]),
+  };
+}
+
+export function fabricIQPreviewToolDeserializer(item: any): FabricIQPreviewTool {
+  return {
+    type: item["type"],
+    fabric_iq_preview: fabricIQPreviewToolParametersDeserializer(item["fabric_iq_preview"]),
+  };
+}
+
+/** model interface FabricIQPreviewToolParameters */
+export interface FabricIQPreviewToolParameters {
+  /** The ID of the FabricIQ project connection. */
+  project_connection_id: string;
+  /** (Optional) The label of the FabricIQ MCP server to connect to. */
+  server_label?: string;
+  /** (Optional) The URL of the FabricIQ MCP server. If not provided, the URL from the project connection will be used. */
+  server_url?: string;
+  /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function fabricIQPreviewToolParametersSerializer(item: FabricIQPreviewToolParameters): any {
+  return {
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _fabricIQPreviewToolParametersRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+export function fabricIQPreviewToolParametersDeserializer(
+  item: any,
+): FabricIQPreviewToolParameters {
+  return {
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _fabricIQPreviewToolParametersRequireApprovalDeserializer(item["require_approval"]),
+  };
+}
+
+/** Alias for _FabricIQPreviewToolParametersRequireApproval */
+export type _FabricIQPreviewToolParametersRequireApproval = MCPToolRequireApproval | string;
+
+export function _fabricIQPreviewToolParametersRequireApprovalSerializer(
+  item: _FabricIQPreviewToolParametersRequireApproval,
+): any {
+  return item;
+}
+
+export function _fabricIQPreviewToolParametersRequireApprovalDeserializer(
+  item: any,
+): _FabricIQPreviewToolParametersRequireApproval {
+  return item;
+}
+
+/** model interface MCPToolRequireApproval */
+export interface MCPToolRequireApproval {
+  always?: MCPToolFilter;
+  never?: MCPToolFilter;
+}
+
+export function mcpToolRequireApprovalSerializer(item: MCPToolRequireApproval): any {
+  return {
+    always: !item["always"] ? item["always"] : mcpToolFilterSerializer(item["always"]),
+    never: !item["never"] ? item["never"] : mcpToolFilterSerializer(item["never"]),
+  };
+}
+
+export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApproval {
+  return {
+    always: !item["always"] ? item["always"] : mcpToolFilterDeserializer(item["always"]),
+    never: !item["never"] ? item["never"] : mcpToolFilterDeserializer(item["never"]),
+  };
+}
+
+/** A filter object to specify which tools are allowed. */
+export interface MCPToolFilter {
+  /** List of allowed tool names. */
+  tool_names?: string[];
+  /**
+   * Indicates whether or not a tool modifies data or is read-only. If an
+   *   MCP server is [annotated with `readOnlyHint`](https://modelcontextprotocol.io/specification/2025-06-18/schema#toolannotations-readonlyhint),
+   *   it will match this filter.
+   */
+  read_only?: boolean;
+}
+
+export function mcpToolFilterSerializer(item: MCPToolFilter): any {
+  return {
+    tool_names: !item["tool_names"]
+      ? item["tool_names"]
+      : item["tool_names"].map((p: any) => {
+          return p;
+        }),
+    read_only: item["read_only"],
+  };
+}
+
+export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
+  return {
+    tool_names: !item["tool_names"]
+      ? item["tool_names"]
+      : item["tool_names"].map((p: any) => {
+          return p;
+        }),
+    read_only: item["read_only"],
+  };
+}
+
 /** A tool for integrating memories into the agent. */
 export interface MemorySearchPreviewTool extends Tool {
   /** The type of the tool. Always `memory_search_preview`. */
@@ -2100,7 +2243,7 @@ export function comparisonFilterSerializer(item: ComparisonFilter): any {
   return {
     type: item["type"],
     key: item["key"],
-    value: _comparisonFilterValueSerializer(item["value"]),
+    value: _fileSearchToolFiltersValueSerializer(item["value"]),
   };
 }
 
@@ -2108,18 +2251,21 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
   return {
     type: item["type"],
     key: item["key"],
-    value: _comparisonFilterValueDeserializer(item["value"]),
+    value: _fileSearchToolFiltersValueDeserializer(item["value"]),
   };
 }
 
 /** Alias for _ComparisonFilterValue */
 export type _ComparisonFilterValue = string | number | boolean | ComparisonFilterValueItems[];
 
-export function _comparisonFilterValueSerializer(item: _ComparisonFilterValue): any {
+/** Alias for _FileSearchToolFiltersValue (spec-rename of _ComparisonFilterValue) */
+type _FileSearchToolFiltersValue = _ComparisonFilterValue;
+
+export function _fileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
   return item;
 }
 
-export function _comparisonFilterValueDeserializer(item: any): _ComparisonFilterValue {
+export function _fileSearchToolFiltersValueDeserializer(item: any): _FileSearchToolFiltersValue {
   return item;
 }
 
@@ -2159,38 +2305,46 @@ export interface CompoundFilter {
 }
 
 export function compoundFilterSerializer(item: CompoundFilter): any {
-  return { type: item["type"], filters: _compoundFilterFilterArraySerializer(item["filters"]) };
+  return {
+    type: item["type"],
+    filters: _fileSearchToolFiltersFilterArraySerializer(item["filters"]),
+  };
 }
 
 export function compoundFilterDeserializer(item: any): CompoundFilter {
   return {
     type: item["type"],
-    filters: _compoundFilterFilterArrayDeserializer(item["filters"]),
+    filters: _fileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
   };
 }
 
-export function _compoundFilterFilterArraySerializer(result: Array<_CompoundFilterFilter>): any[] {
+export function _fileSearchToolFiltersFilterArraySerializer(
+  result: Array<_FileSearchToolFiltersFilter>,
+): any[] {
   return result.map((item) => {
-    return _compoundFilterFilterSerializer(item);
+    return _fileSearchToolFiltersFilterSerializer(item);
   });
 }
 
-export function _compoundFilterFilterArrayDeserializer(
-  result: Array<_CompoundFilterFilter>,
+export function _fileSearchToolFiltersFilterArrayDeserializer(
+  result: Array<_FileSearchToolFiltersFilter>,
 ): any[] {
   return result.map((item) => {
-    return _compoundFilterFilterDeserializer(item);
+    return _fileSearchToolFiltersFilterDeserializer(item);
   });
 }
 
 /** Alias for _CompoundFilterFilter */
 export type _CompoundFilterFilter = ComparisonFilter | CompoundFilter;
 
-export function _compoundFilterFilterSerializer(item: _CompoundFilterFilter): any {
+/** Alias for _FileSearchToolFiltersFilter (spec-rename of _CompoundFilterFilter) */
+type _FileSearchToolFiltersFilter = _CompoundFilterFilter;
+
+export function _fileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
   return item;
 }
 
-export function _compoundFilterFilterDeserializer(item: any): _CompoundFilterFilter {
+export function _fileSearchToolFiltersFilterDeserializer(item: any): _FileSearchToolFiltersFilter {
   return item;
 }
 
@@ -2465,32 +2619,6 @@ export function _mcpToolAllowedToolsDeserializer(item: any): _MCPToolAllowedTool
   return item;
 }
 
-/** A filter object to specify which tools are allowed. */
-export interface MCPToolFilter {
-  /** List of allowed tool names. */
-  tool_names?: string[];
-  /**
-   * Indicates whether or not a tool modifies data or is read-only. If an
-   *   MCP server is [annotated with `readOnlyHint`](https://modelcontextprotocol.io/specification/2025-06-18/schema#toolannotations-readonlyhint),
-   *   it will match this filter.
-   */
-  read_only?: boolean;
-}
-
-export function mcpToolFilterSerializer(item: MCPToolFilter): any {
-  return {
-    tool_names: item["tool_names"],
-    read_only: item["read_only"],
-  };
-}
-
-export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
-  return {
-    tool_names: item["tool_names"],
-    read_only: item["read_only"],
-  };
-}
-
 /** Alias for _MCPToolRequireApproval */
 export type _MCPToolRequireApproval = MCPToolRequireApproval | "always" | "never";
 
@@ -2500,28 +2628,6 @@ export function _mcpToolRequireApprovalSerializer(item: _MCPToolRequireApproval)
 
 export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireApproval {
   return item;
-}
-
-/** model interface MCPToolRequireApproval */
-export interface MCPToolRequireApproval {
-  /** Tools that always require approval before execution. */
-  always?: MCPToolFilter;
-  /** Tools that never require approval before execution. */
-  never?: MCPToolFilter;
-}
-
-export function mcpToolRequireApprovalSerializer(item: MCPToolRequireApproval): any {
-  return {
-    always: !item["always"] ? item["always"] : mcpToolFilterSerializer(item["always"]),
-    never: !item["never"] ? item["never"] : mcpToolFilterSerializer(item["never"]),
-  };
-}
-
-export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApproval {
-  return {
-    always: !item["always"] ? item["always"] : mcpToolFilterDeserializer(item["always"]),
-    never: !item["never"] ? item["never"] : mcpToolFilterDeserializer(item["never"]),
-  };
 }
 
 /** A tool that generates images using the GPT image models. */
@@ -3464,6 +3570,8 @@ export interface CodeConfiguration {
   runtime: string;
   /** The entry point command and arguments for the code execution. */
   entry_point: string[];
+  /** The SHA-256 hex digest of the uploaded code zip. Set by the service from the `x-ms-code-zip-sha256` request header; read-only in responses and never accepted in request payloads. */
+  readonly content_hash?: string;
 }
 
 export function codeConfigurationSerializer(item: CodeConfiguration): any {
@@ -3481,8 +3589,210 @@ export function codeConfigurationDeserializer(item: any): CodeConfiguration {
     entry_point: item["entry_point"].map((p: any) => {
       return p;
     }),
+    content_hash: item["content_hash"],
   };
 }
+
+/** Customer-supplied telemetry configuration for exporting container logs, traces, and metrics. */
+export interface TelemetryConfig {
+  /** Customer-supplied telemetry export endpoint configurations. */
+  endpoints: TelemetryEndpointUnion[];
+}
+
+export function telemetryConfigSerializer(item: TelemetryConfig): any {
+  return { endpoints: telemetryEndpointUnionArraySerializer(item["endpoints"]) };
+}
+
+export function telemetryConfigDeserializer(item: any): TelemetryConfig {
+  return {
+    endpoints: telemetryEndpointUnionArrayDeserializer(item["endpoints"]),
+  };
+}
+
+export function telemetryEndpointUnionArraySerializer(
+  result: Array<TelemetryEndpointUnion>,
+): any[] {
+  return result.map((item) => {
+    return telemetryEndpointUnionSerializer(item);
+  });
+}
+
+export function telemetryEndpointUnionArrayDeserializer(
+  result: Array<TelemetryEndpointUnion>,
+): any[] {
+  return result.map((item) => {
+    return telemetryEndpointUnionDeserializer(item);
+  });
+}
+
+/** A telemetry export endpoint configuration. */
+export interface TelemetryEndpoint {
+  /** The telemetry export endpoint kind. */
+  /** The discriminator possible values: OTLP */
+  kind: TelemetryEndpointKind;
+  /** Data types to export to this endpoint. Use an empty array to export no data. */
+  data: TelemetryDataKind[];
+  /** Optional authentication configuration. */
+  auth?: TelemetryEndpointAuthUnion;
+}
+
+export function telemetryEndpointSerializer(item: TelemetryEndpoint): any {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
+  };
+}
+
+export function telemetryEndpointDeserializer(item: any): TelemetryEndpoint {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
+  };
+}
+
+/** Alias for TelemetryEndpointUnion */
+export type TelemetryEndpointUnion = OtlpTelemetryEndpoint | TelemetryEndpoint;
+
+export function telemetryEndpointUnionSerializer(item: TelemetryEndpointUnion): any {
+  switch (item.kind) {
+    case "OTLP":
+      return otlpTelemetryEndpointSerializer(item as OtlpTelemetryEndpoint);
+
+    default:
+      return telemetryEndpointSerializer(item);
+  }
+}
+
+export function telemetryEndpointUnionDeserializer(item: any): TelemetryEndpointUnion {
+  switch (item["kind"]) {
+    case "OTLP":
+      return otlpTelemetryEndpointDeserializer(item as OtlpTelemetryEndpoint);
+
+    default:
+      return telemetryEndpointDeserializer(item);
+  }
+}
+
+/** The kind of telemetry export endpoint. */
+export type TelemetryEndpointKind = "OTLP";
+/** The type of telemetry data to export. */
+export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
+
+/** Authentication configuration for a telemetry endpoint. */
+export interface TelemetryEndpointAuth {
+  /** The authentication type. */
+  /** The discriminator possible values: header */
+  type: TelemetryEndpointAuthType;
+}
+
+export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
+  return { type: item["type"] };
+}
+
+export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for TelemetryEndpointAuthUnion */
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+export function telemetryEndpointAuthUnionSerializer(item: TelemetryEndpointAuthUnion): any {
+  switch (item.type) {
+    case "header":
+      return headerTelemetryEndpointAuthSerializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthSerializer(item);
+  }
+}
+
+export function telemetryEndpointAuthUnionDeserializer(item: any): TelemetryEndpointAuthUnion {
+  switch (item["type"]) {
+    case "header":
+      return headerTelemetryEndpointAuthDeserializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthDeserializer(item);
+  }
+}
+
+/** The type of authentication for a telemetry endpoint. */
+export type TelemetryEndpointAuthType = "header";
+
+/** Header-based secret authentication for a telemetry endpoint. The resolved secret value is injected as an HTTP header. */
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+  /** The authentication type, always 'header' for header-based secret authentication. */
+  type: "header";
+  /** The name of the HTTP header to inject the secret value into. */
+  header_name: string;
+  /** The identifier of the secret store or connection. */
+  secret_id: string;
+  /** The key within the secret to retrieve the authentication value. */
+  secret_key: string;
+}
+
+export function headerTelemetryEndpointAuthSerializer(item: HeaderTelemetryEndpointAuth): any {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTelemetryEndpointAuth {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+/** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+  /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
+  kind: "OTLP";
+  /** The OTLP collector endpoint URL. */
+  endpoint: string;
+  /** The transport protocol for the OTLP endpoint. */
+  protocol: TelemetryTransportProtocol;
+}
+
+export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+/** The transport protocol for telemetry export. */
+export type TelemetryTransportProtocol = "Http" | "Grpc";
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
@@ -4303,6 +4613,9 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
   };
 }
 
+/** The provisioning status of an agent version. */
+export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
+
 /** model interface AgentIdentity */
 export interface AgentIdentity {
   /** The principal ID of the agent instance */
@@ -4711,25 +5024,15 @@ export function entraIsolationKeySourceDeserializer(item: any): EntraIsolationKe
 /** model interface HeaderIsolationKeySource */
 export interface HeaderIsolationKeySource extends IsolationKeySource {
   kind: "Header";
-  /** The user isolation key header value */
-  user_isolation_key: string;
-  /** The chat isolation key header value */
-  chat_isolation_key: string;
 }
 
 export function headerIsolationKeySourceSerializer(item: HeaderIsolationKeySource): any {
-  return {
-    kind: item["kind"],
-    user_isolation_key: item["user_isolation_key"],
-    chat_isolation_key: item["chat_isolation_key"],
-  };
+  return { kind: item["kind"] };
 }
 
 export function headerIsolationKeySourceDeserializer(item: any): HeaderIsolationKeySource {
   return {
     kind: item["kind"],
-    user_isolation_key: item["user_isolation_key"],
-    chat_isolation_key: item["chat_isolation_key"],
   };
 }
 
@@ -6158,6 +6461,47 @@ export function agentSessionResourceArrayDeserializer(result: Array<AgentSession
   });
 }
 
+/**
+ * A single Server-Sent Event frame emitted by the hosted agent session log stream.
+ *
+ * Each frame contains an `event` field identifying the event type and a `data`
+ * field carrying the payload as plain text. Although the current `data` payload
+ * is JSON-formatted, its schema is not contractual — additional keys may appear
+ * and the format may change over time. Clients should treat `data` as an
+ * opaque string and optionally attempt JSON parsing.
+ *
+ * New event types may be added in the future. Clients should gracefully
+ * ignore unrecognized event types.
+ *
+ * Wire format:
+ * ```
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.121Z","stream":"stdout","message":"Starting server on port 18080"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:34:52.714Z","stream":"status","message":"Successfully connected to container"}
+ * ```
+ */
+export interface SessionLogEvent {
+  /** The SSE event type. Currently `log`, but additional event types may be added in the future. Clients should ignore unrecognized event types. */
+  event: SessionLogEventType;
+  /** The event payload as plain text. Currently JSON-formatted but the schema is not contractual and may change. */
+  data: string;
+}
+
+export function sessionLogEventDeserializer(item: any): SessionLogEvent {
+  return {
+    event: item["event"],
+    data: item["data"],
+  };
+}
+
+/**
+ * Known SSE event types emitted by the hosted agent session log stream.
+ * Additional event types may be introduced in future versions.
+ */
+export type SessionLogEventType = "log";
+
 /** Response from uploading a file to a session sandbox. */
 export interface SessionFileWriteResponse {
   /** The path where the file was written, relative to the session home directory. */
@@ -6204,7 +6548,7 @@ export interface SessionDirectoryEntry {
   size: number;
   /** Whether this entry is a directory. */
   is_directory: boolean;
-  /** The last modification time in UTC (ISO 8601). */
+  /** The Unix timestamp (in seconds) when the file was last modified. */
   modified_time: Date;
 }
 
@@ -9038,7 +9382,7 @@ export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse 
 /** model interface UpdateToolboxRequest */
 export interface UpdateToolboxRequest {
   /** The name of the toolbox to update. */
-  toolbox_name: string;
+  name: string;
   /** The version identifier that the toolbox should point to. When set, the toolbox's default version will resolve to this version instead of the latest. */
   default_version: string;
 }

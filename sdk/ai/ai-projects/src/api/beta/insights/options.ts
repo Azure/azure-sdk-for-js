@@ -6,6 +6,8 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BetaInsightsListOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Insights=V1Preview";
   /** Filter by the type of analysis. */
   insightType?: InsightType;
   /** Filter by the evaluation ID. */
@@ -22,6 +24,8 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface BetaInsightsGetOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Insights=V1Preview";
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -30,6 +34,8 @@ export interface BetaInsightsGetOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Insights=V1Preview";
   /** Unique, client-generated identifier for ensuring request idempotency. Use the same ID for retries to prevent duplicate evaluations. */
   repeatabilityRequestId?: string;
   /** Timestamp indicating when this request was first initiated. Used in conjunction with repeatability-request-id for idempotency control. */
