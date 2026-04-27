@@ -55,11 +55,14 @@ import type {
   ContentUnderstandingDefaults,
   CopyAuthorization,
   AnalysisInput,
+  UsageDetails,
 } from "./models/models.js";
+import { usageDetailsDeserializer } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
+import { logger } from "./logger.js";
 
 export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
@@ -90,14 +93,31 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   processingLocation?: ProcessingLocation;
 }
 
-// CUSTOMIZATION: SDK-IMPROVEMENT: Custom poller type that exposes `operationId` for users to call
-// `getResult`, `getResultFile`, and `deleteResult` methods.
-export interface AnalysisResultPoller extends PollerLike<
-  OperationState<AnalysisResult>,
-  AnalysisResult
-> {
-  /** The operation ID */
-  operationId?: string;
+// CUSTOMIZATION: SDK-IMPROVEMENT: Custom operation state and poller types.
+// AnalysisOperationState extends the standard OperationState with operation metadata
+// (operationId for result retrieval, usage for billing/metering details).
+// This follows the same pattern as Form Recognizer's DocumentAnalysisPollOperationState
+// and Storage Blob's BlobBeginCopyFromUrlPollState.
+
+/** Metadata from an analysis operation, available after the operation completes. */
+export interface AnalysisOperationMetadata {
+  /** Usage details of the analyze operation. */
+  readonly usage?: UsageDetails;
+  /** The operation ID, used with `getResultFile` and `deleteResult`. */
+  readonly operationId?: string;
+}
+
+/** The state of an analysis operation, extending the standard OperationState with analysis metadata. */
+export interface AnalysisOperationState
+  extends OperationState<AnalysisResult>, AnalysisOperationMetadata {}
+
+/** A poller for an analysis operation. */
+export interface AnalysisResultPoller extends PollerLike<AnalysisOperationState, AnalysisResult> {
+  /**
+   * The operation ID.
+   * @deprecated Use `operationState?.operationId` instead.
+   */
+  readonly operationId?: string;
 }
 
 export class ContentUnderstandingClient {
@@ -249,6 +269,7 @@ export class ContentUnderstandingClient {
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
   ): AnalysisResultPoller {
     let operationId: string | undefined;
+    let usage: UsageDetails | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(this._client, analyzerId, binaryInput, contentType, {
         ...options,
@@ -261,24 +282,53 @@ export class ContentUnderstandingClient {
       return res;
     };
 
-    const poller = getLongRunningPoller(
-      this._client,
-      _analyzeBinaryDeserialize,
-      ["202", "200", "201"],
-      {
-        // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
-        // Content Understanding operations (generated code defaults to 2 seconds).
-        updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
-        abortSignal: options?.abortSignal,
-        getInitialResponse,
-        resourceLocationConfig: "operation-location",
-      },
-    ) as AnalysisResultPoller;
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Wrap deserializer to capture `usage` from the operation
+    // status envelope before extracting the `result` field.
+    // Usage deserialization is guarded with try/catch so a malformed usage field
+    // doesn't prevent the user from getting their AnalysisResult.
+    const deserializeWithUsage = async (result: PathUncheckedResponse): Promise<AnalysisResult> => {
+      if (result?.body?.usage) {
+        try {
+          usage = usageDetailsDeserializer(result.body.usage);
+        } catch (e) {
+          logger.warning("Failed to deserialize usage details from analyze response", e);
+        }
+      }
+      return _analyzeBinaryDeserialize(result);
+    };
 
+    const poller = getLongRunningPoller(this._client, deserializeWithUsage, ["202", "200", "201"], {
+      // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
+      // Content Understanding operations (generated code defaults to 2 seconds).
+      updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
+      abortSignal: options?.abortSignal,
+      getInitialResponse,
+      resourceLocationConfig: "operation-location",
+    }) as unknown as AnalysisResultPoller;
+
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Override operationState getter to augment the base
+    // OperationState with operationId and usage metadata, following the pattern used by
+    // Form Recognizer (DocumentAnalysisPollOperationState) and Storage Blob (BlobBeginCopyFromUrlPollState).
+    const baseOperationStateDescriptor = Object.getOwnPropertyDescriptor(poller, "operationState");
+    Object.defineProperty(poller, "operationState", {
+      get(): AnalysisOperationState | undefined {
+        const baseState = baseOperationStateDescriptor?.get?.call(poller);
+        if (!baseState) return undefined;
+        return {
+          ...baseState,
+          operationId,
+          usage,
+        };
+      },
+      enumerable: true,
+      configurable: false,
+    });
+
+    // Backward compatibility: keep operationId directly on the poller (deprecated).
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     return poller;
@@ -295,6 +345,7 @@ export class ContentUnderstandingClient {
     options: AnalyzeOptionalParams = { requestOptions: {} },
   ): AnalysisResultPoller {
     let operationId: string | undefined;
+    let usage: UsageDetails | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeSend(this._client, analyzerId, inputs, {
         ...options,
@@ -307,19 +358,52 @@ export class ContentUnderstandingClient {
       return res;
     };
 
-    const poller = getLongRunningPoller(this._client, _analyzeDeserialize, ["202", "200", "201"], {
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Wrap deserializer to capture `usage` from the operation
+    // status envelope before extracting the `result` field.
+    // Usage deserialization is guarded with try/catch so a malformed usage field
+    // doesn't prevent the user from getting their AnalysisResult.
+    const deserializeWithUsage = async (result: PathUncheckedResponse): Promise<AnalysisResult> => {
+      if (result?.body?.usage) {
+        try {
+          usage = usageDetailsDeserializer(result.body.usage);
+        } catch (e) {
+          logger.warning("Failed to deserialize usage details from analyze response", e);
+        }
+      }
+      return _analyzeDeserialize(result);
+    };
+
+    const poller = getLongRunningPoller(this._client, deserializeWithUsage, ["202", "200", "201"], {
       // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
       // Content Understanding operations (generated code defaults to 2 seconds).
       updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
       abortSignal: options?.abortSignal,
       getInitialResponse,
       resourceLocationConfig: "operation-location",
-    }) as AnalysisResultPoller;
+    }) as unknown as AnalysisResultPoller;
 
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Override operationState getter to augment the base
+    // OperationState with operationId and usage metadata.
+    const baseOperationStateDescriptor = Object.getOwnPropertyDescriptor(poller, "operationState");
+    Object.defineProperty(poller, "operationState", {
+      get(): AnalysisOperationState | undefined {
+        const baseState = baseOperationStateDescriptor?.get?.call(poller);
+        if (!baseState) return undefined;
+        return {
+          ...baseState,
+          operationId,
+          usage,
+        };
+      },
+      enumerable: true,
+      configurable: false,
+    });
+
+    // Backward compatibility: keep operationId directly on the poller (deprecated).
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
       enumerable: true,
-      configurable: true,
+      configurable: false,
     });
 
     return poller;

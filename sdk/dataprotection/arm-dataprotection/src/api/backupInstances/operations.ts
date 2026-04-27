@@ -68,9 +68,7 @@ export function _validateCrossRegionRestoreSend(
   resourceGroupName: string,
   location: string,
   parameters: ValidateCrossRegionRestoreRequestObject,
-  options: BackupInstancesValidateCrossRegionRestoreOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateCrossRegionRestoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/validateCrossRegionRestore{?api%2Dversion}",
@@ -78,7 +76,7 @@ export function _validateCrossRegionRestoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,10 +85,7 @@ export function _validateCrossRegionRestoreSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: validateCrossRegionRestoreRequestObjectSerializer(parameters),
   });
 }
@@ -98,10 +93,11 @@ export function _validateCrossRegionRestoreSend(
 export async function _validateCrossRegionRestoreDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationJobExtendedInfo> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -114,17 +110,21 @@ export function validateCrossRegionRestore(
   resourceGroupName: string,
   location: string,
   parameters: ValidateCrossRegionRestoreRequestObject,
-  options: BackupInstancesValidateCrossRegionRestoreOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateCrossRegionRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo> {
-  return getLongRunningPoller(context, _validateCrossRegionRestoreDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _validateCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
+  return getLongRunningPoller(
+    context,
+    _validateCrossRegionRestoreDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _validateCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-03-01",
+    },
+  ) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
 export function _triggerCrossRegionRestoreSend(
@@ -132,9 +132,7 @@ export function _triggerCrossRegionRestoreSend(
   resourceGroupName: string,
   location: string,
   parameters: CrossRegionRestoreRequestObject,
-  options: BackupInstancesTriggerCrossRegionRestoreOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesTriggerCrossRegionRestoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/crossRegionRestore{?api%2Dversion}",
@@ -142,7 +140,7 @@ export function _triggerCrossRegionRestoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,10 +149,7 @@ export function _triggerCrossRegionRestoreSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: crossRegionRestoreRequestObjectSerializer(parameters),
   });
 }
@@ -162,10 +157,11 @@ export function _triggerCrossRegionRestoreSend(
 export async function _triggerCrossRegionRestoreDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationJobExtendedInfo> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -178,17 +174,21 @@ export function triggerCrossRegionRestore(
   resourceGroupName: string,
   location: string,
   parameters: CrossRegionRestoreRequestObject,
-  options: BackupInstancesTriggerCrossRegionRestoreOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesTriggerCrossRegionRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo> {
-  return getLongRunningPoller(context, _triggerCrossRegionRestoreDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _triggerCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
+  return getLongRunningPoller(
+    context,
+    _triggerCrossRegionRestoreDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _triggerCrossRegionRestoreSend(context, resourceGroupName, location, parameters, options),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-03-01",
+    },
+  ) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
 export function _validateForRestoreSend(
@@ -197,9 +197,7 @@ export function _validateForRestoreSend(
   vaultName: string,
   backupInstanceName: string,
   parameters: ValidateRestoreRequestObject,
-  options: BackupInstancesValidateForRestoreOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateForRestoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateRestore{?api%2Dversion}",
@@ -208,7 +206,7 @@ export function _validateForRestoreSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -217,10 +215,7 @@ export function _validateForRestoreSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: validateRestoreRequestObjectSerializer(parameters),
   });
 }
@@ -228,10 +223,11 @@ export function _validateForRestoreSend(
 export async function _validateForRestoreDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationJobExtendedInfo> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -245,11 +241,9 @@ export function validateForRestore(
   vaultName: string,
   backupInstanceName: string,
   parameters: ValidateRestoreRequestObject,
-  options: BackupInstancesValidateForRestoreOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateForRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo> {
-  return getLongRunningPoller(context, _validateForRestoreDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _validateForRestoreDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -262,6 +256,7 @@ export function validateForRestore(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -271,9 +266,7 @@ export function _syncBackupInstanceSend(
   vaultName: string,
   backupInstanceName: string,
   parameters: SyncBackupInstanceRequest,
-  options: BackupInstancesSyncBackupInstanceOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesSyncBackupInstanceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/sync{?api%2Dversion}",
@@ -282,7 +275,7 @@ export function _syncBackupInstanceSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -296,10 +289,11 @@ export function _syncBackupInstanceSend(
 }
 
 export async function _syncBackupInstanceDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -316,11 +310,9 @@ export function syncBackupInstance(
   vaultName: string,
   backupInstanceName: string,
   parameters: SyncBackupInstanceRequest,
-  options: BackupInstancesSyncBackupInstanceOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesSyncBackupInstanceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _syncBackupInstanceDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _syncBackupInstanceDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -333,6 +325,7 @@ export function syncBackupInstance(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -350,7 +343,7 @@ export function _suspendBackupsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,9 +354,7 @@ export function _suspendBackupsSend(
     contentType: "application/json",
     headers: {
       ...(options?.xMsAuthorizationAuxiliary !== undefined
-        ? {
-            "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary,
-          }
+        ? { "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -374,10 +365,11 @@ export function _suspendBackupsSend(
 }
 
 export async function _suspendBackupsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -392,12 +384,13 @@ export function suspendBackups(
   backupInstanceName: string,
   options: BackupInstancesSuspendBackupsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _suspendBackupsDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _suspendBackupsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _suspendBackupsSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -415,7 +408,7 @@ export function _stopProtectionSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -426,9 +419,7 @@ export function _stopProtectionSend(
     contentType: "application/json",
     headers: {
       ...(options?.xMsAuthorizationAuxiliary !== undefined
-        ? {
-            "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary,
-          }
+        ? { "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -439,10 +430,11 @@ export function _stopProtectionSend(
 }
 
 export async function _stopProtectionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -457,12 +449,13 @@ export function stopProtection(
   backupInstanceName: string,
   options: BackupInstancesStopProtectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _stopProtectionDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _stopProtectionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _stopProtectionSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -471,9 +464,7 @@ export function _resumeProtectionSend(
   resourceGroupName: string,
   vaultName: string,
   backupInstanceName: string,
-  options: BackupInstancesResumeProtectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesResumeProtectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeProtection{?api%2Dversion}",
@@ -482,7 +473,7 @@ export function _resumeProtectionSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,10 +483,11 @@ export function _resumeProtectionSend(
 }
 
 export async function _resumeProtectionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -508,16 +500,15 @@ export function resumeProtection(
   resourceGroupName: string,
   vaultName: string,
   backupInstanceName: string,
-  options: BackupInstancesResumeProtectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesResumeProtectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resumeProtectionDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _resumeProtectionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _resumeProtectionSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -535,7 +526,7 @@ export function _resumeBackupsSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -545,10 +536,11 @@ export function _resumeBackupsSend(
 }
 
 export async function _resumeBackupsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -563,12 +555,13 @@ export function resumeBackups(
   backupInstanceName: string,
   options: BackupInstancesResumeBackupsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resumeBackupsDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _resumeBackupsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _resumeBackupsSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -587,7 +580,7 @@ export function _triggerRestoreSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -598,9 +591,7 @@ export function _triggerRestoreSend(
     contentType: "application/json",
     headers: {
       ...(options?.xMsAuthorizationAuxiliary !== undefined
-        ? {
-            "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary,
-          }
+        ? { "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -612,10 +603,11 @@ export function _triggerRestoreSend(
 export async function _triggerRestoreDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationJobExtendedInfo> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -631,7 +623,7 @@ export function triggerRestore(
   parameters: AzureBackupRestoreRequestUnion,
   options: BackupInstancesTriggerRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo> {
-  return getLongRunningPoller(context, _triggerRestoreDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _triggerRestoreDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -644,6 +636,7 @@ export function triggerRestore(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -653,9 +646,7 @@ export function _triggerRehydrateSend(
   vaultName: string,
   backupInstanceName: string,
   parameters: AzureBackupRehydrationRequest,
-  options: BackupInstancesTriggerRehydrateOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesTriggerRehydrateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/rehydrate{?api%2Dversion}",
@@ -664,7 +655,7 @@ export function _triggerRehydrateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -678,10 +669,11 @@ export function _triggerRehydrateSend(
 }
 
 export async function _triggerRehydrateDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -695,11 +687,9 @@ export function triggerRehydrate(
   vaultName: string,
   backupInstanceName: string,
   parameters: AzureBackupRehydrationRequest,
-  options: BackupInstancesTriggerRehydrateOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesTriggerRehydrateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _triggerRehydrateDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _triggerRehydrateDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -712,6 +702,7 @@ export function triggerRehydrate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -721,9 +712,7 @@ export function _validateForModifyBackupSend(
   vaultName: string,
   backupInstanceName: string,
   parameters: ValidateForModifyBackupRequest,
-  options: BackupInstancesValidateForModifyBackupOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateForModifyBackupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateForModifyBackup{?api%2Dversion}",
@@ -732,7 +721,7 @@ export function _validateForModifyBackupSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -748,10 +737,11 @@ export function _validateForModifyBackupSend(
 export async function _validateForModifyBackupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -765,11 +755,9 @@ export function validateForModifyBackup(
   vaultName: string,
   backupInstanceName: string,
   parameters: ValidateForModifyBackupRequest,
-  options: BackupInstancesValidateForModifyBackupOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateForModifyBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _validateForModifyBackupDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _validateForModifyBackupDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -782,6 +770,7 @@ export function validateForModifyBackup(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -800,7 +789,7 @@ export function _adhocBackupSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -809,10 +798,7 @@ export function _adhocBackupSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: triggerBackupRequestSerializer(parameters),
   });
 }
@@ -820,10 +806,11 @@ export function _adhocBackupSend(
 export async function _adhocBackupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationJobExtendedInfo> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -839,7 +826,7 @@ export function adhocBackup(
   parameters: TriggerBackupRequest,
   options: BackupInstancesAdhocBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo> {
-  return getLongRunningPoller(context, _adhocBackupDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _adhocBackupDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -852,6 +839,7 @@ export function adhocBackup(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -869,7 +857,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -879,9 +867,7 @@ export function _$deleteSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.xMsAuthorizationAuxiliary !== undefined
-        ? {
-            "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary,
-          }
+        ? { "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -893,6 +879,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -918,6 +905,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vaultName, backupInstanceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -936,7 +924,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -947,9 +935,7 @@ export function _createOrUpdateSend(
     contentType: "application/json",
     headers: {
       ...(options?.xMsAuthorizationAuxiliary !== undefined
-        ? {
-            "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary,
-          }
+        ? { "x-ms-authorization-auxiliary": options?.xMsAuthorizationAuxiliary }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -965,6 +951,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -993,6 +980,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<BackupInstanceResource>, BackupInstanceResource>;
 }
 
@@ -1010,7 +998,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1018,10 +1006,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1032,6 +1017,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1055,9 +1041,7 @@ export function _validateForBackupSend(
   resourceGroupName: string,
   vaultName: string,
   parameters: ValidateForBackupRequest,
-  options: BackupInstancesValidateForBackupOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateForBackupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/validateForBackup{?api%2Dversion}",
@@ -1065,7 +1049,7 @@ export function _validateForBackupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1074,10 +1058,7 @@ export function _validateForBackupSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: validateForBackupRequestSerializer(parameters),
   });
 }
@@ -1085,10 +1066,11 @@ export function _validateForBackupSend(
 export async function _validateForBackupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationJobExtendedInfo> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1101,16 +1083,15 @@ export function validateForBackup(
   resourceGroupName: string,
   vaultName: string,
   parameters: ValidateForBackupRequest,
-  options: BackupInstancesValidateForBackupOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesValidateForBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo> {
-  return getLongRunningPoller(context, _validateForBackupDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _validateForBackupDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _validateForBackupSend(context, resourceGroupName, vaultName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
 }
 
@@ -1126,7 +1107,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1134,10 +1115,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1148,6 +1126,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1166,7 +1145,7 @@ export function list(
     () => _listSend(context, resourceGroupName, vaultName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -1176,9 +1155,7 @@ export function _getBackupInstanceOperationResultSend(
   vaultName: string,
   backupInstanceName: string,
   operationId: string,
-  options: BackupInstancesGetBackupInstanceOperationResultOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupInstancesGetBackupInstanceOperationResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/operationResults/{operationId}{?api%2Dversion}",
@@ -1188,7 +1165,7 @@ export function _getBackupInstanceOperationResultSend(
       vaultName: vaultName,
       backupInstanceName: backupInstanceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1196,10 +1173,7 @@ export function _getBackupInstanceOperationResultSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1210,6 +1184,7 @@ export async function _getBackupInstanceOperationResultDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1223,10 +1198,8 @@ export async function getBackupInstanceOperationResult(
   vaultName: string,
   backupInstanceName: string,
   operationId: string,
-  options: BackupInstancesGetBackupInstanceOperationResultOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<BackupInstanceResource | null> {
+  options: BackupInstancesGetBackupInstanceOperationResultOptionalParams = { requestOptions: {} },
+): Promise<BackupInstanceResource> {
   const result = await _getBackupInstanceOperationResultSend(
     context,
     resourceGroupName,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription.
  *
  * @summary deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription.
- * x-ms-original-file: 2026-03-20/GuestSubscriptions_Delete.json
+ * x-ms-original-file: 2026-04-30/GuestSubscriptions_Delete.json
  */
 async function deleteAGuestSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

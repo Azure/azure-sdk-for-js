@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { type PipelinePolicy } from "../pipeline.js";
-import { wrapAbortSignalLike } from "../util/wrapAbortSignal.js";
+import { wrapAbortSignalLike } from "#platform/wrapAbortSignal";
 
 export const wrapAbortSignalLikePolicyName = "wrapAbortSignalLikePolicy";
 

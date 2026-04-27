@@ -21,11 +21,6 @@ export interface AgentPoolsAbortLatestOperationOptionalParams extends OperationO
 }
 
 // @public
-export interface AgentPoolsCompleteUpgradeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface AgentPoolsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -64,9 +59,6 @@ export interface AgentPoolsListOptionalParams extends OperationOptions {
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export function completeUpgrade(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsCompleteUpgradeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function createOrUpdate(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): PollerLike<OperationState<AgentPool>, AgentPool>;

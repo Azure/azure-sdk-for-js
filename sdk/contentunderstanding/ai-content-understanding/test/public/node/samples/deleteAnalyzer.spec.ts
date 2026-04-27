@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for deleteAnalyzer.ts - Delete a custom analyzer.
+ * Sample test for deleteAnalyzer.ts - Delete a custom analyzer.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
