@@ -1,0 +1,26 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export enum EnvironmentVariableNames {
+  // Planetary Computer Configuration
+  PLANETARYCOMPUTER_ENDPOINT = "PLANETARYCOMPUTER_ENDPOINT",
+  PLANETARYCOMPUTER_COLLECTION_ID = "PLANETARYCOMPUTER_COLLECTION_ID",
+  PLANETARYCOMPUTER_ITEM_ID = "PLANETARYCOMPUTER_ITEM_ID",
+
+  // Ingestion Configuration
+  PLANETARYCOMPUTER_INGESTION_CONTAINER_URI = "PLANETARYCOMPUTER_INGESTION_CONTAINER_URI",
+  PLANETARYCOMPUTER_INGESTION_CATALOG_URL = "PLANETARYCOMPUTER_INGESTION_CATALOG_URL",
+  PLANETARYCOMPUTER_MANAGED_IDENTITY_OBJECT_ID = "PLANETARYCOMPUTER_MANAGED_IDENTITY_OBJECT_ID",
+
+  // SAS Token Ingestion Configuration
+  PLANETARYCOMPUTER_INGESTION_SAS_CONTAINER_URI = "PLANETARYCOMPUTER_INGESTION_SAS_CONTAINER_URI",
+  PLANETARYCOMPUTER_INGESTION_SAS_TOKEN = "PLANETARYCOMPUTER_INGESTION_SAS_TOKEN",
+}
+
+export function assertEnvironmentVariable(key: EnvironmentVariableNames): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Environment variable ${key} is not defined.`);
+  }
+  return value;
+}

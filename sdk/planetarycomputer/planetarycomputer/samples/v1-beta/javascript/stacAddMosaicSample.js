@@ -1,0 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { PlanetaryComputerProClient } = require("@azure/planetarycomputer");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to add a mosaic definition to a given collection
+ *
+ * @summary add a mosaic definition to a given collection
+ * x-ms-original-file: 2025-04-30-preview/StacCollectionMosaics_Add.json
+ */
+async function stacCollectionMosaicsAdd() {
+  const credential = new DefaultAzureCredential();
+  const client = new PlanetaryComputerProClient(credential);
+  const result = await client.stac.addMosaic("naip-atl", {
+    id: "test-mosaic-1",
+    name: "Test Most recent available",
+    cql: [],
+  });
+  console.log(result);
+}
+
+async function main() {
+  await stacCollectionMosaicsAdd();
+}
+
+main().catch(console.error);
