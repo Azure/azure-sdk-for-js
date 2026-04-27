@@ -5055,8 +5055,8 @@ export interface GetIndexStatisticsResult {
   readonly vectorIndexSize: number;
 }
 
-export function getIndexStatisticsResultSerializer(item: GetIndexStatisticsResult): any {
-  return item;
+export function getIndexStatisticsResultSerializer(_item: GetIndexStatisticsResult): any {
+  return {};
 }
 
 export function getIndexStatisticsResultDeserializer(item: any): GetIndexStatisticsResult {
@@ -5142,8 +5142,8 @@ export interface AnalyzedTokenInfo {
   readonly position: number;
 }
 
-export function analyzedTokenInfoSerializer(item: AnalyzedTokenInfo): any {
-  return item;
+export function analyzedTokenInfoSerializer(_item: AnalyzedTokenInfo): any {
+  return {};
 }
 
 export function analyzedTokenInfoDeserializer(item: any): AnalyzedTokenInfo {
@@ -5730,27 +5730,6 @@ export function indexingScheduleDeserializer(item: any): IndexingSchedule {
     startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
   };
 }
-
-/** Permission types to ingest together with document content. */
-export enum KnownKnowledgeSourceIngestionPermissionOption {
-  /** Ingest explicit user identifiers alongside document content. */
-  UserIds = "userIds",
-  /** Ingest group identifiers alongside document content. */
-  GroupIds = "groupIds",
-  /** Ingest RBAC scope information alongside document content. */
-  RbacScope = "rbacScope",
-}
-
-/**
- * Permission types to ingest together with document content. \
- * {@link KnownKnowledgeSourceIngestionPermissionOption} can be used interchangeably with KnowledgeSourceIngestionPermissionOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **userIds**: Ingest explicit user identifiers alongside document content. \
- * **groupIds**: Ingest group identifiers alongside document content. \
- * **rbacScope**: Ingest RBAC scope information alongside document content.
- */
-export type KnowledgeSourceIngestionPermissionOption = string;
 
 /** Optional content extraction mode. Default is 'minimal'. */
 export enum KnownKnowledgeSourceContentExtractionMode {

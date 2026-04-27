@@ -58,7 +58,9 @@ export function _autocompletePostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -143,7 +145,9 @@ export function _autocompleteGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -196,7 +200,9 @@ export function _indexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -250,7 +256,9 @@ export function _suggestPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -327,7 +335,9 @@ export function _suggestGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -381,7 +391,9 @@ export function _getDocumentSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -432,7 +444,9 @@ export function _searchPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -565,7 +579,9 @@ export function _searchGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -614,7 +630,9 @@ export function _getDocumentCountSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
+      ...(options?.accept !== undefined
+        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

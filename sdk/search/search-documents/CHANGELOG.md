@@ -1,5 +1,19 @@
 # Release History
 
+## 13.0.1 (Unreleased)
+
+### Features Added
+
+- Added `KnowledgeBaseModelWebSummarizationActivityRecord` for tracking LLM web summarization activity.
+
+### Breaking Changes
+
+- Removed `ingestionPermissionOptions` from `KnowledgeSourceIngestionParameters` and the associated `KnowledgeSourceIngestionPermissionOption` type (spec correction).
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 13.0.0 (2026-03-24)
 
 ### Features Added

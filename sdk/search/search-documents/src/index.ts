@@ -76,6 +76,7 @@ export {
   type SearchIndexKnowledgeSourceParams,
   type WebKnowledgeSourceParams,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
+export { type KnowledgeBaseModelWebSummarizationActivityRecord } from "./models/index.js";
 export {
   type AIFoundryModelCatalogName,
   type AIServicesAccountKey,
@@ -157,7 +158,6 @@ export {
   type KeywordMarkerTokenFilter,
   type KnowledgeBaseModelKind,
   type KnowledgeSourceContentExtractionMode,
-  type KnowledgeSourceIngestionPermissionOption,
   type KnowledgeSourceKind,
   type KnowledgeSourceReference,
   type KnowledgeSourceSynchronizationStatus,

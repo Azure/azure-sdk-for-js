@@ -31,7 +31,7 @@ export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourcePara
 
 // @public
 export interface KnowledgeBaseActivityRecord {
-    elapsedInMs?: number;
+    elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
@@ -41,7 +41,7 @@ export interface KnowledgeBaseActivityRecord {
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
-export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
 
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
@@ -202,7 +202,6 @@ export interface KnowledgeSourceIngestionParameters {
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizerUnion;
     identity?: SearchIndexerDataIdentityUnion;
-    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
 
@@ -258,6 +257,7 @@ export enum KnownKnowledgeBaseActivityRecordType {
     AgenticReasoning = "agenticReasoning",
     AzureBlob = "azureBlob",
     IndexedOneLake = "indexedOneLake",
+    ModelWebSummarization = "modelWebSummarization",
     SearchIndex = "searchIndex",
     Web = "web"
 }

@@ -8,6 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
+export type { KnowledgeBaseModelWebSummarizationActivityRecord } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
@@ -223,7 +224,6 @@ export type {
   AzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters,
   IndexingSchedule,
-  KnowledgeSourceIngestionPermissionOption,
   KnowledgeSourceContentExtractionMode,
   CreatedResources,
   IndexedOneLakeKnowledgeSource,
@@ -370,7 +370,6 @@ export {
   KnownVectorSearchCompressionTarget,
   KnownKnowledgeBaseModelKind,
   KnownKnowledgeSourceKind,
-  KnownKnowledgeSourceIngestionPermissionOption,
   KnownKnowledgeSourceContentExtractionMode,
   KnownKnowledgeSourceSynchronizationStatus,
   KnownSearchIndexerDataSourceType,

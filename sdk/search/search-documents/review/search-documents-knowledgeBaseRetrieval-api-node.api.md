@@ -11,7 +11,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export function createKnowledgeBaseRetrieval(endpointParam: string, credential: KeyCredential | TokenCredential, options?: KnowledgeBaseRetrievalClientOptionalParams): KnowledgeBaseRetrievalContext;
+export function createKnowledgeBaseRetrieval(endpointParam: string, credential: KeyCredential | TokenCredential, knowledgeBaseName: string, options?: KnowledgeBaseRetrievalClientOptionalParams): KnowledgeBaseRetrievalContext;
 
 // @public
 export interface KnowledgeBaseRetrievalClientOptionalParams extends ClientOptions {
@@ -21,10 +21,11 @@ export interface KnowledgeBaseRetrievalClientOptionalParams extends ClientOption
 // @public (undocumented)
 export interface KnowledgeBaseRetrievalContext extends Client {
     apiVersion?: string;
+    knowledgeBaseName: string;
 }
 
 // @public
-export function retrieve(context: KnowledgeBaseRetrievalContext, knowledgeBaseName: string, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
+export function retrieve(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptionalParams): Promise<KnowledgeBaseRetrievalResponse>;
 
 // @public
 export interface RetrieveOptionalParams extends OperationOptions {
