@@ -9470,11 +9470,16 @@ export type BetaAgentsDownloadSessionFileResponse = {
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
+/**
+ * Response type for the `getSessionLogStream` operation.
+ * Exposes the raw Server-Sent Events (SSE) byte stream. Callers are responsible
+ * for parsing the individual `event:` / `data:` frames from the stream.
+ */
 export type BetaAgentsGetSessionLogStreamResponse = {
   /**
    * BROWSER ONLY
    *
-   * The response body as a browser Blob.
+   * The response body as a browser Blob containing the raw SSE byte stream.
    * Always `undefined` in node.js.
    */
   blobBody?: Promise<Blob>;
@@ -9482,6 +9487,7 @@ export type BetaAgentsGetSessionLogStreamResponse = {
    * NODEJS ONLY
    *
    * The response body as a node.js Readable stream containing the raw SSE event stream.
+   * Callers must parse the individual `event:` / `data:` frames from this stream.
    * Always `undefined` in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
