@@ -4,17 +4,31 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface A2AAddDisksInput extends AddDisksProviderSpecificInput {
     instanceType: "A2A";
     vmDisks?: A2AVmDiskInputDetails[];
     vmManagedDisks?: A2AVmManagedDiskInputDetails[];
+}
+
+// @public
+export interface A2AAgentReinstallBlockingErrorDetails {
+    errorCode?: string;
+    errorMessage?: string;
+    errorMessageParameters?: Record<string, string>;
+    errorTags?: Record<string, string>;
+    possibleCauses?: string;
+    recommendedAction?: string;
 }
 
 // @public
@@ -129,6 +143,7 @@ export interface A2AEnableProtectionInput extends EnableProtectionProviderSpecif
     instanceType: "A2A";
     multiVmGroupId?: string;
     multiVmGroupName?: string;
+    platformFaultDomain?: number;
     protectionClusterId?: string;
     recoveryAvailabilitySetId?: string;
     recoveryAvailabilityZone?: string;
@@ -320,9 +335,13 @@ export interface A2ARemoveDisksInput extends RemoveDisksProviderSpecificInput {
 export interface A2AReplicationDetails extends ReplicationProviderSpecificSettings {
     readonly agentCertificateExpiryDate?: Date;
     agentExpiryDate?: Date;
+    agentReinstallAttemptToVersion?: string;
     agentVersion?: string;
+    autoAgentUpgradeRetryCount?: number;
     autoProtectionOfDataDisk?: AutoProtectionOfDataDisk;
     readonly churnOptionSelected?: ChurnOptionSelected;
+    distroName?: string;
+    distroNameForWhichAgentIsInstalled?: string;
     fabricObjectId?: string;
     initialPrimaryExtendedLocation?: ExtendedLocation;
     readonly initialPrimaryFabricLocation?: string;
@@ -331,6 +350,10 @@ export interface A2AReplicationDetails extends ReplicationProviderSpecificSettin
     readonly initialRecoveryFabricLocation?: string;
     readonly initialRecoveryZone?: string;
     instanceType: "A2A";
+    isAgentReinstallRequired?: boolean;
+    isAgentUpgradeable?: boolean;
+    isAgentUpgradeInProgress?: boolean;
+    isAgentUpgradeRetryThresholdExhausted?: boolean;
     isClusterInfraReady?: boolean;
     isReplicationAgentCertificateUpdateRequired?: boolean;
     isReplicationAgentUpdateRequired?: boolean;
@@ -343,13 +366,17 @@ export interface A2AReplicationDetails extends ReplicationProviderSpecificSettin
     multiVmGroupCreateOption?: MultiVmGroupCreateOption;
     multiVmGroupId?: string;
     multiVmGroupName?: string;
+    osFamilyName?: string;
     osType?: string;
+    platformFaultDomain?: number;
     primaryAvailabilityZone?: string;
     primaryExtendedLocation?: ExtendedLocation;
     primaryFabricLocation?: string;
     protectedDisks?: A2AProtectedDiskDetails[];
     protectedManagedDisks?: A2AProtectedManagedDiskDetails[];
     protectionClusterId?: string;
+    reasonsBlockingReInstall?: string;
+    reasonsBlockingReinstallDetails?: A2AAgentReinstallBlockingErrorDetails[];
     recoveryAvailabilitySet?: string;
     recoveryAvailabilityZone?: string;
     readonly recoveryAzureGeneration?: string;
@@ -481,6 +508,7 @@ export interface A2ASwitchClusterProtectionInput extends SwitchClusterProtection
 export interface A2ASwitchProtectionInput extends SwitchProtectionProviderSpecificInput {
     diskEncryptionInfo?: DiskEncryptionInfo;
     instanceType: "A2A";
+    platformFaultDomain?: number;
     policyId?: string;
     recoveryAvailabilitySetId?: string;
     recoveryAvailabilityZone?: string;
@@ -528,6 +556,8 @@ export interface A2AUpdateReplicationProtectedItemInput extends UpdateReplicatio
     diskEncryptionInfo?: DiskEncryptionInfo;
     instanceType: "A2A";
     managedDiskUpdateDetails?: A2AVmManagedDiskUpdateDetails[];
+    platformFaultDomain?: number;
+    recoveryAvailabilityZone?: string;
     recoveryBootDiagStorageAccountId?: string;
     recoveryCapacityReservationGroupId?: string;
     recoveryCloudServiceId?: string;
@@ -583,11 +613,11 @@ export interface AddDisksInputProperties {
 
 // @public
 export interface AddDisksProviderSpecificInput {
-    instanceType: "A2A" | "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type AddDisksProviderSpecificInputUnion = AddDisksProviderSpecificInput | A2AAddDisksInput | InMageRcmAddDisksInput;
+// @public
+export type AddDisksProviderSpecificInputUnion = A2AAddDisksInput | InMageRcmAddDisksInput | AddDisksProviderSpecificInput;
 
 // @public
 export interface AddRecoveryServicesProviderInput {
@@ -640,20 +670,18 @@ export interface AgentDiskDetails {
 }
 
 // @public
+export type AgentReinstallBlockedReason = string;
+
+// @public
 export type AgentUpgradeBlockedReason = string;
 
 // @public
 export type AgentVersionStatus = string;
 
 // @public
-export interface Alert extends Resource {
+export interface Alert extends ProxyResource {
+    location?: string;
     properties?: AlertProperties;
-}
-
-// @public
-export interface AlertCollection {
-    nextLink?: string;
-    value?: Alert[];
 }
 
 // @public
@@ -667,12 +695,6 @@ export interface AlertProperties {
 export type AlternateLocationRecoveryOption = string;
 
 // @public
-export interface ApplianceCollection {
-    nextLink?: string;
-    value?: ReplicationAppliance[];
-}
-
-// @public
 export interface ApplianceMonitoringDetails {
     readonly cpuDetails?: ApplianceResourceDetails;
     readonly datastoreSnapshot?: DataStoreUtilizationDetails[];
@@ -680,11 +702,6 @@ export interface ApplianceMonitoringDetails {
     readonly esxiNfcBuffer?: ApplianceResourceDetails;
     readonly networkBandwidth?: ApplianceResourceDetails;
     readonly ramDetails?: ApplianceResourceDetails;
-}
-
-// @public
-export interface ApplianceQueryParameter {
-    providerType?: string;
 }
 
 // @public
@@ -697,11 +714,11 @@ export interface ApplianceResourceDetails {
 
 // @public
 export interface ApplianceSpecificDetails {
-    instanceType: "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ApplianceSpecificDetailsUnion = ApplianceSpecificDetails | InMageRcmApplianceSpecificDetails;
+// @public
+export type ApplianceSpecificDetailsUnion = InMageRcmApplianceSpecificDetails | ApplianceSpecificDetails;
 
 // @public
 export interface ApplyClusterRecoveryPointInput {
@@ -717,11 +734,11 @@ export interface ApplyClusterRecoveryPointInputProperties {
 
 // @public
 export interface ApplyClusterRecoveryPointProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ApplyClusterRecoveryPointProviderSpecificInputUnion = ApplyClusterRecoveryPointProviderSpecificInput | A2AApplyClusterRecoveryPointInput;
+// @public
+export type ApplyClusterRecoveryPointProviderSpecificInputUnion = A2AApplyClusterRecoveryPointInput | ApplyClusterRecoveryPointProviderSpecificInput;
 
 // @public
 export interface ApplyRecoveryPointInput {
@@ -736,11 +753,11 @@ export interface ApplyRecoveryPointInputProperties {
 
 // @public
 export interface ApplyRecoveryPointProviderSpecificInput {
-    instanceType: "A2A" | "A2ACrossClusterMigration" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ApplyRecoveryPointProviderSpecificInputUnion = ApplyRecoveryPointProviderSpecificInput | A2AApplyRecoveryPointInput | A2ACrossClusterMigrationApplyRecoveryPointInput | HyperVReplicaAzureApplyRecoveryPointInput | InMageAzureV2ApplyRecoveryPointInput | InMageRcmApplyRecoveryPointInput;
+// @public
+export type ApplyRecoveryPointProviderSpecificInputUnion = A2AApplyRecoveryPointInput | A2ACrossClusterMigrationApplyRecoveryPointInput | HyperVReplicaAzureApplyRecoveryPointInput | InMageAzureV2ApplyRecoveryPointInput | InMageRcmApplyRecoveryPointInput | ApplyRecoveryPointProviderSpecificInput;
 
 // @public
 export interface AsrJobDetails extends JobDetails {
@@ -784,6 +801,13 @@ export interface AutomationRunbookTaskDetails extends TaskTypeDetails {
 export type AutoProtectionOfDataDisk = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureFabricCreationInput extends FabricSpecificCreationInput {
     instanceType: "Azure";
     location?: string;
@@ -798,6 +822,9 @@ export interface AzureFabricSpecificDetails extends FabricSpecificDetails {
     locationDetails?: A2AFabricSpecificLocationDetails[];
     zones?: A2AZoneDetails[];
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface AzureToAzureCreateNetworkMappingInput extends FabricSpecificCreateNetworkMappingInput {
@@ -821,9 +848,7 @@ export interface AzureToAzureUpdateNetworkMappingInput extends FabricSpecificUpd
 // @public
 export interface AzureToAzureVmSyncedConfigDetails {
     inputEndpoints?: InputEndpoint[];
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -851,11 +876,11 @@ export interface ClusterFailoverJobDetails extends JobDetails {
 
 // @public
 export interface ClusterProviderSpecificRecoveryPointDetails {
-    instanceType: "A2A";
+    readonly instanceType: string;
 }
 
-// @public (undocumented)
-export type ClusterProviderSpecificRecoveryPointDetailsUnion = ClusterProviderSpecificRecoveryPointDetails | A2AClusterRecoveryPointDetails;
+// @public
+export type ClusterProviderSpecificRecoveryPointDetailsUnion = A2AClusterRecoveryPointDetails | ClusterProviderSpecificRecoveryPointDetails;
 
 // @public
 export interface ClusterRecoveryPoint {
@@ -866,21 +891,12 @@ export interface ClusterRecoveryPoint {
 }
 
 // @public
-export interface ClusterRecoveryPointCollection {
-    nextLink?: string;
-    value?: ClusterRecoveryPoint[];
+export interface ClusterRecoveryPointGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface ClusterRecoveryPointGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClusterRecoveryPointGetResponse = ClusterRecoveryPoint;
 
 // @public
 export interface ClusterRecoveryPointOperations {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, recoveryPointName: string, options?: ClusterRecoveryPointGetOptionalParams): Promise<ClusterRecoveryPointGetResponse>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, recoveryPointName: string, options?: ClusterRecoveryPointGetOptionalParams) => Promise<ClusterRecoveryPoint>;
 }
 
 // @public
@@ -891,23 +907,13 @@ export interface ClusterRecoveryPointProperties {
 }
 
 // @public
-export interface ClusterRecoveryPoints {
-    listByReplicationProtectionCluster(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams): PagedAsyncIterableIterator<ClusterRecoveryPoint>;
+export interface ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ClusterRecoveryPointsListByReplicationProtectionClusterNextOptionalParams extends coreClient.OperationOptions {
+export interface ClusterRecoveryPointsOperations {
+    listByReplicationProtectionCluster: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams) => PagedAsyncIterableIterator<ClusterRecoveryPoint>;
 }
-
-// @public
-export type ClusterRecoveryPointsListByReplicationProtectionClusterNextResponse = ClusterRecoveryPointCollection;
-
-// @public
-export interface ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClusterRecoveryPointsListByReplicationProtectionClusterResponse = ClusterRecoveryPointCollection;
 
 // @public
 export type ClusterRecoveryPointType = string;
@@ -954,11 +960,11 @@ export interface ClusterTestFailoverJobDetails extends JobDetails {
 
 // @public
 export interface ClusterTestFailoverProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ClusterTestFailoverProviderSpecificInputUnion = ClusterTestFailoverProviderSpecificInput | A2AClusterTestFailoverInput;
+// @public
+export type ClusterTestFailoverProviderSpecificInputUnion = A2AClusterTestFailoverInput | ClusterTestFailoverProviderSpecificInput;
 
 // @public
 export interface ClusterUnplannedFailoverInput {
@@ -974,11 +980,11 @@ export interface ClusterUnplannedFailoverInputProperties {
 
 // @public
 export interface ClusterUnplannedFailoverProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ClusterUnplannedFailoverProviderSpecificInputUnion = ClusterUnplannedFailoverProviderSpecificInput | A2AClusterUnplannedFailoverInput;
+// @public
+export type ClusterUnplannedFailoverProviderSpecificInputUnion = A2AClusterUnplannedFailoverInput | ClusterUnplannedFailoverProviderSpecificInput;
 
 // @public
 export interface ComputeSizeErrorDetails {
@@ -988,11 +994,11 @@ export interface ComputeSizeErrorDetails {
 
 // @public
 export interface ConfigurationSettings {
-    instanceType: "HyperVVirtualMachine" | "ReplicationGroupDetails" | "VmmVirtualMachine" | "VMwareVirtualMachine";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ConfigurationSettingsUnion = ConfigurationSettings | HyperVVirtualMachineDetailsUnion | ReplicationGroupDetails | VMwareVirtualMachineDetails;
+// @public
+export type ConfigurationSettingsUnion = HyperVVirtualMachineDetailsUnion | ReplicationGroupDetails | VMwareVirtualMachineDetails | ConfigurationSettings;
 
 // @public
 export interface ConfigureAlertRequest {
@@ -1011,6 +1017,14 @@ export interface ConsistencyCheckTaskDetails extends TaskTypeDetails {
     instanceType: "ConsistencyCheckTaskDetails";
     vmDetails?: InconsistentVmDetails[];
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CreateNetworkMappingInput {
@@ -1068,11 +1082,11 @@ export interface CreateProtectionIntentProperties {
 
 // @public
 export interface CreateProtectionIntentProviderSpecificDetails {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type CreateProtectionIntentProviderSpecificDetailsUnion = CreateProtectionIntentProviderSpecificDetails | A2ACreateProtectionIntentInput;
+// @public
+export type CreateProtectionIntentProviderSpecificDetailsUnion = A2ACreateProtectionIntentInput | CreateProtectionIntentProviderSpecificDetails;
 
 // @public
 export interface CreateRecoveryPlanInput {
@@ -1142,11 +1156,11 @@ export interface DisableProtectionInputProperties {
 
 // @public
 export interface DisableProtectionProviderSpecificInput {
-    instanceType: "InMage";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type DisableProtectionProviderSpecificInputUnion = DisableProtectionProviderSpecificInput | InMageDisableProtectionProviderSpecificInput;
+// @public
+export type DisableProtectionProviderSpecificInputUnion = InMageDisableProtectionProviderSpecificInput | DisableProtectionProviderSpecificInput;
 
 // @public
 export type DisableProtectionReason = string;
@@ -1232,11 +1246,11 @@ export interface EnableMigrationInputProperties {
 
 // @public
 export interface EnableMigrationProviderSpecificInput {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type EnableMigrationProviderSpecificInputUnion = EnableMigrationProviderSpecificInput | VMwareCbtEnableMigrationInput;
+// @public
+export type EnableMigrationProviderSpecificInputUnion = VMwareCbtEnableMigrationInput | EnableMigrationProviderSpecificInput;
 
 // @public
 export interface EnableProtectionInput {
@@ -1252,11 +1266,11 @@ export interface EnableProtectionInputProperties {
 
 // @public
 export interface EnableProtectionProviderSpecificInput {
-    instanceType: "A2ACrossClusterMigration" | "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMage" | "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type EnableProtectionProviderSpecificInputUnion = EnableProtectionProviderSpecificInput | A2ACrossClusterMigrationEnableProtectionInput | A2AEnableProtectionInput | HyperVReplicaAzureEnableProtectionInput | InMageAzureV2EnableProtectionInput | InMageEnableProtectionInput | InMageRcmEnableProtectionInput;
+// @public
+export type EnableProtectionProviderSpecificInputUnion = A2ACrossClusterMigrationEnableProtectionInput | A2AEnableProtectionInput | HyperVReplicaAzureEnableProtectionInput | InMageAzureV2EnableProtectionInput | InMageEnableProtectionInput | InMageRcmEnableProtectionInput | EnableProtectionProviderSpecificInput;
 
 // @public
 export interface EncryptionDetails {
@@ -1267,7 +1281,7 @@ export interface EncryptionDetails {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1289,16 +1303,11 @@ export interface ErrorResponse {
 export type EthernetAddressType = string;
 
 // @public
-interface Event_2 extends Resource {
+interface Event_2 extends ProxyResource {
+    location?: string;
     properties?: EventProperties;
 }
 export { Event_2 as Event }
-
-// @public
-export interface EventCollection {
-    nextLink?: string;
-    value?: Event_2[];
-}
 
 // @public
 export interface EventProperties {
@@ -1317,31 +1326,19 @@ export interface EventProperties {
 
 // @public
 export interface EventProviderSpecificDetails {
-    instanceType: "A2A" | "HyperVReplica2012" | "HyperVReplica2012R2" | "HyperVReplicaAzure" | "HyperVReplicaBaseEventDetails" | "InMageAzureV2" | "InMageRcm" | "InMageRcmFailback" | "VMwareCbt";
+    instanceType: string;
 }
-
-// @public (undocumented)
-export type EventProviderSpecificDetailsUnion = EventProviderSpecificDetails | A2AEventDetails | HyperVReplica2012EventDetails | HyperVReplica2012R2EventDetails | HyperVReplicaAzureEventDetails | HyperVReplicaBaseEventDetails | InMageAzureV2EventDetails | InMageRcmEventDetails | InMageRcmFailbackEventDetails | VMwareCbtEventDetails;
 
 // @public
-export interface EventQueryParameter {
-    affectedObjectCorrelationId?: string;
-    affectedObjectFriendlyName?: string;
-    endTime?: Date;
-    eventCode?: string;
-    eventType?: string;
-    fabricName?: string;
-    severity?: string;
-    startTime?: Date;
-}
+export type EventProviderSpecificDetailsUnion = A2AEventDetails | HyperVReplica2012EventDetails | HyperVReplica2012R2EventDetails | HyperVReplicaAzureEventDetails | HyperVReplicaBaseEventDetails | InMageAzureV2EventDetails | InMageRcmEventDetails | InMageRcmFailbackEventDetails | VMwareCbtEventDetails | EventProviderSpecificDetails;
 
 // @public
 export interface EventSpecificDetails {
-    instanceType: "JobStatus";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type EventSpecificDetailsUnion = EventSpecificDetails | JobStatusEventDetails;
+// @public
+export type EventSpecificDetailsUnion = JobStatusEventDetails | EventSpecificDetails;
 
 // @public
 export interface ExistingProtectionProfile extends ProtectionProfileCustomDetails {
@@ -1400,14 +1397,9 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
-export interface Fabric extends Resource {
+export interface Fabric extends ProxyResource {
+    location?: string;
     properties?: FabricProperties;
-}
-
-// @public
-export interface FabricCollection {
-    nextLink?: string;
-    value?: Fabric[];
 }
 
 // @public
@@ -1433,18 +1425,6 @@ export interface FabricProperties {
 }
 
 // @public
-export interface FabricQueryParameter {
-    biosId?: string;
-    discoveryType?: string;
-    extendedLocationMappings?: string;
-    fetchAgentDetails?: string;
-    fqdn?: string;
-    locationDetails?: string;
-    osType?: string;
-    zoneToZoneMappings?: string;
-}
-
-// @public
 export interface FabricReplicationGroupTaskDetails extends JobTaskDetails {
     instanceType: "FabricReplicationGroupTaskDetails";
     skippedReason?: string;
@@ -1453,35 +1433,35 @@ export interface FabricReplicationGroupTaskDetails extends JobTaskDetails {
 
 // @public
 export interface FabricSpecificCreateNetworkMappingInput {
-    instanceType: "AzureToAzure" | "VmmToAzure" | "VmmToVmm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type FabricSpecificCreateNetworkMappingInputUnion = FabricSpecificCreateNetworkMappingInput | AzureToAzureCreateNetworkMappingInput | VmmToAzureCreateNetworkMappingInput | VmmToVmmCreateNetworkMappingInput;
+// @public
+export type FabricSpecificCreateNetworkMappingInputUnion = AzureToAzureCreateNetworkMappingInput | VmmToAzureCreateNetworkMappingInput | VmmToVmmCreateNetworkMappingInput | FabricSpecificCreateNetworkMappingInput;
 
 // @public
 export interface FabricSpecificCreationInput {
-    instanceType: "Azure" | "InMageRcm" | "VMwareV2";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type FabricSpecificCreationInputUnion = FabricSpecificCreationInput | AzureFabricCreationInput | InMageRcmFabricCreationInput | VMwareV2FabricCreationInput;
+// @public
+export type FabricSpecificCreationInputUnion = AzureFabricCreationInput | InMageRcmFabricCreationInput | VMwareV2FabricCreationInput | FabricSpecificCreationInput;
 
 // @public
 export interface FabricSpecificDetails {
-    instanceType: "Azure" | "HyperVSite" | "InMageRcm" | "VMM" | "VMware" | "VMwareV2";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type FabricSpecificDetailsUnion = FabricSpecificDetails | AzureFabricSpecificDetails | HyperVSiteDetails | InMageRcmFabricSpecificDetails | VmmDetails | VMwareDetails | VMwareV2FabricSpecificDetails;
+// @public
+export type FabricSpecificDetailsUnion = AzureFabricSpecificDetails | HyperVSiteDetails | InMageRcmFabricSpecificDetails | VmmDetails | VMwareDetails | VMwareV2FabricSpecificDetails | FabricSpecificDetails;
 
 // @public
 export interface FabricSpecificUpdateNetworkMappingInput {
-    instanceType: "AzureToAzure" | "VmmToAzure" | "VmmToVmm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type FabricSpecificUpdateNetworkMappingInputUnion = FabricSpecificUpdateNetworkMappingInput | AzureToAzureUpdateNetworkMappingInput | VmmToAzureUpdateNetworkMappingInput | VmmToVmmUpdateNetworkMappingInput;
+// @public
+export type FabricSpecificUpdateNetworkMappingInputUnion = AzureToAzureUpdateNetworkMappingInput | VmmToAzureUpdateNetworkMappingInput | VmmToVmmUpdateNetworkMappingInput | FabricSpecificUpdateNetworkMappingInput;
 
 // @public
 export type FailoverDeploymentModel = string;
@@ -1535,16 +1515,13 @@ export interface GatewayOperationDetails {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface GroupTaskDetails {
     childTasks?: ASRTask[];
-    instanceType: "InlineWorkflowTaskDetails" | "RecoveryPlanGroupTaskDetails" | "RecoveryPlanShutdownGroupTaskDetails";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type GroupTaskDetailsUnion = GroupTaskDetails | InlineWorkflowTaskDetails | RecoveryPlanGroupTaskDetailsUnion;
+// @public
+export type GroupTaskDetailsUnion = InlineWorkflowTaskDetails | RecoveryPlanGroupTaskDetailsUnion | GroupTaskDetails;
 
 // @public
 export interface HealthError {
@@ -1618,9 +1595,12 @@ export interface HyperVReplicaAzureApplyRecoveryPointInput extends ApplyRecovery
 export interface HyperVReplicaAzureDiskInputDetails {
     diskEncryptionSetId?: string;
     diskId?: string;
+    diskSizeInGB?: number;
     diskType?: DiskAccountType;
+    iops?: number;
     logStorageAccountId?: string;
     sectorSizeInBytes?: number;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -1636,9 +1616,7 @@ export interface HyperVReplicaAzureEnableProtectionInput extends EnableProtectio
     linuxLicenseType?: LinuxLicenseType;
     logStorageAccountId?: string;
     osType?: string;
-    seedManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
+    seedManagedDiskTags?: Record<string, string>;
     sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
@@ -1647,19 +1625,14 @@ export interface HyperVReplicaAzureEnableProtectionInput extends EnableProtectio
     targetAzureV1ResourceGroupId?: string;
     targetAzureV2ResourceGroupId?: string;
     targetAzureVmName?: string;
-    targetManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetCapacityReservationGroupId?: string;
+    targetManagedDiskTags?: Record<string, string>;
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetStorageAccountId?: string;
     targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     useManagedDisks?: string;
     useManagedDisksForReplication?: string;
     userSelectedOSName?: string;
@@ -1687,10 +1660,13 @@ export interface HyperVReplicaAzureFailbackProviderInput extends PlannedFailover
 export interface HyperVReplicaAzureManagedDiskDetails {
     diskEncryptionSetId?: string;
     diskId?: string;
+    diskSizeInGB?: number;
+    iops?: number;
     replicaDiskType?: string;
     sectorSizeInBytes?: number;
     seedManagedDiskId?: string;
     targetDiskAccountType?: DiskAccountType;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -1700,6 +1676,7 @@ export interface HyperVReplicaAzurePlannedFailoverProviderInput extends PlannedF
     primaryKekCertificatePfx?: string;
     recoveryPointId?: string;
     secondaryKekCertificatePfx?: string;
+    targetCapacityReservationGroupId?: string;
 }
 
 // @public
@@ -1745,26 +1722,19 @@ export interface HyperVReplicaAzureReplicationDetails extends ReplicationProvide
     recoveryAzureVmName?: string;
     recoveryAzureVMSize?: string;
     rpoInSeconds?: number;
-    seedManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
+    seedManagedDiskTags?: Record<string, string>;
     selectedRecoveryAzureNetworkId?: string;
     selectedSourceNicId?: string;
     sourceVmCpuCount?: number;
     sourceVmRamSizeInMB?: number;
     sqlServerLicenseType?: string;
     targetAvailabilityZone?: string;
-    targetManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetCapacityReservationGroupId?: string;
+    targetManagedDiskTags?: Record<string, string>;
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetVmSecurityProfile?: SecurityProfileProperties;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     useManagedDisks?: string;
     vmId?: string;
     vmNics?: VMNicDetails[];
@@ -1805,25 +1775,18 @@ export interface HyperVReplicaAzureUnplannedFailoverInput extends UnplannedFailo
 
 // @public
 export interface HyperVReplicaAzureUpdateReplicationProtectedItemInput extends UpdateReplicationProtectedItemProviderInput {
-    diskIdToDiskEncryptionMap?: {
-        [propertyName: string]: string;
-    };
+    diskIdToDiskEncryptionMap?: Record<string, string>;
     instanceType: "HyperVReplicaAzure";
     linuxLicenseType?: LinuxLicenseType;
     recoveryAzureV1ResourceGroupId?: string;
     recoveryAzureV2ResourceGroupId?: string;
     sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilityZone?: string;
-    targetManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetCapacityReservationGroupId?: string;
+    targetManagedDiskTags?: Record<string, string>;
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     useManagedDisks?: string;
     userSelectedOSName?: string;
     vmDisks?: UpdateDiskInput[];
@@ -1929,8 +1892,8 @@ export interface HyperVReplicaPolicyInput extends PolicyProviderSpecificInput {
     replicationPort?: number;
 }
 
-// @public (undocumented)
-export type HyperVReplicaPolicyInputUnion = HyperVReplicaPolicyInput | HyperVReplicaBluePolicyInput;
+// @public
+export type HyperVReplicaPolicyInputUnion = HyperVReplicaBluePolicyInput | HyperVReplicaPolicyInput;
 
 // @public
 export interface HyperVReplicaReplicationDetails extends ReplicationProviderSpecificSettings {
@@ -1958,13 +1921,14 @@ export interface HyperVVirtualMachineDetails extends ConfigurationSettings {
     hasPhysicalDisk?: PresenceStatus;
     hasSharedVhd?: PresenceStatus;
     hyperVHostId?: string;
+    // (undocumented)
     instanceType: "HyperVVirtualMachine" | "VmmVirtualMachine";
     osDetails?: OSDetails;
     sourceItemId?: string;
 }
 
-// @public (undocumented)
-export type HyperVVirtualMachineDetailsUnion = HyperVVirtualMachineDetails | VmmVirtualMachineDetails;
+// @public
+export type HyperVVirtualMachineDetailsUnion = VmmVirtualMachineDetails | HyperVVirtualMachineDetails;
 
 // @public
 export interface IdentityProviderDetails {
@@ -2039,9 +2003,7 @@ export interface InMageAzureV2EnableProtectionInput extends EnableProtectionProv
     multiVmGroupName?: string;
     processServerId?: string;
     runAsAccountId?: string;
-    seedManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
+    seedManagedDiskTags?: Record<string, string>;
     sqlServerLicenseType?: SqlServerLicenseType;
     storageAccountId?: string;
     targetAvailabilitySetId?: string;
@@ -2051,17 +2013,11 @@ export interface InMageAzureV2EnableProtectionInput extends EnableProtectionProv
     targetAzureV1ResourceGroupId?: string;
     targetAzureV2ResourceGroupId?: string;
     targetAzureVmName?: string;
-    targetManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetManagedDiskTags?: Record<string, string>;
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetVmSize?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
 }
 
 // @public
@@ -2184,9 +2140,7 @@ export interface InMageAzureV2ReplicationDetails extends ReplicationProviderSpec
     replicaId?: string;
     resyncProgressPercentage?: number;
     rpoInSeconds?: number;
-    seedManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
+    seedManagedDiskTags?: Record<string, string>;
     selectedRecoveryAzureNetworkId?: string;
     selectedSourceNicId?: string;
     selectedTfoAzureNetworkId?: string;
@@ -2197,17 +2151,11 @@ export interface InMageAzureV2ReplicationDetails extends ReplicationProviderSpec
     switchProviderBlockingErrorDetails?: InMageAzureV2SwitchProviderBlockingErrorDetails[];
     switchProviderDetails?: InMageAzureV2SwitchProviderDetails;
     targetAvailabilityZone?: string;
-    targetManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetManagedDiskTags?: Record<string, string>;
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetVmId?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     totalDataTransferred?: number;
     totalProgressHealth?: string;
     uncompressedDataRateInMB?: number;
@@ -2237,12 +2185,8 @@ export interface InMageAzureV2ReprotectInput extends ReverseReplicationProviderS
 export interface InMageAzureV2SwitchProviderBlockingErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
-    readonly errorMessageParameters?: {
-        [propertyName: string]: string;
-    };
-    readonly errorTags?: {
-        [propertyName: string]: string;
-    };
+    readonly errorMessageParameters?: Record<string, string>;
+    readonly errorTags?: Record<string, string>;
     readonly possibleCauses?: string;
     readonly recommendedAction?: string;
 }
@@ -2284,16 +2228,10 @@ export interface InMageAzureV2UpdateReplicationProtectedItemInput extends Update
     recoveryAzureV2ResourceGroupId?: string;
     sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilityZone?: string;
-    targetManagedDiskTags?: {
-        [propertyName: string]: string;
-    };
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetManagedDiskTags?: Record<string, string>;
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     useManagedDisks?: string;
     vmDisks?: UpdateDiskInput[];
 }
@@ -2353,12 +2291,8 @@ export interface InMageEnableProtectionInput extends EnableProtectionProviderSpe
 export interface InMageFabricSwitchProviderBlockingErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
-    readonly errorMessageParameters?: {
-        [propertyName: string]: string;
-    };
-    readonly errorTags?: {
-        [propertyName: string]: string;
-    };
+    readonly errorMessageParameters?: Record<string, string>;
+    readonly errorTags?: Record<string, string>;
     readonly possibleCauses?: string;
     readonly recommendedAction?: string;
 }
@@ -2414,15 +2348,21 @@ export interface InMageRcmAddDisksInput extends AddDisksProviderSpecificInput {
 }
 
 // @public
+export interface InMageRcmAgentReinstallBlockingErrorDetails {
+    errorCode?: string;
+    errorMessage?: string;
+    errorMessageParameters?: Record<string, string>;
+    errorTags?: Record<string, string>;
+    possibleCauses?: string;
+    recommendedAction?: string;
+}
+
+// @public
 export interface InMageRcmAgentUpgradeBlockingErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
-    readonly errorMessageParameters?: {
-        [propertyName: string]: string;
-    };
-    readonly errorTags?: {
-        [propertyName: string]: string;
-    };
+    readonly errorMessageParameters?: Record<string, string>;
+    readonly errorTags?: Record<string, string>;
     readonly possibleCauses?: string;
     readonly recommendedAction?: string;
 }
@@ -2474,17 +2414,23 @@ export interface InMageRcmDiscoveredProtectedVmDetails {
 export interface InMageRcmDiskInput {
     diskEncryptionSetId?: string;
     diskId: string;
+    diskSizeInGB?: number;
     diskType: DiskAccountType;
+    iops?: number;
     logStorageAccountId: string;
     sectorSizeInBytes?: number;
+    throughputInMbps?: number;
 }
 
 // @public
 export interface InMageRcmDisksDefaultInput {
     diskEncryptionSetId?: string;
+    diskSizeInGB?: number;
     diskType: DiskAccountType;
+    iops?: number;
     logStorageAccountId: string;
     sectorSizeInBytes?: number;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -2503,6 +2449,7 @@ export interface InMageRcmEnableProtectionInput extends EnableProtectionProvider
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetCapacityReservationGroupId?: string;
     targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
     targetNicTags?: UserCreatedResourceTag[];
@@ -2564,12 +2511,8 @@ export interface InMageRcmFabricSpecificDetails extends FabricSpecificDetails {
 export interface InMageRcmFabricSwitchProviderBlockingErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
-    readonly errorMessageParameters?: {
-        [propertyName: string]: string;
-    };
-    readonly errorTags?: {
-        [propertyName: string]: string;
-    };
+    readonly errorMessageParameters?: Record<string, string>;
+    readonly errorTags?: Record<string, string>;
     readonly possibleCauses?: string;
     readonly recommendedAction?: string;
 }
@@ -2717,26 +2660,34 @@ export interface InMageRcmFailbackSyncDetails {
 export interface InMageRcmLastAgentUpgradeErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
-    readonly errorMessageParameters?: {
-        [propertyName: string]: string;
-    };
-    readonly errorTags?: {
-        [propertyName: string]: string;
-    };
+    readonly errorMessageParameters?: Record<string, string>;
+    readonly errorTags?: Record<string, string>;
     readonly possibleCauses?: string;
     readonly recommendedAction?: string;
 }
 
 // @public
 export interface InMageRcmMobilityAgentDetails {
+    readonly agentReinstallAttemptToVersion?: string;
+    readonly agentReinstallJobId?: string;
+    readonly agentReinstallState?: MobilityAgentReinstallType[];
     readonly agentVersionExpiryDate?: Date;
+    distroName?: string;
+    distroNameForWhichAgentIsInstalled?: string;
     readonly driverVersion?: string;
     readonly driverVersionExpiryDate?: Date;
+    isAgentReinstallRequired?: boolean;
+    isAgentUpgradeable?: boolean;
+    isLastReinstallSuccessful?: boolean;
     readonly isUpgradeable?: string;
+    readonly lastAgentReinstallType?: string;
     readonly lastHeartbeatUtc?: Date;
     readonly latestAgentReleaseDate?: string;
     readonly latestUpgradableVersionWithoutReboot?: string;
     readonly latestVersion?: string;
+    osFamilyName?: string;
+    readonly reasonsBlockingReinstall?: AgentReinstallBlockedReason[];
+    readonly reasonsBlockingReinstallDetails?: InMageRcmAgentReinstallBlockingErrorDetails[];
     readonly reasonsBlockingUpgrade?: AgentUpgradeBlockedReason[];
     readonly version?: string;
 }
@@ -2798,8 +2749,10 @@ export interface InMageRcmProtectedDiskDetails {
     readonly diskEncryptionSetId?: string;
     readonly diskId?: string;
     readonly diskName?: string;
+    diskSizeInGB?: number;
     readonly diskState?: DiskState;
     diskType?: DiskAccountType;
+    iops?: number;
     irDetails?: InMageRcmSyncDetails;
     readonly isInitialReplicationComplete?: string;
     readonly isOSDisk?: string;
@@ -2809,6 +2762,7 @@ export interface InMageRcmProtectedDiskDetails {
     readonly seedBlobUri?: string;
     readonly seedManagedDiskId?: string;
     readonly targetManagedDiskId?: string;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -2874,6 +2828,7 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetCapacityReservationGroupId?: string;
     readonly targetGeneration?: string;
     targetLocation?: string;
     targetManagedDiskTags?: UserCreatedResourceTag[];
@@ -2925,6 +2880,7 @@ export interface InMageRcmUnplannedFailoverInput extends UnplannedFailoverProvid
     osUpgradeVersion?: string;
     performShutdown: string;
     recoveryPointId?: string;
+    targetCapacityReservationGroupId?: string;
 }
 
 // @public
@@ -2955,6 +2911,7 @@ export interface InMageRcmUpdateReplicationProtectedItemInput extends UpdateRepl
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetCapacityReservationGroupId?: string;
     targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
     targetNicTags?: UserCreatedResourceTag[];
@@ -2965,6 +2922,7 @@ export interface InMageRcmUpdateReplicationProtectedItemInput extends UpdateRepl
     targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
     userSelectedOSName?: string;
+    vmDisks?: UpdateDiskInput[];
     vmNics?: InMageRcmNicInput[];
 }
 
@@ -2974,9 +2932,7 @@ export interface InMageReplicationDetails extends ReplicationProviderSpecificSet
     agentDetails?: InMageAgentDetails;
     azureStorageAccountId?: string;
     compressedDataRateInMB?: number;
-    consistencyPoints?: {
-        [propertyName: string]: Date;
-    };
+    consistencyPoints?: Record<string, Date>;
     datastores?: string[];
     discoveryType?: string;
     diskResized?: string;
@@ -3069,7 +3025,7 @@ export interface InnerHealthError {
     summaryMessage?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InputEndpoint {
     // (undocumented)
     endpointName?: string;
@@ -3081,7 +3037,7 @@ export interface InputEndpoint {
     publicPort?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface IPConfigDetails {
     // (undocumented)
     ipAddressType?: string;
@@ -3115,7 +3071,7 @@ export interface IPConfigDetails {
     tfoSubnetName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface IPConfigInputDetails {
     // (undocumented)
     ipConfigName?: string;
@@ -3142,26 +3098,19 @@ export interface IPConfigInputDetails {
 }
 
 // @public
-export interface Job extends Resource {
+export interface Job extends ProxyResource {
+    location?: string;
     properties?: JobProperties;
 }
 
 // @public
-export interface JobCollection {
-    nextLink?: string;
-    value?: Job[];
+export interface JobDetails {
+    affectedObjectDetails?: Record<string, string>;
+    instanceType: string;
 }
 
 // @public
-export interface JobDetails {
-    affectedObjectDetails?: {
-        [propertyName: string]: string;
-    };
-    instanceType: "AsrJobDetails" | "ClusterFailoverJobDetails" | "ClusterSwitchProtectionJobDetails" | "ClusterTestFailoverJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails";
-}
-
-// @public (undocumented)
-export type JobDetailsUnion = JobDetails | AsrJobDetails | ClusterFailoverJobDetails | ClusterSwitchProtectionJobDetails | ClusterTestFailoverJobDetails | ExportJobDetails | FailoverJobDetails | SwitchProtectionJobDetails | TestFailoverJobDetails;
+export type JobDetailsUnion = AsrJobDetails | ClusterFailoverJobDetails | ClusterSwitchProtectionJobDetails | ClusterTestFailoverJobDetails | ExportJobDetails | FailoverJobDetails | SwitchProtectionJobDetails | TestFailoverJobDetails | JobDetails;
 
 // @public
 export interface JobEntity {
@@ -3223,12 +3172,13 @@ export interface JobStatusEventDetails extends EventSpecificDetails {
 
 // @public
 export interface JobTaskDetails extends TaskTypeDetails {
+    // (undocumented)
     instanceType: "JobTaskDetails" | "FabricReplicationGroupTaskDetails" | "VirtualMachineTaskDetails";
     jobTask?: JobEntity;
 }
 
-// @public (undocumented)
-export type JobTaskDetailsUnion = JobTaskDetails | FabricReplicationGroupTaskDetails | VirtualMachineTaskDetails;
+// @public
+export type JobTaskDetailsUnion = FabricReplicationGroupTaskDetails | VirtualMachineTaskDetails | JobTaskDetails;
 
 // @public
 export interface KeyEncryptionKeyInfo {
@@ -3258,6 +3208,13 @@ export enum KnownAgentAutoUpdateStatus {
 }
 
 // @public
+export enum KnownAgentReinstallBlockedReason {
+    AgentNoHeartbeat = "AgentNoHeartbeat",
+    DistroNotSupported = "DistroNotSupported",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownAgentUpgradeBlockedReason {
     AgentNoHeartbeat = "AgentNoHeartbeat",
     AlreadyOnLatestVersion = "AlreadyOnLatestVersion",
@@ -3271,6 +3228,7 @@ export enum KnownAgentUpgradeBlockedReason {
     ProcessServerNoHeartbeat = "ProcessServerNoHeartbeat",
     RcmProxyNoHeartbeat = "RcmProxyNoHeartbeat",
     RebootRequired = "RebootRequired",
+    ReInstallRequired = "ReInstallRequired",
     Unknown = "Unknown",
     UnsupportedProtectionScenario = "UnsupportedProtectionScenario"
 }
@@ -3313,6 +3271,14 @@ export enum KnownClusterRecoveryPointType {
     ApplicationConsistent = "ApplicationConsistent",
     CrashConsistent = "CrashConsistent",
     NotSpecified = "NotSpecified"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -3479,6 +3445,12 @@ export enum KnownMigrationState {
     ResumeInitiated = "ResumeInitiated",
     ResumeInProgress = "ResumeInProgress",
     SuspendingProtection = "SuspendingProtection"
+}
+
+// @public
+export enum KnownMobilityAgentReinstallType {
+    AutoTriggered = "AutoTriggered",
+    UserTriggered = "UserTriggered"
 }
 
 // @public
@@ -3657,6 +3629,11 @@ export enum KnownTestMigrationState {
 }
 
 // @public
+export enum KnownVersions {
+    V20250801 = "2025-08-01"
+}
+
+// @public
 export enum KnownVmEncryptionType {
     NotEncrypted = "NotEncrypted",
     OnePassEncrypted = "OnePassEncrypted",
@@ -3678,14 +3655,9 @@ export type LicenseType = string;
 export type LinuxLicenseType = string;
 
 // @public
-export interface LogicalNetwork extends Resource {
+export interface LogicalNetwork extends ProxyResource {
+    location?: string;
     properties?: LogicalNetworkProperties;
-}
-
-// @public
-export interface LogicalNetworkCollection {
-    nextLink?: string;
-    value?: LogicalNetwork[];
 }
 
 // @public
@@ -3758,21 +3730,16 @@ export interface MigrateInputProperties {
 
 // @public
 export interface MigrateProviderSpecificInput {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type MigrateProviderSpecificInputUnion = MigrateProviderSpecificInput | VMwareCbtMigrateInput;
+// @public
+export type MigrateProviderSpecificInputUnion = VMwareCbtMigrateInput | MigrateProviderSpecificInput;
 
 // @public
-export interface MigrationItem extends Resource {
+export interface MigrationItem extends ProxyResource {
+    location?: string;
     properties?: MigrationItemProperties;
-}
-
-// @public
-export interface MigrationItemCollection {
-    nextLink?: string;
-    value?: MigrationItem[];
 }
 
 // @public
@@ -3803,29 +3770,17 @@ export interface MigrationItemProperties {
 }
 
 // @public
-export interface MigrationItemsQueryParameter {
-    instanceType?: string;
-    sourceContainerName?: string;
-    sourceFabricName?: string;
-}
-
-// @public
 export interface MigrationProviderSpecificSettings {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type MigrationProviderSpecificSettingsUnion = MigrationProviderSpecificSettings | VMwareCbtMigrationDetails;
+// @public
+export type MigrationProviderSpecificSettingsUnion = VMwareCbtMigrationDetails | MigrationProviderSpecificSettings;
 
 // @public
-export interface MigrationRecoveryPoint extends Resource {
+export interface MigrationRecoveryPoint extends ProxyResource {
+    location?: string;
     properties?: MigrationRecoveryPointProperties;
-}
-
-// @public
-export interface MigrationRecoveryPointCollection {
-    nextLink?: string;
-    value?: MigrationRecoveryPoint[];
 }
 
 // @public
@@ -3835,37 +3790,27 @@ export interface MigrationRecoveryPointProperties {
 }
 
 // @public
-export interface MigrationRecoveryPoints {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrationRecoveryPointName: string, options?: MigrationRecoveryPointsGetOptionalParams): Promise<MigrationRecoveryPointsGetResponse>;
-    listByReplicationMigrationItems(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams): PagedAsyncIterableIterator<MigrationRecoveryPoint>;
+export interface MigrationRecoveryPointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MigrationRecoveryPointsGetOptionalParams extends coreClient.OperationOptions {
+export interface MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationRecoveryPointsGetResponse = MigrationRecoveryPoint;
-
-// @public
-export interface MigrationRecoveryPointsListByReplicationMigrationItemsNextOptionalParams extends coreClient.OperationOptions {
+export interface MigrationRecoveryPointsOperations {
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrationRecoveryPointName: string, options?: MigrationRecoveryPointsGetOptionalParams) => Promise<MigrationRecoveryPoint>;
+    listByReplicationMigrationItems: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams) => PagedAsyncIterableIterator<MigrationRecoveryPoint>;
 }
-
-// @public
-export type MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse = MigrationRecoveryPointCollection;
-
-// @public
-export interface MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MigrationRecoveryPointsListByReplicationMigrationItemsResponse = MigrationRecoveryPointCollection;
 
 // @public
 export type MigrationRecoveryPointType = string;
 
 // @public
 export type MigrationState = string;
+
+// @public
+export type MobilityAgentReinstallType = string;
 
 // @public
 export type MobilityAgentUpgradeState = string;
@@ -3884,34 +3829,24 @@ export type MultiVmGroupCreateOption = string;
 export type MultiVmSyncPointOption = string;
 
 // @public
-export interface Network extends Resource {
+export interface Network extends ProxyResource {
+    location?: string;
     properties?: NetworkProperties;
 }
 
 // @public
-export interface NetworkCollection {
-    nextLink?: string;
-    value?: Network[];
-}
-
-// @public
-export interface NetworkMapping extends Resource {
+export interface NetworkMapping extends ProxyResource {
+    location?: string;
     properties?: NetworkMappingProperties;
 }
 
 // @public
-export interface NetworkMappingCollection {
-    nextLink?: string;
-    value?: NetworkMapping[];
+export interface NetworkMappingFabricSpecificSettings {
+    instanceType: string;
 }
 
 // @public
-export interface NetworkMappingFabricSpecificSettings {
-    instanceType: "AzureToAzure" | "VmmToAzure" | "VmmToVmm";
-}
-
-// @public (undocumented)
-export type NetworkMappingFabricSpecificSettingsUnion = NetworkMappingFabricSpecificSettings | AzureToAzureNetworkMappingSettings | VmmToAzureNetworkMappingSettings | VmmToVmmNetworkMappingSettings;
+export type NetworkMappingFabricSpecificSettingsUnion = AzureToAzureNetworkMappingSettings | VmmToAzureNetworkMappingSettings | VmmToVmmNetworkMappingSettings | NetworkMappingFabricSpecificSettings;
 
 // @public
 export interface NetworkMappingProperties {
@@ -3952,37 +3887,21 @@ export interface NewRecoveryVirtualNetwork extends RecoveryVirtualNetworkCustomD
 }
 
 // @public
-export interface Operations {
-    list(resourceGroupName: string, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationsDiscovery>;
-}
-
-// @public
 export interface OperationsDiscovery {
     display?: Display;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
-export interface OperationsDiscoveryCollection {
-    nextLink?: string;
-    value?: OperationsDiscovery[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (resourceGroupName: string, options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationsDiscovery>;
 }
-
-// @public
-export type OperationsListNextResponse = OperationsDiscoveryCollection;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationsDiscoveryCollection;
 
 // @public
 export interface OSDetails {
@@ -4015,6 +3934,18 @@ export interface OSVersionWrapper {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PauseReplicationInput {
     properties: PauseReplicationInputProperties;
 }
@@ -4037,24 +3968,19 @@ export interface PlannedFailoverInputProperties {
 
 // @public
 export interface PlannedFailoverProviderSpecificFailoverInput {
-    instanceType: "HyperVReplicaAzureFailback" | "HyperVReplicaAzure" | "InMageRcmFailback";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type PlannedFailoverProviderSpecificFailoverInputUnion = PlannedFailoverProviderSpecificFailoverInput | HyperVReplicaAzureFailbackProviderInput | HyperVReplicaAzurePlannedFailoverProviderInput | InMageRcmFailbackPlannedFailoverProviderInput;
+// @public
+export type PlannedFailoverProviderSpecificFailoverInputUnion = HyperVReplicaAzureFailbackProviderInput | HyperVReplicaAzurePlannedFailoverProviderInput | InMageRcmFailbackPlannedFailoverProviderInput | PlannedFailoverProviderSpecificFailoverInput;
 
 // @public
 export type PlannedFailoverStatus = string;
 
 // @public
-export interface Policy extends Resource {
+export interface Policy extends ProxyResource {
+    location?: string;
     properties?: PolicyProperties;
-}
-
-// @public
-export interface PolicyCollection {
-    nextLink?: string;
-    value?: Policy[];
 }
 
 // @public
@@ -4065,19 +3991,19 @@ export interface PolicyProperties {
 
 // @public
 export interface PolicyProviderSpecificDetails {
-    instanceType: "A2A" | "HyperVReplicaAzure" | "HyperVReplicaBasePolicyDetails" | "HyperVReplica2012R2" | "HyperVReplica2012" | "InMageAzureV2" | "InMageBasePolicyDetails" | "InMage" | "InMageRcmFailback" | "InMageRcm" | "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type PolicyProviderSpecificDetailsUnion = PolicyProviderSpecificDetails | A2APolicyDetails | HyperVReplicaAzurePolicyDetails | HyperVReplicaBasePolicyDetails | HyperVReplicaBluePolicyDetails | HyperVReplicaPolicyDetails | InMageAzureV2PolicyDetails | InMageBasePolicyDetails | InMagePolicyDetails | InMageRcmFailbackPolicyDetails | InMageRcmPolicyDetails | VmwareCbtPolicyDetails;
+// @public
+export type PolicyProviderSpecificDetailsUnion = A2APolicyDetails | HyperVReplicaAzurePolicyDetails | HyperVReplicaBasePolicyDetails | HyperVReplicaBluePolicyDetails | HyperVReplicaPolicyDetails | InMageAzureV2PolicyDetails | InMageBasePolicyDetails | InMagePolicyDetails | InMageRcmFailbackPolicyDetails | InMageRcmPolicyDetails | VmwareCbtPolicyDetails | PolicyProviderSpecificDetails;
 
 // @public
 export interface PolicyProviderSpecificInput {
-    instanceType: "A2ACrossClusterMigration" | "A2A" | "HyperVReplicaAzure" | "HyperVReplica2012" | "HyperVReplica2012R2" | "InMageAzureV2" | "InMage" | "InMageRcmFailback" | "InMageRcm" | "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type PolicyProviderSpecificInputUnion = PolicyProviderSpecificInput | A2ACrossClusterMigrationPolicyCreationInput | A2APolicyCreationInput | HyperVReplicaAzurePolicyInput | HyperVReplicaPolicyInputUnion | InMageAzureV2PolicyInput | InMagePolicyInput | InMageRcmFailbackPolicyCreationInput | InMageRcmPolicyCreationInput | VMwareCbtPolicyCreationInput;
+// @public
+export type PolicyProviderSpecificInputUnion = A2ACrossClusterMigrationPolicyCreationInput | A2APolicyCreationInput | HyperVReplicaAzurePolicyInput | HyperVReplicaPolicyInputUnion | InMageAzureV2PolicyInput | InMagePolicyInput | InMageRcmFailbackPolicyCreationInput | InMageRcmPolicyCreationInput | VMwareCbtPolicyCreationInput | PolicyProviderSpecificInput;
 
 // @public
 export type PossibleOperationsDirections = string;
@@ -4159,14 +4085,9 @@ export interface ProcessServerDetails {
 }
 
 // @public
-export interface ProtectableItem extends Resource {
+export interface ProtectableItem extends ProxyResource {
+    location?: string;
     properties?: ProtectableItemProperties;
-}
-
-// @public
-export interface ProtectableItemCollection {
-    nextLink?: string;
-    value?: ProtectableItem[];
 }
 
 // @public
@@ -4181,38 +4102,9 @@ export interface ProtectableItemProperties {
 }
 
 // @public
-export interface ProtectableItemQueryParameter {
-    state?: string;
-}
-
-// @public
-export interface ProtectedClustersQueryParameter {
-    instanceType?: string;
-    sourceFabricLocation?: string;
-    sourceFabricName?: string;
-}
-
-// @public
-export interface ProtectedItemsQueryParameter {
-    fabricObjectId?: string;
-    instanceType?: string;
-    multiVmGroupCreateOption?: MultiVmGroupCreateOption;
-    processServerId?: string;
-    recoveryPlanName?: string;
-    sourceFabricLocation?: string;
-    sourceFabricName?: string;
-    vCenterName?: string;
-}
-
-// @public
-export interface ProtectionContainer extends Resource {
+export interface ProtectionContainer extends ProxyResource {
+    location?: string;
     properties?: ProtectionContainerProperties;
-}
-
-// @public
-export interface ProtectionContainerCollection {
-    nextLink?: string;
-    value?: ProtectionContainer[];
 }
 
 // @public
@@ -4221,14 +4113,9 @@ export interface ProtectionContainerFabricSpecificDetails {
 }
 
 // @public
-export interface ProtectionContainerMapping extends Resource {
+export interface ProtectionContainerMapping extends ProxyResource {
+    location?: string;
     properties?: ProtectionContainerMappingProperties;
-}
-
-// @public
-export interface ProtectionContainerMappingCollection {
-    nextLink?: string;
-    value?: ProtectionContainerMapping[];
 }
 
 // @public
@@ -4248,11 +4135,11 @@ export interface ProtectionContainerMappingProperties {
 
 // @public
 export interface ProtectionContainerMappingProviderSpecificDetails {
-    instanceType: "A2A" | "InMageRcm" | "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ProtectionContainerMappingProviderSpecificDetailsUnion = ProtectionContainerMappingProviderSpecificDetails | A2AProtectionContainerMappingDetails | InMageRcmProtectionContainerMappingDetails | VMwareCbtProtectionContainerMappingDetails;
+// @public
+export type ProtectionContainerMappingProviderSpecificDetailsUnion = A2AProtectionContainerMappingDetails | InMageRcmProtectionContainerMappingDetails | VMwareCbtProtectionContainerMappingDetails | ProtectionContainerMappingProviderSpecificDetails;
 
 // @public
 export interface ProtectionContainerProperties {
@@ -4270,11 +4157,11 @@ export type ProtectionHealth = string;
 
 // @public
 export interface ProtectionProfileCustomDetails {
-    resourceType: "Existing" | "New";
+    resourceType: string;
 }
 
-// @public (undocumented)
-export type ProtectionProfileCustomDetailsUnion = ProtectionProfileCustomDetails | ExistingProtectionProfile | NewProtectionProfile;
+// @public
+export type ProtectionProfileCustomDetailsUnion = ExistingProtectionProfile | NewProtectionProfile | ProtectionProfileCustomDetails;
 
 // @public
 export interface ProviderError {
@@ -4287,11 +4174,15 @@ export interface ProviderError {
 
 // @public
 export interface ProviderSpecificRecoveryPointDetails {
-    instanceType: "A2A" | "InMageAzureV2" | "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ProviderSpecificRecoveryPointDetailsUnion = ProviderSpecificRecoveryPointDetails | A2ARecoveryPointDetails | InMageAzureV2RecoveryPointDetails | InMageRcmRecoveryPointDetails;
+// @public
+export type ProviderSpecificRecoveryPointDetailsUnion = A2ARecoveryPointDetails | InMageAzureV2RecoveryPointDetails | InMageRcmRecoveryPointDetails | ProviderSpecificRecoveryPointDetails;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface PushInstallerDetails {
@@ -4325,14 +4216,15 @@ export interface RcmProxyDetails {
 
 // @public
 export interface RecoveryAvailabilitySetCustomDetails {
-    resourceType: "Existing";
+    resourceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryAvailabilitySetCustomDetailsUnion = RecoveryAvailabilitySetCustomDetails | ExistingRecoveryAvailabilitySet;
+// @public
+export type RecoveryAvailabilitySetCustomDetailsUnion = ExistingRecoveryAvailabilitySet | RecoveryAvailabilitySetCustomDetails;
 
 // @public
-export interface RecoveryPlan extends Resource {
+export interface RecoveryPlan extends ProxyResource {
+    location?: string;
     properties?: RecoveryPlanProperties;
 }
 
@@ -4372,11 +4264,11 @@ export interface RecoveryPlanAction {
 
 // @public
 export interface RecoveryPlanActionDetails {
-    instanceType: "AutomationRunbookActionDetails" | "ManualActionDetails" | "ScriptActionDetails";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryPlanActionDetailsUnion = RecoveryPlanActionDetails | RecoveryPlanAutomationRunbookActionDetails | RecoveryPlanManualActionDetails | RecoveryPlanScriptActionDetails;
+// @public
+export type RecoveryPlanActionDetailsUnion = RecoveryPlanAutomationRunbookActionDetails | RecoveryPlanManualActionDetails | RecoveryPlanScriptActionDetails | RecoveryPlanActionDetails;
 
 // @public
 export type RecoveryPlanActionLocation = string;
@@ -4390,12 +4282,6 @@ export interface RecoveryPlanAutomationRunbookActionDetails extends RecoveryPlan
 }
 
 // @public
-export interface RecoveryPlanCollection {
-    nextLink?: string;
-    value?: RecoveryPlan[];
-}
-
-// @public
 export interface RecoveryPlanGroup {
     endGroupActions?: RecoveryPlanAction[];
     groupType: RecoveryPlanGroupType;
@@ -4406,13 +4292,14 @@ export interface RecoveryPlanGroup {
 // @public
 export interface RecoveryPlanGroupTaskDetails extends GroupTaskDetails {
     groupId?: string;
+    // (undocumented)
     instanceType: "RecoveryPlanGroupTaskDetails" | "RecoveryPlanShutdownGroupTaskDetails";
     name?: string;
     rpGroupType?: string;
 }
 
-// @public (undocumented)
-export type RecoveryPlanGroupTaskDetailsUnion = RecoveryPlanGroupTaskDetails | RecoveryPlanShutdownGroupTaskDetails;
+// @public
+export type RecoveryPlanGroupTaskDetailsUnion = RecoveryPlanShutdownGroupTaskDetails | RecoveryPlanGroupTaskDetails;
 
 // @public
 export type RecoveryPlanGroupType = string;
@@ -4507,27 +4394,27 @@ export interface RecoveryPlanProtectedItem {
 
 // @public
 export interface RecoveryPlanProviderSpecificDetails {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryPlanProviderSpecificDetailsUnion = RecoveryPlanProviderSpecificDetails | RecoveryPlanA2ADetails;
+// @public
+export type RecoveryPlanProviderSpecificDetailsUnion = RecoveryPlanA2ADetails | RecoveryPlanProviderSpecificDetails;
 
 // @public
 export interface RecoveryPlanProviderSpecificFailoverInput {
-    instanceType: "A2A" | "HyperVReplicaAzureFailback" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMage" | "InMageRcmFailback" | "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryPlanProviderSpecificFailoverInputUnion = RecoveryPlanProviderSpecificFailoverInput | RecoveryPlanA2AFailoverInput | RecoveryPlanHyperVReplicaAzureFailbackInput | RecoveryPlanHyperVReplicaAzureFailoverInput | RecoveryPlanInMageAzureV2FailoverInput | RecoveryPlanInMageFailoverInput | RecoveryPlanInMageRcmFailbackFailoverInput | RecoveryPlanInMageRcmFailoverInput;
+// @public
+export type RecoveryPlanProviderSpecificFailoverInputUnion = RecoveryPlanA2AFailoverInput | RecoveryPlanHyperVReplicaAzureFailbackInput | RecoveryPlanHyperVReplicaAzureFailoverInput | RecoveryPlanInMageAzureV2FailoverInput | RecoveryPlanInMageFailoverInput | RecoveryPlanInMageRcmFailbackFailoverInput | RecoveryPlanInMageRcmFailoverInput | RecoveryPlanProviderSpecificFailoverInput;
 
 // @public
 export interface RecoveryPlanProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryPlanProviderSpecificInputUnion = RecoveryPlanProviderSpecificInput | RecoveryPlanA2AInput;
+// @public
+export type RecoveryPlanProviderSpecificInputUnion = RecoveryPlanA2AInput | RecoveryPlanProviderSpecificInput;
 
 // @public
 export interface RecoveryPlanScriptActionDetails extends RecoveryPlanActionDetails {
@@ -4578,14 +4465,9 @@ export interface RecoveryPlanUnplannedFailoverInputProperties {
 }
 
 // @public
-export interface RecoveryPoint extends Resource {
+export interface RecoveryPoint extends ProxyResource {
+    location?: string;
     properties?: RecoveryPointProperties;
-}
-
-// @public
-export interface RecoveryPointCollection {
-    nextLink?: string;
-    value?: RecoveryPoint[];
 }
 
 // @public
@@ -4596,31 +4478,18 @@ export interface RecoveryPointProperties {
 }
 
 // @public
-export interface RecoveryPoints {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options?: RecoveryPointsGetOptionalParams): Promise<RecoveryPointsGetResponse>;
-    listByReplicationProtectedItems(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: RecoveryPointsListByReplicationProtectedItemsOptionalParams): PagedAsyncIterableIterator<RecoveryPoint>;
+export interface RecoveryPointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecoveryPointsGetOptionalParams extends coreClient.OperationOptions {
+export interface RecoveryPointsListByReplicationProtectedItemsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RecoveryPointsGetResponse = RecoveryPoint;
-
-// @public
-export interface RecoveryPointsListByReplicationProtectedItemsNextOptionalParams extends coreClient.OperationOptions {
+export interface RecoveryPointsOperations {
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options?: RecoveryPointsGetOptionalParams) => Promise<RecoveryPoint>;
+    listByReplicationProtectedItems: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: RecoveryPointsListByReplicationProtectedItemsOptionalParams) => PagedAsyncIterableIterator<RecoveryPoint>;
 }
-
-// @public
-export type RecoveryPointsListByReplicationProtectedItemsNextResponse = RecoveryPointCollection;
-
-// @public
-export interface RecoveryPointsListByReplicationProtectedItemsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryPointsListByReplicationProtectedItemsResponse = RecoveryPointCollection;
 
 // @public
 export type RecoveryPointSyncType = string;
@@ -4630,29 +4499,24 @@ export type RecoveryPointType = string;
 
 // @public
 export interface RecoveryProximityPlacementGroupCustomDetails {
-    resourceType: "Existing";
+    resourceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryProximityPlacementGroupCustomDetailsUnion = RecoveryProximityPlacementGroupCustomDetails | ExistingRecoveryProximityPlacementGroup;
+// @public
+export type RecoveryProximityPlacementGroupCustomDetailsUnion = ExistingRecoveryProximityPlacementGroup | RecoveryProximityPlacementGroupCustomDetails;
 
 // @public
 export interface RecoveryResourceGroupCustomDetails {
-    resourceType: "Existing";
+    resourceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryResourceGroupCustomDetailsUnion = RecoveryResourceGroupCustomDetails | ExistingRecoveryResourceGroup;
+// @public
+export type RecoveryResourceGroupCustomDetailsUnion = ExistingRecoveryResourceGroup | RecoveryResourceGroupCustomDetails;
 
 // @public
-export interface RecoveryServicesProvider extends Resource {
+export interface RecoveryServicesProvider extends ProxyResource {
+    location?: string;
     properties?: RecoveryServicesProviderProperties;
-}
-
-// @public
-export interface RecoveryServicesProviderCollection {
-    nextLink?: string;
-    value?: RecoveryServicesProvider[];
 }
 
 // @public
@@ -4681,11 +4545,11 @@ export interface RecoveryServicesProviderProperties {
 
 // @public
 export interface RecoveryVirtualNetworkCustomDetails {
-    resourceType: "Existing" | "New";
+    resourceType: string;
 }
 
-// @public (undocumented)
-export type RecoveryVirtualNetworkCustomDetailsUnion = RecoveryVirtualNetworkCustomDetails | ExistingRecoveryVirtualNetwork | NewRecoveryVirtualNetwork;
+// @public
+export type RecoveryVirtualNetworkCustomDetailsUnion = ExistingRecoveryVirtualNetwork | NewRecoveryVirtualNetwork | RecoveryVirtualNetworkCustomDetails;
 
 // @public
 export interface RegisteredClusterNodes {
@@ -4693,6 +4557,16 @@ export interface RegisteredClusterNodes {
     clusterNodeFqdn?: string;
     isSharedDiskVirtualNode?: boolean;
     machineId?: string;
+}
+
+// @public
+export interface ReinstallMobilityServiceRequest {
+    properties?: ReinstallMobilityServiceRequestProperties;
+}
+
+// @public
+export interface ReinstallMobilityServiceRequestProperties {
+    runAsAccountId?: string;
 }
 
 // @public
@@ -4707,11 +4581,11 @@ export interface RemoveDisksInputProperties {
 
 // @public
 export interface RemoveDisksProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type RemoveDisksProviderSpecificInputUnion = RemoveDisksProviderSpecificInput | A2ARemoveDisksInput;
+// @public
+export type RemoveDisksProviderSpecificInputUnion = A2ARemoveDisksInput | RemoveDisksProviderSpecificInput;
 
 // @public
 export interface RemoveProtectionContainerMappingInput {
@@ -4747,39 +4621,23 @@ export interface ReplicationAgentDetails {
 }
 
 // @public
-export interface ReplicationAlertSettings {
-    create(resourceGroupName: string, resourceName: string, alertSettingName: string, request: ConfigureAlertRequest, options?: ReplicationAlertSettingsCreateOptionalParams): Promise<ReplicationAlertSettingsCreateResponse>;
-    get(resourceGroupName: string, resourceName: string, alertSettingName: string, options?: ReplicationAlertSettingsGetOptionalParams): Promise<ReplicationAlertSettingsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationAlertSettingsListOptionalParams): PagedAsyncIterableIterator<Alert>;
+export interface ReplicationAlertSettingsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationAlertSettingsCreateOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationAlertSettingsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationAlertSettingsCreateResponse = Alert;
-
-// @public
-export interface ReplicationAlertSettingsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationAlertSettingsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationAlertSettingsGetResponse = Alert;
-
-// @public
-export interface ReplicationAlertSettingsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationAlertSettingsOperations {
+    create: (resourceGroupName: string, resourceName: string, alertSettingName: string, request: ConfigureAlertRequest, options?: ReplicationAlertSettingsCreateOptionalParams) => Promise<Alert>;
+    get: (resourceGroupName: string, resourceName: string, alertSettingName: string, options?: ReplicationAlertSettingsGetOptionalParams) => Promise<Alert>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationAlertSettingsListOptionalParams) => PagedAsyncIterableIterator<Alert>;
 }
-
-// @public
-export type ReplicationAlertSettingsListNextResponse = AlertCollection;
-
-// @public
-export interface ReplicationAlertSettingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationAlertSettingsListResponse = AlertCollection;
 
 // @public
 export interface ReplicationAppliance {
@@ -4792,39 +4650,26 @@ export interface ReplicationApplianceProperties {
 }
 
 // @public
-export interface ReplicationAppliances {
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationAppliancesListOptionalParams): PagedAsyncIterableIterator<ReplicationAppliance>;
-}
-
-// @public
-export interface ReplicationAppliancesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationAppliancesListNextResponse = ApplianceCollection;
-
-// @public
-export interface ReplicationAppliancesListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationAppliancesListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReplicationAppliancesListResponse = ApplianceCollection;
+export interface ReplicationAppliancesOperations {
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationAppliancesListOptionalParams) => PagedAsyncIterableIterator<ReplicationAppliance>;
+}
 
 // @public
 export interface ReplicationClusterProviderSpecificSettings {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ReplicationClusterProviderSpecificSettingsUnion = ReplicationClusterProviderSpecificSettings | A2AReplicationProtectionClusterDetails;
+// @public
+export type ReplicationClusterProviderSpecificSettingsUnion = A2AReplicationProtectionClusterDetails | ReplicationClusterProviderSpecificSettings;
 
 // @public
-export interface ReplicationEligibilityResults {
-    readonly id?: string;
-    readonly name?: string;
-    readonly properties?: ReplicationEligibilityResultsProperties;
-    readonly type?: string;
+export interface ReplicationEligibilityResults extends ProxyResource {
+    properties?: ReplicationEligibilityResultsProperties;
 }
 
 // @public
@@ -4842,23 +4687,17 @@ export interface ReplicationEligibilityResultsErrorInfo {
 }
 
 // @public
-export interface ReplicationEligibilityResultsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationEligibilityResultsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationEligibilityResultsGetResponse = ReplicationEligibilityResults;
-
-// @public
-export interface ReplicationEligibilityResultsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationEligibilityResultsListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ReplicationEligibilityResultsListResponse = ReplicationEligibilityResultsCollection;
 
 // @public
 export interface ReplicationEligibilityResultsOperations {
-    get(resourceGroupName: string, virtualMachineName: string, options?: ReplicationEligibilityResultsGetOptionalParams): Promise<ReplicationEligibilityResultsGetResponse>;
-    list(resourceGroupName: string, virtualMachineName: string, options?: ReplicationEligibilityResultsListOptionalParams): Promise<ReplicationEligibilityResultsListResponse>;
+    get: (resourceGroupName: string, virtualMachineName: string, options?: ReplicationEligibilityResultsGetOptionalParams) => Promise<ReplicationEligibilityResults>;
+    list: (resourceGroupName: string, virtualMachineName: string, options?: ReplicationEligibilityResultsListOptionalParams) => Promise<ReplicationEligibilityResultsCollection>;
 }
 
 // @public
@@ -4868,145 +4707,114 @@ export interface ReplicationEligibilityResultsProperties {
 }
 
 // @public
-export interface ReplicationEvents {
-    get(resourceGroupName: string, resourceName: string, eventName: string, options?: ReplicationEventsGetOptionalParams): Promise<ReplicationEventsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationEventsListOptionalParams): PagedAsyncIterableIterator<Event_2>;
+export interface ReplicationEventsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationEventsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationEventsGetResponse = Event_2;
-
-// @public
-export interface ReplicationEventsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationEventsListNextResponse = EventCollection;
-
-// @public
-export interface ReplicationEventsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationEventsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReplicationEventsListResponse = EventCollection;
-
-// @public
-export interface ReplicationFabrics {
-    beginCheckConsistency(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsCheckConsistencyOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsCheckConsistencyResponse>, ReplicationFabricsCheckConsistencyResponse>>;
-    beginCheckConsistencyAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsCheckConsistencyOptionalParams): Promise<ReplicationFabricsCheckConsistencyResponse>;
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, input: FabricCreationInput, options?: ReplicationFabricsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsCreateResponse>, ReplicationFabricsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, input: FabricCreationInput, options?: ReplicationFabricsCreateOptionalParams): Promise<ReplicationFabricsCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsDeleteOptionalParams): Promise<void>;
-    beginMigrateToAad(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsMigrateToAadOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginMigrateToAadAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsMigrateToAadOptionalParams): Promise<void>;
-    beginPurge(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPurgeAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsPurgeOptionalParams): Promise<void>;
-    beginReassociateGateway(resourceGroupName: string, resourceName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsReassociateGatewayResponse>, ReplicationFabricsReassociateGatewayResponse>>;
-    beginReassociateGatewayAndWait(resourceGroupName: string, resourceName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams): Promise<ReplicationFabricsReassociateGatewayResponse>;
-    beginRemoveInfra(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsRemoveInfraResponse>, ReplicationFabricsRemoveInfraResponse>>;
-    beginRemoveInfraAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams): Promise<ReplicationFabricsRemoveInfraResponse>;
-    beginRenewCertificate(resourceGroupName: string, resourceName: string, fabricName: string, renewCertificate: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsRenewCertificateResponse>, ReplicationFabricsRenewCertificateResponse>>;
-    beginRenewCertificateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, renewCertificate: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams): Promise<ReplicationFabricsRenewCertificateResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsGetOptionalParams): Promise<ReplicationFabricsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationFabricsListOptionalParams): PagedAsyncIterableIterator<Fabric>;
+export interface ReplicationEventsOperations {
+    get: (resourceGroupName: string, resourceName: string, eventName: string, options?: ReplicationEventsGetOptionalParams) => Promise<Event_2>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationEventsListOptionalParams) => PagedAsyncIterableIterator<Event_2>;
 }
 
 // @public
-export interface ReplicationFabricsCheckConsistencyOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsCheckConsistencyOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationFabricsCheckConsistencyResponse = Fabric;
-
-// @public
-export interface ReplicationFabricsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationFabricsCreateResponse = Fabric;
-
-// @public
-export interface ReplicationFabricsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationFabricsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationFabricsGetOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReplicationFabricsGetResponse = Fabric;
-
-// @public
-export interface ReplicationFabricsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationFabricsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationFabricsListNextResponse = FabricCollection;
-
-// @public
-export interface ReplicationFabricsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationFabricsListResponse = FabricCollection;
-
-// @public
-export interface ReplicationFabricsMigrateToAadOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsMigrateToAadOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationFabricsPurgeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsOperations {
+    // @deprecated (undocumented)
+    beginCheckConsistency: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsCheckConsistencyOptionalParams) => Promise<SimplePollerLike<OperationState<Fabric>, Fabric>>;
+    // @deprecated (undocumented)
+    beginCheckConsistencyAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsCheckConsistencyOptionalParams) => Promise<Fabric>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, input: FabricCreationInput, options?: ReplicationFabricsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Fabric>, Fabric>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, input: FabricCreationInput, options?: ReplicationFabricsCreateOptionalParams) => Promise<Fabric>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginMigrateToAad: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsMigrateToAadOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginMigrateToAadAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsMigrateToAadOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReassociateGateway: (resourceGroupName: string, resourceName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams) => Promise<SimplePollerLike<OperationState<Fabric>, Fabric>>;
+    // @deprecated (undocumented)
+    beginReassociateGatewayAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams) => Promise<Fabric>;
+    // @deprecated (undocumented)
+    beginRemoveInfra: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRemoveInfraAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRenewCertificate: (resourceGroupName: string, resourceName: string, fabricName: string, renewCertificateParameter: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams) => Promise<SimplePollerLike<OperationState<Fabric>, Fabric>>;
+    // @deprecated (undocumented)
+    beginRenewCertificateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, renewCertificateParameter: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams) => Promise<Fabric>;
+    checkConsistency: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsCheckConsistencyOptionalParams) => PollerLike<OperationState<Fabric>, Fabric>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, input: FabricCreationInput, options?: ReplicationFabricsCreateOptionalParams) => PollerLike<OperationState<Fabric>, Fabric>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsGetOptionalParams) => Promise<Fabric>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationFabricsListOptionalParams) => PagedAsyncIterableIterator<Fabric>;
+    migrateToAad: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsMigrateToAadOptionalParams) => PollerLike<OperationState<void>, void>;
+    purge: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    reassociateGateway: (resourceGroupName: string, resourceName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams) => PollerLike<OperationState<Fabric>, Fabric>;
+    removeInfra: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams) => PollerLike<OperationState<void>, void>;
+    renewCertificate: (resourceGroupName: string, resourceName: string, fabricName: string, renewCertificateParameter: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams) => PollerLike<OperationState<Fabric>, Fabric>;
+}
+
+// @public
+export interface ReplicationFabricsPurgeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationFabricsReassociateGatewayOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsReassociateGatewayOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationFabricsReassociateGatewayResponse = Fabric;
-
-// @public
-export interface ReplicationFabricsRemoveInfraHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ReplicationFabricsRemoveInfraOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsRemoveInfraOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationFabricsRemoveInfraResponse = ReplicationFabricsRemoveInfraHeaders;
-
-// @public
-export interface ReplicationFabricsRenewCertificateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationFabricsRenewCertificateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReplicationFabricsRenewCertificateResponse = Fabric;
 
 // @public
 export interface ReplicationGroupDetails extends ConfigurationSettings {
@@ -5014,459 +4822,323 @@ export interface ReplicationGroupDetails extends ConfigurationSettings {
 }
 
 // @public
-export interface ReplicationJobs {
-    beginCancel(resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationJobsCancelResponse>, ReplicationJobsCancelResponse>>;
-    beginCancelAndWait(resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams): Promise<ReplicationJobsCancelResponse>;
-    beginExport(resourceGroupName: string, resourceName: string, jobQueryParameter: JobQueryParameter, options?: ReplicationJobsExportOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationJobsExportResponse>, ReplicationJobsExportResponse>>;
-    beginExportAndWait(resourceGroupName: string, resourceName: string, jobQueryParameter: JobQueryParameter, options?: ReplicationJobsExportOptionalParams): Promise<ReplicationJobsExportResponse>;
-    beginRestart(resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsRestartOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationJobsRestartResponse>, ReplicationJobsRestartResponse>>;
-    beginRestartAndWait(resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsRestartOptionalParams): Promise<ReplicationJobsRestartResponse>;
-    beginResume(resourceGroupName: string, resourceName: string, jobName: string, resumeJobParams: ResumeJobParams, options?: ReplicationJobsResumeOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationJobsResumeResponse>, ReplicationJobsResumeResponse>>;
-    beginResumeAndWait(resourceGroupName: string, resourceName: string, jobName: string, resumeJobParams: ResumeJobParams, options?: ReplicationJobsResumeOptionalParams): Promise<ReplicationJobsResumeResponse>;
-    get(resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsGetOptionalParams): Promise<ReplicationJobsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationJobsListOptionalParams): PagedAsyncIterableIterator<Job>;
-}
-
-// @public
-export interface ReplicationJobsCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationJobsCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationJobsCancelResponse = Job;
-
-// @public
-export interface ReplicationJobsExportOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationJobsExportOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationJobsExportResponse = Job;
-
-// @public
-export interface ReplicationJobsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationJobsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationJobsGetResponse = Job;
-
-// @public
-export interface ReplicationJobsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationJobsListNextResponse = JobCollection;
-
-// @public
-export interface ReplicationJobsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationJobsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ReplicationJobsListResponse = JobCollection;
+export interface ReplicationJobsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams) => Promise<Job>;
+    // @deprecated (undocumented)
+    beginExport: (resourceGroupName: string, resourceName: string, jobQueryParameter: JobQueryParameter, options?: ReplicationJobsExportOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginExportAndWait: (resourceGroupName: string, resourceName: string, jobQueryParameter: JobQueryParameter, options?: ReplicationJobsExportOptionalParams) => Promise<Job>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsRestartOptionalParams) => Promise<Job>;
+    // @deprecated (undocumented)
+    beginResume: (resourceGroupName: string, resourceName: string, jobName: string, resumeJobParams: ResumeJobParams, options?: ReplicationJobsResumeOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginResumeAndWait: (resourceGroupName: string, resourceName: string, jobName: string, resumeJobParams: ResumeJobParams, options?: ReplicationJobsResumeOptionalParams) => Promise<Job>;
+    cancel: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsCancelOptionalParams) => PollerLike<OperationState<Job>, Job>;
+    export: (resourceGroupName: string, resourceName: string, jobQueryParameter: JobQueryParameter, options?: ReplicationJobsExportOptionalParams) => PollerLike<OperationState<Job>, Job>;
+    get: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsGetOptionalParams) => Promise<Job>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationJobsListOptionalParams) => PagedAsyncIterableIterator<Job>;
+    restart: (resourceGroupName: string, resourceName: string, jobName: string, options?: ReplicationJobsRestartOptionalParams) => PollerLike<OperationState<Job>, Job>;
+    resume: (resourceGroupName: string, resourceName: string, jobName: string, resumeJobParams: ResumeJobParams, options?: ReplicationJobsResumeOptionalParams) => PollerLike<OperationState<Job>, Job>;
+}
 
 // @public
-export interface ReplicationJobsRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationJobsRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationJobsRestartResponse = Job;
-
-// @public
-export interface ReplicationJobsResumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationJobsResumeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationJobsResumeResponse = Job;
-
-// @public
-export interface ReplicationLogicalNetworks {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, logicalNetworkName: string, options?: ReplicationLogicalNetworksGetOptionalParams): Promise<ReplicationLogicalNetworksGetResponse>;
-    listByReplicationFabrics(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams): PagedAsyncIterableIterator<LogicalNetwork>;
+export interface ReplicationLogicalNetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationLogicalNetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationLogicalNetworksListByReplicationFabricsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationLogicalNetworksGetResponse = LogicalNetwork;
-
-// @public
-export interface ReplicationLogicalNetworksListByReplicationFabricsNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationLogicalNetworksOperations {
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, logicalNetworkName: string, options?: ReplicationLogicalNetworksGetOptionalParams) => Promise<LogicalNetwork>;
+    listByReplicationFabrics: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams) => PagedAsyncIterableIterator<LogicalNetwork>;
 }
 
 // @public
-export type ReplicationLogicalNetworksListByReplicationFabricsNextResponse = LogicalNetworkCollection;
-
-// @public
-export interface ReplicationLogicalNetworksListByReplicationFabricsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationLogicalNetworksListByReplicationFabricsResponse = LogicalNetworkCollection;
-
-// @public
-export interface ReplicationMigrationItems {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: EnableMigrationInput, options?: ReplicationMigrationItemsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsCreateResponse>, ReplicationMigrationItemsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: EnableMigrationInput, options?: ReplicationMigrationItemsCreateOptionalParams): Promise<ReplicationMigrationItemsCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsDeleteOptionalParams): Promise<void>;
-    beginMigrate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrateInput: MigrateInput, options?: ReplicationMigrationItemsMigrateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsMigrateResponse>, ReplicationMigrationItemsMigrateResponse>>;
-    beginMigrateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrateInput: MigrateInput, options?: ReplicationMigrationItemsMigrateOptionalParams): Promise<ReplicationMigrationItemsMigrateResponse>;
-    beginPauseReplication(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, pauseReplicationInput: PauseReplicationInput, options?: ReplicationMigrationItemsPauseReplicationOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsPauseReplicationResponse>, ReplicationMigrationItemsPauseReplicationResponse>>;
-    beginPauseReplicationAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, pauseReplicationInput: PauseReplicationInput, options?: ReplicationMigrationItemsPauseReplicationOptionalParams): Promise<ReplicationMigrationItemsPauseReplicationResponse>;
-    beginResumeReplication(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, resumeReplicationInput: ResumeReplicationInput, options?: ReplicationMigrationItemsResumeReplicationOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsResumeReplicationResponse>, ReplicationMigrationItemsResumeReplicationResponse>>;
-    beginResumeReplicationAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, resumeReplicationInput: ResumeReplicationInput, options?: ReplicationMigrationItemsResumeReplicationOptionalParams): Promise<ReplicationMigrationItemsResumeReplicationResponse>;
-    beginResync(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: ResyncInput, options?: ReplicationMigrationItemsResyncOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsResyncResponse>, ReplicationMigrationItemsResyncResponse>>;
-    beginResyncAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: ResyncInput, options?: ReplicationMigrationItemsResyncOptionalParams): Promise<ReplicationMigrationItemsResyncResponse>;
-    beginTestMigrate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateInput: TestMigrateInput, options?: ReplicationMigrationItemsTestMigrateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsTestMigrateResponse>, ReplicationMigrationItemsTestMigrateResponse>>;
-    beginTestMigrateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateInput: TestMigrateInput, options?: ReplicationMigrationItemsTestMigrateOptionalParams): Promise<ReplicationMigrationItemsTestMigrateResponse>;
-    beginTestMigrateCleanup(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateCleanupInput: TestMigrateCleanupInput, options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>, ReplicationMigrationItemsTestMigrateCleanupResponse>>;
-    beginTestMigrateCleanupAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateCleanupInput: TestMigrateCleanupInput, options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: UpdateMigrationItemInput, options?: ReplicationMigrationItemsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationMigrationItemsUpdateResponse>, ReplicationMigrationItemsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: UpdateMigrationItemInput, options?: ReplicationMigrationItemsUpdateOptionalParams): Promise<ReplicationMigrationItemsUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsGetOptionalParams): Promise<ReplicationMigrationItemsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationMigrationItemsListOptionalParams): PagedAsyncIterableIterator<MigrationItem>;
-    listByReplicationProtectionContainers(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams): PagedAsyncIterableIterator<MigrationItem>;
-}
-
-// @public
-export interface ReplicationMigrationItemsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsCreateResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationMigrationItemsDeleteOptionalParams extends OperationOptions {
     deleteOption?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationMigrationItemsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationMigrationItemsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationMigrationItemsGetResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse = MigrationItemCollection;
-
-// @public
-export interface ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
     takeToken?: string;
 }
 
 // @public
-export type ReplicationMigrationItemsListByReplicationProtectionContainersResponse = MigrationItemCollection;
-
-// @public
-export interface ReplicationMigrationItemsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationMigrationItemsListNextResponse = MigrationItemCollection;
-
-// @public
-export interface ReplicationMigrationItemsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationMigrationItemsListOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
     takeToken?: string;
 }
 
 // @public
-export type ReplicationMigrationItemsListResponse = MigrationItemCollection;
-
-// @public
-export interface ReplicationMigrationItemsMigrateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsMigrateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsMigrateResponse = MigrationItem;
+export interface ReplicationMigrationItemsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: EnableMigrationInput, options?: ReplicationMigrationItemsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: EnableMigrationInput, options?: ReplicationMigrationItemsCreateOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginMigrate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrateInput: MigrateInput, options?: ReplicationMigrationItemsMigrateOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginMigrateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrateInput: MigrateInput, options?: ReplicationMigrationItemsMigrateOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginPauseReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, pauseReplicationInput: PauseReplicationInput, options?: ReplicationMigrationItemsPauseReplicationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginPauseReplicationAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, pauseReplicationInput: PauseReplicationInput, options?: ReplicationMigrationItemsPauseReplicationOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginResumeReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, resumeReplicationInput: ResumeReplicationInput, options?: ReplicationMigrationItemsResumeReplicationOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginResumeReplicationAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, resumeReplicationInput: ResumeReplicationInput, options?: ReplicationMigrationItemsResumeReplicationOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginResync: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: ResyncInput, options?: ReplicationMigrationItemsResyncOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginResyncAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: ResyncInput, options?: ReplicationMigrationItemsResyncOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginTestMigrate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateInput: TestMigrateInput, options?: ReplicationMigrationItemsTestMigrateOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginTestMigrateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateInput: TestMigrateInput, options?: ReplicationMigrationItemsTestMigrateOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginTestMigrateCleanup: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateCleanupInput: TestMigrateCleanupInput, options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginTestMigrateCleanupAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateCleanupInput: TestMigrateCleanupInput, options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams) => Promise<MigrationItem>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: UpdateMigrationItemInput, options?: ReplicationMigrationItemsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationItem>, MigrationItem>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: UpdateMigrationItemInput, options?: ReplicationMigrationItemsUpdateOptionalParams) => Promise<MigrationItem>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: EnableMigrationInput, options?: ReplicationMigrationItemsCreateOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, options?: ReplicationMigrationItemsGetOptionalParams) => Promise<MigrationItem>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationMigrationItemsListOptionalParams) => PagedAsyncIterableIterator<MigrationItem>;
+    listByReplicationProtectionContainers: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams) => PagedAsyncIterableIterator<MigrationItem>;
+    migrate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, migrateInput: MigrateInput, options?: ReplicationMigrationItemsMigrateOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    pauseReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, pauseReplicationInput: PauseReplicationInput, options?: ReplicationMigrationItemsPauseReplicationOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    resumeReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, resumeReplicationInput: ResumeReplicationInput, options?: ReplicationMigrationItemsResumeReplicationOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    resync: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: ResyncInput, options?: ReplicationMigrationItemsResyncOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    testMigrate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateInput: TestMigrateInput, options?: ReplicationMigrationItemsTestMigrateOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    testMigrateCleanup: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, testMigrateCleanupInput: TestMigrateCleanupInput, options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+    update: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, migrationItemName: string, input: UpdateMigrationItemInput, options?: ReplicationMigrationItemsUpdateOptionalParams) => PollerLike<OperationState<MigrationItem>, MigrationItem>;
+}
 
 // @public
-export interface ReplicationMigrationItemsPauseReplicationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsPauseReplicationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsPauseReplicationResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsResumeReplicationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsResumeReplicationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsResumeReplicationResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsResyncOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsResyncOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsResyncResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsTestMigrateCleanupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsTestMigrateCleanupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsTestMigrateCleanupResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsTestMigrateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsTestMigrateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsTestMigrateResponse = MigrationItem;
-
-// @public
-export interface ReplicationMigrationItemsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationMigrationItemsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationMigrationItemsUpdateResponse = MigrationItem;
-
-// @public
-export interface ReplicationNetworkMappings {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: CreateNetworkMappingInput, options?: ReplicationNetworkMappingsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationNetworkMappingsCreateResponse>, ReplicationNetworkMappingsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: CreateNetworkMappingInput, options?: ReplicationNetworkMappingsCreateOptionalParams): Promise<ReplicationNetworkMappingsCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: UpdateNetworkMappingInput, options?: ReplicationNetworkMappingsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationNetworkMappingsUpdateResponse>, ReplicationNetworkMappingsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: UpdateNetworkMappingInput, options?: ReplicationNetworkMappingsUpdateOptionalParams): Promise<ReplicationNetworkMappingsUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsGetOptionalParams): Promise<ReplicationNetworkMappingsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationNetworkMappingsListOptionalParams): PagedAsyncIterableIterator<NetworkMapping>;
-    listByReplicationNetworks(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams): PagedAsyncIterableIterator<NetworkMapping>;
-}
-
-// @public
-export interface ReplicationNetworkMappingsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationNetworkMappingsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationNetworkMappingsCreateResponse = NetworkMapping;
-
-// @public
-export interface ReplicationNetworkMappingsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationNetworkMappingsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationNetworkMappingsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworkMappingsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationNetworkMappingsGetResponse = NetworkMapping;
-
-// @public
-export interface ReplicationNetworkMappingsListByReplicationNetworksNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworkMappingsListByReplicationNetworksOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationNetworkMappingsListByReplicationNetworksNextResponse = NetworkMappingCollection;
-
-// @public
-export interface ReplicationNetworkMappingsListByReplicationNetworksOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworkMappingsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationNetworkMappingsListByReplicationNetworksResponse = NetworkMappingCollection;
-
-// @public
-export interface ReplicationNetworkMappingsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworkMappingsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: CreateNetworkMappingInput, options?: ReplicationNetworkMappingsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkMapping>, NetworkMapping>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: CreateNetworkMappingInput, options?: ReplicationNetworkMappingsCreateOptionalParams) => Promise<NetworkMapping>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: UpdateNetworkMappingInput, options?: ReplicationNetworkMappingsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkMapping>, NetworkMapping>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: UpdateNetworkMappingInput, options?: ReplicationNetworkMappingsUpdateOptionalParams) => Promise<NetworkMapping>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: CreateNetworkMappingInput, options?: ReplicationNetworkMappingsCreateOptionalParams) => PollerLike<OperationState<NetworkMapping>, NetworkMapping>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, options?: ReplicationNetworkMappingsGetOptionalParams) => Promise<NetworkMapping>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationNetworkMappingsListOptionalParams) => PagedAsyncIterableIterator<NetworkMapping>;
+    listByReplicationNetworks: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams) => PagedAsyncIterableIterator<NetworkMapping>;
+    update: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, networkMappingName: string, input: UpdateNetworkMappingInput, options?: ReplicationNetworkMappingsUpdateOptionalParams) => PollerLike<OperationState<NetworkMapping>, NetworkMapping>;
 }
 
 // @public
-export type ReplicationNetworkMappingsListNextResponse = NetworkMappingCollection;
-
-// @public
-export interface ReplicationNetworkMappingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationNetworkMappingsListResponse = NetworkMappingCollection;
-
-// @public
-export interface ReplicationNetworkMappingsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationNetworkMappingsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationNetworkMappingsUpdateResponse = NetworkMapping;
-
-// @public
-export interface ReplicationNetworks {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, options?: ReplicationNetworksGetOptionalParams): Promise<ReplicationNetworksGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationNetworksListOptionalParams): PagedAsyncIterableIterator<Network>;
-    listByReplicationFabrics(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationNetworksListByReplicationFabricsOptionalParams): PagedAsyncIterableIterator<Network>;
+export interface ReplicationNetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationNetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworksListByReplicationFabricsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationNetworksGetResponse = Network;
-
-// @public
-export interface ReplicationNetworksListByReplicationFabricsNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworksListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationNetworksListByReplicationFabricsNextResponse = NetworkCollection;
-
-// @public
-export interface ReplicationNetworksListByReplicationFabricsOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationNetworksOperations {
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, networkName: string, options?: ReplicationNetworksGetOptionalParams) => Promise<Network>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationNetworksListOptionalParams) => PagedAsyncIterableIterator<Network>;
+    listByReplicationFabrics: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationNetworksListByReplicationFabricsOptionalParams) => PagedAsyncIterableIterator<Network>;
 }
 
 // @public
-export type ReplicationNetworksListByReplicationFabricsResponse = NetworkCollection;
-
-// @public
-export interface ReplicationNetworksListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationNetworksListNextResponse = NetworkCollection;
-
-// @public
-export interface ReplicationNetworksListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationNetworksListResponse = NetworkCollection;
-
-// @public
-export interface ReplicationPolicies {
-    beginCreate(resourceGroupName: string, resourceName: string, policyName: string, input: CreatePolicyInput, options?: ReplicationPoliciesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationPoliciesCreateResponse>, ReplicationPoliciesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, policyName: string, input: CreatePolicyInput, options?: ReplicationPoliciesCreateOptionalParams): Promise<ReplicationPoliciesCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, policyName: string, input: UpdatePolicyInput, options?: ReplicationPoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationPoliciesUpdateResponse>, ReplicationPoliciesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, policyName: string, input: UpdatePolicyInput, options?: ReplicationPoliciesUpdateOptionalParams): Promise<ReplicationPoliciesUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesGetOptionalParams): Promise<ReplicationPoliciesGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationPoliciesListOptionalParams): PagedAsyncIterableIterator<Policy>;
-}
-
-// @public
-export interface ReplicationPoliciesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationPoliciesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationPoliciesCreateResponse = Policy;
-
-// @public
-export interface ReplicationPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationPoliciesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationPoliciesGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationPoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationPoliciesGetResponse = Policy;
-
-// @public
-export interface ReplicationPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationPoliciesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationPoliciesListNextResponse = PolicyCollection;
-
-// @public
-export interface ReplicationPoliciesListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationPoliciesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, policyName: string, input: CreatePolicyInput, options?: ReplicationPoliciesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Policy>, Policy>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, policyName: string, input: CreatePolicyInput, options?: ReplicationPoliciesCreateOptionalParams) => Promise<Policy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, policyName: string, input: UpdatePolicyInput, options?: ReplicationPoliciesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Policy>, Policy>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, policyName: string, input: UpdatePolicyInput, options?: ReplicationPoliciesUpdateOptionalParams) => Promise<Policy>;
+    create: (resourceGroupName: string, resourceName: string, policyName: string, input: CreatePolicyInput, options?: ReplicationPoliciesCreateOptionalParams) => PollerLike<OperationState<Policy>, Policy>;
+    delete: (resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, policyName: string, options?: ReplicationPoliciesGetOptionalParams) => Promise<Policy>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationPoliciesListOptionalParams) => PagedAsyncIterableIterator<Policy>;
+    update: (resourceGroupName: string, resourceName: string, policyName: string, input: UpdatePolicyInput, options?: ReplicationPoliciesUpdateOptionalParams) => PollerLike<OperationState<Policy>, Policy>;
 }
 
 // @public
-export type ReplicationPoliciesListResponse = PolicyCollection;
-
-// @public
-export interface ReplicationPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationPoliciesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationPoliciesUpdateResponse = Policy;
-
-// @public
-export interface ReplicationProtectableItems {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, protectableItemName: string, options?: ReplicationProtectableItemsGetOptionalParams): Promise<ReplicationProtectableItemsGetResponse>;
-    listByReplicationProtectionContainers(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams): PagedAsyncIterableIterator<ProtectableItem>;
+export interface ReplicationProtectableItemsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationProtectableItemsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectableItemsGetResponse = ProtectableItem;
-
-// @public
-export interface ReplicationProtectableItemsListByReplicationProtectionContainersNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse = ProtectableItemCollection;
-
-// @public
-export interface ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
     take?: string;
 }
 
 // @public
-export type ReplicationProtectableItemsListByReplicationProtectionContainersResponse = ProtectableItemCollection;
-
-// @public
-export interface ReplicationProtectedItem extends Resource {
-    properties?: ReplicationProtectedItemProperties;
+export interface ReplicationProtectableItemsOperations {
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, protectableItemName: string, options?: ReplicationProtectableItemsGetOptionalParams) => Promise<ProtectableItem>;
+    listByReplicationProtectionContainers: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams) => PagedAsyncIterableIterator<ProtectableItem>;
 }
 
 // @public
-export interface ReplicationProtectedItemCollection {
-    nextLink?: string;
-    value?: ReplicationProtectedItem[];
+export interface ReplicationProtectedItem extends ProxyResource {
+    location?: string;
+    properties?: ReplicationProtectedItemProperties;
 }
 
 // @public
@@ -5507,270 +5179,229 @@ export interface ReplicationProtectedItemProperties {
 }
 
 // @public
-export interface ReplicationProtectedItems {
-    beginAddDisks(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: AddDisksInput, options?: ReplicationProtectedItemsAddDisksOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsAddDisksResponse>, ReplicationProtectedItemsAddDisksResponse>>;
-    beginAddDisksAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: AddDisksInput, options?: ReplicationProtectedItemsAddDisksOptionalParams): Promise<ReplicationProtectedItemsAddDisksResponse>;
-    beginApplyRecoveryPoint(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: ApplyRecoveryPointInput, options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsApplyRecoveryPointResponse>, ReplicationProtectedItemsApplyRecoveryPointResponse>>;
-    beginApplyRecoveryPointAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: ApplyRecoveryPointInput, options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams): Promise<ReplicationProtectedItemsApplyRecoveryPointResponse>;
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: EnableProtectionInput, options?: ReplicationProtectedItemsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsCreateResponse>, ReplicationProtectedItemsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: EnableProtectionInput, options?: ReplicationProtectedItemsCreateOptionalParams): Promise<ReplicationProtectedItemsCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: DisableProtectionInput, options?: ReplicationProtectedItemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: DisableProtectionInput, options?: ReplicationProtectedItemsDeleteOptionalParams): Promise<void>;
-    beginFailoverCancel(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCancelOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsFailoverCancelResponse>, ReplicationProtectedItemsFailoverCancelResponse>>;
-    beginFailoverCancelAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCancelOptionalParams): Promise<ReplicationProtectedItemsFailoverCancelResponse>;
-    beginFailoverCommit(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCommitOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsFailoverCommitResponse>, ReplicationProtectedItemsFailoverCommitResponse>>;
-    beginFailoverCommitAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCommitOptionalParams): Promise<ReplicationProtectedItemsFailoverCommitResponse>;
-    beginPlannedFailover(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: PlannedFailoverInput, options?: ReplicationProtectedItemsPlannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsPlannedFailoverResponse>, ReplicationProtectedItemsPlannedFailoverResponse>>;
-    beginPlannedFailoverAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: PlannedFailoverInput, options?: ReplicationProtectedItemsPlannedFailoverOptionalParams): Promise<ReplicationProtectedItemsPlannedFailoverResponse>;
-    beginPurge(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPurgeAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsPurgeOptionalParams): Promise<void>;
-    beginRemoveDisks(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: RemoveDisksInput, options?: ReplicationProtectedItemsRemoveDisksOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsRemoveDisksResponse>, ReplicationProtectedItemsRemoveDisksResponse>>;
-    beginRemoveDisksAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: RemoveDisksInput, options?: ReplicationProtectedItemsRemoveDisksOptionalParams): Promise<ReplicationProtectedItemsRemoveDisksResponse>;
-    beginRepairReplication(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsRepairReplicationOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsRepairReplicationResponse>, ReplicationProtectedItemsRepairReplicationResponse>>;
-    beginRepairReplicationAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsRepairReplicationOptionalParams): Promise<ReplicationProtectedItemsRepairReplicationResponse>;
-    beginReprotect(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, reprotectInput: ReverseReplicationInput, options?: ReplicationProtectedItemsReprotectOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsReprotectResponse>, ReplicationProtectedItemsReprotectResponse>>;
-    beginReprotectAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, reprotectInput: ReverseReplicationInput, options?: ReplicationProtectedItemsReprotectOptionalParams): Promise<ReplicationProtectedItemsReprotectResponse>;
-    beginResolveHealthErrors(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: ResolveHealthInput, options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsResolveHealthErrorsResponse>, ReplicationProtectedItemsResolveHealthErrorsResponse>>;
-    beginResolveHealthErrorsAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: ResolveHealthInput, options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams): Promise<ReplicationProtectedItemsResolveHealthErrorsResponse>;
-    beginSwitchProvider(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, switchProviderInput: SwitchProviderInput, options?: ReplicationProtectedItemsSwitchProviderOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsSwitchProviderResponse>, ReplicationProtectedItemsSwitchProviderResponse>>;
-    beginSwitchProviderAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, switchProviderInput: SwitchProviderInput, options?: ReplicationProtectedItemsSwitchProviderOptionalParams): Promise<ReplicationProtectedItemsSwitchProviderResponse>;
-    beginTestFailover(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, testfailoverInput: TestFailoverInput, options?: ReplicationProtectedItemsTestFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsTestFailoverResponse>, ReplicationProtectedItemsTestFailoverResponse>>;
-    beginTestFailoverAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, testfailoverInput: TestFailoverInput, options?: ReplicationProtectedItemsTestFailoverOptionalParams): Promise<ReplicationProtectedItemsTestFailoverResponse>;
-    beginTestFailoverCleanup(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: TestFailoverCleanupInput, options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsTestFailoverCleanupResponse>, ReplicationProtectedItemsTestFailoverCleanupResponse>>;
-    beginTestFailoverCleanupAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: TestFailoverCleanupInput, options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams): Promise<ReplicationProtectedItemsTestFailoverCleanupResponse>;
-    beginUnplannedFailover(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: UnplannedFailoverInput, options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsUnplannedFailoverResponse>, ReplicationProtectedItemsUnplannedFailoverResponse>>;
-    beginUnplannedFailoverAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: UnplannedFailoverInput, options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams): Promise<ReplicationProtectedItemsUnplannedFailoverResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: UpdateReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsUpdateResponse>, ReplicationProtectedItemsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: UpdateReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateOptionalParams): Promise<ReplicationProtectedItemsUpdateResponse>;
-    beginUpdateAppliance(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateApplianceOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsUpdateApplianceResponse>, ReplicationProtectedItemsUpdateApplianceResponse>>;
-    beginUpdateApplianceAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateApplianceOptionalParams): Promise<ReplicationProtectedItemsUpdateApplianceResponse>;
-    beginUpdateMobilityService(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: UpdateMobilityServiceRequest, options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectedItemsUpdateMobilityServiceResponse>, ReplicationProtectedItemsUpdateMobilityServiceResponse>>;
-    beginUpdateMobilityServiceAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: UpdateMobilityServiceRequest, options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams): Promise<ReplicationProtectedItemsUpdateMobilityServiceResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsGetOptionalParams): Promise<ReplicationProtectedItemsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationProtectedItemsListOptionalParams): PagedAsyncIterableIterator<ReplicationProtectedItem>;
-    listByReplicationProtectionContainers(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams): PagedAsyncIterableIterator<ReplicationProtectedItem>;
-}
-
-// @public
-export interface ReplicationProtectedItemsAddDisksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsAddDisksOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsAddDisksResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsApplyRecoveryPointOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsApplyRecoveryPointOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsApplyRecoveryPointResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsCreateResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationProtectedItemsFailoverCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsFailoverCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsFailoverCancelResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsFailoverCommitOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsFailoverCommitOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsFailoverCommitResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectedItemsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectedItemsGetResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsListByReplicationProtectionContainersNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse = ReplicationProtectedItemCollection;
-
-// @public
-export interface ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectedItemsListByReplicationProtectionContainersResponse = ReplicationProtectedItemCollection;
-
-// @public
-export interface ReplicationProtectedItemsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectedItemsListNextResponse = ReplicationProtectedItemCollection;
-
-// @public
-export interface ReplicationProtectedItemsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectedItemsListOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
 }
 
 // @public
-export type ReplicationProtectedItemsListResponse = ReplicationProtectedItemCollection;
+export interface ReplicationProtectedItemsOperations {
+    addDisks: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: AddDisksInput, options?: ReplicationProtectedItemsAddDisksOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    applyRecoveryPoint: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: ApplyRecoveryPointInput, options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginAddDisks: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: AddDisksInput, options?: ReplicationProtectedItemsAddDisksOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginAddDisksAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, addDisksInput: AddDisksInput, options?: ReplicationProtectedItemsAddDisksOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginApplyRecoveryPoint: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: ApplyRecoveryPointInput, options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginApplyRecoveryPointAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: ApplyRecoveryPointInput, options?: ReplicationProtectedItemsApplyRecoveryPointOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: EnableProtectionInput, options?: ReplicationProtectedItemsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: EnableProtectionInput, options?: ReplicationProtectedItemsCreateOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: DisableProtectionInput, options?: ReplicationProtectedItemsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: DisableProtectionInput, options?: ReplicationProtectedItemsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFailoverCancel: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCancelOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginFailoverCancelAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCancelOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginFailoverCommit: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCommitOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginFailoverCommitAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCommitOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginPlannedFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: PlannedFailoverInput, options?: ReplicationProtectedItemsPlannedFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginPlannedFailoverAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: PlannedFailoverInput, options?: ReplicationProtectedItemsPlannedFailoverOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginReinstallMobilityService: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: ReinstallMobilityServiceRequest, options?: ReplicationProtectedItemsReinstallMobilityServiceOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginReinstallMobilityServiceAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: ReinstallMobilityServiceRequest, options?: ReplicationProtectedItemsReinstallMobilityServiceOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginRemoveDisks: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: RemoveDisksInput, options?: ReplicationProtectedItemsRemoveDisksOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginRemoveDisksAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: RemoveDisksInput, options?: ReplicationProtectedItemsRemoveDisksOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginRepairReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsRepairReplicationOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginRepairReplicationAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsRepairReplicationOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginReprotect: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, reprotectInput: ReverseReplicationInput, options?: ReplicationProtectedItemsReprotectOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginReprotectAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, reprotectInput: ReverseReplicationInput, options?: ReplicationProtectedItemsReprotectOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginResolveHealthErrors: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: ResolveHealthInput, options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginResolveHealthErrorsAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: ResolveHealthInput, options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginSwitchProvider: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, switchProviderInput: SwitchProviderInput, options?: ReplicationProtectedItemsSwitchProviderOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginSwitchProviderAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, switchProviderInput: SwitchProviderInput, options?: ReplicationProtectedItemsSwitchProviderOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginTestFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, testfailoverInput: TestFailoverInput, options?: ReplicationProtectedItemsTestFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginTestFailoverAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, testfailoverInput: TestFailoverInput, options?: ReplicationProtectedItemsTestFailoverOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginTestFailoverCleanup: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: TestFailoverCleanupInput, options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginTestFailoverCleanupAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: TestFailoverCleanupInput, options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginUnplannedFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: UnplannedFailoverInput, options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginUnplannedFailoverAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: UnplannedFailoverInput, options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: UpdateReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: UpdateReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginUpdateAppliance: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateApplianceOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginUpdateApplianceAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateApplianceOptionalParams) => Promise<ReplicationProtectedItem>;
+    // @deprecated (undocumented)
+    beginUpdateMobilityService: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: UpdateMobilityServiceRequest, options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>>;
+    // @deprecated (undocumented)
+    beginUpdateMobilityServiceAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: UpdateMobilityServiceRequest, options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams) => Promise<ReplicationProtectedItem>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: EnableProtectionInput, options?: ReplicationProtectedItemsCreateOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: DisableProtectionInput, options?: ReplicationProtectedItemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    failoverCancel: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCancelOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    failoverCommit: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsFailoverCommitOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsGetOptionalParams) => Promise<ReplicationProtectedItem>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationProtectedItemsListOptionalParams) => PagedAsyncIterableIterator<ReplicationProtectedItem>;
+    listByReplicationProtectionContainers: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams) => PagedAsyncIterableIterator<ReplicationProtectedItem>;
+    plannedFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: PlannedFailoverInput, options?: ReplicationProtectedItemsPlannedFailoverOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    purge: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    reinstallMobilityService: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: ReinstallMobilityServiceRequest, options?: ReplicationProtectedItemsReinstallMobilityServiceOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    removeDisks: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, removeDisksInput: RemoveDisksInput, options?: ReplicationProtectedItemsRemoveDisksOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    repairReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: ReplicationProtectedItemsRepairReplicationOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    reprotect: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, reprotectInput: ReverseReplicationInput, options?: ReplicationProtectedItemsReprotectOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    resolveHealthErrors: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, resolveHealthInput: ResolveHealthInput, options?: ReplicationProtectedItemsResolveHealthErrorsOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    switchProvider: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, switchProviderInput: SwitchProviderInput, options?: ReplicationProtectedItemsSwitchProviderOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    testFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, testfailoverInput: TestFailoverInput, options?: ReplicationProtectedItemsTestFailoverOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    testFailoverCleanup: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: TestFailoverCleanupInput, options?: ReplicationProtectedItemsTestFailoverCleanupOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    unplannedFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: UnplannedFailoverInput, options?: ReplicationProtectedItemsUnplannedFailoverOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    update: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: UpdateReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    updateAppliance: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput, options?: ReplicationProtectedItemsUpdateApplianceOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+    updateMobilityService: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateMobilityServiceRequest: UpdateMobilityServiceRequest, options?: ReplicationProtectedItemsUpdateMobilityServiceOptionalParams) => PollerLike<OperationState<ReplicationProtectedItem>, ReplicationProtectedItem>;
+}
 
 // @public
-export interface ReplicationProtectedItemsPlannedFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsPlannedFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsPlannedFailoverResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsPurgeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsPurgeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationProtectedItemsRemoveDisksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsReinstallMobilityServiceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsRemoveDisksResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsRepairReplicationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsRemoveDisksOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsRepairReplicationResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsReprotectOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsRepairReplicationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsReprotectResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsResolveHealthErrorsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsReprotectOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsResolveHealthErrorsResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsSwitchProviderOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsResolveHealthErrorsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsSwitchProviderResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsTestFailoverCleanupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsSwitchProviderOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsTestFailoverCleanupResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsTestFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsTestFailoverCleanupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsTestFailoverResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsUnplannedFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsTestFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsUnplannedFailoverResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsUpdateApplianceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsUnplannedFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsUpdateApplianceResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsUpdateMobilityServiceHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ReplicationProtectedItemsUpdateMobilityServiceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsUpdateApplianceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsUpdateMobilityServiceResponse = ReplicationProtectedItem;
-
-// @public
-export interface ReplicationProtectedItemsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectedItemsUpdateMobilityServiceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectedItemsUpdateResponse = ReplicationProtectedItem;
+export interface ReplicationProtectedItemsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
-export interface ReplicationProtectionCluster {
-    readonly id?: string;
-    readonly name?: string;
+export interface ReplicationProtectionCluster extends ProxyResource {
     properties?: ReplicationProtectionClusterProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface ReplicationProtectionClusterCollection {
-    nextLink?: string;
-    value?: ReplicationProtectionCluster[];
 }
 
 // @public
@@ -5808,428 +5439,243 @@ export interface ReplicationProtectionClusterProperties {
 }
 
 // @public
-export interface ReplicationProtectionClusters {
-    beginApplyRecoveryPoint(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersApplyRecoveryPointResponse>, ReplicationProtectionClustersApplyRecoveryPointResponse>>;
-    beginApplyRecoveryPointAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams): Promise<ReplicationProtectionClustersApplyRecoveryPointResponse>;
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersCreateResponse>, ReplicationProtectionClustersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams): Promise<ReplicationProtectionClustersCreateResponse>;
-    beginFailoverCommit(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersFailoverCommitResponse>, ReplicationProtectionClustersFailoverCommitResponse>>;
-    beginFailoverCommitAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams): Promise<ReplicationProtectionClustersFailoverCommitResponse>;
-    beginPurge(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersPurgeOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersPurgeResponse>, ReplicationProtectionClustersPurgeResponse>>;
-    beginPurgeAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersPurgeOptionalParams): Promise<ReplicationProtectionClustersPurgeResponse>;
-    beginRepairReplication(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersRepairReplicationResponse>, ReplicationProtectionClustersRepairReplicationResponse>>;
-    beginRepairReplicationAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams): Promise<ReplicationProtectionClustersRepairReplicationResponse>;
-    beginTestFailover(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersTestFailoverResponse>, ReplicationProtectionClustersTestFailoverResponse>>;
-    beginTestFailoverAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams): Promise<ReplicationProtectionClustersTestFailoverResponse>;
-    beginTestFailoverCleanup(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersTestFailoverCleanupResponse>, ReplicationProtectionClustersTestFailoverCleanupResponse>>;
-    beginTestFailoverCleanupAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams): Promise<ReplicationProtectionClustersTestFailoverCleanupResponse>;
-    beginUnplannedFailover(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersUnplannedFailoverResponse>, ReplicationProtectionClustersUnplannedFailoverResponse>>;
-    beginUnplannedFailoverAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams): Promise<ReplicationProtectionClustersUnplannedFailoverResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersGetOptionalParams): Promise<ReplicationProtectionClustersGetResponse>;
-    getOperationResults(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, jobId: string, options?: ReplicationProtectionClustersGetOperationResultsOptionalParams): Promise<ReplicationProtectionClustersGetOperationResultsResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationProtectionClustersListOptionalParams): PagedAsyncIterableIterator<ReplicationProtectionCluster>;
-    listByReplicationProtectionContainers(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams): PagedAsyncIterableIterator<ReplicationProtectionCluster>;
-}
-
-// @public
-export interface ReplicationProtectionClustersApplyRecoveryPointHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersApplyRecoveryPointOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectionClustersApplyRecoveryPointOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectionClustersApplyRecoveryPointResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersCreateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectionClustersCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectionClustersCreateResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersFailoverCommitHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersFailoverCommitOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationProtectionClustersFailoverCommitOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationProtectionClustersFailoverCommitResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersGetOperationResultsOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectionClustersGetOperationResultsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectionClustersGetOperationResultsResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectionClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectionClustersGetResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse = ReplicationProtectionClusterCollection;
-
-// @public
-export interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionClustersListByReplicationProtectionContainersResponse = ReplicationProtectionClusterCollection;
-
-// @public
-export interface ReplicationProtectionClustersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionClustersListNextResponse = ReplicationProtectionClusterCollection;
-
-// @public
-export interface ReplicationProtectionClustersListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectionClustersListOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
 }
 
 // @public
-export type ReplicationProtectionClustersListResponse = ReplicationProtectionClusterCollection;
+export interface ReplicationProtectionClustersOperations {
+    applyRecoveryPoint: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginApplyRecoveryPoint: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginApplyRecoveryPointAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams) => Promise<ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams) => Promise<ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginFailoverCommit: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginFailoverCommitAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams) => Promise<ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRepairReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginRepairReplicationAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams) => Promise<ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginTestFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginTestFailoverAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams) => Promise<ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginTestFailoverCleanup: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginTestFailoverCleanupAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams) => Promise<ReplicationProtectionCluster>;
+    // @deprecated (undocumented)
+    beginUnplannedFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>>;
+    // @deprecated (undocumented)
+    beginUnplannedFailoverAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams) => Promise<ReplicationProtectionCluster>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+    failoverCommit: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersGetOptionalParams) => Promise<ReplicationProtectionCluster>;
+    getOperationResults: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, jobId: string, options?: ReplicationProtectionClustersGetOperationResultsOptionalParams) => Promise<ReplicationProtectionCluster>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationProtectionClustersListOptionalParams) => PagedAsyncIterableIterator<ReplicationProtectionCluster>;
+    listByReplicationProtectionContainers: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams) => PagedAsyncIterableIterator<ReplicationProtectionCluster>;
+    purge: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    repairReplication: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+    testFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+    testFailoverCleanup: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+    unplannedFailover: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams) => PollerLike<OperationState<ReplicationProtectionCluster>, ReplicationProtectionCluster>;
+}
 
 // @public
-export interface ReplicationProtectionClustersPurgeHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
+export interface ReplicationProtectionClustersPurgeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionClustersRepairReplicationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionClustersTestFailoverCleanupOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionClustersTestFailoverOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionClustersUnplannedFailoverOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainerMapping>, ProtectionContainerMapping>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams) => Promise<ProtectionContainerMapping>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, removalInput: RemoveProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, removalInput: RemoveProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, updateInput: UpdateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainerMapping>, ProtectionContainerMapping>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, updateInput: UpdateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsUpdateOptionalParams) => Promise<ProtectionContainerMapping>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams) => PollerLike<OperationState<ProtectionContainerMapping>, ProtectionContainerMapping>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, removalInput: RemoveProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsGetOptionalParams) => Promise<ProtectionContainerMapping>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationProtectionContainerMappingsListOptionalParams) => PagedAsyncIterableIterator<ProtectionContainerMapping>;
+    listByReplicationProtectionContainers: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams) => PagedAsyncIterableIterator<ProtectionContainerMapping>;
+    purge: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, updateInput: UpdateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsUpdateOptionalParams) => PollerLike<OperationState<ProtectionContainerMapping>, ProtectionContainerMapping>;
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsPurgeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainerMappingsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainersCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainersDiscoverProtectableItemOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProtectionContainersListByReplicationFabricsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProtectionContainersListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProtectionContainersOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, creationInput: CreateProtectionContainerInput, options?: ReplicationProtectionContainersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainer>, ProtectionContainer>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, creationInput: CreateProtectionContainerInput, options?: ReplicationProtectionContainersCreateOptionalParams) => Promise<ProtectionContainer>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDiscoverProtectableItem: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainer>, ProtectionContainer>>;
+    // @deprecated (undocumented)
+    beginDiscoverProtectableItemAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams) => Promise<ProtectionContainer>;
+    // @deprecated (undocumented)
+    beginSwitchClusterProtection: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainer>, ProtectionContainer>>;
+    // @deprecated (undocumented)
+    beginSwitchClusterProtectionAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams) => Promise<ProtectionContainer>;
+    // @deprecated (undocumented)
+    beginSwitchProtection: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainer>, ProtectionContainer>>;
+    // @deprecated (undocumented)
+    beginSwitchProtectionAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams) => Promise<ProtectionContainer>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, creationInput: CreateProtectionContainerInput, options?: ReplicationProtectionContainersCreateOptionalParams) => PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    discoverProtectableItem: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams) => PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersGetOptionalParams) => Promise<ProtectionContainer>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationProtectionContainersListOptionalParams) => PagedAsyncIterableIterator<ProtectionContainer>;
+    listByReplicationFabrics: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams) => PagedAsyncIterableIterator<ProtectionContainer>;
+    switchClusterProtection: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams) => PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
+    switchProtection: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams) => PollerLike<OperationState<ProtectionContainer>, ProtectionContainer>;
+}
+
+// @public
+export interface ReplicationProtectionContainersSwitchClusterProtectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionContainersSwitchProtectionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ReplicationProtectionIntent extends ProxyResource {
     location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersPurgeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionClustersPurgeResponse = ReplicationProtectionClustersPurgeHeaders;
-
-// @public
-export interface ReplicationProtectionClustersRepairReplicationHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersRepairReplicationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionClustersRepairReplicationResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersTestFailoverCleanupHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersTestFailoverCleanupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionClustersTestFailoverCleanupResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersTestFailoverHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersTestFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionClustersTestFailoverResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionClustersUnplannedFailoverHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionClustersUnplannedFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionClustersUnplannedFailoverResponse = ReplicationProtectionCluster;
-
-// @public
-export interface ReplicationProtectionContainerMappings {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainerMappingsCreateResponse>, ReplicationProtectionContainerMappingsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams): Promise<ReplicationProtectionContainerMappingsCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, removalInput: RemoveProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, removalInput: RemoveProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsDeleteOptionalParams): Promise<void>;
-    beginPurge(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPurgeAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsPurgeOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, updateInput: UpdateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainerMappingsUpdateResponse>, ReplicationProtectionContainerMappingsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, updateInput: UpdateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsUpdateOptionalParams): Promise<ReplicationProtectionContainerMappingsUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, mappingName: string, options?: ReplicationProtectionContainerMappingsGetOptionalParams): Promise<ReplicationProtectionContainerMappingsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationProtectionContainerMappingsListOptionalParams): PagedAsyncIterableIterator<ProtectionContainerMapping>;
-    listByReplicationProtectionContainers(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams): PagedAsyncIterableIterator<ProtectionContainerMapping>;
-}
-
-// @public
-export interface ReplicationProtectionContainerMappingsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsCreateResponse = ProtectionContainerMapping;
-
-// @public
-export interface ReplicationProtectionContainerMappingsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ReplicationProtectionContainerMappingsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsGetResponse = ProtectionContainerMapping;
-
-// @public
-export interface ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse = ProtectionContainerMappingCollection;
-
-// @public
-export interface ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse = ProtectionContainerMappingCollection;
-
-// @public
-export interface ReplicationProtectionContainerMappingsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsListNextResponse = ProtectionContainerMappingCollection;
-
-// @public
-export interface ReplicationProtectionContainerMappingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsListResponse = ProtectionContainerMappingCollection;
-
-// @public
-export interface ReplicationProtectionContainerMappingsPurgeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ReplicationProtectionContainerMappingsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionContainerMappingsUpdateResponse = ProtectionContainerMapping;
-
-// @public
-export interface ReplicationProtectionContainers {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, creationInput: CreateProtectionContainerInput, options?: ReplicationProtectionContainersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersCreateResponse>, ReplicationProtectionContainersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, creationInput: CreateProtectionContainerInput, options?: ReplicationProtectionContainersCreateOptionalParams): Promise<ReplicationProtectionContainersCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersDeleteOptionalParams): Promise<void>;
-    beginDiscoverProtectableItem(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersDiscoverProtectableItemResponse>, ReplicationProtectionContainersDiscoverProtectableItemResponse>>;
-    beginDiscoverProtectableItemAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse>;
-    beginSwitchClusterProtection(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>, ReplicationProtectionContainersSwitchClusterProtectionResponse>>;
-    beginSwitchClusterProtectionAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse>;
-    beginSwitchProtection(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersSwitchProtectionResponse>, ReplicationProtectionContainersSwitchProtectionResponse>>;
-    beginSwitchProtectionAndWait(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams): Promise<ReplicationProtectionContainersSwitchProtectionResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersGetOptionalParams): Promise<ReplicationProtectionContainersGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationProtectionContainersListOptionalParams): PagedAsyncIterableIterator<ProtectionContainer>;
-    listByReplicationFabrics(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams): PagedAsyncIterableIterator<ProtectionContainer>;
-}
-
-// @public
-export interface ReplicationProtectionContainersCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionContainersCreateResponse = ProtectionContainer;
-
-// @public
-export interface ReplicationProtectionContainersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ReplicationProtectionContainersDiscoverProtectableItemOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionContainersDiscoverProtectableItemResponse = ProtectionContainer;
-
-// @public
-export interface ReplicationProtectionContainersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainersGetResponse = ProtectionContainer;
-
-// @public
-export interface ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainersListByReplicationFabricsNextResponse = ProtectionContainerCollection;
-
-// @public
-export interface ReplicationProtectionContainersListByReplicationFabricsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainersListByReplicationFabricsResponse = ProtectionContainerCollection;
-
-// @public
-export interface ReplicationProtectionContainersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainersListNextResponse = ProtectionContainerCollection;
-
-// @public
-export interface ReplicationProtectionContainersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionContainersListResponse = ProtectionContainerCollection;
-
-// @public
-export interface ReplicationProtectionContainersSwitchClusterProtectionHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionContainersSwitchClusterProtectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionContainersSwitchClusterProtectionResponse = ProtectionContainer;
-
-// @public
-export interface ReplicationProtectionContainersSwitchProtectionHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    retryAfter?: string;
-}
-
-// @public
-export interface ReplicationProtectionContainersSwitchProtectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReplicationProtectionContainersSwitchProtectionResponse = ProtectionContainer;
-
-// @public
-export interface ReplicationProtectionIntent extends Resource {
     properties?: ReplicationProtectionIntentProperties;
-}
-
-// @public
-export interface ReplicationProtectionIntentCollection {
-    nextLink?: string;
-    value?: ReplicationProtectionIntent[];
 }
 
 // @public
@@ -6244,48 +5690,32 @@ export interface ReplicationProtectionIntentProperties {
 
 // @public
 export interface ReplicationProtectionIntentProviderSpecificSettings {
-    instanceType: "A2A";
-}
-
-// @public (undocumented)
-export type ReplicationProtectionIntentProviderSpecificSettingsUnion = ReplicationProtectionIntentProviderSpecificSettings | A2AReplicationIntentDetails;
-
-// @public
-export interface ReplicationProtectionIntents {
-    create(resourceGroupName: string, resourceName: string, intentObjectName: string, input: CreateProtectionIntentInput, options?: ReplicationProtectionIntentsCreateOptionalParams): Promise<ReplicationProtectionIntentsCreateResponse>;
-    get(resourceGroupName: string, resourceName: string, intentObjectName: string, options?: ReplicationProtectionIntentsGetOptionalParams): Promise<ReplicationProtectionIntentsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationProtectionIntentsListOptionalParams): PagedAsyncIterableIterator<ReplicationProtectionIntent>;
+    instanceType: string;
 }
 
 // @public
-export interface ReplicationProtectionIntentsCreateOptionalParams extends coreClient.OperationOptions {
+export type ReplicationProtectionIntentProviderSpecificSettingsUnion = A2AReplicationIntentDetails | ReplicationProtectionIntentProviderSpecificSettings;
+
+// @public
+export interface ReplicationProtectionIntentsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectionIntentsCreateResponse = ReplicationProtectionIntent;
-
-// @public
-export interface ReplicationProtectionIntentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectionIntentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationProtectionIntentsGetResponse = ReplicationProtectionIntent;
-
-// @public
-export interface ReplicationProtectionIntentsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationProtectionIntentsListNextResponse = ReplicationProtectionIntentCollection;
-
-// @public
-export interface ReplicationProtectionIntentsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationProtectionIntentsListOptionalParams extends OperationOptions {
     skipToken?: string;
     takeToken?: string;
 }
 
 // @public
-export type ReplicationProtectionIntentsListResponse = ReplicationProtectionIntentCollection;
+export interface ReplicationProtectionIntentsOperations {
+    create: (resourceGroupName: string, resourceName: string, intentObjectName: string, input: CreateProtectionIntentInput, options?: ReplicationProtectionIntentsCreateOptionalParams) => Promise<ReplicationProtectionIntent>;
+    get: (resourceGroupName: string, resourceName: string, intentObjectName: string, options?: ReplicationProtectionIntentsGetOptionalParams) => Promise<ReplicationProtectionIntent>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationProtectionIntentsListOptionalParams) => PagedAsyncIterableIterator<ReplicationProtectionIntent>;
+}
 
 // @public
 export interface ReplicationProviderContainerUnmappingInput {
@@ -6294,485 +5724,358 @@ export interface ReplicationProviderContainerUnmappingInput {
 
 // @public
 export interface ReplicationProviderSpecificContainerCreationInput {
-    instanceType: "A2A" | "A2ACrossClusterMigration" | "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ReplicationProviderSpecificContainerCreationInputUnion = ReplicationProviderSpecificContainerCreationInput | A2AContainerCreationInput | A2ACrossClusterMigrationContainerCreationInput | VMwareCbtContainerCreationInput;
+// @public
+export type ReplicationProviderSpecificContainerCreationInputUnion = A2AContainerCreationInput | A2ACrossClusterMigrationContainerCreationInput | VMwareCbtContainerCreationInput | ReplicationProviderSpecificContainerCreationInput;
 
 // @public
 export interface ReplicationProviderSpecificContainerMappingInput {
-    instanceType: "A2A" | "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ReplicationProviderSpecificContainerMappingInputUnion = ReplicationProviderSpecificContainerMappingInput | A2AContainerMappingInput | VMwareCbtContainerMappingInput;
+// @public
+export type ReplicationProviderSpecificContainerMappingInputUnion = A2AContainerMappingInput | VMwareCbtContainerMappingInput | ReplicationProviderSpecificContainerMappingInput;
 
 // @public
 export interface ReplicationProviderSpecificSettings {
-    instanceType: "A2ACrossClusterMigration" | "A2A" | "HyperVReplicaAzure" | "HyperVReplicaBaseReplicationDetails" | "HyperVReplica2012R2" | "HyperVReplica2012" | "InMageAzureV2" | "InMageRcmFailback" | "InMageRcm" | "InMage";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ReplicationProviderSpecificSettingsUnion = ReplicationProviderSpecificSettings | A2ACrossClusterMigrationReplicationDetails | A2AReplicationDetails | HyperVReplicaAzureReplicationDetails | HyperVReplicaBaseReplicationDetails | HyperVReplicaBlueReplicationDetails | HyperVReplicaReplicationDetails | InMageAzureV2ReplicationDetails | InMageRcmFailbackReplicationDetails | InMageRcmReplicationDetails | InMageReplicationDetails;
+// @public
+export type ReplicationProviderSpecificSettingsUnion = A2ACrossClusterMigrationReplicationDetails | A2AReplicationDetails | HyperVReplicaAzureReplicationDetails | HyperVReplicaBaseReplicationDetails | HyperVReplicaBlueReplicationDetails | HyperVReplicaReplicationDetails | InMageAzureV2ReplicationDetails | InMageRcmFailbackReplicationDetails | InMageRcmReplicationDetails | InMageReplicationDetails | ReplicationProviderSpecificSettings;
 
 // @public
 export interface ReplicationProviderSpecificUpdateContainerMappingInput {
-    instanceType: "A2A" | "InMageRcm";
-}
-
-// @public (undocumented)
-export type ReplicationProviderSpecificUpdateContainerMappingInputUnion = ReplicationProviderSpecificUpdateContainerMappingInput | A2AUpdateContainerMappingInput | InMageRcmUpdateContainerMappingInput;
-
-// @public
-export interface ReplicationRecoveryPlans {
-    beginCreate(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: CreateRecoveryPlanInput, options?: ReplicationRecoveryPlansCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansCreateResponse>, ReplicationRecoveryPlansCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: CreateRecoveryPlanInput, options?: ReplicationRecoveryPlansCreateOptionalParams): Promise<ReplicationRecoveryPlansCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansDeleteOptionalParams): Promise<void>;
-    beginFailoverCancel(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCancelOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansFailoverCancelResponse>, ReplicationRecoveryPlansFailoverCancelResponse>>;
-    beginFailoverCancelAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCancelOptionalParams): Promise<ReplicationRecoveryPlansFailoverCancelResponse>;
-    beginFailoverCommit(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCommitOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansFailoverCommitResponse>, ReplicationRecoveryPlansFailoverCommitResponse>>;
-    beginFailoverCommitAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCommitOptionalParams): Promise<ReplicationRecoveryPlansFailoverCommitResponse>;
-    beginPlannedFailover(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanPlannedFailoverInput, options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansPlannedFailoverResponse>, ReplicationRecoveryPlansPlannedFailoverResponse>>;
-    beginPlannedFailoverAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanPlannedFailoverInput, options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams): Promise<ReplicationRecoveryPlansPlannedFailoverResponse>;
-    beginReprotect(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansReprotectOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansReprotectResponse>, ReplicationRecoveryPlansReprotectResponse>>;
-    beginReprotectAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansReprotectOptionalParams): Promise<ReplicationRecoveryPlansReprotectResponse>;
-    beginTestFailover(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverInput, options?: ReplicationRecoveryPlansTestFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansTestFailoverResponse>, ReplicationRecoveryPlansTestFailoverResponse>>;
-    beginTestFailoverAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverInput, options?: ReplicationRecoveryPlansTestFailoverOptionalParams): Promise<ReplicationRecoveryPlansTestFailoverResponse>;
-    beginTestFailoverCleanup(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverCleanupInput, options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansTestFailoverCleanupResponse>, ReplicationRecoveryPlansTestFailoverCleanupResponse>>;
-    beginTestFailoverCleanupAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverCleanupInput, options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams): Promise<ReplicationRecoveryPlansTestFailoverCleanupResponse>;
-    beginUnplannedFailover(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanUnplannedFailoverInput, options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansUnplannedFailoverResponse>, ReplicationRecoveryPlansUnplannedFailoverResponse>>;
-    beginUnplannedFailoverAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanUnplannedFailoverInput, options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams): Promise<ReplicationRecoveryPlansUnplannedFailoverResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: UpdateRecoveryPlanInput, options?: ReplicationRecoveryPlansUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryPlansUpdateResponse>, ReplicationRecoveryPlansUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: UpdateRecoveryPlanInput, options?: ReplicationRecoveryPlansUpdateOptionalParams): Promise<ReplicationRecoveryPlansUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansGetOptionalParams): Promise<ReplicationRecoveryPlansGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationRecoveryPlansListOptionalParams): PagedAsyncIterableIterator<RecoveryPlan>;
+    instanceType: string;
 }
 
 // @public
-export interface ReplicationRecoveryPlansCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export type ReplicationProviderSpecificUpdateContainerMappingInputUnion = A2AUpdateContainerMappingInput | InMageRcmUpdateContainerMappingInput | ReplicationProviderSpecificUpdateContainerMappingInput;
+
+// @public
+export interface ReplicationRecoveryPlansCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansCreateResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationRecoveryPlansFailoverCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansFailoverCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansFailoverCancelResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansFailoverCommitOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansFailoverCommitOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansFailoverCommitResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryPlansGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationRecoveryPlansGetResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryPlansListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationRecoveryPlansListNextResponse = RecoveryPlanCollection;
-
-// @public
-export interface ReplicationRecoveryPlansListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryPlansOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: CreateRecoveryPlanInput, options?: ReplicationRecoveryPlansCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: CreateRecoveryPlanInput, options?: ReplicationRecoveryPlansCreateOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFailoverCancel: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCancelOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginFailoverCancelAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCancelOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginFailoverCommit: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCommitOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginFailoverCommitAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCommitOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginPlannedFailover: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanPlannedFailoverInput, options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginPlannedFailoverAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanPlannedFailoverInput, options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginReprotect: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansReprotectOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginReprotectAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansReprotectOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginTestFailover: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverInput, options?: ReplicationRecoveryPlansTestFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginTestFailoverAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverInput, options?: ReplicationRecoveryPlansTestFailoverOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginTestFailoverCleanup: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverCleanupInput, options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginTestFailoverCleanupAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverCleanupInput, options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginUnplannedFailover: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanUnplannedFailoverInput, options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginUnplannedFailoverAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanUnplannedFailoverInput, options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams) => Promise<RecoveryPlan>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: UpdateRecoveryPlanInput, options?: ReplicationRecoveryPlansUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: UpdateRecoveryPlanInput, options?: ReplicationRecoveryPlansUpdateOptionalParams) => Promise<RecoveryPlan>;
+    create: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: CreateRecoveryPlanInput, options?: ReplicationRecoveryPlansCreateOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    delete: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    failoverCancel: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCancelOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    failoverCommit: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansFailoverCommitOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    get: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansGetOptionalParams) => Promise<RecoveryPlan>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationRecoveryPlansListOptionalParams) => PagedAsyncIterableIterator<RecoveryPlan>;
+    plannedFailover: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanPlannedFailoverInput, options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    reprotect: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, options?: ReplicationRecoveryPlansReprotectOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    testFailover: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverInput, options?: ReplicationRecoveryPlansTestFailoverOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    testFailoverCleanup: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanTestFailoverCleanupInput, options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    unplannedFailover: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: RecoveryPlanUnplannedFailoverInput, options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
+    update: (resourceGroupName: string, resourceName: string, recoveryPlanName: string, input: UpdateRecoveryPlanInput, options?: ReplicationRecoveryPlansUpdateOptionalParams) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
 }
 
 // @public
-export type ReplicationRecoveryPlansListResponse = RecoveryPlanCollection;
-
-// @public
-export interface ReplicationRecoveryPlansPlannedFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansPlannedFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansPlannedFailoverResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansReprotectOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansReprotectOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansReprotectResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansTestFailoverCleanupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansTestFailoverCleanupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansTestFailoverCleanupResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansTestFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansTestFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansTestFailoverResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansUnplannedFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansUnplannedFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansUnplannedFailoverResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryPlansUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryPlansUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryPlansUpdateResponse = RecoveryPlan;
-
-// @public
-export interface ReplicationRecoveryServicesProviders {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, addProviderInput: AddRecoveryServicesProviderInput, options?: ReplicationRecoveryServicesProvidersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryServicesProvidersCreateResponse>, ReplicationRecoveryServicesProvidersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, addProviderInput: AddRecoveryServicesProviderInput, options?: ReplicationRecoveryServicesProvidersCreateOptionalParams): Promise<ReplicationRecoveryServicesProvidersCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams): Promise<void>;
-    beginPurge(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPurgeAndWait(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams): Promise<void>;
-    beginRefreshProvider(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationRecoveryServicesProvidersRefreshProviderResponse>, ReplicationRecoveryServicesProvidersRefreshProviderResponse>>;
-    beginRefreshProviderAndWait(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams): Promise<ReplicationRecoveryServicesProvidersRefreshProviderResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersGetOptionalParams): Promise<ReplicationRecoveryServicesProvidersGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationRecoveryServicesProvidersListOptionalParams): PagedAsyncIterableIterator<RecoveryServicesProvider>;
-    listByReplicationFabrics(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams): PagedAsyncIterableIterator<RecoveryServicesProvider>;
-}
-
-// @public
-export interface ReplicationRecoveryServicesProvidersCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryServicesProvidersCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryServicesProvidersCreateResponse = RecoveryServicesProvider;
-
-// @public
-export interface ReplicationRecoveryServicesProvidersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryServicesProvidersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationRecoveryServicesProvidersGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryServicesProvidersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationRecoveryServicesProvidersGetResponse = RecoveryServicesProvider;
-
-// @public
-export interface ReplicationRecoveryServicesProvidersListByReplicationFabricsNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationRecoveryServicesProvidersListByReplicationFabricsNextResponse = RecoveryServicesProviderCollection;
-
-// @public
-export interface ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryServicesProvidersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationRecoveryServicesProvidersListByReplicationFabricsResponse = RecoveryServicesProviderCollection;
-
-// @public
-export interface ReplicationRecoveryServicesProvidersListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationRecoveryServicesProvidersOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, addProviderInput: AddRecoveryServicesProviderInput, options?: ReplicationRecoveryServicesProvidersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryServicesProvider>, RecoveryServicesProvider>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, addProviderInput: AddRecoveryServicesProviderInput, options?: ReplicationRecoveryServicesProvidersCreateOptionalParams) => Promise<RecoveryServicesProvider>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPurge: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRefreshProvider: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams) => Promise<SimplePollerLike<OperationState<RecoveryServicesProvider>, RecoveryServicesProvider>>;
+    // @deprecated (undocumented)
+    beginRefreshProviderAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams) => Promise<RecoveryServicesProvider>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, addProviderInput: AddRecoveryServicesProviderInput, options?: ReplicationRecoveryServicesProvidersCreateOptionalParams) => PollerLike<OperationState<RecoveryServicesProvider>, RecoveryServicesProvider>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersGetOptionalParams) => Promise<RecoveryServicesProvider>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationRecoveryServicesProvidersListOptionalParams) => PagedAsyncIterableIterator<RecoveryServicesProvider>;
+    listByReplicationFabrics: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams) => PagedAsyncIterableIterator<RecoveryServicesProvider>;
+    purge: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersPurgeOptionalParams) => PollerLike<OperationState<void>, void>;
+    refreshProvider: (resourceGroupName: string, resourceName: string, fabricName: string, providerName: string, options?: ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams) => PollerLike<OperationState<RecoveryServicesProvider>, RecoveryServicesProvider>;
 }
 
 // @public
-export type ReplicationRecoveryServicesProvidersListNextResponse = RecoveryServicesProviderCollection;
-
-// @public
-export interface ReplicationRecoveryServicesProvidersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationRecoveryServicesProvidersListResponse = RecoveryServicesProviderCollection;
-
-// @public
-export interface ReplicationRecoveryServicesProvidersPurgeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryServicesProvidersPurgeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationRecoveryServicesProvidersRefreshProviderOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationRecoveryServicesProvidersRefreshProviderResponse = RecoveryServicesProvider;
-
-// @public
-export interface ReplicationStorageClassificationMappings {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: StorageClassificationMappingInput, options?: ReplicationStorageClassificationMappingsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationStorageClassificationMappingsCreateResponse>, ReplicationStorageClassificationMappingsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: StorageClassificationMappingInput, options?: ReplicationStorageClassificationMappingsCreateOptionalParams): Promise<ReplicationStorageClassificationMappingsCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsGetOptionalParams): Promise<ReplicationStorageClassificationMappingsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationStorageClassificationMappingsListOptionalParams): PagedAsyncIterableIterator<StorageClassificationMapping>;
-    listByReplicationStorageClassifications(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams): PagedAsyncIterableIterator<StorageClassificationMapping>;
-}
-
-// @public
-export interface ReplicationStorageClassificationMappingsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationStorageClassificationMappingsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationStorageClassificationMappingsCreateResponse = StorageClassificationMapping;
-
-// @public
-export interface ReplicationStorageClassificationMappingsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationStorageClassificationMappingsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationStorageClassificationMappingsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationMappingsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationStorageClassificationMappingsGetResponse = StorageClassificationMapping;
-
-// @public
-export interface ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse = StorageClassificationMappingCollection;
-
-// @public
-export interface ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationMappingsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse = StorageClassificationMappingCollection;
-
-// @public
-export interface ReplicationStorageClassificationMappingsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationMappingsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: StorageClassificationMappingInput, options?: ReplicationStorageClassificationMappingsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageClassificationMapping>, StorageClassificationMapping>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: StorageClassificationMappingInput, options?: ReplicationStorageClassificationMappingsCreateOptionalParams) => Promise<StorageClassificationMapping>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: StorageClassificationMappingInput, options?: ReplicationStorageClassificationMappingsCreateOptionalParams) => PollerLike<OperationState<StorageClassificationMapping>, StorageClassificationMapping>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: ReplicationStorageClassificationMappingsGetOptionalParams) => Promise<StorageClassificationMapping>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationStorageClassificationMappingsListOptionalParams) => PagedAsyncIterableIterator<StorageClassificationMapping>;
+    listByReplicationStorageClassifications: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, options?: ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams) => PagedAsyncIterableIterator<StorageClassificationMapping>;
 }
 
 // @public
-export type ReplicationStorageClassificationMappingsListNextResponse = StorageClassificationMappingCollection;
-
-// @public
-export interface ReplicationStorageClassificationMappingsListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationStorageClassificationMappingsListResponse = StorageClassificationMappingCollection;
-
-// @public
-export interface ReplicationStorageClassifications {
-    get(resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, options?: ReplicationStorageClassificationsGetOptionalParams): Promise<ReplicationStorageClassificationsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationStorageClassificationsListOptionalParams): PagedAsyncIterableIterator<StorageClassification>;
-    listByReplicationFabrics(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams): PagedAsyncIterableIterator<StorageClassification>;
+export interface ReplicationStorageClassificationsListByReplicationFabricsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ReplicationStorageClassificationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationStorageClassificationsGetResponse = StorageClassification;
-
-// @public
-export interface ReplicationStorageClassificationsListByReplicationFabricsNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationStorageClassificationsOperations {
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, storageClassificationName: string, options?: ReplicationStorageClassificationsGetOptionalParams) => Promise<StorageClassification>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationStorageClassificationsListOptionalParams) => PagedAsyncIterableIterator<StorageClassification>;
+    listByReplicationFabrics: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams) => PagedAsyncIterableIterator<StorageClassification>;
 }
 
 // @public
-export type ReplicationStorageClassificationsListByReplicationFabricsNextResponse = StorageClassificationCollection;
-
-// @public
-export interface ReplicationStorageClassificationsListByReplicationFabricsOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationVaultHealthGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationStorageClassificationsListByReplicationFabricsResponse = StorageClassificationCollection;
-
-// @public
-export interface ReplicationStorageClassificationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationVaultHealthOperations {
+    // @deprecated (undocumented)
+    beginRefresh: (resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthRefreshOptionalParams) => Promise<SimplePollerLike<OperationState<VaultHealthDetails>, VaultHealthDetails>>;
+    // @deprecated (undocumented)
+    beginRefreshAndWait: (resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthRefreshOptionalParams) => Promise<VaultHealthDetails>;
+    get: (resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthGetOptionalParams) => Promise<VaultHealthDetails>;
+    refresh: (resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthRefreshOptionalParams) => PollerLike<OperationState<VaultHealthDetails>, VaultHealthDetails>;
 }
 
 // @public
-export type ReplicationStorageClassificationsListNextResponse = StorageClassificationCollection;
-
-// @public
-export interface ReplicationStorageClassificationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationStorageClassificationsListResponse = StorageClassificationCollection;
-
-// @public
-export interface ReplicationVaultHealth {
-    beginRefresh(resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthRefreshOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationVaultHealthRefreshResponse>, ReplicationVaultHealthRefreshResponse>>;
-    beginRefreshAndWait(resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthRefreshOptionalParams): Promise<ReplicationVaultHealthRefreshResponse>;
-    get(resourceGroupName: string, resourceName: string, options?: ReplicationVaultHealthGetOptionalParams): Promise<ReplicationVaultHealthGetResponse>;
-}
-
-// @public
-export interface ReplicationVaultHealthGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationVaultHealthGetResponse = VaultHealthDetails;
-
-// @public
-export interface ReplicationVaultHealthRefreshOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationVaultHealthRefreshOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationVaultHealthRefreshResponse = VaultHealthDetails;
-
-// @public
-export interface ReplicationVaultSetting {
-    beginCreate(resourceGroupName: string, resourceName: string, vaultSettingName: string, input: VaultSettingCreationInput, options?: ReplicationVaultSettingCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationVaultSettingCreateResponse>, ReplicationVaultSettingCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, vaultSettingName: string, input: VaultSettingCreationInput, options?: ReplicationVaultSettingCreateOptionalParams): Promise<ReplicationVaultSettingCreateResponse>;
-    get(resourceGroupName: string, resourceName: string, vaultSettingName: string, options?: ReplicationVaultSettingGetOptionalParams): Promise<ReplicationVaultSettingGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationVaultSettingListOptionalParams): PagedAsyncIterableIterator<VaultSetting>;
-}
-
-// @public
-export interface ReplicationVaultSettingCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationVaultSettingCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationVaultSettingCreateResponse = VaultSetting;
-
-// @public
-export interface ReplicationVaultSettingGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationVaultSettingGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationVaultSettingGetResponse = VaultSetting;
-
-// @public
-export interface ReplicationVaultSettingListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationVaultSettingListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationVaultSettingListNextResponse = VaultSettingCollection;
-
-// @public
-export interface ReplicationVaultSettingListOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationVaultSettingOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, vaultSettingName: string, input: VaultSettingCreationInput, options?: ReplicationVaultSettingCreateOptionalParams) => Promise<SimplePollerLike<OperationState<VaultSetting>, VaultSetting>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, vaultSettingName: string, input: VaultSettingCreationInput, options?: ReplicationVaultSettingCreateOptionalParams) => Promise<VaultSetting>;
+    create: (resourceGroupName: string, resourceName: string, vaultSettingName: string, input: VaultSettingCreationInput, options?: ReplicationVaultSettingCreateOptionalParams) => PollerLike<OperationState<VaultSetting>, VaultSetting>;
+    get: (resourceGroupName: string, resourceName: string, vaultSettingName: string, options?: ReplicationVaultSettingGetOptionalParams) => Promise<VaultSetting>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationVaultSettingListOptionalParams) => PagedAsyncIterableIterator<VaultSetting>;
 }
 
 // @public
-export type ReplicationVaultSettingListResponse = VaultSettingCollection;
-
-// @public
-export interface ReplicationvCenters {
-    beginCreate(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, addVCenterRequest: AddVCenterRequest, options?: ReplicationvCentersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationvCentersCreateResponse>, ReplicationvCentersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, addVCenterRequest: AddVCenterRequest, options?: ReplicationvCentersCreateOptionalParams): Promise<ReplicationvCentersCreateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, updateVCenterRequest: UpdateVCenterRequest, options?: ReplicationvCentersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationvCentersUpdateResponse>, ReplicationvCentersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, updateVCenterRequest: UpdateVCenterRequest, options?: ReplicationvCentersUpdateOptionalParams): Promise<ReplicationvCentersUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersGetOptionalParams): Promise<ReplicationvCentersGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: ReplicationvCentersListOptionalParams): PagedAsyncIterableIterator<VCenter>;
-    listByReplicationFabrics(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationvCentersListByReplicationFabricsOptionalParams): PagedAsyncIterableIterator<VCenter>;
-}
-
-// @public
-export interface ReplicationvCentersCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationvCentersCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReplicationvCentersCreateResponse = VCenter;
-
-// @public
-export interface ReplicationvCentersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationvCentersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ReplicationvCentersGetOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationvCentersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationvCentersGetResponse = VCenter;
-
-// @public
-export interface ReplicationvCentersListByReplicationFabricsNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationvCentersListByReplicationFabricsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationvCentersListByReplicationFabricsNextResponse = VCenterCollection;
-
-// @public
-export interface ReplicationvCentersListByReplicationFabricsOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationvCentersListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReplicationvCentersListByReplicationFabricsResponse = VCenterCollection;
-
-// @public
-export interface ReplicationvCentersListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReplicationvCentersOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, addVCenterRequest: AddVCenterRequest, options?: ReplicationvCentersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<VCenter>, VCenter>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, addVCenterRequest: AddVCenterRequest, options?: ReplicationvCentersCreateOptionalParams) => Promise<VCenter>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, updateVCenterRequest: UpdateVCenterRequest, options?: ReplicationvCentersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VCenter>, VCenter>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, updateVCenterRequest: UpdateVCenterRequest, options?: ReplicationvCentersUpdateOptionalParams) => Promise<VCenter>;
+    create: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, addVCenterRequest: AddVCenterRequest, options?: ReplicationvCentersCreateOptionalParams) => PollerLike<OperationState<VCenter>, VCenter>;
+    delete: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, options?: ReplicationvCentersGetOptionalParams) => Promise<VCenter>;
+    list: (resourceGroupName: string, resourceName: string, options?: ReplicationvCentersListOptionalParams) => PagedAsyncIterableIterator<VCenter>;
+    listByReplicationFabrics: (resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationvCentersListByReplicationFabricsOptionalParams) => PagedAsyncIterableIterator<VCenter>;
+    update: (resourceGroupName: string, resourceName: string, fabricName: string, vcenterName: string, updateVCenterRequest: UpdateVCenterRequest, options?: ReplicationvCentersUpdateOptionalParams) => PollerLike<OperationState<VCenter>, VCenter>;
 }
 
 // @public
-export type ReplicationvCentersListNextResponse = VCenterCollection;
-
-// @public
-export interface ReplicationvCentersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationvCentersListResponse = VCenterCollection;
-
-// @public
-export interface ReplicationvCentersUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReplicationvCentersUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReplicationvCentersUpdateResponse = VCenter;
 
 // @public
 export interface ReprotectAgentDetails {
@@ -6809,18 +6112,26 @@ export interface ResolveHealthInputProperties {
 // @public
 export interface Resource {
     readonly id?: string;
-    location?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceHealthSummary {
-    categorizedResourceCounts?: {
-        [propertyName: string]: number;
-    };
+    categorizedResourceCounts?: Record<string, number>;
     issues?: HealthErrorSummary[];
     resourceCount?: number;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SiteRecoveryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -6845,11 +6156,11 @@ export interface ResumeReplicationInputProperties {
 
 // @public
 export interface ResumeReplicationProviderSpecificInput {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ResumeReplicationProviderSpecificInputUnion = ResumeReplicationProviderSpecificInput | VMwareCbtResumeReplicationInput;
+// @public
+export type ResumeReplicationProviderSpecificInputUnion = VMwareCbtResumeReplicationInput | ResumeReplicationProviderSpecificInput;
 
 // @public
 export interface ResyncInput {
@@ -6863,11 +6174,11 @@ export interface ResyncInputProperties {
 
 // @public
 export interface ResyncProviderSpecificInput {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type ResyncProviderSpecificInputUnion = ResyncProviderSpecificInput | VMwareCbtResyncInput;
+// @public
+export type ResyncProviderSpecificInputUnion = VMwareCbtResyncInput | ResyncProviderSpecificInput;
 
 // @public
 export type ResyncState = string;
@@ -6893,20 +6204,11 @@ export interface ReverseReplicationInputProperties {
 
 // @public
 export interface ReverseReplicationProviderSpecificInput {
-    instanceType: "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcmFailback" | "InMageRcm" | "InMage";
+    instanceType: string;
 }
-
-// @public (undocumented)
-export type ReverseReplicationProviderSpecificInputUnion = ReverseReplicationProviderSpecificInput | A2AReprotectInput | HyperVReplicaAzureReprotectInput | InMageAzureV2ReprotectInput | InMageRcmFailbackReprotectInput | InMageRcmReprotectInput | InMageReprotectInput;
 
 // @public
-export interface RoleAssignment {
-    id?: string;
-    name?: string;
-    principalId?: string;
-    roleDefinitionId?: string;
-    scope?: string;
-}
+export type ReverseReplicationProviderSpecificInputUnion = A2AReprotectInput | HyperVReplicaAzureReprotectInput | InMageAzureV2ReprotectInput | InMageRcmFailbackReprotectInput | InMageRcmReprotectInput | InMageReprotectInput | ReverseReplicationProviderSpecificInput;
 
 // @public
 export type RpInMageRecoveryPointType = string;
@@ -6970,90 +6272,75 @@ export interface SharedDiskReplicationItemProperties {
 
 // @public
 export interface SharedDiskReplicationProviderSpecificSettings {
-    instanceType: "A2A";
-}
-
-// @public (undocumented)
-export type SharedDiskReplicationProviderSpecificSettingsUnion = SharedDiskReplicationProviderSpecificSettings | A2ASharedDiskReplicationDetails;
-
-// @public (undocumented)
-export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SiteRecoveryManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    clusterRecoveryPointOperations: ClusterRecoveryPointOperations;
-    // (undocumented)
-    clusterRecoveryPoints: ClusterRecoveryPoints;
-    // (undocumented)
-    migrationRecoveryPoints: MigrationRecoveryPoints;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    recoveryPoints: RecoveryPoints;
-    // (undocumented)
-    replicationAlertSettings: ReplicationAlertSettings;
-    // (undocumented)
-    replicationAppliances: ReplicationAppliances;
-    // (undocumented)
-    replicationEligibilityResultsOperations: ReplicationEligibilityResultsOperations;
-    // (undocumented)
-    replicationEvents: ReplicationEvents;
-    // (undocumented)
-    replicationFabrics: ReplicationFabrics;
-    // (undocumented)
-    replicationJobs: ReplicationJobs;
-    // (undocumented)
-    replicationLogicalNetworks: ReplicationLogicalNetworks;
-    // (undocumented)
-    replicationMigrationItems: ReplicationMigrationItems;
-    // (undocumented)
-    replicationNetworkMappings: ReplicationNetworkMappings;
-    // (undocumented)
-    replicationNetworks: ReplicationNetworks;
-    // (undocumented)
-    replicationPolicies: ReplicationPolicies;
-    // (undocumented)
-    replicationProtectableItems: ReplicationProtectableItems;
-    // (undocumented)
-    replicationProtectedItems: ReplicationProtectedItems;
-    // (undocumented)
-    replicationProtectionClusters: ReplicationProtectionClusters;
-    // (undocumented)
-    replicationProtectionContainerMappings: ReplicationProtectionContainerMappings;
-    // (undocumented)
-    replicationProtectionContainers: ReplicationProtectionContainers;
-    // (undocumented)
-    replicationProtectionIntents: ReplicationProtectionIntents;
-    // (undocumented)
-    replicationRecoveryPlans: ReplicationRecoveryPlans;
-    // (undocumented)
-    replicationRecoveryServicesProviders: ReplicationRecoveryServicesProviders;
-    // (undocumented)
-    replicationStorageClassificationMappings: ReplicationStorageClassificationMappings;
-    // (undocumented)
-    replicationStorageClassifications: ReplicationStorageClassifications;
-    // (undocumented)
-    replicationVaultHealth: ReplicationVaultHealth;
-    // (undocumented)
-    replicationVaultSetting: ReplicationVaultSetting;
-    // (undocumented)
-    replicationvCenters: ReplicationvCenters;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    supportedOperatingSystemsOperations: SupportedOperatingSystemsOperations;
-    // (undocumented)
-    targetComputeSizes: TargetComputeSizes;
+    instanceType: string;
 }
 
 // @public
-export interface SiteRecoveryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export type SharedDiskReplicationProviderSpecificSettingsUnion = A2ASharedDiskReplicationDetails | SharedDiskReplicationProviderSpecificSettings;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public (undocumented)
+export class SiteRecoveryManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: SiteRecoveryManagementClientOptionalParams);
+    readonly clusterRecoveryPoint: ClusterRecoveryPointOperations;
+    readonly clusterRecoveryPoints: ClusterRecoveryPointsOperations;
+    readonly migrationRecoveryPoints: MigrationRecoveryPointsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly recoveryPoints: RecoveryPointsOperations;
+    readonly replicationAlertSettings: ReplicationAlertSettingsOperations;
+    readonly replicationAppliances: ReplicationAppliancesOperations;
+    readonly replicationEligibilityResults: ReplicationEligibilityResultsOperations;
+    readonly replicationEvents: ReplicationEventsOperations;
+    readonly replicationFabrics: ReplicationFabricsOperations;
+    readonly replicationJobs: ReplicationJobsOperations;
+    readonly replicationLogicalNetworks: ReplicationLogicalNetworksOperations;
+    readonly replicationMigrationItems: ReplicationMigrationItemsOperations;
+    readonly replicationNetworkMappings: ReplicationNetworkMappingsOperations;
+    readonly replicationNetworks: ReplicationNetworksOperations;
+    readonly replicationPolicies: ReplicationPoliciesOperations;
+    readonly replicationProtectableItems: ReplicationProtectableItemsOperations;
+    readonly replicationProtectedItems: ReplicationProtectedItemsOperations;
+    readonly replicationProtectionClusters: ReplicationProtectionClustersOperations;
+    readonly replicationProtectionContainerMappings: ReplicationProtectionContainerMappingsOperations;
+    readonly replicationProtectionContainers: ReplicationProtectionContainersOperations;
+    readonly replicationProtectionIntents: ReplicationProtectionIntentsOperations;
+    readonly replicationRecoveryPlans: ReplicationRecoveryPlansOperations;
+    readonly replicationRecoveryServicesProviders: ReplicationRecoveryServicesProvidersOperations;
+    readonly replicationStorageClassificationMappings: ReplicationStorageClassificationMappingsOperations;
+    readonly replicationStorageClassifications: ReplicationStorageClassificationsOperations;
+    readonly replicationVaultHealth: ReplicationVaultHealthOperations;
+    readonly replicationVaultSetting: ReplicationVaultSettingOperations;
+    readonly replicationvCenters: ReplicationvCentersOperations;
+    readonly supportedOperatingSystems: SupportedOperatingSystemsOperations;
+    readonly targetComputeSizes: TargetComputeSizesOperations;
+}
+
+// @public
+export interface SiteRecoveryManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -7064,32 +6351,22 @@ export type SqlServerLicenseType = string;
 
 // @public
 export interface StorageAccountCustomDetails {
-    resourceType: "Existing";
+    resourceType: string;
 }
 
-// @public (undocumented)
-export type StorageAccountCustomDetailsUnion = StorageAccountCustomDetails | ExistingStorageAccount;
+// @public
+export type StorageAccountCustomDetailsUnion = ExistingStorageAccount | StorageAccountCustomDetails;
 
 // @public
-export interface StorageClassification extends Resource {
+export interface StorageClassification extends ProxyResource {
+    location?: string;
     properties?: StorageClassificationProperties;
 }
 
 // @public
-export interface StorageClassificationCollection {
-    nextLink?: string;
-    value?: StorageClassification[];
-}
-
-// @public
-export interface StorageClassificationMapping extends Resource {
+export interface StorageClassificationMapping extends ProxyResource {
+    location?: string;
     properties?: StorageClassificationMappingProperties;
-}
-
-// @public
-export interface StorageClassificationMappingCollection {
-    nextLink?: string;
-    value?: StorageClassificationMapping[];
 }
 
 // @public
@@ -7121,20 +6398,18 @@ export interface Subnet {
 
 // @public
 export interface SupportedOperatingSystems extends Resource {
+    location?: string;
     properties?: SupportedOSProperties;
 }
 
 // @public
-export interface SupportedOperatingSystemsGetOptionalParams extends coreClient.OperationOptions {
+export interface SupportedOperatingSystemsGetOptionalParams extends OperationOptions {
     instanceType?: string;
 }
 
 // @public
-export type SupportedOperatingSystemsGetResponse = SupportedOperatingSystems;
-
-// @public
 export interface SupportedOperatingSystemsOperations {
-    get(resourceGroupName: string, resourceName: string, options?: SupportedOperatingSystemsGetOptionalParams): Promise<SupportedOperatingSystemsGetResponse>;
+    get: (resourceGroupName: string, resourceName: string, options?: SupportedOperatingSystemsGetOptionalParams) => Promise<SupportedOperatingSystems>;
 }
 
 // @public
@@ -7168,11 +6443,11 @@ export interface SwitchClusterProtectionInputProperties {
 
 // @public
 export interface SwitchClusterProtectionProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type SwitchClusterProtectionProviderSpecificInputUnion = SwitchClusterProtectionProviderSpecificInput | A2ASwitchClusterProtectionInput;
+// @public
+export type SwitchClusterProtectionProviderSpecificInputUnion = A2ASwitchClusterProtectionInput | SwitchClusterProtectionProviderSpecificInput;
 
 // @public
 export interface SwitchProtectionInput {
@@ -7193,11 +6468,11 @@ export interface SwitchProtectionJobDetails extends JobDetails {
 
 // @public
 export interface SwitchProtectionProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type SwitchProtectionProviderSpecificInputUnion = SwitchProtectionProviderSpecificInput | A2ASwitchProtectionInput;
+// @public
+export type SwitchProtectionProviderSpecificInputUnion = A2ASwitchProtectionInput | SwitchProtectionProviderSpecificInput;
 
 // @public
 export interface SwitchProviderInput {
@@ -7212,11 +6487,21 @@ export interface SwitchProviderInputProperties {
 
 // @public
 export interface SwitchProviderSpecificInput {
-    instanceType: "InMageAzureV2";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type SwitchProviderSpecificInputUnion = SwitchProviderSpecificInput | InMageAzureV2SwitchProviderInput;
+// @public
+export type SwitchProviderSpecificInputUnion = InMageAzureV2SwitchProviderInput | SwitchProviderSpecificInput;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TargetComputeSize {
@@ -7224,12 +6509,6 @@ export interface TargetComputeSize {
     name?: string;
     properties?: TargetComputeSizeProperties;
     type?: string;
-}
-
-// @public
-export interface TargetComputeSizeCollection {
-    nextLink?: string;
-    value?: TargetComputeSize[];
 }
 
 // @public
@@ -7247,31 +6526,21 @@ export interface TargetComputeSizeProperties {
 }
 
 // @public
-export interface TargetComputeSizes {
-    listByReplicationProtectedItems(resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams): PagedAsyncIterableIterator<TargetComputeSize>;
+export interface TargetComputeSizesListByReplicationProtectedItemsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams extends coreClient.OperationOptions {
+export interface TargetComputeSizesOperations {
+    listByReplicationProtectedItems: (resourceGroupName: string, resourceName: string, fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams) => PagedAsyncIterableIterator<TargetComputeSize>;
 }
-
-// @public
-export type TargetComputeSizesListByReplicationProtectedItemsNextResponse = TargetComputeSizeCollection;
-
-// @public
-export interface TargetComputeSizesListByReplicationProtectedItemsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TargetComputeSizesListByReplicationProtectedItemsResponse = TargetComputeSizeCollection;
 
 // @public
 export interface TaskTypeDetails {
-    instanceType: "AutomationRunbookTaskDetails" | "ConsistencyCheckTaskDetails" | "JobTaskDetails" | "FabricReplicationGroupTaskDetails" | "ManualActionTaskDetails" | "ScriptActionTaskDetails" | "VirtualMachineTaskDetails" | "VmNicUpdatesTaskDetails";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type TaskTypeDetailsUnion = TaskTypeDetails | AutomationRunbookTaskDetails | ConsistencyCheckTaskDetails | JobTaskDetailsUnion | ManualActionTaskDetails | ScriptActionTaskDetails | VmNicUpdatesTaskDetails;
+// @public
+export type TaskTypeDetailsUnion = AutomationRunbookTaskDetails | ConsistencyCheckTaskDetails | JobTaskDetailsUnion | ManualActionTaskDetails | ScriptActionTaskDetails | VmNicUpdatesTaskDetails | TaskTypeDetails;
 
 // @public
 export interface TestFailoverCleanupInput {
@@ -7309,11 +6578,11 @@ export interface TestFailoverJobDetails extends JobDetails {
 
 // @public
 export interface TestFailoverProviderSpecificInput {
-    instanceType: "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" | "InMage";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type TestFailoverProviderSpecificInputUnion = TestFailoverProviderSpecificInput | A2ATestFailoverInput | HyperVReplicaAzureTestFailoverInput | InMageAzureV2TestFailoverInput | InMageRcmTestFailoverInput | InMageTestFailoverInput;
+// @public
+export type TestFailoverProviderSpecificInputUnion = A2ATestFailoverInput | HyperVReplicaAzureTestFailoverInput | InMageAzureV2TestFailoverInput | InMageRcmTestFailoverInput | InMageTestFailoverInput | TestFailoverProviderSpecificInput;
 
 // @public
 export interface TestMigrateCleanupInput {
@@ -7337,11 +6606,11 @@ export interface TestMigrateInputProperties {
 
 // @public
 export interface TestMigrateProviderSpecificInput {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type TestMigrateProviderSpecificInputUnion = TestMigrateProviderSpecificInput | VMwareCbtTestMigrateInput;
+// @public
+export type TestMigrateProviderSpecificInputUnion = VMwareCbtTestMigrateInput | TestMigrateProviderSpecificInput;
 
 // @public
 export type TestMigrationState = string;
@@ -7360,11 +6629,11 @@ export interface UnplannedFailoverInputProperties {
 
 // @public
 export interface UnplannedFailoverProviderSpecificInput {
-    instanceType: "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" | "InMage";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type UnplannedFailoverProviderSpecificInputUnion = UnplannedFailoverProviderSpecificInput | A2AUnplannedFailoverInput | HyperVReplicaAzureUnplannedFailoverInput | InMageAzureV2UnplannedFailoverInput | InMageRcmUnplannedFailoverInput | InMageUnplannedFailoverInput;
+// @public
+export type UnplannedFailoverProviderSpecificInputUnion = A2AUnplannedFailoverInput | HyperVReplicaAzureUnplannedFailoverInput | InMageAzureV2UnplannedFailoverInput | InMageRcmUnplannedFailoverInput | InMageUnplannedFailoverInput | UnplannedFailoverProviderSpecificInput;
 
 // @public
 export interface UpdateApplianceForReplicationProtectedItemInput {
@@ -7379,16 +6648,19 @@ export interface UpdateApplianceForReplicationProtectedItemInputProperties {
 
 // @public
 export interface UpdateApplianceForReplicationProtectedItemProviderSpecificInput {
-    instanceType: "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type UpdateApplianceForReplicationProtectedItemProviderSpecificInputUnion = UpdateApplianceForReplicationProtectedItemProviderSpecificInput | InMageRcmUpdateApplianceForReplicationProtectedItemInput;
+// @public
+export type UpdateApplianceForReplicationProtectedItemProviderSpecificInputUnion = InMageRcmUpdateApplianceForReplicationProtectedItemInput | UpdateApplianceForReplicationProtectedItemProviderSpecificInput;
 
 // @public
 export interface UpdateDiskInput {
     diskId: string;
+    diskSizeInGB?: number;
+    iops?: number;
     targetDiskName?: string;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -7403,11 +6675,11 @@ export interface UpdateMigrationItemInputProperties {
 
 // @public
 export interface UpdateMigrationItemProviderSpecificInput {
-    instanceType: "VMwareCbt";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type UpdateMigrationItemProviderSpecificInputUnion = UpdateMigrationItemProviderSpecificInput | VMwareCbtUpdateMigrationItemInput;
+// @public
+export type UpdateMigrationItemProviderSpecificInputUnion = VMwareCbtUpdateMigrationItemInput | UpdateMigrationItemProviderSpecificInput;
 
 // @public
 export interface UpdateMobilityServiceRequest {
@@ -7482,11 +6754,11 @@ export interface UpdateReplicationProtectedItemInputProperties {
 
 // @public
 export interface UpdateReplicationProtectedItemProviderInput {
-    instanceType: "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm";
+    instanceType: string;
 }
 
-// @public (undocumented)
-export type UpdateReplicationProtectedItemProviderInputUnion = UpdateReplicationProtectedItemProviderInput | A2AUpdateReplicationProtectedItemInput | HyperVReplicaAzureUpdateReplicationProtectedItemInput | InMageAzureV2UpdateReplicationProtectedItemInput | InMageRcmUpdateReplicationProtectedItemInput;
+// @public
+export type UpdateReplicationProtectedItemProviderInputUnion = A2AUpdateReplicationProtectedItemInput | HyperVReplicaAzureUpdateReplicationProtectedItemInput | InMageAzureV2UpdateReplicationProtectedItemInput | InMageRcmUpdateReplicationProtectedItemInput | UpdateReplicationProtectedItemProviderInput;
 
 // @public
 export interface UpdateVCenterRequest {
@@ -7510,6 +6782,7 @@ export interface UserCreatedResourceTag {
 
 // @public
 export interface VaultHealthDetails extends Resource {
+    location?: string;
     properties?: VaultHealthProperties;
 }
 
@@ -7522,14 +6795,9 @@ export interface VaultHealthProperties {
 }
 
 // @public
-export interface VaultSetting extends Resource {
+export interface VaultSetting extends ProxyResource {
+    location?: string;
     properties?: VaultSettingProperties;
-}
-
-// @public
-export interface VaultSettingCollection {
-    nextLink?: string;
-    value?: VaultSetting[];
 }
 
 // @public
@@ -7550,14 +6818,9 @@ export interface VaultSettingProperties {
 }
 
 // @public
-export interface VCenter extends Resource {
+export interface VCenter extends ProxyResource {
+    location?: string;
     properties?: VCenterProperties;
-}
-
-// @public
-export interface VCenterCollection {
-    nextLink?: string;
-    value?: VCenter[];
 }
 
 // @public
@@ -7704,11 +6967,14 @@ export interface VMwareCbtContainerMappingInput extends ReplicationProviderSpeci
 export interface VMwareCbtDiskInput {
     diskEncryptionSetId?: string;
     diskId: string;
+    diskSizeInGB?: number;
     diskType?: DiskAccountType;
+    iops?: number;
     isOSDisk: string;
     logStorageAccountId: string;
     logStorageAccountSasSecretName: string;
     sectorSizeInBytes?: number;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -7721,30 +6987,23 @@ export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSp
     linuxLicenseType?: LinuxLicenseType;
     performAutoResync?: string;
     performSqlBulkRegistration?: string;
-    seedDiskTags?: {
-        [propertyName: string]: string;
-    };
+    seedDiskTags?: Record<string, string>;
     snapshotRunAsAccountId: string;
     sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
-    targetDiskTags?: {
-        [propertyName: string]: string;
-    };
+    targetCapacityReservationGroupId?: string;
+    targetDiskTags?: Record<string, string>;
     targetNetworkId: string;
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId: string;
     targetSubnetName?: string;
     targetVmName?: string;
     targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
     targetVmSize?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     testNetworkId?: string;
     testSubnetName?: string;
     userSelectedOSName?: string;
@@ -7763,6 +7022,7 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
     osUpgradeVersion?: string;
     performShutdown: string;
     postMigrationSteps?: ManagedRunCommandScriptInput[];
+    targetCapacityReservationGroupId?: string;
 }
 
 // @public
@@ -7795,9 +7055,7 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     readonly resyncRequired?: string;
     readonly resyncRetryCount?: number;
     readonly resyncState?: ResyncState;
-    seedDiskTags?: {
-        [propertyName: string]: string;
-    };
+    seedDiskTags?: Record<string, string>;
     readonly snapshotRunAsAccountId?: string;
     sqlServerLicenseType?: string;
     readonly storageAccountId?: string;
@@ -7805,23 +7063,18 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
-    targetDiskTags?: {
-        [propertyName: string]: string;
-    };
+    targetCapacityReservationGroupId?: string;
+    targetDiskTags?: Record<string, string>;
     readonly targetGeneration?: string;
     readonly targetLocation?: string;
     targetNetworkId?: string;
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
     targetVmSecurityProfile?: VMwareCbtSecurityProfileProperties;
     targetVmSize?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     testNetworkId?: string;
     vmNics?: VMwareCbtNicDetails[];
     readonly vmwareMachineId?: string;
@@ -7880,8 +7133,10 @@ export interface VMwareCbtProtectedDiskDetails {
     readonly diskId?: string;
     readonly diskName?: string;
     readonly diskPath?: string;
+    diskSizeInGB?: number;
     diskType?: DiskAccountType;
     readonly gatewayOperationDetails?: GatewayOperationDetails;
+    iops?: number;
     readonly isOSDisk?: string;
     readonly logStorageAccountId?: string;
     readonly logStorageAccountSasSecretName?: string;
@@ -7891,6 +7146,7 @@ export interface VMwareCbtProtectedDiskDetails {
     readonly targetBlobUri?: string;
     targetDiskName?: string;
     readonly targetManagedDiskId?: string;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -7899,9 +7155,7 @@ export interface VMwareCbtProtectionContainerMappingDetails extends ProtectionCo
     instanceType: "VMwareCbt";
     readonly keyVaultId?: string;
     readonly keyVaultUri?: string;
-    readonly roleSizeToNicCountMap?: {
-        [propertyName: string]: number;
-    };
+    readonly roleSizeToNicCountMap?: Record<string, number>;
     readonly serviceBusConnectionStringSecretName?: string;
     readonly storageAccountId?: string;
     readonly storageAccountSasSecretName?: string;
@@ -7942,8 +7196,11 @@ export interface VMwareCbtTestMigrateInput extends TestMigrateProviderSpecificIn
 // @public
 export interface VMwareCbtUpdateDiskInput {
     diskId: string;
+    diskSizeInGB?: number;
+    iops?: number;
     isOSDisk?: string;
     targetDiskName?: string;
+    throughputInMbps?: number;
 }
 
 // @public
@@ -7956,20 +7213,15 @@ export interface VMwareCbtUpdateMigrationItemInput extends UpdateMigrationItemPr
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
-    targetDiskTags?: {
-        [propertyName: string]: string;
-    };
+    targetCapacityReservationGroupId?: string;
+    targetDiskTags?: Record<string, string>;
     targetNetworkId?: string;
-    targetNicTags?: {
-        [propertyName: string]: string;
-    };
+    targetNicTags?: Record<string, string>;
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
     targetVmSize?: string;
-    targetVmTags?: {
-        [propertyName: string]: string;
-    };
+    targetVmTags?: Record<string, string>;
     testNetworkId?: string;
     userSelectedOSName?: string;
     vmDisks?: VMwareCbtUpdateDiskInput[];

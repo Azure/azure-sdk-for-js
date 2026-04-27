@@ -1,4 +1,484 @@
 # Release History
+
+## 6.0.0-beta.1 (2026-03-17)
+Compared with version 5.3.0
+
+### Features Added
+  - Added operation ReplicationFabricsOperations.checkConsistency
+  - Added operation ReplicationFabricsOperations.create
+  - Added operation ReplicationFabricsOperations.delete
+  - Added operation ReplicationFabricsOperations.migrateToAad
+  - Added operation ReplicationFabricsOperations.purge
+  - Added operation ReplicationFabricsOperations.reassociateGateway
+  - Added operation ReplicationFabricsOperations.removeInfra
+  - Added operation ReplicationFabricsOperations.renewCertificate
+  - Added operation ReplicationJobsOperations.cancel
+  - Added operation ReplicationJobsOperations.export
+  - Added operation ReplicationJobsOperations.restart
+  - Added operation ReplicationJobsOperations.resume
+  - Added operation ReplicationMigrationItemsOperations.create
+  - Added operation ReplicationMigrationItemsOperations.delete
+  - Added operation ReplicationMigrationItemsOperations.migrate
+  - Added operation ReplicationMigrationItemsOperations.pauseReplication
+  - Added operation ReplicationMigrationItemsOperations.resumeReplication
+  - Added operation ReplicationMigrationItemsOperations.resync
+  - Added operation ReplicationMigrationItemsOperations.testMigrate
+  - Added operation ReplicationMigrationItemsOperations.testMigrateCleanup
+  - Added operation ReplicationMigrationItemsOperations.update
+  - Added operation ReplicationNetworkMappingsOperations.create
+  - Added operation ReplicationNetworkMappingsOperations.delete
+  - Added operation ReplicationNetworkMappingsOperations.update
+  - Added operation ReplicationPoliciesOperations.create
+  - Added operation ReplicationPoliciesOperations.delete
+  - Added operation ReplicationPoliciesOperations.update
+  - Added operation ReplicationProtectedItemsOperations.addDisks
+  - Added operation ReplicationProtectedItemsOperations.applyRecoveryPoint
+  - Added operation ReplicationProtectedItemsOperations.beginReinstallMobilityService
+  - Added operation ReplicationProtectedItemsOperations.beginReinstallMobilityServiceAndWait
+  - Added operation ReplicationProtectedItemsOperations.create
+  - Added operation ReplicationProtectedItemsOperations.delete
+  - Added operation ReplicationProtectedItemsOperations.failoverCancel
+  - Added operation ReplicationProtectedItemsOperations.failoverCommit
+  - Added operation ReplicationProtectedItemsOperations.plannedFailover
+  - Added operation ReplicationProtectedItemsOperations.purge
+  - Added operation ReplicationProtectedItemsOperations.reinstallMobilityService
+  - Added operation ReplicationProtectedItemsOperations.removeDisks
+  - Added operation ReplicationProtectedItemsOperations.repairReplication
+  - Added operation ReplicationProtectedItemsOperations.reprotect
+  - Added operation ReplicationProtectedItemsOperations.resolveHealthErrors
+  - Added operation ReplicationProtectedItemsOperations.switchProvider
+  - Added operation ReplicationProtectedItemsOperations.testFailover
+  - Added operation ReplicationProtectedItemsOperations.testFailoverCleanup
+  - Added operation ReplicationProtectedItemsOperations.unplannedFailover
+  - Added operation ReplicationProtectedItemsOperations.update
+  - Added operation ReplicationProtectedItemsOperations.updateAppliance
+  - Added operation ReplicationProtectedItemsOperations.updateMobilityService
+  - Added operation ReplicationProtectionClustersOperations.applyRecoveryPoint
+  - Added operation ReplicationProtectionClustersOperations.create
+  - Added operation ReplicationProtectionClustersOperations.failoverCommit
+  - Added operation ReplicationProtectionClustersOperations.purge
+  - Added operation ReplicationProtectionClustersOperations.repairReplication
+  - Added operation ReplicationProtectionClustersOperations.testFailover
+  - Added operation ReplicationProtectionClustersOperations.testFailoverCleanup
+  - Added operation ReplicationProtectionClustersOperations.unplannedFailover
+  - Added operation ReplicationProtectionContainerMappingsOperations.create
+  - Added operation ReplicationProtectionContainerMappingsOperations.delete
+  - Added operation ReplicationProtectionContainerMappingsOperations.purge
+  - Added operation ReplicationProtectionContainerMappingsOperations.update
+  - Added operation ReplicationProtectionContainersOperations.create
+  - Added operation ReplicationProtectionContainersOperations.delete
+  - Added operation ReplicationProtectionContainersOperations.discoverProtectableItem
+  - Added operation ReplicationProtectionContainersOperations.switchClusterProtection
+  - Added operation ReplicationProtectionContainersOperations.switchProtection
+  - Added operation ReplicationRecoveryPlansOperations.create
+  - Added operation ReplicationRecoveryPlansOperations.delete
+  - Added operation ReplicationRecoveryPlansOperations.failoverCancel
+  - Added operation ReplicationRecoveryPlansOperations.failoverCommit
+  - Added operation ReplicationRecoveryPlansOperations.plannedFailover
+  - Added operation ReplicationRecoveryPlansOperations.reprotect
+  - Added operation ReplicationRecoveryPlansOperations.testFailover
+  - Added operation ReplicationRecoveryPlansOperations.testFailoverCleanup
+  - Added operation ReplicationRecoveryPlansOperations.unplannedFailover
+  - Added operation ReplicationRecoveryPlansOperations.update
+  - Added operation ReplicationRecoveryServicesProvidersOperations.create
+  - Added operation ReplicationRecoveryServicesProvidersOperations.delete
+  - Added operation ReplicationRecoveryServicesProvidersOperations.purge
+  - Added operation ReplicationRecoveryServicesProvidersOperations.refreshProvider
+  - Added operation ReplicationStorageClassificationMappingsOperations.create
+  - Added operation ReplicationStorageClassificationMappingsOperations.delete
+  - Added operation ReplicationVaultHealthOperations.refresh
+  - Added operation ReplicationVaultSettingOperations.create
+  - Added operation ReplicationvCentersOperations.create
+  - Added operation ReplicationvCentersOperations.delete
+  - Added operation ReplicationvCentersOperations.update
+  - Added Interface A2AAgentReinstallBlockingErrorDetails
+  - Added Interface InMageRcmAgentReinstallBlockingErrorDetails
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface ReinstallMobilityServiceRequest
+  - Added Interface ReinstallMobilityServiceRequestProperties
+  - Added Interface ReplicationProtectedItemsReinstallMobilityServiceOptionalParams
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SystemData
+  - Interface A2AEnableProtectionInput has a new optional parameter platformFaultDomain
+  - Interface A2AReplicationDetails has a new optional parameter agentReinstallAttemptToVersion
+  - Interface A2AReplicationDetails has a new optional parameter autoAgentUpgradeRetryCount
+  - Interface A2AReplicationDetails has a new optional parameter distroName
+  - Interface A2AReplicationDetails has a new optional parameter distroNameForWhichAgentIsInstalled
+  - Interface A2AReplicationDetails has a new optional parameter isAgentReinstallRequired
+  - Interface A2AReplicationDetails has a new optional parameter isAgentUpgradeable
+  - Interface A2AReplicationDetails has a new optional parameter isAgentUpgradeInProgress
+  - Interface A2AReplicationDetails has a new optional parameter isAgentUpgradeRetryThresholdExhausted
+  - Interface A2AReplicationDetails has a new optional parameter osFamilyName
+  - Interface A2AReplicationDetails has a new optional parameter platformFaultDomain
+  - Interface A2AReplicationDetails has a new optional parameter reasonsBlockingReInstall
+  - Interface A2AReplicationDetails has a new optional parameter reasonsBlockingReinstallDetails
+  - Interface A2ASwitchProtectionInput has a new optional parameter platformFaultDomain
+  - Interface A2AUpdateReplicationProtectedItemInput has a new optional parameter platformFaultDomain
+  - Interface A2AUpdateReplicationProtectedItemInput has a new optional parameter recoveryAvailabilityZone
+  - Interface Alert has a new optional parameter systemData
+  - Interface Event_2 has a new optional parameter systemData
+  - Interface Fabric has a new optional parameter systemData
+  - Interface HyperVReplicaAzureDiskInputDetails has a new optional parameter diskSizeInGB
+  - Interface HyperVReplicaAzureDiskInputDetails has a new optional parameter iops
+  - Interface HyperVReplicaAzureDiskInputDetails has a new optional parameter throughputInMbps
+  - Interface HyperVReplicaAzureEnableProtectionInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter diskSizeInGB
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter iops
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter throughputInMbps
+  - Interface HyperVReplicaAzurePlannedFailoverProviderInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface HyperVReplicaAzureReplicationDetails has a new optional parameter targetCapacityReservationGroupId
+  - Interface HyperVReplicaAzureUpdateReplicationProtectedItemInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface InMageRcmDiskInput has a new optional parameter diskSizeInGB
+  - Interface InMageRcmDiskInput has a new optional parameter iops
+  - Interface InMageRcmDiskInput has a new optional parameter throughputInMbps
+  - Interface InMageRcmDisksDefaultInput has a new optional parameter diskSizeInGB
+  - Interface InMageRcmDisksDefaultInput has a new optional parameter iops
+  - Interface InMageRcmDisksDefaultInput has a new optional parameter throughputInMbps
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter agentReinstallAttemptToVersion
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter agentReinstallJobId
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter agentReinstallState
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter distroName
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter distroNameForWhichAgentIsInstalled
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter isAgentReinstallRequired
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter isAgentUpgradeable
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter isLastReinstallSuccessful
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter lastAgentReinstallType
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter osFamilyName
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter reasonsBlockingReinstall
+  - Interface InMageRcmMobilityAgentDetails has a new optional parameter reasonsBlockingReinstallDetails
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter diskSizeInGB
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter iops
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter throughputInMbps
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetCapacityReservationGroupId
+  - Interface InMageRcmUnplannedFailoverInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter vmDisks
+  - Interface Job has a new optional parameter systemData
+  - Interface LogicalNetwork has a new optional parameter systemData
+  - Interface MigrationItem has a new optional parameter systemData
+  - Interface MigrationRecoveryPoint has a new optional parameter systemData
+  - Interface Network has a new optional parameter systemData
+  - Interface NetworkMapping has a new optional parameter systemData
+  - Interface Policy has a new optional parameter systemData
+  - Interface ProtectableItem has a new optional parameter systemData
+  - Interface ProtectionContainer has a new optional parameter systemData
+  - Interface ProtectionContainerMapping has a new optional parameter systemData
+  - Interface RecoveryPlan has a new optional parameter systemData
+  - Interface RecoveryPoint has a new optional parameter systemData
+  - Interface RecoveryServicesProvider has a new optional parameter systemData
+  - Interface ReplicationEligibilityResults has a new optional parameter systemData
+  - Interface ReplicationProtectedItem has a new optional parameter systemData
+  - Interface ReplicationProtectionCluster has a new optional parameter systemData
+  - Interface ReplicationProtectionIntent has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface StorageClassification has a new optional parameter systemData
+  - Interface StorageClassificationMapping has a new optional parameter systemData
+  - Interface SupportedOperatingSystems has a new optional parameter systemData
+  - Interface UpdateDiskInput has a new optional parameter diskSizeInGB
+  - Interface UpdateDiskInput has a new optional parameter iops
+  - Interface UpdateDiskInput has a new optional parameter throughputInMbps
+  - Interface VaultHealthDetails has a new optional parameter systemData
+  - Interface VaultSetting has a new optional parameter systemData
+  - Interface VCenter has a new optional parameter systemData
+  - Interface VMwareCbtDiskInput has a new optional parameter diskSizeInGB
+  - Interface VMwareCbtDiskInput has a new optional parameter iops
+  - Interface VMwareCbtDiskInput has a new optional parameter throughputInMbps
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface VMwareCbtMigrateInput has a new optional parameter targetCapacityReservationGroupId
+  - Interface VMwareCbtMigrationDetails has a new optional parameter targetCapacityReservationGroupId
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter diskSizeInGB
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter iops
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter throughputInMbps
+  - Interface VMwareCbtUpdateDiskInput has a new optional parameter diskSizeInGB
+  - Interface VMwareCbtUpdateDiskInput has a new optional parameter iops
+  - Interface VMwareCbtUpdateDiskInput has a new optional parameter throughputInMbps
+  - Interface VMwareCbtUpdateMigrationItemInput has a new optional parameter targetCapacityReservationGroupId
+  - Added Type Alias AgentReinstallBlockedReason
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias MobilityAgentReinstallType
+  - Added Enum AzureClouds
+  - Added Enum KnownAgentReinstallBlockedReason
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownMobilityAgentReinstallType
+  - Added Enum KnownVersions
+  - Enum KnownAgentUpgradeBlockedReason has a new value ReInstallRequired
+
+### Breaking Changes
+  - Operation ClusterRecoveryPoint.get has a new signature
+  - Operation RecoveryPoints.get has a new signature
+  - Operation ReplicationEvents.get has a new signature
+  - Operation ReplicationFabrics.beginCheckConsistencyAndWait has a new signature
+  - Operation ReplicationFabrics.beginCreate has a new signature
+  - Operation ReplicationFabrics.beginCreateAndWait has a new signature
+  - Operation ReplicationFabrics.beginReassociateGatewayAndWait has a new signature
+  - Operation ReplicationFabrics.beginRemoveInfraAndWait has a new signature
+  - Operation ReplicationFabrics.beginRenewCertificateAndWait has a new signature
+  - Operation ReplicationFabrics.get has a new signature
+  - Operation ReplicationJobs.beginCancelAndWait has a new signature
+  - Operation ReplicationJobs.beginExportAndWait has a new signature
+  - Operation ReplicationJobs.beginRestartAndWait has a new signature
+  - Operation ReplicationJobs.beginResumeAndWait has a new signature
+  - Operation ReplicationJobs.get has a new signature
+  - Operation ReplicationMigrationItems.beginCreate has a new signature
+  - Operation ReplicationMigrationItems.beginCreateAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginMigrate has a new signature
+  - Operation ReplicationMigrationItems.beginMigrateAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginPauseReplicationAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginResumeReplication has a new signature
+  - Operation ReplicationMigrationItems.beginResumeReplicationAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginResync has a new signature
+  - Operation ReplicationMigrationItems.beginResyncAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginTestMigrate has a new signature
+  - Operation ReplicationMigrationItems.beginTestMigrateAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginTestMigrateCleanupAndWait has a new signature
+  - Operation ReplicationMigrationItems.beginUpdate has a new signature
+  - Operation ReplicationMigrationItems.beginUpdateAndWait has a new signature
+  - Operation ReplicationMigrationItems.get has a new signature
+  - Operation ReplicationNetworkMappings.beginCreate has a new signature
+  - Operation ReplicationNetworkMappings.beginCreateAndWait has a new signature
+  - Operation ReplicationNetworkMappings.beginUpdate has a new signature
+  - Operation ReplicationNetworkMappings.beginUpdateAndWait has a new signature
+  - Operation ReplicationNetworkMappings.get has a new signature
+  - Operation ReplicationPolicies.beginCreate has a new signature
+  - Operation ReplicationPolicies.beginCreateAndWait has a new signature
+  - Operation ReplicationPolicies.beginUpdate has a new signature
+  - Operation ReplicationPolicies.beginUpdateAndWait has a new signature
+  - Operation ReplicationPolicies.get has a new signature
+  - Operation ReplicationProtectableItems.get has a new signature
+  - Operation ReplicationProtectedItems.beginAddDisks has a new signature
+  - Operation ReplicationProtectedItems.beginAddDisksAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginApplyRecoveryPoint has a new signature
+  - Operation ReplicationProtectedItems.beginApplyRecoveryPointAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginCreate has a new signature
+  - Operation ReplicationProtectedItems.beginCreateAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginDelete has a new signature
+  - Operation ReplicationProtectedItems.beginDeleteAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginFailoverCancelAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginFailoverCommitAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginPlannedFailover has a new signature
+  - Operation ReplicationProtectedItems.beginPlannedFailoverAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginRemoveDisks has a new signature
+  - Operation ReplicationProtectedItems.beginRemoveDisksAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginRepairReplicationAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginReprotect has a new signature
+  - Operation ReplicationProtectedItems.beginReprotectAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginResolveHealthErrorsAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginSwitchProvider has a new signature
+  - Operation ReplicationProtectedItems.beginSwitchProviderAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginTestFailover has a new signature
+  - Operation ReplicationProtectedItems.beginTestFailoverAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginTestFailoverCleanupAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginUnplannedFailover has a new signature
+  - Operation ReplicationProtectedItems.beginUnplannedFailoverAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginUpdate has a new signature
+  - Operation ReplicationProtectedItems.beginUpdateAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginUpdateAppliance has a new signature
+  - Operation ReplicationProtectedItems.beginUpdateApplianceAndWait has a new signature
+  - Operation ReplicationProtectedItems.beginUpdateMobilityServiceAndWait has a new signature
+  - Operation ReplicationProtectedItems.get has a new signature
+  - Operation ReplicationProtectionClusters.beginApplyRecoveryPoint has a new signature
+  - Operation ReplicationProtectionClusters.beginApplyRecoveryPointAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginCreate has a new signature
+  - Operation ReplicationProtectionClusters.beginCreateAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginFailoverCommitAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginPurgeAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginRepairReplicationAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginTestFailover has a new signature
+  - Operation ReplicationProtectionClusters.beginTestFailoverAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginTestFailoverCleanupAndWait has a new signature
+  - Operation ReplicationProtectionClusters.beginUnplannedFailover has a new signature
+  - Operation ReplicationProtectionClusters.beginUnplannedFailoverAndWait has a new signature
+  - Operation ReplicationProtectionClusters.get has a new signature
+  - Operation ReplicationProtectionClusters.getOperationResults has a new signature
+  - Operation ReplicationProtectionContainerMappings.beginCreate has a new signature
+  - Operation ReplicationProtectionContainerMappings.beginCreateAndWait has a new signature
+  - Operation ReplicationProtectionContainerMappings.beginUpdate has a new signature
+  - Operation ReplicationProtectionContainerMappings.beginUpdateAndWait has a new signature
+  - Operation ReplicationProtectionContainerMappings.get has a new signature
+  - Operation ReplicationProtectionContainers.beginCreate has a new signature
+  - Operation ReplicationProtectionContainers.beginCreateAndWait has a new signature
+  - Operation ReplicationProtectionContainers.beginSwitchClusterProtection has a new signature
+  - Operation ReplicationProtectionContainers.beginSwitchClusterProtectionAndWait has a new signature
+  - Operation ReplicationProtectionContainers.beginSwitchProtection has a new signature
+  - Operation ReplicationProtectionContainers.beginSwitchProtectionAndWait has a new signature
+  - Operation ReplicationProtectionIntents.create has a new signature
+  - Operation ReplicationProtectionIntents.get has a new signature
+  - Operation ReplicationRecoveryPlans.beginCreate has a new signature
+  - Operation ReplicationRecoveryPlans.beginCreateAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginFailoverCancelAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginFailoverCommitAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginPlannedFailover has a new signature
+  - Operation ReplicationRecoveryPlans.beginPlannedFailoverAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginReprotectAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginTestFailover has a new signature
+  - Operation ReplicationRecoveryPlans.beginTestFailoverAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginTestFailoverCleanupAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginUnplannedFailover has a new signature
+  - Operation ReplicationRecoveryPlans.beginUnplannedFailoverAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.beginUpdate has a new signature
+  - Operation ReplicationRecoveryPlans.beginUpdateAndWait has a new signature
+  - Operation ReplicationRecoveryPlans.get has a new signature
+  - Removed Interface AlertCollection
+  - Removed Interface ApplianceCollection
+  - Removed Interface ApplianceQueryParameter
+  - Removed Interface ClusterRecoveryPointCollection
+  - Removed Interface EventCollection
+  - Removed Interface EventQueryParameter
+  - Removed Interface FabricCollection
+  - Removed Interface FabricQueryParameter
+  - Removed Interface JobCollection
+  - Removed Interface LogicalNetworkCollection
+  - Removed Interface MigrationItemCollection
+  - Removed Interface MigrationItemsQueryParameter
+  - Removed Interface MigrationRecoveryPointCollection
+  - Removed Interface NetworkCollection
+  - Removed Interface NetworkMappingCollection
+  - Removed Interface OperationsDiscoveryCollection
+  - Removed Interface PolicyCollection
+  - Removed Interface ProtectableItemCollection
+  - Removed Interface ProtectableItemQueryParameter
+  - Removed Interface ProtectedClustersQueryParameter
+  - Removed Interface ProtectedItemsQueryParameter
+  - Removed Interface ProtectionContainerCollection
+  - Removed Interface ProtectionContainerMappingCollection
+  - Removed Interface RecoveryPlanCollection
+  - Removed Interface RecoveryPointCollection
+  - Removed Interface RecoveryServicesProviderCollection
+  - Removed Interface ReplicationProtectedItemCollection
+  - Removed Interface ReplicationProtectionClusterCollection
+  - Removed Interface ReplicationProtectionIntentCollection
+  - Removed Interface RoleAssignment
+  - Removed Interface StorageClassificationCollection
+  - Removed Interface StorageClassificationMappingCollection
+  - Removed Interface TargetComputeSizeCollection
+  - Removed Interface VaultSettingCollection
+  - Removed Interface VCenterCollection
+  - Type of parameter instanceType of interface AddDisksProviderSpecificInput is changed from "A2A" | "InMageRcm" to string
+  - Type of parameter instanceType of interface ApplianceSpecificDetails is changed from "InMageRcm" to string
+  - Type of parameter instanceType of interface ApplyClusterRecoveryPointProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter instanceType of interface ApplyRecoveryPointProviderSpecificInput is changed from "A2A" | "A2ACrossClusterMigration" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" to string
+  - Type of parameter instanceType of interface ClusterProviderSpecificRecoveryPointDetails is changed from "A2A" to string
+  - Type of parameter instanceType of interface ClusterTestFailoverProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter instanceType of interface ClusterUnplannedFailoverProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter instanceType of interface ConfigurationSettings is changed from "HyperVVirtualMachine" | "ReplicationGroupDetails" | "VmmVirtualMachine" | "VMwareVirtualMachine" to string
+  - Type of parameter instanceType of interface CreateProtectionIntentProviderSpecificDetails is changed from "A2A" to string
+  - Type of parameter instanceType of interface DisableProtectionProviderSpecificInput is changed from "InMage" to string
+  - Type of parameter instanceType of interface EnableMigrationProviderSpecificInput is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface EnableProtectionProviderSpecificInput is changed from "A2ACrossClusterMigration" | "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMage" | "InMageRcm" to string
+  - Type of parameter instanceType of interface EventProviderSpecificDetails is changed from "A2A" | "HyperVReplica2012" | "HyperVReplica2012R2" | "HyperVReplicaAzure" | "HyperVReplicaBaseEventDetails" | "InMageAzureV2" | "InMageRcm" | "InMageRcmFailback" | "VMwareCbt" to string
+  - Type of parameter instanceType of interface EventSpecificDetails is changed from "JobStatus" to string
+  - Type of parameter instanceType of interface FabricSpecificCreateNetworkMappingInput is changed from "AzureToAzure" | "VmmToAzure" | "VmmToVmm" to string
+  - Type of parameter instanceType of interface FabricSpecificCreationInput is changed from "Azure" | "InMageRcm" | "VMwareV2" to string
+  - Type of parameter instanceType of interface FabricSpecificDetails is changed from "Azure" | "HyperVSite" | "InMageRcm" | "VMM" | "VMware" | "VMwareV2" to string
+  - Type of parameter instanceType of interface FabricSpecificUpdateNetworkMappingInput is changed from "AzureToAzure" | "VmmToAzure" | "VmmToVmm" to string
+  - Type of parameter instanceType of interface GroupTaskDetails is changed from "InlineWorkflowTaskDetails" | "RecoveryPlanGroupTaskDetails" | "RecoveryPlanShutdownGroupTaskDetails" to string
+  - Type of parameter instanceType of interface JobDetails is changed from "AsrJobDetails" | "ClusterFailoverJobDetails" | "ClusterSwitchProtectionJobDetails" | "ClusterTestFailoverJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails" to string
+  - Type of parameter instanceType of interface MigrateProviderSpecificInput is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface MigrationProviderSpecificSettings is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface NetworkMappingFabricSpecificSettings is changed from "AzureToAzure" | "VmmToAzure" | "VmmToVmm" to string
+  - Type of parameter instanceType of interface PlannedFailoverProviderSpecificFailoverInput is changed from "HyperVReplicaAzureFailback" | "HyperVReplicaAzure" | "InMageRcmFailback" to string
+  - Type of parameter instanceType of interface PolicyProviderSpecificDetails is changed from "A2A" | "HyperVReplicaAzure" | "HyperVReplicaBasePolicyDetails" | "HyperVReplica2012R2" | "HyperVReplica2012" | "InMageAzureV2" | "InMageBasePolicyDetails" | "InMage" | "InMageRcmFailback" | "InMageRcm" | "VMwareCbt" to string
+  - Type of parameter instanceType of interface PolicyProviderSpecificInput is changed from "A2ACrossClusterMigration" | "A2A" | "HyperVReplicaAzure" | "HyperVReplica2012" | "HyperVReplica2012R2" | "InMageAzureV2" | "InMage" | "InMageRcmFailback" | "InMageRcm" | "VMwareCbt" to string
+  - Type of parameter instanceType of interface ProtectionContainerMappingProviderSpecificDetails is changed from "A2A" | "InMageRcm" | "VMwareCbt" to string
+  - Type of parameter resourceType of interface ProtectionProfileCustomDetails is changed from "Existing" | "New" to string
+  - Type of parameter instanceType of interface ProviderSpecificRecoveryPointDetails is changed from "A2A" | "InMageAzureV2" | "InMageRcm" to string
+  - Type of parameter resourceType of interface RecoveryAvailabilitySetCustomDetails is changed from "Existing" to string
+  - Type of parameter instanceType of interface RecoveryPlanActionDetails is changed from "AutomationRunbookActionDetails" | "ManualActionDetails" | "ScriptActionDetails" to string
+  - Type of parameter instanceType of interface RecoveryPlanProviderSpecificDetails is changed from "A2A" to string
+  - Type of parameter instanceType of interface RecoveryPlanProviderSpecificFailoverInput is changed from "A2A" | "HyperVReplicaAzureFailback" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMage" | "InMageRcmFailback" | "InMageRcm" to string
+  - Type of parameter instanceType of interface RecoveryPlanProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter resourceType of interface RecoveryProximityPlacementGroupCustomDetails is changed from "Existing" to string
+  - Type of parameter resourceType of interface RecoveryResourceGroupCustomDetails is changed from "Existing" to string
+  - Type of parameter resourceType of interface RecoveryVirtualNetworkCustomDetails is changed from "Existing" | "New" to string
+  - Type of parameter instanceType of interface RemoveDisksProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter instanceType of interface ReplicationClusterProviderSpecificSettings is changed from "A2A" to string
+  - Type of parameter instanceType of interface ReplicationProtectionIntentProviderSpecificSettings is changed from "A2A" to string
+  - Type of parameter instanceType of interface ReplicationProviderSpecificContainerCreationInput is changed from "A2A" | "A2ACrossClusterMigration" | "VMwareCbt" to string
+  - Type of parameter instanceType of interface ReplicationProviderSpecificContainerMappingInput is changed from "A2A" | "VMwareCbt" to string
+  - Type of parameter instanceType of interface ReplicationProviderSpecificSettings is changed from "A2ACrossClusterMigration" | "A2A" | "HyperVReplicaAzure" | "HyperVReplicaBaseReplicationDetails" | "HyperVReplica2012R2" | "HyperVReplica2012" | "InMageAzureV2" | "InMageRcmFailback" | "InMageRcm" | "InMage" to string
+  - Type of parameter instanceType of interface ReplicationProviderSpecificUpdateContainerMappingInput is changed from "A2A" | "InMageRcm" to string
+  - Type of parameter instanceType of interface ResumeReplicationProviderSpecificInput is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface ResyncProviderSpecificInput is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface ReverseReplicationProviderSpecificInput is changed from "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcmFailback" | "InMageRcm" | "InMage" to string
+  - Type of parameter instanceType of interface SharedDiskReplicationProviderSpecificSettings is changed from "A2A" to string
+  - Type of parameter resourceType of interface StorageAccountCustomDetails is changed from "Existing" to string
+  - Type of parameter instanceType of interface SwitchClusterProtectionProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter instanceType of interface SwitchProtectionProviderSpecificInput is changed from "A2A" to string
+  - Type of parameter instanceType of interface SwitchProviderSpecificInput is changed from "InMageAzureV2" to string
+  - Type of parameter instanceType of interface TaskTypeDetails is changed from "AutomationRunbookTaskDetails" | "ConsistencyCheckTaskDetails" | "JobTaskDetails" | "FabricReplicationGroupTaskDetails" | "ManualActionTaskDetails" | "ScriptActionTaskDetails" | "VirtualMachineTaskDetails" | "VmNicUpdatesTaskDetails" to string
+  - Type of parameter instanceType of interface TestFailoverProviderSpecificInput is changed from "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" | "InMage" to string
+  - Type of parameter instanceType of interface TestMigrateProviderSpecificInput is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface UnplannedFailoverProviderSpecificInput is changed from "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" | "InMage" to string
+  - Type of parameter instanceType of interface UpdateApplianceForReplicationProtectedItemProviderSpecificInput is changed from "InMageRcm" to string
+  - Type of parameter instanceType of interface UpdateMigrationItemProviderSpecificInput is changed from "VMwareCbt" to string
+  - Type of parameter instanceType of interface UpdateReplicationProtectedItemProviderInput is changed from "A2A" | "HyperVReplicaAzure" | "InMageAzureV2" | "InMageRcm" to string
+  - Interface Resource no longer has parameter location
+  - Type alias "AddDisksProviderSpecificInputUnion" has been changed
+  - Type alias "ApplianceSpecificDetailsUnion" has been changed
+  - Type alias "ApplyClusterRecoveryPointProviderSpecificInputUnion" has been changed
+  - Type alias "ApplyRecoveryPointProviderSpecificInputUnion" has been changed
+  - Type alias "ClusterProviderSpecificRecoveryPointDetailsUnion" has been changed
+  - Type alias "ClusterTestFailoverProviderSpecificInputUnion" has been changed
+  - Type alias "ClusterUnplannedFailoverProviderSpecificInputUnion" has been changed
+  - Type alias "ConfigurationSettingsUnion" has been changed
+  - Type alias "CreateProtectionIntentProviderSpecificDetailsUnion" has been changed
+  - Type alias "DisableProtectionProviderSpecificInputUnion" has been changed
+  - Type alias "EnableMigrationProviderSpecificInputUnion" has been changed
+  - Type alias "EnableProtectionProviderSpecificInputUnion" has been changed
+  - Type alias "EventProviderSpecificDetailsUnion" has been changed
+  - Type alias "EventSpecificDetailsUnion" has been changed
+  - Type alias "FabricSpecificCreateNetworkMappingInputUnion" has been changed
+  - Type alias "FabricSpecificCreationInputUnion" has been changed
+  - Type alias "FabricSpecificDetailsUnion" has been changed
+  - Type alias "FabricSpecificUpdateNetworkMappingInputUnion" has been changed
+  - Type alias "GroupTaskDetailsUnion" has been changed
+  - Type alias "JobDetailsUnion" has been changed
+  - Type alias "MigrateProviderSpecificInputUnion" has been changed
+  - Type alias "MigrationProviderSpecificSettingsUnion" has been changed
+  - Type alias "NetworkMappingFabricSpecificSettingsUnion" has been changed
+  - Type alias "PlannedFailoverProviderSpecificFailoverInputUnion" has been changed
+  - Type alias "PolicyProviderSpecificDetailsUnion" has been changed
+  - Type alias "PolicyProviderSpecificInputUnion" has been changed
+  - Type alias "ProtectionContainerMappingProviderSpecificDetailsUnion" has been changed
+  - Type alias "ProtectionProfileCustomDetailsUnion" has been changed
+  - Type alias "ProviderSpecificRecoveryPointDetailsUnion" has been changed
+  - Type alias "RecoveryAvailabilitySetCustomDetailsUnion" has been changed
+  - Type alias "RecoveryPlanActionDetailsUnion" has been changed
+  - Type alias "RecoveryPlanGroupTaskDetailsUnion" has been changed
+  - Type alias "RecoveryPlanProviderSpecificDetailsUnion" has been changed
+  - Type alias "RecoveryPlanProviderSpecificFailoverInputUnion" has been changed
+  - Type alias "RecoveryPlanProviderSpecificInputUnion" has been changed
+  - Type alias "RecoveryProximityPlacementGroupCustomDetailsUnion" has been changed
+  - Type alias "RecoveryResourceGroupCustomDetailsUnion" has been changed
+  - Type alias "RecoveryVirtualNetworkCustomDetailsUnion" has been changed
+  - Type alias "RemoveDisksProviderSpecificInputUnion" has been changed
+  - Type alias "ReplicationClusterProviderSpecificSettingsUnion" has been changed
+  - Type alias "ReplicationProtectionIntentProviderSpecificSettingsUnion" has been changed
+  - Type alias "ReplicationProviderSpecificContainerCreationInputUnion" has been changed
+  - Type alias "ReplicationProviderSpecificContainerMappingInputUnion" has been changed
+  - Type alias "ReplicationProviderSpecificSettingsUnion" has been changed
+  - Type alias "ReplicationProviderSpecificUpdateContainerMappingInputUnion" has been changed
+  - Type alias "ResumeReplicationProviderSpecificInputUnion" has been changed
+  - Type alias "ResyncProviderSpecificInputUnion" has been changed
+  - Type alias "ReverseReplicationProviderSpecificInputUnion" has been changed
+  - Type alias "SharedDiskReplicationProviderSpecificSettingsUnion" has been changed
+  - Type alias "StorageAccountCustomDetailsUnion" has been changed
+  - Type alias "SwitchClusterProtectionProviderSpecificInputUnion" has been changed
+  - Type alias "SwitchProtectionProviderSpecificInputUnion" has been changed
+  - Type alias "SwitchProviderSpecificInputUnion" has been changed
+  - Type alias "TaskTypeDetailsUnion" has been changed
+  - Type alias "TestFailoverProviderSpecificInputUnion" has been changed
+  - Type alias "TestMigrateProviderSpecificInputUnion" has been changed
+  - Type alias "UnplannedFailoverProviderSpecificInputUnion" has been changed
+  - Type alias "UpdateApplianceForReplicationProtectedItemProviderSpecificInputUnion" has been changed
+  - Type alias "UpdateMigrationItemProviderSpecificInputUnion" has been changed
+  - Type alias "UpdateReplicationProtectedItemProviderInputUnion" has been changed
+
     
 ## 5.3.0 (2025-04-23)
     

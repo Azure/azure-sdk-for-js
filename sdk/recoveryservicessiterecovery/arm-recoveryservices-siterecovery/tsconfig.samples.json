@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-recoveryservices-siterecovery": [
-        "./dist/esm"
-      ]
+      "@azure/arm-recoveryservices-siterecovery": ["./dist/esm"]
     }
   }
 }
