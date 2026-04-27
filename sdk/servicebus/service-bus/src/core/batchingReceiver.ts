@@ -395,7 +395,7 @@ export class BatchingReceiverLite {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
     const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}]`;
 
-    let totalWaitTimer: NodeJS.Timeout | undefined;
+    let totalWaitTimer: ReturnType<typeof setTimeout> | undefined;
     // eslint-disable-next-line prefer-const
     let cleanupBeforeResolveOrReject: () => void;
 

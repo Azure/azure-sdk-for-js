@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "include": [
+    "../src/index.ts",
+    "../src/experimental/index.ts"
+  ],
+  "compilerOptions": {
+    "skipLibCheck": true
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/service-bus": ["../src/index.ts"],
+      "@azure/service-bus/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  },
+  "exclude": [
+    "../test/**/node",
+    "../test/**/react-native",
+    "../test/snippets.spec.ts",
+    "../test/stress",
+    "../test/internal/connectionManagement.spec.ts"
+  ],
+  "include": ["../test"]
+}

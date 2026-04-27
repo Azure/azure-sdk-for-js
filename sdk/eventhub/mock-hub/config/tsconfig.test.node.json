@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/mock-hub": ["../src/index.ts"],
+      "@azure-tools/mock-hub/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

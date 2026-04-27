@@ -14,7 +14,7 @@ import * as Constants from "./constants.js";
 import { administrationLogger as logger } from "../log.js";
 import { Buffer } from "buffer";
 
-import { parseURL } from "./parseUrl.js";
+import { parseURL } from "#platform/util/parseUrl";
 import { isJSONLikeObject } from "./utils.js";
 import { isDefined } from "@azure/core-util";
 import type { OperationTracingOptions } from "@azure/core-tracing";

@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.browser.base.config.ts";
-import browserMap from "@azure-tools/vite-plugin-browser-test-map";
+import viteConfig from "../../../eng/vitestconfigs/browser.config.ts";
 import inject from "@rollup/plugin-inject";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -18,7 +17,6 @@ const config = mergeConfig(
       include: ["process", "buffer"],
     },
     plugins: [
-      browserMap(),
       inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
     ],
     test: {
@@ -35,11 +33,11 @@ const config = mergeConfig(
 delete config.test.fakeTimers;
 
 const unitTests = [
-  "dist-test/browser/test/internal/impl/awaitableQueue.spec.js",
-  "dist-test/browser/test/internal/impl/partitionGate.spec.js",
-  "dist-test/browser/test/internal/amqp.spec.js",
-  "dist-test/browser/test/internal/error.spec.js",
-  "dist-test/browser/test/internal/eventdata.spec.js",
+  "test/internal/impl/awaitableQueue.spec.ts",
+  "test/internal/impl/partitionGate.spec.ts",
+  "test/internal/amqp.spec.ts",
+  "test/internal/error.spec.ts",
+  "test/internal/eventdata.spec.ts",
 ];
 
 if (process.env.TEST_MODE !== "live") {

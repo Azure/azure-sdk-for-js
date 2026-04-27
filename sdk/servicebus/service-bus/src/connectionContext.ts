@@ -24,7 +24,7 @@ import type { MessageSession } from "./session/messageSession.js";
 import type { MessageReceiver } from "./core/messageReceiver.js";
 import { ManagementClient } from "./core/managementClient.js";
 import { formatUserAgentPrefix } from "./util/utils.js";
-import { getRuntimeInfo } from "./util/runtimeInfo.js";
+import { getRuntimeInfo } from "#platform/util/runtimeInfo";
 import type { NonSessionReceiverType, ReceiverType } from "./core/linkEntity.js";
 import { ServiceBusError } from "./serviceBusError.js";
 

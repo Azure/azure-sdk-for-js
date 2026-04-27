@@ -1,6 +1,0 @@
-{
-  "extends": "../../../tsconfig.src.react-native.json",
-  "compilerOptions": {
-    "noFallthroughCasesInSwitch": false
-  }
-}

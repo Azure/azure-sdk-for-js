@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/eventhubs-checkpointstore-table": ["../src/index.ts"],
+      "@azure/eventhubs-checkpointstore-table/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    },
+    "customConditions": []
+  }
+}
