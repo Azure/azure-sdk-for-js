@@ -1,4 +1,10 @@
 # Release History
+## 4.9.4 (Unreleased)
+
+### Bugs Fixed
+
+- [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.
+
 ## 4.9.3 (2026-04-20)
 
 ### Bugs Fixed

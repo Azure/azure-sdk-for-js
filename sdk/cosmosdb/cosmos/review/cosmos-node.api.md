@@ -2397,7 +2397,7 @@ export interface SharedOptions {
 // @public (undocumented)
 export interface SpatialIndex {
     // (undocumented)
-    boundingBox: {
+    boundingBox?: {
         xmin: number;
         ymin: number;
         xmax: number;
