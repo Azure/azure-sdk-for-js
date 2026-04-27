@@ -1568,6 +1568,7 @@ export class BlobClient extends StorageClient {
         if (e.details?.errorCode === "BlobNotFound") {
           return {
             succeeded: false,
+            ...e.response?.parsedHeaders,
             errorCode: e.details?.errorCode,
             _response: e.response,
           };
@@ -3031,6 +3032,7 @@ export class AppendBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
@@ -5500,6 +5502,7 @@ export class PageBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
