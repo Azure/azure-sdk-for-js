@@ -137,6 +137,74 @@ function collectSurvivingExportsFromStatements(statements: readonly ts.Statement
 }
 
 /**
+ * Result of resolving and compiling a nested helper.
+ */
+interface ResolvedNestedHelper {
+  /** The compiled helper result */
+  helper: CompiledHelper;
+  /** The canonical path used for dedup */
+  canonicalPath: string;
+}
+
+/**
+ * Resolve and compile a nested helper, handling cycles and caching.
+ *
+ * @returns The compiled helper and canonical path, or undefined if resolution failed or cycle detected
+ */
+function resolveAndCompileNestedHelper(
+  specifier: string,
+  fromFile: string,
+  resolveHelper: HelperResolver,
+  packageName: string,
+  isSourceImport: SourceImportPredicate,
+  currentStack: Set<string>,
+  currentCache: Map<string, CompiledHelper>,
+  strict: boolean,
+  warnings: string[],
+): ResolvedNestedHelper | undefined {
+  const resolved = resolveHelper(fromFile, specifier);
+  if (!resolved) {
+    if (strict) {
+      throw new CompilerError(
+        `Unresolved nested helper "${specifier}" in "${fromFile}"`,
+        fromFile,
+      );
+    }
+    warnings.push(`Could not resolve nested helper "${specifier}" from "${fromFile}"`);
+    return undefined;
+  }
+
+  // Cycle detection — skip if currently being compiled in this call chain
+  if (currentStack.has(resolved.canonicalPath)) {
+    return undefined;
+  }
+
+  // Cache hit — reuse previously compiled result
+  if (currentCache.has(resolved.canonicalPath)) {
+    return { helper: currentCache.get(resolved.canonicalPath)!, canonicalPath: resolved.canonicalPath };
+  }
+
+  // Recursively compile
+  currentStack.add(resolved.canonicalPath);
+  try {
+    const nested = compileHelper(
+      resolved.sourceText,
+      packageName,
+      resolved.canonicalPath,
+      isSourceImport,
+      resolveHelper,
+      currentStack,
+      currentCache,
+      strict,
+    );
+    currentCache.set(resolved.canonicalPath, nested);
+    return { helper: nested, canonicalPath: resolved.canonicalPath };
+  } finally {
+    currentStack.delete(resolved.canonicalPath);
+  }
+}
+
+/**
  * Compile a local helper file.
  *
  * @param sourceText - The helper file's source text
@@ -189,43 +257,21 @@ export function compileHelper(
     for (const ci of classified) {
       if (ci.category !== "localHelper") continue;
 
-      const resolved = resolveHelper(fileName, ci.moduleSpecifier);
-      if (!resolved) {
-        if (strict) {
-          throw new CompilerError(
-            `Unresolved nested helper import "${ci.moduleSpecifier}" in "${fileName}"`,
-            fileName,
-          );
-        }
-        warnings.push(`Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`);
-        continue;
-      }
+      const resolved = resolveAndCompileNestedHelper(
+        ci.moduleSpecifier,
+        fileName,
+        resolveHelper,
+        packageName,
+        isSourceImport,
+        currentStack,
+        currentCache,
+        strict,
+        warnings,
+      );
 
-      // Cycle detection — skip if currently being compiled in this call chain
-      if (currentStack.has(resolved.canonicalPath)) continue;
+      if (!resolved) continue;
 
-      // Cache hit — reuse previously compiled result
-      let nested: CompiledHelper;
-      if (currentCache.has(resolved.canonicalPath)) {
-        nested = currentCache.get(resolved.canonicalPath)!;
-      } else {
-        currentStack.add(resolved.canonicalPath);
-        try {
-          nested = compileHelper(
-            resolved.sourceText,
-            packageName,
-            resolved.canonicalPath,
-            isSourceImport,
-            resolveHelper,
-            currentStack,
-            currentCache,
-            strict,
-          );
-          currentCache.set(resolved.canonicalPath, nested);
-        } finally {
-          currentStack.delete(resolved.canonicalPath);
-        }
-      }
+      const { helper: nested, canonicalPath } = resolved;
 
       if (nested.isEmpty) {
         // Pure test helper: mark all its import bindings as dead (by symbol)
@@ -234,7 +280,7 @@ export function compileHelper(
         }
         emptyHelperSpecifiers.add(ci.moduleSpecifier);
       } else {
-        nestedHelpers.set(resolved.canonicalPath, nested);
+        nestedHelpers.set(canonicalPath, nested);
         // Flatten transitive nested helpers into our map
         for (const [transitiveSpec, transitiveHelper] of nested.nestedHelpers) {
           if (!nestedHelpers.has(transitiveSpec)) {
@@ -242,7 +288,6 @@ export function compileHelper(
           }
         }
       }
-      // Collect warnings from nested helper compilations
       warnings.push(...nested.warnings);
     }
 
@@ -271,50 +316,26 @@ export function compileHelper(
       const resolvedPath = resolveImportPath(specifier, fileName);
       if (isSourceImport(resolvedPath)) continue;
 
-      const resolved = resolveHelper(fileName, specifier);
-      if (!resolved) {
-        if (strict) {
-          throw new CompilerError(
-            `Unresolved nested helper re-export "${specifier}" in "${fileName}"`,
-            fileName,
-          );
-        }
-        warnings.push(
-          `Could not resolve nested helper re-export "${specifier}" from "${fileName}"`,
-        );
-        continue;
-      }
+      const resolved = resolveAndCompileNestedHelper(
+        specifier,
+        fileName,
+        resolveHelper,
+        packageName,
+        isSourceImport,
+        currentStack,
+        currentCache,
+        strict,
+        warnings,
+      );
 
-      // Cycle detection — skip if currently being compiled in this call chain
-      if (currentStack.has(resolved.canonicalPath)) continue;
+      if (!resolved) continue;
 
-      // Cache hit — reuse previously compiled result
-      let nested: CompiledHelper;
-      if (currentCache.has(resolved.canonicalPath)) {
-        nested = currentCache.get(resolved.canonicalPath)!;
-      } else {
-        currentStack.add(resolved.canonicalPath);
-        try {
-          nested = compileHelper(
-            resolved.sourceText,
-            packageName,
-            resolved.canonicalPath,
-            isSourceImport,
-            resolveHelper,
-            currentStack,
-            currentCache,
-            strict,
-          );
-          currentCache.set(resolved.canonicalPath, nested);
-        } finally {
-          currentStack.delete(resolved.canonicalPath);
-        }
-      }
+      const { helper: nested, canonicalPath } = resolved;
 
       if (nested.isEmpty) {
         emptyHelperSpecifiers.add(specifier);
       } else {
-        nestedHelpers.set(resolved.canonicalPath, nested);
+        nestedHelpers.set(canonicalPath, nested);
         childSurvivingExports.set(specifier, nested.survivingExports);
         for (const [transitiveSpec, transitiveHelper] of nested.nestedHelpers) {
           if (!nestedHelpers.has(transitiveSpec)) {
