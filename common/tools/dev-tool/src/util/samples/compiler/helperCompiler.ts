@@ -543,3 +543,147 @@ function compileHelperImpl(
     warnings,
   };
 }
+
+// ── High-Level API ───────────────────────────────────────────────────────────
+
+import type { ClassifiedImport } from "./importClassifier.js";
+import type { BindingAnalyzer } from "./bindingAnalyzer.js";
+
+/** Result of resolving the full helper import graph for a sample. */
+export interface HelperGraphResult {
+  /** Map of relative helper paths → compiled output text */
+  helperFiles: Map<string, string>;
+  /** Environment variables from all helpers */
+  envVars: string[];
+  /** Module specifiers that resolved to empty helpers (for import pruning) */
+  emptySpecifiers: Set<string>;
+  /** Dead symbols from empty helper imports (add to deadSymbols set) */
+  deadSymbolsFromEmptyHelpers: ts.Symbol[];
+  /** Warnings from helper compilation */
+  warnings: string[];
+}
+
+/**
+ * Resolve the entire helper import graph for a sample file.
+ *
+ * This is the high-level API that encapsulates all helper resolution logic:
+ * - Iterates through localHelper imports
+ * - Compiles each helper (with caching)
+ * - Flattens transitive nested helpers
+ * - Collects environment variables and warnings
+ * - Identifies empty helpers for import pruning
+ *
+ * @param classified - Classified imports from the sample file
+ * @param analyzer - Binding analyzer for extracting import symbols
+ * @param sampleFileName - Path to the sample file (for resolving relative paths)
+ * @param packageName - Package name for import rewriting
+ * @param isSourceImport - Predicate for import classification
+ * @param resolveHelper - Callback to resolve helper specifiers to source text
+ * @param helperCache - Shared cache for compiled helpers (optional)
+ * @param strict - When true, unresolved helpers throw instead of warning
+ */
+export function resolveHelperGraph(
+  classified: readonly ClassifiedImport[],
+  analyzer: BindingAnalyzer,
+  sampleFileName: string,
+  packageName: string,
+  isSourceImport: SourceImportPredicate,
+  resolveHelper: HelperResolver,
+  helperCache?: Map<string, CompiledHelper>,
+  strict?: boolean,
+): HelperGraphResult {
+  const helperFiles = new Map<string, string>();
+  const envVars: string[] = [];
+  const emptySpecifiers = new Set<string>();
+  const deadSymbolsFromEmptyHelpers: ts.Symbol[] = [];
+  const warnings: string[] = [];
+
+  // Track stored helpers by canonical path (not relative key) to avoid duplicates
+  const storedHelperKeys = new Set<string>();
+
+  // Relativize canonical paths to be relative to the sample file's directory
+  const sampleDir = path.dirname(sampleFileName);
+  function toRelativeKey(canonicalPath: string): string {
+    const rel = path.relative(sampleDir, canonicalPath).split(path.sep).join("/");
+    return rel.startsWith(".") ? rel : "./" + rel;
+  }
+
+  // Use shared cache if provided, otherwise create a local one
+  const effectiveCache = helperCache ?? new Map<string, CompiledHelper>();
+  const visited = new Set<string>();
+
+  for (const ci of classified) {
+    if (ci.category !== "localHelper") continue;
+
+    const resolved = resolveHelper(sampleFileName, ci.moduleSpecifier);
+    if (!resolved) {
+      if (strict) {
+        throw new CompilerError(
+          `Unresolved local helper import "${ci.moduleSpecifier}" in "${sampleFileName}"`,
+          sampleFileName,
+        );
+      }
+      warnings.push(
+        `Could not resolve local helper "${ci.moduleSpecifier}" from "${sampleFileName}"`,
+      );
+      continue;
+    }
+
+    // Compile or retrieve from cache
+    let helper: CompiledHelper;
+    const cached = effectiveCache.get(resolved.canonicalPath);
+    if (cached) {
+      helper = cached;
+    } else {
+      helper = compileHelper(
+        resolved.sourceText,
+        packageName,
+        resolved.canonicalPath,
+        isSourceImport,
+        resolveHelper,
+        visited,
+        effectiveCache,
+        strict,
+      );
+      effectiveCache.set(resolved.canonicalPath, helper);
+    }
+
+    // Surface warnings (for both cache hit and miss)
+    warnings.push(...helper.warnings);
+
+    // Populate helperFiles and envVars
+    if (!helper.isEmpty) {
+      const relKey = toRelativeKey(resolved.canonicalPath);
+      if (!storedHelperKeys.has(resolved.canonicalPath)) {
+        storedHelperKeys.add(resolved.canonicalPath);
+        helperFiles.set(relKey, helper.outputText);
+        envVars.push(...helper.envVars);
+      }
+
+      // Collect transitive nested helper files
+      for (const [nestedCanonical, nestedHelper] of helper.nestedHelpers) {
+        if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonical)) {
+          storedHelperKeys.add(nestedCanonical);
+          helperFiles.set(toRelativeKey(nestedCanonical), nestedHelper.outputText);
+          envVars.push(...nestedHelper.envVars);
+        }
+      }
+    }
+
+    // Track empty helpers for import pruning
+    if (helper.isEmpty) {
+      for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
+        deadSymbolsFromEmptyHelpers.push(sym);
+      }
+      emptySpecifiers.add(ci.moduleSpecifier);
+    }
+  }
+
+  return {
+    helperFiles,
+    envVars,
+    emptySpecifiers,
+    deadSymbolsFromEmptyHelpers,
+    warnings,
+  };
+}

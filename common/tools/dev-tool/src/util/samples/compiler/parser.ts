@@ -393,7 +393,6 @@ function extractStringArgument(call: ts.CallExpression): string {
 /** Result of extracting a callback body. */
 interface ExtractedCallback {
   body: ts.Block;
-  isAsync: boolean;
 }
 
 /**
@@ -409,10 +408,8 @@ function extractCallback(call: ts.CallExpression): ExtractedCallback | undefined
   for (let i = call.arguments.length - 1; i >= 0; i--) {
     const arg = call.arguments[i];
     if (ts.isFunctionExpression(arg) || ts.isArrowFunction(arg)) {
-      const isAsync = hasAsyncModifier(arg);
-
       if (ts.isBlock(arg.body)) {
-        return { body: arg.body, isAsync };
+        return { body: arg.body };
       }
       // Expression body (e.g. () => expr): wrap in a synthetic block with await.
       // Always await since samples run in async main() — this ensures promise-returning
@@ -421,7 +418,6 @@ function extractCallback(call: ts.CallExpression): ExtractedCallback | undefined
         const awaitedExpr = ts.factory.createAwaitExpression(arg.body);
         return {
           body: ts.factory.createBlock([ts.factory.createExpressionStatement(awaitedExpr)]),
-          isAsync: true, // Mark as async since we're awaiting
         };
       }
     }

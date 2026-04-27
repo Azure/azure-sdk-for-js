@@ -78,7 +78,10 @@ export interface ParsedHook {
  */
 export interface ParsedSampleTestFile {
   metadata: SampleMetadata;
-  /** The describe block description */
+  /**
+   * The describe block description (e.g., "Widget CRUD operations").
+   * Available for diagnostics and tooling; not used by the core compiler pipeline.
+   */
   describeDescription: string;
   /** All non-hook, non-it statements at describe scope (variables, functions, classes, etc.) */
   describeStatements: ts.Statement[];

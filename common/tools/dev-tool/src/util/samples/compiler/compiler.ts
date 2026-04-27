@@ -30,7 +30,6 @@
  * execute with afterEach running after each function and afterAll at the end.
  */
 
-import path from "node:path";
 import ts from "typescript";
 import type { CompiledSample, ClassifiedImport, SampleMetadata, Substitution } from "./types.js";
 import { CompilerError, type ParsedSampleTestFile } from "./types.js";
@@ -42,16 +41,26 @@ import { createAnalyzer, resolveNamesToSymbols, type BindingAnalyzer } from "./b
 import { descriptionToFunctionName } from "./codeGenerator.js";
 import { rewriteImports } from "./importRewriter.js";
 import { promoteLetToConst } from "./letConstPromoter.js";
-import { compileHelper } from "./helperCompiler.js";
+import { resolveHelperGraph } from "./helperCompiler.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
 import type { HelperResolver, CompiledHelper } from "./helperCompiler.js";
 import type { ParsedHook, ParsedItBlock } from "./types.js";
 
 // ── Internal Helpers ─────────────────────────────────────────────────────────
 
+/** Result of eliminating dead code from a single scope. */
+interface ScopeEliminationResult {
+  /** Surviving AST statements (for symbol extraction) */
+  survivingStatements: ts.Statement[];
+  /** Newly dead symbols discovered during elimination */
+  newlyDeadSymbols: ts.Symbol[];
+  /** Printed text of surviving statements */
+  texts: string[];
+}
+
 /**
- * Eliminate dead code from a scope and collect surviving statements.
- * Mutates deadSymbols with cascaded deaths. Returns surviving statements as text.
+ * Eliminate dead code from a scope and return structured results.
+ * Pure function - does not mutate inputs.
  */
 function eliminateScope(
   body: readonly ts.Statement[],
@@ -59,26 +68,26 @@ function eliminateScope(
   analyzer: BindingAnalyzer,
   fileName: string,
   printer: ts.Printer,
-  allSurvivingNodes: ts.Statement[],
   trailingComments?: string,
-): string[] {
+): ScopeEliminationResult {
   const result = eliminateDeadStatements(body, deadSymbols, analyzer, fileName);
-  for (const sym of result.newlyDeadSymbols) {
-    deadSymbols.add(sym);
-  }
   const texts: string[] = [];
   for (const s of result.survivingStatements) {
-    allSurvivingNodes.push(s);
     texts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
   }
   if (trailingComments) {
     texts.push(trailingComments);
   }
-  return texts;
+  return {
+    survivingStatements: result.survivingStatements,
+    newlyDeadSymbols: [...result.newlyDeadSymbols],
+    texts,
+  };
 }
 
 /**
- * Eliminate dead code from a list of hooks, returning combined surviving text.
+ * Eliminate dead code from a list of hooks.
+ * Pure function - does not mutate inputs.
  */
 function eliminateHooks(
   hooks: readonly ParsedHook[],
@@ -86,22 +95,52 @@ function eliminateHooks(
   analyzer: BindingAnalyzer,
   fileName: string,
   printer: ts.Printer,
-  allSurvivingNodes: ts.Statement[],
-): string[] {
-  const texts: string[] = [];
+): ScopeEliminationResult {
+  const allSurviving: ts.Statement[] = [];
+  const allNewlyDead: ts.Symbol[] = [];
+  const allTexts: string[] = [];
+
+  // Process each hook, accumulating dead symbols for subsequent hooks
+  let currentDeadSymbols = deadSymbols;
   for (const hook of hooks) {
-    const hookTexts = eliminateScope(
+    const hookResult = eliminateScope(
       hook.body,
-      deadSymbols,
+      currentDeadSymbols,
       analyzer,
       fileName,
       printer,
-      allSurvivingNodes,
       hook.trailingComments,
     );
-    texts.push(...hookTexts);
+    allSurviving.push(...hookResult.survivingStatements);
+    allNewlyDead.push(...hookResult.newlyDeadSymbols);
+    allTexts.push(...hookResult.texts);
+
+    // Extend dead set for next hook if new deaths occurred
+    if (hookResult.newlyDeadSymbols.length > 0) {
+      currentDeadSymbols = new Set([...currentDeadSymbols, ...hookResult.newlyDeadSymbols]);
+    }
   }
-  return texts;
+
+  return {
+    survivingStatements: allSurviving,
+    newlyDeadSymbols: allNewlyDead,
+    texts: allTexts,
+  };
+}
+
+/**
+ * Merge elimination results into shared accumulators.
+ * Centralizes mutation to one place for clarity.
+ */
+function mergeEliminationResult(
+  result: ScopeEliminationResult,
+  deadSymbols: Set<ts.Symbol>,
+  allSurvivingNodes: ts.Statement[],
+): void {
+  for (const sym of result.newlyDeadSymbols) {
+    deadSymbols.add(sym);
+  }
+  allSurvivingNodes.push(...result.survivingStatements);
 }
 
 /** Names of compiler-handled intrinsics that should not be validated as dead bindings. */
@@ -235,94 +274,34 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   const deadSymbols = collectDeadSymbols(classified, analyzer);
 
   // Step 5a: Resolve local helper imports (import graph following)
-  const helperFiles = new Map<string, string>();
-  const helperEnvVars: string[] = [];
-  const emptyHelperSpecifiers = new Set<string>();
+  // The resolveHelperGraph function encapsulates all helper resolution logic.
   const warnings: string[] = [];
   // Surface parser warnings
   if (parsed.warnings) warnings.push(...parsed.warnings);
   if (subParsed.warnings) warnings.push(...subParsed.warnings);
 
-  // Relativize a canonical (absolute) helper path to be relative to the sample file's directory.
-  const sampleDir = path.dirname(fileName);
-  const storedHelperKeys = new Set<string>();
-  function toRelativeHelperKey(canonicalPath: string): string {
-    const rel = path.relative(sampleDir, canonicalPath).split(path.sep).join("/");
-    return rel.startsWith(".") ? rel : "./" + rel;
-  }
+  let helperFiles = new Map<string, string>();
+  let helperEnvVars: string[] = [];
+  let emptyHelperSpecifiers = new Set<string>();
 
   if (resolveHelper) {
-    const visited = new Set<string>();
-    // Use shared cache if provided, otherwise create a local one
-    const effectiveCache = helperCache ?? new Map<string, CompiledHelper>();
-    for (const ci of classified) {
-      if (ci.category !== "localHelper") continue;
-
-      const resolved = resolveHelper(fileName, ci.moduleSpecifier);
-      if (!resolved) {
-        if (strict) {
-          throw new CompilerError(
-            `Unresolved local helper import "${ci.moduleSpecifier}" in "${fileName}"`,
-            fileName,
-          );
-        }
-        warnings.push(`Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`);
-        continue;
-      }
-
-      let helper: CompiledHelper;
-      const cached = effectiveCache.get(resolved.canonicalPath);
-      if (cached) {
-        helper = cached;
-        // Cache hit: still need to populate per-sample state (helperFiles, envVars, warnings)
-      } else {
-        // compileHelper handles cycle detection internally via recursionStack
-        helper = compileHelper(
-          resolved.sourceText,
-          packageName,
-          resolved.canonicalPath,
-          isSourceImport,
-          resolveHelper,
-          visited,
-          effectiveCache, // Pass cache for nested helper reuse
-          strict, // Propagate strict mode to nested helpers
-        );
-        effectiveCache.set(resolved.canonicalPath, helper);
-      }
-
-      // Surface warnings from helper compilations (for both cache hit and miss)
-      // Each sample compilation gets the warnings from its helpers, even if cached
-      warnings.push(...helper.warnings);
-
-      // Populate helperFiles and envVars for this sample (both cache hit and miss)
-      if (!helper.isEmpty) {
-        // Helper has survivors (runtime or type-only): store compiled output
-        const relKey = toRelativeHelperKey(resolved.canonicalPath);
-        if (!storedHelperKeys.has(resolved.canonicalPath)) {
-          storedHelperKeys.add(resolved.canonicalPath);
-          helperFiles.set(relKey, helper.outputText);
-          helperEnvVars.push(...helper.envVars);
-        }
-
-        // Collect transitive nested helper files (already flattened by compileHelper)
-        for (const [nestedCanonical, nestedHelper] of helper.nestedHelpers) {
-          if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonical)) {
-            storedHelperKeys.add(nestedCanonical);
-            helperFiles.set(toRelativeHelperKey(nestedCanonical), nestedHelper.outputText);
-            helperEnvVars.push(...nestedHelper.envVars);
-          }
-        }
-      }
-
-      // Process THIS import's specifiers against the (possibly cached) result
-      // Only mark bindings as dead if the helper is truly empty (no survivors at all).
-      // Type-only helpers still need their import bindings preserved.
-      if (helper.isEmpty) {
-        for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
-          deadSymbols.add(sym);
-        }
-        emptyHelperSpecifiers.add(ci.moduleSpecifier);
-      }
+    const helperResult = resolveHelperGraph(
+      classified,
+      analyzer,
+      fileName,
+      packageName,
+      isSourceImport,
+      resolveHelper,
+      helperCache,
+      strict,
+    );
+    helperFiles = helperResult.helperFiles;
+    helperEnvVars = helperResult.envVars;
+    emptyHelperSpecifiers = helperResult.emptySpecifiers;
+    warnings.push(...helperResult.warnings);
+    // Add dead symbols from empty helpers
+    for (const sym of helperResult.deadSymbolsFromEmptyHelpers) {
+      deadSymbols.add(sym);
     }
   }
 
@@ -395,55 +374,58 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   );
 
   // Eliminate dead code from hooks (beforeAll/beforeEach run as preamble, afterEach/afterAll as cleanup)
-  const beforeAllTexts = eliminateHooks(
+  // Each elimination returns structured results; we merge into shared accumulators afterward.
+  const beforeAllResult = eliminateHooks(
     subParsed.beforeAllHooks,
     deadSymbols,
     analyzer,
     fileName,
     printer,
-    allSurvivingNodes,
   );
-  const beforeEachTexts = eliminateHooks(
+  mergeEliminationResult(beforeAllResult, deadSymbols, allSurvivingNodes);
+
+  const beforeEachResult = eliminateHooks(
     subParsed.beforeEachHooks,
     deadSymbols,
     analyzer,
     fileName,
     printer,
-    allSurvivingNodes,
   );
+  mergeEliminationResult(beforeEachResult, deadSymbols, allSurvivingNodes);
 
   // Eliminate dead code from each it-block body
-  const itBlockTexts: string[][] = [];
+  const itBlockResults: ScopeEliminationResult[] = [];
   for (const itBlock of subParsed.itBlocks) {
-    const texts = eliminateScope(
+    const result = eliminateScope(
       itBlock.body,
       deadSymbols,
       analyzer,
       fileName,
       printer,
-      allSurvivingNodes,
       itBlock.trailingComments,
     );
-    itBlockTexts.push(texts);
+    itBlockResults.push(result);
+    mergeEliminationResult(result, deadSymbols, allSurvivingNodes);
   }
 
   // Cleanup hooks
-  const afterEachTexts = eliminateHooks(
+  const afterEachResult = eliminateHooks(
     subParsed.afterEachHooks,
     deadSymbols,
     analyzer,
     fileName,
     printer,
-    allSurvivingNodes,
   );
-  const afterAllTexts = eliminateHooks(
+  mergeEliminationResult(afterEachResult, deadSymbols, allSurvivingNodes);
+
+  const afterAllResult = eliminateHooks(
     subParsed.afterAllHooks,
     deadSymbols,
     analyzer,
     fileName,
     printer,
-    allSurvivingNodes,
   );
+  mergeEliminationResult(afterAllResult, deadSymbols, allSurvivingNodes);
 
   // Step 6b: Validate forPublishing expressions against extended dead set (includes cascaded)
   validateForPublishingReferences(
@@ -487,11 +469,11 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
       name = `${name}${suffix}`;
     }
     usedNames.add(name);
-    return { name, bodyTexts: itBlockTexts[i] };
+    return { name, bodyTexts: itBlockResults[i].texts };
   });
 
   // Step 9: Assemble final output (see module header for beforeAll/beforeEach semantics)
-  if (functions.length > 1 && beforeEachTexts.length > 0) {
+  if (functions.length > 1 && beforeEachResult.texts.length > 0) {
     warnings.push(
       "Multi-it sample has beforeEach hook. Note: beforeEach runs once at start (not per-function) " +
         "because samples demonstrate production usage patterns. Consider using single-it or moving " +
@@ -505,9 +487,9 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     survivingDescribeTexts,
     survivingVarTexts,
     functions,
-    [...beforeAllTexts, ...beforeEachTexts],
-    afterEachTexts,
-    afterAllTexts,
+    [...beforeAllResult.texts, ...beforeEachResult.texts],
+    afterEachResult.texts,
+    afterAllResult.texts,
     platform,
   );
 
