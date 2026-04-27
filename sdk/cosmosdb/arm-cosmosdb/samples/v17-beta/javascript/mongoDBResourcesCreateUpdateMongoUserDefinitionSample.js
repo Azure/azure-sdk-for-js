@@ -1,0 +1,37 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates an Azure Cosmos DB Mongo User Definition.
+ *
+ * @summary creates or updates an Azure Cosmos DB Mongo User Definition.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBUserDefinitionCreateUpdate.json
+ */
+async function cosmosDBMongoDBUserDefinitionCreateUpdate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.mongoDBResources.createUpdateMongoUserDefinition(
+    "myResourceGroupName",
+    "myAccountName",
+    "myMongoUserDefinitionId",
+    {
+      customData: "My custom data",
+      databaseName: "sales",
+      mechanisms: "SCRAM-SHA-256",
+      password: "myPassword",
+      roles: [{ db: "sales", role: "myReadRole" }],
+      userName: "myUserName",
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await cosmosDBMongoDBUserDefinitionCreateUpdate();
+}
+
+main().catch(console.error);

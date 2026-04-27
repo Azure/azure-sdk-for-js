@@ -3,31 +3,22 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Refreshes any information about the association.
+ * This sample demonstrates how to refreshes any information about the association.
  *
- * @summary Refreshes any information about the association.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/NetworkSecurityPerimeterConfigurationReconcile.json
+ * @summary refreshes any information about the association.
+ * x-ms-original-file: 2025-11-01-preview/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationList(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "res4410";
-  const accountName = "sto8607";
-  const networkSecurityPerimeterConfigurationName =
-    "dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkSecurityPerimeterConfigurations.beginReconcileAndWait(
-      resourceGroupName,
-      accountName,
-      networkSecurityPerimeterConfigurationName,
-    );
-  console.log(result);
+  await client.networkSecurityPerimeterConfigurations.reconcile(
+    "res4410",
+    "sto8607",
+    "dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1",
+  );
 }
 
 async function main(): Promise<void> {

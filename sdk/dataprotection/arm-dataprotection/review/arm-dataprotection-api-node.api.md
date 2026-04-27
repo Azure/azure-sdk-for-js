@@ -19,7 +19,7 @@ export interface DataProtectionClientOptionalParams extends ClientOptions {
 
 // @public
 export interface DataProtectionContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

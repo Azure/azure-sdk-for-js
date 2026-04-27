@@ -83,5 +83,22 @@ describe("Sample: analyzeInvoice", () => {
       console.log(`Document unit: ${documentContent.unit ?? "unknown"}`);
       console.log(`Pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber}`);
     }
+
+    // Verify usage details from the poller (available after pollUntilDone completes)
+    const usage = poller.usage;
+    assert.ok(usage, "Poller should have usage after completion");
+    assert.isDefined(usage!.contextualizationTokens, "Should have contextualization tokens");
+    assert.isDefined(usage!.tokens, "Should have tokens dictionary");
+    console.log("\nUsage Details:");
+    if (usage!.documentPagesStandard !== undefined) {
+      console.log(`  Document pages (standard): ${usage!.documentPagesStandard}`);
+    }
+    console.log(`  Contextualization tokens: ${usage!.contextualizationTokens}`);
+    if (usage!.tokens) {
+      console.log("  Model tokens:");
+      for (const [model, count] of Object.entries(usage!.tokens)) {
+        console.log(`    ${model}: ${count}`);
+      }
+    }
   });
 });

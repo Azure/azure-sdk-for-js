@@ -3,31 +3,26 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB SQL Role Assignment.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL Role Assignment.
  *
- * @summary Deletes an existing Azure Cosmos DB SQL Role Assignment.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlRoleAssignmentDelete.json
+ * @summary deletes an existing Azure Cosmos DB SQL Role Assignment.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlRoleAssignmentDelete.json
  */
-async function cosmosDbSqlRoleAssignmentDelete() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
-  const roleAssignmentId = "myRoleAssignmentId";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
-  const accountName = "myAccountName";
+async function cosmosDBSqlRoleAssignmentDelete() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginDeleteSqlRoleAssignmentAndWait(
-    roleAssignmentId,
-    resourceGroupName,
-    accountName,
+  await client.sqlResources.deleteSqlRoleAssignment(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleAssignmentId",
   );
-  console.log(result);
 }
 
 async function main() {
-  await cosmosDbSqlRoleAssignmentDelete();
+  await cosmosDBSqlRoleAssignmentDelete();
 }
 
 main().catch(console.error);
