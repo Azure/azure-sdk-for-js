@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createNginxManagement,
-  type NginxManagementContext,
-  type NginxManagementClientOptionalParams,
+export type {
+  NginxManagementContext,
+  NginxManagementClientOptionalParams,
 } from "./nginxManagementContext.js";
+export { createNginxManagement } from "./nginxManagementContext.js";

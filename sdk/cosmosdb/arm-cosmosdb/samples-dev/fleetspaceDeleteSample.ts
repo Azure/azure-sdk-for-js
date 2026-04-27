@@ -3,33 +3,22 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB Fleetspace.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Fleetspace.
  *
- * @summary Deletes an existing Azure Cosmos DB Fleetspace.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetspaceDelete.json
+ * @summary deletes an existing Azure Cosmos DB Fleetspace.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetspaceDelete.json
  */
-async function cosmosDbFleetspaceDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
-  const fleetspaceName = "fleetspace1";
+async function cosmosDBFleetspaceDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.fleetspace.beginDeleteAndWait(
-    resourceGroupName,
-    fleetName,
-    fleetspaceName,
-  );
-  console.log(result);
+  await client.fleetspace.delete("rg1", "fleet1", "fleetspace1");
 }
 
 async function main(): Promise<void> {
-  await cosmosDbFleetspaceDelete();
+  await cosmosDBFleetspaceDelete();
 }
 
 main().catch(console.error);

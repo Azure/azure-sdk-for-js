@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createDurableTask,
-  type DurableTaskContext,
-  type DurableTaskClientOptionalParams,
-} from "./durableTaskContext.js";
+export type { DurableTaskContext, DurableTaskClientOptionalParams } from "./durableTaskContext.js";
+export { createDurableTask } from "./durableTaskContext.js";

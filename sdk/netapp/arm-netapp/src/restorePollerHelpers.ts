@@ -27,6 +27,20 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAccounts,
 } from "./api/accounts/operations.js";
 import {
+  _resetSmbPasswordDeserialize,
+  _poolChangeDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeCaches,
+  _updateDeserialize as _updateDeserializeCaches,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeCaches,
+} from "./api/caches/operations.js";
+import {
+  _refreshCertificateDeserialize,
+  _generateAkvCredentialsDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeBuckets,
+  _updateDeserialize as _updateDeserializeBuckets,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBuckets,
+} from "./api/buckets/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeBackupVaults,
   _updateDeserialize as _updateDeserializeBackupVaults,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeBackupVaults,
@@ -57,7 +71,7 @@ import {
   _revertRelocationDeserialize,
   _finalizeRelocationDeserialize,
   _relocateDeserialize,
-  _poolChangeDeserialize,
+  _poolChangeDeserialize as _poolChangeDeserializeVolumes,
   _performReplicationTransferDeserialize,
   _finalizeExternalReplicationDeserialize,
   _authorizeExternalReplicationDeserialize,
@@ -200,6 +214,26 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeAccounts, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}":
     { deserializer: _createOrUpdateDeserializeAccounts, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/resetSmbPassword":
+    { deserializer: _resetSmbPasswordDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}/poolChange":
+    { deserializer: _poolChangeDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}":
+    { deserializer: _$deleteDeserializeCaches, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}":
+    { deserializer: _updateDeserializeCaches, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/caches/{cacheName}":
+    { deserializer: _createOrUpdateDeserializeCaches, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/refreshCertificate":
+    { deserializer: _refreshCertificateDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}/generateAkvCredentials":
+    { deserializer: _generateAkvCredentialsDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}":
+    { deserializer: _$deleteDeserializeBuckets, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}":
+    { deserializer: _updateDeserializeBuckets, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/buckets/{bucketName}":
+    { deserializer: _createOrUpdateDeserializeBuckets, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}":
     { deserializer: _$deleteDeserializeBackupVaults, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}":
@@ -244,7 +278,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate":
     { deserializer: _relocateDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange":
-    { deserializer: _poolChangeDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _poolChangeDeserializeVolumes, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/performReplicationTransfer":
     {
       deserializer: _performReplicationTransferDeserialize,

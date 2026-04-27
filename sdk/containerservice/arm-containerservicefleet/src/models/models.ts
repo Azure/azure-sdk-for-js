@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 /**
@@ -54,7 +55,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -201,7 +202,9 @@ export function fleetSerializer(item: Fleet): any {
 
 export function fleetDeserializer(item: any): Fleet {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -497,7 +500,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -725,7 +730,9 @@ export function fleetMemberPropertiesDeserializer(item: any): FleetMemberPropert
     clusterResourceId: item["clusterResourceId"],
     group: item["group"],
     provisioningState: item["provisioningState"],
-    labels: item["labels"],
+    labels: !item["labels"]
+      ? item["labels"]
+      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
     status: !item["status"] ? item["status"] : fleetMemberStatusDeserializer(item["status"]),
   };
 }
@@ -850,25 +857,44 @@ export function fleetMemberArrayDeserializer(result: Array<FleetMember>): any[] 
 
 /** A fleet managed namespace. */
 export interface FleetManagedNamespace extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespaceProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   readonly eTag?: string;
+  /** The status of the last operation. */
+  readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+  /** The namespace properties for the fleet managed namespace. */
+  managedNamespaceProperties?: ManagedNamespaceProperties;
+  /** Action if the managed namespace with the same name already exists. Default is Never. */
+  adoptionPolicy?: AdoptionPolicy;
+  /** Delete options of a fleet managed namespace. Default is Keep. */
+  deletePolicy?: DeletePolicy;
+  /** The profile of the propagation to create the namespace. */
+  propagationPolicy?: PropagationPolicy;
+  /** Status information of the last operation for fleet managed namespace. */
+  readonly status?: FleetManagedNamespaceStatus;
+  /** The Azure Portal FQDN of the Fleet hub. */
+  readonly portalFqdn?: string;
 }
 
 export function fleetManagedNamespaceSerializer(item: FleetManagedNamespace): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : fleetManagedNamespacePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "managedNamespaceProperties",
+      "adoptionPolicy",
+      "deletePolicy",
+      "propagationPolicy",
+    ])
+      ? undefined
+      : _fleetManagedNamespacePropertiesSerializer(item),
   };
 }
 
 export function fleetManagedNamespaceDeserializer(item: any): FleetManagedNamespace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -876,9 +902,9 @@ export function fleetManagedNamespaceDeserializer(item: any): FleetManagedNamesp
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : fleetManagedNamespacePropertiesDeserializer(item["properties"]),
+      : _fleetManagedNamespacePropertiesDeserializer(item["properties"])),
     eTag: item["eTag"],
   };
 }
@@ -993,8 +1019,14 @@ export function managedNamespacePropertiesSerializer(item: ManagedNamespacePrope
 
 export function managedNamespacePropertiesDeserializer(item: any): ManagedNamespaceProperties {
   return {
-    labels: item["labels"],
-    annotations: item["annotations"],
+    labels: !item["labels"]
+      ? item["labels"]
+      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : Object.fromEntries(
+          Object.entries(item["annotations"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     defaultResourceQuota: !item["defaultResourceQuota"]
       ? item["defaultResourceQuota"]
       : resourceQuotaDeserializer(item["defaultResourceQuota"]),
@@ -1183,9 +1215,7 @@ export interface ClusterResourcePlacementSpec {
 }
 
 export function clusterResourcePlacementSpecSerializer(item: ClusterResourcePlacementSpec): any {
-  return {
-    policy: !item["policy"] ? item["policy"] : placementPolicySerializer(item["policy"]),
-  };
+  return { policy: !item["policy"] ? item["policy"] : placementPolicySerializer(item["policy"]) };
 }
 
 export function clusterResourcePlacementSpecDeserializer(item: any): ClusterResourcePlacementSpec {
@@ -1309,9 +1339,7 @@ export interface ClusterSelector {
 }
 
 export function clusterSelectorSerializer(item: ClusterSelector): any {
-  return {
-    clusterSelectorTerms: clusterSelectorTermArraySerializer(item["clusterSelectorTerms"]),
-  };
+  return { clusterSelectorTerms: clusterSelectorTermArraySerializer(item["clusterSelectorTerms"]) };
 }
 
 export function clusterSelectorDeserializer(item: any): ClusterSelector {
@@ -1381,7 +1409,11 @@ export function labelSelectorSerializer(item: LabelSelector): any {
 
 export function labelSelectorDeserializer(item: any): LabelSelector {
   return {
-    matchLabels: item["matchLabels"],
+    matchLabels: !item["matchLabels"]
+      ? item["matchLabels"]
+      : Object.fromEntries(
+          Object.entries(item["matchLabels"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     matchExpressions: !item["matchExpressions"]
       ? item["matchExpressions"]
       : labelSelectorRequirementArrayDeserializer(item["matchExpressions"]),
@@ -1469,9 +1501,7 @@ export interface PropertySelector {
 }
 
 export function propertySelectorSerializer(item: PropertySelector): any {
-  return {
-    matchExpressions: propertySelectorRequirementArraySerializer(item["matchExpressions"]),
-  };
+  return { matchExpressions: propertySelectorRequirementArraySerializer(item["matchExpressions"]) };
 }
 
 export function propertySelectorDeserializer(item: any): PropertySelector {
@@ -2042,6 +2072,21 @@ export interface UpdateStage {
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
+  /**
+   * The max number of upgrades that can run concurrently across all groups in this stage.
+   * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the stage you want to tolerate at a time.
+   * Actual concurrency may be lower depending on group-level concurrency limits or individual member conditions.
+   * Stage maxConcurrency has a min value of "1".
+   * Accepts either:
+   *     • A fixed count, e.g., "3"
+   *     • A percentage, e.g., "25%" (range 1–100). Percentage is of the total number of clusters across all groups in the stage.
+   *       Fractional results are rounded down. A minimum of 1 upgrade is enforced.
+   * Examples:
+   *     • "3"     --> up to 3 clusters from this stage upgrade at once (across all groups).
+   *     • "100%"  --> “all at once”; up to all clusters in this stage upgrade at the same time.
+   *     • "25%"   --> up to 25% of the stage’s total clusters upgrade at the same time.
+   */
+  maxConcurrency?: string;
   /** A list of Gates that will be created before this Stage is executed. */
   beforeGates?: GateConfiguration[];
   /** A list of Gates that will be created after this Stage is executed. */
@@ -2053,6 +2098,7 @@ export function updateStageSerializer(item: UpdateStage): any {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArraySerializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArraySerializer(item["beforeGates"]),
@@ -2067,6 +2113,7 @@ export function updateStageDeserializer(item: any): UpdateStage {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArrayDeserializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArrayDeserializer(item["beforeGates"]),
@@ -2095,6 +2142,22 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
+  /**
+   * The max number of upgrades that can run concurrently in this specific group.
+   * Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the group you want to tolerate at a time.
+   * Actual concurrency may be lower depending on stage-level concurrency limits or individual member conditions.
+   * Group maxConcurrency has a min value of "1". The max value is min(number of clusters in the group, the stage maxConcurrency).
+   * If no value is provided, defaults to 1.
+   * Accepts either:
+   *     • A fixed count, e.g. "3"
+   *     • A percentage, e.g. "25%" (range 1–100). Percentage is of the number of clusters in the group.
+   *       Fractional results are rounded down. A minimum of 1 upgrade is enforced.
+   * Examples:
+   *     • "3" --> up to 3 members from this group upgrade at once.
+   *     • "100%" --> “all at once”, up to all members for this group upgrade at the same time.
+   *     • "25%" --> up to 25% of the members in the group will be upgraded at the same time.
+   */
+  maxConcurrency?: string;
   /** A list of Gates that will be created before this Group is executed. */
   beforeGates?: GateConfiguration[];
   /** A list of Gates that will be created after this Group is executed. */
@@ -2104,6 +2167,7 @@ export interface UpdateGroup {
 export function updateGroupSerializer(item: UpdateGroup): any {
   return {
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArraySerializer(item["beforeGates"]),
@@ -2116,6 +2180,7 @@ export function updateGroupSerializer(item: UpdateGroup): any {
 export function updateGroupDeserializer(item: any): UpdateGroup {
   return {
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
       : gateConfigurationArrayDeserializer(item["beforeGates"]),
@@ -2386,6 +2451,8 @@ export interface UpdateStageStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateStage. */
   readonly name?: string;
+  /** The max number of upgrades that can run concurrently across all groups in this stage, resolved from the UpdateStrategy.UpdateStage.maxConcurrency value. */
+  readonly maxConcurrency?: number;
   /** The list of groups to be updated as part of this UpdateStage. */
   readonly groups?: UpdateGroupStatus[];
   /** The list of Gates that will run before this UpdateStage. */
@@ -2400,6 +2467,7 @@ export function updateStageStatusDeserializer(item: any): UpdateStageStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     groups: !item["groups"] ? item["groups"] : updateGroupStatusArrayDeserializer(item["groups"]),
     beforeGates: !item["beforeGates"]
       ? item["beforeGates"]
@@ -2425,6 +2493,8 @@ export interface UpdateGroupStatus {
   readonly status?: UpdateStatus;
   /** The name of the UpdateGroup. */
   readonly name?: string;
+  /**   The max number of upgrades that can run concurrently in this group, resolved from the UpdateStrategy.UpdateGroup.maxConcurrency value. If no value was provided, this value defaults to "1". */
+  readonly maxConcurrency?: number;
   /** The list of member this UpdateGroup updates. */
   readonly members?: MemberUpdateStatus[];
   /** The list of Gates that will run before this UpdateGroup. */
@@ -2437,6 +2507,7 @@ export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
   return {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
+    maxConcurrency: item["maxConcurrency"],
     members: !item["members"]
       ? item["members"]
       : memberUpdateStatusArrayDeserializer(item["members"]),
@@ -3024,4 +3095,37 @@ export enum KnownVersions {
   V20250401Preview = "2025-04-01-preview",
   /** Azure Kubernetes Fleet Manager api version 2025-08-01-preview. */
   V20250801Preview = "2025-08-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2026-02-01-preview. */
+  V20260201Preview = "2026-02-01-preview",
+}
+
+export function _fleetManagedNamespacePropertiesSerializer(item: FleetManagedNamespace): any {
+  return {
+    managedNamespaceProperties: !item["managedNamespaceProperties"]
+      ? item["managedNamespaceProperties"]
+      : managedNamespacePropertiesSerializer(item["managedNamespaceProperties"]),
+    adoptionPolicy: item["adoptionPolicy"],
+    deletePolicy: item["deletePolicy"],
+    propagationPolicy: !item["propagationPolicy"]
+      ? item["propagationPolicy"]
+      : propagationPolicySerializer(item["propagationPolicy"]),
+  };
+}
+
+export function _fleetManagedNamespacePropertiesDeserializer(item: any) {
+  return {
+    provisioningState: item["provisioningState"],
+    managedNamespaceProperties: !item["managedNamespaceProperties"]
+      ? item["managedNamespaceProperties"]
+      : managedNamespacePropertiesDeserializer(item["managedNamespaceProperties"]),
+    adoptionPolicy: item["adoptionPolicy"],
+    deletePolicy: item["deletePolicy"],
+    propagationPolicy: !item["propagationPolicy"]
+      ? item["propagationPolicy"]
+      : propagationPolicyDeserializer(item["propagationPolicy"]),
+    status: !item["status"]
+      ? item["status"]
+      : fleetManagedNamespaceStatusDeserializer(item["status"]),
+    portalFqdn: item["portalFqdn"],
+  };
 }

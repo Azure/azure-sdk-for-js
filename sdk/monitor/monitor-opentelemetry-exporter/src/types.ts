@@ -69,7 +69,7 @@ export type PropertyType = string | number | boolean | object | Array<PropertyTy
  * Azure Monitor envelope properties.
  * @internal
  */
-export type Properties = { [key: string]: Properties | PropertyType };
+export type Properties = Record<string, string>;
 /**
  * Azure Monitor envelope links.
  * @internal
@@ -82,12 +82,16 @@ export interface MSLink {
  * Azure Monitor envelope measurements.
  * @internal
  */
-export type Measurements = { [key: string]: number };
+export type Measurements = Record<string, number>;
 /**
  * Exporter sender result.
  * @internal
  */
-export type SenderResult = { statusCode: number | undefined; result: string };
+export type SenderResult = {
+  statusCode: number | undefined;
+  result: string;
+  retryAfterMs?: number;
+};
 
 /**
  * Exporter persistent storage.
@@ -96,6 +100,7 @@ export type SenderResult = { statusCode: number | undefined; result: string };
 export interface PersistentStorage {
   shift(): Promise<unknown>;
   push(value: unknown[]): Promise<boolean>;
+  cleanExpiredFiles(): Promise<void>;
 }
 
 /**
@@ -138,6 +143,7 @@ export enum MaxPropertyLengths {
   THIRTEEN_BIT = 8192,
   FIFTEEN_BIT = 32768,
   SIXTEEN_BIT = 65536,
+  EIGHTEEN_BIT = 262144,
 }
 
 /**

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-agricultureplatform",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for AgriculturePlatformClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -26,7 +26,11 @@
     "CHANGELOG.md"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/agricultureplatform/arm-agricultureplatform"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

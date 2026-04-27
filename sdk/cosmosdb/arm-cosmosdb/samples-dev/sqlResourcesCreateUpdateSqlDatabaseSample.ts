@@ -1,54 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SqlDatabaseCreateUpdateParameters} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL database
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL database
  *
- * @summary Create or update an Azure Cosmos DB SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlDatabaseCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB SQL database
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabaseCreateUpdate.json
  */
-async function cosmosDbSqlDatabaseCreateUpdate(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const createUpdateSqlDatabaseParameters: SqlDatabaseCreateUpdateParameters = {
+async function cosmosDBSqlDatabaseCreateUpdate(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlDatabase("rg1", "ddb1", "databaseName", {
     location: "West US",
     options: {},
     resource: { id: "databaseName" },
     tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlDatabaseAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    createUpdateSqlDatabaseParameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL database
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL database
  *
- * @summary Create or update an Azure Cosmos DB SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlDatabaseRestore.json
+ * @summary create or update an Azure Cosmos DB SQL database
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabaseRestore.json
  */
-async function cosmosDbSqlDatabaseRestore(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const createUpdateSqlDatabaseParameters: SqlDatabaseCreateUpdateParameters = {
+async function cosmosDBSqlDatabaseRestore(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlDatabase("rg1", "ddb1", "databaseName", {
     location: "West US",
     options: {},
     resource: {
@@ -56,27 +41,19 @@ async function cosmosDbSqlDatabaseRestore(): Promise<void> {
       id: "databaseName",
       restoreParameters: {
         restoreSource:
-          "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/restorableDatabaseAccountId",
+          "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/restorableDatabaseAccountId",
         restoreTimestampInUtc: new Date("2022-07-20T18:28:00Z"),
         restoreWithTtlDisabled: true,
       },
     },
     tags: {},
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlDatabaseAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    createUpdateSqlDatabaseParameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbSqlDatabaseCreateUpdate();
-  await cosmosDbSqlDatabaseRestore();
+  await cosmosDBSqlDatabaseCreateUpdate();
+  await cosmosDBSqlDatabaseRestore();
 }
 
 main().catch(console.error);

@@ -22,6 +22,9 @@ resources in your Microsoft Foundry Project. Use it to:
   * Microsoft SharePoint (Preview)
   * Web Search (Preview)
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
+* **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
+* **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
+* **Manage toolboxes (preview)** for grouping tools into reusable collections, using the `.beta.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
 * **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
 `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
@@ -37,7 +40,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects-v2/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-latest)
 | [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
@@ -62,6 +65,9 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
   - [fine-tuning operations](#fine-tuning-operations)
+  - [Beta agent sessions operations (preview)](#beta-agent-sessions-operations-preview)
+  - [Skills operations (preview)](#skills-operations-preview)
+  - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
   - [Installation](#installation)
   - [How to enable tracing](#how-to-enable-tracing)
@@ -78,7 +84,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
 - A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects).
-- The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT` was defined to hold this value.
+- The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value.
 
 ### Authorization
 
@@ -100,13 +106,13 @@ npm install @azure/ai-projects dotenv
 
 Entra ID is the only authentication method supported at the moment by the client.
 
-To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT` was defined to hold this value:
+To construct an `AIProjectsClient`, the `projectEndpoint` can be fetched from [projectEndpoint][ai_project_client_endpoint]. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
 
@@ -127,7 +133,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 ## Examples
 
@@ -533,7 +539,7 @@ The `embeddingModelDeployment` is the name of the model used to create vector em
 ```ts snippet:agent-memory-search
 const memoryStoreName = "AgentMemoryStore";
 const embeddingModelDeployment =
-  process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
 const scope = "user_123";
 const memoryStore = await project.beta.memoryStores.create(
   memoryStoreName,
@@ -1178,6 +1184,86 @@ const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateP
 });
 console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 ```
+
+### Beta agent sessions operations (preview)
+
+The `.beta.agents` operations let you manage agent sessions and session files for hosted agents. Sessions provide isolated sandbox environments for agent interactions.
+
+```ts snippet:beta-agents
+import { VersionRefIndicator } from "@azure/ai-projects";
+
+const agentName = "MyBetaAgent";
+const isolationKey = "sample-isolation-key";
+// Create a session for the agent
+const versionIndicator: VersionRefIndicator = {
+  type: "version_ref",
+  agent_version: "1.0",
+};
+const session = await project.beta.agents.createSession(agentName, isolationKey, versionIndicator);
+console.log(`Session created: ${session.agent_session_id}`);
+// Upload a file to the session sandbox
+const filePath = "/sandbox/hello.txt";
+const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+const uploadResult = await project.beta.agents.uploadSessionFile(
+  agentName,
+  session.agent_session_id,
+  filePath,
+  fileContent,
+);
+console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
+```
+
+See the full sample code in [betaAgents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/betaAgents.ts).
+
+### Skills operations (preview)
+
+The `.beta.skills` operations let you create and manage reusable skills that define agent capabilities.
+
+```ts snippet:skills
+const skillName = "sample-skill";
+// Create a new skill
+const created = await project.beta.skills.create(skillName, {
+  description: "Example skill created by the @azure/ai-projects sample.",
+  instructions: "You are a helpful assistant that answers questions concisely.",
+  metadata: { owner: "sample" },
+});
+console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
+// Retrieve the skill
+const fetched = await project.beta.skills.get(skillName);
+console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+```
+
+See the full sample code in [skillBasic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/skills/skillBasic.ts).
+
+### Toolboxes operations (preview)
+
+The `.beta.toolboxes` operations let you create and manage toolboxes — reusable collections of tools that can be shared across agents.
+
+```ts snippet:toolboxes
+import { ToolUnion, MCPTool } from "@azure/ai-projects";
+
+const toolboxName = "mcp";
+// Define tools for the toolbox
+const tools: ToolUnion[] = [
+  {
+    type: "mcp",
+    server_label: "api_specs",
+    server_url: "https://github.com/Azure/azure-rest-api-specs",
+    require_approval: "never",
+  } satisfies MCPTool,
+];
+// Create a new toolbox version
+const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+  description: "Example toolbox created by the @azure/ai-projects sample.",
+  metadata: { status: "created" },
+});
+console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
+// Retrieve the toolbox
+const fetched = await project.beta.toolboxes.get(toolboxName);
+console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
+```
+
+See the full sample code in [toolboxesCrud.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/toolboxes/toolboxesCrud.ts).
 
 ## Tracing
 

@@ -10,12 +10,12 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type FleetsListCredentialsOptionalParams,
-  type FleetsListBySubscriptionOptionalParams,
-  type FleetsListByResourceGroupOptionalParams,
-  type FleetsDeleteOptionalParams,
-  type FleetsUpdateAsyncOptionalParams,
-  type FleetsCreateOptionalParams,
-  type FleetsGetOptionalParams,
+export type {
+  FleetsListCredentialsOptionalParams,
+  FleetsListBySubscriptionOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsDeleteOptionalParams,
+  FleetsUpdateAsyncOptionalParams,
+  FleetsCreateOptionalParams,
+  FleetsGetOptionalParams,
 } from "./options.js";

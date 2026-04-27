@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface ConnectedRegistriesResyncOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface ConnectedRegistriesDeactivateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

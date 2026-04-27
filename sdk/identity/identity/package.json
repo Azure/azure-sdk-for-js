@@ -55,7 +55,11 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/identity/identity"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -82,8 +86,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-browser": "^4.2.0",
-    "@azure/msal-node": "^3.5.0",
+    "@azure/msal-browser": "^5.5.0",
+    "@azure/msal-node": "^5.1.0",
     "open": "^11.0.0",
     "tslib": "^2.2.0"
   },

@@ -3,30 +3,30 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to List the backups of this cluster that are available to restore.
+ * This sample demonstrates how to list the backups of this cluster that are available to restore.
  *
- * @summary List the backups of this cluster that are available to restore.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBManagedCassandraBackupsList.json
+ * @summary list the backups of this cluster that are available to restore.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraBackupsList.json
  */
-async function cosmosDbManagedCassandraBackupsList() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
-  const clusterName = "cassandra-prod";
+async function cosmosDBManagedCassandraBackupsList() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.cassandraClusters.listBackups(resourceGroupName, clusterName)) {
+  for await (const item of client.cassandraClusters.listBackups(
+    "cassandra-prod-rg",
+    "cassandra-prod",
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbManagedCassandraBackupsList();
+  await cosmosDBManagedCassandraBackupsList();
 }
 
 main().catch(console.error);

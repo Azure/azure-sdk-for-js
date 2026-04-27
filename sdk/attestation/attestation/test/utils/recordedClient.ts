@@ -19,6 +19,12 @@ const envSetupForPlayback: { [k: string]: string } = {
   ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key",
 };
 
+/**
+ * Tolerance (in seconds) for clock drift between CI runners and the attestation service.
+ * Used in both {@link createRecordedClient} and {@link createRecordedAdminClient}.
+ */
+const TIME_VALIDATION_SLACK_IN_SECONDS = 60;
+
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   // token is not a secret
@@ -77,7 +83,7 @@ export function createRecordedClient(
         validateExpirationTime: !isPlaybackMode(),
         validateNotBeforeTime: !isPlaybackMode(),
         validateIssuer: !isPlaybackMode(),
-        timeValidationSlack: 10, // 10 seconds slack in validation time.
+        timeValidationSlack: TIME_VALIDATION_SLACK_IN_SECONDS,
         expectedIssuer: getAttestationUri(endpointType),
       },
     };
@@ -110,7 +116,7 @@ export function createRecordedAdminClient(
         validateToken: true,
         validateExpirationTime: !isPlaybackMode(),
         validateNotBeforeTime: !isPlaybackMode(),
-        timeValidationSlack: 10, // 10 seconds slack in validation time.
+        timeValidationSlack: TIME_VALIDATION_SLACK_IN_SECONDS,
         validateIssuer: !isPlaybackMode(),
         expectedIssuer: getAttestationUri(endpointType),
       },

@@ -1,14 +1,27 @@
 # Release History
 
-## 1.1.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.1.5 (2026-04-24)
 
 ### Bugs Fixed
 
+- Fixed failure during report upload for test runs longer than 5 minutes when using GitHub OIDC authentication.
+
+## 1.1.4 (2026-04-10)
+
+### Bugs Fixed
+
+- Provided a direct Azure Portal URL to the specific Playwright test run.
+
+
+## 1.1.3 (2026-03-18)
+
+### Features Added
+
+- Added `useCloudHostedBrowsers` option to allow users to opt out of connecting to cloud-hosted browsers while still using the reporting feature.
+
 ### Other Changes
+
+- Enhanced browser session activity logging with source type tracking.
 
 ## 1.1.2 (2026-02-13)
 

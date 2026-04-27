@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -29,7 +29,11 @@
     "LICENSE"
   ],
   "browser": "./dist/browser/index.js",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/communication/communication-chat"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -45,7 +49,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

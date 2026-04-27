@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get an extension type for the location.
- *
- * @summary Get an extension type for the location.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeByLocation.json
- */
-
 import { ExtensionTypesClient } from "@azure/arm-kubernetesconfiguration-extensiontypes";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get an extension type for the location.
+ *
+ * @summary get an extension type for the location.
+ * x-ms-original-file: 2024-11-01-preview/GetExtensionTypeByLocation.json
+ */
 async function getExtensionType(): Promise<void> {
-  const subscriptionId =
-    process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
-  const location = "westus2";
-  const extensionTypeName = "extensionType1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId1";
   const client = new ExtensionTypesClient(credential, subscriptionId);
-  const result = await client.extensionTypes.locationGet(
-    location,
-    extensionTypeName,
-  );
+  const result = await client.extensionTypes.locationGet("westus2", "extensionType1");
   console.log(result);
 }
 

@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "types": ["trusted-types"],
+    "paths": {
+      "@azure/core-xml": ["../src/index.ts"],
+      "@azure/core-xml/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

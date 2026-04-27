@@ -3,31 +3,23 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
+ * This sample demonstrates how to gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
  *
- * @summary Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGremlinDatabaseGet.json
+ * @summary gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinDatabaseGet.json
  */
-async function cosmosDbGremlinDatabaseGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
+async function cosmosDBGremlinDatabaseGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.getGremlinDatabase(
-    resourceGroupName,
-    accountName,
-    databaseName,
-  );
+  const result = await client.gremlinResources.getGremlinDatabase("rg1", "ddb1", "databaseName");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbGremlinDatabaseGet();
+  await cosmosDBGremlinDatabaseGet();
 }
 
 main().catch(console.error);

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update an import job instance.
  *
  * @summary Update an import job instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/importJob_Update.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/importJob_Update.json
  */
 async function importJobsUpdate() {
   const subscriptionId =

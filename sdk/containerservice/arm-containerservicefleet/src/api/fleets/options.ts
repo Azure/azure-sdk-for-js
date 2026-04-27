@@ -7,7 +7,12 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface FleetsListCredentialsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {
+  /** The number of result items to return. */
+  top?: number;
+  /** The page-continuation token to use with a paged version of this API. */
+  skipToken?: string;
+}
 
 /** Optional parameters. */
 export interface FleetsListByResourceGroupOptionalParams extends OperationOptions {}

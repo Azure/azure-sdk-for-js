@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.2",
+  "version": "2.1.0-beta.3",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -27,7 +27,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/containerservice/arm-containerservicefleet"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

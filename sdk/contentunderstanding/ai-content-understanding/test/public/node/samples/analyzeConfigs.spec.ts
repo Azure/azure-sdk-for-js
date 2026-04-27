@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeConfigs.ts - Extract additional features like charts, formulas.
+ * Sample test for analyzeConfigs.ts - Extract additional features like charts, formulas.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -55,7 +55,10 @@ describe("Sample: analyzeConfigs", () => {
     console.log(`Analyzing ${filePath} with prebuilt-documentSearch...`);
     console.log("Note: prebuilt-documentSearch has formulas, layout, and OCR enabled by default.");
 
-    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, testPollingOptions);
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf", {
+      ...testPollingOptions,
+      updateIntervalInMs: 0,
+    });
     const result = await poller.pollUntilDone();
 
     // Assertions

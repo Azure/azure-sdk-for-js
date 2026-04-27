@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createNetAppManagement,
-  type NetAppManagementContext,
-  type NetAppManagementClientOptionalParams,
+export type {
+  NetAppManagementContext,
+  NetAppManagementClientOptionalParams,
 } from "./netAppManagementContext.js";
+export { createNetAppManagement } from "./netAppManagementContext.js";

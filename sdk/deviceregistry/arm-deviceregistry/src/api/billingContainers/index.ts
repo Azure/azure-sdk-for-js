@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listBySubscription, get } from "./operations.js";
-export {
-  type BillingContainersListBySubscriptionOptionalParams,
-  type BillingContainersGetOptionalParams,
+export type {
+  BillingContainersListBySubscriptionOptionalParams,
+  BillingContainersGetOptionalParams,
 } from "./options.js";

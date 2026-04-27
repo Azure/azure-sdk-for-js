@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -186,7 +192,9 @@ export function schedulerSerializer(item: Scheduler): any {
 
 export function schedulerDeserializer(item: any): Scheduler {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -210,6 +218,10 @@ export interface SchedulerProperties {
   ipAllowlist: string[];
   /** SKU of the durable task scheduler */
   sku: SchedulerSku;
+  /** Allow or disallow public network access to durable task scheduler */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The private endpoints exposed by this resource */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 export function schedulerPropertiesSerializer(item: SchedulerProperties): any {
@@ -218,6 +230,7 @@ export function schedulerPropertiesSerializer(item: SchedulerProperties): any {
       return p;
     }),
     sku: schedulerSkuSerializer(item["sku"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
 
@@ -229,6 +242,10 @@ export function schedulerPropertiesDeserializer(item: any): SchedulerProperties 
       return p;
     }),
     sku: schedulerSkuDeserializer(item["sku"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+    privateEndpointConnections: !item["privateEndpointConnections"]
+      ? item["privateEndpointConnections"]
+      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
   };
 }
 
@@ -323,19 +340,55 @@ export enum KnownRedundancyState {
  */
 export type RedundancyState = string;
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
+/** State of the public network access. */
+export enum KnownPublicNetworkAccess {
+  /** The public network access is enabled */
+  Enabled = "Enabled",
+  /** The public network access is disabled */
+  Disabled = "Disabled",
 }
 
-export function trackedResourceSerializer(item: TrackedResource): any {
-  return { tags: item["tags"], location: item["location"] };
+/**
+ * State of the public network access. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The public network access is enabled \
+ * **Disabled**: The public network access is disabled
+ */
+export type PublicNetworkAccess = string;
+
+export function privateEndpointConnectionArraySerializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionSerializer(item);
+  });
 }
 
-export function trackedResourceDeserializer(item: any): TrackedResource {
+export function privateEndpointConnectionArrayDeserializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionDeserializer(item);
+  });
+}
+
+/** A private endpoint connection resource */
+export interface PrivateEndpointConnection extends Resource {
+  /** The private endpoint connection properties */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -343,10 +396,146 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
-    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
   };
 }
+
+/** Properties of the private endpoint connection. */
+export interface PrivateEndpointConnectionProperties {
+  /** The group ids for the private endpoint resource. */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+export function privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnectionProperties,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
+export function privateEndpointConnectionPropertiesDeserializer(
+  item: any,
+): PrivateEndpointConnectionProperties {
+  return {
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpoint {
+  /** The resource identifier of the private endpoint */
+  readonly id?: string;
+}
+
+export function privateEndpointSerializer(item: PrivateEndpoint): any {
+  return item;
+}
+
+export function privateEndpointDeserializer(item: any): PrivateEndpoint {
+  return {
+    id: item["id"],
+  };
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+export function privateLinkServiceConnectionStateSerializer(
+  item: PrivateLinkServiceConnectionState,
+): any {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+export function privateLinkServiceConnectionStateDeserializer(
+  item: any,
+): PrivateLinkServiceConnectionState {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** The private endpoint connection status. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Connection waiting for approval or rejection */
+  Pending = "Pending",
+  /** Connection approved */
+  Approved = "Approved",
+  /** Connection Rejected */
+  Rejected = "Rejected",
+}
+
+/**
+ * The private endpoint connection status. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: Connection waiting for approval or rejection \
+ * **Approved**: Connection approved \
+ * **Rejected**: Connection Rejected
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** The current provisioning state. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Connection has been provisioned */
+  Succeeded = "Succeeded",
+  /** Connection is being created */
+  Creating = "Creating",
+  /** Connection is being deleted */
+  Deleting = "Deleting",
+  /** Connection provisioning has failed */
+  Failed = "Failed",
+}
+
+/**
+ * The current provisioning state. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Connection has been provisioned \
+ * **Creating**: Connection is being created \
+ * **Deleting**: Connection is being deleted \
+ * **Failed**: Connection provisioning has failed
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -428,6 +617,33 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+  };
+}
+
 /** The update request model for the Scheduler resource */
 export interface SchedulerUpdate {
   /** The resource-specific properties for this resource. */
@@ -455,6 +671,8 @@ export interface SchedulerPropertiesUpdate {
   ipAllowlist?: string[];
   /** SKU of the durable task scheduler */
   sku?: SchedulerSkuUpdate;
+  /** Allow or disallow public network access to durable task scheduler */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 export function schedulerPropertiesUpdateSerializer(item: SchedulerPropertiesUpdate): any {
@@ -465,6 +683,7 @@ export function schedulerPropertiesUpdateSerializer(item: SchedulerPropertiesUpd
           return p;
         }),
     sku: !item["sku"] ? item["sku"] : schedulerSkuUpdateSerializer(item["sku"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
 
@@ -507,6 +726,133 @@ export function schedulerArrayDeserializer(result: Array<Scheduler>): any[] {
   return result.map((item) => {
     return schedulerDeserializer(item);
   });
+}
+
+/** A private link resource. */
+export interface SchedulerPrivateLinkResource extends Resource {
+  /** Resource properties. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+export function schedulerPrivateLinkResourceDeserializer(item: any): SchedulerPrivateLinkResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+export function privateLinkResourcePropertiesDeserializer(
+  item: any,
+): PrivateLinkResourceProperties {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The response of a SchedulerPrivateLinkResource list operation. */
+export interface _SchedulerPrivateLinkResourceListResult {
+  /** The SchedulerPrivateLinkResource items on this page */
+  value: SchedulerPrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _schedulerPrivateLinkResourceListResultDeserializer(
+  item: any,
+): _SchedulerPrivateLinkResourceListResult {
+  return {
+    value: schedulerPrivateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function schedulerPrivateLinkResourceArrayDeserializer(
+  result: Array<SchedulerPrivateLinkResource>,
+): any[] {
+  return result.map((item) => {
+    return schedulerPrivateLinkResourceDeserializer(item);
+  });
+}
+
+/** PATCH model for private endpoint connections */
+export interface PrivateEndpointConnectionUpdate {
+  /** The private endpoint connection properties */
+  properties?: OptionalPropertiesUpdateableProperties;
+}
+
+export function privateEndpointConnectionUpdateSerializer(
+  item: PrivateEndpointConnectionUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : optionalPropertiesUpdateablePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The template for adding optional properties. */
+export interface OptionalPropertiesUpdateableProperties {
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+export function optionalPropertiesUpdateablePropertiesSerializer(
+  item: OptionalPropertiesUpdateableProperties,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
+/** The response of a PrivateEndpointConnection list operation. */
+export interface _PrivateEndpointConnectionListResult {
+  /** The PrivateEndpointConnection items on this page */
+  value: PrivateEndpointConnection[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _privateEndpointConnectionListResultDeserializer(
+  item: any,
+): _PrivateEndpointConnectionListResult {
+  return {
+    value: privateEndpointConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
 }
 
 /** A Task Hub resource belonging to the scheduler */
@@ -747,4 +1093,6 @@ export function retentionPolicyArrayDeserializer(result: Array<RetentionPolicy>)
 export enum KnownVersions {
   /** 2025-11-01 */
   V20251101 = "2025-11-01",
+  /** 2026-02-01 */
+  V20260201 = "2026-02-01",
 }

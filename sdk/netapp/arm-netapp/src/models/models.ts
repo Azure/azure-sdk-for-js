@@ -335,8 +335,8 @@ export function quotaItemPropertiesDeserializer(item: any): QuotaItemProperties 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -362,8 +362,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1248,6 +1248,14 @@ export interface ReplicationObject {
   remoteVolumeRegion?: string;
   /** A list of destination replications */
   readonly destinationReplications?: DestinationReplication[];
+  /** Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. */
+  readonly externalReplicationSetupStatus?: ExternalReplicationSetupStatus;
+  /** Contains human-readable instructions on what the next step is to finish the external replication setup. */
+  readonly externalReplicationSetupInfo?: string;
+  /** The mirror state property describes the current status of data replication for a replication. It provides insight into whether the data is actively being mirrored, if the replication process has been paused, or if it has yet to be initialized. */
+  readonly mirrorState?: MirrorState;
+  /** The status of the Volume Replication */
+  readonly relationshipStatus?: VolumeReplicationRelationshipStatus;
 }
 
 export function replicationObjectSerializer(item: ReplicationObject): any {
@@ -1272,6 +1280,10 @@ export function replicationObjectDeserializer(item: any): ReplicationObject {
     destinationReplications: !item["destinationReplications"]
       ? item["destinationReplications"]
       : destinationReplicationArrayDeserializer(item["destinationReplications"]),
+    externalReplicationSetupStatus: item["externalReplicationSetupStatus"],
+    externalReplicationSetupInfo: item["externalReplicationSetupInfo"],
+    mirrorState: item["mirrorState"],
+    relationshipStatus: item["relationshipStatus"],
   };
 }
 
@@ -1386,6 +1398,72 @@ export enum KnownReplicationType {
  * **CrossZoneReplication**: Cross zone replication
  */
 export type ReplicationType = string;
+
+/** Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. */
+export enum KnownExternalReplicationSetupStatus {
+  /** Your cluster needs to be peered by using the 'peerExternalCluster' action */
+  ClusterPeerRequired = "ClusterPeerRequired",
+  /** The peering needs to be accepted on your cluster before the setup can proceed */
+  ClusterPeerPending = "ClusterPeerPending",
+  /** Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication */
+  VServerPeerRequired = "VServerPeerRequired",
+  /** Need to call 'authorizeExternalReplication' to finish setting up the external replication */
+  ReplicationCreateRequired = "ReplicationCreateRequired",
+  /** External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication */
+  NoActionRequired = "NoActionRequired",
+}
+
+/**
+ * Property that only applies to external replications. Provides a machine-readable value for the status of the external replication setup. \
+ * {@link KnownExternalReplicationSetupStatus} can be used interchangeably with ExternalReplicationSetupStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterPeerRequired**: Your cluster needs to be peered by using the 'peerExternalCluster' action \
+ * **ClusterPeerPending**: The peering needs to be accepted on your cluster before the setup can proceed \
+ * **VServerPeerRequired**: Need to call 'authorizeExternalReplication' and accept the returned 'vserver peer accept' command on your cluster to finish setting up the external replication \
+ * **ReplicationCreateRequired**: Need to call 'authorizeExternalReplication' to finish setting up the external replication \
+ * **NoActionRequired**: External Replication setup is complete, you can now monitor the 'mirrorState' in the replication status for the health of the replication
+ */
+export type ExternalReplicationSetupStatus = string;
+
+/** The status of the replication */
+export enum KnownMirrorState {
+  /** Uninitialized */
+  Uninitialized = "Uninitialized",
+  /** Mirrored */
+  Mirrored = "Mirrored",
+  /** Broken */
+  Broken = "Broken",
+}
+
+/**
+ * The status of the replication \
+ * {@link KnownMirrorState} can be used interchangeably with MirrorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninitialized** \
+ * **Mirrored** \
+ * **Broken**
+ */
+export type MirrorState = string;
+
+/** Status of the volume replication relationship */
+export enum KnownVolumeReplicationRelationshipStatus {
+  /** Idle */
+  Idle = "Idle",
+  /** Transferring */
+  Transferring = "Transferring",
+}
+
+/**
+ * Status of the volume replication relationship \
+ * {@link KnownVolumeReplicationRelationshipStatus} can be used interchangeably with VolumeReplicationRelationshipStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Idle** \
+ * **Transferring**
+ */
+export type VolumeReplicationRelationshipStatus = string;
 
 /** Volume Snapshot Properties */
 export interface VolumeSnapshotProperties {
@@ -1953,27 +2031,6 @@ export enum KnownVolumeBackupRelationshipStatus {
  */
 export type VolumeBackupRelationshipStatus = string;
 
-/** The status of the replication */
-export enum KnownMirrorState {
-  /** Uninitialized */
-  Uninitialized = "Uninitialized",
-  /** Mirrored */
-  Mirrored = "Mirrored",
-  /** Broken */
-  Broken = "Broken",
-}
-
-/**
- * The status of the replication \
- * {@link KnownMirrorState} can be used interchangeably with MirrorState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Uninitialized** \
- * **Mirrored** \
- * **Broken**
- */
-export type MirrorState = string;
-
 /** Restore status */
 export interface RestoreStatus {
   /** Restore health status */
@@ -2370,24 +2427,6 @@ export function replicationStatusDeserializer(item: any): ReplicationStatus {
   };
 }
 
-/** Status of the volume replication relationship */
-export enum KnownVolumeReplicationRelationshipStatus {
-  /** Idle */
-  Idle = "Idle",
-  /** Transferring */
-  Transferring = "Transferring",
-}
-
-/**
- * Status of the volume replication relationship \
- * {@link KnownVolumeReplicationRelationshipStatus} can be used interchangeably with VolumeReplicationRelationshipStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Idle** \
- * **Transferring**
- */
-export type VolumeReplicationRelationshipStatus = string;
-
 /** Body for the list replications endpoint. If supplied, the body will be used as a filter for example to exclude deleted replications. If omitted, the endpoint returns all replications */
 export interface ListReplicationsRequest {
   /** Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None' */
@@ -2523,23 +2562,58 @@ export function peerClusterForVolumeMigrationRequestSerializer(
 
 /** Information about cluster peering process */
 export interface ClusterPeerCommandResponse {
-  /** A command that needs to be run on the external ONTAP to accept cluster peering.  Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code> */
-  peerAcceptCommand?: string;
+  /** Represents the properties of the cluster peer command response. */
+  properties?: ClusterPeerCommandResponseProperties;
 }
 
 export function clusterPeerCommandResponseDeserializer(item: any): ClusterPeerCommandResponse {
   return {
-    peerAcceptCommand: item["peerAcceptCommand"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterPeerCommandResponsePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the cluster peer command response. */
+export interface ClusterPeerCommandResponseProperties {
+  /** ClusterPeeringCommand to run to accept cluster peer. Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code>. */
+  clusterPeeringCommand?: string;
+  /** Passphrase for use with cluster peer command */
+  passphrase?: string;
+}
+
+export function clusterPeerCommandResponsePropertiesDeserializer(
+  item: any,
+): ClusterPeerCommandResponseProperties {
+  return {
+    clusterPeeringCommand: item["clusterPeeringCommand"],
+    passphrase: item["passphrase"],
   };
 }
 
 /** Information about svm peering process */
 export interface SvmPeerCommandResponse {
+  /** Represents the properties of the SVM peer command response. */
+  properties?: SvmPeerCommandResponseProperties;
+}
+
+export function svmPeerCommandResponseDeserializer(item: any): SvmPeerCommandResponse {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : svmPeerCommandResponsePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the SVM peer command response. */
+export interface SvmPeerCommandResponseProperties {
   /** A command that needs to be run on the external ONTAP to accept svm peering.  Will only be present if <code>svmPeeringStatus</code> is <code>pending</code> */
   svmPeeringCommand?: string;
 }
 
-export function svmPeerCommandResponseDeserializer(item: any): SvmPeerCommandResponse {
+export function svmPeerCommandResponsePropertiesDeserializer(
+  item: any,
+): SvmPeerCommandResponseProperties {
   return {
     svmPeeringCommand: item["svmPeeringCommand"],
   };
@@ -2710,8 +2784,8 @@ export interface SnapshotProperties {
   readonly provisioningState?: string;
 }
 
-export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
-  return item;
+export function snapshotPropertiesSerializer(_item: SnapshotProperties): any {
+  return {};
 }
 
 export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
@@ -2725,8 +2799,8 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
 /** Snapshot of a Volume */
 export interface SnapshotPatch {}
 
-export function snapshotPatchSerializer(item: SnapshotPatch): any {
-  return item;
+export function snapshotPatchSerializer(_item: SnapshotPatch): any {
+  return {};
 }
 
 /** List of Snapshots */
@@ -3604,8 +3678,8 @@ export interface BackupVaultProperties {
   readonly provisioningState?: string;
 }
 
-export function backupVaultPropertiesSerializer(item: BackupVaultProperties): any {
-  return item;
+export function backupVaultPropertiesSerializer(_item: BackupVaultProperties): any {
+  return {};
 }
 
 export function backupVaultPropertiesDeserializer(item: any): BackupVaultProperties {
@@ -3649,6 +3723,1324 @@ export function backupVaultArrayDeserializer(result: Array<BackupVault>): any[] 
   return result.map((item) => {
     return backupVaultDeserializer(item);
   });
+}
+
+/** Bucket resource */
+export interface Bucket extends ProxyResource {
+  /** Bucket properties */
+  properties?: BucketProperties;
+}
+
+export function bucketSerializer(item: Bucket): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : bucketPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function bucketDeserializer(item: any): Bucket {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : bucketPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Bucket resource properties */
+export interface BucketProperties {
+  /** The volume path mounted inside the bucket. The default is the root path '/' if no value is provided when the bucket is created. */
+  path?: string;
+  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+  fileSystemUser?: FileSystemUser;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: NetAppProvisioningState;
+  /**
+   * The bucket credentials status. There states:
+   *
+   * "NoCredentialsSet": Access and Secret key pair have not been generated.
+   * "CredentialsExpired": Access and Secret key pair have expired.
+   * "Active": The certificate has been installed and credentials are unexpired.
+   */
+  readonly status?: CredentialsStatus;
+  /** Properties of the server managing the lifecycle of volume buckets */
+  server?: BucketServerProperties;
+  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
+  permissions?: BucketPermissions;
+  /**
+   * Specifies the Azure Key Vault settings. These are used when
+   * a) retrieving the bucket server certificate, and
+   * b) storing the bucket credentials
+   *
+   * Notes:
+   *
+   * 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property.
+   * 2. These properties are mutually exclusive with the server.certificateObject property.
+   */
+  akvDetails?: AzureKeyVaultDetails;
+}
+
+export function bucketPropertiesSerializer(item: BucketProperties): any {
+  return {
+    path: item["path"],
+    fileSystemUser: !item["fileSystemUser"]
+      ? item["fileSystemUser"]
+      : fileSystemUserSerializer(item["fileSystemUser"]),
+    server: !item["server"] ? item["server"] : bucketServerPropertiesSerializer(item["server"]),
+    permissions: item["permissions"],
+    akvDetails: !item["akvDetails"]
+      ? item["akvDetails"]
+      : azureKeyVaultDetailsSerializer(item["akvDetails"]),
+  };
+}
+
+export function bucketPropertiesDeserializer(item: any): BucketProperties {
+  return {
+    path: item["path"],
+    fileSystemUser: !item["fileSystemUser"]
+      ? item["fileSystemUser"]
+      : fileSystemUserDeserializer(item["fileSystemUser"]),
+    provisioningState: item["provisioningState"],
+    status: item["status"],
+    server: !item["server"] ? item["server"] : bucketServerPropertiesDeserializer(item["server"]),
+    permissions: item["permissions"],
+    akvDetails: !item["akvDetails"]
+      ? item["akvDetails"]
+      : azureKeyVaultDetailsDeserializer(item["akvDetails"]),
+  };
+}
+
+/** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+export interface FileSystemUser {
+  /** The effective NFS User ID and Group ID when accessing the volume data. */
+  nfsUser?: NfsUser;
+  /** The effective CIFS username when accessing the volume data. */
+  cifsUser?: CifsUser;
+}
+
+export function fileSystemUserSerializer(item: FileSystemUser): any {
+  return {
+    nfsUser: !item["nfsUser"] ? item["nfsUser"] : nfsUserSerializer(item["nfsUser"]),
+    cifsUser: !item["cifsUser"] ? item["cifsUser"] : cifsUserSerializer(item["cifsUser"]),
+  };
+}
+
+export function fileSystemUserDeserializer(item: any): FileSystemUser {
+  return {
+    nfsUser: !item["nfsUser"] ? item["nfsUser"] : nfsUserDeserializer(item["nfsUser"]),
+    cifsUser: !item["cifsUser"] ? item["cifsUser"] : cifsUserDeserializer(item["cifsUser"]),
+  };
+}
+
+/** The effective NFS User ID and Group ID when accessing the volume data. */
+export interface NfsUser {
+  /** The NFS user's UID */
+  userId?: number;
+  /** The NFS user's GID */
+  groupId?: number;
+}
+
+export function nfsUserSerializer(item: NfsUser): any {
+  return { userId: item["userId"], groupId: item["groupId"] };
+}
+
+export function nfsUserDeserializer(item: any): NfsUser {
+  return {
+    userId: item["userId"],
+    groupId: item["groupId"],
+  };
+}
+
+/** The effective CIFS username when accessing the volume data. */
+export interface CifsUser {
+  /** The CIFS user's username */
+  username?: string;
+}
+
+export function cifsUserSerializer(item: CifsUser): any {
+  return { username: item["username"] };
+}
+
+export function cifsUserDeserializer(item: any): CifsUser {
+  return {
+    username: item["username"],
+  };
+}
+
+/**
+ * The bucket credentials status. There states:
+ *
+ * "NoCredentialsSet": Access and Secret key pair have not been generated.
+ * "CredentialsExpired": Access and Secret key pair have expired.
+ * "Active": The certificate has been installed and credentials are unexpired.
+ */
+export enum KnownCredentialsStatus {
+  /** Access and Secret key pair have not been generated. */
+  NoCredentialsSet = "NoCredentialsSet",
+  /** Access and Secret key pair have expired. */
+  CredentialsExpired = "CredentialsExpired",
+  /** The certificate has been installed on the bucket server and the bucket credentials are unexpired. */
+  Active = "Active",
+}
+
+/**
+ * The bucket credentials status. There states:
+ *
+ * "NoCredentialsSet": Access and Secret key pair have not been generated.
+ * "CredentialsExpired": Access and Secret key pair have expired.
+ * "Active": The certificate has been installed and credentials are unexpired. \
+ * {@link KnownCredentialsStatus} can be used interchangeably with CredentialsStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoCredentialsSet**: Access and Secret key pair have not been generated. \
+ * **CredentialsExpired**: Access and Secret key pair have expired. \
+ * **Active**: The certificate has been installed on the bucket server and the bucket credentials are unexpired.
+ */
+export type CredentialsStatus = string;
+
+/** Properties of the server managing the lifecycle of volume buckets */
+export interface BucketServerProperties {
+  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
+  fqdn?: string;
+  /** Certificate Common Name taken from the certificate installed on the bucket server */
+  readonly certificateCommonName?: string;
+  /** The bucket server's certificate expiry date. */
+  readonly certificateExpiryDate?: Date;
+  /** The bucket server's IPv4 address */
+  readonly ipAddress?: string;
+  /**
+   * The base64-encoded contents of a PEM file, which includes both the bucket server's certificate and private key. It is generated by the end user and allows the user to access volume data in a read-only manner.
+   * Note: This is only used when Azure Key Vault is not configured. This property is mutually exclusive with the Azure Key Vault 'akv' properties.
+   */
+  certificateObject?: string;
+  /**
+   * Action to take when there is a certificate conflict.
+   * Possible values include: 'Update', 'Fail'
+   */
+  onCertificateConflictAction?: OnCertificateConflictAction;
+}
+
+export function bucketServerPropertiesSerializer(item: BucketServerProperties): any {
+  return {
+    fqdn: item["fqdn"],
+    certificateObject: item["certificateObject"],
+    onCertificateConflictAction: item["onCertificateConflictAction"],
+  };
+}
+
+export function bucketServerPropertiesDeserializer(item: any): BucketServerProperties {
+  return {
+    fqdn: item["fqdn"],
+    certificateCommonName: item["certificateCommonName"],
+    certificateExpiryDate: !item["certificateExpiryDate"]
+      ? item["certificateExpiryDate"]
+      : new Date(item["certificateExpiryDate"]),
+    ipAddress: item["ipAddress"],
+    certificateObject: item["certificateObject"],
+    onCertificateConflictAction: item["onCertificateConflictAction"],
+  };
+}
+
+/**
+ * This action is triggered when a certificate conflict occurs. A conflict arises if you try to create a new bucket while one or more already exist on the server, or if you update a bucket when multiple buckets are present. This happens because a single certificate is shared among all buckets on the same server.
+ *
+ * Note: This applies both to certificates provided directly via the certificateObject property and to those retrieved from Azure Key Vault. Details for the latter case are specified in the akvDetails.certificateAkvDetails section.
+ */
+export enum KnownOnCertificateConflictAction {
+  /** Update the existing certificate regardless of whether there is a conflict or not. This means all buckets on the server will now use the new certificate. */
+  Update = "Update",
+  /** Fail the operation if a conflict occurs, meaning the bucket operation will fail, and the existing certificate will continue to be in use. */
+  Fail = "Fail",
+}
+
+/**
+ * This action is triggered when a certificate conflict occurs. A conflict arises if you try to create a new bucket while one or more already exist on the server, or if you update a bucket when multiple buckets are present. This happens because a single certificate is shared among all buckets on the same server.
+ *
+ * Note: This applies both to certificates provided directly via the certificateObject property and to those retrieved from Azure Key Vault. Details for the latter case are specified in the akvDetails.certificateAkvDetails section. \
+ * {@link KnownOnCertificateConflictAction} can be used interchangeably with OnCertificateConflictAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Update**: Update the existing certificate regardless of whether there is a conflict or not. This means all buckets on the server will now use the new certificate. \
+ * **Fail**: Fail the operation if a conflict occurs, meaning the bucket operation will fail, and the existing certificate will continue to be in use.
+ */
+export type OnCertificateConflictAction = string;
+
+/** Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. */
+export enum KnownBucketPermissions {
+  /** Read-only access to bucket. */
+  ReadOnly = "ReadOnly",
+  /** Read-write access to bucket. */
+  ReadWrite = "ReadWrite",
+}
+
+/**
+ * Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. \
+ * {@link KnownBucketPermissions} can be used interchangeably with BucketPermissions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ReadOnly**: Read-only access to bucket. \
+ * **ReadWrite**: Read-write access to bucket.
+ */
+export type BucketPermissions = string;
+
+/**
+ * Specifies the Azure Key Vault settings. These are used when
+ * a) retrieving the bucket server certificate, and
+ * b) storing the bucket credentials
+ *
+ * Notes:
+ *
+ * 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property.
+ *
+ * 2. These properties are mutually exclusive with the server.certificateObject property.
+ */
+export interface AzureKeyVaultDetails {
+  /** Specifies the Azure Key Vault settings for retrieving the bucket server certificate. */
+  certificateAkvDetails?: CertificateAkvDetails;
+  /** Specifies the Azure Key Vault settings for storing the bucket credentials. */
+  credentialsAkvDetails?: CredentialsAkvDetails;
+}
+
+export function azureKeyVaultDetailsSerializer(item: AzureKeyVaultDetails): any {
+  return {
+    certificateAkvDetails: !item["certificateAkvDetails"]
+      ? item["certificateAkvDetails"]
+      : certificateAkvDetailsSerializer(item["certificateAkvDetails"]),
+    credentialsAkvDetails: !item["credentialsAkvDetails"]
+      ? item["credentialsAkvDetails"]
+      : credentialsAkvDetailsSerializer(item["credentialsAkvDetails"]),
+  };
+}
+
+export function azureKeyVaultDetailsDeserializer(item: any): AzureKeyVaultDetails {
+  return {
+    certificateAkvDetails: !item["certificateAkvDetails"]
+      ? item["certificateAkvDetails"]
+      : certificateAkvDetailsDeserializer(item["certificateAkvDetails"]),
+    credentialsAkvDetails: !item["credentialsAkvDetails"]
+      ? item["credentialsAkvDetails"]
+      : credentialsAkvDetailsDeserializer(item["credentialsAkvDetails"]),
+  };
+}
+
+/** Specifies the Azure Key Vault settings for retrieving the bucket server certificate. */
+export interface CertificateAkvDetails {
+  /** The base URI of the Azure Key Vault that is used when retrieving the bucket certificate. */
+  certificateKeyVaultUri?: string;
+  /** The name of the bucket server certificate stored in the Azure Key Vault. */
+  certificateName?: string;
+}
+
+export function certificateAkvDetailsSerializer(item: CertificateAkvDetails): any {
+  return {
+    certificateKeyVaultUri: item["certificateKeyVaultUri"],
+    certificateName: item["certificateName"],
+  };
+}
+
+export function certificateAkvDetailsDeserializer(item: any): CertificateAkvDetails {
+  return {
+    certificateKeyVaultUri: item["certificateKeyVaultUri"],
+    certificateName: item["certificateName"],
+  };
+}
+
+/** Specifies the Azure Key Vault settings for storing the bucket credentials. */
+export interface CredentialsAkvDetails {
+  /** The base URI of the Azure Key Vault that is used when storing the bucket credentials. */
+  credentialsKeyVaultUri?: string;
+  /**
+   * The name of the secret stored in Azure Key Vault. The associated key pair has the following structure:
+   *
+   * {
+   * "access_key_id": "<REDACTED>",
+   * "secret_access_key": "<REDACTED>"
+   * }
+   */
+  secretName?: string;
+}
+
+export function credentialsAkvDetailsSerializer(item: CredentialsAkvDetails): any {
+  return { credentialsKeyVaultUri: item["credentialsKeyVaultUri"], secretName: item["secretName"] };
+}
+
+export function credentialsAkvDetailsDeserializer(item: any): CredentialsAkvDetails {
+  return {
+    credentialsKeyVaultUri: item["credentialsKeyVaultUri"],
+    secretName: item["secretName"],
+  };
+}
+
+/** Bucket resource */
+export interface BucketPatch extends ProxyResource {
+  /** Bucket properties */
+  properties?: BucketPatchProperties;
+}
+
+export function bucketPatchSerializer(item: BucketPatch): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : bucketPatchPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Bucket resource properties for a Patch operation */
+export interface BucketPatchProperties {
+  /** File System user having access to volume data. For Unix, this is the user's uid and gid. For Windows, this is the user's username. Note that the Unix and Windows user details are mutually exclusive, meaning one or other must be supplied, but not both. */
+  fileSystemUser?: FileSystemUser;
+  /** Provisioning state of the resource */
+  readonly provisioningState?: NetAppProvisioningState;
+  /** Properties of the server managing the lifecycle of volume buckets */
+  server?: BucketServerPatchProperties;
+  /** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
+  permissions?: BucketPatchPermissions;
+  /**
+   * Specifies the Azure Key Vault settings. These are used when
+   * a) retrieving the bucket server certificate, and
+   * b) storing the bucket credentials
+   *
+   * Notes:
+   *
+   * 1. If a bucket certificate was previously provided directly using the certificateObject property, it is possible to subsequently use the Azure Key Vault for certificate management by using these 'akvDetails' properties. However, once Azure Key Vault is configured, it is no longer possible to provide the certificate directly via the certificateObject property.
+   * 2. These properties are mutually exclusive with the server.certificateObject property.
+   */
+  akvDetails?: AzureKeyVaultDetails;
+}
+
+export function bucketPatchPropertiesSerializer(item: BucketPatchProperties): any {
+  return {
+    fileSystemUser: !item["fileSystemUser"]
+      ? item["fileSystemUser"]
+      : fileSystemUserSerializer(item["fileSystemUser"]),
+    server: !item["server"]
+      ? item["server"]
+      : bucketServerPatchPropertiesSerializer(item["server"]),
+    permissions: item["permissions"],
+    akvDetails: !item["akvDetails"]
+      ? item["akvDetails"]
+      : azureKeyVaultDetailsSerializer(item["akvDetails"]),
+  };
+}
+
+/** Properties of the server managing the lifecycle of volume buckets */
+export interface BucketServerPatchProperties {
+  /** The host part of the bucket URL, resolving to the bucket IP address and allowed by the server certificate. */
+  fqdn?: string;
+  /**
+   * The base64-encoded contents of a PEM file, which includes both the bucket server's certificate and private key. It is generated by the end user and allows the user to access volume data in a read-only manner.
+   * Note: This is only used when Azure Key Vault is not configured. This property is mutually exclusive with the Azure Key Vault 'akv' properties.
+   */
+  certificateObject?: string;
+  /**
+   * Action to take when there is a certificate conflict.
+   * Possible values include: 'Update', 'Fail'
+   */
+  onCertificateConflictAction?: OnCertificateConflictAction;
+}
+
+export function bucketServerPatchPropertiesSerializer(item: BucketServerPatchProperties): any {
+  return {
+    fqdn: item["fqdn"],
+    certificateObject: item["certificateObject"],
+    onCertificateConflictAction: item["onCertificateConflictAction"],
+  };
+}
+
+/** Access permissions for the bucket. Either ReadOnly or ReadWrite. */
+export enum KnownBucketPatchPermissions {
+  /** Read-only access to bucket. */
+  ReadOnly = "ReadOnly",
+  /** Read-write access to bucket. */
+  ReadWrite = "ReadWrite",
+}
+
+/**
+ * Access permissions for the bucket. Either ReadOnly or ReadWrite. \
+ * {@link KnownBucketPatchPermissions} can be used interchangeably with BucketPatchPermissions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ReadOnly**: Read-only access to bucket. \
+ * **ReadWrite**: Read-write access to bucket.
+ */
+export type BucketPatchPermissions = string;
+
+/** List of volume bucket resources */
+export interface _BucketList {
+  /** The Bucket items on this page */
+  value: Bucket[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _bucketListDeserializer(item: any): _BucketList {
+  return {
+    value: bucketArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function bucketArraySerializer(result: Array<Bucket>): any[] {
+  return result.map((item) => {
+    return bucketSerializer(item);
+  });
+}
+
+export function bucketArrayDeserializer(result: Array<Bucket>): any[] {
+  return result.map((item) => {
+    return bucketDeserializer(item);
+  });
+}
+
+/** The bucket's Access and Secret key pair Expiry Time expressed as the number of days from now. */
+export interface BucketCredentialsExpiry {
+  /** The number of days from now until the newly generated Access and Secret key pair will expire. */
+  keyPairExpiryDays?: number;
+}
+
+export function bucketCredentialsExpirySerializer(item: BucketCredentialsExpiry): any {
+  return { keyPairExpiryDays: item["keyPairExpiryDays"] };
+}
+
+/** Bucket Access Key, Secret Key, and Expiry date and time of the key pair */
+export interface BucketGenerateCredentials {
+  /** The Access Key that is required along with the Secret Key to access the bucket. */
+  readonly accessKey?: string;
+  /** The Secret Key that is required along with the Access Key to access the bucket. */
+  readonly secretKey?: string;
+  /** The bucket's Access and Secret key pair expiry date and time (in UTC). */
+  readonly keyPairExpiry?: Date;
+}
+
+export function bucketGenerateCredentialsDeserializer(item: any): BucketGenerateCredentials {
+  return {
+    accessKey: item["accessKey"],
+    secretKey: item["secretKey"],
+    keyPairExpiry: !item["keyPairExpiry"] ? item["keyPairExpiry"] : new Date(item["keyPairExpiry"]),
+  };
+}
+
+/** Cache resource */
+export interface Cache extends TrackedResource {
+  /** Cache properties */
+  properties: CacheProperties;
+  /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
+  readonly etag?: string;
+  /** The availability zones. */
+  zones?: string[];
+}
+
+export function cacheSerializer(item: Cache): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: cachePropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function cacheDeserializer(item: any): Cache {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: cachePropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Cache resource properties */
+export interface CacheProperties {
+  /** The file path of the Cache. */
+  filePath: string;
+  /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
+  size: number;
+  /** Set of export policy rules */
+  exportPolicy?: CachePropertiesExportPolicy;
+  /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
+  protocolTypes?: ProtocolTypes[];
+  /** Azure lifecycle management */
+  readonly provisioningState?: CacheProvisioningState;
+  /** Azure NetApp Files Cache lifecycle management */
+  readonly cacheState?: CacheLifeCycleState;
+  /** The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs. */
+  cacheSubnetResourceId: string;
+  /** The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses. */
+  peeringSubnetResourceId: string;
+  /** List of mount targets that can be used to mount this cache */
+  readonly mountTargets?: CacheMountTargetProperties[];
+  /** Describe if a cache is Kerberos enabled. */
+  kerberos?: KerberosState;
+  /** SMB information for the cache */
+  smbSettings?: SmbSettings;
+  /** Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache */
+  throughputMibps?: number;
+  /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
+  readonly actualThroughputMibps?: number;
+  /** Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
+  encryptionKeySource: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
+  /** Maximum number of files allowed. */
+  readonly maximumNumberOfFiles?: number;
+  /** Specifies if the cache is encryption or not. */
+  readonly encryption?: EncryptionState;
+  /** Language supported for volume. */
+  readonly language?: VolumeLanguage;
+  /** Specifies whether LDAP is enabled or not for flexcache volume. */
+  ldap?: LdapState;
+  /** Specifies the type of LDAP server for flexcache volume. */
+  ldapServerType?: LdapServerType;
+  /** Origin cluster information */
+  originClusterInformation: OriginClusterInformation;
+  /** Flag indicating whether a CIFS change notification is enabled for the cache. */
+  cifsChangeNotifications?: CifsChangeNotifyState;
+  /** Flag indicating whether the global file lock is enabled for the cache. */
+  globalFileLocking?: GlobalFileLockingState;
+  /** Flag indicating whether writeback is enabled for the cache. */
+  writeBack?: EnableWriteBackState;
+}
+
+export function cachePropertiesSerializer(item: CacheProperties): any {
+  return {
+    filePath: item["filePath"],
+    size: item["size"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : cachePropertiesExportPolicySerializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    cacheSubnetResourceId: item["cacheSubnetResourceId"],
+    peeringSubnetResourceId: item["peeringSubnetResourceId"],
+    kerberos: item["kerberos"],
+    smbSettings: !item["smbSettings"]
+      ? item["smbSettings"]
+      : smbSettingsSerializer(item["smbSettings"]),
+    throughputMibps: item["throughputMibps"],
+    encryptionKeySource: item["encryptionKeySource"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    ldap: item["ldap"],
+    ldapServerType: item["ldapServerType"],
+    originClusterInformation: originClusterInformationSerializer(item["originClusterInformation"]),
+    cifsChangeNotifications: item["cifsChangeNotifications"],
+    globalFileLocking: item["globalFileLocking"],
+    writeBack: item["writeBack"],
+  };
+}
+
+export function cachePropertiesDeserializer(item: any): CacheProperties {
+  return {
+    filePath: item["filePath"],
+    size: item["size"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : cachePropertiesExportPolicyDeserializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+    cacheState: item["cacheState"],
+    cacheSubnetResourceId: item["cacheSubnetResourceId"],
+    peeringSubnetResourceId: item["peeringSubnetResourceId"],
+    mountTargets: !item["mountTargets"]
+      ? item["mountTargets"]
+      : cacheMountTargetPropertiesArrayDeserializer(item["mountTargets"]),
+    kerberos: item["kerberos"],
+    smbSettings: !item["smbSettings"]
+      ? item["smbSettings"]
+      : smbSettingsDeserializer(item["smbSettings"]),
+    throughputMibps: item["throughputMibps"],
+    actualThroughputMibps: item["actualThroughputMibps"],
+    encryptionKeySource: item["encryptionKeySource"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    maximumNumberOfFiles: item["maximumNumberOfFiles"],
+    encryption: item["encryption"],
+    language: item["language"],
+    ldap: item["ldap"],
+    ldapServerType: item["ldapServerType"],
+    originClusterInformation: originClusterInformationDeserializer(
+      item["originClusterInformation"],
+    ),
+    cifsChangeNotifications: item["cifsChangeNotifications"],
+    globalFileLocking: item["globalFileLocking"],
+    writeBack: item["writeBack"],
+  };
+}
+
+/** Set of export policy rules */
+export interface CachePropertiesExportPolicy {
+  /** Export policy rule */
+  rules?: ExportPolicyRule[];
+}
+
+export function cachePropertiesExportPolicySerializer(item: CachePropertiesExportPolicy): any {
+  return { rules: !item["rules"] ? item["rules"] : exportPolicyRuleArraySerializer(item["rules"]) };
+}
+
+export function cachePropertiesExportPolicyDeserializer(item: any): CachePropertiesExportPolicy {
+  return {
+    rules: !item["rules"] ? item["rules"] : exportPolicyRuleArrayDeserializer(item["rules"]),
+  };
+}
+
+/** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
+export enum KnownProtocolTypes {
+  /** NFSv3 protocol type */
+  NFSv3 = "NFSv3",
+  /** NFSv4 protocol type */
+  NFSv4 = "NFSv4",
+  /** SMB protocol type */
+  SMB = "SMB",
+}
+
+/**
+ * Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol \
+ * {@link KnownProtocolTypes} can be used interchangeably with ProtocolTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NFSv3**: NFSv3 protocol type \
+ * **NFSv4**: NFSv4 protocol type \
+ * **SMB**: SMB protocol type
+ */
+export type ProtocolTypes = string;
+
+/** Azure lifecycle management */
+export enum KnownCacheProvisioningState {
+  /** The resource is being created. */
+  Creating = "Creating",
+  /** The resource is being updated. */
+  Updating = "Updating",
+  /** The resource is being deleted. */
+  Deleting = "Deleting",
+  /** The resource is in a failed state. */
+  Failed = "Failed",
+  /** The resource is succeeded. */
+  Succeeded = "Succeeded",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Azure lifecycle management \
+ * {@link KnownCacheProvisioningState} can be used interchangeably with CacheProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating**: The resource is being created. \
+ * **Updating**: The resource is being updated. \
+ * **Deleting**: The resource is being deleted. \
+ * **Failed**: The resource is in a failed state. \
+ * **Succeeded**: The resource is succeeded. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type CacheProvisioningState = string;
+
+/** Azure NetApp Files Cache lifecycle management */
+export enum KnownCacheLifeCycleState {
+  /** Cluster peering offer has been sent. */
+  ClusterPeeringOfferSent = "ClusterPeeringOfferSent",
+  /** VServer peering offer has been sent. */
+  VserverPeeringOfferSent = "VserverPeeringOfferSent",
+  /** Cache creation in progress. */
+  Creating = "Creating",
+  /** Cache creation succeeded and is available for use. */
+  Succeeded = "Succeeded",
+  /** Cache is in a failed state */
+  Failed = "Failed",
+}
+
+/**
+ * Azure NetApp Files Cache lifecycle management \
+ * {@link KnownCacheLifeCycleState} can be used interchangeably with CacheLifeCycleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterPeeringOfferSent**: Cluster peering offer has been sent. \
+ * **VserverPeeringOfferSent**: VServer peering offer has been sent. \
+ * **Creating**: Cache creation in progress. \
+ * **Succeeded**: Cache creation succeeded and is available for use. \
+ * **Failed**: Cache is in a failed state
+ */
+export type CacheLifeCycleState = string;
+
+export function cacheMountTargetPropertiesArrayDeserializer(
+  result: Array<CacheMountTargetProperties>,
+): any[] {
+  return result.map((item) => {
+    return cacheMountTargetPropertiesDeserializer(item);
+  });
+}
+
+/** Contains all the information needed to mount a cache */
+export interface CacheMountTargetProperties {
+  /** UUID v4 used to identify the MountTarget */
+  readonly mountTargetId?: string;
+  /** The mount target's IPv4 address, used to mount the cache. */
+  readonly ipAddress?: string;
+  /** The SMB server's Fully Qualified Domain Name, FQDN */
+  readonly smbServerFqdn?: string;
+}
+
+export function cacheMountTargetPropertiesDeserializer(item: any): CacheMountTargetProperties {
+  return {
+    mountTargetId: item["mountTargetId"],
+    ipAddress: item["ipAddress"],
+    smbServerFqdn: item["smbServerFqdn"],
+  };
+}
+
+/** Describe if a cache is Kerberos enabled. */
+export enum KnownKerberosState {
+  /** Kerberos is disabled */
+  Disabled = "Disabled",
+  /** Kerberos is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Describe if a cache is Kerberos enabled. \
+ * {@link KnownKerberosState} can be used interchangeably with KerberosState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Kerberos is disabled \
+ * **Enabled**: Kerberos is enabled
+ */
+export type KerberosState = string;
+
+/** SMB settings for the cache */
+export interface SmbSettings {
+  /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. */
+  smbEncryption?: SmbEncryptionState;
+  /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
+  /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbNonBrowsable?: SmbNonBrowsable;
+}
+
+export function smbSettingsSerializer(item: SmbSettings): any {
+  return {
+    smbEncryption: item["smbEncryption"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+  };
+}
+
+export function smbSettingsDeserializer(item: any): SmbSettings {
+  return {
+    smbEncryption: item["smbEncryption"],
+    smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
+    smbNonBrowsable: item["smbNonBrowsable"],
+  };
+}
+
+/** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache */
+export enum KnownSmbEncryptionState {
+  /** SMB encryption is disabled */
+  Disabled = "Disabled",
+  /** SMB encryption is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache \
+ * {@link KnownSmbEncryptionState} can be used interchangeably with SmbEncryptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: SMB encryption is disabled \
+ * **Enabled**: SMB encryption is enabled
+ */
+export type SmbEncryptionState = string;
+
+/** Specifies if the cache is encryption or not. */
+export enum KnownEncryptionState {
+  /** Encryption is disabled */
+  Disabled = "Disabled",
+  /** Encryption is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Specifies if the cache is encryption or not. \
+ * {@link KnownEncryptionState} can be used interchangeably with EncryptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Encryption is disabled \
+ * **Enabled**: Encryption is enabled
+ */
+export type EncryptionState = string;
+
+/** Language supported for volume. */
+export enum KnownVolumeLanguage {
+  /** Posix with UTF-8 */
+  CUtf8 = "c.utf-8",
+  /** UTF-8 with 4 byte character support */
+  Utf8Mb4 = "utf8mb4",
+  /** Arabic - Deprecated */
+  Ar = "ar",
+  /** Arabic with UTF-8 */
+  ArUtf8 = "ar.utf-8",
+  /** Croatian - Deprecated */
+  Hr = "hr",
+  /** Croatian with UTF-8 */
+  HrUtf8 = "hr.utf-8",
+  /** Czech - Deprecated */
+  Cs = "cs",
+  /** Czech with UTF-8 */
+  CsUtf8 = "cs.utf-8",
+  /** Danish - Deprecated */
+  Da = "da",
+  /** Danish with UTF-8 */
+  DaUtf8 = "da.utf-8",
+  /** Dutch - Deprecated */
+  Nl = "nl",
+  /** Dutch with UTF-8 */
+  NlUtf8 = "nl.utf-8",
+  /** English - Deprecated */
+  En = "en",
+  /** English with UTF-8 */
+  EnUtf8 = "en.utf-8",
+  /** Finnish - Deprecated */
+  Fi = "fi",
+  /** Finnish with UTF-8 */
+  FiUtf8 = "fi.utf-8",
+  /** French - Deprecated */
+  Fr = "fr",
+  /** French with UTF-8 */
+  FrUtf8 = "fr.utf-8",
+  /** German - Deprecated */
+  De = "de",
+  /** German with UTF-8 */
+  DeUtf8 = "de.utf-8",
+  /** Hebrew - Deprecated */
+  He = "he",
+  /** Hebrew with UTF-8 */
+  HeUtf8 = "he.utf-8",
+  /** Hungarian - Deprecated */
+  Hu = "hu",
+  /** Hungarian with UTF-8 */
+  HuUtf8 = "hu.utf-8",
+  /** Italian - Deprecated */
+  It = "it",
+  /** Italian with UTF-8 */
+  ItUtf8 = "it.utf-8",
+  /** Japanese euc-j - Deprecated */
+  Ja = "ja",
+  /** Japanese euc-j with UTF-8 */
+  JaUtf8 = "ja.utf-8",
+  /** Japanese euc-j - Deprecated */
+  JaV1 = "ja-v1",
+  /** Japanese euc-j with UTF-8 */
+  JaV1Utf8 = "ja-v1.utf-8",
+  /** Japanese pck */
+  JaJpPck = "ja-jp.pck",
+  /** Japanese pck with UTF-8 - Deprecated */
+  JaJpPckUtf8 = "ja-jp.pck.utf-8",
+  /** Japanese cp932 */
+  JaJp932 = "ja-jp.932",
+  /** Japanese cp932 with UTF-8 - Deprecated */
+  JaJp932Utf8 = "ja-jp.932.utf-8",
+  /** Japanese pck - sjis */
+  JaJpPckV2 = "ja-jp.pck-v2",
+  /** Japanese pck - sjis with UTF-8 - Deprecated */
+  JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
+  /** Korean - Deprecated */
+  Ko = "ko",
+  /** Korean with UTF-8 */
+  KoUtf8 = "ko.utf-8",
+  /** Norwegian - Deprecated */
+  No = "no",
+  /** Norwegian with UTF-8 */
+  NoUtf8 = "no.utf-8",
+  /** Polish - Deprecated */
+  Pl = "pl",
+  /** Polish with UTF-8 */
+  PlUtf8 = "pl.utf-8",
+  /** Portuguese - Deprecated */
+  Pt = "pt",
+  /** Portuguese with UTF-8 */
+  PtUtf8 = "pt.utf-8",
+  /** Posix - Deprecated */
+  C = "c",
+  /** Romanian - Deprecated */
+  Ro = "ro",
+  /** Romanian with UTF-8 */
+  RoUtf8 = "ro.utf-8",
+  /** Russian - Deprecated */
+  Ru = "ru",
+  /** Russian with UTF-8 */
+  RuUtf8 = "ru.utf-8",
+  /** Simplified Chinese - Deprecated */
+  Zh = "zh",
+  /** Simplified Chinese with UTF-8 */
+  ZhUtf8 = "zh.utf-8",
+  /** Simplified gbk Chinese */
+  ZhGbk = "zh.gbk",
+  /** Simplified gbk Chinese with UTF-8 - Deprecated */
+  ZhGbkUtf8 = "zh.gbk.utf-8",
+  /** Traditional Chinese BIG 5 */
+  ZhTwBig5 = "zh-tw.big5",
+  /** Traditional Chinese BIG 5 with UTF-8 - Deprecated */
+  ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
+  /** Traditional Chinese EUC-TW */
+  ZhTw = "zh-tw",
+  /** Traditional Chinese EUC-TW with UTF-8 - Deprecated */
+  ZhTwUtf8 = "zh-tw.utf-8",
+  /** Slovak - Deprecated */
+  Sk = "sk",
+  /** Slovak with UTF-8 */
+  SkUtf8 = "sk.utf-8",
+  /** Slovenian - Deprecated */
+  Sl = "sl",
+  /** Slovenian with UTF-8 */
+  SlUtf8 = "sl.utf-8",
+  /** Spanish - Deprecated */
+  Es = "es",
+  /** Spanish with UTF-8 */
+  EsUtf8 = "es.utf-8",
+  /** Swedish - Deprecated */
+  Sv = "sv",
+  /** Swedish with UTF-8 */
+  SvUtf8 = "sv.utf-8",
+  /** Turkish - Deprecated */
+  Tr = "tr",
+  /** Turkish with UTF-8 */
+  TrUtf8 = "tr.utf-8",
+  /** US English - Deprecated */
+  EnUs = "en-us",
+  /** US English with UTF-8 */
+  EnUsUtf8 = "en-us.utf-8",
+}
+
+/**
+ * Language supported for volume. \
+ * {@link KnownVolumeLanguage} can be used interchangeably with VolumeLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **c.utf-8**: Posix with UTF-8 \
+ * **utf8mb4**: UTF-8 with 4 byte character support \
+ * **ar**: Arabic - Deprecated \
+ * **ar.utf-8**: Arabic with UTF-8 \
+ * **hr**: Croatian - Deprecated \
+ * **hr.utf-8**: Croatian with UTF-8 \
+ * **cs**: Czech - Deprecated \
+ * **cs.utf-8**: Czech with UTF-8 \
+ * **da**: Danish - Deprecated \
+ * **da.utf-8**: Danish with UTF-8 \
+ * **nl**: Dutch - Deprecated \
+ * **nl.utf-8**: Dutch with UTF-8 \
+ * **en**: English - Deprecated \
+ * **en.utf-8**: English with UTF-8 \
+ * **fi**: Finnish - Deprecated \
+ * **fi.utf-8**: Finnish with UTF-8 \
+ * **fr**: French - Deprecated \
+ * **fr.utf-8**: French with UTF-8 \
+ * **de**: German - Deprecated \
+ * **de.utf-8**: German with UTF-8 \
+ * **he**: Hebrew - Deprecated \
+ * **he.utf-8**: Hebrew with UTF-8 \
+ * **hu**: Hungarian - Deprecated \
+ * **hu.utf-8**: Hungarian with UTF-8 \
+ * **it**: Italian - Deprecated \
+ * **it.utf-8**: Italian with UTF-8 \
+ * **ja**: Japanese euc-j - Deprecated \
+ * **ja.utf-8**: Japanese euc-j with UTF-8 \
+ * **ja-v1**: Japanese euc-j - Deprecated \
+ * **ja-v1.utf-8**: Japanese euc-j with UTF-8 \
+ * **ja-jp.pck**: Japanese pck \
+ * **ja-jp.pck.utf-8**: Japanese pck with UTF-8 - Deprecated \
+ * **ja-jp.932**: Japanese cp932 \
+ * **ja-jp.932.utf-8**: Japanese cp932 with UTF-8 - Deprecated \
+ * **ja-jp.pck-v2**: Japanese pck - sjis \
+ * **ja-jp.pck-v2.utf-8**: Japanese pck - sjis with UTF-8 - Deprecated \
+ * **ko**: Korean - Deprecated \
+ * **ko.utf-8**: Korean with UTF-8 \
+ * **no**: Norwegian - Deprecated \
+ * **no.utf-8**: Norwegian with UTF-8 \
+ * **pl**: Polish - Deprecated \
+ * **pl.utf-8**: Polish with UTF-8 \
+ * **pt**: Portuguese - Deprecated \
+ * **pt.utf-8**: Portuguese with UTF-8 \
+ * **c**: Posix - Deprecated \
+ * **ro**: Romanian - Deprecated \
+ * **ro.utf-8**: Romanian with UTF-8 \
+ * **ru**: Russian - Deprecated \
+ * **ru.utf-8**: Russian with UTF-8 \
+ * **zh**: Simplified Chinese - Deprecated \
+ * **zh.utf-8**: Simplified Chinese with UTF-8 \
+ * **zh.gbk**: Simplified gbk Chinese \
+ * **zh.gbk.utf-8**: Simplified gbk Chinese with UTF-8 - Deprecated \
+ * **zh-tw.big5**: Traditional Chinese BIG 5 \
+ * **zh-tw.big5.utf-8**: Traditional Chinese BIG 5 with UTF-8 - Deprecated \
+ * **zh-tw**: Traditional Chinese EUC-TW \
+ * **zh-tw.utf-8**: Traditional Chinese EUC-TW with UTF-8 - Deprecated \
+ * **sk**: Slovak - Deprecated \
+ * **sk.utf-8**: Slovak with UTF-8 \
+ * **sl**: Slovenian - Deprecated \
+ * **sl.utf-8**: Slovenian with UTF-8 \
+ * **es**: Spanish - Deprecated \
+ * **es.utf-8**: Spanish with UTF-8 \
+ * **sv**: Swedish - Deprecated \
+ * **sv.utf-8**: Swedish with UTF-8 \
+ * **tr**: Turkish - Deprecated \
+ * **tr.utf-8**: Turkish with UTF-8 \
+ * **en-us**: US English - Deprecated \
+ * **en-us.utf-8**: US English with UTF-8
+ */
+export type VolumeLanguage = string;
+
+/** Specifies whether LDAP is enabled or not. */
+export enum KnownLdapState {
+  /** ldap is disabled. */
+  Disabled = "Disabled",
+  /** ldap is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Specifies whether LDAP is enabled or not. \
+ * {@link KnownLdapState} can be used interchangeably with LdapState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: ldap is disabled. \
+ * **Enabled**: ldap is enabled
+ */
+export type LdapState = string;
+
+/** The type of the LDAP server */
+export enum KnownLdapServerType {
+  /** The volume should use Active Directory for LDAP connections. */
+  ActiveDirectory = "ActiveDirectory",
+  /** The volume should use OpenLDAP for LDAP connections. */
+  OpenLdap = "OpenLDAP",
+}
+
+/**
+ * The type of the LDAP server \
+ * {@link KnownLdapServerType} can be used interchangeably with LdapServerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory**: The volume should use Active Directory for LDAP connections. \
+ * **OpenLDAP**: The volume should use OpenLDAP for LDAP connections.
+ */
+export type LdapServerType = string;
+
+/** Stores the origin cluster information associated to a cache. */
+export interface OriginClusterInformation {
+  /** ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name. */
+  peerClusterName: string;
+  /** ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required */
+  peerAddresses: string[];
+  /** External Vserver (SVM) name  name of the SVM hosting the origin volume */
+  peerVserverName: string;
+  /** External origin volume name associated to this cache */
+  peerVolumeName: string;
+}
+
+export function originClusterInformationSerializer(item: OriginClusterInformation): any {
+  return {
+    peerClusterName: item["peerClusterName"],
+    peerAddresses: item["peerAddresses"].map((p: any) => {
+      return p;
+    }),
+    peerVserverName: item["peerVserverName"],
+    peerVolumeName: item["peerVolumeName"],
+  };
+}
+
+export function originClusterInformationDeserializer(item: any): OriginClusterInformation {
+  return {
+    peerClusterName: item["peerClusterName"],
+    peerAddresses: item["peerAddresses"].map((p: any) => {
+      return p;
+    }),
+    peerVserverName: item["peerVserverName"],
+    peerVolumeName: item["peerVolumeName"],
+  };
+}
+
+/** Flag indicating whether a CIFS change notification is enabled for the cache. */
+export enum KnownCifsChangeNotifyState {
+  /** CIFS change notification is disabled */
+  Disabled = "Disabled",
+  /** CIFS change notification is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Flag indicating whether a CIFS change notification is enabled for the cache. \
+ * {@link KnownCifsChangeNotifyState} can be used interchangeably with CifsChangeNotifyState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: CIFS change notification is disabled \
+ * **Enabled**: CIFS change notification is enabled
+ */
+export type CifsChangeNotifyState = string;
+
+/** Flag indicating whether the global file lock is enabled for the cache. */
+export enum KnownGlobalFileLockingState {
+  /** Global file locking is disabled */
+  Disabled = "Disabled",
+  /** Global file locking is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Flag indicating whether the global file lock is enabled for the cache. \
+ * {@link KnownGlobalFileLockingState} can be used interchangeably with GlobalFileLockingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Global file locking is disabled \
+ * **Enabled**: Global file locking is enabled
+ */
+export type GlobalFileLockingState = string;
+
+/** Flag indicating whether writeback is enabled for the cache. */
+export enum KnownEnableWriteBackState {
+  /** Writeback cache is disabled */
+  Disabled = "Disabled",
+  /** Writeback cache is enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Flag indicating whether writeback is enabled for the cache. \
+ * {@link KnownEnableWriteBackState} can be used interchangeably with EnableWriteBackState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Writeback cache is disabled \
+ * **Enabled**: Writeback cache is enabled
+ */
+export type EnableWriteBackState = string;
+
+/** The type used for update operations of the Cache. */
+export interface CacheUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: CacheUpdateProperties;
+}
+
+export function cacheUpdateSerializer(item: CacheUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : cacheUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the Cache. */
+export interface CacheUpdateProperties {
+  /** Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. */
+  size?: number;
+  /** Set of export policy rules */
+  exportPolicy?: CachePropertiesExportPolicy;
+  /** Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol */
+  protocolTypes?: ProtocolTypes[];
+  /** SMB information for the cache */
+  smbSettings?: SmbSettings;
+  /** Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache */
+  throughputMibps?: number;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
+  /** Flag indicating whether a CIFS change notification is enabled for the cache. */
+  cifsChangeNotifications?: CifsChangeNotifyState;
+  /** Flag indicating whether writeback is enabled for the cache. */
+  writeBack?: EnableWriteBackState;
+}
+
+export function cacheUpdatePropertiesSerializer(item: CacheUpdateProperties): any {
+  return {
+    size: item["size"],
+    exportPolicy: !item["exportPolicy"]
+      ? item["exportPolicy"]
+      : cachePropertiesExportPolicySerializer(item["exportPolicy"]),
+    protocolTypes: !item["protocolTypes"]
+      ? item["protocolTypes"]
+      : item["protocolTypes"].map((p: any) => {
+          return p;
+        }),
+    smbSettings: !item["smbSettings"]
+      ? item["smbSettings"]
+      : smbSettingsSerializer(item["smbSettings"]),
+    throughputMibps: item["throughputMibps"],
+    keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
+    cifsChangeNotifications: item["cifsChangeNotifications"],
+    writeBack: item["writeBack"],
+  };
+}
+
+/** List of Cache resources */
+export interface _CacheList {
+  /** The Cache items on this page */
+  value: Cache[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _cacheListDeserializer(item: any): _CacheList {
+  return {
+    value: cacheArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function cacheArraySerializer(result: Array<Cache>): any[] {
+  return result.map((item) => {
+    return cacheSerializer(item);
+  });
+}
+
+export function cacheArrayDeserializer(result: Array<Cache>): any[] {
+  return result.map((item) => {
+    return cacheDeserializer(item);
+  });
+}
+
+/** The response containing peering passphrases and commands for cluster and vserver peering. */
+export interface PeeringPassphrases {
+  /** The cluster peering command. */
+  clusterPeeringCommand: string;
+  /** The cluster peering passphrase. */
+  clusterPeeringPassphrase: string;
+  /** The vserver peering command. */
+  vserverPeeringCommand: string;
+  /** Warnings that are critical for the cluster peering and vserver peering processes. */
+  readonly criticalWarning?: string;
+}
+
+export function peeringPassphrasesDeserializer(item: any): PeeringPassphrases {
+  return {
+    clusterPeeringCommand: item["clusterPeeringCommand"],
+    clusterPeeringPassphrase: item["clusterPeeringPassphrase"],
+    vserverPeeringCommand: item["vserverPeeringCommand"],
+    criticalWarning: item["criticalWarning"],
+  };
 }
 
 /** Information regarding regionInfo Item. */
@@ -4271,8 +5663,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -5195,4 +6587,6 @@ export enum KnownVersions {
   V20250901 = "2025-09-01",
   /** The 2025-12-01 API version. */
   V20251201 = "2025-12-01",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
 }

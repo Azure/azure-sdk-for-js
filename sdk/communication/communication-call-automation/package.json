@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-call-automation",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Azure client library for Azure Communication Call Automation services",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -30,7 +30,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/communication/communication-call-automation"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -46,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-call-automation/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-call-automation/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {

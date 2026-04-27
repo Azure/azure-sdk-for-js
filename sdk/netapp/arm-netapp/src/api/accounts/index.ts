@@ -13,15 +13,15 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type AccountsChangeKeyVaultOptionalParams,
-  type AccountsGetChangeKeyVaultInformationOptionalParams,
-  type AccountsTransitionToCmkOptionalParams,
-  type AccountsRenewCredentialsOptionalParams,
-  type AccountsListBySubscriptionOptionalParams,
-  type AccountsListOptionalParams,
-  type AccountsDeleteOptionalParams,
-  type AccountsUpdateOptionalParams,
-  type AccountsCreateOrUpdateOptionalParams,
-  type AccountsGetOptionalParams,
+export type {
+  AccountsChangeKeyVaultOptionalParams,
+  AccountsGetChangeKeyVaultInformationOptionalParams,
+  AccountsTransitionToCmkOptionalParams,
+  AccountsRenewCredentialsOptionalParams,
+  AccountsListBySubscriptionOptionalParams,
+  AccountsListOptionalParams,
+  AccountsDeleteOptionalParams,
+  AccountsUpdateOptionalParams,
+  AccountsCreateOrUpdateOptionalParams,
+  AccountsGetOptionalParams,
 } from "./options.js";

@@ -17,6 +17,10 @@ import type { BackupsUnderBackupVaultOperations } from "./classic/backupsUnderBa
 import { _getBackupsUnderBackupVaultOperations } from "./classic/backupsUnderBackupVault/index.js";
 import type { BackupsUnderVolumeOperations } from "./classic/backupsUnderVolume/index.js";
 import { _getBackupsUnderVolumeOperations } from "./classic/backupsUnderVolume/index.js";
+import type { BucketsOperations } from "./classic/buckets/index.js";
+import { _getBucketsOperations } from "./classic/buckets/index.js";
+import type { CachesOperations } from "./classic/caches/index.js";
+import { _getCachesOperations } from "./classic/caches/index.js";
 import type { NetAppResourceOperations } from "./classic/netAppResource/index.js";
 import { _getNetAppResourceOperations } from "./classic/netAppResource/index.js";
 import type { NetAppResourceQuotaLimitsOperations } from "./classic/netAppResourceQuotaLimits/index.js";
@@ -48,7 +52,7 @@ import { _getVolumesOperations } from "./classic/volumes/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type NetAppManagementClientOptionalParams } from "./api/netAppManagementContext.js";
+export type { NetAppManagementClientOptionalParams } from "./api/netAppManagementContext.js";
 
 export class NetAppManagementClient {
   private _client: NetAppManagementContext;
@@ -95,6 +99,8 @@ export class NetAppManagementClient {
     this.accounts = _getAccountsOperations(this._client);
     this.netAppResourceRegionInfos = _getNetAppResourceRegionInfosOperations(this._client);
     this.netAppResourceQuotaLimits = _getNetAppResourceQuotaLimitsOperations(this._client);
+    this.caches = _getCachesOperations(this._client);
+    this.buckets = _getBucketsOperations(this._client);
     this.backupVaults = _getBackupVaultsOperations(this._client);
     this.ransomwareReports = _getRansomwareReportsOperations(this._client);
     this.volumeQuotaRules = _getVolumeQuotaRulesOperations(this._client);
@@ -130,6 +136,10 @@ export class NetAppManagementClient {
   public readonly netAppResourceRegionInfos: NetAppResourceRegionInfosOperations;
   /** The operation groups for netAppResourceQuotaLimits */
   public readonly netAppResourceQuotaLimits: NetAppResourceQuotaLimitsOperations;
+  /** The operation groups for caches */
+  public readonly caches: CachesOperations;
+  /** The operation groups for buckets */
+  public readonly buckets: BucketsOperations;
   /** The operation groups for backupVaults */
   public readonly backupVaults: BackupVaultsOperations;
   /** The operation groups for ransomwareReports */

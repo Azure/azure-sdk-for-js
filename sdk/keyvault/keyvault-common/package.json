@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-common",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
@@ -30,7 +30,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/keyvault/keyvault-common"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -42,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-common/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-common/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

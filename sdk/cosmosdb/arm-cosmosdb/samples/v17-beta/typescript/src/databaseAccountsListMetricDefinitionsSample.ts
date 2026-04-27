@@ -3,32 +3,27 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves metric definitions for the given database account.
+ * This sample demonstrates how to retrieves metric definitions for the given database account.
  *
- * @summary Retrieves metric definitions for the given database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBDatabaseAccountGetMetricDefinitions.json
+ * @summary retrieves metric definitions for the given database account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountGetMetricDefinitions.json
  */
-async function cosmosDbDatabaseAccountGetMetricDefinitions(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
+async function cosmosDBDatabaseAccountGetMetricDefinitions(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.databaseAccounts.listMetricDefinitions(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.databaseAccounts.listMetricDefinitions("rg1", "ddb1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbDatabaseAccountGetMetricDefinitions();
+  await cosmosDBDatabaseAccountGetMetricDefinitions();
 }
 
 main().catch(console.error);

@@ -19,8 +19,12 @@ const examplePackageGood = `{
   "version": "1.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -129,8 +133,12 @@ const examplePackageBad = `{
   "version": "1.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus",
-  "repository": "github:Azure/azure-sdk-for-java",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-java",
+    "directory": "sdk/servicebus/service-bus"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -243,7 +251,7 @@ ruleTester.run("ts-package-json-repo", rule, {
   valid: [
     {
       // only the fields we care about
-      code: '{"repository": "github:Azure/azure-sdk-for-js"}',
+      code: '{"repository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-js", "directory": "sdk/servicebus/service-bus" }}',
       filename: "package.json",
     },
     {
@@ -253,13 +261,13 @@ ruleTester.run("ts-package-json-repo", rule, {
     },
     {
       // incorrect format but in a file we don't care about
-      code: '{"repository": "github:Azure/azure-sdk-for-java"}',
+      code: '{"repository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-java", "directory": "sdk/servicebus/service-bus" }}',
       filename: "not_package.json",
     },
   ],
   invalid: [
     {
-      code: '{"notRepository": "github:Azure/azure-sdk-for-js"}',
+      code: '{"notRepository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-js", "directory": "sdk/servicebus/service-bus" }}',
       filename: "package.json",
       errors: [
         {
@@ -269,7 +277,7 @@ ruleTester.run("ts-package-json-repo", rule, {
     },
     {
       // repository is in a nested object
-      code: '{"outer": {"repository": "github:Azure/azure-sdk-for-js"}}',
+      code: '{"outer": {"repository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-js", "directory": "sdk/servicebus/service-bus" }}}',
       filename: "package.json",
       errors: [
         {
@@ -279,15 +287,15 @@ ruleTester.run("ts-package-json-repo", rule, {
     },
     {
       // only the fields we care about
-      code: '{"repository": "github:Azure/azure-sdk-for-java"}',
+      code: '{"repository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-java", "directory": "sdk/servicebus/service-bus" }}',
       filename: "package.json",
       errors: [
         {
           message:
-            "repository is set to github:Azure/azure-sdk-for-java when it should be set to github:Azure/azure-sdk-for-js",
+            "repository.url is set to git+https://github.com/Azure/azure-sdk-for-java when it should be set to git+https://github.com/Azure/azure-sdk-for-js",
         },
       ],
-      output: '{"repository": "github:Azure/azure-sdk-for-js"}',
+      output: '{"repository": { "type": "git", "url": "git+https://github.com/Azure/azure-sdk-for-js", "directory": "sdk/servicebus/service-bus" }}',
     },
     {
       // example file with repository set to false
@@ -296,7 +304,7 @@ ruleTester.run("ts-package-json-repo", rule, {
       errors: [
         {
           message:
-            "repository is set to github:Azure/azure-sdk-for-java when it should be set to github:Azure/azure-sdk-for-js",
+            "repository.url is set to git+https://github.com/Azure/azure-sdk-for-java when it should be set to git+https://github.com/Azure/azure-sdk-for-js",
         },
       ],
       output: examplePackageGood,

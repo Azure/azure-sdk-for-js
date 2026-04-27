@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Azure Web PubSub Client",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -28,7 +28,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/web-pubsub/web-pubsub-client"
+  },
   "keywords": [
     "azure",
     "cloud"

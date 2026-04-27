@@ -20,3 +20,4 @@ targets:
   - name: commonjs
     condition: require
     tsconfig: "./tsconfig.warp.cjs.json"
+    moduleType: commonjs

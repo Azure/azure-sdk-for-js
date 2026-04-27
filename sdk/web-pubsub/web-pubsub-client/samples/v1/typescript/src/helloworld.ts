@@ -8,6 +8,7 @@
 import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
+  WebPubSubClientOptions,
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
@@ -17,6 +18,10 @@ import "dotenv/config";
 async function main(): Promise<void> {
   const hubName = "sample_chat";
   const groupName = "testGroup";
+  const options: WebPubSubClientOptions = {
+    keepAliveTimeoutInMs: 500,
+    keepAliveIntervalInMs: 100,
+  };
   const serviceClient = new WebPubSubServiceClient(
     process.env.WPS_ENDPOINT!,
     new DefaultAzureCredential(),
@@ -30,9 +35,12 @@ async function main(): Promise<void> {
       })
     ).url;
   };
-  const client = new WebPubSubClient({
-    getClientAccessUrl: fetchClientAccessUrl,
-  } as WebPubSubClientCredential);
+  const client = new WebPubSubClient(
+    {
+      getClientAccessUrl: fetchClientAccessUrl,
+    } as WebPubSubClientCredential,
+    options,
+  );
 
   client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
@@ -77,7 +85,12 @@ async function main(): Promise<void> {
     "binary",
   );
   await delay(1000);
+  await client.sendToGroup(groupName, "hello world after ping/pong", "text", {
+    fireAndForget: true,
+  });
+  await delay(200);
   client.stop();
+  console.log("Client stopped");
 }
 
 main().catch((e) => {

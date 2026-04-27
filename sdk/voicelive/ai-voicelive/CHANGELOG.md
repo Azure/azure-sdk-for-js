@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.4 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed `voiceSerializer` to properly convert Azure voice properties (e.g., `endpointId`, `customLexiconUrl`) to snake_case wire format (`endpoint_id`, `custom_lexicon_url`). Previously, Azure voice objects passed through `requestSessionSerializer` were sent with camelCase keys, which the service rejected.
+
 ## 1.0.0-beta.3 (2026-02-17)
 
 ### Features Added

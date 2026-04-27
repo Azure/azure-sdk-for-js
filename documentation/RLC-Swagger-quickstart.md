@@ -135,7 +135,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
       - Make sure `pwsh` command works at this step (If you follow the above link, `pwsh` is typically added to the system environment variables by default)
     - Add `dev-tool` to the `devDependencies` in the `package.json`.
 
-    The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`).
+    The package needs to use the current version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^4.0.0`).
 
     Then, we need to generate a `assets.json` file. If your package is new or has never been pushed before, you could use below commands:
 
@@ -227,7 +227,6 @@ And the errors may come from two kinds, the codegen issue or swagger example iss
 Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 
 ```shell
-npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
 npx dev-tool samples publish -f
 ```

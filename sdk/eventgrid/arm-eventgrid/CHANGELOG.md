@@ -1,5 +1,321 @@
 # Release History
 
+## 15.0.0-beta.2 (2026-03-11)
+Compared with version 14.2.0
+
+### Features Added
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation group PartnerDestinationsOperations
+  - Added operation CaCertificatesOperations.createOrUpdate
+  - Added operation CaCertificatesOperations.delete
+  - Added operation ChannelsOperations.delete
+  - Added operation ClientGroupsOperations.createOrUpdate
+  - Added operation ClientGroupsOperations.delete
+  - Added operation ClientsOperations.createOrUpdate
+  - Added operation ClientsOperations.delete
+  - Added operation DomainEventSubscriptionsOperations.createOrUpdate
+  - Added operation DomainEventSubscriptionsOperations.delete
+  - Added operation DomainEventSubscriptionsOperations.update
+  - Added operation DomainsOperations.createOrUpdate
+  - Added operation DomainsOperations.delete
+  - Added operation DomainsOperations.update
+  - Added operation DomainTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation DomainTopicEventSubscriptionsOperations.delete
+  - Added operation DomainTopicEventSubscriptionsOperations.update
+  - Added operation DomainTopicsOperations.createOrUpdate
+  - Added operation DomainTopicsOperations.delete
+  - Added operation EventSubscriptionsOperations.createOrUpdate
+  - Added operation EventSubscriptionsOperations.delete
+  - Added operation EventSubscriptionsOperations.update
+  - Added operation NamespacesOperations.createOrUpdate
+  - Added operation NamespacesOperations.delete
+  - Added operation NamespacesOperations.regenerateKey
+  - Added operation NamespacesOperations.update
+  - Added operation NamespacesOperations.validateCustomDomainOwnership
+  - Added operation NamespaceTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation NamespaceTopicEventSubscriptionsOperations.delete
+  - Added operation NamespaceTopicEventSubscriptionsOperations.update
+  - Added operation NamespaceTopicsOperations.createOrUpdate
+  - Added operation NamespaceTopicsOperations.delete
+  - Added operation NamespaceTopicsOperations.regenerateKey
+  - Added operation NamespaceTopicsOperations.update
+  - Added operation PartnerConfigurationsOperations.createOrUpdate
+  - Added operation PartnerConfigurationsOperations.delete
+  - Added operation PartnerConfigurationsOperations.update
+  - Added operation PartnerNamespacesOperations.createOrUpdate
+  - Added operation PartnerNamespacesOperations.delete
+  - Added operation PartnerNamespacesOperations.update
+  - Added operation PartnerRegistrationsOperations.createOrUpdate
+  - Added operation PartnerRegistrationsOperations.delete
+  - Added operation PartnerRegistrationsOperations.update
+  - Added operation PartnerTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation PartnerTopicEventSubscriptionsOperations.delete
+  - Added operation PartnerTopicEventSubscriptionsOperations.update
+  - Added operation PartnerTopicsOperations.delete
+  - Added operation PermissionBindingsOperations.createOrUpdate
+  - Added operation PermissionBindingsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Added operation SystemTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation SystemTopicEventSubscriptionsOperations.delete
+  - Added operation SystemTopicEventSubscriptionsOperations.update
+  - Added operation SystemTopicsOperations.createOrUpdate
+  - Added operation SystemTopicsOperations.delete
+  - Added operation SystemTopicsOperations.update
+  - Added operation TopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation TopicEventSubscriptionsOperations.delete
+  - Added operation TopicEventSubscriptionsOperations.update
+  - Added operation TopicsOperations.createOrUpdate
+  - Added operation TopicsOperations.delete
+  - Added operation TopicsOperations.regenerateKey
+  - Added operation TopicsOperations.update
+  - Added operation TopicSpacesOperations.createOrUpdate
+  - Added operation TopicSpacesOperations.delete
+  - Added Interface AzureADPartnerClientAuthentication
+  - Added Interface AzureADPartnerClientAuthenticationProperties
+  - Added Interface AzureFunctionEventSubscriptionDestinationProperties
+  - Added Interface CaCertificateProperties
+  - Added Interface ChannelProperties
+  - Added Interface ChannelUpdateParametersProperties
+  - Added Interface ClientAuthenticationSettings
+  - Added Interface ClientGroupProperties
+  - Added Interface ClientProperties
+  - Added Interface ConfidentialCompute
+  - Added Interface CustomerManagedKeyEncryption
+  - Added Interface CustomJwtAuthenticationManagedIdentity
+  - Added Interface CustomJwtAuthenticationSettings
+  - Added Interface CustomWebhookAuthenticationManagedIdentity
+  - Added Interface DomainProperties
+  - Added Interface DomainTopicProperties
+  - Added Interface DomainUpdateParameterProperties
+  - Added Interface DynamicDeliveryAttributeMappingProperties
+  - Added Interface EncodedIssuerCertificateInfo
+  - Added Interface EventHubEventSubscriptionDestinationProperties
+  - Added Interface EventSubscriptionProperties
+  - Added Interface EventTypeProperties
+  - Added Interface ExtendedLocation
+  - Added Interface ExtensionResource
+  - Added Interface ExtensionTopicProperties
+  - Added Interface FederatedIdentityCredentialInfo
+  - Added Interface HybridConnectionEventSubscriptionDestinationProperties
+  - Added Interface IssuerCertificateInfo
+  - Added Interface JsonInputSchemaMappingProperties
+  - Added Interface KeyEncryption
+  - Added Interface KeyEncryptionKeyIdentity
+  - Added Interface MonitorAlertEventSubscriptionDestinationProperties
+  - Added Interface NamespaceProperties
+  - Added Interface NamespaceTopicEventSubscriptionDestinationProperties
+  - Added Interface NamespaceTopicProperties
+  - Added Interface NamespaceTopicUpdateParameterProperties
+  - Added Interface NamespaceUpdateParameterProperties
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationIssues
+  - Added Interface NetworkSecurityPerimeterConfigurationIssuesProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterInfo
+  - Added Interface NetworkSecurityPerimeterProfileAccessRule
+  - Added Interface NetworkSecurityPerimeterProfileAccessRuleProperties
+  - Added Interface NetworkSecurityPerimeterSubscription
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PartnerClientAuthentication
+  - Added Interface PartnerConfigurationProperties
+  - Added Interface PartnerConfigurationUpdateParameterProperties
+  - Added Interface PartnerDestination
+  - Added Interface PartnerDestinationInfo
+  - Added Interface PartnerDestinationProperties
+  - Added Interface PartnerDestinationsActivateOptionalParams
+  - Added Interface PartnerDestinationsCreateOrUpdateOptionalParams
+  - Added Interface PartnerDestinationsDeleteOptionalParams
+  - Added Interface PartnerDestinationsGetOptionalParams
+  - Added Interface PartnerDestinationsListByResourceGroupOptionalParams
+  - Added Interface PartnerDestinationsListBySubscriptionOptionalParams
+  - Added Interface PartnerDestinationsUpdateOptionalParams
+  - Added Interface PartnerDestinationUpdateParameters
+  - Added Interface PartnerEventSubscriptionDestination
+  - Added Interface PartnerEventSubscriptionDestinationProperties
+  - Added Interface PartnerNamespaceProperties
+  - Added Interface PartnerNamespaceUpdateParameterProperties
+  - Added Interface PartnerRegistrationProperties
+  - Added Interface PartnerTopicProperties
+  - Added Interface PartnerUpdateDestinationInfo
+  - Added Interface PermissionBindingProperties
+  - Added Interface PlatformCapabilities
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProxyResource
+  - Added Interface ResourceAssociation
+  - Added Interface ResourceMoveChangeHistory
+  - Added Interface ResourceSku
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceBusQueueEventSubscriptionDestinationProperties
+  - Added Interface ServiceBusTopicEventSubscriptionDestinationProperties
+  - Added Interface SimplePollerLike
+  - Added Interface StaticDeliveryAttributeMappingProperties
+  - Added Interface StorageBlobDeadLetterDestinationProperties
+  - Added Interface StorageQueueEventSubscriptionDestinationProperties
+  - Added Interface SubscriptionProperties
+  - Added Interface SubscriptionUpdateParametersProperties
+  - Added Interface SystemTopicProperties
+  - Added Interface TopicProperties
+  - Added Interface TopicSpaceProperties
+  - Added Interface TopicTypeProperties
+  - Added Interface TopicUpdateParameterProperties
+  - Added Interface VerifiedPartnerProperties
+  - Added Interface WebhookAuthenticationSettings
+  - Added Interface WebHookEventSubscriptionDestinationProperties
+  - Added Interface WebhookPartnerDestinationInfo
+  - Added Interface WebhookPartnerDestinationProperties
+  - Added Interface WebhookUpdatePartnerDestinationInfo
+  - Interface Channel has a new optional parameter partnerDestinationInfo
+  - Interface ChannelUpdateParameters has a new optional parameter partnerDestinationInfo
+  - Interface Domain has a new optional parameter sku
+  - Interface DomainUpdateParameters has a new optional parameter sku
+  - Interface EventSubscriptionIdentity has a new optional parameter federatedIdentityCredentialInfo
+  - Interface EventType has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface Subscription has a new optional parameter tags
+  - Interface SubscriptionUpdateParameters has a new optional parameter tags
+  - Interface SystemTopic has a new optional parameter encryption
+  - Interface SystemTopic has a new optional parameter platformCapabilities
+  - Interface Topic has a new optional parameter encryption
+  - Interface Topic has a new optional parameter extendedLocation
+  - Interface Topic has a new optional parameter kind
+  - Interface Topic has a new optional parameter platformCapabilities
+  - Interface Topic has a new optional parameter sku
+  - Interface TopicSpacesConfiguration has a new optional parameter clientAuthentication
+  - Interface TopicTypeInfo has a new optional parameter systemData
+  - Interface TopicUpdateParameters has a new optional parameter sku
+  - Interface TrackedResource has a new optional parameter systemData
+  - Interface UpdateTopicSpacesConfigurationInfo has a new optional parameter clientAuthentication
+  - Interface VerifiedPartner has a new optional parameter partnerDestinationDetails
+  - Added Type Alias AlternativeAuthenticationNameSource
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConfidentialComputeMode
+  - Added Type Alias CustomJwtAuthenticationManagedIdentityType
+  - Added Type Alias CustomWebhookAuthenticationManagedIdentityType
+  - Added Type Alias KeyEncryptionIdentityType
+  - Added Type Alias KeyEncryptionKeyStatus
+  - Added Type Alias NetworkSecurityPerimeterAssociationAccessMode
+  - Added Type Alias NetworkSecurityPerimeterConfigProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueType
+  - Added Type Alias NetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Type Alias NetworkSecurityPerimeterResourceType
+  - Added Type Alias PartnerClientAuthenticationType
+  - Added Type Alias PartnerClientAuthenticationUnion
+  - Added Type Alias PartnerDestinationActivationState
+  - Added Type Alias PartnerDestinationInfoUnion
+  - Added Type Alias PartnerDestinationProvisioningState
+  - Added Type Alias PartnerEndpointType
+  - Added Type Alias PartnerUpdateDestinationInfoUnion
+  - Added Type Alias ResourceKind
+  - Added Type Alias Sku
+  - Added Enum AzureClouds
+  - Added Enum KnownAlternativeAuthenticationNameSource
+  - Added Enum KnownConfidentialComputeMode
+  - Added Enum KnownCustomJwtAuthenticationManagedIdentityType
+  - Added Enum KnownCustomWebhookAuthenticationManagedIdentityType
+  - Added Enum KnownKeyEncryptionIdentityType
+  - Added Enum KnownKeyEncryptionKeyStatus
+  - Added Enum KnownNetworkSecurityPerimeterAssociationAccessMode
+  - Added Enum KnownNetworkSecurityPerimeterConfigProvisioningState
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueType
+  - Added Enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Enum KnownNetworkSecurityPerimeterResourceType
+  - Added Enum KnownPartnerClientAuthenticationType
+  - Added Enum KnownPartnerDestinationActivationState
+  - Added Enum KnownPartnerDestinationProvisioningState
+  - Added Enum KnownPartnerEndpointType
+  - Added Enum KnownResourceKind
+  - Added Enum KnownSku
+  - Added Enum KnownVersions
+  - Enum KnownChannelProvisioningState has a new value IdleDueToMirroredPartnerDestinationDeletion
+  - Enum KnownChannelType has a new value PartnerDestination
+  - Enum KnownEndpointType has a new value PartnerDestination
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+
+### Breaking Changes
+  - Operation DomainEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation DomainEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation DomainEventSubscriptions.beginUpdate has a new signature
+  - Operation DomainEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation DomainEventSubscriptions.get has a new signature
+  - Operation DomainEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation Domains.beginCreateOrUpdate has a new signature
+  - Operation Domains.beginCreateOrUpdateAndWait has a new signature
+  - Operation Domains.beginUpdateAndWait has a new signature
+  - Operation Domains.get has a new signature
+  - Operation DomainTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation DomainTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation DomainTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation DomainTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation DomainTopicEventSubscriptions.get has a new signature
+  - Operation DomainTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation EventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation EventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation EventSubscriptions.beginUpdate has a new signature
+  - Operation EventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation EventSubscriptions.get has a new signature
+  - Operation EventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation Namespaces.beginCreateOrUpdate has a new signature
+  - Operation Namespaces.beginCreateOrUpdateAndWait has a new signature
+  - Operation Namespaces.beginUpdate has a new signature
+  - Operation Namespaces.beginUpdateAndWait has a new signature
+  - Operation Namespaces.get has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation NamespaceTopicEventSubscriptions.get has a new signature
+  - Operation NamespaceTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation PartnerNamespaces.beginUpdateAndWait has a new signature
+  - Operation PartnerRegistrations.beginUpdateAndWait has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation PartnerTopicEventSubscriptions.get has a new signature
+  - Operation PartnerTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation PrivateEndpointConnections.beginDeleteAndWait has a new signature
+  - Operation SystemTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation SystemTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation SystemTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation SystemTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation SystemTopicEventSubscriptions.get has a new signature
+  - Operation SystemTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation TopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation TopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation TopicEventSubscriptions.beginUpdate has a new signature
+  - Operation TopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation TopicEventSubscriptions.get has a new signature
+  - Operation TopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation Topics.beginCreateOrUpdate has a new signature
+  - Operation Topics.beginCreateOrUpdateAndWait has a new signature
+  - Operation Topics.beginDeleteAndWait has a new signature
+  - Operation Topics.beginUpdateAndWait has a new signature
+  - Operation Topics.get has a new signature
+  - Type of parameter operatorType of interface AdvancedFilter is changed from "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull" to AdvancedFilterOperatorType
+  - Type of parameter endpointType of interface DeadLetterDestination is changed from "StorageBlob" to DeadLetterEndPointType
+  - Type of parameter type of interface DeliveryAttributeMapping is changed from "Static" | "Dynamic" to DeliveryAttributeMappingType
+  - Type of parameter endpointType of interface EventSubscriptionDestination is changed from "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "MonitorAlert" | "NamespaceTopic" to EndpointType
+  - Type of parameter operatorType of interface Filter is changed from "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull" to FilterOperatorType
+  - Type of parameter inputSchemaMappingType of interface InputSchemaMapping is changed from "Json" to InputSchemaMappingType
+  - Type of parameter valueType of interface StaticRoutingEnrichment is changed from "String" to StaticRoutingEnrichmentType
+  - Type alias "AdvancedFilterUnion" has been changed
+  - Type alias "DeadLetterDestinationUnion" has been changed
+  - Type alias "DeliveryAttributeMappingUnion" has been changed
+  - Type alias "EventSubscriptionDestinationUnion" has been changed
+  - Type alias "FilterUnion" has been changed
+  - Type alias "InputSchemaMappingUnion" has been changed
+  - Type alias "StaticRoutingEnrichmentUnion" has been changed
+
 ## 15.0.0-beta.1 (2025-07-21)
 Compared with version 14.2.0
 

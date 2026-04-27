@@ -29,7 +29,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/iot/iot-modelsrepository"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -43,7 +47,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

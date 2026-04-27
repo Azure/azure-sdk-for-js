@@ -45,6 +45,7 @@ import {
 import { Logger } from "../shared/logging/logger.js";
 import os from "node:os";
 import process from "node:process";
+import { readFileSync } from "node:fs";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -171,6 +172,27 @@ export function convertDimensions(
     )[dim];
   }
   return convertedDimensions as Attributes;
+}
+
+/**
+ * Returns available system memory in bytes.
+ * On Linux, reads MemAvailable from /proc/meminfo which accounts for reclaimable
+ * memory (page cache, buffers), providing a more accurate measure than os.freemem()
+ * which only reports MemFree. Falls back to os.freemem() on other platforms or on error.
+ */
+export function readAvailableMemory(): number {
+  if (process.platform === "linux") {
+    try {
+      const contents: string = readFileSync("/proc/meminfo", "utf8");
+      const match = contents.match(/^MemAvailable:\s+(\d+)\s+kB$/m);
+      if (match) {
+        return parseInt(match[1], 10) * 1024;
+      }
+    } catch {
+      // Fall through to os.freemem()
+    }
+  }
+  return os.freemem();
 }
 
 // to get physical memory bytes
