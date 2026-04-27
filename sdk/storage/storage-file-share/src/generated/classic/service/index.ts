@@ -19,7 +19,7 @@ import {
   ListSharesResponse,
   KeyInfo,
   UserDelegationKey,
-} from "../../models/azure/storage/files/shares/models.js";
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Service operations. */

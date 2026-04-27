@@ -12,8 +12,8 @@ import {
   CopyStatus,
   FileRangeWriteType,
   FileRangeWriteFromUrlType,
-} from "../../models/azure/storage/files/shares/models.js";
-import { FileDownloadResponse } from "../../models/models.js";
+  FileDownloadResponse,
+} from "../../models/models.js";
 import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,

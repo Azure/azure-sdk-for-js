@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export { FileClient } from "./fileClient.js";
-export type { FileDownloadResponse } from "./models/index.js";
 export type {
   ErrorModel,
   StorageErrorCode,
@@ -57,7 +56,8 @@ export type {
   ListSharesIncludeType,
   ShareAccessTier,
   DeleteSnapshotsOptionType,
-} from "./models/azure/storage/files/shares/index.js";
+  FileDownloadResponse,
+} from "./models/index.js";
 export {
   KnownStorageErrorCode,
   KnownShareTokenIntent,
@@ -65,7 +65,7 @@ export {
   KnownNfsFileType,
   KnownShareAccessTier,
   KnownVersions,
-} from "./models/azure/storage/files/shares/index.js";
+} from "./models/index.js";
 export type { FileClientOptionalParams } from "./api/index.js";
 export type {
   DirectoryRenameOptionalParams,

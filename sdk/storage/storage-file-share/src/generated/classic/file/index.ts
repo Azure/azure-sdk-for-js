@@ -55,8 +55,8 @@ import {
   CopyStatus,
   FileRangeWriteType,
   FileRangeWriteFromUrlType,
-} from "../../models/azure/storage/files/shares/models.js";
-import { FileDownloadResponse } from "../../models/models.js";
+  FileDownloadResponse,
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a File operations. */

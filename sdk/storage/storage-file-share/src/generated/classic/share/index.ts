@@ -40,11 +40,7 @@ import {
   ShareGetPropertiesOptionalParams,
   ShareCreateOptionalParams,
 } from "../../api/share/options.js";
-import {
-  SharePermission,
-  SignedIdentifiers,
-  ShareStats,
-} from "../../models/azure/storage/files/shares/models.js";
+import { SharePermission, SignedIdentifiers, ShareStats } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Share operations. */

@@ -12,7 +12,7 @@ import {
   signedIdentifiersXmlDeserializer,
   ShareStats,
   shareStatsXmlDeserializer,
-} from "../../models/azure/storage/files/shares/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,

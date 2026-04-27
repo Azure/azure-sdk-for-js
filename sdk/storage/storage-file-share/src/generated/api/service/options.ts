@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ShareTokenIntent,
-  ListSharesIncludeType,
-} from "../../models/azure/storage/files/shares/models.js";
+import { ShareTokenIntent, ListSharesIncludeType } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

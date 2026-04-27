@@ -6,7 +6,7 @@ import {
   ShareTokenIntent,
   FilePropertySemantics,
   ListFilesIncludeType,
-} from "../../models/azure/storage/files/shares/models.js";
+} from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
