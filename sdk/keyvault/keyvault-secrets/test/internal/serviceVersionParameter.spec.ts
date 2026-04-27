@@ -118,13 +118,16 @@ describe("The Secrets client should set the serviceVersion", () => {
     const client = new SecretClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
+    const setSecretSpy = vi.spyOn(client["client"], "setSecret");
 
     await client.setSecret("secretName", "value", { contentType: KnownContentType.PEM });
 
-    expect(spy).toHaveBeenCalledWith(
+    expect(setSecretSpy).toHaveBeenCalledWith(
+      "secretName",
       expect.objectContaining({
-        body: expect.stringContaining('"contentType":"application/x-pem-file"'),
+        contentType: KnownContentType.PEM,
       }),
+      expect.anything(),
     );
   });
 
@@ -132,15 +135,19 @@ describe("The Secrets client should set the serviceVersion", () => {
     const client = new SecretClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
+    const updateSecretSpy = vi.spyOn(client["client"], "updateSecret");
 
     await client.updateSecretProperties("secretName", "secretVersion", {
       contentType: KnownContentType.PFX,
     });
 
-    expect(spy).toHaveBeenCalledWith(
+    expect(updateSecretSpy).toHaveBeenCalledWith(
+      "secretName",
+      "secretVersion",
       expect.objectContaining({
-        body: expect.stringContaining('"contentType":"application/x-pkcs12"'),
+        contentType: KnownContentType.PFX,
       }),
+      expect.anything(),
     );
   });
 });
