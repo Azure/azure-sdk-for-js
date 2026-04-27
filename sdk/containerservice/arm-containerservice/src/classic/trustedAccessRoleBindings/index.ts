@@ -29,11 +29,6 @@ export interface TrustedAccessRoleBindingsOperations {
     options?: TrustedAccessRoleBindingsListOptionalParams,
   ) => PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
   /** Delete a trusted access role binding. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     resourceName: string,
