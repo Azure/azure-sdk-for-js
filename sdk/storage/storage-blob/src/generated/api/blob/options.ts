@@ -531,12 +531,12 @@ export interface BlobDownloadOptionalParams extends OperationOptions {
   encryptionAlgorithm?: EncryptionAlgorithmType;
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   ifTags?: string;
-  /** The request should only proceed if an entity matches this string. */
-  ifMatch?: string;
-  /** The request should only proceed if no entity matches this string. */
-  ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
+  /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
   ifModifiedSince?: Date;
+  /** A date-time value. A request is made under the condition that the resource has not been modified since the specified date-time. */
+  ifUnmodifiedSince?: Date;
+  /** A condition that must be met in order for the request to be processed. */
+  ifNoneMatch?: string;
+  /** A condition that must be met in order for the request to be processed. */
+  ifMatch?: string;
 }

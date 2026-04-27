@@ -893,7 +893,7 @@ export function _uploadPagesFromUrlSend(
             }
           : {}),
         "content-length": contentLength,
-        "x-ms-range": range,
+        range: range,
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
           : {}),

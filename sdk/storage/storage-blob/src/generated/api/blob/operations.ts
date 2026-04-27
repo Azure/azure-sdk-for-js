@@ -3789,15 +3789,6 @@ export function _downloadSend(
           ? { "x-ms-encryption-algorithm": options?.encryptionAlgorithm }
           : {}),
         ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.ifUnmodifiedSince !== undefined
-          ? {
-              "if-unmodified-since": !options?.ifUnmodifiedSince
-                ? options?.ifUnmodifiedSince
-                : options?.ifUnmodifiedSince.toUTCString(),
-            }
-          : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -3805,6 +3796,15 @@ export function _downloadSend(
                 : options?.ifModifiedSince.toUTCString(),
             }
           : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         accept: "application/octet-stream",
         ...options.requestOptions?.headers,
       },

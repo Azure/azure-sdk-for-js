@@ -15,7 +15,7 @@ import {
   keyInfoXmlSerializer,
   UserDelegationKey,
   userDelegationKeyXmlDeserializer,
-  _submitBatchRequestDeserializer,
+  _submitBatchResponseDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
   SkuName,
@@ -237,7 +237,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return _submitBatchRequestDeserializer(result.body) as any;
+  return _submitBatchResponseDeserializer(result.body) as any;
 }
 
 export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {

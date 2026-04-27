@@ -1559,12 +1559,12 @@ export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegat
   return deserializeFromXml<UserDelegationKey>(xmlString, properties, "UserDelegationKey");
 }
 
-/** model interface _SubmitBatchRequest */
-export interface _SubmitBatchRequest {
+/** model interface _SubmitBatchResponse */
+export interface _SubmitBatchResponse {
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }
 
-export function _submitBatchRequestDeserializer(item: any): _SubmitBatchRequest {
+export function _submitBatchResponseDeserializer(item: any): _SubmitBatchResponse {
   return {
     body:
       typeof item["body"] === "string" ? stringToUint8Array(item["body"], "base64") : item["body"],
