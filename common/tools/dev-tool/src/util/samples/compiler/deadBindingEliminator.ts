@@ -725,16 +725,19 @@ function classifyUnit(
 /**
  * Run poison propagation to fixpoint over all units.
  *
- * Returns the final status of each unit and the set of newly poisoned symbols.
+ * This function does NOT mutate the input set. It creates a local copy,
+ * expands it during propagation, and returns newly discovered dead symbols.
  */
 function propagatePoison(
   units: EliminationUnit[],
-  poisonedSymbols: Set<ts.Symbol>,
+  initialPoisoned: Set<ts.Symbol>,
   statements: readonly ts.Statement[],
   analyzer: BindingAnalyzer,
   fileName: string,
   options?: { treatTangledAsDead?: boolean },
 ): { statuses: UnitStatus[]; newlyPoisoned: Set<ts.Symbol> } {
+  // Work with a local copy to avoid mutating caller's set
+  const poisonedSymbols = new Set(initialPoisoned);
   const newlyPoisoned = new Set<ts.Symbol>();
   const statuses: UnitStatus[] = new Array(units.length).fill("alive");
 
@@ -785,7 +788,7 @@ function propagatePoison(
     }
   }
 
-  return { statuses, newlyPoisoned };
+  return { statuses, newlyPoisoned, allPoisoned: poisonedSymbols };
 }
 
 // ── Phase 3: Output reconstruction ───────────────────────────────────
@@ -1004,8 +1007,8 @@ export function eliminateDeadStatements(
   // Phase 1: Lower to IR
   const units = lowerToUnits(statements, analyzer);
 
-  // Phase 2: Propagate poison
-  const { statuses, newlyPoisoned } = propagatePoison(
+  // Phase 2: Propagate poison (pure - does not mutate deadSymbols)
+  const { statuses, newlyPoisoned, allPoisoned } = propagatePoison(
     units,
     deadSymbols,
     statements,
@@ -1014,8 +1017,8 @@ export function eliminateDeadStatements(
     options,
   );
 
-  // Phase 3: Reconstruct
-  const surviving = reconstructStatements(units, statuses, statements, deadSymbols, analyzer);
+  // Phase 3: Reconstruct (uses full poison set for salvage filtering)
+  const surviving = reconstructStatements(units, statuses, statements, allPoisoned, analyzer);
 
   return {
     survivingStatements: surviving,
@@ -1050,8 +1053,10 @@ export function eliminateDeadBindings(
   );
 
   // Build string sets for convenience API
+  // Include both initial dead symbols AND cascaded newly-dead symbols
   const eliminatedBindings = new Set<string>();
   for (const sym of deadSymbols) eliminatedBindings.add(sym.name);
+  for (const sym of result.newlyDeadSymbols) eliminatedBindings.add(sym.name);
 
   const survivingBindings = new Set<string>();
   for (const stmt of result.survivingStatements) {
