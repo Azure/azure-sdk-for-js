@@ -1,20 +1,37 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-devhub client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-devhub in some common scenarios.
 
-| **File Name**                                                             | **Description**                                                                                                                                                                                                                                 |
-| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [generatePreviewArtifactsSample.ts][generatepreviewartifactssample]       | Generate preview dockerfile and manifests. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GeneratePreviewArtifacts.json                                                   |
-| [gitHubOAuthCallbackSample.ts][githuboauthcallbacksample]                 | Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuthCallback.json |
-| [gitHubOAuthSample.ts][githuboauthsample]                                 | Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth.json                       |
-| [listGitHubOAuthSample.ts][listgithuboauthsample]                         | Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth_List.json    |
-| [operationsListSample.ts][operationslistsample]                           | Returns list of operations. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Operation_List.json                                                                            |
-| [workflowCreateOrUpdateSample.ts][workflowcreateorupdatesample]           | Creates or updates a workflow x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_CreateOrUpdate.json                                                                 |
-| [workflowDeleteSample.ts][workflowdeletesample]                           | Deletes a workflow x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Delete.json                                                                                    |
-| [workflowGetSample.ts][workflowgetsample]                                 | Gets a workflow. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Get.json                                                                                         |
-| [workflowListByResourceGroupSample.ts][workflowlistbyresourcegroupsample] | Gets a list of workflows within a resource group. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_ListByResourceGroup.json                                        |
-| [workflowListSample.ts][workflowlistsample]                               | Gets a list of workflows associated with the specified subscription. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_List.json                                    |
-| [workflowUpdateTagsSample.ts][workflowupdatetagssample]                   | Updates tags on a workflow. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_UpdateTags.json                                                                       |
+| **File Name**                                                                       | **Description**                                                                                                                                                   |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [adooAuthGetSample.ts][adooauthgetsample]                                           | callback URL to hit once authenticated with Entra ID to have the service store the OAuth token. x-ms-original-file: 2025-03-01-preview/ADOOAuthDefault.json       |
+| [adooAuthListSample.ts][adooauthlistsample]                                         | callback URL to hit once authenticated with ADO to have the service store the OAuth token. x-ms-original-file: 2025-03-01-preview/ADOOAuthList.json               |
+| [adooAuthResponsesGetAdooAuthInfoSample.ts][adooauthresponsesgetadooauthinfosample] | gets ADOOAuth info used to authenticate users with ADO. x-ms-original-file: 2025-03-01-preview/ADOOAuthInfo.json                                                  |
+| [generatePreviewArtifactsSample.ts][generatepreviewartifactssample]                 | generate preview dockerfile and manifests. x-ms-original-file: 2025-03-01-preview/GeneratePreviewArtifacts.json                                                   |
+| [gitHubOAuthCallbackSample.ts][githuboauthcallbacksample]                           | callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: 2025-03-01-preview/GitHubOAuthCallback.json |
+| [gitHubOAuthSample.ts][githuboauthsample]                                           | gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App. x-ms-original-file: 2025-03-01-preview/GitHubOAuth.json                       |
+| [iacProfilesCreateOrUpdateSample.ts][iacprofilescreateorupdatesample]               | creates or updates a IacProfile x-ms-original-file: 2025-03-01-preview/IacProfile_CreateOrUpdate.json                                                             |
+| [iacProfilesDeleteSample.ts][iacprofilesdeletesample]                               | deletes a IacProfile x-ms-original-file: 2025-03-01-preview/IacProfile_Delete.json                                                                                |
+| [iacProfilesExportSample.ts][iacprofilesexportsample]                               | export a template x-ms-original-file: 2025-03-01-preview/IacProfile_ExportTemplate.json                                                                           |
+| [iacProfilesGetSample.ts][iacprofilesgetsample]                                     | gets a IacProfile. x-ms-original-file: 2025-03-01-preview/IacProfile_Get.json                                                                                     |
+| [iacProfilesListByResourceGroupSample.ts][iacprofileslistbyresourcegroupsample]     | gets a list of iacProfiles within a resource group. x-ms-original-file: 2025-03-01-preview/IacProfile_ListByResourceGroup.json                                    |
+| [iacProfilesListSample.ts][iacprofileslistsample]                                   | gets a list of IacProfiles associated with the specified subscription. x-ms-original-file: 2025-03-01-preview/IacProfile_List.json                                |
+| [iacProfilesScaleSample.ts][iacprofilesscalesample]                                 | scale by template x-ms-original-file: 2025-03-01-preview/IacProfile_ScaleTemplate.json                                                                            |
+| [iacProfilesSyncSample.ts][iacprofilessyncsample]                                   | sync template x-ms-original-file: 2025-03-01-preview/IacProfile_SyncTemplate.json                                                                                 |
+| [iacProfilesUpdateTagsSample.ts][iacprofilesupdatetagssample]                       | updates tags on a IacProfile. x-ms-original-file: 2025-03-01-preview/IacProfile_UpdateTags.json                                                                   |
+| [listGitHubOAuthSample.ts][listgithuboauthsample]                                   | callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: 2025-03-01-preview/GitHubOAuth_List.json    |
+| [operationsListSample.ts][operationslistsample]                                     | returns list of operations. x-ms-original-file: 2025-03-01-preview/Operation_List.json                                                                            |
+| [templateGetSample.ts][templategetsample]                                           | gets a list of supported templates. x-ms-original-file: 2025-03-01-preview/Template_Get.json                                                                      |
+| [templateListSample.ts][templatelistsample]                                         | gets a list of supported templates. x-ms-original-file: 2025-03-01-preview/Template_List.json                                                                     |
+| [versionedTemplateGenerateSample.ts][versionedtemplategeneratesample]               | generates a VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_Generate.json                                                             |
+| [versionedTemplateGetSample.ts][versionedtemplategetsample]                         | gets a VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_Get.json                                                                       |
+| [versionedTemplateListSample.ts][versionedtemplatelistsample]                       | gets a list of VersionedTemplate. x-ms-original-file: 2025-03-01-preview/VersionedTemplate_List.json                                                              |
+| [workflowCreateOrUpdateSample.ts][workflowcreateorupdatesample]                     | creates or updates a workflow x-ms-original-file: 2025-03-01-preview/Workflow_CreateOrUpdate.json                                                                 |
+| [workflowDeleteSample.ts][workflowdeletesample]                                     | deletes a workflow x-ms-original-file: 2025-03-01-preview/Workflow_Delete.json                                                                                    |
+| [workflowGetSample.ts][workflowgetsample]                                           | gets a workflow. x-ms-original-file: 2025-03-01-preview/Workflow_Get.json                                                                                         |
+| [workflowListByResourceGroupSample.ts][workflowlistbyresourcegroupsample]           | gets a list of workflows within a resource group. x-ms-original-file: 2025-03-01-preview/Workflow_ListByResourceGroup.json                                        |
+| [workflowListSample.ts][workflowlistsample]                                         | gets a list of workflows associated with the specified subscription. x-ms-original-file: 2025-03-01-preview/Workflow_List.json                                    |
+| [workflowUpdateTagsSample.ts][workflowupdatetagssample]                             | updates tags on a workflow. x-ms-original-file: 2025-03-01-preview/Workflow_UpdateTags.json                                                                       |
 
 ## Prerequisites
 
@@ -53,24 +70,41 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/generatePreviewArtifactsSample.js
+node dist/adooAuthGetSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env DEVHUB_SUBSCRIPTION_ID="<devhub subscription id>" node dist/generatePreviewArtifactsSample.js
+node dist/adooAuthGetSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[adooauthgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/adooAuthGetSample.ts
+[adooauthlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/adooAuthListSample.ts
+[adooauthresponsesgetadooauthinfosample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/adooAuthResponsesGetAdooAuthInfoSample.ts
 [generatepreviewartifactssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/generatePreviewArtifactsSample.ts
 [githuboauthcallbacksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/gitHubOAuthCallbackSample.ts
 [githuboauthsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/gitHubOAuthSample.ts
+[iacprofilescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesCreateOrUpdateSample.ts
+[iacprofilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesDeleteSample.ts
+[iacprofilesexportsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesExportSample.ts
+[iacprofilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesGetSample.ts
+[iacprofileslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesListByResourceGroupSample.ts
+[iacprofileslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesListSample.ts
+[iacprofilesscalesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesScaleSample.ts
+[iacprofilessyncsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesSyncSample.ts
+[iacprofilesupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/iacProfilesUpdateTagsSample.ts
 [listgithuboauthsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/listGitHubOAuthSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/operationsListSample.ts
+[templategetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/templateGetSample.ts
+[templatelistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/templateListSample.ts
+[versionedtemplategeneratesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/versionedTemplateGenerateSample.ts
+[versionedtemplategetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/versionedTemplateGetSample.ts
+[versionedtemplatelistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/versionedTemplateListSample.ts
 [workflowcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowCreateOrUpdateSample.ts
 [workflowdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowDeleteSample.ts
 [workflowgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowGetSample.ts
