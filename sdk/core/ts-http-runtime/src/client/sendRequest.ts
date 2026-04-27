@@ -136,22 +136,42 @@ function buildPipelineRequest(
     }),
   });
 
-  return createPipelineRequest({
+  const {
+    allowInsecureConnection,
+    abortSignal,
+    onUploadProgress,
+    onDownloadProgress,
+    timeout,
+    responseAsStream,
+    url: _url,
+    method: _method,
+    body: _body,
+    multipartBody: _multiBody,
+    headers: _headers,
+    ...rest
+  } = options as InternalRequestParameters & {
+    url: string;
+    method: string;
+    multipartBody: unknown;
+  };
+
+  const request = createPipelineRequest({
     url,
     method,
     body,
     multipartBody,
     headers,
-    allowInsecureConnection: options.allowInsecureConnection,
-    abortSignal: options.abortSignal,
-    onUploadProgress: options.onUploadProgress,
-    onDownloadProgress: options.onDownloadProgress,
-    timeout: options.timeout,
+    allowInsecureConnection,
+    abortSignal,
+    onUploadProgress,
+    onDownloadProgress,
+    timeout,
     enableBrowserStreams: true,
-    streamResponseStatusCodes: options.responseAsStream
-      ? new Set([Number.POSITIVE_INFINITY])
-      : undefined,
+    streamResponseStatusCodes: responseAsStream ? new Set([Number.POSITIVE_INFINITY]) : undefined,
   });
+
+  Object.assign(request, rest);
+  return request;
 }
 
 interface RequestBody {

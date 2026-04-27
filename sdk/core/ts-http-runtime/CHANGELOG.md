@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Set `RestError.response.bodyAsText` when the error response body has `string` type [PR #38059](https://github.com/Azure/azure-sdk-for-js/pull/38059)
+- Forward `tracingOptions` to pipeline requests. [PR #38285](https://github.com/Azure/azure-sdk-for-js/pull/38285)
 
 ## 0.3.5 (2026-04-07)
 
