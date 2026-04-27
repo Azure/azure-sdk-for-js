@@ -1435,6 +1435,9 @@ importers:
       '@azure/identity':
         specifier: ^4.0.1
         version: 4.13.0
+      '@azure/logger':
+        specifier: ^1.1.4
+        version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.17.0
         version: 12.31.0
@@ -8770,6 +8773,9 @@ importers:
 
   sdk/core/core-xml:
     dependencies:
+      '@azure/logger':
+        specifier: ^1.1.4
+        version: link:../logger
       fast-xml-parser:
         specifier: ^5.5.9
         version: 5.5.11
@@ -13688,6 +13694,9 @@ importers:
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
+      '@azure/logger':
+        specifier: ^1.1.4
+        version: link:../../core/logger
       rhea:
         specifier: ^3.0.2
         version: 3.0.4

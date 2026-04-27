@@ -5,6 +5,7 @@ import { Constants } from "../common/index.js";
 import { isNonEmptyString } from "../utils/strings.js";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel.js";
 import { diagnosticLevelFromEnv } from "../utils/envUtils.js";
+import { defaultLogger } from "../common/logger.js";
 
 export * from "./DiagnosticWriter.js";
 export * from "./DiagnosticFormatter.js";
@@ -22,7 +23,7 @@ if (isNonEmptyString(diagnosticLevelFromEnv)) {
   if (isCosmosDiagnosticLevel(diagnosticLevelFromEnv)) {
     setDiagnosticLevel(diagnosticLevelFromEnv as CosmosDbDiagnosticLevel);
   } else {
-    console.error(
+    defaultLogger.error(
       `${
         Constants.CosmosDbDiagnosticLevelEnvVarName
       } set to unknown diagnostic level '${diagnosticLevelFromEnv}'; Setting Cosmos Db diagnostic level to info. Acceptable values: ${acceptableDiagnosticLevelValues.join(

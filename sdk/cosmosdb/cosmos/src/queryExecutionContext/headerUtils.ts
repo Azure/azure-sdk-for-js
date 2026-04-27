@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { Constants } from "../common/index.js";
+import { defaultLogger } from "../common/logger.js";
 import { QueryMetrics } from "../queryMetrics/queryMetrics.js";
 
 export interface CosmosHeaders {
@@ -99,6 +100,6 @@ export function decodeAndParseJSONString(inputString: string): string {
     const indexMetrics = JSON.stringify(parsedString);
     return indexMetrics;
   } catch (e) {
-    console.error("Error parsing JSON file:", e.message);
+    defaultLogger.error("Error parsing JSON file:", e.message);
   }
 }

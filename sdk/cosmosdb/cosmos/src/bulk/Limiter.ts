@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { StatusCodes } from "../common/statusCodes.js";
+import { defaultLogger } from "../common/logger.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { RetryCallback } from "../utils/batch.js";
 import type { Batcher } from "./Batcher.js";
@@ -228,7 +229,7 @@ export class LimiterQueue {
           });
       }
     } catch (err) {
-      console.error("Unexpected error in task queue processing:", err);
+      defaultLogger.error("Unexpected error in task queue processing:", err);
     } finally {
       this.processing = false;
     }

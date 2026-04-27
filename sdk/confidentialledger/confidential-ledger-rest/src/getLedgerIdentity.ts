@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
 
 export interface LedgerIdentity {
   ledgerIdentityCertificate: string;
@@ -13,7 +14,7 @@ export async function getLedgerIdentity(
   identityServiceBaseUrl: string = "https://identity.confidential-ledger.core.azure.com",
 ): Promise<LedgerIdentity> {
   const client = getClient(identityServiceBaseUrl);
-  console.log(ledgerId);
+  logger.verbose(ledgerId);
   const cert = await client.pathUnchecked("/ledgerIdentity/{ledgerId}", ledgerId).get();
 
   const updatedCert = {

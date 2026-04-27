@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { logger } from "./logger.js";
+
 /**
  * Key for a search param, from which editor data will be loaded from.
  */
@@ -56,7 +58,7 @@ function parseWidgetData<Values extends ValuesCommon>(
     // }
     return urlEditorParams;
   } catch (e) {
-    console.error(
+    logger.error(
       `Could not get '${APIM_EDITOR_DATA_KEY}' from the search params of the URL:\n` + g.location,
       e,
     );

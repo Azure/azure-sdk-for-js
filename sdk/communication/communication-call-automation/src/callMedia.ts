@@ -55,6 +55,7 @@ import type {
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
+import { logger } from "./models/logger.js";
 /**
  * CallMedia class represents call media related APIs.
  */
@@ -357,7 +358,7 @@ export class CallMedia {
   ): Promise<void> {
     if (typeof maxTonesOrOptions === "number" && options) {
       // Old function signature logic
-      console.warn(
+      logger.warning(
         "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
       );
       options.maxTonesToCollect = maxTonesOrOptions;

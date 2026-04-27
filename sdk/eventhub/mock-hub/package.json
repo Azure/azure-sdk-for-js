@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
+    "@azure/logger": "^1.1.4",
     "rhea": "^3.0.2",
     "tslib": "^2.6.3"
   },

@@ -5,6 +5,7 @@ import { AbortError } from "@azure/abort-controller";
 import rhea from "rhea";
 import type { MessageRecord, MessageStore } from "../storage/messageStore.js";
 import type { EventPosition } from "../utils/eventPosition.js";
+import { logger } from "../logger.js";
 
 /**
  * The StreamingPartitionSender is responsible for sending stored events to a client
@@ -46,7 +47,7 @@ export class StreamingPartitionSender {
    */
   start(): void {
     this._sendMessages().catch((err) => {
-      console.error(`Unexpected error while sending messages`, err);
+      logger.error("Unexpected error while sending messages", err);
     });
   }
 
@@ -111,7 +112,7 @@ export class StreamingPartitionSender {
         sender.send(outgoingMessage);
       } catch (err: unknown) {
         if (err instanceof Error && err.name !== "AbortError") {
-          console.error(`Unexpected error while streaming events: `, err);
+          logger.error("Unexpected error while streaming events", err);
         }
       }
     } while (!abortSignal.aborted && !nextResult?.done);

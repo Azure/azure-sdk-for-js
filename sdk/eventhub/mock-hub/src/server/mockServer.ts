@@ -5,6 +5,7 @@ import rhea from "rhea";
 import { EventEmitter } from "events";
 import type { ListenOptions } from "net";
 import { convertBufferToMessages } from "../utils/convertBufferToMessage.js";
+import { logger } from "../logger.js";
 
 export interface MockServerOptions {
   /**
@@ -270,7 +271,7 @@ export class MockServer extends EventEmitter {
     });
     this._container.on(rhea.ConnectionEvents.connectionOpen, (context: rhea.EventContext) => {
       context.connection.on("error", function (this: typeof context.connection, err: Error) {
-        console.log(`Error occurred on connection:`, err?.message);
+        logger.error("Error occurred on connection:", err);
       });
       this.emit("connectionOpen", {
         context,
@@ -330,7 +331,7 @@ export class MockServer extends EventEmitter {
       }
     });
     this._container.on("error", function (err) {
-      console.log("Unexpected error encountered:", err);
+      logger.error("Unexpected error encountered:", err);
     });
   }
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
+import { defaultLogger } from "./common/logger.js";
 import type { DiagnosticNodeInternal } from "./index.js";
 import {
   Constants,
@@ -380,7 +381,7 @@ export class GlobalPartitionEndpointManager {
       try {
         await this.openConnectionToUnhealthyEndpointsWithFailback();
       } catch (err) {
-        console.error("Failed to open connection to unhealthy endpoints: ", err);
+        defaultLogger.error("Failed to open connection to unhealthy endpoints: ", err);
       }
     }, Constants.StalePartitionUnavailabilityRefreshIntervalInMs);
   }
