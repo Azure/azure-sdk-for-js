@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for createClassifier.ts - Create a classifier analyzer.
+ * Sample test for createClassifier.ts - Create a classifier analyzer.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

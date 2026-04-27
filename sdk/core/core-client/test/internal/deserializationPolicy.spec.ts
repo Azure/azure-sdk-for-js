@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert, expect, vi } from "vitest";
 import type {
   CompositeMapper,
   FullOperationResponse,
   OperationRequest,
   OperationSpec,
+  SequenceMapper,
   SerializerOptions,
 } from "../../src/index.js";
-import { createSerializer, deserializationPolicy } from "../../src/index.js";
+import { createSerializer, deserializationPolicy, ServiceClient } from "../../src/index.js";
 import type { PipelineResponse, RawHttpHeaders, SendRequest } from "@azure/core-rest-pipeline";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { getOperationRequestInfo } from "../../src/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 
@@ -449,19 +454,19 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
           bodyAsText: '{"message": "InvalidResourceNameBody"}',
           status: 500,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
-      }
+        }),
+      ).rejects.toMatchObject({
+        response: {
+          parsedHeaders: { errorCode: "InvalidResourceNameHeader" },
+          parsedBody: { message: "InvalidResourceNameBody" },
+        },
+      });
     });
 
     it(`with non default error response headers`, async function () {
@@ -510,19 +515,19 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
           bodyAsText: '{"message": "InvalidResourceNameBody"}',
           status: 500,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
-      }
+        }),
+      ).rejects.toMatchObject({
+        response: {
+          parsedHeaders: { errorCode: "InvalidResourceNameHeader" },
+          parsedBody: { message: "InvalidResourceNameBody" },
+        },
+      });
     });
 
     it(`should throw when the response code is not defined in the operationSpec`, async function () {
@@ -535,19 +540,17 @@ describe("deserializationPolicy", function () {
         },
         serializer,
       };
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: {},
           bodyAsText: '{"message": "InternalServerError"}',
           status: 400,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert(e);
-        assert.strictEqual(e.statusCode, 400);
-        assert.include(e.message, "InternalServerError");
-      }
+        }),
+      ).rejects.toMatchObject({
+        statusCode: 400,
+        message: expect.stringContaining("InternalServerError"),
+      });
     });
 
     it(`with non default complex error response`, async function () {
@@ -606,22 +609,24 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: { "x-ms-error-code": "InvalidResourceNameHeader" },
           bodyAsText:
             '{"message1": "InvalidResourceNameBody1", "message2": "InvalidResourceNameBody2", "message3": "InvalidResourceNameBody3"}',
           status: 503,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
-        assert.strictEqual(e.response.parsedBody.message2, "InvalidResourceNameBody2");
-        assert.strictEqual(e.response.parsedBody.message3, "InvalidResourceNameBody3");
-      }
+        }),
+      ).rejects.toMatchObject({
+        response: {
+          parsedHeaders: { errorCode: "InvalidResourceNameHeader" },
+          parsedBody: {
+            message1: "InvalidResourceNameBody1",
+            message2: "InvalidResourceNameBody2",
+            message3: "InvalidResourceNameBody3",
+          },
+        },
+      });
     });
 
     it(`with default error response body`, async function () {
@@ -661,25 +666,24 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: {},
           bodyAsText:
             '{"Code": "ContainerAlreadyExists", "Message": "The specified container already exists."}',
           status: 500,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.code, "ContainerAlreadyExists");
-        assert.strictEqual(e.message, "The specified container already exists.");
-        assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
-        assert.strictEqual(
-          e.response.parsedBody.message,
-          "The specified container already exists.",
-        );
-      }
+        }),
+      ).rejects.toMatchObject({
+        code: "ContainerAlreadyExists",
+        message: "The specified container already exists.",
+        response: {
+          parsedBody: {
+            code: "ContainerAlreadyExists",
+            message: "The specified container already exists.",
+          },
+        },
+      });
     });
 
     it(`heuristic for error body without default body mapper`, async function () {
@@ -712,27 +716,26 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-      try {
-        await getDeserializedResponse({
+      await expect(
+        getDeserializedResponse({
           operationSpec,
           headers: {},
           bodyAsText: `{"error":{"code":"SubscriptionNotFound","message":"The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found."}}`,
           status: 404,
-        });
-        assert.fail();
-      } catch (e: any) {
-        assert.exists(e);
-        assert.strictEqual(e.code, "SubscriptionNotFound");
-        assert.strictEqual(
-          e.message,
-          "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
-        );
-        assert.strictEqual(e.response.parsedBody.error.code, "SubscriptionNotFound");
-        assert.strictEqual(
-          e.response.parsedBody.error.message,
-          "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
-        );
-      }
+        }),
+      ).rejects.toMatchObject({
+        code: "SubscriptionNotFound",
+        message: "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
+        response: {
+          parsedBody: {
+            error: {
+              code: "SubscriptionNotFound",
+              message:
+                "The subscription 'ae0a5678-da86-4bd9-a3a2-9a7558415de5' could not be found.",
+            },
+          },
+        },
+      });
     });
 
     it(`json response with headers`, async function () {
@@ -875,3 +878,721 @@ async function getDeserializedResponse(
   const response = await policy.sendRequest(request, next);
   return response;
 }
+
+describe("deserializationPolicy", () => {
+  it("should deserialize JSON response body when shouldDeserialize is true", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"id": 1}',
+          });
+        },
+      },
+      pipeline,
+    });
+
+    // Ensure the operationResponseGetter path is available through sendOperationRequest
+    const result = await client.sendOperationRequest(
+      {
+        options: {
+          requestOptions: {
+            shouldDeserialize: true,
+          },
+        },
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  id: { serializedName: "id", type: { name: "Number" } },
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+    assert.strictEqual((result as any).id, 1);
+  });
+
+  it("should handle shouldDeserialize as a function", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"id": 1}',
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {
+        options: {
+          requestOptions: {
+            shouldDeserialize: (response: PipelineResponse) => response.status === 200,
+          },
+        },
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: { 200: {} },
+      },
+    );
+    assert.deepStrictEqual((result as any).body, { id: 1 });
+  });
+
+  it("should return boolean body for HEAD request", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "HEAD",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {},
+        },
+      },
+    );
+    assert.deepStrictEqual(result, { body: true });
+  });
+
+  it("should handle parsedHeaders from headersMapper", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "x-custom": "value123" }),
+            bodyAsText: '{"id": 1}',
+          }),
+      },
+      pipeline,
+    });
+
+    const result: any = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  id: { serializedName: "id", type: { name: "Number" } },
+                },
+              },
+            },
+            headersMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  xCustom: {
+                    serializedName: "x-custom",
+                    type: { name: "String" },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+    assert.strictEqual(result.xCustom, "value123");
+  });
+
+  it("should wrap error with error headers mapper", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 400,
+            headers: createHttpHeaders({ "x-error-id": "err123" }),
+            bodyAsText: '{"error": {"code": "BadRequest", "message": "Invalid input"}}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {},
+            default: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  modelProperties: {
+                    error: {
+                      serializedName: "error",
+                      type: {
+                        name: "Composite",
+                        modelProperties: {
+                          code: { serializedName: "code", type: { name: "String" } },
+                          message: { serializedName: "message", type: { name: "String" } },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              headersMapper: {
+                type: {
+                  name: "Composite",
+                  modelProperties: {
+                    xErrorId: {
+                      serializedName: "x-error-id",
+                      type: { name: "String" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ),
+    ).rejects.toMatchObject({ code: "BadRequest" });
+  });
+
+  it("should handle XML parsing error", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: ["application/json"],
+          xml: ["application/xml"],
+        },
+        parseXML: async () => {
+          throw new Error("XML parse error");
+        },
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: "<invalid>xml",
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/XML parse error/);
+  });
+
+  it("should handle JSON parse error", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/json" }),
+            bodyAsText: "not valid json{{{",
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/occurred while parsing the response body/);
+  });
+});
+
+describe("deserializationPolicy - additional branches", () => {
+  // Tests the code path in handleErrorResponse where xmlElementName is used to extract
+  // the array from the parsed body (line: `valueToDeserialize = parsedBody[elementName]`).
+  // parseXML is faked with JSON.parse for simplicity since the code path is the same.
+  it("should handle XML Sequence error body with xmlElementName", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: [],
+          xml: ["application/xml"],
+        },
+        parseXML: async (str) => JSON.parse(str),
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 400,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: JSON.stringify({
+              Error: [{ code: "Err1", message: "msg1" }],
+            }),
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          isXML: true,
+          serializer: createSerializer({}, true),
+          responses: {
+            200: {},
+            default: {
+              bodyMapper: {
+                xmlElementName: "Error",
+                type: {
+                  name: "Sequence",
+                  element: {
+                    type: {
+                      name: "Composite",
+                      modelProperties: {
+                        code: { serializedName: "code", type: { name: "String" } },
+                        message: { serializedName: "message", type: { name: "String" } },
+                      },
+                    },
+                  },
+                },
+              } satisfies SequenceMapper,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow(/Err1|msg1/);
+  });
+
+  it("should handle missing className in error body mapper", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 400,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"error": {"code": "BadRequest", "message": "fail"}}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {},
+            default: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  className: "BrokenModel",
+                },
+              } satisfies CompositeMapper,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow(/occurred in deserializing the responseBody/);
+  });
+
+  it("should handle XML content-type parsing without parseXML", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: [],
+          xml: ["application/xml"],
+        },
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: "<root>test</root>",
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: { 200: {} },
+        },
+      ),
+    ).rejects.toThrow(/Parsing XML not supported/);
+  });
+
+  it("should handle no operationSpec in request", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+          }),
+      },
+      pipeline,
+    });
+
+    // Directly send a request without setting up operationSpec
+    const result = await client.sendRequest(createPipelineRequest({ url: "https://example.com" }));
+    assert.strictEqual(result.status, 200);
+  });
+
+  it("should set blobBody and readableStreamBody for Stream-type response", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: "stream content",
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: { name: "Stream" },
+            },
+          },
+        },
+      },
+    );
+    assert.property(result as Record<string, unknown>, "blobBody");
+    assert.property(result as Record<string, unknown>, "readableStreamBody");
+  });
+
+  it("should deserialize XML body in success response", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      deserializationPolicy({
+        expectedContentTypes: {
+          json: [],
+          xml: ["application/xml"],
+        },
+        parseXML: async (str) => JSON.parse(str),
+      }),
+      { phase: "Deserialize" },
+    );
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders({ "Content-Type": "application/xml" }),
+            bodyAsText: JSON.stringify({ Items: { Item: ["a", "b"] } }),
+          }),
+      },
+      pipeline,
+    });
+
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        isXML: true,
+        serializer: createSerializer({}, true),
+        responses: {
+          200: {
+            bodyMapper: {
+              xmlElementName: "Item",
+              type: {
+                name: "Sequence",
+                element: { type: { name: "String" } },
+              },
+            } satisfies SequenceMapper,
+          },
+        },
+      },
+    );
+    assert.isArray(result);
+  });
+
+  it("should handle isError response spec", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"error": {"code": "SoftError", "message": "recoverable"}}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {
+              isError: true,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow(/SoftError|recoverable/);
+  });
+});
+
+describe("deserializationPolicy - operationResponseGetter", () => {
+  it("should use operationResponseGetter when set", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+    // We need to set operationResponseGetter directly on the operationInfo
+    // This requires intercepting the request before it goes through the pipeline
+    const customPolicy = {
+      name: "setOperationResponseGetter",
+      async sendRequest(request: any, next: any) {
+        const info = getOperationRequestInfo(request);
+        info.operationResponseGetter = (_spec: any, response: any) => {
+          return _spec.responses[response.status];
+        };
+        return next(request);
+      },
+    };
+    pipeline.addPolicy(customPolicy);
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"id": 42}',
+          }),
+      },
+      pipeline,
+    });
+
+    const result: any = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          200: {
+            bodyMapper: {
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  id: { serializedName: "id", type: { name: "Number" } },
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+    assert.strictEqual(result.id, 42);
+  });
+});
+
+describe("deserializationPolicy - shouldReturnResponse path", () => {
+  it("should fall back to default response when status code is unmatched", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 204,
+            headers: createHttpHeaders(),
+          }),
+      },
+      pipeline,
+    });
+
+    // operationSpec with only a default response, and status 204 not in responses
+    // => isExpectedStatusCode false, but then we match the default response
+    // For the shouldReturnResponse path, we need a response that's not in the spec
+    // AND no default response AND no error body
+    const result = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "DELETE",
+        baseUrl: "https://example.com",
+        serializer: createSerializer(),
+        responses: {
+          // only default, no 204 match
+          default: {},
+        },
+      },
+    );
+    // Default response matched (204 not in responses, but default: {} exists).
+    // Result should be the flattened response — verify it succeeded without throwing.
+    assert.isDefined(result);
+  });
+});
+
+describe("deserializationPolicy - deserialization error", () => {
+  it("should throw RestError when body deserialization fails", async () => {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy(), { phase: "Deserialize" });
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) =>
+          Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: '{"value": "not-a-number"}',
+          }),
+      },
+      pipeline,
+    });
+
+    await expect(
+      client.sendOperationRequest(
+        {},
+        {
+          httpMethod: "GET",
+          baseUrl: "https://example.com",
+          serializer: createSerializer(),
+          responses: {
+            200: {
+              bodyMapper: {
+                type: {
+                  name: "Composite",
+                  className: "NonExistentModel",
+                },
+              } satisfies CompositeMapper,
+            },
+          },
+        },
+      ),
+    ).rejects.toThrow(/occurred in deserializing the responseBody/);
+  });
+});

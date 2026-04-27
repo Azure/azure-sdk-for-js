@@ -3,29 +3,23 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB database account.
+ * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB database account.
  *
- * @summary Retrieves the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBDatabaseAccountGet.json
+ * @summary retrieves the properties of an existing Azure Cosmos DB database account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountGet.json
  */
-async function cosmosDbDatabaseAccountGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
+async function cosmosDBDatabaseAccountGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.databaseAccounts.get(
-    resourceGroupName,
-    accountName,
-  );
+  const result = await client.databaseAccounts.get("rg1", "ddb1");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbDatabaseAccountGet();
+  await cosmosDBDatabaseAccountGet();
 }
 
 main().catch(console.error);

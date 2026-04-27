@@ -3,34 +3,31 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists the Gremlin graph under an existing Azure Cosmos DB database account.
+ * This sample demonstrates how to lists the Gremlin graph under an existing Azure Cosmos DB database account.
  *
- * @summary Lists the Gremlin graph under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGremlinGraphList.json
+ * @summary lists the Gremlin graph under an existing Azure Cosmos DB database account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphList.json
  */
-async function cosmosDbGremlinGraphList() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
+async function cosmosDBGremlinGraphList() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.gremlinResources.listGremlinGraphs(
-    resourceGroupName,
-    accountName,
-    databaseName,
+    "rgName",
+    "ddb1",
+    "databaseName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbGremlinGraphList();
+  await cosmosDBGremlinGraphList();
 }
 
 main().catch(console.error);

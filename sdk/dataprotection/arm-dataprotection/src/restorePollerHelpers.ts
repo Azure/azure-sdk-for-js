@@ -75,6 +75,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -85,108 +86,66 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances/{backupInstanceName}/undelete":
-    { deserializer: _undeleteDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _undeleteDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/exportBackupJobs":
-    {
-      deserializer: _triggerDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _triggerDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}":
-    {
-      deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/validateCrossRegionRestore":
     {
       deserializer: _validateCrossRegionRestoreDeserialize,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/crossRegionRestore":
     {
       deserializer: _triggerCrossRegionRestoreDeserialize,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateRestore":
-    {
-      deserializer: _validateForRestoreDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _validateForRestoreDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/sync":
-    {
-      deserializer: _syncBackupInstanceDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _syncBackupInstanceDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/suspendBackups":
-    {
-      deserializer: _suspendBackupsDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _suspendBackupsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/stopProtection":
-    {
-      deserializer: _stopProtectionDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _stopProtectionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeProtection":
-    {
-      deserializer: _resumeProtectionDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _resumeProtectionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/resumeBackups":
-    {
-      deserializer: _resumeBackupsDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _resumeBackupsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/restore":
-    {
-      deserializer: _triggerRestoreDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _triggerRestoreDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/rehydrate":
-    {
-      deserializer: _triggerRehydrateDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _triggerRehydrateDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/validateForModifyBackup":
-    {
-      deserializer: _validateForModifyBackupDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _validateForModifyBackupDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/backup":
-    { deserializer: _adhocBackupDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _adhocBackupDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}":
-    {
-      deserializer: _$deleteDeserializeBackupInstances,
-      expectedStatuses: ["200", "202", "204"],
-    },
+    { deserializer: _$deleteDeserializeBackupInstances, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}":
     {
       deserializer: _createOrUpdateDeserializeBackupInstances,
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/validateForBackup":
-    {
-      deserializer: _validateForBackupDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _validateForBackupDeserialize, expectedStatuses: ["200", "202", "201"] },
 };
 
 function getDeserializationHelper(
@@ -257,4 +216,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

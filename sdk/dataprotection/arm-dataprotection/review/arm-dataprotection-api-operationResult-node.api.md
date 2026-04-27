@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: DataProtectionContext, operationId: string, location: string, options?: OperationResultGetOptionalParams): Promise<OperationJobExtendedInfo | null>;
+export function get(context: DataProtectionContext, operationId: string, location: string, options?: OperationResultGetOptionalParams): Promise<OperationJobExtendedInfo>;
 
 // @public
 export interface OperationResultGetOptionalParams extends OperationOptions {
