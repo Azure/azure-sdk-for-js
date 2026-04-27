@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for copyAnalyzer.ts - Copy an analyzer within the same resource.
+ * Sample test for copyAnalyzer.ts - Copy an analyzer within the same resource.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

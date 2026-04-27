@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IncomingMessage } from "node:http";
+import type { NodeIncomingMessage } from "#platform/types";
+import { cancelNodeStream } from "#platform/types";
 import type { NodeJSReadableStream } from "./models.js";
 
 export function createStream<T>(
@@ -49,7 +50,7 @@ function iteratorToStream<T>(
   cancel: () => PromiseLike<void>,
 ): ReadableStream<T> {
   return new ReadableStream({
-    async pull(controller) {
+    async pull(controller: ReadableStreamDefaultController<T>) {
       const { value, done } = await iterator.next();
       if (done) {
         controller.close();
@@ -62,7 +63,7 @@ function iteratorToStream<T>(
 }
 
 export function ensureAsyncIterable(
-  stream: IncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
+  stream: NodeIncomingMessage | NodeJSReadableStream | ReadableStream<Uint8Array>,
 ): {
   cancel(): Promise<void>;
   iterable: AsyncIterable<Uint8Array>;
@@ -75,14 +76,7 @@ export function ensureAsyncIterable(
     };
   } else {
     return {
-      cancel: async () => {
-        // socket could be null if the connection is already closed
-        if ("socket" in stream && stream.socket) {
-          stream.socket.end();
-        } else {
-          stream.destroy();
-        }
-      },
+      cancel: async () => cancelNodeStream(stream),
       iterable: stream as AsyncIterable<Uint8Array>,
     };
   }
