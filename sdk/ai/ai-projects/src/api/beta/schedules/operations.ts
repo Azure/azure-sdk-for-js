@@ -37,10 +37,12 @@ export function _listRunsSend(
 ): StreamableMethod {
   const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
-    "/schedules/{id}/runs{?api-version}",
+    "/schedules/{id}/runs{?api-version,type,enabled}",
     {
       id: id,
       "api-version": context.apiVersion,
+      type: options?.scheduleType,
+      enabled: options?.enabled,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +165,7 @@ export function _createOrUpdateSend(
   );
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
+    contentType: "application/json",
     headers: {
       "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined

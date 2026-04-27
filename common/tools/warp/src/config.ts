@@ -28,6 +28,10 @@ import { getLogger } from "./logger.ts";
  * When `configPath` is provided, that file is loaded directly (must exist).
  * tsconfig paths in targets are resolved relative to `dir`.
  *
+ * If the config contains an `extends` field, the base config is loaded
+ * recursively and merged: `exports` are shallow-merged (child overrides base),
+ * `targets` from child replace base entirely when present.
+ *
  * Returns `undefined` when no config is found (and `configPath` was not
  * specified).  Throws on parse/validation errors or when an explicit
  * `configPath` doesn't exist.
@@ -49,7 +53,8 @@ export async function findWarpConfig(
     const content = await fsp.readFile(fullPath, "utf-8");
     const { parsed, sourceType } = parseConfigContent(content, fullPath);
     const source: ConfigSource = { type: sourceType, path: fullPath };
-    return { config: validateConfig(parsed, fullPath), source };
+    const config = await resolveConfigWithExtends(parsed, fullPath, fullPath, new Set());
+    return { config, source };
   }
 
   // Probe YAML files — attempt readFile directly instead of access+read
@@ -88,7 +93,8 @@ export async function findWarpConfig(
         // no package.json — ignore
       }
 
-      return { config: validateConfig(parsed, yamlPath), source };
+      const config = await resolveConfigWithExtends(parsed, yamlPath, yamlPath, new Set());
+      return { config, source };
     }
   }
 
@@ -112,7 +118,8 @@ export async function findWarpConfig(
       // no package.json — ignore
     }
 
-    return { config: validateConfig(parsed, jsonPath), source };
+    const config = await resolveConfigWithExtends(parsed, jsonPath, jsonPath, new Set());
+    return { config, source };
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
       throw err;
@@ -126,7 +133,12 @@ export async function findWarpConfig(
     const pkgRaw: unknown = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
     if (isRecord(pkgRaw) && "warp" in pkgRaw) {
       const source: ConfigSource = { type: "package.json", path: pkgPath };
-      const config = validateConfig(pkgRaw.warp, `${pkgPath} "warp" key`);
+      const config = await resolveConfigWithExtends(
+        pkgRaw.warp,
+        pkgPath,
+        `${pkgPath} "warp" key`,
+        new Set(),
+      );
       return { config, source };
     }
   } catch {
@@ -134,6 +146,84 @@ export async function findWarpConfig(
   }
 
   return undefined;
+}
+
+/**
+ * Resolve a config that may have an `extends` field, loading and merging the
+ * base config recursively. Cycle detection uses a set of resolved file paths.
+ *
+ * @param raw - The raw parsed config object.
+ * @param sourcePath - Filesystem path used for resolving relative `extends` paths.
+ * @param sourceLabel - Descriptive label used in error messages (e.g. `package.json "warp" key`).
+ * @param seen - Set of resolved paths for cycle detection.
+ */
+async function resolveConfigWithExtends(
+  raw: unknown,
+  sourcePath: string,
+  sourceLabel: string,
+  seen: Set<string>,
+): Promise<WarpConfig> {
+  if (!isRecord(raw)) {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Invalid config in ${sourceLabel}: expected an object`,
+    );
+  }
+
+  const extendsPath = raw.extends;
+  if (extendsPath === undefined) {
+    return validateConfig(raw, sourceLabel);
+  }
+
+  if (typeof extendsPath !== "string" || extendsPath.length === 0) {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Invalid config in ${sourceLabel}: "extends" must be a non-empty string`,
+    );
+  }
+
+  // Resolve the base config path relative to this config file's directory
+  const configDir = path.dirname(path.resolve(sourcePath));
+  const basePath = path.resolve(configDir, extendsPath);
+
+  // Cycle detection
+  const normalizedBase = path.normalize(basePath);
+  if (seen.has(normalizedBase)) {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Circular extends detected in ${sourceLabel}: "${extendsPath}" was already in the chain`,
+    );
+  }
+  seen.add(normalizedBase);
+
+  // Load and parse the base config file
+  let baseContent: string;
+  try {
+    baseContent = await fsp.readFile(basePath, "utf-8");
+  } catch {
+    throw new WarpError(
+      "CONFIG_NOT_FOUND",
+      `[warp] Config extends "${extendsPath}" not found at ${basePath} (referenced from ${sourceLabel})`,
+    );
+  }
+  const { parsed: baseParsed } = parseConfigContent(baseContent, basePath);
+
+  // Recursively resolve the base (it may also extend something)
+  const baseConfig = await resolveConfigWithExtends(baseParsed, basePath, basePath, seen);
+
+  // Merge: child overrides base
+  // - exports: shallow merge, child keys override base keys
+  // - targets: child replaces base entirely if specified, otherwise inherits
+  const childExports = isRecord(raw.exports) ? (raw.exports as Record<string, string>) : undefined;
+  const childTargets =
+    Array.isArray(raw.targets) && raw.targets.length > 0 ? raw.targets : undefined;
+
+  const merged = {
+    exports: { ...baseConfig.exports, ...(childExports ?? {}) },
+    targets: childTargets ?? baseConfig.targets,
+  };
+
+  return validateConfig(merged, sourceLabel);
 }
 
 function parseConfigContent(
@@ -177,7 +267,6 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
     );
   }
   const exports: Record<string, unknown> = raw.exports;
-  const seenExportKeys = new Set<string>();
   for (const [key, value] of Object.entries(exports)) {
     if (typeof value !== "string") {
       throw new WarpError(
@@ -191,13 +280,6 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         `[warp] Invalid config in ${source}: exports key must not be empty`,
       );
     }
-    if (seenExportKeys.has(key)) {
-      throw new WarpError(
-        "CONFIG_INVALID",
-        `[warp] Invalid config in ${source}: duplicate exports key "${key}"`,
-      );
-    }
-    seenExportKeys.add(key);
     // Validate subpath pattern (#11): must be "." or start with "./"
     if (key !== "." && !key.startsWith("./")) {
       throw new WarpError(
@@ -305,6 +387,16 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
       ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
     };
 
+    // Backward compat: infer moduleType from condition for targets that haven't
+    // been updated yet. Remove this once all packages specify moduleType explicitly.
+    if (!target.moduleType && target.condition === "require") {
+      target.moduleType = "commonjs";
+      getLogger().warn(
+        `[warp] Warning: target "${target.name}" has condition "require" but no moduleType. ` +
+          `Inferring moduleType: "commonjs". Please add explicit moduleType to your warp config.`,
+      );
+    }
+
     if (seenNames.has(target.name)) {
       throw new WarpError(
         "VALIDATION_ERROR",
@@ -354,18 +446,4 @@ export async function validateTsconfigPaths(
       }
     }),
   );
-}
-
-/**
- * Infer module type from TypeScript compiler options.
- * CommonJS-family modules → "commonjs", everything else → "module".
- */
-export function inferModuleType(moduleKind: number | undefined): ModuleType {
-  // ts.ModuleKind.CommonJS = 1, ts.ModuleKind.Node16 = 100, ts.ModuleKind.NodeNext = 199
-  // For Node16/NodeNext the package-level type matters; we default to "module"
-  // since the parent package.json typically has "type": "module".
-  if (moduleKind === 1 /* CommonJS */) {
-    return "commonjs";
-  }
-  return "module";
 }

@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-azurestackhci": [
-        "./dist/esm"
-      ]
+      "@azure/arm-azurestackhci": ["./dist/esm"]
     }
   }
 }

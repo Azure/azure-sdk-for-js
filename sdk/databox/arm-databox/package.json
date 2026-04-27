@@ -44,7 +44,11 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/databox/arm-databox"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -80,7 +84,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

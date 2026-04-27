@@ -282,7 +282,7 @@ export function bearerTokenAuthenticationPolicy(
 
           // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
           if (isChallengeResponse(response)) {
-            claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate") as string);
+            claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate") ?? "");
             if (claims) {
               let parsedClaim: string;
               try {

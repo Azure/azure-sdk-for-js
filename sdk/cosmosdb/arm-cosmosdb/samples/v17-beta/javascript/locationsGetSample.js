@@ -3,26 +3,23 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Get the properties of an existing Cosmos DB location
+ * This sample demonstrates how to get the properties of an existing Cosmos DB location
  *
- * @summary Get the properties of an existing Cosmos DB location
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBLocationGet.json
+ * @summary get the properties of an existing Cosmos DB location
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBLocationGet.json
  */
-async function cosmosDbLocationGet() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const location = "westus";
+async function cosmosDBLocationGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.locations.get(location);
+  const result = await client.locations.get("westus");
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbLocationGet();
+  await cosmosDBLocationGet();
 }
 
 main().catch(console.error);

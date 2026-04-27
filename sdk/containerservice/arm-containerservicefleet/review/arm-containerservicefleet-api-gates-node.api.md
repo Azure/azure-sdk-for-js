@@ -15,6 +15,9 @@ export interface GatesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface GatesListByFleetOptionalParams extends OperationOptions {
+    filter?: string;
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

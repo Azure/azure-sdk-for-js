@@ -1162,10 +1162,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       ),
     );
 
-    assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
-    assert.deepStrictEqual(4, result.counters.changedFilesCount);
-    assert.deepStrictEqual(0, result.counters.failedChangesCount);
-    assert.deepStrictEqual(undefined, result.continuationToken);
+    assert.deepStrictEqual(result.counters.changedDirectoriesCount, 3);
+    assert.deepStrictEqual(result.counters.changedFilesCount, 4);
+    assert.deepStrictEqual(result.counters.failedChangesCount, 0);
+    assert.deepStrictEqual(result.continuationToken, undefined);
   });
 
   it("setAccessControlRecursive should work with options - maxBatches", async () => {
@@ -1208,8 +1208,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       },
     );
 
-    assert.deepStrictEqual(1, batchCounter);
-    assert.notDeepEqual(undefined, result.continuationToken);
+    assert.deepStrictEqual(batchCounter, 1);
+    assert.notDeepEqual(result.continuationToken, undefined);
   });
 
   it("setAccessControlRecursive should work with options - batchSize", async () => {
@@ -1280,14 +1280,14 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       },
     );
 
-    assert.deepStrictEqual(3, cumulativeCounters.changedDirectoriesCount);
-    assert.deepStrictEqual(4, cumulativeCounters.changedFilesCount);
-    assert.deepStrictEqual(0, cumulativeCounters.failedChangesCount);
-    assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
-    assert.deepStrictEqual(4, result.counters.changedFilesCount);
-    assert.deepStrictEqual(0, result.counters.failedChangesCount);
-    assert.deepStrictEqual(undefined, result.continuationToken);
-    assert.deepStrictEqual(true, batchCounter > 3);
+    assert.deepStrictEqual(cumulativeCounters.changedDirectoriesCount, 3);
+    assert.deepStrictEqual(cumulativeCounters.changedFilesCount, 4);
+    assert.deepStrictEqual(cumulativeCounters.failedChangesCount, 0);
+    assert.deepStrictEqual(result.counters.changedDirectoriesCount, 3);
+    assert.deepStrictEqual(result.counters.changedFilesCount, 4);
+    assert.deepStrictEqual(result.counters.failedChangesCount, 0);
+    assert.deepStrictEqual(result.continuationToken, undefined);
+    assert.deepStrictEqual(batchCounter > 3, true);
   });
 
   it("setAccessControlRecursive should work with aborter & resume, ", async () => {
@@ -1365,7 +1365,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       0,
       result.counters.failedChangesCount + midProgress!.batchCounters.failedChangesCount,
     );
-    assert.deepStrictEqual(undefined, result.continuationToken);
+    assert.deepStrictEqual(result.continuationToken, undefined);
   });
 
   it("updateAccessControlRecursive should work", async () => {
@@ -1400,10 +1400,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       ),
     );
 
-    assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
-    assert.deepStrictEqual(4, result.counters.changedFilesCount);
-    assert.deepStrictEqual(0, result.counters.failedChangesCount);
-    assert.deepStrictEqual(undefined, result.continuationToken);
+    assert.deepStrictEqual(result.counters.changedDirectoriesCount, 3);
+    assert.deepStrictEqual(result.counters.changedFilesCount, 4);
+    assert.deepStrictEqual(result.counters.failedChangesCount, 0);
+    assert.deepStrictEqual(result.continuationToken, undefined);
   });
 
   it("removeAccessControlRecursive should work", async () => {
@@ -1438,10 +1438,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       ),
     );
 
-    assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
-    assert.deepStrictEqual(4, result.counters.changedFilesCount);
-    assert.deepStrictEqual(0, result.counters.failedChangesCount);
-    assert.deepStrictEqual(undefined, result.continuationToken);
+    assert.deepStrictEqual(result.counters.changedDirectoriesCount, 3);
+    assert.deepStrictEqual(result.counters.changedFilesCount, 4);
+    assert.deepStrictEqual(result.counters.failedChangesCount, 0);
+    assert.deepStrictEqual(result.continuationToken, undefined);
 
     const removeResult = await directoryClient.removeAccessControlRecursive(
       toRemoveAcl(
@@ -1452,10 +1452,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       ),
     );
 
-    assert.deepStrictEqual(3, removeResult.counters.changedDirectoriesCount);
-    assert.deepStrictEqual(4, removeResult.counters.changedFilesCount);
-    assert.deepStrictEqual(0, removeResult.counters.failedChangesCount);
-    assert.deepStrictEqual(undefined, removeResult.continuationToken);
+    assert.deepStrictEqual(removeResult.counters.changedDirectoriesCount, 3);
+    assert.deepStrictEqual(removeResult.counters.changedFilesCount, 4);
+    assert.deepStrictEqual(removeResult.counters.failedChangesCount, 0);
+    assert.deepStrictEqual(removeResult.continuationToken, undefined);
   });
 
   it("setAccessControlRecursive should work with progress failures", async () => {

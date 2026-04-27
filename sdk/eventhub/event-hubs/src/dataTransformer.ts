@@ -34,25 +34,24 @@ export const defaultDataTransformer = {
    */
   encode(body: unknown, bodyType: BodyTypes): any {
     let result: any;
+    const normalizedBody = body === undefined ? null : body;
     // string, undefined, null, boolean, array, object, number should end up here
     // coercing undefined to null as that will ensure that null value will be given to the
     // customer on receive.
-    if (body === undefined) body = null;
-
     if (bodyType === "value") {
       // TODO: Expose value_section from `rhea` similar to the data_section and sequence_section.
       // Right now there isn't a way to create a value section officially.
-      result = message.data_section(body);
+      result = message.data_section(normalizedBody);
       result.typecode = valueSectionTypeCode;
     } else if (bodyType === "sequence") {
-      result = message.sequence_section(body);
-    } else if (isBuffer(body) || body instanceof Uint8Array) {
-      result = message.data_section(body);
-    } else if (body === null && bodyType === "data") {
+      result = message.sequence_section(normalizedBody);
+    } else if (isBuffer(normalizedBody) || normalizedBody instanceof Uint8Array) {
+      result = message.data_section(normalizedBody);
+    } else if (normalizedBody === null && bodyType === "data") {
       result = message.data_section(null);
     } else {
       try {
-        const bodyStr = JSON.stringify(body);
+        const bodyStr = JSON.stringify(normalizedBody);
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
       } catch (err: any) {
         const msg =

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-previewalertrule": ["./src/index.ts"],
+      "@azure/arm-previewalertrule/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

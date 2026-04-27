@@ -8,7 +8,7 @@ import * as os from "node:os";
 import * as ts from "typescript";
 import { stringify } from "yaml";
 import { WarpError } from "../../src/types.ts";
-import { findWarpConfig, inferModuleType } from "../../src/config.ts";
+import { findWarpConfig } from "../../src/config.ts";
 import {
   validateOutDirs,
   optionsSignature,
@@ -386,27 +386,6 @@ describe("SharedSourceFileCache with ScriptTarget", () => {
 });
 
 // ---------------------------------------------------------------------------
-// inferModuleType
-// ---------------------------------------------------------------------------
-
-describe("inferModuleType", () => {
-  it('returns "commonjs" for CommonJS module kind', () => {
-    expect(inferModuleType(ts.ModuleKind.CommonJS)).toBe("commonjs");
-  });
-
-  it('returns "module" for ESNext', () => {
-    expect(inferModuleType(ts.ModuleKind.ESNext)).toBe("module");
-  });
-
-  it('returns "module" for NodeNext', () => {
-    expect(inferModuleType(ts.ModuleKind.NodeNext)).toBe("module");
-  });
-
-  it('returns "module" for undefined', () => {
-    expect(inferModuleType(undefined)).toBe("module");
-  });
-});
-
 // ---------------------------------------------------------------------------
 // cleanOutDir
 // ---------------------------------------------------------------------------
@@ -622,35 +601,7 @@ describe("module type shim from compiler options", () => {
     expect(shim["type"]).toBe("commonjs");
   });
 
-  it("infers commonjs from compiler options when no explicit moduleType", async () => {
-    await fs.writeFile(
-      path.join(tmpDir, "package.json"),
-      `${JSON.stringify({ name: "test" }, null, 2)}\n`,
-    );
-    await fs.mkdir(path.join(tmpDir, "dist/cjs"), { recursive: true });
-
-    const results = [
-      {
-        target: { name: "cjs", condition: "require", tsconfig: "./t.json" },
-        diagnostics: [] as readonly ts.Diagnostic[],
-        success: true,
-        outDir: path.join(tmpDir, "dist/cjs"),
-        rootDir: path.join(tmpDir, "src"),
-        compileTimeMs: 0,
-        deduped: false,
-      },
-    ];
-
-    const moduleKinds = new Map<string, number | undefined>();
-    moduleKinds.set("cjs", ts.ModuleKind.CommonJS);
-
-    await writeExportsToPackageJson({}, results, tmpDir, moduleKinds);
-
-    const shim = await readJsonObject(path.join(tmpDir, "dist/cjs/package.json"));
-    expect(shim["type"]).toBe("commonjs");
-  });
-
-  it("infers module from ESNext compiler options", async () => {
+  it("defaults to module when no explicit moduleType", async () => {
     await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test" }, null, 2)}\n`,
@@ -669,10 +620,7 @@ describe("module type shim from compiler options", () => {
       },
     ];
 
-    const moduleKinds = new Map<string, number | undefined>();
-    moduleKinds.set("esm", ts.ModuleKind.ESNext);
-
-    await writeExportsToPackageJson({}, results, tmpDir, moduleKinds);
+    await writeExportsToPackageJson({}, results, tmpDir);
 
     const shim = await readJsonObject(path.join(tmpDir, "dist/esm/package.json"));
     expect(shim["type"]).toBe("module");

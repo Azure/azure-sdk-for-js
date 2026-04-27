@@ -43,8 +43,32 @@ failure.
   **not** real tests — ignore failures in those files.
 - Do **not** follow `details_url` links on check runs — they point to Azure DevOps
   which is not accessible from this environment.
-- Do **not** create pull requests or modify source files. The only output of this
-  workflow is a GitHub issue.
+- Do **not** create pull requests or modify source files. The only mutable output
+  of this workflow is a GitHub issue; when no new failures exist the workflow
+  exits silently with no issue created.
+
+## Known Pre-existing Failures
+
+Some CI test failures are caused by infrastructure or service-side issues that are
+already tracked. Before filing a new issue, check the **known failures tracking
+issue** (https://github.com/Azure/azure-sdk-for-js/issues/37864) for pre-existing
+failures.
+
+1. Fetch the body of issue #37864 using the GitHub API.
+2. For each failing check run identified later in "Step 1 — Identify Failing
+   Packages", check whether the **service directory** (from the check-run name,
+   e.g. `attestation` in `js - attestation (Build UnitTest ...)`) or the **npm
+   package name** (from annotations/file paths) and the **error pattern** match an
+   entry in the known failures list.
+3. If a failure matches a known pre-existing issue:
+   - **Exclude** it from the new GitHub issue entirely.
+   - Do **not** attempt to reproduce or root-cause it — it is already tracked.
+4. If **all** detected failures are known pre-existing issues, **stop immediately** —
+   do **not** create a GitHub issue. Simply report that all failures are known and
+   already tracked.
+5. If some failures are new and some are known, create the issue for **new failures
+   only**. Add a brief note in the "Additional Notes" section listing which known
+   failures were excluded and linking to their tracking issues.
 
 ## Step 1 — Identify Failing Packages
 
@@ -53,10 +77,24 @@ failure.
    commit, check a few recent commits — CI may not run on every push.
 2. Filter for check runs whose `conclusion` is `failure`. CI runs are reported by
    the **Azure Pipelines** GitHub App; the check-run **name** includes the service
-   directory and job type (e.g. `js - service-bus - tests`).
-3. If a specific `package` input was provided, scope investigation to that package only.
-4. Collect the list of affected **service directories** or **package names** from the
-   check-run names (the pattern is `js - <service> - <job-type>`).
+   directory and job type.
+3. **Only consider CI (playback) pipeline failures.** Each service has two separate
+   Azure DevOps pipelines that both report check runs against the same commit:
+   - **CI pipeline** (from `ci.yml`) — triggered on pushes to `main`; runs tests
+     in **playback** mode. Check-run name pattern: `js - <service>` with job
+     suffixes like `(Build ...)`, `(Build UnitTest ...)`, `(Build Analyze)`.
+     Example: `js - attestation (Build UnitTest ubuntu_22x_node)`.
+   - **Live-test pipeline** (from `tests.yml`) — triggered on a schedule or
+     manually; runs tests in **live** mode against real Azure services. Check-run
+     name pattern: `js - <service> - tests` with job suffixes like
+     `(Public ...)`. Example: `js - attestation - tests (Public macoslatest_24x_node)`.
+
+   **Ignore all check runs whose name contains `- tests`, `- tests-weekly`, or
+   `- perf`.** These are live-test and performance pipeline results, not CI
+   regressions. This workflow should only analyze CI pipeline failures.
+4. If a specific `package` input was provided, scope investigation to that package only.
+5. Collect the list of affected **service directories** or **package names** from the
+   check-run names (the pattern is `js - <service> (...)`).
 
 If there are no test failures on `main`, **stop immediately** — do **not** create a
 GitHub issue. Simply report that CI is green and exit.

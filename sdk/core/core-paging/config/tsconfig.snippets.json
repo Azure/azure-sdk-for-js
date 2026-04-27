@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/snippets.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-paging": ["../src/index.ts"],
+      "@azure/core-paging/*": ["../src/*"]
+    }
+  }
+}

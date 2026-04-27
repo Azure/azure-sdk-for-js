@@ -604,6 +604,8 @@ export enum KnownOssku {
   Windows2022 = "Windows2022",
   /** Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https://aka.ms/aks/supported-ubuntu-versions */
   Ubuntu2204 = "Ubuntu2204",
+  /** Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. */
+  Windows2025 = "Windows2025",
   /** Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https://aka.ms/aks/supported-ubuntu-versions */
   Ubuntu2404 = "Ubuntu2404",
 }
@@ -620,6 +622,7 @@ export enum KnownOssku {
  * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
  * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. \
  * **Ubuntu2204**: Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https:\//aka.ms\/aks\/supported-ubuntu-versions \
+ * **Windows2025**: Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. \
  * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions
  */
 export type Ossku = string;
@@ -1408,8 +1411,8 @@ export interface AgentPoolStatus {
   readonly provisioningError?: ErrorDetail;
 }
 
-export function agentPoolStatusSerializer(item: AgentPoolStatus): any {
-  return item;
+export function agentPoolStatusSerializer(_item: AgentPoolStatus): any {
+  return {};
 }
 
 export function agentPoolStatusDeserializer(item: any): AgentPoolStatus {
@@ -1714,8 +1717,8 @@ export type LocalDNSServeStale = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1741,8 +1744,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2105,6 +2108,8 @@ export interface ManagedCluster extends TrackedResource {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2150,6 +2155,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeProvisioningProfile",
       "bootstrapProfile",
       "aiToolchainOperatorProfile",
+      "hostedSystemProfile",
       "status",
     ])
       ? undefined
@@ -2282,6 +2288,8 @@ export interface ManagedClusterProperties {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2378,6 +2386,9 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileSerializer(item["hostedSystemProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -2484,6 +2495,9 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileDeserializer(item["hostedSystemProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }
@@ -4808,6 +4822,8 @@ export function managedClusterStorageProfileBlobCSIDriverDeserializer(
 export interface ManagedClusterIngressProfile {
   /** App Routing settings for the ingress profile. You can find an overview and onboarding guide for this feature at https://learn.microsoft.com/en-us/azure/aks/app-routing?tabs=default%2Cdeploy-app-default. */
   webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+  /** Settings for the managed Gateway API installation */
+  gatewayAPI?: ManagedClusterIngressProfileGatewayConfiguration;
 }
 
 export function managedClusterIngressProfileSerializer(item: ManagedClusterIngressProfile): any {
@@ -4815,6 +4831,9 @@ export function managedClusterIngressProfileSerializer(item: ManagedClusterIngre
     webAppRouting: !item["webAppRouting"]
       ? item["webAppRouting"]
       : managedClusterIngressProfileWebAppRoutingSerializer(item["webAppRouting"]),
+    gatewayAPI: !item["gatewayAPI"]
+      ? item["gatewayAPI"]
+      : managedClusterIngressProfileGatewayConfigurationSerializer(item["gatewayAPI"]),
   };
 }
 
@@ -4823,6 +4842,9 @@ export function managedClusterIngressProfileDeserializer(item: any): ManagedClus
     webAppRouting: !item["webAppRouting"]
       ? item["webAppRouting"]
       : managedClusterIngressProfileWebAppRoutingDeserializer(item["webAppRouting"]),
+    gatewayAPI: !item["gatewayAPI"]
+      ? item["gatewayAPI"]
+      : managedClusterIngressProfileGatewayConfigurationDeserializer(item["gatewayAPI"]),
   };
 }
 
@@ -4830,6 +4852,8 @@ export function managedClusterIngressProfileDeserializer(item: any): ManagedClus
 export interface ManagedClusterIngressProfileWebAppRouting {
   /** Whether to enable the Application Routing add-on. */
   enabled?: boolean;
+  /** Configurations for Gateway API providers to be used for managed ingress with App Routing. See https://aka.ms/k8s-gateway-api for more information on the Gateway API. */
+  gatewayAPIImplementations?: ManagedClusterWebAppRoutingGatewayAPIImplementations;
   /** Resource IDs of the DNS zones to be associated with the Application Routing add-on. Used only when Application Routing add-on is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
   dnsZoneResourceIds?: string[];
   /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
@@ -4843,6 +4867,11 @@ export function managedClusterIngressProfileWebAppRoutingSerializer(
 ): any {
   return {
     enabled: item["enabled"],
+    gatewayAPIImplementations: !item["gatewayAPIImplementations"]
+      ? item["gatewayAPIImplementations"]
+      : managedClusterWebAppRoutingGatewayAPIImplementationsSerializer(
+          item["gatewayAPIImplementations"],
+        ),
     dnsZoneResourceIds: !item["dnsZoneResourceIds"]
       ? item["dnsZoneResourceIds"]
       : item["dnsZoneResourceIds"].map((p: any) => {
@@ -4859,6 +4888,11 @@ export function managedClusterIngressProfileWebAppRoutingDeserializer(
 ): ManagedClusterIngressProfileWebAppRouting {
   return {
     enabled: item["enabled"],
+    gatewayAPIImplementations: !item["gatewayAPIImplementations"]
+      ? item["gatewayAPIImplementations"]
+      : managedClusterWebAppRoutingGatewayAPIImplementationsDeserializer(
+          item["gatewayAPIImplementations"],
+        ),
     dnsZoneResourceIds: !item["dnsZoneResourceIds"]
       ? item["dnsZoneResourceIds"]
       : item["dnsZoneResourceIds"].map((p: any) => {
@@ -4872,6 +4906,68 @@ export function managedClusterIngressProfileWebAppRoutingDeserializer(
       : userAssignedIdentityDeserializer(item["identity"]),
   };
 }
+
+/** Configurations for Gateway API providers to be used for managed ingress with App Routing. */
+export interface ManagedClusterWebAppRoutingGatewayAPIImplementations {
+  /** Configuration for using a sidecar-less Istio control plane for managed ingress via the Gateway API with App Routing. See https://aka.ms/gateway-on-istio for information on using Istio for ingress via the Gateway API. */
+  appRoutingIstio?: ManagedClusterAppRoutingIstio;
+}
+
+export function managedClusterWebAppRoutingGatewayAPIImplementationsSerializer(
+  item: ManagedClusterWebAppRoutingGatewayAPIImplementations,
+): any {
+  return {
+    appRoutingIstio: !item["appRoutingIstio"]
+      ? item["appRoutingIstio"]
+      : managedClusterAppRoutingIstioSerializer(item["appRoutingIstio"]),
+  };
+}
+
+export function managedClusterWebAppRoutingGatewayAPIImplementationsDeserializer(
+  item: any,
+): ManagedClusterWebAppRoutingGatewayAPIImplementations {
+  return {
+    appRoutingIstio: !item["appRoutingIstio"]
+      ? item["appRoutingIstio"]
+      : managedClusterAppRoutingIstioDeserializer(item["appRoutingIstio"]),
+  };
+}
+
+/** Configuration for using a sidecar-less Istio control plane for managed ingress via the Gateway API with App Routing. See https://aka.ms/gateway-on-istio for information on using Istio for ingress via the Gateway API. */
+export interface ManagedClusterAppRoutingIstio {
+  /** Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. */
+  mode?: GatewayAPIIstioEnabled;
+}
+
+export function managedClusterAppRoutingIstioSerializer(item: ManagedClusterAppRoutingIstio): any {
+  return { mode: item["mode"] };
+}
+
+export function managedClusterAppRoutingIstioDeserializer(
+  item: any,
+): ManagedClusterAppRoutingIstio {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. */
+export enum KnownGatewayAPIIstioEnabled {
+  /** Enables managed ingress via the Gateway API using a sidecar-less Istio controlplane. */
+  Enabled = "Enabled",
+  /** Disables the sidecar-less istio control plane for managed ingress via the Gateway API. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. \
+ * {@link KnownGatewayAPIIstioEnabled} can be used interchangeably with GatewayAPIIstioEnabled,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enables managed ingress via the Gateway API using a sidecar-less Istio controlplane. \
+ * **Disabled**: Disables the sidecar-less istio control plane for managed ingress via the Gateway API.
+ */
+export type GatewayAPIIstioEnabled = string;
 
 /** Nginx ingress controller configuration for the managed cluster ingress profile. */
 export interface ManagedClusterIngressProfileNginx {
@@ -4916,6 +5012,44 @@ export enum KnownNginxIngressControllerType {
  * **None**: The default Ingress Controller will not be created. It will not be deleted by the system if it exists. Users should delete the default NginxIngressController Custom Resource manually if desired.
  */
 export type NginxIngressControllerType = string;
+
+/** Configuration for managed Gateway API CRDs. See https://aka.ms/k8s-gateway-api for more details. */
+export interface ManagedClusterIngressProfileGatewayConfiguration {
+  /** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
+  installation?: ManagedGatewayType;
+}
+
+export function managedClusterIngressProfileGatewayConfigurationSerializer(
+  item: ManagedClusterIngressProfileGatewayConfiguration,
+): any {
+  return { installation: item["installation"] };
+}
+
+export function managedClusterIngressProfileGatewayConfigurationDeserializer(
+  item: any,
+): ManagedClusterIngressProfileGatewayConfiguration {
+  return {
+    installation: item["installation"],
+  };
+}
+
+/** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
+export enum KnownManagedGatewayType {
+  /** Gateway API CRDs will not be reconciled on your cluster. */
+  Disabled = "Disabled",
+  /** Gateway API CRDs from the standard release channel will be reconciled onto your cluster. See https://aka.ms/gateway-api-versions to see which bundle will be installed for your Kubernetes version. */
+  Standard = "Standard",
+}
+
+/**
+ * Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. \
+ * {@link KnownManagedGatewayType} can be used interchangeably with ManagedGatewayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Gateway API CRDs will not be reconciled on your cluster. \
+ * **Standard**: Gateway API CRDs from the standard release channel will be reconciled onto your cluster. See https:\//aka.ms\/gateway-api-versions to see which bundle will be installed for your Kubernetes version.
+ */
+export type ManagedGatewayType = string;
 
 /** PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS */
 export enum KnownPublicNetworkAccess {
@@ -5017,6 +5151,8 @@ export function managedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerDese
 export interface ManagedClusterAzureMonitorProfile {
   /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
   metrics?: ManagedClusterAzureMonitorProfileMetrics;
+  /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
 }
 
 export function managedClusterAzureMonitorProfileSerializer(
@@ -5026,6 +5162,9 @@ export function managedClusterAzureMonitorProfileSerializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : managedClusterAzureMonitorProfileMetricsSerializer(item["metrics"]),
+    appMonitoring: !item["appMonitoring"]
+      ? item["appMonitoring"]
+      : managedClusterAzureMonitorProfileAppMonitoringSerializer(item["appMonitoring"]),
   };
 }
 
@@ -5036,6 +5175,9 @@ export function managedClusterAzureMonitorProfileDeserializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : managedClusterAzureMonitorProfileMetricsDeserializer(item["metrics"]),
+    appMonitoring: !item["appMonitoring"]
+      ? item["appMonitoring"]
+      : managedClusterAzureMonitorProfileAppMonitoringDeserializer(item["appMonitoring"]),
   };
 }
 
@@ -5092,6 +5234,56 @@ export function managedClusterAzureMonitorProfileKubeStateMetricsDeserializer(
   return {
     metricLabelsAllowlist: item["metricLabelsAllowlist"],
     metricAnnotationsAllowList: item["metricAnnotationsAllowList"],
+  };
+}
+
+/** Application Monitoring profile for AKS. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoring {
+  /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoring,
+): any {
+  return {
+    autoInstrumentation: !item["autoInstrumentation"]
+      ? item["autoInstrumentation"]
+      : managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationSerializer(
+          item["autoInstrumentation"],
+        ),
+  };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoring {
+  return {
+    autoInstrumentation: !item["autoInstrumentation"]
+      ? item["autoInstrumentation"]
+      : managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationDeserializer(
+          item["autoInstrumentation"],
+        ),
+  };
+}
+
+/** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+  /** Indicates if Application Monitoring Auto-instrumentation is enabled or not. */
+  enabled?: boolean;
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentationDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+  return {
+    enabled: item["enabled"],
   };
 }
 
@@ -5541,14 +5733,44 @@ export function managedClusterAIToolchainOperatorProfileDeserializer(
   };
 }
 
+/** Settings for hosted system addons. */
+export interface ManagedClusterHostedSystemProfile {
+  /** Whether to enable hosted system addons for the cluster. */
+  enabled?: boolean;
+  /** The ID of the subnet that will be joined by system nodes managed and hosted by AKS for running critical system addons. This ID must be provided together with `nodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must belong to the same VNet. If you don’t specify it, AKS will create a subnet in the managed resource group using a default /26 CIDR. */
+  systemNodeSubnetID?: string;
+  /** The ID of the subnet that will be joined by worker nodes managed by node auto provisioner for running workload pods in your tenant. This must be provided together with `systemNodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must be in the same VNet. If you don’t specify it, AKS will create a subnet in the managed resource group using a default /16 CIDR. */
+  nodeSubnetID?: string;
+}
+
+export function managedClusterHostedSystemProfileSerializer(
+  item: ManagedClusterHostedSystemProfile,
+): any {
+  return {
+    enabled: item["enabled"],
+    systemNodeSubnetID: item["systemNodeSubnetID"],
+    nodeSubnetID: item["nodeSubnetID"],
+  };
+}
+
+export function managedClusterHostedSystemProfileDeserializer(
+  item: any,
+): ManagedClusterHostedSystemProfile {
+  return {
+    enabled: item["enabled"],
+    systemNodeSubnetID: item["systemNodeSubnetID"],
+    nodeSubnetID: item["nodeSubnetID"],
+  };
+}
+
 /** Contains read-only information about the Managed Cluster. */
 export interface ManagedClusterStatus {
   /** The error details information of the managed cluster. Preserves the detailed info of failure. If there was no error, this field is omitted. */
   readonly provisioningError?: ErrorDetail;
 }
 
-export function managedClusterStatusSerializer(item: ManagedClusterStatus): any {
-  return item;
+export function managedClusterStatusSerializer(_item: ManagedClusterStatus): any {
+  return {};
 }
 
 export function managedClusterStatusDeserializer(item: any): ManagedClusterStatus {
@@ -5799,9 +6021,9 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 export function managedServiceIdentityUserAssignedIdentitiesValueSerializer(
-  item: ManagedServiceIdentityUserAssignedIdentitiesValue,
+  _item: ManagedServiceIdentityUserAssignedIdentitiesValue,
 ): any {
-  return item;
+  return {};
 }
 
 export function managedServiceIdentityUserAssignedIdentitiesValueDeserializer(
@@ -7910,6 +8132,8 @@ export enum KnownVersions {
   V20251001 = "2025-10-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-02-01 API version. */
+  V20260201 = "2026-02-01",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -8209,6 +8433,9 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileSerializer(item["hostedSystemProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -8315,6 +8542,9 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    hostedSystemProfile: !item["hostedSystemProfile"]
+      ? item["hostedSystemProfile"]
+      : managedClusterHostedSystemProfileDeserializer(item["hostedSystemProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }

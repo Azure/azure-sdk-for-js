@@ -69,7 +69,7 @@ describe("Can handle connected event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
   });
 
   it("Should response with 200 when handler is not specified", async () => {
@@ -80,7 +80,7 @@ describe("Can handle connected event", function () {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be 200");
+    assert.equal(res.statusCode, 200, "should be 200");
   });
 
   it("Should response 200 even the event handler throws", async () => {
@@ -97,6 +97,6 @@ describe("Can handle connected event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be error");
+    assert.equal(res.statusCode, 200, "should be error");
   });
 });

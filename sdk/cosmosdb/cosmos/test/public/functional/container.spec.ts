@@ -69,7 +69,7 @@ describe("Containers", { timeout: 10000 }, () => {
       );
       const container = database.container(containerDef.id);
       assert.equal(containerDefinition.id, containerDef.id);
-      assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
+      assert.equal(containerDef.indexingPolicy.indexingMode, "consistent");
       if (containerDef.partitionKey) {
         const comparePaths =
           typeof containerDefinition.partitionKey === "string"
@@ -436,7 +436,7 @@ describe("Containers", { timeout: 10000 }, () => {
         "Unexpected includedPaths length",
       );
       // The first included path is what we created.
-      assert.equal("/*", containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path);
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.includedPaths[0].path, "/*");
       // And two excluded paths.
       assert.equal(
         2,
@@ -448,15 +448,15 @@ describe("Containers", { timeout: 10000 }, () => {
         containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path,
       );
       // Check for composite Index metrics
-      assert.equal("/a", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][0].path);
-      assert.equal("/b", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][1].path);
-      assert.equal("/c", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][0].path);
-      assert.equal("/d", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][1].path);
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][0].path, "/a");
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][1].path, "/b");
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][0].path, "/c");
+      assert.equal(containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][1].path, "/d");
     });
 
     const checkDefaultIndexingPolicyPaths = function (indexingPolicy: IndexingPolicy): void {
-      assert.equal(1, indexingPolicy["excludedPaths"].length);
-      assert.equal(1, indexingPolicy["includedPaths"].length);
+      assert.equal(indexingPolicy["excludedPaths"].length, 1);
+      assert.equal(indexingPolicy["includedPaths"].length, 1);
 
       let rootIncludedPath: IndexedPath = null;
       if (indexingPolicy["includedPaths"][0]["path"] === "/*") {

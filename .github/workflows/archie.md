@@ -2,8 +2,36 @@
 on:
   pull_request_target:
     types: [labeled]
+    forks: ["*"]
+  workflow_dispatch:
+    inputs:
+      item_number:
+        description: PR number to run the review on
+        required: true
+        type: string
+  permissions:
+    pull-requests: write
+  steps:
+    - name: Remove trigger label
+      id: remove_label
+      if: github.event_name == 'pull_request_target' && github.event.label.name == 'architecture-review-needed'
+      uses: actions/github-script@v8
+      with:
+        script: |
+          try {
+            await github.rest.issues.removeLabel({
+              ...context.repo,
+              issue_number: context.payload.pull_request.number,
+              name: 'architecture-review-needed'
+            });
+          } catch (e) {
+            core.warning(`Could not remove label: ${e.message}`);
+          }
 labels: [architecture-review-needed]
-if: github.event.label.name == 'architecture-review-needed'
+if: github.event.label.name == 'architecture-review-needed' || github.event_name == 'workflow_dispatch'
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
+  cancel-in-progress: true
 description: "Archie: Review a pull request for public API design issues"
 permissions:
   contents: read
@@ -12,17 +40,19 @@ permissions:
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
-    lockdown: true
-  bash: true
+    min-integrity: unapproved
+  bash: ["cat", "date", "echo", "git:*", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
 safe-outputs:
   create-pull-request-review-comment:
     max: 10
     side: "RIGHT"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> 🏗️ *Reviewed by [{workflow_name}]({run_url})*"
     run-started: "🏗️ [{workflow_name}]({run_url}) is reviewing this PR for API design issues…"
@@ -75,6 +105,11 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
    API surface looks good and stop.
 
 ## Step 2 — Check Against Guidelines
+
+Before checking for breaking changes, use `bash` to find the last GA
+release tag for the package and retrieve its API report. This establishes
+the stable baseline — only flag removals as breaking if the API existed
+in the GA release.
 
 For each changed public API element, apply the full checklist from the
 architecture review guidelines. Focus on breaking changes, naming
