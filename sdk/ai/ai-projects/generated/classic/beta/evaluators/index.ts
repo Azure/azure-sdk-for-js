@@ -3,8 +3,6 @@
 
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
-  getCredentials,
-  startPendingUpload,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -13,8 +11,6 @@ import {
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
 import {
-  BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsStartPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -22,31 +18,11 @@ import {
   BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import {
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-  EvaluatorVersion,
-  EvaluatorCredentialRequest,
-} from "../../../models/models.js";
+import { EvaluatorVersion } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
-  /** Get the SAS credential to access the storage account associated with an Evaluator version. */
-  getCredentials: (
-    name: string,
-    credentialRequest: EvaluatorCredentialRequest,
-    version: string,
-    options?: BetaEvaluatorsGetCredentialsOptionalParams,
-  ) => Promise<DatasetCredential>;
-  /** Start a new or get an existing pending upload of an evaluator for a specific version. */
-  startPendingUpload: (
-    name: string,
-    version: string,
-    pendingUploadRequest: PendingUploadRequest,
-    options?: BetaEvaluatorsStartPendingUploadOptionalParams,
-  ) => Promise<PendingUploadResponse>;
   /** Update an existing EvaluatorVersion with the given version id */
   updateVersion: (
     name: string,
@@ -91,18 +67,6 @@ export interface BetaEvaluatorsOperations {
 
 function _getBetaEvaluators(context: AIProjectContext) {
   return {
-    getCredentials: (
-      name: string,
-      credentialRequest: EvaluatorCredentialRequest,
-      version: string,
-      options?: BetaEvaluatorsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, credentialRequest, version, options),
-    startPendingUpload: (
-      name: string,
-      version: string,
-      pendingUploadRequest: PendingUploadRequest,
-      options?: BetaEvaluatorsStartPendingUploadOptionalParams,
-    ) => startPendingUpload(context, name, version, pendingUploadRequest, options),
     updateVersion: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",

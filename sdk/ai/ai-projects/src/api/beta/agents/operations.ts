@@ -10,6 +10,7 @@ import type {
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsGetSessionLogStreamResponse,
 } from "../../../models/models.js";
 import {
   agentDeserializer,
@@ -28,9 +29,10 @@ import { getBinaryStreamResponse } from "../../../static-helpers/serialization/g
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsListSessionFilesOptionalParams,
+  BetaAgentsGetSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
+  BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
@@ -97,12 +99,12 @@ export async function deleteSessionFile(
   return _deleteSessionFileDeserialize(result);
 }
 
-export function _listSessionFilesSend(
+export function _getSessionFilesSend(
   context: Client,
   agentName: string,
   sessionId: string,
   path: string,
-  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview";
   const path_1 = expandUrlTemplate(
@@ -127,7 +129,7 @@ export function _listSessionFilesSend(
   });
 }
 
-export async function _listSessionFilesDeserialize(
+export async function _getSessionFilesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionDirectoryListResponse> {
   const expectedStatuses = ["200"];
@@ -145,15 +147,15 @@ export async function _listSessionFilesDeserialize(
  * List files and directories at a given path in the session sandbox.
  * Returns only the immediate children of the specified directory (non-recursive).
  */
-export async function listSessionFiles(
+export async function getSessionFiles(
   context: Client,
   agentName: string,
   sessionId: string,
   path: string,
-  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
-  const result = await _listSessionFilesSend(context, agentName, sessionId, path, options);
-  return _listSessionFilesDeserialize(result);
+  const result = await _getSessionFilesSend(context, agentName, sessionId, path, options);
+  return _getSessionFilesDeserialize(result);
 }
 
 export function _downloadSessionFileSend(
@@ -283,6 +285,101 @@ export async function uploadSessionFile(
     options,
   );
   return _uploadSessionFileDeserialize(result);
+}
+
+export function _getSessionLogStreamSend(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      agent_version: agentVersion,
+      session_id: sessionId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "text/event-stream",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getSessionLogStreamDeserialize(
+  result: PathUncheckedResponse & BetaAgentsGetSessionLogStreamResponse,
+): Promise<BetaAgentsGetSessionLogStreamResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Streams console logs (stdout / stderr) for a specific hosted agent session
+ * as a Server-Sent Events (SSE) stream.
+ *
+ * Each SSE frame contains:
+ * - `event`: always `"log"`
+ * - `data`: a plain-text log line (currently JSON-formatted, but the schema
+ * is not contractual and may include additional keys or change format
+ * over time — clients should treat it as an opaque string)
+ *
+ * Example SSE frames:
+ * ```
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.121Z","stream":"stdout","message":"Starting FoundryCBAgent server on port 8088"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.130Z","stream":"stderr","message":"INFO: Application startup complete."}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:34:52.714Z","stream":"status","message":"Successfully connected to container"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:35:52.714Z","stream":"status","message":"No logs since last 60 seconds"}
+ * ```
+ *
+ * The stream remains open until the client disconnects or the server
+ * terminates the connection. Clients should handle reconnection as needed.
+ *
+ * The returned `readableStreamBody` (Node.js) or `blobBody` (browser) exposes
+ * the raw SSE byte stream. Callers are responsible for parsing the individual
+ * `event:` / `data:` frames.
+ */
+export async function getSessionLogStream(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): Promise<BetaAgentsGetSessionLogStreamResponse> {
+  const streamableMethod = _getSessionLogStreamSend(
+    context,
+    agentName,
+    agentVersion,
+    sessionId,
+    options,
+  );
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _getSessionLogStreamDeserialize(result);
 }
 
 export function _listSessionsSend(

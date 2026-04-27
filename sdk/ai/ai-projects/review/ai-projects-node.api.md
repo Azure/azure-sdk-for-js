@@ -260,9 +260,12 @@ export interface AgentVersion {
     metadata: Record<string, string>;
     name: string;
     object: "agent.version";
-    status?: "creating" | "active" | "failed" | "deleting" | "deleted";
+    status?: AgentVersionStatus;
     version: string;
 }
+
+// @public
+export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
 
 // @public
 export class AIProjectClient {
@@ -445,13 +448,24 @@ export type BetaAgentsDownloadSessionFileResponse = {
 };
 
 // @public
-export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
-    foundryFeatures?: "AgentEndpoints=V1Preview";
+export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
 }
 
 // @public
-export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public (undocumented)
+export type BetaAgentsGetSessionLogStreamResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
 }
 
 // @public
@@ -467,13 +481,14 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 export interface BetaAgentsOperations {
     createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
-    deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
-    downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
+    deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
+    downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
-    listSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
+    getSessionFiles: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsGetSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
+    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsGetSessionLogStreamResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
-    uploadSessionFile: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
+    uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
 // @public
@@ -562,6 +577,7 @@ export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
+    foundryFeatures?: "Insights=V1Preview";
     repeatabilityFirstSent?: Date;
     repeatabilityRequestId?: string;
 }
@@ -569,6 +585,7 @@ export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
 // @public
 export interface BetaInsightsGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
+    foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
 }
 
@@ -577,6 +594,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
     agentName?: string;
     clientRequestId?: string;
     evalId?: string;
+    foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
     insightType?: InsightType;
     runId?: string;
@@ -957,6 +975,7 @@ export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
 
 // @public
 export interface CodeConfiguration {
+    readonly content_hash?: string;
     entry_point: string[];
     runtime: string;
 }
@@ -1575,6 +1594,20 @@ export interface FabricDataAgentToolParameters {
 }
 
 // @public
+export interface FabricIQPreviewTool extends Tool {
+    fabric_iq_preview: FabricIQPreviewToolParameters;
+    type: "fabric_iq_preview";
+}
+
+// @public
+export interface FabricIQPreviewToolParameters {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    server_url?: string;
+}
+
+// @public
 export interface FieldMapping {
     contentFields: string[];
     filepathField?: string;
@@ -1679,10 +1712,16 @@ export type GrammarSyntax = "lark" | "regex";
 
 // @public
 export interface HeaderIsolationKeySource extends IsolationKeySource {
-    chat_isolation_key: string;
     // (undocumented)
     kind: "Header";
-    user_isolation_key: string;
+}
+
+// @public
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+    header_name: string;
+    secret_id: string;
+    secret_key: string;
+    type: "header";
 }
 
 // @public
@@ -1697,6 +1736,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     kind: "hosted";
     memory: string;
     protocol_versions?: ProtocolVersionRecord[];
+    telemetry_config?: TelemetryConfig;
     tools?: ToolUnion[];
 }
 
@@ -1952,7 +1992,9 @@ export interface MCPToolFilter {
 
 // @public
 export interface MCPToolRequireApproval {
+    // (undocumented)
     always?: MCPToolFilter;
+    // (undocumented)
     never?: MCPToolFilter;
 }
 
@@ -2209,6 +2251,13 @@ export interface OpenApiTool extends Tool {
 // @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
+// @public
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+    endpoint: string;
+    kind: "OTLP";
+    protocol: TelemetryTransportProtocol;
+}
+
 export { PagedAsyncIterableIterator }
 
 // @public
@@ -2428,6 +2477,15 @@ export interface SessionFileWriteResponse {
 }
 
 // @public
+export interface SessionLogEvent {
+    data: string;
+    event: SessionLogEventType;
+}
+
+// @public
+export type SessionLogEventType = "log";
+
+// @public
 export interface SharepointGroundingToolParameters {
     project_connections?: ToolProjectConnection[];
 }
@@ -2516,9 +2574,44 @@ export interface TaxonomySubCategory {
 }
 
 // @public
+export interface TelemetryConfig {
+    endpoints: TelemetryEndpointUnion[];
+}
+
+// @public
+export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
+
+// @public
+export interface TelemetryEndpoint {
+    auth?: TelemetryEndpointAuthUnion;
+    data: TelemetryDataKind[];
+    kind: TelemetryEndpointKind;
+}
+
+// @public
+export interface TelemetryEndpointAuth {
+    type: TelemetryEndpointAuthType;
+}
+
+// @public
+export type TelemetryEndpointAuthType = "header";
+
+// @public
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+// @public
+export type TelemetryEndpointKind = "OTLP";
+
+// @public
+export type TelemetryEndpointUnion = OtlpTelemetryEndpoint | TelemetryEndpoint;
+
+// @public
 export interface TelemetryOperations {
     getApplicationInsightsConnectionString: (options?: OperationOptions) => Promise<string>;
 }
+
+// @public
+export type TelemetryTransportProtocol = "Http" | "Grpc";
 
 // @public
 export interface TextResponseFormat {
@@ -2709,10 +2802,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
@@ -2731,7 +2824,7 @@ export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Tr
 // @public
 export interface UpdateToolboxRequest {
     default_version: string;
-    toolbox_name: string;
+    name: string;
 }
 
 // @public
