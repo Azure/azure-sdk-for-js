@@ -36,58 +36,66 @@ import { promoteLetToConst } from "./letConstPromoter.js";
 import { compileHelper } from "./helperCompiler.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
 import type { HelperResolver, CompiledHelper } from "./helperCompiler.js";
+import type { ParsedHook, ParsedItBlock } from "./types.js";
 
-// ── Phase Result Types ───────────────────────────────────────────────────────
-// These types document the contracts between compiler phases, making it explicit
-// what data flows from one phase to the next.
+// ── Internal Helpers ─────────────────────────────────────────────────────────
 
-/** Result of Phase 2: Substitution of forPublishing/sampleOnly calls */
-interface SubstitutionPhaseResult {
-  /** The substituted source text (printed from transformed AST) */
-  substitutedText: string;
-  /** Details of forPublishing substitutions for later validation */
-  substitutions: Substitution[];
-  /** Count of sampleOnly replacements (for diagnostics) */
-  sampleOnlyCount: number;
+/**
+ * Eliminate dead code from a scope and collect surviving statements.
+ * Mutates deadSymbols with cascaded deaths. Returns surviving statements as text.
+ */
+function eliminateScope(
+  body: readonly ts.Statement[],
+  deadSymbols: Set<ts.Symbol>,
+  analyzer: BindingAnalyzer,
+  fileName: string,
+  printer: ts.Printer,
+  allSurvivingNodes: ts.Statement[],
+  trailingComments?: string,
+): string[] {
+  const result = eliminateDeadStatements(body, deadSymbols, analyzer, fileName);
+  for (const sym of result.newlyDeadSymbols) {
+    deadSymbols.add(sym);
+  }
+  const texts: string[] = [];
+  for (const s of result.survivingStatements) {
+    allSurvivingNodes.push(s);
+    texts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+  }
+  if (trailingComments) {
+    texts.push(trailingComments);
+  }
+  return texts;
 }
 
-/** Result of Phase 4: Import classification and helper resolution */
-interface ClassificationPhaseResult {
-  /** All classified imports */
-  classified: ClassifiedImport[];
-  /** Imports after filtering out empty helpers */
-  filteredClassified: ClassifiedImport[];
-  /** Symbols marked as dead (test imports, empty helpers) */
-  deadSymbols: Set<ts.Symbol>;
-  /** Compiled helper files to include in output */
-  helperFiles: Map<string, string>;
-  /** Environment variables discovered in helpers */
-  helperEnvVars: string[];
-  /** Warnings accumulated during classification */
-  warnings: string[];
+/**
+ * Eliminate dead code from a list of hooks, returning combined surviving text.
+ */
+function eliminateHooks(
+  hooks: readonly ParsedHook[],
+  deadSymbols: Set<ts.Symbol>,
+  analyzer: BindingAnalyzer,
+  fileName: string,
+  printer: ts.Printer,
+  allSurvivingNodes: ts.Statement[],
+): string[] {
+  const texts: string[] = [];
+  for (const hook of hooks) {
+    const hookTexts = eliminateScope(
+      hook.body,
+      deadSymbols,
+      analyzer,
+      fileName,
+      printer,
+      allSurvivingNodes,
+      hook.trailingComments,
+    );
+    texts.push(...hookTexts);
+  }
+  return texts;
 }
 
-/** Result of Phase 5: Dead code elimination across all scopes */
-interface EliminationPhaseResult {
-  /** All surviving AST nodes (for symbol extraction) */
-  allSurvivingNodes: ts.Statement[];
-  /** Surviving describe-scope statements as text */
-  survivingDescribeTexts: string[];
-  /** Surviving variable statements as text (for let→const promotion) */
-  survivingVarTexts: string[];
-  /** Top-level type declarations as text */
-  topLevelTypeTexts: string[];
-  /** Preamble from beforeAll + beforeEach hooks */
-  preambleTexts: string[];
-  /** Cleanup from afterEach hooks (per sample) */
-  afterEachTexts: string[];
-  /** Cleanup from afterAll hooks (end of main) */
-  afterAllTexts: string[];
-  /** Body texts for each it-block */
-  itBlockTexts: string[][];
-  /** Updated dead symbols after cascade */
-  deadSymbols: Set<ts.Symbol>;
-}
+// ── Public API ───────────────────────────────────────────────────────────────
 
 /** Cache for compiled helpers, keyed by canonical path. Shared across sample compilations. */
 export type HelperCache = Map<string, CompiledHelper>;
@@ -167,7 +175,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   // Uses symbol-based matching via TypeChecker to avoid false matches on shadowed locals.
   // Combined substitution eliminates the need for intermediate print/reparse cycles.
   const initialAnalyzer = createAnalyzer(sourceText, fileName);
-  const { transformedFile, substitutions, sampleOnlyCount } = substituteTestPublishing(
+  const { transformedFile, substitutions } = substituteTestPublishing(
     initialAnalyzer.sourceFile,
     initialAnalyzer.checker,
     fileName,
@@ -362,87 +370,56 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
   );
 
-  // beforeAll hooks — surviving statements become preamble BEFORE beforeEach
-  const beforeAllTexts: string[] = [];
-  for (const hook of subParsed.beforeAllHooks) {
-    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
-    for (const sym of hookResult.newlyDeadSymbols) {
-      deadSymbols.add(sym);
-    }
-    for (const s of hookResult.survivingStatements) {
-      allSurvivingNodes.push(s);
-      beforeAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
-    }
-    if (hook.trailingComments) {
-      beforeAllTexts.push(hook.trailingComments);
-    }
-  }
+  // Eliminate dead code from hooks (beforeAll/beforeEach run as preamble, afterEach/afterAll as cleanup)
+  const beforeAllTexts = eliminateHooks(
+    subParsed.beforeAllHooks,
+    deadSymbols,
+    analyzer,
+    fileName,
+    printer,
+    allSurvivingNodes,
+  );
+  const beforeEachTexts = eliminateHooks(
+    subParsed.beforeEachHooks,
+    deadSymbols,
+    analyzer,
+    fileName,
+    printer,
+    allSurvivingNodes,
+  );
 
-  // beforeEach hooks — surviving statements become main() preamble
-  const beforeEachTexts: string[] = [];
-  for (const hook of subParsed.beforeEachHooks) {
-    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
-    for (const sym of hookResult.newlyDeadSymbols) {
-      deadSymbols.add(sym);
-    }
-    for (const s of hookResult.survivingStatements) {
-      allSurvivingNodes.push(s);
-      beforeEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
-    }
-    if (hook.trailingComments) {
-      beforeEachTexts.push(hook.trailingComments);
-    }
-  }
-
-  // it block bodies
+  // Eliminate dead code from each it-block body
   const itBlockTexts: string[][] = [];
   for (const itBlock of subParsed.itBlocks) {
-    const itResult = eliminateDeadStatements(itBlock.body, deadSymbols, analyzer, fileName);
-    for (const sym of itResult.newlyDeadSymbols) {
-      deadSymbols.add(sym);
-    }
-    const texts: string[] = [];
-    for (const s of itResult.survivingStatements) {
-      allSurvivingNodes.push(s);
-      texts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
-    }
-    if (itBlock.trailingComments) {
-      texts.push(itBlock.trailingComments);
-    }
+    const texts = eliminateScope(
+      itBlock.body,
+      deadSymbols,
+      analyzer,
+      fileName,
+      printer,
+      allSurvivingNodes,
+      itBlock.trailingComments,
+    );
     itBlockTexts.push(texts);
   }
 
-  // afterEach hooks — surviving statements become cleanup after each sample body
-  const afterEachTexts: string[] = [];
-  for (const hook of subParsed.afterEachHooks) {
-    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
-    for (const sym of hookResult.newlyDeadSymbols) {
-      deadSymbols.add(sym);
-    }
-    for (const s of hookResult.survivingStatements) {
-      allSurvivingNodes.push(s);
-      afterEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
-    }
-    if (hook.trailingComments) {
-      afterEachTexts.push(hook.trailingComments);
-    }
-  }
-
-  // afterAll hooks — surviving statements become cleanup at the end of main()
-  const afterAllTexts: string[] = [];
-  for (const hook of subParsed.afterAllHooks) {
-    const hookResult = eliminateDeadStatements(hook.body, deadSymbols, analyzer, fileName);
-    for (const sym of hookResult.newlyDeadSymbols) {
-      deadSymbols.add(sym);
-    }
-    for (const s of hookResult.survivingStatements) {
-      allSurvivingNodes.push(s);
-      afterAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
-    }
-    if (hook.trailingComments) {
-      afterAllTexts.push(hook.trailingComments);
-    }
-  }
+  // Cleanup hooks
+  const afterEachTexts = eliminateHooks(
+    subParsed.afterEachHooks,
+    deadSymbols,
+    analyzer,
+    fileName,
+    printer,
+    allSurvivingNodes,
+  );
+  const afterAllTexts = eliminateHooks(
+    subParsed.afterAllHooks,
+    deadSymbols,
+    analyzer,
+    fileName,
+    printer,
+    allSurvivingNodes,
+  );
 
   // Step 6b: Validate forPublishing expressions against extended dead set (includes cascaded)
   // Pass describe-scope statements so we can find symbols declared inside describe block

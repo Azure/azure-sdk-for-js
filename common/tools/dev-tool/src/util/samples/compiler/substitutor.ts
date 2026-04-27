@@ -38,26 +38,8 @@ export interface CombinedSubstitutionResult {
 }
 
 /**
- * Collect all identifier names referenced in an expression.
- * For property access chains like `process.env.X`, collects all identifiers
- * (`process`, `env`, `X`).
- */
-function collectReferencedSymbols(node: ts.Expression): string[] {
-  const symbols: string[] = [];
-  function walk(n: ts.Node): void {
-    if (ts.isIdentifier(n)) {
-      symbols.push(n.text);
-    }
-    ts.forEachChild(n, walk);
-  }
-  walk(node);
-  return symbols;
-}
-
-/**
  * Collect free variable names referenced in an expression.
- * Unlike `collectReferencedSymbols`, this only collects root-level identifiers:
- * for `x.y.z` only `x` is collected (not `y`, `z`), since `y` and `z` are
+ * For `x.y.z` only `x` is collected (not `y`, `z`), since `y` and `z` are
  * property names rather than binding references.
  */
 export function collectFreeVariables(node: ts.Expression): Set<string> {
@@ -230,7 +212,6 @@ export function substituteForPublishing(
           substitutions.push({
             originalNode: node as ts.CallExpression,
             publishedExpression: publishedExpr,
-            referencedSymbols: collectReferencedSymbols(publishedExpr),
             freeVariables: collectFreeVariables(publishedExpr),
           });
 
@@ -433,7 +414,6 @@ export function substituteTestPublishing(
             substitutions.push({
               originalNode: node,
               publishedExpression: publishedExpr,
-              referencedSymbols: collectReferencedSymbols(publishedExpr),
               freeVariables: collectFreeVariables(publishedExpr),
             });
             return publishedExpr;

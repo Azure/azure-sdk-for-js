@@ -165,8 +165,13 @@ Exception: callback param deaths don't salvage (entire statement is test infrast
 |--------|---------|
 | `compiler.ts` | Pipeline orchestration |
 | `parser.ts` | vitest structure extraction |
-| `substitutor.ts` | Intrinsic replacement |
+| `substitutor.ts` | forPublishing/sampleOnly replacement |
 | `deadBindingEliminator.ts` | DCE with poison propagation |
 | `bindingAnalyzer.ts` | TypeScript symbol resolution |
 | `importClassifier.ts` | Import categorization |
-| `codeGenerator.ts` | Output assembly |
+| `importRewriter.ts` | Source import → package name |
+| `codeGenerator.ts` | Function naming, main() assembly |
+| `letConstPromoter.ts` | let→const promotion |
+| `helperCompiler.ts` | Recursive helper compilation |
+| `envVarExtractor.ts` | process.env reference extraction |
+| `types.ts` | Shared types |

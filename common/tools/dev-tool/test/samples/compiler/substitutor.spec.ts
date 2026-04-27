@@ -97,18 +97,18 @@ describe("substituteForPublishing", () => {
 
   // --- referenced symbols ---
 
-  it("collects referenced symbols from constructor", () => {
+  it("collects free variables from constructor", () => {
     const { substitutions } = substitute(
       `forPublishing(createTestCredential(), () => new DefaultAzureCredential());`,
     );
-    expect(substitutions[0].referencedSymbols).toContain("DefaultAzureCredential");
+    expect(substitutions[0].freeVariables.has("DefaultAzureCredential")).toBe(true);
   });
 
-  it("collects referenced symbols from process.env", () => {
+  it("collects free variables from process.env", () => {
     const { substitutions } = substitute(
       `forPublishing(envVar("X"), () => process.env.X || "<default>");`,
     );
-    expect(substitutions[0].referencedSymbols).toContain("process");
+    expect(substitutions[0].freeVariables.has("process")).toBe(true);
   });
 
   // --- error cases ---

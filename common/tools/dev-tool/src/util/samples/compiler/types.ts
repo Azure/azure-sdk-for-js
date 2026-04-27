@@ -118,8 +118,6 @@ export interface Substitution {
   originalNode: ts.CallExpression;
   /** The extracted arrow body expression (the published-stage value) */
   publishedExpression: ts.Expression;
-  /** Symbols referenced in the published expression that may need imports */
-  referencedSymbols: string[];
   /** Free variable names (root identifiers only, excluding property access names) */
   freeVariables: Set<string>;
 }

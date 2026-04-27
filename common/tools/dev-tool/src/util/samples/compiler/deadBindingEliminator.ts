@@ -80,6 +80,11 @@ interface EliminationUnit {
    * When root is live but other refs are dead, it's tangled.
    */
   rootSymbol?: ts.Symbol;
+  /**
+   * Perf: true if the unit has type-only references (avoids collectTypeOnlyRefs calls).
+   * Used to skip expensive type ref collection when there are no type refs.
+   */
+  hasTypeRefs?: boolean;
 }
 
 // ── Side-effect analysis ─────────────────────────────────────────────
@@ -341,8 +346,8 @@ function lowerToUnits(
           salvageableEffects: salvageable,
           isTypeOnly: false,
           declarator: decl,
-          _hasDeadTypeRef: hasDeadTypeRef,
-        } as EliminationUnit & { _hasDeadTypeRef: boolean });
+          hasTypeRefs: hasDeadTypeRef,
+        });
       }
       continue;
     }
@@ -360,8 +365,8 @@ function lowerToUnits(
         originalIndex: i,
         salvageableEffects: [],
         isTypeOnly: false,
-        _hasDeadTypeRef: hasDeadTypeRef,
-      } as EliminationUnit & { _hasDeadTypeRef: boolean });
+        hasTypeRefs: hasDeadTypeRef,
+      });
       continue;
     }
 
@@ -697,7 +702,7 @@ function classifyUnit(
 
   // Special: check dead type-only refs for units with no dead runtime refs
   // This handles cases like `let x: DeadType;` or `function f(x: DeadType) {}`
-  if (unit.declares.length > 0 && (unit as { _hasDeadTypeRef?: boolean })._hasDeadTypeRef) {
+  if (unit.declares.length > 0 && unit.hasTypeRefs) {
     const stmt = statements[unit.originalIndex];
     // For per-declarator units, check the specific declarator
     const nodeToCheck = unit.declarator ?? stmt;
