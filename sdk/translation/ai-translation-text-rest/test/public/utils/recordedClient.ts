@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential.js";
 import type { TextTranslationClient } from "../../../src/index.js";
 import createTextTranslationClient from "../../../src/index.js";
@@ -56,6 +56,23 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function startRecorder(context: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
+  // Ignore api-version query parameter during matching so tests can run with 2026-06-06
+  // while matching recordings made with 2025-10-01-preview
+  // TODO: Remove this once 2026-06-06 recordings are available
+  if (isPlaybackMode()) {
+    const httpClient = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: `${(Recorder as any).url}/Admin/SetMatcher`,
+      method: "POST",
+      allowInsecureConnection: true,
+    });
+    request.headers.set("x-abstraction-identifier", "CustomDefaultMatcher");
+    request.headers.set("x-recording-id", (recorder as any).recordingId);
+    request.body = JSON.stringify({
+      ignoredQueryParameters: "api-version",
+    });
+    await httpClient.sendRequest(request);
+  }
   return recorder;
 }
 
