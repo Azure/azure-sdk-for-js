@@ -457,7 +457,7 @@ export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOp
     foundryFeatures?: "HostedAgents=V1Preview";
 }
 
-// @public (undocumented)
+// @public
 export type BetaAgentsGetSessionLogStreamResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
