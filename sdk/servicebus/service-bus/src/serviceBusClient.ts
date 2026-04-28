@@ -530,11 +530,12 @@ export class ServiceBusClient {
           skip,
           pageSize,
           lastUpdatedTime,
-          { abortSignal: options?.abortSignal, tracingOptions: options?.tracingOptions },
+          options,
         );
       } catch (err: any) {
-        // 404 + SessionNotFound means no sessions exist. Treat as empty.
-        if (err.code === "SessionCannotBeLocked" || err.statusCode === 404) {
+        // SessionCannotBeLocked means no sessions exist. Treat as empty.
+        // Don't catch generic 404 (MessagingEntityNotFound) which indicates a missing entity.
+        if (err.code === "SessionCannotBeLocked") {
           break;
         }
         throw err;
@@ -543,6 +544,9 @@ export class ServiceBusClient {
         break;
       }
       allSessionIds.push(...page);
+      if (page.length < pageSize) {
+        break;
+      }
       skip += page.length;
     }
 
