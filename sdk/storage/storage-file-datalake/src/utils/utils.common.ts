@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { stringToUint8Array } from "@azure/core-util";
 import type { ContainerEncryptionScope, HttpRequestBody, WithResponse } from "@azure/storage-blob";
 import {
   CpkInfo,
@@ -167,9 +168,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Uint8Array.from(atob(getValueInConnString(connectionString, "AccountKey")), (c) =>
-      c.charCodeAt(0),
-    );
+    accountKey = stringToUint8Array(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string

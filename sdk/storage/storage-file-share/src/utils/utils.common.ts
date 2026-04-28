@@ -4,6 +4,7 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { stringToUint8Array } from "@azure/core-util";
 import type {
   ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
   ListHandlesResponse as ListHandlesResponseInternal,
@@ -140,14 +141,12 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     let defaultEndpointsProtocol = "";
     let accountName = "";
-    let accountKey = Uint8Array.from(atob("accountKey"), (c) => c.charCodeAt(0));
+    let accountKey = stringToUint8Array("accountKey", "base64");
     let endpointSuffix = "";
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Uint8Array.from(atob(getValueInConnString(connectionString, "AccountKey")), (c) =>
-      c.charCodeAt(0),
-    );
+    accountKey = stringToUint8Array(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!fileEndpoint) {
       // FileEndpoint is not present in the Account connection string
