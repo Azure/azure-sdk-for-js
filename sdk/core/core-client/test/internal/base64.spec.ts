@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { encodeByteArray } from "../../src/base64.js";
+import { encodeByteArray } from "#platform/base64";
 
 describe("base64", () => {
   it("should handle Uint8Array input in encodeByteArray", () => {
