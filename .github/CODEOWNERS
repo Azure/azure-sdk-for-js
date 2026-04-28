@@ -1673,10 +1673,14 @@ sdk/servicegroups/arm-servicegroups/ @qiaozha @MaryGao @JialinHuang803
 sdk/relationships/arm-relationships/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/monitor/arm-monitorslis/ @qiaozha @MaryGao @JialinHuang803
 sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
