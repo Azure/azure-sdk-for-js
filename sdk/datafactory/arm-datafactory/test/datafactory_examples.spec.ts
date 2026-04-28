@@ -102,7 +102,7 @@ describe("Datafactory test", () => {
     );
 
     assert.ok(res);
-    return sessionId = String(res.sessionId)
+    return (sessionId = String(res.sessionId));
   });
 
   it("linkedService create test", async function () {
@@ -145,48 +145,38 @@ describe("Datafactory test", () => {
   });
 
   it("dataflow create test", async function () {
-    await client.datasets.createOrUpdate(
-      resourceGroup,
-      factoryName,
-      "CurrencyDatasetUSD",
-      {
-        properties: {
-          type: "AzureBlob",
-          format: { type: "TextFormat" },
-          fileName: { type: "Expression", value: "@dataset().MyFileName" },
-          folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
-          linkedServiceName: {
-            type: "LinkedServiceReference",
-            referenceName: "exampleLinkedService"
-          },
-          parameters: {
-            myFileName: { type: "String" },
-            myFolderPath: { type: "String" }
-          }
-        }
-      }
-    );
-    await client.datasets.createOrUpdate(
-      resourceGroup,
-      factoryName,
-      "CurrencyDatasetCAD",
-      {
-        properties: {
-          type: "AzureBlob",
-          format: { type: "TextFormat" },
-          fileName: { type: "Expression", value: "@dataset().MyFileName" },
-          folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
-          linkedServiceName: {
-            type: "LinkedServiceReference",
-            referenceName: "exampleLinkedService"
-          },
-          parameters: {
-            myFileName: { type: "String" },
-            myFolderPath: { type: "String" }
-          }
-        }
-      }
-    );
+    await client.datasets.createOrUpdate(resourceGroup, factoryName, "CurrencyDatasetUSD", {
+      properties: {
+        type: "AzureBlob",
+        format: { type: "TextFormat" },
+        fileName: { type: "Expression", value: "@dataset().MyFileName" },
+        folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+        linkedServiceName: {
+          type: "LinkedServiceReference",
+          referenceName: "exampleLinkedService",
+        },
+        parameters: {
+          myFileName: { type: "String" },
+          myFolderPath: { type: "String" },
+        },
+      },
+    });
+    await client.datasets.createOrUpdate(resourceGroup, factoryName, "CurrencyDatasetCAD", {
+      properties: {
+        type: "AzureBlob",
+        format: { type: "TextFormat" },
+        fileName: { type: "Expression", value: "@dataset().MyFileName" },
+        folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+        linkedServiceName: {
+          type: "LinkedServiceReference",
+          referenceName: "exampleLinkedService",
+        },
+        parameters: {
+          myFileName: { type: "String" },
+          myFolderPath: { type: "String" },
+        },
+      },
+    });
     const res = await client.dataFlows.createOrUpdate(resourceGroup, factoryName, dataFlowName, {
       properties: {
         type: "MappingDataFlow",
@@ -281,18 +271,14 @@ describe("Datafactory test", () => {
   });
 
   it("dataFlowDebugSession delete test", async function () {
-    await client.dataFlowDebugSession.delete(
-      resourceGroup,
-      factoryName,
-      {
-        sessionId
-      }
-    );
+    await client.dataFlowDebugSession.delete(resourceGroup, factoryName, {
+      sessionId,
+    });
   });
 
   it("pipeline delete test", async function () {
     const resArray = new Array();
-    await client.pipelines.delete(resourceGroup, factoryName, pipelineName)
+    await client.pipelines.delete(resourceGroup, factoryName, pipelineName);
     for await (let item of client.pipelines.listByFactory(resourceGroup, factoryName)) {
       resArray.push(item);
     }
@@ -301,7 +287,7 @@ describe("Datafactory test", () => {
 
   it("dataflow delete test", async function () {
     const resArray = new Array();
-    await client.dataFlows.delete(resourceGroup, factoryName, dataFlowName)
+    await client.dataFlows.delete(resourceGroup, factoryName, dataFlowName);
     for await (let item of client.dataFlows.listByFactory(resourceGroup, factoryName)) {
       resArray.push(item);
     }
@@ -310,9 +296,9 @@ describe("Datafactory test", () => {
 
   it("datasets delete test", async function () {
     const resArray = new Array();
-    await client.datasets.delete(resourceGroup, factoryName, datasetName)
-    await client.datasets.delete(resourceGroup, factoryName, "CurrencyDatasetUSD")
-    await client.datasets.delete(resourceGroup, factoryName, "CurrencyDatasetCAD")
+    await client.datasets.delete(resourceGroup, factoryName, datasetName);
+    await client.datasets.delete(resourceGroup, factoryName, "CurrencyDatasetUSD");
+    await client.datasets.delete(resourceGroup, factoryName, "CurrencyDatasetCAD");
     for await (let item of client.datasets.listByFactory(resourceGroup, factoryName)) {
       resArray.push(item);
     }
@@ -321,7 +307,7 @@ describe("Datafactory test", () => {
 
   it("datafactory delete test", async function () {
     const resArray = new Array();
-    await client.factories.delete(resourceGroup, factoryName)
+    await client.factories.delete(resourceGroup, factoryName);
     for await (let item of client.factories.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
