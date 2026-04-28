@@ -264,12 +264,13 @@ export async function compileSampleTests(
         const existingSource = writtenHelpers.get(helperWithinSamples);
         if (existingSource !== undefined) {
           if (existingSource !== helperRelative) {
-            log.warn(
-              `    Helper path collision: "${helperWithinSamples}" from "${helperRelative}" ` +
-                `conflicts with "${existingSource}". Skipping — rename one to avoid ambiguity.`,
+            throw new Error(
+              `Helper path collision for staged helper "${helperWithinSamples}": ` +
+                `"${helperRelative}" conflicts with "${existingSource}". ` +
+                `Rename one helper to avoid ambiguity.`,
             );
           }
-          // Same source or collision — skip
+          // Same source referenced again — already written, no action needed
         } else {
           mkdirSync(path.dirname(helperOutputPath), { recursive: true });
           writeFileSync(helperOutputPath, helperText, "utf-8");

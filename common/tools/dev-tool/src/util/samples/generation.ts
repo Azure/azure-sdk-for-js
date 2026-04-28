@@ -419,6 +419,10 @@ export async function makeSamplesFactory(
     }
   }
 
+  // Use sample.env from staging (if compiled) or fall back to package root
+  const sampleEnvPath =
+    sampleTestsResult?.sampleEnvPath ?? path.join(projectInfo.path, "sample.env");
+
   const info = await makeSampleGenerationInfo(projectInfo, finalSourcePath, versionFolder, onError);
   info.isBeta = isBeta;
 
@@ -467,7 +471,7 @@ export async function makeSamplesFactory(
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
               file("tsconfig.json", () => createTsconfig(projectInfo)),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
@@ -481,7 +485,7 @@ export async function makeSamplesFactory(
                 createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // Extract the JS Module Text from the module info structures
               ...info.moduleInfos
                 // Only include the modules if they were not skipped

@@ -8,7 +8,7 @@
  * - Split on spaces, hyphens, underscores, and non-alphanumeric chars
  * - First word lowercase, subsequent words capitalized
  * - Remove non-alphanumeric characters
- * - If result starts with a digit, prefix with `_`
+ * - If result starts with a digit, prefix with "sample"
  * - Empty input returns "sample"
  */
 const RESERVED_WORDS = new Set([
