@@ -533,9 +533,10 @@ export class ServiceBusClient {
           options,
         );
       } catch (err: any) {
-        // SessionCannotBeLocked means no sessions exist. Treat as empty.
-        // Don't catch generic 404 (MessagingEntityNotFound) which indicates a missing entity.
-        if (err.code === "SessionCannotBeLocked") {
+        // Treat only the 404 + SessionCannotBeLocked response from the
+        // get-message-sessions management operation as "no sessions exist".
+        // Don't catch other 404s (e.g., MessagingEntityNotFound for a missing entity).
+        if (err.statusCode === 404 && err.code === "SessionCannotBeLocked") {
           break;
         }
         throw err;

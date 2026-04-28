@@ -74,7 +74,8 @@ describe("listMessageSessions", () => {
   });
 
   it("updatedAfter filters to recently updated sessions", async () => {
-    const beforeSend = new Date();
+    // Subtract 1 second to avoid flakiness from millisecond precision
+    const beforeSend = new Date(Date.now() - 1000);
 
     // Send a message to create a session
     await sender.sendMessages({
