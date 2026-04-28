@@ -9,7 +9,7 @@ import {
   PathSetAccessControlRecursiveMode,
   PathGetPropertiesAction,
   LeaseAction,
-} from "../../models/azure/storage/files/dataLake/models.js";
+} from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

@@ -2,12 +2,10 @@
   "apiVersions": {
     "Storage.DataLake": "2026-06-06"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.52.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.DataLake",
     "CrossLanguageDefinitionId": {
-      "@azure/storage-file-datalake!FileSystemList:interface": "Storage.DataLake.FileSystemList",
-      "@azure/storage-file-datalake!FileSystemItem:interface": "Storage.DataLake.FileSystemItem",
       "@azure/storage-file-datalake!StorageError:interface": "Storage.DataLake.StorageError",
       "@azure/storage-file-datalake!StorageErrorBody:interface": "Storage.DataLake.StorageErrorBody",
       "@azure/storage-file-datalake!PathList:interface": "Storage.DataLake.PathList",
@@ -15,11 +13,12 @@
       "@azure/storage-file-datalake!ListBlobsHierarchySegmentResponse:interface": "Storage.DataLake.ListBlobsHierarchySegmentResponse",
       "@azure/storage-file-datalake!BlobHierarchyListSegment:interface": "Storage.DataLake.BlobHierarchyListSegment",
       "@azure/storage-file-datalake!BlobPrefix:interface": "Storage.DataLake.BlobPrefix",
-      "@azure/storage-file-datalake!BlobItemModel:interface": "Storage.DataLake.BlobItemInternal",
+      "@azure/storage-file-datalake!BlobItemModel:interface": "Storage.DataLake.BlobItem",
       "@azure/storage-file-datalake!BlobPropertiesModel:interface": "Storage.DataLake.BlobPropertiesInternal",
       "@azure/storage-file-datalake!SetAccessControlRecursiveResponse:interface": "Storage.DataLake.SetAccessControlRecursiveResponse",
       "@azure/storage-file-datalake!AclFailedEntry:interface": "Storage.DataLake.AclFailedEntry",
-      "@azure/storage-file-datalake!KnownAccountResourceType:enum": "Storage.DataLake.AccountResourceType",
+      "@azure/storage-file-datalake!FileSystemList:interface": "Storage.DataLake.FileSystemList",
+      "@azure/storage-file-datalake!FileSystemItem:interface": "Storage.DataLake.FileSystemItem",
       "@azure/storage-file-datalake!KnownFileSystemResourceType:enum": "Storage.DataLake.FileSystemResourceType",
       "@azure/storage-file-datalake!KnownListBlobsIncludeItem:enum": "Storage.DataLake.ListBlobsIncludeItem",
       "@azure/storage-file-datalake!KnownListBlobsShowOnly:enum": "Storage.DataLake.ListBlobsShowOnly",
@@ -32,7 +31,9 @@
       "@azure/storage-file-datalake!KnownPathLeaseAction:enum": "Storage.DataLake.PathLeaseAction",
       "@azure/storage-file-datalake!KnownPathGetPropertiesAction:enum": "Storage.DataLake.PathGetPropertiesAction",
       "@azure/storage-file-datalake!KnownLeaseAction:enum": "Storage.DataLake.LeaseAction",
+      "@azure/storage-file-datalake!KnownAccountResourceType:enum": "Storage.DataLake.AccountResourceType",
       "@azure/storage-file-datalake!KnownVersions:enum": "Storage.DataLake.Versions",
+      "@azure/storage-file-datalake!ServiceOperations#listFileSystems:member": "Storage.DataLake.Service.listFileSystems",
       "@azure/storage-file-datalake!PathOperations#undelete:member": "Storage.DataLake.Path.undelete",
       "@azure/storage-file-datalake!PathOperations#setExpiry:member": "Storage.DataLake.Path.setExpiry",
       "@azure/storage-file-datalake!PathOperations#appendData:member": "Storage.DataLake.Path.appendData",
@@ -50,8 +51,7 @@
       "@azure/storage-file-datalake!FileSystemOperations#delete:member": "Storage.DataLake.FileSystem.delete",
       "@azure/storage-file-datalake!FileSystemOperations#getProperties:member": "Storage.DataLake.FileSystem.getProperties",
       "@azure/storage-file-datalake!FileSystemOperations#setProperties:member": "Storage.DataLake.FileSystem.setProperties",
-      "@azure/storage-file-datalake!FileSystemOperations#create:member": "Storage.DataLake.FileSystem.create",
-      "@azure/storage-file-datalake!ServiceOperations#listFileSystems:member": "Storage.DataLake.Service.listFileSystems"
+      "@azure/storage-file-datalake!FileSystemOperations#create:member": "Storage.DataLake.FileSystem.create"
     }
   }
 }

@@ -36,8 +36,8 @@ import {
   PathUpdateAction,
   PathSetAccessControlRecursiveMode,
   PathLeaseAction,
-} from "../../models/azure/storage/files/dataLake/models.js";
-import { PathReadResponse } from "../../models/models.js";
+  PathReadResponse,
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Path operations. */

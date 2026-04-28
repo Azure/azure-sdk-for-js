@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ListBlobsIncludeItem,
-  ListBlobsShowOnly,
-} from "../../models/azure/storage/files/dataLake/models.js";
+import { ListBlobsIncludeItem, ListBlobsShowOnly } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

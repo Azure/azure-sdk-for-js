@@ -10,8 +10,8 @@ import {
   PathUpdateAction,
   PathSetAccessControlRecursiveMode,
   PathLeaseAction,
-} from "../../models/azure/storage/files/dataLake/models.js";
-import { PathReadResponse } from "../../models/models.js";
+  PathReadResponse,
+} from "../../models/models.js";
 import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,

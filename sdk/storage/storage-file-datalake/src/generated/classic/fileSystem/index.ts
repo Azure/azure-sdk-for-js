@@ -22,7 +22,7 @@ import {
   PathList,
   ListBlobsHierarchySegmentResponse,
   FileSystemResourceType,
-} from "../../models/azure/storage/files/dataLake/models.js";
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a FileSystem operations. */

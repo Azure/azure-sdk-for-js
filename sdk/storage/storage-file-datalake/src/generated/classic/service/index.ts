@@ -4,10 +4,7 @@
 import { DataLakeContext } from "../../api/dataLakeContext.js";
 import { listFileSystems } from "../../api/service/operations.js";
 import { ServiceListFileSystemsOptionalParams } from "../../api/service/options.js";
-import {
-  FileSystemList,
-  AccountResourceType,
-} from "../../models/azure/storage/files/dataLake/models.js";
+import { FileSystemList, AccountResourceType } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Service operations. */

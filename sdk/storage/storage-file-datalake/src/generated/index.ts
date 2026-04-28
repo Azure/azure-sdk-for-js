@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 export { DataLakeClient } from "./dataLakeClient.js";
-export type { PathReadResponse } from "./models/index.js";
 export type {
-  FileSystemList,
-  FileSystemItem,
   StorageError,
   StorageErrorBody,
   PathList,
@@ -17,7 +14,8 @@ export type {
   BlobPropertiesModel,
   SetAccessControlRecursiveResponse,
   AclFailedEntry,
-  AccountResourceType,
+  FileSystemList,
+  FileSystemItem,
   FileSystemResourceType,
   ListBlobsIncludeItem,
   ListBlobsShowOnly,
@@ -30,11 +28,10 @@ export type {
   PathLeaseAction,
   PathGetPropertiesAction,
   LeaseAction,
-} from "./models/azure/storage/files/dataLake/index.js";
-export {
-  KnownPathExpiryOptions,
-  KnownVersions,
-} from "./models/azure/storage/files/dataLake/index.js";
+  AccountResourceType,
+  PathReadResponse,
+} from "./models/index.js";
+export { KnownPathExpiryOptions, KnownVersions } from "./models/index.js";
 export type { DataLakeClientOptionalParams } from "./api/index.js";
 export type {
   FileSystemListBlobHierarchySegmentOptionalParams,

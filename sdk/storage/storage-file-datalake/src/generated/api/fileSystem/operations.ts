@@ -9,7 +9,7 @@ import {
   ListBlobsHierarchySegmentResponse,
   listBlobsHierarchySegmentResponseXmlDeserializer,
   FileSystemResourceType,
-} from "../../models/azure/storage/files/dataLake/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,

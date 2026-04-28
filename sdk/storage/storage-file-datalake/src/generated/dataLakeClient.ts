@@ -8,7 +8,7 @@ import { ServiceOperations, _getServiceOperations } from "./classic/service/inde
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DataLakeClientOptionalParams } from "./api/dataLakeContext.js";
+export type { DataLakeClientOptionalParams } from "./api/dataLakeContext.js";
 
 export class DataLakeClient {
   private _client: DataLakeContext;
@@ -29,15 +29,15 @@ export class DataLakeClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.service = _getServiceOperations(this._client);
     this.path = _getPathOperations(this._client);
     this.fileSystem = _getFileSystemOperations(this._client);
-    this.service = _getServiceOperations(this._client);
   }
 
+  /** The operation groups for service */
+  public readonly service: ServiceOperations;
   /** The operation groups for path */
   public readonly path: PathOperations;
   /** The operation groups for fileSystem */
   public readonly fileSystem: FileSystemOperations;
-  /** The operation groups for service */
-  public readonly service: ServiceOperations;
 }
