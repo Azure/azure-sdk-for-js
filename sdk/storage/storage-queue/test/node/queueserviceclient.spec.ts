@@ -27,7 +27,7 @@ describe("QueueServiceClient Node.js only", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-  
+
   it("IPv6 Test", async () => {
     const credentials = getGenericCredential("");
     let blobServiceClient = getGenericQSU(recorder, "", "-ipv6");
@@ -43,7 +43,7 @@ describe("QueueServiceClient Node.js only", () => {
     assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
 
     blobServiceClient = getGenericQSU(recorder, "", "-something");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName + "-something");  
+    assert.deepEqual(blobServiceClient.accountName, credentials.accountName + "-something");
   });
 
   it("can be created with a url and a credential", async () => {

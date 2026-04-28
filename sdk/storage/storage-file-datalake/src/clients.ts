@@ -127,7 +127,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
-  PathGetPropertiesResponse as PathGetSystemPropertiesResponseInternal
+  PathGetPropertiesResponse as PathGetSystemPropertiesResponseInternal,
 } from "./generated/src/index.js";
 
 /**
@@ -683,7 +683,7 @@ export class DataLakePathClient extends StorageClient {
       },
     );
   }
-  
+
   /**
    * Returns all standard HTTP properties, and system properties
    * for the path (directory or file).
@@ -699,7 +699,10 @@ export class DataLakePathClient extends StorageClient {
       "DataLakePathClient-getSystemProperties",
       options,
       async (updatedOptions) => {
-        const response = assertResponse<PathGetSystemPropertiesResponseInternal, PathGetSystemPropertiesResponseInternal>(
+        const response = assertResponse<
+          PathGetSystemPropertiesResponseInternal,
+          PathGetSystemPropertiesResponseInternal
+        >(
           await this.pathContext.getProperties({
             ...updatedOptions,
             action: "getStatus",
@@ -707,13 +710,14 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
-          }));
+          }),
+        );
         return {
           ...response,
           _response: response._response,
           isDirectory: response.resourceType === "directory",
           permissions: toPermissions(response.permissions),
-        }
+        };
       },
     );
   }
@@ -810,35 +814,22 @@ export class DataLakePathClient extends StorageClient {
     );
   }
 
-  public async getTags(
-    options: PathGetTagsOptions = {},
-  ): Promise<PathGetTagsResponse> {
-    return tracingClient.withSpan(
-      "DataLakePathClient-getTags",
-      options,
-      async (updatedOptions) => {
-        return this.blobClient.getTags({
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        });
-      },
-    );
+  public async getTags(options: PathGetTagsOptions = {}): Promise<PathGetTagsResponse> {
+    return tracingClient.withSpan("DataLakePathClient-getTags", options, async (updatedOptions) => {
+      return this.blobClient.getTags({
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
+    });
   }
 
-  public async setTags(
-    tags: Tags, 
-    options: PathSetTagsOptions = {}
-  ): Promise<PathSetTagsResponse> {
-    return tracingClient.withSpan(
-      "DataLakePathClient-setTags",
-      options,
-      async (updatedOptions) => {
-        return this.blobClient.setTags(tags, {
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        });
-      },
-    );
+  public async setTags(tags: Tags, options: PathSetTagsOptions = {}): Promise<PathSetTagsResponse> {
+    return tracingClient.withSpan("DataLakePathClient-setTags", options, async (updatedOptions) => {
+      return this.blobClient.setTags(tags, {
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
+    });
   }
 
   /**

@@ -52,7 +52,7 @@ describe("DataLakePathClient", () => {
     await recorder.stop();
   });
 
-  it.only("DataLakeFileClient getSystemProperties", async () => {
+  it("DataLakeFileClient getSystemProperties", async () => {
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
 
@@ -67,7 +67,7 @@ describe("DataLakePathClient", () => {
     assert.deepEqual(systemProperties.isDirectory, false);
   });
 
-  it.only("DataLakeDirectoryClient getSystemProperties", async () => {
+  it("DataLakeDirectoryClient getSystemProperties", async () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
 

@@ -385,12 +385,12 @@ export function getAccountNameFromUrl(url: string): string {
       // `${defaultEndpointsProtocol}://${accountName}-suffix.queue.${endpointSuffix}`;
 
       accountName = parsedUrl.hostname.split(".")[0];
-      for (let i = 0; i < accountNameSuffixes.length; ++i){
+      for (let i = 0; i < accountNameSuffixes.length; ++i) {
         const suffix = accountNameSuffixes[i];
-        if (accountName.endsWith(suffix)){
+        if (accountName.endsWith(suffix)) {
           accountName = accountName.substring(0, accountName.length - suffix.length);
         }
-      };
+      }
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
