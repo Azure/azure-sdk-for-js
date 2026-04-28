@@ -12,8 +12,6 @@
  * - Content organization: Organize large document collections by type
  * - Data routing: Route data to specific custom analyzers based on category
  * - Multi-document processing: Process files containing multiple document types by segmenting them
- *
- * @azsdk-weight 86
  */
 
 import "dotenv/config";

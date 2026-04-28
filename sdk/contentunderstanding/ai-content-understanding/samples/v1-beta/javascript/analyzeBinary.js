@@ -27,22 +27,16 @@
  * It also demonstrates content range filtering to target specific pages:
  * - "3-": Pages 3 onward
  * - "1-3,5,9-": Pages 1-3, page 5, and pages 9 onward
- *
- * @azsdk-weight 90
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import {
-  ContentUnderstandingClient,
-  toLlmInput,
-  type DocumentContent,
-} from "@azure/ai-content-understanding";
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient, toLlmInput } = require("@azure/ai-content-understanding");
 
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+function getCredential() {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -50,7 +44,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Binary Sample ==");
 
   const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
@@ -89,7 +83,7 @@ export async function main(): Promise<void> {
   );
   const rangeResult = await rangePoller.pollUntilDone();
   if (rangeResult.contents && rangeResult.contents.length > 0) {
-    const doc = rangeResult.contents[0] as DocumentContent;
+    const doc = rangeResult.contents[0];
     const pageNums = doc.pages?.map((p) => p.pageNumber) ?? [];
     console.log(`  Content range analysis returned pages ${JSON.stringify(pageNums)}`);
   }
@@ -104,7 +98,7 @@ export async function main(): Promise<void> {
   );
   const combineResult = await combinePoller.pollUntilDone();
   if (combineResult.contents && combineResult.contents.length > 0) {
-    const doc = combineResult.contents[0] as DocumentContent;
+    const doc = combineResult.contents[0];
     const pageNums = doc.pages?.map((p) => p.pageNumber) ?? [];
     console.log(`  Combined content range analysis returned pages ${JSON.stringify(pageNums)}`);
   }
@@ -145,7 +139,7 @@ export async function main(): Promise<void> {
 
     // Check if this is document content to access document-specific properties
     if (content.kind === "document") {
-      const documentContent = content as DocumentContent;
+      const documentContent = content;
       console.log(`\nDocument type: ${documentContent.mimeType ?? "(unknown)"}`);
       console.log(`Start page: ${documentContent.startPageNumber}`);
       console.log(`End page: ${documentContent.endPageNumber}`);
@@ -177,3 +171,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

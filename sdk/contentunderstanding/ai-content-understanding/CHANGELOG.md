@@ -1,5 +1,11 @@
 # Release History
 
+## 1.2.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added `toLlmInput`, a static helper that converts an `AnalysisResult` into LLM-friendly text (YAML front matter + markdown). Renders documents (with `<!-- page N -->` markers), audio/video (with `timeRange` for multi-segment results), and document-classification hierarchies (parent expanded into per-segment blocks separated by `*****`). Supports `includeFields`, `includeMarkdown`, and user `metadata` options. Mirrors the Python `to_llm_input` and .NET `LlmInputHelper.ToLlmInput` helpers.
+
 ## 1.1.0 (2026-04-24)
 
 ### Features Added

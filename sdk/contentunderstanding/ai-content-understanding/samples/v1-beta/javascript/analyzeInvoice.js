@@ -14,22 +14,14 @@
  * - Line items: Description, quantity, unit price, total for each item
  * - Financial totals: Subtotal, tax amount, shipping charges, total amount
  * - Payment information: Payment terms, payment method, remittance address
- *
- * @azsdk-weight 88
  */
 
-import "dotenv/config";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import {
-  ContentUnderstandingClient,
-  toLlmInput,
-  type DocumentContent,
-  type ArrayField,
-  type ObjectField,
-} from "@azure/ai-content-understanding";
+require("dotenv/config");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient, toLlmInput } = require("@azure/ai-content-understanding");
 
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+function getCredential() {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -37,7 +29,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Invoice Sample ==");
 
   const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
@@ -65,7 +57,7 @@ export async function main(): Promise<void> {
 
   // Get the document content (invoices are documents)
   if (content.kind === "document") {
-    const documentContent = content as DocumentContent;
+    const documentContent = content;
 
     // Print document unit information
     console.log(`\nDocument unit: ${documentContent.unit ?? "unknown"}`);
@@ -112,7 +104,7 @@ export async function main(): Promise<void> {
     // Extract object field (TotalAmount contains Amount and CurrencyCode)
     const totalAmountField = documentContent.fields["TotalAmount"];
     if (totalAmountField && totalAmountField.type === "object") {
-      const objField = totalAmountField as ObjectField;
+      const objField = totalAmountField;
       if (objField.value) {
         const amountField = objField.value["Amount"];
         const currencyField = objField.value["CurrencyCode"];
@@ -130,12 +122,12 @@ export async function main(): Promise<void> {
     // Extract array field (LineItems - line items)
     const lineItemsField = documentContent.fields["LineItems"];
     if (lineItemsField && lineItemsField.type === "array") {
-      const arrField = lineItemsField as ArrayField;
+      const arrField = lineItemsField;
       if (arrField.value && arrField.value.length > 0) {
         console.log(`\nLine Items (${arrField.value.length}):`);
         arrField.value.forEach((item, index) => {
           if (item.type === "object") {
-            const itemObj = item as ObjectField;
+            const itemObj = item;
             if (itemObj.value) {
               const descriptionField = itemObj.value["Description"];
               const quantityField = itemObj.value["Quantity"];
@@ -148,7 +140,7 @@ export async function main(): Promise<void> {
               // Display price information - prefer UnitPrice if available, otherwise Amount
               let priceInfo = "";
               if (unitPriceField && unitPriceField.type === "object") {
-                const unitPriceObj = unitPriceField as ObjectField;
+                const unitPriceObj = unitPriceField;
                 if (unitPriceObj.value) {
                   const unitPriceAmount = unitPriceObj.value["Amount"];
                   const unitPriceCurrency = unitPriceObj.value["CurrencyCode"];
@@ -224,3 +216,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

@@ -14,8 +14,6 @@
  * - Line items: Description, quantity, unit price, total for each item
  * - Financial totals: Subtotal, tax amount, shipping charges, total amount
  * - Payment information: Payment terms, payment method, remittance address
- *
- * @azsdk-weight 88
  */
 
 import "dotenv/config";
