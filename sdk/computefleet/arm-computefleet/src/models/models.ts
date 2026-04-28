@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -201,7 +207,9 @@ export function fleetSerializer(item: Fleet): any {
 
 export function fleetDeserializer(item: any): Fleet {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -246,6 +254,8 @@ export interface FleetProperties {
   readonly uniqueId?: string;
   /** Mode of the Fleet. */
   mode?: FleetMode;
+  /** VirtualMachine prefix to be used for the virtual machines launched by Fleet. Can be used only with Launch mode. */
+  vmNamePrefix?: string;
   /**
    * Specifies capacity type for Fleet Regular and Spot priority profiles.
    * capacityType is an immutable property. Once set during Fleet creation, it cannot be updated.
@@ -273,6 +283,7 @@ export function fleetPropertiesSerializer(item: FleetProperties): any {
       : additionalLocationsProfileSerializer(item["additionalLocationsProfile"]),
     computeProfile: computeProfileSerializer(item["computeProfile"]),
     mode: item["mode"],
+    vmNamePrefix: item["vmNamePrefix"],
     capacityType: item["capacityType"],
     zoneAllocationPolicy: !item["zoneAllocationPolicy"]
       ? item["zoneAllocationPolicy"]
@@ -300,6 +311,7 @@ export function fleetPropertiesDeserializer(item: any): FleetProperties {
     timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     uniqueId: item["uniqueId"],
     mode: item["mode"],
+    vmNamePrefix: item["vmNamePrefix"],
     capacityType: item["capacityType"],
     zoneAllocationPolicy: !item["zoneAllocationPolicy"]
       ? item["zoneAllocationPolicy"]
@@ -926,9 +938,7 @@ export interface AdditionalLocationsProfile {
 }
 
 export function additionalLocationsProfileSerializer(item: AdditionalLocationsProfile): any {
-  return {
-    locationProfiles: locationProfileArraySerializer(item["locationProfiles"]),
-  };
+  return { locationProfiles: locationProfileArraySerializer(item["locationProfiles"]) };
 }
 
 export function additionalLocationsProfileDeserializer(item: any): AdditionalLocationsProfile {
@@ -2066,10 +2076,7 @@ export interface VaultCertificate {
 }
 
 export function vaultCertificateSerializer(item: VaultCertificate): any {
-  return {
-    certificateUrl: item["certificateUrl"],
-    certificateStore: item["certificateStore"],
-  };
+  return { certificateUrl: item["certificateUrl"], certificateStore: item["certificateStore"] };
 }
 
 export function vaultCertificateDeserializer(item: any): VaultCertificate {
@@ -2900,7 +2907,7 @@ export function virtualMachineScaleSetNetworkProfileSerializer(
       : virtualMachineScaleSetNetworkConfigurationArraySerializer(
           item["networkInterfaceConfigurations"],
         ),
-    networkApiVersion: item["networkApiVersion"],
+    networkApiVersion: item["networkApiVersion"] ?? "2026-04-01-preview",
   };
 }
 
@@ -3731,10 +3738,7 @@ export interface UefiSettings {
 }
 
 export function uefiSettingsSerializer(item: UefiSettings): any {
-  return {
-    secureBootEnabled: item["secureBootEnabled"],
-    vTpmEnabled: item["vTpmEnabled"],
-  };
+  return { secureBootEnabled: item["secureBootEnabled"], vTpmEnabled: item["vTpmEnabled"] };
 }
 
 export function uefiSettingsDeserializer(item: any): UefiSettings {
@@ -3778,9 +3782,7 @@ export interface EncryptionIdentity {
 }
 
 export function encryptionIdentitySerializer(item: EncryptionIdentity): any {
-  return {
-    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
-  };
+  return { userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"] };
 }
 
 export function encryptionIdentityDeserializer(item: any): EncryptionIdentity {
@@ -4084,8 +4086,14 @@ export function virtualMachineScaleSetExtensionPropertiesDeserializer(
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
-    settings: item["settings"],
-    protectedSettings: item["protectedSettings"],
+    settings: !item["settings"]
+      ? item["settings"]
+      : Object.fromEntries(Object.entries(item["settings"]).map(([k, p]: [string, any]) => [k, p])),
+    protectedSettings: !item["protectedSettings"]
+      ? item["protectedSettings"]
+      : Object.fromEntries(
+          Object.entries(item["protectedSettings"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     provisioningState: item["provisioningState"],
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
@@ -4108,10 +4116,7 @@ export interface KeyVaultSecretReference {
 }
 
 export function keyVaultSecretReferenceSerializer(item: KeyVaultSecretReference): any {
-  return {
-    secretUrl: item["secretUrl"],
-    sourceVault: subResourceSerializer(item["sourceVault"]),
-  };
+  return { secretUrl: item["secretUrl"], sourceVault: subResourceSerializer(item["sourceVault"]) };
 }
 
 export function keyVaultSecretReferenceDeserializer(item: any): KeyVaultSecretReference {
@@ -4368,10 +4373,7 @@ export interface VMSizeProperties {
 }
 
 export function vmSizePropertiesSerializer(item: VMSizeProperties): any {
-  return {
-    vCPUsAvailable: item["vCPUsAvailable"],
-    vCPUsPerCore: item["vCPUsPerCore"],
-  };
+  return { vCPUsAvailable: item["vCPUsAvailable"], vCPUsPerCore: item["vCPUsPerCore"] };
 }
 
 export function vmSizePropertiesDeserializer(item: any): VMSizeProperties {
@@ -4478,7 +4480,7 @@ export function computeProfileSerializer(item: ComputeProfile): any {
     baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(
       item["baseVirtualMachineProfile"],
     ),
-    computeApiVersion: item["computeApiVersion"],
+    computeApiVersion: item["computeApiVersion"] ?? "2026-04-01-preview",
     platformFaultDomainCount: item["platformFaultDomainCount"],
     additionalVirtualMachineCapabilities: !item["additionalVirtualMachineCapabilities"]
       ? item["additionalVirtualMachineCapabilities"]
@@ -4526,10 +4528,10 @@ export function additionalCapabilitiesDeserializer(item: any): AdditionalCapabil
 
 /** Modes for Compute Fleet. */
 export enum KnownFleetMode {
-  /** Default. Managed is the default mode for Compute Fleet where VMs are provisioned via VMSS. */
+  /** Default. Managed is the default mode for Compute Fleet where VMs are provisioned via virtual machine scale sets. */
   Managed = "Managed",
-  /** Instance mode for Compute Fleet will directly provision VM instances. */
-  Instance = "Instance",
+  /** Launch mode for Compute Fleet will directly launch VM instances to be managed by the customer. */
+  Launch = "Launch",
 }
 
 /**
@@ -4537,8 +4539,8 @@ export enum KnownFleetMode {
  * {@link KnownFleetMode} can be used interchangeably with FleetMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Managed**: Default. Managed is the default mode for Compute Fleet where VMs are provisioned via VMSS. \
- * **Instance**: Instance mode for Compute Fleet will directly provision VM instances.
+ * **Managed**: Default. Managed is the default mode for Compute Fleet where VMs are provisioned via virtual machine scale sets. \
+ * **Launch**: Launch mode for Compute Fleet will directly launch VM instances to be managed by the customer.
  */
 export type FleetMode = string;
 
@@ -4660,14 +4662,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -4675,7 +4674,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -4711,8 +4717,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -4776,7 +4782,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -4793,8 +4801,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -4851,7 +4859,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -4891,14 +4899,11 @@ export interface ManagedServiceIdentityUpdate {
   /** The type of managed identity assigned to this resource. */
   type?: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 /** The template for adding optional properties. */
@@ -5090,7 +5095,7 @@ export function virtualMachineArrayDeserializer(result: Array<VirtualMachine>): 
   });
 }
 
-/** An instant Fleet's virtual machine. */
+/** A Launch mode Fleet's virtual machine. */
 export interface VirtualMachine {
   /** The name of the virtual machine. */
   readonly name: string;
@@ -5116,12 +5121,10 @@ export function virtualMachineDeserializer(item: any): VirtualMachine {
 
 /** Virtual Machine operation status values. */
 export enum KnownVMOperationStatus {
+  /** Indicates that the virtual machine has not been accepted by Compute yet and is still scheduled to be created. */
+  Launching = "Launching",
   /** Indicates that the virtual machine is either in the process of being created or is scheduled to be created. */
   Creating = "Creating",
-  /** Indicates that the cancellation request was successful because the virtual machine had not been created yet. */
-  Canceled = "Canceled",
-  /** Indicates that the cancellation request could not be applied because the virtual machine had already been created. */
-  CancelFailedStatusUnknown = "CancelFailedStatusUnknown",
   /** Indicates that the virtual machine operation failed. */
   Failed = "Failed",
   /** Indicates that the virtual machine operation completed successfully. */
@@ -5133,9 +5136,8 @@ export enum KnownVMOperationStatus {
  * {@link KnownVMOperationStatus} can be used interchangeably with VMOperationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Launching**: Indicates that the virtual machine has not been accepted by Compute yet and is still scheduled to be created. \
  * **Creating**: Indicates that the virtual machine is either in the process of being created or is scheduled to be created. \
- * **Canceled**: Indicates that the cancellation request was successful because the virtual machine had not been created yet. \
- * **CancelFailedStatusUnknown**: Indicates that the cancellation request could not be applied because the virtual machine had already been created. \
  * **Failed**: Indicates that the virtual machine operation failed. \
  * **Succeeded**: Indicates that the virtual machine operation completed successfully.
  */
@@ -5149,6 +5151,6 @@ export enum KnownVersions {
   V20240501Preview = "2024-05-01-preview",
   /** Public Api version */
   V20241101 = "2024-11-01",
-  /** Private preview Api version. */
-  V20250701Preview = "2025-07-01-preview",
+  /** Launch mode preview Api version. */
+  V20260401Preview = "2026-04-01-preview",
 }
