@@ -25395,7 +25395,7 @@ importers:
         version: 1.59.1
       prettier:
         specifier: 'catalog:'
-        version: 3.8.2
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
