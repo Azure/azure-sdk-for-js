@@ -4,10 +4,12 @@
 # ------------------------------------
 ARG NODE_VERSION=22
 
-# Optional registry prefix. Leave blank to use Docker Hub.
-ARG REGISTRY=""
+# Use the MCR-hosted Node.js image (Azure Linux 3) instead of docker.io/library/node
+# to avoid Docker Hub pull rate limits and intermittent registry timeouts in CI.
+# Override REGISTRY (e.g. with an ACR login server) if pulling through a cache.
+ARG REGISTRY="mcr.microsoft.com/"
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine as builder
+FROM ${REGISTRY}azurelinux/base/nodejs:${NODE_VERSION} AS builder
 WORKDIR /app
 
 COPY . .
@@ -16,7 +18,7 @@ RUN npm install --no-package-lock
 
 RUN npm run build
 
-FROM ${REGISTRY}node:${NODE_VERSION}-alpine
+FROM ${REGISTRY}azurelinux/base/nodejs:${NODE_VERSION}
 WORKDIR /app
 
 # Copy only the built app and necessary files
