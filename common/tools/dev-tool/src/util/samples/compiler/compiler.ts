@@ -155,6 +155,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
         )
       : classified;
 
+  // Validate before elimination - catches forPublishing references to initially-dead symbols
   validateNoDeadReferences(substitutions, deadSymbols, analyzer, fileName);
 
   const describeResult = eliminateDeadStatements(
@@ -222,15 +223,16 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   validateNoDeadReferences(substitutions, deadSymbols, analyzer, fileName);
 
   const emptySourceFile = createSourceFile("output.ts", "");
-  const allBodyText = [
-    ...survivingDescribeTexts,
-    ...survivingVarTexts,
-    ...itBlockTexts.flat(),
-    ...beforeAllTexts,
-    ...beforeEachTexts,
-  ].join("\n");
-  // Fast heuristic to detect referenced identifiers — false positives are harmless
+
+  // Collect all body text for identifier extraction - use concat to avoid spread overhead
+  const allBodyTexts = survivingDescribeTexts
+    .concat(survivingVarTexts)
+    .concat(itBlockTexts.flat())
+    .concat(beforeAllTexts)
+    .concat(beforeEachTexts);
+  const allBodyText = allBodyTexts.join("\n");
   const referencedNames = new Set<string>(allBodyText.match(/\b[A-Za-z_$][A-Za-z0-9_$]*\b/g) ?? []);
+
   const { imports: rewrittenImports } = rewriteImports(
     filteredClassified,
     packageName,
