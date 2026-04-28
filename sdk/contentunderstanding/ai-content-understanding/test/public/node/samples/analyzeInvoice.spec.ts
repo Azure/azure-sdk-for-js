@@ -7,7 +7,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient } from "../../../../src/index.js";
-import { type DocumentContent, type ArrayField } from "../../../../src/index.js";
+import { type DocumentContent, type ArrayField, toLlmInput } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
@@ -100,5 +100,33 @@ describe("Sample: analyzeInvoice", () => {
         console.log(`    ${model}: ${count}`);
       }
     }
+
+    // Test toLlmInput conversion (mirrors sample's invoice_to_llm_input block).
+    // Invoice analysis returns extracted fields which toLlmInput renders as YAML front matter
+    // alongside the markdown body.
+    const text = toLlmInput(result);
+    assert.ok(
+      typeof text === "string" && text.trim().length > 0,
+      "toLlmInput should return a non-empty string",
+    );
+    assert.ok(
+      text.startsWith("---"),
+      "toLlmInput output should start with YAML front matter delimiter",
+    );
+    assert.ok(
+      text.includes("\n---\n"),
+      "toLlmInput output should contain YAML front matter closing delimiter",
+    );
+    assert.ok(
+      text.includes("contentType: document"),
+      "YAML front matter should declare 'contentType: document'",
+    );
+    assert.ok(
+      text.includes("fields:"),
+      "Invoice toLlmInput output should include a 'fields:' block",
+    );
+    console.log(
+      `[PASS] toLlmInput output validated (${text.length} characters, includes invoice fields)`,
+    );
   });
 });
