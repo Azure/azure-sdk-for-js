@@ -473,7 +473,11 @@ export class ServiceBusClient {
   }
 
   /**
-   * Lists the IDs of sessions with active messages in a session-enabled queue.
+   * Lists the IDs of sessions in a session-enabled queue.
+   *
+   * By default, returns sessions with active messages in the entity.
+   * If {@link ListMessageSessionsOptions.updatedAfter} is specified, returns sessions
+   * whose session state was updated after that time instead.
    *
    * @param queueName - Name of the session-enabled queue.
    * @param options - Options for listing sessions.
@@ -484,7 +488,11 @@ export class ServiceBusClient {
     options?: ListMessageSessionsOptions,
   ): Promise<string[]>;
   /**
-   * Lists the IDs of sessions with active messages in a session-enabled subscription.
+   * Lists the IDs of sessions in a session-enabled subscription.
+   *
+   * By default, returns sessions with active messages in the entity.
+   * If {@link ListMessageSessionsOptions.updatedAfter} is specified, returns sessions
+   * whose session state was updated after that time instead.
    *
    * @param topicName - Name of the topic.
    * @param subscriptionName - Name of the subscription.
