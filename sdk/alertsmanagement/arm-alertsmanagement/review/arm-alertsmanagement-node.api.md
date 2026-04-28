@@ -32,7 +32,7 @@ export interface ActionTriggeredDetails extends BaseDetails {
 export type ActionType = string;
 
 // @public
-export interface Alert extends ProxyResource {
+export interface Alert extends ArmProxyResource {
     properties?: AlertProperties;
 }
 
@@ -55,12 +55,12 @@ export interface AlertEnrichmentProperties {
 }
 
 // @public
-export interface AlertEnrichmentResponse extends ProxyResource {
+export interface AlertEnrichmentResponse extends ArmProxyResource {
     properties?: AlertEnrichmentProperties;
 }
 
 // @public
-export interface AlertModification extends ProxyResource_1 {
+export interface AlertModification extends ProxyResource {
     properties?: AlertModificationProperties;
 }
 
@@ -238,7 +238,7 @@ export interface AlertsOperations {
 export type AlertsSortByFields = string;
 
 // @public
-export interface AlertsSummary extends ProxyResource_1 {
+export interface AlertsSummary extends ProxyResource {
     properties?: AlertsSummaryGroup;
 }
 
@@ -263,6 +263,10 @@ export interface AlertsSummaryGroupItem {
 
 // @public
 export type AlertState = string;
+
+// @public
+export interface ArmProxyResource extends Resource {
+}
 
 // @public
 export enum AzureClouds {
@@ -611,11 +615,7 @@ export interface PropertyChangeDetails extends BaseDetails {
 }
 
 // @public
-export interface ProxyResource extends Resource {
-}
-
-// @public
-export interface ProxyResource_1 {
+export interface ProxyResource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;

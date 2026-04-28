@@ -175,7 +175,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** An alert created in alert management service. */
-export interface Alert extends ProxyResource {
+export interface Alert extends ArmProxyResource {
   /** Alert property bag */
   properties?: AlertProperties;
 }
@@ -405,9 +405,9 @@ export function actionStatusDeserializer(item: any): ActionStatus {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ArmProxyResource extends Resource {}
 
-export function proxyResourceDeserializer(item: any): ProxyResource {
+export function armProxyResourceDeserializer(item: any): ArmProxyResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -538,7 +538,7 @@ export function errorResponseBodyArrayDeserializer(result: Array<ErrorResponseBo
 }
 
 /** Alert Modification details */
-export interface AlertModification extends ProxyResource_1 {
+export interface AlertModification extends ProxyResource {
   /** Alert modification history properties. */
   properties?: AlertModificationProperties;
 }
@@ -833,7 +833,7 @@ export enum KnownResultStatus {
 export type ResultStatus = string;
 
 /** An azure resource object */
-export interface ProxyResource_1 {
+export interface ProxyResource {
   /** Azure resource Id */
   readonly id?: string;
   /** Azure resource type */
@@ -842,7 +842,7 @@ export interface ProxyResource_1 {
   readonly name?: string;
 }
 
-export function proxyResourceDeserializer_1(item: any): ProxyResource_1 {
+export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
     id: item["id"],
     type: item["type"],
@@ -904,7 +904,7 @@ export function alertEnrichmentResponseArrayDeserializer(
 }
 
 /** The alert's enrichments. */
-export interface AlertEnrichmentResponse extends ProxyResource {
+export interface AlertEnrichmentResponse extends ArmProxyResource {
   /** Properties of the alert enrichment item. */
   properties?: AlertEnrichmentProperties;
 }
@@ -1229,7 +1229,7 @@ export function monitorServiceDetailsDeserializer(item: any): MonitorServiceDeta
 }
 
 /** Summary of alerts based on the input filters and 'groupby' parameters. */
-export interface AlertsSummary extends ProxyResource_1 {
+export interface AlertsSummary extends ProxyResource {
   /** Group the result set. */
   properties?: AlertsSummaryGroup;
 }
