@@ -483,10 +483,7 @@ export class ServiceBusClient {
    * @param options - Options for listing sessions.
    * @returns An array of session IDs.
    */
-  listMessageSessions(
-    queueName: string,
-    options?: ListMessageSessionsOptions,
-  ): Promise<string[]>;
+  listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): Promise<string[]>;
   /**
    * Lists the IDs of sessions in a session-enabled subscription.
    *
@@ -534,12 +531,7 @@ export class ServiceBusClient {
     for (;;) {
       let page: string[];
       try {
-        page = await managementClient.listMessageSessions(
-          skip,
-          pageSize,
-          lastUpdatedTime,
-          options,
-        );
+        page = await managementClient.listMessageSessions(skip, pageSize, lastUpdatedTime, options);
       } catch (err: any) {
         // Treat only the 404 + SessionCannotBeLocked response from the
         // get-message-sessions management operation as "no sessions exist".
