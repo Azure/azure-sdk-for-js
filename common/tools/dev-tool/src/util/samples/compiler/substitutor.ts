@@ -196,11 +196,7 @@ export function substituteForPublishing(
           ts.isIdentifier(node.expression) &&
           node.expression.text === forPublishingLocalName
         ) {
-          const publishedExpr = validateAndExtract(
-            node as ts.CallExpression,
-            fileName,
-            sourceFile,
-          );
+          const publishedExpr = validateAndExtract(node as ts.CallExpression, fileName, sourceFile);
 
           substitutions.push({
             originalNode: node as ts.CallExpression,

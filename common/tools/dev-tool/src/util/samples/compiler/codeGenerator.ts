@@ -12,21 +12,56 @@
  * - Empty input returns "sample"
  */
 const RESERVED_WORDS = new Set([
-  "break", "case", "catch", "continue", "debugger", "default", "delete",
-  "do", "else", "export", "extends", "finally", "for", "function", "if",
-  "import", "in", "instanceof", "new", "return", "super", "switch",
-  "this", "throw", "try", "typeof", "var", "void", "while", "with",
-  "class", "const", "enum", "let", "static", "yield", "await",
+  "break",
+  "case",
+  "catch",
+  "continue",
+  "debugger",
+  "default",
+  "delete",
+  "do",
+  "else",
+  "export",
+  "extends",
+  "finally",
+  "for",
+  "function",
+  "if",
+  "import",
+  "in",
+  "instanceof",
+  "new",
+  "return",
+  "super",
+  "switch",
+  "this",
+  "throw",
+  "try",
+  "typeof",
+  "var",
+  "void",
+  "while",
+  "with",
+  "class",
+  "const",
+  "enum",
+  "let",
+  "static",
+  "yield",
+  "await",
   // Strict mode
-  "implements", "interface", "package", "private", "protected", "public",
+  "implements",
+  "interface",
+  "package",
+  "private",
+  "protected",
+  "public",
 ]);
 
 export function descriptionToFunctionName(description: string): string {
   // Replace non-alphanumeric chars (except spaces/hyphens/underscores) with spaces to act as word boundaries
   const cleaned = description.replace(/[^a-zA-Z0-9\s\-_]/g, " ");
-  const tokens = cleaned
-    .split(/[\s\-_]+/)
-    .filter((w) => w.length > 0);
+  const tokens = cleaned.split(/[\s\-_]+/).filter((w) => w.length > 0);
 
   // Split each token on camelCase/PascalCase boundaries
   // e.g. "ReadmeSampleCreateClient" → ["Readme", "Sample", "Create", "Client"]

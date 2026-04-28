@@ -44,10 +44,7 @@ export interface CompiledHelper {
 }
 
 /** Callback to resolve a helper import specifier to source text. */
-export type HelperResolver = (
-  fromFile: string,
-  specifier: string,
-) => ResolvedHelper | undefined;
+export type HelperResolver = (fromFile: string, specifier: string) => ResolvedHelper | undefined;
 
 /**
  * Recursively collect all identifier names from a binding name (including destructuring).
@@ -67,9 +64,7 @@ function collectAllBindingNames(name: ts.BindingName, out: Set<string>): void {
 /**
  * Collect export names from surviving statements.
  */
-function collectSurvivingExportsFromStatements(
-  statements: readonly ts.Statement[],
-): Set<string> {
+function collectSurvivingExportsFromStatements(statements: readonly ts.Statement[]): Set<string> {
   const exports = new Set<string>();
 
   for (const stmt of statements) {
@@ -77,7 +72,7 @@ function collectSurvivingExportsFromStatements(
     if (ts.isExportDeclaration(stmt)) {
       // Skip type-only exports (e.g., export type { Foo } from "...")
       if (stmt.isTypeOnly) continue;
-      
+
       if (stmt.exportClause && ts.isNamedExports(stmt.exportClause)) {
         for (const spec of stmt.exportClause.elements) {
           exports.add(spec.name.text);
@@ -124,7 +119,6 @@ function collectSurvivingExportsFromStatements(
 
   return exports;
 }
-
 
 /**
  * Compile a local helper file.
@@ -176,9 +170,7 @@ export function compileHelper(
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
-        warnings.push(
-          `Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`,
-        );
+        warnings.push(`Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
       }
 
@@ -297,33 +289,20 @@ export function compileHelper(
   const nonImportStatements: ts.Statement[] = [];
   for (const s of analyzer.sourceFile.statements) {
     if (ts.isImportDeclaration(s)) continue;
-    if (
-      ts.isExportDeclaration(s) &&
-      s.moduleSpecifier &&
-      ts.isStringLiteral(s.moduleSpecifier)
-    ) {
+    if (ts.isExportDeclaration(s) && s.moduleSpecifier && ts.isStringLiteral(s.moduleSpecifier)) {
       const modSpec = s.moduleSpecifier.text;
       if (emptyHelperSpecifiers.has(modSpec)) continue;
 
       // Rewrite named re-exports against child's surviving exports
       const childExports = childSurvivingExports.get(modSpec);
-      if (
-        childExports &&
-        s.exportClause &&
-        ts.isNamedExports(s.exportClause)
-      ) {
+      if (childExports && s.exportClause && ts.isNamedExports(s.exportClause)) {
         const surviving = s.exportClause.elements.filter((spec) =>
-          childExports.has(
-            (spec.propertyName ?? spec.name).text,
-          ),
+          childExports.has((spec.propertyName ?? spec.name).text),
         );
         if (surviving.length === 0) continue; // all specifiers dead
         if (surviving.length < s.exportClause.elements.length) {
           // Rewrite the export declaration with only surviving specifiers
-          const newClause = ts.factory.updateNamedExports(
-            s.exportClause,
-            surviving,
-          );
+          const newClause = ts.factory.updateNamedExports(s.exportClause, surviving);
           const newDecl = ts.factory.updateExportDeclaration(
             s,
             s.modifiers,
@@ -341,17 +320,10 @@ export function compileHelper(
   }
 
   // Run dead-binding elimination (no mini-file — shared analyzer has full scope)
-  const elimination = eliminateDeadStatements(
-    nonImportStatements,
-    deadSymbols,
-    analyzer,
-    fileName,
-  );
+  const elimination = eliminateDeadStatements(nonImportStatements, deadSymbols, analyzer, fileName);
 
   // Collect surviving exports from surviving statements
-  const survivingExports = collectSurvivingExportsFromStatements(
-    elimination.survivingStatements,
-  );
+  const survivingExports = collectSurvivingExportsFromStatements(elimination.survivingStatements);
 
   // A helper is empty only when no runtime statements survived elimination.
   // Side-effect modules (e.g. polyfills) have no exports but DO have surviving
