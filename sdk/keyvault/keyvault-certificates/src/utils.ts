@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 
 import type { CertificateContentType } from "./certificatesModels.js";
-import { isNode } from "@azure/core-util";
 
 /**
  * Decodes a Uint8Array into a Base64 string.
  * @internal
  */
 export function toBase64(bytes: Uint8Array): string {
-  if (isNode) {
-    return Buffer.from(bytes).toString("base64");
-  } else {
-    return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
-  }
+  return Buffer.from(bytes).toString("base64");
 }
 
 /**
@@ -21,11 +16,7 @@ export function toBase64(bytes: Uint8Array): string {
  * @internal
  */
 export function toAscii(bytes: Uint8Array): string {
-  if (isNode) {
-    return Buffer.from(bytes).toString("ascii");
-  } else {
-    return new TextDecoder("ascii").decode(bytes);
-  }
+  return Buffer.from(bytes).toString("ascii");
 }
 
 /**
@@ -33,11 +24,7 @@ export function toAscii(bytes: Uint8Array): string {
  * @internal
  */
 export function stringToUint8Array(value: string): Uint8Array {
-  if (isNode) {
-    return Buffer.from(value);
-  } else {
-    return new TextEncoder().encode(value);
-  }
+  return Buffer.from(value);
 }
 
 /**
@@ -45,11 +32,7 @@ export function stringToUint8Array(value: string): Uint8Array {
  * @internal
  */
 export function base64ToUint8Array(value: string): Uint8Array {
-  if (isNode) {
-    return Buffer.from(value, "base64");
-  } else {
-    return Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
-  }
+  return Buffer.from(value, "base64");
 }
 
 /**
@@ -65,7 +48,6 @@ export function parseCertificateBytes(
   contentType: CertificateContentType,
 ): string {
   if (contentType === "application/x-pem-file") {
-    // PEM files have the certificate bytes already Base64 formatted.
     return toAscii(certificateBytes);
   } else {
     return toBase64(certificateBytes);
