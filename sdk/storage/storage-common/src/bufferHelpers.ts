@@ -18,13 +18,6 @@ export function allocBuffer(size: number): NodeBuffer {
 }
 
 /**
- * Creates a Buffer from a string with the specified encoding.
- */
-export function bufferFromString(str: string, encoding?: BufferEncoding): NodeBuffer {
-  return Buffer.from(str, encoding);
-}
-
-/**
  * Creates a Buffer from an ArrayBuffer, with optional offset and length.
  */
 export function bufferFromArrayBuffer(

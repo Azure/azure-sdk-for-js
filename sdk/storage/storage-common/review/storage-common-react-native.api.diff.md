@@ -27,17 +27,13 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class AnonymousCredential extends Credential {
      create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
-@@ -42,16 +42,17 @@
+@@ -42,13 +42,14 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
  // @public
 -export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
 +export function bufferFromArrayBuffer(_ab: ArrayBuffer, _byteOffset?: number, _length?: number): NodeBuffer;
- 
- // @public
--export function bufferFromString(str: string, encoding?: BufferEncoding): NodeBuffer;
-+export function bufferFromString(_str: string, _encoding?: string): NodeBuffer;
  
 -// @public
 +// @public (undocumented)
@@ -49,7 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -71,15 +72,15 @@
+@@ -68,15 +69,15 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -67,7 +63,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
-@@ -87,10 +88,10 @@
+@@ -84,10 +85,10 @@
  export type NodeJSReadableStream = NodeReadableStream & {
      destroy(error?: Error): NodeJSReadableStream;
  };
@@ -80,7 +76,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -165,58 +166,48 @@
+@@ -162,58 +163,48 @@
  }
  
  // @public
@@ -153,7 +149,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -229,10 +220,13 @@
+@@ -226,10 +217,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

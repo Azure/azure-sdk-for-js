@@ -46,9 +46,6 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
 export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
 
 // @public
-export function bufferFromString(str: string, encoding?: BufferEncoding): NodeBuffer;
-
-// @public
 export class BufferScheduler {
     constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;

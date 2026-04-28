@@ -22,17 +22,13 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -42,26 +42,28 @@
+@@ -42,23 +42,25 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
  // @public
 -export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
 +export function bufferFromArrayBuffer(_ab: ArrayBuffer, _byteOffset?: number, _length?: number): NodeBuffer;
- 
- // @public
--export function bufferFromString(str: string, encoding?: BufferEncoding): NodeBuffer;
-+export function bufferFromString(_str: string, _encoding?: string): NodeBuffer;
  
 -// @public
 +// @public (undocumented)
@@ -56,7 +52,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export abstract class CredentialPolicy extends BaseRequestPolicy {
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -71,15 +73,15 @@
+@@ -68,15 +70,15 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -74,7 +70,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
-@@ -87,10 +89,10 @@
+@@ -84,10 +86,10 @@
  export type NodeJSReadableStream = NodeReadableStream & {
      destroy(error?: Error): NodeJSReadableStream;
  };
@@ -87,7 +83,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -164,59 +166,47 @@
+@@ -161,59 +163,47 @@
      FIXED = 1
  }
  
@@ -159,7 +155,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -229,10 +219,13 @@
+@@ -226,10 +216,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

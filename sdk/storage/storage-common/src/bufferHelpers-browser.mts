@@ -20,13 +20,6 @@ export function allocBuffer(_size: number): NodeBuffer {
 /**
  * In the browser, Buffer is not available. This always throws.
  */
-export function bufferFromString(_str: string, _encoding?: string): NodeBuffer {
-  throw new Error("Buffer is not available in this environment.");
-}
-
-/**
- * In the browser, Buffer is not available. This always throws.
- */
 export function bufferFromArrayBuffer(
   _ab: ArrayBuffer,
   _byteOffset?: number,
