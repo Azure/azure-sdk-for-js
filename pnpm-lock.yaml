@@ -29131,9 +29131,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.1.5(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.5)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.1.5(vitest@4.1.5)
@@ -29146,15 +29143,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
-      playwright:
-        specifier: catalog:testing
-        version: 1.59.1
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
-      react-native:
-        specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3

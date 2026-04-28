@@ -5,15 +5,12 @@
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
-  "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
     "node": ">=20.0.0"
   },
   "imports": {
     "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "react-native": "./src/*-react-native.mts",
       "default": "./src/*.ts"
     }
   },
@@ -53,8 +50,7 @@
     "changefeed",
     "node.js",
     "typescript",
-    "javascript",
-    "browser"
+    "javascript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -93,14 +89,11 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "playwright": "catalog:testing",
     "prettier": "catalog:",
-    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -117,18 +110,9 @@
     }
   },
   "type": "module",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"

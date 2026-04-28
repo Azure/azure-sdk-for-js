@@ -15,7 +15,13 @@ import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import type { UserDelegationKey } from "@azure/storage-common";
-import { BufferScheduler } from "@azure/storage-common";
+import {
+  BufferScheduler,
+  isBuffer,
+  bufferFromArrayBuffer,
+  getBufferLength,
+  createBlobFromData,
+} from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
@@ -1515,24 +1521,28 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
       if (isNodeLike) {
-        const BufferCtor = (globalThis as any).Buffer;
-        let buffer: any;
-        if (BufferCtor?.isBuffer?.(data)) {
+        let buffer: NodeBuffer;
+        if (isBuffer(data)) {
           buffer = data;
         } else if (data instanceof ArrayBuffer) {
-          buffer = BufferCtor.from(data);
+          buffer = bufferFromArrayBuffer(data);
         } else {
           data = data as ArrayBufferView;
-          buffer = BufferCtor.from(data.buffer, data.byteOffset, data.byteLength);
+          buffer = bufferFromArrayBuffer(
+            data.buffer as ArrayBuffer,
+            data.byteOffset,
+            data.byteLength,
+          );
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number) => buffer.slice(offset, offset + size),
-          buffer.length,
+          (offset: number, size: number) =>
+            (buffer as Uint8Array).slice(offset, offset + size) as NodeBuffer,
+          getBufferLength(buffer),
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data] as any);
+        const browserBlob = createBlobFromData(data);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -1728,11 +1738,11 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
 
         let transferProgress: number = 0;
-        const scheduler = new (BufferScheduler as any)(
+        const scheduler = new BufferScheduler(
           stream,
           options.chunkSize,
           options.maxConcurrency,
-          async (body: HttpRequestBody, length: number, offset: number) => {
+          async (body: () => NodeReadableStream, length: number, offset?: number) => {
             await this.append(body, offset!, length, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
@@ -1753,7 +1763,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((options.maxConcurrency / 4) * 3),
         );
-        await (scheduler as { do(): Promise<void> }).do();
+        await scheduler.do();
 
         return this.flush(transferProgress, {
           abortSignal: options.abortSignal,
@@ -1819,8 +1829,8 @@ export class DataLakeFileClient extends DataLakePathClient {
     let offset = 0;
     let count = 0;
     let options = optOptions;
-    if ((globalThis as any).Buffer?.isBuffer?.(bufferOrOffset)) {
-      buffer = bufferOrOffset as NodeBuffer;
+    if (isBuffer(bufferOrOffset)) {
+      buffer = bufferOrOffset;
       offset = offsetOrCount || 0;
       count = typeof countOrOptions === "number" ? countOrOptions : 0;
     } else {
@@ -1833,7 +1843,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       options,
       async (updatedOptions) => {
         if (buffer) {
-          return (this.blockBlobClientInternal as any).downloadToBuffer(buffer, offset, count, {
+          return this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
             ...options,
             maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
             blockSize: options.chunkSize,
@@ -1842,7 +1852,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             contentChecksumAlgorithm: options.contentChecksumAlgorithm,
           }) as Promise<NodeBuffer>;
         } else {
-          return (this.blockBlobClientInternal as any).downloadToBuffer(offset, count, {
+          return this.blockBlobClientInternal.downloadToBuffer(offset, count, {
             ...options,
             maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
             blockSize: options.chunkSize,

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export * from "#platform/BufferScheduler";
+export * from "#platform/bufferHelpers";
 export * from "#platform/StructuredMessageEncodingStream";
 export * from "#platform/StructuredMessageDecodingStream";
 export * from "./StorageCRC64Calculator.js";

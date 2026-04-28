@@ -7,12 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -6,11 +6,12 @@
- 
- import type { CompatResponse } from '@azure/core-http-compat';
- import type { HttpClient } from '@azure/core-rest-pipeline';
+@@ -9,17 +9,17 @@
  import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
-+import type { NodeBuffer } from '@azure/core-rest-pipeline';
+ import type { NodeBuffer } from '@azure/core-rest-pipeline';
  import type { NodeReadableStream } from '@azure/core-rest-pipeline';
  import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 -import { RequestBodyType } from '@azure/core-rest-pipeline';
@@ -21,33 +18,69 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { RequestPolicyFactory } from '@azure/core-http-compat';
  import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
  import type { RestError } from '@azure/core-rest-pipeline';
-@@ -37,12 +38,10 @@
-     abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+ import type { WebResourceLike } from '@azure/core-http-compat';
+ 
+ // @public
+-export function allocBuffer(size: number): NodeBuffer;
++export function allocBuffer(_size: number): NodeBuffer;
+ 
+ // @public
+ export class AnonymousCredential extends Credential {
+     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
+@@ -42,16 +42,17 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
+ 
+ // @public
+-export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
++export function bufferFromArrayBuffer(_ab: ArrayBuffer, _byteOffset?: number, _length?: number): NodeBuffer;
+ 
+ // @public
+-export function bufferFromString(str: string, encoding?: BufferEncoding): NodeBuffer;
++export function bufferFromString(_str: string, _encoding?: string): NodeBuffer;
  
 -// @public
 +// @public (undocumented)
  export class BufferScheduler {
 -    constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
--    do(): Promise<void>;
++    constructor(_readable: NodeReadableStream, _bufferSize: number, _maxBuffers: number, _outgoingHandler: OutgoingHandler, _concurrency: number, _encoding?: string);
++    // (undocumented)
+     do(): Promise<void>;
  }
  
  // @public
- export abstract class Credential implements RequestPolicyFactory {
-@@ -69,11 +68,8 @@
+@@ -71,15 +72,15 @@
+ // @public
+ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
+ 
+ // @public
+-export function getBufferLength(buffer: NodeBuffer): number;
++export function getBufferLength(_buffer: NodeBuffer): number;
+ 
+ // @public (undocumented)
+ export function getCachedDefaultHttpClient(): HttpClient;
+ 
+ // @public
+-export function isBuffer(value: unknown): value is NodeBuffer;
++export function isBuffer(_value: unknown): _value is NodeBuffer;
+ 
+ // @public
+ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
+ 
+@@ -87,10 +88,10 @@
+ export type NodeJSReadableStream = NodeReadableStream & {
      destroy(error?: Error): NodeJSReadableStream;
  };
  
- // @public
--export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
--
 -// @public
+-export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
++// @public (undocumented)
++export type OutgoingHandler = (body: () => NodeReadableStream, length: number, offset?: number) => Promise<unknown>;
+ 
+ // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
- }
-@@ -146,57 +142,41 @@
+@@ -165,58 +166,48 @@
  }
  
  // @public
@@ -57,8 +90,10 @@ For the complete API surface, see the corresponding -node.api.md file.
      readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
+-    createPipelinePolicy(): PipelinePolicy;
 +    computeHMACSHA256(_stringToSign: string): string;
 +    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
++    createPipelinePolicy(): never;
  }
  
  // @public
@@ -91,13 +126,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
 +// @public (undocumented)
-+export const structuredMessageDecodingStream = 1;
++export const structuredMessageDecodingStream: (_source: never, _options: StructuredMessageDecodingStreamOptions) => never;
  
 -// @public
--export interface StructuredMessageDecodingStreamOptions {
--    highWaterMark?: number;
--}
--
++// @public (undocumented)
+ export interface StructuredMessageDecodingStreamOptions {
++    // (undocumented)
+     highWaterMark?: number;
+ }
+ 
 -// @public
 -export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
 +// @public (undocumented)
@@ -116,7 +153,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -209,10 +189,13 @@
+@@ -229,10 +220,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

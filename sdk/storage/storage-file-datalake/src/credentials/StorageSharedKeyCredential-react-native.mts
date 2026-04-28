@@ -27,4 +27,8 @@ export class StorageSharedKeyCredential extends Credential {
   public computeHMACSHA256(_stringToSign: string): string {
     throw new Error("StorageSharedKeyCredential is not supported in React Native.");
   }
+
+  public createPipelinePolicy(): never {
+    throw new Error("StorageSharedKeyCredential is not supported in React Native.");
+  }
 }

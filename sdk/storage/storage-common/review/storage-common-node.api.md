@@ -7,6 +7,7 @@
 import type { CompatResponse } from '@azure/core-http-compat';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { RequestBodyType } from '@azure/core-rest-pipeline';
@@ -15,6 +16,9 @@ import type { RequestPolicyFactory } from '@azure/core-http-compat';
 import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
 import type { RestError } from '@azure/core-rest-pipeline';
 import type { WebResourceLike } from '@azure/core-http-compat';
+
+// @public
+export function allocBuffer(size: number): NodeBuffer;
 
 // @public
 export class AnonymousCredential extends Credential {
@@ -39,10 +43,19 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
 }
 
 // @public
+export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
+
+// @public
+export function bufferFromString(str: string, encoding?: BufferEncoding): NodeBuffer;
+
+// @public
 export class BufferScheduler {
     constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;
 }
+
+// @public
+export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
 
 // @public
 export abstract class Credential implements RequestPolicyFactory {
@@ -58,8 +71,14 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 // @public
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
 
+// @public
+export function getBufferLength(buffer: NodeBuffer): number;
+
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
+
+// @public
+export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
@@ -151,6 +170,7 @@ export class StorageSharedKeyCredential extends Credential {
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
+    createPipelinePolicy(): PipelinePolicy;
 }
 
 // @public

@@ -46,4 +46,11 @@ export class StorageSharedKeyCredential extends Credential {
   public computeHMACSHA256(_stringToSign: string): string {
     throw new Error("StorageSharedKeyCredential is not supported in the browser.");
   }
+
+  /**
+   * Creates a PipelinePolicy that signs requests using the shared key.
+   */
+  public createPipelinePolicy(): never {
+    throw new Error("StorageSharedKeyCredential is not supported in the browser.");
+  }
 }

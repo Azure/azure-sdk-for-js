@@ -199,6 +199,11 @@ import {
   StorageCRC64Calculator,
   structuredMessageDecodingBrowser,
   structuredMessageDecodingStream,
+  isBuffer,
+  allocBuffer,
+  bufferFromArrayBuffer,
+  getBufferLength,
+  createBlobFromData,
 } from "@azure/storage-common";
 
 export type { ShareClientOptions, ShareClientConfig } from "./models.js";
@@ -4330,7 +4335,7 @@ export class ShareFileClient extends StorageClient {
           }
 
           if (contentChecksumAlgorithm === "StorageCrc64") {
-            return (structuredMessageDecodingStream as any)(
+            return structuredMessageDecodingStream(
               downloadRes.readableStreamBody!,
               {},
             ) as NodeJSReadableStream;
@@ -4958,15 +4963,18 @@ export class ShareFileClient extends StorageClient {
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
       if (isNodeLike) {
-        const B = (globalThis as any).Buffer;
         let buffer: NodeBuffer;
-        if (B.isBuffer(data)) {
-          buffer = data as NodeBuffer;
+        if (isBuffer(data)) {
+          buffer = data;
         } else if (data instanceof ArrayBuffer) {
-          buffer = B.from(data) as NodeBuffer;
+          buffer = bufferFromArrayBuffer(data);
         } else {
           data = data as ArrayBufferView;
-          buffer = B.from(data.buffer, data.byteOffset, data.byteLength) as NodeBuffer;
+          buffer = bufferFromArrayBuffer(
+            data.buffer as ArrayBuffer,
+            data.byteOffset,
+            data.byteLength,
+          );
         }
 
         return this.uploadSeekableInternal(
@@ -4976,7 +4984,7 @@ export class ShareFileClient extends StorageClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data as any]);
+        const browserBlob = createBlobFromData(data);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -5196,8 +5204,8 @@ export class ShareFileClient extends StorageClient {
     let count: number;
     let options: FileDownloadToBufferOptions = optOptions;
 
-    if ((globalThis as any).Buffer?.isBuffer?.(bufferOrOffset)) {
-      buffer = bufferOrOffset as NodeBuffer;
+    if (isBuffer(bufferOrOffset)) {
+      buffer = bufferOrOffset;
       offset = offsetOrCount || 0;
       count = typeof countOrOptions === "number" ? countOrOptions : 0;
     } else {
@@ -5249,7 +5257,7 @@ export class ShareFileClient extends StorageClient {
 
         if (!buffer) {
           try {
-            buffer = (globalThis as any).Buffer.alloc(count) as NodeBuffer;
+            buffer = allocBuffer(count);
           } catch (error: any) {
             throw new Error(
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
@@ -5259,7 +5267,7 @@ export class ShareFileClient extends StorageClient {
           }
         }
 
-        if ((buffer as any)!.length < count) {
+        if (getBufferLength(buffer!) < count) {
           throw new RangeError(
             `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
           );
@@ -5352,19 +5360,20 @@ export class ShareFileClient extends StorageClient {
         });
 
         let transferProgress: number = 0;
-        const scheduler = new (BufferScheduler as any)(
+        const scheduler = new BufferScheduler(
           stream,
           bufferSize,
           maxBuffers,
-          async (buffer: any, offset?: number) => {
-            if (transferProgress + buffer.length > size) {
+          async (buffer: NodeBuffer, offset?: number) => {
+            const bufLen = getBufferLength(buffer);
+            if (transferProgress + bufLen > size) {
               throw new RangeError(
                 `Stream size is larger than file size ${size} bytes, uploading failed. ` +
                   `Please make sure stream length is less or equal than file size.`,
               );
             }
 
-            await this.uploadRange(buffer, offset!, buffer.length, {
+            await this.uploadRange(buffer, offset!, bufLen, {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
@@ -5372,7 +5381,7 @@ export class ShareFileClient extends StorageClient {
             });
 
             // Update progress after block is successfully uploaded to server, in case of block trying
-            transferProgress += buffer.length;
+            transferProgress += bufLen;
             if (options.onProgress) {
               options.onProgress({ loadedBytes: transferProgress });
             }
@@ -5383,7 +5392,7 @@ export class ShareFileClient extends StorageClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((maxBuffers / 4) * 3),
         );
-        return (scheduler as any).do();
+        return scheduler.do();
       },
     );
   }

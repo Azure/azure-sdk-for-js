@@ -3,7 +3,14 @@
 
 import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
-export const structuredMessageDecodingStream = 1;
+export interface StructuredMessageDecodingStreamOptions {
+  highWaterMark?: number;
+}
+
+export const structuredMessageDecodingStream: (
+  _source: never,
+  _options: StructuredMessageDecodingStreamOptions,
+) => never = undefined!;
 
 async function pump(
   reader: ReadableStreamDefaultReader,

@@ -1,9 +1,0 @@
-{
-  "extends": "../../../../eng/tsconfigs/src.react-native.json",
-  "compilerOptions": {
-    "types": ["node"],
-    "skipLibCheck": true,
-    "customConditions": []
-  },
-  "include": ["../src/index.ts"]
-}
