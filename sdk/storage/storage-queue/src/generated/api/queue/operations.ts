@@ -15,7 +15,7 @@ import {
   listOfSentMessageXmlDeserializer,
   PeekedMessages,
   peekedMessagesXmlDeserializer,
-} from "../../models/azure/storage/queues/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,

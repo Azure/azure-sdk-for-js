@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SignedIdentifiers, QueueMessage } from "../../models/azure/storage/queues/models.js";
+import { SignedIdentifiers, QueueMessage } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

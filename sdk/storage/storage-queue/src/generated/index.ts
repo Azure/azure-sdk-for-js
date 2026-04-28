@@ -28,8 +28,8 @@ export type {
   PeekedMessages,
   PeekedMessage,
   ListQueuesIncludeType,
-} from "./models/azure/storage/queues/index.js";
-export { KnownVersions } from "./models/azure/storage/queues/index.js";
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
 export type { QueuesClientOptionalParams } from "./api/index.js";
 export type {
   QueueDeleteMessageOptionalParams,

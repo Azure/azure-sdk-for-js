@@ -15,7 +15,7 @@ import {
   userDelegationKeyXmlDeserializer,
   ListQueuesResponse,
   listQueuesResponseXmlDeserializer,
-} from "../../models/azure/storage/queues/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,

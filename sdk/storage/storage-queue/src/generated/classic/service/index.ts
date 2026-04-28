@@ -22,7 +22,7 @@ import {
   KeyInfo,
   UserDelegationKey,
   ListQueuesResponse,
-} from "../../models/azure/storage/queues/models.js";
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Service operations. */

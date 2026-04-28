@@ -36,7 +36,7 @@ import {
   QueueMessage,
   ListOfSentMessage,
   PeekedMessages,
-} from "../../models/azure/storage/queues/models.js";
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Queue operations. */

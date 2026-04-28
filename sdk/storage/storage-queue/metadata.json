@@ -2,7 +2,7 @@
   "apiVersions": {
     "Storage.Queues": "2026-04-06"
   },
-  "emitterVersion": "0.52.0",
+  "emitterVersion": "0.52.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.Queues",
     "CrossLanguageDefinitionId": {
