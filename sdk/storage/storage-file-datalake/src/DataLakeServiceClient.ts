@@ -15,7 +15,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient.js";
 import type {
   FileSystemItem,

@@ -13,7 +13,7 @@ import type { CancelOnProgress } from '@azure/core-lro';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-common';
+import { Credential } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
@@ -1558,7 +1558,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    range?: Range_2;
+    range?: Range;
     sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -2181,7 +2181,7 @@ export interface CpkInfo {
     encryptionKeySha256?: string;
 }
 
-export { Credential_2 as Credential }
+export { Credential }
 
 export { CredentialPolicy }
 
@@ -2788,8 +2788,8 @@ export type PageBlobUploadPagesResponse = WithResponse<PageBlobUploadPagesHeader
 
 // @public
 export interface PageList {
-    clearRange?: Range_2[];
-    pageRange?: Range_2[];
+    clearRange?: Range[];
+    pageRange?: Range[];
 }
 
 // @public
@@ -2888,11 +2888,10 @@ export enum PremiumPageBlobTier {
 export type PublicAccessType = "container" | "blob";
 
 // @public
-interface Range_2 {
+export interface Range {
     count?: number;
     offset: number;
 }
-export { Range_2 as Range }
 
 // @public
 export type RehydratePriority = "High" | "Standard";

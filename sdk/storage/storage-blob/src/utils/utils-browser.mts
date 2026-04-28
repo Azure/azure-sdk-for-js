@@ -58,9 +58,7 @@ export async function readStreamToLocalFile(
   throw new Error("readStreamToLocalFile is not supported in the browser.");
 }
 
-export const fsStat = async function stat(
-  _path: string,
-): Promise<{ size: number }> {
+export const fsStat = async function stat(_path: string): Promise<{ size: number }> {
   throw new Error("fsStat is not supported in the browser.");
 };
 

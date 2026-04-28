@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/samples.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-blob": ["../dist/esm"]
+    },
+    "allowJs": true
+  }
+}

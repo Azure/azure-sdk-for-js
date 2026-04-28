@@ -10,7 +10,7 @@ import type {
 } from "./generatedModels.js";
 import type { ParsedBatchResponse } from "./BatchResponse.js";
 import { BatchResponseParser } from "./BatchResponseParser.js";
-import { utf8ByteLength } from "./BatchUtils.js";
+import { utf8ByteLength } from "#platform/BatchUtils";
 import { BlobBatch } from "./BlobBatch.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { TokenCredential } from "@azure/core-auth";

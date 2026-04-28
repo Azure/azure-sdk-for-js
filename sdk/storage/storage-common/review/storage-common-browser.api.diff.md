@@ -7,7 +7,18 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -36,12 +36,10 @@
+@@ -15,9 +15,9 @@
+ import type { RestError } from '@azure/core-rest-pipeline';
+ import type { WebResourceLike } from '@azure/core-http-compat';
+ 
+ // @public
+-export class AnonymousCredential extends Credential {
++export class AnonymousCredential extends Credential_2 {
+     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
+ }
+ 
+ // @public
+@@ -36,18 +36,17 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -20,8 +31,16 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
- abstract class Credential_2 implements RequestPolicyFactory {
-@@ -64,16 +62,8 @@
+-export abstract class Credential implements RequestPolicyFactory {
++abstract class Credential_2 implements RequestPolicyFactory {
+     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
+ }
++export { Credential_2 as Credential }
+ 
+ // @public
+ export abstract class CredentialPolicy extends BaseRequestPolicy {
+     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+@@ -63,16 +62,8 @@
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
@@ -38,12 +57,14 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -146,73 +136,64 @@
+@@ -144,74 +135,65 @@
+     FIXED = 1
  }
  
  // @public
- export class StorageSharedKeyCredential extends Credential_2 {
+-export class StorageSharedKeyCredential extends Credential {
 -    constructor(accountName: string, accountKey: string);
++export class StorageSharedKeyCredential extends Credential_2 {
 +    constructor(_accountName: string, _accountKey: string);
      readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;

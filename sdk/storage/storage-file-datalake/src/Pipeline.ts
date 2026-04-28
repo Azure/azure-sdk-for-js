@@ -35,7 +35,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import {
   AnonymousCredential,
   StorageRetryOptions,
