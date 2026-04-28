@@ -5,6 +5,7 @@ import type { NodeBuffer } from "@azure/core-rest-pipeline";
 
 /**
  * Checks whether a value is a Node.js Buffer.
+ * @internal
  */
 export function isBuffer(value: unknown): value is NodeBuffer {
   return Buffer.isBuffer(value);
@@ -12,6 +13,7 @@ export function isBuffer(value: unknown): value is NodeBuffer {
 
 /**
  * Allocates a new zero-filled Buffer of the given size.
+ * @internal
  */
 export function allocBuffer(size: number): NodeBuffer {
   return Buffer.alloc(size);
@@ -19,6 +21,7 @@ export function allocBuffer(size: number): NodeBuffer {
 
 /**
  * Creates a Buffer from an ArrayBuffer, with optional offset and length.
+ * @internal
  */
 export function bufferFromArrayBuffer(
   ab: ArrayBuffer,
@@ -30,6 +33,7 @@ export function bufferFromArrayBuffer(
 
 /**
  * Returns the byte length of a buffer.
+ * @internal
  */
 export function getBufferLength(buffer: NodeBuffer): number {
   return buffer.length;
@@ -37,6 +41,7 @@ export function getBufferLength(buffer: NodeBuffer): number {
 
 /**
  * Creates a Blob from the given data.
+ * @internal
  */
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob {
   if (data instanceof Blob) {

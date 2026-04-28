@@ -5,6 +5,7 @@ import type { NodeBuffer } from "@azure/core-rest-pipeline";
 
 /**
  * In the browser, Buffer is not available. This always returns false.
+ * @internal
  */
 export function isBuffer(_value: unknown): _value is NodeBuffer {
   return false;
@@ -12,6 +13,7 @@ export function isBuffer(_value: unknown): _value is NodeBuffer {
 
 /**
  * In the browser, Buffer is not available. This always throws.
+ * @internal
  */
 export function allocBuffer(_size: number): NodeBuffer {
   throw new Error("Buffer is not available in this environment.");
@@ -19,6 +21,7 @@ export function allocBuffer(_size: number): NodeBuffer {
 
 /**
  * In the browser, Buffer is not available. This always throws.
+ * @internal
  */
 export function bufferFromArrayBuffer(
   _ab: ArrayBuffer,
@@ -30,6 +33,7 @@ export function bufferFromArrayBuffer(
 
 /**
  * In the browser, Buffer is not available. This always throws.
+ * @internal
  */
 export function getBufferLength(_buffer: NodeBuffer): number {
   throw new Error("Buffer is not available in this environment.");
@@ -37,6 +41,7 @@ export function getBufferLength(_buffer: NodeBuffer): number {
 
 /**
  * Creates a Blob from the given data.
+ * @internal
  */
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob {
   if (data instanceof Blob) {

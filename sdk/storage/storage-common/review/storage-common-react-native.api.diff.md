@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -9,17 +9,17 @@
+@@ -9,9 +9,9 @@
  import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
  import type { NodeBuffer } from '@azure/core-rest-pipeline';
  import type { NodeReadableStream } from '@azure/core-rest-pipeline';
@@ -18,20 +18,22 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { RequestPolicyFactory } from '@azure/core-http-compat';
  import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
  import type { RestError } from '@azure/core-rest-pipeline';
- import type { WebResourceLike } from '@azure/core-http-compat';
+@@ -19,9 +19,9 @@
  
- // @public
+ // Warning: (ae-internal-missing-underscore) The name "allocBuffer" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
 -export function allocBuffer(size: number): NodeBuffer;
 +export function allocBuffer(_size: number): NodeBuffer;
  
  // @public
  export class AnonymousCredential extends Credential {
      create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
-@@ -42,13 +42,14 @@
-     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
- }
+@@ -46,13 +46,14 @@
  
- // @public
+ // Warning: (ae-internal-missing-underscore) The name "bufferFromArrayBuffer" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
 -export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
 +export function bufferFromArrayBuffer(_ab: ArrayBuffer, _byteOffset?: number, _length?: number): NodeBuffer;
  
@@ -44,26 +46,28 @@ For the complete API surface, see the corresponding -node.api.md file.
      do(): Promise<void>;
  }
  
- // @public
-@@ -68,15 +69,15 @@
- // @public
- export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
+ // Warning: (ae-internal-missing-underscore) The name "createBlobFromData" should be prefixed with an underscore because the declaration is marked as @internal
+@@ -76,17 +77,17 @@
  
- // @public
+ // Warning: (ae-internal-missing-underscore) The name "getBufferLength" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
 -export function getBufferLength(buffer: NodeBuffer): number;
 +export function getBufferLength(_buffer: NodeBuffer): number;
  
  // @public (undocumented)
  export function getCachedDefaultHttpClient(): HttpClient;
  
- // @public
+ // Warning: (ae-internal-missing-underscore) The name "isBuffer" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
 -export function isBuffer(value: unknown): value is NodeBuffer;
 +export function isBuffer(_value: unknown): _value is NodeBuffer;
  
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
-@@ -84,10 +85,10 @@
+@@ -94,10 +95,10 @@
  export type NodeJSReadableStream = NodeReadableStream & {
      destroy(error?: Error): NodeJSReadableStream;
  };
@@ -76,7 +80,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -162,57 +163,47 @@
+@@ -172,57 +173,47 @@
  }
  
  // @public
@@ -147,7 +151,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -225,10 +216,13 @@
+@@ -235,10 +226,13 @@
  
  // @public
  export class UserDelegationKeyCredential {
