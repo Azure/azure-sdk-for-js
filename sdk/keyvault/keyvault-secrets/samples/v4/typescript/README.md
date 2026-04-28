@@ -12,13 +12,13 @@ urlFragment: keyvault-secrets-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
-| **File Name**                           | **Description**                                                                                |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [backupAndRestore.ts][backupandrestore] | Backs up an Azure Key Vault secret to a local file and restores from it.                       |
-| [deleteAndRecover.ts][deleteandrecover] | Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run). |
-| [gettingStarted.ts][gettingstarted]     | Authenticates with Azure Key Vault and creates a SecretClient.                                 |
-| [helloWorld.ts][helloworld]             | Uses a SecretClient to create, read, and update a secret in various ways.                      |
-| [listOperations.ts][listoperations]     | Uses a SecretClient to iterate over secrets and their versions.                                |
+| **File Name**                                     | **Description**                                                                                |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [node/backupAndRestore.ts][node_backupandrestore] | Backs up an Azure Key Vault secret to a local file and restores from it.                       |
+| [node/deleteAndRecover.ts][node_deleteandrecover] | Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run). |
+| [node/gettingStarted.ts][node_gettingstarted]     | Authenticates with Azure Key Vault and creates a SecretClient.                                 |
+| [node/helloWorld.ts][node_helloworld]             | Uses a SecretClient to create, read, and update a secret in various ways.                      |
+| [node/listOperations.ts][node_listoperations]     | Uses a SecretClient to iterate over secrets and their versions.                                |
 
 ## Prerequisites
 
@@ -59,24 +59,24 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/backupAndRestore.js
+node dist/node/backupAndRestore.js
 ```
 
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/backupAndRestore.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/node/backupAndRestore.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/backupAndRestore.ts
-[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/deleteAndRecover.ts
-[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/gettingStarted.ts
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/helloWorld.ts
-[listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/listOperations.ts
+[node_backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/node/backupAndRestore.ts
+[node_deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/node/deleteAndRecover.ts
+[node_gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/node/gettingStarted.ts
+[node_helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/node/helloWorld.ts
+[node_listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript/src/node/listOperations.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-secrets
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal

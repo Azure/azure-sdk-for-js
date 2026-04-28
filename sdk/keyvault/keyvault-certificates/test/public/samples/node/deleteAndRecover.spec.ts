@@ -17,7 +17,6 @@ import "dotenv/config";
 describe("deleteAndRecover", () => {
   let recorder: Recorder;
   let client: CertificateClient;
-  let certificateName: string;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -39,10 +38,6 @@ describe("deleteAndRecover", () => {
       ),
       () => new CertificateClient(process.env["KEYVAULT_URI"]!, new DefaultAzureCredential()),
     );
-    certificateName = forPublishing(
-      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
-      () => `delete-recover-${new Date().getTime()}`,
-    );
   });
 
   afterEach(async () => {
@@ -51,6 +46,10 @@ describe("deleteAndRecover", () => {
 
   it("create a certificate", async () => {
     // Creating a self-signed certificate
+    const certificateName = forPublishing(
+      recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
+      () => "MyCertificateCreate",
+    );
     const createPoller = await client.beginCreateCertificate(certificateName, {
       issuerName: "Self",
       subject: "cn=MyCert",
@@ -61,7 +60,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("delete and recover a certificate", async () => {
-    certificateName = forPublishing(
+    const certificateName = forPublishing(
       recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
       () => "MyCertificateDR",
     );
@@ -83,7 +82,7 @@ describe("deleteAndRecover", () => {
   // Operation snippets
 
   it("delete a certificate", async () => {
-    certificateName = forPublishing(
+    const certificateName = forPublishing(
       recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
       () => "MyCertificateDelete",
     );
@@ -115,20 +114,20 @@ describe("deleteAndRecover", () => {
   });
 
   it("list deleted certificates", async () => {
+    // Test setup: create and delete a certificate for the listing test
+    const deletedCertificateName = forPublishing(
+      recorder.variable("deletedCertificateName", `deleted-${new Date().getTime()}`),
+      () => "MyCertificateListDeleted",
+    );
+    const createPoller = await client.beginCreateCertificate(deletedCertificateName, {
+      issuerName: "Self",
+      subject: "cn=MyCert",
+    });
+    await createPoller.pollUntilDone();
+    const deletePoller = await client.beginDeleteCertificate(deletedCertificateName);
+    await deletePoller.pollUntilDone();
+
     // @snippet CertificateClientListDeletedCertificates
-    if (forPublishing(true, () => false)) {
-      const deletedCertificateName = recorder.variable(
-        "deletedCertificateName",
-        `deleted-${new Date().getTime()}`,
-      );
-      const createPoller = await client.beginCreateCertificate(deletedCertificateName, {
-        issuerName: "Self",
-        subject: "cn=MyCert",
-      });
-      await createPoller.pollUntilDone();
-      const deletePoller = await client.beginDeleteCertificate(deletedCertificateName);
-      await deletePoller.pollUntilDone();
-    }
     for await (const deletedCertificate of client.listDeletedCertificates()) {
       console.log(deletedCertificate);
     }
@@ -142,7 +141,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("get a deleted certificate", async () => {
-    certificateName = forPublishing(
+    const certificateName = forPublishing(
       recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
       () => "MyCertificateGetDeleted",
     );
@@ -160,7 +159,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("purge a deleted certificate", async () => {
-    certificateName = forPublishing(
+    const certificateName = forPublishing(
       recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
       () => "MyCertificatePurge",
     );
@@ -179,7 +178,7 @@ describe("deleteAndRecover", () => {
   });
 
   it("recover a deleted certificate", async () => {
-    certificateName = forPublishing(
+    const certificateName = forPublishing(
       recorder.variable("certificateName", `delete-recover-${new Date().getTime()}`),
       () => "MyCertificateRecover",
     );

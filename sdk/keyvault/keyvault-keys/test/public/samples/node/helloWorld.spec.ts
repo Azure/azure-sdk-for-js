@@ -16,12 +16,11 @@ import { describe, it, beforeEach, afterEach } from "vitest";
 // Load the .env file if it exists
 import "dotenv/config";
 
-// Test-only: track keys to clean up after each test (not compiled into samples)
-let keysToCleanup: string[] = [];
-
 describe("helloWorld", () => {
   let recorder: Recorder;
   let client: KeyClient;
+  // Test-only: track keys to clean up after each test (not compiled into samples)
+  let keysToCleanup: string[] = [];
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);

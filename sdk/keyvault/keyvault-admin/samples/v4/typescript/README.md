@@ -12,13 +12,13 @@ urlFragment: keyvault-admin-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Administration in some common scenarios.
 
-| **File Name**                                             | **Description**                                                                                                      |
-| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [accessControlHelloWorld.ts][accesscontrolhelloworld]     | Uses an AccessControlClient to list, create, and assign roles to users.                                              |
-| [backupRestoreHelloWorld.ts][backuprestorehelloworld]     | Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.             |
-| [backupSelectiveKeyRestore.ts][backupselectivekeyrestore] | Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob. |
-| [gettingStarted.ts][gettingstarted]                       | Authenticates with Azure Managed HSM and creates access control, backup, and settings clients.                       |
-| [updateSettings.ts][updatesettings]                       | Demonstrates how to retrieve and update account settings for Managed HSM.                                            |
+| **File Name**                                                       | **Description**                                                                                                      |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [node/accessControlHelloWorld.ts][node_accesscontrolhelloworld]     | Uses an AccessControlClient to list, create, and assign roles to users.                                              |
+| [node/backupRestoreHelloWorld.ts][node_backuprestorehelloworld]     | Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.             |
+| [node/backupSelectiveKeyRestore.ts][node_backupselectivekeyrestore] | Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob. |
+| [node/gettingStarted.ts][node_gettingstarted]                       | Authenticates with Azure Managed HSM and creates access control, backup, and settings clients.                       |
+| [node/updateSettings.ts][node_updatesettings]                       | Demonstrates how to retrieve and update account settings for Managed HSM.                                            |
 
 ## Prerequisites
 
@@ -59,24 +59,24 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/accessControlHelloWorld.js
+node dist/node/accessControlHelloWorld.js
 ```
 
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CLIENT_OBJECT_ID="<client object id>" AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" node dist/accessControlHelloWorld.js
+npx cross-env CLIENT_OBJECT_ID="<client object id>" AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" node dist/node/accessControlHelloWorld.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/accessControlHelloWorld.ts
-[backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/backupRestoreHelloWorld.ts
-[backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/backupSelectiveKeyRestore.ts
-[gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/gettingStarted.ts
-[updatesettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/updateSettings.ts
+[node_accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/node/accessControlHelloWorld.ts
+[node_backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/node/backupRestoreHelloWorld.ts
+[node_backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/node/backupSelectiveKeyRestore.ts
+[node_gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/node/gettingStarted.ts
+[node_updatesettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/node/updateSettings.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-admin
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
