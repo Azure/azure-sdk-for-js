@@ -12,18 +12,6 @@
  *
  * This eliminates the entire class of "multi-binding tangling" bugs and handles
  * all node types with a single classification rule.
- *
- * MODULE STRUCTURE (for reviewability):
- * ─────────────────────────────────────────────────────────────────────────────
- * Line ~26:  Result types — StatementEliminationResult, EliminationResult
- * Line ~46:  IR types — EliminationUnit (internal)
- * Line ~90:  Side-effect analysis — hasSideEffects, collectSideEffectArgs
- * Line ~210: Reference analysis — collectDeclaredInNode, collectRuntimeRefs
- * Line ~277: Phase 1: Lower — lowerToUnits (statements → IR)
- * Line ~638: Phase 2: Propagate — propagatePoison (fixpoint)
- * Line ~794: Phase 3: Reconstruct — reconstructStatements (IR → output)
- * Line ~990: Public APIs — eliminateDeadStatements, eliminateDeadBindings
- * ─────────────────────────────────────────────────────────────────────────────
  */
 
 import ts from "typescript";
