@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { QueueServiceClient } from "../src/QueueServiceClient.js";
-import {
-  getAlternateQSU,
-  getQSU,
-  getSASConnectionStringFromEnvironment,
-  uriSanitizers,
-} from "./utils/index.js";
+import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { configureStorageClient, createAndStartRecorder, getUniqueName } from "./utils/index.js";
@@ -17,7 +12,6 @@ describe("QueueServiceClient", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async () => {

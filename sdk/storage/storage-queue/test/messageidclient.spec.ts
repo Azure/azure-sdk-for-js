@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils/index.js";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { QueueClient } from "../src/QueueClient.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common.js";
@@ -17,7 +17,6 @@ describe("QueueClient messageId methods", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);

@@ -24,7 +24,6 @@ import {
   getTokenBSUWithDefaultCredential,
   getTokenCredential,
   getUniqueName,
-  uriSanitizers,
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -37,7 +36,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
   });
 

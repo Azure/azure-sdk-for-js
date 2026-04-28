@@ -7,7 +7,6 @@ import {
   configureStorageClient,
   createAndStartRecorder,
   getUniqueName,
-  uriSanitizers,
 } from "./utils/index.js";
 import type { QueueServiceClient } from "../src/index.js";
 import { QueueClient } from "../src/index.js";
@@ -35,7 +34,6 @@ describe("QueueClient", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
@@ -293,7 +291,6 @@ describe("QueueClient", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);

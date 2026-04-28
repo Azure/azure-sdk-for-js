@@ -9,7 +9,6 @@ import {
   configureStorageClient,
   createAndStartRecorder,
   getUniqueName,
-  uriSanitizers,
 } from "./utils/testutils.common.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -22,7 +21,6 @@ describe("QueueClient message methods", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
