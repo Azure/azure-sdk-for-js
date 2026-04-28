@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.ComputeLimit": "2026-03-20"
+    "Microsoft.ComputeLimit": "2026-04-30"
   },
   "emitterVersion": "0.52.2",
   "crossLanguageDefinitions": {
@@ -27,12 +27,18 @@
       "@azure/arm-computelimit!FeatureListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-computelimit!OperationStatusResult:interface": "Azure.ResourceManager.CommonTypes.OperationStatusResult",
       "@azure/arm-computelimit!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-computelimit!VmFamily:interface": "Microsoft.ComputeLimit.VmFamily",
+      "@azure/arm-computelimit!VmFamilyProperties:interface": "Microsoft.ComputeLimit.VmFamilyProperties",
+      "@azure/arm-computelimit!VmFamilyListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-computelimit!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-computelimit!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-computelimit!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-computelimit!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-computelimit!KnownFeatureState:enum": "Microsoft.ComputeLimit.FeatureState",
       "@azure/arm-computelimit!KnownVersions:enum": "Microsoft.ComputeLimit.Versions",
+      "@azure/arm-computelimit!VmFamiliesOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.VmFamilies.listBySubscriptionLocationResource",
+      "@azure/arm-computelimit!VmFamiliesOperations#get:member": "Microsoft.ComputeLimit.VmFamilies.get",
+      "@azure/arm-computelimit!FeaturesOperations#disable:member": "Microsoft.ComputeLimit.Features.disable",
       "@azure/arm-computelimit!FeaturesOperations#enable:member": "Microsoft.ComputeLimit.Features.enable",
       "@azure/arm-computelimit!FeaturesOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.Features.listBySubscriptionLocationResource",
       "@azure/arm-computelimit!FeaturesOperations#get:member": "Microsoft.ComputeLimit.Features.get",

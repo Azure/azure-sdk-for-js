@@ -40,6 +40,16 @@ export interface AnalysisInput {
 }
 
 // @public
+export interface AnalysisOperationMetadata {
+    readonly operationId?: string;
+    readonly usage?: UsageDetails;
+}
+
+// @public
+export interface AnalysisOperationState extends OperationState_2<AnalysisResult>, AnalysisOperationMetadata {
+}
+
+// @public
 export interface AnalysisResult {
     analyzerId?: string;
     apiVersion?: string;
@@ -49,9 +59,10 @@ export interface AnalysisResult {
     warnings?: ErrorModel[];
 }
 
-// @public (undocumented)
-export interface AnalysisResultPoller extends PollerLike<OperationState_2<AnalysisResult>, AnalysisResult> {
-    operationId?: string;
+// @public
+export interface AnalysisResultPoller extends PollerLike<AnalysisOperationState, AnalysisResult> {
+    // @deprecated
+    readonly operationId?: string;
 }
 
 // @public

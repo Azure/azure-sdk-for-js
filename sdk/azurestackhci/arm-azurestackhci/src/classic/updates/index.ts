@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
-import { post, list, $delete, put, get } from "../../api/updates/operations.js";
+import { prepare, post, list, $delete, put, get } from "../../api/updates/operations.js";
 import type {
+  UpdatesPrepareOptionalParams,
   UpdatesPostOptionalParams,
   UpdatesListOptionalParams,
   UpdatesDeleteOptionalParams,
@@ -18,6 +19,27 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Updates operations. */
 export interface UpdatesOperations {
+  /** Prepare Update */
+  prepare: (
+    resourceGroupName: string,
+    clusterName: string,
+    updateName: string,
+    options?: UpdatesPrepareOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use prepare instead */
+  beginPrepare: (
+    resourceGroupName: string,
+    clusterName: string,
+    updateName: string,
+    options?: UpdatesPrepareOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use prepare instead */
+  beginPrepareAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    updateName: string,
+    options?: UpdatesPrepareOptionalParams,
+  ) => Promise<void>;
   /** Apply Update */
   post: (
     resourceGroupName: string,
@@ -90,6 +112,30 @@ export interface UpdatesOperations {
 
 function _getUpdates(context: AzureStackHCIContext) {
   return {
+    prepare: (
+      resourceGroupName: string,
+      clusterName: string,
+      updateName: string,
+      options?: UpdatesPrepareOptionalParams,
+    ) => prepare(context, resourceGroupName, clusterName, updateName, options),
+    beginPrepare: async (
+      resourceGroupName: string,
+      clusterName: string,
+      updateName: string,
+      options?: UpdatesPrepareOptionalParams,
+    ) => {
+      const poller = prepare(context, resourceGroupName, clusterName, updateName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPrepareAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      updateName: string,
+      options?: UpdatesPrepareOptionalParams,
+    ) => {
+      return await prepare(context, resourceGroupName, clusterName, updateName, options);
+    },
     post: (
       resourceGroupName: string,
       clusterName: string,

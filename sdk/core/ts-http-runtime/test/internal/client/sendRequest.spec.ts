@@ -681,4 +681,25 @@ describe("sendRequest", () => {
     });
     assert.isTrue(called);
   });
+
+  it("should forward tracingOptions to the pipeline request", async () => {
+    const tracingOptions = { tracingContext: {} as any };
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.deepEqual(request.tracingOptions, tracingOptions);
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, { tracingOptions });
+  });
+
+  it("should not set tracingOptions on the pipeline request when not provided", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.isUndefined(request.tracingOptions);
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline);
+  });
 });

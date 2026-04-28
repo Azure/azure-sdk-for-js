@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, afterEach, vi } from "vitest";
+import { describe, it, assert, expect, afterEach, vi } from "vitest";
 import type { ClientRequest, IncomingMessage } from "node:http";
 import { type IncomingHttpHeaders } from "node:http";
+import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
   return {
     default: {
-      ...(actual as any).default,
+      ...((actual as Record<string, unknown>).default as Record<string, unknown>),
       request: vi.fn(),
     },
   };
@@ -28,7 +29,7 @@ describe("[Node] Streams", () => {
   it("should get a JSON body response as a stream", async () => {
     vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      const callback = cb as (res: IncomingMessage) => void;
+      const callback = cb as unknown as (res: IncomingMessage) => void;
       callback(response);
       return createRequest();
     });
@@ -43,13 +44,13 @@ describe("[Node] Streams", () => {
     const response = await promise;
     const stringBody = await readStreamToBuffer(response.body!);
 
-    assert.deepEqual(stringBody.toString(), JSON.stringify(expectedBody));
+    assert.strictEqual(stringBody.toString(), JSON.stringify(expectedBody));
   });
 
   it("should get a JSON body response", async () => {
     vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      const callback = cb as (res: IncomingMessage) => void;
+      const callback = cb as unknown as (res: IncomingMessage) => void;
       callback(response);
       return createRequest();
     });
@@ -73,11 +74,7 @@ describe("[Node] Streams", () => {
     const { getClient } = await import("../../../src/getClient.js");
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get();
-    } catch (e: any) {
-      assert.equal(e.message, "ExpectedException");
-    }
+    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow("ExpectedException");
   });
 
   it("should be able to handle errors on streamed response", async () => {
@@ -88,17 +85,15 @@ describe("[Node] Streams", () => {
     const { getClient } = await import("../../../src/getClient.js");
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get().asNodeStream();
-    } catch (e: any) {
-      assert.equal(e.message, "ExpectedException");
-    }
+    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
+      "ExpectedException",
+    );
   });
 
   it("should throw when attempting to use browser streams", async () => {
     vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      const callback = cb as (res: IncomingMessage) => void;
+      const callback = cb as unknown as (res: IncomingMessage) => void;
       callback(response);
       return createRequest();
     });
@@ -106,21 +101,15 @@ describe("[Node] Streams", () => {
     const { getClient } = await import("../../../src/getClient.js");
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get().asBrowserStream();
-      assert.fail("Expected error was not thrown");
-    } catch (e: any) {
-      assert.equal(
-        e.message,
-        "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
-      );
-    }
+    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
+      "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
+    );
   });
 });
 
-function createRequest(): ClientRequest {
-  const request = new FakeRequest();
-  return request as unknown as ClientRequest;
+function createRequest(overrides?: Partial<ClientRequest>): ClientRequest {
+  const emitter = new EventEmitter();
+  return Object.assign(emitter, { end: vi.fn(), ...overrides }) as ClientRequest;
 }
 
 class FakeResponse extends PassThrough {
@@ -148,5 +137,3 @@ function readStreamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
     });
   });
 }
-
-class FakeRequest extends PassThrough {}

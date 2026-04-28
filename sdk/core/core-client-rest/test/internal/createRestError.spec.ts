@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createRestError } from "../../src/restError.js";
-import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
 
 describe("createRestError", () => {
@@ -10,7 +10,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         error: {
           code: "code",
@@ -28,7 +28,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         error: {
           code: "code",
@@ -46,7 +46,7 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         code: "code",
         message: "message",
@@ -58,11 +58,11 @@ describe("createRestError", () => {
     assert.equal(error.message, "message");
   });
 
-  it("should create a rest error from an error message and a PathUnchecked response with standard error", () => {
+  it("should create a rest error from an error message and a PathUnchecked response with top-level error properties", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: {
         code: "code",
         message: "message",
@@ -78,12 +78,12 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: undefined,
     };
     const error = createRestError("error message", response);
     assert.equal(error.statusCode, 400);
-    assert.equal(error.code, undefined);
+    assert.isUndefined(error.code);
     assert.equal(error.message, "error message");
   });
 
@@ -91,12 +91,12 @@ describe("createRestError", () => {
     const response = {
       status: "400",
       headers: {},
-      request: {} as PipelineRequest,
+      request: createPipelineRequest({ url: "https://example.com" }),
       body: undefined,
     };
     const error = createRestError(response);
     assert.equal(error.statusCode, 400);
-    assert.equal(error.code, undefined);
+    assert.isUndefined(error.code);
     assert.equal(error.message, "Unexpected status code: 400");
   });
 });
