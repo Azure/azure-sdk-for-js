@@ -74,6 +74,8 @@ interface EliminationUnit {
    * Used during output reconstruction to rebuild partial export declarations.
    */
   exportSpecifier?: ts.ExportSpecifier;
+  /** True if this unit has any type-only references (for cascade elimination) */
+  hasDeadTypeRef?: boolean;
 }
 
 // ── Side-effect analysis ─────────────────────────────────────────────
@@ -348,8 +350,8 @@ function lowerToUnits(
           salvageableEffects: salvageable,
           isTypeOnly: false,
           declarator: decl,
-          _hasDeadTypeRef: hasDeadTypeRef,
-        } as EliminationUnit & { _hasDeadTypeRef: boolean });
+          hasDeadTypeRef,
+        });
       }
       continue;
     }
@@ -367,8 +369,8 @@ function lowerToUnits(
         originalIndex: i,
         salvageableEffects: [],
         isTypeOnly: false,
-        _hasDeadTypeRef: hasDeadTypeRef,
-      } as EliminationUnit & { _hasDeadTypeRef: boolean });
+        hasDeadTypeRef,
+      });
       continue;
     }
 
@@ -701,7 +703,7 @@ function classifyUnit(
 
   // Special: check dead type-only refs for units with no dead runtime refs
   // This handles cases like `let x: DeadType;` or `function f(x: DeadType) {}`
-  if (unit.declares.length > 0 && (unit as { _hasDeadTypeRef?: boolean })._hasDeadTypeRef) {
+  if (unit.declares.length > 0 && unit.hasDeadTypeRef) {
     const stmt = statements[unit.originalIndex];
     // For per-declarator units, check the specific declarator
     const nodeToCheck = unit.declarator ?? stmt;
