@@ -1,6 +1,7 @@
 # Release History
 
-## 6.0.0 (2026-04-28)
+## 6.0.0-beta.1 (2026-04-28)
+Compared with version 5.3.0
 
 ### Features Added
   - Added operation ReplicationFabricsOperations.checkConsistency
