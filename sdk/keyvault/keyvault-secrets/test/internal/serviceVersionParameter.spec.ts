@@ -113,36 +113,4 @@ describe("The Secrets client should set the serviceVersion", () => {
       }),
     );
   });
-
-  it("should include contentType in the setSecret request body", async () => {
-    const client = new SecretClient(keyVaultUrl, credential, {
-      httpClient: mockHttpClient,
-    });
-
-    await client.setSecret("secretName", "value", { contentType: KnownContentType.PEM });
-
-    const setSecretRequest = spy.mock.calls
-      .map((args) => args[0])
-      .find((req) => req.method === "PUT" && req.url.includes("/secrets/secretName"));
-    expect(setSecretRequest).toBeDefined();
-    const body = JSON.parse(setSecretRequest!.body as string);
-    expect(body).toMatchObject({ contentType: KnownContentType.PEM });
-  });
-
-  it("should include contentType in the updateSecretProperties request body", async () => {
-    const client = new SecretClient(keyVaultUrl, credential, {
-      httpClient: mockHttpClient,
-    });
-
-    await client.updateSecretProperties("secretName", "secretVersion", {
-      contentType: KnownContentType.PFX,
-    });
-
-    const updateSecretRequest = spy.mock.calls
-      .map((args) => args[0])
-      .find((req) => req.method === "PATCH" && req.url.includes("/secrets/secretName/secretVersion"));
-    expect(updateSecretRequest).toBeDefined();
-    const body = JSON.parse(updateSecretRequest!.body as string);
-    expect(body).toMatchObject({ contentType: KnownContentType.PFX });
-  });
 });

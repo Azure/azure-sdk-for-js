@@ -11,6 +11,8 @@ import type TestClient from "./utils/testClient.js";
 describe("Secret client - outContentType and previousVersion (2025-07-01 API features)", () => {
   const secretValue = "SECRET_VALUE";
   const secretPrefix = `ContentType`;
+  const initialContentType = "application/x-roundtrip-initial";
+  const updatedContentType = "application/x-roundtrip-updated";
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
@@ -47,6 +49,62 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
       assert.isTrue(
         err.statusCode === 400 || err.statusCode === 404,
         `Expected 400 or 404 error for outContentType on non-cert secret, got: ${err.statusCode}`,
+      );
+    } finally {
+      await testClient.flushSecret(secretName);
+    }
+  });
+
+  it("setSecret round-trips contentType", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+
+    try {
+      const createdSecret = await client.setSecret(secretName, secretValue, {
+        contentType: initialContentType,
+      });
+      assert.equal(
+        createdSecret.properties.contentType,
+        initialContentType,
+        "Expected setSecret() to return the created contentType.",
+      );
+
+      const fetchedSecret = await client.getSecret(secretName);
+      assert.equal(
+        fetchedSecret.properties.contentType,
+        initialContentType,
+        "Expected getSecret() to return the stored contentType.",
+      );
+    } finally {
+      await testClient.flushSecret(secretName);
+    }
+  });
+
+  it("updateSecretProperties round-trips contentType", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+
+    try {
+      const createdSecret = await client.setSecret(secretName, secretValue, {
+        contentType: initialContentType,
+      });
+      const updatedProperties = await client.updateSecretProperties(
+        secretName,
+        createdSecret.properties.version!,
+        {
+          contentType: updatedContentType,
+        },
+      );
+
+      assert.equal(
+        updatedProperties.contentType,
+        updatedContentType,
+        "Expected updateSecretProperties() to return the updated contentType.",
+      );
+
+      const fetchedSecret = await client.getSecret(secretName);
+      assert.equal(
+        fetchedSecret.properties.contentType,
+        updatedContentType,
+        "Expected getSecret() to return the updated contentType.",
       );
     } finally {
       await testClient.flushSecret(secretName);
