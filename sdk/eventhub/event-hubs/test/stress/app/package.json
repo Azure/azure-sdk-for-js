@@ -18,7 +18,7 @@
     "@azure/core-amqp": "3.2.0",
     "dotenv": "^16.0.0",
     "minimist": "^1.2.8",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.1",
