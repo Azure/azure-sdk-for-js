@@ -118,36 +118,31 @@ describe("The Secrets client should set the serviceVersion", () => {
     const client = new SecretClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
-    const setSecretSpy = vi.spyOn(client["client"], "setSecret");
 
     await client.setSecret("secretName", "value", { contentType: KnownContentType.PEM });
 
-    expect(setSecretSpy).toHaveBeenCalledWith(
-      "secretName",
-      expect.objectContaining({
-        contentType: KnownContentType.PEM,
-      }),
-      expect.anything(),
-    );
+    const setSecretRequest = spy.mock.calls
+      .map((args) => args[0])
+      .find((req) => req.method === "PUT" && req.url.includes("/secrets/secretName"));
+    expect(setSecretRequest).toBeDefined();
+    const body = JSON.parse(setSecretRequest!.body as string);
+    expect(body).toMatchObject({ contentType: KnownContentType.PEM });
   });
 
   it("should include contentType in the updateSecretProperties request body", async () => {
     const client = new SecretClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
-    const updateSecretSpy = vi.spyOn(client["client"], "updateSecret");
 
     await client.updateSecretProperties("secretName", "secretVersion", {
       contentType: KnownContentType.PFX,
     });
 
-    expect(updateSecretSpy).toHaveBeenCalledWith(
-      "secretName",
-      "secretVersion",
-      expect.objectContaining({
-        contentType: KnownContentType.PFX,
-      }),
-      expect.anything(),
-    );
+    const updateSecretRequest = spy.mock.calls
+      .map((args) => args[0])
+      .find((req) => req.method === "PATCH" && req.url.includes("/secrets/secretName/secretVersion"));
+    expect(updateSecretRequest).toBeDefined();
+    const body = JSON.parse(updateSecretRequest!.body as string);
+    expect(body).toMatchObject({ contentType: KnownContentType.PFX });
   });
 });
