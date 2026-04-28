@@ -38,7 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -146,73 +136,64 @@
+@@ -152,73 +142,64 @@
  }
  
  // @public
