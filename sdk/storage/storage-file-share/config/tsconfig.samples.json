@@ -1,5 +1,5 @@
 {
-  "extends": "../../../../tsconfig.samples.base.json",
+  "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
       "@azure/storage-file-share": ["../dist/esm"]
