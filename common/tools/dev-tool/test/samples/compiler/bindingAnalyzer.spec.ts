@@ -3,7 +3,10 @@
 
 import { describe, it, expect } from "vitest";
 import ts from "typescript";
-import { createAnalyzer, findImportSymbolByName } from "../../../src/util/samples/compiler/bindingAnalyzer.js";
+import {
+  createAnalyzer,
+  findImportSymbolByName,
+} from "../../../src/util/samples/compiler/bindingAnalyzer.js";
 
 describe("bindingAnalyzer", () => {
   describe("createAnalyzer", () => {

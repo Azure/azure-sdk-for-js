@@ -23,13 +23,15 @@ function substitute(source: string, fileName?: string) {
     : `import { forPublishing } from "@azure-tools/test-publishing";\n${source}`;
   const sf = parseSource(sourceWithImport, fileName);
   const result = substituteForPublishing(sf, fileName);
-  
+
   // Remove the injected import from output for cleaner test assertions
   let output = normalizeWhitespace(printFile(result.transformedFile));
   if (!source.includes("import")) {
-    output = output.replace(/import\s*\{\s*forPublishing\s*\}\s*from\s*"@azure-tools\/test-publishing";\s*/g, "").trim();
+    output = output
+      .replace(/import\s*\{\s*forPublishing\s*\}\s*from\s*"@azure-tools\/test-publishing";\s*/g, "")
+      .trim();
   }
-  
+
   return {
     output,
     substitutions: result.substitutions,
@@ -40,9 +42,7 @@ describe("substituteForPublishing", () => {
   // --- basic substitutions ---
 
   it("simple string substitution", () => {
-    const { output, substitutions } = substitute(
-      `forPublishing("test", () => "published");`,
-    );
+    const { output, substitutions } = substitute(`forPublishing("test", () => "published");`);
     expect(output).toBe(`"published";`);
     expect(substitutions).toHaveLength(1);
   });
@@ -89,9 +89,7 @@ describe("substituteForPublishing", () => {
   });
 
   it("nested in function argument", () => {
-    const { output } = substitute(
-      `new Client(forPublishing(a, () => b));`,
-    );
+    const { output } = substitute(`new Client(forPublishing(a, () => b));`);
     expect(output).toBe(`new Client(b);`);
   });
 
@@ -114,36 +112,26 @@ describe("substituteForPublishing", () => {
   // --- error cases ---
 
   it("throws CompilerError for block-bodied arrow", () => {
-    expect(() =>
-      substitute(`forPublishing(a, () => { return b; });`, "test.ts"),
-    ).toThrow(CompilerError);
+    expect(() => substitute(`forPublishing(a, () => { return b; });`, "test.ts")).toThrow(
+      CompilerError,
+    );
   });
 
   it("throws CompilerError for non-arrow second argument", () => {
-    expect(() =>
-      substitute(`forPublishing(a, b);`, "test.ts"),
-    ).toThrow(CompilerError);
+    expect(() => substitute(`forPublishing(a, b);`, "test.ts")).toThrow(CompilerError);
   });
 
   it("throws CompilerError for arrow with parameters", () => {
-    expect(() =>
-      substitute(`forPublishing(a, (v) => v + 1);`, "test.ts"),
-    ).toThrow(CompilerError);
-    expect(() =>
-      substitute(`forPublishing(a, (v) => v + 1);`, "test.ts"),
-    ).toThrow(/no parameters/);
+    expect(() => substitute(`forPublishing(a, (v) => v + 1);`, "test.ts")).toThrow(CompilerError);
+    expect(() => substitute(`forPublishing(a, (v) => v + 1);`, "test.ts")).toThrow(/no parameters/);
   });
 
   it("throws CompilerError for wrong number of args (too few)", () => {
-    expect(() =>
-      substitute(`forPublishing(a);`, "test.ts"),
-    ).toThrow(CompilerError);
+    expect(() => substitute(`forPublishing(a);`, "test.ts")).toThrow(CompilerError);
   });
 
   it("throws CompilerError for wrong number of args (too many)", () => {
-    expect(() =>
-      substitute(`forPublishing(a, () => b, c);`, "test.ts"),
-    ).toThrow(CompilerError);
+    expect(() => substitute(`forPublishing(a, () => b, c);`, "test.ts")).toThrow(CompilerError);
   });
 
   // --- edge cases ---

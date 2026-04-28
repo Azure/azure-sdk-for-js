@@ -315,7 +315,7 @@ function withCallbackParamDead(
 }
 
 function validateNoDeadReferences(
-  substitutions: Array<{ freeVariables: string[] }>,
+  substitutions: Array<{ freeVariables: Iterable<string> }>,
   deadSymbols: Set<ts.Symbol>,
   analyzer: BindingAnalyzer,
   fileName: string,

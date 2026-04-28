@@ -208,9 +208,7 @@ describe("operations", () => {
 
     it("main() calls all three functions in order", () => {
       const result = compileSampleTest(multiInput, { packageName: "@azure/my-client" });
-      const mainMatch = result.outputText.match(
-        /async function main\(\)[^}]*\{([\s\S]*?)\n\}/,
-      );
+      const mainMatch = result.outputText.match(/async function main\(\)[^}]*\{([\s\S]*?)\n\}/);
       expect(mainMatch).toBeTruthy();
       const mainBody = mainMatch![1];
       const createIdx = mainBody.indexOf("await createItem()");
@@ -598,7 +596,9 @@ describe("hello", () => {
 `;
       const result = compileSampleTest(plainDescription, { packageName: "@azure/client" });
       expect(result.metadata.summary).toBe("Demonstrates how to say hello without @summary.");
-      expect(result.outputText).toContain("@summary Demonstrates how to say hello without @summary.");
+      expect(result.outputText).toContain(
+        "@summary Demonstrates how to say hello without @summary.",
+      );
     });
 
     it("browser platform auto-sets skipJavascript", () => {
@@ -1309,9 +1309,7 @@ describe("generateSampleEnv", () => {
   it("returns header when no vars discovered", () => {
     const { content } = generateSampleEnv([]);
     expect(content).toContain("Copyright");
-    const varLines = content
-      .split("\n")
-      .filter((l) => !l.startsWith("#") && l.trim());
+    const varLines = content.split("\n").filter((l) => !l.startsWith("#") && l.trim());
     expect(varLines).toHaveLength(0);
   });
 
@@ -1380,9 +1378,9 @@ describe("test", () => {
 `;
     const result = compileSampleTest(input, { packageName: "@azure/client" });
     // Statement order must be preserved: config → console.log → client
-    const configIdx = result.outputText.indexOf('config');
+    const configIdx = result.outputText.indexOf("config");
     const logIdx = result.outputText.indexOf('"initializing"');
-    const clientIdx = result.outputText.indexOf('new Client');
+    const clientIdx = result.outputText.indexOf("new Client");
     expect(configIdx).toBeLessThan(logIdx);
     expect(logIdx).toBeLessThan(clientIdx);
   });

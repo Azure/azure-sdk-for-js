@@ -173,7 +173,10 @@ export function createRecorder(): Recorder { return new Recorder(); }
 
     const resolver: HelperResolver = (_fromFile, specifier) => {
       if (specifier === "./testUtils.js") {
-        return { canonicalPath: "/test/public/samples/testUtils.ts", sourceText: emptyNestedSource };
+        return {
+          canonicalPath: "/test/public/samples/testUtils.ts",
+          sourceText: emptyNestedSource,
+        };
       }
       return undefined;
     };
@@ -203,10 +206,16 @@ export function realWork(): string {
   it("handles circular imports gracefully", () => {
     const resolver: HelperResolver = (fromFile, specifier) => {
       if (specifier === "./b.js" && fromFile === "a.ts") {
-        return { canonicalPath: "/b.ts", sourceText: `import { x } from "./a.js";\nexport const y = 1;\n` };
+        return {
+          canonicalPath: "/b.ts",
+          sourceText: `import { x } from "./a.js";\nexport const y = 1;\n`,
+        };
       }
       if (specifier === "./a.js" && fromFile === "/b.ts") {
-        return { canonicalPath: "/a.ts", sourceText: `import { y } from "./b.js";\nexport const x = 1;\n` };
+        return {
+          canonicalPath: "/a.ts",
+          sourceText: `import { y } from "./b.js";\nexport const x = 1;\n`,
+        };
       }
       return undefined;
     };

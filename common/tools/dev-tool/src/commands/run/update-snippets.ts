@@ -241,311 +241,329 @@ async function parseSnippetDefinitions(
 
   return results;
 
-  function visitFileForSnippets(
-    currentSourceFile: ts.SourceFile,
-    relativeIndexPath: string,
-  ): void {
+  function visitFileForSnippets(currentSourceFile: ts.SourceFile, relativeIndexPath: string): void {
     const visitSnippetDefinition: ts.Visitor = (node: ts.Node) => {
       let expr: ts.Expression;
 
-    // We accept any test definition that calls the exact symbol 'it' with a
-    // string literal and a function expression where the body of the function
-    // is a block. We don't care whether the function is named or async or what
-    // its type annotations are. Those may be used freely to ensure correctness.
-    //
-    // Snippet ::= 'it' ( $name:litstr , BlockFn )
-    // BlockFn ::=
-    //   | 'async'? ( $_:params ) => { $body:statements }
-    //   | 'async'? function $_:ident? ( ) { $body:statements }
-    if (
-      node &&
-      ts.isCallExpression(node) &&
-      ts.isIdentifier((expr = node.expression)) &&
-      (expr as ts.Identifier).escapedText === "it" &&
-      ts.isStringLiteral(node.arguments[0]) &&
-      (ts.isFunctionExpression(node.arguments[1]) ||
-        (ts.isArrowFunction(node.arguments[1]) && ts.isBlock(node.arguments[1].body)))
-    ) {
-      const name = node.arguments[0] as ts.StringLiteral;
-      const body = (node.arguments[1] as ts.ArrowFunction | ts.FunctionExpression).body as ts.Block;
+      // We accept any test definition that calls the exact symbol 'it' with a
+      // string literal and a function expression where the body of the function
+      // is a block. We don't care whether the function is named or async or what
+      // its type annotations are. Those may be used freely to ensure correctness.
+      //
+      // Snippet ::= 'it' ( $name:litstr , BlockFn )
+      // BlockFn ::=
+      //   | 'async'? ( $_:params ) => { $body:statements }
+      //   | 'async'? function $_:ident? ( ) { $body:statements }
+      if (
+        node &&
+        ts.isCallExpression(node) &&
+        ts.isIdentifier((expr = node.expression)) &&
+        (expr as ts.Identifier).escapedText === "it" &&
+        ts.isStringLiteral(node.arguments[0]) &&
+        (ts.isFunctionExpression(node.arguments[1]) ||
+          (ts.isArrowFunction(node.arguments[1]) && ts.isBlock(node.arguments[1].body)))
+      ) {
+        const name = node.arguments[0] as ts.StringLiteral;
+        const body = (node.arguments[1] as ts.ArrowFunction | ts.FunctionExpression)
+          .body as ts.Block;
 
-      // Register the entire it() body as a snippet (legacy mode)
-      registerSnippetFromStatements(name.text, body.statements);
+        // Register the entire it() body as a snippet (legacy mode)
+        registerSnippetFromStatements(name.text, body.statements);
 
-      // Also scan the body for // @snippet markers (marker mode)
-      const bodyText = currentSourceFile.text.substring(body.getStart(), body.getEnd());
-      extractMarkerSnippets(bodyText, body.statements);
-    }
-
-    ts.forEachChild(node, visitSnippetDefinition);
-
-    return undefined;
-  };
-
-  // Helper: collect imports from AST statements using the type checker
-  function collectImportsFromStatements(
-    statements: ts.NodeArray<ts.Statement>,
-  ): { name: string; moduleSpecifier: string; isDefault: boolean }[] {
-    const imports: { name: string; moduleSpecifier: string; isDefault: boolean }[] = [];
-
-    const symbolImportVisitor: ts.Visitor = (node: ts.Node) => {
-      if (ts.isIdentifier(node)) {
-        const importLocations = extractImportLocations(node);
-        if (importLocations.length > 1) {
-          throw new Error(
-            `unrecoverable error: the type definition of '${node.text}' in the snippet file is merged between multiple imports, so we cannot extract it`,
-          );
-        } else if (importLocations.length === 1) {
-          log.debug(`symbol ${node.text} was imported from ${importLocations[0]}`);
-          imports.push({
-            name: node.text,
-            ...importLocations[0],
-          });
-        }
+        // Also scan the body for // @snippet markers (marker mode)
+        const bodyText = currentSourceFile.text.substring(body.getStart(), body.getEnd());
+        extractMarkerSnippets(bodyText, body.statements);
       }
 
-      ts.forEachChild(node, symbolImportVisitor);
+      ts.forEachChild(node, visitSnippetDefinition);
+
       return undefined;
     };
 
-    ts.visitNodes(statements, symbolImportVisitor);
-    return imports;
-  }
+    // Helper: collect imports from AST statements using the type checker
+    function collectImportsFromStatements(
+      statements: ts.NodeArray<ts.Statement>,
+    ): { name: string; moduleSpecifier: string; isDefault: boolean }[] {
+      const imports: { name: string; moduleSpecifier: string; isDefault: boolean }[] = [];
 
-  interface ImportedSymbols {
-    default?: string;
-    named?: Set<string>;
-  }
-
-  // Helper: build and register a snippet definition from content text and imports
-  function buildAndRegisterSnippet(
-    snippetName: string,
-    contents: string,
-    imports: { name: string; moduleSpecifier: string; isDefault: boolean }[],
-  ): void {
-    log.debug(`found a snippet named ${snippetName}: \n${contents}`);
-
-    const importMap = new Map<string, ImportedSymbols>();
-
-    for (const { name, moduleSpecifier, isDefault } of imports) {
-      let moduleImports = importMap.get(moduleSpecifier);
-      if (!moduleImports) {
-        moduleImports = {};
-        importMap.set(moduleSpecifier, moduleImports);
-      }
-      if (isDefault) {
-        if (moduleImports.default && moduleImports.default !== name) {
-          throw new Error(
-            `unrecoverable error: multiple default imports from the same module '${moduleSpecifier}'`,
-          );
-        }
-        moduleImports.default = name;
-      } else {
-        if (!moduleImports.named) {
-          moduleImports.named = new Set();
-        }
-        moduleImports.named.add(name);
-      }
-    }
-
-    // Form import declarations and prepend them to the rest of the contents.
-    const importLines = [...importMap.entries()]
-      .map(([module, imps]) => {
-        const importParts = [];
-        if (imps.default) {
-          importParts.push(imps.default);
-        }
-        if (imps.named) {
-          importParts.push(`{ ${[...imps.named].join(", ")} }`);
-        }
-
-        if (importParts.length === 0) {
-          throw new Error(
-            `unrecoverable error: no imports were generated for the snippet '${snippetName}'`,
-          );
-        }
-
-        return `import ${importParts.join(", ")} from "${module}";`;
-      })
-      .join(EOL);
-
-    const SNIPPET_MARKER = /^\s*\/\/\s*@snippet(?:-end)?\s+\S+\s*$/;
-
-    const fullSnippetTypeScriptText = (importLines + EOL + EOL + contents)
-      .split(/\r?\n/)
-      .filter((line) => !SNIPPET_MARKER.test(line))
-      .join(EOL)
-      .replace(TS_IGNORE, UNIX_EOL)
-      .replace(TS_PRESERVE_WHITESPACE, UNIX_EOL + UNIX_EOL)
-      .trim();
-
-    const checkSyntax: ts.TransformerFactory<ts.SourceFile> = (context) => (sf) => {
-      const emitError = createDiagnosticEmitter(sf);
-
-      const visitor: ts.Visitor = (node) => {
-        const syntaxError = testSyntax(node);
-        if (syntaxError) {
-          emitError(syntaxError.message, node, syntaxError.suggest);
-        }
-        return ts.visitEachChild(node, visitor, context);
-      };
-
-      ts.visitNode(sf, visitor);
-      return sf;
-    };
-
-    const replaceEnvLookup: ts.TransformerFactory<ts.SourceFile> = (context) => (sf) => {
-      const visitor: ts.Visitor = (node) => {
-        if (
-          ts.isNullishCoalesce(node) ||
-          (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.BarBarToken)
-        ) {
-          const left = (node as ts.BinaryExpression).left;
-
-          if (
-            ts.isPropertyAccessExpression(left) &&
-            /^\s*process\s*\.\s*env\s*/.test(left.expression.getText(sf))
-          ) {
-            return (node as ts.BinaryExpression).right;
+      const symbolImportVisitor: ts.Visitor = (node: ts.Node) => {
+        if (ts.isIdentifier(node)) {
+          const importLocations = extractImportLocations(node);
+          if (importLocations.length > 1) {
+            throw new Error(
+              `unrecoverable error: the type definition of '${node.text}' in the snippet file is merged between multiple imports, so we cannot extract it`,
+            );
+          } else if (importLocations.length === 1) {
+            log.debug(`symbol ${node.text} was imported from ${importLocations[0]}`);
+            imports.push({
+              name: node.text,
+              ...importLocations[0],
+            });
           }
         }
-        return ts.visitEachChild(node, visitor, context);
+
+        ts.forEachChild(node, symbolImportVisitor);
+        return undefined;
       };
 
-      ts.visitNode(sf, visitor);
-      return sf;
-    };
-
-    results.set(snippetName, {
-      name: snippetName,
-      typescriptSourceText: format(fullSnippetTypeScriptText, "typescript").then((res) =>
-        res.split(/\r?\n/),
-      ),
-      async convert() {
-        const res = await convert(fullSnippetTypeScriptText, {
-          transformers: {
-            before: [replaceEnvLookup, checkSyntax],
-            after: [],
-          },
-        });
-        return res.trim().split(/\r?\n/);
-      },
-    });
-  }
-
-  // Register an entire it() body as a snippet (legacy mode: it-name = snippet-name)
-  function registerSnippetFromStatements(
-    snippetName: string,
-    statements: ts.NodeArray<ts.Statement>,
-  ): void {
-    const contents = printer.printList(
-      ts.ListFormat.MultiLineBlockStatements,
-      statements,
-      currentSourceFile,
-    );
-    const imports = collectImportsFromStatements(statements);
-    buildAndRegisterSnippet(snippetName, contents, imports);
-  }
-
-  // Extract // @snippet Name ... // @snippet-end Name regions from an it() body
-  function extractMarkerSnippets(
-    bodyText: string,
-    statements: ts.NodeArray<ts.Statement>,
-  ): void {
-    const startRegex = /\/\/\s*@snippet\s+(\S+)/;
-    const endRegex = /\/\/\s*@snippet-end\s+(\S+)/;
-    const lines = bodyText.split("\n");
-    let current: { name: string; lines: string[]; startLine: number } | null = null;
-    let lineIndex = 0;
-
-    // Build a line offset table for the bodyText to map line indices to character offsets
-    const lineOffsets: number[] = [];
-    let offset = 0;
-    for (const line of lines) {
-      lineOffsets.push(offset);
-      offset += line.length + 1; // +1 for the \n
+      ts.visitNodes(statements, symbolImportVisitor);
+      return imports;
     }
 
-    // bodyText starts at this position in the original source file
-    const bodyStart = statements.length > 0
-      ? statements[0].getFullStart()
-      : 0;
+    interface ImportedSymbols {
+      default?: string;
+      named?: Set<string>;
+    }
 
-    for (const line of lines) {
-      const startMatch = line.match(startRegex);
-      const endMatch = line.match(endRegex);
+    // Helper: build and register a snippet definition from content text and imports
+    function buildAndRegisterSnippet(
+      snippetName: string,
+      contents: string,
+      imports: { name: string; moduleSpecifier: string; isDefault: boolean }[],
+    ): void {
+      log.debug(`found a snippet named ${snippetName}: \n${contents}`);
 
-      if (endMatch && current && endMatch[1] === current.name) {
-        // Found end of snippet region
-        const regionText = current.lines.join("\n").trim();
-        if (regionText) {
-          // Find which original AST statements fall within the marker region
-          // Map line range to positions in the original source file
-          const regionStartOffset = bodyStart + lineOffsets[current.startLine];
-          const regionEndOffset = bodyStart + lineOffsets[lineIndex];
+      const importMap = new Map<string, ImportedSymbols>();
 
-          const regionStatements = statements.filter((stmt) => {
-            const stmtStart = stmt.getStart();
-            const stmtEnd = stmt.getEnd();
-            return stmtStart >= regionStartOffset && stmtEnd <= regionEndOffset;
-          });
-
-          // Use original AST nodes for import resolution (they're connected to the checker)
-          const fakeNodeArray = ts.factory.createNodeArray(regionStatements);
-          const imports = collectImportsFromStatements(fakeNodeArray);
-
-          // Print the region statements for clean content
-          const contents = printer.printList(
-            ts.ListFormat.MultiLineBlockStatements,
-            fakeNodeArray,
-            currentSourceFile,
-          );
-
-          buildAndRegisterSnippet(current.name, contents, imports);
+      for (const { name, moduleSpecifier, isDefault } of imports) {
+        let moduleImports = importMap.get(moduleSpecifier);
+        if (!moduleImports) {
+          moduleImports = {};
+          importMap.set(moduleSpecifier, moduleImports);
         }
-        current = null;
-      } else if (startMatch && !endMatch && !current) {
-        current = { name: startMatch[1], lines: [], startLine: lineIndex + 1 };
-      } else if (current) {
-        current.lines.push(line);
+        if (isDefault) {
+          if (moduleImports.default && moduleImports.default !== name) {
+            throw new Error(
+              `unrecoverable error: multiple default imports from the same module '${moduleSpecifier}'`,
+            );
+          }
+          moduleImports.default = name;
+        } else {
+          if (!moduleImports.named) {
+            moduleImports.named = new Set();
+          }
+          moduleImports.named.add(name);
+        }
       }
 
-      lineIndex++;
+      // Form import declarations and prepend them to the rest of the contents.
+      const importLines = [...importMap.entries()]
+        .map(([module, imps]) => {
+          const importParts = [];
+          if (imps.default) {
+            importParts.push(imps.default);
+          }
+          if (imps.named) {
+            importParts.push(`{ ${[...imps.named].join(", ")} }`);
+          }
+
+          if (importParts.length === 0) {
+            throw new Error(
+              `unrecoverable error: no imports were generated for the snippet '${snippetName}'`,
+            );
+          }
+
+          return `import ${importParts.join(", ")} from "${module}";`;
+        })
+        .join(EOL);
+
+      const SNIPPET_MARKER = /^\s*\/\/\s*@snippet(?:-end)?\s+\S+\s*$/;
+
+      const fullSnippetTypeScriptText = (importLines + EOL + EOL + contents)
+        .split(/\r?\n/)
+        .filter((line) => !SNIPPET_MARKER.test(line))
+        .join(EOL)
+        .replace(TS_IGNORE, UNIX_EOL)
+        .replace(TS_PRESERVE_WHITESPACE, UNIX_EOL + UNIX_EOL)
+        .trim();
+
+      const checkSyntax: ts.TransformerFactory<ts.SourceFile> = (context) => (sf) => {
+        const emitError = createDiagnosticEmitter(sf);
+
+        const visitor: ts.Visitor = (node) => {
+          const syntaxError = testSyntax(node);
+          if (syntaxError) {
+            emitError(syntaxError.message, node, syntaxError.suggest);
+          }
+          return ts.visitEachChild(node, visitor, context);
+        };
+
+        ts.visitNode(sf, visitor);
+        return sf;
+      };
+
+      const replaceEnvLookup: ts.TransformerFactory<ts.SourceFile> = (context) => (sf) => {
+        const visitor: ts.Visitor = (node) => {
+          if (
+            ts.isNullishCoalesce(node) ||
+            (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.BarBarToken)
+          ) {
+            const left = (node as ts.BinaryExpression).left;
+
+            if (
+              ts.isPropertyAccessExpression(left) &&
+              /^\s*process\s*\.\s*env\s*/.test(left.expression.getText(sf))
+            ) {
+              return (node as ts.BinaryExpression).right;
+            }
+          }
+          return ts.visitEachChild(node, visitor, context);
+        };
+
+        ts.visitNode(sf, visitor);
+        return sf;
+      };
+
+      results.set(snippetName, {
+        name: snippetName,
+        typescriptSourceText: format(fullSnippetTypeScriptText, "typescript").then((res) =>
+          res.split(/\r?\n/),
+        ),
+        async convert() {
+          const res = await convert(fullSnippetTypeScriptText, {
+            transformers: {
+              before: [replaceEnvLookup, checkSyntax],
+              after: [],
+            },
+          });
+          return res.trim().split(/\r?\n/);
+        },
+      });
     }
-  }
 
-  visitSnippetDefinition(currentSourceFile);
+    // Register an entire it() body as a snippet (legacy mode: it-name = snippet-name)
+    function registerSnippetFromStatements(
+      snippetName: string,
+      statements: ts.NodeArray<ts.Statement>,
+    ): void {
+      const contents = printer.printList(
+        ts.ListFormat.MultiLineBlockStatements,
+        statements,
+        currentSourceFile,
+      );
+      const imports = collectImportsFromStatements(statements);
+      buildAndRegisterSnippet(snippetName, contents, imports);
+    }
 
-  /**
-   * A helper function to extract imported symbols from TypeScript nodes.
-   *
-   * If the node has a symbol (for example, an identifier), then the symbol is resolved. Symbol declarations may be
-   * merged, so we extract all declarations that come from import clauses _in the same file_ and extract the module
-   * specifier from their parent. The symbol is considered "defined" by a combined import from those locations.
-   *
-   * @param node - the node to check for imports
-   * @returns a list of module specifiers that form the definition of the node's symbol, or undefined
-   */
-  function extractImportLocations(node: ts.Node): {
-    isDefault: boolean;
-    moduleSpecifier: string;
-  }[] {
-    const sym = checker.getSymbolAtLocation(node);
+    // Extract // @snippet Name ... // @snippet-end Name regions from an it() body
+    function extractMarkerSnippets(bodyText: string, statements: ts.NodeArray<ts.Statement>): void {
+      const startRegex = /\/\/\s*@snippet\s+(\S+)/;
+      const endRegex = /\/\/\s*@snippet-end\s+(\S+)/;
+      const lines = bodyText.split("\n");
+      let current: { name: string; lines: string[]; startLine: number } | null = null;
+      let lineIndex = 0;
 
-    // Get all the decls that are in source files and where the decl comes from an import clause.
-    const nonDefaultExports = sym?.declarations
-      ?.filter(
-        (decl) =>
-          decl.getSourceFile() === currentSourceFile &&
-          decl.parent?.parent &&
-          ts.isImportClause(decl.parent.parent),
-      )
-      .map(
-        // It is a grammar error for moduleSpecifier to be anything other than a string literal. In future versions of
-        // ES, that might become untrue, but it seems unlikely.
-        (decl) => {
+      // Build a line offset table for the bodyText to map line indices to character offsets
+      const lineOffsets: number[] = [];
+      let offset = 0;
+      for (const line of lines) {
+        lineOffsets.push(offset);
+        offset += line.length + 1; // +1 for the \n
+      }
+
+      // bodyText starts at this position in the original source file
+      const bodyStart = statements.length > 0 ? statements[0].getFullStart() : 0;
+
+      for (const line of lines) {
+        const startMatch = line.match(startRegex);
+        const endMatch = line.match(endRegex);
+
+        if (endMatch && current && endMatch[1] === current.name) {
+          // Found end of snippet region
+          const regionText = current.lines.join("\n").trim();
+          if (regionText) {
+            // Find which original AST statements fall within the marker region
+            // Map line range to positions in the original source file
+            const regionStartOffset = bodyStart + lineOffsets[current.startLine];
+            const regionEndOffset = bodyStart + lineOffsets[lineIndex];
+
+            const regionStatements = statements.filter((stmt) => {
+              const stmtStart = stmt.getStart();
+              const stmtEnd = stmt.getEnd();
+              return stmtStart >= regionStartOffset && stmtEnd <= regionEndOffset;
+            });
+
+            // Use original AST nodes for import resolution (they're connected to the checker)
+            const fakeNodeArray = ts.factory.createNodeArray(regionStatements);
+            const imports = collectImportsFromStatements(fakeNodeArray);
+
+            // Print the region statements for clean content
+            const contents = printer.printList(
+              ts.ListFormat.MultiLineBlockStatements,
+              fakeNodeArray,
+              currentSourceFile,
+            );
+
+            buildAndRegisterSnippet(current.name, contents, imports);
+          }
+          current = null;
+        } else if (startMatch && !endMatch && !current) {
+          current = { name: startMatch[1], lines: [], startLine: lineIndex + 1 };
+        } else if (current) {
+          current.lines.push(line);
+        }
+
+        lineIndex++;
+      }
+    }
+
+    visitSnippetDefinition(currentSourceFile);
+
+    /**
+     * A helper function to extract imported symbols from TypeScript nodes.
+     *
+     * If the node has a symbol (for example, an identifier), then the symbol is resolved. Symbol declarations may be
+     * merged, so we extract all declarations that come from import clauses _in the same file_ and extract the module
+     * specifier from their parent. The symbol is considered "defined" by a combined import from those locations.
+     *
+     * @param node - the node to check for imports
+     * @returns a list of module specifiers that form the definition of the node's symbol, or undefined
+     */
+    function extractImportLocations(node: ts.Node): {
+      isDefault: boolean;
+      moduleSpecifier: string;
+    }[] {
+      const sym = checker.getSymbolAtLocation(node);
+
+      // Get all the decls that are in source files and where the decl comes from an import clause.
+      const nonDefaultExports = sym?.declarations
+        ?.filter(
+          (decl) =>
+            decl.getSourceFile() === currentSourceFile &&
+            decl.parent?.parent &&
+            ts.isImportClause(decl.parent.parent),
+        )
+        .map(
+          // It is a grammar error for moduleSpecifier to be anything other than a string literal. In future versions of
+          // ES, that might become untrue, but it seems unlikely.
+          (decl) => {
+            const moduleSpecifierText = (
+              (decl.parent.parent as ts.ImportClause).parent.moduleSpecifier as ts.StringLiteral
+            ).text;
+
+            if (
+              moduleSpecifierText === relativeIndexPath ||
+              moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+              moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
+            ) {
+              return { moduleSpecifier: project.name, isDefault: false };
+            } else {
+              return { moduleSpecifier: moduleSpecifierText, isDefault: false };
+            }
+          },
+        );
+
+      const defaultExports = sym?.declarations
+        ?.filter(
+          (decl) =>
+            decl.getSourceFile() === currentSourceFile &&
+            ts.isImportClause(decl) &&
+            ts.isImportDeclaration(decl.parent) &&
+            decl.name,
+        )
+        .map((decl) => {
           const moduleSpecifierText = (
-            (decl.parent.parent as ts.ImportClause).parent.moduleSpecifier as ts.StringLiteral
+            (decl.parent as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral
           ).text;
 
           if (
@@ -553,39 +571,14 @@ async function parseSnippetDefinitions(
             moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
             moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
           ) {
-            return { moduleSpecifier: project.name, isDefault: false };
+            return { moduleSpecifier: project.name, isDefault: true };
           } else {
-            return { moduleSpecifier: moduleSpecifierText, isDefault: false };
+            return { moduleSpecifier: moduleSpecifierText, isDefault: true };
           }
-        },
-      );
+        });
 
-    const defaultExports = sym?.declarations
-      ?.filter(
-        (decl) =>
-          decl.getSourceFile() === currentSourceFile &&
-          ts.isImportClause(decl) &&
-          ts.isImportDeclaration(decl.parent) &&
-          decl.name,
-      )
-      .map((decl) => {
-        const moduleSpecifierText = (
-          (decl.parent as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral
-        ).text;
-
-        if (
-          moduleSpecifierText === relativeIndexPath ||
-          moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
-          moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
-        ) {
-          return { moduleSpecifier: project.name, isDefault: true };
-        } else {
-          return { moduleSpecifier: moduleSpecifierText, isDefault: true };
-        }
-      });
-
-    return [...(nonDefaultExports ?? []), ...(defaultExports ?? [])];
-  }
+      return [...(nonDefaultExports ?? []), ...(defaultExports ?? [])];
+    }
   } // end visitFileForSnippets
 }
 

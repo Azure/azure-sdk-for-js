@@ -188,8 +188,11 @@ export async function compileSampleTests(
 
       // Detect platform from subdirectory: samples/node/ → node, samples/browser/ → browser
       const segments = relativePath.split(path.sep);
-      const platform =
-        segments.includes("browser") ? "browser" : segments.includes("node") ? "node" : undefined;
+      const platform = segments.includes("browser")
+        ? "browser"
+        : segments.includes("node")
+          ? "node"
+          : undefined;
 
       log.info(`  Compiling: ${relativePath}${platform ? ` (${platform})` : ""}`);
 
