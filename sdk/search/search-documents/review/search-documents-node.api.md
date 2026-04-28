@@ -1222,7 +1222,7 @@ export interface KnowledgeBase {
 }
 
 // @public
-export type KnowledgeBaseActivityRecord = KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecord = KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
 // @public
 export type KnowledgeBaseActivityRecordType = string;
@@ -1304,6 +1304,13 @@ export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 // @public
 export type KnowledgeBaseModelKind = string;
+
+// @public
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    inputTokens?: number;
+    outputTokens?: number;
+    type: "modelWebSummarization";
+}
 
 // @public
 export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | BaseKnowledgeBaseReference;
@@ -1402,12 +1409,8 @@ export interface KnowledgeSourceIngestionParameters {
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizer;
     identity?: SearchIndexerDataIdentity;
-    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
-
-// @public
-export type KnowledgeSourceIngestionPermissionOption = string;
 
 // @public
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource, KnowledgeSource[], {}>;
