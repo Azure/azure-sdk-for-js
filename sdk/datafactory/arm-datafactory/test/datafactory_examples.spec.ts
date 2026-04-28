@@ -10,7 +10,11 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { DataFactoryManagementClient } from "../src/dataFactoryManagementClient.js";
-import type { Factory, PipelineResource } from "../src/models/index.js";
+import type {
+  ExecuteWranglingDataflowActivity,
+  Factory,
+  PipelineResource,
+} from "../src/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -267,7 +271,8 @@ describe("Datafactory test", () => {
     assert.equal(resArray.length, 1);
     assert.equal(resArray[0].activities?.length, 1);
     assert.equal(resArray[0].activities![0].type, "ExecuteWranglingDataflow");
-    assert.equal(resArray[0].activities![0].dataFlow.type, "DataFlowReference");
+    const resType = resArray[0].activities![0] as ExecuteWranglingDataflowActivity;
+    assert.equal(resType.dataFlow.type, "DataFlowReference");
   });
 
   it("dataFlowDebugSession delete test", async function () {
