@@ -2,14 +2,11 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
-ARG NODE_VERSION=22
+ARG NODE_VERSION=24
 
-# Use the MCR-hosted Node.js image (Azure Linux 3) instead of docker.io/library/node
-# to avoid Docker Hub pull rate limits and intermittent registry timeouts in CI.
-# Override REGISTRY (e.g. with an ACR login server) if pulling through a cache.
-ARG REGISTRY="mcr.microsoft.com/"
+ARG BASE_IMAGE="mcr.microsoft.com/azurelinux/base/nodejs:${NODE_VERSION}"
 
-FROM ${REGISTRY}azurelinux/base/nodejs:${NODE_VERSION} AS builder
+FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
 
 COPY . .
@@ -18,7 +15,7 @@ RUN npm install --no-package-lock
 
 RUN npm run build
 
-FROM ${REGISTRY}azurelinux/base/nodejs:${NODE_VERSION}
+FROM ${BASE_IMAGE}
 WORKDIR /app
 
 # Copy only the built app and necessary files
