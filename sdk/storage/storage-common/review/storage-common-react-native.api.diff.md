@@ -76,7 +76,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -162,58 +163,48 @@
+@@ -162,57 +163,47 @@
  }
  
  // @public
@@ -86,10 +86,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
--    createPipelinePolicy(): PipelinePolicy;
 +    computeHMACSHA256(_stringToSign: string): string;
 +    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
-+    createPipelinePolicy(): never;
  }
  
  // @public
@@ -109,7 +107,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface StorageSharedKeyCredentialPolicyOptions {
      // (undocumented)
 -    accountKey: Buffer;
-+    accountKey: NodeBuffer;
++    accountKey: unknown;
      // (undocumented)
      accountName: string;
  }
@@ -149,7 +147,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -226,10 +217,13 @@
+@@ -225,10 +216,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

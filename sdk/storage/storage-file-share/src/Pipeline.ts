@@ -46,6 +46,7 @@ import {
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
   storageRequestFailureDetailsParserPolicy,
+  storageSharedKeyCredentialPolicy,
 } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
@@ -336,7 +337,13 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
         { phase: "Sign" },
       );
     } else if (credential instanceof StorageSharedKeyCredential) {
-      corePipeline.addPolicy(credential.createPipelinePolicy(), { phase: "Sign" });
+      corePipeline.addPolicy(
+        storageSharedKeyCredentialPolicy({
+          accountName: credential.accountName,
+          accountKey: (credential as any).accountKey,
+        }),
+        { phase: "Sign" },
+      );
     }
     (pipeline as any)._corePipeline = corePipeline;
   }

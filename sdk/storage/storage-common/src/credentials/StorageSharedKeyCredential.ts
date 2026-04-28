@@ -6,9 +6,7 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
 } from "@azure/core-http-compat";
-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy.js";
-import { storageSharedKeyCredentialPolicy } from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
 import { Credential } from "./Credential.js";
 
 /**
@@ -58,15 +56,5 @@ export class StorageSharedKeyCredential extends Credential {
    */
   public computeHMACSHA256(stringToSign: string): string {
     return createHmac("sha256", this.accountKey).update(stringToSign, "utf8").digest("base64");
-  }
-
-  /**
-   * Creates a PipelinePolicy that signs requests using the shared key.
-   */
-  public createPipelinePolicy(): PipelinePolicy {
-    return storageSharedKeyCredentialPolicy({
-      accountName: this.accountName,
-      accountKey: this.accountKey,
-    });
   }
 }

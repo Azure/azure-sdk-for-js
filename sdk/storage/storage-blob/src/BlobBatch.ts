@@ -16,7 +16,11 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
-import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  storageSharedKeyCredentialPolicy,
+} from "@azure/storage-common";
 import type { BlobDeleteOptions, BlobSetTierOptions } from "./Clients.js";
 import { BlobClient } from "./Clients.js";
 import type { AccessTier } from "./generatedModels.js";
@@ -385,7 +389,13 @@ class InnerBatchRequest {
         { phase: "Sign" },
       );
     } else if (credential instanceof StorageSharedKeyCredential) {
-      corePipeline.addPolicy(credential.createPipelinePolicy(), { phase: "Sign" });
+      corePipeline.addPolicy(
+        storageSharedKeyCredentialPolicy({
+          accountName: credential.accountName,
+          accountKey: (credential as any).accountKey,
+        }),
+        { phase: "Sign" },
+      );
     }
     const pipeline = new Pipeline([]);
     // attach the v2 pipeline to this one

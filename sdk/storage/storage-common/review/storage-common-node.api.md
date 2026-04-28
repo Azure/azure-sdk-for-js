@@ -167,7 +167,6 @@ export class StorageSharedKeyCredential extends Credential {
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
-    createPipelinePolicy(): PipelinePolicy;
 }
 
 // @public
