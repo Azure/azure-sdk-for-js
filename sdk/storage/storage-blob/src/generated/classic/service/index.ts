@@ -31,7 +31,7 @@ import {
   FilterBlobSegment,
   SkuName,
   AccountKind,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 

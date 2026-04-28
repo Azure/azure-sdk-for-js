@@ -5,7 +5,7 @@ import {
   ImmutabilityPolicyMode,
   EncryptionAlgorithmType,
   FileShareTokenIntent,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

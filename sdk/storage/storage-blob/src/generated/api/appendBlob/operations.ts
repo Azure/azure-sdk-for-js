@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
-import { errorXmlDeserializer } from "../../models/azure/storage/blobs/models.js";
+import { errorXmlDeserializer } from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,

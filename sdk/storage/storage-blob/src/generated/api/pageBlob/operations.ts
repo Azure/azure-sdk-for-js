@@ -8,7 +8,7 @@ import {
   PageList,
   pageListXmlDeserializer,
   SequenceNumberActionType,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ListContainersIncludeType,
-  FilterBlobsIncludeItem,
-} from "../../models/azure/storage/blobs/models.js";
+import { ListContainersIncludeType, FilterBlobsIncludeItem } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

@@ -66,8 +66,8 @@ import {
   SkuName,
   AccountKind,
   BlobExpiryOptions,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlobDownloadResponse } from "../../models/models.js";
+  BlobDownloadResponse,
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Blob operations. */

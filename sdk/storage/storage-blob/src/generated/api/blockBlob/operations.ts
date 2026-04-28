@@ -16,8 +16,8 @@ import {
   QueryRequest,
   queryRequestXmlSerializer,
   BlockListType,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlockBlobQueryResponse } from "../../models/models.js";
+  BlockBlobQueryResponse,
+} from "../../models/models.js";
 import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import {
   StorageCompatResponseInfo,

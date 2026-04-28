@@ -24,11 +24,7 @@ import {
   PageBlobUploadPagesOptionalParams,
   PageBlobCreateOptionalParams,
 } from "../../api/pageBlob/options.js";
-import {
-  CopyStatus,
-  PageList,
-  SequenceNumberActionType,
-} from "../../models/azure/storage/blobs/models.js";
+import { CopyStatus, PageList, SequenceNumberActionType } from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a PageBlob operations. */

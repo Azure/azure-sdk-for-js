@@ -4,7 +4,6 @@
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { BlobClient } from "./blobClient.js";
-export type { BlockBlobQueryResponse, BlobDownloadResponse } from "./models/index.js";
 export type {
   BlobServiceProperties,
   Logging,
@@ -79,8 +78,10 @@ export type {
   BlockListType,
   PremiumPageBlobAccessTier,
   SequenceNumberActionType,
-} from "./models/azure/storage/blobs/index.js";
-export { KnownVersions } from "./models/azure/storage/blobs/index.js";
+  BlockBlobQueryResponse,
+  BlobDownloadResponse,
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
 export type { BlobClientOptionalParams } from "./api/index.js";
 export type {
   AppendBlobSealOptionalParams,
