@@ -48,10 +48,7 @@ export interface CompileOptions {
 /**
  * Compile a sample-test source file into publishable sample code.
  */
-export function compileSampleTest(
-  sourceText: string,
-  options: CompileOptions,
-): CompiledSample {
+export function compileSampleTest(sourceText: string, options: CompileOptions): CompiledSample {
   const { packageName, fileName = "<sample-test>", resolveHelper, platform } = options;
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
@@ -112,9 +109,7 @@ export function compileSampleTest(
 
       const resolved = resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
-        warnings.push(
-          `Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`,
-        );
+        warnings.push(`Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
       }
 
@@ -168,9 +163,10 @@ export function compileSampleTest(
   }
 
   // Filter out empty helper imports before further processing
-  const filteredClassified = emptyHelperSpecifiers.size > 0
-    ? classified.filter((ci) => !emptyHelperSpecifiers.has(ci.moduleSpecifier))
-    : classified;
+  const filteredClassified =
+    emptyHelperSpecifiers.size > 0
+      ? classified.filter((ci) => !emptyHelperSpecifiers.has(ci.moduleSpecifier))
+      : classified;
 
   // Step 5b: Validate that forPublishing expressions don't reference dead bindings
   for (const sub of substitutions) {
@@ -196,8 +192,9 @@ export function compileSampleTest(
   // Keep all surviving describe statements in original order AND extract var-only subset for
   // let→const promotion. The ordered list is used during assembly so that non-var statements
   // (expression statements, function declarations, etc.) stay in their original positions.
-  const survivingDescribeTexts = describeResult.survivingStatements
-    .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+  const survivingDescribeTexts = describeResult.survivingStatements.map((s) =>
+    printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
+  );
   const survivingVarTexts = describeResult.survivingStatements
     .filter(ts.isVariableStatement)
     .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
@@ -279,6 +276,9 @@ export function compileSampleTest(
     ...beforeAllTexts,
     ...beforeEachTexts,
   ].join("\n");
+  // Extract all JS identifier tokens from body text to detect which imports are actually used.
+  // Pattern: word boundary + valid JS identifier start ([A-Za-z_$]) + continuation chars.
+  // This is a fast heuristic — false positives are harmless, false negatives would drop imports.
   const referencedNames = new Set<string>(allBodyText.match(/\b[A-Za-z_$][A-Za-z0-9_$]*\b/g) ?? []);
   const { imports: rewrittenImports } = rewriteImports(
     filteredClassified,
@@ -520,7 +520,9 @@ function extractSnippets(text: string, fileName?: string): Map<string, string> {
   const snippets = new Map<string, string>();
   const lines = text.split("\n");
   let current: { name: string; lines: string[]; lineNumber: number } | null = null;
+  // Match: // @snippet <name>  — captures the snippet name (non-whitespace chars)
   const startRegex = /\/\/\s*@snippet\s+(\S+)/;
+  // Match: // @snippet-end <name>  — must match the opening name to close
   const endRegex = /\/\/\s*@snippet-end\s+(\S+)/;
 
   for (let i = 0; i < lines.length; i++) {
@@ -555,5 +557,3 @@ function extractSnippets(text: string, fileName?: string): Map<string, string> {
 
   return snippets;
 }
-
-
