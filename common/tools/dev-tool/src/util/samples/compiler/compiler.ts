@@ -67,8 +67,8 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   const substitutedText = printer.printFile(transformedFile);
 
   const analyzer = createAnalyzer(substitutedText, fileName);
-  const subParsed = parseSampleTestFile(analyzer.sourceFile, fileName);
-  if (!subParsed) {
+  const substitutedParsed = parseSampleTestFile(analyzer.sourceFile, fileName);
+  if (!substitutedParsed) {
     throw new CompilerError("Internal error: re-parse failed after substitution", fileName);
   }
 
@@ -80,7 +80,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   const emptyHelperSpecifiers = new Set<string>();
   const warnings: string[] = [];
   if (parsed.warnings) warnings.push(...parsed.warnings);
-  if (subParsed.warnings) warnings.push(...subParsed.warnings);
+  if (substitutedParsed.warnings) warnings.push(...substitutedParsed.warnings);
 
   const sampleDir = path.dirname(fileName);
   const storedHelperKeys = new Set<string>();
@@ -90,92 +90,96 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   }
 
   if (resolveHelper) {
-    const visited = new Set<string>();
+    const visitedPaths = new Set<string>();
     const helperCache = new Map<string, { helper: ReturnType<typeof compileHelper> }>();
-    for (const ci of classified) {
-      if (ci.category !== "localHelper") continue;
+    for (const classifiedImport of classified) {
+      if (classifiedImport.category !== "localHelper") continue;
 
-      const resolved = resolveHelper(fileName, ci.moduleSpecifier);
+      const resolved = resolveHelper(fileName, classifiedImport.moduleSpecifier);
       if (!resolved) {
-        warnings.push(`Could not resolve local helper "${ci.moduleSpecifier}" from "${fileName}"`);
+        warnings.push(
+          `Could not resolve local helper "${classifiedImport.moduleSpecifier}" from "${fileName}"`,
+        );
         continue;
       }
 
-      let helper: ReturnType<typeof compileHelper>;
+      let compiledHelper: ReturnType<typeof compileHelper>;
       const cached = helperCache.get(resolved.canonicalPath);
       if (cached) {
-        helper = cached.helper;
+        compiledHelper = cached.helper;
       } else {
-        visited.add(resolved.canonicalPath);
+        visitedPaths.add(resolved.canonicalPath);
 
-        helper = compileHelper(
+        compiledHelper = compileHelper(
           resolved.sourceText,
           packageName,
           resolved.canonicalPath,
           resolveHelper,
-          visited,
+          visitedPaths,
         );
-        helperCache.set(resolved.canonicalPath, { helper });
+        helperCache.set(resolved.canonicalPath, { helper: compiledHelper });
 
-        warnings.push(...helper.warnings);
+        warnings.push(...compiledHelper.warnings);
 
-        if (!helper.isEmpty) {
-          const relKey = toRelativeHelperKey(resolved.canonicalPath);
+        if (!compiledHelper.isEmpty) {
+          const relativeKey = toRelativeHelperKey(resolved.canonicalPath);
           if (!storedHelperKeys.has(resolved.canonicalPath)) {
             storedHelperKeys.add(resolved.canonicalPath);
-            helperFiles.set(relKey, helper.outputText);
-            helperEnvVars.push(...helper.envVars);
+            helperFiles.set(relativeKey, compiledHelper.outputText);
+            helperEnvVars.push(...compiledHelper.envVars);
           }
 
-          for (const [nestedCanonical, nestedHelper] of helper.nestedHelpers) {
-            if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonical)) {
-              storedHelperKeys.add(nestedCanonical);
-              helperFiles.set(toRelativeHelperKey(nestedCanonical), nestedHelper.outputText);
+          for (const [nestedCanonicalPath, nestedHelper] of compiledHelper.nestedHelpers) {
+            if (!nestedHelper.isEmpty && !storedHelperKeys.has(nestedCanonicalPath)) {
+              storedHelperKeys.add(nestedCanonicalPath);
+              helperFiles.set(toRelativeHelperKey(nestedCanonicalPath), nestedHelper.outputText);
               helperEnvVars.push(...nestedHelper.envVars);
             }
           }
         }
       }
 
-      if (helper.isEmpty) {
-        for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
-          deadSymbols.add(sym);
+      if (compiledHelper.isEmpty) {
+        for (const symbol of analyzer.getImportBindingSymbols(classifiedImport.node)) {
+          deadSymbols.add(symbol);
         }
-        emptyHelperSpecifiers.add(ci.moduleSpecifier);
+        emptyHelperSpecifiers.add(classifiedImport.moduleSpecifier);
       }
     }
   }
 
   const filteredClassified =
     emptyHelperSpecifiers.size > 0
-      ? classified.filter((ci) => !emptyHelperSpecifiers.has(ci.moduleSpecifier))
+      ? classified.filter(
+          (classifiedImport) => !emptyHelperSpecifiers.has(classifiedImport.moduleSpecifier),
+        )
       : classified;
 
   validateNoDeadReferences(substitutions, deadSymbols, analyzer, fileName);
 
   const describeResult = eliminateDeadStatements(
-    subParsed.describeStatements,
+    substitutedParsed.describeStatements,
     deadSymbols,
     analyzer,
     fileName,
   );
-  const survivingDescribeTexts = describeResult.survivingStatements.map((s) =>
-    printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
+  const survivingDescribeTexts = describeResult.survivingStatements.map((stmt) =>
+    printer.printNode(ts.EmitHint.Unspecified, stmt, analyzer.sourceFile),
   );
   const survivingVarTexts = describeResult.survivingStatements
     .filter(ts.isVariableStatement)
-    .map((s) => printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    .map((stmt) => printer.printNode(ts.EmitHint.Unspecified, stmt, analyzer.sourceFile));
 
   const beforeAllTexts: string[] = [];
-  for (const hook of subParsed.beforeAllHooks) {
+  for (const hook of substitutedParsed.beforeAllHooks) {
     const hookResult = eliminateDeadStatements(
       hook.body,
       withCallbackParamDead(deadSymbols, hook.callbackParam, analyzer),
       analyzer,
       fileName,
     );
-    for (const s of hookResult.survivingStatements) {
-      beforeAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    for (const stmt of hookResult.survivingStatements) {
+      beforeAllTexts.push(printer.printNode(ts.EmitHint.Unspecified, stmt, analyzer.sourceFile));
     }
     if (hook.trailingComments) {
       beforeAllTexts.push(hook.trailingComments);
@@ -183,15 +187,15 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   }
 
   const beforeEachTexts: string[] = [];
-  for (const hook of subParsed.beforeEachHooks) {
+  for (const hook of substitutedParsed.beforeEachHooks) {
     const hookResult = eliminateDeadStatements(
       hook.body,
       withCallbackParamDead(deadSymbols, hook.callbackParam, analyzer),
       analyzer,
       fileName,
     );
-    for (const s of hookResult.survivingStatements) {
-      beforeEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile));
+    for (const stmt of hookResult.survivingStatements) {
+      beforeEachTexts.push(printer.printNode(ts.EmitHint.Unspecified, stmt, analyzer.sourceFile));
     }
     if (hook.trailingComments) {
       beforeEachTexts.push(hook.trailingComments);
@@ -199,15 +203,15 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
   }
 
   const itBlockTexts: string[][] = [];
-  for (const itBlock of subParsed.itBlocks) {
+  for (const itBlock of substitutedParsed.itBlocks) {
     const itResult = eliminateDeadStatements(
       itBlock.body,
       withCallbackParamDead(deadSymbols, itBlock.callbackParam, analyzer),
       analyzer,
       fileName,
     );
-    const texts = itResult.survivingStatements.map((s) =>
-      printer.printNode(ts.EmitHint.Unspecified, s, analyzer.sourceFile),
+    const texts = itResult.survivingStatements.map((stmt) =>
+      printer.printNode(ts.EmitHint.Unspecified, stmt, analyzer.sourceFile),
     );
     if (itBlock.trailingComments) {
       texts.push(itBlock.trailingComments);
@@ -217,7 +221,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
 
   validateNoDeadReferences(substitutions, deadSymbols, analyzer, fileName);
 
-  const dummyFile = createSourceFile("output.ts", "");
+  const emptySourceFile = createSourceFile("output.ts", "");
   const allBodyText = [
     ...survivingDescribeTexts,
     ...survivingVarTexts,
@@ -234,20 +238,20 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     analyzer,
     referencedNames,
   );
-  const importTexts = rewrittenImports.map((imp) =>
-    printer.printNode(ts.EmitHint.Unspecified, imp, dummyFile),
+  const importTexts = rewrittenImports.map((importNode) =>
+    printer.printNode(ts.EmitHint.Unspecified, importNode, emptySourceFile),
   );
 
-  const usedNames = new Set<string>();
-  const functions = subParsed.itBlocks.map((itBlock, i) => {
-    let name = descriptionToFunctionName(itBlock.description);
-    if (usedNames.has(name)) {
+  const usedFunctionNames = new Set<string>();
+  const sampleFunctions = substitutedParsed.itBlocks.map((itBlock, index) => {
+    let functionName = descriptionToFunctionName(itBlock.description);
+    if (usedFunctionNames.has(functionName)) {
       let suffix = 2;
-      while (usedNames.has(`${name}${suffix}`)) suffix++;
-      name = `${name}${suffix}`;
+      while (usedFunctionNames.has(`${functionName}${suffix}`)) suffix++;
+      functionName = `${functionName}${suffix}`;
     }
-    usedNames.add(name);
-    return { name, bodyTexts: itBlockTexts[i] };
+    usedFunctionNames.add(functionName);
+    return { name: functionName, bodyTexts: itBlockTexts[index] };
   });
 
   const rawOutputText = assembleOutput(
@@ -255,7 +259,7 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
     importTexts,
     survivingDescribeTexts,
     survivingVarTexts,
-    functions,
+    sampleFunctions,
     [...beforeAllTexts, ...beforeEachTexts],
   );
 
@@ -282,30 +286,30 @@ function createSourceFile(fileName: string, text: string): ts.SourceFile {
 }
 
 function collectDeadSymbols(
-  classified: ClassifiedImport[],
+  classifiedImports: ClassifiedImport[],
   analyzer: BindingAnalyzer,
 ): Set<ts.Symbol> {
-  const dead = new Set<ts.Symbol>();
-  for (const ci of classified) {
-    if (ci.category !== "test") continue;
-    for (const sym of analyzer.getImportBindingSymbols(ci.node)) {
-      dead.add(sym);
+  const deadSymbols = new Set<ts.Symbol>();
+  for (const classifiedImport of classifiedImports) {
+    if (classifiedImport.category !== "test") continue;
+    for (const symbol of analyzer.getImportBindingSymbols(classifiedImport.node)) {
+      deadSymbols.add(symbol);
     }
   }
-  return dead;
+  return deadSymbols;
 }
 
 function withCallbackParamDead(
-  dead: Set<ts.Symbol>,
+  deadSymbols: Set<ts.Symbol>,
   callbackParam: ts.Identifier | undefined,
   analyzer: BindingAnalyzer,
 ): Set<ts.Symbol> {
-  if (!callbackParam) return dead;
-  const sym = analyzer.getSymbol(callbackParam);
-  if (!sym) return dead;
-  const extended = new Set(dead);
-  extended.add(sym);
-  return extended;
+  if (!callbackParam) return deadSymbols;
+  const paramSymbol = analyzer.getSymbol(callbackParam);
+  if (!paramSymbol) return deadSymbols;
+  const extendedDeadSymbols = new Set(deadSymbols);
+  extendedDeadSymbols.add(paramSymbol);
+  return extendedDeadSymbols;
 }
 
 function validateNoDeadReferences(
@@ -314,12 +318,12 @@ function validateNoDeadReferences(
   analyzer: BindingAnalyzer,
   fileName: string,
 ): void {
-  for (const sub of substitutions) {
-    const freeSymbols = resolveNamesToSymbols(analyzer, sub.freeVariables);
-    for (const sym of freeSymbols) {
-      if (deadSymbols.has(sym)) {
+  for (const substitution of substitutions) {
+    const freeSymbols = resolveNamesToSymbols(analyzer, substitution.freeVariables);
+    for (const symbol of freeSymbols) {
+      if (deadSymbols.has(symbol)) {
         throw new CompilerError(
-          `Symbol "${sym.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
+          `Symbol "${symbol.name}" in forPublishing expression is not available after cleanup (it was removed as test infrastructure)`,
           fileName,
         );
       }
@@ -330,108 +334,110 @@ function validateNoDeadReferences(
 function assembleOutput(
   metadata: SampleMetadata,
   importTexts: string[],
-  describeTexts: string[],
-  describeVarTexts: string[],
-  functions: Array<{ name: string; bodyTexts: string[] }>,
+  describeScopeTexts: string[],
+  describeScopeVarTexts: string[],
+  sampleFunctions: Array<{ name: string; bodyTexts: string[] }>,
   mainPreambleTexts: string[],
 ): string {
-  const lines: string[] = [];
+  const outputLines: string[] = [];
 
-  lines.push("// Copyright (c) Microsoft Corporation.");
-  lines.push("// Licensed under the MIT License.");
-  lines.push("");
+  outputLines.push("// Copyright (c) Microsoft Corporation.");
+  outputLines.push("// Licensed under the MIT License.");
+  outputLines.push("");
 
-  lines.push("/**");
-  lines.push(` * @summary ${metadata.summary}`);
+  outputLines.push("/**");
+  outputLines.push(` * @summary ${metadata.summary}`);
   if (metadata.weight !== undefined) {
-    lines.push(` * @azsdk-weight ${metadata.weight}`);
+    outputLines.push(` * @azsdk-weight ${metadata.weight}`);
   }
   if (metadata.skipJavascript) {
-    lines.push(` * @azsdk-skip-javascript`);
+    outputLines.push(` * @azsdk-skip-javascript`);
   }
   if (metadata.ignore) {
-    lines.push(` * @azsdk-ignore`);
+    outputLines.push(` * @azsdk-ignore`);
   }
-  lines.push(" */");
-  lines.push("");
+  outputLines.push(" */");
+  outputLines.push("");
 
-  for (const imp of importTexts) {
-    lines.push(imp);
+  for (const importText of importTexts) {
+    outputLines.push(importText);
   }
-  lines.push("");
+  outputLines.push("");
 
-  if (functions.length === 1) {
+  if (sampleFunctions.length === 1) {
     const { remainingVars, statements: promotedPreamble } = promoteLetToConst(
-      describeVarTexts,
+      describeScopeVarTexts,
       mainPreambleTexts,
-      functions[0].bodyTexts,
+      sampleFunctions[0].bodyTexts,
     );
 
     const remainingVarSet = new Set(remainingVars);
-    const promotedVarSet = new Set(describeVarTexts.filter((v) => !remainingVarSet.has(v)));
+    const promotedVarSet = new Set(
+      describeScopeVarTexts.filter((varText) => !remainingVarSet.has(varText)),
+    );
 
-    lines.push("export async function main(): Promise<void> {");
+    outputLines.push("export async function main(): Promise<void> {");
 
-    for (const s of describeTexts) {
-      if (promotedVarSet.has(s)) continue;
-      for (const line of s.split("\n")) {
-        lines.push("  " + line);
+    for (const scopeText of describeScopeTexts) {
+      if (promotedVarSet.has(scopeText)) continue;
+      for (const line of scopeText.split("\n")) {
+        outputLines.push("  " + line);
       }
     }
 
-    for (const stmt of promotedPreamble) {
-      for (const line of stmt.split("\n")) {
-        lines.push("  " + line);
+    for (const preambleStmt of promotedPreamble) {
+      for (const line of preambleStmt.split("\n")) {
+        outputLines.push("  " + line);
       }
     }
 
-    for (const stmt of functions[0].bodyTexts) {
-      for (const line of stmt.split("\n")) {
-        lines.push("  " + line);
+    for (const bodyStmt of sampleFunctions[0].bodyTexts) {
+      for (const line of bodyStmt.split("\n")) {
+        outputLines.push("  " + line);
       }
     }
 
-    lines.push("}");
-    lines.push("");
+    outputLines.push("}");
+    outputLines.push("");
   } else {
-    if (describeTexts.length > 0) {
-      for (const v of describeTexts) {
-        lines.push(v);
+    if (describeScopeTexts.length > 0) {
+      for (const scopeText of describeScopeTexts) {
+        outputLines.push(scopeText);
       }
-      lines.push("");
+      outputLines.push("");
     }
 
-    for (const fn of functions) {
-      lines.push(`async function ${fn.name}() {`);
-      for (const stmt of fn.bodyTexts) {
-        for (const line of stmt.split("\n")) {
-          lines.push("  " + line);
+    for (const sampleFunc of sampleFunctions) {
+      outputLines.push(`async function ${sampleFunc.name}() {`);
+      for (const bodyStmt of sampleFunc.bodyTexts) {
+        for (const line of bodyStmt.split("\n")) {
+          outputLines.push("  " + line);
         }
       }
-      lines.push("}");
-      lines.push("");
+      outputLines.push("}");
+      outputLines.push("");
     }
 
-    lines.push("export async function main(): Promise<void> {");
-    for (const stmt of mainPreambleTexts) {
-      for (const line of stmt.split("\n")) {
-        lines.push("  " + line);
+    outputLines.push("export async function main(): Promise<void> {");
+    for (const preambleStmt of mainPreambleTexts) {
+      for (const line of preambleStmt.split("\n")) {
+        outputLines.push("  " + line);
       }
     }
-    for (const fn of functions) {
-      lines.push(`  await ${fn.name}();`);
+    for (const sampleFunc of sampleFunctions) {
+      outputLines.push(`  await ${sampleFunc.name}();`);
     }
-    lines.push("}");
-    lines.push("");
+    outputLines.push("}");
+    outputLines.push("");
   }
 
-  lines.push("main().catch((error) => {");
-  lines.push("  console.error(error);");
-  lines.push("  process.exit(1);");
-  lines.push("});");
-  lines.push("");
+  outputLines.push("main().catch((error) => {");
+  outputLines.push("  console.error(error);");
+  outputLines.push("  process.exit(1);");
+  outputLines.push("});");
+  outputLines.push("");
 
-  return lines.join("\n");
+  return outputLines.join("\n");
 }
 
 function postProcessOutput(text: string): string {
@@ -441,40 +447,40 @@ function postProcessOutput(text: string): string {
   return result;
 }
 
-function extractSnippets(text: string, fileName?: string): Map<string, string> {
+function extractSnippets(sourceText: string, fileName?: string): Map<string, string> {
   const snippets = new Map<string, string>();
-  const lines = text.split("\n");
-  let current: { name: string; lines: string[]; lineNumber: number } | null = null;
-  const startRegex = /\/\/\s*@snippet\s+(\S+)/;
-  const endRegex = /\/\/\s*@snippet-end\s+(\S+)/;
+  const sourceLines = sourceText.split("\n");
+  let currentSnippet: { name: string; contentLines: string[]; startLine: number } | null = null;
+  const snippetStartPattern = /\/\/\s*@snippet\s+(\S+)/;
+  const snippetEndPattern = /\/\/\s*@snippet-end\s+(\S+)/;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const startMatch = line.match(startRegex);
-    const endMatch = line.match(endRegex);
+  for (let lineIndex = 0; lineIndex < sourceLines.length; lineIndex++) {
+    const line = sourceLines[lineIndex];
+    const startMatch = line.match(snippetStartPattern);
+    const endMatch = line.match(snippetEndPattern);
 
-    if (endMatch && current && endMatch[1] === current.name) {
-      snippets.set(current.name, current.lines.join("\n"));
-      current = null;
+    if (endMatch && currentSnippet && endMatch[1] === currentSnippet.name) {
+      snippets.set(currentSnippet.name, currentSnippet.contentLines.join("\n"));
+      currentSnippet = null;
     } else if (startMatch && !endMatch) {
-      if (current) {
+      if (currentSnippet) {
         throw new CompilerError(
-          `Nested snippet marker "@snippet ${startMatch[1]}" found inside "@snippet ${current.name}" (opened at line ${current.lineNumber})`,
+          `Nested snippet marker "@snippet ${startMatch[1]}" found inside "@snippet ${currentSnippet.name}" (opened at line ${currentSnippet.startLine})`,
           fileName ?? "<unknown>",
-          i + 1,
+          lineIndex + 1,
         );
       }
-      current = { name: startMatch[1], lines: [], lineNumber: i + 1 };
-    } else if (current) {
-      current.lines.push(line);
+      currentSnippet = { name: startMatch[1], contentLines: [], startLine: lineIndex + 1 };
+    } else if (currentSnippet) {
+      currentSnippet.contentLines.push(line);
     }
   }
 
-  if (current) {
+  if (currentSnippet) {
     throw new CompilerError(
-      `Unclosed snippet marker "@snippet ${current.name}" (opened at line ${current.lineNumber})`,
+      `Unclosed snippet marker "@snippet ${currentSnippet.name}" (opened at line ${currentSnippet.startLine})`,
       fileName ?? "<unknown>",
-      current.lineNumber,
+      currentSnippet.startLine,
     );
   }
 
