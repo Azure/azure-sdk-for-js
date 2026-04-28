@@ -38,7 +38,8 @@ tools:
 network:
   allowed:
     - defaults
-    - "registry.npmjs.org"
+    - node
+    - github
 
 safe-outputs:
   report-failure-as-issue: false
