@@ -158,12 +158,12 @@ function pruneAndRebuild(
       defaultDead = true;
     }
   }
-  const keepDefault = defaultName && !defaultDead;
+  const liveDefaultText = defaultName && !defaultDead ? defaultName.text : undefined;
 
   if (clause.namedBindings && ts.isNamespaceImport(clause.namedBindings)) {
     const nsSym = analyzer.getSymbol(clause.namedBindings.name);
     const nsDead = nsSym ? deadSymbols.has(nsSym) : false;
-    if (nsDead && !keepDefault) return undefined;
+    if (nsDead && !liveDefaultText) return undefined;
     const newBindings = nsDead
       ? undefined
       : ts.factory.createNamespaceImport(
@@ -173,7 +173,7 @@ function pruneAndRebuild(
       undefined,
       ts.factory.createImportClause(
         clause.isTypeOnly,
-        keepDefault ? ts.factory.createIdentifier(defaultName!.text) : undefined,
+        liveDefaultText ? ts.factory.createIdentifier(liveDefaultText) : undefined,
         newBindings,
       ),
       ts.factory.createStringLiteral(specifier),
@@ -189,7 +189,7 @@ function pruneAndRebuild(
       if (sym && referencedSymbols && !referencedSymbols.has(sym)) return false;
       return true;
     });
-    if (liveSpecifiers.length === 0 && !keepDefault) return undefined;
+    if (liveSpecifiers.length === 0 && !liveDefaultText) return undefined;
     const newBindings =
       liveSpecifiers.length > 0
         ? ts.factory.createNamedImports(liveSpecifiers.map(cloneSpecifier))
@@ -198,7 +198,7 @@ function pruneAndRebuild(
       undefined,
       ts.factory.createImportClause(
         clause.isTypeOnly,
-        keepDefault ? ts.factory.createIdentifier(defaultName!.text) : undefined,
+        liveDefaultText ? ts.factory.createIdentifier(liveDefaultText) : undefined,
         newBindings,
       ),
       ts.factory.createStringLiteral(specifier),
@@ -298,7 +298,7 @@ export function rewriteImports(
         if (!defaultDead && defaultSym && referencedSymbols && !referencedSymbols.has(defaultSym)) {
           defaultDead = true;
         }
-        const keepDefault = defaultName && !defaultDead;
+        const liveDefaultText = defaultName && !defaultDead ? defaultName.text : undefined;
         const hasNs = clause.namedBindings && ts.isNamespaceImport(clause.namedBindings);
         const nsSym = hasNs
           ? analyzer.getSymbol((clause.namedBindings as ts.NamespaceImport).name)
@@ -309,20 +309,20 @@ export function rewriteImports(
           nsDead = true;
         }
 
-        if (keepDefault && !hasNs) {
+        if (liveDefaultText && !hasNs) {
           if (sourceDefaultName !== undefined) {
             throw new CompilerError(
-              `Multiple default imports from source paths: "${sourceDefaultName}" and "${defaultName!.text}" cannot both be merged`,
+              `Multiple default imports from source paths: "${sourceDefaultName}" and "${liveDefaultText}" cannot both be merged`,
               "<import-rewriter>",
             );
           }
           // Track default for merging with named imports
-          sourceDefaultName = defaultName!.text;
+          sourceDefaultName = liveDefaultText;
           sourceDefaultIsTypeOnly = isTypeOnlyImport;
-        } else if (keepDefault || (hasNs && !nsDead)) {
+        } else if (liveDefaultText || (hasNs && !nsDead)) {
           // Namespace imports (with or without default) stay separate
-          const newDefault = keepDefault
-            ? ts.factory.createIdentifier(defaultName!.text)
+          const newDefault = liveDefaultText
+            ? ts.factory.createIdentifier(liveDefaultText)
             : undefined;
           const newBindings =
             hasNs && !nsDead
