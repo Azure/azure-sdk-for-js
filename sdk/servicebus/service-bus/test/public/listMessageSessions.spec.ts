@@ -74,7 +74,10 @@ describe("listMessageSessions", () => {
   });
 
   it("updatedAfter filters to recently updated sessions", async () => {
-    // Subtract 1 second to avoid flakiness from millisecond precision
+    // Subtract 1 second to account for clock skew between client and service.
+    // The service stamps session updates with its own clock; if the service clock
+    // is slightly behind the client, the session could appear updated "before" our
+    // filter time without this buffer.
     const beforeSend = new Date(Date.now() - 1000);
 
     // Send a message to create a session
