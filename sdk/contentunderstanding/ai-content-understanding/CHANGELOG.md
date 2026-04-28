@@ -1,10 +1,15 @@
 # Release History
 
-## 1.1.0 (2026-04-23)
+## 1.1.0 (2026-04-27)
 
 ### Features Added
 
-- Added `usage` property on `AnalysisResultPoller` to surface billing and token consumption details (`UsageDetails`) returned by the REST API.
+- Billing and token consumption details are now available after analysis operations complete. Access via `poller.operationState?.usage`.
+- The operation ID is now available on the operation state via `poller.operationState?.operationId`.
+
+### Deprecations
+
+- `poller.operationId` is deprecated. Use `poller.operationState?.operationId` instead.
 
 ## 1.0.0 (2026-02-28)
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expectTypeOf } from "vitest";
-import type { HttpClient, HttpHeaders, PipelineResponse } from "../../src/index.js";
+import type { HttpClient, PipelineResponse } from "../../src/index.js";
 import {
   createDefaultHttpClient,
   createEmptyPipeline,
@@ -18,8 +18,8 @@ describe("HttpsPipeline", function () {
       name: "test",
       sendRequest: async (request) => {
         return {
-          headers: {} as HttpHeaders,
-          status: 0 as number,
+          headers: createHttpHeaders(),
+          status: 0,
           request,
         } satisfies PipelineResponse;
       },
@@ -53,8 +53,8 @@ describe("HttpsPipeline", function () {
     it("sets and overrides request properties", async function () {
       const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
-          assert.deepEqual(request.requestOverrides?.timeout, 1);
-          assert.deepEqual(request.requestOverrides?.priority, "low");
+          assert.strictEqual(request.requestOverrides?.timeout, 1);
+          assert.strictEqual(request.requestOverrides?.priority, "low");
           const updated = {
             ...request,
             ...request.requestOverrides,
@@ -80,7 +80,8 @@ describe("HttpsPipeline", function () {
 
       const response = await pipeline.sendRequest(testHttpClient, request);
       assert.strictEqual(response.request.timeout, 1);
-      assert.strictEqual((response.request as any).priority, "low");
+      // priority is a dynamic property from requestOverrides spread
+      assert.strictEqual(response.request.requestOverrides?.["priority"], "low");
     });
   });
 });

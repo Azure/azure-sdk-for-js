@@ -52,10 +52,10 @@ async function main() {
   console.log("\nStep 1: Starting document analysis...");
   const poller = client.analyze("prebuilt-invoice", [{ url: documentUrl }]);
 
-  // Get the operation ID from the poller state
+  // Get the operation ID from the operation state
   // We need to wait for at least one poll to get the operation location
   const result = await poller.pollUntilDone();
-  const operationId = poller.operationId;
+  const operationId = poller.operationState?.operationId;
 
   if (!operationId) {
     console.error("Error: Could not extract operation ID from response");

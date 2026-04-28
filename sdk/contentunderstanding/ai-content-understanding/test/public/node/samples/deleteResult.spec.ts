@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for deleteResult.ts - Delete analysis results.
+ * Sample test for deleteResult.ts - Delete analysis results.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -41,7 +41,7 @@ describe("Sample: deleteResult", () => {
 
     // Get the operation ID
 
-    const operationId = poller.operationId;
+    const operationId = poller.operationState?.operationId;
 
     assert.ok(operationId, "Should have operation ID");
     console.log(`Operation ID: ${operationId}`);

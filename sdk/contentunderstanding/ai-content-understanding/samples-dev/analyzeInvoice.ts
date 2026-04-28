@@ -190,7 +190,7 @@ export async function main(): Promise<void> {
   //
   // For full pricing details, see:
   // https://learn.microsoft.com/azure/ai-services/content-understanding/pricing-explainer
-  const usage = poller.usage;
+  const usage = poller.operationState?.usage;
   if (usage) {
     console.log("\nUsage Details:");
     if (usage.documentPagesStandard !== undefined) {
