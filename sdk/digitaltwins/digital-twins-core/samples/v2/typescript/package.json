@@ -39,7 +39,6 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "^8.0.0",
     "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
