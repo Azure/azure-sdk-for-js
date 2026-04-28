@@ -30,7 +30,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/maps/maps-common"
+  },
   "engines": {
     "node": ">=20.0.0"
   },

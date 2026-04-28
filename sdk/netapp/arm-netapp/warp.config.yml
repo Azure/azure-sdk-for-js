@@ -14,15 +14,6 @@ exports:
   "./api/accounts": "src/api/accounts/index.ts"
   "./api/netAppResourceRegionInfos": "src/api/netAppResourceRegionInfos/index.ts"
   "./api/netAppResourceQuotaLimits": "src/api/netAppResourceQuotaLimits/index.ts"
-  "./api/activeDirectoryConfigs": "src/api/activeDirectoryConfigs/index.ts"
-  "./api/elasticBackups": "src/api/elasticBackups/index.ts"
-  "./api/elasticBackupPolicies": "src/api/elasticBackupPolicies/index.ts"
-  "./api/elasticBackupVaults": "src/api/elasticBackupVaults/index.ts"
-  "./api/elasticSnapshotPolicies": "src/api/elasticSnapshotPolicies/index.ts"
-  "./api/elasticSnapshots": "src/api/elasticSnapshots/index.ts"
-  "./api/elasticVolumes": "src/api/elasticVolumes/index.ts"
-  "./api/elasticCapacityPools": "src/api/elasticCapacityPools/index.ts"
-  "./api/elasticAccounts": "src/api/elasticAccounts/index.ts"
   "./api/caches": "src/api/caches/index.ts"
   "./api/buckets": "src/api/buckets/index.ts"
   "./api/backupVaults": "src/api/backupVaults/index.ts"
@@ -54,4 +45,3 @@ targets:
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
-    moduleType: commonjs

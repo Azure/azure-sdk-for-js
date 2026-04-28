@@ -21,7 +21,11 @@ const examplePackageGood = `{
   "author": "Microsoft Corporation",
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/eventhub/event-hubs"
+  },
   "sideEffects": false,
   "keywords": [
     "azure",
@@ -170,7 +174,11 @@ const examplePackageBad = `{
   "author": "Microsoft Corporation",
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/eventhub/event-hubs"
+  },
   "sideEffects": false,
   "keywords": [
     "azure",

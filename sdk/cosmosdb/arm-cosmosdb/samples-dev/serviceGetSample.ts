@@ -3,95 +3,66 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the status of service.
+ * This sample demonstrates how to gets the status of service.
  *
- * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBDataTransferServiceGet.json
+ * @summary gets the status of service.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBDataTransferServiceGet.json
  */
 async function dataTransferServiceGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const serviceName = "DataTransfer";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.service.get(
-    resourceGroupName,
-    accountName,
-    serviceName,
-  );
+  const result = await client.service.get("rg1", "ddb1", "DataTransfer");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the status of service.
+ * This sample demonstrates how to gets the status of service.
  *
- * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGraphAPIComputeServiceGet.json
+ * @summary gets the status of service.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGraphAPIComputeServiceGet.json
  */
-async function graphApiComputeServiceGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const serviceName = "GraphAPICompute";
+async function graphAPIComputeServiceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.service.get(
-    resourceGroupName,
-    accountName,
-    serviceName,
-  );
+  const result = await client.service.get("rg1", "ddb1", "GraphAPICompute");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the status of service.
+ * This sample demonstrates how to gets the status of service.
  *
- * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
+ * @summary gets the status of service.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBMaterializedViewsBuilderServiceGet.json
  */
 async function materializedViewsBuilderServiceGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const serviceName = "MaterializedViewsBuilder";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.service.get(
-    resourceGroupName,
-    accountName,
-    serviceName,
-  );
+  const result = await client.service.get("rg1", "ddb1", "MaterializedViewsBuilder");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the status of service.
+ * This sample demonstrates how to gets the status of service.
  *
- * @summary Gets the status of service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
+ * @summary gets the status of service.
+ * x-ms-original-file: 2025-11-01-preview/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceGet.json
  */
 async function sqlDedicatedGatewayServiceGet(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const serviceName = "SqlDedicatedGateway";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.service.get(
-    resourceGroupName,
-    accountName,
-    serviceName,
-  );
+  const result = await client.service.get("rg1", "ddb1", "SqlDedicatedGateway");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await dataTransferServiceGet();
-  await graphApiComputeServiceGet();
+  await graphAPIComputeServiceGet();
   await materializedViewsBuilderServiceGet();
   await sqlDedicatedGatewayServiceGet();
 }

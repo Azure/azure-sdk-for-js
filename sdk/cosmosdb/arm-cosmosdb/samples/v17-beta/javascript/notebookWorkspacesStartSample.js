@@ -3,31 +3,22 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Starts the notebook workspace
+ * This sample demonstrates how to starts the notebook workspace
  *
- * @summary Starts the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBNotebookWorkspaceStart.json
+ * @summary starts the notebook workspace
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBNotebookWorkspaceStart.json
  */
-async function cosmosDbNotebookWorkspaceStart() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const notebookWorkspaceName = "default";
+async function cosmosDBNotebookWorkspaceStart() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.notebookWorkspaces.beginStartAndWait(
-    resourceGroupName,
-    accountName,
-    notebookWorkspaceName,
-  );
-  console.log(result);
+  await client.notebookWorkspaces.start("rg1", "ddb1", "default");
 }
 
 async function main() {
-  await cosmosDbNotebookWorkspaceStart();
+  await cosmosDBNotebookWorkspaceStart();
 }
 
 main().catch(console.error);

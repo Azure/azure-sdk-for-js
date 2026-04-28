@@ -43,7 +43,11 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/guestconfiguration/arm-guestconfiguration"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -79,7 +83,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

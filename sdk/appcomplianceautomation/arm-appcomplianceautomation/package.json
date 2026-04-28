@@ -44,7 +44,11 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/appcomplianceautomation/arm-appcomplianceautomation"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -80,7 +84,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcomplianceautomation/arm-appcomplianceautomation",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcomplianceautomation/arm-appcomplianceautomation/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

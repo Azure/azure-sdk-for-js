@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { post, list, $delete, put, get } from "./operations.js";
+export { prepare, post, list, $delete, put, get } from "./operations.js";
 export type {
+  UpdatesPrepareOptionalParams,
   UpdatesPostOptionalParams,
   UpdatesListOptionalParams,
   UpdatesDeleteOptionalParams,
