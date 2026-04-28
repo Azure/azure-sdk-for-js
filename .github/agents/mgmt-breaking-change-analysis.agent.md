@@ -23,7 +23,8 @@ Workflow extracted from guidelines:
 - Phase 2: Read Breaking Changes from CHANGELOG
 - Phase 3: Investigate Root Causes (model-level first, signatures last; cascade detection)
 - Phase 4: Pattern Matching (Type 2 entries against approved patterns)
-- Phase 5: Verify Counts and Build Report
+- Phase 5: Self-Review Checklist (root cause depth and cascade completeness)
+- Phase 6: Verify Counts and Build Report
 ```
 
 **If this step is skipped, the entire analysis is INVALID and must be redone.**
@@ -50,7 +51,12 @@ These phases are the **control flow** for every analysis. The full procedural de
 
 4. **Phase 4: Pattern Matching** (mandatory, see below)
 
-5. **Phase 5: Verification and Report**
+5. **Phase 5: Self-Review Checklist** (mandatory gate before report)
+   - Verify every "new signature" root cause is structural, not surface-level
+   - Verify cascade was checked with full type-chain walk before any emitter/cosmetic classification
+   - Verify all row references are valid
+
+6. **Phase 6: Verification and Report**
    - Verify all entries accounted for (Type 1 + Type 2 = total)
    - Verify cascade classifications
    - Build report
@@ -73,7 +79,6 @@ For **every** "new signature" or model-level entry, you MUST perform and explici
 1. Check direct parameter changes (added, removed, type changed, reordered)
 2. Check options property changes (added, removed, type changed, optionality changed)
 3. Perform cascade detection: walk the type dependency graph and check each referenced type against `broken_models`
-4. Only if checks 1-3 find nothing: attribute to emitter/cosmetic differences
 
 **Warning**: Naming changes alone are NOT breaking causes. If a type was renamed (e.g., `XxxResponse` -> `XxxModel`) but the structure is identical, that is not what caused "a new signature" -- dig deeper into the checks above.
 
@@ -101,7 +106,16 @@ Your output MUST include results from every phase. If any is missing, redo the a
 - Per-entry classification with root cause and layer evidence (Phase 3)
 - Cascade checklist for each "new signature" entry (see Cascade Detection Checklist)
 - Pattern matching results for Type 2 entries (see Mandatory Pattern Matching Step)
-- Verification totals: Type 1 + Type 2 = total (Phase 5)
+- Self-review checklist results (Phase 5)
+- Verification totals: Type 1 + Type 2 = total (Phase 6)
+
+### Hard Failure Conditions
+
+The report is **INVALID** and must be redone if any of these are true:
+
+1. **Pattern numbers in report**: Any occurrence of `Pattern N`, `pattern N`, or `approved pattern N` in the final report output
+2. **Cosmetic description as root cause**: Any entry whose root cause is a cosmetic description (function→arrow, response wrapper removal, options rename). These are never root causes -- they are observations about emitter rendering differences.
+3. **Missing investigation evidence**: Any "new signature" entry marked as "no structural cause found" without explicitly recorded results for all three checks (direct params, options properties, cascade detection with types walked)
 
 ## Scope
 

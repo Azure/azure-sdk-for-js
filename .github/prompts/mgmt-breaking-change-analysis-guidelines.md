@@ -142,7 +142,7 @@ After gathering all four layers, each breaking change is classified by which lay
 - **Layer B != Layer C** -> **Type 2a: TypeSpec Conversion** (TypeSpec models the same API differently than the original swagger)
 - **Layer B == Layer C but Layer D differs** -> **Type 2b: Emitter Artifact** (same swagger, but TypeSpec emitter generates different TS code than AutoRest)
 
-**Multi-service classification**: For multi-service packages, classification is **per-service**. A breaking change in a Gallery type is classified by comparing the Gallery service's old vs new swagger -- not the Compute service's swagger. To classify a breaking change:
+**Multi-service classification**: For multi-service packages, classification is **per-service**. To classify a breaking change:
 1. Determine which service owns the affected type or operation (from the swagger file or TypeSpec namespace it belongs to)
 2. Check that service's version status (same, upgraded, or removed) from the per-service version map
 3. If the service version is the same -> the breaking is Type 2 only
@@ -303,14 +303,13 @@ For "Operation DatabaseAccounts.get has a new signature":
   3. Classify as: "Cascading from row 36 (via BackupPolicyUnion)"
 ```
 
-#### Cause 4: Emitter-level differences (only if no structural cause found)
+#### Phrases That Are Never Root Causes
 
-Only after ruling out Causes 1-3, attribute the signature change to emitter differences:
-- Method syntax change (function to arrow property)
-- Response wrapper type alias removal (when inner model is structurally identical)
-- Options interface renaming (when properties are identical)
+The following describe **presentation differences**, not root causes. If you find yourself writing one of these as a root cause, **stop and dig deeper** -- there is always a real structural cause underneath:
 
-These are cosmetic -- note them as such in the report.
+- "function to arrow property" / "method syntax change"
+- "response wrapper removal" / "response type alias removed"
+- "options interface renamed"
 
 ### Step 3: Trace Through Swagger/TypeSpec Layers
 
@@ -365,17 +364,43 @@ After sub-agents return, review for consistency and link cascading entries.
 
 After root cause classification is complete, match Type 2 entries against architect-approved patterns. Type 1 entries (API version upgrades) are not covered by the patterns file.
 
-- For each Type 2 root cause, compare against the numbered patterns in [mgmt-breaking-change-patterns.md](mgmt-breaking-change-patterns.md)
-- For each Type 2 entry, explicitly state one of:
-  - "Matches pattern N: [pattern name]" (if exact match)
-  - "No match in approved patterns" (if no exact match)
+- For each Type 2 root cause, compare against the patterns in [mgmt-breaking-change-patterns.md](mgmt-breaking-change-patterns.md)
+- Track pattern matches **internally only** -- pattern numbers are implementation details, never surface them in the report
+- For each Type 2 entry, determine one of:
+  - **Matches an approved pattern** -> pre-fill Accepted with `:white_check_mark:` (describe the pattern in plain language in the root cause, e.g., "Options interface renamed from XxxOptionalParams to XxxOptions")
+  - **No match in approved patterns** -> leave Accepted empty for user review
 - For Accepted column rules, see the Type 2 section in the Report Template below
 
 Do NOT consult patterns before completing independent investigation in Phase 3.
 
 ---
 
-## Phase 5: Verify Counts and Build Report
+## Phase 5: Self-Review Checklist (Mandatory)
+
+Before building the report, the agent MUST execute this self-review checklist. **If any check fails, go back and fix the classification before proceeding.**
+
+### Check 1: No Cosmetic Descriptions as Root Causes
+
+For every entry, verify the root cause is a **structural cause**, not a cosmetic observation:
+
+- [ ] Does any entry use one of these as its root cause? If yes, it is **INVALID** -- these are never root causes:
+  - "function to arrow property" / "method syntax change"
+  - "response wrapper removal" / "response type alias removed"
+  - "options interface renamed"
+- [ ] Does every root cause explain **what structurally changed** (e.g., which model property was removed/changed, which discriminator type changed, which parameter was added/removed)?
+
+### Check 2: Cascade Completeness
+
+For every "new signature" entry marked as "no structural cause found":
+
+- [ ] Did I resolve all response type aliases to their underlying models?
+- [ ] Did I walk nested type references (up to depth 3) checking against `broken_models`?
+- [ ] Did I explicitly record what cascade chain was checked and found clean?
+- [ ] If cascade was ruled out, can I name every type in the chain that was verified?
+
+---
+
+## Phase 6: Verify Counts and Build Report
 
 Before building the report, verify:
 - All CHANGELOG entries are accounted for (Type 1 count + Type 2 count = total)
@@ -498,15 +523,16 @@ Root Cause column rules:
 - **Cascading entries**: write `Cascading from row N: <brief explanation>` linking to the upstream entry
 - **Multi-cause "new signature" entries**: list all causes numbered, e.g., "(1) ... (2) ...". Each cause may be independent or cascading.
 - If a "new signature" entry has causes spanning both Type 1 and Type 2, place it in the table of the primary cause and note the secondary cause (e.g., "Also has Type 2b cause: emitter unwraps return type.")
-- Keep root causes in **plain language** -- no internal pattern codes. Do NOT write specifc pattern numbers like "Pattern 5" in the report output. Instead, describe the root cause descriptively: "Intersection type alias converted to interface", "List wrapper removed; paging uses PagedAsyncIterableIterator directly", etc. The reviewer has no context about internal pattern numbers.
+- Keep root causes in **plain language** -- no internal pattern codes or numbers.
 
 ### Type 2: TypeSpec / Emitter Migration
 
 Type 2 uses two sections: a **summary table** (one row per unique root cause, grouping items with the same cause) and a **detailed list** (one entry per CHANGELOG item with full root cause explanation).
 
 **Accepted column rules:**
-- Pre-fill with `:white_check_mark:` **only** when the root cause **exactly matches** a numbered pattern in [mgmt-breaking-change-patterns.md](mgmt-breaking-change-patterns.md). The match must be specific -- the pattern must explicitly cover the type of breaking being reported.
-- If the root cause is NOT explicitly listed in the patterns file, leave **empty** for the user to review. Do NOT infer approval from similar or related patterns (e.g., pattern 9 covers client *options property* changes, not the deletion of the entire client class).
+- Pre-fill with `:white_check_mark:` **only** when the root cause **exactly matches** an approved pattern in [mgmt-breaking-change-patterns.md](mgmt-breaking-change-patterns.md). The match must be specific -- the pattern must explicitly cover the type of breaking being reported.
+- If the root cause is NOT explicitly listed in the patterns file, leave **empty** for the user to review. Do NOT infer approval from similar or related patterns (e.g., the pattern for client *options property* changes does not cover deletion of the entire client class).
+- **No pattern numbers in the report.** Pattern numbers are internal tracking details. Always use plain-language descriptions (e.g., "Options interface renamed from XxxOptionalParams to XxxOptions", not "Pattern 5").
 
 #### Summary Table
 
@@ -546,8 +572,8 @@ One entry per CHANGELOG item. **Every individual entry must be listed** -- do no
 5. `Parameter state of interface GeoBackupPolicy is now optional` -- Conversion
    > Required in both old and new swagger, but TypeSpec models it as optional.
 
-6. `Operation DistributedAvailabilityGroups.get has a new signature` -- Emitter :white_check_mark:
-   > (1) Response wrapper removed (same as row 3). (2) Cascading from row 5: optionality change on inner model `GeoBackupPolicy` affects the operation signature.
+6. `Operation DistributedAvailabilityGroups.get has a new signature` -- Conversion
+   > Cascading from row 5: return type contains `GeoBackupPolicy` (via `DistributedAvailabilityGroup.geoBackupPolicy`), and `GeoBackupPolicy.state` optionality changed.
 ```
 
 Format rules for the detailed list:
