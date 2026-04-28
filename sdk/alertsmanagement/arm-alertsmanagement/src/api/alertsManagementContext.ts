@@ -3,22 +3,19 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
-import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
-export interface UsageManagementContext extends Client {
-  /** The ID of the target subscription. The value must be an UUID. */
-  subscriptionId: string;
+/** Azure Alerts Management Service provides a single pane of glass of alerts across Azure Monitor. */
+export interface AlertsManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Optional parameters for the client. */
-export interface UsageManagementClientOptionalParams extends ClientOptions {
+export interface AlertsManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -26,15 +23,15 @@ export interface UsageManagementClientOptionalParams extends ClientOptions {
   cloudSetting?: AzureSupportedClouds;
 }
 
-export function createUsageManagement(
+/** Azure Alerts Management Service provides a single pane of glass of alerts across Azure Monitor. */
+export function createAlertsManagement(
   credential: TokenCredential,
-  subscriptionId: string,
-  options: UsageManagementClientOptionalParams = {},
-): UsageManagementContext {
+  options: AlertsManagementClientOptionalParams = {},
+): AlertsManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-commerce/4.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-arm-alertsmanagement/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -46,5 +43,5 @@ export function createUsageManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as UsageManagementContext;
+  return { ...clientContext, apiVersion } as AlertsManagementContext;
 }
