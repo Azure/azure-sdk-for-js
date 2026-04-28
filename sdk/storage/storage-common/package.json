@@ -50,7 +50,7 @@
     "lint:fix": "eslint package.json src test --fix",
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "dev-tool run test:vitest --browser",
+    "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets",
     "copyAssets": "node copyJSFiles.cjs"

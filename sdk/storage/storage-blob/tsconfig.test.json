@@ -1,0 +1,15 @@
+{
+  "references": [
+    {
+      "path": "./config/tsconfig.test.node.json"
+    },
+    {
+      "path": "./tsconfig.browser.config.json"
+    }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "allowJs": true
+  },
+  "files": []
+}
