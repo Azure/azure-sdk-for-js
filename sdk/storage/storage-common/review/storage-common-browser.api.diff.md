@@ -7,7 +7,17 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -15,9 +15,9 @@
+@@ -6,8 +6,9 @@
+ 
+ import type { CompatResponse } from '@azure/core-http-compat';
+ import type { HttpClient } from '@azure/core-rest-pipeline';
+ import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
++import type { NodeBuffer } from '@azure/core-rest-pipeline';
+ import type { NodeReadableStream } from '@azure/core-rest-pipeline';
+ import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+ import { RequestBodyType } from '@azure/core-rest-pipeline';
+ import type { RequestPolicy } from '@azure/core-http-compat';
+@@ -16,9 +17,9 @@
  import type { RestError } from '@azure/core-rest-pipeline';
  import type { WebResourceLike } from '@azure/core-http-compat';
  
@@ -18,7 +28,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -36,18 +36,17 @@
+@@ -37,18 +38,17 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -40,16 +50,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export abstract class CredentialPolicy extends BaseRequestPolicy {
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -63,16 +62,8 @@
- // @public
- export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
+@@ -69,11 +69,8 @@
+     destroy(error?: Error): NodeJSReadableStream;
+ };
  
  // @public
--export interface NodeJSReadableStream extends NodeJS.ReadableStream {
--    destroy(error?: Error): this;
--}
--
--// @public
 -export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 -
 -// @public
@@ -57,7 +62,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -144,74 +135,65 @@
+@@ -145,58 +142,40 @@
      FIXED = 1
  }
  
@@ -89,8 +94,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
 -    // (undocumented)
-     accountKey: Buffer;
+-    accountKey: Buffer;
 -    // (undocumented)
++    accountKey: NodeBuffer;
      accountName: string;
  }
  
@@ -121,22 +127,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
  export interface UserDelegationKey {
--    signedDelegatedUserTenantId: string | undefined;
-+    // (undocumented)
+     signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
-+    // (undocumented)
      signedObjectId: string;
-+    // (undocumented)
-     signedService: string;
-+    // (undocumented)
-     signedStartsOn: Date;
-+    // (undocumented)
-     signedTenantId: string;
-+    // (undocumented)
-     signedVersion: string;
-+    // (undocumented)
-     value: string;
- }
+@@ -209,10 +188,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

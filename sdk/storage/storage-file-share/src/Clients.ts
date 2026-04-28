@@ -4,6 +4,8 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
+  NodeBuffer,
+  NodeReadableStream,
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
@@ -175,7 +177,7 @@ import {
   fileChangeTimeToString,
 } from "./models.js";
 import { Batch } from "./utils/Batch.js";
-import { BufferScheduler } from "./utils/BufferScheduler.js";
+import { BufferScheduler } from "#platform/utils/BufferScheduler";
 import {
   fsStat,
   fsCreateReadStream,
@@ -193,7 +195,6 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
 import type { ListFilesIncludeType } from "./generated/src/index.js";
-import type { Readable } from "node:stream";
 import {
   StorageCRC64Calculator,
   structuredMessageDecodingBrowser,
@@ -4329,7 +4330,7 @@ export class ShareFileClient extends StorageClient {
           }
 
           if (contentChecksumAlgorithm === "StorageCrc64") {
-            return structuredMessageDecodingStream(
+            return (structuredMessageDecodingStream as any)(
               downloadRes.readableStreamBody!,
               {},
             ) as NodeJSReadableStream;
@@ -4952,24 +4953,26 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async uploadData(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
       if (isNodeLike) {
-        let buffer: Buffer;
-        if (data instanceof Buffer) {
-          buffer = data;
+        const B = (globalThis as any).Buffer;
+        let buffer: NodeBuffer;
+        if (B.isBuffer(data)) {
+          buffer = data as NodeBuffer;
         } else if (data instanceof ArrayBuffer) {
-          buffer = Buffer.from(data);
+          buffer = B.from(data) as NodeBuffer;
         } else {
           data = data as ArrayBufferView;
-          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+          buffer = B.from(data.buffer, data.byteOffset, data.byteLength) as NodeBuffer;
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
-          buffer.byteLength,
+          (offset: number, size: number): NodeBuffer =>
+            (buffer as Uint8Array).slice(offset, offset + size) as NodeBuffer,
+          (buffer as Uint8Array).byteLength,
           updatedOptions,
         );
       } else {
@@ -5051,7 +5054,7 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   async uploadResetableStream(
-    streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
+    streamFactory: (offset: number, count?: number) => NodeReadableStream,
     size: number,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
@@ -5156,11 +5159,11 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async downloadToBuffer(
-    buffer: Buffer,
+    buffer: NodeBuffer,
     offset?: number,
     count?: number,
     options?: FileDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -5180,21 +5183,21 @@ export class ShareFileClient extends StorageClient {
     offset?: number,
     count?: number,
     options?: FileDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   public async downloadToBuffer(
-    bufferOrOffset?: Buffer | number,
+    bufferOrOffset?: NodeBuffer | number,
     offsetOrCount?: number,
     countOrOptions?: FileDownloadToBufferOptions | number,
     optOptions: FileDownloadToBufferOptions = {},
-  ): Promise<Buffer> {
-    let buffer: Buffer | undefined = undefined;
+  ): Promise<NodeBuffer> {
+    let buffer: NodeBuffer | undefined = undefined;
     let offset: number;
     let count: number;
     let options: FileDownloadToBufferOptions = optOptions;
 
-    if (bufferOrOffset instanceof Buffer) {
-      buffer = bufferOrOffset;
+    if ((globalThis as any).Buffer?.isBuffer?.(bufferOrOffset)) {
+      buffer = bufferOrOffset as NodeBuffer;
       offset = offsetOrCount || 0;
       count = typeof countOrOptions === "number" ? countOrOptions : 0;
     } else {
@@ -5246,7 +5249,7 @@ export class ShareFileClient extends StorageClient {
 
         if (!buffer) {
           try {
-            buffer = Buffer.alloc(count);
+            buffer = (globalThis as any).Buffer.alloc(count) as NodeBuffer;
           } catch (error: any) {
             throw new Error(
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
@@ -5256,7 +5259,7 @@ export class ShareFileClient extends StorageClient {
           }
         }
 
-        if (buffer.length < count) {
+        if ((buffer as any)!.length < count) {
           throw new RangeError(
             `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
           );
@@ -5290,7 +5293,7 @@ export class ShareFileClient extends StorageClient {
           });
         }
         await batch.do();
-        return buffer;
+        return buffer!;
       },
     );
   }
@@ -5317,7 +5320,7 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async uploadStream(
-    stream: Readable,
+    stream: NodeReadableStream,
     size: number,
     bufferSize: number,
     maxBuffers: number,
@@ -5349,11 +5352,11 @@ export class ShareFileClient extends StorageClient {
         });
 
         let transferProgress: number = 0;
-        const scheduler = new BufferScheduler(
+        const scheduler = new (BufferScheduler as any)(
           stream,
           bufferSize,
           maxBuffers,
-          async (buffer: Buffer, offset?: number) => {
+          async (buffer: any, offset?: number) => {
             if (transferProgress + buffer.length > size) {
               throw new RangeError(
                 `Stream size is larger than file size ${size} bytes, uploading failed. ` +
@@ -5380,7 +5383,7 @@ export class ShareFileClient extends StorageClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((maxBuffers / 4) * 3),
         );
-        return scheduler.do();
+        return (scheduler as any).do();
       },
     );
   }

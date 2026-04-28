@@ -1,8 +1,4 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "compilerOptions": {
-    "types": ["node"],
-    "skipLibCheck": true
-  },
   "include": ["../src/index.ts"]
 }

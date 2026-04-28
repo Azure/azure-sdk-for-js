@@ -341,7 +341,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
         storageSharedKeyCredentialPolicy({
           accountName: credential.accountName,
           accountKey: (credential as any).accountKey,
-        }),
+        } as any),
         { phase: "Sign" },
       );
     }

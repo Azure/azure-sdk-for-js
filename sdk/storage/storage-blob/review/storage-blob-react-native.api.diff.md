@@ -1,4 +1,4 @@
-# API Report Diff for browser runtime
+# API Report Diff for react-native runtime
 
 This file contains only the differences from the Node.js API.
 For the complete API surface, see the corresponding -node.api.md file.
@@ -6,14 +6,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 ```diff
 ===================================================================
 --- NodeJS
-+++ browser
-@@ -12,35 +12,35 @@
- import type { CancelOnProgress } from '@azure/core-lro';
- import * as coreClient from '@azure/core-client';
++++ react-native
+@@ -14,33 +14,33 @@
  import * as coreHttpCompat from '@azure/core-http-compat';
  import * as coreRestPipeline from '@azure/core-rest-pipeline';
--import { Credential } from '@azure/storage-common';
-+import { Credential as Credential_2 } from '@azure/storage-common';
+ import { Credential } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
 -import { CredentialPolicyCreator } from '@azure/storage-common';
  import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
@@ -364,17 +361,6 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
      getBlobBatchClient(): BlobBatchClient;
-@@ -1558,9 +1407,9 @@
-     abortSignal?: AbortSignalLike;
-     conditions?: LeaseAccessConditions;
-     customerProvidedKey?: CpkInfo;
-     encryptionScope?: string;
--    range?: Range;
-+    range?: Range_2;
-     sourceAuthorization?: HttpAuthorization;
-     sourceContentCrc64?: Uint8Array;
-     sourceContentMD5?: Uint8Array;
-     sourceCustomerProvidedKey?: CpkInfo;
 @@ -1710,8 +1559,9 @@
      encryptionScope?: string;
      expiresOn?: Date;
@@ -455,13 +441,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface CorsRule {
-@@ -2181,14 +1990,12 @@
-     encryptionKey?: string;
-     encryptionKeySha256?: string;
- }
- 
--export { Credential }
-+export { Credential_2 as Credential }
+@@ -2185,10 +1994,8 @@
+ export { Credential }
  
  export { CredentialPolicy }
  
@@ -578,19 +559,6 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      date?: Date;
-@@ -2788,10 +2554,10 @@
- export type PageBlobUploadPagesResponse = WithResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>;
- 
- // @public
- export interface PageList {
--    clearRange?: Range[];
--    pageRange?: Range[];
-+    clearRange?: Range_2[];
-+    pageRange?: Range_2[];
- }
- 
- // @public
- export interface PageListInternal {
 @@ -2847,31 +2613,9 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
@@ -623,22 +591,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      P10 = "P10",
      P15 = "P15",
      P20 = "P20",
-@@ -2888,12 +2632,13 @@
- // @public
- export type PublicAccessType = "container" | "blob";
- 
- // @public
--export interface Range {
-+interface Range_2 {
-     count?: number;
-     offset: number;
- }
-+export { Range_2 as Range }
- 
- // @public
- export type RehydratePriority = "High" | "Standard";
- 
-@@ -2945,68 +2690,8 @@
+@@ -2945,68 +2689,8 @@
      start: string;
  }
  
@@ -707,7 +660,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3225,21 +2910,19 @@
+@@ -3225,21 +2909,19 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -733,7 +686,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3255,16 +2938,14 @@
+@@ -3255,16 +2937,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

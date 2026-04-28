@@ -6,6 +6,7 @@ export * from "#platform/StructuredMessageEncodingStream";
 export * from "#platform/StructuredMessageDecodingStream";
 export * from "./StorageCRC64Calculator.js";
 export { getCachedDefaultHttpClient } from "./cache.js";
+export type * from "./interfaces.js";
 
 export * from "./StorageBrowserPolicyFactory.js";
 export * from "./credentials/AnonymousCredential.js";

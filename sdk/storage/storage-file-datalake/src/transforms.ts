@@ -79,7 +79,7 @@ function mapHostUrl(url: string, hostMappings: string[][], callerMethodName: str
       break;
     }
   }
-  urlParsed.hostname = host;
+  (urlParsed as { hostname: string }).hostname = host;
   const result = urlParsed.toString();
   // don't add a trailing slash if one wasn't already present
   if (!url.endsWith("/") && result.endsWith("/")) {

@@ -1,4 +1,4 @@
-# API Report Diff for browser runtime
+# API Report Diff for react-native runtime
 
 This file contains only the differences from the Node.js API.
 For the complete API surface, see the corresponding -node.api.md file.
@@ -6,14 +6,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 ```diff
 ===================================================================
 --- NodeJS
-+++ browser
-@@ -15,11 +15,10 @@
- import type { ContainerUndeleteResponse } from '@azure/storage-blob';
- import * as coreClient from '@azure/core-client';
++++ react-native
+@@ -17,9 +17,8 @@
  import * as coreHttpCompat from '@azure/core-http-compat';
  import * as coreRestPipeline from '@azure/core-rest-pipeline';
--import { Credential } from '@azure/storage-common';
-+import { Credential as Credential_2 } from '@azure/storage-common';
+ import { Credential } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
 -import { CredentialPolicyCreator } from '@azure/storage-common';
  import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
@@ -111,13 +108,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      requestHeaders?: RequestHeaders;
      requestQueryParameters?: RequestQueryParameters;
      startsOn?: Date;
-@@ -279,14 +232,12 @@
-     encryptionKey?: string;
-     encryptionKeySha256?: string;
- }
- 
--export { Credential }
-+export { Credential_2 as Credential }
+@@ -283,10 +236,8 @@
+ export { Credential }
  
  export { CredentialPolicy }
  

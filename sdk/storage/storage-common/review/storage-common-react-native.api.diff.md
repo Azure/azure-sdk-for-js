@@ -7,7 +7,21 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -36,12 +36,10 @@
+@@ -6,11 +6,12 @@
+ 
+ import type { CompatResponse } from '@azure/core-http-compat';
+ import type { HttpClient } from '@azure/core-rest-pipeline';
+ import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
++import type { NodeBuffer } from '@azure/core-rest-pipeline';
+ import type { NodeReadableStream } from '@azure/core-rest-pipeline';
+ import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+-import { RequestBodyType } from '@azure/core-rest-pipeline';
++import type { RequestBodyType } from '@azure/core-rest-pipeline';
+ import type { RequestPolicy } from '@azure/core-http-compat';
+ import type { RequestPolicyFactory } from '@azure/core-http-compat';
+ import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+ import type { RestError } from '@azure/core-rest-pipeline';
+@@ -37,12 +38,10 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -21,16 +35,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export abstract class Credential implements RequestPolicyFactory {
-@@ -63,16 +61,8 @@
- // @public
- export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
+@@ -69,11 +68,8 @@
+     destroy(error?: Error): NodeJSReadableStream;
+ };
  
  // @public
--export interface NodeJSReadableStream extends NodeJS.ReadableStream {
--    destroy(error?: Error): this;
--}
--
--// @public
 -export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 -
 -// @public
@@ -38,7 +47,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -145,24 +135,18 @@
+@@ -146,57 +142,41 @@
  }
  
  // @public
@@ -67,10 +76,17 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -174,44 +158,43 @@
+     // (undocumented)
+-    accountKey: Buffer;
++    accountKey: NodeBuffer;
+     // (undocumented)
+     accountName: string;
+ }
  
- // @public
- export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+-// @public
+-export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
++// @public (undocumented)
++export function structuredMessageDecodingBrowser(_source: unknown): Promise<never>;
  
 -// @public
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
@@ -83,8 +99,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -}
 -
 -// @public
+-export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
 +// @public (undocumented)
- export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
++export function structuredMessageEncoding(_source: RequestBodyType, _contentLength: number): Promise<{
      body: RequestBodyType;
      encodedContentLength: number;
  }>;
@@ -96,22 +113,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
  export interface UserDelegationKey {
--    signedDelegatedUserTenantId: string | undefined;
-+    // (undocumented)
+     signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
-+    // (undocumented)
      signedObjectId: string;
-+    // (undocumented)
-     signedService: string;
-+    // (undocumented)
-     signedStartsOn: Date;
-+    // (undocumented)
-     signedTenantId: string;
-+    // (undocumented)
-     signedVersion: string;
-+    // (undocumented)
-     value: string;
- }
+@@ -209,10 +189,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

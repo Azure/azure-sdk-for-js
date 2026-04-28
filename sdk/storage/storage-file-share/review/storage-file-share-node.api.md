@@ -19,11 +19,12 @@ import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { NodeJSReadableStream } from '@azure/storage-common';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
@@ -1794,8 +1795,8 @@ export class ShareFileClient extends StorageClient {
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
-    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(buffer: NodeBuffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<NodeBuffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<NodeBuffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     exists(options?: FileExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
@@ -1822,13 +1823,13 @@ export class ShareFileClient extends StorageClient {
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
     get shareName(): string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
-    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
+    uploadData(data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
     uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
     uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
-    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
+    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
-    uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
+    uploadStream(stream: NodeReadableStream, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
     withShareSnapshot(shareSnapshot: string): ShareFileClient;
 }
 

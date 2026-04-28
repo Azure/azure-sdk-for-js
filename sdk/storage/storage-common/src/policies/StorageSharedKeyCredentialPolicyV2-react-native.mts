@@ -6,6 +6,7 @@ import type {
   PipelineResponse,
   SendRequest,
   PipelinePolicy,
+  NodeBuffer,
 } from "@azure/core-rest-pipeline";
 /**
  * The programmatic identifier of the storageSharedKeyCredentialPolicy.
@@ -17,7 +18,7 @@ export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialP
  */
 export interface StorageSharedKeyCredentialPolicyOptions {
   accountName: string;
-  accountKey: Buffer;
+  accountKey: NodeBuffer;
 }
 
 /**

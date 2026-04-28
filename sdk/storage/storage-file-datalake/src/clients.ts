@@ -3,14 +3,17 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
+import type {
+  RequestBodyType as HttpRequestBody,
+  NodeBuffer,
+  NodeReadableStream,
+} from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
-import type { Readable } from "node:stream";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { BufferScheduler } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
@@ -1507,28 +1510,29 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options -
    */
   public async upload(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
       if (isNodeLike) {
-        let buffer: Buffer;
-        if (data instanceof Buffer) {
+        const BufferCtor = (globalThis as any).Buffer;
+        let buffer: any;
+        if (BufferCtor?.isBuffer?.(data)) {
           buffer = data;
         } else if (data instanceof ArrayBuffer) {
-          buffer = Buffer.from(data);
+          buffer = BufferCtor.from(data);
         } else {
           data = data as ArrayBufferView;
-          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+          buffer = BufferCtor.from(data.buffer, data.byteOffset, data.byteLength);
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
+          (offset: number, size: number) => buffer.slice(offset, offset + size),
           buffer.length,
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data as ArrayBuffer]);
+        const browserBlob = new Blob([data] as any);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -1685,7 +1689,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options -
    */
   public async uploadStream(
-    stream: Readable,
+    stream: NodeReadableStream,
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan(
@@ -1724,11 +1728,11 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
 
         let transferProgress: number = 0;
-        const scheduler = new BufferScheduler(
+        const scheduler = new (BufferScheduler as any)(
           stream,
           options.chunkSize,
           options.maxConcurrency,
-          async (body, length, offset) => {
+          async (body: HttpRequestBody, length: number, offset: number) => {
             await this.append(body, offset!, length, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
@@ -1749,7 +1753,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((options.maxConcurrency / 4) * 3),
         );
-        await scheduler.do();
+        await (scheduler as { do(): Promise<void> }).do();
 
         return this.flush(transferProgress, {
           abortSignal: options.abortSignal,
@@ -1779,11 +1783,11 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options -
    */
   public async readToBuffer(
-    buffer: Buffer,
+    buffer: NodeBuffer,
     offset?: number,
     count?: number,
     options?: FileReadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -1803,20 +1807,20 @@ export class DataLakeFileClient extends DataLakePathClient {
     offset?: number,
     count?: number,
     options?: FileReadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   public async readToBuffer(
-    bufferOrOffset?: Buffer | number,
+    bufferOrOffset?: NodeBuffer | number,
     offsetOrCount?: number,
     countOrOptions?: FileReadToBufferOptions | number,
     optOptions: FileReadToBufferOptions = {},
-  ): Promise<Buffer> {
-    let buffer: Buffer | undefined = undefined;
+  ): Promise<NodeBuffer> {
+    let buffer: NodeBuffer | undefined = undefined;
     let offset = 0;
     let count = 0;
     let options = optOptions;
-    if (bufferOrOffset instanceof Buffer) {
-      buffer = bufferOrOffset;
+    if ((globalThis as any).Buffer?.isBuffer?.(bufferOrOffset)) {
+      buffer = bufferOrOffset as NodeBuffer;
       offset = offsetOrCount || 0;
       count = typeof countOrOptions === "number" ? countOrOptions : 0;
     } else {
@@ -1829,23 +1833,23 @@ export class DataLakeFileClient extends DataLakePathClient {
       options,
       async (updatedOptions) => {
         if (buffer) {
-          return this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
+          return (this.blockBlobClientInternal as any).downloadToBuffer(buffer, offset, count, {
             ...options,
             maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
             blockSize: options.chunkSize,
             customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
             tracingOptions: updatedOptions.tracingOptions,
             contentChecksumAlgorithm: options.contentChecksumAlgorithm,
-          });
+          }) as Promise<NodeBuffer>;
         } else {
-          return this.blockBlobClientInternal.downloadToBuffer(offset, count, {
+          return (this.blockBlobClientInternal as any).downloadToBuffer(offset, count, {
             ...options,
             maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
             blockSize: options.chunkSize,
             customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
             tracingOptions: updatedOptions.tracingOptions,
             contentChecksumAlgorithm: options.contentChecksumAlgorithm,
-          });
+          }) as Promise<NodeBuffer>;
         }
       },
     );

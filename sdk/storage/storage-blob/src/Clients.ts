@@ -3,6 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
+  NodeBuffer,
+  NodeReadableStream,
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
@@ -12,7 +14,6 @@ import { isTokenCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
-import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "#platform/BlobDownloadResponse";
 import { BlobQueryResponse } from "#platform/BlobQueryResponse";
 import type { UserDelegationKey } from "@azure/storage-common";
@@ -1366,7 +1367,7 @@ export class BlobClient extends StorageClient {
 
       return new BlobDownloadResponse(
         wrappedRes,
-        async (start: number): Promise<NodeJS.ReadableStream> => {
+        async (start: number): Promise<NodeReadableStream> => {
           const updatedDownloadOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: {
@@ -1403,7 +1404,7 @@ export class BlobClient extends StorageClient {
           ).readableStreamBody!;
 
           if (contentChecksumAlgorithm === "StorageCrc64") {
-            return structuredMessageDecodingStream(resBody, {});
+            return (structuredMessageDecodingStream as any)(resBody, {}) as NodeReadableStream;
           } else {
             return resBody;
           }
@@ -1970,7 +1971,7 @@ export class BlobClient extends StorageClient {
     offset?: number,
     count?: number,
     options?: BlobDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -1988,24 +1989,24 @@ export class BlobClient extends StorageClient {
    * @param options - BlobDownloadToBufferOptions
    */
   public async downloadToBuffer(
-    buffer: Buffer,
+    buffer: NodeBuffer,
     offset?: number,
     count?: number,
     options?: BlobDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   public async downloadToBuffer(
-    param1?: Buffer | number,
+    param1?: NodeBuffer | number,
     param2?: number,
     param3?: BlobDownloadToBufferOptions | number,
     param4: BlobDownloadToBufferOptions = {},
-  ): Promise<Buffer | undefined> {
-    let buffer: Buffer | undefined;
+  ): Promise<NodeBuffer | undefined> {
+    let buffer: NodeBuffer | undefined;
     let offset = 0;
     let count = 0;
     let options = param4;
-    if (param1 instanceof Buffer) {
-      buffer = param1;
+    if ((globalThis as any).Buffer?.isBuffer?.(param1)) {
+      buffer = param1 as NodeBuffer;
       offset = param2 || 0;
       count = typeof param3 === "number" ? param3 : 0;
     } else {
@@ -2056,7 +2057,7 @@ export class BlobClient extends StorageClient {
         // Allocate the buffer of size = count if the buffer is not provided
         if (!buffer) {
           try {
-            buffer = Buffer.alloc(count);
+            buffer = (globalThis as any).Buffer.alloc(count) as NodeBuffer;
           } catch (error: any) {
             throw new Error(
               `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
@@ -2064,7 +2065,7 @@ export class BlobClient extends StorageClient {
           }
         }
 
-        if (buffer.length < count) {
+        if ((buffer as any)!.length < count) {
           throw new RangeError(
             `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
           );
@@ -4408,24 +4409,26 @@ export class BlockBlobClient extends BlobClient {
    * @param options -
    */
   public async uploadData(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView,
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
       if (isNodeLike) {
-        let buffer: Buffer;
-        if (data instanceof Buffer) {
-          buffer = data;
+        const B = (globalThis as any).Buffer;
+        let buffer: NodeBuffer;
+        if (B.isBuffer(data)) {
+          buffer = data as NodeBuffer;
         } else if (data instanceof ArrayBuffer) {
-          buffer = Buffer.from(data);
+          buffer = B.from(data) as NodeBuffer;
         } else {
           data = data as ArrayBufferView;
-          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+          buffer = B.from(data.buffer, data.byteOffset, data.byteLength) as NodeBuffer;
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
-          buffer.byteLength,
+          (offset: number, size: number): NodeBuffer =>
+            (buffer as Uint8Array).slice(offset, offset + size) as NodeBuffer,
+          (buffer as Uint8Array).byteLength,
           updatedOptions,
         );
       } else {
@@ -4635,7 +4638,7 @@ export class BlockBlobClient extends BlobClient {
    * @returns Response data for the Blob Upload operation.
    */
   public async uploadStream(
-    stream: Readable,
+    stream: NodeReadableStream,
     bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
     maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {},
@@ -4656,11 +4659,11 @@ export class BlockBlobClient extends BlobClient {
         let transferProgress: number = 0;
         const blockList: string[] = [];
 
-        const scheduler = new BufferScheduler(
+        const scheduler = new (BufferScheduler as any)(
           stream,
           bufferSize,
           maxConcurrency,
-          async (body, length) => {
+          async (body: any, length: any) => {
             const blockID = generateBlockID(blockIDPrefix, blockNum);
             blockList.push(blockID);
             blockNum++;
@@ -4685,7 +4688,7 @@ export class BlockBlobClient extends BlobClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((maxConcurrency / 4) * 3),
         );
-        await scheduler.do();
+        await (scheduler as any).do();
 
         return assertResponse(
           await this.commitBlockList(blockList, {

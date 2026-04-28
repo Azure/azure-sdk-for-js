@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 import type { ContainerEncryptionScope, HttpRequestBody, WithResponse } from "@azure/storage-blob";
 import {
   CpkInfo,
@@ -85,7 +84,7 @@ export function escapeURLPath(url: string): string {
   path = path || "/";
 
   path = escape(path);
-  urlParsed.pathname = path;
+  (urlParsed as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -163,12 +162,14 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     let defaultEndpointsProtocol = "";
     let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
+    let accountKey: Uint8Array = new Uint8Array(0);
     let endpointSuffix = "";
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    accountKey = Uint8Array.from(atob(getValueInConnString(connectionString, "AccountKey")), (c) =>
+      c.charCodeAt(0),
+    );
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
@@ -248,7 +249,7 @@ export function appendToURLPath(url: string, name: string): string {
 
   let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.pathname = path;
+  (urlParsed as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -270,7 +271,7 @@ export function appendToURLQuery(url: string, queryParts: string): string {
     query = queryParts;
   }
 
-  urlParsed.search = query;
+  (urlParsed as { search: string }).search = query;
   return urlParsed.toString();
 }
 
@@ -304,7 +305,9 @@ export function setURLParameter(url: string, name: string, value?: string): stri
     searchPieces.push(`${encodedName}=${encodedValue}`);
   }
 
-  urlParsed.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+  (urlParsed as { search: string }).search = searchPieces.length
+    ? `?${searchPieces.join("&")}`
+    : "";
 
   return urlParsed.toString();
 }
@@ -329,7 +332,7 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  */
 export function setURLHost(url: string, host: string): string {
   const urlParsed = new URL(url);
-  urlParsed.hostname = host;
+  (urlParsed as { hostname: string }).hostname = host;
   return urlParsed.toString();
 }
 
@@ -355,7 +358,7 @@ export function getURLPath(url: string): string | undefined {
  */
 export function setURLPath(url: string, path: string): string {
   const urlParsed = new URL(url);
-  urlParsed.pathname = path;
+  (urlParsed as { pathname: string }).pathname = path;
   return urlParsed.toString();
 }
 
@@ -436,7 +439,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
  */
 export function setURLQueries(url: string, queryString: string): string {
   const urlParsed = new URL(url);
-  urlParsed.search = queryString;
+  (urlParsed as { search: string }).search = queryString;
   return urlParsed.toString();
 }
 
@@ -463,7 +466,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
+  return btoa(content);
 }
 
 /**
@@ -472,7 +475,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return atob(encodedString);
 }
 
 /**

@@ -30,15 +30,18 @@ import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+import type { MatchConditions } from '@azure/storage-blob';
+import type { ModificationConditions } from '@azure/storage-blob';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import { NodeJSReadableStream } from '@azure/storage-blob';
+import type { NodeJSReadableStream as NodeJSReadableStream_2 } from '@azure/storage-common';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import { PipelineLike } from '@azure/storage-blob';
 import { PipelineOptions } from '@azure/storage-blob';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
@@ -329,13 +332,13 @@ export class DataLakeFileClient extends DataLakePathClient {
     generateUserDelegationSasUrl(options: FileGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
-    readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
-    readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
+    readToBuffer(buffer: NodeBuffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<NodeBuffer>;
+    readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<NodeBuffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     setExpiry(mode: FileExpiryMode, options?: FileSetExpiryOptions): Promise<FileSetExpiryResponse>;
-    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
+    upload(data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
-    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
+    uploadStream(stream: NodeReadableStream, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -769,7 +772,7 @@ export interface FileReadOptions extends CommonOptions {
 // @public (undocumented)
 export type FileReadResponse = WithResponse<FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJSReadableStream;
+    readableStreamBody?: NodeJSReadableStream_2;
 }, FileReadHeaders>;
 
 // @public
@@ -1231,7 +1234,7 @@ export interface Metadata {
 }
 
 // @public (undocumented)
-export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
+export type ModifiedAccessConditions = MatchConditions & ModificationConditions;
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;

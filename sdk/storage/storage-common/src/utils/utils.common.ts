@@ -5,7 +5,6 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 
 import {
   DevelopmentConnectionString,
@@ -91,7 +90,7 @@ export function escapeURLPath(url: string): string {
   path = path || "/";
 
   path = escape(path);
-  urlParsed.pathname = path;
+  (urlParsed as unknown as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -169,12 +168,14 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     let defaultEndpointsProtocol = "";
     let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
+    let accountKey: Uint8Array = Uint8Array.from(atob("accountKey"), (c) => c.charCodeAt(0));
     let endpointSuffix = "";
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    accountKey = Uint8Array.from(atob(getValueInConnString(connectionString, "AccountKey")), (c) =>
+      c.charCodeAt(0),
+    );
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
@@ -258,7 +259,7 @@ export function appendToURLPath(url: string, name: string): string {
 
   let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.pathname = path;
+  (urlParsed as unknown as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -318,7 +319,7 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  */
 export function setURLHost(url: string, host: string): string {
   const urlParsed = new URL(url);
-  urlParsed.hostname = host;
+  (urlParsed as unknown as { hostname: string }).hostname = host;
   return urlParsed.toString();
 }
 
@@ -449,7 +450,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
+  return btoa(content);
 }
 
 /**
@@ -458,7 +459,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return atob(encodedString);
 }
 
 /**

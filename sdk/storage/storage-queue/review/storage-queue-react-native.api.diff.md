@@ -1,4 +1,4 @@
-# API Report Diff for browser runtime
+# API Report Diff for react-native runtime
 
 This file contains only the differences from the Node.js API.
 For the complete API surface, see the corresponding -node.api.md file.
@@ -6,14 +6,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 ```diff
 ===================================================================
 --- NodeJS
-+++ browser
-@@ -10,86 +10,34 @@
- import { AzureLogger } from '@azure/logger';
- import { BaseRequestPolicy } from '@azure/storage-common';
++++ react-native
+@@ -12,84 +12,32 @@
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
--import { Credential } from '@azure/storage-common';
-+import { Credential as Credential_2 } from '@azure/storage-common';
+ import { Credential } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
 -import { CredentialPolicyCreator } from '@azure/storage-common';
 -import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
@@ -98,13 +95,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -108,14 +56,12 @@
-     exposedHeaders: string;
-     maxAgeInSeconds: number;
- }
- 
--export { Credential }
-+export { Credential_2 as Credential }
+@@ -112,10 +60,8 @@
+ export { Credential }
  
  export { CredentialPolicy }
  

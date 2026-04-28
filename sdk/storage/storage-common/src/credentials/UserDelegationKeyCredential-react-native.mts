@@ -1,18 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * A user delegation key.
- */
-export interface UserDelegationKey {
-  signedObjectId: string;
-  signedTenantId: string;
-  signedStartsOn: Date;
-  signedExpiresOn: Date;
-  signedService: string;
-  signedVersion: string;
-  value: string;
-}
+import type { UserDelegationKey } from "./UserDelegationKey.js";
+
+export type { UserDelegationKey } from "./UserDelegationKey.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

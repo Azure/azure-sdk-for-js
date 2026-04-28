@@ -393,7 +393,7 @@ class InnerBatchRequest {
         storageSharedKeyCredentialPolicy({
           accountName: credential.accountName,
           accountKey: (credential as any).accountKey,
-        }),
+        } as any),
         { phase: "Sign" },
       );
     }

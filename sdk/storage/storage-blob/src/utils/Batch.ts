@@ -1,9 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// In browser, during webpack or browserify bundling, this module will be replaced by 'events'
-// https://github.com/Gozala/events
-import { EventEmitter } from "events";
+// Minimal EventEmitter to avoid dependency on Node's "events" module in browser builds.
+class SimpleEventEmitter {
+  private handlers: Record<string, ((...args: any[]) => void)[]> = {};
+  on(event: string, handler: (...args: any[]) => void): void {
+    if (!this.handlers[event]) this.handlers[event] = [];
+    this.handlers[event].push(handler);
+  }
+  emit(event: string, ...args: any[]): void {
+    for (const h of this.handlers[event] ?? []) h(...args);
+  }
+}
 
 /**
  * Operation is an async function to be executed and managed by Batch.
@@ -58,7 +66,7 @@ export class Batch {
   /**
    * A private emitter used to pass events inside this class.
    */
-  private emitter: EventEmitter;
+  private emitter: SimpleEventEmitter;
 
   /**
    * Creates an instance of Batch.
@@ -69,7 +77,7 @@ export class Batch {
       throw new RangeError("concurrency must be larger than 0");
     }
     this.concurrency = concurrency;
-    this.emitter = new EventEmitter();
+    this.emitter = new SimpleEventEmitter();
   }
 
   /**

@@ -61,7 +61,7 @@ export class Mutex {
   private static emitUnlockEvent(key: string) {
     if (this.listeners[key] !== undefined && this.listeners[key].length > 0) {
       const handler = this.listeners[key].shift();
-      setImmediate(() => {
+      setTimeout(() => {
         handler!.call(this);
       });
     }
