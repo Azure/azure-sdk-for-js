@@ -1,6 +1,6 @@
 # Release History
 
-## 24.0.0 (2026-04-24)
+## 24.0.0 (2026-04-28)
 
 ### Features Added
   - Added operation group VirtualMachineScaleSetLifeCycleHookEventsOperations
@@ -104,7 +104,6 @@
   - Added operation VirtualMachineScaleSetsOperations.deallocate
   - Added operation VirtualMachineScaleSetsOperations.delete
   - Added operation VirtualMachineScaleSetsOperations.deleteInstances
-  - Added operation VirtualMachineScaleSetsOperations.getOSUpgradeHistory
   - Added operation VirtualMachineScaleSetsOperations.performMaintenance
   - Added operation VirtualMachineScaleSetsOperations.powerOff
   - Added operation VirtualMachineScaleSetsOperations.reapply
@@ -201,6 +200,7 @@
   - Added Interface VirtualMachineScaleSetNetworkConfigurationProperties
   - Added Interface VirtualMachineScaleSetProperties
   - Added Interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties
+  - Added Interface VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams
   - Added Interface VirtualMachineScaleSetUpdateIPConfigurationProperties
   - Added Interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties
   - Added Interface VirtualMachineScaleSetUpdateProperties
@@ -248,7 +248,6 @@
   - Enum KnownZonalPlatformFaultDomainAlignMode has a new value BestEffortAligned
 
 ### Breaking Changes
-  - Removed operation VirtualMachineScaleSets.listOSUpgradeHistory
   - Operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait has a new signature
   - Operation DedicatedHosts.beginRedeployAndWait has a new signature
   - Operation DedicatedHosts.beginRestartAndWait has a new signature
@@ -353,6 +352,7 @@
   - Removed Interface StatusCodeCount
   - Removed Interface UpdateDomain
   - Removed Interface VirtualMachineScaleSetListOSUpgradeHistory
+  - Removed Interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams
   - Removed Type Alias AvailabilitySetSkuTypes
   - Removed Type Alias CloudServiceSlotType
   - Removed Type Alias CloudServiceUpgradeMode

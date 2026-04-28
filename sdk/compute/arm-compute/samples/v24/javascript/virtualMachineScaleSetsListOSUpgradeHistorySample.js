@@ -15,7 +15,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.virtualMachineScaleSets.getOSUpgradeHistory(
+  for await (const item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     "rgcompute",
     "aaaaaa",
   )) {
@@ -36,7 +36,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen() {
   const subscriptionId = "{subscription-id}";
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.virtualMachineScaleSets.getOSUpgradeHistory(
+  for await (const item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     "rgcompute",
     "aaaaaaaaaaaaaaaaaaaaaaaaaa",
   )) {

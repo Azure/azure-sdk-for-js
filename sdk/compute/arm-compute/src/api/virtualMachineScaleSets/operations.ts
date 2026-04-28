@@ -53,7 +53,7 @@ import type {
   VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
-  VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
+  VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsGetInstanceViewOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
@@ -742,11 +742,11 @@ export function performMaintenance(
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _getOSUpgradeHistorySend(
+export function _listOSUpgradeHistorySend(
   context: Client,
   resourceGroupName: string,
   vmScaleSetName: string,
-  options: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams = { requestOptions: {} },
+  options: VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory{?api%2Dversion}",
@@ -766,7 +766,7 @@ export function _getOSUpgradeHistorySend(
   });
 }
 
-export async function _getOSUpgradeHistoryDeserialize(
+export async function _listOSUpgradeHistoryDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_VirtualMachineScaleSetListOSUpgradeHistory> {
   const expectedStatuses = ["200"];
@@ -781,16 +781,16 @@ export async function _getOSUpgradeHistoryDeserialize(
 }
 
 /** Gets list of OS upgrades on a VM scale set instance. */
-export function getOSUpgradeHistory(
+export function listOSUpgradeHistory(
   context: Client,
   resourceGroupName: string,
   vmScaleSetName: string,
-  options: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams = { requestOptions: {} },
+  options: VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo> {
   return buildPagedAsyncIterator(
     context,
-    () => _getOSUpgradeHistorySend(context, resourceGroupName, vmScaleSetName, options),
-    _getOSUpgradeHistoryDeserialize,
+    () => _listOSUpgradeHistorySend(context, resourceGroupName, vmScaleSetName, options),
+    _listOSUpgradeHistoryDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
   );

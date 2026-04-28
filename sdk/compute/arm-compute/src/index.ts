@@ -1139,7 +1139,7 @@ export type {
   VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
-  VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
+  VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsGetInstanceViewOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
