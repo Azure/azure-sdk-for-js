@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks whether the configuration store name is available for use.
  *
  * @summary checks whether the configuration store name is available for use.
- * x-ms-original-file: 2025-06-01-preview/CheckNameAvailable.json
+ * x-ms-original-file: 2025-08-01-preview/CheckNameAvailable.json
  */
 async function configurationStoresCheckNameAvailable() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function configurationStoresCheckNameAvailable() {
  * This sample demonstrates how to checks whether the configuration store name is available for use.
  *
  * @summary checks whether the configuration store name is available for use.
- * x-ms-original-file: 2025-06-01-preview/CheckNameNotAvailable.json
+ * x-ms-original-file: 2025-08-01-preview/CheckNameNotAvailable.json
  */
 async function configurationStoresCheckNameNotAvailable() {
   const credential = new DefaultAzureCredential();

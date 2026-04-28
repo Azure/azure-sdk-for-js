@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
  *
  * @summary creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateKeyValue.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateKeyValue.json
  */
 async function keyValuesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
