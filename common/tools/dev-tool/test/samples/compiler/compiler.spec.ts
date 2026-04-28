@@ -1224,16 +1224,19 @@ import { describe, it, beforeAll, beforeEach } from "vitest";
 import { MyClient } from "../src/index.js";
 
 describe("test", () => {
+  let globalConn: string;
+  let localSetup: string;
+
   beforeAll(async () => {
-    const globalConn = "global";
+    globalConn = "global";
   });
 
   beforeEach(async () => {
-    const localSetup = "local";
+    localSetup = "local";
   });
 
   it("does stuff", async () => {
-    const x = 1;
+    console.log(globalConn, localSetup);
   });
 });
 `;
@@ -1242,8 +1245,8 @@ describe("test", () => {
     expect(result.outputText).toContain("globalConn");
     expect(result.outputText).toContain("localSetup");
     // beforeAll preamble should come before beforeEach preamble
-    const globalIdx = result.outputText.indexOf("globalConn");
-    const localIdx = result.outputText.indexOf("localSetup");
+    const globalIdx = result.outputText.indexOf("globalConn:");
+    const localIdx = result.outputText.indexOf("localSetup:");
     expect(globalIdx).toBeLessThan(localIdx);
   });
 

@@ -22,6 +22,7 @@ import { rewriteImports } from "./importRewriter.js";
 import { promoteLetToConst } from "./letConstPromoter.js";
 import { compileHelper } from "./helperCompiler.js";
 import { extractEnvVarNames } from "./envVarExtractor.js";
+import { eliminateUnusedVariables } from "./unusedVarEliminator.js";
 import type { HelperResolver } from "./helperCompiler.js";
 
 export interface CompileOptions {
@@ -320,7 +321,10 @@ export function compileSampleTest(
   const uniqueEnvVars = [...new Set(envVars)].sort();
 
   // Step 11: Post-process — strip test-only comments, normalize whitespace
-  const outputText = postProcessOutput(rawOutputText);
+  const postProcessedText = postProcessOutput(rawOutputText);
+
+  // Step 12: Eliminate unused variables (declared but never read after substitution)
+  const outputText = eliminateUnusedVariables(postProcessedText, fileName);
 
   return {
     outputText,
