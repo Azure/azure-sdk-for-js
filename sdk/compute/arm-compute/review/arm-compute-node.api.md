@@ -7155,10 +7155,6 @@ export interface VirtualMachineScaleSetsGetOptionalParams extends OperationOptio
 }
 
 // @public
-export interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface VirtualMachineScaleSetSku {
     readonly capacity?: VirtualMachineScaleSetSkuCapacity;
     readonly resourceType?: string;
@@ -7186,6 +7182,10 @@ export interface VirtualMachineScaleSetsListByLocationOptionalParams extends Ope
 
 // @public
 export interface VirtualMachineScaleSetsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -7271,10 +7271,10 @@ export interface VirtualMachineScaleSetsOperations {
     forceRecoveryServiceFabricPlatformUpdateDomainWalk: (resourceGroupName: string, vmScaleSetName: string, platformUpdateDomain: number, options?: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams) => Promise<RecoveryWalkResponse>;
     get: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOptionalParams) => Promise<VirtualMachineScaleSet>;
     getInstanceView: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams) => Promise<VirtualMachineScaleSetInstanceView>;
-    getOSUpgradeHistory: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams) => PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
     list: (resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     listAll: (options?: VirtualMachineScaleSetsListAllOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     listByLocation: (location: string, options?: VirtualMachineScaleSetsListByLocationOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+    listOSUpgradeHistory: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams) => PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
     listSkus: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
     performMaintenance: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams) => PollerLike<OperationState<void>, void>;
     powerOff: (resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsPowerOffOptionalParams) => PollerLike<OperationState<void>, void>;

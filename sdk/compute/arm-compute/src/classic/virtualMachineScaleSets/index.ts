@@ -15,7 +15,7 @@ import {
   reapply,
   powerOff,
   performMaintenance,
-  getOSUpgradeHistory,
+  listOSUpgradeHistory,
   updateInstances,
   getInstanceView,
   forceRecoveryServiceFabricPlatformUpdateDomainWalk,
@@ -43,7 +43,7 @@ import type {
   VirtualMachineScaleSetsReapplyOptionalParams,
   VirtualMachineScaleSetsPowerOffOptionalParams,
   VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
-  VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
+  VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams,
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsGetInstanceViewOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
@@ -275,10 +275,10 @@ export interface VirtualMachineScaleSetsOperations {
     options?: VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
   ) => Promise<void>;
   /** Gets list of OS upgrades on a VM scale set instance. */
-  getOSUpgradeHistory: (
+  listOSUpgradeHistory: (
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
+    options?: VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams,
   ) => PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
   /** Upgrades one or more virtual machines to the latest SKU set in the VM scale set model. */
   updateInstances: (
@@ -700,11 +700,11 @@ function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
     ) => {
       return await performMaintenance(context, resourceGroupName, vmScaleSetName, options);
     },
-    getOSUpgradeHistory: (
+    listOSUpgradeHistory: (
       resourceGroupName: string,
       vmScaleSetName: string,
-      options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams,
-    ) => getOSUpgradeHistory(context, resourceGroupName, vmScaleSetName, options),
+      options?: VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams,
+    ) => listOSUpgradeHistory(context, resourceGroupName, vmScaleSetName, options),
     updateInstances: (
       resourceGroupName: string,
       vmScaleSetName: string,

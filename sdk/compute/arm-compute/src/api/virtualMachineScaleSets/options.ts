@@ -91,7 +91,7 @@ export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends
 }
 
 /** Optional parameters. */
-export interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams extends OperationOptions {}
+export interface VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends OperationOptions {
