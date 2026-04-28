@@ -180,8 +180,11 @@ export async function compileSampleTests(
   try {
     for (const filePath of testFiles) {
       const relativePath = path.relative(testPublicPath, filePath);
-      const baseName = path.basename(relativePath, ".spec.ts") + ".ts";
-      const outputPath = path.join(stagingDir, baseName);
+      // Strip "samples/" prefix and preserve rest of directory structure:
+      // samples/node/foo.spec.ts → node/foo.ts
+      const withoutSamplesPrefix = relativePath.replace(/^samples[/\\]/, "");
+      const outputRelative = withoutSamplesPrefix.replace(/\.spec\.ts$/, ".ts");
+      const outputPath = path.join(stagingDir, outputRelative);
 
       // Detect platform from subdirectory: samples/node/ → node, samples/browser/ → browser
       const segments = relativePath.split(path.sep);
@@ -191,9 +194,10 @@ export async function compileSampleTests(
       log.info(`  Compiling: ${relativePath}${platform ? ` (${platform})` : ""}`);
 
       const sourceText = readFileSync(filePath, "utf-8");
+      // Pass absolute path so helper resolution works correctly
       const result = compileSampleTest(sourceText, {
         packageName,
-        fileName: relativePath,
+        fileName: filePath,
         resolveHelper,
         platform,
       });
@@ -212,27 +216,28 @@ export async function compileSampleTests(
       writeFileSync(outputPath, result.outputText, "utf-8");
       compiledCount++;
 
-      // Write compiled helper files to staging dir
+      // Write compiled helper files to staging dir (preserve directory structure)
       for (const [helperSpecifier, helperText] of result.helperFiles) {
-        // Resolve helper path relative to spec file's directory
-        const helperRelative = path.normalize(
+        // Resolve helper path relative to spec file's directory, then strip "samples/" prefix
+        const helperFullRelative = path.normalize(
           path.join(path.dirname(relativePath), helperSpecifier.replace(/\.js$/, ".ts")),
         );
-        const helperBaseName = path.basename(helperRelative);
-        const existingSource = writtenHelpers.get(helperBaseName);
+        const helperRelative = helperFullRelative.replace(/^samples[/\\]/, "");
+        const existingSource = writtenHelpers.get(helperRelative);
         if (existingSource !== undefined) {
           if (existingSource !== helperRelative) {
             log.warn(
-              `    Helper basename collision: "${helperBaseName}" from "${helperRelative}" ` +
+              `    Helper collision: "${helperRelative}" ` +
                 `conflicts with "${existingSource}". Skipping — rename one to avoid ambiguity.`,
             );
           }
           // Same source or collision — skip
         } else {
-          const helperOutputPath = path.join(stagingDir, helperBaseName);
+          const helperOutputPath = path.join(stagingDir, helperRelative);
+          mkdirSync(path.dirname(helperOutputPath), { recursive: true });
           writeFileSync(helperOutputPath, helperText, "utf-8");
-          writtenHelpers.set(helperBaseName, helperRelative);
-          log.info(`    Helper: ${helperBaseName}`);
+          writtenHelpers.set(helperRelative, helperRelative);
+          log.info(`    Helper: ${helperRelative}`);
         }
       }
     }
