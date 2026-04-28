@@ -9,7 +9,7 @@ import { CompilerError } from "../../../src/util/samples/compiler/types.js";
 describe("compileHelper", () => {
   // --- Basic behavior ---
 
-  it("compiles a helper with only real exports", () => {
+  it("compiles a helper with only real exports", async () => {
     const source = `
 export function createEndpoint(): string {
   return process.env.ENDPOINT || "https://example.azure.net";
@@ -17,7 +17,7 @@ export function createEndpoint(): string {
 
 export const DEFAULT_TIMEOUT = 30000;
 `;
-    const result = compileHelper(source, "@azure/test", "helpers.ts");
+    const result = await compileHelper(source, "@azure/test", "helpers.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toEqual(new Set(["createEndpoint", "DEFAULT_TIMEOUT"]));
@@ -26,7 +26,7 @@ export const DEFAULT_TIMEOUT = 30000;
     expect(result.envVars).toContain("ENDPOINT");
   });
 
-  it("detects empty helper (only test exports)", () => {
+  it("detects empty helper (only test exports)", async () => {
     const source = `
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -34,14 +34,14 @@ export function createRecorder(ctx: unknown): Recorder {
   return new Recorder(ctx);
 }
 `;
-    const result = compileHelper(source, "@azure/test", "testHelper.ts");
+    const result = await compileHelper(source, "@azure/test", "testHelper.ts");
 
     expect(result.isEmpty).toBe(true);
     expect(result.survivingExports.size).toBe(0);
     expect(result.outputText).toBe("");
   });
 
-  it("keeps mixed exports (only real ones survive)", () => {
+  it("keeps mixed exports (only real ones survive)", async () => {
     const source = `
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -53,7 +53,7 @@ export function getEndpoint(): string {
   return process.env.ENDPOINT || "";
 }
 `;
-    const result = compileHelper(source, "@azure/test", "mixed.ts");
+    const result = await compileHelper(source, "@azure/test", "mixed.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("getEndpoint");
@@ -62,7 +62,7 @@ export function getEndpoint(): string {
     expect(result.outputText).not.toContain("createRecorder");
   });
 
-  it("rewrites source code imports to package name", () => {
+  it("rewrites source code imports to package name", async () => {
     const source = `
 import { MyClient } from "../src/index.js";
 
@@ -70,14 +70,14 @@ export function createClient(): MyClient {
   return new MyClient("https://example.azure.net");
 }
 `;
-    const result = compileHelper(source, "@azure/my-pkg", "helpers.ts");
+    const result = await compileHelper(source, "@azure/my-pkg", "helpers.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.outputText).toContain('from "@azure/my-pkg"');
     expect(result.outputText).not.toContain("../src/index.js");
   });
 
-  it("removes test imports and cascades dead bindings", () => {
+  it("removes test imports and cascades dead bindings", async () => {
     const source = `
 import { assert } from "vitest";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -92,7 +92,7 @@ export function realHelper(): string {
   return "hello";
 }
 `;
-    const result = compileHelper(source, "@azure/test", "cascade.ts");
+    const result = await compileHelper(source, "@azure/test", "cascade.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("realHelper");
@@ -102,7 +102,7 @@ export function realHelper(): string {
     expect(result.outputText).not.toContain("testRecorder");
   });
 
-  it("preserves external imports used by surviving code", () => {
+  it("preserves external imports used by surviving code", async () => {
     const source = `
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -110,27 +110,27 @@ export function getCredential(): DefaultAzureCredential {
   return new DefaultAzureCredential();
 }
 `;
-    const result = compileHelper(source, "@azure/test", "auth.ts");
+    const result = await compileHelper(source, "@azure/test", "auth.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.outputText).toContain("@azure/identity");
     expect(result.outputText).toContain("DefaultAzureCredential");
   });
 
-  it("adds copyright header to non-empty output", () => {
+  it("adds copyright header to non-empty output", async () => {
     const source = `export const X = 42;\n`;
-    const result = compileHelper(source, "@azure/test", "simple.ts");
+    const result = await compileHelper(source, "@azure/test", "simple.ts");
 
     expect(result.outputText).toContain("Copyright (c) Microsoft Corporation");
     expect(result.outputText).toContain("Licensed under the MIT License");
   });
 
-  it("helper with no exports but surviving statements is not empty (side-effect module)", () => {
+  it("helper with no exports but surviving statements is not empty (side-effect module)", async () => {
     const source = `
 const x = 42;
 function internal(): number { return x; }
 `;
-    const result = compileHelper(source, "@azure/test", "noexports.ts");
+    const result = await compileHelper(source, "@azure/test", "noexports.ts");
 
     // Has surviving runtime statements → not empty (side-effect module semantics)
     expect(result.isEmpty).toBe(false);
@@ -140,10 +140,10 @@ function internal(): number { return x; }
 
   // --- Recursive helpers ---
 
-  it("resolves nested helpers recursively", () => {
+  it("resolves nested helpers recursively", async () => {
     const nestedSource = `export const NESTED_VALUE = "nested";\n`;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./nested.js") {
         return { canonicalPath: "/test/public/samples/nested.ts", sourceText: nestedSource };
       }
@@ -157,7 +157,7 @@ export function getValue(): string {
   return NESTED_VALUE;
 }
 `;
-    const result = compileHelper(source, "@azure/test", "parent.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "parent.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     expect(result.outputText).toContain("getValue");
@@ -165,13 +165,13 @@ export function getValue(): string {
     expect(result.outputText).toContain("./nested.js");
   });
 
-  it("marks bindings dead when nested helper is empty", () => {
+  it("marks bindings dead when nested helper is empty", async () => {
     const emptyNestedSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function createRecorder(): Recorder { return new Recorder(); }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./testUtils.js") {
         return {
           canonicalPath: "/test/public/samples/testUtils.ts",
@@ -193,7 +193,7 @@ export function realWork(): string {
   return "done";
 }
 `;
-    const result = compileHelper(source, "@azure/test", "parent.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "parent.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     // createRecorder is dead → setup() references it → setup() is dead
@@ -203,8 +203,8 @@ export function realWork(): string {
     expect(result.outputText).not.toContain("testUtils");
   });
 
-  it("handles circular imports gracefully", () => {
-    const resolver: HelperResolver = (fromFile, specifier) => {
+  it("handles circular imports gracefully", async () => {
+    const resolver: HelperResolver = async (fromFile, specifier) => {
       if (specifier === "./b.js" && fromFile === "a.ts") {
         return {
           canonicalPath: "/b.ts",
@@ -225,18 +225,18 @@ import { y } from "./b.js";
 export const x = 1;
 `;
     // Should not infinite loop — cycle detection kicks in
-    const result = compileHelper(source, "@azure/test", "a.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "a.ts", resolver);
     expect(result.isEmpty).toBe(false);
   });
 
   // --- Side-effect imports ---
 
-  it("handles helper with no import clause (side-effect import)", () => {
+  it("handles helper with no import clause (side-effect import)", async () => {
     const source = `
 import "dotenv/config";
 export const X = process.env.FOO || "";
 `;
-    const result = compileHelper(source, "@azure/test", "sideeffect.ts");
+    const result = await compileHelper(source, "@azure/test", "sideeffect.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.outputText).toContain("dotenv/config");
@@ -245,20 +245,20 @@ export const X = process.env.FOO || "";
 
   // --- Export forms ---
 
-  it("detects export default as surviving export", () => {
+  it("detects export default as surviving export", async () => {
     const source = `export default function main(): void { console.log("hello"); }\n`;
-    const result = compileHelper(source, "@azure/test", "defaultExport.ts");
+    const result = await compileHelper(source, "@azure/test", "defaultExport.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("default");
   });
 
-  it("detects export { x } as surviving export", () => {
+  it("detects export { x } as surviving export", async () => {
     const source = `
 function helper(): string { return "hi"; }
 export { helper };
 `;
-    const result = compileHelper(source, "@azure/test", "namedReExport.ts");
+    const result = await compileHelper(source, "@azure/test", "namedReExport.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("helper");
@@ -266,14 +266,14 @@ export { helper };
 
   // --- Transitive helper flattening ---
 
-  it("flattens 3-level deep helper chains into nestedHelpers", () => {
+  it("flattens 3-level deep helper chains into nestedHelpers", async () => {
     const cSource = `export const DEEP = "deep";\n`;
     const bSource = `
 import { DEEP } from "./c.js";
 export function getDeep(): string { return DEEP; }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./b.js") {
         return { canonicalPath: "/b.ts", sourceText: bSource };
       }
@@ -287,7 +287,7 @@ export function getDeep(): string { return DEEP; }
 import { getDeep } from "./b.js";
 export function run(): string { return getDeep(); }
 `;
-    const result = compileHelper(source, "@azure/test", "a.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "a.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     // Both b and c should be in nestedHelpers (flattened, keyed by canonical path)
@@ -298,10 +298,10 @@ export function run(): string { return getDeep(); }
 
   // --- Re-export barrel resolution (F3) ---
 
-  it("resolves named re-export barrel to nested helper", () => {
+  it("resolves named re-export barrel to nested helper", async () => {
     const childSource = `export function foo(): string { return "hello"; }\n`;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/helpers/child.ts", sourceText: childSource };
       }
@@ -309,17 +309,17 @@ export function run(): string { return getDeep(); }
     };
 
     const source = `export { foo } from "./child.js";\n`;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     expect(result.nestedHelpers.has("/helpers/child.ts")).toBe(true);
     expect(result.nestedHelpers.get("/helpers/child.ts")!.survivingExports).toContain("foo");
   });
 
-  it("resolves namespace re-export to nested helper", () => {
+  it("resolves namespace re-export to nested helper", async () => {
     const childSource = `export const A = 1;\nexport const B = 2;\n`;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/helpers/child.ts", sourceText: childSource };
       }
@@ -327,7 +327,7 @@ export function run(): string { return getDeep(); }
     };
 
     const source = `export * from "./child.js";\n`;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     expect(result.nestedHelpers.has("/helpers/child.ts")).toBe(true);
@@ -336,14 +336,14 @@ export function run(): string { return getDeep(); }
     expect(nested.survivingExports).toContain("B");
   });
 
-  it("re-export barrel with dead specifiers is pruned", () => {
+  it("re-export barrel with dead specifiers is pruned", async () => {
     const childSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function createRecorder(): Recorder { return new Recorder(); }
 export function realUtil(): string { return "real"; }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/helpers/child.ts", sourceText: childSource };
       }
@@ -352,7 +352,7 @@ export function realUtil(): string { return "real"; }
 
     // Named re-export of both a dead and live symbol
     const source = `export { createRecorder, realUtil } from "./child.js";\n`;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     // The child helper should be compiled and only have the live export
@@ -364,14 +364,14 @@ export function realUtil(): string { return "real"; }
 
   // --- Fix 1 (R5): Partial re-export barrel rewriting ---
 
-  it("rewrites partial re-export barrel to match child's surviving exports", () => {
+  it("rewrites partial re-export barrel to match child's surviving exports", async () => {
     const childSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function deadFn(): Recorder { return new Recorder(); }
 export function liveFn(): string { return "alive"; }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/helpers/child.ts", sourceText: childSource };
       }
@@ -379,7 +379,7 @@ export function liveFn(): string { return "alive"; }
     };
 
     const source = `export { deadFn, liveFn } from "./child.js";\n`;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     expect(result.outputText).toContain("liveFn");
@@ -390,14 +390,14 @@ export function liveFn(): string { return "alive"; }
     expect(result.survivingExports).not.toContain("deadFn");
   });
 
-  it("namespace re-export survives when child has partial exports", () => {
+  it("namespace re-export survives when child has partial exports", async () => {
     const childSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function deadFn(): Recorder { return new Recorder(); }
 export function liveFn(): string { return "alive"; }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/helpers/child.ts", sourceText: childSource };
       }
@@ -405,7 +405,7 @@ export function liveFn(): string { return "alive"; }
     };
 
     const source = `export * from "./child.js";\n`;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     // export * survives as-is — it only re-exports what the child actually exports
@@ -415,7 +415,7 @@ export function liveFn(): string { return "alive"; }
 
   // --- Fix 5: Tangled helper error ---
 
-  it("throws CompilerError when helper has tangled bindings", () => {
+  it("throws CompilerError when helper has tangled bindings", async () => {
     // `helper` references both `vi` (dead — test import) and `LIVE_VAL` (live — exported).
     // A single statement with both dead and live refs is "tangled".
     const source = `
@@ -423,27 +423,27 @@ import { vi } from "vitest";
 export const LIVE_VAL = 42;
 export function helper() { vi.fn(); return LIVE_VAL; }
 `;
-    expect(() => compileHelper(source, "@azure/test", "tangled.ts")).toThrow(CompilerError);
-    expect(() => compileHelper(source, "@azure/test", "tangled.ts")).toThrow(/tangled/i);
+    await expect(compileHelper(source, "@azure/test", "tangled.ts")).rejects.toThrow(CompilerError);
+    await expect(compileHelper(source, "@azure/test", "tangled.ts")).rejects.toThrow(/tangled/i);
   });
 
-  it("does NOT throw for clean helper (no tangled bindings)", () => {
+  it("does NOT throw for clean helper (no tangled bindings)", async () => {
     const source = `
 export function clean(): string {
   return "no test deps";
 }
 `;
-    const result = compileHelper(source, "@azure/test", "clean.ts");
+    const result = await compileHelper(source, "@azure/test", "clean.ts");
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("clean");
   });
 
   // --- Fix 9: Canonical path normalization ---
 
-  it("nested helper keys are canonical paths, not raw specifiers", () => {
+  it("nested helper keys are canonical paths, not raw specifiers", async () => {
     const childSource = `export const CHILD_VAL = 42;\n`;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/fake/dir/child.ts", sourceText: childSource };
       }
@@ -454,7 +454,7 @@ export function clean(): string {
 import { CHILD_VAL } from "./child.js";
 export function getValue(): number { return CHILD_VAL; }
 `;
-    const result = compileHelper(source, "@azure/test", "/fake/dir/parent.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/fake/dir/parent.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     // Key must be the canonical absolute path, NOT the raw specifier "./child.js"
@@ -464,14 +464,14 @@ export function getValue(): number { return CHILD_VAL; }
 
   // --- Destructured env vars (F5) ---
 
-  it("extracts env vars from process.env destructuring in helper", () => {
+  it("extracts env vars from process.env destructuring in helper", async () => {
     const source = `
 export function makeClient() {
   const { ENDPOINT, API_KEY } = process.env;
   return new Client(ENDPOINT, API_KEY);
 }
 `;
-    const result = compileHelper(source, "@azure/test", "envHelper.ts");
+    const result = await compileHelper(source, "@azure/test", "envHelper.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.envVars).toContain("ENDPOINT");
@@ -480,14 +480,14 @@ export function makeClient() {
 
   // --- Finding 5: Unresolved nested helper warnings ---
 
-  it("warns when nested helper cannot be resolved", () => {
-    const resolver: HelperResolver = () => undefined;
+  it("warns when nested helper cannot be resolved", async () => {
+    const resolver: HelperResolver = async () => undefined;
 
     const source = `
 import { something } from "./unknown.js";
 export function run(): string { return "ok"; }
 `;
-    const result = compileHelper(source, "@azure/test", "parent.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "parent.ts", resolver);
 
     expect(result.warnings.length).toBeGreaterThan(0);
     expect(result.warnings.some((w) => w.includes("unknown.js"))).toBe(true);
@@ -495,33 +495,33 @@ export function run(): string { return "ok"; }
 
   // --- Side-effect-only helper preservation (R6-F2) ---
 
-  it("keeps side-effect-only helper (no exports, has runtime code)", () => {
+  it("keeps side-effect-only helper (no exports, has runtime code)", async () => {
     const source = `globalThis.setup = true;\n`;
-    const result = compileHelper(source, "@azure/test", "setup.ts");
+    const result = await compileHelper(source, "@azure/test", "setup.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports.size).toBe(0);
     expect(result.outputText).toContain("globalThis.setup = true");
   });
 
-  it("marks helper empty when all statements eliminated", () => {
+  it("marks helper empty when all statements eliminated", async () => {
     const source = `
 import { vi } from "vitest";
 const mock = vi.fn();
 export { mock };
 `;
-    const result = compileHelper(source, "@azure/test", "allDead.ts");
+    const result = await compileHelper(source, "@azure/test", "allDead.ts");
 
     expect(result.isEmpty).toBe(true);
     expect(result.outputText).toBe("");
   });
 
-  it("keeps helper with both exports and side effects", () => {
+  it("keeps helper with both exports and side effects", async () => {
     const source = `
 globalThis.configured = true;
 export const ENDPOINT = "https://example.com";
 `;
-    const result = compileHelper(source, "@azure/test", "mixed-side-effect.ts");
+    const result = await compileHelper(source, "@azure/test", "mixed-side-effect.ts");
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("ENDPOINT");
@@ -531,13 +531,13 @@ export const ENDPOINT = "https://example.com";
 
   // --- Finding 2: Empty re-export barrel pruning ---
 
-  it("prunes named re-export when target helper is empty", () => {
+  it("prunes named re-export when target helper is empty", async () => {
     const emptyChildSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function recorder(): Recorder { return new Recorder(); }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./testOnly.js") {
         return { canonicalPath: "/helpers/testOnly.ts", sourceText: emptyChildSource };
       }
@@ -548,7 +548,7 @@ export function recorder(): Recorder { return new Recorder(); }
 export { recorder } from "./testOnly.js";
 export function realWork(): string { return "ok"; }
 `;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("realWork");
@@ -557,13 +557,13 @@ export function realWork(): string { return "ok"; }
     expect(result.outputText).toContain("export function realWork()");
   });
 
-  it("prunes namespace re-export when target helper is empty", () => {
+  it("prunes namespace re-export when target helper is empty", async () => {
     const emptyChildSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function recorder(): Recorder { return new Recorder(); }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./testOnly.js") {
         return { canonicalPath: "/helpers/testOnly.ts", sourceText: emptyChildSource };
       }
@@ -574,7 +574,7 @@ export function recorder(): Recorder { return new Recorder(); }
 export * from "./testOnly.js";
 export function realWork(): string { return "ok"; }
 `;
-    const result = compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/barrel.ts", resolver);
 
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("realWork");
@@ -584,12 +584,12 @@ export function realWork(): string { return "ok"; }
 
   // --- Fix 3 (R6-F3): Split cycle detection from memoization ---
 
-  it("same helper reached through two paths gets correct surviving exports both times", () => {
+  it("same helper reached through two paths gets correct surviving exports both times", async () => {
     const childSource = `
 export function sharedUtil(): string { return "shared"; }
 `;
 
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./child.js") {
         return { canonicalPath: "/helpers/child.ts", sourceText: childSource };
       }
@@ -601,7 +601,12 @@ export function sharedUtil(): string { return "shared"; }
 import { sharedUtil } from "./child.js";
 export function parentA(): string { return sharedUtil(); }
 `;
-    const resultA = compileHelper(parentASource, "@azure/test", "/helpers/parentA.ts", resolver);
+    const resultA = await compileHelper(
+      parentASource,
+      "@azure/test",
+      "/helpers/parentA.ts",
+      resolver,
+    );
     expect(resultA.isEmpty).toBe(false);
     expect(resultA.nestedHelpers.has("/helpers/child.ts")).toBe(true);
     expect(resultA.nestedHelpers.get("/helpers/child.ts")!.survivingExports).toContain(
@@ -610,7 +615,12 @@ export function parentA(): string { return sharedUtil(); }
 
     // Parent B re-exports from child (should also get surviving exports via cache hit)
     const parentBSource = `export { sharedUtil } from "./child.js";\n`;
-    const resultB = compileHelper(parentBSource, "@azure/test", "/helpers/parentB.ts", resolver);
+    const resultB = await compileHelper(
+      parentBSource,
+      "@azure/test",
+      "/helpers/parentB.ts",
+      resolver,
+    );
     expect(resultB.isEmpty).toBe(false);
     expect(resultB.nestedHelpers.has("/helpers/child.ts")).toBe(true);
     expect(resultB.nestedHelpers.get("/helpers/child.ts")!.survivingExports).toContain(
@@ -621,8 +631,8 @@ export function parentA(): string { return sharedUtil(); }
     expect(resultB.survivingExports).toContain("sharedUtil");
   });
 
-  it("cycle detection prevents infinite recursion", () => {
-    const resolver: HelperResolver = (_fromFile, specifier) => {
+  it("cycle detection prevents infinite recursion", async () => {
+    const resolver: HelperResolver = async (_fromFile, specifier) => {
       if (specifier === "./helperB.js") {
         return {
           canonicalPath: "/helpers/helperB.ts",
@@ -649,30 +659,30 @@ import { valueB } from "./helperB.js";
 export const valueA = 2;
 `;
     // Should complete without hanging — cycle detection breaks the loop
-    const result = compileHelper(source, "@azure/test", "/helpers/helperA.ts", resolver);
+    const result = await compileHelper(source, "@azure/test", "/helpers/helperA.ts", resolver);
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("valueA");
   });
 
   // ── F5: Type-only helpers ───────────────────────────────────────────
 
-  it("marks type-only helper as empty", () => {
+  it("marks type-only helper as empty", async () => {
     const source = `
 export type Foo = string;
 export interface Bar { x: number; }
 `;
-    const result = compileHelper(source, "@azure/test", "helper.ts");
+    const result = await compileHelper(source, "@azure/test", "helper.ts");
     expect(result.isEmpty).toBe(true);
     expect(result.survivingExports.size).toBe(0);
   });
 
-  it("helper with type exports AND runtime exports is not empty", () => {
+  it("helper with type exports AND runtime exports is not empty", async () => {
     const source = `
 export type Foo = string;
 export interface Bar { x: number; }
 export function realWork(): string { return "hello"; }
 `;
-    const result = compileHelper(source, "@azure/test", "mixed-types.ts");
+    const result = await compileHelper(source, "@azure/test", "mixed-types.ts");
     expect(result.isEmpty).toBe(false);
     expect(result.survivingExports).toContain("realWork");
   });

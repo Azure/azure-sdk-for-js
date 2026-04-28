@@ -44,7 +44,10 @@ export interface CompiledHelper {
 }
 
 /** Callback to resolve a helper import specifier to source text. */
-export type HelperResolver = (fromFile: string, specifier: string) => ResolvedHelper | undefined;
+export type HelperResolver = (
+  fromFile: string,
+  specifier: string,
+) => Promise<ResolvedHelper | undefined>;
 
 /**
  * Recursively collect all identifier names from a binding name (including destructuring).
@@ -130,14 +133,14 @@ function collectSurvivingExportsFromStatements(statements: readonly ts.Statement
  * @param recursionStack - Set of canonical paths in the current call chain (cycle detection)
  * @param helperCache - Cache of previously compiled helper results
  */
-export function compileHelper(
+export async function compileHelper(
   sourceText: string,
   packageName: string,
   fileName: string,
   resolveHelper?: HelperResolver,
   recursionStack?: Set<string>,
   helperCache?: Map<string, CompiledHelper>,
-): CompiledHelper {
+): Promise<CompiledHelper> {
   const currentStack = recursionStack ?? new Set<string>();
   const currentCache = helperCache ?? new Map<string, CompiledHelper>();
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
@@ -168,7 +171,7 @@ export function compileHelper(
     for (const ci of classified) {
       if (ci.category !== "localHelper") continue;
 
-      const resolved = resolveHelper(fileName, ci.moduleSpecifier);
+      const resolved = await resolveHelper(fileName, ci.moduleSpecifier);
       if (!resolved) {
         warnings.push(`Could not resolve nested helper "${ci.moduleSpecifier}" from "${fileName}"`);
         continue;
@@ -184,7 +187,7 @@ export function compileHelper(
       } else {
         currentStack.add(resolved.canonicalPath);
         try {
-          nested = compileHelper(
+          nested = await compileHelper(
             resolved.sourceText,
             packageName,
             resolved.canonicalPath,
@@ -236,7 +239,7 @@ export function compileHelper(
       if (!specifier.startsWith("./") && !specifier.startsWith("../")) continue;
       if (specifier.includes("/src/") || specifier.endsWith(".json")) continue;
 
-      const resolved = resolveHelper(fileName, specifier);
+      const resolved = await resolveHelper(fileName, specifier);
       if (!resolved) {
         warnings.push(
           `Could not resolve nested helper re-export "${specifier}" from "${fileName}"`,
@@ -254,7 +257,7 @@ export function compileHelper(
       } else {
         currentStack.add(resolved.canonicalPath);
         try {
-          nested = compileHelper(
+          nested = await compileHelper(
             resolved.sourceText,
             packageName,
             resolved.canonicalPath,

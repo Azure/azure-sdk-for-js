@@ -10,8 +10,7 @@
  * pipeline can consume as if it were samples-dev/.
  */
 
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdir, readFile, writeFile, access, mkdtemp, rm } from "node:fs/promises";
 import path from "node:path";
 import { tmpdir } from "node:os";
 import { findMatchingFiles } from "../findMatchingFiles.js";
@@ -120,11 +119,23 @@ export function generateSampleEnv(
 }
 
 /**
+ * Check if a file exists asynchronously.
+ */
+async function exists(filePath: string): Promise<boolean> {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Create a helper resolver that reads files relative to the importing file.
  * Resolution is constrained to paths under testPublicPath.
  */
 function createHelperResolver(testPublicPath: string): HelperResolver {
-  return (fromFile: string, specifier: string): ResolvedHelper | undefined => {
+  return async (fromFile: string, specifier: string): Promise<ResolvedHelper | undefined> => {
     // Resolve the specifier relative to the importing file's directory
     const fromDir = path.dirname(
       path.isAbsolute(fromFile) ? fromFile : path.resolve(testPublicPath, fromFile),
@@ -132,10 +143,10 @@ function createHelperResolver(testPublicPath: string): HelperResolver {
 
     // Try .ts extension (spec files import with .js, but source is .ts)
     let resolved = path.resolve(fromDir, specifier.replace(/\.js$/, ".ts"));
-    if (!existsSync(resolved)) {
+    if (!(await exists(resolved))) {
       // Try as-is
       resolved = path.resolve(fromDir, specifier);
-      if (!existsSync(resolved)) return undefined;
+      if (!(await exists(resolved))) return undefined;
     }
 
     // Constrain to test/public/ root
@@ -146,7 +157,7 @@ function createHelperResolver(testPublicPath: string): HelperResolver {
 
     return {
       canonicalPath: canonical,
-      sourceText: readFileSync(canonical, "utf-8"),
+      sourceText: await readFile(canonical, "utf-8"),
     };
   };
 }
@@ -196,9 +207,9 @@ export async function compileSampleTests(
 
       log.info(`  Compiling: ${relativePath}${platform ? ` (${platform})` : ""}`);
 
-      const sourceText = readFileSync(filePath, "utf-8");
+      const sourceText = await readFile(filePath, "utf-8");
       // Pass absolute path so helper resolution works correctly
-      const result = compileSampleTest(sourceText, {
+      const result = await compileSampleTest(sourceText, {
         packageName,
         fileName: filePath,
         resolveHelper,
@@ -215,8 +226,8 @@ export async function compileSampleTests(
         allEnvVars.add(v);
       }
 
-      mkdirSync(path.dirname(outputPath), { recursive: true });
-      writeFileSync(outputPath, result.outputText, "utf-8");
+      await mkdir(path.dirname(outputPath), { recursive: true });
+      await writeFile(outputPath, result.outputText, "utf-8");
       compiledCount++;
 
       // Write compiled helper files to staging dir (preserve directory structure)
@@ -237,8 +248,8 @@ export async function compileSampleTests(
           // Same source or collision — skip
         } else {
           const helperOutputPath = path.join(stagingDir, helperRelative);
-          mkdirSync(path.dirname(helperOutputPath), { recursive: true });
-          writeFileSync(helperOutputPath, helperText, "utf-8");
+          await mkdir(path.dirname(helperOutputPath), { recursive: true });
+          await writeFile(helperOutputPath, helperText, "utf-8");
           writtenHelpers.set(helperRelative, helperRelative);
           log.info(`    Helper: ${helperRelative}`);
         }
@@ -255,11 +266,12 @@ export async function compileSampleTests(
   let sampleEnvPath: string | undefined;
   const discoveredVars = [...allEnvVars].sort();
 
-  if (discoveredVars.length > 0 || existsSync(path.join(projectPath, "sample.env"))) {
-    const existingPath = path.join(projectPath, "sample.env");
-    const existingContent = existsSync(existingPath)
-      ? readFileSync(existingPath, "utf-8")
-      : undefined;
+  const existingEnvPath = path.join(projectPath, "sample.env");
+  if (discoveredVars.length > 0 || (await exists(existingEnvPath))) {
+    let existingContent: string | undefined;
+    if (await exists(existingEnvPath)) {
+      existingContent = await readFile(existingEnvPath, "utf-8");
+    }
 
     const { content, warnings } = generateSampleEnv(discoveredVars, existingContent);
 
@@ -268,7 +280,7 @@ export async function compileSampleTests(
     }
 
     sampleEnvPath = path.join(stagingDir, "sample.env");
-    writeFileSync(sampleEnvPath, content, "utf-8");
+    await writeFile(sampleEnvPath, content, "utf-8");
     log.info(`  Generated sample.env with ${discoveredVars.length} variable(s)`);
   }
 

@@ -48,7 +48,10 @@ export interface CompileOptions {
 /**
  * Compile a sample-test source file into publishable sample code.
  */
-export function compileSampleTest(sourceText: string, options: CompileOptions): CompiledSample {
+export async function compileSampleTest(
+  sourceText: string,
+  options: CompileOptions,
+): Promise<CompiledSample> {
   const { packageName, fileName = "<sample-test>", resolveHelper, platform } = options;
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
 
@@ -91,11 +94,11 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
 
   if (resolveHelper) {
     const visitedPaths = new Set<string>();
-    const helperCache = new Map<string, { helper: ReturnType<typeof compileHelper> }>();
+    const helperCache = new Map<string, { helper: Awaited<ReturnType<typeof compileHelper>> }>();
     for (const classifiedImport of classified) {
       if (classifiedImport.category !== "localHelper") continue;
 
-      const resolved = resolveHelper(fileName, classifiedImport.moduleSpecifier);
+      const resolved = await resolveHelper(fileName, classifiedImport.moduleSpecifier);
       if (!resolved) {
         warnings.push(
           `Could not resolve local helper "${classifiedImport.moduleSpecifier}" from "${fileName}"`,
@@ -103,14 +106,14 @@ export function compileSampleTest(sourceText: string, options: CompileOptions): 
         continue;
       }
 
-      let compiledHelper: ReturnType<typeof compileHelper>;
+      let compiledHelper: Awaited<ReturnType<typeof compileHelper>>;
       const cached = helperCache.get(resolved.canonicalPath);
       if (cached) {
         compiledHelper = cached.helper;
       } else {
         visitedPaths.add(resolved.canonicalPath);
 
-        compiledHelper = compileHelper(
+        compiledHelper = await compileHelper(
           resolved.sourceText,
           packageName,
           resolved.canonicalPath,

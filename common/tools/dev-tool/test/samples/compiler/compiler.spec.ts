@@ -23,18 +23,18 @@ describe("hello", () => {
 
 describe("compileSampleTest", () => {
   describe("minimal sample-test", () => {
-    it("rewrites source import to package name", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("rewrites source import to package name", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain('import { GreeterClient } from "@azure/greeter"');
     });
 
-    it("does not auto-inject dotenv/config import", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("does not auto-inject dotenv/config import", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).not.toContain('import "dotenv/config"');
     });
 
-    it("inlines single it-block body directly into main()", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("inlines single it-block body directly into main()", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       // Single-it: no sub-function, body is inlined into main()
       expect(result.outputText).not.toContain("async function sayHello()");
       expect(result.outputText).not.toContain("await sayHello()");
@@ -43,44 +43,44 @@ describe("compileSampleTest", () => {
       expect(result.outputText).toContain("console.log(result.message)");
     });
 
-    it("generates main().catch handler", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("generates main().catch handler", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("main().catch(");
       expect(result.outputText).toContain("console.error(error)");
       expect(result.outputText).toContain("process.exit(1)");
     });
 
-    it("includes copyright header", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("includes copyright header", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("Copyright (c) Microsoft Corporation");
       expect(result.outputText).toContain("Licensed under the MIT License");
     });
 
-    it("includes @summary comment", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("includes @summary comment", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("@summary say hello to the service");
     });
 
-    it("removes vitest imports", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("removes vitest imports", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).not.toContain("vitest");
     });
 
-    it("removes describe/it scaffolding", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("removes describe/it scaffolding", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).not.toContain("describe(");
       expect(result.outputText).not.toContain('it("');
     });
 
-    it("preserves the function body statements", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("preserves the function body statements", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("new GreeterClient");
       expect(result.outputText).toContain("client.sayHello");
       expect(result.outputText).toContain("console.log(result.message)");
     });
 
-    it("returns correct metadata", () => {
-      const result = compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
+    it("returns correct metadata", async () => {
+      const result = await compileSampleTest(minimalInput, { packageName: "@azure/greeter" });
       expect(result.metadata.summary).toBe("say hello to the service");
     });
   });
@@ -107,28 +107,28 @@ describe("listItems", () => {
 });
 `;
 
-    it("substitutes forPublishing with the published expression", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+    it("substitutes forPublishing with the published expression", async () => {
+      const result = await compileSampleTest(authInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("new DefaultAzureCredential()");
     });
 
-    it("removes test credential import", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+    it("removes test credential import", async () => {
+      const result = await compileSampleTest(authInput, { packageName: "@azure/greeter" });
       expect(result.outputText).not.toContain("createTestCredential");
     });
 
-    it("removes forPublishing import", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+    it("removes forPublishing import", async () => {
+      const result = await compileSampleTest(authInput, { packageName: "@azure/greeter" });
       expect(result.outputText).not.toContain("forPublishing");
     });
 
-    it("keeps @azure/identity import", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+    it("keeps @azure/identity import", async () => {
+      const result = await compileSampleTest(authInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("@azure/identity");
     });
 
-    it("rewrites source import to package name", () => {
-      const result = compileSampleTest(authInput, { packageName: "@azure/greeter" });
+    it("rewrites source import to package name", async () => {
+      const result = await compileSampleTest(authInput, { packageName: "@azure/greeter" });
       expect(result.outputText).toContain("@azure/greeter");
     });
   });
@@ -161,14 +161,18 @@ describe("backup", () => {
 });
 `;
 
-    it("promotes let to const inside main()", () => {
-      const result = compileSampleTest(singleItWithLet, { packageName: "@azure/keyvault-secrets" });
+    it("promotes let to const inside main()", async () => {
+      const result = await compileSampleTest(singleItWithLet, {
+        packageName: "@azure/keyvault-secrets",
+      });
       expect(result.outputText).toContain("const client: SecretClient =");
       expect(result.outputText).not.toContain("let client: SecretClient;");
     });
 
-    it("inlines body directly into main() without sub-function", () => {
-      const result = compileSampleTest(singleItWithLet, { packageName: "@azure/keyvault-secrets" });
+    it("inlines body directly into main() without sub-function", async () => {
+      const result = await compileSampleTest(singleItWithLet, {
+        packageName: "@azure/keyvault-secrets",
+      });
       expect(result.outputText).not.toContain("async function backupAndRestoreASecret()");
       expect(result.outputText).not.toContain("await backupAndRestoreASecret()");
       expect(result.outputText).toContain('await client.setSecret("mySecret", "value")');
@@ -199,15 +203,15 @@ describe("operations", () => {
 });
 `;
 
-    it("generates three named functions", () => {
-      const result = compileSampleTest(multiInput, { packageName: "@azure/my-client" });
+    it("generates three named functions", async () => {
+      const result = await compileSampleTest(multiInput, { packageName: "@azure/my-client" });
       expect(result.outputText).toContain("async function createItem()");
       expect(result.outputText).toContain("async function readItem()");
       expect(result.outputText).toContain("async function deleteItem()");
     });
 
-    it("main() calls all three functions in order", () => {
-      const result = compileSampleTest(multiInput, { packageName: "@azure/my-client" });
+    it("main() calls all three functions in order", async () => {
+      const result = await compileSampleTest(multiInput, { packageName: "@azure/my-client" });
       const mainMatch = result.outputText.match(/async function main\(\)[^}]*\{([\s\S]*?)\n\}/);
       expect(mainMatch).toBeTruthy();
       const mainBody = mainMatch![1];
@@ -267,24 +271,24 @@ describe("widget lifecycle", () => {
 });
 `;
 
-    it("keeps surviving describe variable (client)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("keeps surviving describe variable (client)", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).toContain("let client: WidgetClient");
     });
 
-    it("eliminates dead describe variable (recorder)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("eliminates dead describe variable (recorder)", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).not.toContain("let recorder");
     });
 
-    it("generates three named functions", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("generates three named functions", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).toContain("async function createAWidget()");
       expect(result.outputText).toContain("async function updateTheWidget()");
       expect(result.outputText).toContain("async function deleteTheWidget()");
     });
 
-    it("deduplicates identical it-block names", () => {
+    it("deduplicates identical it-block names", async () => {
       const dupeInput = `\
 /** @summary dupe test */
 import { Client } from "../src/index.js";
@@ -299,38 +303,38 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(dupeInput, { packageName: "@azure/client" });
+      const result = await compileSampleTest(dupeInput, { packageName: "@azure/client" });
       expect(result.outputText).toContain("async function doThing()");
       expect(result.outputText).toContain("async function doThing2()");
     });
 
-    it("includes surviving beforeEach statements in main()", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("includes surviving beforeEach statements in main()", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).toContain("new DefaultAzureCredential()");
       expect(result.outputText).toContain("process.env.ENDPOINT");
     });
 
-    it("removes test artifacts", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("removes test artifacts", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).not.toContain("Recorder");
       expect(result.outputText).not.toContain("expect(");
       // recorder references are eliminated
       expect(result.outputText).not.toMatch(/\brecorder\b/);
     });
 
-    it("removes forPublishing calls (substituted)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("removes forPublishing calls (substituted)", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).not.toContain("forPublishing");
       expect(result.outputText).not.toContain("createTestCredential");
     });
 
-    it("removes afterEach body (all dead)", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("removes afterEach body (all dead)", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.outputText).not.toContain("recorder.stop");
     });
 
-    it("extracts ENDPOINT env var", () => {
-      const result = compileSampleTest(fullInput, { packageName: "@azure/widget" });
+    it("extracts ENDPOINT env var", async () => {
+      const result = await compileSampleTest(fullInput, { packageName: "@azure/widget" });
       expect(result.envVars).toContain("ENDPOINT");
     });
   });
@@ -354,21 +358,21 @@ describe("snippets", () => {
 });
 `;
 
-    it("extracts named snippet region", () => {
-      const result = compileSampleTest(snippetInput, { packageName: "@azure/client" });
+    it("extracts named snippet region", async () => {
+      const result = await compileSampleTest(snippetInput, { packageName: "@azure/client" });
       expect(result.snippets.size).toBe(1);
       expect(result.snippets.has("MySnippet")).toBe(true);
     });
 
-    it("snippet content contains the code between markers", () => {
-      const result = compileSampleTest(snippetInput, { packageName: "@azure/client" });
+    it("snippet content contains the code between markers", async () => {
+      const result = await compileSampleTest(snippetInput, { packageName: "@azure/client" });
       const snippet = result.snippets.get("MySnippet")!;
       expect(snippet).toContain("new Client()");
       expect(snippet).toContain("doSomething()");
     });
 
-    it("snippet markers are stripped from the output text", () => {
-      const result = compileSampleTest(snippetInput, { packageName: "@azure/client" });
+    it("snippet markers are stripped from the output text", async () => {
+      const result = await compileSampleTest(snippetInput, { packageName: "@azure/client" });
       expect(result.outputText).not.toContain("// @snippet MySnippet");
       expect(result.outputText).not.toContain("// @snippet-end MySnippet");
       // But the code between markers is still present
@@ -376,7 +380,7 @@ describe("snippets", () => {
       expect(result.outputText).toContain("doSomething()");
     });
 
-    it("throws on unclosed snippet marker", () => {
+    it("throws on unclosed snippet marker", async () => {
       const input = `\
 /** @summary unclosed snippet */
 import { describe, it } from "vitest";
@@ -387,12 +391,12 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+      await expect(compileSampleTest(input, { packageName: "@azure/test" })).rejects.toThrow(
         /Unclosed snippet.*Dangling/,
       );
     });
 
-    it("throws on nested snippet markers", () => {
+    it("throws on nested snippet markers", async () => {
       const input = `\
 /** @summary nested snippet */
 import { describe, it } from "vitest";
@@ -407,7 +411,7 @@ describe("x", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/test" })).toThrow(
+      await expect(compileSampleTest(input, { packageName: "@azure/test" })).rejects.toThrow(
         /Nested snippet.*Inner.*inside.*Outer/,
       );
     });
@@ -432,8 +436,8 @@ describe("ws", () => {
 });
 `;
 
-    it("converts @ts-preserve-whitespace comments to blank lines", () => {
-      const result = compileSampleTest(whitespaceInput, { packageName: "@azure/client" });
+    it("converts @ts-preserve-whitespace comments to blank lines", async () => {
+      const result = await compileSampleTest(whitespaceInput, { packageName: "@azure/client" });
       expect(result.outputText).not.toContain("@ts-preserve-whitespace");
       // The surrounding code should still be present
       expect(result.outputText).toContain("new Client()");
@@ -460,19 +464,19 @@ describe("env", () => {
 });
 `;
 
-    it("extracts dot-notation env vars", () => {
-      const result = compileSampleTest(envInput, { packageName: "@azure/client" });
+    it("extracts dot-notation env vars", async () => {
+      const result = await compileSampleTest(envInput, { packageName: "@azure/client" });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toContain("API_KEY");
     });
 
-    it("returns env vars sorted", () => {
-      const result = compileSampleTest(envInput, { packageName: "@azure/client" });
+    it("returns env vars sorted", async () => {
+      const result = await compileSampleTest(envInput, { packageName: "@azure/client" });
       const sorted = [...result.envVars].sort();
       expect(result.envVars).toEqual(sorted);
     });
 
-    it("extracts single-quoted bracket-notation env vars", () => {
+    it("extracts single-quoted bracket-notation env vars", async () => {
       const input = `\
 /** @summary env test */
 import { Client } from "../src/index.js";
@@ -485,11 +489,11 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.envVars).toContain("MY_VAR");
     });
 
-    it("extracts env vars from process.env destructuring", () => {
+    it("extracts env vars from process.env destructuring", async () => {
       const input = `\
 /** @summary destructure env test */
 import { Client } from "../src/index.js";
@@ -502,12 +506,12 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toContain("API_KEY");
     });
 
-    it("extracts both dot-access and destructured env vars", () => {
+    it("extracts both dot-access and destructured env vars", async () => {
       const input = `\
 /** @summary mixed env test */
 import { Client } from "../src/index.js";
@@ -521,13 +525,13 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.envVars).toContain("URL");
       expect(result.envVars).toContain("KEY");
       expect(result.envVars).toHaveLength(2);
     });
 
-    it("extracts env var name from aliased destructuring", () => {
+    it("extracts env var name from aliased destructuring", async () => {
       const input = `\
 /** @summary aliased destructure test */
 import { Client } from "../src/index.js";
@@ -540,12 +544,12 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toHaveLength(1);
     });
 
-    it("extracts env var name from destructuring with default", () => {
+    it("extracts env var name from destructuring with default", async () => {
       const input = `\
 /** @summary default destructure test */
 import { Client } from "../src/index.js";
@@ -558,7 +562,7 @@ describe("env", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.envVars).toContain("ENDPOINT");
       expect(result.envVars).toContain("API_KEY");
       expect(result.envVars).toHaveLength(2);
@@ -568,7 +572,7 @@ describe("env", () => {
   // ── Test 7: Error cases ─────────────────────────────────────────
 
   describe("error cases", () => {
-    it("throws CompilerError when description is missing", () => {
+    it("throws CompilerError when description is missing", async () => {
       const noSummary = `\
 import { describe, it } from "vitest";
 
@@ -578,12 +582,12 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(noSummary, { packageName: "@azure/client" })).toThrow(
+      await expect(compileSampleTest(noSummary, { packageName: "@azure/client" })).rejects.toThrow(
         CompilerError,
       );
     });
 
-    it("accepts plain JSDoc description without @summary tag", () => {
+    it("accepts plain JSDoc description without @summary tag", async () => {
       const plainDescription = `\
 /** Demonstrates how to say hello without @summary. */
 import { describe, it } from "vitest";
@@ -594,14 +598,14 @@ describe("hello", () => {
   });
 });
 `;
-      const result = compileSampleTest(plainDescription, { packageName: "@azure/client" });
+      const result = await compileSampleTest(plainDescription, { packageName: "@azure/client" });
       expect(result.metadata.summary).toBe("Demonstrates how to say hello without @summary.");
       expect(result.outputText).toContain(
         "@summary Demonstrates how to say hello without @summary.",
       );
     });
 
-    it("browser platform auto-sets skipJavascript", () => {
+    it("browser platform auto-sets skipJavascript", async () => {
       const browserSample = `\
 /** Demonstrates browser-specific usage. */
 import { describe, it } from "vitest";
@@ -613,7 +617,7 @@ describe("browser", () => {
   });
 });
 `;
-      const result = compileSampleTest(browserSample, {
+      const result = await compileSampleTest(browserSample, {
         packageName: "@azure/client",
         platform: "browser",
       });
@@ -621,7 +625,7 @@ describe("browser", () => {
       expect(result.outputText).toContain("@azsdk-skip-javascript");
     });
 
-    it("node platform does not set skipJavascript", () => {
+    it("node platform does not set skipJavascript", async () => {
       const nodeSample = `\
 /** Demonstrates Node.js-specific usage. */
 import { describe, it } from "vitest";
@@ -632,7 +636,7 @@ describe("node", () => {
   });
 });
 `;
-      const result = compileSampleTest(nodeSample, {
+      const result = await compileSampleTest(nodeSample, {
         packageName: "@azure/client",
         platform: "node",
       });
@@ -640,7 +644,7 @@ describe("node", () => {
       expect(result.outputText).not.toContain("@azsdk-skip-javascript");
     });
 
-    it("eliminates ctx.skip() and other callback-parameter usages from it() blocks", () => {
+    it("eliminates ctx.skip() and other callback-parameter usages from it() blocks", async () => {
       const sample = `\
 /** Demonstrates conditional test logic. */
 import { describe, it } from "vitest";
@@ -652,13 +656,13 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(sample, { packageName: "@azure/client" });
+      const result = await compileSampleTest(sample, { packageName: "@azure/client" });
       expect(result.outputText).not.toContain("ctx");
       expect(result.outputText).not.toContain("skip");
       expect(result.outputText).toContain("console.log");
     });
 
-    it("eliminates ctx usages from beforeEach hooks in published output", () => {
+    it("eliminates ctx usages from beforeEach hooks in published output", async () => {
       const sample = `\
 /** Demonstrates setup logging. */
 import { describe, it, beforeEach } from "vitest";
@@ -674,13 +678,13 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(sample, { packageName: "@azure/client" });
+      const result = await compileSampleTest(sample, { packageName: "@azure/client" });
       expect(result.outputText).not.toContain("ctx");
       expect(result.outputText).not.toContain("onTestFailed");
       expect(result.outputText).toContain('console.log("setup")');
     });
 
-    it("throws CompilerError for block-bodied arrow in forPublishing", () => {
+    it("throws CompilerError for block-bodied arrow in forPublishing", async () => {
       const blockBody = `\
 /** @summary test */
 import { forPublishing } from "@azure-tools/test-publishing";
@@ -693,7 +697,7 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(blockBody, { packageName: "@azure/client" })).toThrow(
+      await expect(compileSampleTest(blockBody, { packageName: "@azure/client" })).rejects.toThrow(
         CompilerError,
       );
     });
@@ -702,7 +706,7 @@ describe("test", () => {
   // ── Test 8: Metadata tags ─────────────────────────────────────────
 
   describe("metadata tags", () => {
-    it("emits @azsdk-weight when present", () => {
+    it("emits @azsdk-weight when present", async () => {
       const input = `\
 /**
  * @summary weighted sample
@@ -717,11 +721,11 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = await compileSampleTest(input, { packageName: "@azure/foo" });
       expect(result.outputText).toContain("@azsdk-weight 40");
     });
 
-    it("emits @azsdk-skip-javascript when present", () => {
+    it("emits @azsdk-skip-javascript when present", async () => {
       const input = `\
 /**
  * @summary skip js
@@ -736,7 +740,7 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = await compileSampleTest(input, { packageName: "@azure/foo" });
       expect(result.outputText).toContain("@azsdk-skip-javascript");
     });
   });
@@ -744,7 +748,7 @@ describe("test", () => {
   // ── Test 7b: forPublishing dead-binding validation ───────────────────
 
   describe("forPublishing dead-binding validation", () => {
-    it("compiles when forPublishing expression references surviving bindings", () => {
+    it("compiles when forPublishing expression references surviving bindings", async () => {
       const input = `\
 /** @summary test surviving refs */
 import { Client } from "../src/index.js";
@@ -761,11 +765,11 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("new DefaultAzureCredential()");
     });
 
-    it("throws CompilerError when forPublishing expression references a dead binding", () => {
+    it("throws CompilerError when forPublishing expression references a dead binding", async () => {
       const input = `\
 /** @summary test dead ref */
 import { Client } from "../src/index.js";
@@ -780,15 +784,15 @@ describe("test", () => {
   });
 });
 `;
-      expect(() => compileSampleTest(input, { packageName: "@azure/client" })).toThrow(
+      await expect(compileSampleTest(input, { packageName: "@azure/client" })).rejects.toThrow(
         CompilerError,
       );
-      expect(() => compileSampleTest(input, { packageName: "@azure/client" })).toThrow(
+      await expect(compileSampleTest(input, { packageName: "@azure/client" })).rejects.toThrow(
         /Recorder.*not available after cleanup/,
       );
     });
 
-    it("does not error when forPublishing arrow uses parameter that shadows a dead binding", () => {
+    it("does not error when forPublishing arrow uses parameter that shadows a dead binding", async () => {
       const input = `\
 /** @summary parameter shadow test */
 import { vi } from "vitest";
@@ -807,11 +811,11 @@ describe("test", () => {
 });
 `;
       // "mock" in the arrow param shadows the dead top-level mock — should not false-positive
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("items.map((mock) => mock * 2)");
     });
 
-    it("compiles when forPublishing references process.env (global, not dead)", () => {
+    it("compiles when forPublishing references process.env (global, not dead)", async () => {
       const input = `\
 /** @summary test process.env */
 import { Client } from "../src/index.js";
@@ -827,7 +831,7 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("process.env.URL");
     });
   });
@@ -835,7 +839,7 @@ describe("test", () => {
   // ── Describe-scope statements (Fix 6) ──────────────────────────────
 
   describe("describe-scope statements", () => {
-    it("preserves describe-scope function used in sample body", () => {
+    it("preserves describe-scope function used in sample body", async () => {
       const input = `\
 /** @summary describe-scope function */
 import { describe, it } from "vitest";
@@ -848,11 +852,11 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("formatKey");
     });
 
-    it("eliminates describe-scope function that references a dead binding", () => {
+    it("eliminates describe-scope function that references a dead binding", async () => {
       const input = `\
 /** @summary dead describe function */
 import { Recorder } from "@azure-tools/test-recorder";
@@ -865,12 +869,12 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).not.toContain("createRecorder");
       expect(result.outputText).not.toContain("Recorder");
     });
 
-    it("preserves describe-scope class used in sample body", () => {
+    it("preserves describe-scope class used in sample body", async () => {
       const input = `\
 /** @summary describe-scope class */
 import { describe, it } from "vitest";
@@ -883,7 +887,7 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       expect(result.outputText).toContain("Formatter");
       expect(result.outputText).toContain("new Formatter()");
     });
@@ -892,7 +896,7 @@ describe("sample", () => {
   // ── Promotion ordering (Fix 7) ────────────────────────────────────
 
   describe("promotion ordering", () => {
-    it("preserves interleaved order of promoted const and preamble statements", () => {
+    it("preserves interleaved order of promoted const and preamble statements", async () => {
       const input = `\
 /** @summary ordering test */
 import { Client } from "../src/index.js";
@@ -910,7 +914,7 @@ describe("sample", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/client" });
+      const result = await compileSampleTest(input, { packageName: "@azure/client" });
       // Both should be promoted to const inside main()
       expect(result.outputText).toContain("const endpoint");
       expect(result.outputText).toContain("const client");
@@ -925,7 +929,7 @@ describe("sample", () => {
   // ── Test 9: Type-only imports ─────────────────────────────────────────
 
   describe("type-only imports", () => {
-    it("preserves import type from source", () => {
+    it("preserves import type from source", async () => {
       const input = `\
 /** @summary type import test */
 import type { MyType } from "../src/index.js";
@@ -940,7 +944,7 @@ describe("test", () => {
   });
 });
 `;
-      const result = compileSampleTest(input, { packageName: "@azure/foo" });
+      const result = await compileSampleTest(input, { packageName: "@azure/foo" });
       expect(result.outputText).toContain('import type { MyType } from "@azure/foo"');
       expect(result.outputText).toContain('import { MyClient } from "@azure/foo"');
     });
@@ -955,7 +959,7 @@ describe("compileSampleTest with helpers", () => {
   // resolved relative to it.
   const sampleFileName = "/project/test/sample.spec.ts";
   const makeResolver = (files: Record<string, string>) => {
-    return (fromFile: string, specifier: string) => {
+    return async (fromFile: string, specifier: string) => {
       const fromDir = fromFile.substring(0, fromFile.lastIndexOf("/"));
       const key = specifier.replace(/\.js$/, ".ts");
       // Build an absolute canonical path from the importing file's dir + specifier
@@ -967,7 +971,7 @@ describe("compileSampleTest with helpers", () => {
     };
   };
 
-  it("compiles with a surviving helper (import kept, helper in helperFiles)", () => {
+  it("compiles with a surviving helper (import kept, helper in helperFiles)", async () => {
     const helperSource = `
 import { MyClient } from "../src/index.js";
 
@@ -987,7 +991,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./helpers.ts": helperSource }),
@@ -1003,7 +1007,7 @@ describe("test", () => {
     expect(result.envVars).toContain("ENDPOINT");
   });
 
-  it("marks import dead when helper is pure test infrastructure", () => {
+  it("marks import dead when helper is pure test infrastructure", async () => {
     const testHelperSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -1024,7 +1028,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
@@ -1038,7 +1042,7 @@ describe("test", () => {
     expect(result.outputText).toContain('"@azure/test"');
   });
 
-  it("cascades dead bindings from empty helper through spec file", () => {
+  it("cascades dead bindings from empty helper through spec file", async () => {
     const testHelperSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function createRecorder(): Recorder {
@@ -1058,7 +1062,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
@@ -1070,7 +1074,7 @@ describe("test", () => {
     expect(result.outputText).toContain("new MyClient");
   });
 
-  it("keeps helper import as-is when resolver returns undefined", () => {
+  it("keeps helper import as-is when resolver returns undefined", async () => {
     const input = `\
 /** @summary test unresolvable helper */
 import { helper } from "./missing.js";
@@ -1082,10 +1086,10 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
-      resolveHelper: () => undefined,
+      resolveHelper: async () => undefined,
     });
 
     // Import kept as-is (couldn't resolve) + warning
@@ -1094,7 +1098,7 @@ describe("test", () => {
     expect(result.warnings[0]).toContain("missing.js");
   });
 
-  it("works without resolveHelper (backward compatible)", () => {
+  it("works without resolveHelper (backward compatible)", async () => {
     const input = `\
 /** @summary no resolver */
 import { helper } from "./helpers.js";
@@ -1106,7 +1110,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    const result = await compileSampleTest(input, { packageName: "@azure/test" });
 
     // Import kept as-is (no resolver)
     expect(result.outputText).toContain("./helpers.js");
@@ -1115,7 +1119,7 @@ describe("test", () => {
 
   // --- Finding 3: Duplicate imports to same helper ---
 
-  it("handles duplicate imports from same empty helper", () => {
+  it("handles duplicate imports from same empty helper", async () => {
     const testHelperSource = `
 import { Recorder } from "@azure-tools/test-recorder";
 export function a(): Recorder { return new Recorder(); }
@@ -1135,7 +1139,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./testUtils.ts": testHelperSource }),
@@ -1149,7 +1153,7 @@ describe("test", () => {
     expect(result.outputText).toContain('"@azure/test"');
   });
 
-  it("handles duplicate imports from same surviving helper", () => {
+  it("handles duplicate imports from same surviving helper", async () => {
     const helperSource = `
 export function helper1(): string { return "one"; }
 export function helper2(): string { return "two"; }
@@ -1167,7 +1171,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: makeResolver({ "./utils.ts": helperSource }),
@@ -1180,7 +1184,7 @@ describe("test", () => {
     expect(result.helperFiles.has("./utils.ts")).toBe(true);
   });
 
-  it("helperFiles keys are relative to sample file (subdirectory helper)", () => {
+  it("helperFiles keys are relative to sample file (subdirectory helper)", async () => {
     const helperSource = `
 export function doStuff(): string { return "stuff"; }
 `;
@@ -1196,14 +1200,14 @@ describe("test", () => {
 });
 `;
     // Resolver returns absolute path: /project/test/helpers/util.ts
-    const resolver = (_fromFile: string, specifier: string) => {
+    const resolver = async (_fromFile: string, specifier: string) => {
       const key = specifier.replace(/\.js$/, ".ts");
       if (key === "./helpers/util.ts") {
         return { canonicalPath: "/project/test/helpers/util.ts", sourceText: helperSource };
       }
       return undefined;
     };
-    const result = compileSampleTest(input, {
+    const result = await compileSampleTest(input, {
       packageName: "@azure/test",
       fileName: sampleFileName,
       resolveHelper: resolver,
@@ -1217,7 +1221,7 @@ describe("test", () => {
 // ── beforeAll / afterAll compiler tests ──────────────────────────────
 
 describe("compileSampleTest — beforeAll/afterAll hooks", () => {
-  it("beforeAll setup appears in compiled output before beforeEach", () => {
+  it("beforeAll setup appears in compiled output before beforeEach", async () => {
     const input = `\
 /** @summary beforeAll ordering */
 import { describe, it, beforeAll, beforeEach } from "vitest";
@@ -1240,7 +1244,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    const result = await compileSampleTest(input, { packageName: "@azure/test" });
     // Both preamble items should appear in output
     expect(result.outputText).toContain("globalConn");
     expect(result.outputText).toContain("localSetup");
@@ -1250,7 +1254,7 @@ describe("test", () => {
     expect(globalIdx).toBeLessThan(localIdx);
   });
 
-  it("afterAll cleanup is dropped from compiled output", () => {
+  it("afterAll cleanup is dropped from compiled output", async () => {
     const input = `\
 /** @summary afterAll dropped */
 import { describe, it, afterAll } from "vitest";
@@ -1266,7 +1270,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/test" });
+    const result = await compileSampleTest(input, { packageName: "@azure/test" });
     // afterAll body should NOT appear in output
     expect(result.outputText).not.toContain("cleanupGlobal");
     // The sample should still compile correctly
@@ -1279,7 +1283,7 @@ describe("test", () => {
 import { generateSampleEnv } from "../../../src/util/samples/compileSampleTests.js";
 
 describe("generateSampleEnv", () => {
-  it("generates header and sorted vars", () => {
+  it("generates header and sorted vars", async () => {
     const { content } = generateSampleEnv(["ENDPOINT", "API_KEY"]);
     expect(content).toContain("ENDPOINT=");
     expect(content).toContain("API_KEY=");
@@ -1289,7 +1293,7 @@ describe("generateSampleEnv", () => {
     expect(varLines[1]).toBe("ENDPOINT=");
   });
 
-  it("preserves hand-written values", () => {
+  it("preserves hand-written values", async () => {
     const existing = "ENDPOINT=https://myservice.azure.net\nKEY=secret123\n";
     const { content } = generateSampleEnv(["ENDPOINT", "KEY", "API_KEY"], existing);
     expect(content).toContain("ENDPOINT=https://myservice.azure.net");
@@ -1297,7 +1301,7 @@ describe("generateSampleEnv", () => {
     expect(content).toContain("API_KEY=");
   });
 
-  it("warns about unreferenced vars in hand-written file", () => {
+  it("warns about unreferenced vars in hand-written file", async () => {
     const existing = "UNUSED_VAR=value\nENDPOINT=url\n";
     const { content, warnings } = generateSampleEnv(["ENDPOINT"], existing);
     expect(warnings.length).toBeGreaterThan(0);
@@ -1306,14 +1310,14 @@ describe("generateSampleEnv", () => {
     expect(content).toContain("ENDPOINT=url");
   });
 
-  it("returns header when no vars discovered", () => {
+  it("returns header when no vars discovered", async () => {
     const { content } = generateSampleEnv([]);
     expect(content).toContain("Copyright");
     const varLines = content.split("\n").filter((l) => !l.startsWith("#") && l.trim());
     expect(varLines).toHaveLength(0);
   });
 
-  it("appends new vars to existing content", () => {
+  it("appends new vars to existing content", async () => {
     const existing = "ENDPOINT=https://example.com\n";
     const { content } = generateSampleEnv(["ENDPOINT", "API_KEY"], existing);
     // Original line preserved
@@ -1327,7 +1331,7 @@ describe("generateSampleEnv", () => {
     expect(apiKeyIdx).toBeGreaterThan(endpointIdx);
   });
 
-  it("does not duplicate vars already in existing file", () => {
+  it("does not duplicate vars already in existing file", async () => {
     const existing = "ENDPOINT=url\nAPI_KEY=key\n";
     const { content } = generateSampleEnv(["ENDPOINT", "API_KEY"], existing);
     const matches = content.match(/ENDPOINT=/g);
@@ -1338,7 +1342,7 @@ describe("generateSampleEnv", () => {
 // ── F1: let→const promotion skips vars reassigned in it-body ────────
 
 describe("let→const promotion with it-body reassignment", () => {
-  it("does not promote let when variable is reassigned in it-body", () => {
+  it("does not promote let when variable is reassigned in it-body", async () => {
     const input = `\
 /** @summary reassignment test */
 import { Client } from "../src/index.js";
@@ -1355,13 +1359,13 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/client" });
+    const result = await compileSampleTest(input, { packageName: "@azure/client" });
     // Should NOT be promoted to const since it's reassigned in the body
     expect(result.outputText).toContain("let client");
     expect(result.outputText).not.toContain("const client");
   });
 
-  it("preserves describe-scope statement order when non-var statements are interleaved", () => {
+  it("preserves describe-scope statement order when non-var statements are interleaved", async () => {
     const input = `
 import { describe, it } from "vitest";
 import { Client } from "@azure/client";
@@ -1376,7 +1380,7 @@ describe("test", () => {
   });
 });
 `;
-    const result = compileSampleTest(input, { packageName: "@azure/client" });
+    const result = await compileSampleTest(input, { packageName: "@azure/client" });
     // Statement order must be preserved: config → console.log → client
     const configIdx = result.outputText.indexOf("config");
     const logIdx = result.outputText.indexOf('"initializing"');
