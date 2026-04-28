@@ -439,7 +439,7 @@
 # PRLabel: %Mgmt
 /sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/compute/arm-compute/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
