@@ -123,6 +123,7 @@ export abstract class StorageClient {
       this.storageClientContext = new StorageClientContext(this.url, {
         ...rest,
         pipeline: clonedCorePipeline,
+        httpClient,
       });
     } else {
       this.pipeline = pipeline;
