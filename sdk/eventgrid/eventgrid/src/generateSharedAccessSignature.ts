@@ -3,7 +3,7 @@
 
 import type { KeyCredential } from "@azure/core-auth";
 import { DEFAULT_API_VERSION } from "./constants.js";
-import { sha256Hmac } from "./cryptoHelpers.js";
+import { sha256Hmac } from "#platform/cryptoHelpers";
 import { dateToServiceTimeString } from "./util.js";
 
 export interface GenerateSharedAccessSignatureOptions {

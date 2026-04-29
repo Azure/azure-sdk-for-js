@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export const SDK_VERSION = "1.1.3";
+export const SDK_VERSION = "1.1.4";

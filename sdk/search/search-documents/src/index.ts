@@ -384,7 +384,7 @@ export {
   DEFAULT_RETRY_COUNT,
   type IndexDocumentsClient,
   SearchIndexingBufferedSender,
-} from "./searchIndexingBufferedSender.js";
+} from "#platform/searchIndexingBufferedSender";
 export {
   type AIServicesAccountIdentity,
   type AliasIterator,
@@ -554,4 +554,4 @@ export {
   type WebApiVectorizer,
   type WebKnowledgeSource,
 } from "./serviceModels.js";
-export { createSynonymMapFromFile } from "./synonymMapHelper.js";
+export { createSynonymMapFromFile } from "#platform/synonymMapHelper";

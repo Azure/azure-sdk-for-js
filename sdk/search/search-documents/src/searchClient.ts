@@ -10,7 +10,7 @@ import {
   bearerTokenAuthenticationPolicyName,
   type Pipeline,
 } from "@azure/core-rest-pipeline";
-import { decode, encode } from "./base64.js";
+import { decode, encode } from "#platform/base64";
 import type {
   AutocompleteResult,
   IndexDocumentsResult,
@@ -53,7 +53,7 @@ import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
-import type { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
+import type { IndexDocumentsClient } from "#platform/searchIndexingBufferedSender";
 import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";

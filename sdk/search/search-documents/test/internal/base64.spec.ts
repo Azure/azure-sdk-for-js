@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { assert, describe, it } from "vitest";
-import { decode, encode } from "../../src/base64.js";
+import { decode, encode } from "#platform/base64";
 
 describe("base64", () => {
   it("strings can roundtrip", () => {
