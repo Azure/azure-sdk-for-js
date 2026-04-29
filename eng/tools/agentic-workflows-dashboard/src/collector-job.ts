@@ -4,9 +4,14 @@
  * Standalone Node.js script for collecting workflow runs and audit data.
  * Designed to run as a Container Apps Job on a schedule.
  * 
- * Authentication (one of):
- * - GITHUB_TOKEN: GitHub PAT with actions:read scope
- * - GitHub App: GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY, GITHUB_APP_INSTALLATION_ID
+ * Authentication (in order of preference):
+ * 1. EngSys Key Vault signing (GITHUB_KV_NAME + GITHUB_KV_KEY_NAME + GITHUB_APP_ID)
+ *    - Uses Azure SDK Automation App with non-exportable key in EngSys Key Vault
+ *    - Most secure: private key never leaves Key Vault
+ * 2. GitHub App with private key (GITHUB_APP_ID + GITHUB_APP_PRIVATE_KEY + GITHUB_APP_INSTALLATION_ID)
+ *    - Uses your own GitHub App with private key stored in your Key Vault
+ * 3. GitHub PAT (GITHUB_TOKEN)
+ *    - Legacy: uses a long-lived Personal Access Token
  * 
  * Required environment variables:
  * - AZURE_MONITOR_DCE_ENDPOINT: Data Collection Endpoint URL
@@ -16,19 +21,48 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { createAppAuth } from "@octokit/auth-app";
+import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 
-// GitHub App configuration (optional - alternative to PAT)
+// ========== GitHub Authentication ==========
+
+// EngSys Key Vault config (preferred - uses shared Azure SDK Automation App)
+interface EngSysKvConfig {
+  keyVaultName: string;       // e.g., "azuresdkengkeyvault"
+  keyName: string;            // e.g., "azure-sdk-automation"
+  appId: string;              // e.g., "1086291"
+  installationOwner: string;  // e.g., "Azure"
+}
+
+// GitHub App config (alternative - your own App with private key)
 interface GitHubAppConfig {
   appId: string;
   privateKey: string;
   installationId: string;
 }
 
-// Get GitHub App config from environment (if configured)
+// Check if EngSys Key Vault signing is configured
+function getEngSysKvConfig(): EngSysKvConfig | null {
+  const keyVaultName = process.env.GITHUB_KV_NAME;
+  const keyName = process.env.GITHUB_KV_KEY_NAME;
+  const appId = process.env.GITHUB_APP_ID;
+  
+  if (keyVaultName && keyName && appId) {
+    return {
+      keyVaultName,
+      keyName,
+      appId,
+      installationOwner: process.env.GITHUB_INSTALLATION_OWNER || "Azure",
+    };
+  }
+  return null;
+}
+
+// Check if GitHub App with private key is configured
 function getGitHubAppConfig(): GitHubAppConfig | null {
   const appId = process.env.GITHUB_APP_ID;
   const privateKey = process.env.GITHUB_APP_PRIVATE_KEY;
@@ -40,8 +74,110 @@ function getGitHubAppConfig(): GitHubAppConfig | null {
   return null;
 }
 
-// Generate a short-lived installation token from GitHub App credentials
-async function getInstallationToken(appConfig: GitHubAppConfig): Promise<string> {
+// Base64URL encode (JWT format)
+function base64UrlEncode(data: Buffer | string): string {
+  const buffer = typeof data === "string" ? Buffer.from(data) : data;
+  return buffer.toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+// Generate JWT signed via Azure Key Vault (key never exported)
+async function generateJwtViaKeyVault(kvConfig: EngSysKvConfig): Promise<string> {
+  const credential = new DefaultAzureCredential();
+  const keyVaultUrl = `https://${kvConfig.keyVaultName}.vault.azure.net`;
+  
+  // Get the key reference
+  const keyClient = new KeyClient(keyVaultUrl, credential);
+  const key = await keyClient.getKey(kvConfig.keyName);
+  
+  if (!key.id) {
+    throw new Error(`Key ${kvConfig.keyName} not found in ${kvConfig.keyVaultName}`);
+  }
+  
+  // Create JWT header and payload
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: "RS256", typ: "JWT" };
+  const payload = {
+    iat: now - 10,     // 10 seconds clock skew
+    exp: now + 600,    // 10 minutes
+    iss: kvConfig.appId,
+  };
+  
+  const encodedHeader = base64UrlEncode(JSON.stringify(header));
+  const encodedPayload = base64UrlEncode(JSON.stringify(payload));
+  const unsignedToken = `${encodedHeader}.${encodedPayload}`;
+  
+  // Hash the unsigned token (RS256 signs the SHA-256 hash)
+  const digest = createHash("sha256").update(unsignedToken).digest();
+  
+  // Sign using Key Vault (private key never leaves KV)
+  const cryptoClient = new CryptographyClient(key.id, credential);
+  const signResult = await cryptoClient.sign("RS256", digest);
+  
+  const signature = base64UrlEncode(Buffer.from(signResult.result));
+  return `${unsignedToken}.${signature}`;
+}
+
+// Get GitHub App installation ID for an org
+async function getInstallationId(jwt: string, owner: string): Promise<string> {
+  const response = await fetch("https://api.github.com/app/installations", {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to list installations: ${response.status}`);
+  }
+  
+  const installations = await response.json() as Array<{ id: number; account: { login: string } }>;
+  const installation = installations.find(i => i.account.login.toLowerCase() === owner.toLowerCase());
+  
+  if (!installation) {
+    throw new Error(`No installation found for ${owner}. Available: ${installations.map(i => i.account.login).join(", ")}`);
+  }
+  
+  return String(installation.id);
+}
+
+// Exchange JWT for installation access token
+async function getInstallationAccessToken(jwt: string, installationId: string): Promise<string> {
+  const response = await fetch(`https://api.github.com/app/installations/${installationId}/access_tokens`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to get installation token: ${response.status}`);
+  }
+  
+  const data = await response.json() as { token: string };
+  return data.token;
+}
+
+// Authenticate using EngSys Key Vault signing
+async function authenticateViaEngSysKv(kvConfig: EngSysKvConfig): Promise<string> {
+  log.info(`Signing JWT via Key Vault: ${kvConfig.keyVaultName}/${kvConfig.keyName}`);
+  const jwt = await generateJwtViaKeyVault(kvConfig);
+  
+  log.info(`Finding installation for: ${kvConfig.installationOwner}`);
+  const installationId = await getInstallationId(jwt, kvConfig.installationOwner);
+  log.info(`Installation ID: ${installationId}`);
+  
+  log.info("Exchanging JWT for installation token...");
+  return getInstallationAccessToken(jwt, installationId);
+}
+
+// Authenticate using GitHub App with private key
+async function authenticateViaGitHubApp(appConfig: GitHubAppConfig): Promise<string> {
   const auth = createAppAuth({
     appId: appConfig.appId,
     privateKey: appConfig.privateKey,
@@ -640,22 +776,34 @@ function auditKey(repo: string, runId: number, attempt: number): string {
 async function main(): Promise<void> {
   log.info("=== Agentic Workflows Collector Job ===");
 
-  // Initialize GitHub authentication
+  // Initialize GitHub authentication (in order of preference)
+  const engSysKvConfig = getEngSysKvConfig();
   const appConfig = getGitHubAppConfig();
-  if (appConfig) {
-    log.info("Using GitHub App authentication");
-    try {
-      config.githubToken = await getInstallationToken(appConfig);
+  
+  try {
+    if (engSysKvConfig) {
+      // Option 1: EngSys Key Vault signing (most secure - key never exported)
+      log.info("Using EngSys Key Vault signing (Azure SDK Automation App)");
+      config.githubToken = await authenticateViaEngSysKv(engSysKvConfig);
+      log.info("Generated installation token via Key Vault signing");
+    } else if (appConfig) {
+      // Option 2: GitHub App with private key
+      log.info("Using GitHub App authentication (private key)");
+      config.githubToken = await authenticateViaGitHubApp(appConfig);
       log.info("Generated installation token (expires in 1 hour)");
-    } catch (error) {
-      log.error(`Failed to generate GitHub App token: ${error}`);
+    } else if (process.env.GITHUB_TOKEN) {
+      // Option 3: PAT (legacy)
+      log.info("Using GitHub PAT authentication (legacy)");
+      config.githubToken = process.env.GITHUB_TOKEN;
+    } else {
+      log.error("No GitHub authentication configured. Options:");
+      log.error("  1. EngSys KV: GITHUB_KV_NAME, GITHUB_KV_KEY_NAME, GITHUB_APP_ID");
+      log.error("  2. GitHub App: GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY, GITHUB_APP_INSTALLATION_ID");
+      log.error("  3. PAT: GITHUB_TOKEN");
       process.exit(1);
     }
-  } else if (process.env.GITHUB_TOKEN) {
-    log.info("Using GitHub PAT authentication");
-    config.githubToken = process.env.GITHUB_TOKEN;
-  } else {
-    log.error("No GitHub authentication configured. Set either GITHUB_TOKEN or GITHUB_APP_ID/GITHUB_APP_PRIVATE_KEY/GITHUB_APP_INSTALLATION_ID");
+  } catch (error) {
+    log.error(`GitHub authentication failed: ${error}`);
     process.exit(1);
   }
 

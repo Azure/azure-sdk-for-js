@@ -801,31 +801,47 @@ resource workspaceLock 'Microsoft.Authorization/locks@2020-05-01' = {
 
 // ===== AZURE CONTAINER APPS JOB FOR AUTOMATED COLLECTION =====
 
-// Authentication options (choose one):
-// Option 1: GitHub PAT (simpler, but long-lived token)
-@description('GitHub Personal Access Token for API access (legacy - prefer GitHub App)')
-@secure()
-param githubToken string = ''
+// Authentication options (choose one, in order of preference):
 
-// Option 2: GitHub App (recommended - short-lived tokens, fine-grained permissions)
-@description('GitHub App ID for authentication')
+// Option 1: EngSys Key Vault signing (RECOMMENDED - most secure)
+// Uses the shared Azure SDK Automation App with non-exportable key in EngSys Key Vault.
+// Private key never leaves Key Vault - only used for signing operations.
+// Requires: Key Vault Crypto User role on azuresdkengkeyvault (request from EngSys team)
+@description('EngSys Key Vault name for JWT signing (e.g., azuresdkengkeyvault)')
+param githubKvName string = ''
+
+@description('EngSys Key Vault key name for JWT signing (e.g., azure-sdk-automation)')
+param githubKvKeyName string = ''
+
+@description('GitHub App ID (e.g., 1086291 for Azure SDK Automation)')
 param githubAppId string = ''
 
-@description('GitHub App Private Key (PEM format) - stored in Key Vault')
+@description('GitHub org/user to get installation token for (default: Azure)')
+param githubInstallationOwner string = 'Azure'
+
+// Option 2: GitHub App with private key (alternative - your own App)
+@description('GitHub App Private Key (PEM format) - only if NOT using EngSys KV')
 @secure()
 param githubAppPrivateKey string = ''
 
-@description('GitHub App Installation ID')
+@description('GitHub App Installation ID - only if NOT using EngSys KV')
 param githubAppInstallationId string = ''
+
+// Option 3: GitHub PAT (legacy - avoid in production)
+@description('GitHub Personal Access Token (legacy - prefer GitHub App)')
+@secure()
+param githubToken string = ''
 
 @description('Enable Container Apps Job deployment (default: true for production)')
 param deployContainerJob bool = true
 
 // Determine auth mode
-var useGitHubApp = !empty(githubAppId) && !empty(githubAppPrivateKey) && !empty(githubAppInstallationId)
+var useEngSysKv = !empty(githubKvName) && !empty(githubKvKeyName) && !empty(githubAppId)
+var useGitHubAppWithKey = !useEngSysKv && !empty(githubAppId) && !empty(githubAppPrivateKey) && !empty(githubAppInstallationId)
+var usePat = !useEngSysKv && !useGitHubAppWithKey && !empty(githubToken)
 
-// Key Vault for secure secret storage (required for GitHub App, recommended for PAT)
-resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = if (deployContainerJob) {
+// Key Vault for local secret storage (only needed if NOT using EngSys KV)
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = if (deployContainerJob && !useEngSysKv) {
   name: 'kv-aw-${nameSuffix}'
   location: location
   tags: commonTags
@@ -841,8 +857,8 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = if (deployContainerJo
   }
 }
 
-// Store GitHub App private key in Key Vault
-resource ghAppKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (deployContainerJob && useGitHubApp) {
+// Store GitHub App private key in Key Vault (Option 2 only)
+resource ghAppKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (deployContainerJob && useGitHubAppWithKey) {
   parent: keyVault
   name: 'github-app-private-key'
   properties: {
@@ -851,8 +867,8 @@ resource ghAppKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (dep
   }
 }
 
-// Store GitHub PAT in Key Vault (if using PAT auth)
-resource ghTokenSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (deployContainerJob && !useGitHubApp && !empty(githubToken)) {
+// Store GitHub PAT in Key Vault (Option 3 only)
+resource ghTokenSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (deployContainerJob && usePat) {
   parent: keyVault
   name: 'github-token'
   properties: {
@@ -861,8 +877,8 @@ resource ghTokenSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (depl
   }
 }
 
-// Grant Container Job identity access to Key Vault secrets
-resource kvSecretsUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (deployContainerJob) {
+// Grant Container Job identity access to local Key Vault secrets (Options 2 & 3)
+resource kvSecretsUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (deployContainerJob && !useEngSysKv) {
   name: guid(keyVault.id, containerJobIdentity.id, 'Key Vault Secrets User')
   scope: keyVault
   properties: {
@@ -965,20 +981,20 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
           identity: containerJobIdentity.id
         }
       ]
-      // Secrets from Key Vault (no plaintext secrets in deployment)
-      secrets: useGitHubApp ? [
+      // Secrets from Key Vault (only needed for Options 2 & 3, not EngSys KV)
+      secrets: useEngSysKv ? [] : (useGitHubAppWithKey ? [
         {
           name: 'github-app-private-key'
           keyVaultUrl: '${keyVault.properties.vaultUri}secrets/github-app-private-key'
           identity: containerJobIdentity.id
         }
-      ] : [
+      ] : usePat ? [
         {
           name: 'github-token'
           keyVaultUrl: '${keyVault.properties.vaultUri}secrets/github-token'
           identity: containerJobIdentity.id
         }
-      ]
+      ] : [])
     }
     template: {
       containers: [
@@ -1010,8 +1026,26 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
               name: 'AZURE_CLIENT_ID'
               value: deployContainerJob ? containerJobIdentity.properties.clientId : ''
             }
-          ], useGitHubApp ? [
-            // GitHub App authentication
+          ], useEngSysKv ? [
+            // Option 1: EngSys Key Vault signing (most secure)
+            {
+              name: 'GITHUB_KV_NAME'
+              value: githubKvName
+            }
+            {
+              name: 'GITHUB_KV_KEY_NAME'
+              value: githubKvKeyName
+            }
+            {
+              name: 'GITHUB_APP_ID'
+              value: githubAppId
+            }
+            {
+              name: 'GITHUB_INSTALLATION_OWNER'
+              value: githubInstallationOwner
+            }
+          ] : useGitHubAppWithKey ? [
+            // Option 2: GitHub App with private key
             {
               name: 'GITHUB_APP_ID'
               value: githubAppId
@@ -1024,8 +1058,8 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
               name: 'GITHUB_APP_INSTALLATION_ID'
               value: githubAppInstallationId
             }
-          ] : [
-            // PAT authentication (legacy)
+          ] : usePat ? [
+            // Option 3: PAT (legacy)
             {
               name: 'GITHUB_TOKEN'
               secretRef: 'github-token'
@@ -1034,7 +1068,7 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
               name: 'GH_TOKEN'
               secretRef: 'github-token'
             }
-          ])
+          ] : [])
         }
       ]
     }

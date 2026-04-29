@@ -2,17 +2,89 @@
 
 This guide explains how to use GitHub App authentication instead of a Personal Access Token (PAT) for the Agentic Workflows Collector.
 
-## Why GitHub App?
+## Authentication Options
 
-| Feature | PAT | GitHub App |
-|---------|-----|------------|
-| Token lifetime | Until revoked | 1 hour (auto-renewed) |
-| Permissions | User-scoped | Fine-grained per-repo |
-| Audit trail | Limited | Full app activity logs |
-| Rate limits | 5,000/hr | 5,000/hr per installation |
-| Secret rotation | Manual | Automatic |
+| Option | Security | Setup | Maintenance |
+|--------|----------|-------|-------------|
+| **1. EngSys Key Vault** | ⭐⭐⭐⭐⭐ | Request access | None |
+| **2. Own GitHub App** | ⭐⭐⭐⭐ | Create App | Rotate keys |
+| **3. PAT (legacy)** | ⭐⭐ | Create token | Rotate manually |
 
-## Step 1: Create the GitHub App
+---
+
+## Option 1: EngSys Key Vault Signing (Recommended)
+
+Uses the shared **Azure SDK Automation** GitHub App with a non-exportable private key in the EngSys Key Vault. The private key never leaves Key Vault—it's only used for signing operations.
+
+### Prerequisites
+
+Request the EngSys team to grant your managed identity access:
+
+**Email to:** AzSDKEngTeam@microsoft.com  
+**Subject:** Request Key Vault Crypto User access for Agentic Workflows Dashboard
+
+```
+Hi EngSys team,
+
+We're running the Agentic Workflows Dashboard (Container Apps Job) to monitor 
+GitHub Copilot usage across Azure SDK repositories.
+
+We'd like to use the Azure SDK Automation GitHub App (ID: 1086291) with Key Vault 
+signing instead of managing our own credentials.
+
+Could you please grant Key Vault Crypto User role on azuresdkengkeyvault to our 
+managed identity?
+
+  Principal ID: <get from Azure portal or `az identity show`>
+  Identity Name: id-agentic-workflows-prod
+  Resource Group: dealmaha-agentic-workflows
+  Subscription: <your subscription>
+
+This identity needs to call `az keyvault key sign` to generate JWTs for GitHub 
+API authentication. It does NOT need to read or export the key.
+
+Thanks!
+```
+
+### Deployment
+
+Once access is granted:
+
+```bash
+az deployment group create \
+  -g dealmaha-agentic-workflows \
+  -f infra/main.bicep \
+  -p deployContainerJob=true \
+  -p nameSuffix=54ua3vksrntq4 \
+  -p githubKvName=azuresdkengkeyvault \
+  -p githubKvKeyName=azure-sdk-automation \
+  -p githubAppId=1086291 \
+  -p githubInstallationOwner=Azure
+```
+
+### How It Works
+
+```
+Container Job starts
+    │
+    ├─→ Authenticate to Azure (managed identity)
+    │
+    ├─→ Call Key Vault to SIGN JWT (key never leaves KV)
+    │     └─ Uses CryptographyClient.sign("RS256", digest)
+    │
+    ├─→ Exchange JWT for installation token (1hr TTL)
+    │     └─ POST /app/installations/{id}/access_tokens
+    │
+    └─→ Use token for GitHub API & gh CLI
+```
+
+---
+
+## Option 2: Your Own GitHub App
+
+If you can't use EngSys Key Vault, create your own GitHub App.
+
+### Step 1: Create the GitHub App
 
 1. Go to **GitHub → Settings → Developer settings → GitHub Apps → New GitHub App**
 
