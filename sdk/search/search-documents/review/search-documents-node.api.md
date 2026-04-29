@@ -292,6 +292,7 @@ export interface BaseSearchIndexerSkill {
 
 // @public
 export interface BaseSearchRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
+    debug?: QueryDebugMode;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -331,6 +332,7 @@ export interface BaseVectorQuery<TModel extends object> {
     filterOverride?: string;
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
+    oversampling?: number;
     perDocumentVectorLimit?: number;
     weight?: number;
 }
