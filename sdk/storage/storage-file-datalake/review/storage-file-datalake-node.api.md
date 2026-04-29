@@ -408,7 +408,6 @@ export class DataLakePathClient extends StorageClient {
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
     getSystemProperties(options?: PathGetSystemPropertiesOptions): Promise<PathGetSystemPropertiesResponse>;
-    // (undocumented)
     getTags(options?: PathGetTagsOptions): Promise<PathGetTagsResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
@@ -419,7 +418,6 @@ export class DataLakePathClient extends StorageClient {
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetPermissionsResponse>;
-    // (undocumented)
     setTags(tags: Tags, options?: PathSetTagsOptions): Promise<PathSetTagsResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;

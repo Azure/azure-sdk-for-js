@@ -814,6 +814,11 @@ export class DataLakePathClient extends StorageClient {
     );
   }
 
+  /**
+   * Gets the tags associated with the underlying path.
+   *
+   * @param options -
+   */
   public async getTags(options: PathGetTagsOptions = {}): Promise<PathGetTagsResponse> {
     return tracingClient.withSpan("DataLakePathClient-getTags", options, async (updatedOptions) => {
       return this.blobClient.getTags({
@@ -822,7 +827,15 @@ export class DataLakePathClient extends StorageClient {
       });
     });
   }
-
+  /**
+   * Sets tags on the underlying path.
+   * A path can have up to 10 tags. Tag keys must be between 1 and 128 characters.  Tag values must be between 0 and 256 characters.
+   * Valid tag key and value characters include lower and upper case letters, digits (0-9),
+   * space (' '), plus ('+'), minus ('-'), period ('.'), foward slash ('/'), colon (':'), equals ('='), and underscore ('_').
+   *
+   * @param tags -
+   * @param options -
+   */
   public async setTags(tags: Tags, options: PathSetTagsOptions = {}): Promise<PathSetTagsResponse> {
     return tracingClient.withSpan("DataLakePathClient-setTags", options, async (updatedOptions) => {
       return this.blobClient.setTags(tags, {
