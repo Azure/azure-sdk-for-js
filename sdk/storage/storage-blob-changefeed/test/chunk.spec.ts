@@ -6,6 +6,21 @@ import { AvroReader } from "@azure/storage-internal-avro";
 import type { BlobChangeFeedEvent } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
+vi.mock("@azure/storage-internal-avro", async (importActual) => {
+  const AvroReaderMock = vi.fn();
+  AvroReaderMock.prototype.hasNext = vi.fn();
+  AvroReaderMock.prototype.parseObjects = vi.fn();
+  AvroReaderMock.prototype.blockOffset = 0;
+  AvroReaderMock.prototype.objectIndex = 0;
+  AvroReaderMock.prototype.blockSize = 0;
+
+  const actual = await importActual<typeof import("@azure/storage-internal-avro")>();
+  return {
+    ...actual,
+    AvroReader: AvroReaderMock,
+  };
+});
+
 class FakeAvroReader {
   constructor(
     public blockOffset: number,
@@ -25,24 +40,6 @@ class FakeAvroReader {
 }
 
 describe("Chunk", () => {
-  beforeEach(() => {
-    vi.mock("@azure/storage-internal-avro", (importActual) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const AvroReader = vi.fn();
-      AvroReader.prototype.hasNext = vi.fn();
-      AvroReader.prototype.parseObjects = vi.fn();
-      AvroReader.prototype.blockOffset = 0;
-      AvroReader.prototype.objectIndex = 0;
-      AvroReader.prototype.blockSize = 0;
-
-      const actual = importActual<typeof import("@azure/storage-internal-avro")>();
-      return {
-        ...actual,
-        AvroReader,
-      };
-    });
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
