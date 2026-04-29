@@ -55,10 +55,7 @@ async function setupPrerequisites(client: SearchIndexClient): Promise<void> {
   console.log(`Created knowledge base: ${TEST_KNOWLEDGE_BASE_NAME}`);
 }
 
-async function createKnowledgeSource(
-  sourceName: string,
-  client: SearchIndexClient,
-): Promise<void> {
+async function createKnowledgeSource(sourceName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Creating Knowledge Source Operation`);
 
   // Create a search index knowledge source
@@ -118,10 +115,7 @@ async function listKnowledgeSources(client: SearchIndexClient): Promise<void> {
   }
 }
 
-async function deleteKnowledgeSource(
-  sourceName: string,
-  client: SearchIndexClient,
-): Promise<void> {
+async function deleteKnowledgeSource(sourceName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Deleting Knowledge Source Operation`);
   await client.deleteKnowledgeSource(sourceName);
   console.log(`Deleted knowledge source: ${sourceName}`);

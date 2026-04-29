@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KnowledgeBaseModelWebSummarizationActivityRecord } from "../../../../models.js";
-import { knowledgeBaseModelWebSummarizationActivityRecordDeserializer } from "../../../../models.js";
-import type {
+import {
+  searchIndexerDataIdentityUnionSerializer,
+  searchIndexerDataIdentityUnionDeserializer,
   SearchIndexerDataIdentityUnion,
   VectorSearchVectorizerKind,
   AzureOpenAIVectorizerParameters,
@@ -12,10 +12,6 @@ import type {
   IndexingSchedule,
   KnowledgeSourceContentExtractionMode,
   KnowledgeSourceSynchronizationStatus,
-} from "../indexes/models.js";
-import {
-  searchIndexerDataIdentityUnionSerializer,
-  searchIndexerDataIdentityUnionDeserializer,
   azureOpenAIVectorizerParametersSerializer,
   azureOpenAIVectorizerParametersDeserializer,
   knowledgeBaseModelUnionSerializer,
@@ -936,6 +932,29 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
     info: !item["info"]
       ? item["info"]
       : Object.fromEntries(Object.entries(item["info"]).map(([k, p]: [string, unknown]) => [k, p])),
+  };
+}
+
+/** Represents an LLM web summarization activity record. */
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The discriminator value. */
+  type: "modelWebSummarization";
+  /** The number of input tokens for the LLM web summarization activity. */
+  inputTokens?: number;
+  /** The number of output tokens for the LLM web summarization activity. */
+  outputTokens?: number;
+}
+
+export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseModelWebSummarizationActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedInMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    inputTokens: item["inputTokens"],
+    outputTokens: item["outputTokens"],
   };
 }
 

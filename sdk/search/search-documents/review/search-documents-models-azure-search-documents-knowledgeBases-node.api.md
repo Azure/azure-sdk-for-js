@@ -112,6 +112,13 @@ export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageCon
 }
 
 // @public
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+    inputTokens?: number;
+    outputTokens?: number;
+    type: "modelWebSummarization";
+}
+
+// @public
 export interface KnowledgeBaseReference {
     activitySource: number;
     id: string;

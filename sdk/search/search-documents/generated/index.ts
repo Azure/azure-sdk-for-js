@@ -8,7 +8,6 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
-export type { KnowledgeBaseModelWebSummarizationActivityRecord } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
@@ -53,6 +52,7 @@ export type {
   AutocompleteResult,
   AutocompleteItem,
   AutocompleteMode,
+  DebugInfo,
 } from "./models/azure/search/documents/index.js";
 export {
   KnownQueryType,
@@ -440,6 +440,7 @@ export type {
   KnowledgeBaseActivityRecordType,
   KnowledgeBaseErrorDetail,
   KnowledgeBaseErrorAdditionalInfo,
+  KnowledgeBaseModelWebSummarizationActivityRecord,
   KnowledgeBaseAgenticReasoningActivityRecord,
   KnowledgeRetrievalReasoningEffort,
   KnowledgeRetrievalReasoningEffortUnion,

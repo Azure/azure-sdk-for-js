@@ -44,6 +44,7 @@ export type {
   AutocompleteResult,
   AutocompleteItem,
   AutocompleteMode,
+  DebugInfo,
 } from "./models.js";
 export {
   KnownQueryType,
