@@ -3,13 +3,18 @@
 
 /// <reference lib="dom"/>
 
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+
 /**
  * @internal
  */
 export async function sha256Hmac(secret: string, stringToSign: string): Promise<string> {
+  const secretBytes = stringToUint8Array(secret, "base64");
+  const dataBytes = stringToUint8Array(stringToSign, "utf-8");
+
   const key = await globalThis.crypto.subtle.importKey(
     "raw",
-    Uint8Array.from(atob(secret), (c) => c.charCodeAt(0)),
+    new Uint8Array(secretBytes),
     {
       name: "HMAC",
       hash: "SHA-256",
@@ -18,13 +23,7 @@ export async function sha256Hmac(secret: string, stringToSign: string): Promise<
     ["sign"],
   );
 
-  const sigArray = await globalThis.crypto.subtle.sign(
-    "HMAC",
-    key,
-    new TextEncoder().encode(stringToSign),
-  );
+  const sigArray = await globalThis.crypto.subtle.sign("HMAC", key, new Uint8Array(dataBytes));
 
-  // The conversions here are a bit odd but necessary (see "Unicode strings" in the link below)
-  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa
-  return btoa(String.fromCharCode(...new Uint8Array(sigArray)));
+  return uint8ArrayToString(new Uint8Array(sigArray), "base64");
 }
