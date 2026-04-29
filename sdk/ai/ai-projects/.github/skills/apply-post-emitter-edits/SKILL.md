@@ -199,13 +199,12 @@ foreach ($ln in $linesToFix) {  # 1-based line numbers
 $lines | Set-Content -Path src/api/.../operations.ts
 ```
 
-Known rename pairs to watch for (signature → body must follow):
-
-| File | Old (spec) | New (custom) |
-| --- | --- | --- |
-| `src/api/beta/agents/operations.ts` | `agentSessionId` | `sessionId` |
-| `src/api/beta/toolboxes/operations.ts` | `name` | `toolboxName` |
-| `src/classic/beta/toolboxes/index.ts` | `name` | `toolboxName` |
+Known rename pairs to watch for (signature → body must follow) live in
+[references/parameter-renames.yml](./references/parameter-renames.yml). Edit
+that file when a new regen surfaces another rename pair; do not embed the
+table back into this SKILL. Each entry has `file`, `old`, and `new` keys —
+apply the word-boundary substitution from `old` to `new` in the function
+bodies of the listed file.
 
 Also watch for the broken-signature pattern where the customization apply leaves a stray identifier in a parameter list, e.g. `result: Foo & Bar, SessionLogEvent,` in `_downloadSessionFileDeserialize`. Manually trim the extra token.
 
