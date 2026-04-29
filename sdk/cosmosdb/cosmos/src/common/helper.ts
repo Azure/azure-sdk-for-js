@@ -3,13 +3,13 @@
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { PartitionKeyDefinition } from "../documents/index.js";
 import type { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
-import type { Serializer } from "../encryption/Serializers/index.js";
+import type { Serializer } from "#platform/encryption/Serializers/index";
 import {
   NumberSerializer,
   FloatSerializer,
   StringSerializer,
   BooleanSerializer,
-} from "../encryption/Serializers/index.js";
+} from "#platform/encryption/Serializers/index";
 import { EncryptionType } from "../encryption/enums/EncryptionType.js";
 import { TypeMarker } from "../encryption/enums/TypeMarker.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";

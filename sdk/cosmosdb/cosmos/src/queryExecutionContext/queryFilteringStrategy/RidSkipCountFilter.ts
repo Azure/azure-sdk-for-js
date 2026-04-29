@@ -161,7 +161,11 @@ export class RidSkipCountFilter implements FilterStrategy {
 
     try {
       const normalizedRid = rid.replace(/-/g, "/");
-      const bytes = Buffer.from(normalizedRid, "base64");
+      const binaryString = atob(normalizedRid);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
 
       // Validate RID length - must be at least 16 bytes to contain document ID
       if (bytes.length < 16) {

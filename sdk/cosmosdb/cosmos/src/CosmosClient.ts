@@ -5,7 +5,7 @@ import { Offer, Offers } from "./client/Offer/index.js";
 import { ClientContext } from "./ClientContext.js";
 import { parseConnectionString } from "./common/index.js";
 import { Constants } from "./common/constants.js";
-import { getUserAgent } from "./common/platform.js";
+import { getUserAgent } from "#platform/common/platform";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
 import {
@@ -89,7 +89,7 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
-  private endpointRefresher: NodeJS.Timeout;
+  private endpointRefresher: ReturnType<typeof setTimeout>;
   /**
    * @internal
    */
@@ -374,8 +374,11 @@ export class CosmosClient {
         console.warn("Failed to refresh endpoints", e);
       }
     }, refreshRate);
-    if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
-      this.endpointRefresher.unref();
+    if (
+      (this.endpointRefresher as any).unref &&
+      typeof (this.endpointRefresher as any).unref === "function"
+    ) {
+      (this.endpointRefresher as any).unref();
     }
   }
 

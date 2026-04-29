@@ -11,7 +11,7 @@ import type { KeyEncryptionAlgorithm } from "./enums/index.js";
 export class EncryptionKeyStoreProvider {
   public RsaOaepEncryptionAlgorithm: string = "RSA-OAEP";
   // interval for clear cache to run
-  cacheRefresher: NodeJS.Timeout;
+  cacheRefresher: ReturnType<typeof setTimeout>;
 
   // cache to store the unwrapped encryption key. Key is the path of the encryption key
   public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };

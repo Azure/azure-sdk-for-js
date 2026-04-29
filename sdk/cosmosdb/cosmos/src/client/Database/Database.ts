@@ -35,6 +35,11 @@ import {
   KeyEncryptionAlgorithm,
 } from "../../encryption/index.js";
 import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
+import {
+  base64ToUint8Array,
+  toUint8Array,
+  uint8ArrayToBase64,
+} from "#platform/encryption/bufferOps";
 /**
  * Operations for reading or deleting an existing database.
  *
@@ -357,7 +362,7 @@ export class Database {
       id: clientEncryptionKeyId,
       encryptionAlgorithm: encryptionAlgorithm,
       keyWrapMetadata: keyWrapMetadata,
-      wrappedDataEncryptionKey: wrappedDataEncryptionKey.toString("base64"),
+      wrappedDataEncryptionKey: uint8ArrayToBase64(wrappedDataEncryptionKey),
     };
 
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -375,7 +380,7 @@ export class Database {
         encryptionAlgorithm: response.result.encryptionAlgorithm,
         etag: response.result._etag,
         wrappedDataEncryptionKey: new Uint8Array(
-          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+          base64ToUint8Array(response.result.wrappedDataEncryptionKey),
         ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
       };
@@ -445,7 +450,7 @@ export class Database {
         encryptionAlgorithm: response.result.encryptionAlgorithm,
         etag: response.result._etag,
         wrappedDataEncryptionKey: new Uint8Array(
-          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+          base64ToUint8Array(response.result.wrappedDataEncryptionKey),
         ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
       };
@@ -531,7 +536,7 @@ export class Database {
       this.encryptionManager.encryptionKeyStoreProvider,
     );
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
-      Buffer.from(clientEncryptionKeyProperties.wrappedDataEncryptionKey),
+      toUint8Array(clientEncryptionKeyProperties.wrappedDataEncryptionKey),
     );
 
     keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
@@ -551,7 +556,7 @@ export class Database {
       id: clientEncryptionKeyId,
       encryptionAlgorithm: clientEncryptionKeyProperties.encryptionAlgorithm,
       keyWrapMetadata: newKeyWrapMetadata,
-      wrappedDataEncryptionKey: rewrappedKey.toString("base64"),
+      wrappedDataEncryptionKey: uint8ArrayToBase64(rewrappedKey),
     };
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
@@ -579,7 +584,7 @@ export class Database {
         encryptionAlgorithm: response.result.encryptionAlgorithm,
         etag: response.result._etag,
         wrappedDataEncryptionKey: new Uint8Array(
-          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+          base64ToUint8Array(response.result.wrappedDataEncryptionKey),
         ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
       };

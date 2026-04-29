@@ -6,7 +6,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["node"],
+    "types": [],
     "skipLibCheck": true
   },
   "include": ["../src/index.ts"]

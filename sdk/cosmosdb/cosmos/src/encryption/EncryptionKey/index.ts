@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { DataEncryptionKey } from "#platform/encryption/EncryptionKey/DataEncryptionKey";
-export { ProtectedDataEncryptionKey } from "./ProtectedDataEncryptionKey.js";
+export { ProtectedDataEncryptionKey } from "#platform/encryption/EncryptionKey/ProtectedDataEncryptionKey";

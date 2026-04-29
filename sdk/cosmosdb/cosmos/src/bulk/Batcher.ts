@@ -8,7 +8,7 @@ import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
-import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
+import type { EncryptionProcessor } from "#platform/encryption/EncryptionProcessor";
 import type { ClientConfigDiagnostic } from "../index.js";
 import { ErrorResponse } from "../index.js";
 import type { ExecuteCallback, RetryCallback, BulkOperationResult } from "../utils/batch.js";

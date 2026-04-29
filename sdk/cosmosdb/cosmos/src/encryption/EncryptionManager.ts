@@ -5,7 +5,7 @@ import { ProtectedDataEncryptionKeyCache } from "#platform/encryption/Cache/Prot
 import { KeyEncryptionKeyCache } from "./Cache/KeyEncryptionKeyCache.js";
 import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache.js";
 import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache.js";
-import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider.js";
+import { EncryptionKeyStoreProvider } from "#platform/encryption/EncryptionKeyStoreProvider";
 import { Constants } from "../common/constants.js";
 import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
 /**

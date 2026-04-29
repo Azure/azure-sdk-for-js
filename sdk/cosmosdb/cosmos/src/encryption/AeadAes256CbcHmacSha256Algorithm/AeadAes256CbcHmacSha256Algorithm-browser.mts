@@ -9,15 +9,15 @@ export class AeadAes256CbcHmacSha256Algorithm {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 
-  public encrypt(_plainTextBuffer: Buffer): Buffer {
+  public encrypt(_plainTextBuffer: Uint8Array): Uint8Array {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 
-  public decrypt(_cipherTextBuffer: Buffer): Buffer {
+  public decrypt(_cipherTextBuffer: Uint8Array): Uint8Array {
     throw new Error("Client-side Encryption not supported in browser environment");
   }
 }
 
-export function randomBytes(_size: number): Buffer {
+export function randomBytes(_size: number): Uint8Array {
   throw new Error("Client-side random generator not supported in browser environment");
 }

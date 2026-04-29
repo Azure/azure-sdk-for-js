@@ -99,7 +99,9 @@ async function httpRequest(
     pipelineRequest.agent = requestContext.requestAgent;
   } else {
     const parsedUrl = new URL(url);
-    pipelineRequest.agent = parsedUrl.protocol === "http:" ? defaultHttpAgent : defaultHttpsAgent;
+    pipelineRequest.agent = (
+      parsedUrl.protocol === "http:" ? defaultHttpAgent : defaultHttpsAgent
+    ) as any;
     pipelineRequest.allowInsecureConnection = parsedUrl.protocol === "http:";
   }
 

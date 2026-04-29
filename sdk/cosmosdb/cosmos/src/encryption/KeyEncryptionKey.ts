@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { KeyEncryptionAlgorithm } from "./enums/KeyEncryptionAlgorithm.js";
-import type { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider.js";
+import type { EncryptionKeyStoreProvider } from "#platform/encryption/EncryptionKeyStoreProvider";
 /**
  * A wrapper class containing the info about the key-protecting key stored in an external key provider
  * and provides interface to wrap and unwrap the key.

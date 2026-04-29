@@ -42,7 +42,7 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
-import { getUserAgent } from "./common/platform.js";
+import { getUserAgent } from "#platform/common/platform";
 import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
 import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { randomBytes } from "node:crypto";
-import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey.js";
-import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
+import { ProtectedDataEncryptionKey } from "#platform/encryption/EncryptionKey/ProtectedDataEncryptionKey";
+import type { KeyEncryptionKey } from "#platform/encryption/KeyEncryptionKey";
 import { Constants } from "../../common/index.js";
 import { startBackgroundTask } from "../../utils/time.js";
 
@@ -16,7 +16,7 @@ export class ProtectedDataEncryptionKeyCache {
   // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
   private cache: Map<string, [Date, ProtectedDataEncryptionKey]>;
   // interval for clear cache to run
-  cacheRefresher: NodeJS.Timeout;
+  cacheRefresher: ReturnType<typeof setTimeout>;
 
   constructor(private cacheTimeToLive: number) {
     this.cache = new Map<string, [Date, ProtectedDataEncryptionKey]>();

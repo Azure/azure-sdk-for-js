@@ -70,10 +70,11 @@ class DoublyLinkedList<T> {
  * Returns a function that will schedule the given callback using the best available method.
  */
 function scheduleCallback(fn: () => void): void {
-  if (typeof process !== "undefined" && typeof process.nextTick === "function") {
-    process.nextTick(fn);
-  } else if (typeof setImmediate === "function") {
-    setImmediate(fn);
+  const g = globalThis as any;
+  if (typeof g.process !== "undefined" && typeof g.process.nextTick === "function") {
+    g.process.nextTick(fn);
+  } else if (typeof g.setImmediate === "function") {
+    g.setImmediate(fn);
   } else {
     // eslint-disable-next-line promise/catch-or-return
     Promise.resolve().then(fn);

@@ -25,7 +25,7 @@ export class GlobalPartitionEndpointManager {
   >;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
-  private circuitBreakerFailbackBackgroundRefresher?: NodeJS.Timeout;
+  private circuitBreakerFailbackBackgroundRefresher?: ReturnType<typeof setTimeout>;
 
   /**
    * @internal

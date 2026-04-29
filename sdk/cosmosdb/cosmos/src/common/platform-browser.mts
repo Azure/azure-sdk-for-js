@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import process from "node:process";
 import type { CosmosClientOptions } from "../index.js";
 import { Constants, UserAgentFeatureFlags } from "./constants.js";
 
@@ -23,7 +22,10 @@ export function getUserAgent(
 }
 
 function userAgentDetails(): string {
-  return `Node.js/${process.version.slice(1)} (${process.platform}; ${process.arch})`;
+  if (globalThis.navigator && globalThis.navigator.userAgent) {
+    return globalThis.navigator.userAgent;
+  }
+  return "<environment undetectable>";
 }
 
 /**

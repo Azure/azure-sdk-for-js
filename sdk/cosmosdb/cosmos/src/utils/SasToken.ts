@@ -143,8 +143,9 @@ export async function createAuthorizationSasToken(
     sasTokenProperties.dataPlaneWriterScope.toString(16) +
     "\n";
 
-  const signedPayload = await hmac(masterKey, Buffer.from(payload).toString("base64"));
-  return "type=sas&ver=1.0&sig=" + signedPayload + ";" + Buffer.from(payload).toString("base64");
+  const payloadBase64 = btoa(payload);
+  const signedPayload = await hmac(masterKey, payloadBase64);
+  return "type=sas&ver=1.0&sig=" + signedPayload + ";" + payloadBase64;
 }
 /**
  * @hidden

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { DataEncryptionKey } from "#platform/encryption/EncryptionKey/DataEncryptionKey";
-import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
+import type { KeyEncryptionKey } from "#platform/encryption/KeyEncryptionKey";
 
 /**
  * A wrapper class around `DataEncryptionKey` that stores it in a protected form.

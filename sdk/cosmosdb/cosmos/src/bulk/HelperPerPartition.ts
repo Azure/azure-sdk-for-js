@@ -4,7 +4,7 @@
 import semaphore from "semaphore";
 import { StatusCodes } from "../common/statusCodes.js";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
-import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
+import type { EncryptionProcessor } from "#platform/encryption/EncryptionProcessor";
 import type { ClientConfigDiagnostic, DiagnosticNodeInternal } from "../index.js";
 import type { ExecuteCallback, RetryCallback, BulkOperationResult } from "../utils/batch.js";
 import { Batcher } from "./Batcher.js";

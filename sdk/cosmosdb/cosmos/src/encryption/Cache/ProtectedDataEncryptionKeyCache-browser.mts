@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
-import type { ProtectedDataEncryptionKey } from "../EncryptionKey/index.js";
+import type { KeyEncryptionKey } from "#platform/encryption/KeyEncryptionKey";
+import type { ProtectedDataEncryptionKey } from "#platform/encryption/EncryptionKey/ProtectedDataEncryptionKey";
 
 // TODO: add support for browser environment in phase 2
 export class ProtectedDataEncryptionKeyCache {
-  cacheRefresher!: NodeJS.Timeout;
+  cacheRefresher!: ReturnType<typeof setTimeout>;
 
   constructor(_cacheTimeToLive: number) {
     throw new Error("Client-side Encryption not supported in browser environment");
