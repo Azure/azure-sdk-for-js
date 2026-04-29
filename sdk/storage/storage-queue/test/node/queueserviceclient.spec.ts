@@ -6,8 +6,6 @@ import {
   getConnectionStringFromEnvironment,
   recorderEnvSetup,
   configureStorageClient,
-  getGenericCredential,
-  getGenericQSU,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "../../src/QueueServiceClient.js";
@@ -29,21 +27,31 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("IPv6 Test", async () => {
-    const credentials = getGenericCredential("");
-    let blobServiceClient = getGenericQSU(recorder, "", "-ipv6");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    const accountName = "storageaccount"
 
-    blobServiceClient = getGenericQSU(recorder, "", "-secondary-ipv6");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
-    blobServiceClient = getGenericQSU(recorder, "", "-secondary-dualstack");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
-    blobServiceClient = getGenericQSU(recorder, "", "-dualstack");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
-    blobServiceClient = getGenericQSU(recorder, "", "-secondary");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    let queueServiceURL = `https://${accountName}-ipv6.queue.core.windows.net/`;
+    let queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
 
-    blobServiceClient = getGenericQSU(recorder, "", "-something");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName + "-something");
+    queueServiceURL = `https://${accountName}-secondary-ipv6.queue.core.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-secondary-dualstack.queue.core.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-dualstack.queue.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-secondary.queue.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName);
+
+    queueServiceURL = `https://${accountName}-something.queue.windows.net/`;
+    queueServiceClient = new QueueServiceClient(queueServiceURL);
+    assert.deepEqual(queueServiceClient.accountName, accountName + "-something");
   });
 
   it("can be created with a url and a credential", async () => {

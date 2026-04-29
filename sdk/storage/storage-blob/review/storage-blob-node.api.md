@@ -981,7 +981,6 @@ export interface BlobProperties {
     remainingRetentionDays?: number;
     // (undocumented)
     serverEncrypted?: boolean;
-    // (undocumented)
     smartAccessTier?: AccessTier;
     // (undocumented)
     tagCount?: number;
@@ -1629,9 +1628,7 @@ export enum BlockBlobTier {
     Archive = "Archive",
     Cold = "Cold",
     Cool = "Cool",
-    Hot = "Hot",
-    // (undocumented)
-    Smart = "Smart"
+    Hot = "Hot"
 }
 
 // @public

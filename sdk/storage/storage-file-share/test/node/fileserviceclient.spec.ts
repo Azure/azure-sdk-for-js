@@ -4,8 +4,6 @@ import {
   configureStorageClient,
   getBSU,
   getConnectionStringFromEnvironment,
-  getGenericBSU,
-  getGenericCredential,
   getSoftDeleteBSUWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
@@ -31,21 +29,31 @@ describe("FileServiceClient Node.js only", () => {
   });
 
   it("IPv6 Test", async () => {
-    const credentials = getGenericCredential("");
-    let blobServiceClient = getGenericBSU(recorder, "", "-ipv6");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    const accountName = "storageaccount"
 
-    blobServiceClient = getGenericBSU(recorder, "", "-secondary-ipv6");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
-    blobServiceClient = getGenericBSU(recorder, "", "-secondary-dualstack");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
-    blobServiceClient = getGenericBSU(recorder, "", "-dualstack");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
-    blobServiceClient = getGenericBSU(recorder, "", "-secondary");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName);
+    let shareServiceURL = `https://${accountName}-ipv6.file.core.windows.net/`;
+    let shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
 
-    blobServiceClient = getGenericBSU(recorder, "", "-something");
-    assert.deepEqual(blobServiceClient.accountName, credentials.accountName + "-something");
+    shareServiceURL = `https://${accountName}-secondary-ipv6.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-something.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName + "-something");
   });
 
   it("can be created with a url and a credential", async () => {

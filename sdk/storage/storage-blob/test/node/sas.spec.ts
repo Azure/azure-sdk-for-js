@@ -359,10 +359,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
           blobName: dirName,
           isDirectory: true,
           expiresOn: tmr,
-          // ipRange: {
-          //   start: "0000:0000:0000:0000:0000:000:000:0000",
-          //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-          // },
           permissions: ContainerSASPermissions.parse("racwd"),
           protocol: SASProtocol.HttpsAndHttp,
           startsOn: now,
@@ -411,10 +407,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         blobName: blobName,
         isDirectory: true,
         expiresOn: tmr,
-        // ipRange: {
-        //   start: "0000:0000:0000:0000:0000:000:000:0000",
-        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-        // },
         permissions: ContainerSASPermissions.parse("c"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -458,10 +450,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: containerClient.containerName,
         blobName: sourceBlobName,
         expiresOn: tmr,
-        // ipRange: {
-        //   start: "0000:0000:0000:0000:0000:000:000:0000",
-        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-        // },
         permissions: ContainerSASPermissions.parse("r"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
@@ -479,10 +467,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: containerClient.containerName,
         blobName: blobName,
         expiresOn: tmr,
-        // ipRange: {
-        //   start: "0000:0000:0000:0000:0000:000:000:0000",
-        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
-        // },
         permissions: ContainerSASPermissions.parse("c"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,

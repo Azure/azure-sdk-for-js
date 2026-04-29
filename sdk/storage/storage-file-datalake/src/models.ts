@@ -885,6 +885,9 @@ export interface PathGetSystemPropertiesHeaders {
   errorCode?: string;
 }
 
+/**
+ * Contains response data for the {@link DataLakePathClient.getSystemProperties} operation.
+ */
 export type PathGetSystemPropertiesResponse = WithResponse<
   PathGetSystemPropertiesHeaders,
   PathGetPropertiesHeadersModel
@@ -1022,9 +1025,23 @@ export interface PathGetPropertiesOptions extends CommonOptions {
   customerProvidedKey?: CpkInfo;
 }
 
+/**
+ * Options to configure the {@link DataLakePathClient.getSystemProperties} operation.
+ */
 export interface PathGetSystemPropertiesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
   abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the target path when fetching the properties.
+   */
   conditions?: DataLakeRequestConditions;
+  /** Optional. 
+   * If "true", the user identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be transformed from Azure Active Directory Object IDs to User Principal Names.  
+   * If "false", the values will be returned as Azure Active Directory Object IDs. The default value is false. Note that group and application Object IDs are not translated because they do not have unique friendly names. 
+   */
   userPrincipalName?: boolean;
 }
 
@@ -1210,6 +1227,9 @@ export interface PathSetTagsHeaders {
   errorCode?: string;
 }
 
+/**
+ * Contains response data for the {@link DataLakePathClient.getTags} operation.
+ */
 export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
 
 export interface PathSetMetadataHeaders {

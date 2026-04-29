@@ -1651,17 +1651,14 @@ export interface PathGetSystemPropertiesHeaders {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PathGetSystemPropertiesOptions extends CommonOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     conditions?: DataLakeRequestConditions;
-    // (undocumented)
     userPrincipalName?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type PathGetSystemPropertiesResponse = WithResponse<PathGetSystemPropertiesHeaders, PathGetPropertiesHeadersModel>;
 
 // @public
@@ -1919,7 +1916,7 @@ export interface PathSetTagsOptions extends CommonOptions {
     conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
 }
 
-// @public (undocumented)
+// @public
 export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
 
 // @public

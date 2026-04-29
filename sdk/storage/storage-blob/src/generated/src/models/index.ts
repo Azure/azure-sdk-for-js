@@ -296,6 +296,7 @@ export interface BlobPropertiesInternal {
   accessTier?: AccessTier;
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
+  /** The underlying tier of a smart tier blob. */
   smartAccessTier?: AccessTier;
   customerProvidedKeySha256?: string;
   /** The name of the encryption scope under which the blob is encrypted. */

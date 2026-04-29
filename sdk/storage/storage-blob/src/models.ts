@@ -145,10 +145,6 @@ export enum BlockBlobTier {
    * with flexible latency requirements (on the order of hours).
    */
   Archive = "Archive",
-  /**
-   *
-   */
-  Smart = "Smart",
 }
 
 /**
