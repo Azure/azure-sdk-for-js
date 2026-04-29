@@ -2907,7 +2907,7 @@ export function virtualMachineScaleSetNetworkProfileSerializer(
       : virtualMachineScaleSetNetworkConfigurationArraySerializer(
           item["networkInterfaceConfigurations"],
         ),
-    networkApiVersion: item["networkApiVersion"] ?? "2026-04-01-preview",
+    networkApiVersion: item["networkApiVersion"],
   };
 }
 
@@ -4480,7 +4480,7 @@ export function computeProfileSerializer(item: ComputeProfile): any {
     baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(
       item["baseVirtualMachineProfile"],
     ),
-    computeApiVersion: item["computeApiVersion"] ?? "2026-04-01-preview",
+    computeApiVersion: item["computeApiVersion"],
     platformFaultDomainCount: item["platformFaultDomainCount"],
     additionalVirtualMachineCapabilities: !item["additionalVirtualMachineCapabilities"]
       ? item["additionalVirtualMachineCapabilities"]
