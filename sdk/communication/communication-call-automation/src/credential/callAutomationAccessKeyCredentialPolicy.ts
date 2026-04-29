@@ -8,8 +8,7 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential } from "@azure/core-auth";
-import { shaHMAC, shaHash } from "#platform/credential/cryptoUtils";
-import { isNode } from "@azure/core-util";
+import { computeSha256Hash, computeSha256Hmac } from "@azure/core-util";
 
 const callAutomationAccessKeyCredentialPolicy = "CallAutomationAccessKeyCredentialPolicy";
 
@@ -28,7 +27,7 @@ export function createCallAutomationAccessKeyCredentialPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const verb = request.method.toUpperCase();
       const utcNow = new Date().toUTCString();
-      const contentHash = await shaHash(request.body?.toString() || "");
+      const contentHash = await computeSha256Hash(request.body?.toString() || "", "base64");
       const dateHeader = "x-ms-date";
       const signedHeaders = `${dateHeader};host;x-ms-content-sha256`;
 
@@ -40,12 +39,10 @@ export function createCallAutomationAccessKeyCredentialPolicy(
       const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
 
       const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${acsUrlCast.host};${contentHash}`;
-      const signature = await shaHMAC(credential.key, stringToSign);
+      const signature = await computeSha256Hmac(credential.key, stringToSign, "base64");
 
-      if (isNode) {
-        request.headers.set("Host", url.host || "");
-      }
-
+      // Host is a forbidden header in browsers (silently ignored), but needed in Node.js
+      request.headers.set("Host", url.host);
       request.headers.set(dateHeader, utcNow);
       request.headers.set("x-ms-content-sha256", contentHash);
       request.headers.set(

@@ -3,8 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@azure/communication-chat": ["../src/index.ts"],
-      "@azure/communication-chat/*": ["../src/*"],
-      "$internal/*": ["../src/*"]
+      "@azure/communication-chat/*": ["../src/*"]
     }
   }
 }

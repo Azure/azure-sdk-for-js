@@ -4,7 +4,9 @@
     { "path": "./config/tsconfig.src.browser.json" },
     { "path": "./config/tsconfig.src.react-native.json" },
     { "path": "./config/tsconfig.src.cjs.json" },
-    { "path": "./config/tsconfig.test.node.json" }
+    { "path": "./config/tsconfig.test.node.json" },
+    { "path": "./config/tsconfig.test.browser.json" },
+    { "path": "./config/tsconfig.snippets.json" }
   ],
   "files": []
 }

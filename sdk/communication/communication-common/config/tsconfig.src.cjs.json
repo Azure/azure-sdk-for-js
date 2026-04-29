@@ -1,4 +1,3 @@
 {
-  "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "extends": "../../../../eng/tsconfigs/src.cjs.json"
 }
