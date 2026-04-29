@@ -3,45 +3,35 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates a managed instance.
+ * This sample demonstrates how to updates a managed instance.
  *
- * @summary Updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceRemoveMaintenanceConfiguration.json
+ * @summary updates a managed instance.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceRemoveMaintenanceConfiguration.json
  */
 async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenancePolicy() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const parameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.managedInstances.update("testrg", "testinstance", {
     maintenanceConfigurationId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a managed instance.
+ * This sample demonstrates how to updates a managed instance.
  *
- * @summary Updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceUpdateMax.json
+ * @summary updates a managed instance.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceUpdateMax.json
  */
 async function updateManagedInstanceWithAllProperties() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const parameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.managedInstances.update("testrg", "testinstance", {
     administratorLogin: "dummylogin",
     administratorLoginPassword: "PLACEHOLDER",
     authenticationMetadata: "Windows",
@@ -55,40 +45,28 @@ async function updateManagedInstanceWithAllProperties() {
     proxyOverride: "Redirect",
     publicDataEndpointEnabled: false,
     requestedBackupStorageRedundancy: "Geo",
-    sku: { name: "GP_Gen5", capacity: 8, tier: "GeneralPurpose" },
+    requestedLogicalAvailabilityZone: "1",
     storageSizeInGB: 448,
-    tags: { tagKey1: "TagValue1" },
     vCores: 8,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    parameters,
-  );
+    sku: { name: "GP_Gen5", capacity: 8, tier: "GeneralPurpose" },
+    tags: { tagKey1: "TagValue1" },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates a managed instance.
+ * This sample demonstrates how to updates a managed instance.
  *
- * @summary Updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceUpdateMin.json
+ * @summary updates a managed instance.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceUpdateMin.json
  */
 async function updateManagedInstanceWithMinimalProperties() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const parameters = { tags: { tagKey1: "TagValue1" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    parameters,
-  );
+  const result = await client.managedInstances.update("testrg", "testinstance", {
+    tags: { tagKey1: "TagValue1" },
+  });
   console.log(result);
 }
 

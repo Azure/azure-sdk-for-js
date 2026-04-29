@@ -3,57 +3,48 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets all instance pool usage metrics
+ * This sample demonstrates how to gets all instance pool usage metrics
  *
- * @summary Gets all instance pool usage metrics
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListInstancePoolUsageExpanded.json
+ * @summary gets all instance pool usage metrics
+ * x-ms-original-file: 2025-02-01-preview/ListInstancePoolUsage.json
  */
-async function listInstancePoolUsagesExpandedWithChildren() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const instancePoolName = "testIP";
-  const expandChildren = true;
-  const options = { expandChildren };
+async function listInstancePoolUsages() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usages.listByInstancePool(
-    resourceGroupName,
-    instancePoolName,
-    options,
-  )) {
+  for await (const item of client.usages.listByInstancePool("group1", "testIP")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets all instance pool usage metrics
+ * This sample demonstrates how to gets all instance pool usage metrics
  *
- * @summary Gets all instance pool usage metrics
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListInstancePoolUsage.json
+ * @summary gets all instance pool usage metrics
+ * x-ms-original-file: 2025-02-01-preview/ListInstancePoolUsageExpanded.json
  */
-async function listInstancePoolUsages() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const instancePoolName = "testIP";
+async function listInstancePoolUsagesExpandedWithChildren() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usages.listByInstancePool(resourceGroupName, instancePoolName)) {
+  for await (const item of client.usages.listByInstancePool("group1", "testIP", {
+    expandChildren: true,
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await listInstancePoolUsagesExpandedWithChildren();
   await listInstancePoolUsages();
+  await listInstancePoolUsagesExpandedWithChildren();
 }
 
 main().catch(console.error);

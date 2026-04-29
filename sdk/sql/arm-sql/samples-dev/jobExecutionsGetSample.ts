@@ -3,31 +3,23 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a job execution.
+ * This sample demonstrates how to gets a job execution.
  *
- * @summary Gets a job execution.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetJobExecution.json
+ * @summary gets a job execution.
+ * x-ms-original-file: 2025-02-01-preview/GetJobExecution.json
  */
 async function getAJobExecution(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const jobName = "job1";
-  const jobExecutionId = "5A86BF65-43AC-F258-2524-9E92992F97CA";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobExecutions.get(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    jobName,
-    jobExecutionId,
+    "group1",
+    "server1",
+    "agent1",
+    "job1",
+    "5A86BF65-43AC-F258-2524-9E92992F97CA",
   );
   console.log(result);
 }

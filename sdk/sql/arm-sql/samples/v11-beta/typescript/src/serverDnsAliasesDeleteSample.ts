@@ -3,33 +3,22 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the server DNS alias with the given name.
+ * This sample demonstrates how to deletes the server DNS alias with the given name.
  *
- * @summary Deletes the server DNS alias with the given name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerDnsAliasDelete.json
+ * @summary deletes the server DNS alias with the given name.
+ * x-ms-original-file: 2025-02-01-preview/ServerDnsAliasDelete.json
  */
-async function deleteServerDnsAlias(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "dns-alias-server";
-  const dnsAliasName = "dns-alias-name-1";
+async function deleteServerDNSAlias(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.serverDnsAliases.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    dnsAliasName,
-  );
-  console.log(result);
+  await client.serverDnsAliases.delete("Default", "dns-alias-server", "dns-alias-name-1");
 }
 
 async function main(): Promise<void> {
-  await deleteServerDnsAlias();
+  await deleteServerDNSAlias();
 }
 
 main().catch(console.error);

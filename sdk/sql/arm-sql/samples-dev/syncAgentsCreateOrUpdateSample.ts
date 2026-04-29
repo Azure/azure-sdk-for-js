@@ -1,64 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncAgent, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a sync agent.
+ * This sample demonstrates how to creates or updates a sync agent.
  *
- * @summary Creates or updates a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentCreate.json
+ * @summary creates or updates a sync agent.
+ * x-ms-original-file: 2025-02-01-preview/SyncAgentCreate.json
  */
 async function createANewSyncAgent(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncagentcrud-65440";
-  const serverName = "syncagentcrud-8475";
-  const syncAgentName = "syncagentcrud-3187";
-  const parameters: SyncAgent = {
-    syncDatabaseId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-Onebox/providers/Microsoft.Sql/servers/syncagentcrud-8475/databases/sync",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncAgents.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    syncAgentName,
-    parameters,
+  const result = await client.syncAgents.createOrUpdate(
+    "syncagentcrud-65440",
+    "syncagentcrud-8475",
+    "syncagentcrud-3187",
+    {
+      syncDatabaseId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-Onebox/providers/Microsoft.Sql/servers/syncagentcrud-8475/databases/sync",
+    },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a sync agent.
+ * This sample demonstrates how to creates or updates a sync agent.
  *
- * @summary Creates or updates a sync agent.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentUpdate.json
+ * @summary creates or updates a sync agent.
+ * x-ms-original-file: 2025-02-01-preview/SyncAgentUpdate.json
  */
 async function updateASyncAgent(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "syncagentcrud-65440";
-  const serverName = "syncagentcrud-8475";
-  const syncAgentName = "syncagentcrud-3187";
-  const parameters: SyncAgent = {
-    syncDatabaseId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-Onebox/providers/Microsoft.Sql/servers/syncagentcrud-8475/databases/sync",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncAgents.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    syncAgentName,
-    parameters,
+  const result = await client.syncAgents.createOrUpdate(
+    "syncagentcrud-65440",
+    "syncagentcrud-8475",
+    "syncagentcrud-3187",
+    {
+      syncDatabaseId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-Onebox/providers/Microsoft.Sql/servers/syncagentcrud-8475/databases/sync",
+    },
   );
   console.log(result);
 }
