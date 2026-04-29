@@ -15,7 +15,6 @@ async function main(): Promise<void> {
       compiler: { type: "string" },
       "dry-run": { type: "boolean", default: false },
       "no-clean": { type: "boolean", default: false },
-      parallel: { type: "boolean", default: false },
       target: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
       json: { type: "boolean", default: false },
@@ -41,8 +40,6 @@ async function main(): Promise<void> {
     setLogLevel("verbose");
   }
 
-  const useParallel = values.parallel ?? false;
-
   const validCompilers = ["tsc", "tsgo"] as const;
   const compiler = values.compiler as (typeof validCompilers)[number] | undefined;
   if (compiler !== undefined && !validCompilers.includes(compiler)) {
@@ -62,7 +59,6 @@ async function main(): Promise<void> {
     const ac = await watch({
       configPath: values.config,
       clean: !values["no-clean"],
-      parallel: useParallel,
       target: values.target,
       compiler,
     });
@@ -84,7 +80,6 @@ async function main(): Promise<void> {
   const result = await build({
     dryRun: values["dry-run"],
     clean: !values["no-clean"],
-    parallel: useParallel,
     target: values.target,
     stats: values.stats,
     configPath: values.config,
@@ -136,7 +131,6 @@ Options:
   --compiler <name> Compiler backend: "tsc" (default) or "tsgo" (TypeScript 7.0+ native)
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
-  --parallel        Compile in parallel using worker threads (default: off)
   --target <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
   --json            Output machine-readable JSON (implies --quiet)
