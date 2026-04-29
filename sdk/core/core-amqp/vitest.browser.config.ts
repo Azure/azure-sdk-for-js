@@ -2,16 +2,15 @@
 // Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.browser.base.config.ts";
-import browserMap from "@azure-tools/vite-plugin-browser-test-map";
+import base from "../../../eng/vitestconfigs/browser.config.ts";
 import inject from "@rollup/plugin-inject";
 
 export default mergeConfig(
-  viteConfig,
+  base,
   defineConfig({
     optimizeDeps: {
       include: ["process", "buffer"],
     },
-    plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
+    plugins: [inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
   }),
 );

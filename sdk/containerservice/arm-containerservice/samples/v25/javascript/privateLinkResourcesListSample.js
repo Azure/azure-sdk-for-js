@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to to learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
  *
  * @summary to learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
- * x-ms-original-file: 2026-01-01/PrivateLinkResourcesList.json
+ * x-ms-original-file: 2026-02-01/PrivateLinkResourcesList.json
  */
 async function listPrivateLinkResourcesByManagedCluster() {
   const credential = new DefaultAzureCredential();

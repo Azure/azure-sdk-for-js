@@ -1,0 +1,9 @@
+{
+  "extends": "../../../../eng/tsconfigs/snippets.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/core-client": ["../src/index.ts"],
+      "@azure-rest/core-client/*": ["../src/*"]
+    }
+  }
+}

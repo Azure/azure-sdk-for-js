@@ -1,0 +1,12 @@
+{
+  "extends": "./base.test.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "exclude": [
+    "${configDir}/../test/**/browser",
+    "${configDir}/../test/**/react-native",
+    "${configDir}/../test/snippets.spec.ts",
+    "${configDir}/../test/stress"
+  ]
+}

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified managed cluster agent pool.
  *
  * @summary gets the specified managed cluster agent pool.
- * x-ms-original-file: 2026-01-01/AgentPoolsGet.json
+ * x-ms-original-file: 2026-02-01/AgentPoolsGet.json
  */
 async function getAgentPool() {
   const credential = new DefaultAzureCredential();

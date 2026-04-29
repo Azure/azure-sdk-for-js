@@ -1,14 +1,21 @@
 # Release History
 
-## 4.10.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.10.3 (2026-04-09)
 
 ### Bugs Fixed
 
+- Fix dependency issue.
+
+## 4.10.2 (2026-04-01)
+
+### Features Added
+
+- Added `uri` and `ipAddresses` properties to `Subject Alternative Names` to support Uniform Resource Identifier and IP address (IPv4 and IPv6) Subject Alternative Names in certificates.
+- Added support for service API version `2025-07-01` [#37561](https://github.com/Azure/azure-sdk-for-js/pull/37561)
+
 ### Other Changes
+
+- Updated TypeSpec-generated code. This is an internal change that should not affect customers.
 
 ## 4.10.0 (2025-06-10)
 

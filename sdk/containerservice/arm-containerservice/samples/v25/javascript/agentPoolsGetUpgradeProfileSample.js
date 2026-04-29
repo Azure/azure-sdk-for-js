@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the upgrade profile for an agent pool.
  *
  * @summary gets the upgrade profile for an agent pool.
- * x-ms-original-file: 2026-01-01/AgentPoolsGetUpgradeProfile.json
+ * x-ms-original-file: 2026-02-01/AgentPoolsGetUpgradeProfile.json
  */
 async function getUpgradeProfileForAgentPool() {
   const credential = new DefaultAzureCredential();

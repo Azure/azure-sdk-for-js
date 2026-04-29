@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an Agent resource.
  *
  * @summary gets an Agent resource.
- * x-ms-original-file: 2025-07-01/Agents_Get_MaximumSet.json
+ * x-ms-original-file: 2025-12-01/Agents_Get_MaximumSet.json
  */
 async function agentsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function agentsGetMaximumSet(): Promise<void> {
  * This sample demonstrates how to gets an Agent resource.
  *
  * @summary gets an Agent resource.
- * x-ms-original-file: 2025-07-01/Agents_Get_MinimumSet.json
+ * x-ms-original-file: 2025-12-01/Agents_Get_MinimumSet.json
  */
 async function agentsGetMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

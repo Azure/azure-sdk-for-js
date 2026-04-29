@@ -80,4 +80,4 @@ extends:
                   -reason "${{parameters.Reason}}"
                 pwsh: true
               env:
-                NPM_CONFIG_REGISTRY: $(PublicNpmRegistry)
+                npm_config_registry: $(PublicNpmRegistry)

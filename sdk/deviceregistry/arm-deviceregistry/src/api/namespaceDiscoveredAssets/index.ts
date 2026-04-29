@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listByResourceGroup, $delete, update, createOrReplace, get } from "./operations.js";
-export {
-  type NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
-  type NamespaceDiscoveredAssetsDeleteOptionalParams,
-  type NamespaceDiscoveredAssetsUpdateOptionalParams,
-  type NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
-  type NamespaceDiscoveredAssetsGetOptionalParams,
+export type {
+  NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
+  NamespaceDiscoveredAssetsDeleteOptionalParams,
+  NamespaceDiscoveredAssetsUpdateOptionalParams,
+  NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
+  NamespaceDiscoveredAssetsGetOptionalParams,
 } from "./options.js";

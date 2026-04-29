@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists available upgrades for all service meshes in a specific cluster.
  *
  * @summary lists available upgrades for all service meshes in a specific cluster.
- * x-ms-original-file: 2026-01-01/ManagedClustersList_MeshUpgradeProfiles.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersList_MeshUpgradeProfiles.json
  */
 async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of managed clusters in the specified subscription.
  *
  * @summary gets a list of managed clusters in the specified subscription.
- * x-ms-original-file: 2026-01-01/ManagedClustersList.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersList.json
  */
 async function listManagedClusters() {
   const credential = new DefaultAzureCredential();

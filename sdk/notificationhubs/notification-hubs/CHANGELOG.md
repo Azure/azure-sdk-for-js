@@ -1,8 +1,10 @@
 # Release History
 
-## 2.0.3 (Unreleased)
+## 2.1.0 (Unreleased)
 
 ### Features Added
+
+- Re-export `RestError` and `isRestError` from `@azure/core-rest-pipeline` for convenience.
 
 ### Breaking Changes
 

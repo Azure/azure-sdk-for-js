@@ -64,6 +64,7 @@ describe("AnalysisResultPoller operationId", () => {
     await poller.poll();
 
     assert.equal(poller.operationId, expectedOperationId);
+    assert.equal(poller.operationState?.operationId, expectedOperationId);
   });
 
   it("should populate operationId from analyze (URL) response header", async () => {
@@ -86,5 +87,6 @@ describe("AnalysisResultPoller operationId", () => {
     await poller.poll();
 
     assert.equal(poller.operationId, expectedOperationId);
+    assert.equal(poller.operationState?.operationId, expectedOperationId);
   });
 });

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the cluster monitoring user credentials of a managed cluster.
  *
  * @summary lists the cluster monitoring user credentials of a managed cluster.
- * x-ms-original-file: 2026-01-01/ManagedClustersListClusterMonitoringUserCredentials.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersListClusterMonitoringUserCredentials.json
  */
 async function getManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
