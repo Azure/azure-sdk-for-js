@@ -338,6 +338,7 @@ import * as fs from "fs";
 import { ContentUnderstandingClient, toLlmInput } from "@azure/ai-content-understanding";
 import { DefaultAzureCredential } from "@azure/identity";
 
+const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
 const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredential());
 
 // Analyze a document with text, tables, and charts using prebuilt-documentSearch (CU's primary RAG analyzer)
