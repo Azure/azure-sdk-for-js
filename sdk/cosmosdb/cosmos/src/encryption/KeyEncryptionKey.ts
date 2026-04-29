@@ -23,7 +23,7 @@ export class KeyEncryptionKey {
     this.encryptionAlgorithm = KeyEncryptionAlgorithm.RSA_OAEP;
   }
 
-  public async wrapEncryptionKey(plainTextEncryptionKey: Buffer): Promise<Buffer> {
+  public async wrapEncryptionKey(plainTextEncryptionKey: Uint8Array): Promise<Buffer> {
     return this.keyStoreProvider.wrapKey(
       this.path,
       this.encryptionAlgorithm,
@@ -31,7 +31,7 @@ export class KeyEncryptionKey {
     );
   }
 
-  public async unwrapEncryptionKey(wrappedEncryptionKey: Buffer): Promise<Buffer> {
+  public async unwrapEncryptionKey(wrappedEncryptionKey: Uint8Array): Promise<Buffer> {
     return this.keyStoreProvider.unwrapKey(
       this.path,
       this.encryptionAlgorithm,

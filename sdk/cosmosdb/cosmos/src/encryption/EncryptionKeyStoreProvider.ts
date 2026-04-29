@@ -30,7 +30,7 @@ export class EncryptionKeyStoreProvider {
   public async wrapKey(
     encryptionKeyId: string,
     algorithm: KeyEncryptionAlgorithm,
-    key: Buffer,
+    key: Uint8Array,
   ): Promise<Buffer> {
     const uInt8ArrayKey = new Uint8Array(key);
     const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
@@ -44,7 +44,7 @@ export class EncryptionKeyStoreProvider {
   public async unwrapKey(
     encryptionKeyId: string,
     algorithm: KeyEncryptionAlgorithm,
-    wrappedKey: Buffer,
+    wrappedKey: Uint8Array,
   ): Promise<Buffer> {
     if (this.cacheTimeToLive === 0) {
       const res = await this.keyEncryptionKeyResolver.unwrapKey(
