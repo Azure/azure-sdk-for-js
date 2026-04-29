@@ -493,42 +493,6 @@ export function programIdentity(
   return hash.digest("hex").slice(0, 16);
 }
 
-// ── Aliases consumed by parallel.ts (will be removed when parallel.ts adopts programIdentity) ──
-
-/** @deprecated Use optionsSignature + programIdentity instead. */
-export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: string): string {
-  const filesHash = crypto
-    .createHash("sha256")
-    .update([...fileNames].sort().join("\0"))
-    .digest("hex")
-    .slice(0, 16);
-  return polyfillSuffix ? `${filesHash}\0polyfill:${polyfillSuffix}` : filesHash;
-}
-
-interface DedupGroup {
-  primary: ParsedTargetConfig;
-  copies: ParsedTargetConfig[];
-}
-
-/** @deprecated Use per-target dedup with optionsSignature + programIdentity. */
-export function groupBySignature(
-  configs: ParsedTargetConfig[],
-  getEffectiveSuffix?: (pc: ParsedTargetConfig) => string | undefined,
-): DedupGroup[] {
-  const map = new Map<string, DedupGroup>();
-  for (const pc of configs) {
-    const suffix = getEffectiveSuffix ? getEffectiveSuffix(pc) : pc.target.polyfillSuffix;
-    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames, suffix);
-    const existing = map.get(sig);
-    if (existing) {
-      existing.copies.push(pc);
-    } else {
-      map.set(sig, { primary: pc, copies: [] });
-    }
-  }
-  return [...map.values()];
-}
-
 /** @deprecated Use copyDir instead. */
 export async function copyDtsFiles(src: string, dest: string): Promise<void> {
   const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });

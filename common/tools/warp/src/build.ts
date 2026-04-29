@@ -172,7 +172,6 @@ async function compileStep(
   log.info(`[warp] Compiling ${targetCount} target(s)...`);
   const compileStart = performance.now();
 
-  let results: CompileResult[];
   let tsgoPath: string | undefined;
 
   if (options.compiler === "tsgo") {
@@ -181,7 +180,7 @@ async function compileStep(
     log.info(`[warp] Using tsgo compiler${version ? ` (v${version})` : ""}: ${tsgoPath}`);
   }
 
-  results = await compileAllTargets(parsedConfigs, {
+  const results = await compileAllTargets(parsedConfigs, {
     clean: options.clean ?? true,
     packageRoot,
     tsgoPath,
@@ -201,7 +200,7 @@ async function postCompileStep(
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
-  // Print diagnostics (parallel workers already printed inline)
+  // Print diagnostics
   if (!skipDiagnosticFormat) {
     const diagnosticOutput = formatDiagnostics(results);
     if (diagnosticOutput) {
