@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.42.1.51946",
-      "templateHash": "15758945061984533527"
+      "templateHash": "11740211409318018759"
     }
   },
   "parameters": {
@@ -76,14 +76,35 @@
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "GitHub Personal Access Token for API access"
+        "description": "GitHub Personal Access Token for API access (legacy - prefer GitHub App)"
+      }
+    },
+    "githubAppId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "GitHub App ID for authentication"
+      }
+    },
+    "githubAppPrivateKey": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "GitHub App Private Key (PEM format) - stored in Key Vault"
+      }
+    },
+    "githubAppInstallationId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "GitHub App Installation ID"
       }
     },
     "deployContainerJob": {
       "type": "bool",
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
-        "description": "Enable Container Apps Job deployment"
+        "description": "Enable Container Apps Job deployment (default: true for production)"
       }
     }
   },
@@ -743,7 +764,8 @@
       "fallbackResourceIds": [
         "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
       ]
-    }
+    },
+    "useGitHubApp": "[and(and(not(empty(parameters('githubAppId'))), not(empty(parameters('githubAppPrivateKey')))), not(empty(parameters('githubAppInstallationId'))))]"
   },
   "resources": [
     {
@@ -1451,6 +1473,66 @@
     },
     {
       "condition": "[parameters('deployContainerJob')]",
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2023-07-01",
+      "name": "[format('kv-aw-{0}', parameters('nameSuffix'))]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('commonTags')]",
+      "properties": {
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "tenantId": "[subscription().tenantId]",
+        "enableRbacAuthorization": true,
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 7
+      }
+    },
+    {
+      "condition": "[and(parameters('deployContainerJob'), variables('useGitHubApp'))]",
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2023-07-01",
+      "name": "[format('{0}/{1}', format('kv-aw-{0}', parameters('nameSuffix')), 'github-app-private-key')]",
+      "properties": {
+        "value": "[parameters('githubAppPrivateKey')]",
+        "contentType": "application/x-pem-file"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[and(and(parameters('deployContainerJob'), not(variables('useGitHubApp'))), not(empty(parameters('githubToken'))))]",
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2023-07-01",
+      "name": "[format('{0}/{1}', format('kv-aw-{0}', parameters('nameSuffix')), 'github-token')]",
+      "properties": {
+        "value": "[parameters('githubToken')]",
+        "contentType": "text/plain"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('deployContainerJob')]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix')))]",
+      "name": "[guid(resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix'))), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment'))), 'Key Vault Secrets User')]",
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6')]",
+        "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment'))), '2023-01-31').principalId]",
+        "principalType": "ServicePrincipal"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment')))]",
+        "[resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix')))]"
+      ]
+    },
+    {
+      "condition": "[parameters('deployContainerJob')]",
       "type": "Microsoft.ContainerRegistry/registries",
       "apiVersion": "2023-07-01",
       "name": "[format('acrawcollector{0}', parameters('nameSuffix'))]",
@@ -1556,12 +1638,7 @@
               "identity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment')))]"
             }
           ],
-          "secrets": [
-            {
-              "name": "github-token",
-              "value": "[parameters('githubToken')]"
-            }
-          ]
+          "secrets": "[if(variables('useGitHubApp'), createArray(createObject('name', 'github-app-private-key', 'keyVaultUrl', format('{0}secrets/github-app-private-key', reference(resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix'))), '2023-07-01').vaultUri), 'identity', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment'))))), createArray(createObject('name', 'github-token', 'keyVaultUrl', format('{0}secrets/github-token', reference(resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix'))), '2023-07-01').vaultUri), 'identity', resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment'))))))]"
         },
         "template": {
           "containers": [
@@ -1572,36 +1649,7 @@
                 "cpu": "[json('1.0')]",
                 "memory": "2Gi"
               },
-              "env": [
-                {
-                  "name": "AZURE_MONITOR_DCE_ENDPOINT",
-                  "value": "[reference(resourceId('Microsoft.Insights/dataCollectionEndpoints', variables('dceName')), '2023-03-11').logsIngestion.endpoint]"
-                },
-                {
-                  "name": "AZURE_MONITOR_DCR_ID",
-                  "value": "[reference(resourceId('Microsoft.Insights/dataCollectionRules', variables('dcrName')), '2023-03-11').immutableId]"
-                },
-                {
-                  "name": "GITHUB_TOKEN",
-                  "secretRef": "github-token"
-                },
-                {
-                  "name": "GH_TOKEN",
-                  "secretRef": "github-token"
-                },
-                {
-                  "name": "STORAGE_ACCOUNT_NAME",
-                  "value": "[if(parameters('deployContainerJob'), format('stawjob{0}', parameters('nameSuffix')), '')]"
-                },
-                {
-                  "name": "REPOSITORIES",
-                  "value": "[parameters('monitoredRepositories')]"
-                },
-                {
-                  "name": "AZURE_CLIENT_ID",
-                  "value": "[if(parameters('deployContainerJob'), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment'))), '2023-01-31').clientId, '')]"
-                }
-              ]
+              "env": "[concat(createArray(createObject('name', 'AZURE_MONITOR_DCE_ENDPOINT', 'value', reference(resourceId('Microsoft.Insights/dataCollectionEndpoints', variables('dceName')), '2023-03-11').logsIngestion.endpoint), createObject('name', 'AZURE_MONITOR_DCR_ID', 'value', reference(resourceId('Microsoft.Insights/dataCollectionRules', variables('dcrName')), '2023-03-11').immutableId), createObject('name', 'STORAGE_ACCOUNT_NAME', 'value', if(parameters('deployContainerJob'), format('stawjob{0}', parameters('nameSuffix')), '')), createObject('name', 'REPOSITORIES', 'value', parameters('monitoredRepositories')), createObject('name', 'AZURE_CLIENT_ID', 'value', if(parameters('deployContainerJob'), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment'))), '2023-01-31').clientId, ''))), if(variables('useGitHubApp'), createArray(createObject('name', 'GITHUB_APP_ID', 'value', parameters('githubAppId')), createObject('name', 'GITHUB_APP_PRIVATE_KEY', 'secretRef', 'github-app-private-key'), createObject('name', 'GITHUB_APP_INSTALLATION_ID', 'value', parameters('githubAppInstallationId'))), createArray(createObject('name', 'GITHUB_TOKEN', 'secretRef', 'github-token'), createObject('name', 'GH_TOKEN', 'secretRef', 'github-token'))))]"
             }
           ]
         }
@@ -1612,7 +1660,8 @@
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', format('id-aw-collector-job-{0}', parameters('environment')))]",
         "[resourceId('Microsoft.Storage/storageAccounts', format('stawjob{0}', parameters('nameSuffix')))]",
         "[resourceId('Microsoft.Insights/dataCollectionEndpoints', variables('dceName'))]",
-        "[resourceId('Microsoft.Insights/dataCollectionRules', variables('dcrName'))]"
+        "[resourceId('Microsoft.Insights/dataCollectionRules', variables('dcrName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults', format('kv-aw-{0}', parameters('nameSuffix')))]"
       ]
     },
     {

@@ -30,6 +30,28 @@ node dist/cli.js prime --repo Azure/azure-sdk-for-js --days 7
 | `deploy` | Collect runs and audit data, push to Azure Monitor |
 | `infra` | Deploy Azure infrastructure |
 
+## Authentication
+
+### Option 1: GitHub App (Recommended)
+
+More secure with short-lived tokens. See [docs/GITHUB-APP-SETUP.md](docs/GITHUB-APP-SETUP.md).
+
+```bash
+az deployment group create ... \
+  -p githubAppId=<APP_ID> \
+  -p "githubAppPrivateKey=$(cat key.pem)" \
+  -p githubAppInstallationId=<INSTALLATION_ID>
+```
+
+### Option 2: Personal Access Token
+
+Simpler but uses a long-lived token.
+
+```bash
+az deployment group create ... \
+  -p "githubToken=$(gh auth token)"
+```
+
 ## Environment Variables
 
 | Variable | Description |
@@ -37,7 +59,10 @@ node dist/cli.js prime --repo Azure/azure-sdk-for-js --days 7
 | `AZURE_MONITOR_DCE_ENDPOINT` | Data Collection Endpoint URL |
 | `AZURE_MONITOR_DCR_ID` | Data Collection Rule ID |
 | `AZURE_MONITOR_WORKSPACE_ID` | Log Analytics Workspace ID |
-| `GITHUB_TOKEN` | GitHub token (or use `gh auth token`) |
+| `GITHUB_TOKEN` | GitHub PAT (legacy) |
+| `GITHUB_APP_ID` | GitHub App ID (recommended) |
+| `GITHUB_APP_PRIVATE_KEY` | GitHub App private key (from Key Vault) |
+| `GITHUB_APP_INSTALLATION_ID` | GitHub App installation ID |
 
 ## Architecture
 

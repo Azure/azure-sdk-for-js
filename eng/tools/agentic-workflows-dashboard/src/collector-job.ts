@@ -4,10 +4,13 @@
  * Standalone Node.js script for collecting workflow runs and audit data.
  * Designed to run as a Container Apps Job on a schedule.
  * 
+ * Authentication (one of):
+ * - GITHUB_TOKEN: GitHub PAT with actions:read scope
+ * - GitHub App: GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY, GITHUB_APP_INSTALLATION_ID
+ * 
  * Required environment variables:
  * - AZURE_MONITOR_DCE_ENDPOINT: Data Collection Endpoint URL
  * - AZURE_MONITOR_DCR_ID: Data Collection Rule ID
- * - GITHUB_TOKEN: GitHub PAT or App token with repo access
  * - STORAGE_ACCOUNT_NAME: Azure Storage account for state
  * - REPOSITORIES: Comma-separated list of repos to monitor (required)
  */
@@ -15,13 +18,46 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { LogsIngestionClient } from "@azure/monitor-ingestion";
 import { BlobServiceClient } from "@azure/storage-blob";
+import { createAppAuth } from "@octokit/auth-app";
 import { spawn } from "node:child_process";
+
+// GitHub App configuration (optional - alternative to PAT)
+interface GitHubAppConfig {
+  appId: string;
+  privateKey: string;
+  installationId: string;
+}
+
+// Get GitHub App config from environment (if configured)
+function getGitHubAppConfig(): GitHubAppConfig | null {
+  const appId = process.env.GITHUB_APP_ID;
+  const privateKey = process.env.GITHUB_APP_PRIVATE_KEY;
+  const installationId = process.env.GITHUB_APP_INSTALLATION_ID;
+  
+  if (appId && privateKey && installationId) {
+    return { appId, privateKey, installationId };
+  }
+  return null;
+}
+
+// Generate a short-lived installation token from GitHub App credentials
+async function getInstallationToken(appConfig: GitHubAppConfig): Promise<string> {
+  const auth = createAppAuth({
+    appId: appConfig.appId,
+    privateKey: appConfig.privateKey,
+    installationId: parseInt(appConfig.installationId, 10),
+  });
+  
+  const { token } = await auth({ type: "installation" });
+  return token;
+}
 
 // Configuration from environment
 const config = {
   dceEndpoint: process.env.AZURE_MONITOR_DCE_ENDPOINT!,
   dcrId: process.env.AZURE_MONITOR_DCR_ID!,
-  githubToken: process.env.GITHUB_TOKEN!,
+  // Token will be set dynamically - either from PAT or GitHub App
+  githubToken: "",
   // REPOSITORIES is required - set via Bicep parameter monitoredRepositories
   repositories: (process.env.REPOSITORIES || "").split(",").filter(r => r.trim()),
   storageAccountName: process.env.STORAGE_ACCOUNT_NAME || "",
@@ -604,9 +640,28 @@ function auditKey(repo: string, runId: number, attempt: number): string {
 async function main(): Promise<void> {
   log.info("=== Agentic Workflows Collector Job ===");
 
+  // Initialize GitHub authentication
+  const appConfig = getGitHubAppConfig();
+  if (appConfig) {
+    log.info("Using GitHub App authentication");
+    try {
+      config.githubToken = await getInstallationToken(appConfig);
+      log.info("Generated installation token (expires in 1 hour)");
+    } catch (error) {
+      log.error(`Failed to generate GitHub App token: ${error}`);
+      process.exit(1);
+    }
+  } else if (process.env.GITHUB_TOKEN) {
+    log.info("Using GitHub PAT authentication");
+    config.githubToken = process.env.GITHUB_TOKEN;
+  } else {
+    log.error("No GitHub authentication configured. Set either GITHUB_TOKEN or GITHUB_APP_ID/GITHUB_APP_PRIVATE_KEY/GITHUB_APP_INSTALLATION_ID");
+    process.exit(1);
+  }
+
   // Validate config
-  if (!config.dceEndpoint || !config.dcrId || !config.githubToken) {
-    log.error("Missing required environment variables: AZURE_MONITOR_DCE_ENDPOINT, AZURE_MONITOR_DCR_ID, GITHUB_TOKEN");
+  if (!config.dceEndpoint || !config.dcrId) {
+    log.error("Missing required environment variables: AZURE_MONITOR_DCE_ENDPOINT, AZURE_MONITOR_DCR_ID");
     process.exit(1);
   }
 

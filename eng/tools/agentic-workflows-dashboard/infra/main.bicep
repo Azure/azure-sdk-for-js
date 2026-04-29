@@ -801,12 +801,76 @@ resource workspaceLock 'Microsoft.Authorization/locks@2020-05-01' = {
 
 // ===== AZURE CONTAINER APPS JOB FOR AUTOMATED COLLECTION =====
 
-@description('GitHub Personal Access Token for API access')
+// Authentication options (choose one):
+// Option 1: GitHub PAT (simpler, but long-lived token)
+@description('GitHub Personal Access Token for API access (legacy - prefer GitHub App)')
 @secure()
 param githubToken string = ''
 
+// Option 2: GitHub App (recommended - short-lived tokens, fine-grained permissions)
+@description('GitHub App ID for authentication')
+param githubAppId string = ''
+
+@description('GitHub App Private Key (PEM format) - stored in Key Vault')
+@secure()
+param githubAppPrivateKey string = ''
+
+@description('GitHub App Installation ID')
+param githubAppInstallationId string = ''
+
 @description('Enable Container Apps Job deployment (default: true for production)')
 param deployContainerJob bool = true
+
+// Determine auth mode
+var useGitHubApp = !empty(githubAppId) && !empty(githubAppPrivateKey) && !empty(githubAppInstallationId)
+
+// Key Vault for secure secret storage (required for GitHub App, recommended for PAT)
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = if (deployContainerJob) {
+  name: 'kv-aw-${nameSuffix}'
+  location: location
+  tags: commonTags
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    tenantId: subscription().tenantId
+    enableRbacAuthorization: true
+    enableSoftDelete: true
+    softDeleteRetentionInDays: 7
+  }
+}
+
+// Store GitHub App private key in Key Vault
+resource ghAppKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (deployContainerJob && useGitHubApp) {
+  parent: keyVault
+  name: 'github-app-private-key'
+  properties: {
+    value: githubAppPrivateKey
+    contentType: 'application/x-pem-file'
+  }
+}
+
+// Store GitHub PAT in Key Vault (if using PAT auth)
+resource ghTokenSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = if (deployContainerJob && !useGitHubApp && !empty(githubToken)) {
+  parent: keyVault
+  name: 'github-token'
+  properties: {
+    value: githubToken
+    contentType: 'text/plain'
+  }
+}
+
+// Grant Container Job identity access to Key Vault secrets
+resource kvSecretsUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (deployContainerJob) {
+  name: guid(keyVault.id, containerJobIdentity.id, 'Key Vault Secrets User')
+  scope: keyVault
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '4633458b-17de-408a-b874-0445c86b69e6') // Key Vault Secrets User
+    principalId: containerJobIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
 
 // Azure Container Registry for collector image
 resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' = if (deployContainerJob) {
@@ -901,10 +965,18 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
           identity: containerJobIdentity.id
         }
       ]
-      secrets: [
+      // Secrets from Key Vault (no plaintext secrets in deployment)
+      secrets: useGitHubApp ? [
+        {
+          name: 'github-app-private-key'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/github-app-private-key'
+          identity: containerJobIdentity.id
+        }
+      ] : [
         {
           name: 'github-token'
-          value: githubToken
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/github-token'
+          identity: containerJobIdentity.id
         }
       ]
     }
@@ -917,7 +989,7 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
             cpu: json('1.0')
             memory: '2Gi'
           }
-          env: [
+          env: concat([
             {
               name: 'AZURE_MONITOR_DCE_ENDPOINT'
               value: dce.properties.logsIngestion.endpoint
@@ -925,14 +997,6 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
             {
               name: 'AZURE_MONITOR_DCR_ID'
               value: dcr.properties.immutableId
-            }
-            {
-              name: 'GITHUB_TOKEN'
-              secretRef: 'github-token'
-            }
-            {
-              name: 'GH_TOKEN'
-              secretRef: 'github-token'
             }
             {
               name: 'STORAGE_ACCOUNT_NAME'
@@ -946,7 +1010,31 @@ resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) 
               name: 'AZURE_CLIENT_ID'
               value: deployContainerJob ? containerJobIdentity.properties.clientId : ''
             }
-          ]
+          ], useGitHubApp ? [
+            // GitHub App authentication
+            {
+              name: 'GITHUB_APP_ID'
+              value: githubAppId
+            }
+            {
+              name: 'GITHUB_APP_PRIVATE_KEY'
+              secretRef: 'github-app-private-key'
+            }
+            {
+              name: 'GITHUB_APP_INSTALLATION_ID'
+              value: githubAppInstallationId
+            }
+          ] : [
+            // PAT authentication (legacy)
+            {
+              name: 'GITHUB_TOKEN'
+              secretRef: 'github-token'
+            }
+            {
+              name: 'GH_TOKEN'
+              secretRef: 'github-token'
+            }
+          ])
         }
       ]
     }
