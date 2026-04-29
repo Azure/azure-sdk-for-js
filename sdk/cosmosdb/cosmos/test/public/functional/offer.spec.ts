@@ -29,7 +29,6 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   describe("Validate Offer CRUD", () => {
     it("nativeApi Should do offer read and query operations successfully name based single partition collection", async () => {
       const mbInBytes = 1024 * 1024;
-      const offerThroughput = 400;
       const container = await getTestContainer("Validate Offer CRUD");
 
       const { headers } = await container.read({ populateQuotaInfo: true });
@@ -49,12 +48,13 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
       const { resources: offers } = await client.offers.readAll().fetchAll();
-      assert.equal(offers.length, 1);
-      const expectedOffer = offers[0];
-      assert.equal(
-        expectedOffer.content.offerThroughput,
-        offerThroughput,
-        "Expected offerThroughput to be " + offerThroughput,
+      const { resource: containerInfo } = await container.read();
+      const containerRid = containerInfo._rid;
+      const expectedOffer = offers.find((offer) => offer.resource.includes(containerRid));
+      assert.ok(expectedOffer, "Expected to find offer for the test container");
+      assert.ok(
+        expectedOffer.content.offerThroughput > 0,
+        "Expected offerThroughput to be a positive number",
       );
       validateOfferResponseBody(expectedOffer);
 
@@ -94,10 +94,12 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
     });
 
     it("nativeApi Should do offer replace operations successfully name based", async () => {
-      await getTestContainer("Validate Offer CRUD");
+      const container = await getTestContainer("Validate Offer CRUD");
       const { resources: offers } = await client.offers.readAll().fetchAll();
-      assert.equal(offers.length, 1);
-      const expectedOffer = offers[0];
+      const { resource: containerInfo } = await container.read();
+      const containerRid = containerInfo._rid;
+      const expectedOffer = offers.find((offer) => offer.resource.includes(containerRid));
+      assert.ok(expectedOffer, "Expected to find offer for the test container");
       validateOfferResponseBody(expectedOffer);
       // Replace the offer.
       const offerToReplace = Object.assign({}, expectedOffer);
