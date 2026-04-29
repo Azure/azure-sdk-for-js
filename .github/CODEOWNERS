@@ -427,7 +427,7 @@
 # PRLabel: %Mgmt
 /sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -439,7 +439,7 @@
 # PRLabel: %Mgmt
 /sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/compute/arm-compute/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -520,7 +520,7 @@
 # PRLabel: %Mgmt
 /sdk/datacatalog/arm-datacatalog/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -868,7 +868,7 @@
 # PRLabel: %Mgmt
 /sdk/recoveryservicesbackup/arm-recoveryservicesbackup/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1680,6 +1680,7 @@ sdk/alertprocessingrules/arm-alertprocessingrules/ @qiaozha @MaryGao @JialinHuan
 sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
 sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
