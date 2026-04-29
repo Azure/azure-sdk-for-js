@@ -26,7 +26,7 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("IPv6 Test", async () => {
-    const accountName = "storageaccount"
+    const accountName = "storageaccount";
 
     let datalakeServiceURL = `https://${accountName}-ipv6.dfs.core.windows.net/`;
     let datalakeServiceClient = new DataLakeServiceClient(datalakeServiceURL);

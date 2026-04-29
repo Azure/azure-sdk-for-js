@@ -27,7 +27,7 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("IPv6 Test", async () => {
-    const accountName = "storageaccount"
+    const accountName = "storageaccount";
 
     let queueServiceURL = `https://${accountName}-ipv6.queue.core.windows.net/`;
     let queueServiceClient = new QueueServiceClient(queueServiceURL);

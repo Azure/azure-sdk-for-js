@@ -66,8 +66,8 @@ describe("DataLakePathClient", () => {
     assert.deepEqual(systemProperties.contentLength, properties.contentLength);
     assert.deepEqual(systemProperties.isDirectory, false);
 
-    const fileClient = fileSystemClient.getDirectoryClient(testFileName);
-    const fileProperties = await fileClient.getSystemProperties();
+    const pathClient = fileSystemClient.getDirectoryClient(testFileName);
+    const fileProperties = await pathClient.getSystemProperties();
     assert.deepEqual(fileProperties.permissions, properties.permissions);
     assert.deepEqual(fileProperties.owner, properties.owner);
     assert.deepEqual(fileProperties.group, properties.group);

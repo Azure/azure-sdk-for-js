@@ -27,7 +27,7 @@ describe("BlobServiceClient Node.js only", () => {
   });
 
   it("IPv6 Test", async () => {
-    const accountName = "storageaccount"
+    const accountName = "storageaccount";
 
     let blobServiceURL = `https://${accountName}-ipv6.blob.core.windows.net/`;
     let blobServiceClient = new BlobServiceClient(blobServiceURL);

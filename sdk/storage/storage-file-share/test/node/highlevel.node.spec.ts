@@ -83,10 +83,10 @@ describe("Highlevel Node.js only", () => {
     }
 
     await fileClient.create(4 * 1024 * 1024, {
-        content: createContent,
-        contentLength: createContent.length,
-      });
-    
+      content: createContent,
+      contentLength: createContent.length,
+    });
+
     const response = await fileClient.download();
     assert.equal(await compareBodyWithUint8Array(response, createContent), true);
   });
@@ -103,7 +103,7 @@ describe("Highlevel Node.js only", () => {
       assert.equal((ex as any).code, "RequestBodyTooLarge");
     }
   });
-  
+
   it("create with 4Mib content with crc64 check should work", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
@@ -111,17 +111,17 @@ describe("Highlevel Node.js only", () => {
 
     const byteLength = 4 * 1024 * 1024;
     const createContent = new Uint8Array(4 * 1024 * 1024);
-      const cResp = await fileClient.create(byteLength, {
-        content: createContent,
-        contentLength: byteLength,
-        contentChecksumAlgorithm: "StorageCrc64"
-      });
-      assert.equal(cResp.errorCode, undefined);
-      assert.deepEqual(cResp.structuredBodyType, "XSM/1.0; properties=crc64");
-  
-      const response = await fileClient.download();
-      assert.equal(await compareBodyWithUint8Array(response, createContent), true);
+    const cResp = await fileClient.create(byteLength, {
+      content: createContent,
+      contentLength: byteLength,
+      contentChecksumAlgorithm: "StorageCrc64",
     });
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const response = await fileClient.download();
+    assert.equal(await compareBodyWithUint8Array(response, createContent), true);
+  });
 
   it(
     "uploadFile should success for large data",

@@ -29,7 +29,7 @@ describe("FileServiceClient Node.js only", () => {
   });
 
   it("IPv6 Test", async () => {
-    const accountName = "storageaccount"
+    const accountName = "storageaccount";
 
     let shareServiceURL = `https://${accountName}-ipv6.file.core.windows.net/`;
     let shareServiceClient = new ShareServiceClient(shareServiceURL);
