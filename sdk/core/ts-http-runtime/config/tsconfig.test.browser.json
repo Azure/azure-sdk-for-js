@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@typespec/ts-http-runtime": ["./src/index.ts"],
+      "@typespec/ts-http-runtime/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

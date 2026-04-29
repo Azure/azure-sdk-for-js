@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to see [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  *
  * @summary see [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
- * x-ms-original-file: 2026-01-01/ManagedClustersRotateClusterCertificates.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersRotateClusterCertificates.json
  */
 async function rotateClusterCertificates() {
   const credential = new DefaultAzureCredential();

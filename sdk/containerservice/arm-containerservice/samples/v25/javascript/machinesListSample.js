@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of machines in the specified agent pool.
  *
  * @summary gets a list of machines in the specified agent pool.
- * x-ms-original-file: 2026-01-01/MachineList.json
+ * x-ms-original-file: 2026-02-01/MachineList.json
  */
 async function listMachinesInAnAgentpoolByManagedCluster() {
   const credential = new DefaultAzureCredential();

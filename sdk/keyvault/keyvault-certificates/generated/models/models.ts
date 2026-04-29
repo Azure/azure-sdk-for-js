@@ -463,7 +463,7 @@ export interface SubjectAlternativeNames {
   /** User Principal Names. */
   upns?: string[];
   /** Uniform Resource Identifiers. */
-  uniformResourceIdentifiers?: string[];
+  uris?: string[];
   /** IP addresses; supports IPv4 and IPv6. */
   ipAddresses?: string[];
 }
@@ -485,9 +485,9 @@ export function subjectAlternativeNamesSerializer(item: SubjectAlternativeNames)
       : item["upns"].map((p: any) => {
           return p;
         }),
-    uris: !item["uniformResourceIdentifiers"]
-      ? item["uniformResourceIdentifiers"]
-      : item["uniformResourceIdentifiers"].map((p: any) => {
+    uris: !item["uris"]
+      ? item["uris"]
+      : item["uris"].map((p: any) => {
           return p;
         }),
     ipAddresses: !item["ipAddresses"]
@@ -515,7 +515,7 @@ export function subjectAlternativeNamesDeserializer(item: any): SubjectAlternati
       : item["upns"].map((p: any) => {
           return p;
         }),
-    uniformResourceIdentifiers: !item["uris"]
+    uris: !item["uris"]
       ? item["uris"]
       : item["uris"].map((p: any) => {
           return p;

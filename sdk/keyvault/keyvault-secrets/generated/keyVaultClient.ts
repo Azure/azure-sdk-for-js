@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
-  SecretSetParameters,
-  SecretBundle,
-  DeletedSecretBundle,
-  SecretUpdateParameters,
-  SecretItem,
-  DeletedSecretItem,
-  BackupSecretResult,
-  SecretRestoreParameters,
-} from "./models/models.js";
+  restoreSecret,
+  backupSecret,
+  recoverDeletedSecret,
+  purgeDeletedSecret,
+  getDeletedSecret,
+  getDeletedSecrets,
+  getSecretVersions,
+  getSecrets,
+  getSecret,
+  updateSecret,
+  deleteSecret,
+  setSecret,
+} from "./api/operations.js";
 import {
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
@@ -27,22 +31,18 @@ import {
   SetSecretOptionalParams,
 } from "./api/options.js";
 import {
-  restoreSecret,
-  backupSecret,
-  recoverDeletedSecret,
-  purgeDeletedSecret,
-  getDeletedSecret,
-  getDeletedSecrets,
-  getSecretVersions,
-  getSecrets,
-  getSecret,
-  updateSecret,
-  deleteSecret,
-  setSecret,
-} from "./api/operations.js";
+  SecretSetParameters,
+  SecretBundle,
+  DeletedSecretBundle,
+  SecretUpdateParameters,
+  SecretItem,
+  DeletedSecretItem,
+  BackupSecretResult,
+  SecretRestoreParameters,
+} from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 

@@ -4,8 +4,12 @@
 import type { ReplaceTypesPreserveOptional, Validate, ValidateFnc } from "./execute-configs.js";
 import { fieldIdToName } from "./execute-configs.js";
 import type { Configs } from "../scaffolding.js";
-import { hideBin } from "yargs/helpers";
 import yargsParser from "yargs-parser";
+
+function hideBin(argv: string[]): string[] {
+  // Strip the first two elements from process.argv (node and script path)
+  return argv.slice(2);
+}
 
 export const extractConfigFromArgs = <TConfig extends Configs>(
   argv: yargsParser.Arguments,

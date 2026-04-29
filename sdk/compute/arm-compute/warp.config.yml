@@ -1,15 +1,29 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/common": "./src/models/common/index.ts"
+  "./models/compute": "./src/models/compute/index.ts"
+  "./models/computeDisk": "./src/models/computeDisk/index.ts"
+  "./models/computeGallery": "./src/models/computeGallery/index.ts"
+  "./models/computeSku": "./src/models/computeSku/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"

@@ -3,29 +3,22 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List Chaos Faults for CosmosDB account.
+ * This sample demonstrates how to list Chaos Faults for CosmosDB account.
  *
- * @summary List Chaos Faults for CosmosDB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/ChaosFaultList.json
+ * @summary list Chaos Faults for CosmosDB account.
+ * x-ms-original-file: 2025-11-01-preview/ChaosFaultList.json
  */
 async function chaosFaultList(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.chaosFault.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.chaosFault.list("rg1", "ddb1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

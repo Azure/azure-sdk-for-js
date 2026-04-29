@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
  *
  * @summary **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
- * x-ms-original-file: 2026-01-01/ManagedClustersResetAADProfile.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersResetAADProfile.json
  */
 async function resetAADProfile() {
   const credential = new DefaultAzureCredential();

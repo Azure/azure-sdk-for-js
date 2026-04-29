@@ -31,9 +31,9 @@ export function _listForScopeSend(
   options: RoleAssignmentsListForScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleAssignments{?api%2Dversion,%24filter}",
+    "{+scope}/providers/Microsoft.Authorization/roleAssignments{?api%2Dversion,%24filter}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       "api%2Dversion": context.apiVersion,
       "%24filter": options?.filter,
     },
@@ -85,9 +85,9 @@ export function _getSend(
   options: RoleAssignmentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}{?api%2Dversion}",
+    "{+scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}{?api%2Dversion}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       roleAssignmentName: roleAssignmentName,
       "api%2Dversion": context.apiVersion,
     },
@@ -134,9 +134,9 @@ export function _createSend(
   options: RoleAssignmentsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}{?api%2Dversion}",
+    "{+scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}{?api%2Dversion}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       roleAssignmentName: roleAssignmentName,
       "api%2Dversion": context.apiVersion,
     },
@@ -185,9 +185,9 @@ export function _$deleteSend(
   options: RoleAssignmentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}{?api%2Dversion}",
+    "{+scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}{?api%2Dversion}",
     {
-      scope: scope,
+      scope: scope.replace(/\/+$/, ""),
       roleAssignmentName: roleAssignmentName,
       "api%2Dversion": context.apiVersion,
     },

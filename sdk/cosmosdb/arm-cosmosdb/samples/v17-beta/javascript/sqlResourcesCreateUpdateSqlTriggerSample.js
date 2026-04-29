@@ -3,45 +3,38 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL trigger
+ * This sample demonstrates how to create or update an Azure Cosmos DB SQL trigger
  *
- * @summary Create or update an Azure Cosmos DB SQL trigger
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlTriggerCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB SQL trigger
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlTriggerCreateUpdate.json
  */
-async function cosmosDbSqlTriggerCreateUpdate() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
-  const triggerName = "triggerName";
-  const createUpdateSqlTriggerParameters = {
-    options: {},
-    resource: {
-      body: "body",
-      id: "triggerName",
-      triggerOperation: "triggerOperation",
-      triggerType: "triggerType",
-    },
-  };
+async function cosmosDBSqlTriggerCreateUpdate() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlTriggerAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    triggerName,
-    createUpdateSqlTriggerParameters,
+  const result = await client.sqlResources.createUpdateSqlTrigger(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "containerName",
+    "triggerName",
+    {
+      options: {},
+      resource: {
+        body: "body",
+        id: "triggerName",
+        triggerOperation: "triggerOperation",
+        triggerType: "triggerType",
+      },
+    },
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbSqlTriggerCreateUpdate();
+  await cosmosDBSqlTriggerCreateUpdate();
 }
 
 main().catch(console.error);

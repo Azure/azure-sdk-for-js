@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-01-01"
+    "Microsoft.ContainerService": "2026-02-01"
   },
-  "emitterVersion": "0.50.2",
+  "emitterVersion": "0.52.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -98,13 +98,18 @@
       "@azure/arm-containerservice!ManagedClusterStorageProfileBlobCSIDriver:interface": "Microsoft.ContainerService.ManagedClusterStorageProfileBlobCSIDriver",
       "@azure/arm-containerservice!ManagedClusterIngressProfile:interface": "Microsoft.ContainerService.ManagedClusterIngressProfile",
       "@azure/arm-containerservice!ManagedClusterIngressProfileWebAppRouting:interface": "Microsoft.ContainerService.ManagedClusterIngressProfileWebAppRouting",
+      "@azure/arm-containerservice!ManagedClusterWebAppRoutingGatewayAPIImplementations:interface": "Microsoft.ContainerService.ManagedClusterWebAppRoutingGatewayAPIImplementations",
+      "@azure/arm-containerservice!ManagedClusterAppRoutingIstio:interface": "Microsoft.ContainerService.ManagedClusterAppRoutingIstio",
       "@azure/arm-containerservice!ManagedClusterIngressProfileNginx:interface": "Microsoft.ContainerService.ManagedClusterIngressProfileNginx",
+      "@azure/arm-containerservice!ManagedClusterIngressProfileGatewayConfiguration:interface": "Microsoft.ContainerService.ManagedClusterIngressProfileGatewayConfiguration",
       "@azure/arm-containerservice!ManagedClusterWorkloadAutoScalerProfile:interface": "Microsoft.ContainerService.ManagedClusterWorkloadAutoScalerProfile",
       "@azure/arm-containerservice!ManagedClusterWorkloadAutoScalerProfileKeda:interface": "Microsoft.ContainerService.ManagedClusterWorkloadAutoScalerProfileKeda",
       "@azure/arm-containerservice!ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler:interface": "Microsoft.ContainerService.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfile:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfile",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileMetrics",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileKubeStateMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileKubeStateMetrics",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoring:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoring",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation",
       "@azure/arm-containerservice!ServiceMeshProfile:interface": "Microsoft.ContainerService.ServiceMeshProfile",
       "@azure/arm-containerservice!IstioServiceMesh:interface": "Microsoft.ContainerService.IstioServiceMesh",
       "@azure/arm-containerservice!IstioComponents:interface": "Microsoft.ContainerService.IstioComponents",
@@ -117,6 +122,7 @@
       "@azure/arm-containerservice!ManagedClusterNodeProvisioningProfile:interface": "Microsoft.ContainerService.ManagedClusterNodeProvisioningProfile",
       "@azure/arm-containerservice!ManagedClusterBootstrapProfile:interface": "Microsoft.ContainerService.ManagedClusterBootstrapProfile",
       "@azure/arm-containerservice!ManagedClusterAIToolchainOperatorProfile:interface": "Microsoft.ContainerService.ManagedClusterAIToolchainOperatorProfile",
+      "@azure/arm-containerservice!ManagedClusterHostedSystemProfile:interface": "Microsoft.ContainerService.ManagedClusterHostedSystemProfile",
       "@azure/arm-containerservice!ManagedClusterStatus:interface": "Microsoft.ContainerService.ManagedClusterStatus",
       "@azure/arm-containerservice!ManagedClusterSKU:interface": "Microsoft.ContainerService.ManagedClusterSKU",
       "@azure/arm-containerservice!ExtendedLocation:interface": "Microsoft.ContainerService.ExtendedLocation",
@@ -239,7 +245,9 @@
       "@azure/arm-containerservice!KnownNodeOSUpgradeChannel:enum": "Microsoft.ContainerService.NodeOSUpgradeChannel",
       "@azure/arm-containerservice!KnownExpander:enum": "Microsoft.ContainerService.Expander",
       "@azure/arm-containerservice!KnownKeyVaultNetworkAccessTypes:enum": "Microsoft.ContainerService.KeyVaultNetworkAccessTypes",
+      "@azure/arm-containerservice!KnownGatewayAPIIstioEnabled:enum": "Microsoft.ContainerService.GatewayAPIIstioEnabled",
       "@azure/arm-containerservice!KnownNginxIngressControllerType:enum": "Microsoft.ContainerService.NginxIngressControllerType",
+      "@azure/arm-containerservice!KnownManagedGatewayType:enum": "Microsoft.ContainerService.ManagedGatewayType",
       "@azure/arm-containerservice!KnownPublicNetworkAccess:enum": "Microsoft.ContainerService.PublicNetworkAccess",
       "@azure/arm-containerservice!KnownServiceMeshMode:enum": "Microsoft.ContainerService.ServiceMeshMode",
       "@azure/arm-containerservice!KnownIstioIngressGatewayMode:enum": "Microsoft.ContainerService.IstioIngressGatewayMode",

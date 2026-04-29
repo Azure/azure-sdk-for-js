@@ -2,19 +2,48 @@
 on:
   pull_request_target:
     types: [labeled]
+    forks: ["*"]
+  workflow_dispatch:
+    inputs:
+      item_number:
+        description: PR number to run the review on
+        required: true
+        type: string
+  permissions:
+    pull-requests: write
+  steps:
+    - name: Remove trigger label
+      id: remove_label
+      if: github.event_name == 'pull_request_target' && github.event.label.name == 'dependency-review-needed'
+      uses: actions/github-script@v8
+      with:
+        script: |
+          try {
+            await github.rest.issues.removeLabel({
+              ...context.repo,
+              issue_number: context.payload.pull_request.number,
+              name: 'dependency-review-needed'
+            });
+          } catch (e) {
+            core.warning(`Could not remove label: ${e.message}`);
+          }
 labels: [dependency-review-needed]
-if: github.event.label.name == 'dependency-review-needed'
+if: github.event.label.name == 'dependency-review-needed' || github.event_name == 'workflow_dispatch'
+concurrency:
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
+  cancel-in-progress: true
 description: "Dexter: Audit dependency changes in a pull request"
 permissions:
   contents: read
   pull-requests: read
   actions: read
+  vulnerability-alerts: read
   security-events: read
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, dependabot]
-    lockdown: true
-  bash: true
+    min-integrity: unapproved
+  bash: ["cat", "date", "echo", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
   web-fetch:
@@ -22,9 +51,11 @@ safe-outputs:
   create-pull-request-review-comment:
     max: 10
     side: "RIGHT"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> 📦 *Audited by [{workflow_name}]({run_url})*"
     run-started: "📦 [{workflow_name}]({run_url}) is auditing dependency changes…"

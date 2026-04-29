@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to requests the Agent of any active instance of this Job Definition to stop.
  *
  * @summary requests the Agent of any active instance of this Job Definition to stop.
- * x-ms-original-file: 2025-07-01/JobDefinitions_StopJob.json
+ * x-ms-original-file: 2025-12-01/JobDefinitions_StopJob.json
  */
 async function jobDefinitionsStopJob() {
   const credential = new DefaultAzureCredential();

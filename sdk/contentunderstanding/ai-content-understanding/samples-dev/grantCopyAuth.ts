@@ -22,6 +22,10 @@
  * Note: For same-resource copying (copying within the same Microsoft Foundry resource), use the
  * copyAnalyzer sample instead.
  *
+ * Note: If API keys are not provided, DefaultAzureCredential will be used.
+ * Cross-resource copying with DefaultAzureCredential requires 'Cognitive Services User' role
+ * on both source and target resources.
+ *
  * @azsdk-weight 76
  */
 
