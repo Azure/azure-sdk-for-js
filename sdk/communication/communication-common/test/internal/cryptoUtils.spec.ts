@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { shaHMAC, shaHash } from "../../src/credential/cryptoUtils.js";
+import { shaHMAC, shaHash } from "#platform/credential/cryptoUtils";
 import { describe, it, assert } from "vitest";
 
 describe("CryptoUtils", function () {

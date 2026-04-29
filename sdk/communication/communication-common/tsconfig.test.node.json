@@ -1,10 +1,5 @@
 {
-  "extends": "../../../tsconfig.test.node.base.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure/communication-common": ["./src/index.ts"],
-      "@azure/communication-common/*": ["./src/*"],
-      "$internal/*": ["./src/*"]
-    }
-  }
+  "extends": "./config/tsconfig.test.node.json",
+  "include": ["test/**/*.spec.ts"],
+  "exclude": ["test/**/browser", "test/**/react-native", "test/snippets.spec.ts", "test/stress"]
 }

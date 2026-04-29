@@ -276,7 +276,8 @@
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "react-native": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
@@ -291,7 +292,7 @@
     "generate:client": "echo skipped",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "test:node": "dev-tool run test:vitest",
+    "test:node": "tsc -b --noEmit && dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"

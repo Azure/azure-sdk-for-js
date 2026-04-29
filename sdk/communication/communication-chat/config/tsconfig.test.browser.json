@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/communication-chat": ["../src/index.ts"],
+      "@azure/communication-chat/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -20,7 +20,7 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test:node": "tsc -b --noEmit && dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
     "test:node:live": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -80,7 +80,8 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "react-native": "catalog:testing"
   },
   "type": "module",
   "exports": {
@@ -102,6 +103,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
     }
   }
 }

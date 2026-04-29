@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -20,7 +20,7 @@
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "tsc -b --noEmit && dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -62,7 +62,7 @@
     "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "events": "^3.0.0",
+    "eventemitter3": "^5.0.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -83,7 +83,8 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "react-native": "catalog:testing"
   },
   "//metadata": {
     "constantPaths": [
@@ -131,6 +132,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
     }
   }
 }

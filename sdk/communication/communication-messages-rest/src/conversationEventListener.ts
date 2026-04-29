@@ -13,7 +13,7 @@ import type {
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import { EventEmitter } from "events";
 import { logger } from "./generated/src/logger.js";
-import { getSignalingClient } from "./signaling/signalingClient.js";
+import { getSignalingClient } from "#platform/signaling/signalingClient";
 import type { MessagesServiceClientOptions } from "./generated/src/messagesServiceClient.js";
 
 export interface ConversationEventListener {
