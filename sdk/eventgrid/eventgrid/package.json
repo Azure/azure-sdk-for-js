@@ -106,10 +106,10 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing",
-    "react-native": "catalog:testing"
+    "vitest": "catalog:testing"
   },
   "type": "module",
   "exports": {

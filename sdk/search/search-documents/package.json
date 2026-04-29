@@ -95,11 +95,11 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "type-plus": "^7.6.2",
     "typescript": "catalog:",
-    "vitest": "catalog:testing",
-    "react-native": "catalog:testing"
+    "vitest": "catalog:testing"
   },
   "//sampleConfiguration": {
     "productName": "Azure Search Documents",
