@@ -5,6 +5,7 @@ import type { SasTokenProperties } from "../client/SasToken/SasTokenProperties.j
 import { Constants, CosmosKeyType, SasTokenPermissionKind } from "../common/index.js";
 import { encodeUTF8 } from "./encode.js";
 import { hmac } from "#platform/utils/hmac";
+import { stringToBase64 } from "#platform/encryption/bufferOps";
 
 /**
  * Experimental internal only
@@ -143,7 +144,7 @@ export async function createAuthorizationSasToken(
     sasTokenProperties.dataPlaneWriterScope.toString(16) +
     "\n";
 
-  const payloadBase64 = btoa(payload);
+  const payloadBase64 = stringToBase64(payload);
   const signedPayload = await hmac(masterKey, payloadBase64);
   return "type=sas&ver=1.0&sig=" + signedPayload + ";" + payloadBase64;
 }
