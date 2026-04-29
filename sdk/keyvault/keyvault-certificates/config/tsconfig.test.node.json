@@ -2,12 +2,7 @@
   "extends": "../../../../eng/tsconfigs/test.node.json",
   "compilerOptions": {
     "paths": {
-      "@azure/keyvault-certificates": [
-        "../src/index.ts"
-      ],
-      "@azure/keyvault-certificates/*": [
-        "../src/*"
-      ]
+      "@azure/keyvault-certificates": ["../src/index.ts"]
     }
   }
 }
