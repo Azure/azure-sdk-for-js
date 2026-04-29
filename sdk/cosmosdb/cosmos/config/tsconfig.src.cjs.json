@@ -1,10 +1,11 @@
 {
-  "extends": "../../../tsconfig.src.react-native.json",
+  "extends": "../../../../eng/tsconfigs/src.cjs.json",
   "compilerOptions": {
     "stripInternal": true,
     "strict": false,
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["../src/index.ts"]
 }
