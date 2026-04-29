@@ -107,7 +107,7 @@ import type { CertificateOperationState } from "./lro/operation/operation.js";
 import type { DeleteCertificateState } from "./lro/delete/operation.js";
 import type { CreateCertificateState } from "./lro/create/operation.js";
 import type { RecoverDeletedCertificateState } from "./lro/recover/operation.js";
-import { parseCertificateBytes } from "#platform/utils";
+import { parseCertificateBytes } from "./utils.js";
 import type { KeyVaultCertificateIdentifier } from "./identifier.js";
 import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
 import {
