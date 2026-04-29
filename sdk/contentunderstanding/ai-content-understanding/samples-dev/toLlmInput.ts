@@ -141,7 +141,7 @@ export async function main(): Promise<void> {
 
   // Analyze a video — the result may contain multiple segments.
   // toLlmInput renders each segment with its time range in the front matter
-  // (e.g., timeRange: 0ms-15230ms) and separates segments with ***** dividers.
+  // (e.g., timeRange: 00:00 – 00:15) and separates segments with ***** dividers.
   console.log("Analyzing video...");
   console.log(`  URL: ${videoUrl}\n`);
 
