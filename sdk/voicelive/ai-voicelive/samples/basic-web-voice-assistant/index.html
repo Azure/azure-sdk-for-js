@@ -55,6 +55,10 @@
                                 <option value="en-US-AvaNeural" selected>Ava (Neural)</option>
                                 <option value="en-US-JennyNeural">Jenny (Neural)</option>
                                 <option value="en-US-GuyNeural">Guy (Neural)</option>
+                                <option value="en-US-Ava:DragonHDLatestNeural">Ava (DragonHD Latest)</option>
+                                <option value="en-US-Andrew:DragonHDLatestNeural">Andrew (DragonHD Latest)</option>
+                                <option value="zh-CN-Xiaoxiao:DragonHDFlashLatestNeural">Xiaoxiao (DragonHD Flash Latest)</option>
+                                <option value="zh-CN-Yunyi:DragonHDFlashLatestNeural">Yunyi (DragonHD Flash Latest)</option>
                             </optgroup>
                         </select>
                     </div>
@@ -68,6 +72,31 @@
                             <input type="checkbox" id="debugMode" checked>
                             Enable Debug Mode (Verbose SDK Logging)
                         </label>
+                        <label>
+                            <input type="checkbox" id="enablePronunciationAssessment">
+                            Enable Pronunciation Assessment (PA)
+                        </label>
+                        <div id="paOptions" class="pa-options">
+                            <label for="paScenario">PA Scenario:</label>
+                            <div class="scenario-selector">
+                                <label class="radio-label">
+                                    <input type="radio" name="paScenario" value="conversation" checked>
+                                    Conversation
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="paScenario" value="concise">
+                                    Concise
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="paScenario" value="readAlong">
+                                    Read Along
+                                </label>
+                            </div>
+                            <label>
+                                <input type="checkbox" id="paWithReferenceText">
+                                PA with reference text (wait for full user transcription)
+                            </label>
+                        </div>
                     </div>
                 </div>
             </section>

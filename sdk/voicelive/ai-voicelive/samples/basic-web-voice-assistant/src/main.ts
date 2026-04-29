@@ -112,6 +112,40 @@ class WebVoiceAssistantApp {
       });
     });
 
+    // Handle PA checkbox — show/hide PA options and fill instructions
+    const paCheckbox = document.getElementById('enablePronunciationAssessment') as HTMLInputElement;
+    const paOptions = document.getElementById('paOptions') as HTMLElement;
+    const instructionsTextarea = document.getElementById('instructions') as HTMLTextAreaElement;
+    const updatePaOptionsVisibility = () => {
+      paOptions.style.display = paCheckbox.checked ? 'block' : 'none';
+      if (paCheckbox.checked) {
+        // When PA is enabled, fill instructions with the selected scenario's predefined instructions
+        const selectedScenario = (document.querySelector('input[name="paScenario"]:checked') as HTMLInputElement)?.value || 'conversation';
+        instructionsTextarea.value = this.voiceAssistant.getScenarioInstructions(selectedScenario);
+      } else {
+        // When PA is disabled, reset to default instructions
+        instructionsTextarea.value = 'You are a helpful AI assistant. Respond naturally and conversationally. Keep your responses concise but engaging.';
+      }
+    };
+    paCheckbox.addEventListener('change', updatePaOptionsVisibility);
+    updatePaOptionsVisibility();
+
+    // Handle PA scenario selection — fill instructions textarea
+    const scenarioRadios = document.querySelectorAll('input[name="paScenario"]');
+    const paRefTextCheckbox = document.getElementById('paWithReferenceText') as HTMLInputElement;
+    scenarioRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        instructionsTextarea.value = this.voiceAssistant.getScenarioInstructions(target.value);
+        if (target.value === 'readAlong') {
+          paRefTextCheckbox.checked = false;
+          paRefTextCheckbox.disabled = true;
+        } else {
+          paRefTextCheckbox.disabled = false;
+        }
+      });
+    });
+
     // Load saved settings
     this.loadSettings();
   }
@@ -218,6 +252,10 @@ class WebVoiceAssistantApp {
     const voice = (document.getElementById('voice') as HTMLSelectElement).value;
     const instructions = (document.getElementById('instructions') as HTMLTextAreaElement).value;
     const debugMode = (document.getElementById('debugMode') as HTMLInputElement).checked;
+    const enablePronunciationAssessment = (document.getElementById('enablePronunciationAssessment') as HTMLInputElement).checked;
+    const paWithReferenceText = (document.getElementById('paWithReferenceText') as HTMLInputElement).checked;
+    const paScenarioElement = document.querySelector('input[name="paScenario"]:checked') as HTMLInputElement;
+    const paScenario = paScenarioElement?.value || 'conversation';
     const authMethodElement = document.querySelector('input[name="authMethod"]:checked') as HTMLInputElement;
     const useTokenCredential = authMethodElement ? authMethodElement.value === 'token' : false;
 
@@ -229,7 +267,17 @@ class WebVoiceAssistantApp {
       throw new Error('API key is required when using API key authentication');
     }
 
-    return { endpoint, apiKey, voice, instructions, debugMode, useTokenCredential };
+    return {
+      endpoint,
+      apiKey,
+      voice,
+      instructions,
+      debugMode,
+      useTokenCredential,
+      enablePronunciationAssessment,
+      paWithReferenceText,
+      paScenario
+    };
   }
 
   private updateConnectionStatus(status: string): void {
@@ -269,7 +317,7 @@ class WebVoiceAssistantApp {
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
   }
 
-  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean }): void {
+  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; contentHtml?: string }): void {
     if (!message.messageId) {
       // Fallback to regular message if no ID provided
       this.addConversationMessage(message);
@@ -316,7 +364,11 @@ class WebVoiceAssistantApp {
           existingCursor.remove();
         }
         
-        contentSpan.textContent = message.content;
+        if (message.contentHtml) {
+          contentSpan.innerHTML = message.contentHtml;
+        } else {
+          contentSpan.textContent = message.content;
+        }
         
         // Add/remove streaming indicator
         if (message.isStreaming) {
@@ -425,7 +477,6 @@ class WebVoiceAssistantApp {
       localStorage.setItem('voiceLiveSettings', JSON.stringify({
         endpoint: config.endpoint,
         voice: config.voice,
-        instructions: config.instructions
         // Note: We don't save API key for security
       }));
     } catch (error) {
@@ -444,9 +495,6 @@ class WebVoiceAssistantApp {
         }
         if (settings.voice) {
           (document.getElementById('voice') as HTMLSelectElement).value = settings.voice;
-        }
-        if (settings.instructions) {
-          (document.getElementById('instructions') as HTMLTextAreaElement).value = settings.instructions;
         }
       }
     } catch (error) {

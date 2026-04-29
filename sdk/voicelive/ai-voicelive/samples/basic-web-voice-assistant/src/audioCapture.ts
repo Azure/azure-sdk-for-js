@@ -179,4 +179,8 @@ export class SimpleAudioCapture {
   get isActive(): boolean {
     return this.isCapturing;
   }
+
+  get currentSampleRate(): number | undefined {
+    return this.audioContext?.sampleRate;
+  }
 }

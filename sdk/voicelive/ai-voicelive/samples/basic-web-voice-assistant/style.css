@@ -43,6 +43,36 @@ header p {
     font-size: 1.1em;
 }
 
+/* PA Options */
+.pa-options {
+    margin-top: 8px;
+    margin-left: 24px;
+    padding: 10px 14px;
+    background: #eef1f6;
+    border-left: 3px solid #667eea;
+    border-radius: 4px;
+}
+
+.pa-options > label:first-of-type {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.scenario-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.scenario-selector .radio-label {
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
 /* Configuration Section */
 .config-section {
     margin-bottom: 30px;
@@ -336,6 +366,34 @@ header p {
 @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
+}
+
+/* Pronunciation Assessment word colors */
+.pa-word {
+    padding: 1px 3px;
+    border-radius: 3px;
+    cursor: default;
+    font-weight: 500;
+}
+.pa-word-good {
+}
+.pa-word-bad {
+    color: #000000;
+    background: #ffcc00;
+}
+.pa-word-omission {
+    color: #ffffff;
+    background: #72716f;
+}
+.pa-word-insertion {
+    color: #ffffff;
+    background: #a80000;
+    text-decoration: line-through;
+}
+.pa-summary {
+    color: #6c757d;
+    font-size: 0.85em;
+    margin-left: 6px;
 }
 
 .conversation-controls {
