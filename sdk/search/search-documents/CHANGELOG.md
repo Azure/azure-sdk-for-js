@@ -1,5 +1,21 @@
 # Release History
 
+## 13.0.1 (Unreleased)
+
+### Features Added
+
+- Added `debug` property to `BaseSearchRequestOptions` to enable debug mode for non-semantic search queries.
+- Added `oversampling` property to `BaseVectorQuery` for vector search oversampling configuration.
+
+### Bugs Fixed
+
+- Fixed `VectorizableImageBinaryQuery` to properly map `binaryImage` property to the service's `base64Image` field.
+
+### Other Changes
+
+- Removed empty `DebugInfo` interface that provided no value.
+- Regenerated from latest TypeSpec spec with `KnowledgeBaseModelWebSummarizationActivityRecord` moved to correct location.
+
 ## 13.0.0 (2026-03-24)
 
 ### Features Added
