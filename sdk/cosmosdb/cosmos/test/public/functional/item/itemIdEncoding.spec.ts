@@ -86,9 +86,6 @@ const executeTestCase = async function (
       assert.fail("response.resource should not be null");
     }
   } catch (err: any) {
-    if (err?.name === "AssertionError" || err?.code === "ERR_ASSERTION") {
-      throw err;
-    }
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedReadStatusCode);
   }
@@ -106,9 +103,6 @@ const executeTestCase = async function (
       assert.fail("response.resource should not be null");
     }
   } catch (err: any) {
-    if (err?.name === "AssertionError" || err?.code === "ERR_ASSERTION") {
-      throw err;
-    }
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedReplaceStatusCode);
   }
@@ -117,9 +111,6 @@ const executeTestCase = async function (
     const response = await container.item(scenario.id, scenario.id).delete();
     assert.strictEqual(response.statusCode, scenario.expectedDeleteStatusCode);
   } catch (err: any) {
-    if (err?.name === "AssertionError" || err?.code === "ERR_ASSERTION") {
-      throw err;
-    }
     console.log("ERROR: " + err.code + " - " + err.message + " - " + err.stack);
     assert.strictEqual(err.code, scenario.expectedDeleteStatusCode);
   }
