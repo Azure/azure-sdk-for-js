@@ -376,7 +376,7 @@ describe("createFailedAuditRecord (real function)", () => {
   it("includes current audit version", () => {
     const record = createFailedAuditRecord(mockRun);
     expect(record.AuditVersion).toBe(AUDIT_VERSION);
-    expect(record.AuditVersion).toBe(23);  // v20 updates
+    expect(record.AuditVersion).toBe(25);  // v20 updates
   });
 
   it("marks as primary model", () => {
@@ -608,7 +608,7 @@ describe("createAuditRecords (real function)", () => {
 describe("Audit version handling", () => {
   it("AUDIT_VERSION is 21 for v21 fixes", () => {
     // v21 updates: Retry audit_failed, workflows per_page=100, post-sanitize classify
-    expect(AUDIT_VERSION).toBe(23);
+    expect(AUDIT_VERSION).toBe(25);
   });
 });
 
@@ -1068,7 +1068,7 @@ describe("v21 sanitizeFiniteNonNegative and max retry", () => {
   });
   
   it("AUDIT_VERSION is 21 for v21 fixes", () => {
-    expect(AUDIT_VERSION).toBe(23);
+    expect(AUDIT_VERSION).toBe(25);
   });
 });
 

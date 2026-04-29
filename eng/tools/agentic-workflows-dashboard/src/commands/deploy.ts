@@ -30,6 +30,13 @@ import {
 } from "../cli.js";
 import type { AggregateLogsUploadError } from "@azure/monitor-ingestion";
 
+/** Extract PR repo from GitHub API URL like "https://api.github.com/repos/Owner/Repo" */
+function extractPRRepo(url: string | undefined | null): string | null {
+  if (!url) return null;
+  const match = url.match(/repos\/([^/]+\/[^/]+)/);
+  return match?.[1] ?? null;
+}
+
 /** Extract meaningful message from Azure Monitor ingestion errors */
 function extractIngestionError(err: unknown): string {
   // Check for AggregateLogsUploadError with nested errors
@@ -94,16 +101,19 @@ function transformRun(repo: string, workflowName: string, run: GitHubWorkflowRun
     isFromFork = run.head_repository.full_name !== repo ? "true" : "false";
   }
 
+  // Only capture PR info for actual PR-triggered runs
+  // GitHub's pull_requests array includes PRs from ANY repo that references this commit SHA,
+  // which causes false associations on scheduled/push runs
+  const isPREvent = run.event === "pull_request" || run.event === "pull_request_target";
+  const firstPR = isPREvent ? run.pull_requests?.[0] : undefined;
+
   return {
     TimeGenerated: new Date().toISOString(),
-    SchemaVersion: SCHEMA_VERSION,
-    CollectorVersion: COLLECTOR_VERSION,
     Repository: repo,
     WorkflowName: workflowName,
     WorkflowId: run.workflow_id,
     RunId: run.id,
     RunAttempt: run.run_attempt,
-    UpdatedAt: run.updated_at,
     Status: run.status,
     Conclusion: run.conclusion,
     CreatedAt: run.created_at,
@@ -118,7 +128,8 @@ function transformRun(repo: string, workflowName: string, run: GitHubWorkflowRun
     HeadSha: run.head_sha,
     HeadRepo: run.head_repository?.full_name ?? null,
     IsFromFork: isFromFork,
-    PullRequestNumber: run.pull_requests?.[0]?.number ?? null,
+    PullRequestNumber: firstPR?.number ?? null,
+    PullRequestRepo: extractPRRepo(firstPR?.base?.repo?.url),
     RunUrl: run.html_url,
   };
 }

@@ -26,7 +26,15 @@ export interface GitHubWorkflowRun {
     fork: boolean;
   };
   html_url: string;
-  pull_requests: Array<{ number: number }>;
+  pull_requests: Array<{
+    number: number;
+    base?: {
+      repo?: {
+        name?: string;
+        url?: string;
+      };
+    };
+  }>;
 }
 
 /** GitHub workflow definition */
@@ -40,8 +48,6 @@ export interface GitHubWorkflow {
 /** Normalized run record for Azure Monitor ingestion */
 export interface WorkflowRunRecord {
   TimeGenerated: string;
-  SchemaVersion: string;
-  CollectorVersion: string;
   
   // Identity
   Repository: string;
@@ -49,7 +55,6 @@ export interface WorkflowRunRecord {
   WorkflowId: number;
   RunId: number;
   RunAttempt: number;
-  UpdatedAt: string;
   
   // Status
   Status: string;
@@ -72,6 +77,8 @@ export interface WorkflowRunRecord {
   /** Tri-state: "true", "false", or "unknown" (when head_repository missing) */
   IsFromFork: "true" | "false" | "unknown";
   PullRequestNumber: number | null;
+  /** The repo where the PR exists (may differ from Repository for fork PRs) */
+  PullRequestRepo: string | null;
   RunUrl: string;
 }
 

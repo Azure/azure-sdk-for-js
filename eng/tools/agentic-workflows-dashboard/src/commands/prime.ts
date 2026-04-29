@@ -64,16 +64,13 @@ interface AuditRecord {
   CacheReadTokens: number;
   CacheWriteTokens: number;
   CacheHitRate: number;
-  CacheEfficiency: number;
   EstimatedCostUSD: number;
   EstimatedSavingsUSD: number;
   Turns: number;
   ToolCalls: number;
   ErrorCount: number;
-  WarningCount: number;
   RequestCount: number;
   DurationMs: number;
-  GitHubApiRequests: number;
   IsPrimaryModel: boolean;
 }
 
@@ -203,16 +200,13 @@ function createAuditRecord(
     CacheReadTokens: cacheReadTokens,
     CacheWriteTokens: cacheWriteTokens,
     CacheHitRate: cacheHitRate,
-    CacheEfficiency: cacheEfficiency,
     EstimatedCostUSD: cost,
     EstimatedSavingsUSD: savings,
     Turns: audit.metrics?.turns ?? 0,
     ToolCalls: audit.tool_usage?.total_calls ?? 0,
     ErrorCount: audit.metrics?.error_count ?? 0,
-    WarningCount: audit.metrics?.warning_count ?? 0,
     RequestCount: 0, // Not available in current audit format
     DurationMs: durationMs,
-    GitHubApiRequests: 0, // Not available in current audit format
     IsPrimaryModel: true,
   };
 }

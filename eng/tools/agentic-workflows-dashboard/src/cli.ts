@@ -8,6 +8,7 @@
  *   deploy  - Collect workflow runs and audit data → Azure Monitor
  *   prime   - Bootstrap audit data from GitHub API (no Azure dependency)
  *   status  - Display dashboard metrics in the terminal
+ *   infra   - Deploy all infrastructure (Azure resources + Function App)
  *
  * Design principles:
  *   - Single entry point with clear subcommands
@@ -20,6 +21,7 @@ import { program } from "commander";
 import { deployCommand } from "./commands/deploy.js";
 import { primeCommand } from "./commands/prime.js";
 import { statusCommand } from "./commands/status.js";
+import { infraDeployCommand } from "./commands/infra.js";
 
 // Exit codes (consistent across all commands)
 export const EXIT_SUCCESS = 0;
@@ -69,7 +71,7 @@ program
   .option("-r, --repo <repo>", "Specific repo to process (owner/name)")
   .option("--repos <repos>", "Comma-separated list of repos")
   .option("-d, --days <n>", "Lookback period in days", "7")
-  .option("-l, --limit <n>", "Max runs to audit", "50")
+  .option("-l, --limit <n>", "Max runs to audit per repo (0 = unlimited)", "500")
   .option("--dry-run", "Validate without pushing to Azure Monitor")
   .option("-v, --verbose", "Verbose output")
   .addHelpText(
@@ -122,5 +124,8 @@ Examples:
 `,
   )
   .action(statusCommand);
+
+// Command: infra
+program.addCommand(infraDeployCommand);
 
 program.parse();

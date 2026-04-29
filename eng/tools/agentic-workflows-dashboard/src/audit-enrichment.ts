@@ -152,14 +152,11 @@ export interface AuditRecord {
   Turns: number;
   ToolCalls: number;
   ErrorCount: number;
-  WarningCount: number;
   ModelId: string;
   RequestCount: number;
   DurationMs: number;
-  CacheEfficiency: number;
   EstimatedCostUSD: number;
   EstimatedSavingsUSD: number;  // v5: model-specific cache savings
-  GitHubApiRequests: number;
   IsPrimaryModel: boolean;
   // v7: Track audit status for coverage
   HasTokenData: boolean;
@@ -184,7 +181,8 @@ export interface RunInfo {
 // v21 changes: Max retry cap (3), Infinity guards, paginate workflows, fix main() counter sync
 // v22 changes: UX improvements - commander CLI, --repo filter, --verbose, distinct exit codes
 // v23 changes: UX trust - gh/gh aw preflight, real Azure auth check, fail-fast on missing config
-export const AUDIT_VERSION = 23;
+// v25 changes: Fixed tool_usage extraction (was always 0 due to JSON key name change in gh aw audit)
+export const AUDIT_VERSION = 25;
 
 // v21: Maximum retry attempts for audit_failed runs before treating as terminal
 export const MAX_AUDIT_RETRIES = 3;
@@ -587,17 +585,14 @@ export function createFailedAuditRecord(run: RunInfo): AuditRecord {
     CacheReadTokens: 0,
     CacheWriteTokens: 0,
     CacheHitRate: 0,
-    CacheEfficiency: 0,
     Turns: 0,
     ToolCalls: 0,
     ErrorCount: 0,
-    WarningCount: 0,
     ModelId: "none",
     RequestCount: 0,
     DurationMs: 0,
     EstimatedCostUSD: 0,
     EstimatedSavingsUSD: 0,
-    GitHubApiRequests: 0,
     IsPrimaryModel: true,
     HasTokenData: false,
     AuditStatus: "audit_failed",
@@ -640,17 +635,14 @@ export function createAuditRecords(
       CacheReadTokens: 0,
       CacheWriteTokens: 0,
       CacheHitRate: 0,
-      CacheEfficiency: 0,
       Turns: audit.metrics?.turns ?? 0,
       ToolCalls: (audit.tool_usage || []).reduce((sum, t) => sum + (t.call_count || 0), 0),
       ErrorCount: audit.metrics?.error_count ?? 0,
-      WarningCount: audit.metrics?.warning_count ?? 0,
       ModelId: "none",
       RequestCount: 0,
       DurationMs: 0,
       EstimatedCostUSD: 0,
       EstimatedSavingsUSD: 0,
-      GitHubApiRequests: audit.github_rate_limit_usage?.total_requests_made ?? 0,
       IsPrimaryModel: true,
       HasTokenData: false,
       AuditStatus: status === "success" ? (fw ? "zero_tokens" : "no_firewall") : status,
@@ -660,10 +652,8 @@ export function createAuditRecords(
   
   const records: AuditRecord[] = [];
   const totalToolCalls = (audit.tool_usage || []).reduce((sum, t) => sum + (t.call_count || 0), 0);
-  const githubRequests = audit.github_rate_limit_usage?.total_requests_made ?? 0;
   const turns = audit.metrics?.turns ?? 0;
   const errorCount = audit.metrics?.error_count ?? 0;
-  const warningCount = audit.metrics?.warning_count ?? 0;
   
   // v12: TypeScript narrowing - fw is guaranteed to exist here since hasTokenData passed
   // We create a local binding to help TypeScript understand fw is non-null
@@ -717,17 +707,14 @@ export function createAuditRecords(
         CacheReadTokens: cacheReadTokens,
         CacheWriteTokens: cacheWriteTokens,
         CacheHitRate: Math.round(cacheRate * 10) / 10,
-        CacheEfficiency: Math.round(cacheEfficiency * 1000) / 1000,
         Turns: turns,
         ToolCalls: totalToolCalls,
         ErrorCount: errorCount,
-        WarningCount: warningCount,
         ModelId: modelId,
         RequestCount: usage.requests,
         DurationMs: usage.duration_ms,
         EstimatedCostUSD: Math.round(cost * 10000) / 10000,
         EstimatedSavingsUSD: Math.round(savings * 10000) / 10000,
-        GitHubApiRequests: githubRequests,
         IsPrimaryModel: modelId === primaryModel,
         // v20: Use sanitized classification
         HasTokenData: hasTokensAfterSanitization,
@@ -778,17 +765,14 @@ export function createAuditRecords(
       CacheReadTokens: cacheReadTokens,
       CacheWriteTokens: cacheWriteTokens,
       CacheHitRate: Math.round(cacheRate * 10) / 10,
-      CacheEfficiency: Math.round(cacheEfficiency * 1000) / 1000,
       Turns: turns,
       ToolCalls: totalToolCalls,
       ErrorCount: errorCount,
-      WarningCount: warningCount,
       ModelId: "unknown",
       RequestCount: firewallData.total_requests,
       DurationMs: firewallData.total_duration_ms,
       EstimatedCostUSD: Math.round(cost * 10000) / 10000,
       EstimatedSavingsUSD: Math.round(savings * 10000) / 10000,
-      GitHubApiRequests: githubRequests,
       IsPrimaryModel: true,
       // v20: Use sanitized classification
       HasTokenData: hasTokensAfterSanitization,

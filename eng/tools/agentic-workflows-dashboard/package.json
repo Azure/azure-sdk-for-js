@@ -14,13 +14,13 @@
     "deploy": "node dist/cli.js deploy",
     "prime": "node dist/cli.js prime",
     "status": "node dist/cli.js status",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@azure/identity": "^4.0.0",
     "@azure/monitor-ingestion": "^1.1.0",
     "@azure/monitor-query": "^1.3.0",
+    "@azure/storage-blob": "^12.0.0",
     "@octokit/rest": "^21.0.0",
     "commander": "^12.0.0"
   },

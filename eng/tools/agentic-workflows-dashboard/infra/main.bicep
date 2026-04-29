@@ -13,8 +13,8 @@ param location string = resourceGroup().location
 @description('Environment name (dev, staging, prod)')
 param environment string = 'prod'
 
-@description('Unique suffix for resource names')
-param nameSuffix string = uniqueString(resourceGroup().id)
+@description('Unique suffix for resource names (use existing suffix to reuse workspace)')
+param nameSuffix string = '54ua3vksrntq4'
 
 @description('GitHub organization for OIDC federation')
 param githubOrg string = 'Azure'
@@ -24,6 +24,22 @@ param githubRepo string = 'azure-sdk-tools'
 
 @description('Optional: Additional principal IDs to grant Monitoring Metrics Publisher role (e.g., for local testing)')
 param additionalPublisherPrincipalIds array = []
+
+@description('Resource owner alias (for EngSys compliance)')
+param ownerAlias string = 'dealmaha'
+
+@description('Email address for alert notifications (leave empty to disable)')
+param alertEmail string = ''
+
+@description('Repositories to monitor (comma-separated)')
+param monitoredRepositories string = 'Azure/azure-sdk-for-js,Azure/azure-sdk-for-python,Azure/azure-sdk-for-net,Azure/azure-sdk-for-java,Azure/azure-sdk-for-go,Azure/azure-sdk-tools,Azure/azure-rest-api-specs'
+
+// Common tags for EngSys compliance
+var commonTags = {
+  Owners: ownerAlias
+  Purpose: 'Agentic Workflows Dashboard - monitors GitHub Copilot usage across Azure SDK repos'
+  DoNotDelete: 'true'
+}
 
 // Resource naming
 var workspaceName = 'law-agentic-workflows-${environment}-${nameSuffix}'
@@ -35,6 +51,7 @@ var identityName = 'id-agentic-workflows-${environment}'
 resource workspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: workspaceName
   location: location
+  tags: commonTags
   properties: {
     sku: {
       name: 'PerGB2018'
@@ -55,14 +72,11 @@ resource workflowRunsTable 'Microsoft.OperationalInsights/workspaces/tables@2022
       name: 'WorkflowRuns_CL'
       columns: [
         { name: 'TimeGenerated', type: 'datetime', description: 'Ingestion timestamp' }
-        { name: 'SchemaVersion', type: 'string', description: 'Schema version' }
-        { name: 'CollectorVersion', type: 'string', description: 'Collector version' }
         { name: 'Repository', type: 'string', description: 'GitHub repository (owner/name)' }
         { name: 'WorkflowName', type: 'string', description: 'Workflow name without extension' }
         { name: 'WorkflowId', type: 'long', description: 'GitHub workflow ID' }
         { name: 'RunId', type: 'long', description: 'GitHub run ID' }
         { name: 'RunAttempt', type: 'int', description: 'Run attempt number' }
-        { name: 'UpdatedAt', type: 'datetime', description: 'Last update time from GitHub' }
         { name: 'Status', type: 'string', description: 'Run status (queued, in_progress, completed)' }
         { name: 'Conclusion', type: 'string', description: 'Run conclusion (success, failure, etc.)' }
         { name: 'CreatedAt', type: 'datetime', description: 'Run creation time' }
@@ -78,6 +92,7 @@ resource workflowRunsTable 'Microsoft.OperationalInsights/workspaces/tables@2022
         { name: 'HeadRepo', type: 'string', description: 'Head repository full name' }
         { name: 'IsFromFork', type: 'string', description: 'Fork status: true, false, or unknown' }
         { name: 'PullRequestNumber', type: 'int', description: 'PR number if applicable' }
+        { name: 'PullRequestRepo', type: 'string', description: 'Repo where PR exists (may differ for forks)' }
         { name: 'RunUrl', type: 'string', description: 'URL to workflow run' }
       ]
     }
@@ -107,23 +122,18 @@ resource workflowAuditTable 'Microsoft.OperationalInsights/workspaces/tables@202
         { name: 'CacheReadTokens', type: 'long', description: 'Tokens read from cache' }
         { name: 'CacheWriteTokens', type: 'long', description: 'Tokens written to cache' }
         { name: 'CacheHitRate', type: 'real', description: 'Cache hit rate percentage' }
-        { name: 'CacheEfficiency', type: 'real', description: 'Cache efficiency from firewall' }
         { name: 'Turns', type: 'int', description: 'Number of agent turns' }
         { name: 'ToolCalls', type: 'int', description: 'Number of tool calls' }
         { name: 'ErrorCount', type: 'int', description: 'Number of errors' }
-        { name: 'WarningCount', type: 'int', description: 'Number of warnings' }
         { name: 'ModelId', type: 'string', description: 'Model identifier (e.g. claude-sonnet-4.6)' }
         { name: 'RequestCount', type: 'int', description: 'Number of LLM requests' }
         { name: 'DurationMs', type: 'long', description: 'Total LLM duration in milliseconds' }
         { name: 'EstimatedCostUSD', type: 'real', description: 'Estimated cost using model-specific rates' }
         { name: 'EstimatedSavingsUSD', type: 'real', description: 'Estimated savings from cache (model-specific)' }
-        { name: 'GitHubApiRequests', type: 'int', description: 'GitHub API requests made' }
         { name: 'IsPrimaryModel', type: 'boolean', description: 'True if this is the primary model for the run' }
-        // v7: Coverage tracking fields
         { name: 'HasTokenData', type: 'boolean', description: 'True if run had token usage data' }
         { name: 'AuditStatus', type: 'string', description: 'Audit status: success, no_firewall, zero_tokens, audit_failed' }
-        // v8: Schema versioning for reprocessing stale data
-        { name: 'AuditVersion', type: 'int', description: 'Audit schema version (current: 23)' }
+        { name: 'AuditVersion', type: 'int', description: 'Audit schema version (current: 25)' }
       ]
     }
     retentionInDays: 90
@@ -135,6 +145,7 @@ resource workflowAuditTable 'Microsoft.OperationalInsights/workspaces/tables@202
 resource dce 'Microsoft.Insights/dataCollectionEndpoints@2023-03-11' = {
   name: dceName
   location: location
+  tags: commonTags
   kind: 'Linux'
   properties: {
     networkAcls: {
@@ -147,20 +158,18 @@ resource dce 'Microsoft.Insights/dataCollectionEndpoints@2023-03-11' = {
 resource dcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = {
   name: dcrName
   location: location
+  tags: commonTags
   properties: {
     dataCollectionEndpointId: dce.id
     streamDeclarations: {
       'Custom-WorkflowRuns_CL': {
         columns: [
           { name: 'TimeGenerated', type: 'datetime' }
-          { name: 'SchemaVersion', type: 'string' }
-          { name: 'CollectorVersion', type: 'string' }
           { name: 'Repository', type: 'string' }
           { name: 'WorkflowName', type: 'string' }
           { name: 'WorkflowId', type: 'long' }
           { name: 'RunId', type: 'long' }
           { name: 'RunAttempt', type: 'int' }
-          { name: 'UpdatedAt', type: 'datetime' }
           { name: 'Status', type: 'string' }
           { name: 'Conclusion', type: 'string' }
           { name: 'CreatedAt', type: 'datetime' }
@@ -176,6 +185,7 @@ resource dcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = {
           { name: 'HeadRepo', type: 'string' }
           { name: 'IsFromFork', type: 'string' }
           { name: 'PullRequestNumber', type: 'int' }
+          { name: 'PullRequestRepo', type: 'string' }
           { name: 'RunUrl', type: 'string' }
         ]
       }
@@ -194,22 +204,17 @@ resource dcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = {
           { name: 'CacheReadTokens', type: 'long' }
           { name: 'CacheWriteTokens', type: 'long' }
           { name: 'CacheHitRate', type: 'real' }
-          { name: 'CacheEfficiency', type: 'real' }
           { name: 'Turns', type: 'int' }
           { name: 'ToolCalls', type: 'int' }
           { name: 'ErrorCount', type: 'int' }
-          { name: 'WarningCount', type: 'int' }
           { name: 'ModelId', type: 'string' }
           { name: 'RequestCount', type: 'int' }
           { name: 'DurationMs', type: 'long' }
           { name: 'EstimatedCostUSD', type: 'real' }
           { name: 'EstimatedSavingsUSD', type: 'real' }
-          { name: 'GitHubApiRequests', type: 'int' }
           { name: 'IsPrimaryModel', type: 'boolean' }
-          // v7: Coverage tracking fields
           { name: 'HasTokenData', type: 'boolean' }
           { name: 'AuditStatus', type: 'string' }
-          // v8: Schema versioning
           { name: 'AuditVersion', type: 'int' }
         ]
       }
@@ -244,6 +249,7 @@ resource dcr 'Microsoft.Insights/dataCollectionRules@2023-03-11' = {
 resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: identityName
   location: location
+  tags: commonTags
 }
 
 // Federated credential for GitHub Actions OIDC (main branch)
@@ -293,10 +299,21 @@ resource logAnalyticsContributorRole 'Microsoft.Authorization/roleAssignments@20
   }
 }
 
-// Role assignments for additional principals (e.g., local testing users)
+// Role assignments for additional principals (e.g., local testing users) - on DCR
 resource additionalPublisherRoles 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for (principalId, i) in additionalPublisherPrincipalIds: {
   name: guid(dcr.id, principalId, 'Monitoring Metrics Publisher Additional')
   scope: dcr
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '3913510d-42f4-4e42-8a64-420c390055eb')
+    principalId: principalId
+    principalType: 'User'
+  }
+}]
+
+// Role assignments for additional principals on DCE (required for ingestion)
+resource additionalDcePublisherRoles 'Microsoft.Authorization/roleAssignments@2022-04-01' = [for (principalId, i) in additionalPublisherPrincipalIds: {
+  name: guid(dce.id, principalId, 'Monitoring Metrics Publisher DCE')
+  scope: dce
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '3913510d-42f4-4e42-8a64-420c390055eb')
     principalId: principalId
@@ -358,7 +375,7 @@ var workbookContent = {
             multiSelect: true
             quote: '"'
             delimiter: ','
-            query: 'WorkflowRuns_CL | where Repository != "test/repo" | distinct Repository | order by Repository asc'
+            query: 'WorkflowRuns_CL | where Repository !startswith "Azure/test" | distinct Repository | order by Repository asc'
             typeSettings: { additionalResourceOptions: ['value::all'], showDefault: false }
             defaultValue: 'value::all'
             label: 'Repository'
@@ -382,7 +399,7 @@ var workbookContent = {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let collectorLast = WorkflowRuns_CL | summarize LastCollector=max(TimeGenerated); let auditLast = WorkflowAudit_CL | summarize LastAudit=max(TimeGenerated); collectorLast | join kind=fullouter auditLast on TimeGenerated | project CollectorAge=format_timespan(now()-LastCollector, "d.hh:mm"), AuditAge=format_timespan(now()-coalesce(LastAudit, datetime(1970-01-01)), "d.hh:mm"), CollectorStale=iff(now()-LastCollector > 2h, "⚠️ STALE", "✓ Fresh"), AuditStale=iff(coalesce(LastAudit, datetime(1970-01-01)) < ago(25h), "⚠️ STALE", "✓ Fresh")'
+              query: 'let collectorLast = toscalar(WorkflowRuns_CL | summarize max(TimeGenerated)); let auditLast = toscalar(WorkflowAudit_CL | summarize max(TimeGenerated)); print CollectorAge=format_timespan(now()-collectorLast, "d.hh:mm"), AuditAge=format_timespan(now()-coalesce(auditLast, datetime(1970-01-01)), "d.hh:mm"), CollectorStale=iff(now()-collectorLast > 2h, "⚠️ STALE", "✓ Fresh"), AuditStale=iff(coalesce(auditLast, datetime(1970-01-01)) < ago(25h), "⚠️ STALE", "✓ Fresh")'
               size: 4
               title: 'Pipeline Health'
               queryType: 0
@@ -390,28 +407,28 @@ var workbookContent = {
               tileSettings: { titleContent: { columnMatch: 'CollectorStale' }, subtitleContent: { columnMatch: 'CollectorAge' } }
               noDataMessage: 'No data ingested yet. Run: npm run collect'
             }
-            customWidth: '20'
+            customWidth: '100'
             name: 'pipelineHealth'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), Success=countif(Conclusion=="success"), Failures=countif(Conclusion=="failure"), Cancelled=countif(Conclusion=="cancelled") | extend SuccessRate=round(100.0*Success/Total, 1) | project Total, Success, Failures, Cancelled, SuccessRate'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), Success=countif(Conclusion=="success"), Failures=countif(Conclusion=="failure"), Cancelled=countif(Conclusion=="cancelled") | extend SuccessRate=round(100.0*Success/Total, 1) | project Total, Success, Failures, Cancelled, SuccessRate'
               size: 0
               title: 'Summary'
               queryType: 0
               visualization: 'table'
               noDataMessage: 'No matching data for current filters/time range.'
             }
-            customWidth: '35'
+            customWidth: '100'
             name: 'kpiTiles'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), Success=countif(Conclusion=="success") by bin(CompletedAt, 1d) | extend SuccessRate=round(100.0*Success/Total, 1) | project Day=CompletedAt, SuccessRate | order by Day asc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), Success=countif(Conclusion=="success") by bin(CompletedAt, 1d) | extend SuccessRate=round(100.0*Success/Total, 1) | project Day=CompletedAt, SuccessRate | order by Day asc'
               size: 0
               title: 'Success Rate Trend'
               queryType: 0
@@ -426,12 +443,12 @@ var workbookContent = {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Runs=count(), Success=countif(Conclusion=="success"), Failures=countif(Conclusion=="failure"), Cancelled=countif(Conclusion=="cancelled") by Repository | extend SuccessRate=round(100.0*Success/Runs, 1) | project Repository, Runs, Success, Failures, Cancelled, SuccessRate | order by Runs desc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Runs=count(), Success=countif(Conclusion=="success"), Failures=countif(Conclusion=="failure"), Cancelled=countif(Conclusion=="cancelled") by Repository | extend SuccessRate=round(100.0*Success/Runs, 1) | project Repository, Runs, Success, Failures, Cancelled, SuccessRate | order by Runs desc'
               size: 0
               title: 'By Repository'
               queryType: 0
               visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'SuccessRate', formatter: 8, formatOptions: { palette: 'greenRed', min: 0, max: 100 } }, { columnMatch: 'Failures', formatter: 8, formatOptions: { palette: 'red' } } ] }
+              gridSettings: { formatters: [ { columnMatch: 'SuccessRate', formatter: 8, formatOptions: { palette: 'redGreen', min: 0, max: 100 } }, { columnMatch: 'Failures', formatter: 8, formatOptions: { palette: 'red' } } ] }
               noDataMessage: 'No matching data for current filters/time range.'
             }
             name: 'volumeByRepo'
@@ -452,7 +469,7 @@ var workbookContent = {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where Duration_s > 0 | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize P50=round(percentile(Duration_s, 50)/60, 1), P90=round(percentile(Duration_s, 90)/60, 1), Runs=count() by WorkflowName | project WorkflowName, Runs, P50, P90 | order by P90 desc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where Duration_s > 0 | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize P50=round(percentile(Duration_s, 50)/60, 1), P90=round(percentile(Duration_s, 90)/60, 1), Runs=count() by WorkflowName | project WorkflowName, Runs, P50, P90 | order by P90 desc'
               size: 0
               title: 'Duration by Workflow (minutes)'
               queryType: 0
@@ -460,22 +477,22 @@ var workbookContent = {
               gridSettings: { formatters: [ { columnMatch: 'P90', formatter: 8, formatOptions: { palette: 'orange' } } ] }
               noDataMessage: 'No completed workflow runs found.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'durationStats'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), Success=countif(Conclusion=="success"), Failures=countif(Conclusion=="failure") by WorkflowName | extend SuccessRate=round(100.0*Success/Total, 1) | project WorkflowName, Total, SuccessRate, Failures | order by Total desc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), Success=countif(Conclusion=="success"), Failures=countif(Conclusion=="failure") by WorkflowName | extend SuccessRate=round(100.0*Success/Total, 1) | project WorkflowName, Total, SuccessRate, Failures | order by Total desc'
               size: 0
               title: 'Success Rate by Workflow'
               queryType: 0
               visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'SuccessRate', formatter: 8, formatOptions: { palette: 'greenRed', min: 0, max: 100 } }, { columnMatch: 'Failures', formatter: 8, formatOptions: { palette: 'red' } } ] }
+              gridSettings: { formatters: [ { columnMatch: 'SuccessRate', formatter: 8, formatOptions: { palette: 'redGreen', min: 0, max: 100 } }, { columnMatch: 'Failures', formatter: 8, formatOptions: { palette: 'red' } } ] }
               noDataMessage: 'No workflow runs found.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'successByWorkflow'
           }
         ]
@@ -494,7 +511,7 @@ var workbookContent = {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Failures=count() by bin(CompletedAt, 1d) | order by CompletedAt asc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Failures=count() by bin(CompletedAt, 1d) | order by CompletedAt asc'
               size: 0
               title: 'Failures Over Time'
               queryType: 0
@@ -502,7 +519,7 @@ var workbookContent = {
               chartSettings: { seriesLabelSettings: [{ seriesName: 'Failures', color: 'redBright' }] }
               noDataMessage: 'No failures in selected time range.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'failuresOverTime'
           }
           {
@@ -510,15 +527,15 @@ var workbookContent = {
             content: {
               version: 'KqlItem/1.0'
               // v8: Sort by CompletedAt (failure time), not TimeGenerated (ingestion time)
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | project CompletedAt, Repository, WorkflowName, Actor, RunUrl | order by CompletedAt desc | take 10'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | extend AttemptUrl=strcat(RunUrl, "/attempts/", tostring(RunAttempt)) | project CompletedAt, Repository, WorkflowName, Actor, AttemptUrl | order by CompletedAt desc | take 10'
               size: 0
               title: 'Recent Failures'
               queryType: 0
               visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'RunUrl', formatter: 7, formatOptions: { linkTarget: 'Url', linkLabel: 'View' } } ] }
+              gridSettings: { formatters: [ { columnMatch: 'AttemptUrl', formatter: 7, formatOptions: { linkTarget: 'Url', linkLabel: 'View' } } ] }
               noDataMessage: 'No failures in selected time range.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'recentFailures'
           }
         ]
@@ -537,29 +554,15 @@ var workbookContent = {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where TriggerEvent in ("pull_request", "pull_request_target") | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Total=count(), FromFork=countif(IsFromFork == "true"), FromMain=countif(IsFromFork == "false"), Unknown=countif(IsFromFork == "unknown") by Repository | project Repository, Total, FromFork, FromMain, Unknown | order by FromFork desc'
+              query: 'let repos = dynamic([{Repository}]); WorkflowRuns_CL | where Repository !startswith "Azure/test" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt | where PullRequestNumber > 0 | extend IsForkPR = isnotempty(PullRequestRepo) and PullRequestRepo != Repository | summarize UniquePRs=dcount(PullRequestNumber), ForkPRs=dcountif(PullRequestNumber, IsForkPR == true), MainPRs=dcountif(PullRequestNumber, IsForkPR == false), Runs=count() by Repository | project Repository, UniquePRs, ForkPRs, MainPRs, Runs | order by UniquePRs desc'
               size: 0
-              title: 'PR Source by Repository (includes unknown)'
+              title: 'Unique PRs by Source (Fork vs Main Repo)'
               queryType: 0
               visualization: 'table'
               noDataMessage: 'No pull request runs found.'
             }
-            customWidth: '60'
+            customWidth: '100'
             name: 'forkTable'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where TriggerEvent in ("pull_request", "pull_request_target") | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Runs=count() by IsFromFork | extend Source=case(IsFromFork=="true", "Fork", IsFromFork=="false", "Main Repo", "Unknown")'
-              size: 0
-              title: 'PR Distribution (all sources)'
-              queryType: 0
-              visualization: 'piechart'
-              noDataMessage: 'No pull request runs found.'
-            }
-            customWidth: '40'
-            name: 'forkPie'
           }
         ]
       }
@@ -586,69 +589,39 @@ var workbookContent = {
               gridSettings: { formatters: [ { columnMatch: 'TotalCost', formatter: 8, formatOptions: { palette: 'orange' } }, { columnMatch: 'AvgTurns', formatter: 8, formatOptions: { palette: 'turquoise' } } ] }
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '60'
+            customWidth: '100'
             name: 'agentComplexity'
           }
+          // v24: Combined token usage and cost trend into single chart
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where Turns > 0 | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; audits | project Turns, ToolCalls, WorkflowName | where ToolCalls > 0'
+              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; audits | summarize TotalTokens=sum(InputTokens+OutputTokens)/1000000, TotalCost=round(sum(EstimatedCostUSD), 2) by bin(CompletedAt, 1d) | project Day=CompletedAt, TokensM=round(TotalTokens, 2), CostUSD=TotalCost | order by Day asc'
               size: 0
-              title: 'Turns vs Tool Calls'
-              queryType: 0
-              visualization: 'scatterchart'
-              chartSettings: { xAxis: 'Turns', yAxis: 'ToolCalls', group: 'WorkflowName' }
-              noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
-            }
-            customWidth: '40'
-            name: 'turnsVsTools'
-          }
-          // v22: Split token and cost trends into separate charts (different units)
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; audits | summarize TotalInput=sum(InputTokens)/1000000, TotalOutput=sum(OutputTokens)/1000000 by bin(CompletedAt, 1d) | project Day=CompletedAt, InputM=round(TotalInput, 2), OutputM=round(TotalOutput, 2) | order by Day asc'
-              size: 0
-              title: 'Daily Token Usage (millions)'
+              title: 'Daily Usage: Tokens (M) & Cost ($)'
               queryType: 0
               visualization: 'linechart'
-              chartSettings: { yAxis: ['InputM', 'OutputM'], seriesLabelSettings: [{ seriesName: 'InputM', label: 'Input (M)', color: 'blue' }, { seriesName: 'OutputM', label: 'Output (M)', color: 'purple' }] }
+              chartSettings: { yAxis: ['TokensM', 'CostUSD'], seriesLabelSettings: [{ seriesName: 'TokensM', label: 'Tokens (M)', color: 'blue' }, { seriesName: 'CostUSD', label: 'Cost ($)', color: 'green' }] }
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '30'
-            name: 'tokenTrend'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; audits | summarize TotalCost=round(sum(EstimatedCostUSD), 2) by bin(CompletedAt, 1d) | project Day=CompletedAt, CostUSD=TotalCost | order by Day asc'
-              size: 0
-              title: 'Daily Cost (USD)'
-              queryType: 0
-              visualization: 'linechart'
-              chartSettings: { yAxis: ['CostUSD'], seriesLabelSettings: [{ seriesName: 'CostUSD', label: 'Cost ($)', color: 'green' }] }
-              noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
-            }
-            customWidth: '30'
-            name: 'costTrend'
+            customWidth: '100'
+            name: 'usageTrend'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
               // v7: Fixed to sum tokens across models, use max for run-level fields
-              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; let runLevel = audits | summarize TotalCost=sum(EstimatedCostUSD), TotalInput=sum(InputTokens), TotalOutput=sum(OutputTokens), Turns=max(Turns), ToolCalls=max(ToolCalls), Repository=take_any(Repository), WorkflowName=take_any(WorkflowName) by RunId, RunAttempt; runLevel | top 10 by TotalCost desc | project Repository, WorkflowName, Turns, ToolCalls, TotalInput, TotalOutput, TotalCost=round(TotalCost, 4)'
+              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; let runLevel = audits | summarize TotalCost=sum(EstimatedCostUSD), TotalInput=sum(InputTokens), TotalOutput=sum(OutputTokens), Turns=max(Turns), ToolCalls=max(ToolCalls), Repository=take_any(Repository), WorkflowName=take_any(WorkflowName) by RunId, RunAttempt; runLevel | top 10 by TotalCost desc | extend RunUrl=strcat("https://github.com/", Repository, "/actions/runs/", tostring(RunId)) | project Repository, WorkflowName, Turns, ToolCalls, TotalCost=round(TotalCost, 4), RunUrl'
               size: 0
               title: 'Top 10 Most Expensive Runs'
               queryType: 0
               visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'TotalCost', formatter: 8, formatOptions: { palette: 'orange' } } ] }
+              gridSettings: { formatters: [ { columnMatch: 'TotalCost', formatter: 8, formatOptions: { palette: 'orange' } }, { columnMatch: 'RunUrl', formatter: 7, formatOptions: { linkTarget: 'Url', linkLabel: 'View' } } ] }
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '40'
+            customWidth: '100'
             name: 'expensiveRuns'
           }
         ]
@@ -676,22 +649,22 @@ var workbookContent = {
               gridSettings: { formatters: [ { columnMatch: 'TotalCost', formatter: 8, formatOptions: { palette: 'orange' } } ] }
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'costByWorkflow'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true and PullRequestNumber > 0 | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; audits | extend RunKey = strcat(tostring(RunId), ":", tostring(RunAttempt)) | summarize TotalCost=round(sum(EstimatedCostUSD), 4), Runs=dcount(RunKey), TotalInput=sum(InputTokens), TotalOutput=sum(OutputTokens) by PullRequestNumber, Repository | top 20 by TotalCost desc | project Repository, PullRequestNumber, Runs, TotalInput, TotalOutput, TotalCost'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt | where PullRequestNumber > 0; let audits = WorkflowAudit_CL | where CompletedAt {TimeRange} | where HasTokenData == true | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt, ModelId; audits | join kind=inner (runs | project RunId, RunAttempt, PullRequestNumber, PullRequestRepo, Repository) on RunId, RunAttempt | extend PRRepo = coalesce(PullRequestRepo, Repository1) | extend RunKey = strcat(tostring(RunId), ":", tostring(RunAttempt)) | summarize TotalCost=round(sum(EstimatedCostUSD), 4), Runs=dcount(RunKey), PRRepo=take_any(PRRepo) by PullRequestNumber, Repository1 | top 20 by TotalCost desc | extend PRUrl=strcat("https://github.com/", coalesce(PRRepo, Repository1), "/pull/", tostring(PullRequestNumber)) | project Repository=Repository1, PullRequestNumber, Runs, TotalCost, PRUrl'
               size: 0
               title: 'Top 20 Most Expensive PRs'
               queryType: 0
               visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'TotalCost', formatter: 8, formatOptions: { palette: 'orange' } } ] }
+              gridSettings: { formatters: [ { columnMatch: 'TotalCost', formatter: 8, formatOptions: { palette: 'orange' } }, { columnMatch: 'PRUrl', formatter: 7, formatOptions: { linkTarget: 'Url', linkLabel: 'View' } } ] }
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'expensivePRs'
           }
           {
@@ -707,7 +680,7 @@ var workbookContent = {
               gridSettings: { formatters: [ { columnMatch: 'AvgCacheHitRate', formatter: 8, formatOptions: { palette: 'blue' } } ] }
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'cacheHitRate'
           }
           {
@@ -721,7 +694,7 @@ var workbookContent = {
               visualization: 'table'
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'cacheSavings'
           }
           {
@@ -736,42 +709,8 @@ var workbookContent = {
               visualization: 'piechart'
               noDataMessage: 'Run audit enrichment to populate WorkflowAudit_CL.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'costByModel'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              // v21: Use max(toint(HasTokenData)) to handle mixed per-model statuses correctly
-              // v22: Update currentVersion to 22
-              query: 'let currentVersion = 23; let repos = dynamic([{Repository}]); let auditableConclusions = dynamic(["success", "failure", "cancelled", "timed_out", "neutral", "action_required"]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion in (auditableConclusions) | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | project TimeGenerated, RunId, RunAttempt, Repository | summarize arg_max(RunAttempt, Repository) by RunId | project RunId, RunAttempt, Repository; let audits = WorkflowAudit_CL | where Repository != "test/repo" | where CompletedAt {TimeRange} | where AuditVersion >= currentVersion | where array_length(repos) == 0 or Repository in (repos) | summarize HasTokenData=max(toint(HasTokenData)) by RunId, RunAttempt, Repository | extend HasTokenData=HasTokenData == 1; let joined = runs | join kind=leftouter audits on RunId, RunAttempt; let discovered = joined | summarize DiscoveredRuns=count() by Repository; let auditAttempted = joined | where isnotempty(HasTokenData) | summarize AttemptedRuns=count() by Repository; let auditSuccess = joined | where HasTokenData == true | summarize SuccessRuns=count() by Repository; discovered | join kind=leftouter auditAttempted on Repository | join kind=leftouter auditSuccess on Repository | extend AttemptedRuns=coalesce(AttemptedRuns, 0), SuccessRuns=coalesce(SuccessRuns, 0) | extend AttemptedPct=round(100.0 * AttemptedRuns / DiscoveredRuns, 1), TokenPct=round(100.0 * SuccessRuns / DiscoveredRuns, 1) | project Repository, DiscoveredRuns, AttemptedRuns, AttemptedPct, SuccessRuns, TokenPct | order by TokenPct asc'
-              size: 0
-              title: 'Audit Coverage (Attempted vs Token Data)'
-              queryType: 0
-              visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'AttemptedPct', formatter: 8, formatOptions: { palette: 'blue', min: 0, max: 100 } }, { columnMatch: 'TokenPct', formatter: 8, formatOptions: { palette: 'greenRed', min: 0, max: 100 } } ] }
-              noDataMessage: 'Run both collector and audit enrichment.'
-            }
-            customWidth: '50'
-            name: 'auditCoverage'
-          }
-          // v22: Renamed and improved Audit Outcome chart with status legend
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              // v22: Use summarize with iff() to pick best AuditStatus (success > zero_tokens > others)
-              query: 'let currentVersion = 23; let repos = dynamic([{Repository}]); WorkflowAudit_CL | where Repository != "test/repo" | where CompletedAt {TimeRange} | where AuditVersion >= currentVersion | where array_length(repos) == 0 or Repository in (repos) | summarize AuditStatus=iff(countif(AuditStatus == "success") > 0, "success", iff(countif(AuditStatus == "zero_tokens") > 0, "zero_tokens", iff(countif(AuditStatus == "no_firewall") > 0, "no_firewall", "audit_failed"))) by RunId, RunAttempt | summarize Count=count() by AuditStatus | extend Description=case(AuditStatus == "success", "✓ Token data present", AuditStatus == "zero_tokens", "⏭ Completed, no billable usage", AuditStatus == "no_firewall", "⚠ Missing firewall section", AuditStatus == "audit_failed", "❌ Audit command failed", "Unknown") | project AuditStatus, Description, Count | order by Count desc'
-              size: 0
-              title: 'Audit Outcome by Run'
-              queryType: 0
-              visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'Count', formatter: 8, formatOptions: { palette: 'blue' } } ] }
-              noDataMessage: 'Run audit enrichment: npm run audit'
-            }
-            customWidth: '50'
-            name: 'auditStatusBreakdown'
           }
         ]
       }
@@ -789,7 +728,7 @@ var workbookContent = {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where QueueTime_s > 0 | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize P50=round(percentile(QueueTime_s, 50), 1), P90=round(percentile(QueueTime_s, 90), 1), P99=round(percentile(QueueTime_s, 99), 1), AvgQueue=round(avg(QueueTime_s), 1) by WorkflowName | project WorkflowName, AvgQueue, P50, P90, P99 | order by P90 desc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where isnotnull(QueueTime_s) | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize P50=round(percentile(QueueTime_s, 50), 1), P90=round(percentile(QueueTime_s, 90), 1), P99=round(percentile(QueueTime_s, 99), 1), AvgQueue=round(avg(QueueTime_s), 1) by WorkflowName | project WorkflowName, AvgQueue, P50, P90, P99 | order by P90 desc'
               size: 0
               title: 'Queue Time by Workflow (seconds)'
               queryType: 0
@@ -797,14 +736,14 @@ var workbookContent = {
               gridSettings: { formatters: [ { columnMatch: 'P90', formatter: 8, formatOptions: { palette: 'orange' } } ] }
               noDataMessage: 'No queue time data available.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'queueTime'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | extend Hour=hourofday(CompletedAt) | summarize Runs=count() by Hour | order by Hour asc'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | extend Hour=hourofday(CompletedAt) | summarize Runs=count() by Hour | order by Hour asc'
               size: 0
               title: 'Peak Usage by Hour (UTC)'
               queryType: 0
@@ -812,14 +751,14 @@ var workbookContent = {
               chartSettings: { seriesLabelSettings: [{ seriesName: 'Runs', color: 'blue' }] }
               noDataMessage: 'No workflow runs found.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'peakUsageHour'
           }
           {
             type: 3
             content: {
               version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | extend DayNum=toint(dayofweek(CompletedAt)/1d) | summarize Runs=count() by DayNum | order by DayNum asc | extend Day=case(DayNum==0, "Sun", DayNum==1, "Mon", DayNum==2, "Tue", DayNum==3, "Wed", DayNum==4, "Thu", DayNum==5, "Fri", "Sat") | project Day, Runs'
+              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository !startswith "Azure/test" | where isnotempty(Conclusion) and Conclusion != "skipped" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | extend DayNum=toint(dayofweek(CompletedAt)/1d) | summarize Runs=count() by DayNum | order by DayNum asc | extend Day=case(DayNum==0, "Sun", DayNum==1, "Mon", DayNum==2, "Tue", DayNum==3, "Wed", DayNum==4, "Thu", DayNum==5, "Fri", "Sat") | project Day, Runs'
               size: 0
               title: 'Peak Usage by Day'
               queryType: 0
@@ -827,95 +766,12 @@ var workbookContent = {
               chartSettings: { seriesLabelSettings: [{ seriesName: 'Runs', color: 'green' }] }
               noDataMessage: 'No workflow runs found.'
             }
-            customWidth: '50'
+            customWidth: '100'
             name: 'peakUsageDay'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              // v11: Fixed concurrent runs using mv-expand bins per run (robust approach)
-              // Expands each run to all bins it overlaps, then counts distinct runs per bin
-              // Handles: runs spanning into window, runs starting and ending in same bin
-              query: 'let repos = dynamic([{Repository}]); let rangeStart = {TimeRange:start}; let rangeEnd = {TimeRange:end}; let binSize = 5m; let runs = WorkflowRuns_CL | where Repository != "test/repo" | where isnotempty(StartedAt) | where StartedAt < rangeEnd and coalesce(CompletedAt, now()) > rangeStart | where array_length(repos) == 0 or Repository in (repos) | project TimeGenerated, RunId, RunAttempt, StartedAt, CompletedAt | summarize arg_max(TimeGenerated, StartedAt, CompletedAt) by RunId, RunAttempt | extend StartBin=bin(StartedAt, binSize), EndBin=bin(coalesce(CompletedAt, now()), binSize) | extend BinCount=toint((EndBin - StartBin) / binSize) + 1 | mv-expand BinOffset=range(0, BinCount - 1) to typeof(int) | extend ts=StartBin + (BinOffset * binSize) | where ts >= bin(rangeStart, binSize) and ts <= bin(rangeEnd, binSize) | summarize Concurrent=dcount(strcat(tostring(RunId), ":", tostring(RunAttempt))) by ts | join kind=rightouter (range ts from bin(rangeStart, binSize) to bin(rangeEnd, binSize) step binSize | mv-expand ts to typeof(datetime)) on ts | extend Concurrent=coalesce(Concurrent, 0) | project Timestamp=ts1, Concurrent | order by Timestamp asc'
-              size: 0
-              title: 'Concurrent Runs (5-minute bins)'
-              queryType: 0
-              visualization: 'linechart'
-              chartSettings: { seriesLabelSettings: [{ seriesName: 'Concurrent', color: 'purple' }] }
-              noDataMessage: 'No concurrent run data available.'
-            }
-            customWidth: '50'
-            name: 'concurrentRuns'
           }
         ]
       }
       name: 'operationalSection'
-    }
-    // ===== SECTION: ERROR ANALYSIS =====
-    {
-      type: 12
-      content: {
-        version: 'NotebookGroup/1.0'
-        groupType: 'editable'
-        title: '🐛 Error Analysis'
-        items: [
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Failures=count() by WorkflowName | order by Failures desc'
-              size: 0
-              title: 'Failures by Workflow'
-              queryType: 0
-              visualization: 'piechart'
-            }
-            customWidth: '50'
-            name: 'failuresByWorkflow'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Failures=count() by Repository | order by Failures desc'
-              size: 0
-              title: 'Failures by Repository'
-              queryType: 0
-              visualization: 'piechart'
-            }
-            customWidth: '50'
-            name: 'failuresByRepo'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Failures=count() by Actor | top 10 by Failures | order by Failures desc'
-              size: 0
-              title: 'Top 10 Actors with Failures'
-              queryType: 0
-              visualization: 'table'
-              gridSettings: { formatters: [ { columnMatch: 'Failures', formatter: 8, formatOptions: { palette: 'red' } } ] }
-            }
-            customWidth: '50'
-            name: 'failuresByActor'
-          }
-          {
-            type: 3
-            content: {
-              version: 'KqlItem/1.0'
-              query: 'let repos = dynamic([{Repository}]); let runs = WorkflowRuns_CL | where Repository != "test/repo" | where Conclusion == "failure" | where CompletedAt {TimeRange} | where array_length(repos) == 0 or Repository in (repos) | summarize arg_max(TimeGenerated, *) by RunId, RunAttempt; runs | summarize Failures=count() by TriggerEvent | order by Failures desc'
-              size: 0
-              title: 'Failures by Trigger Event'
-              queryType: 0
-              visualization: 'table'
-            }
-            customWidth: '50'
-            name: 'failuresByTrigger'
-          }
-        ]
-      }
-      name: 'errorSection'
     }
   ]
   fallbackResourceIds: [workspace.id]
@@ -923,12 +779,259 @@ var workbookContent = {
 resource workbook 'Microsoft.Insights/workbooks@2023-06-01' = {
   name: guid(resourceGroup().id, 'agentic-workflows-dashboard')
   location: location
+  tags: commonTags
   kind: 'shared'
   properties: {
     displayName: 'Agentic Workflows Dashboard'
     category: 'workbook'
     sourceId: workspace.id
     serializedData: string(workbookContent)
+  }
+}
+
+// Resource lock to prevent accidental deletion
+resource workspaceLock 'Microsoft.Authorization/locks@2020-05-01' = {
+  name: 'CanNotDelete-AgenticWorkflows'
+  scope: workspace
+  properties: {
+    level: 'CanNotDelete'
+    notes: 'Prevents accidental deletion of the Agentic Workflows Dashboard workspace'
+  }
+}
+
+// ===== AZURE CONTAINER APPS JOB FOR AUTOMATED COLLECTION =====
+
+@description('GitHub Personal Access Token for API access')
+@secure()
+param githubToken string = ''
+
+@description('Enable Container Apps Job deployment (default: true for production)')
+param deployContainerJob bool = true
+
+// Azure Container Registry for collector image
+resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' = if (deployContainerJob) {
+  name: 'acrawcollector${nameSuffix}'
+  location: location
+  tags: commonTags
+  sku: {
+    name: 'Basic'
+  }
+  properties: {
+    adminUserEnabled: false
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+// Container Apps Environment
+resource containerEnv 'Microsoft.App/managedEnvironments@2024-03-01' = if (deployContainerJob) {
+  name: 'cae-agentic-workflows-${environment}'
+  location: location
+  tags: commonTags
+  properties: {
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: workspace.properties.customerId
+        sharedKey: workspace.listKeys().primarySharedKey
+      }
+    }
+  }
+}
+
+// Storage account for Container Apps Job (state tracking)
+resource containerStorage 'Microsoft.Storage/storageAccounts@2023-01-01' = if (deployContainerJob) {
+  name: 'stawjob${nameSuffix}'
+  location: location
+  tags: commonTags
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+  properties: {
+    supportsHttpsTrafficOnly: true
+    minimumTlsVersion: 'TLS1_2'
+    allowSharedKeyAccess: false
+    allowBlobPublicAccess: false
+  }
+}
+
+// User-assigned Managed Identity for Container Job
+resource containerJobIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = if (deployContainerJob) {
+  name: 'id-aw-collector-job-${environment}'
+  location: location
+  tags: commonTags
+}
+
+// Grant Container Job identity AcrPull role on ACR
+resource containerJobAcrPullRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (deployContainerJob) {
+  name: guid(acr.id, containerJobIdentity.id, 'AcrPull')
+  scope: acr
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
+    principalId: containerJobIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Container Apps Job - runs on schedule with gh CLI for auditing
+resource collectorJob 'Microsoft.App/jobs@2024-03-01' = if (deployContainerJob) {
+  name: 'job-aw-collector-${environment}'
+  location: location
+  tags: commonTags
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${containerJobIdentity.id}': {}
+    }
+  }
+  properties: {
+    environmentId: containerEnv.id
+    configuration: {
+      triggerType: 'Schedule'
+      scheduleTriggerConfig: {
+        cronExpression: '0 */6 * * *'  // Every 6 hours
+        parallelism: 1
+        replicaCompletionCount: 1
+      }
+      replicaTimeout: 1800  // 30 minutes max
+      replicaRetryLimit: 1
+      registries: [
+        {
+          server: deployContainerJob ? acr.properties.loginServer : ''
+          identity: containerJobIdentity.id
+        }
+      ]
+      secrets: [
+        {
+          name: 'github-token'
+          value: githubToken
+        }
+      ]
+    }
+    template: {
+      containers: [
+        {
+          name: 'collector'
+          image: deployContainerJob ? '${acr.properties.loginServer}/aw-collector:latest' : ''
+          resources: {
+            cpu: json('1.0')
+            memory: '2Gi'
+          }
+          env: [
+            {
+              name: 'AZURE_MONITOR_DCE_ENDPOINT'
+              value: dce.properties.logsIngestion.endpoint
+            }
+            {
+              name: 'AZURE_MONITOR_DCR_ID'
+              value: dcr.properties.immutableId
+            }
+            {
+              name: 'GITHUB_TOKEN'
+              secretRef: 'github-token'
+            }
+            {
+              name: 'GH_TOKEN'
+              secretRef: 'github-token'
+            }
+            {
+              name: 'STORAGE_ACCOUNT_NAME'
+              value: deployContainerJob ? containerStorage.name : ''
+            }
+            {
+              name: 'REPOSITORIES'
+              value: monitoredRepositories
+            }
+            {
+              name: 'AZURE_CLIENT_ID'
+              value: deployContainerJob ? containerJobIdentity.properties.clientId : ''
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+
+// Storage Blob Data Owner role for Container Job
+resource containerJobStorageBlobRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (deployContainerJob) {
+  name: guid(containerStorage.id, containerJobIdentity.id, 'Storage Blob Data Owner')
+  scope: containerStorage
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')
+    principalId: containerJobIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Monitoring Metrics Publisher role for Container Job (on DCR)
+resource containerJobDcrRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (deployContainerJob) {
+  name: guid(dcr.id, containerJobIdentity.id, 'Monitoring Metrics Publisher Job')
+  scope: dcr
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '3913510d-42f4-4e42-8a64-420c390055eb')
+    principalId: containerJobIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Alert for Container Apps Job failures
+resource jobFailureAlert 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = if (deployContainerJob) {
+  name: 'alert-aw-collector-failure-${environment}'
+  location: location
+  tags: commonTags
+  properties: {
+    displayName: 'Agentic Workflows Collector Job Failure'
+    description: 'Alerts when the Container Apps Job fails to collect workflow data'
+    severity: 2 // Warning
+    enabled: true
+    evaluationFrequency: 'PT1H'
+    scopes: [
+      workspace.id
+    ]
+    windowSize: 'PT6H'
+    criteria: {
+      allOf: [
+        {
+          query: '''
+            ContainerAppConsoleLogs_CL
+            | where ContainerJobName_s == "job-aw-collector-prod"
+            | where Log_s contains "[ERROR]" or Log_s contains "Fatal error"
+            | summarize ErrorCount = count() by bin(TimeGenerated, 1h)
+            | where ErrorCount > 0
+          '''
+          timeAggregation: 'Count'
+          operator: 'GreaterThan'
+          threshold: 0
+          failingPeriods: {
+            numberOfEvaluationPeriods: 1
+            minFailingPeriodsToAlert: 1
+          }
+        }
+      ]
+    }
+    autoMitigate: true
+    actions: {
+      actionGroups: alertEmail != '' ? [alertActionGroup.id] : []
+    }
+  }
+}
+
+// Action Group for alert notifications (only if email provided)
+resource alertActionGroup 'Microsoft.Insights/actionGroups@2023-01-01' = if (deployContainerJob && alertEmail != '') {
+  name: 'ag-aw-collector-${environment}'
+  location: 'global'
+  tags: commonTags
+  properties: {
+    groupShortName: 'aw-alerts'
+    enabled: true
+    emailReceivers: [
+      {
+        name: 'Owner'
+        emailAddress: alertEmail
+        useCommonAlertSchema: true
+      }
+    ]
   }
 }
 
@@ -945,6 +1048,11 @@ output identityPrincipalId string = identity.properties.principalId
 output tenantId string = tenant().tenantId
 output subscriptionId string = subscription().subscriptionId
 output workbookId string = workbook.id
+output containerJobName string = deployContainerJob ? collectorJob.name : ''
+output containerJobIdentityClientId string = deployContainerJob ? containerJobIdentity.properties.clientId : ''
+output acrLoginServer string = deployContainerJob ? acr.properties.loginServer : ''
+output acrName string = deployContainerJob ? acr.name : ''
+output monitoredRepositories string = monitoredRepositories
 
 // Output connection info for GitHub Actions secrets
 output githubActionsConfig object = {

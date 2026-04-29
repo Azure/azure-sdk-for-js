@@ -4,6 +4,7 @@
 
 // Repositories to collect workflow data from
 // v7: Fixed to match 6 stated repos (js, python, java, net, go, tools)
+// v24: Added azure-rest-api-specs
 export const MONITORED_REPOS = [
   "Azure/azure-sdk-for-js",
   "Azure/azure-sdk-for-python",
@@ -11,10 +12,11 @@ export const MONITORED_REPOS = [
   "Azure/azure-sdk-for-net",
   "Azure/azure-sdk-for-go",
   "Azure/azure-sdk-tools",
+  "Azure/azure-rest-api-specs",
 ];
 
 // Repos to exclude from metrics (test repos, etc)
-export const EXCLUDED_REPOS = ["test/repo"];
+export const EXCLUDED_REPOS = ["Azure/test"];
 
 // Cost estimation rates (USD per million tokens)
 export const TOKEN_COSTS = {

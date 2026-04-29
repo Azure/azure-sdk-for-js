@@ -129,7 +129,13 @@ export class GitHubClient {
               ? { head_repository: { full_name: run.head_repository.full_name, fork: run.head_repository.fork } }
               : {}),
             html_url: run.html_url,
-            pull_requests: run.pull_requests?.map((pr) => ({ number: pr.number })) || [],
+            pull_requests: run.pull_requests?.map((pr) => {
+              const result: { number: number; base?: { repo?: { url?: string } } } = { number: pr.number };
+              if (pr.base?.repo?.url) {
+                result.base = { repo: { url: pr.base.repo.url } };
+              }
+              return result;
+            }) || [],
           });
         }
         
