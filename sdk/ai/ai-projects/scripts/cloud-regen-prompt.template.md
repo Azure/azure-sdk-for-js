@@ -90,9 +90,10 @@ Do not attempt to record cassettes. Validate with `npm run test:node`.
 
 Read: `sdk/ai/ai-projects/.github/skills/update-changelog/SKILL.md`
 
-Insert a new top entry into `CHANGELOG.md` summarizing this regen,
-classifying each change into Breaking / Features / Bugs / Other. Leave
-the version line as a placeholder for human review.
+Update `CHANGELOG.md` for this regen by merging into the existing top
+`(Unreleased)` entry when present; otherwise create a new top entry,
+classifying each change into Breaking / Features / Bugs / Other, and
+sync `package.json` as required by the skill.
 
 ### 6. open-regeneration-pr
 

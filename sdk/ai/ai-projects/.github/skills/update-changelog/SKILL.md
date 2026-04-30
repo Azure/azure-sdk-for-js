@@ -1,6 +1,6 @@
 ---
 name: update-changelog
-description: 'Insert a new top entry into ai-projects CHANGELOG.md summarizing the regeneration. Use when classifying API changes into Breaking Changes / Features Added / Bugs Fixed / Other Changes buckets after a TypeSpec regeneration. Matches the existing house style and leaves the version line as a placeholder for human review.'
+description: 'Update ai-projects CHANGELOG.md after a TypeSpec regeneration. Merges new items into the existing top (Unreleased) entry when present; otherwise creates a new top entry, classifying changes into Breaking Changes / Features Added / Bugs Fixed / Other Changes buckets and syncing package.json version as needed.'
 ---
 
 # Update CHANGELOG.md for an ai-projects regeneration

@@ -114,10 +114,10 @@ try {
   Write-Host ""
   Write-Host "Dispatching agent task to $Repo (base: $BaseBranch)..."
 
-  $args = @('agent-task', 'create', '-R', $Repo, '-b', $BaseBranch, '-F', $tmp.FullName)
-  if ($Follow) { $args += '--follow' }
+  $ghArgs = @('agent-task', 'create', '-R', $Repo, '-b', $BaseBranch, '-F', $tmp.FullName)
+  if ($Follow) { $ghArgs += '--follow' }
 
-  $output = & gh @args 2>&1
+  $output = & gh @ghArgs 2>&1
   $exit = $LASTEXITCODE
   Write-Output $output
   if ($exit -ne 0) {
