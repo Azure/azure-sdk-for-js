@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Agent } from "@azure/core-rest-pipeline";
+
 /**
  * @hidden
  */
-export let defaultHttpAgent: unknown;
+export const defaultHttpAgent: Agent | undefined = undefined;
 /**
  * @hidden
  */
-export let defaultHttpsAgent: unknown;
+export const defaultHttpsAgent: Agent | undefined = undefined;
