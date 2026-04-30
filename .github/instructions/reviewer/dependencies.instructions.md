@@ -38,6 +38,10 @@ Hardcoded versions for cataloged deps are wrong:
 
 **Forbidden:** exact pins (prevents deduplication), tilde `~`, star `*`, URL/git deps
 
+## Beta Dependency Rules
+- **Stable package depending on beta:** ❌ Not allowed — flag and require stable dependency
+- **Beta package depending on beta:** Must use exact pin (e.g., `"1.0.0-beta.1"`) to protect against breaking changes in upstream beta
+
 ## New Dependency Evaluation
 1. **Necessity**: Already in `@azure/core-*`?
    - `core-util`: `delay`, `isNode`, `randomUUID`
