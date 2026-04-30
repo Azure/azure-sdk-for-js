@@ -1309,8 +1309,8 @@ export type KnowledgeBaseModelKind = string;
 
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKnowledgeBaseActivityRecord {
-    inputTokens?: number;
-    outputTokens?: number;
+    inputTokensCount?: number;
+    outputTokensCount?: number;
     type: "modelWebSummarization";
 }
 

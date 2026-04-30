@@ -940,9 +940,9 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends Knowle
   /** The discriminator value. */
   type: "modelWebSummarization";
   /** The number of input tokens for the LLM web summarization activity. */
-  inputTokens?: number;
+  inputTokensCount?: number;
   /** The number of output tokens for the LLM web summarization activity. */
-  outputTokens?: number;
+  outputTokensCount?: number;
 }
 
 export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
@@ -953,8 +953,8 @@ export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
     type: item["type"],
     elapsedInMs: item["elapsedInMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
-    inputTokens: item["inputTokens"],
-    outputTokens: item["outputTokens"],
+    inputTokensCount: item["inputTokens"],
+    outputTokensCount: item["outputTokens"],
   };
 }
 

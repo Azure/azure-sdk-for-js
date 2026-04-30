@@ -113,8 +113,8 @@ export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageCon
 
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
-    inputTokens?: number;
-    outputTokens?: number;
+    inputTokensCount?: number;
+    outputTokensCount?: number;
     type: "modelWebSummarization";
 }
 
