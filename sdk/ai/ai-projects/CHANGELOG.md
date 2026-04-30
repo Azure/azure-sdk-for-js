@@ -17,7 +17,6 @@
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
 - Added `ToolboxSearchPreviewTool` (type discriminant `"toolbox_search_preview"`) to `ToolUnion` and `ToolType` for toolbox-based tool search in agents.
 - Added optional `name` and `description` properties to `BingGroundingTool`, `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, `AzureAISearchTool`, `BingCustomSearchPreviewTool`, `BrowserAutomationPreviewTool`, `A2APreviewTool`, and `MemorySearchPreviewTool` interfaces, allowing user-defined display names and descriptions per tool configuration.
-- Added `restorePoller` function and `RestorePollerOptions` interface to the public API, enabling long-running `updateMemories` pollers to be serialized and resumed across process restarts.
 
 ### Bugs Fixed
 

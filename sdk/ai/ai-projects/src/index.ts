@@ -5,8 +5,6 @@ import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-pagin
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AIProjectClient } from "./aiProjectClient.js";
-export { restorePoller } from "./restorePollerHelpers.js";
-export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export type {
   Agent,
   AgentVersion,
