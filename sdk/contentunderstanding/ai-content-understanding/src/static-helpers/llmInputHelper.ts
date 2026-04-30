@@ -56,9 +56,22 @@ const RESERVED_METADATA_KEYS: ReadonlySet<string> = new Set([
 /**
  * Convert a Content Understanding analysis result into LLM-friendly text.
  *
- * Produces a formatted string from the analysis result, suitable for
- * injecting into an LLM prompt, storing in a vector database, or passing
- * as tool output.
+ * Produces a YAML front matter block (delimited by `---`) followed by a
+ * markdown body, suitable for injecting into an LLM prompt, storing in a
+ * vector database, or passing as tool output.
+ *
+ * The YAML front matter may include:
+ * - `contentType` — document, audioVisual
+ * - `pages` — page number or range (e.g. `1` or `1-3`)
+ * - `timeRange` — media time span (multi-segment audio/video only)
+ * - `category` — classification label
+ * - `fields` — extracted structured fields as YAML
+ * - `rai_warnings` — content safety flags
+ * - any caller-supplied `metadata` entries
+ *
+ * The markdown body contains the extracted text with page-break markers
+ * (`<!-- page N -->`) inserted at page boundaries so downstream consumers
+ * can locate content by page number.
  *
  * For single-content results (documents, images), the output is a flat
  * text block. For multi-segment results (video, audio), each segment is
@@ -221,6 +234,35 @@ function resolveFieldValue(field: ContentFieldUnion | ContentField): unknown {
 // Content rendering
 // ---------------------------------------------------------------------------
 
+/**
+ * Flattens the contents list for rendering. In classification scenarios, the
+ * service returns a parent DocumentContent (with full markdown and segments)
+ * plus separate routed DocumentContent items (with their own markdown and
+ * fields) for segments that matched a specific analyzer.
+ *
+ * Example input:
+ *   contents[0] = parent doc
+ *     path="input1", category=undefined
+ *     markdown="INVOICE\nVendor: Contoso\nTotal: $1500\n<!-- PageBreak -->\nRECEIPT\nStore: Fabrikam"
+ *     segments=[
+ *       { segmentId: "seg1", category: "invoice", startPageNumber: 1, span: {offset:0, length:38} },
+ *       { segmentId: "seg2", category: "receipt", startPageNumber: 2, span: {offset:55, length:37} }
+ *     ]
+ *   contents[1] = routed doc (produced by prebuilt-invoice analyzer)
+ *     path="input1/seg1", category="invoice"
+ *     markdown="INVOICE\nVendor: Contoso\nTotal: $1500"  (analyzer's own markdown)
+ *     fields={ vendor: "Contoso", total: 1500 }
+ *
+ * This function:
+ *   1. Identifies contents[1] as a routed version of seg1 (path "input1/seg1" matches).
+ *   2. Skips seg1 during parent expansion — the routed version (with its own
+ *      markdown and fields) will be used directly instead of slicing from the parent.
+ *   3. Creates a synthetic DocumentContent for seg2 by slicing the parent's markdown
+ *      using span {offset:55, length:37}.
+ *   4. Sorts all results by page number so blocks appear in document order.
+ *
+ * Result: [routed invoice (page 1, own markdown + fields), synthetic receipt (page 2, sliced markdown)]
+ */
 function getRenderableContents(contents: AnalysisContentUnion[]): AnalysisContentUnion[] {
   // Collect paths of routed top-level content items.
   const routedPaths = new Set<string>();
