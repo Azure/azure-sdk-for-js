@@ -1,6 +1,6 @@
 // Main entry point for Voice Live Web Assistant
 import { VoiceAssistant } from './voiceAssistant.js';
-import type { VoiceAssistantConfig, VoiceAssistantCallbacks } from './voiceAssistant.js';
+import type { VoiceAssistantConfig, VoiceAssistantCallbacks, PaWord } from './voiceAssistant.js';
 
 class WebVoiceAssistantApp {
   private voiceAssistant: VoiceAssistant;
@@ -317,7 +317,7 @@ class WebVoiceAssistantApp {
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
   }
 
-  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; contentHtml?: string }): void {
+  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[] }): void {
     if (!message.messageId) {
       // Fallback to regular message if no ID provided
       this.addConversationMessage(message);
@@ -364,8 +364,10 @@ class WebVoiceAssistantApp {
           existingCursor.remove();
         }
         
-        if (message.contentHtml) {
-          contentSpan.innerHTML = message.contentHtml;
+        if (message.paWords && message.paWords.length > 0) {
+          // Safely render PA word spans as DOM nodes (no innerHTML).
+          contentSpan.textContent = '';
+          this.appendPaWordNodes(contentSpan, message.paWords);
         } else {
           contentSpan.textContent = message.content;
         }
@@ -385,6 +387,36 @@ class WebVoiceAssistantApp {
     
     // Auto-scroll to bottom
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
+  }
+
+  /**
+   * Safely render pronunciation-assessment word spans into a container using
+   * DOM APIs (textContent + setAttribute). Avoids any innerHTML / HTML parsing,
+   * so untrusted text in PA results cannot inject markup or break out of the
+   * `title` attribute.
+   */
+  private appendPaWordNodes(container: HTMLElement, paWords: PaWord[]): void {
+    paWords.forEach((w, idx) => {
+      const score = w.score;
+      const errorType = w.errorType || 'None';
+
+      let cls = 'pa-word-good';
+      if (errorType === 'Omission') cls = 'pa-word-omission';
+      else if (errorType === 'Insertion') cls = 'pa-word-insertion';
+      else if (errorType === 'Mispronunciation' || score <= 59) cls = 'pa-word-bad';
+
+      const span = document.createElement('span');
+      span.className = `pa-word ${cls}`;
+      span.setAttribute('title', `Score: ${score}, Error: ${errorType}`);
+      // textContent is HTML-safe and also escapes attribute-breaking characters,
+      // since we only use it for text content (not attributes).
+      span.textContent = errorType === 'Omission' ? `[${w.word}]` : w.word;
+
+      if (idx > 0) {
+        container.appendChild(document.createTextNode(' '));
+      }
+      container.appendChild(span);
+    });
   }
 
   private addEvent(event: { type: string; data: any; timestamp: Date }): void {

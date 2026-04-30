@@ -39,11 +39,21 @@ export interface VoiceAssistantConfig {
   paScenario?: string;
 }
 
+/**
+ * Structured pronunciation-assessment word info passed to the UI layer.
+ * The UI is responsible for safely rendering this as DOM (no HTML strings).
+ */
+export interface PaWord {
+  word: string;
+  score: number;
+  errorType: string;
+}
+
 export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
   onAssistantStatusChange: (status: string) => void;
   onConversationMessage: (message: { role: string; content: string; timestamp: Date }) => void;
-  onConversationMessageUpdate: (message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; contentHtml?: string }) => void;
+  onConversationMessageUpdate: (message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[] }) => void;
   onEventReceived: (event: { type: string; data: any; timestamp: Date }) => void;
   onError: (error: string) => void;
   onAudioLevel: (level: number) => void;
@@ -56,13 +66,13 @@ interface AudioBytesWithTimestamp {
 }
 
 interface TurnContext {
-  paAudioPreparePromise?: Promise<ArrayBuffer>;
+  preparedPaAudioBuffer?: ArrayBuffer;
   preparedPaAudio?: ArrayBuffer;
   paPromise?: Promise<[boolean, string]>;
   userMessageId?: string;
   userText?: string;
   userMessageTimestamp?: Date;
-  wordSpansHtml?: string;
+  paWords?: PaWord[];
 }
 
 export class VoiceAssistant {
@@ -106,6 +116,7 @@ export class VoiceAssistant {
   private paStreamingPushStream?: speechSDK.PushAudioInputStream;
   private paStreamingActive = false;
   private paStreamingWriteReady: Promise<void> = Promise.resolve();
+  private readonly maxDiffWordCount = 64;
   // Reference text from LLM tool call (Read Along scenario)
   private currentReferenceText?: string;
   private predefinedInstructions = `
@@ -707,11 +718,11 @@ export class VoiceAssistant {
         if (
           this.enablePronunciationAssessment &&
           this.activeTurnContext &&
-          !this.activeTurnContext.paAudioPreparePromise &&
+          !this.activeTurnContext.preparedPaAudioBuffer &&
           !this.activeTurnContext.preparedPaAudio &&
           this.audioChunksToAssess.length > 0
         ) {
-          this.activeTurnContext.paAudioPreparePromise = this.preparePAAudio();
+          this.activeTurnContext.preparedPaAudioBuffer = this.preparePAAudio();
         }
       },
 
@@ -807,29 +818,20 @@ export class VoiceAssistant {
           : await (turnCtx.paPromise || this.runPAForTurn(turnCtx, '', false));
         console.log('📝 PA Result:', paResult);
 
-        // Parse PA result and build colored word HTML
+        // Parse PA result and collect structured per-word info.
+        // Avoid building any HTML string here — the UI layer renders DOM safely.
         if (isSuccess && paResult) {
           try {
             const paArr = JSON.parse(paResult);
             if (Array.isArray(paArr) && paArr.length > 0) {
               const nBest = paArr[0]?.NBest?.[0];
               const words: any[] = nBest?.Words || [];
-              // Build colored word spans
               if (words.length > 0) {
-                const wordSpans = words.map((w: any) => {
-                  const score = w.PronunciationAssessment?.AccuracyScore ?? 100;
-                  const errorType = w.PronunciationAssessment?.ErrorType || 'None';
-                  let cls = 'pa-word-good';
-                  if (errorType === 'Omission') cls = 'pa-word-omission';
-                  else if (errorType === 'Insertion') cls = 'pa-word-insertion';
-                  else if (errorType === 'Mispronunciation' || score <= 59) cls = 'pa-word-bad';
-                  const escaped = w.Word.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-                  if (errorType === 'Omission') {
-                    return `<span class="pa-word ${cls}" title="Score: ${score}, Error: ${errorType}">[${escaped}]</span>`;
-                  }
-                  return `<span class="pa-word ${cls}" title="Score: ${score}, Error: ${errorType}">${escaped}</span>`;
-                }).join(' ');
-                turnCtx.wordSpansHtml = wordSpans;
+                turnCtx.paWords = words.map((w: any): PaWord => ({
+                  word: typeof w.Word === 'string' ? w.Word : String(w.Word ?? ''),
+                  score: w.PronunciationAssessment?.AccuracyScore ?? 100,
+                  errorType: w.PronunciationAssessment?.ErrorType || 'None'
+                }));
               }
             }
           } catch (e) {
@@ -1241,13 +1243,13 @@ export class VoiceAssistant {
   ): Promise<[boolean, string]> {
     const audioChunks = turnCtx.preparedPaAudio
       ? turnCtx.preparedPaAudio
-      : turnCtx.paAudioPreparePromise
-        ? await turnCtx.paAudioPreparePromise
+      : turnCtx.preparedPaAudioBuffer
+        ? turnCtx.preparedPaAudioBuffer
         : this.preparePAAudio();
     turnCtx.preparedPaAudio = audioChunks;
     const result = await this.startPAWithStream(referenceText, audioChunks, useReferenceText);
     this.clearPAAudioCache();
-    turnCtx.paAudioPreparePromise = undefined;
+    turnCtx.preparedPaAudioBuffer = undefined;
     turnCtx.preparedPaAudio = undefined;
     turnCtx.paPromise = undefined;
     return result;
@@ -1333,9 +1335,16 @@ export class VoiceAssistant {
 
       reco.canceled = (_s, e) => {
         reco.stopContinuousRecognitionAsync();
+        reco.close();
         if (e.errorCode !== speechSDK.CancellationErrorCode.NoError) {
           console.error(`PA streaming canceled: ${e.errorDetails}`);
           safeResolve([false, '']);
+        } else {
+          // EndOfStream or other non-error cancellation — resolve with partial results
+          if (referenceText) {
+            this.markErrorTypesByDiff(PAResults, referenceText);
+          }
+          safeResolve([true, `[${PAResults.join(',')}]`]);
         }
       };
 
@@ -1468,10 +1477,16 @@ export class VoiceAssistant {
 
       reco.canceled = (_s, e) => {
         reco.stopContinuousRecognitionAsync();
-
+        reco.close();
         if (e.errorCode !== speechSDK.CancellationErrorCode.NoError) {
           console.error(`PA Canceled: ${e.errorDetails}`);
           safeResolve([false, '']);
+        } else {
+          // EndOfStream or other non-error cancellation — resolve with partial results
+          if (useReferenceText && referenceText) {
+            this.markErrorTypesByDiff(PAResults, referenceText);
+          }
+          safeResolve([true, `[${PAResults.join(',')}]`]);
         }
       };
 
@@ -1480,11 +1495,9 @@ export class VoiceAssistant {
   }
 
   private cacheAudioChunks(chunk: Uint8Array): void {
-    if (!this.audioContext) {
-      console.warn('AudioContext not available for audio caching');
-      return;
-    }
-
+    // No guard here: caching is independent of playback AudioContext, and capture
+    // state flags can lag behind real audio flow. Invalid chunks are filtered out
+    // later by extractValidAudio() based on audioStartMillis/audioEndMillis.
     const start = this.audioTimeline.totalBytes;
     const end = start + chunk.byteLength;
 
@@ -1561,6 +1574,16 @@ export class VoiceAssistant {
       } catch {
         parsedResults.push(null);
       }
+    }
+
+    if (
+      referenceWords.length > this.maxDiffWordCount ||
+      allRecognizedWords.length > this.maxDiffWordCount
+    ) {
+      console.warn(
+        `Skipping pronunciation diff: word count exceeds limit (${this.maxDiffWordCount}).`,
+      );
+      return;
     }
 
     if (allRecognizedWords.length === 0 && refWordsNorm.length > 0) {
@@ -1709,7 +1732,7 @@ export class VoiceAssistant {
       timestamp: ctx.userMessageTimestamp,
       messageId: ctx.userMessageId,
       isStreaming: false,
-      contentHtml: ctx.wordSpansHtml
+      paWords: ctx.paWords
     });
   }
 }
