@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { hmac } from "../utils/hmac.js";
+import { computeSha256Hmac } from "@azure/core-util";
 import type { HTTPMethod } from "../common/index.js";
 import { ResourceType, Constants } from "../common/index.js";
 
@@ -49,7 +49,7 @@ async function signature(
     "" +
     "\n";
 
-  const signed = await hmac(masterKey, text);
+  const signed = await computeSha256Hmac(masterKey, text, "base64");
 
   return encodeURIComponent("type=" + type + "&ver=" + version + "&sig=" + signed);
 }

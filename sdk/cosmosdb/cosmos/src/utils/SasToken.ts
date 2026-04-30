@@ -3,9 +3,7 @@
 
 import type { SasTokenProperties } from "../client/SasToken/SasTokenProperties.js";
 import { Constants, CosmosKeyType, SasTokenPermissionKind } from "../common/index.js";
-import { encodeUTF8 } from "./encode.js";
-import { hmac } from "../utils/hmac.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+import { computeSha256Hmac, stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 /**
  * Experimental internal only
@@ -79,7 +77,7 @@ export async function createAuthorizationSasToken(
                           is an invalid partition key value range`);
     }
     sasTokenProperties.partitionKeyValueRanges.forEach((range) => {
-      partitionRanges += `${encodeUTF8(range)},`;
+      partitionRanges += `${stringToUint8Array(range, "utf-8")},`;
     });
   }
 
@@ -145,7 +143,7 @@ export async function createAuthorizationSasToken(
     "\n";
 
   const payloadBase64 = uint8ArrayToString(stringToUint8Array(payload, "utf-8"), "base64");
-  const signedPayload = await hmac(masterKey, payloadBase64);
+  const signedPayload = await computeSha256Hmac(masterKey, payloadBase64, "base64");
   return "type=sas&ver=1.0&sig=" + signedPayload + ";" + payloadBase64;
 }
 /**
