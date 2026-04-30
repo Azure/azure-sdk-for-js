@@ -63,7 +63,7 @@ Walk every step in order. Pay particular attention to:
   rename or a genuine addition before propagating.
 - Step 4 (`foundryFeatures` and `BetaEvaluatorsOperations.list` rules).
 - Step 5b — apply the rename pairs from
-  [references/parameter-renames.yml](.github/skills/apply-post-emitter-edits/references/parameter-renames.yml)
+  [references/parameter-renames.yml](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills/apply-post-emitter-edits/references/parameter-renames.yml)
   using word-boundary regex only; never a global string replace.
 - Step 6 — `npx dev-tool run build-package` must succeed for all four
   targets, then `npx dev-tool run extract-api`, then
