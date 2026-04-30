@@ -1,19 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference path="./node-events.d.ts" />
-
 /**
  * EventEmitter for browser builds.
  *
- * Browser users must configure their bundler to alias "node:events"
- * to a compatible EventEmitter polyfill (e.g., eventemitter3).
+ * Browser users must set globalThis.EventEmitter to a compatible polyfill.
  *
- * @example Vite/Webpack configuration:
+ * @example
  * ```js
- * resolve: { alias: { "node:events": "eventemitter3" } }
+ * import EventEmitter from "eventemitter3";
+ * globalThis.EventEmitter = EventEmitter;
  * ```
  */
-export { EventEmitter } from "node:events";
+
+interface EventEmitterLike {
+  on(event: string, listener: (...args: unknown[]) => void): this;
+  removeListener(event: string, listener: (...args: unknown[]) => void): this;
+  emit(event: string, ...args: unknown[]): boolean;
+}
+
+type EventEmitterConstructor = new () => EventEmitterLike;
+
+declare global {
+  // eslint-disable-next-line no-var
+  var EventEmitter: EventEmitterConstructor | undefined;
+}
+
+function getEventEmitter(): EventEmitterConstructor {
+  if (globalThis.EventEmitter) {
+    return globalThis.EventEmitter;
+  }
+  throw new Error(
+    "EventEmitter is not available. Set globalThis.EventEmitter to a polyfill:\n" +
+      '  import EventEmitter from "eventemitter3";\n' +
+      "  globalThis.EventEmitter = EventEmitter;",
+  );
+}
+
+export const EventEmitter = getEventEmitter();
 
 
