@@ -1,6 +1,7 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
   "include": [
+    "../src/node-events.d.ts",
     "../src/index.ts",
     "../src/search/index.ts",
     "../src/search/api/index.ts",
