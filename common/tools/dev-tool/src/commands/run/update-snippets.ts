@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { EOL } from "node:os";
 import path from "node:path";
 import ts from "typescript";
@@ -7,7 +8,7 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { format } from "../../util/prettier";
 import { createPrinter } from "../../util/printer";
-import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import { ProjectInfo, resolveProject, resolveRoot } from "../../util/resolveProject";
 import { convert } from "../../util/samples/convert";
 import { testSyntax } from "../../util/samples/syntax";
 import { createDiagnosticEmitter } from "../../util/typescript/diagnostic";
@@ -21,6 +22,7 @@ export const commandInfo = makeCommandInfo(
 const log = createPrinter("update-snippets");
 
 const SNIPPET_PATH = ["test", "snippets.spec.ts"];
+const TSCONFIG_SNIPPETS = "tsconfig.snippets.json";
 
 /**
  * Describes a location where a snippet is actually presented to a reader, i.e. a Markdown file or JSDoc comment
@@ -75,6 +77,12 @@ const IGNORE_MARKDOWN_COMMENT = "<!-- dev-tool snippets ignore -->";
 const TS_PRESERVE_WHITESPACE = /\r?\n[ ]*\/\/\s*@ts-preserve-whitespace\s*\r?\n/g;
 const TS_IGNORE = /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g;
 const UNIX_EOL = "\n";
+
+const DIAGNOSTIC_FORMAT_HOST: ts.FormatDiagnosticsHost = {
+  getCanonicalFileName: (p) => p,
+  getCurrentDirectory: ts.sys.getCurrentDirectory,
+  getNewLine: () => ts.sys.newLine,
+};
 
 /**
  * Finds all the snippet locations in a project.
@@ -601,6 +609,96 @@ async function replaceSnippetsWithNew(
   return !hadError;
 }
 
+/**
+ * Type-checks the snippets file using `tsconfig.snippets.json` if it exists in the project directory.
+ * Builds the package and its workspace dependencies first to ensure type declarations are available.
+ * Only diagnostics originating from the snippets file itself are reported; errors in `src/` that are
+ * unrelated to the snippets are ignored.
+ *
+ * @param project - the resolved project info
+ * @returns true if type-checking succeeds or no tsconfig.snippets.json is found, false otherwise
+ */
+async function typeCheckSnippets(project: ProjectInfo): Promise<boolean> {
+  const tsconfigPath = path.join(project.path, TSCONFIG_SNIPPETS);
+  const snippetsFilePath = path.join(project.path, ...SNIPPET_PATH);
+
+  if (!existsSync(tsconfigPath)) {
+    log.info(`No ${TSCONFIG_SNIPPETS} found in ${project.path}, skipping type-check.`);
+    return true;
+  }
+
+  if (!existsSync(snippetsFilePath)) {
+    log.info(`No ${SNIPPET_PATH.join("/")} found in ${project.path}, skipping type-check.`);
+    return true;
+  }
+
+  // Build the package and its workspace dependencies before type-checking.
+  // This ensures all workspace-linked packages have their type declarations (.d.ts) available.
+  const repoRoot = await resolveRoot(project.path);
+  log.info(`Building ${project.name} and workspace dependencies for type-checking...`);
+
+  const buildRes = spawnSync(
+    "pnpm",
+    ["turbo", "build", "--filter", `${project.name}...`, "--token", "1"],
+    {
+      stdio: "inherit",
+      shell: process.platform === "win32",
+      cwd: repoRoot,
+    },
+  );
+
+  if (buildRes.status !== 0 || buildRes.signal !== null) {
+    log.error(
+      `Build failed for ${project.name}. Run \`pnpm build --filter ${project.name}...\` to see detailed errors.`,
+    );
+    return false;
+  }
+
+  log.info(`Type-checking snippets using ${TSCONFIG_SNIPPETS}...`);
+
+  // Use the TypeScript compiler API to get diagnostics and filter to only errors from the
+  // snippets file. This avoids false positives from pre-existing errors in src/ that are
+  // unrelated to the snippets themselves.
+  const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+  if (configFile.error) {
+    log.error(
+      `Failed to read ${TSCONFIG_SNIPPETS}: ${ts.flattenDiagnosticMessageText(configFile.error.messageText, "\n")}`,
+    );
+    return false;
+  }
+
+  const parsedConfig = ts.parseJsonConfigFileContent(
+    configFile.config,
+    ts.sys,
+    project.path,
+    undefined,
+    tsconfigPath,
+  );
+
+  const program = ts.createProgram(parsedConfig.fileNames, parsedConfig.options);
+  const allDiagnostics = ts.getPreEmitDiagnostics(program);
+
+  // Normalize path separators for cross-platform comparison
+  const normalizedSnippetsPath = snippetsFilePath.replace(/\\/g, "/");
+  const snippetDiagnostics = allDiagnostics.filter(
+    (d) => d.file && d.file.fileName.replace(/\\/g, "/") === normalizedSnippetsPath,
+  );
+
+  if (snippetDiagnostics.length > 0) {
+    log.error(
+      `Type-checking snippets failed with ${snippetDiagnostics.length} error(s) in ${SNIPPET_PATH.join("/")}:\n` +
+        ts.formatDiagnosticsWithColorAndContext(
+          Array.from(snippetDiagnostics),
+          DIAGNOSTIC_FORMAT_HOST,
+        ),
+    );
+    return false;
+  }
+
+  log.info("Type-checking snippets succeeded.");
+  return true;
+}
+
 export default leafCommand(commandInfo, async (_) => {
   // Conceptually, what we want to do is simple. find the snippet locations for a project, parse the definitions of the
   // project's snippets, and then fill the locations in with the snippets.
@@ -616,5 +714,11 @@ export default leafCommand(commandInfo, async (_) => {
 
   const snippetDefinitions = await parseSnippetDefinitions(project);
 
-  return replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+  const snippetsUpdated = await replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+
+  if (!snippetsUpdated) {
+    return false;
+  }
+
+  return typeCheckSnippets(project);
 });
