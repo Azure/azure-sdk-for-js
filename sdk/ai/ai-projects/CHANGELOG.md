@@ -1,16 +1,5 @@
 # Release History
 
-## 2.3.0 (Unreleased)
-
-### Features Added
-
-- Added `ToolboxSearchPreviewTool` (type `"toolbox_search_preview"`) as a new `ToolUnion` member for agents that dynamically discover deferred tools from a toolbox at runtime via `search_tools` queries.
-- Added optional `name` and `description` properties to `BingGroundingTool`, `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, `AzureAISearchTool`, `BingCustomSearchPreviewTool`, `BrowserAutomationPreviewTool`, `A2APreviewTool`, and `MemorySearchPreviewTool`.
-
-### Other Changes
-
-- Regenerated client from latest TypeSpec (commit `2d1e5e0d`).
-
 ## 2.2.0 (Unreleased)
 
 ### Breaking Changes
@@ -26,14 +15,12 @@
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
+- Added `ToolboxSearchPreviewTool` (type `"toolbox_search_preview"`) as a new `ToolUnion` member for agents that dynamically discover deferred tools from a toolbox at runtime via `search_tools` queries.
+- Added optional `name` and `description` properties to `BingGroundingTool`, `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, `AzureAISearchTool`, `BingCustomSearchPreviewTool`, `BrowserAutomationPreviewTool`, `A2APreviewTool`, and `MemorySearchPreviewTool`.
 
 ### Bugs Fixed
 
 - Fixed missing `BetaAgentsGetSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
-
-### Other Changes
-
-- Regenerated client from latest TypeSpec (commit `94f9262a`).
 
 ## 2.1.0 (2026-04-17)
 
