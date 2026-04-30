@@ -14,6 +14,7 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
   const initialContentType = "application/x-roundtrip-initial";
   const updatedContentType = "application/x-roundtrip-updated";
   let secretSuffix: string;
+  let cleanupSecretName: string | undefined;
   let client: SecretClient;
   let testClient: TestClient;
   let recorder: Recorder;
@@ -21,17 +22,31 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
   beforeEach(async function (ctx) {
     const authentication = await authenticate(ctx);
     secretSuffix = authentication.secretSuffix;
+    cleanupSecretName = undefined;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
   });
 
   afterEach(async function () {
-    await recorder.stop();
+    try {
+      if (cleanupSecretName) {
+        try {
+          await testClient.flushSecret(cleanupSecretName);
+        } catch (error: any) {
+          if (error?.code !== "SecretNotFound" && error?.statusCode !== 404) {
+            throw error;
+          }
+        }
+      }
+    } finally {
+      await recorder.stop();
+    }
   });
 
   it("getSecret accepts outContentType parameter", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    cleanupSecretName = secretName;
     await client.setSecret(secretName, secretValue);
     try {
       // For regular (non-certificate) secrets, outContentType is passed but the service
@@ -50,69 +65,62 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
         err.statusCode === 400 || err.statusCode === 404,
         `Expected 400 or 404 error for outContentType on non-cert secret, got: ${err.statusCode}`,
       );
-    } finally {
-      await testClient.flushSecret(secretName);
     }
   });
 
   it("setSecret round-trips contentType", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    cleanupSecretName = secretName;
 
-    try {
-      const createdSecret = await client.setSecret(secretName, secretValue, {
-        contentType: initialContentType,
-      });
-      assert.equal(
-        createdSecret.properties.contentType,
-        initialContentType,
-        "Expected setSecret() to return the created contentType.",
-      );
+    const createdSecret = await client.setSecret(secretName, secretValue, {
+      contentType: initialContentType,
+    });
+    assert.equal(
+      createdSecret.properties.contentType,
+      initialContentType,
+      "Expected setSecret() to return the created contentType.",
+    );
 
-      const fetchedSecret = await client.getSecret(secretName);
-      assert.equal(
-        fetchedSecret.properties.contentType,
-        initialContentType,
-        "Expected getSecret() to return the stored contentType.",
-      );
-    } finally {
-      await testClient.flushSecret(secretName);
-    }
+    const fetchedSecret = await client.getSecret(secretName);
+    assert.equal(
+      fetchedSecret.properties.contentType,
+      initialContentType,
+      "Expected getSecret() to return the stored contentType.",
+    );
   });
 
   it("updateSecretProperties round-trips contentType", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    cleanupSecretName = secretName;
 
-    try {
-      const createdSecret = await client.setSecret(secretName, secretValue, {
-        contentType: initialContentType,
-      });
-      const updatedProperties = await client.updateSecretProperties(
-        secretName,
-        createdSecret.properties.version!,
-        {
-          contentType: updatedContentType,
-        },
-      );
+    const createdSecret = await client.setSecret(secretName, secretValue, {
+      contentType: initialContentType,
+    });
+    const updatedProperties = await client.updateSecretProperties(
+      secretName,
+      createdSecret.properties.version!,
+      {
+        contentType: updatedContentType,
+      },
+    );
 
-      assert.equal(
-        updatedProperties.contentType,
-        updatedContentType,
-        "Expected updateSecretProperties() to return the updated contentType.",
-      );
+    assert.equal(
+      updatedProperties.contentType,
+      updatedContentType,
+      "Expected updateSecretProperties() to return the updated contentType.",
+    );
 
-      const fetchedSecret = await client.getSecret(secretName);
-      assert.equal(
-        fetchedSecret.properties.contentType,
-        updatedContentType,
-        "Expected getSecret() to return the updated contentType.",
-      );
-    } finally {
-      await testClient.flushSecret(secretName);
-    }
+    const fetchedSecret = await client.getSecret(secretName);
+    assert.equal(
+      fetchedSecret.properties.contentType,
+      updatedContentType,
+      "Expected getSecret() to return the updated contentType.",
+    );
   });
 
   it("getSecret with outContentType=PEM does not throw for a secret with contentType PFX", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    cleanupSecretName = secretName;
     // Set a secret with PFX content type (simulating what a certificate would set)
     await client.setSecret(secretName, secretValue, {
       contentType: KnownContentType.PFX,
@@ -132,8 +140,6 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
         err.statusCode === 400,
         `Expected 400 for non-cert PFX-to-PEM conversion, got: ${err.statusCode}`,
       );
-    } finally {
-      await testClient.flushSecret(secretName);
     }
   });
 
@@ -147,21 +153,19 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
     // verified by the unit test "correctly assigns previousVersion when present in the bundle"
     // in test/internal/transformations.spec.ts.
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    cleanupSecretName = secretName;
     await client.setSecret(secretName, secretValue);
-    try {
-      const result = await client.getSecret(secretName);
-      const previousVersion: string | undefined = result.properties.previousVersion;
-      assert.isUndefined(
-        previousVersion,
-        "previousVersion should be undefined for a plain (non-certificate-backed) secret.",
-      );
-    } finally {
-      await testClient.flushSecret(secretName);
-    }
+    const result = await client.getSecret(secretName);
+    const previousVersion: string | undefined = result.properties.previousVersion;
+    assert.isUndefined(
+      previousVersion,
+      "previousVersion should be undefined for a plain (non-certificate-backed) secret.",
+    );
   });
 
   it("getSecret accepts all new API version options", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
+    cleanupSecretName = secretName;
     await client.setSecret(secretName, secretValue);
     try {
       // Verify we can call getSecret with version-specific options
@@ -175,8 +179,6 @@ describe("Secret client - outContentType and previousVersion (2025-07-01 API fea
         err.statusCode === 400,
         `Unexpected error for outContentType=PFX, got: ${err.statusCode}`,
       );
-    } finally {
-      await testClient.flushSecret(secretName);
     }
   });
 });
