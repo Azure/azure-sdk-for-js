@@ -8,13 +8,14 @@ import { describe, it, assert, expect, beforeEach } from "vitest";
 import { stringToUint8Array } from "@azure/core-util";
 
 class TestDataEncryptionKey extends DataEncryptionKey {
-  private constructor(rootKey: Uint8Array) {
+  private constructor(rootKey: Uint8Array<ArrayBuffer>) {
     super(rootKey, "Test Key");
   }
 
   static async createTest(rootKey: Uint8Array): Promise<TestDataEncryptionKey> {
-    const key = new TestDataEncryptionKey(rootKey);
-    await key.deriveKeys(rootKey);
+    const typed = rootKey as Uint8Array<ArrayBuffer>;
+    const key = new TestDataEncryptionKey(typed);
+    await key.deriveKeys(typed);
     return key;
   }
 }

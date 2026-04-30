@@ -4,7 +4,7 @@
 import type { Serializer } from "./Serializer.js";
 
 export class FloatSerializer implements Serializer {
-  deserialize(bytes: Uint8Array): number {
+  deserialize(bytes: Uint8Array<ArrayBuffer>): number {
     if (!bytes || bytes.length < 8) {
       throw new Error("Invalid byte array for deserialization");
     }
@@ -12,7 +12,7 @@ export class FloatSerializer implements Serializer {
     return view.getFloat64(0, true);
   }
 
-  serialize(value: number): Uint8Array {
+  serialize(value: number): Uint8Array<ArrayBuffer> {
     if (!Number.isFinite(value)) {
       throw new Error("Value is out of range");
     }

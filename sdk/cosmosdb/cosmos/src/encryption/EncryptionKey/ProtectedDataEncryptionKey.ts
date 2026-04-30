@@ -17,7 +17,7 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   private constructor(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
-    rawKey: Uint8Array,
+    rawKey: Uint8Array<ArrayBuffer>,
     encryptedKey: Uint8Array,
   ) {
     super(rawKey, name);
@@ -31,8 +31,9 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     rawKey: Uint8Array,
     encryptedKey: Uint8Array,
   ): Promise<ProtectedDataEncryptionKey> {
-    const key = new ProtectedDataEncryptionKey(name, keyEncryptionKey, rawKey, encryptedKey);
-    await key.deriveKeys(rawKey);
+    const typedRawKey = rawKey as Uint8Array<ArrayBuffer>;
+    const key = new ProtectedDataEncryptionKey(name, keyEncryptionKey, typedRawKey, encryptedKey);
+    await key.deriveKeys(typedRawKey);
     return key;
   }
 }

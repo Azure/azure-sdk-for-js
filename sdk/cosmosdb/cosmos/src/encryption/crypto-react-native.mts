@@ -7,28 +7,31 @@ declare const globalThis: {
     subtle: {
       importKey(
         format: string,
-        keyData: BufferSource,
+        keyData: Uint8Array<ArrayBuffer>,
         algorithm: { name: string; hash?: { name: string } },
         extractable: boolean,
         keyUsages: string[],
       ): Promise<unknown>;
-      sign(algorithm: string, key: unknown, data: BufferSource): Promise<ArrayBuffer>;
+      sign(algorithm: string, key: unknown, data: Uint8Array<ArrayBuffer>): Promise<ArrayBuffer>;
       encrypt(
-        algorithm: { name: string; iv: BufferSource },
+        algorithm: { name: string; iv: Uint8Array<ArrayBuffer> },
         key: unknown,
-        data: BufferSource,
+        data: Uint8Array<ArrayBuffer>,
       ): Promise<ArrayBuffer>;
       decrypt(
-        algorithm: { name: string; iv: BufferSource },
+        algorithm: { name: string; iv: Uint8Array<ArrayBuffer> },
         key: unknown,
-        data: BufferSource,
+        data: Uint8Array<ArrayBuffer>,
       ): Promise<ArrayBuffer>;
     };
     getRandomValues<T extends ArrayBufferView>(array: T): T;
   };
 };
 
-export async function hmacSha256(key: Uint8Array, data: Uint8Array): Promise<Uint8Array> {
+export async function hmacSha256(
+  key: Uint8Array<ArrayBuffer>,
+  data: Uint8Array<ArrayBuffer>,
+): Promise<Uint8Array<ArrayBuffer>> {
   const cryptoKey = await globalThis.crypto.subtle.importKey(
     "raw",
     key,
@@ -41,10 +44,10 @@ export async function hmacSha256(key: Uint8Array, data: Uint8Array): Promise<Uin
 }
 
 export async function aes256CbcEncrypt(
-  key: Uint8Array,
-  iv: Uint8Array,
-  data: Uint8Array,
-): Promise<Uint8Array> {
+  key: Uint8Array<ArrayBuffer>,
+  iv: Uint8Array<ArrayBuffer>,
+  data: Uint8Array<ArrayBuffer>,
+): Promise<Uint8Array<ArrayBuffer>> {
   const cryptoKey = await globalThis.crypto.subtle.importKey(
     "raw",
     key,
@@ -61,10 +64,10 @@ export async function aes256CbcEncrypt(
 }
 
 export async function aes256CbcDecrypt(
-  key: Uint8Array,
-  iv: Uint8Array,
-  data: Uint8Array,
-): Promise<Uint8Array> {
+  key: Uint8Array<ArrayBuffer>,
+  iv: Uint8Array<ArrayBuffer>,
+  data: Uint8Array<ArrayBuffer>,
+): Promise<Uint8Array<ArrayBuffer>> {
   const cryptoKey = await globalThis.crypto.subtle.importKey(
     "raw",
     key,
@@ -80,7 +83,7 @@ export async function aes256CbcDecrypt(
   return new Uint8Array(result);
 }
 
-export async function generateRandomBytes(length: number): Promise<Uint8Array> {
+export async function generateRandomBytes(length: number): Promise<Uint8Array<ArrayBuffer>> {
   const buffer = new Uint8Array(length);
   globalThis.crypto.getRandomValues(buffer);
   return buffer;

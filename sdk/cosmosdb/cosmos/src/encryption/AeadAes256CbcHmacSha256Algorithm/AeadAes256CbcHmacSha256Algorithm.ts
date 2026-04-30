@@ -15,8 +15,8 @@ export class AeadAes256CbcHmacSha256Algorithm {
   private blockSizeInBytes = 16;
   private encryptionType: EncryptionType;
   private dataEncryptionKey: DataEncryptionKey;
-  private version: Uint8Array;
-  private versionSize: Uint8Array;
+  private version: Uint8Array<ArrayBuffer>;
+  private versionSize: Uint8Array<ArrayBuffer>;
   private keySizeInBytes: number;
   private minimumCipherTextLength: number;
 
@@ -29,8 +29,8 @@ export class AeadAes256CbcHmacSha256Algorithm {
     this.minimumCipherTextLength = 1 + 2 * this.blockSizeInBytes + this.keySizeInBytes;
   }
 
-  public async encrypt(plainTextBuffer: Uint8Array): Promise<Uint8Array> {
-    let iv: Uint8Array;
+  public async encrypt(plainTextBuffer: Uint8Array<ArrayBuffer>): Promise<Uint8Array<ArrayBuffer>> {
+    let iv: Uint8Array<ArrayBuffer>;
     if (this.encryptionType === EncryptionType.RANDOMIZED) {
       iv = await generateRandomBytes(16);
     } else {
@@ -46,7 +46,7 @@ export class AeadAes256CbcHmacSha256Algorithm {
     return concat([new Uint8Array([this.algoVersion]), authTagBuffer, iv, cipherTextBuffer]);
   }
 
-  public async decrypt(cipherTextBuffer: Uint8Array): Promise<Uint8Array> {
+  public async decrypt(cipherTextBuffer: Uint8Array<ArrayBuffer>): Promise<Uint8Array<ArrayBuffer>> {
     if (cipherTextBuffer.length < this.minimumCipherTextLength) {
       throw new Error("Invalid cipher text length");
     }
@@ -72,17 +72,17 @@ export class AeadAes256CbcHmacSha256Algorithm {
   }
 
   private async generateAuthenticationTag(
-    iv: Uint8Array,
-    cipherTextBuffer: Uint8Array,
-  ): Promise<Uint8Array> {
+    iv: Uint8Array<ArrayBuffer>,
+    cipherTextBuffer: Uint8Array<ArrayBuffer>,
+  ): Promise<Uint8Array<ArrayBuffer>> {
     const buffer = concat([this.version, iv, cipherTextBuffer, this.versionSize]);
     return hmacSha256(this.dataEncryptionKey.macKeyBuffer, buffer);
   }
 
   private async validateAuthenticationTag(
-    authenticationTag: Uint8Array,
-    iv: Uint8Array,
-    cipherText: Uint8Array,
+    authenticationTag: Uint8Array<ArrayBuffer>,
+    iv: Uint8Array<ArrayBuffer>,
+    cipherText: Uint8Array<ArrayBuffer>,
   ): Promise<void> {
     const expectedAuthTag = await this.generateAuthenticationTag(iv, cipherText);
     if (!uint8ArrayEquals(authenticationTag, expectedAuthTag)) {
@@ -91,7 +91,7 @@ export class AeadAes256CbcHmacSha256Algorithm {
   }
 }
 
-function concat(arrays: Uint8Array[]): Uint8Array {
+function concat(arrays: Uint8Array<ArrayBuffer>[]): Uint8Array<ArrayBuffer> {
   const totalLength = arrays.reduce((sum, arr) => sum + arr.length, 0);
   const result = new Uint8Array(totalLength);
   let offset = 0;
@@ -102,7 +102,7 @@ function concat(arrays: Uint8Array[]): Uint8Array {
   return result;
 }
 
-function uint8ArrayEquals(a: Uint8Array, b: Uint8Array): boolean {
+function uint8ArrayEquals(a: Uint8Array<ArrayBuffer>, b: Uint8Array<ArrayBuffer>): boolean {
   if (a.length !== b.length) return false;
   for (let i = 0; i < a.length; i++) {
     if (a[i] !== b[i]) return false;
