@@ -43,7 +43,7 @@ Install the Microsoft skills marketplace:
 /plugin marketplace add Microsoft/skills
 ```
 
-Install the Azure SDK skills plugin:
+Install the [Azure SDK skills plugin](https://github.com/microsoft/skills/tree/main/.github/plugins/azure-sdk-typescript):
 
 ```
 /plugin install azure-sdk-typescript@skills
