@@ -5,7 +5,7 @@ import { Offer, Offers } from "./client/Offer/index.js";
 import { ClientContext } from "./ClientContext.js";
 import { parseConnectionString } from "./common/index.js";
 import { Constants } from "./common/constants.js";
-import { getUserAgent } from "#platform/common/platform";
+import { getUserAgent } from "./common/platform.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
 import {

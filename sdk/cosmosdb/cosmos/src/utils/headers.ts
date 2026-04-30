@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { hmac } from "#platform/utils/hmac";
+import { hmac } from "../utils/hmac.js";
 import type { HTTPMethod } from "../common/index.js";
 import { ResourceType, Constants } from "../common/index.js";
 

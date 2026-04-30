@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { digest } from "#platform/utils/digest";
+import { digest } from "../utils/digest.js";
 import stableStringify from "fast-json-stable-stringify";
 
 export async function hashObject(object: unknown): Promise<string> {

@@ -1,10 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHash } from "node:crypto";
+import { encodeUTF8 } from "./encode.js";
 
 export async function digest(str: string): Promise<string> {
-  const hash = createHash("sha256");
-  hash.update(str, "utf8");
-  return hash.digest("hex");
+  const data = encodeUTF8(str);
+  const hash = await (globalThis as any).crypto.subtle.digest("SHA-256", data);
+  return bufferToHex(hash);
+}
+
+function bufferToHex(buffer: ArrayBuffer): string {
+  return Array.prototype.map
+    .call(new Uint8Array(buffer), (item: number) => ("00" + item.toString(16)).slice(-2))
+    .join("");
 }

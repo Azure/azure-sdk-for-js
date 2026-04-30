@@ -4,7 +4,7 @@
 import { Constants } from "../common/index.js";
 import { isNonEmptyString } from "../utils/strings.js";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel.js";
-import { diagnosticLevelFromEnv } from "#platform/utils/envUtils";
+import { diagnosticLevelFromEnv } from "../utils/envUtils.js";
 
 export * from "./DiagnosticWriter.js";
 export * from "./DiagnosticFormatter.js";
