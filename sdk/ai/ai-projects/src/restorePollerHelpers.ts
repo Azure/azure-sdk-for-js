@@ -54,7 +54,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   const deserializeHelper = options?.processResponseBody ?? deserializer;
   if (!deserializeHelper) {
     throw new Error(
-      `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
+      `Unable to locate deserializeHelper for the specified operation${sourceOperation?.name ? ` '${sourceOperation.name}'` : ""}.`,
     );
   }
   // The apiVersion extracted from the URL is a plain string; cast to the enum type

@@ -29,7 +29,8 @@ export async function main(): Promise<void> {
 
   // Serialize the poller state so it can be resumed later
   const serializedState = (await poller).toString();
-  console.log("Serialized poller state (truncated for display):", serializedState.slice(0, 100));
+  console.log(`Serialized poller state (length: ${serializedState.length} characters)`);
+  console.log("Serialized poller state (first 100 chars):", serializedState.slice(0, 100));
 
   // Restore the poller from the serialized state — simulates resuming after a restart
   console.log("Restoring poller from serialized state...");
