@@ -10,26 +10,3 @@
 export function getCurrentTimestampInMs(): number {
   return Date.now();
 }
-
-/**
- * @hidden
- * Utility function to start a background task that runs at specified intervals.
- * @param action - A function that returns a Promise, representing the task to be executed.
- * @param intervalMs - The interval in milliseconds at which the task should run.
- * @returns A timer object representing the background task.
- */
-export function startBackgroundTask(
-  action: () => Promise<void>,
-  intervalMs: number,
-): ReturnType<typeof setInterval> {
-  const timer = setInterval(() => {
-    (async () => {
-      await action();
-    })();
-  }, intervalMs);
-  // Unref the timer if available to prevent it from keeping the Node.js event loop alive
-  if ((timer as any).unref && typeof (timer as any).unref === "function") {
-    (timer as any).unref();
-  }
-  return timer;
-}

@@ -3,8 +3,8 @@
 
 /**
  * @hidden
- * Returns Node.js runtime details for user-agent string.
+ * Returns browser runtime details for user-agent string.
  */
 export function userAgentDetails(): string {
-  return `Node.js/${process.versions.node} (${process.platform}; ${process.arch})`;
+  return navigator.userAgent ?? "<environment undetectable>";
 }

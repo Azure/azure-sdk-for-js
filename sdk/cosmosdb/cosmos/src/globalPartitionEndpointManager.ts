@@ -10,7 +10,7 @@ import {
 } from "./index.js";
 import { PartitionKeyRangeFailoverInfo } from "./PartitionKeyRangeFailoverInfo.js";
 import { normalizeEndpoint } from "./utils/checkURL.js";
-import { startBackgroundTask } from "./utils/time.js";
+import { createInterval } from "#platform/utils/timers";
 import { assertNotUndefined } from "./utils/typeChecks.js";
 
 /**
@@ -25,7 +25,7 @@ export class GlobalPartitionEndpointManager {
   >;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
-  private circuitBreakerFailbackBackgroundRefresher?: ReturnType<typeof setTimeout>;
+  private circuitBreakerFailbackBackgroundRefresher?: () => void;
 
   /**
    * @internal
@@ -129,7 +129,7 @@ export class GlobalPartitionEndpointManager {
    */
   public dispose(): void {
     if (this.circuitBreakerFailbackBackgroundRefresher) {
-      clearTimeout(this.circuitBreakerFailbackBackgroundRefresher);
+      this.circuitBreakerFailbackBackgroundRefresher();
       this.circuitBreakerFailbackBackgroundRefresher = undefined;
     }
   }
@@ -376,7 +376,7 @@ export class GlobalPartitionEndpointManager {
    * The loop runs at a defined interval specified by Constants.StalePartitionUnavailabilityRefreshIntervalInMs.
    */
   private initiateCircuitBreakerFailbackLoop(): void {
-    this.circuitBreakerFailbackBackgroundRefresher = startBackgroundTask(async () => {
+    this.circuitBreakerFailbackBackgroundRefresher = createInterval(async () => {
       try {
         await this.openConnectionToUnhealthyEndpointsWithFailback();
       } catch (err) {

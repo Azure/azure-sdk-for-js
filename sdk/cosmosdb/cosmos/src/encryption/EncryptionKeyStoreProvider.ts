@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../common/index.js";
-import { startBackgroundTask } from "../utils/time.js";
+import { createInterval } from "#platform/utils/timers";
 import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
 import type { KeyEncryptionAlgorithm } from "./enums/index.js";
 /**
@@ -11,7 +11,7 @@ import type { KeyEncryptionAlgorithm } from "./enums/index.js";
 export class EncryptionKeyStoreProvider {
   public RsaOaepEncryptionAlgorithm: string = "RSA-OAEP";
   // interval for clear cache to run
-  cacheRefresher: ReturnType<typeof setTimeout>;
+  cacheRefresher: (() => void) | undefined;
 
   // cache to store the unwrapped encryption key. Key is the path of the encryption key
   public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
@@ -68,7 +68,7 @@ export class EncryptionKeyStoreProvider {
   }
 
   private async clearCacheOnTtlExpiry(): Promise<void> {
-    this.cacheRefresher = startBackgroundTask(async () => {
+    this.cacheRefresher = createInterval(async () => {
       const now = new Date();
       for (const key in this.unwrappedEncryptionKeyCache) {
         if (

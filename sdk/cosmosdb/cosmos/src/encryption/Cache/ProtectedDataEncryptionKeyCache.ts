@@ -5,7 +5,7 @@ import { randomBytes } from "node:crypto";
 import { ProtectedDataEncryptionKey } from "#platform/encryption/EncryptionKey/ProtectedDataEncryptionKey";
 import type { KeyEncryptionKey } from "#platform/encryption/KeyEncryptionKey";
 import { Constants } from "../../common/index.js";
-import { startBackgroundTask } from "../../utils/time.js";
+import { createInterval } from "#platform/utils/timers";
 
 /**
  * The cache used to store the protected data encryption key.
@@ -16,7 +16,7 @@ export class ProtectedDataEncryptionKeyCache {
   // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
   private cache: Map<string, [Date, ProtectedDataEncryptionKey]>;
   // interval for clear cache to run
-  cacheRefresher: ReturnType<typeof setTimeout>;
+  cacheRefresher: (() => void) | undefined;
 
   constructor(private cacheTimeToLive: number) {
     this.cache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
@@ -38,7 +38,7 @@ export class ProtectedDataEncryptionKeyCache {
   }
 
   private async clearCacheOnTtlExpiry(): Promise<void> {
-    this.cacheRefresher = startBackgroundTask(async () => {
+    this.cacheRefresher = createInterval(async () => {
       const now = new Date();
       for (const key of this.cache.keys()) {
         if (now.getTime() - this.cache.get(key)[0].getTime() > this.cacheTimeToLive) {

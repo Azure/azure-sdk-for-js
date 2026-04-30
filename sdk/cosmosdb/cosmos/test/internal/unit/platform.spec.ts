@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../../../src/common/constants.js";
-import { getUserAgent } from "../../../src/common/platform.js";
+import { getUserAgent } from "../../../src/common/userAgent.js";
 import { describe, it, assert } from "vitest";
 import packageJson from "../../../package.json" with { type: "json" };
 import type { CosmosClientOptions } from "../../../src/index.js";

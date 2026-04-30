@@ -120,11 +120,11 @@ describe("ProtectedDataEncryptionKeyCache", () => {
       undefined,
       "The key should not get stored in cache as ttl is 0",
     );
-    clearTimeout(cacheWithZeroTTL.cacheRefresher);
+    cacheWithZeroTTL.cacheRefresher?.();
   });
 
   afterEach(async () => {
-    clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
-    clearTimeout(keyStoreProvider.cacheRefresher);
+    protectedDataEncryptionKeyCache.cacheRefresher?.();
+    keyStoreProvider.cacheRefresher?.();
   });
 });

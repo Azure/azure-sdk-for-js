@@ -6,7 +6,7 @@ import type { ProtectedDataEncryptionKey } from "#platform/encryption/Encryption
 
 // TODO: add support for browser environment in phase 2
 export class ProtectedDataEncryptionKeyCache {
-  cacheRefresher!: ReturnType<typeof setTimeout>;
+  cacheRefresher: (() => void) | undefined;
 
   constructor(_cacheTimeToLive: number) {
     throw new Error("Client-side Encryption not supported in browser environment");

@@ -6,7 +6,7 @@
  * Client-side Encryption not supported in browser environment.
  */
 export class EncryptionKeyStoreProvider {
-  cacheRefresher!: ReturnType<typeof setTimeout>;
+  cacheRefresher: (() => void) | undefined;
   unwrappedEncryptionKeyCache: Record<string, [Date, Uint8Array]> = {};
 
   constructor(_encryptionKeyResolver?: unknown, _cacheTtlInMs?: number) {

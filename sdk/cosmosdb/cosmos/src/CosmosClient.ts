@@ -5,7 +5,7 @@ import { Offer, Offers } from "./client/Offer/index.js";
 import { ClientContext } from "./ClientContext.js";
 import { parseConnectionString } from "./common/index.js";
 import { Constants } from "./common/constants.js";
-import { getUserAgent } from "./common/platform.js";
+import { getUserAgent } from "./common/userAgent.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics.js";
 import {
@@ -22,6 +22,7 @@ import type { RequestOptions } from "./request/index.js";
 import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
+import { createInterval } from "#platform/utils/timers";
 import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 
 /**
@@ -89,7 +90,7 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
-  private endpointRefresher: ReturnType<typeof setTimeout>;
+  private endpointRefresher: (() => void) | undefined;
   /**
    * @internal
    */
@@ -347,10 +348,10 @@ export class CosmosClient {
    * Clears background endpoint refresher. Use client.dispose() when destroying the CosmosClient within another process.
    */
   public dispose(): void {
-    clearTimeout(this.endpointRefresher);
+    this.endpointRefresher?.();
     if (this.clientContext.enableEncryption) {
-      clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
-      clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
+      this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher?.();
+      this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher?.();
     }
     if (this.globalPartitionEndpointManager) {
       this.globalPartitionEndpointManager.dispose();
@@ -361,9 +362,9 @@ export class CosmosClient {
     globalEndpointManager: GlobalEndpointManager,
     refreshRate: number,
   ) {
-    this.endpointRefresher = setInterval(() => {
+    this.endpointRefresher = createInterval(async () => {
       try {
-        return withDiagnostics(
+        await withDiagnostics(
           async (diagnosticNode: DiagnosticNodeInternal) => {
             return globalEndpointManager.refreshEndpointList(diagnosticNode);
           },
@@ -374,12 +375,6 @@ export class CosmosClient {
         console.warn("Failed to refresh endpoints", e);
       }
     }, refreshRate);
-    if (
-      (this.endpointRefresher as any).unref &&
-      typeof (this.endpointRefresher as any).unref === "function"
-    ) {
-      (this.endpointRefresher as any).unref();
-    }
   }
 
   /**
