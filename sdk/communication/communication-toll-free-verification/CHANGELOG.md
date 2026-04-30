@@ -11,13 +11,7 @@
 
 ### Other Changes
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2026-03-09)
 
 ### Features Added
 - APIs for querying and managing Toll Free Verification Campaign Briefs
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
