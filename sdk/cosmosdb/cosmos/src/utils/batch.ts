@@ -21,7 +21,7 @@ import type { PatchRequestBody } from "./patch.js";
 import { assertNotUndefined } from "./typeChecks.js";
 import { bodyFromData } from "../request/request.js";
 import { Constants } from "../common/constants.js";
-import { randomUUID } from "@azure/core-util";
+import { randomUUID, stringToUint8Array } from "@azure/core-util";
 import type { ItemOperation } from "../bulk/ItemOperation.js";
 import type { BulkResponse } from "../bulk/index.js";
 import type { EncryptionProcessor } from "#platform/encryption/EncryptionProcessor";
@@ -318,7 +318,7 @@ export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
  * @hidden
  */
 export function calculateObjectSizeInBytes(obj: unknown): number {
-  return new TextEncoder().encode(bodyFromData(obj as any)).length;
+  return stringToUint8Array(bodyFromData(obj as any), "utf-8").length;
 }
 
 export function decorateBatchOperation(

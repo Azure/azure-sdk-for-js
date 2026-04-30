@@ -180,10 +180,10 @@ describe.skip("CompositeQueryContinuationToken", () => {
     });
 
     it("should throw error when partitionKeyRange is undefined", () => {
-      const rangeMapping: QueryRangeMapping = {
+      const rangeMapping = {
         itemCount: 5,
         continuationToken: "test-token",
-      };
+      } as unknown as QueryRangeMapping;
 
       assert.throws(() => {
         convertRangeMappingToQueryRange(rangeMapping);

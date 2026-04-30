@@ -6,6 +6,7 @@ import { doubleToByteArrayBigInt } from "./encoding/number.js";
 import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
 import { concatUint8Arrays, hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
+import { stringToUint8Array } from "@azure/core-util";
 
 export function hashV2PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
   // Create a single Uint8Array from the concatenated prefixes for each partition key value.
@@ -34,7 +35,7 @@ function prefixKeyByType(key: PrimitivePartitionKeyValue): Uint8Array {
       // - The hex prefix for Infinity
       bytes = concatUint8Arrays([
         hexStringToUint8Array(BytePrefix.String),
-        new TextEncoder().encode(key),
+        stringToUint8Array(key, "utf-8"),
         hexStringToUint8Array(BytePrefix.Infinity),
       ]);
       return bytes;

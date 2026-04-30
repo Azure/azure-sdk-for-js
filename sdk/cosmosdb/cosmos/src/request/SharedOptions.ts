@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/// <reference lib="dom" />
 import type { PriorityLevel } from "../documents/PriorityLevel.js";
 import type { CosmosHeaders } from "../index.js";
 

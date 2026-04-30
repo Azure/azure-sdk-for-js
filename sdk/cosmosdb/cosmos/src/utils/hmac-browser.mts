@@ -3,7 +3,7 @@
 
 import { encodeUTF8, encodeBase64 } from "./encode.js";
 import atob from "#platform/utils/atob";
-import { globalCrypto } from "./globalCrypto.js";
+import { globalCrypto } from "#platform/utils/globalCrypto";
 
 export async function hmac(key: string, message: string): Promise<string> {
   const importParams: HmacImportParams = { name: "HMAC", hash: { name: "SHA-256" } };

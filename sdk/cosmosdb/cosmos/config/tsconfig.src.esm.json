@@ -6,6 +6,5 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false
-  },
-  "include": ["../src/index.ts"]
+  }
 }

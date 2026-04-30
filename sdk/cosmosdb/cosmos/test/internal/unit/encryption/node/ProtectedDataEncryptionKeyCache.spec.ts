@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyResolver } from "../../../../src/encryption/index.js";
+import type { EncryptionKeyResolver } from "../../../../../src/encryption/index.js";
 import {
   EncryptionKeyResolverName,
   EncryptionKeyStoreProvider,
   KeyEncryptionKey,
   ProtectedDataEncryptionKey,
-} from "../../../../src/encryption/index.js";
-import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache.js";
-import { ErrorResponse, StatusCodes } from "../../../../src/index.js";
+} from "../../../../../src/encryption/index.js";
+import { ProtectedDataEncryptionKeyCache } from "../../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache.js";
+import { ErrorResponse, StatusCodes } from "../../../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {

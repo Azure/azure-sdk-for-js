@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { encodeUTF8 } from "./encode.js";
-import { globalCrypto } from "./globalCrypto.js";
+import { globalCrypto } from "#platform/utils/globalCrypto";
 
 export async function digest(str: string): Promise<string> {
   const data = encodeUTF8(str);

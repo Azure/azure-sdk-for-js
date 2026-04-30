@@ -3,13 +3,14 @@
 
 import { BytePrefix } from "./prefix.js";
 import { hexStringToUint8Array, concatUint8Arrays } from "../../uint8.js";
+import { stringToUint8Array } from "@azure/core-util";
 
 export function writeStringForBinaryEncoding(payload: string): Uint8Array {
   // Convert the BytePrefix.String hex into a Uint8Array.
   const outputStream = hexStringToUint8Array(BytePrefix.String);
   const MAX_STRING_BYTES_TO_APPEND = 100;
-  // Use TextEncoder to get a UTF-8 byte array from the payload.
-  const byteArray = new TextEncoder().encode(payload);
+  // Get a UTF-8 byte array from the payload.
+  const byteArray = stringToUint8Array(payload, "utf-8");
 
   const isShortString = payload.length <= MAX_STRING_BYTES_TO_APPEND;
 

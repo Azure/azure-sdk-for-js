@@ -7,6 +7,7 @@ import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
 import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
 import { concatUint8Arrays, hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
+import { stringToUint8Array } from "@azure/core-util";
 
 const MAX_STRING_CHARS = 100;
 
@@ -27,7 +28,7 @@ function prefixKeyByType(key: PrimitivePartitionKeyValue): Uint8Array {
       const truncated = key.substr(0, MAX_STRING_CHARS);
       bytes = concatUint8Arrays([
         hexStringToUint8Array(BytePrefix.String),
-        new TextEncoder().encode(truncated),
+        stringToUint8Array(truncated, "utf-8"),
         hexStringToUint8Array(BytePrefix.Undefined),
       ]);
       return bytes;

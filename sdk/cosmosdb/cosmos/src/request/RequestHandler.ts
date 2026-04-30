@@ -47,7 +47,7 @@ async function httpRequest(
 
   // Wrap users passed abort events and call our own internal abort()
   const userSignal = requestContext.options && requestContext.options.abortSignal;
-  let userSignalListener: EventListener | undefined = undefined;
+  let userSignalListener: (() => void) | undefined = undefined;
   if (userSignal) {
     if (userSignal.aborted) {
       controller.abort();
