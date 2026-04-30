@@ -30,7 +30,7 @@ afterEach(async () => { await recorder.stop(); });
 ## TEST_MODE Awareness
 Tests run in three modes: `playback` (default), `record`, `live`
 - **LRO polling:** `isPlaybackMode() ? 0 : <realInterval>` — hardcoded intervals cause slow playback
-- **Resource names:** `isPlaybackMode() ? "fixed" : recorder.variable("name", generateUnique())` — deterministic in playback, unique in record/live
+- **Resource names:** Use `recorder.variable("name", generateUnique())` — handles both playback and record/live
 - **Mode-dependent assertions:** Guard timestamp checks with `isLiveMode()`
 - **envSetupForPlayback:** Must map every used env var to safe placeholder
 
@@ -66,13 +66,9 @@ For `begin*` methods:
 
 ## Error Testing
 ```typescript
-// Preferred (vitest)
 await expect(client.op(badInput)).rejects.toThrow(/expected/);
-// Or with try-catch
-try { await client.op(badInput); assert.fail("Expected error"); }
-catch (e: any) { assert.include(e.message, "expected"); }
 ```
-- Missing `assert.fail()` → silent pass when no error thrown
+- Prefer vitest's `rejects.toThrow()` over try-catch patterns
 - Assert specific error type/message, not overly broad catch
 
 ## Test Isolation

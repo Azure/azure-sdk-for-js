@@ -75,7 +75,7 @@ New peer dep ranges must be compatible with existing declarations in sibling pac
 All packages support Node 20 minimum — new deps must not require Node >20
 
 ## Package.json Structure (new packages)
-- `files`: `dist/`, types entry, `README.md`, `LICENSE`, `CHANGELOG.md`
+- `files`: `dist/`, `README.md`, `LICENSE`
 - `sideEffects: false` (enables tree-shaking)
 - `sdk-type`: `client` | `mgmt` | `perf-test` | `utility`
 - Scripts: `build`, `clean`, `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`, `test:browser`, `test:node`
