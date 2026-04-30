@@ -17,12 +17,10 @@
  * esbuild handle Node.js module polyfilling automatically.
  */
 declare module "node:events" {
-  export class EventEmitter {
-    on(eventName: string | symbol, listener: (...args: any[]) => void): this;
-    once(eventName: string | symbol, listener: (...args: any[]) => void): this;
-    off(eventName: string | symbol, listener: (...args: any[]) => void): this;
-    removeListener(eventName: string | symbol, listener: (...args: any[]) => void): this;
-    emit(eventName: string | symbol, ...args: any[]): boolean;
+  class EventEmitter {
+    on(eventName: string, listener: (...args: unknown[]) => void): this;
+    emit(eventName: string, ...args: unknown[]): boolean;
+    removeListener(eventName: string, listener: (...args: unknown[]) => void): this;
   }
   export default EventEmitter;
 }

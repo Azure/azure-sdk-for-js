@@ -4,7 +4,8 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { delay } from "@azure/core-util";
-import { EventEmitter } from "node:events";
+import EventEmitter from "node:events";
+import { createInterval } from "#platform/timers";
 import type { IndexDocumentsResult } from "./models/azure/search/documents/index.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import type {
@@ -129,12 +130,7 @@ export class SearchIndexingBufferedSender<TModel extends object> {
 
     this.batchObject = new IndexDocumentsBatch<TModel>();
     if (this.autoFlush) {
-      const interval = setInterval(() => this.flush(), this.flushWindowInMs);
-      // unref() is Node-specific - prevents interval from keeping process alive
-      (interval as unknown as { unref?: () => void }).unref?.();
-      this.cleanupTimer = () => {
-        clearInterval(interval);
-      };
+      this.cleanupTimer = createInterval(() => this.flush(), this.flushWindowInMs);
     }
   }
 
