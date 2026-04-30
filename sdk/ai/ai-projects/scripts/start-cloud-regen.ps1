@@ -7,11 +7,36 @@
 #   ./start-cloud-regen.ps1 -BranchName regen/ai-projects/abc1234-20260501
 #   ./start-cloud-regen.ps1 -DryRun
 #   ./start-cloud-regen.ps1 -Repo myuser/azure-sdk-for-js -Follow
+#   ./start-cloud-regen.ps1 -SpecBranch main
+#   ./start-cloud-regen.ps1 -SpecRepo https://github.com/myuser/azure-rest-api-specs.git -SpecBranch my-feature
+#
+# Parameters:
+#   -TspCommit   Pin a specific 40-char TypeSpec commit SHA. When omitted,
+#                the latest commit on $SpecRepo @ $SpecBranch is resolved
+#                via `git ls-remote`.
+#   -SpecBranch  Branch on the TypeSpec spec repo to resolve when
+#                -TspCommit is not given. Default: feature/foundry-release.
+#                Ignored when -TspCommit is supplied.
+#   -SpecRepo    Git URL of the TypeSpec spec repo to resolve from.
+#                Default: https://github.com/Azure/azure-rest-api-specs.git.
+#                Useful when iterating on a spec fork. Note: this only
+#                affects local SHA resolution. The committed
+#                tsp-location.saved.yaml in the cloud runner still
+#                determines the repo the regen actually fetches from, so
+#                if you point at a fork you typically also need to update
+#                tsp-location.saved.yaml on the target branch.
+#   -BranchName  Target branch the cloud agent will push to. Default:
+#                regen/ai-projects/<short-sha>-<yyyyMMdd>.
+#   -Repo        owner/name of the azure-sdk-for-js repo to dispatch
+#                against. Default: Azure/azure-sdk-for-js.
+#   -BaseBranch  Base branch for the draft PR. Default: main.
+#   -Follow      Pass --follow to `gh agent-task create`.
+#   -DryRun      Render the prompt locally and exit without dispatching.
 #
 # Behavior:
 #   1. Verifies `gh` is on PATH and the caller is authenticated.
-#   2. Resolves the latest commit on `Azure/azure-rest-api-specs@SpecBranch`
-#      if -TspCommit was not supplied (delegates to update-tsp-commit.ps1
+#   2. Resolves the latest commit on `$SpecRepo @ $SpecBranch` if
+#      -TspCommit was not supplied (delegates to update-tsp-commit.ps1
 #      -ResolveOnly).
 #   3. Defaults -BranchName to regen/ai-projects/<short-sha>-<yyyyMMdd>.
 #   4. Renders cloud-regen-prompt.template.md into a temp file with
@@ -31,6 +56,7 @@
 param(
   [string]$TspCommit,
   [string]$SpecBranch = 'feature/foundry-release',
+  [string]$SpecRepo = 'https://github.com/Azure/azure-rest-api-specs.git',
   [string]$BranchName,
   [string]$Repo = 'Azure/azure-sdk-for-js',
   [string]$BaseBranch = 'main',
@@ -67,10 +93,10 @@ if (-not $DryRun) {
 
 # 2. Resolve the TypeSpec commit if not provided.
 if (-not $TspCommit) {
-  Write-Host "Resolving latest commit on Azure/azure-rest-api-specs@$SpecBranch..."
-  $TspCommit = (& pwsh -NoProfile -File $resolveScript -ResolveOnly -Branch $SpecBranch).Trim()
+  Write-Host "Resolving latest commit on $SpecRepo @ $SpecBranch..."
+  $TspCommit = (& pwsh -NoProfile -File $resolveScript -ResolveOnly -Branch $SpecBranch -Repo $SpecRepo).Trim()
   if ($LASTEXITCODE -ne 0 -or -not $TspCommit) {
-    throw "Failed to resolve commit SHA from $SpecBranch."
+    throw "Failed to resolve commit SHA from $SpecRepo @ $SpecBranch."
   }
 }
 if ($TspCommit -notmatch '^[0-9a-f]{40}$') {
