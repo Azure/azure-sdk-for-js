@@ -15,6 +15,9 @@
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
+- Added `ToolboxSearchPreviewTool` (type discriminant `"toolbox_search_preview"`) to `ToolUnion` and `ToolType` for toolbox-based tool search in agents.
+- Added optional `name` and `description` properties to `BingGroundingTool`, `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, `AzureAISearchTool`, `BingCustomSearchPreviewTool`, `BrowserAutomationPreviewTool`, `A2APreviewTool`, and `MemorySearchPreviewTool` interfaces, allowing user-defined display names and descriptions per tool configuration.
+- Added `restorePoller` function and `RestorePollerOptions` interface to the public API, enabling long-running `updateMemories` pollers to be serialized and resumed across process restarts.
 
 ### Bugs Fixed
 
@@ -22,7 +25,7 @@
 
 ### Other Changes
 
-- Regenerated client from latest TypeSpec (commit `94f9262a`).
+- Regenerated client from latest TypeSpec (commit `2d1e5e0d`).
 
 ## 2.1.0 (2026-04-17)
 
