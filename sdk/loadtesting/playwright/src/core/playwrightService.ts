@@ -27,6 +27,7 @@ import {
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { globalPaths } from "./playwrightServiceUtils.js";
+import { writeStdout } from "../common/stdio.js";
 
 const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
   const oneTimeOperationFlag =
@@ -157,14 +158,14 @@ const createAzurePlaywrightConfig = (
   }
   performOneTimeOperation(options);
   if (options?.useCloudHostedBrowsers === false) {
-    console.log("\nRunning tests using local browsers.");
+    writeStdout("\nRunning tests using local browsers.");
     return {
       ...globalFunctions,
     };
   }
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
-    console.log("\nRunning tests using Playwright workspaces.");
+    writeStdout("\nRunning tests using Playwright workspaces.");
   }
 
   return {

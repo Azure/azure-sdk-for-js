@@ -4,6 +4,7 @@
 import { CommandLoader } from "./CommandModule";
 import { createPrinter } from "../util/printer";
 import { printCommandUsage, commandStack } from "./printCommandUsage";
+import { writeStderr } from "../util/stdio.js";
 import { ParsedOptions, parseOptions } from "./parseOptions";
 import { CommandInfo, CommandOptions } from "./CommandInfo";
 
@@ -92,7 +93,7 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
 
     if (commandName === undefined) {
       log.error("No sub-command provided.");
-      await printCommandUsage(info, commands, console.error);
+      await printCommandUsage(info, commands, writeStderr);
       process.exit(1);
     }
 
@@ -110,7 +111,7 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
       return await commandModule.default(...fullArgs);
     } else {
       log.error("No such sub-command:", commandName);
-      await printCommandUsage(info, commands, console.error);
+      await printCommandUsage(info, commands, writeStderr);
       process.exit(1);
     }
   };

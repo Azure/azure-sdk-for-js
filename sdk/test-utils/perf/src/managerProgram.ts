@@ -15,6 +15,7 @@ import { Snapshot } from "./snapshot.js";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase.js";
 import { PerfProgram } from "./program.js";
 import { formatDuration, formatNumber } from "./utils/utils.js";
+import { writeStdout } from "./utils/stdio.js";
 
 /**
  * The manager program which is responsible for spawning workers which run the actual perf test.
@@ -94,7 +95,7 @@ export class ManagerPerfProgram implements PerfProgram {
     const operationsPerSecond = this.getOperationsPerSecond(parallels);
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
-    console.log(
+    writeStdout(
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0,
       })} ` +
@@ -113,7 +114,7 @@ export class ManagerPerfProgram implements PerfProgram {
 
     this.lastCompleted = totalCompleted;
 
-    console.log(
+    writeStdout(
       `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
         2,
       )}`,
@@ -126,7 +127,7 @@ export class ManagerPerfProgram implements PerfProgram {
     let cpus: number;
     if (cpuOption === 0) {
       cpus = os.cpus().length;
-      console.log(`Setting number of CPUs to number of CPUs detected on machine (${cpus}).`);
+      writeStdout(`Setting number of CPUs to number of CPUs detected on machine (${cpus}).`);
     } else {
       cpus = cpuOption;
     }
@@ -152,7 +153,7 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private async runTests(iterationIndex: number, title: "warmup" | "test"): Promise<void> {
-    console.log("=== Starting the perf test ===");
+    writeStdout("=== Starting the perf test ===");
 
     const stage = performStage(title);
 
@@ -163,12 +164,12 @@ export class ManagerPerfProgram implements PerfProgram {
     // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
     // of operations running.
     const millisecondsToLog = Number(this.parsedOptions["milliseconds-to-log"].value);
-    console.log(
+    writeStdout(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
         millisecondsToLog / 1000
       }s ===`,
     );
-    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
+    writeStdout(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
 
     let done = false;
 
@@ -190,7 +191,7 @@ export class ManagerPerfProgram implements PerfProgram {
 
     const results = resultMessages.map((m) => m.snapshots).flat();
 
-    console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
+    writeStdout(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
     this.logResults(results);
 
     await stage;
@@ -198,10 +199,10 @@ export class ManagerPerfProgram implements PerfProgram {
 
   private async logPackageVersions(listTransitiveDeps: boolean): Promise<void> {
     return new Promise((resolve) => {
-      console.log("=== Versions ===");
+      writeStdout("=== Versions ===");
       exec(`npm list --prod ${listTransitiveDeps ? "" : "--depth=0"}`, (_error, stdout) => {
         for (const dependency of stdout.split("\n").filter((line) => line.includes("@azure"))) {
-          console.log(dependency);
+          writeStdout(dependency);
         }
         resolve();
       });
@@ -231,7 +232,7 @@ export class ManagerPerfProgram implements PerfProgram {
     // There should be no test execution if the help option is passed.
     // --help, or -h
     if (this.parsedOptions.help.value) {
-      console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
+      writeStdout(`=== Help: Options that can be sent to ${this.testName} ===`);
       console.table(this.dummyTestInstance.parsedOptions);
       return;
     }
@@ -241,17 +242,17 @@ export class ManagerPerfProgram implements PerfProgram {
     );
 
     const options = this.dummyTestInstance.parsedOptions;
-    console.log("=== Parsed options ===");
+    writeStdout("=== Parsed options ===");
     console.table(options);
 
     this.createWorkers();
 
-    console.log(
+    writeStdout(
       `=== Calling globalSetup() once per CPU for (all) the instance(s) of ${this.testName} ===`,
     );
     await performStage("globalSetup");
 
-    console.log(
+    writeStdout(
       `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`,
     );
 
@@ -271,11 +272,11 @@ export class ManagerPerfProgram implements PerfProgram {
     await performStage("preCleanup");
 
     if (!options["no-cleanup"].value) {
-      console.log(
+      writeStdout(
         `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`,
       );
       await performStage("cleanup");
-      console.log(
+      writeStdout(
         `=== Calling globalCleanup() once per CPU for (all) the instance(s) of ${this.testName} ===`,
       );
       await performStage("globalCleanup");

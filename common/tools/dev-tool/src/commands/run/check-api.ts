@@ -8,6 +8,7 @@ import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
 import path from "node:path";
 import semver from "semver";
+import { writeStdout } from "../../util/stdio.js";
 
 export const commandInfo = makeCommandInfo(
   "check-api",
@@ -44,7 +45,7 @@ function testTsMax(filePaths: string[]): boolean {
   ];
 
   if (diagnostics.length > 0) {
-    console.log(tsMax.formatDiagnosticsWithColorAndContext(diagnostics, host));
+    writeStdout(tsMax.formatDiagnosticsWithColorAndContext(diagnostics, host));
   }
 
   const hadError = diagnostics.some(
@@ -80,8 +81,8 @@ function testTsMin(filePaths: string[]): boolean {
   ];
 
   if (diagnostics.length > 0) {
-    // No special logging here, just dump the diagnostics to the console as they are already formatted.
-    console.log(tsMin.formatDiagnosticsWithColorAndContext(diagnostics, host));
+    // No special logging here, just dump the diagnostics to stdout as they are already formatted.
+    writeStdout(tsMin.formatDiagnosticsWithColorAndContext(diagnostics, host));
   }
 
   const hadError = diagnostics.some(

@@ -6,6 +6,7 @@
  */
 
 import chalk from "chalk";
+import { writeStderr } from "./stdio.js";
 
 /**
  * Asserts that this expression is unreachable. This function will panic if it is called.
@@ -49,16 +50,16 @@ export function unimplemented(message: string): never {
  * @param message - the error message to print
  */
 export function panic(message: string): never {
-  console.error(chalk.red("[PANIC] " + message));
+  writeStderr(chalk.red("[PANIC] " + message));
 
-  console.trace(
+  writeStderr(
     chalk.red(
       "This is a bug in the tool. Please file an issue at https://github.com/azure/azure-sdk-for-js/issues.",
       "Include the stack trace below.",
     ),
   );
 
-  console.error(
+  writeStderr(
     chalk.red(
       "The package state may be damaged or corrupted. Please reset your working directory to a known-good state.",
     ),

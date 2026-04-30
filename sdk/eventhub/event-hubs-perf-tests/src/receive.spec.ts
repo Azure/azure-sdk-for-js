@@ -24,6 +24,7 @@ import { getEnvVar } from "@azure-tools/test-perf";
 import moment from "moment";
 import { delay } from "@azure/core-amqp";
 import "dotenv/config";
+import { writeStdout, writeStderr } from "./stdio.js";
 
 const _start = moment();
 
@@ -88,7 +89,7 @@ async function RunTest(maxBatchSize: number, messages: number): Promise<void> {
     }
   };
   const processError = async (err: Error, context: PartitionContext): Promise<void> => {
-    console.log(`Error on partition "${context.partitionId}": ${err}`);
+    writeStderr(`Error on partition "${context.partitionId}": ${err}`);
   };
 
   consumerClient.subscribe(
@@ -153,7 +154,7 @@ function WriteResult(
 }
 
 function log(message: string): void {
-  console.log(`[${moment().format("hh:mm:ss.SSS")}] ${message}`);
+  writeStdout(`[${moment().format("hh:mm:ss.SSS")}] ${message}`);
 }
 
 main().catch((err) => {

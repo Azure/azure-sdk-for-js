@@ -16,12 +16,12 @@ import {
 } from "./execute-configs.js";
 import chalk from "chalk";
 import { generateProject } from "../generateProject.js";
+import { writeStdout, writeUnknownError } from "./stdio.js";
 
-const log = console.log;
-const white: Log = (msg) => log(chalk.white(msg));
-const green: Log = (msg) => log(chalk.green(msg));
-const red: Log = (msg) => log(chalk.red(msg));
-const gray: Log = (msg) => log(chalk.gray(msg));
+const white: Log = (msg) => writeStdout(chalk.white(msg));
+const green: Log = (msg) => writeStdout(chalk.green(msg));
+const red: Log = (msg) => writeStdout(chalk.red(msg));
+const gray: Log = (msg) => writeStdout(chalk.gray(msg));
 
 async function main(): Promise<void> {
   green(
@@ -57,12 +57,12 @@ async function main(): Promise<void> {
 
   return generateProject(widgetConfig, serviceInformation, miscConfig)
     .then(() => green("\nThe custom widget’s code scaffold has been successfully generated.\n"))
-    .catch(console.error);
+    .catch(writeUnknownError);
 }
 
 main()
   .then(() => process.exit(0))
   .catch((err) => {
-    console.error(err);
+    writeUnknownError(err);
     process.exit(1);
   });

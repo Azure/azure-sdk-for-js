@@ -6,6 +6,7 @@ import { parseArgs } from "node:util";
 import { build } from "./build.ts";
 import { setLogLevel } from "./logger.ts";
 import { WarpError } from "./types.ts";
+import { writeStdout, writeStderr, writeUnknownError } from "./stdio.js";
 
 async function main(): Promise<void> {
   const { values, positionals } = parseArgs({
@@ -67,7 +68,7 @@ async function main(): Promise<void> {
   }
 
   if (command !== "build") {
-    console.error(`[warp] Unknown command: ${command}`);
+    writeStderr(`[warp] Unknown command: ${command}`);
     printUsage();
     process.exit(1);
   }
@@ -99,7 +100,7 @@ async function main(): Promise<void> {
     if (result.sizeReport) {
       jsonOutput.sizeReport = result.sizeReport;
     }
-    console.log(JSON.stringify(jsonOutput, null, 2));
+    writeStdout(JSON.stringify(jsonOutput, null, 2));
   }
 
   if (!result.success) {
@@ -113,7 +114,7 @@ function printUsage(): void {
   const supportsLink = process.env.TERM_PROGRAM !== undefined || (process.stderr.isTTY ?? false);
   const docsLink = supportsLink ? `\x1b]8;;${docsUrl}\x1b\\${docsUrl}\x1b]8;;\x1b\\` : docsUrl;
 
-  console.log(`
+  writeStdout(`
 Usage: warp <command> [options]
 
 Commands:
@@ -141,7 +142,7 @@ main().catch((err) => {
   const error = err as unknown;
 
   if (err instanceof WarpError) {
-    console.error(err.message);
+    writeStderr(err.message);
     if (err.cause) {
       const causeText =
         err.cause instanceof Error
@@ -149,7 +150,7 @@ main().catch((err) => {
           : typeof err.cause === "string"
             ? err.cause
             : JSON.stringify(err.cause);
-      console.error(`  cause: ${causeText}`);
+      writeStderr(`  cause: ${causeText}`);
     }
     process.exit(1);
   }
@@ -159,8 +160,8 @@ main().catch((err) => {
     error instanceof Error &&
     (error as { code?: string }).code === "ERR_PARSE_ARGS_UNKNOWN_OPTION"
   ) {
-    console.error(`[warp] ${error.message}`);
-    console.error(`[warp] Run "warp --help" for usage information.`);
+    writeStderr(`[warp] ${error.message}`);
+    writeStderr(`[warp] Run "warp --help" for usage information.`);
     process.exit(1);
   }
 
@@ -168,12 +169,12 @@ main().catch((err) => {
     error instanceof Error &&
     (error as { code?: string }).code === "ERR_PARSE_ARGS_INVALID_OPTION_VALUE"
   ) {
-    console.error(`[warp] ${error.message}`);
-    console.error(`[warp] Run "warp --help" for usage information.`);
+    writeStderr(`[warp] ${error.message}`);
+    writeStderr(`[warp] Run "warp --help" for usage information.`);
     process.exit(1);
   }
 
   // Unexpected errors — show full stack for debugging
-  console.error(error);
+  writeUnknownError(error);
   process.exit(2);
 });

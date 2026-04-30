@@ -4,6 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PerfTestBase } from "./perfTestBase.js";
 import { isDefined } from "@azure/core-util";
+import { writeStderr, writeUnknownError } from "./utils/stdio.js";
 
 /**
  * Extends PerfTestBase, enables writing perf tests for the APIs that receive events as a stream
@@ -44,7 +45,7 @@ export abstract class EventPerfTest<
     try {
       await delay(this.testDuration, this.abortController.signal);
     } catch (error: unknown) {
-      console.warn(error);
+      writeUnknownError(error);
     }
   }
 
@@ -57,7 +58,7 @@ export abstract class EventPerfTest<
   }
 
   public errorRaised(error: Error) {
-    console.warn(`Error occurred:\n ${error}`);
+    writeStderr(`Error occurred:\n ${error}`);
     if (!this.abortController?.signal.aborted) {
       this.abortController?.abort();
     }

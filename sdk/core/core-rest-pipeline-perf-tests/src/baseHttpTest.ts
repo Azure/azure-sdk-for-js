@@ -6,6 +6,7 @@ import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { PerfTest } from "@azure-tools/test-perf";
 import type { Server } from "node:http";
 import type { AddressInfo } from "node:net";
+import { writeStdout } from "./stdio.js";
 
 let app: express.Application;
 let server: Server;
@@ -37,7 +38,7 @@ export abstract class BaseHttpTest extends PerfTest<BaseHttpTestOptions> {
       });
 
       server = app.listen(0, () => {
-        console.log("Listening on port:", (server.address() as AddressInfo).port);
+        writeStdout(`Listening on port: ${(server.address() as AddressInfo).port}`);
       });
 
       this.url = `http://localhost:${(server.address() as AddressInfo).port}`;

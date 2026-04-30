@@ -5,6 +5,7 @@ import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec.js";
 import type { Span, Tracer } from "@opentelemetry/api";
 import { trace, context } from "@opentelemetry/api";
+import { writeStderr } from "./stdio.js";
 
 type MonitorOpenTelemetryTestOptions = Record<string, unknown>;
 
@@ -31,7 +32,7 @@ export class SpanExportTest extends MonitorOpenTelemetryTest<MonitorOpenTelemetr
     }
 
     main().catch((error) => {
-      console.error("Error running perf test:", error.message);
+      writeStderr(`Error running perf test: ${error.message}`);
       process.exit(1);
     });
   }

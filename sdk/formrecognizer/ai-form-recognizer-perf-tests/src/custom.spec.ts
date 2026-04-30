@@ -12,6 +12,7 @@ import {
 import type { TokenCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
 import { randomUUID } from "node:crypto";
+import { writeStdout, writeUnknownError } from "./stdio.js";
 
 function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
@@ -74,9 +75,9 @@ export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionT
 
       CustomModelRecognitionTest.sessionModel = await poller.pollUntilDone();
 
-      console.log(`Trained custom model: ${CustomModelRecognitionTest.sessionModel.modelId}`);
+      writeStdout(`Trained custom model: ${CustomModelRecognitionTest.sessionModel.modelId}`);
     } catch (ex) {
-      console.trace(ex);
+      writeUnknownError(ex);
       throw ex;
     }
   }
@@ -84,7 +85,7 @@ export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionT
   public async globalCleanup(): Promise<void> {
     const modelId = CustomModelRecognitionTest.sessionModel?.modelId;
     if (modelId) {
-      console.log(`Deleting ${modelId}`);
+      writeStdout(`Deleting ${modelId}`);
       await this.trainingClient.deleteDocumentModel(modelId);
     }
   }

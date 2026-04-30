@@ -3,6 +3,7 @@
 
 import ts from "typescript";
 import { EOL } from "node:os";
+import { writeStderr } from "../stdio.js";
 
 /**
  * The type of the emitter function.
@@ -52,7 +53,7 @@ export function createDiagnosticEmitter(
 
     const formatted = ts.formatDiagnosticsWithColorAndContext([diagnostic], diagnosticHost);
 
-    console.error(formatted);
+    writeStderr(formatted);
 
     onError?.(formatted);
   };

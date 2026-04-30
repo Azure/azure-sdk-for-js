@@ -6,6 +6,7 @@ import { readdir } from "node:fs/promises";
 import { resolveRoot } from "../../../util/resolveProject";
 import path from "node:path";
 import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
+import { writeStdout, writeStderr } from "../../../util/stdio.js";
 
 export const commandInfo = makeCommandInfo(
   "typespec-migrations",
@@ -84,7 +85,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   if (clientTypeFilter) {
     if (clientTypeFilter !== "RLC" && clientTypeFilter !== "HLC") {
-      console.error("Error: client-type must be either 'RLC' or 'HLC'");
+      writeStderr("Error: client-type must be either 'RLC' or 'HLC'");
       return false;
     }
 
@@ -143,32 +144,32 @@ export default leafCommand(commandInfo, async (options) => {
   const completionPercentage =
     totalFiltered > 0 ? ((completedCount / totalFiltered) * 100).toFixed(2) : "0.00";
 
-  console.log("# TypeSpec Migration Report");
-  console.log();
-  console.log(`Total projects: ${projects.length}`);
-  console.log(`Client projects: ${clientProjects.length}`);
+  writeStdout("# TypeSpec Migration Report");
+  writeStdout();
+  writeStdout(`Total projects: ${projects.length}`);
+  writeStdout(`Client projects: ${clientProjects.length}`);
   if (clientTypeFilter) {
-    console.log(`Filtered by client type (${clientTypeFilter}): ${filteredProjects.length}`);
+    writeStdout(`Filtered by client type (${clientTypeFilter}): ${filteredProjects.length}`);
   }
-  console.log();
+  writeStdout();
 
   // Add summary section
-  console.log("## Summary");
-  console.log();
-  console.log(`- ✅ Migrated: ${migratedCount}`);
-  console.log(`- N/A (no migration needed): ${naCount}`);
-  console.log(`- Total Completed (Migrated + N/A): ${migratedCount + naCount}`);
-  console.log(`- ❌ Not Migrated: ${notMigratedCount}`);
-  console.log(`- **Completion percentage: ${completionPercentage}%**`);
-  console.log();
+  writeStdout("## Summary");
+  writeStdout();
+  writeStdout(`- ✅ Migrated: ${migratedCount}`);
+  writeStdout(`- N/A (no migration needed): ${naCount}`);
+  writeStdout(`- Total Completed (Migrated + N/A): ${migratedCount + naCount}`);
+  writeStdout(`- ❌ Not Migrated: ${notMigratedCount}`);
+  writeStdout(`- **Completion percentage: ${completionPercentage}%**`);
+  writeStdout();
 
   // Generate markdown table header
-  console.log("| Package Name | Project Folder | Version Policy | Client Type | TypeSpec Status |");
-  console.log("| --- | --- | --- | --- | --- |");
+  writeStdout("| Package Name | Project Folder | Version Policy | Client Type | TypeSpec Status |");
+  writeStdout("| --- | --- | --- | --- | --- |");
 
   // Output the table using pre-calculated data
   for (const { project, clientType, typespecStatus } of projectStatuses) {
-    console.log(
+    writeStdout(
       `| ${project.packageName} | ${project.projectFolder} | ${project.versionPolicyName} | ${clientType} | ${typespecStatus} |`,
     );
   }

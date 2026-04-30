@@ -4,6 +4,7 @@
 import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec.js";
 import { logs, SeverityNumber } from "@opentelemetry/api-logs";
+import { writeStderr } from "./stdio.js";
 
 type MonitorOpenTelemetryTestOptions = Record<string, unknown>;
 
@@ -20,7 +21,7 @@ export class LogExportTest extends MonitorOpenTelemetryTest<MonitorOpenTelemetry
         attributes: { key: "value" },
       });
     } catch (error) {
-      console.error("Error running logs perf test:", error);
+      writeStderr(`Error running logs perf test: ${error}`);
       process.exit(1);
     }
   }

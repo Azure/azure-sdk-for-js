@@ -3,6 +3,7 @@
 
 import { CommandLoader } from "./CommandModule";
 import { CommandInfo, CommandOptions } from "./CommandInfo";
+import { writeStdout } from "../util/stdio.js";
 
 /**
  * The stack of subcommands executed so far
@@ -21,7 +22,7 @@ export const commandStack: string[] = [];
 export async function printCommandUsage(
   info: CommandInfo<CommandOptions>,
   subCommands?: CommandLoader,
-  println: (...values: string[]) => void = console.log,
+  println: (message?: string) => void = writeStdout,
 ): Promise<void> {
   println(`${info.name} - ${info.description}\n`);
   println(

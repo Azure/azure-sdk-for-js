@@ -3,10 +3,11 @@
 
 import { BaseHttpTest } from "./baseHttpTest.js";
 import { request } from "undici";
+import { writeStdout } from "./stdio.js";
 
 export class UndiciRequestTest extends BaseHttpTest {
   async run(): Promise<void> {
     const { body } = await request(this.url);
-    console.log(await body.text()); // Hello World!
+    writeStdout(await body.text()); // Hello World!
   }
 }

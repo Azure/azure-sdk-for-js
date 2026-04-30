@@ -14,6 +14,7 @@ import {
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
+import { writeStdout, writeStderr } from "../common/stdio.js";
 import type { TokenCredential } from "@azure/core-auth";
 import process from "node:process";
 import { randomUUID } from "node:crypto";
@@ -55,12 +56,12 @@ export const exitWithFailureMessage = (
   },
   errorDetails?: string,
 ): never => {
-  console.log();
+  writeStdout();
 
   if (error.formatWithErrorDetails && errorDetails) {
-    console.error(error.formatWithErrorDetails(errorDetails));
+    writeStderr(error.formatWithErrorDetails(errorDetails));
   } else {
-    console.error(error.message);
+    writeStderr(error.message);
   }
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
@@ -74,7 +75,7 @@ export const throwErrorWithFailureMessage = (
   },
   errorDetails?: string,
 ): never => {
-  console.log();
+  writeStdout();
 
   const finalMessage =
     error.formatWithErrorDetails && errorDetails
@@ -178,7 +179,7 @@ const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void
   const daysToExpiration = Math.ceil((expirationTime * 1000 - currentTime) / Constants.OneDayInMS);
   const expirationDate = new Date(expirationTime * 1000).toLocaleDateString();
   const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/entra/identity/`;
-  console.warn(expirationWarning);
+  writeStderr(expirationWarning);
 };
 
 export const warnIfAccessTokenCloseToExpiry = (): void => {
@@ -500,7 +501,7 @@ export const getStorageAccountNameFromUri = (storageUri: string): string | null 
 
     return null;
   } catch (error) {
-    console.warn("Failed to extract storage account name from URI:", storageUri, error);
+    coreLogger.warning(`Failed to extract storage account name from URI: ${storageUri} ${error}`);
     return null;
   }
 };

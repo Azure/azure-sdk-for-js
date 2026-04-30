@@ -6,6 +6,7 @@ import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { leafCommand } from "../../framework/command";
 import { makeCommandInfo } from "../../framework/command";
+import { writeStdout } from "../../util/stdio.js";
 
 const log = createPrinter("resolve-package");
 
@@ -34,7 +35,7 @@ export default leafCommand(commandInfo, async (options) => {
     try {
       const currentPackage = await resolveProject(dir);
       if (options.quiet) {
-        console.log(currentPackage.path);
+        writeStdout(currentPackage.path);
       } else {
         log.success("== Detected package:", currentPackage.name);
         log.info(`Version specifier: ${currentPackage.name}@${currentPackage.version}`);

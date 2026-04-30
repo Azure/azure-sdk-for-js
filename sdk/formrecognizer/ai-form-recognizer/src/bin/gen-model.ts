@@ -9,6 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { writeFile } from "node:fs/promises";
 import { DocumentModelAdministrationClient } from "../documentModelAdministrationClient.js";
 import { writeModelCode } from "./writeModelCode.js";
+import { writeStderr, writeUnknownError } from "./stdio.js";
 import { format } from "prettier";
 
 /**
@@ -16,7 +17,7 @@ import { format } from "prettier";
  * Prints a help message for the gen-model command.
  */
 function printHelp(): void {
-  console.error(`
+  writeStderr(`
 Usage:
  gen-model [options] <model-id>
  
@@ -53,7 +54,7 @@ async function main(): Promise<void> {
   let output: string | undefined = undefined;
   let test: boolean = false;
 
-  console.error("gen-model - create strong TypeScript types for models");
+  writeStderr("gen-model - create strong TypeScript types for models");
 
   if (args.some((arg) => arg === "--help" || arg === "-h")) {
     printHelp();
@@ -81,7 +82,7 @@ async function main(): Promise<void> {
   }
 
   if (idx + 1 <= args.length) {
-    console.error("warning: unused arguments:", args.slice(idx + 1).join(" "));
+    writeStderr("warning: unused arguments: " + args.slice(idx + 1).join(" "));
   }
 
   if (!modelId) {
@@ -96,7 +97,7 @@ async function main(): Promise<void> {
 
   const modelInfo = await client.getDocumentModel(modelId);
 
-  console.error("Generating model code for:", modelInfo.modelId);
+  writeStderr("Generating model code for: " + modelInfo.modelId);
 
   const file = await writeModelCode(modelInfo, test);
 
@@ -113,7 +114,7 @@ async function main(): Promise<void> {
 }
 
 main().catch((e) => {
-  console.error(e);
-  console.error("see `gen-model --help` for more information");
+  writeUnknownError(e);
+  writeStderr("see `gen-model --help` for more information");
   process.exit(1);
 });
