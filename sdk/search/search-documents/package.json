@@ -77,7 +77,6 @@
     "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.2.0",
-    "eventemitter3": "^5.0.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

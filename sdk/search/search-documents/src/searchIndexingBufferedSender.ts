@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { delay } from "@azure/core-util";
-import { EventEmitter } from "eventemitter3";
+import { EventEmitter } from "#platform/eventEmitter";
 import type { IndexDocumentsResult } from "./models/azure/search/documents/index.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import type {
