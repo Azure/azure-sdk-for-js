@@ -75,7 +75,9 @@ New peer dep ranges must be compatible with existing declarations in sibling pac
 All packages support Node 20 minimum — new deps must not require Node >20
 
 ## Package.json Structure (new packages)
-- `files`: `dist/`, `README.md`, `LICENSE`
+- `files`: use the repo pattern that matches the package type
+  - Common baseline: `dist/`, `README.md`, `LICENSE`
+  - For packages following existing `arm-*` / `*-rest` conventions, also include `review/` and `CHANGELOG.md`
 - `sideEffects: false` (enables tree-shaking)
 - `sdk-type`: `client` | `mgmt` | `perf-test` | `utility`
 - Scripts: `build`, `clean`, `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`, `test:browser`, `test:node`
