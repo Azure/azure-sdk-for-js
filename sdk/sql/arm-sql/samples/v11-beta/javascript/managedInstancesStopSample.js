@@ -3,25 +3,18 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Stops the managed instance.
+ * This sample demonstrates how to stops the managed instance.
  *
- * @summary Stops the managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/StopManagedInstance.json
+ * @summary stops the managed instance.
+ * x-ms-original-file: 2025-02-01-preview/StopManagedInstance.json
  */
 async function stopsTheManagedInstance() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "stoprg";
-  const managedInstanceName = "mitostop";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstances.beginStopAndWait(
-    resourceGroupName,
-    managedInstanceName,
-  );
+  const result = await client.managedInstances.stop("stoprg", "mitostop");
   console.log(result);
 }
 

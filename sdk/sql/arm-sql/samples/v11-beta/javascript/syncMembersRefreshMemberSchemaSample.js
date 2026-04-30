@@ -3,32 +3,24 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Refreshes a sync member database schema.
+ * This sample demonstrates how to refreshes a sync member database schema.
  *
- * @summary Refreshes a sync member database schema.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncMemberRefreshSchema.json
+ * @summary refreshes a sync member database schema.
+ * x-ms-original-file: 2025-02-01-preview/SyncMemberRefreshSchema.json
  */
 async function refreshASyncMemberDatabaseSchema() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "syncgroupcrud-65440";
-  const serverName = "syncgroupcrud-8475";
-  const databaseName = "syncgroupcrud-4328";
-  const syncGroupName = "syncgroupcrud-3187";
-  const syncMemberName = "syncgroupcrud-4879";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.syncMembers.beginRefreshMemberSchemaAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    syncGroupName,
-    syncMemberName,
+  await client.syncMembers.refreshMemberSchema(
+    "syncgroupcrud-65440",
+    "syncgroupcrud-8475",
+    "syncgroupcrud-4328",
+    "syncgroupcrud-3187",
+    "syncgroupcrud-4879",
   );
-  console.log(result);
 }
 
 async function main() {

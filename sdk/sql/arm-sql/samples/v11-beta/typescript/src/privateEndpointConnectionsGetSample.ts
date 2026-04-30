@@ -3,27 +3,21 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a private endpoint connection.
+ * This sample demonstrates how to gets a private endpoint connection.
  *
- * @summary Gets a private endpoint connection.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PrivateEndpointConnectionGet.json
+ * @summary gets a private endpoint connection.
+ * x-ms-original-file: 2025-02-01-preview/PrivateEndpointConnectionGet.json
  */
 async function getsPrivateEndpointConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "test-svr";
-  const privateEndpointConnectionName = "private-endpoint-connection-name";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.get(
-    resourceGroupName,
-    serverName,
-    privateEndpointConnectionName,
+    "Default",
+    "test-svr",
+    "private-endpoint-connection-name",
   );
   console.log(result);
 }

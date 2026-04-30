@@ -3,30 +3,23 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates the replication link type.
+ * This sample demonstrates how to updates the replication link type.
  *
- * @summary Updates the replication link type.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkCreateOrUpdate.json
+ * @summary updates the replication link type.
+ * x-ms-original-file: 2025-02-01-preview/ReplicationLinkCreateOrUpdate.json
  */
 async function updatesReplicationLink() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const serverName = "sourcesvr";
-  const databaseName = "gamma-db";
-  const linkId = "00000000-1111-2222-3333-666666666666";
-  const parameters = { linkType: "STANDBY" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.replicationLinks.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    linkId,
-    parameters,
+  const result = await client.replicationLinks.createOrUpdate(
+    "Default",
+    "sourcesvr",
+    "gamma-db",
+    "00000000-1111-2222-3333-666666666666",
+    { linkType: "STANDBY" },
   );
   console.log(result);
 }

@@ -3,33 +3,24 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get database column
+ * This sample demonstrates how to get database column
  *
- * @summary Get database column
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseColumnGet.json
+ * @summary get database column
+ * x-ms-original-file: 2025-02-01-preview/DatabaseColumnGet.json
  */
 async function getDatabaseColumn(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
-  const serverName = "serverName";
-  const databaseName = "myDatabase";
-  const schemaName = "dbo";
-  const tableName = "table1";
-  const columnName = "column1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.databaseColumns.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    schemaName,
-    tableName,
-    columnName,
+    "myRG",
+    "serverName",
+    "myDatabase",
+    "dbo",
+    "table1",
+    "column1",
   );
   console.log(result);
 }
