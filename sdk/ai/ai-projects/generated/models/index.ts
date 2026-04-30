@@ -55,6 +55,7 @@ export type {
   MCPToolFilter,
   MemorySearchPreviewTool,
   MemorySearchOptions,
+  ToolboxSearchPreviewTool,
   CodeInterpreterTool,
   AutoCodeInterpreterToolParam,
   ContainerMemoryLimit,
