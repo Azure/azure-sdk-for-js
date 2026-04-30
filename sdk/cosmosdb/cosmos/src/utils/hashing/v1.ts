@@ -6,8 +6,8 @@ import { writeStringForBinaryEncoding } from "./encoding/string.js";
 import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
 import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
-import { concatUint8Arrays, hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
-import { stringToUint8Array } from "@azure/core-util";
+import { concatUint8Arrays } from "../uint8.js";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 const MAX_STRING_CHARS = 100;
 
@@ -17,7 +17,7 @@ export function hashV1PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): 
   const hash = MurmurHash.x86.hash32(toHash);
   const encodedJSBI = writeNumberForBinaryEncodingBigInt(hash);
   const encodedValue = encodeByType(key);
-  const finalHash = uint8ArrayToHex(concatUint8Arrays([encodedJSBI, encodedValue])).toUpperCase();
+  const finalHash = uint8ArrayToString(concatUint8Arrays([encodedJSBI, encodedValue]), "hex").toUpperCase();
   return finalHash;
 }
 
@@ -27,29 +27,29 @@ function prefixKeyByType(key: PrimitivePartitionKeyValue): Uint8Array {
     case "string": {
       const truncated = key.substr(0, MAX_STRING_CHARS);
       bytes = concatUint8Arrays([
-        hexStringToUint8Array(BytePrefix.String),
+        stringToUint8Array(BytePrefix.String, "hex"),
         stringToUint8Array(truncated, "utf-8"),
-        hexStringToUint8Array(BytePrefix.Undefined),
+        stringToUint8Array(BytePrefix.Undefined, "hex"),
       ]);
       return bytes;
     }
     case "number": {
       const numberBytes = doubleToByteArrayBigInt(key);
-      bytes = concatUint8Arrays([hexStringToUint8Array(BytePrefix.Number), numberBytes]);
+      bytes = concatUint8Arrays([stringToUint8Array(BytePrefix.Number, "hex"), numberBytes]);
       return bytes;
     }
     case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
-      return hexStringToUint8Array(prefix);
+      return stringToUint8Array(prefix, "hex");
     }
     case "object": {
       if (key === null) {
-        return hexStringToUint8Array(BytePrefix.Null);
+        return stringToUint8Array(BytePrefix.Null, "hex");
       }
-      return hexStringToUint8Array(BytePrefix.Undefined);
+      return stringToUint8Array(BytePrefix.Undefined, "hex");
     }
     case "undefined": {
-      return hexStringToUint8Array(BytePrefix.Undefined);
+      return stringToUint8Array(BytePrefix.Undefined, "hex");
     }
     default:
       throw new Error(`Unexpected type: ${typeof key}`);
@@ -67,15 +67,15 @@ function encodeByType(key: PrimitivePartitionKeyValue): Uint8Array {
     }
     case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
-      return hexStringToUint8Array(prefix);
+      return stringToUint8Array(prefix, "hex");
     }
     case "object":
       if (key === null) {
-        return hexStringToUint8Array(BytePrefix.Null);
+        return stringToUint8Array(BytePrefix.Null, "hex");
       }
-      return hexStringToUint8Array(BytePrefix.Undefined);
+      return stringToUint8Array(BytePrefix.Undefined, "hex");
     case "undefined":
-      return hexStringToUint8Array(BytePrefix.Undefined);
+      return stringToUint8Array(BytePrefix.Undefined, "hex");
     default:
       throw new Error(`Unexpected type: ${typeof key}`);
   }

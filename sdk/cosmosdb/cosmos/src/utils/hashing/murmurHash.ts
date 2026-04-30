@@ -9,7 +9,7 @@
 
 // PRIVATE FUNCTIONS
 // -----------------
-import { hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 function _x86Multiply(m: number, n: number) {
   //
   // Given two 32bit ints, returns the two multiplied together as a
@@ -525,14 +525,14 @@ function x64Hash128(bytes: Uint8Array, seed?: number) {
   const h1Hex =
     ("00000000" + (h1[0] >>> 0).toString(16)).slice(-8) +
     ("00000000" + (h1[1] >>> 0).toString(16)).slice(-8);
-  const h1Buff = hexStringToUint8Array(h1Hex);
-  const h1Reversed = uint8ArrayToHex(reverse(h1Buff));
+  const h1Buff = stringToUint8Array(h1Hex, "hex");
+  const h1Reversed = uint8ArrayToString(reverse(h1Buff), "hex");
 
   const h2Hex =
     ("00000000" + (h2[0] >>> 0).toString(16)).slice(-8) +
     ("00000000" + (h2[1] >>> 0).toString(16)).slice(-8);
-  const h2Buff = hexStringToUint8Array(h2Hex);
-  const h2Reversed = uint8ArrayToHex(reverse(h2Buff));
+  const h2Buff = stringToUint8Array(h2Hex, "hex");
+  const h2Reversed = uint8ArrayToString(reverse(h2Buff), "hex");
   return h1Reversed + h2Reversed;
 }
 
