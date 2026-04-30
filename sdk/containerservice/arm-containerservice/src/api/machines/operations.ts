@@ -29,7 +29,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, agentPoolName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
@@ -86,7 +86,7 @@ export function _getSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

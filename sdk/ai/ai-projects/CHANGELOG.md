@@ -1,5 +1,60 @@
 # Release History
 
+## 2.2.0 (Unreleased)
+
+### Breaking Changes
+
+- Renamed `project.beta.agents.listSessionFiles` to `project.beta.agents.getSessionFiles`.
+- Updated the exported `HeaderIsolationKeySource` model shape to remove fields that were previously present.
+- Renamed `UpdateToolboxRequest.toolbox_name` to `name`.
+
+### Features Added
+
+- Added `FabricIQPreviewTool` (and `FabricIQPreviewToolParameters`) as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`, plus the `SessionLogEvent` / `SessionLogEventType` model types.
+- Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
+- Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
+- Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
+
+### Bugs Fixed
+
+- Fixed missing `BetaAgentsGetSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
+
+### Other Changes
+
+- Regenerated client from latest TypeSpec (commit `94f9262a`).
+
+## 2.1.0 (2026-04-17)
+
+### Breaking Changes
+
+- Change `container_protocol_versions` property from required to optional in `HostedAgentDefinition` output types.
+- Change `code_type` property from required to optional in `getVersion` output type.
+- Rename `id` property in `Schedule` interface to `schedule_id`
+
+### Features Added
+
+- Add `project.beta.agents` route for accessing beta agent operations such as managed agent identity blueprints, session files, and sessions
+- Add `project.beta.skills` route for accessing skills
+- Add `project.beta.toolboxes` route for accessing toolbox features
+
+### Bugs Fixed
+
+- Remove redundant `foundryFeatures` property from `EvaluationRulesCreateOrUpdateOptionalParam`
+
+### Other Changes
+
+- Deprecated `TextResponseFormatConfiguration` in favor of `TextResponseFormat`
+- Deprecated `TextResponseFormatConfigurationResponseFormatText` in favor of `TextResponseFormatText`
+- Deprecated `TextResponseFormatConfigurationResponseFormatJsonObject` in favor of `TextResponseFormatJsonObject`
+- Deprecated `TextResponseFormatConfigurationUnion` in favor of `TextResponseFormatUnion`
+
+## 2.0.2 (2026-04-06)
+
+### Bugs Fixed
+
+- Replace `console.debug` calls with Azure SDK logger to prevent secret leakage (e.g. SAS URIs) in unconditional console output.
+
 ## 2.0.1 (2026-03-13)
 
 ### Bugs Fixed

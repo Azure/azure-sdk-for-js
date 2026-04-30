@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SearchManagementClient } from "../src/searchManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -63,7 +64,7 @@ describe("Search test", () => {
       credential,
       subscriptionId,
       recorder.configureClientOptions({
-        endpoint: "https://eastus2euap.management.azure.com/",
+        endpoint: "https://management.azure.com/",
         credentialScopes: "https://management.azure.com/.default",
       }),
     );
@@ -93,7 +94,7 @@ describe("Search test", () => {
         location: location,
         replicaCount: 1,
         partitionCount: 1,
-        hostingMode: "default",
+        hostingMode: "Default",
         sku: {
           name: "standard",
         },
@@ -110,7 +111,7 @@ describe("Search test", () => {
 
   it("services list test", async () => {
     const resArray = new Array();
-    for await (let item of client.services.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.services.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -124,16 +125,22 @@ describe("Search test", () => {
 
   it("queryKeys list test", async () => {
     const resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+    for await (const item of client.queryKeys.listBySearchService(
+      resourceGroup,
+      searchServiceName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
   });
 
-  //skip this case as Internal Server Error (HTTP Status Code: 500).
+  // skip this case as Internal Server Error (HTTP Status Code: 500).
   it.skip("queryKeys delete test", async function () {
     let resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+    for await (const item of client.queryKeys.listBySearchService(
+      resourceGroup,
+      searchServiceName,
+    )) {
       resArray.push(item);
     }
     const len = resArray.length;
@@ -142,7 +149,10 @@ describe("Search test", () => {
     // Delete the query key by key not by keyname
     await client.queryKeys.delete(resourceGroup, searchServiceName, keyvalue);
     resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+    for await (const item of client.queryKeys.listBySearchService(
+      resourceGroup,
+      searchServiceName,
+    )) {
       resArray.push(item);
     }
     // The key number is reduced to len - 1
@@ -152,7 +162,7 @@ describe("Search test", () => {
   it("services delete test", async () => {
     await client.services.delete(resourceGroup, searchServiceName);
     const resArray = new Array();
-    for await (let item of client.services.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.services.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

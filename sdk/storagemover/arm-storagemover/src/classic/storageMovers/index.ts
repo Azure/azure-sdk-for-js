@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverContext } from "../../api/storageMoverContext.js";
+import type { StorageMoverContext } from "../../api/storageMoverContext.js";
 import {
   listBySubscription,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageMovers/operations.js";
-import {
+import type {
   StorageMoversListBySubscriptionOptionalParams,
   StorageMoversListOptionalParams,
   StorageMoversDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   StorageMoversCreateOrUpdateOptionalParams,
   StorageMoversGetOptionalParams,
 } from "../../api/storageMovers/options.js";
-import { StorageMover, StorageMoverUpdateParameters } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StorageMover, StorageMoverUpdateParameters } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageMovers operations. */
 export interface StorageMoversOperations {

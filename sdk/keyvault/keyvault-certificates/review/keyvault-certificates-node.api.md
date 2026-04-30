@@ -87,7 +87,7 @@ export class CertificateClient {
 // @public
 export interface CertificateClientOptions extends ExtendedCommonClientOptions {
     disableChallengeResourceVerification?: boolean;
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01";
 }
 
 // @public
@@ -210,8 +210,8 @@ export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
     emails?: string[];
     ipAddresses?: string[];
-    uniformResourceIdentifiers?: string[];
     upns?: string[];
+    uris?: string[];
 }
 
 // @public

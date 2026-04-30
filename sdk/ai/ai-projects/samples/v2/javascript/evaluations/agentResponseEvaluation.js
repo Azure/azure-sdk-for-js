@@ -54,7 +54,7 @@ async function main() {
       conversation: conversation.id,
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${response.output_text} (id: ${response.id})`);

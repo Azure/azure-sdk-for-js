@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-  type StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  type StandbyContainerGroupPoolsUpdateOptionalParams,
-  type StandbyContainerGroupPoolsDeleteOptionalParams,
-  type StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
-  type StandbyContainerGroupPoolsGetOptionalParams,
+export type {
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
 } from "./options.js";

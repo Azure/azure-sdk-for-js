@@ -24,6 +24,11 @@ import {
   secretRestoreParametersSerializer,
 } from "../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
+import {
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
   RecoverDeletedSecretOptionalParams,
@@ -37,11 +42,6 @@ import {
   DeleteSecretOptionalParams,
   SetSecretOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -57,21 +57,20 @@ export function _restoreSecretSend(
   const path = expandUrlTemplate(
     "/secrets/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: secretRestoreParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secretRestoreParametersSerializer(parameters),
+    });
 }
 
 export async function _restoreSecretDeserialize(
@@ -81,6 +80,7 @@ export async function _restoreSecretDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -106,19 +106,18 @@ export function _backupSecretSend(
     "/secrets/{secret-name}/backup{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _backupSecretDeserialize(
@@ -128,6 +127,7 @@ export async function _backupSecretDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -153,19 +153,18 @@ export function _recoverDeletedSecretSend(
     "/deletedsecrets/{secret-name}/recover{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _recoverDeletedSecretDeserialize(
@@ -175,6 +174,7 @@ export async function _recoverDeletedSecretDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -200,19 +200,13 @@ export function _purgeDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _purgeDeletedSecretDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -220,6 +214,7 @@ export async function _purgeDeletedSecretDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -245,19 +240,18 @@ export function _getDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedSecretDeserialize(
@@ -267,6 +261,7 @@ export async function _getDeletedSecretDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -290,20 +285,19 @@ export function _getDeletedSecretsSend(
   const path = expandUrlTemplate(
     "/deletedsecrets{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeletedSecretsDeserialize(
@@ -313,6 +307,7 @@ export async function _getDeletedSecretsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -329,7 +324,7 @@ export function getDeletedSecrets(
     () => _getDeletedSecretsSend(context, options),
     _getDeletedSecretsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -342,20 +337,19 @@ export function _getSecretVersionsSend(
     "/secrets/{secret-name}/versions{?api%2Dversion,maxresults}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSecretVersionsDeserialize(
@@ -365,6 +359,7 @@ export async function _getSecretVersionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -382,7 +377,7 @@ export function getSecretVersions(
     () => _getSecretVersionsSend(context, secretName, options),
     _getSecretVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -393,20 +388,19 @@ export function _getSecretsSend(
   const path = expandUrlTemplate(
     "/secrets{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       maxresults: options?.maxresults,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSecretsDeserialize(
@@ -416,6 +410,7 @@ export async function _getSecretsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -432,7 +427,7 @@ export function getSecrets(
     () => _getSecretsSend(context, options),
     _getSecretsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -443,23 +438,23 @@ export function _getSecretSend(
   options: GetSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/secrets/{secret-name}/{secret-version}{?api%2Dversion}",
+    "/secrets/{secret-name}/{secret-version}{?api%2Dversion,outContentType}",
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      outContentType: options?.outContentType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSecretDeserialize(result: PathUncheckedResponse): Promise<SecretBundle> {
@@ -467,6 +462,7 @@ export async function _getSecretDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -496,21 +492,20 @@ export function _updateSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: secretUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secretUpdateParametersSerializer(parameters),
+    });
 }
 
 export async function _updateSecretDeserialize(
@@ -520,6 +515,7 @@ export async function _updateSecretDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -547,19 +543,18 @@ export function _deleteSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteSecretDeserialize(
@@ -569,6 +564,7 @@ export async function _deleteSecretDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -595,21 +591,20 @@ export function _setSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: secretSetParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secretSetParametersSerializer(parameters),
+    });
 }
 
 export async function _setSecretDeserialize(result: PathUncheckedResponse): Promise<SecretBundle> {
@@ -617,6 +612,7 @@ export async function _setSecretDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 

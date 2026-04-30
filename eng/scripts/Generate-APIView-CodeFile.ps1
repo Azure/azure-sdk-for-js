@@ -12,7 +12,7 @@ if (!(Test-Path -Path $ArtifactPath))
 }
 
 
-$apiviewParser = "@azure-tools/ts-genapi@2.0.10"
+$apiviewParser = "@azure-tools/ts-genapi@2.0.11"
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
 $installedPath = npm ls @azure-tools/ts-genapi -p
@@ -33,6 +33,13 @@ foreach ($apiPkgFile in $apiFiles)
   $OutDirectory = Split-Path -Path $apiFilePath
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
-  Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node ./dist/src/export.js $apiFilePath $OutFilePath
+  # if metadata.json file exists in the same directory as the api-extractor file, include it in the conversion command
+  $metadataFilePath = Join-Path -Path $OutDirectory -ChildPath "metadata.json"
+  if (Test-Path $metadataFilePath) {
+    Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath) with metadata $($metadataFilePath)"
+    node ./dist/src/export.js $apiFilePath $OutFilePath $metadataFilePath
+  } else {
+    Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
+    node ./dist/src/export.js $apiFilePath $OutFilePath
+  }
 }

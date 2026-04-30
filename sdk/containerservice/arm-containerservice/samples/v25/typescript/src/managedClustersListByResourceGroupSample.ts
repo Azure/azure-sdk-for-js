@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists managed clusters in the specified subscription and resource group.
  *
  * @summary lists managed clusters in the specified subscription and resource group.
- * x-ms-original-file: 2026-01-01/ManagedClustersListByResourceGroup.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersListByResourceGroup.json
  */
 async function getManagedClustersByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

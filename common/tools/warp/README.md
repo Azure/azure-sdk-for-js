@@ -138,6 +138,46 @@ Polyfill substitution is opt-in. Set `polyfillSuffix: true` on a target to enabl
 - Discovery is driven by the parsed tsconfig's file list, so it respects `include`/`exclude` patterns
 - Targets with a configured `polyfillSuffix` but no actual polyfill files on disk are treated as no-polyfill targets for dedup purposes
 
+### Import resolution
+
+Import resolution is a standards-based alternative to polyfill substitution that uses [Node.js subpath imports](https://nodejs.org/api/packages.html#subpath-imports) (`#`-prefixed specifiers) for per-target file selection.
+
+Import resolution is automatic when the package has an `"imports"` field in `package.json`. After TypeScript emits output, Warp post-processes every `.js` and `.d.ts` file to resolve `#`-prefixed import specifiers using the `"imports"` field and the target's export condition.
+
+**How it works:**
+
+1. Source code imports platform-dependent modules via `#`-prefixed specifiers:
+   ```ts
+   import { PipelineRequest } from "#platform/interfaces";
+   ```
+2. `package.json` declares the per-condition mapping:
+   ```json
+   {
+     "imports": {
+       "#platform/*": {
+         "browser": "./src/*-browser.mts",
+         "react-native": "./src/*-react-native.mts",
+         "default": "./src/*.ts"
+       }
+     }
+   }
+   ```
+3. Each target's tsconfig uses `customConditions` so TypeScript resolves the correct variant during type-checking:
+   ```json
+   { "compilerOptions": { "customConditions": ["browser"] } }
+   ```
+4. After compilation, Warp resolves each `#` specifier to a concrete relative path:
+   - Browser output: `import { PipelineRequest } from "./interfaces-browser.mjs";`
+   - Node output: `import { PipelineRequest } from "./interfaces.js";`
+
+**Advantages over `polyfillSuffix`:**
+
+- **Per-target type-checking** — each target's tsconfig sees only the correct platform types, catching cross-platform type errors that `polyfillSuffix` cannot detect
+- **Standards-based** — uses Node.js subpath imports and TypeScript `customConditions`, so IDEs and `tsc --noEmit` understand the resolution without Warp
+- **Self-contained output** — the emitted files contain only relative paths, with no runtime dependency on `#imports` resolution
+
+Import resolution and `polyfillSuffix` are orthogonal and can coexist on the same target during incremental migration.
+
 ### Target deduplication
 
 Targets with identical compiler options, source files, and effective polyfill suffix are compiled once, then the output is copied. Saves real time when you have targets that only differ in `outDir`. The dedup signature includes a hash of the sorted file list to prevent incorrect dedup when targets have different `include`/`exclude` patterns.
@@ -248,84 +288,91 @@ const result = await build({
   // config: resolvedConfig,
 });
 
-console.log(result.success);        // boolean
-console.log(result.totalTimeMs);    // wall-clock ms
+console.log(result.success); // boolean
+console.log(result.totalTimeMs); // wall-clock ms
 console.log(result.compileResults); // per-target CompileResult[]
-console.log(result.sizeReport);     // SizeReport with per-target metrics
+console.log(result.sizeReport); // SizeReport with per-target metrics
 ```
 
 ### Key exports
 
 #### Functions
 
-| Export | Description |
-| ------ | ----------- |
-| `build(options?)` | Run the full build pipeline |
-| `watch(options?)` | Build then watch for changes. Returns an `AbortController` to stop watching |
-| `init(options?)` | Scaffold a new `warp.config.yml` |
-| `findWarpConfig(dir, configPath?)` | Find, validate, and return config (or `undefined` if not found) |
-| `validateTsconfigPaths(config, dir, source)` | Check that all tsconfig files referenced by targets exist |
-| `validateOutDirs(configs)` | Verify that all targets have distinct `outDir`s |
-| `inferModuleType(moduleKind)` | Map TS module kind → `"module"` / `"commonjs"` |
-| `discoverPolyfills(files, suffix)` | Find polyfill files for a suffix |
-| `groupBySignature(configs, getEffectiveSuffix?)` | Group targets by options signature for dedup |
-| `optionsSignature(options, fileNames, polyfillSuffix?)` | Compute a dedup signature for a target's compiler options + file list |
-| `sourceIdentity(fileNames, polyfillSuffix?)` | Compute a source identity hash for type-check grouping |
-| `cleanOutDir(dir)` | `rm -rf` a directory (async) |
-| `copyDir(src, dest)` | Recursive async copy with correct symlink handling |
-| `copyDtsFiles(src, dest)` | Async copy of `.d.ts`/`.d.ts.map` files only |
-| `verifyDistFiles(exports, root)` | Check dist files exist (`.js`, `.d.ts`, `.d.ts.map`) |
-| `formatDiagnostics(results)` | Format diagnostics from compile results grouped by target |
-| `formatSingleDiagnostic(diag, prefix)` | Format a single `ts.Diagnostic` with a prefix |
-| `diagnosticCategoryLabel(category)` | Map `ts.DiagnosticCategory` to `"error"` / `"warning"` / etc. |
-| `createCachedHost(options, cache)` | Create a `CompilerHost` backed by a `SharedSourceFileCache` |
-| `createPolyfillHost(options, polyfillMap, cache)` | Create a `CompilerHost` that substitutes polyfill content |
+| Export                                                  | Description                                                                 |
+| ------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `build(options?)`                                       | Run the full build pipeline                                                 |
+| `watch(options?)`                                       | Build then watch for changes. Returns an `AbortController` to stop watching |
+| `init(options?)`                                        | Scaffold a new `warp.config.yml`                                            |
+| `findWarpConfig(dir, configPath?)`                      | Find, validate, and return config (or `undefined` if not found)             |
+| `validateTsconfigPaths(config, dir, source)`            | Check that all tsconfig files referenced by targets exist                   |
+| `validateOutDirs(configs)`                              | Verify that all targets have distinct `outDir`s                             |
+| `inferModuleType(moduleKind)`                           | Map TS module kind → `"module"` / `"commonjs"`                              |
+| `discoverPolyfills(files, suffix)`                      | Find polyfill files for a suffix                                            |
+| `groupBySignature(configs, getEffectiveSuffix?)`        | Group targets by options signature for dedup                                |
+| `optionsSignature(options, fileNames, polyfillSuffix?)` | Compute a dedup signature for a target's compiler options + file list       |
+| `sourceIdentity(fileNames, polyfillSuffix?)`            | Compute a source identity hash for type-check grouping                      |
+| `cleanOutDir(dir)`                                      | `rm -rf` a directory (async)                                                |
+| `copyDir(src, dest)`                                    | Recursive async copy with correct symlink handling                          |
+| `copyDtsFiles(src, dest)`                               | Async copy of `.d.ts`/`.d.ts.map` files only                                |
+| `verifyDistFiles(exports, root)`                        | Check dist files exist (`.js`, `.d.ts`, `.d.ts.map`)                        |
+| `formatDiagnostics(results)`                            | Format diagnostics from compile results grouped by target                   |
+| `formatSingleDiagnostic(diag, prefix)`                  | Format a single `ts.Diagnostic` with a prefix                               |
+| `diagnosticCategoryLabel(category)`                     | Map `ts.DiagnosticCategory` to `"error"` / `"warning"` / etc.               |
+| `resolveSubpathImport(specifier, map, conditions)`      | Resolve a `#`-prefixed specifier against a `package.json` `imports` map     |
+| `resolveImportsInContent(content, path, ...)`           | Resolve all `#`-prefixed specifiers in a string                             |
+| `resolveImportsInDir(outDir, map, conditions, ...)`     | Post-process all files in an output directory                               |
+| `readPackageImports(packageRoot)`                       | Read the `imports` field from `package.json`                                |
+| `buildConditionsSet(customConditions, moduleType)`      | Build the conditions set for a target                                       |
+| `sourcePathToOutputPath(source, rootDir, outDir, root)` | Map a source file path to its output path                                   |
+| `createCachedHost(options, cache)`                      | Create a `CompilerHost` backed by a `SharedSourceFileCache`                 |
+| `createPolyfillHost(options, polyfillMap, cache)`       | Create a `CompilerHost` that substitutes polyfill content                   |
 
 #### Classes
 
-| Export | Description |
-| ------ | ----------- |
+| Export                  | Description                                                                 |
+| ----------------------- | --------------------------------------------------------------------------- |
 | `SharedSourceFileCache` | Reusable parsed-`SourceFile` cache (bounded, max 10k entries, LRU eviction) |
-| `Logger` | Structured logger with configurable level and message buffering |
-| `WarpError` | Structured error with `.code` field and optional `.cause` |
+| `Logger`                | Structured logger with configurable level and message buffering             |
+| `WarpError`             | Structured error with `.code` field and optional `.cause`                   |
 
 #### Logger utilities
 
-| Export | Description |
-| ------ | ----------- |
-| `getLogger()` | Get the module-level default logger |
-| `setLogLevel(level)` | Set the log level (`"quiet"` / `"info"` / `"verbose"`) |
-| `setJsonMode(enabled)` | Toggle machine-readable JSON output mode |
-| `isJsonMode()` | Check whether JSON mode is active |
+| Export                 | Description                                            |
+| ---------------------- | ------------------------------------------------------ |
+| `getLogger()`          | Get the module-level default logger                    |
+| `setLogLevel(level)`   | Set the log level (`"quiet"` / `"info"` / `"verbose"`) |
+| `setJsonMode(enabled)` | Toggle machine-readable JSON output mode               |
+| `isJsonMode()`         | Check whether JSON mode is active                      |
 
 #### Types
 
-| Export | Description |
-| ------ | ----------- |
-| `BuildOptions` | Options for `build()` |
-| `BuildResult` | Return type of `build()` |
-| `WatchOptions` | Options for `watch()` (extends `BuildOptions` with `debounceMs`) |
-| `InitOptions` | Options for `init()` |
-| `WarpConfig` | Validated config (exports + targets) |
-| `WarpTarget` | Single build target definition |
-| `ResolvedWarpConfig` | Config with metadata about where it was found |
-| `ConfigSource` | Source type and path (`"yaml"` or `"package.json"`) |
-| `WarpErrorCode` | Union of all error code strings |
-| `ModuleType` | `"module"` \| `"commonjs"` |
-| `CompileResult` | Per-target compilation result (diagnostics, timing, dedup status) |
+| Export               | Description                                                                   |
+| -------------------- | ----------------------------------------------------------------------------- |
+| `BuildOptions`       | Options for `build()`                                                         |
+| `BuildResult`        | Return type of `build()`                                                      |
+| `WatchOptions`       | Options for `watch()` (extends `BuildOptions` with `debounceMs`)              |
+| `InitOptions`        | Options for `init()`                                                          |
+| `WarpConfig`         | Validated config (exports + targets)                                          |
+| `WarpTarget`         | Single build target definition                                                |
+| `ResolvedWarpConfig` | Config with metadata about where it was found                                 |
+| `ConfigSource`       | Source type and path (`"yaml"` or `"package.json"`)                           |
+| `WarpErrorCode`      | Union of all error code strings                                               |
+| `ModuleType`         | `"module"` \| `"commonjs"`                                                    |
+| `CompileResult`      | Per-target compilation result (diagnostics, timing, dedup status)             |
 | `ParsedTargetConfig` | Parsed tsconfig data for a target (used internally and in advanced API usage) |
-| `SizeReport` | Full size report with per-target metrics and API surface |
-| `TargetSizeMetrics` | Per-target file count, LOC, raw bytes, gzip estimate, d.ts bytes |
-| `ApiSurfaceMetrics` | Export count and `.d.ts` file count |
-| `LogLevel` | `"quiet"` \| `"info"` \| `"verbose"` |
+| `SizeReport`         | Full size report with per-target metrics and API surface                      |
+| `TargetSizeMetrics`  | Per-target file count, LOC, raw bytes, gzip estimate, d.ts bytes              |
+| `ApiSurfaceMetrics`  | Export count and `.d.ts` file count                                           |
+| `LogLevel`           | `"quiet"` \| `"info"` \| `"verbose"`                                          |
+| `ImportsMap`         | The `imports` field from `package.json` (used with `resolveSubpathImport`)    |
 
 ### Error codes
 
-| Code | Meaning |
-| ---- | ------- |
-| `CONFIG_NOT_FOUND` | No config file or `"warp"` key found |
-| `CONFIG_INVALID` | Config exists but doesn't pass validation (wrong types, missing fields) |
-| `TSCONFIG_ERROR` | Target tsconfig can't be read, parsed, or has missing `outDir`. Includes hints for missing `"extends"` base configs |
-| `COMPILE_ERROR` | TypeScript compilation failed, worker thread crashed, or task graph cycle detected |
-| `VALIDATION_ERROR` | Duplicate target names/conditions, overlapping outDirs, invalid subpath patterns, unknown `--target` targets |
-| `DIST_MISSING` | Referenced dist files don't exist after compilation |
+| Code               | Meaning                                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `CONFIG_NOT_FOUND` | No config file or `"warp"` key found                                                                                |
+| `CONFIG_INVALID`   | Config exists but doesn't pass validation (wrong types, missing fields)                                             |
+| `TSCONFIG_ERROR`   | Target tsconfig can't be read, parsed, or has missing `outDir`. Includes hints for missing `"extends"` base configs |
+| `COMPILE_ERROR`    | TypeScript compilation failed, worker thread crashed, or task graph cycle detected                                  |
+| `VALIDATION_ERROR` | Duplicate target names/conditions, overlapping outDirs, invalid subpath patterns, unknown `--target` targets        |
+| `DIST_MISSING`     | Referenced dist files don't exist after compilation                                                                 |

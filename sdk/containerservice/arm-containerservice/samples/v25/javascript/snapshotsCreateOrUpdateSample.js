@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a snapshot.
  *
  * @summary creates or updates a snapshot.
- * x-ms-original-file: 2026-01-01/SnapshotsCreate.json
+ * x-ms-original-file: 2026-02-01/SnapshotsCreate.json
  */
 async function createOrUpdateSnapshot() {
   const credential = new DefaultAzureCredential();

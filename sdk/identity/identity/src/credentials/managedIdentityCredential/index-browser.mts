@@ -33,7 +33,10 @@ export class ManagedIdentityCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public async getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
+  public async getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions,
+  ): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

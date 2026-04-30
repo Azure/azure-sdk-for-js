@@ -16,7 +16,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/sp
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "5.0.0"
+package-version: "5.1.1"
 use-extension:
   "@autorest/typescript": "6.0.34"
 module-kind: esm

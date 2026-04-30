@@ -3,39 +3,33 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection.
+ * This sample demonstrates how to retrieves the usages (most recent storage data) for the given collection.
  *
- * @summary Retrieves the usages (most recent storage data) for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCollectionGetUsages.json
+ * @summary retrieves the usages (most recent storage data) for the given collection.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCollectionGetUsages.json
  */
-async function cosmosDbCollectionGetUsages() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseRid = "databaseRid";
-  const collectionRid = "collectionRid";
-  const filter = "$filter=name.value eq 'Storage'";
-  const options = { filter };
+async function cosmosDBCollectionGetUsages() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.collection.listUsages(
-    resourceGroupName,
-    accountName,
-    databaseRid,
-    collectionRid,
-    options,
+    "rg1",
+    "ddb1",
+    "databaseRid",
+    "collectionRid",
+    { filter: "$filter=name.value eq 'Storage'" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbCollectionGetUsages();
+  await cosmosDBCollectionGetUsages();
 }
 
 main().catch(console.error);

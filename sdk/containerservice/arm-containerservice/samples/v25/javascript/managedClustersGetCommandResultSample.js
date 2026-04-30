@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: 2026-01-01/RunCommandResultFailed.json
+ * x-ms-original-file: 2026-02-01/RunCommandResultFailed.json
  */
 async function commandFailedResult() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function commandFailedResult() {
  * This sample demonstrates how to gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: 2026-01-01/RunCommandResultSucceed.json
+ * x-ms-original-file: 2026-02-01/RunCommandResultSucceed.json
  */
 async function commandSucceedResult() {
   const credential = new DefaultAzureCredential();

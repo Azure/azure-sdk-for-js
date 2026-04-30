@@ -182,36 +182,246 @@ For browser-compatible packages:
   defeat tree-shaking. Prefer explicit named re-exports so bundlers
   can drop unused symbols.
 
+### 12. Micro-benchmark verification
+
+When a PR introduces or modifies a **performance optimization** (caching,
+fast paths, algorithmic changes, allocation avoidance), do not accept the
+claim at face value. Write and run a quick Node.js micro-benchmark to
+**measure** the actual impact. This applies to both new optimizations
+being added and your own suggested improvements.
+
+#### When to benchmark
+
+- A new fast path claims to avoid expensive work (e.g., regex check
+  before `JSON.stringify`)
+- A cache is introduced to avoid repeated computation
+- An algorithmic change claims to reduce allocation or CPU cost
+- A polling mechanism is replaced by an event-driven approach
+- You want to suggest an alternative implementation — benchmark both
+
+Do **not** benchmark changes that are purely structural (renames, type
+changes, moving code between files) or where the performance claim is
+self-evident (removing dead code, fixing a quadratic loop to linear).
+
+#### Methodology
+
+Use `performance.now()` with enough iterations to get stable results.
+Always run at least **1 million iterations** for nanosecond-scale
+operations or **10,000 iterations** for microsecond-scale operations.
+Include **warm-up iterations** to allow V8 to optimize the code.
+
+**Template:**
+
+```js
+// bench.mjs — run with: node bench.mjs
+const WARMUP = 1_000;
+const ITERATIONS = 5_000_000;
+
+function baseline(input) {
+  // The current/original approach
+  return JSON.stringify(input);
+}
+
+function optimized(input) {
+  // The proposed optimization
+  if (typeof input === "string" && !/["\\\n\r\t]/.test(input)) {
+    return '"' + input + '"';
+  }
+  return JSON.stringify(input);
+}
+
+// Prevent V8 from optimizing away unused return values.
+let blackhole;
+
+function bench(label, fn, input) {
+  // Warm up
+  for (let i = 0; i < WARMUP; i++) blackhole = fn(input);
+
+  const start = performance.now();
+  for (let i = 0; i < ITERATIONS; i++) blackhole = fn(input);
+  const elapsed = performance.now() - start;
+
+  const nsPerOp = (elapsed * 1e6) / ITERATIONS;
+  console.log(`${label}: ${nsPerOp.toFixed(1)} ns/op`);
+  return nsPerOp;
+}
+
+// Test with MULTIPLE representative inputs to catch regressions.
+// For each input, alternate baseline/optimized runs to avoid V8
+// optimization-tier ordering bias.
+const inputs = [
+  ["short plain string", "hello"],
+  ["UUID", "550e8400-e29b-41d4-a716-446655440000"],
+  ["string with quotes", 'say "hello"'],
+  ["string with newline", "line1\nline2"],
+  ["JSON-like string", '{"key":"value"}'],
+];
+
+console.log(`Node ${process.version}, ${ITERATIONS.toLocaleString()} iterations\n`);
+console.log("| Input | Baseline | Optimized | Delta |");
+console.log("|---|---|---|---|");
+
+for (const [label, input] of inputs) {
+  // Run alternating pairs to minimize ordering bias
+  const baseRuns = [];
+  const optRuns = [];
+  const ROUNDS = 3;
+  for (let r = 0; r < ROUNDS; r++) {
+    baseRuns.push(bench(`baseline(${label}) #${r + 1}`, baseline, input));
+    optRuns.push(bench(`optimized(${label}) #${r + 1}`, optimized, input));
+  }
+  const base = baseRuns.reduce((a, b) => a + b, 0) / ROUNDS;
+  const opt = optRuns.reduce((a, b) => a + b, 0) / ROUNDS;
+  const ratio = base / opt;
+  const delta = ratio > 1.01
+    ? `${ratio.toFixed(1)}x faster`
+    : ratio < 0.99
+    ? `${(1 / ratio).toFixed(1)}x **slower**`
+    : `no change`;
+  console.log(`| ${label} | ${base.toFixed(0)} ns | ${opt.toFixed(0)} ns | ${delta} |`);
+}
+```
+
+**Key rules:**
+
+1. **Test multiple representative inputs** — optimizations that help one
+   input pattern often hurt another (e.g., a regex pre-check is fast for
+   clean strings but adds overhead for strings that need escaping).
+2. **Alternate runs** — for each input, run baseline and optimized in
+   alternating rounds (at least 3 each) and average the results. This
+   avoids ordering bias from V8 optimization tiers.
+3. **Report Node version** — always print `process.version` since V8
+   performance characteristics vary significantly across versions.
+4. **Use `performance.now()`** — not `Date.now()`, which has millisecond
+   granularity.
+
+#### Materiality assessment
+
+After benchmarking, assess whether the difference matters in context:
+
+- **Distinguish latency vs CPU goals.** The optimization goal affects
+  what counts as material:
+  - *Latency reduction:* If the operation sits on a path that includes
+    network I/O (HTTP request, AMQP send/receive, WebSocket frame), and
+    the optimization saves less than 1 µs per operation while the I/O
+    costs milliseconds, the optimization adds complexity without
+    meaningful latency improvement. Note this in your review.
+  - *CPU reduction:* If the goal is to reduce CPU consumption (e.g., to
+    handle more concurrent connections or lower compute costs),
+    per-operation savings accumulate at scale even when each one is
+    dwarfed by I/O wait time. In this case, compare the saving against
+    the total CPU budget per operation, not the I/O latency.
+- **Flag net-negative optimizations.** If the benchmark shows the
+  "optimization" is slower for common input patterns, flag it as a
+  regression even if it's faster for some inputs. Use a table to show
+  the mixed results.
+- **Confirm high-impact changes.** If a change delivers a measurable
+  large improvement (e.g., >10x for the common case), call it out
+  positively with the benchmark data. Not all review comments need to
+  be negative — confirming value helps PR authors and future reviewers.
+- **Threshold:** As a rough guide, flag only optimizations where the
+  per-operation delta exceeds **100 ns** on a hot path called at least
+  **1,000 times per second** in typical usage, or where the absolute
+  saving is at least **1 ms per batch** of operations.
+
+### 13. Optimization justification
+
+Before endorsing or only suggesting improvements to a new optimization,
+first question whether the optimization should exist at all:
+
+- **Check for existing alternatives.** Search the package for existing
+  opt-in flags, configuration options, or APIs that already solve the
+  same problem. For example, if a PR adds a heuristic to skip JSON
+  parsing, but the package already has a `skipParsingBodyAsJson` option,
+  question whether the new heuristic is worth the added complexity.
+- **Assess complexity vs benefit.** An optimization that saves 100 ns
+  but adds 50 lines of code with new edge cases (regex heuristics,
+  caching logic, type-checking fast paths) may not be worth it. Weigh
+  the maintenance burden against the measured benefit.
+- **Check for regressions in some input classes.** Optimizations often
+  trade off performance across input types. A fast path for common
+  inputs that adds overhead for less-common inputs may be net-negative
+  if the SDK cannot predict which inputs dominate.
+- **Module-level state.** Caches and memoization that use module-level
+  `Map` objects are shared across all client instances. Flag when this
+  global state could cause memory leaks, stale data, or surprising
+  cross-client behavior. Question whether the cache overhead (key
+  construction, lookup, eviction) exceeds the cost of recomputation
+  for typical key sizes.
+
 ## Output format
 
 For each finding, include:
 
 - **File and line**
-- **Severity**: 🔴 Critical, 🟡 Concern, 🔵 Suggestion
+- **Severity**: 🔴 Critical, 🟡 Concern, 🔵 Suggestion, or
+  ✅ Confirmed (for validated high-impact improvements)
 - A one-line description of the performance issue
 - The estimated impact (latency, memory, bundle size, CPU)
 - A concrete suggested fix
+- **Benchmark data** (when you ran a micro-benchmark): include a
+  markdown table that clearly compares baseline vs optimized measurements,
+  with units and a delta or speedup (e.g., ns/op, µs, percentiles)
 
 Severity guide:
 - 🔴 **Critical** — unbounded memory growth, event loop blocking,
   missing cancellation on long operations, quadratic allocation
 - 🟡 **Concern** — unnecessary allocation in hot paths, missing
-  backpressure, aggressive polling, sequential awaits
+  backpressure, aggressive polling, sequential awaits, net-negative
+  optimizations proven by benchmark
 - 🔵 **Suggestion** — minor optimization opportunities, caching,
   tree-shaking improvements
+- ✅ **Confirmed** — a change that delivers measurable, significant
+  improvement validated by benchmark data. Use this to positively
+  confirm the highest-impact changes in a PR.
 
 If no performance issues are found, say so explicitly in one sentence.
 
 ## Examples
 
-### Good finding
+### Good finding — regression backed by benchmark
 
-> 🔴 **Critical** — `src/blobClient.ts:234`
-> `downloadToBuffer()` allocates `Buffer.alloc(contentLength)` without
-> checking the content length. A 4 GB blob would exhaust memory.
-> **Impact:** OOM crash on large downloads.
-> **Fix:** Add a `maxSize` option (default 256 MB) and throw if
-> exceeded, or suggest `download()` with streaming instead.
+> 🟡 **Concern** — `src/dataTransformer.ts:57`
+>
+> Quick microbenchmark (Node v22, 5M iterations each):
+>
+> | Input | `JSON.stringify` | regex+fast path | Delta |
+> |---|---|---|---|
+> | short plain string | 175 ns | 50 ns | 3.5x faster |
+> | UUID | 216 ns | 129 ns | 1.7x faster |
+> | string with quotes | 182 ns | 258 ns | 1.4x **slower** |
+> | string with newline | 177 ns | 266 ns | 1.5x **slower** |
+>
+> When the string needs escaping, the regex scan + `JSON.stringify`
+> fallback is ~50% slower than just calling `JSON.stringify` directly.
+> Since a general-purpose SDK can't assume which case dominates, and the
+> absolute difference is ~100 ns either way (dwarfed by AMQP I/O), is
+> this fast path worth the added complexity?
+
+### Good finding — confirming a high-impact change
+
+> ✅ **Confirmed** — `src/partitionReceiver.ts:362`
+>
+> Great change. Quick microbenchmark of event detection latency (signal
+> vs polling with 1ms interval, 10K iterations, Node v22):
+>
+> | Metric | Signal | Polling | Speedup |
+> |---|---|---|---|
+> | avg | 5.5 µs | 1,174 µs | **213x** |
+> | p50 | 2.9 µs | 1,163 µs | **401x** |
+> | p99 | 44.8 µs | 1,634 µs | **36x** |
+>
+> This is the highest-impact change in the PR.
+
+### Good finding — questioning necessity
+
+> 🟡 **Concern** — `src/dataTransformer.ts:153`
+>
+> The `skipParsingBodyAsJson` option (introduced in #18173) already gives
+> users an explicit opt-in to skip `JSON.parse()` on the receive path.
+> This `looksLikeJson` function reimplements the same optimization
+> implicitly, adding heuristic complexity for a problem already solved by
+> the existing flag. Is the incremental benefit worth the added surface area?
 
 ### Bad finding (too noisy — do NOT flag these)
 

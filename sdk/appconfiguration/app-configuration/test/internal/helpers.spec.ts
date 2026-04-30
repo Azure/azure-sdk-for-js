@@ -82,13 +82,13 @@ describe("helper methods", () => {
 
   describe("quoteETag", () => {
     it("undefined", () => {
-      assert.equal(undefined, quoteETag(undefined));
+      assert.equal(quoteETag(undefined), undefined);
 
-      assert.equal('"etagishere"', quoteETag("etagishere"));
+      assert.equal(quoteETag("etagishere"), '"etagishere"');
 
-      assert.equal("'etagishere'", quoteETag("'etagishere'"));
+      assert.equal(quoteETag("'etagishere'"), "'etagishere'");
 
-      assert.equal("*", quoteETag("*"));
+      assert.equal(quoteETag("*"), "*");
     });
   });
 
@@ -109,8 +109,8 @@ describe("helper methods", () => {
         labelFilter: "label1",
       });
 
-      assert.equal("key1", result.key);
-      assert.equal("label1", result.label);
+      assert.equal(result.key, "key1");
+      assert.equal(result.label, "label1");
     });
 
     it("multiple values", () => {
@@ -119,8 +119,8 @@ describe("helper methods", () => {
         labelFilter: "label1,label2",
       });
 
-      assert.equal("key1,key2", result.key);
-      assert.equal("label1,label2", result.label);
+      assert.equal(result.key, "key1,key2");
+      assert.equal(result.label, "label1,label2");
     });
 
     it("fields map properly", () => {
@@ -128,14 +128,14 @@ describe("helper methods", () => {
         fields: ["isReadOnly", "value"],
       });
 
-      assert.deepEqual(["locked", "value"], result.select);
+      assert.deepEqual(result.select, ["locked", "value"]);
     });
   });
 
   describe("extractAfterTokenFromNextLink", () => {
     it("token is extracted and properly unescaped", () => {
       const token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
-      assert.equal("bGlah=", token);
+      assert.equal(token, "bGlah=");
     });
 
     it("extractAfterTokenFromLinkHeader", () => {
@@ -228,7 +228,7 @@ describe("helper methods", () => {
     makeConfigurationSettingEmpty(response);
 
     // key isn't touched
-    assert.equal("mykey", response.key);
+    assert.equal(response.key, "mykey");
 
     for (const name of getAllConfigurationSettingFieldsMinusKey()) {
       assert.ok(!response[name], name);
@@ -237,8 +237,8 @@ describe("helper methods", () => {
     // These point is these properties are untouched and won't throw
     // since they're the only properties the user is allowed to touch on these
     // "body empty" objects.
-    assert.equal(204, response._response.status);
-    assert.equal(204, response.statusCode);
+    assert.equal(response._response.status, 204);
+    assert.equal(response.statusCode, 204);
   });
 
   it("transformKeyValue", () => {

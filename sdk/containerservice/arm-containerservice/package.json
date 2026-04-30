@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.0.0",
+  "version": "25.1.0",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -303,7 +303,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/containerservice/arm-containerservice"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -370,6 +374,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservice?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservice"
   }
 }

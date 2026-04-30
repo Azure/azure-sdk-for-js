@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified namespace of a managed cluster.
  *
  * @summary gets the specified namespace of a managed cluster.
- * x-ms-original-file: 2026-01-01/ManagedNamespacesGet.json
+ * x-ms-original-file: 2026-02-01/ManagedNamespacesGet.json
  */
 async function getManagedNamespace() {
   const credential = new DefaultAzureCredential();

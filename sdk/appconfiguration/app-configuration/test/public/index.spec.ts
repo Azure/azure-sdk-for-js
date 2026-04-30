@@ -220,7 +220,7 @@ describe("AppConfigurationClient", () => {
 
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
-      assert.equal(200, deletedSetting.statusCode);
+      assert.equal(deletedSetting.statusCode, 200);
 
       // confirm setting no longer exists
       try {
@@ -286,7 +286,7 @@ describe("AppConfigurationClient", () => {
       // delete actually happened (status code: 200) or if the setting wasn't
       // found which results in the same state but might matter to
       // the user(status code: 204)
-      assert.equal(204, response.statusCode);
+      assert.equal(response.statusCode, 204);
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
@@ -497,7 +497,7 @@ describe("AppConfigurationClient", () => {
         },
       );
 
-      assert.equal("value1", settingAtPointInTime.value);
+      assert.equal(settingAtPointInTime.value, "value1");
     });
 
     it("Using `select` via `fields`", async () => {
@@ -962,7 +962,7 @@ describe("AppConfigurationClient", () => {
 
       // the fields we retrieved
       assert.equal(productionASettingId.key, settings[0].key);
-      assert.equal("[A] production value", settings[0].value);
+      assert.equal(settings[0].value, "[A] production value");
       assert.equal(uniqueLabel, settings[0].label);
 
       assert.ok(!settings[0].isReadOnly);

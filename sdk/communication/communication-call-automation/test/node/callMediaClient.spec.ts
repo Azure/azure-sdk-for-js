@@ -1004,7 +1004,7 @@ describe("Call Media Client Live Tests", function () {
   });
 
   afterEach(async function () {
-    persistEvents(testName);
+    await persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });

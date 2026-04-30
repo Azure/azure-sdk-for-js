@@ -41,7 +41,7 @@ export function _listSend(
       clusterRp: clusterRp,
       clusterResourceName: clusterResourceName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2024-11-01",
+      "api%2Dversion": context.apiVersion ?? "2025-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,7 @@ export function list(
       _listSend(context, resourceGroupName, clusterRp, clusterResourceName, clusterName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
   );
 }
 
@@ -102,7 +102,7 @@ export function _$deleteSend(
       clusterResourceName: clusterResourceName,
       clusterName: clusterName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2024-11-01",
+      "api%2Dversion": context.apiVersion ?? "2025-03-01",
       forceDelete: options?.forceDelete,
     },
     {
@@ -153,7 +153,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-11-01",
+    apiVersion: context.apiVersion ?? "2025-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -176,7 +176,7 @@ export function _updateSend(
       clusterResourceName: clusterResourceName,
       clusterName: clusterName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2024-11-01",
+      "api%2Dversion": context.apiVersion ?? "2025-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +228,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-11-01",
+    apiVersion: context.apiVersion ?? "2025-03-01",
   }) as PollerLike<OperationState<Extension>, Extension>;
 }
 
@@ -251,7 +251,7 @@ export function _createSend(
       clusterResourceName: clusterResourceName,
       clusterName: clusterName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2024-11-01",
+      "api%2Dversion": context.apiVersion ?? "2025-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -303,7 +303,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-11-01",
+    apiVersion: context.apiVersion ?? "2025-03-01",
   }) as PollerLike<OperationState<Extension>, Extension>;
 }
 
@@ -325,7 +325,7 @@ export function _getSend(
       clusterResourceName: clusterResourceName,
       clusterName: clusterName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2024-11-01",
+      "api%2Dversion": context.apiVersion ?? "2025-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

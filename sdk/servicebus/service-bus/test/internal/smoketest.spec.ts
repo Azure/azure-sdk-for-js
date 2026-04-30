@@ -472,7 +472,7 @@ describe("ConstructorHelpers for track 2", () => {
     "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
 
   it("getEntityNameFromConnectionString", () => {
-    assert.equal("myEntity", getEntityNameFromConnectionString(entityConnectionString));
+    assert.equal(getEntityNameFromConnectionString(entityConnectionString), "myEntity");
     assert.throws(() => getEntityNameFromConnectionString(serviceBusConnectionString));
   });
 });
@@ -496,5 +496,5 @@ async function waitAndValidate(
   const remainingMessages = (await receiver.peekMessages(1)).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
-  assert.deepEqual([expectedMessage], receivedBodies);
+  assert.deepEqual(receivedBodies, [expectedMessage]);
 }

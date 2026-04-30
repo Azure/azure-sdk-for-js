@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the credentials of a namespace.
  *
  * @summary lists the credentials of a namespace.
- * x-ms-original-file: 2026-01-01/ManagedNamespacesListCredentialResult.json
+ * x-ms-original-file: 2026-02-01/ManagedNamespacesListCredentialResult.json
  */
 async function listManagedNamespaceCredentials() {
   const credential = new DefaultAzureCredential();

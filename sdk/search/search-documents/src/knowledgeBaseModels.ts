@@ -2,20 +2,10 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import type {
-  KnowledgeRetrievalOutputMode,
-  KnowledgeRetrievalReasoningEffort,
-} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeSourceReference } from "./models/azure/search/documents/indexes/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
-export interface RetrieveKnowledgeOptions extends OperationOptions {
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce
-   * security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
-}
+export interface RetrieveOptions extends OperationOptions {}
 
 export interface KnowledgeBase {
   /**
@@ -23,21 +13,13 @@ export interface KnowledgeBase {
    */
   name: string;
   /**
+   * Knowledge sources referenced by this knowledge base.
+   */
+  knowledgeSources: KnowledgeSourceReference[];
+  /**
    * Contains configuration options on how to connect to AI models.
    */
-  models: KnowledgeBaseModel[];
-  knowledgeSources: KnowledgeSourceReference[];
-  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffort;
-  /**
-   * Instructions considered by the knowledge base when developing query plan.
-   */
-  retrievalInstructions?: string;
-  /**
-   * Instructions considered by the knowledge base when generating answers.
-   */
-  answerInstructions?: string;
-  outputMode?: KnowledgeRetrievalOutputMode;
-
+  models?: KnowledgeBaseModel[];
   /**
    * The ETag of the knowledge base.
    */

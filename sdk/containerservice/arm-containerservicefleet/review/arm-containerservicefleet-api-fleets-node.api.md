@@ -38,6 +38,8 @@ export interface FleetsListByResourceGroupOptionalParams extends OperationOption
 
 // @public
 export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
