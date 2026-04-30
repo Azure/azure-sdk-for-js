@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-artifactsigning": ["./src/index.ts"],
+      "@azure/arm-artifactsigning/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

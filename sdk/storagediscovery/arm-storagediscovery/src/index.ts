@@ -10,43 +10,46 @@ import {
 
 export { StorageDiscoveryClient } from "./storageDiscoveryClient.js";
 export {
-  StorageDiscoveryWorkspace,
-  StorageDiscoveryWorkspaceProperties,
+  type StorageDiscoveryWorkspace,
+  type StorageDiscoveryWorkspaceProperties,
   KnownStorageDiscoverySku,
-  StorageDiscoverySku,
-  StorageDiscoveryScope,
+  type StorageDiscoverySku,
+  type StorageDiscoveryScope,
   KnownStorageDiscoveryResourceType,
-  StorageDiscoveryResourceType,
+  type StorageDiscoveryResourceType,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ResourceProvisioningState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  StorageDiscoveryWorkspaceUpdate,
-  StorageDiscoveryWorkspacePropertiesUpdate,
-  Operation,
-  OperationDisplay,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type StorageDiscoveryWorkspaceUpdate,
+  type StorageDiscoveryWorkspacePropertiesUpdate,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
   KnownApiVersion,
 } from "./models/index.js";
-export { StorageDiscoveryClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { type StorageDiscoveryClientOptionalParams } from "./api/index.js";
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
-  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-  StorageDiscoveryWorkspacesDeleteOptionalParams,
-  StorageDiscoveryWorkspacesUpdateOptionalParams,
-  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
-  StorageDiscoveryWorkspacesGetOptionalParams,
+  type StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+  type StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
+  type StorageDiscoveryWorkspacesDeleteOptionalParams,
+  type StorageDiscoveryWorkspacesUpdateOptionalParams,
+  type StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
+  type StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./api/storageDiscoveryWorkspaces/index.js";
-export { OperationsOperations, StorageDiscoveryWorkspacesOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export {
+  type OperationsOperations,
+  type StorageDiscoveryWorkspacesOperations,
+} from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

@@ -3,8 +3,8 @@
 
 export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  EntitiesListByHealthModelOptionalParams,
-  EntitiesDeleteOptionalParams,
-  EntitiesCreateOrUpdateOptionalParams,
-  EntitiesGetOptionalParams,
+  type EntitiesListByHealthModelOptionalParams,
+  type EntitiesDeleteOptionalParams,
+  type EntitiesCreateOrUpdateOptionalParams,
+  type EntitiesGetOptionalParams,
 } from "./options.js";

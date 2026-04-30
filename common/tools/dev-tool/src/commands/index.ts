@@ -20,6 +20,7 @@ export const baseCommands = {
   migrate: () => import("./migrate.ts"),
   customization: () => import("./customization/index.ts"),
   check: () => import("./check.ts"),
+  vscode: () => import("./vscode/index.ts"),
 } as const;
 
 /**

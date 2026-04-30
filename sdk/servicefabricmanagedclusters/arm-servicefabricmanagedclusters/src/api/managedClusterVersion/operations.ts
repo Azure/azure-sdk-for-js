@@ -25,9 +25,7 @@ export function _listByEnvironmentSend(
   context: Client,
   location: string,
   environment: ManagedClusterVersionEnvironment,
-  options: ManagedClusterVersionListByEnvironmentOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClusterVersionListByEnvironmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/managedClusterVersions{?api%2Dversion}",
@@ -35,7 +33,7 @@ export function _listByEnvironmentSend(
       subscriptionId: context.subscriptionId,
       location: location,
       environment: environment,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,10 +41,7 @@ export function _listByEnvironmentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -68,9 +63,7 @@ export async function listByEnvironment(
   context: Client,
   location: string,
   environment: ManagedClusterVersionEnvironment,
-  options: ManagedClusterVersionListByEnvironmentOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClusterVersionListByEnvironmentOptionalParams = { requestOptions: {} },
 ): Promise<ManagedClusterCodeVersionResult[]> {
   const result = await _listByEnvironmentSend(context, location, environment, options);
   return _listByEnvironmentDeserialize(result);
@@ -81,9 +74,7 @@ export function _getByEnvironmentSend(
   location: string,
   environment: ManagedClusterVersionEnvironment,
   clusterVersion: string,
-  options: ManagedClusterVersionGetByEnvironmentOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClusterVersionGetByEnvironmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/environments/{environment}/managedClusterVersions/{clusterVersion}{?api%2Dversion}",
@@ -92,7 +83,7 @@ export function _getByEnvironmentSend(
       location: location,
       environment: environment,
       clusterVersion: clusterVersion,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,10 +91,7 @@ export function _getByEnvironmentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -126,9 +114,7 @@ export async function getByEnvironment(
   location: string,
   environment: ManagedClusterVersionEnvironment,
   clusterVersion: string,
-  options: ManagedClusterVersionGetByEnvironmentOptionalParams = {
-    requestOptions: {},
-  },
+  options: ManagedClusterVersionGetByEnvironmentOptionalParams = { requestOptions: {} },
 ): Promise<ManagedClusterCodeVersionResult> {
   const result = await _getByEnvironmentSend(
     context,
@@ -150,7 +136,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,10 +144,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -200,7 +183,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       clusterVersion: clusterVersion,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,10 +191,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

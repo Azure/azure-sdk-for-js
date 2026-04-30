@@ -188,8 +188,8 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
         documentSentiment.sentences.map((sentence) =>
           sentence.opinions?.map((opinion) => {
             const Target = opinion.target;
-            assert.equal("design", Target.text);
-            assert.equal("positive", Target.sentiment);
+            assert.equal(Target.text, "design");
+            assert.equal(Target.sentiment, "positive");
             assert.isAtLeast(Target.confidenceScores.positive, 0);
             assert.isAtLeast(Target.confidenceScores.negative, 0);
             assert.equal(Target.offset, 32);
@@ -197,8 +197,8 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
             assert.equal(Target.text.length, Target.length);
 
             const sleekAssessment = opinion.assessments[0];
-            assert.equal("sleek", sleekAssessment.text);
-            assert.equal("positive", sleekAssessment.sentiment);
+            assert.equal(sleekAssessment.text, "sleek");
+            assert.equal(sleekAssessment.sentiment, "positive");
             assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
             assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
             assert.isFalse(sleekAssessment.isNegated);
@@ -207,8 +207,8 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
             assert.equal(sleekAssessment.text.length, sleekAssessment.length);
 
             const beautifulAssessment = opinion.assessments[1];
-            assert.equal("beautiful", beautifulAssessment.text);
-            assert.equal("positive", beautifulAssessment.sentiment);
+            assert.equal(beautifulAssessment.text, "beautiful");
+            assert.equal(beautifulAssessment.sentiment, "positive");
             assert.isAtLeast(beautifulAssessment.confidenceScores.positive, 0);
             assert.isAtLeast(beautifulAssessment.confidenceScores.positive, 0);
             assert.isFalse(beautifulAssessment.isNegated);
@@ -236,8 +236,8 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
           results[0] as AnalyzeSentimentSuccessResult;
         documentSentiment.sentences.map((sentence) => {
           const foodTarget = sentence.opinions?.[0].target;
-          assert.equal("food", foodTarget?.text);
-          assert.equal("negative", foodTarget?.sentiment);
+          assert.equal(foodTarget?.text, "food");
+          assert.equal(foodTarget?.sentiment, "negative");
 
           const foodTargetPositiveScore = foodTarget ? foodTarget.confidenceScores.positive : 0;
           const foodTargetNegativeScore = foodTarget ? foodTarget.confidenceScores.negative : 0;
@@ -247,8 +247,8 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
           assert.equal(foodTargetPositiveScore + foodTargetNegativeScore, 1);
 
           const serviceTarget = sentence.opinions?.[1].target;
-          assert.equal("service", serviceTarget?.text);
-          assert.equal("negative", serviceTarget?.sentiment);
+          assert.equal(serviceTarget?.text, "service");
+          assert.equal(serviceTarget?.sentiment, "negative");
 
           const serviceTargetPositiveScore = serviceTarget
             ? serviceTarget.confidenceScores.positive
@@ -266,8 +266,8 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
 
           assert.deepEqual(foodAssessment!, serviceAssessment!);
 
-          assert.equal("good", foodAssessment?.text);
-          assert.equal("negative", foodAssessment?.sentiment);
+          assert.equal(foodAssessment?.text, "good");
+          assert.equal(foodAssessment?.sentiment, "negative");
 
           const foodAssessmentPositiveScore = foodAssessment
             ? foodAssessment.confidenceScores.positive

@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 export {
-  CloudEvent,
-  PublishResult,
-  ReceiveResult,
-  ReceiveDetails,
-  BrokerProperties,
-  AcknowledgeResult,
-  FailedLockToken,
-  ReleaseResult,
-  RejectResult,
-  RenewLocksResult,
+  type CloudEvent,
+  type PublishResult,
+  type ReceiveResult,
+  type ReceiveDetails,
+  type BrokerProperties,
+  type AcknowledgeResult,
+  type FailedLockToken,
+  type ReleaseResult,
+  type RejectResult,
+  type RenewLocksResult,
   KnownReleaseDelay,
-  ReleaseDelay,
+  type ReleaseDelay,
   KnownServiceApiVersions,
 } from "./models.js";

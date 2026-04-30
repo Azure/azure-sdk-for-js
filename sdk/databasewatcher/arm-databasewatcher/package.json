@@ -7,23 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -43,7 +26,11 @@
     "CHANGELOG.md"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/databasewatcher/arm-databasewatcher"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -83,7 +70,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

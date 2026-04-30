@@ -29,8 +29,8 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
-import { CommonClientOptions } from "@azure/core-client";
-import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { getAuthorityHost } from "../../util/authorityHost.js";
 
 /**
@@ -456,9 +456,9 @@ export function createMsalClient(
     };
 
     if (state.pluginConfiguration.broker.isEnabled) {
-      silentRequest.tokenQueryParameters ||= {};
+      silentRequest.extraQueryParameters ||= {};
       if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-        silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
+        silentRequest.extraQueryParameters["msal_request_type"] = "consumer_passthrough";
       }
     }
 
@@ -817,7 +817,7 @@ export function createMsalClient(
     }
 
     if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-      (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
+      (interactiveRequest.extraQueryParameters ??= {})["msal_request_type"] =
         "consumer_passthrough";
     }
     if (useDefaultBrokerAccount) {

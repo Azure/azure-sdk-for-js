@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { undelete, list, get } from "./operations.js";
-export {
+export type {
   DeletedBackupInstancesUndeleteOptionalParams,
   DeletedBackupInstancesListOptionalParams,
   DeletedBackupInstancesGetOptionalParams,

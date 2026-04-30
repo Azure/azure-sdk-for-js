@@ -28,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -36,10 +36,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -67,7 +64,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
@@ -83,7 +80,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       vmSize: vmSize,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,10 +88,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

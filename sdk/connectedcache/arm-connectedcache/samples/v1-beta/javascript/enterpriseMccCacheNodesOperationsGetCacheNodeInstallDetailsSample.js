@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api gets secrets of the ispCacheNode resource install details
  *
  * @summary this api gets secrets of the ispCacheNode resource install details
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_GetCacheNodeInstallDetails_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_GetCacheNodeInstallDetails_MaximumSet_Gen.json
  */
 async function getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKeyDetailsGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKey
 }
 
 async function main() {
-  getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKeyDetailsGeneratedByMaximumSetRule();
+  await getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKeyDetailsGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

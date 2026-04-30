@@ -5,54 +5,54 @@ export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
   TextAnalyticsClient,
-  TextAnalyticsClientOptions,
-  DetectLanguageOptions,
-  RecognizeCategorizedEntitiesOptions,
-  AnalyzeSentimentOptions,
-  ExtractKeyPhrasesOptions,
-  RecognizePiiEntitiesOptions,
-  RecognizeLinkedEntitiesOptions,
+  type TextAnalyticsClientOptions,
+  type DetectLanguageOptions,
+  type RecognizeCategorizedEntitiesOptions,
+  type AnalyzeSentimentOptions,
+  type ExtractKeyPhrasesOptions,
+  type RecognizePiiEntitiesOptions,
+  type RecognizeLinkedEntitiesOptions,
   PiiEntityDomain,
-  TextAnalyticsActions,
-  RecognizeCategorizedEntitiesAction,
-  RecognizePiiEntitiesAction,
-  ExtractKeyPhrasesAction,
-  BeginAnalyzeActionsOptions,
-  AnalyzeActionsPollerLike,
-  BeginAnalyzeHealthcareEntitiesOptions,
-  AnalyzeHealthcareEntitiesPollerLike,
-  AnalyzeActionsOperationState,
-  AnalyzeHealthcareOperationState,
-  AnalysisPollOperationState,
-  OperationMetadata,
-  AnalyzeActionsOperationMetadata,
-  StringIndexType,
-  RecognizeLinkedEntitiesAction,
-  AnalyzeSentimentAction,
-  PollerLikeWithCancellation,
+  type TextAnalyticsActions,
+  type RecognizeCategorizedEntitiesAction,
+  type RecognizePiiEntitiesAction,
+  type ExtractKeyPhrasesAction,
+  type BeginAnalyzeActionsOptions,
+  type AnalyzeActionsPollerLike,
+  type BeginAnalyzeHealthcareEntitiesOptions,
+  type AnalyzeHealthcareEntitiesPollerLike,
+  type AnalyzeActionsOperationState,
+  type AnalyzeHealthcareOperationState,
+  type AnalysisPollOperationState,
+  type OperationMetadata,
+  type AnalyzeActionsOperationMetadata,
+  type StringIndexType,
+  type RecognizeLinkedEntitiesAction,
+  type AnalyzeSentimentAction,
+  type PollerLikeWithCancellation,
 } from "./textAnalyticsClient.js";
-export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions.js";
-export {
+export type { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions.js";
+export type {
   DetectLanguageResult,
   DetectLanguageErrorResult,
   DetectLanguageSuccessResult,
 } from "./detectLanguageResult.js";
-export { DetectLanguageResultArray } from "./detectLanguageResultArray.js";
-export {
+export type { DetectLanguageResultArray } from "./detectLanguageResultArray.js";
+export type {
   CategorizedEntity,
   RecognizeCategorizedEntitiesResult,
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult,
 } from "./recognizeCategorizedEntitiesResult.js";
-export {
+export type {
   PiiEntity,
   RecognizePiiEntitiesResult,
   RecognizePiiEntitiesErrorResult,
   RecognizePiiEntitiesSuccessResult,
 } from "./recognizePiiEntitiesResult.js";
-export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
-export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
-export {
+export type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+export type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
+export type {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
   AnalyzeSentimentSuccessResult,
@@ -61,20 +61,20 @@ export {
   TargetSentiment,
   AssessmentSentiment,
 } from "./analyzeSentimentResult.js";
-export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
-export {
+export type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
+export type {
   ExtractKeyPhrasesResult,
   ExtractKeyPhrasesErrorResult,
   ExtractKeyPhrasesSuccessResult,
 } from "./extractKeyPhrasesResult.js";
-export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
-export {
+export type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
+export type {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
   RecognizeLinkedEntitiesSuccessResult,
 } from "./recognizeLinkedEntitiesResult.js";
-export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
-export {
+export type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
+export type {
   PagedAnalyzeHealthcareEntitiesResult,
   PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
   AnalyzeHealthcareEntitiesResultArray,
@@ -87,7 +87,7 @@ export {
   HealthcareEntityRelationRole,
   HealthcareEntityRelationRoleType,
 } from "./analyzeHealthcareEntitiesResult.js";
-export {
+export type {
   PagedAnalyzeActionsResult,
   PagedAsyncIterableAnalyzeActionsResult,
   AnalyzeActionsResult,
@@ -109,44 +109,44 @@ export {
   AnalyzeSentimentActionResult,
   AnalyzeSentimentActionSuccessResult,
 } from "./analyzeActionsResult.js";
-export {
+export type {
   ErrorCode,
   TextAnalyticsError,
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
 } from "./textAnalyticsResult.js";
 
-export { TextAnalyticsAction } from "./textAnalyticsAction.js";
+export type { TextAnalyticsAction } from "./textAnalyticsAction.js";
 
 // Models
 export {
-  DetectedLanguage,
-  TextDocumentStatistics,
-  SentimentConfidenceScores,
-  TextDocumentInput,
-  DetectLanguageInput,
-  TextDocumentBatchStatistics,
-  Entity,
-  DocumentSentimentLabel,
-  SentenceSentimentLabel,
-  ErrorCodeValue,
-  InnerErrorCodeValue,
+  type DetectedLanguage,
+  type TextDocumentStatistics,
+  type SentimentConfidenceScores,
+  type TextDocumentInput,
+  type DetectLanguageInput,
+  type TextDocumentBatchStatistics,
+  type Entity,
+  type DocumentSentimentLabel,
+  type SentenceSentimentLabel,
+  type ErrorCodeValue,
+  type InnerErrorCodeValue,
   KnownInnerErrorCodeValue,
-  WarningCode,
+  type WarningCode,
   KnownWarningCode,
-  LinkedEntity,
-  Match,
-  SentenceAssessment,
-  TargetConfidenceScoreLabel,
-  TokenSentimentValue,
-  TextAnalyticsWarning,
-  State as TextAnalyticsOperationStatus,
-  HealthcareAssertion as EntityAssertion,
-  PiiCategory as PiiEntityCategory,
-  Association as EntityAssociation,
-  Certainty as EntityCertainty,
-  Conditionality as EntityConditionality,
-  RelationType as HealthcareEntityRelationType,
+  type LinkedEntity,
+  type Match,
+  type SentenceAssessment,
+  type TargetConfidenceScoreLabel,
+  type TokenSentimentValue,
+  type TextAnalyticsWarning,
+  type State as TextAnalyticsOperationStatus,
+  type HealthcareAssertion as EntityAssertion,
+  type PiiCategory as PiiEntityCategory,
+  type Association as EntityAssociation,
+  type Certainty as EntityCertainty,
+  type Conditionality as EntityConditionality,
+  type RelationType as HealthcareEntityRelationType,
   KnownHealthcareEntityCategory,
-  HealthcareEntityCategory,
+  type HealthcareEntityCategory,
 } from "./generated/models/index.js";

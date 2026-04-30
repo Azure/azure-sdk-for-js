@@ -1,0 +1,48 @@
+{
+  "name": "@azure-samples/monitor-opentelemetry-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Monitor OpenTelemetry client library samples for TypeScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/monitor/monitor-opentelemetry"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "monitor",
+    "javascript",
+    "opentelemetry",
+    "distro",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry",
+  "dependencies": {
+    "@azure/monitor-opentelemetry": "latest",
+    "dotenv": "latest",
+    "@opentelemetry/resources": "^2.2.0",
+    "@opentelemetry/semantic-conventions": "^1.38.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^2.2.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.204.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
+  }
+}

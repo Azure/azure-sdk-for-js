@@ -10,7 +10,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ManagedOpsClientOptionalParams } from "./api/managedOpsContext.js";
+export { type ManagedOpsClientOptionalParams } from "./api/managedOpsContext.js";
 
 export class ManagedOpsClient {
   private _client: ManagedOpsContext;

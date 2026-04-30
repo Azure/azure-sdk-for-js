@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { clearSuspects, list, get } from "./operations.js";
-export {
+export type {
   RansomwareReportsClearSuspectsOptionalParams,
   RansomwareReportsListOptionalParams,
   RansomwareReportsGetOptionalParams,

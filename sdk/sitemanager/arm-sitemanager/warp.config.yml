@@ -1,0 +1,7 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/sitesByServiceGroup": "./src/api/sitesByServiceGroup/index.ts"
+  "./api/sitesBySubscription": "./src/api/sitesBySubscription/index.ts"
+  "./api/sites": "./src/api/sites/index.ts"
+  "./models": "./src/models/index.ts"

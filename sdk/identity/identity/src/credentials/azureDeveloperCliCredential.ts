@@ -36,6 +36,28 @@ export const azureDeveloperCliPublicErrorMessages = {
  */
 export const developerCliCredentialInternals = {
   /**
+   * Parses azd stderr JSON output to extract the error message.
+   * azd outputs JSON like: \{"type":"consoleMessage","timestamp":"...","data":\{"message":"ERROR: ..."\}\}
+   * If parsing succeeds and .data.message exists, returns the trimmed message.
+   * Otherwise, returns the raw stderr.
+   * @param stderr - The stderr output from azd command
+   * @returns The parsed error message or raw stderr
+   * @internal
+   */
+  parseAzdStderr(stderr: string): string {
+    try {
+      const parsed = JSON.parse(stderr);
+      const message = parsed?.data?.message;
+      if (typeof message === "string" && message.trim().length > 0) {
+        return message.trim();
+      }
+    } catch {
+      // If JSON parsing fails, fall through to return raw stderr
+    }
+    return stderr;
+  },
+
+  /**
    * @internal
    */
   getSafeWorkingDir(): string {
@@ -241,7 +263,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           } as AccessToken;
         } catch (e: any) {
           if (obj.stderr) {
-            throw new CredentialUnavailableError(obj.stderr);
+            const errorMessage = developerCliCredentialInternals.parseAzdStderr(obj.stderr);
+            throw new CredentialUnavailableError(errorMessage);
           }
           throw e;
         }

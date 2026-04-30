@@ -1,33 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
-  DebugInfo,
-  FacetResult,
-  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
-  KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
-  QueryAnswerResult,
-  QueryCaptionResult,
   QueryDebugMode,
-  QueryLanguage,
-  QueryResultDocumentInnerHit,
-  QueryResultDocumentRerankerInput,
-  QuerySpellerType as QuerySpeller,
   QueryType,
   ScoringStatistics,
   SearchMode,
-  SemanticFieldState,
-  SemanticQueryRewritesResultType,
+  SemanticSearchResultsType,
   VectorsDebugInfo,
-} from "./generated/data/models/index.js";
+} from "./models/azure/search/documents/index.js";
+import type { FacetResult, QueryAnswerResult, QueryCaptionResult } from "./serviceModels.js";
 import type GeographyPoint from "./geographyPoint.js";
 
 /**
@@ -103,14 +93,7 @@ export interface GetDocumentOptions<
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: SelectArray<TFields>;
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
-
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  xMsEnableElevatedRead?: boolean;
+  selectedFields?: readonly TFields[];
 }
 
 /**
@@ -234,10 +217,6 @@ export interface BaseVectorQuery<TModel extends object> {
    * Relative weight of the vector query when compared to other vector query and/or the text query within the same search request. This value is used when combining the results of multiple ranking lists produced by the different vector queries and/or the results retrieved through the text query. The higher the weight, the higher the documents that matched that query will be in the final ranking. Default is 1.0 and the value needs to be a positive number larger than zero.
    */
   weight?: number;
-  /**
-   * The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric.
-   */
-  threshold?: VectorThreshold;
   /**
    * The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in
    * the top level filter parameter is used instead.
@@ -388,14 +367,6 @@ export interface BaseSearchRequestOptions<
    */
   searchFields?: SearchFieldArray<TModel>;
   /**
-   * The language of the query.
-   */
-  queryLanguage?: QueryLanguage;
-  /**
-   * Improve search recall by spell-correcting individual search query terms.
-   */
-  speller?: QuerySpeller;
-  /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
    */
@@ -418,7 +389,7 @@ export interface BaseSearchRequestOptions<
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: SelectArray<TFields>;
+  select?: readonly TFields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -436,17 +407,6 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-  /**
-   * The query parameters to configure hybrid search behaviors.
-   */
-  hybridSearch?: HybridSearch;
-  /**
-   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
-   */
-  xMsQuerySourceAuthorization?: string;
-
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  xMsEnableElevatedRead?: boolean;
 }
 
 /**
@@ -540,11 +500,7 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly answers?: QueryAnswerResult[];
-  /**
-   * Debug information that applies to the search results as a whole.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly debugInfo?: DebugInfo;
+
   /**
    * Reason that a partial response was returned for a semantic search request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -555,11 +511,6 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semanticSearchResultsType?: SemanticSearchResultsType;
-  /**
-   * Type of query rewrite that was used to retrieve documents.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 /**
@@ -649,7 +600,7 @@ export interface SuggestRequest<
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: SelectArray<TFields>;
+  select?: readonly TFields[];
   /**
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
@@ -759,16 +710,6 @@ export type IndexDocumentsAction<TModel> = {
 // END manually modified generated interfaces
 
 // Utility types
-
-/**
- * If `TFields` is never, an untyped string array
- * Otherwise, a narrowed `Fields[]` type to be used elsewhere in the consuming type.
- */
-export type SelectArray<TFields = never> = [string] extends [TFields]
-  ? readonly TFields[]
-  : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-    ? readonly string[]
-    : readonly TFields[];
 
 /**
  * If `TModel` is an untyped object, an untyped string array
@@ -968,12 +909,6 @@ export interface QueryResultDocumentSemanticField {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or
-   * unused)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
 }
 
 /**
@@ -990,13 +925,6 @@ export interface DocumentDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vectors?: VectorsDebugInfo;
-  /**
-   * Contains debugging information specific to vectors matched within a collection of complex types.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innerHits?: {
-    [propertyName: string]: QueryResultDocumentInnerHit[];
-  };
 }
 
 /**
@@ -1018,11 +946,6 @@ export interface SemanticDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**
@@ -1155,59 +1078,7 @@ export interface VectorSearchOptions<TModel extends object> {
    */
   filterMode?: VectorFilterMode;
 }
-/**
- * The threshold used for vector queries.
- */
-export interface BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "vectorSimilarity" | "searchScore";
-}
-
-/**
- * The results of the vector query will be filtered based on the vector similarity metric. Note this
- * is the canonical definition of similarity metric, not the 'distance' version. The threshold
- * direction (larger or smaller) will be chosen automatically according to the metric used by the
- * field.
- */
-export interface VectorSimilarityThreshold extends BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "vectorSimilarity";
-  /**
-   * The threshold will filter based on the similarity metric value. Note this is the canonical
-   * definition of similarity metric, not the 'distance' version. The threshold direction (larger or
-   * smaller) will be chosen automatically according to the metric used by the field.
-   */
-  value: number;
-}
-
-/**
- * The results of the vector query will filter based on the '\@search.score' value. Note this is the
- * \@search.score returned as part of the search response. The threshold direction will be chosen
- * for higher \@search.score.
- */
-export interface SearchScoreThreshold extends BaseVectorThreshold {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "searchScore";
-  /**
-   * The threshold will filter based on the '\@search.score' value. Note this is the \@search.score
-   * returned as part of the search response. The threshold direction will be chosen for higher
-   * \@search.score.
-   */
-  value: number;
-}
-
-/**
- * The threshold used for vector queries.
- */
-export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
-export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
 export type VectorFilterMode = `${KnownVectorFilterMode}`;
 export type VectorQueryKind = `${KnownVectorQueryKind}`;

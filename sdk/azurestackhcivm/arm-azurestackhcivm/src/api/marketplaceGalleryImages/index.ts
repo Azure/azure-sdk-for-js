@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  MarketplaceGalleryImagesListAllOptionalParams,
-  MarketplaceGalleryImagesListByResourceGroupOptionalParams,
-  MarketplaceGalleryImagesDeleteOptionalParams,
-  MarketplaceGalleryImagesUpdateOptionalParams,
-  MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
-  MarketplaceGalleryImagesGetOptionalParams,
+  type MarketplaceGalleryImagesListAllOptionalParams,
+  type MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+  type MarketplaceGalleryImagesDeleteOptionalParams,
+  type MarketplaceGalleryImagesUpdateOptionalParams,
+  type MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
+  type MarketplaceGalleryImagesGetOptionalParams,
 } from "./options.js";

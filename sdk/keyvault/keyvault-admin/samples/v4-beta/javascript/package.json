@@ -34,7 +34,7 @@
     "@azure/keyvault-admin": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.2.1",
-    "uuid": "^8.3.0",
+    "uuid": "^14.0.0",
     "@azure/keyvault-keys": "^4.2.1"
   }
 }

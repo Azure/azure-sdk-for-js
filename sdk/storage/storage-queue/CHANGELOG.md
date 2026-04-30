@@ -1,5 +1,12 @@
 # Release History
 
+## 12.30.0-beta.1 (2026-03-05)
+
+### Features Added
+
+- Added support for service version 2026-04-06.
+- Added cross-tenant support for Principal-Bound User Delegation SAS.
+
 ## 12.29.0 (2026-01-16)
 
 ### Features Added

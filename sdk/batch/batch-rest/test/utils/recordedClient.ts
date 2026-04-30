@@ -55,10 +55,10 @@ const recorderEnvSetup: RecorderStartOptions = {
  */
 export async function createRecorder(ctx: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(ctx);
+  await recorder.start(recorderEnvSetup);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: ["client-request-id", "ocp-date", "accept-encoding"],
   });
-  await recorder.start(recorderEnvSetup);
   return recorder;
 }
 

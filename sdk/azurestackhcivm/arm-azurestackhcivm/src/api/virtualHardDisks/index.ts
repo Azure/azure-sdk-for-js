@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  VirtualHardDisksUploadOptionalParams,
-  VirtualHardDisksListAllOptionalParams,
-  VirtualHardDisksListByResourceGroupOptionalParams,
-  VirtualHardDisksDeleteOptionalParams,
-  VirtualHardDisksUpdateOptionalParams,
-  VirtualHardDisksCreateOrUpdateOptionalParams,
-  VirtualHardDisksGetOptionalParams,
+  type VirtualHardDisksUploadOptionalParams,
+  type VirtualHardDisksListAllOptionalParams,
+  type VirtualHardDisksListByResourceGroupOptionalParams,
+  type VirtualHardDisksDeleteOptionalParams,
+  type VirtualHardDisksUpdateOptionalParams,
+  type VirtualHardDisksCreateOrUpdateOptionalParams,
+  type VirtualHardDisksGetOptionalParams,
 } from "./options.js";

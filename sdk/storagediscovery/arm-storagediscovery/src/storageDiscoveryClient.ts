@@ -10,7 +10,7 @@ import { _getStorageDiscoveryWorkspacesOperations } from "./classic/storageDisco
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { StorageDiscoveryClientOptionalParams } from "./api/storageDiscoveryContext.js";
+export { type StorageDiscoveryClientOptionalParams } from "./api/storageDiscoveryContext.js";
 
 export class StorageDiscoveryClient {
   private _client: StorageDiscoveryContext;

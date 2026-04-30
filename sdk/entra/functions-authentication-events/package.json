@@ -28,7 +28,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/entra/functions-authentication-events"
+  },
   "engines": {
     "node": ">=20.0.0"
   },
@@ -42,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/entra/azure-functions-authentication-events/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/entra/functions-authentication-events/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -68,7 +72,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -83,22 +86,6 @@
     }
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",

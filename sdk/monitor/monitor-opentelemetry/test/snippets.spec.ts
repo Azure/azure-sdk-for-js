@@ -58,6 +58,7 @@ describe("snippets", () => {
       instrumentationOptions: {
         // Instrumentations generating traces
         azureSdk: { enabled: true },
+        azureFunctions: { enabled: true },
         http: { enabled: true },
         mongoDb: { enabled: true },
         mySql: { enabled: true },

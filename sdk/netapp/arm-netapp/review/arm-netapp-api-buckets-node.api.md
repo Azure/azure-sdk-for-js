@@ -23,6 +23,11 @@ export interface BucketsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BucketsGenerateAkvCredentialsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface BucketsGenerateCredentialsOptionalParams extends OperationOptions {
 }
 
@@ -35,12 +40,20 @@ export interface BucketsListOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BucketsRefreshCertificateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface BucketsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export function createOrUpdate(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: Bucket, options?: BucketsCreateOrUpdateOptionalParams): PollerLike<OperationState<Bucket>, Bucket>;
+
+// @public
+export function generateAkvCredentials(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateAkvCredentialsOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function generateCredentials(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateCredentialsOptionalParams): Promise<BucketGenerateCredentials>;
@@ -50,6 +63,9 @@ export function get(context: NetAppManagementContext, resourceGroupName: string,
 
 // @public
 export function list(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BucketsListOptionalParams): PagedAsyncIterableIterator<Bucket>;
+
+// @public
+export function refreshCertificate(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsRefreshCertificateOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function update(context: NetAppManagementContext, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketPatch, options?: BucketsUpdateOptionalParams): PollerLike<OperationState<Bucket>, Bucket>;

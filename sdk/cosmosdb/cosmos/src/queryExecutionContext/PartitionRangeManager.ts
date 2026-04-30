@@ -1,8 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import type { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
+
+/**
+ * Checks if a continuation token indicates an exhausted partition.
+ * @param continuationToken - The continuation token to check
+ * @returns true if the partition is exhausted (null, empty, or "null" string)
+ * @hidden
+ */
+export function isPartitionExhausted(continuationToken: string | undefined): boolean {
+  return (
+    !continuationToken ||
+    continuationToken === "" ||
+    continuationToken === "null" ||
+    continuationToken.toLowerCase() === "null"
+  );
+}
 
 /**
  * Manages partition key range mappings for query execution.
@@ -23,20 +38,6 @@ export class PartitionRangeManager {
    */
   public getPartitionKeyRangeMap(): Map<string, QueryRangeMapping> {
     return new Map(this.partitionKeyRangeMap);
-  }
-
-  /**
-   * Checks if a continuation token indicates an exhausted partition
-   * @param continuationToken - The continuation token to check
-   * @returns true if the partition is exhausted (null, empty, or "null" string)
-   */
-  private isPartitionExhausted(continuationToken: string | undefined): boolean {
-    return (
-      !continuationToken ||
-      continuationToken === "" ||
-      continuationToken === "null" ||
-      continuationToken.toLowerCase() === "null"
-    );
   }
 
   /**
@@ -91,7 +92,7 @@ export class PartitionRangeManager {
       if (!mapping) {
         return false;
       }
-      const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
+      const isExhausted = isPartitionExhausted(mapping.continuationToken);
 
       if (isExhausted) {
         return false;

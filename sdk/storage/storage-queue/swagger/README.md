@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b6472ffd34d5d4a155101b41b4eb1f356abff600/specification/storage/data-plane/Microsoft.QueueStorage/stable/2026-02-06/queue.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/be46becafeb29aa993898709e35759d3643b2809/specification/storage/data-plane/Microsoft.QueueStorage/stable/2026-04-06/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.29.0-beta.1
+package-version: 12.30.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -562,4 +562,14 @@ directive:
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
       $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
+      $.properties.SignedDelegatedUserTid["x-ms-client-name"] = "signedDelegatedUserTenantId";
+```
+
+### Set service version to "2026-04-06"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
 ```

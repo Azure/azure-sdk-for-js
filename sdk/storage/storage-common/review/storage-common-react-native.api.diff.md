@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -35,12 +35,10 @@
+@@ -36,12 +36,10 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -20,8 +20,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
- export abstract class Credential implements RequestPolicyFactory {
-@@ -67,11 +65,8 @@
+ abstract class Credential_2 implements RequestPolicyFactory {
+@@ -69,11 +67,8 @@
      destroy(error?: Error): this;
  }
  
@@ -33,24 +33,23 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -134,14 +129,10 @@
-     EXPONENTIAL = 0,
-     FIXED = 1
+@@ -146,12 +141,12 @@
  }
  
--// @public
--export class StorageSharedKeyCredential extends Credential {
+ // @public
+ export class StorageSharedKeyCredential extends Credential_2 {
 -    constructor(accountName: string, accountKey: string);
--    readonly accountName: string;
++    constructor(_accountName: string, _accountKey: string);
+     readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
-+// @public (undocumented)
-+export class StorageSharedKeyCredential {
++    computeHMACSHA256(_stringToSign: string): string;
++    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
  }
  
  // @public
  export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-@@ -149,9 +140,9 @@
+@@ -159,9 +154,9 @@
      protected signRequest(request: WebResourceLike): WebResourceLike;
  }
  
@@ -61,32 +60,40 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
  
-@@ -162,25 +153,10 @@
-     // (undocumented)
-     accountName: string;
+@@ -196,23 +191,32 @@
  }
  
--// @public
--export interface UserDelegationKey {
--    signedExpiresOn: Date;
--    signedObjectId: string;
--    signedService: string;
--    signedStartsOn: Date;
--    signedTenantId: string;
--    signedVersion: string;
--    value: string;
--}
--
--// @public
-+// @public (undocumented)
+ // @public
+ export interface UserDelegationKey {
+-    signedDelegatedUserTenantId: string | undefined;
++    // (undocumented)
+     signedExpiresOn: Date;
++    // (undocumented)
+     signedObjectId: string;
++    // (undocumented)
+     signedService: string;
++    // (undocumented)
+     signedStartsOn: Date;
++    // (undocumented)
+     signedTenantId: string;
++    // (undocumented)
+     signedVersion: string;
++    // (undocumented)
+     value: string;
+ }
+ 
+ // @public
  export class UserDelegationKeyCredential {
--    constructor(accountName: string, userDelegationKey: UserDelegationKey);
--    readonly accountName: string;
+     constructor(accountName: string, userDelegationKey: UserDelegationKey);
++    // (undocumented)
+     readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
--    readonly userDelegationKey: UserDelegationKey;
++    // (undocumented)
++    computeHMACSHA256(_stringToSign: string): string;
++    // (undocumented)
+     readonly userDelegationKey: UserDelegationKey;
  }
  
  // (No @packageDocumentation comment for this package)
- 
 
 ```

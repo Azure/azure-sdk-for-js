@@ -7,22 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -43,7 +27,11 @@
     "LICENSE"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/healthdataaiservices/health-deidentification-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -83,7 +71,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  CloudLinksDeleteOptionalParams,
-  CloudLinksCreateOrUpdateOptionalParams,
-  CloudLinksGetOptionalParams,
-  CloudLinksListOptionalParams,
+  type CloudLinksDeleteOptionalParams,
+  type CloudLinksCreateOrUpdateOptionalParams,
+  type CloudLinksGetOptionalParams,
+  type CloudLinksListOptionalParams,
 } from "./options.js";

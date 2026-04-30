@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
+import type { AIProjectContext as Client } from "../index.js";
+import type { _PagedIndex, IndexUnion } from "../../models/models.js";
 import {
-  _PagedIndex,
   _pagedIndexDeserializer,
   indexUnionSerializer,
   indexUnionDeserializer,
-  IndexUnion,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
   IndexesGetOptionalParams,
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createOrUpdateSend(
   context: Client,
@@ -72,8 +65,8 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   name: string,
-  version: string,
   index: IndexUnion,
+  version: string,
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IndexUnion> {
   const result = await _createOrUpdateSend(context, name, version, index, options);
@@ -207,7 +200,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -257,6 +250,6 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }

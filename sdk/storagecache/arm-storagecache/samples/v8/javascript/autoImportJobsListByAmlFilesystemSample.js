@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Returns all the auto import jobs the user has access to under an AML File System.
  *
  * @summary Returns all the auto import jobs the user has access to under an AML File System.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/autoImportJobs_ListByAmlFilesystem.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/autoImportJobs_ListByAmlFilesystem.json
  */
 async function autoImportJobsListByAmlFilesystem() {
   const subscriptionId =

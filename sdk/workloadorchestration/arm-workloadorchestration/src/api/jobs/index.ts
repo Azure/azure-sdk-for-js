@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByTarget, get } from "./operations.js";
-export { JobsListByTargetOptionalParams, JobsGetOptionalParams } from "./options.js";
+export { type JobsListByTargetOptionalParams, type JobsGetOptionalParams } from "./options.js";

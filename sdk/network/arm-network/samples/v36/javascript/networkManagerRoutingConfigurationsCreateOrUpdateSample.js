@@ -1,0 +1,39 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetworkManagementClient } = require("@azure/arm-network");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+/**
+ * This sample demonstrates how to Creates or updates a network manager routing configuration.
+ *
+ * @summary Creates or updates a network manager routing configuration.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerRoutingConfigurationPut.json
+ */
+async function createNetworkManagerRoutingConfiguration() {
+  const subscriptionId =
+    process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
+  const networkManagerName = "testNetworkManager";
+  const configurationName = "myTestRoutingConfig";
+  const routingConfiguration = {
+    description: "A sample policy",
+    routeTableUsageMode: "ManagedOnly",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkManagerRoutingConfigurations.createOrUpdate(
+    resourceGroupName,
+    networkManagerName,
+    configurationName,
+    routingConfiguration,
+  );
+  console.log(result);
+}
+
+async function main() {
+  await createNetworkManagerRoutingConfiguration();
+}
+
+main().catch(console.error);

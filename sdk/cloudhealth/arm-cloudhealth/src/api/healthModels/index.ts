@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  HealthModelsListBySubscriptionOptionalParams,
-  HealthModelsListByResourceGroupOptionalParams,
-  HealthModelsDeleteOptionalParams,
-  HealthModelsUpdateOptionalParams,
-  HealthModelsCreateOptionalParams,
-  HealthModelsGetOptionalParams,
+  type HealthModelsListBySubscriptionOptionalParams,
+  type HealthModelsListByResourceGroupOptionalParams,
+  type HealthModelsDeleteOptionalParams,
+  type HealthModelsUpdateOptionalParams,
+  type HealthModelsCreateOptionalParams,
+  type HealthModelsGetOptionalParams,
 } from "./options.js";

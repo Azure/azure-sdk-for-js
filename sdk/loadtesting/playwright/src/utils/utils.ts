@@ -1,19 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AccessTokenClaims,
-  VersionInfo,
-  JwtPayload,
-  RunConfig,
-  WorkspaceMetaData,
-} from "../common/types.js";
+import type { AccessTokenClaims, VersionInfo, JwtPayload, RunConfig } from "../common/types.js";
 import {
   Constants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
+  BrowserSessionSourceType,
+  UrlConstants,
+  UploadConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -23,13 +20,13 @@ import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
-import { FullConfig } from "@playwright/test";
-import { CI_PROVIDERS, CIInfo } from "./cIInfoProvider.js";
+import type { FullConfig } from "@playwright/test";
+import type { CIInfo } from "./cIInfoProvider.js";
+import { CI_PROVIDERS } from "./cIInfoProvider.js";
 import { exec } from "child_process";
 import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 import { readdirSync, statSync } from "fs";
 import { join, relative } from "path";
-import { UploadConstants } from "../common/constants.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -132,7 +129,7 @@ export const getAndSetRunId = (): string => {
 };
 
 export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&api-version=${apiVersion}`;
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {
@@ -262,7 +259,7 @@ export function getTestRunApiUrl(): string {
   if (!result?.region || !result?.domain || !result?.accountId) {
     exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
   }
-  const baseUrl = `https://${result?.region}.reporting.api.${result?.domain}/playwrightworkspaces/${result?.accountId}/test-runs`;
+  const baseUrl = `https://${result?.region}.${UrlConstants.ReportingApiSubdomain}.${result?.domain}/${UrlConstants.PlaywrightWorkspacesPath}/${result?.accountId}/${UrlConstants.TestRunsPath}`;
   const url = runId ? `${baseUrl}/${runId}` : baseUrl;
 
   return `${url}?api-version=${Constants.LatestAPIVersion}`;
@@ -337,7 +334,7 @@ export function getWorkspaceMetaDataApiUrl(): string {
   if (!result?.region || !result?.domain || !result?.accountId) {
     exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
   }
-  const baseUrl = `https://${result?.region}.api.${result?.domain}/playwrightworkspaces/${result?.accountId}`;
+  const baseUrl = `https://${result?.region}.${UrlConstants.ApiSubdomain}.${result?.domain}/${UrlConstants.PlaywrightWorkspacesPath}/${result?.accountId}`;
 
   return `${baseUrl}?api-version=${Constants.LatestAPIVersion}`;
 }
@@ -473,26 +470,16 @@ export function collectAllFiles(
   return files;
 }
 
-export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null): string {
-  const { subscriptionId, resourceId, name } = workspaceMetadata ?? {};
-  if (!subscriptionId || !resourceId || !name) {
-    throw new Error(
-      "Missing required workspace metadata: subscriptionId, resourceId, and name are required",
-    );
+export function getPortalTestRunUrl(resourceId: string): string {
+  if (!resourceId) {
+    throw new Error("Missing required parameter: resourceId is required");
+  }
+  const runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+  if (!runId) {
+    throw new Error("Run ID is required but not found in environment variables");
   }
 
-  // Extract resource group from resourceId
-  const resourceIdParts = resourceId.split("/");
-  const resourceGroupIndex = resourceIdParts.findIndex(
-    (part) => part.toLowerCase() === "resourcegroups",
-  );
-
-  if (resourceGroupIndex === -1 || resourceGroupIndex + 1 >= resourceIdParts.length) {
-    throw new Error("Invalid resourceId format: could not extract resource group name");
-  }
-
-  const resourceGroupName = resourceIdParts[resourceGroupIndex + 1];
-  return `https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/${encodeURIComponent(subscriptionId)}/resourceGroups/${encodeURIComponent(resourceGroupName)}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent(name)}/TestRuns`;
+  return `${UrlConstants.AzurePortalBaseUrl}/${UrlConstants.TestReportViewPath}/testRunId/${encodeURIComponent(runId)}/resourceId/${encodeURIComponent(resourceId)}`;
 }
 
 export const getStorageAccountNameFromUri = (storageUri: string): string | null => {

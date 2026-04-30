@@ -9,15 +9,9 @@ import type {
   SearchFieldArray,
   SearchIndex,
   SearchIndexClient,
-  SelectArray,
   SelectFields,
 } from "../../../src/index.js";
-import {
-  AzureKeyCredential,
-  IndexDocumentsBatch,
-  KnownQueryLanguage,
-  SearchClient,
-} from "../../../src/index.js";
+import { AzureKeyCredential, IndexDocumentsBatch, SearchClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
@@ -73,24 +67,16 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
-    let TEST_BASE_NAME: string;
     let indexDefinition: SearchIndex;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
-      TEST_BASE_NAME = createRandomIndexName();
       ({
         searchClient,
         indexClient,
         indexName: TEST_INDEX_NAME,
-        baseName: TEST_BASE_NAME,
-      } = await createClients<Hotel>(
-        defaultServiceVersion,
-        recorder,
-        TEST_INDEX_NAME,
-        TEST_BASE_NAME,
-      ));
+      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
       indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient);
@@ -104,7 +90,6 @@ describe("SearchClient", { timeout: 20_000 }, () => {
 
     const baseSemanticOptions = () =>
       ({
-        queryLanguage: KnownQueryLanguage.EnUs,
         queryType: "semantic",
         semanticSearchOptions: {
           configurationName:
@@ -143,7 +128,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1", "9", "3"], resultIds);
+      assert.deepEqual(resultIds, ["1", "9", "3"]);
     });
 
     it("count returns the correct document count", async () => {
@@ -224,7 +209,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
         "tags",
       ];
 
-      const select: SelectArray<SelectFields<Hotel>> = ["hotelId", "address/city", "rooms/type"];
+      const select: SelectFields<Hotel>[] = ["hotelId", "address/city", "rooms/type"];
       const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
 
       const selectPromises = [
@@ -284,8 +269,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
           if (!city) {
             assert.fail();
           }
-          assert.hasAllKeys(result.document, hotelKeys);
-          assert.hasAllKeys(result.document.address, addressKeys);
+          assert.containsAllKeys(result.document, hotelKeys);
+          assert.containsAllKeys(result.document.address, addressKeys);
         }
       });
 
@@ -480,7 +465,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
       for await (const result of searchResults.results) {
         resultIds.push(result.document.hotelId);
       }
-      assert.deepEqual(["1"], resultIds);
+      assert.deepEqual(resultIds, ["1"]);
     });
 
     it("search with vector", async () => {

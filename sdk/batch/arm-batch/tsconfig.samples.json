@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-batch": [
-        "./dist/esm"
-      ]
+      "@azure/arm-batch": ["./dist/esm"]
     }
   }
 }

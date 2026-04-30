@@ -3,6 +3,6 @@
 
 export {
   createComputeSchedule,
-  ComputeScheduleContext,
-  ComputeScheduleClientOptionalParams,
+  type ComputeScheduleContext,
+  type ComputeScheduleClientOptionalParams,
 } from "./computeScheduleContext.js";

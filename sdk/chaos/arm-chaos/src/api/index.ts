@@ -3,6 +3,6 @@
 
 export {
   createChaosManagement,
-  ChaosManagementContext,
-  ChaosManagementClientOptionalParams,
+  type ChaosManagementContext,
+  type ChaosManagementClientOptionalParams,
 } from "./chaosManagementContext.js";

@@ -9,9 +9,9 @@ import type { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./logger.js";
 import type { PollOperationState } from "@azure/core-lro";
-import { PollerLike } from "@azure/core-lro";
+import type { PollerLike } from "@azure/core-lro";
 
-import {
+import type {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   AdministratorContact,
@@ -55,7 +55,6 @@ import {
   UpdateIssuerOptions,
   UpdateCertificatePropertiesOptions,
   UpdateCertificatePolicyOptions,
-  WellKnownIssuerNames,
   CertificatePollerOptions,
   IssuerProperties,
   CertificateContactAll,
@@ -67,22 +66,23 @@ import {
   SubjectAlternativeNamesAll,
   CertificatePolicyProperties,
   PolicySubjectProperties,
-  DefaultCertificatePolicy,
   CertificateClientOptions,
-  LATEST_API_VERSION,
   CancelCertificateOperationOptions,
   ImportCertificatePolicy,
+  PollerLikeWithCancellation,
+} from "./certificatesModels.js";
+import {
+  WellKnownIssuerNames,
+  DefaultCertificatePolicy,
+  LATEST_API_VERSION,
   KnownCertificateKeyCurveNames,
   KnownCertificateKeyTypes,
   KnownKeyUsageTypes,
-  PollerLikeWithCancellation,
 } from "./certificatesModels.js";
 
 import type {
   CertificateIssuerSetParameters,
   CertificateIssuerUpdateParameters,
-} from "./models/models.js";
-import {
   BackupCertificateResult,
   IssuerParameters,
   IssuerCredentials,
@@ -92,9 +92,9 @@ import {
   DeletionRecoveryLevel,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-  KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
   KeyUsageType,
 } from "./models/models.js";
+import { KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels } from "./models/models.js";
 import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
 import { KeyVaultClient } from "./keyVaultClient.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -103,12 +103,13 @@ import { CreateCertificatePoller } from "./lro/create/poller.js";
 import { CertificateOperationPoller } from "./lro/operation/poller.js";
 import { DeleteCertificatePoller } from "./lro/delete/poller.js";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller.js";
-import { CertificateOperationState } from "./lro/operation/operation.js";
-import { DeleteCertificateState } from "./lro/delete/operation.js";
-import { CreateCertificateState } from "./lro/create/operation.js";
-import { RecoverDeletedCertificateState } from "./lro/recover/operation.js";
+import type { CertificateOperationState } from "./lro/operation/operation.js";
+import type { DeleteCertificateState } from "./lro/delete/operation.js";
+import type { CreateCertificateState } from "./lro/create/operation.js";
+import type { RecoverDeletedCertificateState } from "./lro/recover/operation.js";
 import { parseCertificateBytes } from "./utils.js";
-import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier.js";
+import type { KeyVaultCertificateIdentifier } from "./identifier.js";
+import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -123,91 +124,91 @@ import {
   toPublicIssuer,
   toPublicPolicy,
 } from "./transformations.js";
-import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller.js";
+import type { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller.js";
 import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants.js";
 
 export {
-  CertificateClientOptions,
-  AdministratorContact,
-  ArrayOneOrMore,
-  BackupCertificateResult,
-  BeginCreateCertificateOptions,
-  BeginDeleteCertificateOptions,
-  BeginRecoverDeletedCertificateOptions,
-  KeyVaultCertificate,
-  KeyVaultCertificateWithPolicy,
-  BackupCertificateOptions,
-  CertificateContentType,
-  CertificateProperties,
-  CertificateIssuer,
-  CertificateOperation,
-  CertificateOperationError,
-  CertificatePolicy,
-  ImportCertificatePolicy,
-  ActionType,
-  CertificatePolicyAction,
-  CertificatePolicyProperties,
-  PolicySubjectProperties,
-  CertificateTags,
-  CreateCertificateOptions,
-  CertificatePollerOptions,
-  KeyVaultCertificateIdentifier,
+  type CertificateClientOptions,
+  type AdministratorContact,
+  type ArrayOneOrMore,
+  type BackupCertificateResult,
+  type BeginCreateCertificateOptions,
+  type BeginDeleteCertificateOptions,
+  type BeginRecoverDeletedCertificateOptions,
+  type KeyVaultCertificate,
+  type KeyVaultCertificateWithPolicy,
+  type BackupCertificateOptions,
+  type CertificateContentType,
+  type CertificateProperties,
+  type CertificateIssuer,
+  type CertificateOperation,
+  type CertificateOperationError,
+  type CertificatePolicy,
+  type ImportCertificatePolicy,
+  type ActionType,
+  type CertificatePolicyAction,
+  type CertificatePolicyProperties,
+  type PolicySubjectProperties,
+  type CertificateTags,
+  type CreateCertificateOptions,
+  type CertificatePollerOptions,
+  type KeyVaultCertificateIdentifier,
   parseKeyVaultCertificateIdentifier,
-  PollerLike,
-  PollerLikeWithCancellation,
-  CreateCertificateState,
-  DeleteCertificateState,
-  RecoverDeletedCertificateState,
-  CertificateOperationState,
-  CoreSubjectAlternativeNames,
-  RequireAtLeastOne,
-  CertificateContactAll,
-  CertificateContact,
-  DeleteCertificateOperationOptions,
-  DeleteContactsOptions,
-  DeleteIssuerOptions,
-  DeletedCertificate,
-  DeletionRecoveryLevel,
+  type PollerLike,
+  type PollerLikeWithCancellation,
+  type CreateCertificateState,
+  type DeleteCertificateState,
+  type RecoverDeletedCertificateState,
+  type CertificateOperationState,
+  type CoreSubjectAlternativeNames,
+  type RequireAtLeastOne,
+  type CertificateContactAll,
+  type CertificateContact,
+  type DeleteCertificateOperationOptions,
+  type DeleteContactsOptions,
+  type DeleteIssuerOptions,
+  type DeletedCertificate,
+  type DeletionRecoveryLevel,
   DefaultCertificatePolicy,
-  ErrorModel,
-  GetContactsOptions,
-  GetIssuerOptions,
-  GetCertificateOperationOptions,
-  GetPlainCertificateOperationOptions,
-  GetCertificateOptions,
-  GetCertificatePolicyOptions,
-  GetCertificateVersionOptions,
-  GetDeletedCertificateOptions,
-  ImportCertificateOptions,
-  IssuerAttributes,
-  IssuerCredentials,
-  IssuerParameters,
-  IssuerProperties,
-  CertificateKeyType,
-  CertificateKeyCurveName,
-  KeyUsageType,
-  LifetimeAction,
-  ListPropertiesOfCertificatesOptions,
-  ListPropertiesOfCertificateVersionsOptions,
-  ListPropertiesOfIssuersOptions,
-  ListDeletedCertificatesOptions,
-  MergeCertificateOptions,
-  PurgeDeletedCertificateOptions,
-  RestoreCertificateBackupOptions,
-  SetContactsOptions,
-  SubjectAlternativeNamesAll,
-  CreateIssuerOptions,
-  SubjectAlternativeNames,
-  UpdateIssuerOptions,
-  UpdateCertificatePropertiesOptions as UpdateCertificateOptions,
-  UpdateCertificatePolicyOptions,
+  type ErrorModel,
+  type GetContactsOptions,
+  type GetIssuerOptions,
+  type GetCertificateOperationOptions,
+  type GetPlainCertificateOperationOptions,
+  type GetCertificateOptions,
+  type GetCertificatePolicyOptions,
+  type GetCertificateVersionOptions,
+  type GetDeletedCertificateOptions,
+  type ImportCertificateOptions,
+  type IssuerAttributes,
+  type IssuerCredentials,
+  type IssuerParameters,
+  type IssuerProperties,
+  type CertificateKeyType,
+  type CertificateKeyCurveName,
+  type KeyUsageType,
+  type LifetimeAction,
+  type ListPropertiesOfCertificatesOptions,
+  type ListPropertiesOfCertificateVersionsOptions,
+  type ListPropertiesOfIssuersOptions,
+  type ListDeletedCertificatesOptions,
+  type MergeCertificateOptions,
+  type PurgeDeletedCertificateOptions,
+  type RestoreCertificateBackupOptions,
+  type SetContactsOptions,
+  type SubjectAlternativeNamesAll,
+  type CreateIssuerOptions,
+  type SubjectAlternativeNames,
+  type UpdateIssuerOptions,
+  type UpdateCertificatePropertiesOptions as UpdateCertificateOptions,
+  type UpdateCertificatePolicyOptions,
   WellKnownIssuerNames as WellKnownIssuer,
-  X509CertificateProperties,
+  type X509CertificateProperties,
   logger,
-  CancelCertificateOperationOptions,
-  KeyVaultCertificatePollOperationState,
+  type CancelCertificateOperationOptions,
+  type KeyVaultCertificatePollOperationState,
   KnownCertificateKeyCurveNames,
   KnownDeletionRecoveryLevels,
   KnownCertificateKeyTypes,

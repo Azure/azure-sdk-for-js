@@ -25,7 +25,7 @@ import { ExperimentsOperations, _getExperimentsOperations } from "./classic/expe
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ChaosManagementClientOptionalParams } from "./api/chaosManagementContext.js";
+export { type ChaosManagementClientOptionalParams } from "./api/chaosManagementContext.js";
 
 export class ChaosManagementClient {
   private _client: ChaosManagementContext;

@@ -169,7 +169,7 @@ declare module "openai/resources/index" {
   }
 }
 
-export {
+export type {
   Completion,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
@@ -179,5 +179,5 @@ export {
   ChatCompletionChunk,
   ChatCompletionMessage,
 };
-export * from "./outputModels.js";
-export * from "./models.js";
+export type * from "./outputModels.js";
+export type * from "./models.js";

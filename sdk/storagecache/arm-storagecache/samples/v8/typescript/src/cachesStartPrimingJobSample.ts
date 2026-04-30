@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a priming job. This operation is only allowed when the cache is healthy.
  *
  * @summary Create a priming job. This operation is only allowed when the cache is healthy.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/StartPrimingJob.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/StartPrimingJob.json
  */
 async function startPrimingJob(): Promise<void> {
   const subscriptionId =

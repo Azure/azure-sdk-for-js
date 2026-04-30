@@ -8,4 +8,4 @@
 
 export * from "./models/index.js";
 export { SparkClient } from "./sparkClient.js";
-export * from "./operationsInterfaces/index.js";
+export type * from "./operationsInterfaces/index.js";

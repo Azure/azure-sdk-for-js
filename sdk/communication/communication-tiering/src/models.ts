@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
   NumberAllotmentGetAcquiredNumberLimitsResponse,
   AssetDetails,

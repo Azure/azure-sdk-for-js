@@ -51,7 +51,7 @@ export function _restoreFilesSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,6 +69,7 @@ export async function _restoreFilesDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -101,6 +102,7 @@ export function restoreFiles(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -120,7 +122,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,10 +130,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -140,6 +139,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -160,7 +160,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -182,7 +182,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,10 +192,11 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -217,7 +218,7 @@ export function $delete(
   snapshotName: string,
   options: SnapshotsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -231,6 +232,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -253,7 +255,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,10 +264,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: snapshotPatchSerializer(body),
   });
 }
@@ -275,6 +274,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -307,6 +307,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
@@ -329,7 +330,7 @@ export function _createSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,10 +339,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: snapshotSerializer(body),
   });
 }
@@ -351,6 +349,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -383,6 +382,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
@@ -404,7 +404,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -412,10 +412,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -424,6 +421,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sn
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

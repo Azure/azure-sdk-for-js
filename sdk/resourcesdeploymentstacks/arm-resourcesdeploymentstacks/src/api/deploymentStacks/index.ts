@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  exportTemplateAtManagementGroup,
+  deleteAtManagementGroup,
+  createOrUpdateAtManagementGroup,
+  validateStackAtManagementGroup,
+  listAtManagementGroup,
+  getAtManagementGroup,
+  exportTemplateAtSubscription,
+  deleteAtSubscription,
+  createOrUpdateAtSubscription,
+  validateStackAtSubscription,
+  listAtSubscription,
+  getAtSubscription,
+  exportTemplateAtResourceGroup,
+  deleteAtResourceGroup,
+  createOrUpdateAtResourceGroup,
+  validateStackAtResourceGroup,
+  listAtResourceGroup,
+  getAtResourceGroup,
+} from "./operations.js";
+export {
+  type DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
+  type DeploymentStacksDeleteAtManagementGroupOptionalParams,
+  type DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
+  type DeploymentStacksValidateStackAtManagementGroupOptionalParams,
+  type DeploymentStacksListAtManagementGroupOptionalParams,
+  type DeploymentStacksGetAtManagementGroupOptionalParams,
+  type DeploymentStacksExportTemplateAtSubscriptionOptionalParams,
+  type DeploymentStacksDeleteAtSubscriptionOptionalParams,
+  type DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams,
+  type DeploymentStacksValidateStackAtSubscriptionOptionalParams,
+  type DeploymentStacksListAtSubscriptionOptionalParams,
+  type DeploymentStacksGetAtSubscriptionOptionalParams,
+  type DeploymentStacksExportTemplateAtResourceGroupOptionalParams,
+  type DeploymentStacksDeleteAtResourceGroupOptionalParams,
+  type DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams,
+  type DeploymentStacksValidateStackAtResourceGroupOptionalParams,
+  type DeploymentStacksListAtResourceGroupOptionalParams,
+  type DeploymentStacksGetAtResourceGroupOptionalParams,
+} from "./options.js";

@@ -13,13 +13,13 @@ export {
   get,
 } from "./operations.js";
 export {
-  MongoClustersPromoteOptionalParams,
-  MongoClustersCheckNameAvailabilityOptionalParams,
-  MongoClustersListConnectionStringsOptionalParams,
-  MongoClustersListOptionalParams,
-  MongoClustersListByResourceGroupOptionalParams,
-  MongoClustersDeleteOptionalParams,
-  MongoClustersUpdateOptionalParams,
-  MongoClustersCreateOrUpdateOptionalParams,
-  MongoClustersGetOptionalParams,
+  type MongoClustersPromoteOptionalParams,
+  type MongoClustersCheckNameAvailabilityOptionalParams,
+  type MongoClustersListConnectionStringsOptionalParams,
+  type MongoClustersListOptionalParams,
+  type MongoClustersListByResourceGroupOptionalParams,
+  type MongoClustersDeleteOptionalParams,
+  type MongoClustersUpdateOptionalParams,
+  type MongoClustersCreateOrUpdateOptionalParams,
+  type MongoClustersGetOptionalParams,
 } from "./options.js";

@@ -40,11 +40,14 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/advisor/arm-advisor"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -80,7 +83,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
@@ -90,18 +93,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-advisor?view=azure-node-preview"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns an auto export job.
  *
  * @summary Returns an auto export job.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/autoExportJobs_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/autoExportJobs_Get.json
  */
 async function autoExportJobsGet(): Promise<void> {
   const subscriptionId =

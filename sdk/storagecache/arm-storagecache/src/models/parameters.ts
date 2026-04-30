@@ -19,6 +19,8 @@ import {
   ImportJobUpdate as ImportJobUpdateMapper,
   AutoImportJob as AutoImportJobMapper,
   AutoImportJobUpdate as AutoImportJobUpdateMapper,
+  ExpansionJob as ExpansionJobMapper,
+  ExpansionJobUpdate as ExpansionJobUpdateMapper,
   AmlFilesystemSubnetInfo as AmlFilesystemSubnetInfoMapper,
   RequiredAmlFilesystemSubnetsSizeInfo as RequiredAmlFilesystemSubnetsSizeInfoMapper,
   Cache as CacheMapper,
@@ -54,7 +56,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-07-01",
+    defaultValue: "2026-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -223,6 +225,32 @@ export const autoImportJob: OperationParameter = {
 export const autoImportJob1: OperationParameter = {
   parameterPath: "autoImportJob",
   mapper: AutoImportJobUpdateMapper,
+};
+
+export const expansionJobName: OperationURLParameter = {
+  parameterPath: "expansionJobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9a-zA-Z][-0-9a-zA-Z_]{0,78}[0-9a-zA-Z]$"),
+      MaxLength: 80,
+      MinLength: 2,
+    },
+    serializedName: "expansionJobName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const expansionJob: OperationParameter = {
+  parameterPath: "expansionJob",
+  mapper: ExpansionJobMapper,
+};
+
+export const expansionJob1: OperationParameter = {
+  parameterPath: "expansionJob",
+  mapper: ExpansionJobUpdateMapper,
 };
 
 export const amlFilesystemSubnetInfo: OperationParameter = {

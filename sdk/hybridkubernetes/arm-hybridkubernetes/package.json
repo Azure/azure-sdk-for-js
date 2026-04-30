@@ -43,11 +43,14 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/hybridkubernetes/arm-hybridkubernetes"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -84,25 +87,9 @@
   },
   "autoPublish": true,
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

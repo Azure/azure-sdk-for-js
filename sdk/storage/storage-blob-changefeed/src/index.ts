@@ -2,5 +2,5 @@
 // Licensed under the MIT License.
 
 export * from "./BlobChangeFeedClient.js";
-export * from "./models/BlobChangeFeedEvent.js";
-export * from "./models/models.js";
+export type * from "./models/BlobChangeFeedEvent.js";
+export type * from "./models/models.js";

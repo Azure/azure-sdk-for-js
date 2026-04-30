@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  VaultsListByResourceGroupOptionalParams,
-  VaultsListBySubscriptionIdOptionalParams,
-  VaultsDeleteOptionalParams,
-  VaultsUpdateOptionalParams,
-  VaultsCreateOrUpdateOptionalParams,
-  VaultsGetOptionalParams,
+  type VaultsListByResourceGroupOptionalParams,
+  type VaultsListBySubscriptionIdOptionalParams,
+  type VaultsDeleteOptionalParams,
+  type VaultsUpdateOptionalParams,
+  type VaultsCreateOrUpdateOptionalParams,
+  type VaultsGetOptionalParams,
 } from "./options.js";

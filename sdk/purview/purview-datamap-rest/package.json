@@ -16,7 +16,11 @@
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/purview/purview-datamap-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -73,7 +77,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -88,22 +91,6 @@
   },
   "browser": "./dist/browser/index.js",
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

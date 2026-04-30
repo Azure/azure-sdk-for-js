@@ -99,9 +99,11 @@ export default class PlaywrightReporter implements Reporter {
     try {
       const playwrightServiceApiClient = new PlaywrightServiceClient();
       this.workspaceMetadata = await playwrightServiceApiClient.getWorkspaceMetadata();
+      coreLogger.info(
+        `Received workspace details: ${JSON.stringify(this.workspaceMetadata, null, 2)}`,
+      );
 
-      if (!this.workspaceMetadata?.storageUri) {
-        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+      if (!this.isReportingAllowed(this.workspaceMetadata)) {
         return;
       }
 
@@ -139,8 +141,8 @@ export default class PlaywrightReporter implements Reporter {
           console.log(ServiceErrorMessageConstants.REPORTING_STATUS_SUCCESS.message);
         }
         // Display portal URL for both full and partial success
-        if (this.workspaceMetadata) {
-          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
+        if (this.workspaceMetadata?.resourceId) {
+          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata.resourceId);
           console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
         }
       } else {
@@ -209,6 +211,59 @@ export default class PlaywrightReporter implements Reporter {
     coreLogger.info(
       "HTML reporter validation passed - HTML reporter is configured and properly ordered",
     );
+    return true;
+  }
+
+  /**
+   * Determines if reporting should be enabled based on workspace metadata.
+   * @param workspaceMetadata - The workspace metadata containing reporting and storageUri information
+   * @returns true if reporting should be enabled, false otherwise
+   */
+  private isReportingAllowed(workspaceMetadata: WorkspaceMetaData | null): boolean {
+    if (!workspaceMetadata) {
+      console.error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
+      return false;
+    }
+
+    const { reporting, storageUri } = workspaceMetadata;
+
+    // If reporting field is present in metadata, check its value
+    if (reporting !== undefined) {
+      const normalizedReporting =
+        typeof reporting === "string" ? reporting.toLowerCase() : reporting;
+
+      if (normalizedReporting === "disabled") {
+        console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+        coreLogger.info("Reporting disabled via workspace metadata configuration");
+        return false;
+      }
+
+      if (normalizedReporting === "enabled") {
+        if (!storageUri) {
+          console.error(
+            ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
+          );
+          coreLogger.info("Reporting enabled in metadata but storage URI not configured");
+          return false;
+        }
+        coreLogger.info("Reporting enabled via workspace metadata configuration");
+        return true;
+      }
+
+      // If reporting has an unexpected value, log warning and fall back to storageUri check
+      coreLogger.info(
+        `Unexpected reporting value in workspace metadata: ${reporting}. Falling back to storage URI check.`,
+      );
+    }
+
+    // Fallback to current logic: check only storageUri (when reporting field is not present or has unexpected value)
+    if (!storageUri) {
+      console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
+      coreLogger.info("Storage URI not configured in workspace metadata");
+      return false;
+    }
+
+    coreLogger.info("Reporting enabled based on storage URI configuration");
     return true;
   }
 }

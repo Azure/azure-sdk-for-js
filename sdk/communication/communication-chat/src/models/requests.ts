@@ -3,7 +3,7 @@
 
 import type { ChatParticipant } from "./models.js";
 
-export { SendReadReceiptRequest } from "../generated/src/models/index.js";
+export type { SendReadReceiptRequest } from "../generated/src/models/index.js";
 
 /** Participants to be added to the thread. */
 export interface AddParticipantsRequest {

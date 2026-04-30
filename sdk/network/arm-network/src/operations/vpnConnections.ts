@@ -647,7 +647,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters97,
+  requestBody: Parameters.parameters101,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -680,7 +680,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters98,
+  requestBody: Parameters.parameters102,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

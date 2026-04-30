@@ -3,8 +3,8 @@
 
 export { listByParent, $delete, get, createOrUpdate } from "./operations.js";
 export {
-  VirtualNetworkAddressesListByParentOptionalParams,
-  VirtualNetworkAddressesDeleteOptionalParams,
-  VirtualNetworkAddressesGetOptionalParams,
-  VirtualNetworkAddressesCreateOrUpdateOptionalParams,
+  type VirtualNetworkAddressesListByParentOptionalParams,
+  type VirtualNetworkAddressesDeleteOptionalParams,
+  type VirtualNetworkAddressesGetOptionalParams,
+  type VirtualNetworkAddressesCreateOrUpdateOptionalParams,
 } from "./options.js";

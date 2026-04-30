@@ -4,6 +4,12 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface CachesResetSmbPasswordOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface CachesPoolChangeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13,7 +19,7 @@ export interface CachesPoolChangeOptionalParams extends OperationOptions {
 export interface CachesListPeeringPassphrasesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CachesListByCapacityPoolsOptionalParams extends OperationOptions {}
+export interface CachesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CachesDeleteOptionalParams extends OperationOptions {

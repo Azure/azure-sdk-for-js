@@ -13,6 +13,8 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export interface AmlFilesystem extends TrackedResource {
     readonly clientInfo?: AmlFilesystemClientInfo;
+    readonly clusterUuid?: string;
+    readonly currentStorageCapacityTiB?: number;
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     filesystemSubnet?: string;
     readonly health?: AmlFilesystemHealth;
@@ -1077,6 +1079,115 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExpansionJob extends TrackedResource {
+    readonly completionTimeUTC?: Date;
+    newStorageCapacityTiB?: number;
+    readonly percentComplete?: number;
+    readonly provisioningState?: ExpansionJobPropertiesProvisioningState;
+    readonly startTimeUTC?: Date;
+    readonly state?: ExpansionJobStatusType;
+    readonly statusCode?: string;
+    readonly statusMessage?: string;
+}
+
+// @public
+export type ExpansionJobPropertiesProvisioningState = string;
+
+// @public
+export interface ExpansionJobs {
+    beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExpansionJobsCreateOrUpdateResponse>, ExpansionJobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJob, options?: ExpansionJobsCreateOrUpdateOptionalParams): Promise<ExpansionJobsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ExpansionJobsDeleteResponse>, ExpansionJobsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsDeleteOptionalParams): Promise<ExpansionJobsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExpansionJobsUpdateResponse>, ExpansionJobsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, expansionJob: ExpansionJobUpdate, options?: ExpansionJobsUpdateOptionalParams): Promise<ExpansionJobsUpdateResponse>;
+    get(resourceGroupName: string, amlFilesystemName: string, expansionJobName: string, options?: ExpansionJobsGetOptionalParams): Promise<ExpansionJobsGetResponse>;
+    listByAmlFilesystem(resourceGroupName: string, amlFilesystemName: string, options?: ExpansionJobsListByAmlFilesystemOptionalParams): PagedAsyncIterableIterator<ExpansionJob>;
+}
+
+// @public
+export interface ExpansionJobsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ExpansionJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExpansionJobsCreateOrUpdateResponse = ExpansionJob;
+
+// @public
+export interface ExpansionJobsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ExpansionJobsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExpansionJobsDeleteResponse = ExpansionJobsDeleteHeaders;
+
+// @public
+export interface ExpansionJobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpansionJobsGetResponse = ExpansionJob;
+
+// @public
+export interface ExpansionJobsListByAmlFilesystemNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpansionJobsListByAmlFilesystemNextResponse = ExpansionJobsListResult;
+
+// @public
+export interface ExpansionJobsListByAmlFilesystemOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpansionJobsListByAmlFilesystemResponse = ExpansionJobsListResult;
+
+// @public
+export interface ExpansionJobsListResult {
+    nextLink?: string;
+    value?: ExpansionJob[];
+}
+
+// @public
+export type ExpansionJobStatusType = string;
+
+// @public
+export interface ExpansionJobsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ExpansionJobsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ExpansionJobsUpdateResponse = ExpansionJob;
+
+// @public
+export interface ExpansionJobUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type FilesystemSubnetStatusType = string;
 
 // @public
@@ -1236,6 +1347,7 @@ export interface KeyVaultKeyReferenceSourceVault {
 export enum KnownAmlFilesystemHealthStateType {
     Available = "Available",
     Degraded = "Degraded",
+    Expanding = "Expanding",
     Maintenance = "Maintenance",
     Transitioning = "Transitioning",
     Unavailable = "Unavailable"
@@ -1346,6 +1458,25 @@ export enum KnownDomainJoinedType {
     Error = "Error",
     No = "No",
     Yes = "Yes"
+}
+
+// @public
+export enum KnownExpansionJobPropertiesProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownExpansionJobStatusType {
+    Completed = "Completed",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    RollingBack = "RollingBack"
 }
 
 // @public
@@ -1719,6 +1850,8 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     caches: Caches;
     checkAmlFSSubnets(options?: CheckAmlFSSubnetsOptionalParams): Promise<void>;
+    // (undocumented)
+    expansionJobs: ExpansionJobs;
     getRequiredAmlFSSubnetsSize(options?: GetRequiredAmlFSSubnetsSizeOptionalParams): Promise<GetRequiredAmlFSSubnetsSizeResponse>;
     // (undocumented)
     importJobs: ImportJobs;

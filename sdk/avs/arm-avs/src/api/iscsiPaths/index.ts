@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, listByPrivateCloud } from "./operations.js";
 export {
-  IscsiPathsDeleteOptionalParams,
-  IscsiPathsCreateOrUpdateOptionalParams,
-  IscsiPathsGetOptionalParams,
-  IscsiPathsListByPrivateCloudOptionalParams,
+  type IscsiPathsDeleteOptionalParams,
+  type IscsiPathsCreateOrUpdateOptionalParams,
+  type IscsiPathsGetOptionalParams,
+  type IscsiPathsListByPrivateCloudOptionalParams,
 } from "./options.js";

@@ -21,7 +21,7 @@ export {
   list,
   getBackupInstanceOperationResult,
 } from "./operations.js";
-export {
+export type {
   BackupInstancesValidateCrossRegionRestoreOptionalParams,
   BackupInstancesTriggerCrossRegionRestoreOptionalParams,
   BackupInstancesValidateForRestoreOptionalParams,

@@ -33,6 +33,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
+  const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -76,6 +77,75 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const shareSAS = generateFileSASQueryParameters(
+      {
+        shareName: shareName,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: ShareSASPermissions.parse("rcwdl"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        delegatedUserObjectId: jwtObj.oid,
+        version: "2025-07-05",
+      },
+      userDelegationKey,
+      accountName,
+    ).toString();
+
+    const sasClient = `${shareClient.url}?${shareSAS}`;
+    const shareClientwithSAS = new ShareClient(sasClient, newPipeline(tokenCredential), {
+      fileRequestIntent: "backup",
+    });
+    configureStorageClient(recorder, shareClientwithSAS);
+
+    const result = (
+      await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
+    await shareClient.delete();
+  });
+
+  // Skip the case for it's not supported in service yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work for share", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let fileServiceClientWithToken: ShareServiceClient;
+    try {
+      fileServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+    const tokenCredential = createTestCredential();
+    const token = (await tokenCredential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey({
+      delegatedUserTenantId: AZURE_TEST_TENANT_ID,
+      startsOn: now,
+      expiresOn: tmr,
+    });
 
     const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
 
@@ -211,6 +281,80 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const directoryName = recorder.variable("dir", getUniqueName("dir"));
+    const dirClient = shareClient.getDirectoryClient(directoryName);
+    await dirClient.create();
+
+    const fileName = recorder.variable("file", getUniqueName("file"));
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(1024);
+
+    const fileSas = generateFileSASQueryParameters(
+      {
+        shareName: shareName,
+        filePath: fileClient.path,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: ShareSASPermissions.parse("rcwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        delegatedUserObjectId: jwtObj.oid,
+        version: "2025-07-05",
+      },
+      userDelegationKey,
+      accountName,
+    ).toString();
+
+    const sasClient = `${fileClient.url}?${fileSas}`;
+    const fileClientwithSAS = new ShareFileClient(sasClient, newPipeline(tokenCredential), {
+      fileRequestIntent: "backup",
+    });
+    configureStorageClient(recorder, fileClientwithSAS);
+
+    await fileClientwithSAS.getProperties();
+    await shareClient.delete();
+  });
+
+  // Skip the case for it's not supported in service yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work for file", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let fileServiceClientWithToken: ShareServiceClient;
+    try {
+      fileServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+    const tokenCredential = createTestCredential();
+    const token = (await tokenCredential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey({
+      delegatedUserTenantId: AZURE_TEST_TENANT_ID,
+      startsOn: now,
+      expiresOn: tmr,
+    });
 
     const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
 

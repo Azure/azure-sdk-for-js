@@ -4,7 +4,7 @@
 import type { Tags } from "./index.js";
 import type { BlobPropertiesInternal as BlobProperties } from "./generated/src/models/index.js";
 import type { NodeJSReadableStream } from "@azure/storage-common";
-import {
+import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
@@ -71,7 +71,7 @@ import {
   BlobGetAccountInfoHeaders,
   ContainerGetAccountInfoHeaders,
 } from "./generated/src/models/index.js";
-import {
+import type {
   WithResponse,
   ResponseWithBody,
   ResponseLike,
@@ -350,7 +350,7 @@ export type ServiceSubmitBatchResponseModel = WithResponse<
   ServiceSubmitBatchResponseInternal,
   ServiceSubmitBatchHeaders
 >;
-export {
+export type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
@@ -423,7 +423,7 @@ export {
   PageRange,
 };
 
-export {
+export type {
   AccessPolicy,
   AccessTier,
   AccountKind,

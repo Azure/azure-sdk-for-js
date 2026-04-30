@@ -14,5 +14,5 @@ export default subCommand(commandInfo, {
   push: () => import("./push.ts"),
   restore: () => import("./restore.ts"),
   reset: () => import("./reset.ts"),
-  migrate: () => import("./migrate.ts"),
+  diff: () => import("./diff.ts"),
 });

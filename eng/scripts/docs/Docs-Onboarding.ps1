@@ -109,7 +109,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
       -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
 
     Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
-    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1
+    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1 | Tee-Object -Variable output | Out-Host
     if ($LASTEXITCODE) {
       $allSucceeded = $false
       $failedPackages += $packageInfo.Name

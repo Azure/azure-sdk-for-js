@@ -15,7 +15,7 @@ import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import {
+import type {
   Pipeline,
   PipelinePolicy,
   PipelineRequest,

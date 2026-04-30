@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a FleetManagedNamespace
  *
  * @summary update a FleetManagedNamespace
- * x-ms-original-file: 2025-08-01-preview/FleetManagedNamespaces_Update.json
+ * x-ms-original-file: 2026-02-01-preview/FleetManagedNamespaces_Update.json
  */
 async function fleetManagedNamespacesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

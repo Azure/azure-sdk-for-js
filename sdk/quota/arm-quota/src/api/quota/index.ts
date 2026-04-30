@@ -3,8 +3,8 @@
 
 export { list, update, createOrUpdate, get } from "./operations.js";
 export {
-  QuotaListOptionalParams,
-  QuotaUpdateOptionalParams,
-  QuotaCreateOrUpdateOptionalParams,
-  QuotaGetOptionalParams,
+  type QuotaListOptionalParams,
+  type QuotaUpdateOptionalParams,
+  type QuotaCreateOrUpdateOptionalParams,
+  type QuotaGetOptionalParams,
 } from "./options.js";

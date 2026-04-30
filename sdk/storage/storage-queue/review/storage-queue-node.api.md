@@ -16,7 +16,7 @@ import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
-import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -484,6 +484,13 @@ export interface QueueGetPropertiesOptions extends CommonOptions {
 export type QueueGetPropertiesResponse = WithResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>;
 
 // @public
+export interface QueueGetUserDelegationKeyParameters {
+    delegatedUserTenantId: string;
+    expiresOn: Date;
+    startsOn: Date;
+}
+
+// @public
 export interface QueueItem {
     metadata?: {
         [propertyName: string]: string;
@@ -561,6 +568,7 @@ export class QueueServiceClient extends StorageClient {
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(parameters: QueueGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listQueues(options?: ServiceListQueuesOptions): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse>;
     setProperties(properties: QueueServiceProperties, options?: ServiceGetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
@@ -839,6 +847,7 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
+    signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;

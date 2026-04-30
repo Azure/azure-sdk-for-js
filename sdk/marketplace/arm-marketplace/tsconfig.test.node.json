@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-marketplace": ["./src/index.ts"],
+      "@azure/arm-marketplace/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

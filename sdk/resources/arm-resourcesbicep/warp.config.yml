@@ -1,0 +1,5 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/decompileOperationGroup": "./src/api/decompileOperationGroup/index.ts"
+  "./models": "./src/models/index.ts"

@@ -7,11 +7,15 @@
     "cloud",
     "typescript"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/monitor-ingestion"
+  },
   "license": "MIT",
   "author": "Microsoft Corporation",
   "sideEffects": false,
@@ -95,7 +99,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -128,21 +131,5 @@
       "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
     }
   },
-  "sdk-type": "client",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  }
+  "sdk-type": "client"
 }

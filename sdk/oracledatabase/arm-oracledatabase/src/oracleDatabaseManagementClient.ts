@@ -61,7 +61,7 @@ import { _getVirtualNetworkAddressesOperations } from "./classic/virtualNetworkA
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
+export { type OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
 
 export class OracleDatabaseManagementClient {
   private _client: OracleDatabaseManagementContext;

@@ -32,7 +32,7 @@
   "dependencies": {
     "@azure/app-configuration": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.11.1",
+    "@azure/identity": "^4.13.0",
     "@azure/app-configuration-provider": "^2.2.0",
     "@microsoft/feature-management": "^2.2.0",
     "@azure/keyvault-secrets": "^4.2.0",

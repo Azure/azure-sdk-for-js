@@ -17,9 +17,9 @@
  * npm install @azure/ai-projects @azure/identity dotenv
  *
  * Set these environment variables with your own values:
- * 1) AZURE_AI_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
+ * 1) FOUNDRY_PROJECT_ENDPOINT - Required. The Azure AI Project endpoint, as found in the overview page of your
  *    Microsoft Foundry project. It has the form: https://<account_name>.services.ai.azure.com/api/projects/<project_name>.
- * 2) MODEL_DEPLOYMENT_NAME - Required. The name of the model deployment to use for evaluation.
+ * 2) FOUNDRY_MODEL_NAME - Required. The name of the model deployment to use for evaluation.
  * 3) DATASET_VERSION - Optional. The version of the Dataset to create and use in this sample.
  */
 
@@ -30,13 +30,13 @@ import * as path from "path";
 import * as fs from "node:fs/promises";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const datasetVersion = process.env["DATASET_VERSION"] || "1";
 
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     const evalData = [
@@ -131,7 +131,7 @@ export async function main(): Promise<void> {
 
     // Create schedule for dataset evaluation
     console.log("\nCreating Schedule for dataset evaluation");
-    const schedule = await project.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
+    const schedule = await project.beta.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
       displayName: "Dataset Evaluation Eval Run Schedule",
       enabled: true,
       trigger: {
@@ -157,14 +157,14 @@ export async function main(): Promise<void> {
 
     // List schedule runs
     console.log(`\nListing schedule runs for schedule id: ${schedule.id}`);
-    const scheduleRuns = project.schedules.listRuns(schedule.id ?? "");
+    const scheduleRuns = project.beta.schedules.listRuns(schedule.id ?? "");
     for await (const run of scheduleRuns) {
       console.log(JSON.stringify(run, null, 2));
     }
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.schedules.delete(schedule.id ?? "");
+    await project.beta.schedules.delete(schedule.id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");

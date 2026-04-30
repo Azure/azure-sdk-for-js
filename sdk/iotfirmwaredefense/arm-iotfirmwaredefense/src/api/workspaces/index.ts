@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  WorkspacesGenerateUploadUrlOptionalParams,
-  WorkspacesListBySubscriptionOptionalParams,
-  WorkspacesListByResourceGroupOptionalParams,
-  WorkspacesDeleteOptionalParams,
-  WorkspacesUpdateOptionalParams,
-  WorkspacesCreateOptionalParams,
-  WorkspacesGetOptionalParams,
+  type WorkspacesGenerateUploadUrlOptionalParams,
+  type WorkspacesListBySubscriptionOptionalParams,
+  type WorkspacesListByResourceGroupOptionalParams,
+  type WorkspacesDeleteOptionalParams,
+  type WorkspacesUpdateOptionalParams,
+  type WorkspacesCreateOptionalParams,
+  type WorkspacesGetOptionalParams,
 } from "./options.js";

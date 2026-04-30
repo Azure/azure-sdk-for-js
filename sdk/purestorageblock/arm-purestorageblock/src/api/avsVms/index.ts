@@ -3,8 +3,8 @@
 
 export { listByStoragePool, $delete, get, update } from "./operations.js";
 export {
-  AvsVmsListByStoragePoolOptionalParams,
-  AvsVmsDeleteOptionalParams,
-  AvsVmsGetOptionalParams,
-  AvsVmsUpdateOptionalParams,
+  type AvsVmsListByStoragePoolOptionalParams,
+  type AvsVmsDeleteOptionalParams,
+  type AvsVmsGetOptionalParams,
+  type AvsVmsUpdateOptionalParams,
 } from "./options.js";

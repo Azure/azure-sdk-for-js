@@ -75,13 +75,14 @@ export const getFilteredPackages = (packageNames, action, serviceDirs, changedIn
 
   let fullPackageNames = packageNames.slice();
 
-  let isReducedTestScopeEnabled = serviceDirs.length > 1;
   for (const dir of serviceDirs) {
+    if (dir !== "core" && dir !== "test-utils" && dir !== "identity") {
+      continue;
+    }
     // reducedDependencyTestMatrix is a little misleading, since if we want to test
     // these projects, we need to make sure they are built first, which requires them impacting
     // the build commands as well
     if (reducedDependencyTestMatrix[dir]) {
-      isReducedTestScopeEnabled = true;
       for (const dep of reducedDependencyTestMatrix[dir]) {
         if (!fullPackageNames.includes(dep)) {
           fullPackageNames.push(dep);
@@ -108,11 +109,27 @@ export const getFilteredPackages = (packageNames, action, serviceDirs, changedIn
       mappedPackages.push(filter);
     }
   } else {
+    // For test actions, use `...P` for changed non-restricted packages to test P's
+    // dependents and catch regressions. Then use exclusion filters to skip dependents
+    // that are also changed in this PR (they'll be tested in their own batches).
     mappedPackages.push(
       ...fullPackageNames.map((p) =>
         !restrictedToPackages.includes(p) && changedInfo?.changedPackages.has(p) ? `...${p}` : p,
       ),
     );
+
+    // Deduplicate: exclude changed packages not in this batch that would be
+    // pulled in as dependents via `...P`. These packages are scheduled in their
+    // own batches and don't need to be tested here. Unchanged dependents are
+    // intentionally kept — they must be tested to catch regressions.
+    if (changedInfo?.changedPackages) {
+      const batchSet = new Set(fullPackageNames);
+      for (const p of changedInfo.changedPackages) {
+        if (!batchSet.has(p)) {
+          mappedPackages.push(`!${p}`);
+        }
+      }
+    }
   }
 
   return mappedPackages;
@@ -129,17 +146,17 @@ const getPackageJSONs = (searchDir) => {
     .readdirSync(searchDir)
     .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
 
-  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
-  let perfTestDirectories = [];
   const searchPerfTestDir = path.join(searchDir, "perf-tests");
-  if (fs.existsSync(searchPerfTestDir)) {
-    perfTestDirectories = fs
+  if (!fs.existsSync(searchPerfTestDir)) {
+    return sdkDirectories.filter((f) => fs.existsSync(f));
+  } else {
+    // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
+    const perfTestDirectories = fs
       .readdirSync(searchPerfTestDir)
       .filter((f) => !f.endsWith("-track-1")) // exclude libraries ending with "-track-1" (perf test projects)
       .map((f) => path.join(searchPerfTestDir, f, "package.json")); // turn potential directory names into package.json paths
+    return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
   }
-
-  return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
 /**

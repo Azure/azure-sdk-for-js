@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByVaults } from "./operations.js";
-export { UsagesListByVaultsOptionalParams } from "./options.js";
+export { type UsagesListByVaultsOptionalParams } from "./options.js";

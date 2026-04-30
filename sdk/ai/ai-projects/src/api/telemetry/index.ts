@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { CreateTelemetryOperations, createTelemetryOperations } from "./operations.js";
+export { type CreateTelemetryOperations, createTelemetryOperations } from "./operations.js";

@@ -561,11 +561,11 @@ export interface SnapshotInfo {
 }
 
 export {
-  ConfigurationSnapshot,
-  ConfigurationSettingsFilter,
-  SnapshotComposition,
+  type ConfigurationSnapshot,
+  type ConfigurationSettingsFilter,
+  type SnapshotComposition,
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
-  ConfigurationSnapshotStatus,
-  SettingLabel,
+  type ConfigurationSnapshotStatus,
+  type SettingLabel,
 } from "./generated/src/index.js";

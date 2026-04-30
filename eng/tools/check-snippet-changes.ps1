@@ -1,5 +1,5 @@
 $diffFile = "SnippetChanges.diff"
-git diff --output=$diffFile --exit-code
+git diff --output=$diffFile --exit-code -- . ":(exclude).npmrc"
 Write-Host "Exit code for git diff for snippet changes = $LastExitCode"
 if($LastExitCode -ne 0) {
     Write-Host "There were changes after running update-snippets - saved in $diffFile"

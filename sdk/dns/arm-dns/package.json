@@ -42,11 +42,14 @@
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/dns/arm-dns"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -82,7 +85,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dns/arm-dns",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dns/arm-dns/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
@@ -92,22 +95,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-dns?view=azure-node-preview"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "exports": {

@@ -542,7 +542,12 @@ export class Recorder {
 
         this.redirectRequest(request);
         const response = await next(request);
-        this.handleTestProxyErrors(response);
+        // Skip error checking if the recorder has been stopped.
+        // In-flight requests (e.g. retries) may arrive after stop() is called;
+        // throwing here would create unhandled rejections that fail the test run.
+        if (this.stateManager.state !== "stopped") {
+          this.handleTestProxyErrors(response);
+        }
         this.revertRequestChanges(request, originalUrl);
         return response;
       },

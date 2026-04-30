@@ -232,6 +232,36 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 /**
+ * Parameters for getting user delegation key.
+ */
+export interface ShareGetUserDelegationKeyParameters {
+  /**
+   * The start time for the user delegation key. Must be within 7 days of the current time
+   */
+  startsOn: Date;
+  /**
+   * The end time for the user delegation key. Must be within 7 days of the current time
+   */
+  expiresOn: Date;
+  /**
+   * The tenant ID for the user delegation key.
+   */
+  delegatedUserTenantId: string;
+}
+
+function isShareGetUserDelegationKeyParameters(
+  parameter: unknown,
+): parameter is ShareGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
+  }
+
+  const castParameter = parameter as ShareGetUserDelegationKeyParameters;
+
+  return castParameter.expiresOn instanceof Date;
+}
+
+/**
  * A ShareServiceClient represents a URL to the Azure Storage File service allowing you
  * to manipulate file shares.
  */
@@ -870,11 +900,42 @@ export class ShareServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  /**
+   * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
+   *
+   * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
+   * bearer token authentication.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
+   *
+   * @param parameters -      Parameters to specific start time, expiry time and tenant id.
+   */
+  public async getUserDelegationKey(
+    parameters: ShareGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
+  ): Promise<ServiceGetUserDelegationKeyResponse>;
+
+  public async getUserDelegationKey(
+    startsOnOrParam: Date | ShareGetUserDelegationKeyParameters,
+    expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
+    let startsOn = startsOnOrParam as Date;
+    let expiresOn = expiresOnOrOption as Date;
+    let userDelegationTid = undefined;
+    let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
+    if (isShareGetUserDelegationKeyParameters(startsOnOrParam)) {
+      startsOn = startsOnOrParam.startsOn;
+      expiresOn = startsOnOrParam.expiresOn;
+      userDelegationTid = startsOnOrParam.delegatedUserTenantId;
+      getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+    }
     return tracingClient.withSpan(
       "ShareServiceClient-getUserDelegationKey",
-      options,
+      getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
@@ -885,6 +946,7 @@ export class ShareServiceClient extends StorageClient {
             {
               start: truncatedISO8061Date(startsOn, false),
               expiry: truncatedISO8061Date(expiresOn, false),
+              delegatedUserTid: userDelegationTid,
             },
             {
               abortSignal: options.abortSignal,
@@ -900,6 +962,7 @@ export class ShareServiceClient extends StorageClient {
           signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
+          signedDelegatedUserTenantId: response.signedDelegatedUserTenantId,
           value: response.value,
         };
 

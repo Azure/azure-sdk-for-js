@@ -1,19 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AIFoundryModelCatalogName,
-  AIServices,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
-  AzureMachineLearningSkill,
   AzureOpenAIModelName,
-  AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
-  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
   BM25Similarity,
@@ -48,11 +44,8 @@ import type {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
-  IndexedSharePointContainerName,
-  IndexerPermissionOption,
   IndexingSchedule,
   IndexProjectionMode,
-  IndexStatisticsSummary,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnowledgeSourceContentExtractionMode,
@@ -63,8 +56,8 @@ import type {
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
+  // KnownEntityCategory,
+  // KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
   KnownImageDetail,
   KnownIndexerExecutionEnvironment,
@@ -76,7 +69,7 @@ import type {
   KnownRegexFlags,
   KnownSearchFieldDataType,
   KnownSearchIndexerDataSourceType,
-  KnownSentimentSkillLanguage,
+  // KnownSentimentSkillLanguage,
   KnownSplitSkillLanguage,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
@@ -105,9 +98,7 @@ import type {
   PatternCaptureTokenFilter,
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
-  PermissionFilter,
   PhoneticTokenFilter,
-  RemoteSharePointKnowledgeSourceParameters,
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
@@ -117,8 +108,7 @@ import type {
   SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
-  SearchIndexPermissionFilterOption,
-  Suggester as SearchSuggester,
+  SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
@@ -127,7 +117,6 @@ import type {
   ShingleTokenFilter,
   SnowballTokenFilter,
   SoftDeleteColumnDeletionDetectionPolicy,
-  SplitSkillUnit,
   SqlIntegratedChangeTrackingPolicy,
   StemmerOverrideTokenFilter,
   StemmerTokenFilter,
@@ -145,7 +134,11 @@ import type {
   VectorSearchVectorizerKind,
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
-} from "./generated/service/models/index.js";
+} from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AIServices,
+  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**
@@ -340,35 +333,6 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
-}
-
-/**
- * Options for reset docs operation.
- */
-export interface ResetDocumentsOptions extends OperationOptions {
-  /**
-   * document keys to be reset
-   */
-  documentKeys?: string[];
-  /**
-   * datasource document identifiers to be reset
-   */
-  datasourceDocumentIds?: string[];
-  /**
-   * If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this
-   * payload will be queued to be re-ingested.
-   */
-  overwrite?: boolean;
-}
-
-/**
- * Options for reset skills operation.
- */
-export interface ResetSkillsOptions extends OperationOptions {
-  /**
-   * the names of skills to be reset.
-   */
-  skillNames?: string[];
 }
 
 /**
@@ -700,26 +664,9 @@ export interface WebApiSkill extends BaseSearchIndexerSkill {
 export type WebApiSkills = WebApiSkill | ChatCompletionSkill;
 
 /**
- * Allows you to generate a vector embedding for a given image or text input using the Azure AI
- * Services Vision Vectorize API.
- */
-export interface VisionVectorizeSkill extends BaseSearchIndexerSkill {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
-  /**
-   * The version of the model to use when calling the AI Services Vision service. It will default to
-   * the latest available when not specified.
-   */
-  modelVersion?: string;
-}
-
-/**
  * Contains the possible cases for Skill.
  */
 export type SearchIndexerSkill =
-  | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
   | ConditionalSkill
   | CustomEntityLookupSkill
@@ -740,7 +687,6 @@ export type SearchIndexerSkill =
   | ShaperSkill
   | SplitSkill
   | TextTranslationSkill
-  | VisionVectorizeSkill
   | WebApiSkills;
 
 /**
@@ -1124,10 +1070,6 @@ export interface SimpleField {
    */
   facetable?: boolean;
   /**
-   * A value indicating whether the field should be used as a permission filter.
-   */
-  permissionFilter?: PermissionFilter;
-  /**
    * The name of the analyzer to use for the field. This option can be used only with
    * searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer.
    * Once the analyzer is chosen, it cannot be changed for the field.
@@ -1174,7 +1116,7 @@ export interface SimpleField {
    */
   vectorEncodingFormat?: VectorEncodingFormat;
   /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
-  sensitivityLabel?: boolean;
+  hasSensitivityLabel?: boolean;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1237,16 +1179,6 @@ export interface SynonymMap {
  * per iteration.
  */
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
-
-/**
- * An iterator for statistics summaries for each index in the Search service. Will make requests as
- * needed during iteration. Use .byPage() to make one request to the server per iteration.
- */
-export type IndexStatisticsSummaryIterator = PagedAsyncIterableIterator<
-  IndexStatisticsSummary,
-  IndexStatisticsSummary[],
-  {}
->;
 
 /**
  * An iterator for listing the knowledge bases that exist in the Search service. Will make requests
@@ -1359,38 +1291,11 @@ export interface SearchIndex {
    */
   vectorSearch?: VectorSearch;
   /**
-   * A value indicating whether permission filtering is enabled for the index.
-   */
-  permissionFilterOption?: SearchIndexPermissionFilterOption;
-  /**
    * The ETag of the index.
    */
   etag?: string;
   /** A value indicating whether the index is leveraging Purview-specific features. This property defaults to false and cannot be changed after index creation. */
   purviewEnabled?: boolean;
-}
-
-export interface SearchIndexerCache {
-  /**
-   * A guid for the SearchIndexerCache.
-   */
-  id?: string;
-  /**
-   * The connection string to the storage account where the cache data will be persisted.
-   */
-  storageConnectionString?: string;
-  /**
-   * Specifies whether incremental reprocessing is enabled.
-   */
-  enableReprocessing?: boolean;
-  /**
-   * The user-assigned managed identity used for connections to the enrichment cache.  If the
-   * connection string indicates an identity (ResourceId) and it's not specified, the
-   * system-assigned managed identity is used. On updates to the indexer, if the identity is
-   * unspecified, the value remains unchanged. If set to "none", the value of this property is
-   * cleared.
-   */
-  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1454,11 +1359,6 @@ export interface SearchIndexer {
    * paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
-  /**
-   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
-   * having to rebuild the index every time.
-   */
-  cache?: SearchIndexerCache;
 }
 
 /**
@@ -2275,10 +2175,6 @@ export interface SearchIndexerDataSourceConnection {
    */
   identity?: SearchIndexerDataIdentity;
   /**
-   * Ingestion options with various types of permission data.
-   */
-  indexerPermissionOptions?: IndexerPermissionOption[];
-  /**
    * The data change detection policy for the datasource.
    */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
@@ -2535,50 +2431,9 @@ export interface WebApiParameters {
  * Contains configuration options on how to vectorize text vector queries.
  */
 export type VectorSearchVectorizer =
-  | AIServicesVisionVectorizer
   | AzureMachineLearningVectorizer
   | AzureOpenAIVectorizer
   | WebApiVectorizer;
-
-/**
- * Specifies the AI Services Vision parameters for vectorizing a query image or text.
- */
-export interface AIServicesVisionVectorizer extends BaseVectorSearchVectorizer {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "aiServicesVision";
-  /**
-   * Contains the parameters specific to AI Services Vision embedding vectorization.
-   */
-  parameters?: AIServicesVisionParameters;
-}
-
-/**
- * Specifies the AI Services Vision parameters for vectorizing a query image or text.
- */
-export interface AIServicesVisionParameters {
-  /**
-   * The version of the model to use when calling the AI Services Vision service. It will default to
-   * the latest available when not specified.
-   */
-  modelVersion?: string;
-  /**
-   * The resource URI of the AI Services resource.
-   */
-  resourceUri: string;
-  /**
-   * API key of the designated AI Services resource.
-   */
-  apiKey?: string;
-  /**
-   * The user-assigned managed identity used for outbound connections. If an authResourceId is
-   * provided and it's not specified, the system-assigned managed identity is used. On updates to
-   * the index, if the identity is unspecified, the value remains unchanged. If set to "none", the
-   * value of this property is cleared.
-   */
-  authIdentity?: SearchIndexerDataIdentity;
-}
 
 /**
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
@@ -2649,7 +2504,7 @@ export interface KeyAuthAzureMachineLearningVectorizerParameters extends BaseAzu
   /**
    * The key for the AML service.
    */
-  authenticationKey: string;
+  apiKey: string;
 }
 
 /**
@@ -2909,11 +2764,11 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
   /**
    * A list of entity categories that should be extracted.
    */
-  categories?: EntityCategory[];
+  categories?: string[];
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: EntityRecognitionSkillLanguage;
+  defaultLanguageCode?: string;
   /**
    * Determines whether or not to include entities which are well known but don't conform to a
    * pre-defined type. If this configuration is not set (default), set to null or set to false,
@@ -3059,7 +2914,7 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: SentimentSkillLanguage;
+  defaultLanguageCode?: string;
 }
 
 /**
@@ -3093,18 +2948,6 @@ export interface SplitSkill extends BaseSearchIndexerSkill {
    * improve performance when only a few initial pages are needed from each document.
    */
   maximumPagesToTake?: number;
-  /**
-   * Only applies if textSplitMode is set to pages. There are two possible values. The choice of the
-   * values will decide the length (maximumPageLength and pageOverlapLength) measurement. The
-   * default is 'characters', which means the length will be measured by character.
-   */
-  unit?: SplitSkillUnit;
-  /**
-   * Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use
-   * these parameters when performing the tokenization. The parameters are a valid
-   * 'encoderModelName' and an optional 'allowedSpecialTokens' property.
-   */
-  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /**
@@ -3160,10 +3003,8 @@ export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
   | AzureBlobKnowledgeSource
-  | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
-  | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource;
+  | WebKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3172,13 +3013,7 @@ export interface BaseKnowledgeSource {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  kind:
-    | "searchIndex"
-    | "azureBlob"
-    | "indexedSharePoint"
-    | "indexedOneLake"
-    | "web"
-    | "remoteSharePoint";
+  kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
   /**
    * The name of the knowledge source.
    */
@@ -3251,37 +3086,6 @@ export interface AzureBlobKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for SharePoint knowledge source.
- */
-export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "indexedSharePoint";
-  /**
-   * The parameters for the SharePoint knowledge source.
-   */
-  indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
-}
-
-/** Parameters for SharePoint knowledge source. */
-export interface IndexedSharePointKnowledgeSourceParameters {
-  /** SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id] */
-  connectionString: string;
-  /** Specifies which SharePoint libraries to access. */
-  containerName: IndexedSharePointContainerName;
-  /** Optional query to filter SharePoint content. */
-  query?: string;
-  /** Consolidates all general ingestion settings. */
-  ingestionParameters?: KnowledgeSourceIngestionParameters;
-  /**
-   * Resources created by the knowledge source.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdResources?: { [propertyName: string]: string };
-}
-
-/**
  * Configuration for OneLake knowledge source.
  */
 export interface IndexedOneLakeKnowledgeSource extends BaseKnowledgeSource {
@@ -3324,20 +3128,6 @@ export interface WebKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the web knowledge source.
    */
   webParameters?: WebKnowledgeSourceParameters;
-}
-
-/**
- * Configuration for remote SharePoint knowledge source.
- */
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "remoteSharePoint";
-  /**
-   * The parameters for the knowledge source.
-   */
-  remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */
@@ -3384,8 +3174,6 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourc
  * Contains configuration options specific to the compression method used during indexing or querying.
  */
 export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuantizationCompression;
-
-export interface GetIndexStatsSummaryOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeBaseOptions extends OperationOptions {
   /**
@@ -3526,8 +3314,6 @@ export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 export type CharFilterNames = `${KnownCharFilterName}`;
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
-export type EntityCategory = `${KnownEntityCategory}`;
-export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
 export type ImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 export type ImageDetail = `${KnownImageDetail}`;
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
@@ -3579,7 +3365,8 @@ export type SearchFieldDataType = Exclude<
   "Edm.ComplexType" | "Edm.Byte" | "Edm.Half" | "Edm.Int16" | "Edm.SByte" | "Edm.Single"
 >;
 export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
-export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
+// TODO: find this enum
+// export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 export type TextSplitMode = `${KnownTextSplitMode}`;
 export type TextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
@@ -3588,5 +3375,80 @@ export type TokenizerNames = `${KnownLexicalTokenizerName}`;
 export type VectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
 export type VectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 export type VisualFeature = `${KnownVisualFeature}`;
+
+// Backward compatibility types for FacetResult, QueryAnswerResult, and QueryCaptionResult
+// These types add index signatures to maintain backward compatibility with the old API
+// where users could access dynamic properties directly (e.g., facetResult["myProperty"])
+// instead of through additionalProperties (e.g., facetResult.additionalProperties?.["myProperty"])
+
+/**
+ * A single bucket of a facet query result. Reports the number of documents with a field value
+ * falling within a particular range or having a particular value or interval.
+ */
+export interface FacetResult {
+  /** The approximate count of documents falling within the bucket described by this facet. */
+  readonly count?: number;
+  /** The resulting total avg for the facet when a avg metric is requested. */
+  readonly avg?: number;
+  /** The resulting total min for the facet when a min metric is requested. */
+  readonly min?: number;
+  /** The resulting total max for the facet when a max metric is requested. */
+  readonly max?: number;
+  /** The resulting total sum for the facet when a sum metric is requested. */
+  readonly sum?: number;
+  /** The resulting total cardinality for the facet when a cardinality metric is requested. */
+  readonly cardinality?: number;
+  /** The nested facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not contain any nested facets. */
+  readonly facets?: Record<string, FacetResult[]>;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+  /**
+   * Allows access to facet values directly via indexing.
+   * @deprecated Use `additionalProperties` instead for accessing dynamic facet values.
+   */
+  [property: string]: any;
+}
+
+/**
+ * An answer is a text passage extracted from the contents of the most relevant documents that
+ * matched the query. Answers are extracted from the top search results. Answer candidates are
+ * scored and the top answers are selected.
+ */
+export interface QueryAnswerResult {
+  /** The score value represents how relevant the answer is to the query relative to other answers returned for the query. */
+  readonly score?: number;
+  /** The key of the document the answer was extracted from. */
+  readonly key?: string;
+  /** The text passage extracted from the document contents as the answer. */
+  readonly text?: string;
+  /** Same text passage as in the Text property with highlighted text phrases most relevant to the query. */
+  readonly highlights?: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+  /**
+   * Allows access to additional properties directly via indexing.
+   * @deprecated Use `additionalProperties` instead for accessing dynamic properties.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Captions are the most representative passages from the document relatively to the search query.
+ * They are often used as document summary. Captions are only returned for queries of type
+ * `semantic`.
+ */
+export interface QueryCaptionResult {
+  /** A representative text passage extracted from the document most relevant to the search query. */
+  readonly text?: string;
+  /** Same text passage as in the Text property with highlighted phrases most relevant to the query. */
+  readonly highlights?: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+  /**
+   * Allows access to additional properties directly via indexing.
+   * @deprecated Use `additionalProperties` instead for accessing dynamic properties.
+   */
+  [property: string]: any;
+}
 
 // END manually modified generated interfaces

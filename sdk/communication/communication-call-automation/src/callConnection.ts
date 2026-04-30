@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CommunicationIdentifier,
-  createCommunicationAuthPolicy,
-} from "@azure/communication-common";
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { CallMedia } from "./callMedia.js";
-import {
+import type {
   AddParticipantRequest,
-  CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   CustomCallingContextInternal,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src/index.js";
+import { CallAutomationApiClient } from "./generated/src/index.js";
 import { CallConnectionImpl } from "./generated/src/operations/index.js";
 import {
   type CallConnectionProperties,

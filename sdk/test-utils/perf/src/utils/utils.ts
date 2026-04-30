@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { IncomingMessage, RequestOptions } from "node:http";
-import https from "node:https";
+import * as https from "node:https";
 import http from "node:http";
 
 /**

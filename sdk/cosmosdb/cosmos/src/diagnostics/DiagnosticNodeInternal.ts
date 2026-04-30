@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext.js";
-import { ErrorResponse, RequestContext } from "../request/index.js";
-import {
+import type { RequestContext } from "../request/index.js";
+import { ErrorResponse } from "../request/index.js";
+import type {
   DiagnosticNode,
   EncryptionDiagnostics,
   MetadataLookUpType,

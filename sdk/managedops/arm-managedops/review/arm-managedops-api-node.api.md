@@ -19,7 +19,7 @@ export interface ManagedOpsClientOptionalParams extends ClientOptions {
 
 // @public
 export interface ManagedOpsContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

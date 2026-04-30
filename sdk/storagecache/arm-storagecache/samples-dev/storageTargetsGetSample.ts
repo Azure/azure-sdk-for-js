@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns a Storage Target from a cache.
  *
  * @summary Returns a Storage Target from a cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2025-07-01/examples/StorageTargets_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache/stable/2026-01-01/examples/StorageTargets_Get.json
  */
 async function storageTargetsGet(): Promise<void> {
   const subscriptionId =

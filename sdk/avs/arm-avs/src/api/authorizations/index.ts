@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  AuthorizationsDeleteOptionalParams,
-  AuthorizationsCreateOrUpdateOptionalParams,
-  AuthorizationsGetOptionalParams,
-  AuthorizationsListOptionalParams,
+  type AuthorizationsDeleteOptionalParams,
+  type AuthorizationsCreateOrUpdateOptionalParams,
+  type AuthorizationsGetOptionalParams,
+  type AuthorizationsListOptionalParams,
 } from "./options.js";

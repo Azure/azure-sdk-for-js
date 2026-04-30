@@ -4,6 +4,36 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface SchedulersListPrivateEndpointConnectionsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SchedulersDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface SchedulersUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface SchedulersCreateOrUpdatePrivateEndpointConnectionOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface SchedulersGetPrivateEndpointConnectionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SchedulersListPrivateLinksOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SchedulersGetPrivateLinkOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface SchedulersListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

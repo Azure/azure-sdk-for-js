@@ -28,7 +28,6 @@ export interface AccountProperties {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean | null;
     encryption?: AccountEncryption;
-    ldapConfiguration?: LdapConfiguration;
     readonly multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string | null;
     readonly provisioningState?: string;
@@ -125,87 +124,6 @@ export interface ActiveDirectory {
 }
 
 // @public
-export interface ActiveDirectoryConfig extends TrackedResource {
-    readonly etag?: string;
-    identity?: ManagedServiceIdentity;
-    properties?: ActiveDirectoryConfigProperties;
-}
-
-// @public
-export interface ActiveDirectoryConfigProperties {
-    readonly activeDirectoryStatus?: ActiveDirectoryStatus;
-    administrators?: string[];
-    backupOperators?: string[];
-    dns?: string[];
-    domain: string;
-    organizationalUnit?: string;
-    readonly provisioningState?: NetAppProvisioningState;
-    secretPassword: SecretPassword;
-    securityOperators?: string[];
-    site?: string;
-    smbServerName?: string;
-    userName?: string;
-}
-
-// @public
-export interface ActiveDirectoryConfigsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ActiveDirectoryConfigsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ActiveDirectoryConfigsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ActiveDirectoryConfigsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ActiveDirectoryConfigsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ActiveDirectoryConfigsOperations {
-    createOrUpdate: (resourceGroupName: string, activeDirectoryConfigName: string, body: ActiveDirectoryConfig, options?: ActiveDirectoryConfigsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig>;
-    delete: (resourceGroupName: string, activeDirectoryConfigName: string, options?: ActiveDirectoryConfigsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, activeDirectoryConfigName: string, options?: ActiveDirectoryConfigsGetOptionalParams) => Promise<ActiveDirectoryConfig>;
-    listByResourceGroup: (resourceGroupName: string, options?: ActiveDirectoryConfigsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActiveDirectoryConfig>;
-    listBySubscription: (options?: ActiveDirectoryConfigsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ActiveDirectoryConfig>;
-    update: (resourceGroupName: string, activeDirectoryConfigName: string, body: ActiveDirectoryConfigUpdate, options?: ActiveDirectoryConfigsUpdateOptionalParams) => PollerLike<OperationState<ActiveDirectoryConfig>, ActiveDirectoryConfig>;
-}
-
-// @public
-export interface ActiveDirectoryConfigsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ActiveDirectoryConfigUpdate {
-    identity?: ManagedServiceIdentity;
-    properties?: ActiveDirectoryConfigUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ActiveDirectoryConfigUpdateProperties {
-    administrators?: string[];
-    backupOperators?: string[];
-    dns?: string[];
-    domain?: string;
-    organizationalUnit?: string;
-    secretPassword?: SecretPassword;
-    securityOperators?: string[];
-    site?: string;
-    smbServerName?: string;
-    userName?: string;
-}
-
-// @public
 export type ActiveDirectoryStatus = string;
 
 // @public
@@ -227,6 +145,12 @@ export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
     AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export interface AzureKeyVaultDetails {
+    certificateAkvDetails?: CertificateAkvDetails;
+    credentialsAkvDetails?: CredentialsAkvDetails;
 }
 
 // @public
@@ -486,9 +410,6 @@ export interface BreakReplicationRequest {
 }
 
 // @public
-export type BreakthroughMode = string;
-
-// @public
 export interface Bucket extends ProxyResource {
     properties?: BucketProperties;
 }
@@ -515,8 +436,8 @@ export type BucketPatchPermissions = string;
 
 // @public
 export interface BucketPatchProperties {
+    akvDetails?: AzureKeyVaultDetails;
     fileSystemUser?: FileSystemUser;
-    path?: string;
     permissions?: BucketPatchPermissions;
     readonly provisioningState?: NetAppProvisioningState;
     server?: BucketServerPatchProperties;
@@ -527,6 +448,7 @@ export type BucketPermissions = string;
 
 // @public
 export interface BucketProperties {
+    akvDetails?: AzureKeyVaultDetails;
     fileSystemUser?: FileSystemUser;
     path?: string;
     permissions?: BucketPermissions;
@@ -549,6 +471,7 @@ export interface BucketsDeleteOptionalParams extends OperationOptions {
 export interface BucketServerPatchProperties {
     certificateObject?: string;
     fqdn?: string;
+    onCertificateConflictAction?: OnCertificateConflictAction;
 }
 
 // @public
@@ -558,6 +481,12 @@ export interface BucketServerProperties {
     certificateObject?: string;
     fqdn?: string;
     readonly ipAddress?: string;
+    onCertificateConflictAction?: OnCertificateConflictAction;
+}
+
+// @public
+export interface BucketsGenerateAkvCredentialsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -576,10 +505,17 @@ export interface BucketsListOptionalParams extends OperationOptions {
 export interface BucketsOperations {
     createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: Bucket, options?: BucketsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Bucket>, Bucket>;
     delete: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    generateAkvCredentials: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateAkvCredentialsOptionalParams) => PollerLike<OperationState<void>, void>;
     generateCredentials: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketCredentialsExpiry, options?: BucketsGenerateCredentialsOptionalParams) => Promise<BucketGenerateCredentials>;
     get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsGetOptionalParams) => Promise<Bucket>;
     list: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: BucketsListOptionalParams) => PagedAsyncIterableIterator<Bucket>;
+    refreshCertificate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, options?: BucketsRefreshCertificateOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, bucketName: string, body: BucketPatch, options?: BucketsUpdateOptionalParams) => PollerLike<OperationState<Bucket>, Bucket>;
+}
+
+// @public
+export interface BucketsRefreshCertificateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -613,7 +549,7 @@ export interface CacheProperties {
     readonly encryption?: EncryptionState;
     encryptionKeySource: EncryptionKeySource;
     exportPolicy?: CachePropertiesExportPolicy;
-    filepath: string;
+    filePath: string;
     globalFileLocking?: GlobalFileLockingState;
     kerberos?: KerberosState;
     keyVaultPrivateEndpointResourceId?: string;
@@ -655,7 +591,7 @@ export interface CachesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CachesListByCapacityPoolsOptionalParams extends OperationOptions {
+export interface CachesListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -667,14 +603,20 @@ export interface CachesOperations {
     createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: Cache, options?: CachesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
     delete: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesGetOptionalParams) => Promise<Cache>;
-    listByCapacityPools: (resourceGroupName: string, accountName: string, poolName: string, options?: CachesListByCapacityPoolsOptionalParams) => PagedAsyncIterableIterator<Cache>;
+    list: (resourceGroupName: string, accountName: string, poolName: string, options?: CachesListOptionalParams) => PagedAsyncIterableIterator<Cache>;
     listPeeringPassphrases: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesListPeeringPassphrasesOptionalParams) => Promise<PeeringPassphrases>;
     poolChange: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams) => PollerLike<OperationState<void>, void>;
+    resetSmbPassword: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesResetSmbPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
 }
 
 // @public
 export interface CachesPoolChangeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CachesResetSmbPasswordOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -718,6 +660,12 @@ export interface CapacityPoolPatch {
 }
 
 // @public
+export interface CertificateAkvDetails {
+    certificateKeyVaultUri?: string;
+    certificateName?: string;
+}
+
+// @public
 export interface ChangeKeyVault {
     keyName: string;
     keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
@@ -726,33 +674,10 @@ export interface ChangeKeyVault {
 }
 
 // @public
-export interface ChangeZoneRequest {
-    newZone: string;
-}
-
-// @public
 export interface CheckAvailabilityResponse {
     isAvailable?: boolean;
     message?: string;
     reason?: InAvailabilityReasonType;
-}
-
-// @public
-export type CheckElasticResourceAvailabilityReason = string;
-
-// @public
-export interface CheckElasticResourceAvailabilityResponse {
-    isAvailable?: CheckElasticResourceAvailabilityStatus;
-    message?: string;
-    reason?: CheckElasticResourceAvailabilityReason;
-}
-
-// @public
-export type CheckElasticResourceAvailabilityStatus = string;
-
-// @public
-export interface CheckElasticVolumeFilePathAvailabilityRequest {
-    filePath: string;
 }
 
 // @public
@@ -774,7 +699,13 @@ export interface CifsUser {
 
 // @public
 export interface ClusterPeerCommandResponse {
-    peerAcceptCommand?: string;
+    properties?: ClusterPeerCommandResponseProperties;
+}
+
+// @public
+export interface ClusterPeerCommandResponseProperties {
+    clusterPeeringCommand?: string;
+    passphrase?: string;
 }
 
 // @public
@@ -792,6 +723,12 @@ export type CoolAccessTieringPolicy = string;
 export type CreatedByType = string;
 
 // @public
+export interface CredentialsAkvDetails {
+    credentialsKeyVaultUri?: string;
+    secretName?: string;
+}
+
+// @public
 export type CredentialsStatus = string;
 
 // @public
@@ -801,9 +738,6 @@ export interface DailySchedule {
     snapshotsToKeep?: number;
     usedBytes?: number;
 }
-
-// @public
-export type DayOfWeek = string;
 
 // @public
 export type DesiredRansomwareProtectionState = string;
@@ -820,647 +754,6 @@ export interface DestinationReplication {
 export interface Dimension {
     displayName?: string;
     name?: string;
-}
-
-// @public
-export interface ElasticAccount extends TrackedResource {
-    readonly eTag?: string;
-    identity?: ManagedServiceIdentity;
-    properties?: ElasticAccountProperties;
-}
-
-// @public
-export interface ElasticAccountProperties {
-    encryption?: ElasticEncryption;
-    readonly provisioningState?: NetAppProvisioningState;
-}
-
-// @public
-export interface ElasticAccountsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticAccountsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticAccountsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticAccountsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticAccountsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticAccountsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, body: ElasticAccount, options?: ElasticAccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticAccount>, ElasticAccount>;
-    delete: (resourceGroupName: string, accountName: string, options?: ElasticAccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, options?: ElasticAccountsGetOptionalParams) => Promise<ElasticAccount>;
-    listByResourceGroup: (resourceGroupName: string, options?: ElasticAccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ElasticAccount>;
-    listBySubscription: (options?: ElasticAccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ElasticAccount>;
-    update: (resourceGroupName: string, accountName: string, body: ElasticAccountUpdate, options?: ElasticAccountsUpdateOptionalParams) => PollerLike<OperationState<ElasticAccount>, ElasticAccount>;
-}
-
-// @public
-export interface ElasticAccountsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticAccountUpdate {
-    identity?: ManagedServiceIdentity;
-    properties?: ElasticAccountUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ElasticAccountUpdateProperties {
-    encryption?: ElasticEncryption;
-}
-
-// @public
-export interface ElasticBackup extends ProxyResource {
-    properties?: ElasticBackupProperties;
-}
-
-// @public
-export interface ElasticBackupPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupPoliciesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupPoliciesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticBackupPoliciesListByElasticAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticBackupPoliciesOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, backupPolicyName: string, body: ElasticBackupPolicy, options?: ElasticBackupPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticBackupPolicy>, ElasticBackupPolicy>;
-    delete: (resourceGroupName: string, accountName: string, backupPolicyName: string, options?: ElasticBackupPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, backupPolicyName: string, options?: ElasticBackupPoliciesGetOptionalParams) => Promise<ElasticBackupPolicy>;
-    listByElasticAccount: (resourceGroupName: string, accountName: string, options?: ElasticBackupPoliciesListByElasticAccountOptionalParams) => PagedAsyncIterableIterator<ElasticBackupPolicy>;
-    update: (resourceGroupName: string, accountName: string, backupPolicyName: string, body: ElasticBackupPolicyUpdate, options?: ElasticBackupPoliciesUpdateOptionalParams) => PollerLike<OperationState<ElasticBackupPolicy>, ElasticBackupPolicy>;
-}
-
-// @public
-export interface ElasticBackupPoliciesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupPolicy extends TrackedResource {
-    readonly eTag?: string;
-    properties?: ElasticBackupPolicyProperties;
-}
-
-// @public
-export interface ElasticBackupPolicyProperties {
-    readonly assignedVolumesCount?: number;
-    dailyBackupsToKeep?: number;
-    monthlyBackupsToKeep?: number;
-    policyState?: ElasticBackupPolicyState;
-    readonly provisioningState?: NetAppProvisioningState;
-    weeklyBackupsToKeep?: number;
-}
-
-// @public
-export type ElasticBackupPolicyState = string;
-
-// @public
-export interface ElasticBackupPolicyUpdate {
-    properties?: ElasticBackupPolicyUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ElasticBackupPolicyUpdateProperties {
-    dailyBackupsToKeep?: number;
-    monthlyBackupsToKeep?: number;
-    policyState?: ElasticBackupPolicyState;
-    weeklyBackupsToKeep?: number;
-}
-
-// @public
-export interface ElasticBackupProperties {
-    readonly backupType?: ElasticBackupType;
-    readonly completionDate?: Date;
-    readonly creationDate?: Date;
-    readonly elasticBackupPolicyResourceId?: string;
-    elasticSnapshotResourceId?: string;
-    elasticVolumeResourceId: string;
-    readonly failureReason?: string;
-    label?: string;
-    readonly provisioningState?: NetAppProvisioningState;
-    readonly size?: number;
-    readonly snapshotCreationDate?: Date;
-    snapshotUsage?: SnapshotUsage;
-    readonly volumeSize?: VolumeSize;
-}
-
-// @public
-export interface ElasticBackupsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticBackupsListByVaultOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticBackupsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, body: ElasticBackup, options?: ElasticBackupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
-    delete: (resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: ElasticBackupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, options?: ElasticBackupsGetOptionalParams) => Promise<ElasticBackup>;
-    listByVault: (resourceGroupName: string, accountName: string, backupVaultName: string, options?: ElasticBackupsListByVaultOptionalParams) => PagedAsyncIterableIterator<ElasticBackup>;
-    update: (resourceGroupName: string, accountName: string, backupVaultName: string, backupName: string, body: ElasticBackup, options?: ElasticBackupsUpdateOptionalParams) => PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
-}
-
-// @public
-export interface ElasticBackupsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ElasticBackupType = string;
-
-// @public
-export interface ElasticBackupVault extends TrackedResource {
-    readonly eTag?: string;
-    properties?: ElasticBackupVaultProperties;
-}
-
-// @public
-export interface ElasticBackupVaultProperties {
-    readonly provisioningState?: NetAppProvisioningState;
-}
-
-// @public
-export interface ElasticBackupVaultsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupVaultsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupVaultsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticBackupVaultsListByElasticAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticBackupVaultsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, backupVaultName: string, body: ElasticBackupVault, options?: ElasticBackupVaultsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticBackupVault>, ElasticBackupVault>;
-    delete: (resourceGroupName: string, accountName: string, backupVaultName: string, options?: ElasticBackupVaultsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, backupVaultName: string, options?: ElasticBackupVaultsGetOptionalParams) => Promise<ElasticBackupVault>;
-    listByElasticAccount: (resourceGroupName: string, accountName: string, options?: ElasticBackupVaultsListByElasticAccountOptionalParams) => PagedAsyncIterableIterator<ElasticBackupVault>;
-    update: (resourceGroupName: string, accountName: string, backupVaultName: string, body: ElasticBackupVaultUpdate, options?: ElasticBackupVaultsUpdateOptionalParams) => PollerLike<OperationState<ElasticBackupVault>, ElasticBackupVault>;
-}
-
-// @public
-export interface ElasticBackupVaultsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticBackupVaultUpdate {
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ElasticCapacityPool extends TrackedResource {
-    readonly eTag?: string;
-    properties?: ElasticCapacityPoolProperties;
-    zones?: string[];
-}
-
-// @public
-export interface ElasticCapacityPoolProperties {
-    activeDirectoryConfigResourceId?: string;
-    readonly availabilityStatus?: ElasticResourceAvailabilityStatus;
-    readonly currentZone?: string;
-    encryption?: ElasticEncryptionConfiguration;
-    readonly provisioningState?: NetAppProvisioningState;
-    serviceLevel: ElasticServiceLevel;
-    size: number;
-    subnetResourceId: string;
-    readonly totalThroughputMibps?: number;
-}
-
-// @public
-export interface ElasticCapacityPoolsChangeZoneOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticCapacityPoolsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticCapacityPoolsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticCapacityPoolsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticCapacityPoolsListByElasticAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticCapacityPoolsOperations {
-    changeZone: (resourceGroupName: string, accountName: string, poolName: string, body: ChangeZoneRequest, options?: ElasticCapacityPoolsChangeZoneOptionalParams) => PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool>;
-    checkVolumeFilePathAvailability: (resourceGroupName: string, accountName: string, poolName: string, body: CheckElasticVolumeFilePathAvailabilityRequest, options?: ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams) => Promise<CheckElasticResourceAvailabilityResponse>;
-    createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, body: ElasticCapacityPool, options?: ElasticCapacityPoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool>;
-    delete: (resourceGroupName: string, accountName: string, poolName: string, options?: ElasticCapacityPoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, poolName: string, options?: ElasticCapacityPoolsGetOptionalParams) => Promise<ElasticCapacityPool>;
-    listByElasticAccount: (resourceGroupName: string, accountName: string, options?: ElasticCapacityPoolsListByElasticAccountOptionalParams) => PagedAsyncIterableIterator<ElasticCapacityPool>;
-    update: (resourceGroupName: string, accountName: string, poolName: string, body: ElasticCapacityPoolUpdate, options?: ElasticCapacityPoolsUpdateOptionalParams) => PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool>;
-}
-
-// @public
-export interface ElasticCapacityPoolsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticCapacityPoolUpdate {
-    properties?: ElasticCapacityPoolUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ElasticCapacityPoolUpdateProperties {
-    activeDirectoryConfigResourceId?: string;
-    encryption?: ElasticEncryptionConfiguration;
-    size?: number;
-}
-
-// @public
-export interface ElasticEncryption {
-    identity?: ElasticEncryptionIdentity;
-    keySource?: KeySource;
-    keyVaultProperties?: ElasticKeyVaultProperties;
-}
-
-// @public
-export interface ElasticEncryptionConfiguration {
-    elasticPoolEncryptionKeySource: ElasticPoolEncryptionKeySource;
-    keyVaultPrivateEndpointResourceId: string;
-}
-
-// @public
-export interface ElasticEncryptionIdentity {
-    readonly principalId?: string;
-    userAssignedIdentity?: string;
-}
-
-// @public
-export interface ElasticExportPolicy {
-    rules?: ElasticExportPolicyRule[];
-}
-
-// @public
-export interface ElasticExportPolicyRule {
-    allowedClients?: string[];
-    nfsv3?: ElasticNfsv3Access;
-    nfsv4?: ElasticNfsv4Access;
-    rootAccess?: ElasticRootAccess;
-    ruleIndex?: number;
-    unixAccessRule?: ElasticUnixAccessRule;
-}
-
-// @public
-export interface ElasticKeyVaultProperties {
-    keyName?: string;
-    keyVaultResourceId?: string;
-    keyVaultUri?: string;
-    readonly status?: ElasticKeyVaultStatus;
-}
-
-// @public
-export type ElasticKeyVaultStatus = string;
-
-// @public
-export interface ElasticMountTargetProperties {
-    readonly ipAddress?: string;
-    readonly smbServerFqdn?: string;
-}
-
-// @public
-export type ElasticNfsv3Access = string;
-
-// @public
-export type ElasticNfsv4Access = string;
-
-// @public
-export type ElasticPoolEncryptionKeySource = string;
-
-// @public
-export type ElasticProtocolType = string;
-
-// @public
-export type ElasticResourceAvailabilityStatus = string;
-
-// @public
-export type ElasticRootAccess = string;
-
-// @public
-export type ElasticServiceLevel = string;
-
-// @public
-export type ElasticSmbEncryption = string;
-
-// @public
-export interface ElasticSmbPatchProperties {
-    smbEncryption?: ElasticSmbEncryption;
-}
-
-// @public
-export interface ElasticSmbProperties {
-    smbEncryption?: ElasticSmbEncryption;
-}
-
-// @public
-export interface ElasticSnapshot extends ProxyResource {
-    properties?: ElasticSnapshotProperties;
-}
-
-// @public
-export interface ElasticSnapshotPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticSnapshotPoliciesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticSnapshotPoliciesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticSnapshotPoliciesListElasticVolumesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticSnapshotPoliciesOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, snapshotPolicyName: string, body: ElasticSnapshotPolicy, options?: ElasticSnapshotPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy>;
-    delete: (resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: ElasticSnapshotPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: ElasticSnapshotPoliciesGetOptionalParams) => Promise<ElasticSnapshotPolicy>;
-    listByElasticAccount: (resourceGroupName: string, accountName: string, options?: ElasticSnapshotPoliciesListByElasticAccountOptionalParams) => PagedAsyncIterableIterator<ElasticSnapshotPolicy>;
-    listElasticVolumes: (resourceGroupName: string, accountName: string, snapshotPolicyName: string, options?: ElasticSnapshotPoliciesListElasticVolumesOptionalParams) => PagedAsyncIterableIterator<ElasticVolume>;
-    update: (resourceGroupName: string, accountName: string, snapshotPolicyName: string, body: ElasticSnapshotPolicyUpdate, options?: ElasticSnapshotPoliciesUpdateOptionalParams) => PollerLike<OperationState<ElasticSnapshotPolicy>, ElasticSnapshotPolicy>;
-}
-
-// @public
-export interface ElasticSnapshotPoliciesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticSnapshotPolicy extends TrackedResource {
-    readonly eTag?: string;
-    properties?: ElasticSnapshotPolicyProperties;
-}
-
-// @public
-export interface ElasticSnapshotPolicyDailySchedule {
-    hour?: number;
-    minute?: number;
-    snapshotsToKeep?: number;
-}
-
-// @public
-export interface ElasticSnapshotPolicyHourlySchedule {
-    minute?: number;
-    snapshotsToKeep?: number;
-}
-
-// @public
-export interface ElasticSnapshotPolicyMonthlySchedule {
-    daysOfMonth?: number[];
-    hour?: number;
-    minute?: number;
-    snapshotsToKeep?: number;
-}
-
-// @public
-export interface ElasticSnapshotPolicyProperties {
-    dailySchedule?: ElasticSnapshotPolicyDailySchedule;
-    hourlySchedule?: ElasticSnapshotPolicyHourlySchedule;
-    monthlySchedule?: ElasticSnapshotPolicyMonthlySchedule;
-    policyStatus?: PolicyStatus;
-    readonly provisioningState?: NetAppProvisioningState;
-    weeklySchedule?: ElasticSnapshotPolicyWeeklySchedule;
-}
-
-// @public
-export interface ElasticSnapshotPolicyUpdate {
-    properties?: ElasticSnapshotPolicyUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ElasticSnapshotPolicyUpdateProperties {
-    dailySchedule?: ElasticSnapshotPolicyDailySchedule;
-    hourlySchedule?: ElasticSnapshotPolicyHourlySchedule;
-    monthlySchedule?: ElasticSnapshotPolicyMonthlySchedule;
-    policyStatus?: PolicyStatus;
-    weeklySchedule?: ElasticSnapshotPolicyWeeklySchedule;
-}
-
-// @public
-export interface ElasticSnapshotPolicyWeeklySchedule {
-    days?: DayOfWeek[];
-    hour?: number;
-    minute?: number;
-    snapshotsToKeep?: number;
-}
-
-// @public
-export interface ElasticSnapshotProperties {
-    readonly provisioningState?: NetAppProvisioningState;
-}
-
-// @public
-export interface ElasticSnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticSnapshotsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticSnapshotsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticSnapshotsListByElasticVolumeOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticSnapshotsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, body: ElasticSnapshot, options?: ElasticSnapshotsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticSnapshot>, ElasticSnapshot>;
-    delete: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: ElasticSnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: ElasticSnapshotsGetOptionalParams) => Promise<ElasticSnapshot>;
-    listByElasticVolume: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: ElasticSnapshotsListByElasticVolumeOptionalParams) => PagedAsyncIterableIterator<ElasticSnapshot>;
-}
-
-// @public
-export type ElasticUnixAccessRule = string;
-
-// @public
-export interface ElasticVolume extends TrackedResource {
-    readonly eTag?: string;
-    properties?: ElasticVolumeProperties;
-    zones?: string[];
-}
-
-// @public
-export interface ElasticVolumeBackupProperties {
-    elasticBackupPolicyResourceId?: string;
-    elasticBackupVaultResourceId?: string;
-    policyEnforcement?: ElasticVolumePolicyEnforcement;
-}
-
-// @public
-export interface ElasticVolumeDataProtectionPatchProperties {
-    backup?: ElasticVolumeBackupProperties;
-    snapshot?: ElasticVolumeSnapshotProperties;
-}
-
-// @public
-export interface ElasticVolumeDataProtectionProperties {
-    backup?: ElasticVolumeBackupProperties;
-    snapshot?: ElasticVolumeSnapshotProperties;
-}
-
-// @public
-export type ElasticVolumePolicyEnforcement = string;
-
-// @public
-export interface ElasticVolumeProperties {
-    readonly availabilityStatus?: ElasticResourceAvailabilityStatus;
-    backupResourceId?: string;
-    dataProtection?: ElasticVolumeDataProtectionProperties;
-    exportPolicy?: ElasticExportPolicy;
-    filePath: string;
-    readonly mountTargets?: ElasticMountTargetProperties[];
-    protocolTypes: ElasticProtocolType[];
-    readonly provisioningState?: NetAppProvisioningState;
-    readonly restorationState?: ElasticVolumeRestorationState;
-    size: number;
-    smbProperties?: ElasticSmbProperties;
-    snapshotDirectoryVisibility?: SnapshotDirectoryVisibility;
-    snapshotResourceId?: string;
-}
-
-// @public
-export type ElasticVolumeRestorationState = string;
-
-// @public
-export interface ElasticVolumeRevert {
-    snapshotResourceId?: string;
-}
-
-// @public
-export interface ElasticVolumesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticVolumesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticVolumesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticVolumesListByElasticPoolOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ElasticVolumeSnapshotProperties {
-    snapshotPolicyResourceId?: string;
-}
-
-// @public
-export interface ElasticVolumesOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ElasticVolume, options?: ElasticVolumesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ElasticVolume>, ElasticVolume>;
-    delete: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: ElasticVolumesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: ElasticVolumesGetOptionalParams) => Promise<ElasticVolume>;
-    listByElasticPool: (resourceGroupName: string, accountName: string, poolName: string, options?: ElasticVolumesListByElasticPoolOptionalParams) => PagedAsyncIterableIterator<ElasticVolume>;
-    revert: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ElasticVolumeRevert, options?: ElasticVolumesRevertOptionalParams) => PollerLike<OperationState<ElasticVolume>, ElasticVolume>;
-    update: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ElasticVolumeUpdate, options?: ElasticVolumesUpdateOptionalParams) => PollerLike<OperationState<ElasticVolume>, ElasticVolume>;
-}
-
-// @public
-export interface ElasticVolumesRevertOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticVolumesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ElasticVolumeUpdate {
-    properties?: ElasticVolumeUpdateProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ElasticVolumeUpdateProperties {
-    dataProtection?: ElasticVolumeDataProtectionPatchProperties;
-    exportPolicy?: ElasticExportPolicy;
-    size?: number;
-    smbProperties?: ElasticSmbPatchProperties;
-    snapshotDirectoryVisibility?: SnapshotDirectoryVisibility;
 }
 
 // @public
@@ -1658,12 +951,6 @@ export enum KnownBackupType {
 }
 
 // @public
-export enum KnownBreakthroughMode {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownBucketPatchPermissions {
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
@@ -1692,18 +979,6 @@ export enum KnownCacheProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownCheckElasticResourceAvailabilityReason {
-    AlreadyExists = "AlreadyExists",
-    Invalid = "Invalid"
-}
-
-// @public
-export enum KnownCheckElasticResourceAvailabilityStatus {
-    False = "False",
-    True = "True"
 }
 
 // @public
@@ -1767,109 +1042,9 @@ export enum KnownCredentialsStatus {
 }
 
 // @public
-export enum KnownDayOfWeek {
-    Friday = "Friday",
-    Monday = "Monday",
-    Saturday = "Saturday",
-    Sunday = "Sunday",
-    Thursday = "Thursday",
-    Tuesday = "Tuesday",
-    Wednesday = "Wednesday"
-}
-
-// @public
 export enum KnownDesiredRansomwareProtectionState {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownElasticBackupPolicyState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownElasticBackupType {
-    Manual = "Manual",
-    Scheduled = "Scheduled"
-}
-
-// @public
-export enum KnownElasticKeyVaultStatus {
-    Created = "Created",
-    Deleted = "Deleted",
-    Error = "Error",
-    InUse = "InUse",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownElasticNfsv3Access {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownElasticNfsv4Access {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownElasticPoolEncryptionKeySource {
-    KeyVault = "KeyVault",
-    NetApp = "NetApp"
-}
-
-// @public
-export enum KnownElasticProtocolType {
-    NFSv3 = "NFSv3",
-    NFSv4 = "NFSv4",
-    SMB = "SMB"
-}
-
-// @public
-export enum KnownElasticResourceAvailabilityStatus {
-    Offline = "Offline",
-    Online = "Online"
-}
-
-// @public
-export enum KnownElasticRootAccess {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownElasticServiceLevel {
-    ZoneRedundant = "ZoneRedundant"
-}
-
-// @public
-export enum KnownElasticSmbEncryption {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownElasticUnixAccessRule {
-    NoAccess = "NoAccess",
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite"
-}
-
-// @public
-export enum KnownElasticVolumePolicyEnforcement {
-    Enforced = "Enforced",
-    NotEnforced = "NotEnforced"
-}
-
-// @public
-export enum KnownElasticVolumeRestorationState {
-    Failed = "Failed",
-    Restored = "Restored",
-    Restoring = "Restoring"
 }
 
 // @public
@@ -1963,12 +1138,6 @@ export enum KnownKeyVaultStatus {
 }
 
 // @public
-export enum KnownLargeVolumeType {
-    ExtraLargeVolume7Dot2PiB = "PremExtraLargeVolume7Dot2PiB",
-    LargeVolume = "LargeVolume"
-}
-
-// @public
 export enum KnownLdapServerType {
     ActiveDirectory = "ActiveDirectory",
     OpenLdap = "OpenLDAP"
@@ -2035,9 +1204,9 @@ export enum KnownNetworkSiblingSetProvisioningState {
 }
 
 // @public
-export enum KnownPolicyStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
+export enum KnownOnCertificateConflictAction {
+    Fail = "Fail",
+    Update = "Update"
 }
 
 // @public
@@ -2051,6 +1220,14 @@ export enum KnownProtocolTypes {
 export enum KnownQosType {
     Auto = "Auto",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownQuotaType {
+    DefaultGroupQuota = "DefaultGroupQuota",
+    DefaultUserQuota = "DefaultUserQuota",
+    IndividualGroupQuota = "IndividualGroupQuota",
+    IndividualUserQuota = "IndividualUserQuota"
 }
 
 // @public
@@ -2139,33 +1316,12 @@ export enum KnownSmbNonBrowsable {
 }
 
 // @public
-export enum KnownSnapshotDirectoryVisibility {
-    Hidden = "Hidden",
-    Visible = "Visible"
-}
-
-// @public
-export enum KnownSnapshotUsage {
-    CreateNewSnapshot = "CreateNewSnapshot",
-    UseExistingSnapshot = "UseExistingSnapshot"
-}
-
-// @public
-export enum KnownType {
-    DefaultGroupQuota = "DefaultGroupQuota",
-    DefaultUserQuota = "DefaultUserQuota",
-    IndividualGroupQuota = "IndividualGroupQuota",
-    IndividualUserQuota = "IndividualUserQuota"
-}
-
-// @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
-    V20250701Preview = "2025-07-01-preview",
     V20250801 = "2025-08-01",
-    V20250801Preview = "2025-08-01-preview",
     V20250901 = "2025-09-01",
-    V20250901Preview = "2025-09-01-preview"
+    V20251201 = "2025-12-01",
+    V20260101 = "2026-01-01"
 }
 
 // @public
@@ -2264,29 +1420,11 @@ export enum KnownVolumeRestoreRelationshipStatus {
 }
 
 // @public
-export enum KnownVolumeSize {
-    Large = "Large",
-    Regular = "Regular"
-}
-
-// @public
 export enum KnownVolumeStorageToNetworkProximity {
     AcrossT2 = "AcrossT2",
     Default = "Default",
     T1 = "T1",
     T2 = "T2"
-}
-
-// @public
-export type LargeVolumeType = string;
-
-// @public
-export interface LdapConfiguration {
-    certificateCNHost?: string | null;
-    domain?: string;
-    ldapOverTLS?: boolean;
-    ldapServers?: string[];
-    serverCACertificate?: string;
 }
 
 // @public
@@ -2304,7 +1442,12 @@ export type LdapState = string;
 
 // @public
 export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
+    quotaReportRecords?: QuotaReport[];
+}
+
+// @public
+export interface ListQuotaReportResult {
+    properties?: ListQuotaReportResponse;
 }
 
 // @public
@@ -2395,9 +1538,9 @@ export interface NetAppAccountPatch {
 
 // @public (undocumented)
 export class NetAppManagementClient {
+    constructor(credential: TokenCredential, options?: NetAppManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: NetAppManagementClientOptionalParams);
     readonly accounts: AccountsOperations;
-    readonly activeDirectoryConfigs: ActiveDirectoryConfigsOperations;
     readonly backupPolicies: BackupPoliciesOperations;
     readonly backups: BackupsOperations;
     readonly backupsUnderAccount: BackupsUnderAccountOperations;
@@ -2406,14 +1549,6 @@ export class NetAppManagementClient {
     readonly backupVaults: BackupVaultsOperations;
     readonly buckets: BucketsOperations;
     readonly caches: CachesOperations;
-    readonly elasticAccounts: ElasticAccountsOperations;
-    readonly elasticBackupPolicies: ElasticBackupPoliciesOperations;
-    readonly elasticBackups: ElasticBackupsOperations;
-    readonly elasticBackupVaults: ElasticBackupVaultsOperations;
-    readonly elasticCapacityPools: ElasticCapacityPoolsOperations;
-    readonly elasticSnapshotPolicies: ElasticSnapshotPoliciesOperations;
-    readonly elasticSnapshots: ElasticSnapshotsOperations;
-    readonly elasticVolumes: ElasticVolumesOperations;
     readonly netAppResource: NetAppResourceOperations;
     readonly netAppResourceQuotaLimits: NetAppResourceQuotaLimitsOperations;
     readonly netAppResourceQuotaLimitsAccount: NetAppResourceQuotaLimitsAccountOperations;
@@ -2560,6 +1695,9 @@ export interface NicInfo {
 }
 
 // @public
+export type OnCertificateConflictAction = string;
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -2618,6 +1756,7 @@ export interface PeerClusterForVolumeMigrationRequest {
 export interface PeeringPassphrases {
     clusterPeeringCommand: string;
     clusterPeeringPassphrase: string;
+    readonly criticalWarning?: string;
     vserverPeeringCommand: string;
 }
 
@@ -2626,9 +1765,6 @@ export interface PlacementKeyValuePairs {
     key: string;
     value: string;
 }
-
-// @public
-export type PolicyStatus = string;
 
 // @public
 export interface PoolChangeRequest {
@@ -2731,8 +1867,18 @@ export interface QuotaReport {
     quotaLimitTotalInKiBs?: number;
     quotaLimitUsedInKiBs?: number;
     quotaTarget?: string;
-    quotaType?: Type;
+    quotaType?: QuotaType;
 }
+
+// @public
+export interface QuotaReportFilterRequest {
+    quotaTarget?: string;
+    quotaType?: QuotaType;
+    usageThresholdPercentage?: number;
+}
+
+// @public
+export type QuotaType = string;
 
 // @public
 export interface RansomwareProtectionPatchSettings {
@@ -2846,7 +1992,7 @@ export interface Replication {
     endpointType?: EndpointType;
     readonly mirrorState?: ReplicationMirrorState;
     remoteVolumeRegion?: string;
-    remoteVolumeResourceId: string;
+    remoteVolumeResourceId?: string;
     readonly replicationCreationTime?: Date;
     readonly replicationDeletionTime?: Date;
     readonly replicationId?: string;
@@ -2922,24 +2068,6 @@ export interface RestoreStatus {
 }
 
 // @public
-export interface SecretPassword {
-    identity?: SecretPasswordIdentity;
-    keyVaultProperties?: SecretPasswordKeyVaultProperties;
-}
-
-// @public
-export interface SecretPasswordIdentity {
-    readonly principalId?: string;
-    userAssignedIdentity?: string;
-}
-
-// @public
-export interface SecretPasswordKeyVaultProperties {
-    keyVaultUri: string;
-    secretName: string;
-}
-
-// @public
 export type SecurityStyle = string;
 
 // @public
@@ -2962,7 +2090,7 @@ export type SmbNonBrowsable = string;
 
 // @public
 export interface SmbSettings {
-    smbAccessBasedEnumerations?: SmbAccessBasedEnumeration;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbEncryption?: SmbEncryptionState;
     smbNonBrowsable?: SmbNonBrowsable;
 }
@@ -2972,9 +2100,6 @@ export interface Snapshot extends ProxyResource {
     location: string;
     properties?: SnapshotProperties;
 }
-
-// @public
-export type SnapshotDirectoryVisibility = string;
 
 // @public
 export interface SnapshotPatch {
@@ -3100,9 +2225,6 @@ export interface SnapshotsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotUsage = string;
-
-// @public
 export interface SubvolumeInfo extends ProxyResource {
     properties?: SubvolumeProperties;
 }
@@ -3194,6 +2316,11 @@ export interface SuspectFile {
 
 // @public
 export interface SvmPeerCommandResponse {
+    properties?: SvmPeerCommandResponseProperties;
+}
+
+// @public
+export interface SvmPeerCommandResponseProperties {
     svmPeeringCommand?: string;
 }
 
@@ -3212,9 +2339,6 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
-
-// @public
-export type Type = string;
 
 // @public
 export interface UpdateNetworkSiblingSetRequest {
@@ -3401,7 +2525,6 @@ export interface VolumeProperties {
     avsDataStore?: AvsDataStore;
     backupId?: string | null;
     readonly baremetalTenantId?: string;
-    breakthroughMode?: BreakthroughMode;
     capacityPoolResourceId?: string;
     readonly cloneProgress?: number | null;
     coolAccess?: boolean;
@@ -3427,10 +2550,7 @@ export interface VolumeProperties {
     readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
-    language?: VolumeLanguage;
-    largeVolumeType?: LargeVolumeType;
     ldapEnabled?: boolean;
-    ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
@@ -3517,7 +2637,7 @@ export interface VolumeQuotaRulesProperties {
     readonly provisioningState?: NetAppProvisioningState;
     quotaSizeInKiBs?: number;
     quotaTarget?: string;
-    quotaType?: Type;
+    quotaType?: QuotaType;
 }
 
 // @public
@@ -3595,9 +2715,6 @@ export interface VolumesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumeSize = string;
-
-// @public
 export interface VolumesListGetGroupIdListForLdapUserOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -3608,6 +2725,7 @@ export interface VolumesListOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
+    body?: QuotaReportFilterRequest;
     updateIntervalInMs?: number;
 }
 
@@ -3635,7 +2753,7 @@ export interface VolumesOperations {
     get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
     list: (resourceGroupName: string, accountName: string, poolName: string, options?: VolumesListOptionalParams) => PagedAsyncIterableIterator<Volume>;
     listGetGroupIdListForLdapUser: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams) => PollerLike<OperationState<GetGroupIdListForLdapUserResponse>, GetGroupIdListForLdapUserResponse>;
-    listQuotaReport: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams) => PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+    listQuotaReport: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams) => PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
     listReplications: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams) => PagedAsyncIterableIterator<Replication>;
     peerExternalCluster: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerExternalClusterOptionalParams) => PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
     performReplicationTransfer: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPerformReplicationTransferOptionalParams) => PollerLike<OperationState<void>, void>;

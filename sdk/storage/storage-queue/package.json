@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.29.0",
+  "version": "12.30.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -35,7 +35,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/storage/storage-queue"
+  },
   "keywords": [
     "azure",
     "storage",
@@ -51,7 +55,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/README.md",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
@@ -98,7 +102,7 @@
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.1.4",
-    "@azure/storage-common": "^12.2.0",
+    "@azure/storage-common": "^12.4.0-beta.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -117,27 +121,10 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

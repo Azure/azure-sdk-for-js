@@ -16,7 +16,7 @@ export interface AppConfigurationManagementClientOptionalParams extends ClientOp
 
 // @public
 export interface AppConfigurationManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

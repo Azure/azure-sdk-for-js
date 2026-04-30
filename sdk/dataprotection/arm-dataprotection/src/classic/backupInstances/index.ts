@@ -200,7 +200,7 @@ export interface BackupInstancesOperations {
     backupInstanceName: string,
     operationId: string,
     options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams,
-  ) => Promise<BackupInstanceResource | null>;
+  ) => Promise<BackupInstanceResource>;
 }
 
 function _getBackupInstances(context: DataProtectionContext) {

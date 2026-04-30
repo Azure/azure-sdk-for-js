@@ -3,33 +3,22 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB SQL container.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL container.
  *
- * @summary Deletes an existing Azure Cosmos DB SQL container.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBSqlContainerDelete.json
+ * @summary deletes an existing Azure Cosmos DB SQL container.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlContainerDelete.json
  */
-async function cosmosDbSqlContainerDelete() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const databaseName = "databaseName";
-  const containerName = "containerName";
+async function cosmosDBSqlContainerDelete() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginDeleteSqlContainerAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-  );
-  console.log(result);
+  await client.sqlResources.deleteSqlContainer("rg1", "ddb1", "databaseName", "containerName");
 }
 
 async function main() {
-  await cosmosDbSqlContainerDelete();
+  await cosmosDBSqlContainerDelete();
 }
 
 main().catch(console.error);

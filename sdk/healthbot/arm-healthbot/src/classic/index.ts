@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { BotsOperations } from "./bots/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type BotsOperations } from "./bots/index.js";
+export { type OperationsOperations } from "./operations/index.js";

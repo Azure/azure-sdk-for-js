@@ -217,17 +217,9 @@ export interface Client {
   pathUnchecked: PathUnchecked;
 }
 
-/**
- * A Node.js Readable stream that also has a `destroy` method.
- */
-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
-  /**
-   * Destroy the stream. Optionally emit an 'error' event, and emit a
-   * 'close' event (unless emitClose is set to false). After this call,
-   * internal resources will be released.
-   */
-  destroy(error?: Error): void;
-}
+import type { NodeJSReadableStream } from "#platform/types";
+import type { WebReadableStream } from "@typespec/ts-http-runtime";
+export type { NodeJSReadableStream } from "#platform/types";
 
 /**
  * Http Response which body is a NodeJS stream object
@@ -246,7 +238,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
   /**
    * Streamable body
    */
-  body?: ReadableStream<Uint8Array>;
+  body?: WebReadableStream<Uint8Array>;
 };
 
 /**
@@ -374,6 +366,13 @@ export type ClientOptions = PipelineOptions & {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+
+  /**
+   * Pipeline to use for the client. If not provided, a default pipeline will be created using the options provided.
+   * Use with caution -- when setting this option, all client options that are used in the creation of the default pipeline
+   * will be ignored.
+   */
+  pipeline?: Pipeline;
 };
 
 /**

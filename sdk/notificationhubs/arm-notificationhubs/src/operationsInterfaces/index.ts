@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./notificationHubs.js";
-export * from "./namespaces.js";
-export * from "./operations.js";
-export * from "./privateEndpointConnections.js";
+export type * from "./notificationHubs.js";
+export type * from "./namespaces.js";
+export type * from "./operations.js";
+export type * from "./privateEndpointConnections.js";

@@ -13,6 +13,10 @@ require("dotenv/config");
 async function main() {
   const hubName = "sample_chat";
   const groupName = "testGroup";
+  const options = {
+    keepAliveTimeoutInMs: 500,
+    keepAliveIntervalInMs: 100,
+  };
   const serviceClient = new WebPubSubServiceClient(
     process.env.WPS_ENDPOINT,
     new DefaultAzureCredential(),
@@ -26,9 +30,12 @@ async function main() {
       })
     ).url;
   };
-  const client = new WebPubSubClient({
-    getClientAccessUrl: fetchClientAccessUrl,
-  });
+  const client = new WebPubSubClient(
+    {
+      getClientAccessUrl: fetchClientAccessUrl,
+    },
+    options,
+  );
 
   client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
@@ -71,7 +78,12 @@ async function main() {
     "binary",
   );
   await delay(1000);
+  await client.sendToGroup(groupName, "hello world after ping/pong", "text", {
+    fireAndForget: true,
+  });
+  await delay(200);
   client.stop();
+  console.log("Client stopped");
 }
 
 main().catch((e) => {

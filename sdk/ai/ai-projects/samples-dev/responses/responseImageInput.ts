@@ -19,8 +19,8 @@ import "dotenv/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 async function imageToBase64(imagePath: string): Promise<string> {
   try {
@@ -34,7 +34,7 @@ async function imageToBase64(imagePath: string): Promise<string> {
 export async function main(): Promise<void> {
   // Create OpenAI client with Azure credentials
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   const imageFilePath = path.resolve(__dirname, "../assets/image_input.png");
 

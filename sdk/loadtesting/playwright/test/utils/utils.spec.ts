@@ -166,7 +166,7 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -178,7 +178,7 @@ describe("Service Utils", () => {
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&sourceType=PlaywrightWorkspacesTestRun&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -872,36 +872,46 @@ describe("Service Utils", () => {
   });
 
   describe("getPortalTestRunUrl", () => {
-    it("should build a portal link using workspace metadata", () => {
-      const workspace = {
-        subscriptionId: "sub id",
-        resourceId:
-          "/subscriptions/sub id/resourceGroups/My Resource Group/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name",
-        name: "workspace-name",
-      } as any;
+    const originalEnv = process.env;
 
-      const portalUrl = getPortalTestRunUrl(workspace);
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+      process.env._MPT_SERVICE_RUN_ID = "test-run-id-123";
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+    });
+
+    it("should build a portal URL with correct format", () => {
+      const resourceId =
+        "/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name";
+
+      const portalUrl = getPortalTestRunUrl(resourceId);
       expect(portalUrl).toBe(
-        `https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/${encodeURIComponent("sub id")}/resourceGroups/${encodeURIComponent("My Resource Group")}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent("workspace-name")}/TestRuns`,
+        `https://ms.portal.azure.com/#view/Microsoft_Azure_CloudNativeTesting/TestReport.ReactView/testRunId/${encodeURIComponent("test-run-id-123")}/resourceId/${encodeURIComponent("/subscriptions/sub-id/resourceGroups/rg-name/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name")}`,
       );
     });
 
-    it("should throw when metadata is incomplete", () => {
-      expect(() => getPortalTestRunUrl(null)).toThrow(
-        "Missing required workspace metadata: subscriptionId, resourceId, and name are required",
+    it("should throw when resourceId is null or empty", () => {
+      expect(() => getPortalTestRunUrl("")).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(null as any)).toThrow(
+        "Missing required parameter: resourceId is required",
+      );
+      expect(() => getPortalTestRunUrl(undefined as any)).toThrow(
+        "Missing required parameter: resourceId is required",
       );
     });
 
-    it("should throw when resourceId format is invalid", () => {
-      const workspace = {
-        subscriptionId: "sub",
-        resourceId:
-          "/subscriptions/sub/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace",
-        name: "workspace",
-      } as any;
+    it("should throw when run ID is not available", () => {
+      delete process.env._MPT_SERVICE_RUN_ID;
+      const resourceId =
+        "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace";
 
-      expect(() => getPortalTestRunUrl(workspace)).toThrow(
-        "Invalid resourceId format: could not extract resource group name",
+      expect(() => getPortalTestRunUrl(resourceId)).toThrow(
+        "Run ID is required but not found in environment variables",
       );
     });
   });

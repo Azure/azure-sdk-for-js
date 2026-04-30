@@ -1,0 +1,11 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/avsVmVolumes": "./src/api/avsVmVolumes/index.ts"
+  "./api/avsVms": "./src/api/avsVms/index.ts"
+  "./api/avsStorageContainerVolumes": "./src/api/avsStorageContainerVolumes/index.ts"
+  "./api/avsStorageContainers": "./src/api/avsStorageContainers/index.ts"
+  "./api/storagePools": "./src/api/storagePools/index.ts"
+  "./api/reservations": "./src/api/reservations/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

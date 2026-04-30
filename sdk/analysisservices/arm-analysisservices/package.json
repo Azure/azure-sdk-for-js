@@ -39,12 +39,15 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/analysisservices/arm-analysisservices",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/analysisservices/arm-analysisservices/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/analysisservices/arm-analysisservices"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -89,22 +92,6 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-analysisservices?view=azure-node-preview"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "exports": {

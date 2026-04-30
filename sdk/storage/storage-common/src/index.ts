@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 export * from "./BufferScheduler.js";
+export * from "./StructuredMessageEncodingStream.js";
+export * from "./StructuredMessageDecodingStream.js";
+export * from "./StorageCRC64Calculator.js";
 export { getCachedDefaultHttpClient } from "./cache.js";
-export * from "./interfaces.js";
+export type * from "./interfaces.js";
 
 export * from "./StorageBrowserPolicyFactory.js";
 export * from "./credentials/AnonymousCredential.js";

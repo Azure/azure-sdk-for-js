@@ -6,6 +6,7 @@ import type {
   BreakReplicationRequest,
   ListReplicationsRequest,
   RelocateVolumeRequest,
+  QuotaReportFilterRequest,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -13,6 +14,8 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** The content of the action request */
+  body?: QuotaReportFilterRequest;
 }
 
 /** Optional parameters. */

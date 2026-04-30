@@ -1,0 +1,9 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/registries": "./src/api/registries/index.ts"
+  "./api/tasks": "./src/api/tasks/index.ts"
+  "./api/taskRuns": "./src/api/taskRuns/index.ts"
+  "./api/runs": "./src/api/runs/index.ts"
+  "./api/agentPools": "./src/api/agentPools/index.ts"
+  "./models": "./src/models/index.ts"

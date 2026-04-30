@@ -1,60 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys.js";
-export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common/index.js";
+export {
+  StatusCodes,
+  type StatusCodesType,
+  type PartitionKeyRangePropertiesNames,
+} from "./common/index.js";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth.js";
 export {
-  Operation,
-  OperationResponse,
-  BulkOptions,
-  CreateOperation,
-  UpsertOperation,
-  ReplaceOperation,
-  DeleteOperation,
-  ReadOperation,
-  OperationBase,
-  OperationWithItem,
-  OperationInput,
+  type Operation,
+  type OperationResponse,
+  type BulkOptions,
+  type CreateOperation,
+  type UpsertOperation,
+  type ReplaceOperation,
+  type DeleteOperation,
+  type ReadOperation,
+  type OperationBase,
+  type OperationWithItem,
+  type OperationInput,
   BulkOperationType,
-  ExtendedOperationResponse,
-  BulkOperationResponse,
-  CreateOperationInput,
-  UpsertOperationInput,
-  ReplaceOperationInput,
-  ReadOperationInput,
-  DeleteOperationInput,
-  PatchOperationInput,
-  BulkPatchOperation,
-  BulkOperationResult,
+  type ExtendedOperationResponse,
+  type BulkOperationResponse,
+  type CreateOperationInput,
+  type UpsertOperationInput,
+  type ReplaceOperationInput,
+  type ReadOperationInput,
+  type DeleteOperationInput,
+  type PatchOperationInput,
+  type BulkPatchOperation,
+  type BulkOperationResult,
 } from "./utils/batch.js";
 export {
-  PatchOperation,
+  type PatchOperation,
   PatchOperationType,
-  ExistingKeyOperation,
-  RemoveOperation,
-  PatchRequestBody,
+  type ExistingKeyOperation,
+  type RemoveOperation,
+  type PatchRequestBody,
 } from "./utils/patch.js";
 export {
   ConnectionMode,
   ConsistencyLevel,
-  ConnectionPolicy,
+  type ConnectionPolicy,
   DatabaseAccount,
   DataType,
-  Index,
-  IndexedPath,
+  type Index,
+  type IndexedPath,
   IndexingMode,
-  IndexingPolicy,
-  SpatialIndex,
+  type IndexingPolicy,
+  type SpatialIndex,
   SpatialType,
   GeospatialType,
   IndexKind,
-  Location,
-  PartitionKey,
-  PrimitivePartitionKeyValue,
-  NullPartitionKeyType,
-  NonePartitionKeyType,
+  type Location,
+  type PartitionKey,
+  type PrimitivePartitionKeyValue,
+  type NullPartitionKeyType,
+  type NonePartitionKeyType,
   PartitionKeyKind,
-  PartitionKeyDefinition,
+  type PartitionKeyDefinition,
   PartitionKeyDefinitionVersion,
   PartitionKeyBuilder,
   PermissionMode,
@@ -62,32 +66,32 @@ export {
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
-  CompositePath,
-  ComputedProperty,
-  VectorEmbeddingPolicy,
-  VectorIndex,
-  VectorEmbedding,
+  type CompositePath,
+  type ComputedProperty,
+  type VectorEmbeddingPolicy,
+  type VectorIndex,
+  type VectorEmbedding,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-  FullTextIndex,
-  FullTextPolicy,
-  FullTextPath,
+  type FullTextIndex,
+  type FullTextPolicy,
+  type FullTextPath,
 } from "./documents/index.js";
 
-export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy.js";
-export { ContainerRequest } from "./client/Container/ContainerRequest.js";
+export type { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy.js";
+export type { ContainerRequest } from "./client/Container/ContainerRequest.js";
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common/index.js";
-export { RetryOptions } from "./retry/index.js";
+export type { RetryOptions } from "./retry/index.js";
 export * from "./request/index.js";
 
 export {
   DiagnosticNodeInternal,
-  DiagnosticDataValue,
+  type DiagnosticDataValue,
   DiagnosticNodeType,
 } from "./diagnostics/DiagnosticNodeInternal.js";
 
-export {
+export type {
   CosmosHeaders,
   SqlParameter,
   SqlQuerySpec,
@@ -98,34 +102,34 @@ export {
 export { QueryIterator } from "./queryIterator.js";
 export * from "./queryMetrics/index.js";
 export { CosmosClient } from "./CosmosClient.js";
-export { CosmosClientOptions, Agent } from "./CosmosClientOptions.js";
+export type { CosmosClientOptions, Agent } from "./CosmosClientOptions.js";
 export * from "./client/index.js";
 export { Scripts } from "./client/Script/Scripts.js";
-export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin.js";
-export { TokenProvider, RequestInfo } from "./auth.js";
+export { type Next, type Plugin, type PluginConfig, PluginOn } from "./plugins/Plugin.js";
+export type { TokenProvider, RequestInfo } from "./auth.js";
 
 export { ChangeFeedIterator } from "./ChangeFeedIterator.js";
-export { ChangeFeedOptions } from "./ChangeFeedOptions.js";
+export type { ChangeFeedOptions } from "./ChangeFeedOptions.js";
 export { ChangeFeedResponse } from "./ChangeFeedResponse.js";
 export { ClientContext } from "./ClientContext.js";
 
 export {
   CosmosDiagnostics,
-  MetadataLookUpDiagnostic,
-  MetadataLookUpDiagnostics,
+  type MetadataLookUpDiagnostic,
+  type MetadataLookUpDiagnostics,
   MetadataLookUpType,
-  RetryDiagnostics,
-  FailedRequestAttemptDiagnostic,
-  GatewayStatistics,
-  ClientSideRequestStatistics,
-  ClientConfigDiagnostic,
-  DiagnosticNode,
-  EncryptionDiagnostics,
+  type RetryDiagnostics,
+  type FailedRequestAttemptDiagnostic,
+  type GatewayStatistics,
+  type ClientSideRequestStatistics,
+  type ClientConfigDiagnostic,
+  type DiagnosticNode,
+  type EncryptionDiagnostics,
 } from "./CosmosDiagnostics.js";
 
 export {
-  ChangeFeedPullModelIterator,
-  ChangeFeedIteratorOptions,
+  type ChangeFeedPullModelIterator,
+  type ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
   ChangeFeedStartFrom,
   FeedRange,
@@ -144,19 +148,19 @@ export * from "./encryption/enums/index.js";
 export * from "./encryption/ClientEncryptionKey/index.js";
 export * from "./encryption/EncryptionKeyResolver/index.js";
 export {
-  ClientEncryptionIncludedPath,
-  ClientEncryptionPolicy,
-  ClientEncryptionKeyProperties,
-  EncryptionKeyWrapMetadata,
+  type ClientEncryptionIncludedPath,
+  type ClientEncryptionPolicy,
+  type ClientEncryptionKeyProperties,
+  type EncryptionKeyWrapMetadata,
   EncryptionQueryBuilder,
-  ClientEncryptionKeyRequest,
+  type ClientEncryptionKeyRequest,
   ClientEncryptionKeyResponse,
-  EncryptionKeyResolver,
+  type EncryptionKeyResolver,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionType,
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
-  ClientEncryptionOptions,
-  CosmosEncryptedNumber,
+  type ClientEncryptionOptions,
+  type CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption/index.js";

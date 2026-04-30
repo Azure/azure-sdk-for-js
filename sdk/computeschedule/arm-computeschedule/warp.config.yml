@@ -1,0 +1,9 @@
+extends: ../../../warp.base.config.yml
+exports:
+  "./api": "./src/api/index.ts"
+  "./api/occurrenceExtension": "./src/api/occurrenceExtension/index.ts"
+  "./api/occurrences": "./src/api/occurrences/index.ts"
+  "./api/scheduledActionExtension": "./src/api/scheduledActionExtension/index.ts"
+  "./api/scheduledActions": "./src/api/scheduledActions/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"

@@ -16,16 +16,16 @@ import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const modelName = process.env["MODEL_DEPLOYMENT_NAME"] || "Ministral-3B";
+const modelName = process.env["FOUNDRY_MODEL_NAME"] || "Ministral-3B";
 const trainingFilePath = path.join(__dirname, "data", "sft_training_set.jsonl");
 const validationFilePath = path.join(__dirname, "data", "sft_validation_set.jsonl");
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create the training and validation files

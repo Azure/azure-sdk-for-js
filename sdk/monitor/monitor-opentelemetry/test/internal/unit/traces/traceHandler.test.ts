@@ -360,6 +360,7 @@ describe("Library/TraceHandler", () => {
       _config.instrumentationOptions = {
         http: { enabled: false },
         azureSdk: { enabled: false },
+        azureFunctions: { enabled: false },
         mongoDb: { enabled: false },
         mySql: { enabled: false },
         postgreSql: { enabled: false },
@@ -368,8 +369,9 @@ describe("Library/TraceHandler", () => {
       };
       metricHandler = new MetricHandler(_config);
       handler = new TraceHandler(_config, metricHandler);
-      // No instrumentations should be created
-      expect(handler.getInstrumentations()).toHaveLength(0);
+      const instrumentations = handler.getInstrumentations();
+      expect(instrumentations).toHaveLength(0);
+      expect(instrumentations[0]).not.toBeInstanceOf(HttpInstrumentation);
     });
   });
 });

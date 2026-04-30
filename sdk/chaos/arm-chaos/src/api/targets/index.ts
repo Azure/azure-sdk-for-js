@@ -3,8 +3,8 @@
 
 export { list, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  TargetsListOptionalParams,
-  TargetsDeleteOptionalParams,
-  TargetsCreateOrUpdateOptionalParams,
-  TargetsGetOptionalParams,
+  type TargetsListOptionalParams,
+  type TargetsDeleteOptionalParams,
+  type TargetsCreateOrUpdateOptionalParams,
+  type TargetsGetOptionalParams,
 } from "./options.js";

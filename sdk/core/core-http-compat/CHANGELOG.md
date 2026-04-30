@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.3 (Unreleased)
+## 2.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.4.0 (2026-04-07)
+
+### Features Added
+
+- Export `toCompatResponse` helper for converting responses to a `CompatResponse`. [PR #37686](https://github.com/Azure/azure-sdk-for-js/pull/37686)
 
 ## 2.3.2 (2026-02-05)
 

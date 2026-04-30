@@ -134,6 +134,10 @@ For complete samples of a few champion scenarios, see the [`samples/`](https://g
 
 For more information on the OpenTelemetry project, please review the [**OpenTelemetry Specifications**](https://github.com/open-telemetry/opentelemetry-specification#opentelemetry-specification).
 
+### Custom Dimensions Size Limit
+
+By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads.
+
 ## Troubleshooting
 
 ### Enable debug logging

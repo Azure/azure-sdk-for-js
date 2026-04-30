@@ -1,41 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommandPostBody} from "@azure/arm-cosmosdb";
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance
+ * This sample demonstrates how to invoke a command like nodetool for cassandra maintenance
  *
- * @summary Invoke a command like nodetool for cassandra maintenance
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBManagedCassandraCommand.json
+ * @summary invoke a command like nodetool for cassandra maintenance
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraCommand.json
  */
-async function cosmosDbManagedCassandraCommand(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
-  const clusterName = "cassandra-prod";
-  const body: CommandPostBody = {
-    arguments: { status: "" },
-    command: "nodetool",
-    host: "10.0.1.12",
-  };
+async function cosmosDBManagedCassandraCommand(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraClusters.beginInvokeCommandAndWait(
-    resourceGroupName,
-    clusterName,
-    body,
+  const result = await client.cassandraClusters.invokeCommand(
+    "cassandra-prod-rg",
+    "cassandra-prod",
+    { arguments: { status: "" }, command: "nodetool", host: "10.0.1.12" },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbManagedCassandraCommand();
+  await cosmosDBManagedCassandraCommand();
 }
 
 main().catch(console.error);

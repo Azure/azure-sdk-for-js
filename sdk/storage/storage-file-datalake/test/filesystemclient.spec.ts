@@ -24,7 +24,7 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
-import {
+import type {
   Pipeline,
   PipelinePolicy,
   PipelineRequest,
