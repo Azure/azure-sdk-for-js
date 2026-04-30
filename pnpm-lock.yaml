@@ -7457,6 +7457,9 @@ importers:
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7473,9 +7476,6 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
-      '@azure/core-util':
-        specifier: workspace:^
-        version: link:../../core/core-util
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
