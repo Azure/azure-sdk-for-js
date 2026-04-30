@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity-cache-persistence": ["../dist/browser/index.d.ts"],
+      "@azure/identity-cache-persistence/*": ["../dist/browser/*"],
+      "$internal/*": ["../dist/browser/*"]
+    }
+  },
+  "include": ["../test"]
+}

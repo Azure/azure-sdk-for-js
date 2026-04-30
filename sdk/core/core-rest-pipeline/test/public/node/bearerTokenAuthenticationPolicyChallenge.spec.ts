@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   type AuthorizeRequestOnChallengeOptions,
@@ -87,9 +87,10 @@ async function authorizeRequestOnChallenge(
   const accessToken = await options.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
-      ...options,
+      abortSignal: options.request.abortSignal,
+      tracingOptions: options.request.tracingOptions,
       claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64")),
-    } as GetTokenOptions,
+    },
   );
 
   if (!accessToken) {
@@ -489,14 +490,8 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       },
     };
 
-    let error: Error | undefined;
-    try {
-      await pipeline.sendRequest(testHttpsClient, pipelineRequest);
-    } catch (e: any) {
-      error = e;
-    }
-
-    assert.isDefined(error);
-    assert.equal(error?.message, "Failed sendRequest error");
+    await expect(pipeline.sendRequest(testHttpsClient, pipelineRequest)).rejects.toThrow(
+      "Failed sendRequest error",
+    );
   });
 });

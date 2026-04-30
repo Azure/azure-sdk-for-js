@@ -1,5 +1,5 @@
 extends: ../../../warp.base.config.yml
 exports:
   "./api": "./src/api/index.ts"
-  "./api/geoCatalogs": "./src/api/geoCatalogs/index.ts"
+  "./api/geoCatalogs": "src/api/geoCatalogs/index.ts"
   "./models": "./src/models/index.ts"

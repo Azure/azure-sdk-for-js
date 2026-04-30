@@ -48,7 +48,11 @@
     "playwright": "catalog:testing",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/storagecache/arm-storagecache"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -85,7 +89,7 @@
   "autoPublish": true,
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagecache/arm-storagecache",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagecache/arm-storagecache/README.md",
   "exports": {
     "./package.json": "./package.json",
     ".": {

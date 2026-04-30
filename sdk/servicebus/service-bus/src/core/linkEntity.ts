@@ -423,7 +423,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         },
         {
           abortSignal,
-          timeoutInMs: timeoutInMs - (Date.now() - startTime),
+          timeoutInMs: Math.max(timeoutInMs - (Date.now() - startTime), 0),
         },
       );
     }
@@ -473,13 +473,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
           tokenType,
           {
             abortSignal,
-            timeoutInMs: timeoutInMs - (Date.now() - startTime),
+            timeoutInMs: Math.max(timeoutInMs - (Date.now() - startTime), 0),
           },
         );
       },
       {
         abortSignal,
-        timeoutInMs: timeoutInMs - (Date.now() - startTime),
+        timeoutInMs: Math.max(timeoutInMs - (Date.now() - startTime), 0),
       },
     );
     this._logger.verbose(
