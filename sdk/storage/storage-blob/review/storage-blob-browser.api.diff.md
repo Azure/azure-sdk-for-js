@@ -233,17 +233,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
      blockSize?: number;
      concurrency?: number;
-@@ -670,8 +589,9 @@
- }
- 
- // @public
- export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
-+    // Warning: (ae-forgotten-export) The symbol "BlobSASPermissions" needs to be exported by the entry point index.d.ts
-     permissions?: BlobSASPermissions;
- }
- 
- // @public
-@@ -761,8 +681,9 @@
+@@ -763,8 +682,9 @@
  
  // @public
  export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
@@ -253,7 +243,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -985,23 +906,13 @@
+@@ -988,23 +908,13 @@
  
  // @public
  export interface BlobQueryArrowConfiguration {
@@ -278,7 +268,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      columnSeparator?: string;
      escapeCharacter?: string;
      fieldQuote?: string;
-@@ -1091,71 +1002,8 @@
+@@ -1094,12 +1004,8 @@
      conditions?: ModifiedAccessConditions;
  }
  
@@ -287,39 +277,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -}
 -
 -// @public
--export class BlobSASPermissions {
--    add: boolean;
--    create: boolean;
--    delete: boolean;
--    deleteVersion: boolean;
--    execute: boolean;
--    static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions;
--    move: boolean;
--    static parse(permissions: string): BlobSASPermissions;
--    permanentDelete: boolean;
--    read: boolean;
--    setImmutabilityPolicy: boolean;
--    tag: boolean;
--    toString(): string;
--    write: boolean;
--}
--
--// @public
--export interface BlobSASPermissionsLike {
--    add?: boolean;
--    create?: boolean;
--    delete?: boolean;
--    deleteVersion?: boolean;
--    execute?: boolean;
--    move?: boolean;
--    permanentDelete?: boolean;
--    read?: boolean;
--    setImmutabilityPolicy?: boolean;
--    tag?: boolean;
--    write?: boolean;
--}
--
--// @public
+ export class BlobSASPermissions {
+     add: boolean;
+     create: boolean;
+     delete: boolean;
+@@ -1131,35 +1037,8 @@
+     write?: boolean;
+ }
+ 
+ // @public
 -export interface BlobSASSignatureValues {
 -    blobName?: string;
 -    cacheControl?: string;
@@ -334,6 +300,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    expiresOn?: Date;
 -    identifier?: string;
 -    ipRange?: SasIPRange;
+-    isDirectory?: boolean;
 -    permissions?: BlobSASPermissions | ContainerSASPermissions;
 -    preauthorizedAgentObjectId?: string;
 -    protocol?: SASProtocol;
@@ -350,7 +317,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
      constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
      createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
-@@ -1164,8 +1012,9 @@
+@@ -1168,8 +1047,9 @@
      }>;
      deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
      findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
@@ -360,7 +327,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
      getBlobBatchClient(): BlobBatchClient;
-@@ -1709,8 +1558,9 @@
+@@ -1713,8 +1593,9 @@
      encryptionScope?: string;
      expiresOn?: Date;
      identifier?: string;
@@ -370,7 +337,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -1872,8 +1722,9 @@
+@@ -1876,8 +1757,9 @@
  export type ContainerFindBlobsByTagsSegmentResponse = WithResponse<FilterBlobSegment & ContainerFilterBlobsHeaders, ContainerFilterBlobsHeaders, FilterBlobSegmentModel>;
  
  // @public
@@ -380,7 +347,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2068,45 +1919,8 @@
+@@ -2072,45 +1954,8 @@
  export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {
  }
  
@@ -426,7 +393,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      clientRequestId?: string;
      date?: Date;
      errorCode?: string;
-@@ -2157,13 +1971,8 @@
+@@ -2161,13 +2006,8 @@
  // @public
  export type ContainerUndeleteResponse = WithResponse<ContainerUndeleteHeaders, ContainerUndeleteHeaders>;
  
@@ -440,7 +407,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface CorsRule {
-@@ -2184,10 +1993,8 @@
+@@ -2188,10 +2028,8 @@
  export { Credential_2 as Credential }
  
  export { CredentialPolicy }
@@ -451,7 +418,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type DeleteSnapshotsOptionType = "include" | "only";
  
  // @public
-@@ -2238,17 +2045,8 @@
+@@ -2242,17 +2080,8 @@
      where: string;
  }
  
@@ -469,7 +436,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2256,11 +2054,8 @@
+@@ -2260,11 +2089,8 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -481,7 +448,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      scheme: string;
      value: string;
  }
-@@ -2432,13 +2227,8 @@
+@@ -2436,13 +2262,8 @@
      ifNoneMatch?: string;
  }
  
@@ -495,7 +462,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      enabled: boolean;
      includeAPIs?: boolean;
      retentionPolicy?: RetentionPolicy;
-@@ -2451,12 +2241,8 @@
+@@ -2455,12 +2276,8 @@
      ifUnmodifiedSince?: Date;
  }
  
@@ -508,7 +475,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifMatch?: string;
      ifModifiedSince?: Date;
      ifNoneMatch?: string;
-@@ -2466,26 +2252,9 @@
+@@ -2470,26 +2287,9 @@
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -535,7 +502,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      contentMD5?: Uint8Array;
-@@ -2500,8 +2269,9 @@
+@@ -2504,8 +2304,9 @@
  
  // @public
  export interface PageBlobClearPagesOptions extends CommonOptions {
@@ -545,7 +512,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
  }
-@@ -2667,12 +2437,8 @@
+@@ -2671,12 +2472,8 @@
      conditions?: BlobRequestConditions;
  }
  
@@ -558,7 +525,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      date?: Date;
-@@ -2846,31 +2612,9 @@
+@@ -2850,31 +2647,9 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -590,7 +557,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      P10 = "P10",
      P15 = "P15",
      P20 = "P20",
-@@ -2945,68 +2689,8 @@
+@@ -2949,70 +2724,8 @@
      start: string;
  }
  
@@ -602,7 +569,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
 -export class SASQueryParameters {
--    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
+-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string, directoryDepth?: number);
 -    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
 -    readonly cacheControl?: string;
 -    readonly contentDisposition?: string;
@@ -611,6 +578,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly contentType?: string;
 -    readonly correlationId?: string;
 -    readonly delegatedUserObjectId?: string;
+-    readonly directoryDepth?: number;
 -    readonly encryptionScope?: string;
 -    readonly expiresOn?: Date;
 -    readonly identifier?: string;
@@ -638,6 +606,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    contentType?: string;
 -    correlationId?: string;
 -    delegatedUserObjectId?: string;
+-    directoryDepth?: number;
 -    encryptionScope?: string;
 -    expiresOn?: Date;
 -    identifier?: string;
@@ -659,7 +628,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3225,21 +2909,19 @@
+@@ -3231,21 +2944,19 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -685,7 +654,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3255,16 +2937,14 @@
+@@ -3261,16 +2972,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

@@ -47,6 +47,7 @@ export {
   StorageOAuthScopes,
   type ServiceClientOptions,
 } from "./Pipeline.js";
+export * from "./sas/BlobSASPermissions.js";
 export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
 export { RestError };

@@ -124,6 +124,11 @@ export interface SASQueryParametersOptions {
    * Keys for query parameters required in generating the SAS token
    */
   requestQueryParameterKeys?: string;
+  /** Optional. Required when {@link resource} is set to "d" to indicate the
+   * depth of the virtual blob directory specified in the canonicalizedresource
+   * field of the string-to-sign.
+   */
+  directoryDepth?: number;
 }
 
 /**
@@ -301,6 +306,11 @@ export class SASQueryParameters {
    */
   public readonly requestQueryParameterKeys?: string;
 
+  /** To indicate the depth of the virtual blob directory specified
+   * in the canonicalizedresource field of the string-to-sign.
+   */
+  public readonly directoryDepth?: number;
+
   /**
    * Optional. IP range allowed for this SAS.
    *
@@ -365,6 +375,7 @@ export class SASQueryParameters {
     delegatedUserObjectId?: string,
     requestHeaderKeys?: string,
     requestQueryParameterKeys?: string,
+    directoryDepth?: number,
   );
 
   /**
@@ -400,6 +411,7 @@ export class SASQueryParameters {
     delegatedUserObjectId?: string,
     requestHeaderKeys?: string,
     requestQueryParameterKeys?: string,
+    directoryDepth?: number,
   ) {
     this.version = version;
     this.signature = signature;
@@ -424,6 +436,7 @@ export class SASQueryParameters {
       this.contentType = permissionsOrOptions.contentType;
       this.requestHeaderKeys = permissionsOrOptions.requestHeaderKeys;
       this.requestQueryParameterKeys = permissionsOrOptions.requestQueryParameterKeys;
+      this.directoryDepth = permissionsOrOptions.directoryDepth;
 
       if (permissionsOrOptions.userDelegationKey) {
         this.signedOid = permissionsOrOptions.userDelegationKey.signedObjectId;
@@ -457,6 +470,7 @@ export class SASQueryParameters {
       this.contentType = contentType;
       this.requestHeaderKeys = requestHeaderKeys;
       this.requestQueryParameterKeys = requestQueryParameterKeys;
+      this.directoryDepth = directoryDepth;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -503,6 +517,7 @@ export class SASQueryParameters {
       "rsct",
       "saoid",
       "scid",
+      "sdd",
       "sduoid", // Signed key user delegation object ID
       "skdutid", // Signed key user delegation tenant ID
       "srh", // Request Headers
@@ -619,6 +634,9 @@ export class SASQueryParameters {
           break;
         case "srq": // Request headers
           this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
+          break;
+        case "sdd": // Request headers
+          this.tryAppendQueryParameter(queries, param, "" + this.directoryDepth);
           break;
       }
     }
