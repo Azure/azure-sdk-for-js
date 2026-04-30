@@ -384,7 +384,7 @@ export {
   DEFAULT_RETRY_COUNT,
   type IndexDocumentsClient,
   SearchIndexingBufferedSender,
-} from "#platform/searchIndexingBufferedSender";
+} from "./searchIndexingBufferedSender.js";
 export {
   type AIServicesAccountIdentity,
   type AliasIterator,

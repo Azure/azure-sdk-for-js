@@ -53,7 +53,7 @@ import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
-import type { IndexDocumentsClient } from "#platform/searchIndexingBufferedSender";
+import type { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
 import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
