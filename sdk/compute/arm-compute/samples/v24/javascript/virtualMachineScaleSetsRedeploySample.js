@@ -1,0 +1,40 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
+ *
+ * @summary shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
+ * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Redeploy_MaximumSet_Gen.json
+ */
+async function virtualMachineScaleSetRedeployMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  await client.virtualMachineScaleSets.redeploy("rgcompute", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", {
+    vmInstanceIDs: { instanceIds: ["aaaaaaaaaaaaaaaaa"] },
+  });
+}
+
+/**
+ * This sample demonstrates how to shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
+ *
+ * @summary shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
+ * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Redeploy_MinimumSet_Gen.json
+ */
+async function virtualMachineScaleSetRedeployMinimumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  await client.virtualMachineScaleSets.redeploy("rgcompute", "aaaaaaaaaaaaaaaaaaaaaa");
+}
+
+async function main() {
+  await virtualMachineScaleSetRedeployMaximumSetGen();
+  await virtualMachineScaleSetRedeployMinimumSetGen();
+}
+
+main().catch(console.error);

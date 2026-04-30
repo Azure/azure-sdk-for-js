@@ -14,7 +14,7 @@ import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
 } from "../../src/authorizeRequestOnClaimChallenge.js";
-import { encodeString } from "../../src/base64.js";
+import { encodeString } from "#platform/base64";
 
 const defaultRequest = () => createPipelineRequest({ url: "https://example.com" });
 

@@ -52,10 +52,10 @@ export async function main(): Promise<void> {
   // Start the analysis operation
   const poller = client.analyze("prebuilt-videoSearch", [{ url: videoUrl }]);
 
-  // Get the operation ID from the poller state
+  // Get the operation ID from the operation state
   // We need to wait for at least one poll to get the operation location
   const result = await poller.pollUntilDone();
-  const operationId = poller.operationId;
+  const operationId = poller.operationState?.operationId;
 
   console.log(`  Operation ID: ${operationId ?? "(unknown)"}`);
   console.log("  Analysis completed!");

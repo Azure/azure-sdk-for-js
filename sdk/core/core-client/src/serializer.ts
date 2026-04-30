@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as base64 from "./base64.js";
+import * as base64 from "#platform/base64";
 import type {
   BaseMapper,
   CompositeMapper,
