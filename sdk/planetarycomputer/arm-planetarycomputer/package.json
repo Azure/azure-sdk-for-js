@@ -96,7 +96,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-planetarycomputer?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-planetarycomputer"
   },
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
