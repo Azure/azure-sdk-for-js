@@ -1,5 +1,16 @@
 # Release History
 
+## 2.3.0 (Unreleased)
+
+### Features Added
+
+- Added `ToolboxSearchPreviewTool` (type `"toolbox_search_preview"`) as a new `ToolUnion` member for agents that dynamically discover deferred tools from a toolbox at runtime via `search_tools` queries.
+- Added optional `name` and `description` properties to `BingGroundingTool`, `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, `AzureAISearchTool`, `BingCustomSearchPreviewTool`, `BrowserAutomationPreviewTool`, `A2APreviewTool`, and `MemorySearchPreviewTool`.
+
+### Other Changes
+
+- Regenerated client from latest TypeSpec (commit `2d1e5e0d`).
+
 ## 2.2.0 (Unreleased)
 
 ### Breaking Changes
