@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 
 declare global {
-  var self: { crypto?: Crypto; msCrypto?: Crypto } | undefined;
-  // eslint-disable-next-line @azure/azure-sdk/ts-no-window
-  var window: { crypto?: Crypto; msCrypto?: Crypto } | undefined;
   interface Crypto {
     readonly subtle: SubtleCrypto;
   }
@@ -30,16 +27,10 @@ declare global {
   interface CryptoKey {}
   type AlgorithmIdentifier = string | { name: string };
   type KeyUsage = "sign" | "verify" | "encrypt" | "decrypt";
+  var crypto: Crypto;
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-window
-const globalRef: any = typeof self === "undefined" ? window : self;
-
-if (!globalRef) {
-  throw new Error("Could not find global");
-}
-
-const globalCrypto: Crypto = globalRef.crypto || globalRef.msCrypto;
+const globalCrypto: Crypto = globalThis.crypto;
 
 if (!globalCrypto || !globalCrypto.subtle) {
   throw new Error("Browser does not support cryptography functions");
