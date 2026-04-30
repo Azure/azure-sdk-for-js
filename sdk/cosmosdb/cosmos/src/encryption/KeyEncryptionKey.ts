@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { KeyEncryptionAlgorithm } from "./enums/KeyEncryptionAlgorithm.js";
-import type { EncryptionKeyStoreProvider } from "#platform/encryption/EncryptionKeyStoreProvider";
+import type { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider.js";
 /**
  * A wrapper class containing the info about the key-protecting key stored in an external key provider
  * and provides interface to wrap and unwrap the key.
@@ -23,7 +23,7 @@ export class KeyEncryptionKey {
     this.encryptionAlgorithm = KeyEncryptionAlgorithm.RSA_OAEP;
   }
 
-  public async wrapEncryptionKey(plainTextEncryptionKey: Uint8Array): Promise<Buffer> {
+  public async wrapEncryptionKey(plainTextEncryptionKey: Uint8Array): Promise<Uint8Array> {
     return this.keyStoreProvider.wrapKey(
       this.path,
       this.encryptionAlgorithm,
@@ -31,7 +31,7 @@ export class KeyEncryptionKey {
     );
   }
 
-  public async unwrapEncryptionKey(wrappedEncryptionKey: Uint8Array): Promise<Buffer> {
+  public async unwrapEncryptionKey(wrappedEncryptionKey: Uint8Array): Promise<Uint8Array> {
     return this.keyStoreProvider.unwrapKey(
       this.path,
       this.encryptionAlgorithm,

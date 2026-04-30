@@ -14,7 +14,7 @@ export class EncryptionKeyStoreProvider {
   cacheRefresher: (() => void) | undefined;
 
   // cache to store the unwrapped encryption key. Key is the path of the encryption key
-  public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
+  public unwrappedEncryptionKeyCache: { [key: string]: [Date, Uint8Array] };
   public providerName: string;
   constructor(
     private keyEncryptionKeyResolver: EncryptionKeyResolver,
@@ -31,38 +31,25 @@ export class EncryptionKeyStoreProvider {
     encryptionKeyId: string,
     algorithm: KeyEncryptionAlgorithm,
     key: Uint8Array,
-  ): Promise<Buffer> {
-    const uInt8ArrayKey = new Uint8Array(key);
-    const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
-      encryptionKeyId,
-      algorithm,
-      uInt8ArrayKey,
-    );
-    return Buffer.from(wrappedEncryptionKey);
+  ): Promise<Uint8Array> {
+    return this.keyEncryptionKeyResolver.wrapKey(encryptionKeyId, algorithm, key);
   }
 
   public async unwrapKey(
     encryptionKeyId: string,
     algorithm: KeyEncryptionAlgorithm,
     wrappedKey: Uint8Array,
-  ): Promise<Buffer> {
+  ): Promise<Uint8Array> {
     if (this.cacheTimeToLive === 0) {
-      const res = await this.keyEncryptionKeyResolver.unwrapKey(
+      return this.keyEncryptionKeyResolver.unwrapKey(encryptionKeyId, algorithm, wrappedKey);
+    }
+    if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
+      const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
         encryptionKeyId,
         algorithm,
         wrappedKey,
       );
-      return Buffer.from(res);
-    }
-    if (!this.unwrappedEncryptionKeyCache[encryptionKeyId]) {
-      const wrappedKeyUint8Array = new Uint8Array(wrappedKey);
-      const plainEncryptionKey = await this.keyEncryptionKeyResolver.unwrapKey(
-        encryptionKeyId,
-        algorithm,
-        wrappedKeyUint8Array,
-      );
-      const plainEncryptionKeyBuffer = Buffer.from(plainEncryptionKey);
-      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), plainEncryptionKeyBuffer];
+      this.unwrappedEncryptionKeyCache[encryptionKeyId] = [new Date(), plainEncryptionKey];
     }
     return this.unwrappedEncryptionKeyCache[encryptionKeyId][1];
   }

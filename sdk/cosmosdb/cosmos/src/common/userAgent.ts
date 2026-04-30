@@ -6,7 +6,7 @@ import { Constants } from "./constants.js";
 import { userAgentDetails } from "#platform/common/platform";
 
 /**
- * @hidden
+ * Constructs the user-agent string for Cosmos DB requests.
  */
 export function getUserAgent(
   optionsOrConnectionString?: CosmosClientOptions,

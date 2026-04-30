@@ -24,7 +24,7 @@ import { Constants } from "../common/constants.js";
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
 import type { ItemOperation } from "../bulk/ItemOperation.js";
 import type { BulkResponse } from "../bulk/index.js";
-import type { EncryptionProcessor } from "#platform/encryption/EncryptionProcessor";
+import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 
 export type Operation =
   | CreateOperation

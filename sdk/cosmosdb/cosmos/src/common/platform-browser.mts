@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * @hidden
  * Returns browser runtime details for user-agent string.
  */
 export function userAgentDetails(): string {

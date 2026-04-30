@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { EncryptionType } from "../enums/index.js";
-import { createCipheriv, randomBytes, createHmac, createDecipheriv } from "node:crypto";
+import {
+  hmacSha256,
+  aes256CbcEncrypt,
+  aes256CbcDecrypt,
+  generateRandomBytes,
+} from "#platform/encryption/crypto";
 import type { DataEncryptionKey } from "../EncryptionKey/index.js";
 
 export class AeadAes256CbcHmacSha256Algorithm {
@@ -10,38 +15,38 @@ export class AeadAes256CbcHmacSha256Algorithm {
   private blockSizeInBytes = 16;
   private encryptionType: EncryptionType;
   private dataEncryptionKey: DataEncryptionKey;
-  private version: Buffer;
-  private versionSize: Buffer;
+  private version: Uint8Array;
+  private versionSize: Uint8Array;
   private keySizeInBytes: number;
   private minimumCipherTextLength: number;
 
   constructor(dataEncryptionKey: DataEncryptionKey, encryptionType: EncryptionType) {
     this.dataEncryptionKey = dataEncryptionKey;
     this.encryptionType = encryptionType;
-    this.version = Buffer.from([this.algoVersion]);
-    this.versionSize = Buffer.from([1]);
+    this.version = new Uint8Array([this.algoVersion]);
+    this.versionSize = new Uint8Array([1]);
     this.keySizeInBytes = 32;
     this.minimumCipherTextLength = 1 + 2 * this.blockSizeInBytes + this.keySizeInBytes;
   }
 
-  public encrypt(plainTextBuffer: Buffer): Buffer {
-    let iv: Buffer;
-    // create initialization vector
+  public async encrypt(plainTextBuffer: Uint8Array): Promise<Uint8Array> {
+    let iv: Uint8Array;
     if (this.encryptionType === EncryptionType.RANDOMIZED) {
-      iv = randomBytes(16);
+      iv = await generateRandomBytes(16);
     } else {
-      const ivHmac = createHmac("sha256", this.dataEncryptionKey.ivKeyBuffer);
-      ivHmac.update(plainTextBuffer);
-      iv = ivHmac.digest().slice(0, this.blockSizeInBytes);
+      const fullHmac = await hmacSha256(this.dataEncryptionKey.ivKeyBuffer, plainTextBuffer);
+      iv = fullHmac.slice(0, this.blockSizeInBytes);
     }
-    // create cipher text
-    const cipher = createCipheriv("aes-256-cbc", this.dataEncryptionKey.encryptionKeyBuffer, iv);
-    const cipherTextBuffer = Buffer.concat([cipher.update(plainTextBuffer), cipher.final()]);
-    const authTagBuffer = this.generateAuthenticationTag(iv, cipherTextBuffer);
-    return Buffer.concat([Buffer.from([this.algoVersion]), authTagBuffer, iv, cipherTextBuffer]);
+    const cipherTextBuffer = await aes256CbcEncrypt(
+      this.dataEncryptionKey.encryptionKeyBuffer,
+      iv,
+      plainTextBuffer,
+    );
+    const authTagBuffer = await this.generateAuthenticationTag(iv, cipherTextBuffer);
+    return concat([new Uint8Array([this.algoVersion]), authTagBuffer, iv, cipherTextBuffer]);
   }
 
-  public decrypt(cipherTextBuffer: Buffer): Buffer {
+  public async decrypt(cipherTextBuffer: Uint8Array): Promise<Uint8Array> {
     if (cipherTextBuffer.length < this.minimumCipherTextLength) {
       throw new Error("Invalid cipher text length");
     }
@@ -53,39 +58,54 @@ export class AeadAes256CbcHmacSha256Algorithm {
     const ivStartIndex = authTagStartIndex + authTagLength;
     const ivLength = this.blockSizeInBytes;
     const cipherTextStartIndex = ivStartIndex + ivLength;
-    const cipherTextLength = cipherTextBuffer.length - cipherTextStartIndex;
 
     const authenticationTag = cipherTextBuffer.slice(
       authTagStartIndex,
       authTagStartIndex + authTagLength,
     );
     const iv = cipherTextBuffer.slice(ivStartIndex, ivStartIndex + ivLength);
-    const cipherText = cipherTextBuffer.slice(
-      cipherTextStartIndex,
-      cipherTextStartIndex + cipherTextLength,
-    );
+    const cipherText = cipherTextBuffer.slice(cipherTextStartIndex);
 
-    this.validateAuthenticationTag(authenticationTag, iv, cipherText);
+    await this.validateAuthenticationTag(authenticationTag, iv, cipherText);
 
-    const decipher = createDecipheriv(
-      "aes-256-cbc",
-      this.dataEncryptionKey.encryptionKeyBuffer,
-      iv,
-    );
-    const decrypted = decipher.update(cipherText);
-    const result = Buffer.concat([decrypted, decipher.final()]);
-    return result;
+    return aes256CbcDecrypt(this.dataEncryptionKey.encryptionKeyBuffer, iv, cipherText);
   }
 
-  private generateAuthenticationTag(iv: Buffer, cipherTextBuffer: Buffer): Buffer {
-    const hmac = createHmac("sha256", this.dataEncryptionKey.macKeyBuffer);
-    const buffer = Buffer.concat([this.version, iv, cipherTextBuffer, this.versionSize]);
-    return hmac.update(buffer).digest();
+  private async generateAuthenticationTag(
+    iv: Uint8Array,
+    cipherTextBuffer: Uint8Array,
+  ): Promise<Uint8Array> {
+    const buffer = concat([this.version, iv, cipherTextBuffer, this.versionSize]);
+    return hmacSha256(this.dataEncryptionKey.macKeyBuffer, buffer);
   }
-  private validateAuthenticationTag(authenticationTag: Buffer, iv: Buffer, cipherText: Buffer) {
-    const expectedAuthTag = this.generateAuthenticationTag(iv, cipherText);
-    if (!authenticationTag.equals(expectedAuthTag)) {
+
+  private async validateAuthenticationTag(
+    authenticationTag: Uint8Array,
+    iv: Uint8Array,
+    cipherText: Uint8Array,
+  ): Promise<void> {
+    const expectedAuthTag = await this.generateAuthenticationTag(iv, cipherText);
+    if (!uint8ArrayEquals(authenticationTag, expectedAuthTag)) {
       throw new Error("Invalid authentication tag");
     }
   }
+}
+
+function concat(arrays: Uint8Array[]): Uint8Array {
+  const totalLength = arrays.reduce((sum, arr) => sum + arr.length, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const arr of arrays) {
+    result.set(arr, offset);
+    offset += arr.length;
+  }
+  return result;
+}
+
+function uint8ArrayEquals(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
 }

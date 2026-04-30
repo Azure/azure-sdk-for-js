@@ -8,7 +8,6 @@ declare global {
 }
 
 /**
- * @hidden
  * Returns React Native runtime details for user-agent string.
  */
 export function userAgentDetails(): string {

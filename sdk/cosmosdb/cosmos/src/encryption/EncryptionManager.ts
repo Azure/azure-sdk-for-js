@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProtectedDataEncryptionKeyCache } from "#platform/encryption/Cache/ProtectedDataEncryptionKeyCache";
+import { ProtectedDataEncryptionKeyCache } from "./Cache/ProtectedDataEncryptionKeyCache.js";
 import { KeyEncryptionKeyCache } from "./Cache/KeyEncryptionKeyCache.js";
 import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache.js";
 import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache.js";
-import { EncryptionKeyStoreProvider } from "#platform/encryption/EncryptionKeyStoreProvider";
+import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider.js";
 import { Constants } from "../common/constants.js";
 import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
 /**
