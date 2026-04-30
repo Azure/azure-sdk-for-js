@@ -35,11 +35,11 @@ Tests run in three modes: `playback` (default), `record`, `live`
 - **envSetupForPlayback:** Must map every used env var to safe placeholder
 
 ## Credentials (Azure SDK specific)
-- Use `createTestCredential()` from `@azure-tools/test-credential` — never construct `ClientSecretCredential` directly
-- Use `assertEnvironmentVariable()` for required service config (endpoints, resource names)
+- Prefer `createTestCredential()` from `@azure-tools/test-credential` for service-client tests
+- Exception: direct credential construction valid in identity package tests and AAD auth samples
+- Use `assertEnvironmentVariable()` for required service config
 - `NoOpCredential` only for true unit tests (no HTTP calls)
 - No hardcoded credentials — document required vars in `sample.env`
-- `envSetupForPlayback` must provide safe placeholder for every env var
 
 ## Coverage Requirements
 Every new public export from `src/index.ts` needs tests for:

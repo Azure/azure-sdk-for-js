@@ -20,7 +20,8 @@ Use `catalog:` references when entry exists:
 "vitest": "catalog:testing"
 "@types/node": "catalog:"
 ```
-**Catalogs:** `default` (typescript, eslint, prettier, @types/node, rimraf), `arm`, `internal`, `testing`
+**Default catalog (`catalog:`):** typescript, eslint, prettier, @types/node, rimraf
+**Named catalogs (`catalogs:`):** `arm`, `internal`, `testing`
 
 Hardcoded versions for cataloged deps are wrong:
 ```jsonc
@@ -36,11 +37,12 @@ Hardcoded versions for cataloged deps are wrong:
 | Dev deps | `catalog:` or `^` |
 | Internal dev tools | `workspace:^` |
 
-**Forbidden:** exact pins (prevents deduplication), tilde `~`, star `*`, URL/git deps
+**Forbidden in package.json deps:** tilde `~`, star `*`, URL/git deps
+**Exact pins:** forbidden for stable runtime deps (prevents deduplication); required for beta→beta deps
 
 ## Beta Dependency Rules
 - **Stable package depending on beta:** ❌ Not allowed — flag and require stable dependency
-- **Beta package depending on beta:** Must use exact pin (e.g., `"1.0.0-beta.1"`) to protect against breaking changes in upstream beta
+- **Beta package depending on beta:** Must use exact pin (e.g., `"1.0.0-beta.1"`) to protect against breaking changes
 
 ## New Dependency Evaluation
 1. **Necessity**: Already in `@azure/core-*`?
