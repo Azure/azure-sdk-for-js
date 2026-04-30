@@ -416,7 +416,6 @@ export interface BaseSearchRequestOptions<
   vectorSearchOptions?: VectorSearchOptions<TModel>;
   /**
    * Enables a debugging tool that can be used to further explore your search results.
-   * This option is available for all query types, not just semantic queries.
    */
   debug?: QueryDebugMode;
 }
