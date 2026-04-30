@@ -37,6 +37,7 @@ export interface VoiceAssistantConfig {
   enablePronunciationAssessment?: boolean;
   paWithReferenceText?: boolean;
   paScenario?: string;
+  enableLatencyTracking?: boolean;
 }
 
 /**
@@ -49,11 +50,22 @@ export interface PaWord {
   errorType: string;
 }
 
+export interface LatencyInfo {
+  /** Speech end → PA start (ms) */
+  speechEndToPaStart: number | null;
+  /** PA start → PA result ready (ms) */
+  paStartToPaEnd: number | null;
+  /** PA result ready → first TTS audio chunk (ms) */
+  paEndToTtsFirstChunk: number | null;
+  /** Speech end → first TTS audio chunk (ms) */
+  speechEndToTtsFirstChunk: number | null;
+}
+
 export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
   onAssistantStatusChange: (status: string) => void;
   onConversationMessage: (message: { role: string; content: string; timestamp: Date }) => void;
-  onConversationMessageUpdate: (message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[] }) => void;
+  onConversationMessageUpdate: (message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[]; latencyInfo?: LatencyInfo }) => void;
   onEventReceived: (event: { type: string; data: any; timestamp: Date }) => void;
   onError: (error: string) => void;
   onAudioLevel: (level: number) => void;
@@ -73,6 +85,10 @@ interface TurnContext {
   userText?: string;
   userMessageTimestamp?: Date;
   paWords?: PaWord[];
+  speechEndTime?: number;
+  paStartTime?: number;
+  paEndTime?: number;
+  ttsFirstChunkTime?: number;
 }
 
 export class VoiceAssistant {
@@ -106,8 +122,11 @@ export class VoiceAssistant {
   private recognitionLanguage = 'en-US';
   private silenceTimeout = 1500;
   private enablePronunciationAssessment = false;
+  private enableLatencyTracking = false;
   private paWithReferenceText = true;
   private activeTurnContext?: TurnContext;
+  // Latency tracking: keep turn context alive until TTS first chunk arrives
+  private pendingLatencyTurn?: TurnContext;
   private audioChunksToAssess: Uint8Array[] = [];
   private audioChunks: AudioBytesWithTimestamp[] = [];
   private audioStartMillis: number | null = null;
@@ -432,6 +451,7 @@ export class VoiceAssistant {
   async connect(config: VoiceAssistantConfig): Promise<void> {
     try {
       this.enablePronunciationAssessment = config.enablePronunciationAssessment !== false;
+      this.enableLatencyTracking = config.enableLatencyTracking === true;
       this.paWithReferenceText = config.paWithReferenceText !== false;
 
       this.callbacks?.onConnectionStatusChange('connecting');
@@ -666,6 +686,10 @@ export class VoiceAssistant {
         // Also start streaming PA when currentReferenceText is available (Read Along scenario)
         if (this.enablePronunciationAssessment && !this.paWithReferenceText) {
           this.activeTurnContext = {};
+          // Record PA start time for latency tracking (streaming mode starts PA at speech start)
+          if (this.enableLatencyTracking) {
+            this.activeTurnContext.paStartTime = performance.now();
+          }
           // Consume currentReferenceText (Read Along scenario) for this turn, then clear it
           const refText = this.currentReferenceText;
           this.currentReferenceText = undefined;
@@ -691,6 +715,10 @@ export class VoiceAssistant {
         this.audioEndMillis = event.audioEndInMs;
 
         if (this.paStreamingActive && this.activeTurnContext) {
+          // Record speech end time for latency tracking
+          if (this.enableLatencyTracking) {
+            this.activeTurnContext.speechEndTime = performance.now();
+          }
           // Streaming PA mode: close the push stream
           if (this.paStreamingPushStream) {
             const stream = this.paStreamingPushStream;
@@ -700,6 +728,10 @@ export class VoiceAssistant {
           }
         } else {
           this.activeTurnContext = {};
+          // Record speech end time for latency tracking
+          if (this.enableLatencyTracking) {
+            this.activeTurnContext.speechEndTime = performance.now();
+          }
         }
 
         this.callbacks?.onEventReceived({
@@ -802,6 +834,11 @@ export class VoiceAssistant {
           this.publishTurnMessage(turnCtx);
           this.clearPAAudioCache();
 
+          // Save turn context for TTS first chunk latency tracking
+          if (this.enableLatencyTracking) {
+            this.pendingLatencyTurn = turnCtx;
+          }
+
           this.session?.sendEvent({
             type: 'response.create'
           });
@@ -813,9 +850,15 @@ export class VoiceAssistant {
           return;
         }
 
+        if (this.enableLatencyTracking && !turnCtx.paStartTime) {
+          turnCtx.paStartTime = performance.now();
+        }
         const [isSuccess, paResult] = this.paWithReferenceText
           ? await this.runPAForTurn(turnCtx, event.transcript || this.currentUserTranscription || '', true)
           : await (turnCtx.paPromise || this.runPAForTurn(turnCtx, '', false));
+        if (this.enableLatencyTracking) {
+          turnCtx.paEndTime = performance.now();
+        }
         console.log('📝 PA Result:', paResult);
 
         // Parse PA result and collect structured per-word info.
@@ -840,6 +883,11 @@ export class VoiceAssistant {
         }
         
         this.publishTurnMessage(turnCtx);
+
+        // Save turn context for TTS first chunk latency tracking
+        if (this.enableLatencyTracking) {
+          this.pendingLatencyTurn = turnCtx;
+        }
         
         this.session?.sendEvent({
           type: 'response.create',
@@ -870,6 +918,26 @@ export class VoiceAssistant {
 
       onResponseAudioDelta: async (event, context: SessionContext) => {
         console.log('🔔 Audio Received:', event.delta?.byteLength, 'bytes');
+
+        // Capture TTS first chunk time for latency tracking
+        if (this.enableLatencyTracking && this.pendingLatencyTurn && event.delta && event.delta.byteLength > 0) {
+          const turn = this.pendingLatencyTurn;
+          turn.ttsFirstChunkTime = performance.now();
+          this.pendingLatencyTurn = undefined;
+
+          const latencyInfo = this.buildLatencyInfo(turn);
+          if (turn.userMessageId) {
+            this.callbacks?.onConversationMessageUpdate({
+              role: 'user',
+              content: turn.userText || '',
+              timestamp: turn.userMessageTimestamp || new Date(),
+              messageId: turn.userMessageId,
+              isStreaming: false,
+              paWords: turn.paWords,
+              latencyInfo
+            });
+          }
+        }
         
         // Add debugging for audio format
         if (event.delta && event.delta.byteLength > 0) {
@@ -1725,14 +1793,32 @@ export class VoiceAssistant {
     if (!ctx.userMessageId || !ctx.userText || !ctx.userMessageTimestamp) {
       return;
     }
-
+    const latencyInfo = this.enableLatencyTracking ? this.buildLatencyInfo(ctx) : undefined;
     this.callbacks?.onConversationMessageUpdate({
       role: 'user',
       content: ctx.userText,
       timestamp: ctx.userMessageTimestamp,
       messageId: ctx.userMessageId,
       isStreaming: false,
-      paWords: ctx.paWords
+      paWords: ctx.paWords,
+      latencyInfo
     });
+  }
+
+  /**
+   * Build latency info from a completed TurnContext.
+   */
+  private buildLatencyInfo(turn: TurnContext): LatencyInfo | undefined {
+    if (!this.enableLatencyTracking) return undefined;
+    const s = turn.speechEndTime ?? null;
+    const paStart = turn.paStartTime ?? null;
+    const paEnd = turn.paEndTime ?? null;
+    const tts = turn.ttsFirstChunkTime ?? null;
+    return {
+      speechEndToPaStart: s && paStart ? paStart - s : null,
+      paStartToPaEnd: paStart && paEnd ? paEnd - paStart : null,
+      paEndToTtsFirstChunk: paEnd && tts ? tts - paEnd : null,
+      speechEndToTtsFirstChunk: s && tts ? tts - s : null
+    };
   }
 }

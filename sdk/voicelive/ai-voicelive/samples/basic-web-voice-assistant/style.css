@@ -396,6 +396,26 @@ header p {
     margin-left: 6px;
 }
 
+.latency-info {
+    color: #007bff;
+    font-size: 0.85em;
+    margin-left: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    user-select: text;
+}
+.latency-metric {
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+}
+.latency-info-icon {
+    margin-left: 4px;
+    font-size: 1em;
+    vertical-align: middle;
+    opacity: 0.7;
+}
+
 .conversation-controls {
     display: flex;
     gap: 10px;

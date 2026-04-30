@@ -1,6 +1,6 @@
 // Main entry point for Voice Live Web Assistant
 import { VoiceAssistant } from './voiceAssistant.js';
-import type { VoiceAssistantConfig, VoiceAssistantCallbacks, PaWord } from './voiceAssistant.js';
+import type { VoiceAssistantConfig, VoiceAssistantCallbacks, PaWord, LatencyInfo } from './voiceAssistant.js';
 
 class WebVoiceAssistantApp {
   private voiceAssistant: VoiceAssistant;
@@ -258,6 +258,7 @@ class WebVoiceAssistantApp {
     const paScenario = paScenarioElement?.value || 'conversation';
     const authMethodElement = document.querySelector('input[name="authMethod"]:checked') as HTMLInputElement;
     const useTokenCredential = authMethodElement ? authMethodElement.value === 'token' : false;
+    const enableLatencyTracking = (document.getElementById('enableLatencyTracking') as HTMLInputElement).checked;
 
     if (!endpoint) {
       throw new Error('Endpoint is required');
@@ -276,7 +277,8 @@ class WebVoiceAssistantApp {
       useTokenCredential,
       enablePronunciationAssessment,
       paWithReferenceText,
-      paScenario
+      paScenario,
+      enableLatencyTracking
     };
   }
 
@@ -317,7 +319,7 @@ class WebVoiceAssistantApp {
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
   }
 
-  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[] }): void {
+  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[]; latencyInfo?: LatencyInfo }): void {
     if (!message.messageId) {
       // Fallback to regular message if no ID provided
       this.addConversationMessage(message);
@@ -352,7 +354,8 @@ class WebVoiceAssistantApp {
       
       existingMessage.appendChild(timestamp);
       existingMessage.appendChild(content);
-      
+      this.renderLatencyInfo(existingMessage, message);
+
       this.conversationHistory.appendChild(existingMessage);
     } else {
       // Update existing message content
@@ -382,11 +385,70 @@ class WebVoiceAssistantApp {
         } else {
           contentSpan.classList.remove('streaming');
         }
+
+        this.renderLatencyInfo(existingMessage, message);
       }
     }
     
     // Auto-scroll to bottom
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
+  }
+
+  private renderLatencyInfo(existingMessage: HTMLElement, message: { role: string; latencyInfo?: LatencyInfo }): void {
+    const existingLatency = existingMessage.querySelector('.latency-info');
+    if (existingLatency) {
+      existingLatency.remove();
+    }
+
+    if (message.role !== 'user' || !message.latencyInfo) {
+      return;
+    }
+
+    const value = message.latencyInfo;
+    const formatMs = (ms: number | null): string => (ms == null ? '-' : `${Math.round(ms)}ms`);
+    const speechEndToPaReady = value.speechEndToPaStart != null && value.paStartToPaEnd != null
+      ? value.speechEndToPaStart + value.paStartToPaEnd
+      : null;
+
+    const latency = document.createElement('span');
+    latency.className = 'latency-info';
+    latency.appendChild(document.createTextNode('Latency '));
+
+    const items = [
+      {
+        label: '①',
+        value: formatMs(value.paStartToPaEnd),
+        title: `PA start -> full PA result ready: ${formatMs(value.paStartToPaEnd)}`
+      },
+      {
+        label: '②',
+        value: formatMs(speechEndToPaReady),
+        title: `User speech end -> full PA result ready: ${formatMs(speechEndToPaReady)}`
+      },
+      {
+        label: '③',
+        value: formatMs(value.paEndToTtsFirstChunk),
+        title: `Full PA result ready -> first TTS chunk starts: ${formatMs(value.paEndToTtsFirstChunk)}`
+      },
+      {
+        label: '④',
+        value: formatMs(value.speechEndToTtsFirstChunk),
+        title: `User speech end -> first TTS chunk starts: ${formatMs(value.speechEndToTtsFirstChunk)}`
+      }
+    ];
+
+    items.forEach((item, index) => {
+      const metric = document.createElement('span');
+      metric.className = 'latency-metric';
+      metric.title = item.title;
+      metric.textContent = `${item.label} ${item.value}`;
+      latency.appendChild(metric);
+      if (index < items.length - 1) {
+        latency.appendChild(document.createTextNode(' '));
+      }
+    });
+
+    existingMessage.appendChild(latency);
   }
 
   /**
