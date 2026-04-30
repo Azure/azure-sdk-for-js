@@ -49,7 +49,7 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "tsc -b --noEmit config/tsconfig.src.esm.json config/tsconfig.src.browser.json config/tsconfig.src.react-native.json config/tsconfig.src.cjs.json && npm run test:node",
+    "test": "tsc -b --noEmit && npm run test:node",
     "test:browser": "echo skipped",
     "test:node": "npm run test:node:unit",
     "test:node:integration": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",

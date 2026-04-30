@@ -558,6 +558,7 @@ describe("snippets", () => {
   it("CosmosClientWithAADScope", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const aadCredentials = new DefaultAzureCredential();
+    // @ts-ignore - aadScope is internal API
     const client = new CosmosClient({
       endpoint,
       aadCredentials,
@@ -1003,7 +1004,7 @@ describe("snippets", () => {
     // @ts-ignore
     const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
     // @ts-preserve-whitespace
-    item.done = true;
+    item!.done = true;
     // @ts-ignore
     const { resource: replacedItem } = await container.item("id").replace<TodoItem>(item);
   });
@@ -1219,8 +1220,8 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     const { resource: offer } = await client.offer("<offer-id>").read();
     // @ts-preservewhitespace
-    offer.content.offerThroughput = 1000;
-    await client.offer("<offer-id>").replace(offer);
+    offer!.content!.offerThroughput = 1000;
+    await client.offer("<offer-id>").replace(offer!);
   });
 
   it("PermissionsQuery", async () => {
@@ -1302,7 +1303,7 @@ describe("snippets", () => {
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     const user = database.user("<user-id>");
     const { resource: permission } = await user.permission("<permission-id>").read();
-    permission.resource = "<new-resource-url>";
+    permission!.resource = "<new-resource-url>";
     // @ts-preserve-whitespace
     // @ts-ignore
     await user.permission("<permission-id>").replace(permission);
@@ -1384,14 +1385,14 @@ describe("snippets", () => {
     // @ts-ignore
     const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
     // @ts-preserve-whitespace
-    sproc.body = function () {
+    sproc!.body = function () {
       const x = 20;
       console.log(x);
     };
     // @ts-ignore
     const { resource: replacedSproc } = await container.scripts
-      .storedProcedure(sproc.id)
-      .replace(sproc);
+      .storedProcedure(sproc!.id)
+      .replace(sproc!);
   });
 
   it("StoredProcedureDelete", async () => {
@@ -1426,7 +1427,7 @@ describe("snippets", () => {
     // @ts-ignore
     const { resource: result } = await container.scripts
       .storedProcedure("<sproc-id>")
-      .execute(undefined);
+      .execute(undefined as any);
   });
 
   it("TriggersReadAllTriggers", async () => {
@@ -1477,11 +1478,11 @@ describe("snippets", () => {
     // @ts-ignore
     const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
     // @ts-preserve-whitespace
-    trigger.body = "function () { const x = 20; console.log(x); }";
+    trigger!.body = "function () { const x = 20; console.log(x); }";
     // @ts-ignore
     const { resource: replacedTrigger } = await container.scripts
-      .trigger(trigger.id)
-      .replace(trigger);
+      .trigger(trigger!.id)
+      .replace(trigger!);
   });
 
   it("TriggerDelete", async () => {
@@ -1585,9 +1586,9 @@ describe("snippets", () => {
     const client = new CosmosClient({ endpoint, key });
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
     const { resource: user } = await database.user("<user-id>").read();
-    user.id = "<new user id>";
+    user!.id = "<new user id>";
     // @ts-preserve-whitespace
-    await database.user("<user-id>").replace(user);
+    await database.user("<user-id>").replace(user!);
   });
 
   it("UserDelete", async () => {
@@ -1646,7 +1647,7 @@ describe("snippets", () => {
     udfDefinition.body = "function () { const x = 20; }";
     // @ts-ignore
     const { resource: replacedUdf } = await container.scripts
-      .userDefinedFunction(udfDefinition.id)
+      .userDefinedFunction(udfDefinition.id!)
       .replace(udfDefinition);
   });
 
