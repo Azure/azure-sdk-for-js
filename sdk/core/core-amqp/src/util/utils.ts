@@ -8,31 +8,6 @@ import type { WebSocketImpl } from "rhea-promise";
 import { delay as wrapperDelay } from "@azure/core-util";
 
 /**
- * @internal
- *
- * Describes the options that can be provided to create an async lock.
- */
-export interface AsyncLockOptions {
-  /**
-   * The max timeout. Default is: 0 (never timeout).
-   */
-  timeout?: number;
-  /**
-   * Maximum pending tasks. Default is: 1000.
-   */
-  maxPending?: number;
-  /**
-   * Whether lock can reenter in the same domain.
-   * Default is: false.
-   */
-  domainReentrant?: boolean;
-  /**
-   * Your implementation of the promise. Default is: global promise.
-   */
-  Promise?: any;
-}
-
-/**
  * Options to configure the channelling of the AMQP connection over Web Sockets.
  */
 export interface WebSocketOptions {
@@ -72,7 +47,7 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  * @returns ParsedOutput<T>.
  */
 export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
-  const output: { [k: string]: string } = {};
+  const output: Record<string, string> = {};
   const parts = connectionString.trim().split(";");
 
   for (let part of parts) {
@@ -100,63 +75,13 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
     output[key] = value;
   }
 
-  return output as any;
+  return output as ParsedOutput<T>;
 }
 
 /**
  * The cancellable async lock instance.
  */
 export const defaultCancellableLock: CancellableAsyncLock = new CancellableAsyncLockImpl();
-
-/**
- * @internal
- *
- * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
- * the promise with the given value.
- */
-export class Timeout {
-  private _timer?: number | NodeJS.Timeout;
-
-  set<T>(t: number, value?: T): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this.clear();
-      const callback: (args: any) => void = value ? () => reject(new Error(`${value}`)) : resolve;
-      this._timer = setTimeout(callback, t);
-    });
-  }
-
-  clear(): void {
-    if (this._timer) {
-      clearTimeout(this._timer);
-    }
-  }
-
-  wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T> {
-    const wrappedPromise = this._promiseFinally(promise, () => this.clear());
-    const timer = this.set(t, value);
-    return Promise.race([wrappedPromise, timer]);
-  }
-
-  private _promiseFinally<T>(promise: Promise<T>, fn: (...args: any[]) => void): Promise<T> {
-    const success = (result: T): T => {
-      fn();
-      return result;
-    };
-    const error = (e: Error): Promise<never> => {
-      fn();
-      return Promise.reject(e);
-    };
-    return Promise.resolve(promise).then(success, error);
-  }
-
-  static set<T>(t: number, value?: T): Promise<T> {
-    return new Timeout().set(t, value);
-  }
-
-  static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T> {
-    return new Timeout().wrap(promise, t, value);
-  }
-}
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
@@ -188,67 +113,6 @@ export async function delay<T>(
  */
 export function isLoopbackAddress(address: string): boolean {
   return /^(.*:\/\/)?(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
-}
-
-/**
- * @internal
- *
- * Generates a random number between the given interval
- * @param min - Min number of the range (inclusive).
- * @param max - Max number of the range (inclusive).
- */
-export function randomNumberFromInterval(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-/**
- * @internal
- *
- * Type declaration for a Function type where T is the input to the function and V is the output
- * of the function.
- */
-export type Func<T, V> = (a: T) => V;
-
-/**
- * @internal
- *
- * Executes an array of promises sequentially. Inspiration of this method is here:
- * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
- *
- * @param promiseFactories - An array of promise factories(A function that return a promise)
- *
- * @param kickstart - Input to the first promise that is used to kickstart the promise chain.
- * If not provided then the promise chain starts with undefined.
- *
- * @returns A chain of resolved or rejected promises
- */
-export function executePromisesSequentially(
-  promiseFactories: Array<any>,
-  kickstart?: unknown,
-): Promise<any> {
-  let result = Promise.resolve(kickstart);
-  promiseFactories.forEach((promiseFactory) => {
-    result = result.then(promiseFactory);
-  });
-  return result;
-}
-
-/**
- * @internal
- *
- * Determines whether the given connection string is an iothub connection string.
- * @param connectionString - The connection string.
- * @returns boolean.
- */
-export function isIotHubConnectionString(connectionString: string): boolean {
-  const cs = String(connectionString);
-
-  let result: boolean = false;
-  const model: any = parseConnectionString<any>(cs);
-  if (model && model.HostName && model.SharedAccessKey && model.SharedAccessKeyName) {
-    result = true;
-  }
-  return result;
 }
 
 /**

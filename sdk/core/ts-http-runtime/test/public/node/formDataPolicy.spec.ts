@@ -5,11 +5,42 @@ import { describe, it, assert, vi } from "vitest";
 import {
   type PipelineResponse,
   type SendRequest,
+  type BodyPart,
   type MultipartRequestBody,
   createPipelineRequest,
   createHttpHeaders,
 } from "../../../src/index.js";
 import { formDataPolicy } from "../../../src/policies/internal.js";
+import { performRequest } from "../formDataPolicy.spec.js";
+
+function createFakeFile(
+  content: Uint8Array<ArrayBuffer>,
+  name: string,
+  options: { type?: string } = {},
+): File {
+  // Mimics what core-rest-pipeline's createFile() returns in Node:
+  // a plain object shaped as File, NOT a real File instance.
+  const blob = new Blob([content]);
+  return {
+    arrayBuffer: async () =>
+      content.buffer.slice(content.byteOffset, content.byteOffset + content.byteLength),
+    bytes: async (): Promise<Uint8Array<ArrayBuffer>> => {
+      throw new Error("Not implemented");
+    },
+    slice: (..._args: unknown[]): Blob => {
+      throw new Error("Not implemented");
+    },
+    text: async (): Promise<string> => {
+      throw new Error("Not implemented");
+    },
+    stream: () => blob.stream(),
+    type: options.type ?? "",
+    lastModified: new Date().getTime(),
+    webkitRelativePath: "",
+    size: content.byteLength,
+    name,
+  } as File;
+}
 
 describe("formDataPolicy (node)", () => {
   describe("FormData request bodies", () => {
@@ -129,5 +160,40 @@ describe("formDataPolicy (node)", () => {
       assert.isUndefined(result.request.formData);
       assert.strictEqual(result.request.body, bodyContent);
     });
+  });
+
+  it("preserves filename from a real File object", async function () {
+    const file = new File([new Uint8Array([1, 2, 3])], "real-file.txt", {
+      type: "text/plain",
+    });
+    const result = await performRequest({ attachment: file });
+    const parts = (result.request.multipartBody as any).parts as BodyPart[];
+    assert.equal(parts.length, 1);
+    const disposition = parts[0].headers.get("Content-Disposition");
+    assert.include(disposition, 'filename="real-file.txt"');
+    assert.equal(parts[0].headers.get("Content-Type"), "text/plain");
+  });
+
+  it("preserves filename from a File-like object (e.g. createFile helper)", async function () {
+    const fakeFile = createFakeFile(new Uint8Array([1, 2, 3]), "fake-file.bin", {
+      type: "application/octet-stream",
+    });
+    // Verify this is NOT a real File instance (matches createFile behavior in Node)
+    assert.isFalse(fakeFile instanceof File);
+    const result = await performRequest({ attachment: fakeFile });
+    const parts = (result.request.multipartBody as any).parts as BodyPart[];
+    assert.equal(parts.length, 1);
+    const disposition = parts[0].headers.get("Content-Disposition");
+    assert.include(disposition, 'filename="fake-file.bin"');
+  });
+
+  it("falls back to 'blob' when File-like object has no name", async function () {
+    const blob = new Blob(["abc"], { type: "image/png" });
+    const result = await performRequest({ attachment: blob });
+    const parts = (result.request.multipartBody as any).parts as BodyPart[];
+    assert.equal(parts.length, 1);
+    const disposition = parts[0].headers.get("Content-Disposition");
+    assert.include(disposition, 'filename="blob"');
+    assert.equal(parts[0].headers.get("Content-Type"), "image/png");
   });
 });

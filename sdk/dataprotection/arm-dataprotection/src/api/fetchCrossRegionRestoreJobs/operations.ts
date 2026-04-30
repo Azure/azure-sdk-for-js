@@ -24,9 +24,7 @@ export function _listSend(
   resourceGroupName: string,
   location: string,
   parameters: CrossRegionRestoreJobsRequest,
-  options: FetchCrossRegionRestoreJobsListOptionalParams = {
-    requestOptions: {},
-  },
+  options: FetchCrossRegionRestoreJobsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJobs{?api%2Dversion,%24filter}",
@@ -34,7 +32,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24filter": options?.filter,
     },
     {
@@ -44,10 +42,7 @@ export function _listSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: crossRegionRestoreJobsRequestSerializer(parameters),
   });
 }
@@ -59,6 +54,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -71,15 +67,13 @@ export function list(
   resourceGroupName: string,
   location: string,
   parameters: CrossRegionRestoreJobsRequest,
-  options: FetchCrossRegionRestoreJobsListOptionalParams = {
-    requestOptions: {},
-  },
+  options: FetchCrossRegionRestoreJobsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AzureBackupJobResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, location, parameters, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }

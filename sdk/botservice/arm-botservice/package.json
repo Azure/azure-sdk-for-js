@@ -45,7 +45,11 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/botservice/arm-botservice"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -81,7 +85,7 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/botservice/arm-botservice",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/botservice/arm-botservice/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

@@ -50,7 +50,7 @@ describe("[Browser] Streams", () => {
     const reader = result.body!.getReader();
     // Read the first chunk
     const chunk = await reader.read();
-    assert.equal(chunk.done, false);
+    assert.isFalse(chunk.done);
     expect(fetchMock).toHaveBeenCalledOnce();
   });
 
@@ -63,7 +63,7 @@ describe("[Browser] Streams", () => {
 
     const result = await client.pathUnchecked("/foo").get();
 
-    assert.deepEqual(result.body, responseText);
+    assert.strictEqual(result.body, responseText);
     expect(fetchMock).toHaveBeenCalledOnce();
   });
 
@@ -73,11 +73,7 @@ describe("[Browser] Streams", () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
 
-    try {
-      await client.pathUnchecked("/foo").get();
-    } catch (e: any) {
-      assert.match(e.message, /ExpectedException/);
-    }
+    await expect(client.pathUnchecked("/foo").get()).rejects.toThrow(/ExpectedException/);
   });
 
   it("should be able to handle errors on streamed response", async () => {
@@ -86,11 +82,9 @@ describe("[Browser] Streams", () => {
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
 
-    try {
-      await client.pathUnchecked("/foo").get().asBrowserStream();
-    } catch (e: any) {
-      assert.match(e.message, /ExpectedException/);
-    }
+    await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
+      /ExpectedException/,
+    );
   });
 
   it("should throw when attempting to use node streams", async () => {
@@ -99,14 +93,8 @@ describe("[Browser] Streams", () => {
 
     const client = getClient(mockBaseUrl);
 
-    try {
-      await client.pathUnchecked("/foo").get().asNodeStream();
-      assert.fail("Expected error was not thrown");
-    } catch (e: any) {
-      assert.equal(
-        e.message,
-        "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
-      );
-    }
+    await expect(client.pathUnchecked("/foo").get().asNodeStream()).rejects.toThrow(
+      "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
+    );
   });
 });

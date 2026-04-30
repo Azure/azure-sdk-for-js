@@ -9,7 +9,7 @@ import { multipartPolicy } from "../../src/policies/multipartPolicy.js";
 import type { PipelineRequestOptions } from "../../src/pipelineRequest.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { assertBodyMatches } from "../util.js";
-import { createFile, createFileFromStream } from "../../src/util/file.js";
+import { createFile } from "../../src/util/file.js";
 
 export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">,
@@ -261,63 +261,6 @@ describe("multipartPolicy", function () {
         request.headers.get("Content-Length"),
         expectedBody.byteLength.toString(),
         "Expected Content-Length header to equal length of body",
-      );
-    });
-
-    it("Supports web ReadableStream body", async function () {
-      const body = new ReadableStream({
-        start(controller) {
-          controller.enqueue(new TextEncoder().encode("part1"));
-          controller.close();
-        },
-      });
-
-      const request = await performRequest({
-        multipartBody: {
-          boundary: "blah",
-          parts: [
-            {
-              body,
-              headers: createHttpHeaders(),
-            },
-          ],
-        },
-      });
-
-      const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
-      await assertBodyMatches(request.body, expectedBody);
-      assert.isUndefined(
-        request.headers.get("Content-Length"),
-        "Content-Length value should not be inferred from a stream",
-      );
-    });
-
-    it("Supports createFileFromStream body", async function () {
-      const body = () =>
-        new ReadableStream<Uint8Array>({
-          start(controller) {
-            controller.enqueue(new TextEncoder().encode("part1"));
-            controller.close();
-          },
-        });
-
-      const request = await performRequest({
-        multipartBody: {
-          boundary: "blah",
-          parts: [
-            {
-              body: createFileFromStream(body, "hello.txt"),
-              headers: createHttpHeaders(),
-            },
-          ],
-        },
-      });
-
-      const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
-      await assertBodyMatches(request.body, expectedBody);
-      assert.isUndefined(
-        request.headers.get("Content-Length"),
-        "Content-Length value should not be inferred from a stream",
       );
     });
   });

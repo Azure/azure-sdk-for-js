@@ -149,6 +149,47 @@ describe("getPagedAsyncIterator", function () {
       }
       assert.deepEqual(expected, collection.elements);
     });
+
+    it("should extract elements across multiple pages using toElements", async function () {
+      const pages: CollectionObject[] = [
+        { elements: [1, 2, 3], next: 1 },
+        { elements: [4, 5, 6], next: 2 },
+        { elements: [7, 8], next: -1 },
+      ];
+      const pagedResult: PagedResult<CollectionObject, PageSettings, number> = {
+        firstPageLink: 0,
+        async getPage(pageLink) {
+          if (pageLink < pages.length) {
+            return {
+              page: pages[pageLink],
+              nextPageLink: pageLink + 1 < pages.length ? pageLink + 1 : undefined,
+            };
+          }
+          return undefined;
+        },
+        toElements: (page) => page.elements,
+      };
+      const iterator = getPagedAsyncIterator(pagedResult);
+      const result = [];
+      for await (const val of iterator) {
+        result.push(val);
+      }
+      assert.deepEqual(result, [1, 2, 3, 4, 5, 6, 7, 8]);
+    });
+  });
+
+  it("should handle undefined first page via byPage", async () => {
+    const pageResult: PagedResult<number[], PageSettings, number> = {
+      firstPageLink: 0,
+      async getPage() {
+        return undefined;
+      },
+    };
+
+    const pageIterator = getPagedAsyncIterator(pageResult).byPage();
+    const result = await pageIterator.next();
+    assert.isTrue(result.done, "should be done immediately");
+    assert.isUndefined(result.value);
   });
 
   it("should handle undefined page", async () => {

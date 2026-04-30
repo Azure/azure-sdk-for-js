@@ -10,11 +10,15 @@ import type {
   _AgentsPagedResultAgentObject,
   DeleteAgentVersionResponse,
   _AgentsPagedResultAgentVersionObject,
+  _AgentsPagedResultAgentSessionResource,
 } from "../../models/models.js";
 import {
   agentDeserializer,
   agentVersionDeserializer,
   agentDefinitionUnionSerializer,
+  agentBlueprintReferenceUnionSerializer,
+  agentEndpointSerializer,
+  agentCardSerializer,
   apiErrorResponseDeserializer,
   deleteAgentResponseDeserializer,
   _agentsPagedResultAgentObjectDeserializer,
@@ -65,7 +69,7 @@ export function _listVersionsSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +105,7 @@ export function listVersions(
     () => _listVersionsSend(context, agentName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -116,7 +120,7 @@ export function _deleteVersionSend(
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +167,7 @@ export function _getVersionSend(
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +212,7 @@ export function _createAgentVersionFromManifestSend(
     "/agents/{agent_name}/versions:import{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +291,7 @@ export function _createVersionSend(
     "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -298,7 +302,7 @@ export function _createVersionSend(
     contentType: "application/json",
     headers: {
       ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
+        ? { "foundry-features": `${options?.foundryFeatures},AgentEndpoints=V1Preview` }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -307,6 +311,9 @@ export function _createVersionSend(
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
     },
   });
 }
@@ -361,7 +368,7 @@ export function _listSend(
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -396,7 +403,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -409,7 +416,7 @@ export function _deleteSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -455,7 +462,7 @@ export function _updateAgentFromManifestSend(
     "/agents/{agent_name}/import{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,7 +525,7 @@ export function _createAgentFromManifestSend(
   const path = expandUrlTemplate(
     "/agents:import{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -598,7 +605,7 @@ export function _updateSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -609,7 +616,7 @@ export function _updateSend(
     contentType: "application/json",
     headers: {
       ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
+        ? { "foundry-features": `${options?.foundryFeatures},AgentEndpoints=V1Preview` }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -618,6 +625,9 @@ export function _updateSend(
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
     },
   });
 }
@@ -656,7 +666,7 @@ export function _createSend(
   const path = expandUrlTemplate(
     "/agents{?api-version}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -667,7 +677,7 @@ export function _createSend(
     contentType: "application/json",
     headers: {
       ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
+        ? { "foundry-features": `${options?.foundryFeatures},AgentEndpoints=V1Preview` }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -677,6 +687,15 @@ export function _createSend(
       metadata: options?.metadata,
       description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
+      blueprint_reference: !options?.blueprintReference
+        ? options?.blueprintReference
+        : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      agent_endpoint: !options?.agentEndpoint
+        ? options?.agentEndpoint
+        : agentEndpointSerializer(options?.agentEndpoint),
+      agent_card: !options?.agentCard
+        ? options?.agentCard
+        : agentCardSerializer(options?.agentCard),
     },
   });
 }
@@ -727,7 +746,7 @@ export function _getSend(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
