@@ -62,7 +62,7 @@ Update the plugin:
 ```
 
 Skills provide domain-specific context that helps AI tools generate more
-accurate SDK code.
+accurate code to use Azure SDK.
 
 For operational Azure tasks (managing resources, querying services), see the
 [Azure skills](https://github.com/microsoft/azure-skills) repository.
