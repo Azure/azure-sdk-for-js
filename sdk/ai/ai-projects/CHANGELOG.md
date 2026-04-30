@@ -11,6 +11,8 @@
 ### Features Added
 
 - Added `FabricIQPreviewTool` (and `FabricIQPreviewToolParameters`) as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) that enables runtime toolbox discovery; deferred tools are hidden from `tools/list` and discoverable only via `search_tools` queries.
+- Added optional `name` and `description` properties on `BingGroundingTool`, `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, `AzureAISearchTool`, `BingCustomSearchPreviewTool`, `BrowserAutomationPreviewTool`, `A2APreviewTool`, and `MemorySearchPreviewTool`.
 - Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`, plus the `SessionLogEvent` / `SessionLogEventType` model types.
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
@@ -22,7 +24,7 @@
 
 ### Other Changes
 
-- Regenerated client from latest TypeSpec (commit `94f9262a`).
+- Regenerated client from latest TypeSpec (commit `e6a9ff31`).
 
 ## 2.1.0 (2026-04-17)
 

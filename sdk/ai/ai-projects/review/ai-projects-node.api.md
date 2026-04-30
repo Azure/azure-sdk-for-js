@@ -19,6 +19,8 @@ import type { TokenCredential } from '@azure/core-auth';
 export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
+    description?: string;
+    name?: string;
     project_connection_id?: string;
     type: "a2a_preview";
 }
@@ -368,6 +370,8 @@ export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_
 // @public
 export interface AzureAISearchTool extends Tool {
     azure_ai_search: AzureAISearchToolResource;
+    description?: string;
+    name?: string;
     type: "azure_ai_search";
 }
 
@@ -867,6 +871,8 @@ export interface BingCustomSearchConfiguration {
 // @public
 export interface BingCustomSearchPreviewTool extends Tool {
     bing_custom_search_preview: BingCustomSearchToolParameters;
+    description?: string;
+    name?: string;
     type: "bing_custom_search_preview";
 }
 
@@ -892,6 +898,8 @@ export interface BingGroundingSearchToolParameters {
 // @public
 export interface BingGroundingTool extends Tool {
     bing_grounding: BingGroundingSearchToolParameters;
+    description?: string;
+    name?: string;
     type: "bing_grounding";
 }
 
@@ -917,6 +925,8 @@ export interface BotServiceRbacAuthorizationScheme extends AgentEndpointAuthoriz
 // @public
 export interface BrowserAutomationPreviewTool extends Tool {
     browser_automation_preview: BrowserAutomationToolParameters;
+    description?: string;
+    name?: string;
     type: "browser_automation_preview";
 }
 
@@ -2034,7 +2044,9 @@ export interface MemorySearchOptions {
 
 // @public
 export interface MemorySearchPreviewTool extends Tool {
+    description?: string;
     memory_store_name: string;
+    name?: string;
     scope: string;
     search_options?: MemorySearchOptions;
     type: "memory_search_preview";
@@ -2127,7 +2139,9 @@ export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "
 
 // @public
 export interface MicrosoftFabricPreviewTool extends Tool {
+    description?: string;
     fabric_dataagent_preview: FabricDataAgentToolParameters;
+    name?: string;
     type: "fabric_dataagent_preview";
 }
 
@@ -2492,6 +2506,8 @@ export interface SharepointGroundingToolParameters {
 
 // @public
 export interface SharepointPreviewTool extends Tool {
+    description?: string;
+    name?: string;
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
 }
@@ -2679,6 +2695,13 @@ export interface ToolboxPolicies {
 }
 
 // @public
+export interface ToolboxSearchPreviewTool extends Tool {
+    description?: string;
+    name?: string;
+    type: "toolbox_search_preview";
+}
+
+// @public
 export interface ToolboxVersionObject {
     created_at: Date;
     description?: string;
@@ -2802,10 +2825,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ToolboxSearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
