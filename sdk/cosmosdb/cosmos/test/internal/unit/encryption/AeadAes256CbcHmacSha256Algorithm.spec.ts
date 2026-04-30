@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionType } from "../../../../../src/index.js";
-import { AeadAes256CbcHmacSha256Algorithm } from "../../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm/index.js";
-import { DataEncryptionKey } from "../../../../../src/encryption/EncryptionKey/index.js";
+import { EncryptionType } from "../../../../src/index.js";
+import { AeadAes256CbcHmacSha256Algorithm } from "../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm/index.js";
+import { DataEncryptionKey } from "../../../../src/encryption/EncryptionKey/index.js";
 import { describe, it, assert, expect, beforeEach } from "vitest";
 import { stringToUint8Array } from "@azure/core-util";
 
