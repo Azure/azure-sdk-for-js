@@ -84,7 +84,7 @@ export async function main(): Promise<void> {
         conversation: conversation.id,
       },
       {
-        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
+        body: { agent: { name: agent.name, type: "agent_reference" } },
       },
     );
 

@@ -32,8 +32,10 @@ describe("agents - toolbox search tool", () => {
     // Ensure clean state
     try {
       await projectsClient.beta.toolboxes.delete(toolboxName);
-    } catch {
-      // ignore 404
+    } catch (error: any) {
+      if (error?.statusCode !== 404) {
+        throw error;
+      }
     }
 
     // Create a toolbox for the agent to search over
@@ -82,7 +84,7 @@ describe("agents - toolbox search tool", () => {
           conversation: conversation.id,
         },
         {
-          body: { agent_reference: { name: agent.name, type: "agent_reference" } },
+          body: { agent: { name: agent.name, type: "agent_reference" } },
         },
       );
       assert.isNotNull(response);
@@ -96,8 +98,10 @@ describe("agents - toolbox search tool", () => {
       }
       try {
         await projectsClient.beta.toolboxes.delete(toolboxName);
-      } catch {
-        // ignore 404
+      } catch (error: any) {
+        if (error?.statusCode !== 404) {
+          throw error;
+        }
       }
     }
   });
