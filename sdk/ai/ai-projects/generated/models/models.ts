@@ -342,6 +342,7 @@ export type ToolUnion =
   | WorkIQPreviewTool
   | FabricIQPreviewTool
   | MemorySearchPreviewTool
+  | ToolboxSearchPreviewTool
   | CodeInterpreterTool
   | FunctionTool
   | FileSearchTool
@@ -399,6 +400,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
+
+    case "toolbox_search_preview":
+      return toolboxSearchPreviewToolSerializer(item as ToolboxSearchPreviewTool);
 
     case "code_interpreter":
       return codeInterpreterToolSerializer(item as CodeInterpreterTool);
@@ -491,6 +495,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
+    case "toolbox_search_preview":
+      return toolboxSearchPreviewToolDeserializer(item as ToolboxSearchPreviewTool);
+
     case "code_interpreter":
       return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
 
@@ -566,6 +573,7 @@ export type ToolType =
   | "memory_search_preview"
   | "work_iq_preview"
   | "fabric_iq_preview"
+  | "toolbox_search_preview"
   | "azure_ai_search"
   | "azure_function"
   | "bing_grounding"
@@ -576,6 +584,10 @@ export type ToolType =
 export interface BingGroundingTool extends Tool {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The bing grounding search tool parameters. */
   bing_grounding: BingGroundingSearchToolParameters;
 }
@@ -583,6 +595,8 @@ export interface BingGroundingTool extends Tool {
 export function bingGroundingToolSerializer(item: BingGroundingTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
   };
 }
@@ -590,6 +604,8 @@ export function bingGroundingToolSerializer(item: BingGroundingTool): any {
 export function bingGroundingToolDeserializer(item: any): BingGroundingTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_grounding: bingGroundingSearchToolParametersDeserializer(item["bing_grounding"]),
   };
 }
@@ -681,6 +697,10 @@ export function bingGroundingSearchConfigurationDeserializer(
 export interface MicrosoftFabricPreviewTool extends Tool {
   /** The object type, which is always 'fabric_dataagent_preview'. */
   type: "fabric_dataagent_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The fabric data agent tool parameters. */
   fabric_dataagent_preview: FabricDataAgentToolParameters;
 }
@@ -688,6 +708,8 @@ export interface MicrosoftFabricPreviewTool extends Tool {
 export function microsoftFabricPreviewToolSerializer(item: MicrosoftFabricPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
       item["fabric_dataagent_preview"],
     ),
@@ -697,6 +719,8 @@ export function microsoftFabricPreviewToolSerializer(item: MicrosoftFabricPrevie
 export function microsoftFabricPreviewToolDeserializer(item: any): MicrosoftFabricPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     fabric_dataagent_preview: fabricDataAgentToolParametersDeserializer(
       item["fabric_dataagent_preview"],
     ),
@@ -764,6 +788,10 @@ export function toolProjectConnectionDeserializer(item: any): ToolProjectConnect
 export interface SharepointPreviewTool extends Tool {
   /** The object type, which is always 'sharepoint_grounding_preview'. */
   type: "sharepoint_grounding_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The sharepoint grounding tool parameters. */
   sharepoint_grounding_preview: SharepointGroundingToolParameters;
 }
@@ -771,6 +799,8 @@ export interface SharepointPreviewTool extends Tool {
 export function sharepointPreviewToolSerializer(item: SharepointPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -780,6 +810,8 @@ export function sharepointPreviewToolSerializer(item: SharepointPreviewTool): an
 export function sharepointPreviewToolDeserializer(item: any): SharepointPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     sharepoint_grounding_preview: sharepointGroundingToolParametersDeserializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -819,6 +851,10 @@ export function sharepointGroundingToolParametersDeserializer(
 export interface AzureAISearchTool extends Tool {
   /** The object type, which is always 'azure_ai_search'. */
   type: "azure_ai_search";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
 }
@@ -826,6 +862,8 @@ export interface AzureAISearchTool extends Tool {
 export function azureAISearchToolSerializer(item: AzureAISearchTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
   };
 }
@@ -833,6 +871,8 @@ export function azureAISearchToolSerializer(item: AzureAISearchTool): any {
 export function azureAISearchToolDeserializer(item: any): AzureAISearchTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     azure_ai_search: azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
   };
 }
@@ -1188,6 +1228,10 @@ export function _openApiFunctionDefinitionFunctionDeserializer(
 export interface BingCustomSearchPreviewTool extends Tool {
   /** The object type, which is always 'bing_custom_search_preview'. */
   type: "bing_custom_search_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The bing custom search tool parameters. */
   bing_custom_search_preview: BingCustomSearchToolParameters;
 }
@@ -1195,6 +1239,8 @@ export interface BingCustomSearchPreviewTool extends Tool {
 export function bingCustomSearchPreviewToolSerializer(item: BingCustomSearchPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
       item["bing_custom_search_preview"],
     ),
@@ -1204,6 +1250,8 @@ export function bingCustomSearchPreviewToolSerializer(item: BingCustomSearchPrev
 export function bingCustomSearchPreviewToolDeserializer(item: any): BingCustomSearchPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_custom_search_preview: bingCustomSearchToolParametersDeserializer(
       item["bing_custom_search_preview"],
     ),
@@ -1299,6 +1347,10 @@ export function bingCustomSearchConfigurationDeserializer(
 export interface BrowserAutomationPreviewTool extends Tool {
   /** The object type, which is always 'browser_automation_preview'. */
   type: "browser_automation_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The Browser Automation Tool parameters. */
   browser_automation_preview: BrowserAutomationToolParameters;
 }
@@ -1306,6 +1358,8 @@ export interface BrowserAutomationPreviewTool extends Tool {
 export function browserAutomationPreviewToolSerializer(item: BrowserAutomationPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     browser_automation_preview: browserAutomationToolParametersSerializer(
       item["browser_automation_preview"],
     ),
@@ -1315,6 +1369,8 @@ export function browserAutomationPreviewToolSerializer(item: BrowserAutomationPr
 export function browserAutomationPreviewToolDeserializer(item: any): BrowserAutomationPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
@@ -1548,6 +1604,10 @@ export function structuredOutputDefinitionDeserializer(item: any): StructuredOut
 export interface A2APreviewTool extends Tool {
   /** The type of the tool. Always `"a2a_preview`. */
   type: "a2a_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** Base URL of the agent. */
   base_url?: string;
   /**
@@ -1565,6 +1625,8 @@ export interface A2APreviewTool extends Tool {
 export function a2APreviewToolSerializer(item: A2APreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1574,6 +1636,8 @@ export function a2APreviewToolSerializer(item: A2APreviewTool): any {
 export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1757,6 +1821,10 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
 export interface MemorySearchPreviewTool extends Tool {
   /** The type of the tool. Always `memory_search_preview`. */
   type: "memory_search_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The name of the memory store to use. */
   memory_store_name: string;
   /**
@@ -1774,6 +1842,8 @@ export interface MemorySearchPreviewTool extends Tool {
 export function memorySearchPreviewToolSerializer(item: MemorySearchPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1786,6 +1856,8 @@ export function memorySearchPreviewToolSerializer(item: MemorySearchPreviewTool)
 export function memorySearchPreviewToolDeserializer(item: any): MemorySearchPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1808,6 +1880,32 @@ export function memorySearchOptionsSerializer(item: MemorySearchOptions): any {
 export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions {
   return {
     max_memories: item["max_memories"],
+  };
+}
+
+/**
+ * A tool for searching over the agent's toolbox.
+ * When present, deferred tools are hidden from `tools/list` and only
+ * discoverable via `search_tools` queries at runtime.
+ */
+export interface ToolboxSearchPreviewTool extends Tool {
+  /** The type of the tool. Always `toolbox_search_preview`. */
+  type: "toolbox_search_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
+}
+
+export function toolboxSearchPreviewToolSerializer(item: ToolboxSearchPreviewTool): any {
+  return { type: item["type"], name: item["name"], description: item["description"] };
+}
+
+export function toolboxSearchPreviewToolDeserializer(item: any): ToolboxSearchPreviewTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
   };
 }
 
