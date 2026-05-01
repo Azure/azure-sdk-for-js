@@ -1,7 +1,3 @@
 {
-  "extends": "../../../../eng/tsconfigs/src.react-native.json",
-  "compilerOptions": {
-    "lib": ["DOM", "ES2023"],
-    "types": []
-  }
+  "extends": "../../../../eng/tsconfigs/src.react-native.json"
 }
