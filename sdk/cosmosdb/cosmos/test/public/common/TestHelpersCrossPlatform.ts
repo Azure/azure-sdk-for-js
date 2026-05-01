@@ -1,16 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * Cross-platform test helpers for browser integration tests.
+ * Uses vitest's inject() to receive values from the globalSetup script
+ * which runs in Node.js and provides endpoint/masterKey via provide().
+ * Falls back to environment variables for Node test runs without globalSetup.
+ */
 import type { DatabaseDefinition, Response } from "../../../src/index.js";
 import { CosmosClient, CosmosDbDiagnosticLevel } from "../../../src/index.js";
-import { endpoint } from "./_testConfig.js";
-import { masterKey } from "./_fakeTestSecrets.js";
-import { assert } from "vitest";
+import { assert, inject } from "vitest";
+
+declare module "vitest" {
+  interface ProvidedContext {
+    cosmosEndpoint: string;
+    cosmosMasterKey: string;
+    skipTestForSignOff: boolean;
+  }
+}
+
+function getEndpoint(): string {
+  return (
+    inject("cosmosEndpoint") || process.env.ACCOUNT_HOST || "https://localhost:8081"
+  );
+}
+
+function getMasterKey(): string {
+  return (
+    inject("cosmosMasterKey") ||
+    process.env.ACCOUNT_KEY ||
+    "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
+  );
+}
 
 export function getDefaultClient(): CosmosClient {
   return new CosmosClient({
-    endpoint,
-    key: masterKey,
+    endpoint: getEndpoint(),
+    key: getMasterKey(),
     connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     diagnosticLevel: CosmosDbDiagnosticLevel.info,
   });
