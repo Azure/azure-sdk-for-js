@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import process from "node:process";
+declare global {
+  var process: { env?: Record<string, string | undefined> } | undefined;
+}
 
 export function isCosmosEndpoint(url: string): boolean {
   const parsedURL = new URL(url);
@@ -21,7 +23,8 @@ export function isCosmosEndpoint(url: string): boolean {
     return false;
   }
 
-  const azuriteAccounts = process.env.AZURITE_ACCOUNTS?.split(":");
+  // Check for bundler-injected process.env (e.g. vitest's define)
+  const azuriteAccounts = globalThis.process?.env?.AZURITE_ACCOUNTS?.split(":");
   if (azuriteAccounts?.[0] && parsedURL.hostname.includes(azuriteAccounts[0])) {
     return false;
   }
