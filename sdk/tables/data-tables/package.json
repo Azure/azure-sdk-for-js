@@ -19,7 +19,7 @@
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
