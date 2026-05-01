@@ -9,7 +9,8 @@
     "azure",
     "cloud",
     "typescript",
-    "node"
+    "browser",
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
