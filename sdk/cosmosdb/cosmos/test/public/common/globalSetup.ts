@@ -63,12 +63,15 @@ function startEmulatorContainer(): void {
   // Remove any stopped container with the same name
   exec(`docker rm -f ${EMULATOR_CONTAINER_NAME} 2>/dev/null`);
 
+  // Use fewer partitions (20 vs CI's 50) — the Linux Docker emulator's HTTP
+  // emulation layer (sqlpal → Http.sys) can crash under sustained load with
+  // higher partition counts. CI uses the native Windows emulator which is more stable.
   const cmd = [
     "docker run -d --memory=4g --cpus=2",
     `--name ${EMULATOR_CONTAINER_NAME}`,
     `-p ${EMULATOR_PORT}:8081`,
     "-p 10250-10255:10250-10255",
-    `-e AZURE_COSMOS_EMULATOR_PARTITION_COUNT=50`,
+    `-e AZURE_COSMOS_EMULATOR_PARTITION_COUNT=20`,
     `-e AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1`,
     `-e AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=false`,
     `-e AZURE_COSMOS_EMULATOR_ENABLE_PREVIEW=true`,
@@ -147,7 +150,7 @@ export default async function ({ provide }: TestProject): Promise<void> {
   }
 
   // 3. Try to start via Docker locally
-  if (!isDockerAvailable()) {
+  if (process.env.COSMOS_SKIP_DOCKER || !isDockerAvailable()) {
     console.warn(
       "⚠️  No emulator running and Docker not available. Integration tests will be skipped.",
     );
