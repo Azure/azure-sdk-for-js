@@ -1,43 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { defineConfig } from "vitest/config";
-import {
-  AzureSDKReporter,
-  fixCoreLroExternalization,
-  makeAliases,
-  isInDevopsPipeline,
-} from "../../../vitest.shared.config.ts";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.shared.config.ts";
 
-function makeNodeAliases(rootDir: string) {
-  const [dist, indexFile] = isInDevopsPipeline() ? ["dist/esm", "index.js"] : ["src", "index.ts"];
-  return makeAliases(rootDir, { distDir: `./${dist}`, indexFile });
-}
-
-export default defineConfig({
-  plugins: [fixCoreLroExternalization()],
-  test: {
-    testTimeout: 1200000,
-    hookTimeout: 1200000,
-    reporters: [new AzureSDKReporter(), "junit"],
-    outputFile: {
-      junit: "test-results.xml",
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      typecheck: {
+        enabled: false,
+      },
+      fileParallelism: false,
+      include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
+      exclude: ["test/**/browser/**", "test/**/react-native/**", "test/snippets.spec.ts"],
+      globalSetup: ["test/public/common/globalSetup.ts"],
     },
-    fakeTimers: {
-      toFake: ["setTimeout", "Date"],
-    },
-    watch: false,
-    typecheck: {
-      enabled: false,
-    },
-    fileParallelism: false,
-    include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
-    globalSetup: ["test/public/common/globalSetup.ts"],
-    exclude: [
-      "test/**/browser/**",
-      "test/**/react-native/**",
-      "test/snippets.spec.ts",
-    ],
-    alias: [...makeNodeAliases(process.cwd())],
-  },
-});
+  }),
+);
