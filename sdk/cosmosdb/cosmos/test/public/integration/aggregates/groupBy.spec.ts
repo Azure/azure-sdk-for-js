@@ -6,6 +6,7 @@ import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../com
 import groupBySnapshot from "./groupBy.snapshot.js";
 import type { TestContext } from "vitest";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { emulatorUnavailable } from "../../common/_testConfig.js";
 
 const items = [
   {
@@ -523,7 +524,7 @@ const items = [
 ];
 let container: Container;
 
-describe("Cross partition GROUP BY", () => {
+describe.skipIf(emulatorUnavailable)("Cross partition GROUP BY", () => {
   const containerDefinition: ContainerDefinition = {
     id: "sample container",
     partitionKey: {

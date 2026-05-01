@@ -11,8 +11,9 @@ import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
 import type { Container } from "../../../src/client/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Vector search feature", async () => {
+describe.skipIf(emulatorUnavailable)("Vector search feature", async () => {
   describe("VectorEmbeddingPolicy", async () => {
     let database: Database;
     beforeAll(async () => {
@@ -593,7 +594,7 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-describe("Full text search feature", async () => {
+describe.skipIf(emulatorUnavailable)("Full text search feature", async () => {
   let database: Database;
 
   beforeAll(async () => {

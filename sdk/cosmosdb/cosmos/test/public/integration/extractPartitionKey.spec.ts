@@ -3,8 +3,9 @@
 
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
 import { describe, it, assert } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("extractPartitionKey", () => {
+describe.skipIf(emulatorUnavailable)("extractPartitionKey", () => {
   describe("With undefined partitionKeyDefinition", () => {
     it("should return undefined", () => {
       const document: any = {};

@@ -3,7 +3,7 @@
 
 import { BulkOperationType, CosmosClient } from "../../../src/index.js";
 import type { Container } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
@@ -358,7 +358,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
 ];
 const LARGE_DATASET_SIZE = 5000;
 
-describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
+describe.skipIf(emulatorUnavailable)("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   let singlePartitionContainer: Container;
   let multiPartitionContainer: Container;
   let multiPartitionContainer2: Container; // Large dataset container for stress tests

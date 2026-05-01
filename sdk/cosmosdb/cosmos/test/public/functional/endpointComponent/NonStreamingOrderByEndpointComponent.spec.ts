@@ -4,8 +4,9 @@
 import type { ExecutionContext } from "../../../../src/queryExecutionContext/index.js";
 import { NonStreamingOrderByEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 import { describe, it, assert } from "vitest";
+import { emulatorUnavailable } from "../../common/_testConfig.js";
 
-describe("NonStreamingOrderByEndpointComponent", () => {
+describe.skipIf(emulatorUnavailable)("NonStreamingOrderByEndpointComponent", () => {
   it("should initialize correctly with sort orders and priority queue buffer size", () => {
     const executionContext: ExecutionContext = {} as ExecutionContext;
     const sortOrders = ["field1", "field2"];

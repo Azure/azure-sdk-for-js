@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { CosmosClient } from "../../../src/index.js";
-import { skipTestForSignOff } from "../common/_testConfig.js";
+import { skipTestForSignOff, emulatorUnavailable } from "../common/_testConfig.js";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import https from "node:https";
 import { describe, it, assert } from "vitest";
@@ -11,7 +11,7 @@ const endpoint = "https://localhost:8081";
 const masterKey =
   "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
-describe.skipIf(skipTestForSignOff)(
+describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
   "Validate SSL verification check for emulator #nosignoff",
   () => {
     it("should throw exception", async () => {

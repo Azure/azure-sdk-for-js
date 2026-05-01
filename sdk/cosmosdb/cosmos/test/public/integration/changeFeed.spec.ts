@@ -6,8 +6,9 @@ import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Change Feed Iterator", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 }, () => {
   // delete all databases and create sample database
   beforeAll(async () => {
     await removeAllDatabases();

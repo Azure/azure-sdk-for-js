@@ -4,10 +4,11 @@
 import type { Container, FeedOptions } from "../../../src/index.js";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("ResourceLink Trimming of leading and trailing slashes", { timeout: 10000 }, () => {
   const containerId = "testcontainer";
 
   beforeEach(async () => {
@@ -39,7 +40,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", { timeout: 100
   });
 });
 
-describe("Test Query Metrics", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable)("Test Query Metrics", { timeout: 20000 }, () => {
   const collectionId = "testCollection3";
 
   beforeEach(async () => {
@@ -89,7 +90,7 @@ describe("Test Query Metrics", { timeout: 20000 }, () => {
   });
 });
 
-describe("Partition key in FeedOptions", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Partition key in FeedOptions", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -121,7 +122,7 @@ describe("Partition key in FeedOptions", { timeout: 10000 }, () => {
   });
 });
 
-describe("aggregate query over null value", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("aggregate query over null value", { timeout: 10000 }, () => {
   const aggregateQueryOverNullValue = async function (
     testName: string,
     containerName: string,
@@ -181,7 +182,7 @@ describe("aggregate query over null value", { timeout: 10000 }, () => {
   });
 });
 
-describe("Test Index metrics", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable)("Test Index metrics", { timeout: 20000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

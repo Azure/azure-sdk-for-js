@@ -15,7 +15,7 @@ import {
   createDummyDiagnosticNode,
   createTestClientContext,
   initializeMockPartitionKeyRanges,
-} from "../../../public/common/TestHelpersCrossPlatform.js";
+} from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, expect, beforeEach, vi } from "vitest";
 import { SmartRoutingMapProvider } from "../../../../src/routing/smartRoutingMapProvider.js";
 

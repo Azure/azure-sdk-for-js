@@ -15,6 +15,7 @@ const mockReadEndpoints = [
 ];
 import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 function createMockGlobalEndpointManager(): GlobalEndpointManager {
   return {
@@ -69,7 +70,7 @@ function createMockGlobalPartitionEndpointManager(
 
 const diagnosticNode = createDummyDiagnosticNode();
 
-describe("GlobalPartitionEndpointManager", () => {
+describe.skipIf(emulatorUnavailable)("GlobalPartitionEndpointManager", () => {
   describe("tryMarkEndpointUnavailableForPartitionKeyRange", () => {
     let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
 

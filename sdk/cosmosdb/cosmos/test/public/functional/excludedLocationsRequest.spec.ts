@@ -12,6 +12,7 @@ import { describe, it, assert } from "vitest";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
 import { addEntropy } from "../common/TestHelpers.js";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const endpoint = "https://excludedregiontest.documents.azure.com/";
 
@@ -220,7 +221,7 @@ const options2: CosmosClientOptions = {
   },
 };
 
-describe("Excluded Region tests", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Excluded Region tests", { timeout: 30000 }, () => {
   it("Request-level excludedLocations for READ", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [

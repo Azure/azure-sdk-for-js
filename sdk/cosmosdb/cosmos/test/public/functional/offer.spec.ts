@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Constants, CosmosClient } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
@@ -21,7 +21,7 @@ const validateOfferResponseBody = function (offer: any): void {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

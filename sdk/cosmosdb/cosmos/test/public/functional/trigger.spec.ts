@@ -5,6 +5,7 @@ import { TriggerOperation, TriggerType } from "../../../src/index.js";
 import type { TriggerDefinition, Container } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const notFoundErrorCode = 404;
 
@@ -12,7 +13,7 @@ const notFoundErrorCode = 404;
 declare let getContext: any;
 const normalizeStringBody = (body: any): string => body.replace(/\s+/g, " ").trim();
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   let container: Container;
 
   beforeEach(async () => {

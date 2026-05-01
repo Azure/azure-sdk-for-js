@@ -4,8 +4,9 @@
 import type { UserDefinition } from "../../../src/index.js";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

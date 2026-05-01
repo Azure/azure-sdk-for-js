@@ -18,6 +18,7 @@ declare module "vitest" {
     cosmosMasterKey: string;
     cosmosUserSasTokenKey: string;
     skipTestForSignOff: boolean;
+    emulatorUnavailable: boolean;
   }
 }
 
@@ -33,6 +34,12 @@ export default async function ({ provide }: TestProject): Promise<void> {
   // Disable TLS verification for the self-signed emulator certificate
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+  // Always provide config values so inject() never returns undefined
+  provide("cosmosEndpoint", endpoint);
+  provide("cosmosMasterKey", masterKey);
+  provide("cosmosUserSasTokenKey", userSasTokenKey);
+  provide("skipTestForSignOff", skipTestForSignOff);
+
   const client = new CosmosClient({
     endpoint,
     key: masterKey,
@@ -43,15 +50,11 @@ export default async function ({ provide }: TestProject): Promise<void> {
   try {
     const { resources: databases } = await client.databases.readAll().fetchAll();
     await Promise.all(databases.map((db) => client.database(db.id).delete()));
+    provide("emulatorUnavailable", false);
   } catch {
     console.warn(
       `⚠️  Cosmos emulator not available at ${endpoint}. Integration tests will be skipped.`,
     );
-    return;
+    provide("emulatorUnavailable", true);
   }
-
-  provide("cosmosEndpoint", endpoint);
-  provide("cosmosMasterKey", masterKey);
-  provide("cosmosUserSasTokenKey", userSasTokenKey);
-  provide("skipTestForSignOff", skipTestForSignOff);
 }

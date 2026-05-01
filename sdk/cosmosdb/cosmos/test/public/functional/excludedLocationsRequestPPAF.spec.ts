@@ -8,6 +8,7 @@ import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 import { StatusCodes, SubStatusCodes } from "../../../src/common/statusCodes.js";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const endpoint = "https://ppaf.documents.azure.com/";
 
@@ -175,7 +176,7 @@ const SuccessResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Excluded Regions with Per Partition Automatic Failover(PPAF)", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Excluded Regions with Per Partition Automatic Failover(PPAF)", { timeout: 30000 }, () => {
   it("Request-level excludedLocations for PPAF", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";

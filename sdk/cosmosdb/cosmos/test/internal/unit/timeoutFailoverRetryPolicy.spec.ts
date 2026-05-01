@@ -11,7 +11,7 @@ import type { RetryContext } from "../../../src/retry/RetryContext.js";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { TimeoutError } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
-import { createDummyDiagnosticNode } from "../../public/common/TestHelpersCrossPlatform.js";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 

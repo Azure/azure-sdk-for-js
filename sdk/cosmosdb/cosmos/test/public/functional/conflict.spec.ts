@@ -4,8 +4,9 @@
 import { removeAllDatabases, getTestContainer, testForDiagnostics } from "../common/TestHelpers.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Conflicts", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Conflicts", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

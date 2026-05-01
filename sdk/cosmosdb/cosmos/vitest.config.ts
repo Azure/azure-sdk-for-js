@@ -31,7 +31,8 @@ export default defineConfig({
       enabled: false,
     },
     fileParallelism: false,
-    include: ["test/internal/**/*.spec.ts"],
+    include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
+    globalSetup: ["test/public/common/globalSetup.ts"],
     exclude: [
       "test/**/browser/**",
       "test/**/react-native/**",

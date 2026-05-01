@@ -24,9 +24,9 @@ import {
 import { SpatialType } from "../../../src/index.js";
 import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
-import { skipTestForSignOff } from "../common/_testConfig.js";
+import { skipTestForSignOff, emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Containers", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Containers", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -564,7 +564,7 @@ describe("Containers", { timeout: 10000 }, () => {
   });
 });
 
-describe("createIfNotExists", () => {
+describe.skipIf(emulatorUnavailable)("createIfNotExists", () => {
   let database: Database;
 
   beforeAll(async () => {
@@ -619,7 +619,7 @@ describe("createIfNotExists", () => {
   });
 });
 
-describe("container.readOffer", () => {
+describe.skipIf(emulatorUnavailable)("container.readOffer", () => {
   let containerWithOffer: Container;
   let containerWithoutOffer: Container;
   let container2WithOffer: Container;
@@ -676,7 +676,7 @@ describe("container.readOffer", () => {
   });
 });
 
-describe("container.create", () => {
+describe.skipIf(emulatorUnavailable)("container.create", () => {
   let database: Database;
 
   beforeAll(async () => {
@@ -705,7 +705,7 @@ describe("container.create", () => {
   });
 });
 
-describe("Reading items using container", () => {
+describe.skipIf(emulatorUnavailable)("Reading items using container", () => {
   it("should be able to read item based on partition key value", async () => {
     const container = await getTestContainer("container", undefined, {
       partitionKey: { paths: ["/key1", "/key2"], kind: PartitionKeyKind.MultiHash, version: 2 },
@@ -752,7 +752,7 @@ describe("Reading items using container", () => {
   });
 });
 
-describe.skipIf(skipTestForSignOff)("container.deleteAllItemsForPartitionKey", () => {
+describe.skipIf(skipTestForSignOff || emulatorUnavailable)("container.deleteAllItemsForPartitionKey", () => {
   it("should delete all items for partition key value", async () => {
     const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     await testDeleteAllItemsForPartitionKey(container);

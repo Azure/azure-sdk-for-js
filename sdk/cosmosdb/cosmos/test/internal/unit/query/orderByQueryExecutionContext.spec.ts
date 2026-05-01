@@ -3,13 +3,13 @@
 
 import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
 import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
-import { createTestClientContext } from "../../../public/common/TestHelpersCrossPlatform.js";
+import { createTestClientContext } from "../../../public/common/TestHelpers.js";
 import type { QueryIterator } from "../../../../src/queryIterator.js";
 import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange.js";
 import type { Resource } from "../../../../src/client/Resource.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext.js";
 import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpersCrossPlatform.js";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, vi } from "vitest";
 
 describe("OrderByQueryExecutionContext", () => {

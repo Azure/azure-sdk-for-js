@@ -14,6 +14,7 @@ import {
 } from "../common/TestHelpers.js";
 import type { FeedResponse, FeedOptions } from "../../../src/index.js";
 import { describe, it, assert, beforeAll } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 function compare(key: string) {
   return function (a: any, b: any): number {
@@ -27,7 +28,7 @@ function compare(key: string) {
   };
 }
 
-describe("Cross-Partition", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Cross-Partition", { timeout: 30000 }, () => {
   describe("Validate-Query", () => {
     const documentDefinitions = generateDocuments(20);
 

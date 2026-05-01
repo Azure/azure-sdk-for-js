@@ -9,7 +9,7 @@ import type {
 } from "../../../src/index.js";
 import { CosmosClient, Constants, PatchOperationType } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";
@@ -41,7 +41,7 @@ const client = new CosmosClient({
   key: masterKey,
 });
 
-describe("Non Partitioned Container", () => {
+describe.skipIf(emulatorUnavailable)("Non Partitioned Container", () => {
   let container: Container;
   beforeEach(async () => {
     await removeAllDatabases();

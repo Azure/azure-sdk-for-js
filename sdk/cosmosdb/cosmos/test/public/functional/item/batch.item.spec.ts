@@ -12,11 +12,11 @@ import { addEntropy, testForDiagnostics } from "../../common/TestHelpers.js";
 import type { OperationInput } from "../../../../src/index.js";
 import { BulkOperationType } from "../../../../src/index.js";
 import { PartitionKeyKind } from "../../../../src/documents/index.js";
-import { endpoint } from "../../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 import { describe, it, assert, beforeAll } from "vitest";
-describe("test batch operations", () => {
+describe.skipIf(emulatorUnavailable)("test batch operations", () => {
   describe("v2 multi partition container", async () => {
     let container: Container;
     let createItemId: string;

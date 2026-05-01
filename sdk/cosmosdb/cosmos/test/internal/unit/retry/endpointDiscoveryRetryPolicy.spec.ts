@@ -4,7 +4,7 @@
 import { assert, describe, it, vi, expect } from "vitest";
 import { OperationType, ResourceType } from "../../../../src/common/index.js";
 import { EndpointDiscoveryRetryPolicy } from "../../../../src/retry/endpointDiscoveryRetryPolicy.js";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpersCrossPlatform.js";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 
 describe("EndpointDiscoveryRetryPolicy", () => {
   const retryContext = { retryCount: 0 } as any;

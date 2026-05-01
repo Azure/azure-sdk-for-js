@@ -8,7 +8,7 @@ import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics.js"
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
-} from "../../../public/common/TestHelpersCrossPlatform.js";
+} from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, vi } from "vitest";
 
 describe("PipelineQueryExecutionContext", () => {

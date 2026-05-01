@@ -2,15 +2,16 @@
 // Licensed under the MIT License.
 
 import nock from "nock";
-import type { Container } from "../../../src/index.js";
-import { CosmosClient, PatchOperationType, ResourceType } from "../../../src/index.js";
-import { getTestContainer } from "../../public/common/TestHelpers.js";
+import type { Container } from "../../../../src/index.js";
+import { CosmosClient, PatchOperationType, ResourceType } from "../../../../src/index.js";
+import { getTestContainer } from "../../common/TestHelpers.js";
 import type { AccessToken, TokenCredential } from "@azure/identity";
-import { RequestHandler } from "../../../src/request/RequestHandler.js";
-import { masterKey } from "../../public/common/_fakeTestSecrets.js";
-import { endpoint } from "../../public/common/_testConfig.js";
+import { RequestHandler } from "../../../../src/request/RequestHandler.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import { endpoint } from "../../common/_testConfig.js";
 import type { MockInstance } from "vitest";
 import { describe, it, expect, vi, beforeEach, afterEach, afterAll } from "vitest";
+import { emulatorUnavailable } from "../../common/_testConfig.js";
 
 if (!nock.isActive()) {
   nock.activate();
@@ -71,7 +72,7 @@ const testDataset = {
   },
 };
 
-describe("Testing Credentials integration for Client", () => {
+describe.skipIf(emulatorUnavailable)("Testing Credentials integration for Client", () => {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
   const mockedEndpoint = "https://localhost:8082";
   const aadToken = "aadToken";

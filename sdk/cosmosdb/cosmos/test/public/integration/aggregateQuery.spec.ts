@@ -10,8 +10,9 @@ import type { FeedOptions } from "../../../src/index.js";
 import { TestData } from "../common/TestData.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Aggregate Query", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable)("Aggregate Query", { timeout: 20000 }, () => {
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";
   const testdata = new TestData(partitionKey, uniquePartitionKey);

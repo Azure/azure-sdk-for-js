@@ -18,7 +18,7 @@ import {
   PartitionKeyKind,
 } from "../../../../src/index.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import { endpoint } from "../../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../../common/_testConfig.js";
 import type { CosmosDiagnosticsTestSpec } from "../../common/TestHelpers.js";
 import {
   addEntropy,
@@ -112,7 +112,7 @@ async function getSplitContainer(): Promise<Container> {
   return splitContainer;
 }
 
-describe("test executeBulkOperations", () => {
+describe.skipIf(emulatorUnavailable)("test executeBulkOperations", () => {
   let container: Container;
   let readItemId: string;
   let replaceItemId: string;

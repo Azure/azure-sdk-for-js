@@ -5,8 +5,9 @@ import type { ContainerDefinition, Container, SqlQuerySpec } from "../../../src/
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
 import testDocuments from "../common/text-3properties-1536dimensions-100documents.json";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("FTSQuery", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable)("FTSQuery", { timeout: 20000 }, () => {
   const partitionKey = "id";
   let container: Container;
   const containerDefinition: ContainerDefinition = {

@@ -4,8 +4,9 @@
 import { describe, it, beforeEach, assert } from "vitest";
 import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("PartitionKeyRangeFailoverInfo", () => {
+describe.skipIf(emulatorUnavailable)("PartitionKeyRangeFailoverInfo", () => {
   const initialEndpoint = "https://region1.documents.azure.com";
   let failoverInfo: PartitionKeyRangeFailoverInfo;
   const diagnosticNode = createDummyDiagnosticNode();

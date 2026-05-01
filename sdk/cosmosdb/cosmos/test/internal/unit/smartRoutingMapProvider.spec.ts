@@ -8,7 +8,7 @@ import {
   SmartRoutingMapProvider,
 } from "../../../src/routing/index.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
-import { createDummyDiagnosticNode } from "../../public/common/TestHelpersCrossPlatform.js";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert } from "vitest";
 
 describe("Smart Routing Map Provider OverlappingRanges", () => {

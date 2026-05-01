@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 import { Agent } from "node:http";
-import { CosmosClient } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
-import { masterKey } from "../common/_fakeTestSecrets.js";
+import { CosmosClient } from "../../../../src/index.js";
+import { endpoint, emulatorUnavailable } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
 import {
   getTestDatabase,
   getTestContainer,
   generateDocuments,
   bulkInsertItems,
-} from "../common/TestHelpers.js";
+} from "../../common/TestHelpers.js";
 import { UsernamePasswordCredential } from "@azure/identity";
-import { defaultConnectionPolicy } from "../../../src/documents/index.js";
+import { defaultConnectionPolicy } from "../../../../src/documents/index.js";
 import { describe, it, assert } from "vitest";
 
-describe("Client Tests", { timeout: 200000 }, () => {
+describe.skipIf(emulatorUnavailable)("Client Tests", { timeout: 200000 }, () => {
   describe("Validate client request timeout", () => {
     it.skip("timeout occurs within expected timeframe", async () => {
       // making timeout 1 ms to make sure it will throw

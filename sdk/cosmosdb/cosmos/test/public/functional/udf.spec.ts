@@ -4,8 +4,9 @@
 import type { UserDefinedFunctionDefinition, Container } from "../../../src/index.js";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("User Defined Function", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("User Defined Function", { timeout: 10000 }, () => {
   let container: Container;
 
   beforeEach(async () => {

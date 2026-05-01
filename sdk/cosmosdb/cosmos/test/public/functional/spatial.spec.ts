@@ -5,8 +5,9 @@ import type { Database } from "../../../src/index.js";
 import { DataType, IndexKind } from "../../../src/index.js";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Spatial Indexes", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Spatial Indexes", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

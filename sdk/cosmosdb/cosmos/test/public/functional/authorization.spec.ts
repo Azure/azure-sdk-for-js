@@ -3,7 +3,7 @@
 
 import { CosmosClient, PermissionMode } from "../../../src/index.js";
 import type { PermissionDefinition } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   createOrUpsertPermission,
@@ -13,7 +13,7 @@ import {
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
