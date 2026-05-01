@@ -55,11 +55,7 @@ export async function aes256CbcEncrypt(
     false,
     ["encrypt"],
   );
-  const result = await globalThis.crypto.subtle.encrypt(
-    { name: "AES-CBC", iv },
-    cryptoKey,
-    data,
-  );
+  const result = await globalThis.crypto.subtle.encrypt({ name: "AES-CBC", iv }, cryptoKey, data);
   return new Uint8Array(result);
 }
 
@@ -75,11 +71,7 @@ export async function aes256CbcDecrypt(
     false,
     ["decrypt"],
   );
-  const result = await globalThis.crypto.subtle.decrypt(
-    { name: "AES-CBC", iv },
-    cryptoKey,
-    data,
-  );
+  const result = await globalThis.crypto.subtle.decrypt({ name: "AES-CBC", iv }, cryptoKey, data);
   return new Uint8Array(result);
 }
 

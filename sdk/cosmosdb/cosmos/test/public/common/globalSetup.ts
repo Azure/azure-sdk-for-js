@@ -147,7 +147,9 @@ export default async function ({ provide }: TestProject): Promise<void> {
 
   // 2. If using an external endpoint (ACCOUNT_HOST set), don't try Docker — just fail gracefully
   if (process.env.ACCOUNT_HOST) {
-    console.warn(`⚠️  Configured endpoint ${endpoint} is not reachable. Integration tests will be skipped.`);
+    console.warn(
+      `⚠️  Configured endpoint ${endpoint} is not reachable. Integration tests will be skipped.`,
+    );
     provide("emulatorUnavailable", true);
     return;
   }
@@ -175,7 +177,9 @@ export default async function ({ provide }: TestProject): Promise<void> {
   }
 
   // 4. Wait for the emulator to become ready
-  console.log(`⏳ Waiting for Cosmos emulator at ${endpoint} (timeout: ${EMULATOR_STARTUP_TIMEOUT_MS / 1000}s)...`);
+  console.log(
+    `⏳ Waiting for Cosmos emulator at ${endpoint} (timeout: ${EMULATOR_STARTUP_TIMEOUT_MS / 1000}s)...`,
+  );
   const ready = await waitForEmulator(endpoint, masterKey);
   if (!ready) {
     console.warn(

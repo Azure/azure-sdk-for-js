@@ -48,7 +48,11 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     this.wrapKeyCallsCount = {};
     this.unwrapKeyCallsCount = {};
   }
-  async unwrapKey(encryptionKeyId: string, algorithm: string, key: Uint8Array): Promise<Uint8Array> {
+  async unwrapKey(
+    encryptionKeyId: string,
+    algorithm: string,
+    key: Uint8Array,
+  ): Promise<Uint8Array> {
     algorithm;
     if (encryptionKeyId === "revokedcmkpath" && this.revokeAccessSet) {
       const errorResponse = new ErrorResponse("Forbidden");
@@ -68,7 +72,11 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     return plainKey;
   }
 
-  async wrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Uint8Array): Promise<Uint8Array> {
+  async wrapKey(
+    encryptionKeyId: string,
+    algorithm: string,
+    wrappedKey: Uint8Array,
+  ): Promise<Uint8Array> {
     algorithm;
     if (encryptionKeyId in this.wrapKeyCallsCount) {
       this.wrapKeyCallsCount[encryptionKeyId]++;

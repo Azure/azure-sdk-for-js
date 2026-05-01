@@ -8,37 +8,41 @@ import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const doc = { id: "myId", pk: "pk" };
 
-describe.skipIf(emulatorUnavailable)("ResourceLink Trimming of leading and trailing slashes", { timeout: 10000 }, () => {
-  const containerId = "testcontainer";
+describe.skipIf(emulatorUnavailable)(
+  "ResourceLink Trimming of leading and trailing slashes",
+  { timeout: 10000 },
+  () => {
+    const containerId = "testcontainer";
 
-  beforeEach(async () => {
-    await removeAllDatabases();
-  });
+    beforeEach(async () => {
+      await removeAllDatabases();
+    });
 
-  it("validate correct execution of query using named container link with leading and trailing slashes", async () => {
-    const containerDefinition = {
-      id: containerId,
-      partitionKey: {
-        paths: ["/pk"],
-      },
-    };
-    const containerOptions = { offerThroughput: 10100 };
+    it("validate correct execution of query using named container link with leading and trailing slashes", async () => {
+      const containerDefinition = {
+        id: containerId,
+        partitionKey: {
+          paths: ["/pk"],
+        },
+      };
+      const containerOptions = { offerThroughput: 10100 };
 
-    const container = await getTestContainer(
-      "validate correct execution of query",
-      undefined,
-      containerDefinition,
-      containerOptions,
-    );
+      const container = await getTestContainer(
+        "validate correct execution of query",
+        undefined,
+        containerDefinition,
+        containerOptions,
+      );
 
-    await container.items.create(doc);
-    const query = "SELECT * from " + containerId;
-    const queryIterator = container.items.query(query);
+      await container.items.create(doc);
+      const query = "SELECT * from " + containerId;
+      const queryIterator = container.items.query(query);
 
-    const { resources } = await queryIterator.fetchAll();
-    assert.equal(resources[0]["id"], "myId");
-  });
-});
+      const { resources } = await queryIterator.fetchAll();
+      assert.equal(resources[0]["id"], "myId");
+    });
+  },
+);
 
 describe.skipIf(emulatorUnavailable)("Test Query Metrics", { timeout: 20000 }, () => {
   const collectionId = "testCollection3";

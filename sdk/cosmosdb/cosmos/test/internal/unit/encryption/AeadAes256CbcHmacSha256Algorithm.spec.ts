@@ -81,8 +81,6 @@ describe("AeadAes256CbcHmacSha256 Algorithm", () => {
     // Modify the last byte of cipherText to make the authentication tag invalid
     cipherText[cipherText.length - 1] = ~cipherText[cipherText.length - 1];
     // should fail while decrypting since cipher text is tampered
-    await expect(() => algorithm.decrypt(cipherText)).rejects.toThrow(
-      /Invalid authentication tag/,
-    );
+    await expect(() => algorithm.decrypt(cipherText)).rejects.toThrow(/Invalid authentication tag/);
   });
 });

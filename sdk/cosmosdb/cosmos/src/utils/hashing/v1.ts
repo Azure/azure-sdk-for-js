@@ -17,7 +17,10 @@ export function hashV1PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): 
   const hash = MurmurHash.x86.hash32(toHash);
   const encodedJSBI = writeNumberForBinaryEncodingBigInt(hash);
   const encodedValue = encodeByType(key);
-  const finalHash = uint8ArrayToString(concatUint8Arrays([encodedJSBI, encodedValue]), "hex").toUpperCase();
+  const finalHash = uint8ArrayToString(
+    concatUint8Arrays([encodedJSBI, encodedValue]),
+    "hex",
+  ).toUpperCase();
   return finalHash;
 }
 

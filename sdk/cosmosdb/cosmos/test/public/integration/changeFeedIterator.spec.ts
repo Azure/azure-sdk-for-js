@@ -26,7 +26,12 @@ import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { Constants } from "../../../src/common/constants.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
-import { endpoint, emulatorUnavailable, skipTestForSignOff, linuxEmulator } from "../common/_testConfig.js";
+import {
+  endpoint,
+  emulatorUnavailable,
+  skipTestForSignOff,
+  linuxEmulator,
+} from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { addEntropy } from "../common/TestHelpers.js";
 
@@ -218,357 +223,467 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
     });
   });
 
-  describe.skipIf(skipTestForSignOff || linuxEmulator)("test changefeed for one prefix partition key", () => {
-    let container: Container;
+  describe.skipIf(skipTestForSignOff || linuxEmulator)(
+    "test changefeed for one prefix partition key",
+    () => {
+      let container: Container;
 
-    beforeAll(async () => {
-      const containerDef: ContainerDefinition = {
-        partitionKey: {
-          paths: ["/key1", "/key2", "/key3"],
-          kind: PartitionKeyKind.MultiHash,
-          version: PartitionKeyDefinitionVersion.V2,
-        },
-      };
-      const throughput: RequestOptions = { offerThroughput: 25100 };
-      container = await getTestContainer(
-        "changefeed for one prefix partition key",
-        undefined,
-        containerDef,
-        throughput,
-      );
+      beforeAll(async () => {
+        const containerDef: ContainerDefinition = {
+          partitionKey: {
+            paths: ["/key1", "/key2", "/key3"],
+            kind: PartitionKeyKind.MultiHash,
+            version: PartitionKeyDefinitionVersion.V2,
+          },
+        };
+        const throughput: RequestOptions = { offerThroughput: 25100 };
+        container = await getTestContainer(
+          "changefeed for one prefix partition key",
+          undefined,
+          containerDef,
+          throughput,
+        );
 
-      for (let i = 1; i < 11; i++) {
-        await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 0 });
-        await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 1 });
-        await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 0 });
-        await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 1 });
-      }
-    });
-
-    it("check if maxItemCount property is being followed", async () => {
-      const maxItemCount = 1;
-      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        maxItemCount: maxItemCount,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
-      };
-      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-      while (iterator.hasMoreResults) {
-        const response = await iterator.readNext();
-        const { result: items } = response;
-        if (items.length === 0) {
-          break;
+        for (let i = 1; i < 11; i++) {
+          await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 0 });
+          await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 1 });
+          await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 0 });
+          await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 1 });
         }
-        assert.equal(items.length, maxItemCount, "No. of items should be equal to maxItemCount");
-      }
-    });
+      });
 
-    it("startFromBeginning should fetch all results", async () => {
-      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
-      };
+      it("check if maxItemCount property is being followed", async () => {
+        const maxItemCount = 1;
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: maxItemCount,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
-      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        if (items.length === 0) break;
-        assert.equal(items.length, 20, "initial number of items should be equal to 20");
-      }
-    });
-
-    it("Iterator should start from last continuation token and fetch remaining results", async () => {
-      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        maxItemCount: 1,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
-      };
-      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-      let count = 0;
-      let continuationToken = undefined;
-
-      while (iterator.hasMoreResults && count < 10) {
-        const response = await iterator.readNext();
-        count += response.result.length;
-        continuationToken = response.continuationToken;
-      }
-      const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
-        changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-      };
-      const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
-
-      while (iterator2.hasMoreResults) {
-        const { result: items } = await iterator2.readNext();
-        if (items.length === 0) break;
-        assert.equal(items.length, 10, "Remaining number of items should be equal to 10");
-      }
-    });
-
-    it("startFromNow should fetch all results from now on", async () => {
-      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        maxItemCount: 10,
-        changeFeedStartFrom: ChangeFeedStartFrom.Now(["0", 0]),
-      };
-      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        assert.equal(items.length, 0, "Initially no new changes");
-        // initial result will be 0 as no new changes since creation of iterator
-        if (items.length === 0) {
-          break;
+        while (iterator.hasMoreResults) {
+          const response = await iterator.readNext();
+          const { result: items } = response;
+          if (items.length === 0) {
+            break;
+          }
+          assert.equal(items.length, maxItemCount, "No. of items should be equal to maxItemCount");
         }
-      }
-      // add 10 new items to this partition key
-      for (let i = 11; i < 21; i++) {
-        await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 0 });
-      }
-      // again start the iterator
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        if (items.length === 0) break;
-        assert.notEqual(items.length, 0, "New changes should be fetched");
-      }
-    });
+      });
 
-    it("should fetch correct results for undefined values of partition keys", async () => {
-      let changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        maxItemCount: 10,
-        changeFeedStartFrom: ChangeFeedStartFrom.Now(["2", 3]),
-      };
-      let iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        assert.equal(items.length, 0, "Initially no new changes");
-        // initial result will be 0 as no new changes since creation of iterator
-        if (items.length === 0) {
-          break;
+      it("startFromBeginning should fetch all results", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
+        };
+
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.equal(items.length, 20, "initial number of items should be equal to 20");
         }
-      }
-      // adding some items with key3 as undefined
-      for (let i = 21; i < 22; i++) {
-        await container.items.create({ id: `item${i}`, key1: `2`, key2: 3, key3: 0 });
-        await container.items.create({ id: `item${i}`, key1: `2`, key2: 3, key3: undefined });
-      }
+      });
 
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        if (items.length === 0) break;
-        assert.notEqual(items.length, 0, "New changes should be fetched");
-        assert.equal(items.length, 2, "Number of items should be equal to 2");
-      }
+      it("Iterator should start from last continuation token and fetch remaining results", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 1,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
-      changeFeedIteratorOptions = {
-        maxItemCount: 10,
-        changeFeedStartFrom: ChangeFeedStartFrom.Now(["2", undefined]),
-      };
-      iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        assert.equal(items.length, 0, "Initially no new changes");
-        // initial result will be 0 as no new changes since creation of iterator
-        if (items.length === 0) {
-          break;
+        let count = 0;
+        let continuationToken = undefined;
+
+        while (iterator.hasMoreResults && count < 10) {
+          const response = await iterator.readNext();
+          count += response.result.length;
+          continuationToken = response.continuationToken;
         }
-      }
-      // adding some items with key2 as undefined
-      for (let i = 22; i < 23; i++) {
-        await container.items.create({ id: `item${i}`, key1: `2`, key2: undefined, key3: 0 });
-        await container.items.create({
-          id: `item${i}`,
-          key1: `2`,
-          key2: undefined,
-          key3: undefined,
-        });
-      }
+        const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+          changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+        };
+        const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
 
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        if (items.length === 0) break;
-        assert.notEqual(items.length, 0, "New changes should be fetched");
-        assert.equal(items.length, 2, "Number of items should be equal to 2");
-      }
+        while (iterator2.hasMoreResults) {
+          const { result: items } = await iterator2.readNext();
+          if (items.length === 0) break;
+          assert.equal(items.length, 10, "Remaining number of items should be equal to 10");
+        }
+      });
 
-      // adding some items with key1 as undefined
-      for (let i = 23; i < 24; i++) {
-        await container.items.create({
-          id: `item${i}`,
-          key1: undefined,
-          key2: undefined,
-          key3: undefined,
-        });
-        await container.items.create({
-          id: `item${i}`,
-          key1: undefined,
-          key2: undefined,
-          key3: 0,
-        });
-        await container.items.create({
-          id: `item${i}`,
-          key1: undefined,
-          key2: 1,
-          key3: 0,
-        });
-        await container.items.create({
-          id: `item${i}`,
-          key1: undefined,
-          key2: 0,
-          key3: 1,
-        });
-      }
+      it("startFromNow should fetch all results from now on", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 10,
+          changeFeedStartFrom: ChangeFeedStartFrom.Now(["0", 0]),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
-      changeFeedIteratorOptions = {
-        maxItemCount: 10,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning([undefined, undefined, undefined]),
-      };
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          assert.equal(items.length, 0, "Initially no new changes");
+          // initial result will be 0 as no new changes since creation of iterator
+          if (items.length === 0) {
+            break;
+          }
+        }
+        // add 10 new items to this partition key
+        for (let i = 11; i < 21; i++) {
+          await container.items.create({ id: `item${i}`, key1: `0`, key2: 0, key3: 0 });
+        }
+        // again start the iterator
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.notEqual(items.length, 0, "New changes should be fetched");
+        }
+      });
 
-      iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        if (items.length === 0) break;
-        assert.equal(items.length, 1, "Number of items should be equal to 1");
-      }
+      it("should fetch correct results for undefined values of partition keys", async () => {
+        let changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 10,
+          changeFeedStartFrom: ChangeFeedStartFrom.Now(["2", 3]),
+        };
+        let iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          assert.equal(items.length, 0, "Initially no new changes");
+          // initial result will be 0 as no new changes since creation of iterator
+          if (items.length === 0) {
+            break;
+          }
+        }
+        // adding some items with key3 as undefined
+        for (let i = 21; i < 22; i++) {
+          await container.items.create({ id: `item${i}`, key1: `2`, key2: 3, key3: 0 });
+          await container.items.create({ id: `item${i}`, key1: `2`, key2: 3, key3: undefined });
+        }
 
-      changeFeedIteratorOptions = {
-        maxItemCount: 10,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning([undefined, undefined]),
-      };
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.notEqual(items.length, 0, "New changes should be fetched");
+          assert.equal(items.length, 2, "Number of items should be equal to 2");
+        }
 
-      iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-      while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNext();
-        if (items.length === 0) break;
-        assert.equal(items.length, 2, "Number of items should be equal to 2");
-      }
+        changeFeedIteratorOptions = {
+          maxItemCount: 10,
+          changeFeedStartFrom: ChangeFeedStartFrom.Now(["2", undefined]),
+        };
+        iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          assert.equal(items.length, 0, "Initially no new changes");
+          // initial result will be 0 as no new changes since creation of iterator
+          if (items.length === 0) {
+            break;
+          }
+        }
+        // adding some items with key2 as undefined
+        for (let i = 22; i < 23; i++) {
+          await container.items.create({ id: `item${i}`, key1: `2`, key2: undefined, key3: 0 });
+          await container.items.create({
+            id: `item${i}`,
+            key1: `2`,
+            key2: undefined,
+            key3: undefined,
+          });
+        }
 
-      changeFeedIteratorOptions = {
-        maxItemCount: 1,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning([undefined]),
-      };
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.notEqual(items.length, 0, "New changes should be fetched");
+          assert.equal(items.length, 2, "Number of items should be equal to 2");
+        }
 
-      iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        // adding some items with key1 as undefined
+        for (let i = 23; i < 24; i++) {
+          await container.items.create({
+            id: `item${i}`,
+            key1: undefined,
+            key2: undefined,
+            key3: undefined,
+          });
+          await container.items.create({
+            id: `item${i}`,
+            key1: undefined,
+            key2: undefined,
+            key3: 0,
+          });
+          await container.items.create({
+            id: `item${i}`,
+            key1: undefined,
+            key2: 1,
+            key3: 0,
+          });
+          await container.items.create({
+            id: `item${i}`,
+            key1: undefined,
+            key2: 0,
+            key3: 1,
+          });
+        }
 
-      let count = 0;
-      let continuationToken = undefined;
+        changeFeedIteratorOptions = {
+          maxItemCount: 10,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning([undefined, undefined, undefined]),
+        };
 
-      while (iterator.hasMoreResults && count < 2) {
-        const response = await iterator.readNext();
-        count += response.result.length;
-        continuationToken = response.continuationToken;
-      }
-      assert.equal(count, 2, "count till now should be equal to 2");
-      const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
-        changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-      };
-      const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+        iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.equal(items.length, 1, "Number of items should be equal to 1");
+        }
 
-      while (iterator2.hasMoreResults) {
-        const { result: items } = await iterator2.readNext();
-        if (items.length === 0) break;
-        assert.equal(items.length, 2, "Remaining number of items should be equal to 2");
-      }
-    });
-  });
+        changeFeedIteratorOptions = {
+          maxItemCount: 10,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning([undefined, undefined]),
+        };
 
-  describe.skipIf(skipTestForSignOff || linuxEmulator)("test changefeed for entire container", () => {
+        iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.equal(items.length, 2, "Number of items should be equal to 2");
+        }
+
+        changeFeedIteratorOptions = {
+          maxItemCount: 1,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning([undefined]),
+        };
+
+        iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+        let count = 0;
+        let continuationToken = undefined;
+
+        while (iterator.hasMoreResults && count < 2) {
+          const response = await iterator.readNext();
+          count += response.result.length;
+          continuationToken = response.continuationToken;
+        }
+        assert.equal(count, 2, "count till now should be equal to 2");
+        const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+          changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+        };
+        const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+        while (iterator2.hasMoreResults) {
+          const { result: items } = await iterator2.readNext();
+          if (items.length === 0) break;
+          assert.equal(items.length, 2, "Remaining number of items should be equal to 2");
+        }
+      });
+    },
+  );
+
+  describe.skipIf(skipTestForSignOff || linuxEmulator)(
+    "test changefeed for entire container",
+    () => {
+      let container: Container;
+
+      beforeAll(async () => {
+        const containerDef: ContainerDefinition = {
+          partitionKey: {
+            paths: ["/name"],
+            kind: PartitionKeyKind.MultiHash,
+            version: PartitionKeyDefinitionVersion.V2,
+          },
+        };
+        const throughput: RequestOptions = { offerThroughput: 21000 };
+        container = await getTestContainer(
+          "changefeedEntireContainer",
+          undefined,
+          containerDef,
+          throughput,
+        );
+
+        for (let i = 1; i < 6; i++) {
+          await container.items.create({ name: "sample1", key: i });
+          await container.items.create({ name: "sample2", key: i });
+          await container.items.create({ name: "sample3", key: i });
+          await container.items.create({ name: "sample4", key: i });
+        }
+      });
+
+      it("ChangeFeedStartFrom.Beginning should fetch all results of all partitions", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        let counter = 0;
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          counter += items.length;
+          if (items.length === 0) break;
+        }
+        assert.equal(counter, 20, "20 items should be fetched");
+      });
+
+      it("Iterator should start from last continuation token and fetch remaining results", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 1,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+        let counter = 0;
+        let continuationToken = undefined;
+
+        while (counter < 10) {
+          const response = await iterator.readNext();
+          counter += response.result.length;
+          continuationToken = response.continuationToken;
+        }
+        const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+          maxItemCount: 1,
+          changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+        };
+        const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+        let counter2 = 0;
+        while (iterator2.hasMoreResults) {
+          const { result: items } = await iterator2.readNext();
+          counter2 += items.length;
+          if (items.length === 0) break;
+        }
+        assert.equal(counter2, 10, "Remaining number of items should be equal to 10");
+      });
+
+      it("partitions should be iterated breadth first", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 1,
+          changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+        let counter = 0;
+        let partitionKey1: string | undefined = undefined;
+        let partitionKey2: string | undefined = undefined;
+        while (counter < 2) {
+          const result = await iterator.readNext();
+          if (counter === 0) {
+            partitionKey1 = result.headers["x-ms-documentdb-partitionkeyrangeid"];
+          }
+          if (counter === 1) {
+            partitionKey2 = result.headers["x-ms-documentdb-partitionkeyrangeid"];
+          }
+          counter++;
+        }
+        assert.notEqual(partitionKey1, partitionKey2, "Partition keys should be different");
+      });
+
+      it("ChangeFeedStartFrom.Now() should fetch all results from now on for entire container", async () => {
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 10,
+          changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+        };
+        const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          assert.equal(items.length, 0, "Initially no new changes");
+          // initial result will be 0 as no new changes since creation of iterator
+          if (items.length === 0) {
+            break;
+          }
+        }
+        // add 20 new items to the container
+        for (let i = 6; i < 11; i++) {
+          await container.items.create({ name: "sample1", key: i });
+          await container.items.create({ name: "sample2", key: i });
+          await container.items.create({ name: "sample3", key: i });
+          await container.items.create({ name: "sample4", key: i });
+        }
+        // again start the iterator
+        while (iterator.hasMoreResults) {
+          const { result: items } = await iterator.readNext();
+          if (items.length === 0) break;
+          assert.notEqual(items.length, 0, "New changes should be fetched");
+        }
+      });
+    },
+  );
+});
+
+describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
+  "test changefeed for feed range",
+  () => {
     let container: Container;
 
     beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
           paths: ["/name"],
-          kind: PartitionKeyKind.MultiHash,
-          version: PartitionKeyDefinitionVersion.V2,
+          version: PartitionKeyDefinitionVersion.V1,
         },
       };
       const throughput: RequestOptions = { offerThroughput: 21000 };
       container = await getTestContainer(
-        "changefeedEntireContainer",
+        "changefeed Epk Range",
         undefined,
         containerDef,
         throughput,
       );
 
-      for (let i = 1; i < 6; i++) {
+      for (let i = 1; i < 11; i++) {
         await container.items.create({ name: "sample1", key: i });
         await container.items.create({ name: "sample2", key: i });
         await container.items.create({ name: "sample3", key: i });
         await container.items.create({ name: "sample4", key: i });
       }
     });
+    it("startFromBeginning should fetch all results", async () => {
+      const feedRanges = await container.getFeedRanges();
 
-    it("ChangeFeedStartFrom.Beginning should fetch all results of all partitions", async () => {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
       };
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-      let counter = 0;
+
       while (iterator.hasMoreResults) {
         const { result: items } = await iterator.readNext();
-        counter += items.length;
         if (items.length === 0) break;
+        assert.equal(items.length, 10, "initial number of items should be equal to 10");
       }
-      assert.equal(counter, 20, "20 items should be fetched");
     });
 
     it("Iterator should start from last continuation token and fetch remaining results", async () => {
+      const feedRanges = await container.getFeedRanges();
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: 1,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
       };
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
       let counter = 0;
       let continuationToken = undefined;
 
-      while (counter < 10) {
+      while (counter < 6) {
         const response = await iterator.readNext();
         counter += response.result.length;
         continuationToken = response.continuationToken;
       }
+
       const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
-        maxItemCount: 1,
         changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
       };
       const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
-      let counter2 = 0;
+
       while (iterator2.hasMoreResults) {
         const { result: items } = await iterator2.readNext();
-        counter2 += items.length;
         if (items.length === 0) break;
+        assert.equal(items.length, 4, "Remaining number of items should be equal to 4");
       }
-      assert.equal(counter2, 10, "Remaining number of items should be equal to 10");
     });
 
-    it("partitions should be iterated breadth first", async () => {
-      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-        maxItemCount: 1,
-        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
-      };
-      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    it("ChangeFeedStartFrom.Now() should fetch all results from now on", async () => {
+      const feedRanges = await container.getFeedRanges();
 
-      let counter = 0;
-      let partitionKey1: string | undefined = undefined;
-      let partitionKey2: string | undefined = undefined;
-      while (counter < 2) {
-        const result = await iterator.readNext();
-        if (counter === 0) {
-          partitionKey1 = result.headers["x-ms-documentdb-partitionkeyrangeid"];
-        }
-        if (counter === 1) {
-          partitionKey2 = result.headers["x-ms-documentdb-partitionkeyrangeid"];
-        }
-        counter++;
-      }
-      assert.notEqual(partitionKey1, partitionKey2, "Partition keys should be different");
-    });
-
-    it("ChangeFeedStartFrom.Now() should fetch all results from now on for entire container", async () => {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: 10,
-        changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+        changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
       };
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
       while (iterator.hasMoreResults) {
         const { result: items } = await iterator.readNext();
         assert.equal(items.length, 0, "Initially no new changes");
@@ -577,8 +692,8 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
           break;
         }
       }
-      // add 20 new items to the container
-      for (let i = 6; i < 11; i++) {
+      // add 10 new items to this partition
+      for (let i = 11; i < 21; i++) {
         await container.items.create({ name: "sample1", key: i });
         await container.items.create({ name: "sample2", key: i });
         await container.items.create({ name: "sample3", key: i });
@@ -591,123 +706,27 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
         assert.notEqual(items.length, 0, "New changes should be fetched");
       }
     });
-  });
-});
 
-describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)("test changefeed for feed range", () => {
-  let container: Container;
+    it("fetch results for more than one physical partitions", async () => {
+      const epkRange = new FeedRangeInternal("", "05C1DFFFFFFFF8");
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange),
+      };
 
-  beforeAll(async () => {
-    const containerDef: ContainerDefinition = {
-      partitionKey: {
-        paths: ["/name"],
-        version: PartitionKeyDefinitionVersion.V1,
-      },
-    };
-    const throughput: RequestOptions = { offerThroughput: 21000 };
-    container = await getTestContainer("changefeed Epk Range", undefined, containerDef, throughput);
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
-    for (let i = 1; i < 11; i++) {
-      await container.items.create({ name: "sample1", key: i });
-      await container.items.create({ name: "sample2", key: i });
-      await container.items.create({ name: "sample3", key: i });
-      await container.items.create({ name: "sample4", key: i });
-    }
-  });
-  it("startFromBeginning should fetch all results", async () => {
-    const feedRanges = await container.getFeedRanges();
-
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      if (items.length === 0) break;
-      assert.equal(items.length, 10, "initial number of items should be equal to 10");
-    }
-  });
-
-  it("Iterator should start from last continuation token and fetch remaining results", async () => {
-    const feedRanges = await container.getFeedRanges();
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-    let counter = 0;
-    let continuationToken = undefined;
-
-    while (counter < 6) {
-      const response = await iterator.readNext();
-      counter += response.result.length;
-      continuationToken = response.continuationToken;
-    }
-
-    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-    };
-    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
-
-    while (iterator2.hasMoreResults) {
-      const { result: items } = await iterator2.readNext();
-      if (items.length === 0) break;
-      assert.equal(items.length, 4, "Remaining number of items should be equal to 4");
-    }
-  });
-
-  it("ChangeFeedStartFrom.Now() should fetch all results from now on", async () => {
-    const feedRanges = await container.getFeedRanges();
-
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 10,
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      assert.equal(items.length, 0, "Initially no new changes");
-      // initial result will be 0 as no new changes since creation of iterator
-      if (items.length === 0) {
-        break;
+      let counter = 0;
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        counter += items.length;
+        if (items.length === 0) {
+          break;
+        }
       }
-    }
-    // add 10 new items to this partition
-    for (let i = 11; i < 21; i++) {
-      await container.items.create({ name: "sample1", key: i });
-      await container.items.create({ name: "sample2", key: i });
-      await container.items.create({ name: "sample3", key: i });
-      await container.items.create({ name: "sample4", key: i });
-    }
-    // again start the iterator
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      if (items.length === 0) break;
-      assert.notEqual(items.length, 0, "New changes should be fetched");
-    }
-  });
-
-  it("fetch results for more than one physical partitions", async () => {
-    const epkRange = new FeedRangeInternal("", "05C1DFFFFFFFF8");
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange),
-    };
-
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-    let counter = 0;
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      counter += items.length;
-      if (items.length === 0) {
-        break;
-      }
-    }
-    assert.equal(counter, 40, "40 items should be fetched");
-  });
-});
+      assert.equal(counter, 40, "40 items should be fetched");
+    });
+  },
+);
 
 describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
   "test changefeed allVersionsAndDeletes mode for entire container",
@@ -1318,284 +1337,289 @@ describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
   },
 );
 
-describe.skipIf(emulatorUnavailable || linuxEmulator)("Change Feed with Priority Level", { timeout: 20000 }, () => {
-  let container: Container;
-  let priorityLevelHeaderCaptured: string | undefined;
+describe.skipIf(emulatorUnavailable || linuxEmulator)(
+  "Change Feed with Priority Level",
+  { timeout: 20000 },
+  () => {
+    let container: Container;
+    let priorityLevelHeaderCaptured: string | undefined;
 
-  beforeAll(async () => {
-    const dbId = addEntropy("changefeedPriority");
-    const containerId = addEntropy("containerPriority");
+    beforeAll(async () => {
+      const dbId = addEntropy("changefeedPriority");
+      const containerId = addEntropy("containerPriority");
 
-    const client = new CosmosClient({
-      endpoint,
-      key: masterKey,
-      plugins: [
-        {
-          on: "request",
-          plugin: async (context: any, diagNode: any, next: any) => {
-            // Capture the x-ms-cosmos-priority-level header from the request
-            if (context.headers && context.headers["x-ms-cosmos-priority-level"]) {
-              priorityLevelHeaderCaptured = context.headers["x-ms-cosmos-priority-level"];
-            }
-            const response = await next(context);
-            return response;
+      const client = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        plugins: [
+          {
+            on: "request",
+            plugin: async (context: any, diagNode: any, next: any) => {
+              // Capture the x-ms-cosmos-priority-level header from the request
+              if (context.headers && context.headers["x-ms-cosmos-priority-level"]) {
+                priorityLevelHeaderCaptured = context.headers["x-ms-cosmos-priority-level"];
+              }
+              const response = await next(context);
+              return response;
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
 
-    const { database } = await client.databases.createIfNotExists({ id: dbId });
-    const { container: createdContainer } = await database.containers.createIfNotExists({
-      id: containerId,
-      partitionKey: {
-        paths: ["/name"],
-        version: PartitionKeyDefinitionVersion.V1,
-      },
-    });
-    container = createdContainer;
-
-    // Create initial items for testing
-    for (let i = 1; i < 11; i++) {
-      await container.items.create({ name: "sample1", key: i });
-      await container.items.create({ name: "sample2", key: i });
-    }
-  });
-
-  it("should use PriorityLevel.Low for ChangeFeed operations", async () => {
-    priorityLevelHeaderCaptured = undefined;
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
-      priorityLevel: PriorityLevel.Low,
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-    let processedItems = 0;
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      if (items.length === 0) break;
-
-      processedItems += items.length;
-      // Verify we can process items successfully with Low priority
-      assert(items.length > 0, "Should receive items with Low priority");
-
-      // Stop after processing some items to avoid infinite loop
-      if (processedItems >= 10) break;
-    }
-
-    assert(processedItems >= 10, "Should have processed at least 10 items with Low priority");
-    assert.isDefined(
-      priorityLevelHeaderCaptured,
-      "Priority level header should be captured in request",
-    );
-    assert.equal(priorityLevelHeaderCaptured, "Low", "Priority level header should be 'Low'");
-  });
-
-  it("should use PriorityLevel.High for ChangeFeed operations", async () => {
-    priorityLevelHeaderCaptured = undefined;
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
-      priorityLevel: PriorityLevel.High,
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-    let processedItems = 0;
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      if (items.length === 0) break;
-
-      processedItems += items.length;
-      // Verify we can process items successfully with High priority
-      assert(items.length > 0, "Should receive items with High priority");
-
-      // Stop after processing some items to avoid infinite loop
-      if (processedItems >= 10) break;
-    }
-
-    assert(processedItems >= 10, "Should have processed at least 10 items with High priority");
-    assert.isDefined(
-      priorityLevelHeaderCaptured,
-      "Priority level header should be captured in request",
-    );
-    assert.equal(priorityLevelHeaderCaptured, "High", "Priority level header should be 'High'");
-  });
-
-  it("should use PriorityLevel with ChangeFeedStartFrom.Now()", async () => {
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
-      priorityLevel: PriorityLevel.Low,
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-    let continuationToken = undefined;
-
-    while (iterator.hasMoreResults) {
-      const res = await iterator.readNext();
-      // Initially there will be no results as no new changes since creation of iterator
-      if (res.statusCode === StatusCodes.NotModified) {
-        continuationToken = res.continuationToken;
-        break;
-      }
-    }
-
-    // Add new documents to the container
-    for (let i = 11; i < 16; i++) {
-      await container.items.create({ name: "sample1", key: i });
-      await container.items.create({ name: "sample2", key: i });
-    }
-
-    let counter = 0;
-    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-      priorityLevel: PriorityLevel.Low,
-    };
-    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
-
-    while (iterator2.hasMoreResults) {
-      const { result: items } = await iterator2.readNext();
-      if (items.length === 0) break;
-
-      counter += items.length;
-      assert(items.length > 0, "Should receive new items with Low priority");
-
-      // Stop after processing some new items
-      if (counter >= 8) break;
-    }
-
-    assert(counter >= 8, "Should have processed at least 8 new items with Low priority");
-  });
-
-  it("should use PriorityLevel with partition key", async () => {
-    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      maxItemCount: 5,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"),
-      priorityLevel: PriorityLevel.Low,
-    };
-    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
-
-    let processedItems = 0;
-    while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNext();
-      if (items.length === 0) break;
-
-      processedItems += items.length;
-
-      // Verify all items have the correct partition key
-      for (const item of items) {
-        assert.strictEqual(
-          (item as any).name,
-          "sample1",
-          "All items should have partition key 'sample1'",
-        );
-      }
-
-      // Stop after processing some items
-      if (processedItems >= 5) break;
-    }
-
-    assert(
-      processedItems >= 5,
-      "Should have processed at least 5 items for partition key with Low priority",
-    );
-  });
-
-  it.skipIf(skipTestForSignOff)(
-    "should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes",
-    async () => {
-      // Create a separate container with AllVersionsAndDeletes mode enabled
-      const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
-      const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
-      const containerDef: ContainerDefinition = {
+      const { database } = await client.databases.createIfNotExists({ id: dbId });
+      const { container: createdContainer } = await database.containers.createIfNotExists({
+        id: containerId,
         partitionKey: {
           paths: ["/name"],
           version: PartitionKeyDefinitionVersion.V1,
         },
-        changeFeedPolicy: changeFeedPolicy,
-      };
-      const throughput: RequestOptions = { offerThroughput: 21000 };
-      const allVersionsContainer = await getTestContainer(
-        "changefeed-allversions-priority-level",
-        undefined,
-        containerDef,
-        throughput,
-      );
+      });
+      container = createdContainer;
 
-      // Add initial items
-      for (let i = 1; i < 6; i++) {
-        await allVersionsContainer.items.create({ name: "sample1", key: i });
-        await allVersionsContainer.items.create({ name: "sample2", key: i });
+      // Create initial items for testing
+      for (let i = 1; i < 11; i++) {
+        await container.items.create({ name: "sample1", key: i });
+        await container.items.create({ name: "sample2", key: i });
+      }
+    });
+
+    it("should use PriorityLevel.Low for ChangeFeed operations", async () => {
+      priorityLevelHeaderCaptured = undefined;
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 5,
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        priorityLevel: PriorityLevel.Low,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      let processedItems = 0;
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        if (items.length === 0) break;
+
+        processedItems += items.length;
+        // Verify we can process items successfully with Low priority
+        assert(items.length > 0, "Should receive items with Low priority");
+
+        // Stop after processing some items to avoid infinite loop
+        if (processedItems >= 10) break;
       }
 
+      assert(processedItems >= 10, "Should have processed at least 10 items with Low priority");
+      assert.isDefined(
+        priorityLevelHeaderCaptured,
+        "Priority level header should be captured in request",
+      );
+      assert.equal(priorityLevelHeaderCaptured, "Low", "Priority level header should be 'Low'");
+    });
+
+    it("should use PriorityLevel.High for ChangeFeed operations", async () => {
+      priorityLevelHeaderCaptured = undefined;
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 5,
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        priorityLevel: PriorityLevel.High,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      let processedItems = 0;
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        if (items.length === 0) break;
+
+        processedItems += items.length;
+        // Verify we can process items successfully with High priority
+        assert(items.length > 0, "Should receive items with High priority");
+
+        // Stop after processing some items to avoid infinite loop
+        if (processedItems >= 10) break;
+      }
+
+      assert(processedItems >= 10, "Should have processed at least 10 items with High priority");
+      assert.isDefined(
+        priorityLevelHeaderCaptured,
+        "Priority level header should be captured in request",
+      );
+      assert.equal(priorityLevelHeaderCaptured, "High", "Priority level header should be 'High'");
+    });
+
+    it("should use PriorityLevel with ChangeFeedStartFrom.Now()", async () => {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: 5,
         changeFeedStartFrom: ChangeFeedStartFrom.Now(),
-        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
         priorityLevel: PriorityLevel.Low,
       };
-      const iterator = allVersionsContainer.items.getChangeFeedIterator(changeFeedIteratorOptions);
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
       let continuationToken = undefined;
 
       while (iterator.hasMoreResults) {
         const res = await iterator.readNext();
+        // Initially there will be no results as no new changes since creation of iterator
         if (res.statusCode === StatusCodes.NotModified) {
           continuationToken = res.continuationToken;
           break;
         }
       }
 
-      // Add, modify, and delete documents to test all versions and deletes mode
-      for (let i = 6; i < 9; i++) {
-        await allVersionsContainer.items.create({ name: "sample1", key: i });
+      // Add new documents to the container
+      for (let i = 11; i < 16; i++) {
+        await container.items.create({ name: "sample1", key: i });
+        await container.items.create({ name: "sample2", key: i });
       }
 
       let counter = 0;
       const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
         maxItemCount: 5,
         changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
-        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
         priorityLevel: PriorityLevel.Low,
       };
-      const iterator2 = allVersionsContainer.items.getChangeFeedIterator(
-        changeFeedIteratorOptions2,
-      );
+      const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
 
       while (iterator2.hasMoreResults) {
         const { result: items } = await iterator2.readNext();
         if (items.length === 0) break;
 
         counter += items.length;
+        assert(items.length > 0, "Should receive new items with Low priority");
 
-        // Verify all items have metadata for all versions and deletes mode
+        // Stop after processing some new items
+        if (counter >= 8) break;
+      }
+
+      assert(counter >= 8, "Should have processed at least 8 new items with Low priority");
+    });
+
+    it("should use PriorityLevel with partition key", async () => {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 5,
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"),
+        priorityLevel: PriorityLevel.Low,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      let processedItems = 0;
+      while (iterator.hasMoreResults) {
+        const { result: items } = await iterator.readNext();
+        if (items.length === 0) break;
+
+        processedItems += items.length;
+
+        // Verify all items have the correct partition key
         for (const item of items) {
-          assert(
-            (item as any).metadata,
-            "Items should have metadata in AllVersionsAndDeletes mode",
-          );
-          assert(
-            (item as any).metadata.operationType,
-            "Items should have operationType in metadata",
+          assert.strictEqual(
+            (item as any).name,
+            "sample1",
+            "All items should have partition key 'sample1'",
           );
         }
 
         // Stop after processing some items
-        if (counter >= 3) break;
+        if (processedItems >= 5) break;
       }
 
       assert(
-        counter >= 3,
-        "Should have processed at least 3 items in AllVersionsAndDeletes mode with Low priority",
+        processedItems >= 5,
+        "Should have processed at least 5 items for partition key with Low priority",
       );
+    });
 
-      // Clean up
-      await allVersionsContainer.delete();
-    },
-  );
+    it.skipIf(skipTestForSignOff)(
+      "should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes",
+      async () => {
+        // Create a separate container with AllVersionsAndDeletes mode enabled
+        const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
+        const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
+        const containerDef: ContainerDefinition = {
+          partitionKey: {
+            paths: ["/name"],
+            version: PartitionKeyDefinitionVersion.V1,
+          },
+          changeFeedPolicy: changeFeedPolicy,
+        };
+        const throughput: RequestOptions = { offerThroughput: 21000 };
+        const allVersionsContainer = await getTestContainer(
+          "changefeed-allversions-priority-level",
+          undefined,
+          containerDef,
+          throughput,
+        );
 
-  afterAll(async () => {
-    if (container) {
-      await container.delete();
-    }
-  });
-});
+        // Add initial items
+        for (let i = 1; i < 6; i++) {
+          await allVersionsContainer.items.create({ name: "sample1", key: i });
+          await allVersionsContainer.items.create({ name: "sample2", key: i });
+        }
+
+        const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+          maxItemCount: 5,
+          changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+          changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+          priorityLevel: PriorityLevel.Low,
+        };
+        const iterator =
+          allVersionsContainer.items.getChangeFeedIterator(changeFeedIteratorOptions);
+        let continuationToken = undefined;
+
+        while (iterator.hasMoreResults) {
+          const res = await iterator.readNext();
+          if (res.statusCode === StatusCodes.NotModified) {
+            continuationToken = res.continuationToken;
+            break;
+          }
+        }
+
+        // Add, modify, and delete documents to test all versions and deletes mode
+        for (let i = 6; i < 9; i++) {
+          await allVersionsContainer.items.create({ name: "sample1", key: i });
+        }
+
+        let counter = 0;
+        const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+          maxItemCount: 5,
+          changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+          changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+          priorityLevel: PriorityLevel.Low,
+        };
+        const iterator2 = allVersionsContainer.items.getChangeFeedIterator(
+          changeFeedIteratorOptions2,
+        );
+
+        while (iterator2.hasMoreResults) {
+          const { result: items } = await iterator2.readNext();
+          if (items.length === 0) break;
+
+          counter += items.length;
+
+          // Verify all items have metadata for all versions and deletes mode
+          for (const item of items) {
+            assert(
+              (item as any).metadata,
+              "Items should have metadata in AllVersionsAndDeletes mode",
+            );
+            assert(
+              (item as any).metadata.operationType,
+              "Items should have operationType in metadata",
+            );
+          }
+
+          // Stop after processing some items
+          if (counter >= 3) break;
+        }
+
+        assert(
+          counter >= 3,
+          "Should have processed at least 3 items in AllVersionsAndDeletes mode with Low priority",
+        );
+
+        // Clean up
+        await allVersionsContainer.delete();
+      },
+    );
+
+    afterAll(async () => {
+      if (container) {
+        await container.delete();
+      }
+    });
+  },
+);

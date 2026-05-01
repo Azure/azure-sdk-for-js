@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 import type { Container, ContainerDefinition } from "../../../src/index.js";
 import { DataType, IndexKind } from "../../../src/index.js";
 import type { SqlQuerySpec } from "../../../src/index.js";
