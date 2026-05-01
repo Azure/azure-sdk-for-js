@@ -100,3 +100,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-alertsmanagement?view=azur
 https://www.npmjs.com/package/@azure/arm-alertsmanagement
 https://learn.microsoft.com/javascript/api/@azure/arm-prometheusrulegroups?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-prometheusrulegroups
+https://www.npmjs.com/package/@azure/arm-fileshares
+https://learn.microsoft.com/javascript/api/@azure/arm-fileshares
