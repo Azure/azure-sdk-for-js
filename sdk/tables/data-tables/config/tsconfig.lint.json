@@ -1,10 +1,4 @@
 {
-  "extends": "../../../../eng/tsconfigs/lint.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure/data-tables": ["../src/index.ts"],
-      "@azure/data-tables/*": ["../src/*"],
-      "$internal/*": ["../src/*"]
-    }
-  }
+  "extends": "../../../../tsconfig.json",
+  "include": ["../src", "../test", "../samples-dev", "../package.json"]
 }
