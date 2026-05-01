@@ -20,10 +20,10 @@ import { generateAccountSasQueryParameters } from "./accountSasSignatureValues.j
  * @param options - Optional parameters.
  * @returns An account SAS token
  */
-export async function generateAccountSas(
+export function generateAccountSas(
   credential: NamedKeyCredential,
   options: AccountSasOptions = {},
-): Promise<string> {
+): string {
   const {
     expiresOn,
     permissions = accountSasPermissionsFromString("rl"),
@@ -44,17 +44,15 @@ export async function generateAccountSas(
     expiry = new Date(now.getTime() + 3600 * 1000);
   }
 
-  const sas = (
-    await generateAccountSasQueryParameters(
-      {
-        permissions,
-        expiresOn: expiry,
-        resourceTypes,
-        services: accountSasServicesToString(services),
-        ...rest,
-      },
-      credential,
-    )
+  const sas = generateAccountSasQueryParameters(
+    {
+      permissions,
+      expiresOn: expiry,
+      resourceTypes,
+      services: accountSasServicesToString(services),
+      ...rest,
+    },
+    credential,
   ).toString();
 
   return sas;

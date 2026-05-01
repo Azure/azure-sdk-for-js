@@ -90,10 +90,10 @@ export interface Edm<T extends EdmTypes> {
 export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
 // @public
-export function generateAccountSas(credential: NamedKeyCredential, options?: AccountSasOptions): Promise<string>;
+export function generateAccountSas(credential: NamedKeyCredential, options?: AccountSasOptions): string;
 
 // @public
-export function generateTableSas(tableName: string, credential: NamedKeyCredential, options?: TableSasSignatureValues): Promise<string>;
+export function generateTableSas(tableName: string, credential: NamedKeyCredential, options?: TableSasSignatureValues): string;
 
 // @public
 export interface GeoReplication {

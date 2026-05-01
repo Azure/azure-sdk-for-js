@@ -48,7 +48,7 @@ async function generateTableSasSample(): Promise<void> {
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
   // by default, expiration is set an hour after the SAS is created. Expiration can be
   // set explicitly by passing expiresOn with the desired expiration Date
-  const accountSas = await generateAccountSas(cred, {
+  const accountSas = generateAccountSas(cred, {
     permissions,
   });
 
@@ -79,7 +79,7 @@ async function generateTableSasSample(): Promise<void> {
 
   // Create the table SAS token
   const anHourFromNow = Date.now() + 60 * 60 * 1000;
-  const tableSas = await generateTableSas(tableName, cred, {
+  const tableSas = generateTableSas(tableName, cred, {
     expiresOn: new Date(anHourFromNow),
     permissions: tablePermissions,
   });
