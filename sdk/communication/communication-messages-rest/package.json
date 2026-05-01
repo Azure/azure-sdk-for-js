@@ -104,6 +104,7 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest"
   },
   "type": "module",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -123,11 +124,6 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
-    }
-  },
-  "imports": {
-    "#platform/*": {
-      "default": "./src/*.ts"
     }
   }
 }
