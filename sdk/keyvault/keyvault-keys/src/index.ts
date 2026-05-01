@@ -247,6 +247,7 @@ export class KeyClient {
     pipelineOptions: KeyClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
+    logger.info(`Creating KeyClient with credential: ${JSON.stringify(credential)}`);
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
 
