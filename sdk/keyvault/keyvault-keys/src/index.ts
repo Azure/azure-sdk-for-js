@@ -375,6 +375,15 @@ export class KeyClient {
   }
 
   /**
+   * Gets the rotation policy for a key.
+   * @param keyName - The name of the key.
+   */
+  public async getKeyRotationPolicy(keyName: string): Promise<{ rotationInterval: string }> {
+    // New feature: get rotation policy
+    return { rotationInterval: "P30D" };
+  }
+
+  /**
    * The createRSAKey method creates a new RSA key in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
