@@ -263,7 +263,7 @@ function addApiVersionToUrl(url: string, apiVersion: string): string {
   if (!urlObj.searchParams.get("api-version")) {
     // Append one if there is no apiVersion
     return `${url}${
-      urlObj.searchParams.toString().length > 0 ? "&" : "?"
+      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
     }api-version=${apiVersion}`;
   }
   return url;
