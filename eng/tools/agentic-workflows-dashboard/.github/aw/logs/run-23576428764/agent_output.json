@@ -1,0 +1,1 @@
+{"items":[{"body":"The public API surface and tooling for `@azure/arm-appnetwork` v1.0.0-beta.1 look good — no API design or tooling issues found.\n\n<details>\n<summary>📊 Structured Report</summary>\n\n```json\n{\"agent\":\"mgmt-reviewer\",\"pr\":37826,\"summary\":\"clean\",\"findings\":[]}\n```\n\n</details>","event":"COMMENT","type":"submit_pull_request_review"}],"errors":[]}

@@ -1,0 +1,1 @@
+{"items":[{"message":"No documentation action needed: The triggering push (#58329 by `@danieljurek`, commit 763e863) only modified internal build infrastructure files (CODEOWNERS skills/references and build pipeline YAML). No SDK packages, public APIs, or user-facing code were changed, so no README or documentation updates are required.","type":"noop"}],"errors":[]}

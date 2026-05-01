@@ -1,0 +1,4 @@
+2026-04-01T08:48:28.8390000Z Evaluating mention_owners.if
+2026-04-01T08:48:28.8390000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && contains(needs.agent.outputs.output_types, 'mention_owners'))
+2026-04-01T08:48:28.8390000Z Expanded: (!false && ('failure' != 'skipped') && contains(null, 'mention_owners'))
+2026-04-01T08:48:28.8390000Z Result: false

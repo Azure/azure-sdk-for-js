@@ -1,0 +1,16 @@
+{
+  "pr": 37993,
+  "package": "@azure/ai-projects",
+  "version_pr": "2.1.0",
+  "version_baseline": "2.0.0",
+  "reviewed_at": "2026-04-14T00:07:01.232Z",
+  "outcome": "issues_found",
+  "findings": [
+    "4 TextResponseFormat* type renames not in CHANGELOG",
+    "BetaEvaluatorsListLatestVersionsOptionalParams renamed to BetaEvaluatorsListOptionalParams not in CHANGELOG",
+    "BetaOperations gains 3 required properties (agents, skills, toolboxes)",
+    "Minor version bump with breaking changes",
+    "Incomplete CHANGELOG breaking-changes section"
+  ],
+  "agent": "archie"
+}

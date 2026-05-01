@@ -1,0 +1,11 @@
+{
+  "pr": 38013,
+  "package": "@azure/arm-containerservicefleet",
+  "version": "2.1.0-beta.4",
+  "reviewedAt": "2026-04-08",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "blocked",
+  "ciStatus": "pending (ADO build 6121881 still running)",
+  "notes": "beta.4 release; API version 2025-08-01-preview; userAgentInfo matches package.json; no breaking changes; no naming issues; all CI in_progress"
+}

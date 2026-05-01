@@ -1,0 +1,8 @@
+{
+  "pr": 37535,
+  "package": "@azure/arm-commerce",
+  "version": "4.0.0-beta.4",
+  "outcome": "issues_found",
+  "findings": 4,
+  "summary": "AzureClouds enum missing Known* prefix; AzureSupportedClouds uses closed template literal; autoPublish changed to false; CHANGELOG history removed"
+}

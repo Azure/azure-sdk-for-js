@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: The triggering push (commit 30d76744, PR #58448 by `@jsquire`) only modified GitHub Actions workflow configuration files under .github/workflows/ (triage rules and workflow specs). No SDK packages, service code, public APIs, or client library files were changed. No documentation gap exists to address.","type":"noop"}],"errors":[]}

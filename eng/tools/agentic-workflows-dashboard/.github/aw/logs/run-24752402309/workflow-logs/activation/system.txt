@@ -1,0 +1,9 @@
+2026-04-21T23:47:32.9120000Z Evaluating activation.if
+2026-04-21T23:47:32.9120000Z Evaluating: (success() && ((needs.pre_activation.outputs.activated == 'true')))
+2026-04-21T23:47:32.9120000Z Expanded: (true && ('true' == 'true'))
+2026-04-21T23:47:32.9120000Z Result: true
+2026-04-21T23:47:32.9220000Z Requested labels: ubuntu-slim
+2026-04-21T23:47:32.9220000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-21T23:47:32.9220000Z Waiting for a runner to pick up this job...
+2026-04-21T23:47:38.3770000Z Job is waiting for a hosted runner to come online.
+2026-04-21T23:47:38.3770000Z Job is about to start running on the hosted runner: GitHub Actions 1031775047

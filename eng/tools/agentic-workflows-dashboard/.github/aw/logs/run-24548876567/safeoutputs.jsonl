@@ -1,0 +1,1 @@
+{"message":"No documentation update needed: PR #58198 is a pure internal bug fix to the Azure Management Generator (null-safe flattened property getters in PropertyHelpers.cs). No new APIs, emitter options, or user-facing features were introduced. The existing README.md accurately reflects the generator's capabilities.","type":"noop"}

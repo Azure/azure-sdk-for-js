@@ -1,0 +1,7 @@
+{
+  "pr": 37790,
+  "package": "@azure/arm-applink",
+  "reviewedAt": "2026-03-24T06:10:57Z",
+  "outcome": "clean",
+  "summary": "New package 1.0.0-beta.1. All versions aligned. No API design or tooling issues found."
+}

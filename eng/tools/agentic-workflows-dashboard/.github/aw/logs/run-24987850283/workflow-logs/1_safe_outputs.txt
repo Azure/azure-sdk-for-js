@@ -1,0 +1,1261 @@
+﻿2026-04-27T09:55:06.9456052Z Current runner version: '2.333.1'
+2026-04-27T09:55:06.9484853Z ##[group]Runner Image Provisioner
+2026-04-27T09:55:06.9485636Z Hosted Compute Agent
+2026-04-27T09:55:06.9486543Z Version: 20260213.493
+2026-04-27T09:55:06.9487185Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-27T09:55:06.9487868Z Build Date: 2026-02-13T00:28:41Z
+2026-04-27T09:55:06.9488461Z Worker ID: {1ebc0757-58ce-421f-ae9f-bb7271225a92}
+2026-04-27T09:55:06.9489404Z Azure Region: centralus
+2026-04-27T09:55:06.9489913Z ##[endgroup]
+2026-04-27T09:55:06.9491337Z ##[group]VM Image
+2026-04-27T09:55:06.9491928Z - OS: Linux (x64)
+2026-04-27T09:55:06.9492411Z - Source: Docker
+2026-04-27T09:55:06.9492902Z - Name: ubuntu:24.04
+2026-04-27T09:55:06.9493386Z - Version: 20260413.54.1
+2026-04-27T09:55:06.9493911Z ##[endgroup]
+2026-04-27T09:55:06.9495049Z ##[group]GITHUB_TOKEN Permissions
+2026-04-27T09:55:06.9497514Z Contents: write
+2026-04-27T09:55:06.9497999Z Issues: write
+2026-04-27T09:55:06.9498446Z Metadata: read
+2026-04-27T09:55:06.9501973Z PullRequests: write
+2026-04-27T09:55:06.9502554Z ##[endgroup]
+2026-04-27T09:55:06.9504718Z Secret source: Actions
+2026-04-27T09:55:06.9505362Z Prepare workflow directory
+2026-04-27T09:55:07.0730674Z Prepare all required actions
+2026-04-27T09:55:07.0871272Z Getting action download info
+2026-04-27T09:55:08.0411330Z Download action repository 'github/gh-aw-actions@0acfb4a691fe207cd8bc982ea5cb9d750d57a702' (SHA:0acfb4a691fe207cd8bc982ea5cb9d750d57a702)
+2026-04-27T09:55:08.9840211Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-27T09:55:09.6183568Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-27T09:55:09.8656236Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-27T09:55:10.3692557Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-27T09:55:10.7549742Z Complete job name: safe_outputs
+2026-04-27T09:55:10.8298128Z ##[group]Run github/gh-aw-actions/setup@0acfb4a691fe207cd8bc982ea5cb9d750d57a702
+2026-04-27T09:55:10.8300288Z with:
+2026-04-27T09:55:10.8301877Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-27T09:55:10.8303542Z   job-name: safe_outputs
+2026-04-27T09:55:10.8304020Z   trace-id: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:10.8304560Z   safe-output-custom-tokens: false
+2026-04-27T09:55:10.8305077Z   safe-output-artifact-client: false
+2026-04-27T09:55:10.8306285Z env:
+2026-04-27T09:55:10.8309364Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:10.8311423Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:10.8312303Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:10.8312760Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:10.8313231Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:10.8314749Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:10.8316026Z ##[endgroup]
+2026-04-27T09:55:12.5292517Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-27T09:55:12.8069748Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-27T09:55:12.8072015Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-27T09:55:12.8075732Z [otlp] INPUT_TRACE_ID=9f3197553a74b9b4792cfacc392c530b (will reuse activation trace)
+2026-04-27T09:55:12.8077616Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-27T09:55:12.8078867Z [otlp] resolved trace-id=9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:12.8079892Z [otlp] trace-id=9f3197553a74b9b4792cfacc392c530b written to GITHUB_OUTPUT
+2026-04-27T09:55:12.8080945Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-27T09:55:12.8083430Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-27T09:55:12.8085213Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-27T09:55:12.8360400Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-27T09:55:12.8361208Z with:
+2026-04-27T09:55:12.8361983Z   name: agent
+2026-04-27T09:55:12.8362363Z   path: /tmp/gh-aw/
+2026-04-27T09:55:12.8363105Z   merge-multiple: false
+2026-04-27T09:55:12.8364280Z   repository: Azure/azure-sdk-for-js
+2026-04-27T09:55:12.8364772Z   run-id: 24987850283
+2026-04-27T09:55:12.8365169Z   skip-decompress: false
+2026-04-27T09:55:12.8366215Z   digest-mismatch: error
+2026-04-27T09:55:12.8366625Z env:
+2026-04-27T09:55:12.8367476Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:12.8368168Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:12.8368678Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:12.8370054Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:12.8370572Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:12.8371446Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:12.8381211Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:12.8392208Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:12.8397547Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:12.8398899Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:12.8399409Z ##[endgroup]
+2026-04-27T09:55:13.1367223Z Downloading single artifact
+2026-04-27T09:55:13.7256418Z (node:953) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-27T09:55:13.7262285Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-27T09:55:13.7264566Z Preparing to download the following artifacts:
+2026-04-27T09:55:13.7273829Z - agent (ID: 6657803432, Size: 168721, Expected Digest: sha256:171984b475359722b831e37e8ef5a6947149e265bb24eaebe3ce01e2002f6201)
+2026-04-27T09:55:13.7336624Z Redirecting to blob download url: https://productionresultssa14.blob.core.windows.net/actions-results/5b020744-5105-4336-8b05-3dd0c0b45165/workflow-job-run-fd1f4107-1f2a-5328-a58f-9ff264e7b4ff/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-27T09:55:13.7339466Z Starting download of artifact to: /tmp/gh-aw
+2026-04-27T09:55:13.8457946Z SHA256 digest of downloaded artifact is 171984b475359722b831e37e8ef5a6947149e265bb24eaebe3ce01e2002f6201
+2026-04-27T09:55:13.8461206Z Artifact download completed successfully.
+2026-04-27T09:55:13.8538260Z Total of 1 artifact(s) downloaded
+2026-04-27T09:55:13.8538897Z Download artifact has finished successfully
+2026-04-27T09:55:13.8823350Z ##[group]Run mkdir -p /tmp/gh-aw/
+2026-04-27T09:55:13.8824520Z [36;1mmkdir -p /tmp/gh-aw/[0m
+2026-04-27T09:55:13.8825086Z [36;1mfind "/tmp/gh-aw/" -type f -print[0m
+2026-04-27T09:55:13.8826493Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-27T09:55:13.8853477Z shell: /usr/bin/bash -e {0}
+2026-04-27T09:55:13.8854518Z env:
+2026-04-27T09:55:13.8855110Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:13.8856141Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:13.8878189Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:13.8878727Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:13.8879213Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:13.8880293Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:13.8889300Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:13.8898670Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:13.8899839Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:13.8900464Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:13.8901408Z ##[endgroup]
+2026-04-27T09:55:13.9045674Z /tmp/gh-aw/mcp-logs/safeoutputs/server.log
+2026-04-27T09:55:13.9050760Z /tmp/gh-aw/mcp-logs/github.log
+2026-04-27T09:55:13.9052251Z /tmp/gh-aw/mcp-logs/gateway.md
+2026-04-27T09:55:13.9052982Z /tmp/gh-aw/mcp-logs/start-gateway.log
+2026-04-27T09:55:13.9057429Z /tmp/gh-aw/mcp-logs/safeoutputs.log
+2026-04-27T09:55:13.9059069Z /tmp/gh-aw/mcp-logs/rpc-messages.jsonl
+2026-04-27T09:55:13.9060470Z /tmp/gh-aw/mcp-logs/tools.json
+2026-04-27T09:55:13.9061737Z /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026-04-27T09:55:13.9062668Z /tmp/gh-aw/mcp-logs/stderr.log
+2026-04-27T09:55:13.9064048Z /tmp/gh-aw/sandbox/agent/logs/process-1777283057252-167.log
+2026-04-27T09:55:13.9065494Z /tmp/gh-aw/agent_output.json
+2026-04-27T09:55:13.9066833Z /tmp/gh-aw/safeoutputs.jsonl
+2026-04-27T09:55:13.9068482Z /tmp/gh-aw/agent-stdio.log
+2026-04-27T09:55:13.9069120Z /tmp/gh-aw/agent_usage.json
+2026-04-27T09:55:13.9070495Z /tmp/gh-aw/github_rate_limits.jsonl
+2026-04-27T09:55:13.9072908Z /tmp/gh-aw/aw-docs-fix-documentation-inconsistencies.patch
+2026-04-27T09:55:13.9074804Z /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-27T09:55:13.9235453Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-27T09:55:13.9237220Z with:
+2026-04-27T09:55:13.9237576Z   name: agent
+2026-04-27T09:55:13.9237959Z   path: /tmp/gh-aw/
+2026-04-27T09:55:13.9238376Z   merge-multiple: false
+2026-04-27T09:55:13.9239302Z   repository: Azure/azure-sdk-for-js
+2026-04-27T09:55:13.9239822Z   run-id: 24987850283
+2026-04-27T09:55:13.9240242Z   skip-decompress: false
+2026-04-27T09:55:13.9241082Z   digest-mismatch: error
+2026-04-27T09:55:13.9241512Z env:
+2026-04-27T09:55:13.9242057Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:13.9242745Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:13.9243690Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:13.9244141Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:13.9245033Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:13.9245657Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:13.9255150Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:13.9265056Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:13.9266103Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:13.9266764Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:13.9267768Z ##[endgroup]
+2026-04-27T09:55:14.1741010Z Downloading single artifact
+2026-04-27T09:55:14.3524578Z Preparing to download the following artifacts:
+2026-04-27T09:55:14.3531541Z - agent (ID: 6657803432, Size: 168721, Expected Digest: sha256:171984b475359722b831e37e8ef5a6947149e265bb24eaebe3ce01e2002f6201)
+2026-04-27T09:55:14.7388595Z (node:969) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-27T09:55:14.7390211Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-27T09:55:14.7459372Z Redirecting to blob download url: https://productionresultssa14.blob.core.windows.net/actions-results/5b020744-5105-4336-8b05-3dd0c0b45165/workflow-job-run-fd1f4107-1f2a-5328-a58f-9ff264e7b4ff/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-27T09:55:14.7464153Z Starting download of artifact to: /tmp/gh-aw
+2026-04-27T09:55:14.8792508Z SHA256 digest of downloaded artifact is 171984b475359722b831e37e8ef5a6947149e265bb24eaebe3ce01e2002f6201
+2026-04-27T09:55:14.8793528Z Artifact download completed successfully.
+2026-04-27T09:55:14.8797596Z Total of 1 artifact(s) downloaded
+2026-04-27T09:55:14.8799352Z Download artifact has finished successfully
+2026-04-27T09:55:14.9123824Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-27T09:55:14.9124569Z with:
+2026-04-27T09:55:14.9124929Z   ref: main
+2026-04-27T09:55:14.9125555Z   token: ***
+2026-04-27T09:55:14.9126341Z   persist-credentials: false
+2026-04-27T09:55:14.9126814Z   fetch-depth: 1
+2026-04-27T09:55:14.9128347Z   repository: Azure/azure-sdk-for-js
+2026-04-27T09:55:14.9128879Z   ssh-strict: true
+2026-04-27T09:55:14.9129300Z   ssh-user: git
+2026-04-27T09:55:14.9129688Z   clean: true
+2026-04-27T09:55:14.9130087Z   sparse-checkout-cone-mode: true
+2026-04-27T09:55:14.9131178Z   fetch-tags: false
+2026-04-27T09:55:14.9131620Z   show-progress: true
+2026-04-27T09:55:14.9132030Z   lfs: false
+2026-04-27T09:55:14.9132513Z   submodules: false
+2026-04-27T09:55:14.9132929Z   set-safe-directory: true
+2026-04-27T09:55:14.9133372Z env:
+2026-04-27T09:55:14.9133928Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:14.9134709Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:14.9135191Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:14.9135638Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:14.9137330Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:14.9138523Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:14.9147390Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:14.9156908Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:14.9157620Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:14.9158221Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:14.9158736Z ##[endgroup]
+2026-04-27T09:55:16.9082979Z Syncing repository: Azure/azure-sdk-for-js
+2026-04-27T09:55:16.9086697Z ##[group]Getting Git version info
+2026-04-27T09:55:16.9087809Z Working directory is '/home/runner/work/azure-sdk-for-js/azure-sdk-for-js'
+2026-04-27T09:55:16.9092649Z [command]/usr/bin/git version
+2026-04-27T09:55:16.9093198Z git version 2.53.0
+2026-04-27T09:55:16.9099599Z ##[endgroup]
+2026-04-27T09:55:16.9102169Z Temporarily overriding HOME='/home/runner/work/_temp/92fa895d-e4d0-46bc-a105-4cb2e712f467' before making global git config changes
+2026-04-27T09:55:16.9104723Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-27T09:55:16.9106864Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-27T09:55:16.9111728Z Deleting the contents of '/home/runner/work/azure-sdk-for-js/azure-sdk-for-js'
+2026-04-27T09:55:16.9112886Z ##[group]Initializing the repository
+2026-04-27T09:55:16.9114493Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-27T09:55:16.9116324Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-27T09:55:16.9117262Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-27T09:55:16.9118900Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-27T09:55:16.9119670Z hint: call:
+2026-04-27T09:55:16.9120084Z hint:
+2026-04-27T09:55:16.9121809Z hint: 	git config --global init.defaultBranch <name>
+2026-04-27T09:55:16.9122822Z hint:
+2026-04-27T09:55:16.9123430Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-27T09:55:16.9124365Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-27T09:55:16.9125642Z hint:
+2026-04-27T09:55:16.9127193Z hint: 	git branch -m <name>
+2026-04-27T09:55:16.9127686Z hint:
+2026-04-27T09:55:16.9128293Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-27T09:55:16.9129642Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/
+2026-04-27T09:55:16.9133014Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-js
+2026-04-27T09:55:16.9135517Z ##[endgroup]
+2026-04-27T09:55:16.9136488Z ##[group]Disabling automatic garbage collection
+2026-04-27T09:55:16.9137740Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-27T09:55:16.9139782Z ##[endgroup]
+2026-04-27T09:55:16.9140447Z ##[group]Setting up auth
+2026-04-27T09:55:16.9141639Z Removing SSH command configuration
+2026-04-27T09:55:16.9142402Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-27T09:55:16.9145060Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-27T09:55:16.9148152Z Removing HTTP extra header
+2026-04-27T09:55:16.9151274Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-27T09:55:16.9158404Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-27T09:55:16.9162806Z Removing includeIf entries pointing to credentials config files
+2026-04-27T09:55:16.9163752Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-27T09:55:16.9166504Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-27T09:55:16.9171417Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-27T09:55:16.9177078Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:16.9183350Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:16.9188863Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:16.9192514Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:16.9195377Z ##[endgroup]
+2026-04-27T09:55:16.9197825Z ##[group]Fetching the repository
+2026-04-27T09:55:16.9200843Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/heads/main*:refs/remotes/origin/main* +refs/tags/main*:refs/tags/main*
+2026-04-27T09:55:31.5835907Z From https://github.com/Azure/azure-sdk-for-js
+2026-04-27T09:55:31.5841520Z  * [new branch]          main       -> origin/main
+2026-04-27T09:55:31.5947651Z ##[endgroup]
+2026-04-27T09:55:31.5949504Z ##[group]Determining the checkout info
+2026-04-27T09:55:31.5965163Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-27T09:55:31.6019942Z   origin/main
+2026-04-27T09:55:31.6039118Z ##[endgroup]
+2026-04-27T09:55:31.6056478Z [command]/usr/bin/git sparse-checkout disable
+2026-04-27T09:55:31.6215127Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-04-27T09:55:31.6325223Z ##[group]Checking out the ref
+2026-04-27T09:55:31.6373098Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-27T09:55:32.9959076Z Updating files:   6% (4974/79350)
+2026-04-27T09:55:33.0622214Z Updating files:   7% (5555/79350)
+2026-04-27T09:55:33.1357650Z Updating files:   8% (6348/79350)
+2026-04-27T09:55:33.2137693Z Updating files:   9% (7142/79350)
+2026-04-27T09:55:33.2949462Z Updating files:  10% (7935/79350)
+2026-04-27T09:55:33.3742858Z Updating files:  11% (8729/79350)
+2026-04-27T09:55:33.4554076Z Updating files:  12% (9522/79350)
+2026-04-27T09:55:33.5591325Z Updating files:  13% (10316/79350)
+2026-04-27T09:55:33.6738893Z Updating files:  14% (11109/79350)
+2026-04-27T09:55:33.7532771Z Updating files:  15% (11903/79350)
+2026-04-27T09:55:33.7693127Z Updating files:  16% (12696/79350)
+2026-04-27T09:55:33.8609848Z Updating files:  16% (12747/79350)
+2026-04-27T09:55:34.8974960Z Updating files:  17% (13490/79350)
+2026-04-27T09:55:34.8975636Z Updating files:  18% (14283/79350)
+2026-04-27T09:55:34.8976258Z Updating files:  19% (15077/79350)
+2026-04-27T09:55:34.8976575Z Updating files:  20% (15870/79350)
+2026-04-27T09:55:34.8976922Z Updating files:  21% (16664/79350)
+2026-04-27T09:55:34.8977263Z Updating files:  22% (17457/79350)
+2026-04-27T09:55:34.8977577Z Updating files:  23% (18251/79350)
+2026-04-27T09:55:34.8978007Z Updating files:  24% (19044/79350)
+2026-04-27T09:55:34.8978321Z Updating files:  25% (19838/79350)
+2026-04-27T09:55:34.8978617Z Updating files:  26% (20631/79350)
+2026-04-27T09:55:34.8978959Z Updating files:  27% (21425/79350)
+2026-04-27T09:55:34.8979246Z Updating files:  27% (22075/79350)
+2026-04-27T09:55:34.8979525Z Updating files:  28% (22218/79350)
+2026-04-27T09:55:34.9391913Z Updating files:  29% (23012/79350)
+2026-04-27T09:55:35.0492740Z Updating files:  30% (23805/79350)
+2026-04-27T09:55:35.2035306Z Updating files:  31% (24599/79350)
+2026-04-27T09:55:35.8997791Z Updating files:  32% (25392/79350)
+2026-04-27T09:55:35.9003744Z Updating files:  33% (26186/79350)
+2026-04-27T09:55:35.9004097Z Updating files:  34% (26979/79350)
+2026-04-27T09:55:35.9005274Z Updating files:  35% (27773/79350)
+2026-04-27T09:55:35.9006909Z Updating files:  36% (28566/79350)
+2026-04-27T09:55:35.9008437Z Updating files:  37% (29360/79350)
+2026-04-27T09:55:35.9009925Z Updating files:  37% (29491/79350)
+2026-04-27T09:55:36.0807642Z Updating files:  38% (30153/79350)
+2026-04-27T09:55:36.2222249Z Updating files:  39% (30947/79350)
+2026-04-27T09:55:36.3360645Z Updating files:  40% (31740/79350)
+2026-04-27T09:55:36.4696997Z Updating files:  41% (32534/79350)
+2026-04-27T09:55:36.6132852Z Updating files:  42% (33327/79350)
+2026-04-27T09:55:36.7692036Z Updating files:  43% (34121/79350)
+2026-04-27T09:55:36.7890675Z Updating files:  43% (34619/79350)
+2026-04-27T09:55:36.8859793Z Updating files:  44% (34914/79350)
+2026-04-27T09:55:36.9446488Z Updating files:  45% (35708/79350)
+2026-04-27T09:55:37.0496524Z Updating files:  46% (36501/79350)
+2026-04-27T09:55:37.1387138Z Updating files:  47% (37295/79350)
+2026-04-27T09:55:37.2599579Z Updating files:  48% (38088/79350)
+2026-04-27T09:55:37.3524607Z Updating files:  49% (38882/79350)
+2026-04-27T09:55:37.4280883Z Updating files:  50% (39675/79350)
+2026-04-27T09:55:37.5084649Z Updating files:  51% (40469/79350)
+2026-04-27T09:55:37.5789655Z Updating files:  52% (41262/79350)
+2026-04-27T09:55:37.6385244Z Updating files:  53% (42056/79350)
+2026-04-27T09:55:37.7083688Z Updating files:  54% (42849/79350)
+2026-04-27T09:55:37.7693176Z Updating files:  55% (43643/79350)
+2026-04-27T09:55:37.7880186Z Updating files:  55% (44312/79350)
+2026-04-27T09:55:37.8546879Z Updating files:  56% (44436/79350)
+2026-04-27T09:55:37.9378774Z Updating files:  57% (45230/79350)
+2026-04-27T09:55:38.2073289Z Updating files:  58% (46023/79350)
+2026-04-27T09:55:38.3708698Z Updating files:  59% (46817/79350)
+2026-04-27T09:55:38.4615502Z Updating files:  60% (47610/79350)
+2026-04-27T09:55:38.5145168Z Updating files:  61% (48404/79350)
+2026-04-27T09:55:38.5862503Z Updating files:  62% (49197/79350)
+2026-04-27T09:55:38.6489374Z Updating files:  63% (49991/79350)
+2026-04-27T09:55:38.7311224Z Updating files:  64% (50784/79350)
+2026-04-27T09:55:38.7691834Z Updating files:  65% (51578/79350)
+2026-04-27T09:55:38.8182985Z Updating files:  65% (52052/79350)
+2026-04-27T09:55:38.9203169Z Updating files:  66% (52371/79350)
+2026-04-27T09:55:38.9824990Z Updating files:  67% (53165/79350)
+2026-04-27T09:55:39.0796475Z Updating files:  68% (53958/79350)
+2026-04-27T09:55:39.2047545Z Updating files:  69% (54752/79350)
+2026-04-27T09:55:39.3090239Z Updating files:  70% (55545/79350)
+2026-04-27T09:55:39.4039832Z Updating files:  71% (56339/79350)
+2026-04-27T09:55:39.5189065Z Updating files:  72% (57132/79350)
+2026-04-27T09:55:39.5829186Z Updating files:  73% (57926/79350)
+2026-04-27T09:55:39.7000100Z Updating files:  74% (58719/79350)
+2026-04-27T09:55:39.7703782Z Updating files:  75% (59513/79350)
+2026-04-27T09:55:39.8455259Z Updating files:  75% (59829/79350)
+2026-04-27T09:55:40.0388455Z Updating files:  76% (60306/79350)
+2026-04-27T09:55:40.2052472Z Updating files:  77% (61100/79350)
+2026-04-27T09:55:40.3272570Z Updating files:  78% (61893/79350)
+2026-04-27T09:55:40.4019445Z Updating files:  79% (62687/79350)
+2026-04-27T09:55:40.5187551Z Updating files:  80% (63480/79350)
+2026-04-27T09:55:40.6843308Z Updating files:  81% (64274/79350)
+2026-04-27T09:55:40.7589030Z Updating files:  82% (65067/79350)
+2026-04-27T09:55:40.7703291Z Updating files:  83% (65861/79350)
+2026-04-27T09:55:40.8596866Z Updating files:  83% (65945/79350)
+2026-04-27T09:55:41.0104925Z Updating files:  84% (66654/79350)
+2026-04-27T09:55:41.1072329Z Updating files:  85% (67448/79350)
+2026-04-27T09:55:41.2429621Z Updating files:  86% (68241/79350)
+2026-04-27T09:55:41.3278413Z Updating files:  87% (69035/79350)
+2026-04-27T09:55:41.4033755Z Updating files:  88% (69828/79350)
+2026-04-27T09:55:41.5260790Z Updating files:  89% (70622/79350)
+2026-04-27T09:55:41.6188037Z Updating files:  90% (71415/79350)
+2026-04-27T09:55:41.7091795Z Updating files:  91% (72209/79350)
+2026-04-27T09:55:41.7691337Z Updating files:  92% (73002/79350)
+2026-04-27T09:55:41.7872501Z Updating files:  92% (73562/79350)
+2026-04-27T09:55:41.8476675Z Updating files:  93% (73796/79350)
+2026-04-27T09:55:41.9047233Z Updating files:  94% (74589/79350)
+2026-04-27T09:55:42.0529341Z Updating files:  95% (75383/79350)
+2026-04-27T09:55:42.1521239Z Updating files:  96% (76176/79350)
+2026-04-27T09:55:42.3127314Z Updating files:  97% (76970/79350)
+2026-04-27T09:55:42.5248035Z Updating files:  98% (77763/79350)
+2026-04-27T09:55:42.6215446Z Updating files:  99% (78557/79350)
+2026-04-27T09:55:42.6221844Z Updating files: 100% (79350/79350)
+2026-04-27T09:55:42.6222384Z Updating files: 100% (79350/79350), done.
+2026-04-27T09:55:42.8263192Z Switched to a new branch 'main'
+2026-04-27T09:55:42.8270510Z branch 'main' set up to track 'origin/main'.
+2026-04-27T09:55:42.8388274Z ##[endgroup]
+2026-04-27T09:55:42.8539955Z [command]/usr/bin/git log -1 --format=%H
+2026-04-27T09:55:42.8686723Z 0dbfbadd830f75ae02cf565b8d647698496db7eb
+2026-04-27T09:55:42.8712414Z ##[group]Removing auth
+2026-04-27T09:55:42.8729846Z Removing SSH command configuration
+2026-04-27T09:55:42.8744324Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-27T09:55:42.8795652Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-27T09:55:42.9371194Z Removing HTTP extra header
+2026-04-27T09:55:42.9371849Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-27T09:55:42.9411516Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-27T09:55:43.0226489Z Removing includeIf entries pointing to credentials config files
+2026-04-27T09:55:43.0227146Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-27T09:55:43.0270466Z includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path
+2026-04-27T09:55:43.0271369Z includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path
+2026-04-27T09:55:43.0272032Z includeif.gitdir:/github/workspace/.git.path
+2026-04-27T09:55:43.0361385Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-27T09:55:43.0364766Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path
+2026-04-27T09:55:43.0442639Z /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.0533560Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.0724595Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path
+2026-04-27T09:55:43.0818323Z /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.0873767Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.0917843Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-27T09:55:43.0945683Z /github/runner_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.0958698Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.1064409Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-27T09:55:43.1142840Z /github/runner_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.1153677Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config
+2026-04-27T09:55:43.1275929Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-27T09:55:43.2380990Z Removing credentials config '/home/runner/work/_temp/git-credentials-e97f4317-8935-4623-89e7-c0517ae1b2a6.config'
+2026-04-27T09:55:43.2384447Z ##[endgroup]
+2026-04-27T09:55:43.2915009Z ##[group]Run git config --global user.email "github-actions[bot]@users.noreply.github.com"
+2026-04-27T09:55:43.2916117Z [36;1mgit config --global user.email "github-actions[bot]@users.noreply.github.com"[0m
+2026-04-27T09:55:43.2916740Z [36;1mgit config --global user.name "github-actions[bot]"[0m
+2026-04-27T09:55:43.2917156Z [36;1mgit config --global am.keepcr true[0m
+2026-04-27T09:55:43.2917569Z [36;1m# Re-authenticate git with GitHub token[0m
+2026-04-27T09:55:43.2918898Z [36;1mSERVER_URL_STRIPPED="${SERVER_URL#https://}"[0m
+2026-04-27T09:55:43.2919597Z [36;1mgit remote set-url origin "https://x-access-token:${GIT_TOKEN}@${SERVER_URL_STRIPPED}/${REPO_NAME}.git"[0m
+2026-04-27T09:55:43.2920282Z [36;1mecho "Git configured with standard GitHub Actions identity"[0m
+2026-04-27T09:55:43.2934290Z shell: /usr/bin/bash -e {0}
+2026-04-27T09:55:43.2934650Z env:
+2026-04-27T09:55:43.2935057Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:43.2935637Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:43.2937758Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:43.2938125Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:43.2938434Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:43.2938851Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:43.2944105Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:43.2980459Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:43.2983988Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:43.2984453Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:43.2984846Z   REPO_NAME: Azure/azure-sdk-for-js
+2026-04-27T09:55:43.2985274Z   SERVER_URL: https://github.com
+2026-04-27T09:55:43.2986805Z   GIT_TOKEN: ***
+2026-04-27T09:55:43.3020888Z ##[endgroup]
+2026-04-27T09:55:43.3155371Z Git configured with standard GitHub Actions identity
+2026-04-27T09:55:43.3241736Z ##[group]Run # Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct
+2026-04-27T09:55:43.3242555Z [36;1m# Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct[0m
+2026-04-27T09:55:43.3243122Z [36;1m# GitHub instance (GHES/GHEC). On github.com this is a harmless no-op.[0m
+2026-04-27T09:55:43.3245318Z [36;1mGH_HOST="${GITHUB_SERVER_URL#https://}"[0m
+2026-04-27T09:55:43.3246003Z [36;1mGH_HOST="${GH_HOST#http://}"[0m
+2026-04-27T09:55:43.3248479Z [36;1mecho "GH_HOST=${GH_HOST}" >> "$GITHUB_ENV"[0m
+2026-04-27T09:55:43.3263489Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-04-27T09:55:43.3264747Z env:
+2026-04-27T09:55:43.3265158Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:43.3265647Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:43.3266296Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:43.3266633Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:43.3268528Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:43.3269182Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:43.3275044Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:43.3280081Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:43.3280518Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:43.3281840Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:43.3282237Z ##[endgroup]
+2026-04-27T09:55:43.3767886Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-27T09:55:43.3768432Z with:
+2026-04-27T09:55:43.3770257Z   github-token: ***
+2026-04-27T09:55:43.3771268Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/safe_output_handler_manager.cjs');
+await main();
+
+2026-04-27T09:55:43.3772900Z   debug: false
+2026-04-27T09:55:43.3773209Z   user-agent: actions/github-script
+2026-04-27T09:55:43.3774083Z   result-encoding: json
+2026-04-27T09:55:43.3774394Z   retries: 0
+2026-04-27T09:55:43.3774710Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-27T09:55:43.3775579Z env:
+2026-04-27T09:55:43.3776188Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:43.3776922Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:43.3777551Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:43.3777985Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:43.3778574Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:43.3779231Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:43.3784203Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:43.3807867Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:43.3808294Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:43.3809065Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:43.3809437Z   GH_HOST: github.com
+2026-04-27T09:55:43.3809815Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-27T09:55:43.3821404Z   GH_AW_ALLOWED_DOMAINS: api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com
+2026-04-27T09:55:43.3833711Z   GITHUB_SERVER_URL: https://github.com
+2026-04-27T09:55:43.3834986Z   GITHUB_API_URL: https://api.github.com
+2026-04-27T09:55:43.3838238Z   GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"create_pull_request":{"labels":["documentation","automated"],"max":1,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","AGENTS.md"],"protected_path_prefixes":[".github/",".agents/"],"title_prefix":"[docs] "},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{}}
+2026-04-27T09:55:43.3841210Z   GH_AW_CI_TRIGGER_TOKEN: 
+2026-04-27T09:55:43.3841559Z ##[endgroup]
+2026-04-27T09:55:43.6592213Z Safe Output Handler Manager starting...
+2026-04-27T09:55:43.6690486Z Loaded config from GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"create_pull_request":{"labels":["documentation","automated"],"max":1,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","AGENTS.md"],"protected_path_prefixes":[".github/",".agents/"],"title_prefix":"[docs] "},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{}}
+2026-04-27T09:55:43.6706124Z Agent output content length: 3294
+2026-04-27T09:55:43.6709318Z Found 1 message(s) in agent output
+2026-04-27T09:55:43.6716523Z Loading and initializing safe output handlers based on configuration...
+2026-04-27T09:55:43.7004087Z Base branch: (dynamic - resolved per target repo)
+2026-04-27T09:55:43.7007181Z Default target repo: Azure/azure-sdk-for-js
+2026-04-27T09:55:43.7010842Z Default labels: documentation, automated
+2026-04-27T09:55:43.7013240Z Title prefix: [docs] 
+2026-04-27T09:55:43.7016594Z Draft default: true
+2026-04-27T09:55:43.7020682Z If no changes: warn
+2026-04-27T09:55:43.7023107Z Allow empty: false
+2026-04-27T09:55:43.7026135Z Auto-merge: false
+2026-04-27T09:55:43.7030486Z Max count: 1
+2026-04-27T09:55:43.7032936Z Max patch size: 1024 KB
+2026-04-27T09:55:43.7036342Z ✓ Loaded and initialized handler for: create_pull_request
+2026-04-27T09:55:43.7083421Z Max count: unlimited
+2026-04-27T09:55:43.7084072Z ✓ Loaded and initialized handler for: missing_tool
+2026-04-27T09:55:43.7087800Z Max count: unlimited
+2026-04-27T09:55:43.7089176Z ✓ Loaded and initialized handler for: missing_data
+2026-04-27T09:55:43.7093015Z Max count: 1
+2026-04-27T09:55:43.7094140Z ✓ Loaded and initialized handler for: noop
+2026-04-27T09:55:43.7098052Z Max count: unlimited
+2026-04-27T09:55:43.7099369Z ✓ Loaded and initialized handler for: report_incomplete
+2026-04-27T09:55:43.7112775Z Title prefix: [incomplete]
+2026-04-27T09:55:43.7114107Z Default labels: agentic-workflows
+2026-04-27T09:55:43.7116408Z Max count: 1
+2026-04-27T09:55:43.7118097Z ✓ Loaded and initialized handler for: create_report_incomplete_issue
+2026-04-27T09:55:43.7127115Z Loaded 6 handler(s)
+2026-04-27T09:55:43.7140551Z Collected 0 missing tool(s), 0 missing data item(s), 0 noop message(s), and 0 incomplete signal(s)
+2026-04-27T09:55:43.7144774Z Processing 1 message(s) in order of appearance...
+2026-04-27T09:55:43.7147233Z Processing message 1/1: create_pull_request
+2026-04-27T09:55:43.7194056Z Processing create_pull_request: title=docs: fix documentation inconsistencies across multiple files, bodyLength=2853
+2026-04-27T09:55:43.7197210Z Patch file path: /tmp/gh-aw/aw-docs-fix-documentation-inconsistencies.patch
+2026-04-27T09:55:43.7206184Z Target repository: Azure/azure-sdk-for-js
+2026-04-27T09:55:44.1660346Z Base branch for Azure/azure-sdk-for-js: main
+2026-04-27T09:55:44.1701039Z Patch size: 11 KB (maximum allowed: 1024 KB)
+2026-04-27T09:55:44.1701675Z Patch size validation passed
+2026-04-27T09:55:44.1702138Z Patch content validation passed
+2026-04-27T09:55:44.1702702Z Using branch name from JSONL with added salt: docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:44.1703593Z Branch name sanitized: "docs/fix-documentation-inconsistencies" -> "docs/fix-documentation-inconsistencies-5048633ff06ac691"
+2026-04-27T09:55:44.2020353Z ##[warning]Agent requested draft: false, but configuration enforces draft: true. Configuration takes precedence for security. To change this, update safe-outputs.create-pull-request.draft in the workflow file.
+2026-04-27T09:55:44.2030065Z Creating pull request with title: [docs] docs: fix documentation inconsistencies across multiple files
+2026-04-27T09:55:44.2517098Z Labels: ["documentation","automated"]
+2026-04-27T09:55:44.2517756Z Draft: true
+2026-04-27T09:55:44.2517953Z Body length: 3410
+2026-04-27T09:55:44.2518317Z Generated branch name: docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:44.2519552Z Base branch: main
+2026-04-27T09:55:44.2519819Z Fetching base branch: main
+2026-04-27T09:55:44.2712933Z [command]/usr/bin/git fetch origin main
+2026-04-27T09:55:44.7427290Z From https://github.com/Azure/azure-sdk-for-js
+2026-04-27T09:55:44.7428014Z  * branch                main       -> FETCH_HEAD
+2026-04-27T09:55:44.7553915Z [command]/usr/bin/git checkout main
+2026-04-27T09:55:45.7290838Z Already on 'main'
+2026-04-27T09:55:45.7387499Z Your branch is up to date with 'origin/main'.
+2026-04-27T09:55:45.7421413Z Branch should not exist locally, creating new branch from base: docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:45.7565071Z [command]/usr/bin/git checkout -b docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:46.5955650Z Switched to a new branch 'docs/fix-documentation-inconsistencies-5048633ff06ac691'
+2026-04-27T09:55:46.5991127Z Created new branch from base: docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:46.5995345Z Applying patch...
+2026-04-27T09:55:46.5999469Z Patch preview (first 164 of 164 lines):
+2026-04-27T09:55:46.6002872Z From 3f0bd2e269263a49f0794a872c035f19ca991179 Mon Sep 17 00:00:00 2001
+2026-04-27T09:55:46.6005452Z From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+2026-04-27T09:55:46.6020853Z Date: Mon, 27 Apr 2026 09:52:24 +0000
+2026-04-27T09:55:46.6024157Z Subject: [PATCH] docs: fix documentation inconsistencies across multiple files
+2026-04-27T09:55:46.6030565Z 
+2026-04-27T09:55:46.6033452Z - Update Node.js version requirements from 'LTS versions' to '20 or
+2026-04-27T09:55:46.6038540Z   later' in Quickstart-on-how-to-write-tests.md,
+2026-04-27T09:55:46.6045630Z   Generate-code-from-TypeSpec.md, and migrating-to-typespec.md to match
+2026-04-27T09:55:46.6047557Z   the repo's engines requirement (>=20) and align with DPG-quickstart.md
+2026-04-27T09:55:46.6048559Z   and RLC-quickstart.md
+2026-04-27T09:55:46.6049739Z 
+2026-04-27T09:55:46.6050598Z - Replace 'npm run' with 'pnpm run' in golden-testing-commands.md for
+2026-04-27T09:55:46.6052069Z   all test commands (test:browser, test:node, unit-test:node,
+2026-04-27T09:55:46.6053109Z   integration-test:node) to match the repo's pnpm-based tooling
+2026-04-27T09:55:46.6053941Z 
+2026-04-27T09:55:46.6054635Z - Replace deprecated 'dev-tool run customization apply-v2' with
+2026-04-27T09:55:46.6056209Z   'dev-tool run customization apply' in migrating-to-typespec.md (the
+2026-04-27T09:55:46.6057809Z   apply-v2 subcommand now emits a deprecation warning directing users
+2026-04-27T09:55:46.6058762Z   to use 'apply' instead)
+2026-04-27T09:55:46.6059450Z 
+2026-04-27T09:55:46.6060128Z - Remove outdated NOTE in using-azure-identity.md claiming
+2026-04-27T09:55:46.6061104Z   InteractiveBrowserCredential does not support Node.js; Node.js support
+2026-04-27T09:55:46.6062789Z   was added and interactiveBrowserCredential.ts exists in the package
+2026-04-27T09:55:46.6108814Z 
+2026-04-27T09:55:46.6143212Z Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+2026-04-27T09:55:46.6144737Z ---
+2026-04-27T09:55:46.6146173Z  documentation/Generate-code-from-TypeSpec.md      |  2 +-
+2026-04-27T09:55:46.6149107Z  documentation/Quickstart-on-how-to-write-tests.md |  2 +-
+2026-04-27T09:55:46.6150085Z  documentation/golden-testing-commands.md          | 12 ++++++------
+2026-04-27T09:55:46.6150833Z  documentation/migrating-to-typespec.md            |  6 +++---
+2026-04-27T09:55:46.6152054Z  documentation/using-azure-identity.md             |  6 ++----
+2026-04-27T09:55:46.6152869Z  5 files changed, 13 insertions(+), 15 deletions(-)
+2026-04-27T09:55:46.6153373Z 
+2026-04-27T09:55:46.6154675Z diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+2026-04-27T09:55:46.6156398Z index 990b5ceef..b985c45e6 100644
+2026-04-27T09:55:46.6157025Z --- a/documentation/Generate-code-from-TypeSpec.md
+2026-04-27T09:55:46.6157671Z +++ b/documentation/Generate-code-from-TypeSpec.md
+2026-04-27T09:55:46.6159554Z @@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
+2026-04-27T09:55:46.6163511Z  
+2026-04-27T09:55:46.6164010Z  ## Prerequisites
+2026-04-27T09:55:46.6164507Z  
+2026-04-27T09:55:46.6165141Z -- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+2026-04-27T09:55:46.6166210Z +- [Node.js 20 or later](https://nodejs.org/en/download/)
+2026-04-27T09:55:46.6166897Z  - [Git](https://git-scm.com/downloads)
+2026-04-27T09:55:46.6168250Z  - Local Clone of Rest API Spec Repo Fork
+2026-04-27T09:55:46.6170068Z    - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
+2026-04-27T09:55:46.6171741Z diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+2026-04-27T09:55:46.6205510Z index 5da6ae8c4..88cb125cc 100644
+2026-04-27T09:55:46.6206760Z --- a/documentation/Quickstart-on-how-to-write-tests.md
+2026-04-27T09:55:46.6207571Z +++ b/documentation/Quickstart-on-how-to-write-tests.md
+2026-04-27T09:55:46.6208494Z @@ -40,7 +40,7 @@ Please note that this quickstart is based on version 4.x of the recorder tool (`
+2026-04-27T09:55:46.6209970Z  
+2026-04-27T09:55:46.6210506Z  - pnpm
+2026-04-27T09:55:46.6211361Z    - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
+2026-04-27T09:55:46.6212415Z -- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+2026-04-27T09:55:46.6213288Z +- [Node.js 20 or later](https://nodejs.org/en/download/)
+2026-04-27T09:55:46.6214103Z  - A C++ compiler toolchain and Python (for compiling machine-code modules)
+2026-04-27T09:55:46.6215126Z    - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
+2026-04-27T09:55:46.6216330Z  
+2026-04-27T09:55:46.6217136Z diff --git a/documentation/golden-testing-commands.md b/documentation/golden-testing-commands.md
+2026-04-27T09:55:46.6218004Z index f746dfdc2..e2345d0de 100644
+2026-04-27T09:55:46.6219029Z --- a/documentation/golden-testing-commands.md
+2026-04-27T09:55:46.6219511Z +++ b/documentation/golden-testing-commands.md
+2026-04-27T09:55:46.6220059Z @@ -16,8 +16,8 @@ If you're looking to be onboarded to the asset-sync workflow to push out the tes
+2026-04-27T09:55:46.6221543Z  
+2026-04-27T09:55:46.6222232Z  | script name            | command(usually)                     |
+2026-04-27T09:55:46.6223545Z  |:-----------------------|:-------------------------------------|
+2026-04-27T09:55:46.6224082Z -| `npm run test:browser` | `dev-tool run test:vitest --browser` |
+2026-04-27T09:55:46.6224606Z -| `npm run test:node`    | `dev-tool run test:vitest`           |
+2026-04-27T09:55:46.6225090Z +| `pnpm run test:browser` | `dev-tool run test:vitest --browser` |
+2026-04-27T09:55:46.6225620Z +| `pnpm run test:node`    | `dev-tool run test:vitest`           |
+2026-04-27T09:55:46.6226349Z  |                        |                                      |
+2026-04-27T09:55:46.6226733Z  
+2026-04-27T09:55:46.6227020Z  ## After migrating to asset-sync
+2026-04-27T09:55:46.6227450Z @@ -27,7 +27,7 @@ Expects that you have [powershell] installed.
+2026-04-27T09:55:46.6227874Z  
+2026-04-27T09:55:46.6231696Z  | script command | What does it do?                                                                                                                                                                                                                                                                                                                     |
+2026-04-27T09:55:46.6234858Z  | :----------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+2026-04-27T09:55:46.6237474Z -| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `npm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
+2026-04-27T09:55:46.6241718Z +| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `pnpm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
+2026-04-27T09:55:46.6247776Z  | `npx dev-tool test-proxy migrate --initial-push` | **[Only once per package]** To migrate the test recordings to the assets repo for the first time. Also generates `assets.json`                                                                                                                                                                                                           |
+2026-04-27T09:55:46.6260294Z  | `npx dev-tool test-proxy push`                   | To push the test recordings to the assets repo.                                                                                                                                                                                                                                                                |
+2026-04-27T09:55:46.6262531Z  | `npx dev-tool test-proxy reset`                  | Reverts the local changes to recordings and resets to what is currently checked in to the assets repo. This is a destructive operation.                                                                                                                                                                                              |
+2026-04-27T09:55:46.6268538Z @@ -62,17 +62,17 @@ export default mergeConfig(
+2026-04-27T09:55:46.6269684Z  ```ts
+2026-04-27T09:55:46.6269985Z     it.only("test title...")
+2026-04-27T09:55:46.6270465Z  ```
+2026-04-27T09:55:46.6271299Z -Run the test command such as `npm run unit-test:node` to run the test
+2026-04-27T09:55:46.6271888Z +Run the test command such as `pnpm run unit-test:node` to run the test
+2026-04-27T09:55:46.6272636Z  
+2026-04-27T09:55:46.6272991Z  [powershell]: https://github.com/PowerShell/PowerShell
+2026-04-27T09:55:46.6273469Z  
+2026-04-27T09:55:46.6273730Z  ## [Method 2] --testNamePattern
+2026-04-27T09:55:46.6274075Z  ```bash
+2026-04-27T09:55:46.6274448Z -npm run integration-test:node -- --testNamePattern "simple"
+2026-04-27T09:55:46.6275662Z +pnpm run integration-test:node -- --testNamePattern "simple"
+2026-04-27T09:55:46.6276642Z  ```
+2026-04-27T09:55:46.6278621Z  Reference - [Filtering Tests — Introduction to Testing JavaScript with Vitest](https://stevekinney.net/courses/testing/filtering-tests)
+2026-04-27T09:55:46.6279286Z  
+2026-04-27T09:55:46.6279562Z  ## [Method 3] -- test file
+2026-04-27T09:55:46.6279859Z  ```bash
+2026-04-27T09:55:46.6280207Z -npm run test:node -- test/public/metricsClient.spec.ts
+2026-04-27T09:55:46.6280662Z +pnpm run test:node -- test/public/metricsClient.spec.ts
+2026-04-27T09:55:46.6281060Z  ```
+2026-04-27T09:55:46.6281291Z \ No newline at end of file
+2026-04-27T09:55:46.6281799Z diff --git a/documentation/migrating-to-typespec.md b/documentation/migrating-to-typespec.md
+2026-04-27T09:55:46.6283027Z index b53a916c1..9d4eee4ec 100644
+2026-04-27T09:55:46.6283410Z --- a/documentation/migrating-to-typespec.md
+2026-04-27T09:55:46.6283802Z +++ b/documentation/migrating-to-typespec.md
+2026-04-27T09:55:46.6284212Z @@ -22,7 +22,7 @@ Before starting the migration, ensure you have:
+2026-04-27T09:55:46.6284553Z  
+2026-04-27T09:55:46.6379856Z  1. **TypeSpec definitions ready**: Your service's TypeSpec definitions should be complete and merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs)
+2026-04-27T09:55:46.6381737Z  2. **Local development environment**:
+2026-04-27T09:55:46.6382209Z -   - [Node.js LTS version](https://nodejs.org/en/about/releases/)
+2026-04-27T09:55:46.6384441Z +   - [Node.js 20 or later](https://nodejs.org/en/download/)
+2026-04-27T09:55:46.6385040Z     - Local clone of your fork of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)
+2026-04-27T09:55:46.6386507Z     - Local clone of your fork of [azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs)
+2026-04-27T09:55:46.6388056Z  3. **Understanding of your current SDK**: Know which packages in azure-sdk-for-js belong to your service
+2026-04-27T09:55:46.6388781Z @@ -100,7 +100,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
+2026-04-27T09:55:46.6390870Z  ```json
+2026-04-27T09:55:46.6391142Z  {
+2026-04-27T09:55:46.6391407Z    "scripts": {
+2026-04-27T09:55:46.6391963Z -    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply-v2 --skip index.ts",
+2026-04-27T09:55:46.6393808Z +    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply --skip index.ts",
+2026-04-27T09:55:46.6395552Z      "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+2026-04-27T09:55:46.6452833Z      "test": "npm run test:node && npm run test:browser",
+2026-04-27T09:55:46.6453752Z      "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
+2026-04-27T09:55:46.6454274Z @@ -148,7 +148,7 @@ npm run generate:client
+2026-04-27T09:55:46.6455398Z  Use the dev-tool customization command to copy generated files to `src/` and merge with existing customizations:
+2026-04-27T09:55:46.6466847Z  
+2026-04-27T09:55:46.6469078Z  ```bash
+2026-04-27T09:55:46.6469492Z -npx dev-tool customization apply-v2 --skip index.ts
+2026-04-27T09:55:46.6469975Z +npx dev-tool customization apply --skip index.ts
+2026-04-27T09:55:46.6470733Z  ```
+2026-04-27T09:55:46.6471487Z  
+2026-04-27T09:55:46.6471777Z  This command:
+2026-04-27T09:55:46.6474007Z diff --git a/documentation/using-azure-identity.md b/documentation/using-azure-identity.md
+2026-04-27T09:55:46.6475190Z index 9298262f2..c9544e292 100644
+2026-04-27T09:55:46.6475581Z --- a/documentation/using-azure-identity.md
+2026-04-27T09:55:46.6501281Z +++ b/documentation/using-azure-identity.md
+2026-04-27T09:55:46.6501795Z @@ -263,7 +263,8 @@ The `InteractiveBrowserCredential` follows the [implicit grant
+2026-04-27T09:55:46.6502509Z  flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
+2026-04-27T09:55:46.6507007Z  which enables authentication for clients that run completely in the browser. It
+2026-04-27T09:55:46.6507976Z  is primarily useful for single-page web applications (SPAs) which need to
+2026-04-27T09:55:46.6508537Z -authenticate to access Azure resources and APIs directly.
+2026-04-27T09:55:46.6509748Z +authenticate to access Azure resources and APIs directly. This credential also
+2026-04-27T09:55:46.6510863Z +supports Node.js via the authorization code flow with PKCE.
+2026-04-27T09:55:46.6513230Z  
+2026-04-27T09:55:46.6513980Z  To use this credential successfully, your app registration will need to be
+2026-04-27T09:55:46.6514597Z  configured with both the **Access tokens** and **ID tokens** options checked under
+2026-04-27T09:55:46.6515973Z @@ -275,9 +276,6 @@ to the URI of your web application. You must also make sure to specify the same
+2026-04-27T09:55:46.6516740Z  URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
+2026-04-27T09:55:46.6518280Z  creating an `InteractiveBrowserCredential`.
+2026-04-27T09:55:46.6518891Z  
+2026-04-27T09:55:46.6519569Z -> NOTE: At this time, this credential can only be used in the browser but
+2026-04-27T09:55:46.6520285Z -> Node.js support will be added in the future (see issue [#4774](https://github.com/Azure/azure-sdk-for-js/issues/4774)).
+2026-04-27T09:55:46.6521144Z -
+2026-04-27T09:55:46.6521423Z  ### DeviceCodeCredential
+2026-04-27T09:55:46.6521739Z  
+2026-04-27T09:55:46.6522057Z  The `DeviceCodeCredential` follows the [device code authorization
+2026-04-27T09:55:46.6522802Z -- 
+2026-04-27T09:55:46.6523536Z 2.53.0
+2026-04-27T09:55:46.6524008Z 
+2026-04-27T09:55:46.6524012Z 
+2026-04-27T09:55:46.6524626Z [command]/usr/bin/git am --3way /tmp/gh-aw/aw-docs-fix-documentation-inconsistencies.patch
+2026-04-27T09:55:48.7698217Z Applying: docs: fix documentation inconsistencies across multiple files
+2026-04-27T09:55:48.7808854Z Patch applied successfully
+2026-04-27T09:55:48.7851848Z [command]/usr/bin/git ls-remote --heads origin docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:49.0644239Z [command]/usr/bin/git rev-list --reverse origin/main..HEAD
+2026-04-27T09:55:49.0724097Z 64814c9527aeb9cf4f7595339e5bc3108059a9d7
+2026-04-27T09:55:49.0750250Z pushSignedCommits: replaying 1 commit(s) via GraphQL createCommitOnBranch (branch: docs/fix-documentation-inconsistencies-5048633ff06ac691, repo: Azure/azure-sdk-for-js)
+2026-04-27T09:55:49.0752642Z pushSignedCommits: processing commit 1/1 sha=64814c9527aeb9cf4f7595339e5bc3108059a9d7
+2026-04-27T09:55:49.0775597Z [command]/usr/bin/git ls-remote origin refs/heads/docs/fix-documentation-inconsistencies-5048633ff06ac691
+2026-04-27T09:55:49.6574888Z pushSignedCommits: branch docs/fix-documentation-inconsistencies-5048633ff06ac691 not yet on the remote, resolving parent OID for first commit
+2026-04-27T09:55:49.6597676Z [command]/usr/bin/git rev-parse 64814c9527aeb9cf4f7595339e5bc3108059a9d7^
+2026-04-27T09:55:49.6753846Z 0dbfbadd830f75ae02cf565b8d647698496db7eb
+2026-04-27T09:55:49.6769960Z pushSignedCommits: creating remote branch docs/fix-documentation-inconsistencies-5048633ff06ac691 at parent OID 0dbfbadd830f75ae02cf565b8d647698496db7eb
+2026-04-27T09:55:50.4061650Z pushSignedCommits: remote branch docs/fix-documentation-inconsistencies-5048633ff06ac691 created successfully
+2026-04-27T09:55:50.4102942Z [command]/usr/bin/git log -1 --format=%B 64814c9527aeb9cf4f7595339e5bc3108059a9d7
+2026-04-27T09:55:50.4159052Z docs: fix documentation inconsistencies across multiple files
+2026-04-27T09:55:50.4160524Z 
+2026-04-27T09:55:50.4165663Z - Update Node.js version requirements from 'LTS versions' to '20 or
+2026-04-27T09:55:50.4172556Z   later' in Quickstart-on-how-to-write-tests.md,
+2026-04-27T09:55:50.4174611Z   Generate-code-from-TypeSpec.md, and migrating-to-typespec.md to match
+2026-04-27T09:55:50.4180169Z   the repo's engines requirement (>=20) and align with DPG-quickstart.md
+2026-04-27T09:55:50.4186558Z   and RLC-quickstart.md
+2026-04-27T09:55:50.4186814Z 
+2026-04-27T09:55:50.4187043Z - Replace 'npm run' with 'pnpm run' in golden-testing-commands.md for
+2026-04-27T09:55:50.4189436Z   all test commands (test:browser, test:node, unit-test:node,
+2026-04-27T09:55:50.4189918Z   integration-test:node) to match the repo's pnpm-based tooling
+2026-04-27T09:55:50.4190208Z 
+2026-04-27T09:55:50.4190448Z - Replace deprecated 'dev-tool run customization apply-v2' with
+2026-04-27T09:55:50.4190950Z   'dev-tool run customization apply' in migrating-to-typespec.md (the
+2026-04-27T09:55:50.4191505Z   apply-v2 subcommand now emits a deprecation warning directing users
+2026-04-27T09:55:50.4191940Z   to use 'apply' instead)
+2026-04-27T09:55:50.4192155Z 
+2026-04-27T09:55:50.4192321Z - Remove outdated NOTE in using-azure-identity.md claiming
+2026-04-27T09:55:50.4193155Z   InteractiveBrowserCredential does not support Node.js; Node.js support
+2026-04-27T09:55:50.4197342Z   was added and interactiveBrowserCredential.ts exists in the package
+2026-04-27T09:55:50.4197656Z 
+2026-04-27T09:55:50.4197897Z Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+2026-04-27T09:55:50.4198163Z 
+2026-04-27T09:55:50.4249037Z pushSignedCommits: commit message headline: "docs: fix documentation inconsistencies across multiple files"
+2026-04-27T09:55:50.4253830Z [command]/usr/bin/git diff --name-status 64814c9527aeb9cf4f7595339e5bc3108059a9d7^ 64814c9527aeb9cf4f7595339e5bc3108059a9d7
+2026-04-27T09:55:50.4329867Z M	documentation/Generate-code-from-TypeSpec.md
+2026-04-27T09:55:50.4330552Z M	documentation/Quickstart-on-how-to-write-tests.md
+2026-04-27T09:55:50.4330937Z M	documentation/golden-testing-commands.md
+2026-04-27T09:55:50.4331536Z M	documentation/migrating-to-typespec.md
+2026-04-27T09:55:50.4331918Z M	documentation/using-azure-identity.md
+2026-04-27T09:55:50.4359831Z pushSignedCommits: file changes: 5 addition(s), 0 deletion(s)
+2026-04-27T09:55:50.4388102Z pushSignedCommits: calling createCommitOnBranch mutation (expectedHeadOid=0dbfbadd830f75ae02cf565b8d647698496db7eb)
+2026-04-27T09:55:52.1026582Z pushSignedCommits: signed commit created: 7741329ce90b4b7ff453732ccd28468656ec71d9
+2026-04-27T09:55:52.1029615Z pushSignedCommits: all 1 commit(s) pushed as signed commits
+2026-04-27T09:55:52.1038039Z Changes pushed to branch
+2026-04-27T09:55:52.1071563Z [command]/usr/bin/git rev-list --count origin/main..HEAD
+2026-04-27T09:55:52.1144888Z 1
+2026-04-27T09:55:52.1188663Z 1 new commit(s) on branch relative to origin/main
+2026-04-27T09:55:52.3087797Z ##[warning]Failed to create pull request: GitHub Actions is not permitted to create or approve pull requests.
+2026-04-27T09:55:52.3104042Z ##[error]Permission error: GitHub Actions is not permitted to create or approve pull requests. See FAQ: https://github.github.com/gh-aw/reference/faq/#why-is-my-create-pull-request-workflow-failing-with-github-actions-is-not-permitted-to-create-or-approve-pull-requests
+2026-04-27T09:55:52.8142043Z [@octokit/request] "POST https://api.github.com/repos/Azure/azure-sdk-for-js/issues" is deprecated. It is scheduled to be removed on Fri, 10 Mar 2028 00:00:00 GMT. See https://docs.github.com/en/rest/about-the-rest-api/api-versions
+2026-04-27T09:55:52.8150186Z Created fallback issue #38296: https://github.com/Azure/azure-sdk-for-js/issues/38296
+2026-04-27T09:55:52.8168329Z No activation comment to update (GH_AW_COMMENT_ID not set)
+2026-04-27T09:55:52.8170590Z Code push 'create_pull_request' fell back to review issue #38296 — add_comment messages will be annotated
+2026-04-27T09:55:52.8173370Z 📝 Manifest: logged create_pull_request
+2026-04-27T09:55:52.8177813Z ✓ Message 1 (create_pull_request) completed successfully
+2026-04-27T09:55:52.8180798Z Stored 0 missing tool(s), 0 missing data item(s), 0 noop message(s), and 0 incomplete signal(s) for footer generation
+2026-04-27T09:55:52.8197619Z 📝 Safe output summaries written to step summary
+2026-04-27T09:55:52.8200734Z 
+2026-04-27T09:55:52.8200938Z === Processing Summary ===
+2026-04-27T09:55:52.8203508Z Total messages: 1
+2026-04-27T09:55:52.8207291Z Successful: 1
+2026-04-27T09:55:52.8216165Z Failed: 0
+2026-04-27T09:55:52.8220290Z Temporary IDs registered: 0
+2026-04-27T09:55:52.8230486Z Synthetic updates: 0
+2026-04-27T09:55:52.8240161Z Exported temporary ID map with 0 mapping(s)
+2026-04-27T09:55:52.8258425Z Safe Output Handler Manager completed
+2026-04-27T09:55:52.8525543Z ##[group]Run actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+2026-04-27T09:55:52.8526275Z with:
+2026-04-27T09:55:52.8526464Z   name: safe-outputs-items
+2026-04-27T09:55:52.8526719Z   path: /tmp/gh-aw/safe-output-items.jsonl
+2026-04-27T09:55:52.8526996Z   if-no-files-found: ignore
+2026-04-27T09:55:52.8527216Z   compression-level: 6
+2026-04-27T09:55:52.8527437Z   overwrite: false
+2026-04-27T09:55:52.8527633Z   include-hidden-files: false
+2026-04-27T09:55:52.8527863Z   archive: true
+2026-04-27T09:55:52.8528042Z env:
+2026-04-27T09:55:52.8528316Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/docs-consistency-check
+2026-04-27T09:55:52.8528676Z   GH_AW_EFFECTIVE_TOKENS: 4649851
+2026-04-27T09:55:52.8528909Z   GH_AW_ENGINE_ID: copilot
+2026-04-27T09:55:52.8529119Z   GH_AW_ENGINE_MODEL: auto
+2026-04-27T09:55:52.8529348Z   GH_AW_WORKFLOW_ID: docs-consistency-check
+2026-04-27T09:55:52.8529651Z   GH_AW_WORKFLOW_NAME: Documentation Consistency Check
+2026-04-27T09:55:52.8534287Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-27T09:55:52.8539251Z   GITHUB_AW_OTEL_TRACE_ID: 9f3197553a74b9b4792cfacc392c530b
+2026-04-27T09:55:52.8539593Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 80b4e7decdeba21b
+2026-04-27T09:55:52.8539887Z   GITHUB_AW_OTEL_JOB_START_MS: 1777283712798
+2026-04-27T09:55:52.8540142Z   GH_HOST: github.com
+2026-04-27T09:55:52.8540336Z ##[endgroup]
+2026-04-27T09:55:53.3051477Z With the provided path, there will be 1 file uploaded
+2026-04-27T09:55:53.3072560Z Artifact name is valid!
+2026-04-27T09:55:53.3077618Z Root directory input is valid!
+2026-04-27T09:55:53.5100290Z Uploading artifact: safe-outputs-items.zip
+2026-04-27T09:55:53.5540591Z Beginning upload of artifact content to blob storage
+2026-04-27T09:55:53.8523465Z Uploaded bytes 260
+2026-04-27T09:55:53.9034620Z Finished uploading artifact content to blob storage!
+2026-04-27T09:55:53.9164630Z SHA256 digest of uploaded artifact is 0286d277e287ffb9a9ecebd833ce4564cafc265cb7a8f9701605fe1b6079c9b6
+2026-04-27T09:55:53.9165474Z Finalizing artifact upload
+2026-04-27T09:55:54.1429634Z Artifact safe-outputs-items successfully finalized. Artifact ID 6657856051
+2026-04-27T09:55:54.1434880Z Artifact safe-outputs-items has been successfully uploaded! Final size is 260 bytes. Artifact ID is 6657856051
+2026-04-27T09:55:54.1454039Z Artifact download URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/24987850283/artifacts/6657856051
+2026-04-27T09:55:54.1896792Z Post job cleanup.
+2026-04-27T09:55:54.3829981Z [command]/usr/bin/git version
+2026-04-27T09:55:54.3893043Z git version 2.53.0
+2026-04-27T09:55:54.3963976Z Copying '/home/runner/.gitconfig' to '/home/runner/work/_temp/03385c4a-c69c-4394-8f87-c3830c58005d/.gitconfig'
+2026-04-27T09:55:54.3992254Z Temporarily overriding HOME='/home/runner/work/_temp/03385c4a-c69c-4394-8f87-c3830c58005d' before making global git config changes
+2026-04-27T09:55:54.4000171Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-27T09:55:54.4009892Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-27T09:55:54.4104968Z Removing SSH command configuration
+2026-04-27T09:55:54.4112210Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-27T09:55:54.4261130Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-27T09:55:54.4808005Z Removing HTTP extra header
+2026-04-27T09:55:54.4811814Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-27T09:55:54.4860960Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-27T09:55:54.5217604Z Removing includeIf entries pointing to credentials config files
+2026-04-27T09:55:54.5225312Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-27T09:55:54.5283472Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-27T09:55:54.5962774Z Post job cleanup.
+2026-04-27T09:55:54.6458630Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-27T09:55:54.6464639Z Cleaning up /tmp/gh-aw...
+2026-04-27T09:55:54.6789212Z Cleaned up /tmp/gh-aw
+2026-04-27T09:55:54.7072554Z Evaluate and set job outputs
+2026-04-27T09:55:54.7100477Z Set output 'code_push_failure_count'
+2026-04-27T09:55:54.7105227Z Set output 'create_discussion_error_count'
+2026-04-27T09:55:54.7106582Z Set output 'process_safe_outputs_processed_count'
+2026-04-27T09:55:54.7108164Z Set output 'process_safe_outputs_temporary_id_map'
+2026-04-27T09:55:54.7110360Z Cleaning up orphan processes

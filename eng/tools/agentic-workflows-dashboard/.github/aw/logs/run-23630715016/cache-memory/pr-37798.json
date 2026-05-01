@@ -1,0 +1,12 @@
+{
+  "pr": 37798,
+  "package": "@azure/arm-redisenterprisecache",
+  "version": "5.0.0-beta.1",
+  "api_version": "2025-08-01-preview",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "file": "review/arm-redisenterprisecache-node.api.md", "line": 88, "description": "AzureClouds enum missing Known prefix and uses UPPER_SNAKE_CASE members instead of PascalCase"},
+    {"type": "design", "category": "type_safety", "file": "review/arm-redisenterprisecache-node.api.md", "line": 95, "description": "AzureSupportedClouds uses closed template literal type `${AzureClouds}` instead of string"}
+  ]
+}

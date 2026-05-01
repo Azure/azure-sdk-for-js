@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: Commit 0ee7dd1 (PR #58250) only modified `eng/scripts/Language-Settings.ps1` — an internal CI script for package-published checks. No SDK packages, types, APIs, or user-facing code were changed, so no documentation gap exists.","type":"noop"}],"errors":[]}

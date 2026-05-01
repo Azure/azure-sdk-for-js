@@ -1,0 +1,9 @@
+2026-04-10T15:55:55.5370000Z Evaluating pre_activation.if
+2026-04-10T15:55:55.5370000Z Evaluating: (success() && (((((github.event.label.name == 'docs-review-needed') && (github.event.pull_request.head.repo.fork == false))) && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))))
+2026-04-10T15:55:55.5370000Z Expanded: (true && ((('docs-review-needed' == 'docs-review-needed') && (false == false)) && (('pull_request' != 'pull_request') || (108311273 == '108311273'))))
+2026-04-10T15:55:55.5370000Z Result: true
+2026-04-10T15:55:55.5440000Z Requested labels: ubuntu-slim
+2026-04-10T15:55:55.5440000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/pull/37993/merge
+2026-04-10T15:55:55.5440000Z Waiting for a runner to pick up this job...
+2026-04-10T15:56:04.7710000Z Job is about to start running on the hosted runner: GitHub Actions 1029996099
+2026-04-10T15:56:04.7700000Z Job is waiting for a hosted runner to come online.

@@ -1,0 +1,7 @@
+2026-03-25T10:17:53.9750000Z Evaluating pre_activation.if
+2026-03-25T10:17:53.9750000Z Evaluating: (success() && ((github.event.label.name == 'mgmt-review-needed')))
+2026-03-25T10:17:53.9750000Z Expanded: (false && (github.event.label.name == 'mgmt-review-needed'))
+2026-03-25T10:17:53.9750000Z Result: false
+2026-03-25T10:17:53.9810000Z Requested labels: ubuntu-slim
+2026-03-25T10:17:53.9810000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/mgmt-review.lock.yml@refs/heads/main
+2026-03-25T10:17:53.9810000Z Waiting for a runner to pick up this job...

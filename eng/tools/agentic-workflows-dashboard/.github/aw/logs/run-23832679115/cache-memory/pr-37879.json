@@ -1,0 +1,10 @@
+{
+  "pr": 37879,
+  "package": "@azure/arm-servicegroups",
+  "version": "1.0.0-beta.1",
+  "api_version": "2024-02-01-preview",
+  "release_type": "beta",
+  "reviewed_at": "2026-04-01",
+  "outcome": "clean",
+  "summary": "New package initial release. Versions aligned across package.json, serviceGroupsManagementContext.ts, and CHANGELOG.md. No naming violations, type safety issues, export gaps, or breaking changes found."
+}

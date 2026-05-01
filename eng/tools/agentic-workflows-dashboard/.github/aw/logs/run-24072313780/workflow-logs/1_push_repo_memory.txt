@@ -1,0 +1,680 @@
+﻿2026-04-07T08:37:22.1848191Z Current runner version: '2.333.1'
+2026-04-07T08:37:22.1877533Z ##[group]Runner Image Provisioner
+2026-04-07T08:37:22.1878299Z Hosted Compute Agent
+2026-04-07T08:37:22.1881934Z Version: 20260213.493
+2026-04-07T08:37:22.1882507Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-07T08:37:22.1883274Z Build Date: 2026-02-13T00:28:41Z
+2026-04-07T08:37:22.1883904Z Worker ID: {1351b3b5-bc9d-452f-9107-8dbf2f4b5d2f}
+2026-04-07T08:37:22.1884509Z Azure Region: centralus
+2026-04-07T08:37:22.1885070Z ##[endgroup]
+2026-04-07T08:37:22.1886737Z ##[group]VM Image
+2026-04-07T08:37:22.1887263Z - OS: Linux (x64)
+2026-04-07T08:37:22.1887814Z - Source: Docker
+2026-04-07T08:37:22.1888300Z - Name: ubuntu:24.04
+2026-04-07T08:37:22.1888772Z - Version: 20260323.53.1
+2026-04-07T08:37:22.1889320Z ##[endgroup]
+2026-04-07T08:37:22.1890681Z ##[group]GITHUB_TOKEN Permissions
+2026-04-07T08:37:22.1892718Z Contents: write
+2026-04-07T08:37:22.1893216Z Metadata: read
+2026-04-07T08:37:22.1893683Z ##[endgroup]
+2026-04-07T08:37:22.1896181Z Secret source: Actions
+2026-04-07T08:37:22.1896927Z Prepare workflow directory
+2026-04-07T08:37:22.2395671Z Prepare all required actions
+2026-04-07T08:37:22.2459154Z Getting action download info
+2026-04-07T08:37:22.7897050Z Download action repository 'github/gh-aw-actions@934698b44320d87a7a9196339f90293f10bd2247' (SHA:934698b44320d87a7a9196339f90293f10bd2247)
+2026-04-07T08:37:23.4712713Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-07T08:37:23.5235992Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-07T08:37:24.0695988Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-07T08:37:24.6265825Z Complete job name: push_repo_memory
+2026-04-07T08:37:24.6896062Z ##[group]Run github/gh-aw-actions/setup@934698b44320d87a7a9196339f90293f10bd2247
+2026-04-07T08:37:24.6897239Z with:
+2026-04-07T08:37:24.6897715Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-07T08:37:24.6898332Z   safe-output-custom-tokens: false
+2026-04-07T08:37:24.6899248Z ##[endgroup]
+2026-04-07T08:37:24.7429100Z Using RUNNER_TEMP: /home/runner/work/_temp (writable: yes)
+2026-04-07T08:37:24.7430687Z Copying activation files to /home/runner/work/_temp/gh-aw/actions
+2026-04-07T08:37:24.7431452Z Safe-output custom tokens support: false
+2026-04-07T08:37:24.7475708Z Created directory: /home/runner/work/_temp/gh-aw/actions
+2026-04-07T08:37:24.7490855Z Created /tmp/gh-aw directory
+2026-04-07T08:37:24.7514359Z Script directory: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup
+2026-04-07T08:37:24.7516086Z Looking for JavaScript sources in: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/js
+2026-04-07T08:37:24.7517719Z Contents of /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup:
+2026-04-07T08:37:24.7545047Z total 68
+2026-04-07T08:37:24.7545647Z drwxr-xr-x 6 runner runner  4096 Apr  7 08:37 .
+2026-04-07T08:37:24.7546351Z drwxr-xr-x 5 runner runner  4096 Apr  7 08:37 ..
+2026-04-07T08:37:24.7547058Z -rw-r--r-- 1 runner runner   648 Apr  1 15:09 action.yml
+2026-04-07T08:37:24.7547784Z -rw-r--r-- 1 runner runner   953 Apr  1 15:09 index.js
+2026-04-07T08:37:24.7548469Z drwxr-xr-x 3 runner runner 20480 Apr  7 08:37 js
+2026-04-07T08:37:24.7549126Z drwxr-xr-x 2 runner runner  4096 Apr  7 08:37 md
+2026-04-07T08:37:24.7549782Z -rw-r--r-- 1 runner runner  1244 Apr  1 15:09 post.js
+2026-04-07T08:37:24.7550885Z -rwxr-xr-x 1 runner runner 13104 Apr  1 15:09 setup.sh
+2026-04-07T08:37:24.7551585Z drwxr-xr-x 2 runner runner  4096 Apr  7 08:37 sh
+2026-04-07T08:37:24.7552237Z drwxr-xr-x 2 runner runner  4096 Apr  7 08:37 src
+2026-04-07T08:37:24.7556382Z Files in /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/js:
+2026-04-07T08:37:24.7578332Z TESTING_LIVE_API.md
+2026-04-07T08:37:24.7578898Z add_comment.cjs
+2026-04-07T08:37:24.7579375Z add_copilot_reviewer.cjs
+2026-04-07T08:37:24.7581177Z add_labels.cjs
+2026-04-07T08:37:24.7581818Z add_reaction.cjs
+2026-04-07T08:37:24.7582316Z add_reaction_and_edit_comment.cjs
+2026-04-07T08:37:24.7582856Z add_reviewer.cjs
+2026-04-07T08:37:24.7583317Z add_workflow_run_comment.cjs
+2026-04-07T08:37:24.7583864Z apply_safe_outputs_replay.cjs
+2026-04-07T08:37:24.7584391Z assign_agent_helpers.cjs
+2026-04-07T08:37:24.7616245Z Found 254 files in /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/js
+2026-04-07T08:37:24.7676517Z Copied: add_comment.cjs
+2026-04-07T08:37:24.7693692Z Copied: add_copilot_reviewer.cjs
+2026-04-07T08:37:24.7710833Z Copied: add_labels.cjs
+2026-04-07T08:37:24.7726880Z Copied: add_reaction.cjs
+2026-04-07T08:37:24.7744984Z Copied: add_reaction_and_edit_comment.cjs
+2026-04-07T08:37:24.7761031Z Copied: add_reviewer.cjs
+2026-04-07T08:37:24.7777953Z Copied: add_workflow_run_comment.cjs
+2026-04-07T08:37:24.7794848Z Copied: apply_safe_outputs_replay.cjs
+2026-04-07T08:37:24.7810980Z Copied: assign_agent_helpers.cjs
+2026-04-07T08:37:24.7828087Z Copied: assign_copilot_to_created_issues.cjs
+2026-04-07T08:37:24.7844909Z Copied: assign_issue.cjs
+2026-04-07T08:37:24.7860947Z Copied: assign_milestone.cjs
+2026-04-07T08:37:24.7877862Z Copied: assign_to_agent.cjs
+2026-04-07T08:37:24.7895612Z Copied: assign_to_user.cjs
+2026-04-07T08:37:24.7912506Z Copied: autofix_code_scanning_alert.cjs
+2026-04-07T08:37:24.7928924Z Copied: aw_context.cjs
+2026-04-07T08:37:24.7945675Z Copied: call_workflow.cjs
+2026-04-07T08:37:24.7962348Z Copied: check_command_position.cjs
+2026-04-07T08:37:24.7978682Z Copied: check_membership.cjs
+2026-04-07T08:37:24.7995547Z Copied: check_permissions.cjs
+2026-04-07T08:37:24.8012489Z Copied: check_permissions_utils.cjs
+2026-04-07T08:37:24.8028971Z Copied: check_rate_limit.cjs
+2026-04-07T08:37:24.8074822Z Copied: check_skip_bots.cjs
+2026-04-07T08:37:24.8092040Z Copied: check_skip_if_check_failing.cjs
+2026-04-07T08:37:24.8108696Z Copied: check_skip_if_helpers.cjs
+2026-04-07T08:37:24.8125429Z Copied: check_skip_if_match.cjs
+2026-04-07T08:37:25.3977542Z Copied: check_skip_if_no_match.cjs
+2026-04-07T08:37:25.4109886Z Copied: check_skip_roles.cjs
+2026-04-07T08:37:25.4110946Z Copied: check_stop_time.cjs
+2026-04-07T08:37:25.4111426Z Copied: check_team_member.cjs
+2026-04-07T08:37:25.4111914Z Copied: check_version_updates.cjs
+2026-04-07T08:37:25.4112435Z Copied: check_workflow_recompile_needed.cjs
+2026-04-07T08:37:25.4112982Z Copied: check_workflow_timestamp.cjs
+2026-04-07T08:37:25.4113523Z Copied: check_workflow_timestamp_api.cjs
+2026-04-07T08:37:25.4114041Z Copied: checkout_pr_branch.cjs
+2026-04-07T08:37:25.4114520Z Copied: close_discussion.cjs
+2026-04-07T08:37:25.4114984Z Copied: close_entity_helpers.cjs
+2026-04-07T08:37:25.4115501Z Copied: close_expired_discussions.cjs
+2026-04-07T08:37:25.4116011Z Copied: close_expired_issues.cjs
+2026-04-07T08:37:25.4116519Z Copied: close_expired_pull_requests.cjs
+2026-04-07T08:37:25.4117038Z Copied: close_issue.cjs
+2026-04-07T08:37:25.4117478Z Copied: close_older_discussions.cjs
+2026-04-07T08:37:25.4117980Z Copied: close_older_entities.cjs
+2026-04-07T08:37:25.4118449Z Copied: close_older_issues.cjs
+2026-04-07T08:37:25.4118925Z Copied: close_pull_request.cjs
+2026-04-07T08:37:25.4119406Z Copied: collect_ndjson_output.cjs
+2026-04-07T08:37:25.4128484Z Copied: comment_limit_helpers.cjs
+2026-04-07T08:37:25.4129160Z Copied: compute_text.cjs
+2026-04-07T08:37:25.4129613Z Copied: constants.cjs
+2026-04-07T08:37:25.4130409Z Copied: create_agent_session.cjs
+2026-04-07T08:37:25.4130913Z Copied: create_code_scanning_alert.cjs
+2026-04-07T08:37:25.4131431Z Copied: create_discussion.cjs
+2026-04-07T08:37:25.4131896Z Copied: create_issue.cjs
+2026-04-07T08:37:25.4132353Z Copied: create_missing_data_issue.cjs
+2026-04-07T08:37:25.4132882Z Copied: create_missing_tool_issue.cjs
+2026-04-07T08:37:25.4133408Z Copied: create_pr_review_comment.cjs
+2026-04-07T08:37:25.4134100Z Copied: create_project.cjs
+2026-04-07T08:37:25.4134574Z Copied: create_project_status_update.cjs
+2026-04-07T08:37:25.4135130Z Copied: create_pull_request.cjs
+2026-04-07T08:37:25.4135620Z Copied: demo_enhanced_errors.cjs
+2026-04-07T08:37:25.4136119Z Copied: determine_automatic_lockdown.cjs
+2026-04-07T08:37:25.4136639Z Copied: dispatch_repository.cjs
+2026-04-07T08:37:25.4137110Z Copied: dispatch_workflow.cjs
+2026-04-07T08:37:25.4137569Z Copied: display_file_helpers.cjs
+2026-04-07T08:37:25.4138196Z Copied: dynamic_checkout.cjs
+2026-04-07T08:37:25.4138646Z Copied: ephemerals.cjs
+2026-04-07T08:37:25.4139062Z Copied: error_codes.cjs
+2026-04-07T08:37:25.4139507Z Copied: error_helpers.cjs
+2026-04-07T08:37:25.4140160Z Copied: error_recovery.cjs
+2026-04-07T08:37:25.4140625Z Copied: estimate_tokens.cjs
+2026-04-07T08:37:25.4141084Z Copied: expiration_helpers.cjs
+2026-04-07T08:37:25.4141584Z Copied: expired_entity_cleanup_helpers.cjs
+2026-04-07T08:37:25.4142170Z Copied: expired_entity_main_flow.cjs
+2026-04-07T08:37:25.4144499Z Copied: expired_entity_search_helpers.cjs
+2026-04-07T08:37:25.4145130Z Copied: extra_empty_commit.cjs
+2026-04-07T08:37:25.4145632Z Copied: file_helpers.cjs
+2026-04-07T08:37:25.4146062Z Copied: find_repo_checkout.cjs
+2026-04-07T08:37:25.4146531Z Copied: firewall_blocked_domains.cjs
+2026-04-07T08:37:25.4147020Z Copied: frontmatter_hash.cjs
+2026-04-07T08:37:25.4147486Z Copied: frontmatter_hash_pure.cjs
+2026-04-07T08:37:25.4148036Z Copied: fuzz_markdown_code_region_balancer_harness.cjs
+2026-04-07T08:37:25.4148622Z Copied: fuzz_mentions_harness.cjs
+2026-04-07T08:37:25.4149154Z Copied: fuzz_runtime_import_expressions_harness.cjs
+2026-04-07T08:37:25.4149755Z Copied: fuzz_sanitize_incoming_text_harness.cjs
+2026-04-07T08:37:25.4159052Z Copied: fuzz_sanitize_label_harness.cjs
+2026-04-07T08:37:25.4159628Z Copied: fuzz_sanitize_output_harness.cjs
+2026-04-07T08:37:25.4160771Z Copied: fuzz_template_substitution_harness.cjs
+2026-04-07T08:37:25.4161373Z Copied: fuzz_update_body_harness.cjs
+2026-04-07T08:37:25.4161898Z Copied: gateway_difc_filtered.cjs
+2026-04-07T08:37:25.4162383Z Copied: generate_aw_info.cjs
+2026-04-07T08:37:25.4162876Z Copied: generate_compact_schema.cjs
+2026-04-07T08:37:25.4163389Z Copied: generate_footer.cjs
+2026-04-07T08:37:25.4163841Z Copied: generate_git_bundle.cjs
+2026-04-07T08:37:25.4164318Z Copied: generate_git_patch.cjs
+2026-04-07T08:37:25.4164787Z Copied: generate_history_link.cjs
+2026-04-07T08:37:25.4165299Z Copied: generate_mcp_scripts_config.cjs
+2026-04-07T08:37:25.4165859Z Copied: generate_observability_summary.cjs
+2026-04-07T08:37:25.4166416Z Copied: generate_safe_outputs_tools.cjs
+2026-04-07T08:37:25.4166953Z Copied: generate_workflow_overview.cjs
+2026-04-07T08:37:25.4167454Z Copied: get_base_branch.cjs
+2026-04-07T08:37:25.4167905Z Copied: get_current_branch.cjs
+2026-04-07T08:37:25.4168371Z Copied: get_repository_url.cjs
+2026-04-07T08:37:25.4168832Z Copied: get_tracker_id.cjs
+2026-04-07T08:37:25.4169296Z Copied: get_trigger_label.cjs
+2026-04-07T08:37:25.4169762Z Copied: git_helpers.cjs
+2026-04-07T08:37:25.4170490Z Copied: github_api_helpers.cjs
+2026-04-07T08:37:25.4170974Z Copied: glob_pattern_helpers.cjs
+2026-04-07T08:37:25.4171462Z Copied: handle_agent_failure.cjs
+2026-04-07T08:37:25.4171933Z Copied: handle_create_pr_error.cjs
+2026-04-07T08:37:25.4172462Z Copied: handle_noop_message.cjs
+2026-04-07T08:37:25.4172923Z Copied: handler_auth.cjs
+2026-04-07T08:37:25.4173359Z Copied: hide_comment.cjs
+2026-04-07T08:37:25.4173795Z Copied: interpolate_prompt.cjs
+2026-04-07T08:37:25.4174247Z Copied: is_truthy.cjs
+2026-04-07T08:37:25.4174665Z Copied: json_object_to_markdown.cjs
+2026-04-07T08:37:25.4175167Z Copied: json_repair_helpers.cjs
+2026-04-07T08:37:25.4175648Z Copied: limit_enforcement_helpers.cjs
+2026-04-07T08:37:25.4176145Z Copied: link_sub_issue.cjs
+2026-04-07T08:37:25.4176632Z Copied: load_agent_output.cjs
+2026-04-07T08:37:25.4177080Z Copied: lock-issue.cjs
+2026-04-07T08:37:25.4177515Z Copied: log_parser_bootstrap.cjs
+2026-04-07T08:37:25.4177987Z Copied: log_parser_shared.cjs
+2026-04-07T08:37:25.4178582Z Copied: manifest_file_helpers.cjs
+2026-04-07T08:37:25.4179107Z Copied: mark_pull_request_as_ready_for_review.cjs
+2026-04-07T08:37:25.4179694Z Copied: markdown_code_region_balancer.cjs
+2026-04-07T08:37:25.4188834Z Copied: markdown_transformer.cjs
+2026-04-07T08:37:25.4189395Z Copied: markdown_unfencing.cjs
+2026-04-07T08:37:25.4189877Z Copied: mcp-scripts-runner.cjs
+2026-04-07T08:37:25.4190718Z Copied: mcp_enhanced_errors.cjs
+2026-04-07T08:37:25.4191193Z Copied: mcp_handler_go.cjs
+2026-04-07T08:37:25.4191654Z Copied: mcp_handler_javascript.cjs
+2026-04-07T08:37:25.4192158Z Copied: mcp_handler_python.cjs
+2026-04-07T08:37:25.4192632Z Copied: mcp_handler_shell.cjs
+2026-04-07T08:37:25.4193107Z Copied: mcp_http_server_runner.cjs
+2026-04-07T08:37:25.4193709Z Copied: mcp_http_transport.cjs
+2026-04-07T08:37:25.4194175Z Copied: mcp_logger.cjs
+2026-04-07T08:37:25.4194621Z Copied: mcp_scripts_bootstrap.cjs
+2026-04-07T08:37:25.4195149Z Copied: mcp_scripts_config_loader.cjs
+2026-04-07T08:37:25.4195666Z Copied: mcp_scripts_mcp_server.cjs
+2026-04-07T08:37:25.4196172Z Copied: mcp_scripts_mcp_server_http.cjs
+2026-04-07T08:37:25.4196692Z Copied: mcp_scripts_tool_factory.cjs
+2026-04-07T08:37:25.4197198Z Copied: mcp_scripts_validation.cjs
+2026-04-07T08:37:25.4197685Z Copied: mcp_server_core.cjs
+2026-04-07T08:37:25.4198165Z Copied: merge_remote_agent_github_folder.cjs
+2026-04-07T08:37:25.4198685Z Copied: messages.cjs
+2026-04-07T08:37:25.4199150Z Copied: messages_close_discussion.cjs
+2026-04-07T08:37:25.4199659Z Copied: messages_core.cjs
+2026-04-07T08:37:25.4200325Z Copied: messages_footer.cjs
+2026-04-07T08:37:25.4200780Z Copied: messages_run_status.cjs
+2026-04-07T08:37:25.4201228Z Copied: messages_staged.cjs
+2026-04-07T08:37:25.4201667Z Copied: missing_data.cjs
+2026-04-07T08:37:25.4202099Z Copied: missing_info_formatter.cjs
+2026-04-07T08:37:25.4202588Z Copied: missing_issue_helpers.cjs
+2026-04-07T08:37:25.4203237Z Copied: missing_messages_helper.cjs
+2026-04-07T08:37:25.4203779Z Copied: missing_tool.cjs
+2026-04-07T08:37:25.4204215Z Copied: noop.cjs
+2026-04-07T08:37:25.4204610Z Copied: noop_handler.cjs
+2026-04-07T08:37:25.4205048Z Copied: normalize_branch_name.cjs
+2026-04-07T08:37:25.4205518Z Copied: notify_comment_error.cjs
+2026-04-07T08:37:25.4205986Z Copied: parse_claude_log.cjs
+2026-04-07T08:37:25.4206428Z Copied: parse_codex_log.cjs
+2026-04-07T08:37:25.4206880Z Copied: parse_copilot_log.cjs
+2026-04-07T08:37:25.4207329Z Copied: parse_custom_log.cjs
+2026-04-07T08:37:25.4207787Z Copied: parse_firewall_logs.cjs
+2026-04-07T08:37:25.4208242Z Copied: parse_gemini_log.cjs
+2026-04-07T08:37:25.4208700Z Copied: parse_mcp_gateway_log.cjs
+2026-04-07T08:37:25.4209186Z Copied: parse_mcp_scripts_logs.cjs
+2026-04-07T08:37:25.4209693Z Copied: parse_threat_detection_results.cjs
+2026-04-07T08:37:25.4218863Z Copied: pr_helpers.cjs
+2026-04-07T08:37:25.4219343Z Copied: pr_review_buffer.cjs
+2026-04-07T08:37:25.4219843Z Copied: push_repo_memory.cjs
+2026-04-07T08:37:25.4220699Z Copied: push_signed_commits.cjs
+2026-04-07T08:37:25.4221225Z Copied: push_to_pull_request_branch.cjs
+2026-04-07T08:37:25.4221744Z Copied: qmd_index.cjs
+2026-04-07T08:37:25.4222164Z Copied: read_buffer.cjs
+2026-04-07T08:37:25.4222585Z Copied: redact_secrets.cjs
+2026-04-07T08:37:25.4223047Z Copied: remove_duplicate_title.cjs
+2026-04-07T08:37:25.4223538Z Copied: remove_labels.cjs
+2026-04-07T08:37:25.4223989Z Copied: remove_trigger_label.cjs
+2026-04-07T08:37:25.4224472Z Copied: render_template.cjs
+2026-04-07T08:37:25.4224938Z Copied: reply_to_pr_review_comment.cjs
+2026-04-07T08:37:25.4225445Z Copied: repo_helpers.cjs
+2026-04-07T08:37:25.4225885Z Copied: resolve_host_repo.cjs
+2026-04-07T08:37:25.4226357Z Copied: resolve_mentions.cjs
+2026-04-07T08:37:25.4226836Z Copied: resolve_mentions_from_payload.cjs
+2026-04-07T08:37:25.4227375Z Copied: resolve_pr_review_thread.cjs
+2026-04-07T08:37:25.4227903Z Copied: run_operation_update_upgrade.cjs
+2026-04-07T08:37:25.4228437Z Copied: runtime_import.cjs
+2026-04-07T08:37:25.4228907Z Copied: safe-outputs-mcp-server.cjs
+2026-04-07T08:37:25.4229598Z Copied: safe_output_action_handler.cjs
+2026-04-07T08:37:25.4230389Z Copied: safe_output_handler_manager.cjs
+2026-04-07T08:37:25.4230909Z Copied: safe_output_helpers.cjs
+2026-04-07T08:37:25.4231390Z Copied: safe_output_manifest.cjs
+2026-04-07T08:37:25.4231871Z Copied: safe_output_processor.cjs
+2026-04-07T08:37:25.4232371Z Copied: safe_output_summary.cjs
+2026-04-07T08:37:25.4232891Z Copied: safe_output_topological_sort.cjs
+2026-04-07T08:37:25.4233429Z Copied: safe_output_type_validator.cjs
+2026-04-07T08:37:25.4233942Z Copied: safe_output_validator.cjs
+2026-04-07T08:37:25.4234448Z Copied: safe_outputs_action_outputs.cjs
+2026-04-07T08:37:25.4234958Z Copied: safe_outputs_append.cjs
+2026-04-07T08:37:25.4235425Z Copied: safe_outputs_bootstrap.cjs
+2026-04-07T08:37:25.4235909Z Copied: safe_outputs_config.cjs
+2026-04-07T08:37:25.4236368Z Copied: safe_outputs_handlers.cjs
+2026-04-07T08:37:25.4236866Z Copied: safe_outputs_mcp_client.cjs
+2026-04-07T08:37:25.4237358Z Copied: safe_outputs_mcp_server.cjs
+2026-04-07T08:37:25.4237885Z Copied: safe_outputs_mcp_server_http.cjs
+2026-04-07T08:37:25.4238426Z Copied: safe_outputs_tools_loader.cjs
+2026-04-07T08:37:25.4238943Z Copied: sanitize_content.cjs
+2026-04-07T08:37:25.4239416Z Copied: sanitize_content_core.cjs
+2026-04-07T08:37:25.4248417Z Copied: sanitize_incoming_text.cjs
+2026-04-07T08:37:25.4249106Z Copied: sanitize_label_content.cjs
+2026-04-07T08:37:25.4249607Z Copied: sanitize_output.cjs
+2026-04-07T08:37:25.4250449Z Copied: sanitize_title.cjs
+2026-04-07T08:37:25.4250916Z Copied: sanitize_workflow_name.cjs
+2026-04-07T08:37:25.4251413Z Copied: sanitized_logging.cjs
+2026-04-07T08:37:25.4251873Z Copied: set_issue_type.cjs
+2026-04-07T08:37:25.4252316Z Copied: setup_globals.cjs
+2026-04-07T08:37:25.4252773Z Copied: setup_threat_detection.cjs
+2026-04-07T08:37:25.4253267Z Copied: shim.cjs
+2026-04-07T08:37:25.4253671Z Copied: staged_preview.cjs
+2026-04-07T08:37:25.4254293Z Copied: sub_issue_helpers.cjs
+2026-04-07T08:37:25.4254772Z Copied: submit_pr_review.cjs
+2026-04-07T08:37:25.4255253Z Copied: substitute_placeholders.cjs
+2026-04-07T08:37:25.4255731Z Copied: templatable.cjs
+2026-04-07T08:37:25.4256158Z Copied: temporary_id.cjs
+2026-04-07T08:37:25.4256602Z Copied: test-live-github-api.cjs
+2026-04-07T08:37:25.4257079Z Copied: unassign_from_user.cjs
+2026-04-07T08:37:25.4257536Z Copied: unlock-issue.cjs
+2026-04-07T08:37:25.4257992Z Copied: update_activation_comment.cjs
+2026-04-07T08:37:25.4258503Z Copied: update_context_helpers.cjs
+2026-04-07T08:37:25.4259001Z Copied: update_discussion.cjs
+2026-04-07T08:37:25.4259472Z Copied: update_handler_factory.cjs
+2026-04-07T08:37:25.4260479Z Copied: update_issue.cjs
+2026-04-07T08:37:25.4260959Z Copied: update_pr_description_helpers.cjs
+2026-04-07T08:37:25.4261472Z Copied: update_project.cjs
+2026-04-07T08:37:25.4261921Z Copied: update_pull_request.cjs
+2026-04-07T08:37:25.4262381Z Copied: update_release.cjs
+2026-04-07T08:37:25.4262841Z Copied: update_runner.cjs
+2026-04-07T08:37:25.4263272Z Copied: upload_assets.cjs
+2026-04-07T08:37:25.4263736Z Copied: validate_context_variables.cjs
+2026-04-07T08:37:25.4264260Z Copied: validate_lockdown_requirements.cjs
+2026-04-07T08:37:25.4264801Z Copied: validate_memory_files.cjs
+2026-04-07T08:37:25.4265280Z Copied: validate_secrets.cjs
+2026-04-07T08:37:25.4265742Z Copied: workflow_metadata_helpers.cjs
+2026-04-07T08:37:25.4266261Z Copied: write_large_content_to_file.cjs
+2026-04-07T08:37:25.4266778Z Copied: package-lock.json
+2026-04-07T08:37:25.4267214Z Copied: package.json
+2026-04-07T08:37:25.4267629Z Copied: safe_outputs_tools.json
+2026-04-07T08:37:25.4268095Z Copied: tsconfig.build.json
+2026-04-07T08:37:25.4268528Z Copied: tsconfig.json
+2026-04-07T08:37:25.4269439Z Found shell scripts directory: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/sh
+2026-04-07T08:37:25.4351269Z Copied shell script: append_agent_step_summary.sh
+2026-04-07T08:37:25.4351927Z Copied shell script: check_mcp_servers.sh
+2026-04-07T08:37:25.4352523Z Copied shell script: check_mcp_servers_test.sh
+2026-04-07T08:37:25.4353311Z Copied shell script: clean_git_credentials.sh
+2026-04-07T08:37:25.4353929Z Copied shell script: clean_git_credentials_test.sh
+2026-04-07T08:37:25.4354549Z Copied shell script: clone_repo_memory_branch.sh
+2026-04-07T08:37:25.4355146Z Copied shell script: commit_cache_memory_git.sh
+2026-04-07T08:37:25.4355745Z Copied shell script: compute_artifact_prefix.sh
+2026-04-07T08:37:25.4356344Z Copied shell script: configure_gh_for_ghe.sh
+2026-04-07T08:37:25.4356935Z Copied shell script: configure_gh_for_ghe_test.sh
+2026-04-07T08:37:25.4357561Z Copied shell script: convert_gateway_config_claude.sh
+2026-04-07T08:37:25.4358210Z Copied shell script: convert_gateway_config_codex.sh
+2026-04-07T08:37:25.4358869Z Copied shell script: convert_gateway_config_codex_test.sh
+2026-04-07T08:37:25.4359540Z Copied shell script: convert_gateway_config_copilot.sh
+2026-04-07T08:37:25.4360458Z Copied shell script: convert_gateway_config_gemini.sh
+2026-04-07T08:37:25.4361111Z Copied shell script: create_cache_memory_dir.sh
+2026-04-07T08:37:25.4361802Z Copied shell script: create_gh_aw_tmp_dir.sh
+2026-04-07T08:37:25.4362378Z Copied shell script: create_prompt_first.sh
+2026-04-07T08:37:25.4362980Z Copied shell script: detect_inference_access_error.sh
+2026-04-07T08:37:25.4363593Z Copied shell script: download_docker_images.sh
+2026-04-07T08:37:25.4364207Z Copied shell script: download_docker_images_test.sh
+2026-04-07T08:37:25.4364793Z Copied shell script: generate_git_patch.sh
+2026-04-07T08:37:25.4365342Z Copied shell script: install_awf_binary.sh
+2026-04-07T08:37:25.4365888Z Copied shell script: install_copilot_cli.sh
+2026-04-07T08:37:25.4366443Z Copied shell script: install_docker_macos.sh
+2026-04-07T08:37:25.4366989Z Copied shell script: install_gh_cli.sh
+2026-04-07T08:37:25.4367525Z Copied shell script: parse_guard_list.sh
+2026-04-07T08:37:25.4368081Z Copied shell script: print_prompt_summary.sh
+2026-04-07T08:37:25.4368748Z Copied shell script: sanitize_path.sh
+2026-04-07T08:37:25.4369335Z Copied shell script: sanitize_path_test.sh
+2026-04-07T08:37:25.4370236Z Copied shell script: setup_cache_memory_git.sh
+2026-04-07T08:37:25.4370836Z Copied shell script: start_difc_proxy.sh
+2026-04-07T08:37:25.4371373Z Copied shell script: start_mcp_gateway.sh
+2026-04-07T08:37:25.4371932Z Copied shell script: start_mcp_gateway_test.sh
+2026-04-07T08:37:25.4372519Z Copied shell script: start_mcp_scripts_server.sh
+2026-04-07T08:37:25.4373129Z Copied shell script: start_safe_outputs_server.sh
+2026-04-07T08:37:25.4373708Z Copied shell script: stop_difc_proxy.sh
+2026-04-07T08:37:25.4374232Z Copied shell script: stop_mcp_gateway.sh
+2026-04-07T08:37:25.4374806Z Copied shell script: validate_gatewayed_server.sh
+2026-04-07T08:37:25.4375440Z Copied shell script: validate_gatewayed_server_test.sh
+2026-04-07T08:37:25.4376061Z Copied shell script: validate_multi_secret.sh
+2026-04-07T08:37:25.4376670Z Copied shell script: validate_prompt_placeholders.sh
+2026-04-07T08:37:25.4377347Z Copied shell script: validate_prompt_placeholders_test.sh
+2026-04-07T08:37:25.4377998Z Copied shell script: verify_mcp_gateway_health.sh
+2026-04-07T08:37:25.4378753Z Successfully copied 294 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-07T08:37:25.4379615Z Copying prompt markdown files to /home/runner/work/_temp/gh-aw/prompts
+2026-04-07T08:37:25.4389308Z Found markdown prompts directory: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/md
+2026-04-07T08:37:25.4390801Z Copied prompt: agent_failure_comment.md
+2026-04-07T08:37:25.4391346Z Copied prompt: agent_failure_issue.md
+2026-04-07T08:37:25.4391867Z Copied prompt: agent_timeout.md
+2026-04-07T08:37:25.4392357Z Copied prompt: agentic_workflows_guide.md
+2026-04-07T08:37:25.4392912Z Copied prompt: app_token_minting_failed.md
+2026-04-07T08:37:25.4393540Z Copied prompt: assign_copilot_to_created_issues_failure.md
+2026-04-07T08:37:25.4394175Z Copied prompt: cache_memory_prompt.md
+2026-04-07T08:37:25.4394720Z Copied prompt: cache_memory_prompt_multi.md
+2026-04-07T08:37:25.4395466Z Copied prompt: github_mcp_tools_prompt.md
+2026-04-07T08:37:25.4396100Z Copied prompt: github_mcp_tools_with_safeoutputs_prompt.md
+2026-04-07T08:37:25.4396725Z Copied prompt: inference_access_error.md
+2026-04-07T08:37:25.4397288Z Copied prompt: integrity_filter_remediation.md
+2026-04-07T08:37:25.4397844Z Copied prompt: issue_group_parent.md
+2026-04-07T08:37:25.4398363Z Copied prompt: lockdown_check_failed.md
+2026-04-07T08:37:25.4398983Z Copied prompt: manifest_protection_create_pr_fallback.md
+2026-04-07T08:37:25.4399686Z Copied prompt: manifest_protection_push_failed_fallback.md
+2026-04-07T08:37:25.4400649Z Copied prompt: manifest_protection_push_to_pr_fallback.md
+2026-04-07T08:37:25.4401249Z Copied prompt: markdown.md
+2026-04-07T08:37:25.4401711Z Copied prompt: missing_data_issue.md
+2026-04-07T08:37:25.4402210Z Copied prompt: missing_tool_issue.md
+2026-04-07T08:37:25.4402722Z Copied prompt: noop_comment.md
+2026-04-07T08:37:25.4403187Z Copied prompt: noop_runs_issue.md
+2026-04-07T08:37:25.4403685Z Copied prompt: playwright_prompt.md
+2026-04-07T08:37:25.4404214Z Copied prompt: pr_checkout_failure.md
+2026-04-07T08:37:25.4404727Z Copied prompt: pr_context_prompt.md
+2026-04-07T08:37:25.4405272Z Copied prompt: pr_permission_denied_fallback.md
+2026-04-07T08:37:25.4405827Z Copied prompt: qmd_prompt.md
+2026-04-07T08:37:25.4406305Z Copied prompt: repo_memory_prompt.md
+2026-04-07T08:37:25.4406825Z Copied prompt: repo_memory_prompt_multi.md
+2026-04-07T08:37:25.4407434Z Copied prompt: safe_outputs_auto_create_issue.md
+2026-04-07T08:37:25.4408045Z Copied prompt: safe_outputs_create_pull_request.md
+2026-04-07T08:37:25.4408674Z Copied prompt: safe_outputs_prompt.md
+2026-04-07T08:37:25.4409231Z Copied prompt: safe_outputs_push_to_pr_branch.md
+2026-04-07T08:37:25.4409853Z Copied prompt: temp_folder_prompt.md
+2026-04-07T08:37:25.4419103Z Copied prompt: threat_detection.md
+2026-04-07T08:37:25.4419829Z Copied prompt: workflow_install_note.md
+2026-04-07T08:37:25.4420770Z Copied prompt: workflow_recompile_issue.md
+2026-04-07T08:37:25.4421309Z Copied prompt: xpia.md
+2026-04-07T08:37:25.4459758Z Successfully copied 38 prompt files to /home/runner/work/_temp/gh-aw/prompts
+2026-04-07T08:37:25.4461798Z Copying mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-07T08:37:25.4462568Z Copied mcp-scripts: mcp_scripts_bootstrap.cjs
+2026-04-07T08:37:25.4463179Z Copied mcp-scripts: mcp_scripts_config_loader.cjs
+2026-04-07T08:37:25.4463810Z Copied mcp-scripts: mcp_scripts_mcp_server.cjs
+2026-04-07T08:37:25.4464427Z Copied mcp-scripts: mcp_scripts_mcp_server_http.cjs
+2026-04-07T08:37:25.4465063Z Copied mcp-scripts: mcp_scripts_tool_factory.cjs
+2026-04-07T08:37:25.4465660Z Copied mcp-scripts: mcp_scripts_validation.cjs
+2026-04-07T08:37:25.4466231Z Copied mcp-scripts: mcp_server_core.cjs
+2026-04-07T08:37:25.4466747Z Copied mcp-scripts: mcp_logger.cjs
+2026-04-07T08:37:25.4467279Z Copied mcp-scripts: mcp_http_transport.cjs
+2026-04-07T08:37:25.4467847Z Copied mcp-scripts: mcp_http_server_runner.cjs
+2026-04-07T08:37:25.4468421Z Copied mcp-scripts: mcp_handler_shell.cjs
+2026-04-07T08:37:25.4468965Z Copied mcp-scripts: mcp_handler_python.cjs
+2026-04-07T08:37:25.4469502Z Copied mcp-scripts: mcp_handler_go.cjs
+2026-04-07T08:37:25.4470467Z Copied mcp-scripts: mcp_handler_javascript.cjs
+2026-04-07T08:37:25.4471051Z Copied mcp-scripts: read_buffer.cjs
+2026-04-07T08:37:25.4471636Z Copied mcp-scripts: generate_mcp_scripts_config.cjs
+2026-04-07T08:37:25.4472212Z Copied mcp-scripts: setup_globals.cjs
+2026-04-07T08:37:25.4472775Z Copied mcp-scripts: error_helpers.cjs
+2026-04-07T08:37:25.4473280Z Copied mcp-scripts: error_codes.cjs
+2026-04-07T08:37:25.4473776Z Copied mcp-scripts: constants.cjs
+2026-04-07T08:37:25.4474279Z Copied mcp-scripts: mcp_enhanced_errors.cjs
+2026-04-07T08:37:25.4474812Z Copied mcp-scripts: shim.cjs
+2026-04-07T08:37:25.4475294Z Copied mcp-scripts: mcp-scripts-runner.cjs
+2026-04-07T08:37:25.4476076Z Successfully copied 23 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-07T08:37:25.4477005Z Copying safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-07T08:37:25.4477930Z Copied safe-outputs: safe_outputs_mcp_server.cjs
+2026-04-07T08:37:25.4478582Z Copied safe-outputs: safe_outputs_mcp_server_http.cjs
+2026-04-07T08:37:25.4479208Z Copied safe-outputs: safe_outputs_bootstrap.cjs
+2026-04-07T08:37:25.4479817Z Copied safe-outputs: safe_outputs_tools_loader.cjs
+2026-04-07T08:37:25.4489129Z Copied safe-outputs: safe_outputs_config.cjs
+2026-04-07T08:37:25.4489770Z Copied safe-outputs: safe_outputs_handlers.cjs
+2026-04-07T08:37:25.4490778Z Copied safe-outputs: safe_outputs_append.cjs
+2026-04-07T08:37:25.4491351Z Copied safe-outputs: mcp_server_core.cjs
+2026-04-07T08:37:25.4491890Z Copied safe-outputs: mcp_logger.cjs
+2026-04-07T08:37:25.4492411Z Copied safe-outputs: mcp_http_transport.cjs
+2026-04-07T08:37:25.4493000Z Copied safe-outputs: mcp_http_server_runner.cjs
+2026-04-07T08:37:25.4493596Z Copied safe-outputs: mcp_handler_python.cjs
+2026-04-07T08:37:25.4494146Z Copied safe-outputs: mcp_handler_shell.cjs
+2026-04-07T08:37:25.4494682Z Copied safe-outputs: mcp_handler_go.cjs
+2026-04-07T08:37:25.4495239Z Copied safe-outputs: mcp_handler_javascript.cjs
+2026-04-07T08:37:25.4495800Z Copied safe-outputs: read_buffer.cjs
+2026-04-07T08:37:25.4496345Z Copied safe-outputs: mcp_scripts_validation.cjs
+2026-04-07T08:37:25.4496911Z Copied safe-outputs: messages.cjs
+2026-04-07T08:37:25.4497404Z Copied safe-outputs: messages_core.cjs
+2026-04-07T08:37:25.4497926Z Copied safe-outputs: messages_footer.cjs
+2026-04-07T08:37:25.4498467Z Copied safe-outputs: messages_run_status.cjs
+2026-04-07T08:37:25.4499012Z Copied safe-outputs: messages_staged.cjs
+2026-04-07T08:37:25.4499576Z Copied safe-outputs: messages_close_discussion.cjs
+2026-04-07T08:37:25.4500387Z Copied safe-outputs: estimate_tokens.cjs
+2026-04-07T08:37:25.4500935Z Copied safe-outputs: generate_git_patch.cjs
+2026-04-07T08:37:25.4501669Z Copied safe-outputs: generate_git_bundle.cjs
+2026-04-07T08:37:25.4502236Z Copied safe-outputs: get_base_branch.cjs
+2026-04-07T08:37:25.4502774Z Copied safe-outputs: get_current_branch.cjs
+2026-04-07T08:37:25.4503345Z Copied safe-outputs: normalize_branch_name.cjs
+2026-04-07T08:37:25.4503956Z Copied safe-outputs: write_large_content_to_file.cjs
+2026-04-07T08:37:25.4504571Z Copied safe-outputs: generate_compact_schema.cjs
+2026-04-07T08:37:25.4505125Z Copied safe-outputs: setup_globals.cjs
+2026-04-07T08:37:25.4505763Z Copied safe-outputs: error_helpers.cjs
+2026-04-07T08:37:25.4506278Z Copied safe-outputs: error_codes.cjs
+2026-04-07T08:37:25.4506823Z Copied safe-outputs: constants.cjs
+2026-04-07T08:37:25.4507314Z Copied safe-outputs: git_helpers.cjs
+2026-04-07T08:37:25.4507849Z Copied safe-outputs: github_api_helpers.cjs
+2026-04-07T08:37:25.4508407Z Copied safe-outputs: find_repo_checkout.cjs
+2026-04-07T08:37:25.4519285Z Copied safe-outputs: mcp_enhanced_errors.cjs
+2026-04-07T08:37:25.4520313Z Copied safe-outputs: comment_limit_helpers.cjs
+2026-04-07T08:37:25.4520918Z Copied safe-outputs: shim.cjs
+2026-04-07T08:37:25.4521432Z Copied safe-outputs: repo_helpers.cjs
+2026-04-07T08:37:25.4521993Z Copied safe-outputs: glob_pattern_helpers.cjs
+2026-04-07T08:37:25.4522552Z Copied safe-outputs: handler_auth.cjs
+2026-04-07T08:37:25.4523100Z Copied safe-outputs: missing_messages_helper.cjs
+2026-04-07T08:37:25.4523716Z Copied safe-outputs: firewall_blocked_domains.cjs
+2026-04-07T08:37:25.4524319Z Copied safe-outputs: gateway_difc_filtered.cjs
+2026-04-07T08:37:25.4524900Z Copied safe-outputs: missing_info_formatter.cjs
+2026-04-07T08:37:25.4525494Z Copied safe-outputs: sanitize_content_core.cjs
+2026-04-07T08:37:25.5194547Z Copied safe-outputs: markdown_code_region_balancer.cjs
+2026-04-07T08:37:25.5195258Z Copied safe-outputs: temporary_id.cjs
+2026-04-07T08:37:25.5195863Z Copied safe-outputs MCP entry point: mcp-server.cjs
+2026-04-07T08:37:25.5196499Z Copied safe-outputs tools definition: tools.json
+2026-04-07T08:37:25.5197132Z Created empty config.json for safe-outputs server
+2026-04-07T08:37:25.5197961Z Successfully copied 53 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-07T08:37:25.5199090Z Custom tokens not enabled - skipping @actions/github installation
+2026-04-07T08:37:25.5431708Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-07T08:37:25.5432408Z with:
+2026-04-07T08:37:25.5432798Z   persist-credentials: false
+2026-04-07T08:37:25.5433255Z   sparse-checkout: .
+2026-04-07T08:37:25.5433688Z   repository: Azure/azure-sdk-for-js
+2026-04-07T08:37:25.5434320Z   token: ***
+2026-04-07T08:37:25.5434688Z   ssh-strict: true
+2026-04-07T08:37:25.5435084Z   ssh-user: git
+2026-04-07T08:37:25.5435493Z   clean: true
+2026-04-07T08:37:25.5435884Z   sparse-checkout-cone-mode: true
+2026-04-07T08:37:25.5436351Z   fetch-depth: 1
+2026-04-07T08:37:25.5436728Z   fetch-tags: false
+2026-04-07T08:37:25.5437121Z   show-progress: true
+2026-04-07T08:37:25.5437519Z   lfs: false
+2026-04-07T08:37:25.5437864Z   submodules: false
+2026-04-07T08:37:25.5438257Z   set-safe-directory: true
+2026-04-07T08:37:25.5438682Z ##[endgroup]
+2026-04-07T08:37:26.4088429Z Syncing repository: Azure/azure-sdk-for-js
+2026-04-07T08:37:26.4090495Z ##[group]Getting Git version info
+2026-04-07T08:37:26.4091330Z Working directory is '/home/runner/work/azure-sdk-for-js/azure-sdk-for-js'
+2026-04-07T08:37:26.4092345Z [command]/usr/bin/git version
+2026-04-07T08:37:26.4092813Z git version 2.53.0
+2026-04-07T08:37:26.4094203Z ##[endgroup]
+2026-04-07T08:37:26.4098116Z Temporarily overriding HOME='/home/runner/work/_temp/84280378-1075-43bc-8c9d-e681837a77b0' before making global git config changes
+2026-04-07T08:37:26.4099420Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-07T08:37:26.4101231Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-07T08:37:26.4102909Z Deleting the contents of '/home/runner/work/azure-sdk-for-js/azure-sdk-for-js'
+2026-04-07T08:37:26.4103920Z ##[group]Initializing the repository
+2026-04-07T08:37:26.4104608Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-07T08:37:26.4105522Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-07T08:37:26.4106423Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-07T08:37:26.4107287Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-07T08:37:26.4107961Z hint: call:
+2026-04-07T08:37:26.4108309Z hint:
+2026-04-07T08:37:26.4108763Z hint: 	git config --global init.defaultBranch <name>
+2026-04-07T08:37:26.4109321Z hint:
+2026-04-07T08:37:26.4109839Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-07T08:37:26.4110922Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-07T08:37:26.4111598Z hint:
+2026-04-07T08:37:26.4111977Z hint: 	git branch -m <name>
+2026-04-07T08:37:26.4112403Z hint:
+2026-04-07T08:37:26.4112962Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-07T08:37:26.4113975Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/
+2026-04-07T08:37:26.4115489Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-js
+2026-04-07T08:37:26.4116886Z ##[endgroup]
+2026-04-07T08:37:26.4117539Z ##[group]Disabling automatic garbage collection
+2026-04-07T08:37:26.4118123Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-07T08:37:26.4119347Z ##[endgroup]
+2026-04-07T08:37:26.4120112Z ##[group]Setting up auth
+2026-04-07T08:37:26.4120600Z Removing SSH command configuration
+2026-04-07T08:37:26.4121297Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-07T08:37:26.4123228Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-07T08:37:26.4124923Z Removing HTTP extra header
+2026-04-07T08:37:26.4125702Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-07T08:37:26.4128406Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-07T08:37:26.4130717Z Removing includeIf entries pointing to credentials config files
+2026-04-07T08:37:26.4131567Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-07T08:37:26.4133228Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-07T08:37:26.4135809Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-07T08:37:26.4138461Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:26.4141424Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:26.4144051Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:26.4146412Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:26.4148331Z ##[endgroup]
+2026-04-07T08:37:26.4148946Z ##[group]Fetching the repository
+2026-04-07T08:37:26.4150437Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +78d372071a3edd0943f7081cb0ca0d0e64d53c10:refs/remotes/origin/main
+2026-04-07T08:37:26.9142175Z From https://github.com/Azure/azure-sdk-for-js
+2026-04-07T08:37:26.9144028Z  * [new ref]         78d372071a3edd0943f7081cb0ca0d0e64d53c10 -> origin/main
+2026-04-07T08:37:26.9193794Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-07T08:37:26.9215978Z   origin/main
+2026-04-07T08:37:26.9229666Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-07T08:37:26.9257796Z 78d372071a3edd0943f7081cb0ca0d0e64d53c10
+2026-04-07T08:37:26.9272498Z ##[endgroup]
+2026-04-07T08:37:26.9273235Z ##[group]Determining the checkout info
+2026-04-07T08:37:26.9273983Z ##[endgroup]
+2026-04-07T08:37:26.9274622Z ##[group]Setting up sparse checkout
+2026-04-07T08:37:26.9278884Z [command]/usr/bin/git sparse-checkout set .
+2026-04-07T08:37:26.9313963Z ##[endgroup]
+2026-04-07T08:37:26.9345760Z ##[group]Checking out the ref
+2026-04-07T08:37:26.9346537Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-07T08:37:27.4151626Z Switched to a new branch 'main'
+2026-04-07T08:37:27.4161021Z branch 'main' set up to track 'origin/main'.
+2026-04-07T08:37:27.4181000Z ##[endgroup]
+2026-04-07T08:37:27.4223923Z [command]/usr/bin/git log -1 --format=%H
+2026-04-07T08:37:27.4245651Z 78d372071a3edd0943f7081cb0ca0d0e64d53c10
+2026-04-07T08:37:27.4262059Z ##[group]Removing auth
+2026-04-07T08:37:27.4262695Z Removing SSH command configuration
+2026-04-07T08:37:27.4346070Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-07T08:37:27.4389427Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-07T08:37:27.4655449Z Removing HTTP extra header
+2026-04-07T08:37:27.4663059Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-07T08:37:27.4697942Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-07T08:37:27.4956925Z Removing includeIf entries pointing to credentials config files
+2026-04-07T08:37:27.4961617Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-07T08:37:27.4983991Z includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path
+2026-04-07T08:37:27.4985264Z includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path
+2026-04-07T08:37:27.4986252Z includeif.gitdir:/github/workspace/.git.path
+2026-04-07T08:37:27.4987042Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-07T08:37:27.5005006Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path
+2026-04-07T08:37:27.5024407Z /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5040725Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5072683Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path
+2026-04-07T08:37:27.5092793Z /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5111900Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5145109Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-07T08:37:27.5164768Z /github/runner_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5194820Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5230898Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-07T08:37:27.5251106Z /github/runner_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5341862Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config
+2026-04-07T08:37:27.5381092Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-07T08:37:27.5644873Z Removing credentials config '/home/runner/work/_temp/git-credentials-54e0280c-b4de-4746-9734-3cfd25c2372f.config'
+2026-04-07T08:37:27.5655107Z ##[endgroup]
+2026-04-07T08:37:27.5808867Z ##[group]Run git config --global user.email "github-actions[bot]@users.noreply.github.com"
+2026-04-07T08:37:27.5810494Z [36;1mgit config --global user.email "github-actions[bot]@users.noreply.github.com"[0m
+2026-04-07T08:37:27.5811405Z [36;1mgit config --global user.name "github-actions[bot]"[0m
+2026-04-07T08:37:27.5812056Z [36;1mgit config --global am.keepcr true[0m
+2026-04-07T08:37:27.5812634Z [36;1m# Re-authenticate git with GitHub token[0m
+2026-04-07T08:37:27.5813256Z [36;1mSERVER_URL_STRIPPED="${SERVER_URL#https://}"[0m
+2026-04-07T08:37:27.5814655Z [36;1mgit remote set-url origin "***${SERVER_URL_STRIPPED}/${REPO_NAME}.git"[0m
+2026-04-07T08:37:27.5815502Z [36;1mecho "Git configured with standard GitHub Actions identity"[0m
+2026-04-07T08:37:27.5823797Z shell: /usr/bin/bash -e {0}
+2026-04-07T08:37:27.5824273Z env:
+2026-04-07T08:37:27.5824643Z   REPO_NAME: Azure/azure-sdk-for-js
+2026-04-07T08:37:27.5825173Z   SERVER_URL: https://github.com
+2026-04-07T08:37:27.5825661Z ##[endgroup]
+2026-04-07T08:37:27.5936619Z Git configured with standard GitHub Actions identity
+2026-04-07T08:37:27.6025383Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-07T08:37:27.6026128Z with:
+2026-04-07T08:37:27.6026487Z   name: repo-memory-default
+2026-04-07T08:37:27.6026944Z   path: /tmp/gh-aw/repo-memory/default
+2026-04-07T08:37:27.6027446Z   merge-multiple: false
+2026-04-07T08:37:27.6027874Z   repository: Azure/azure-sdk-for-js
+2026-04-07T08:37:27.6028343Z   run-id: 24072313780
+2026-04-07T08:37:27.6028745Z   skip-decompress: false
+2026-04-07T08:37:27.6030513Z   digest-mismatch: error
+2026-04-07T08:37:27.6030949Z ##[endgroup]
+2026-04-07T08:37:27.7787067Z Downloading single artifact
+2026-04-07T08:37:27.9275273Z ##[error]Unable to download artifact(s): Artifact not found for name: repo-memory-default
+        Please ensure that your artifact is not expired and the artifact was uploaded using a compatible version of toolkit/upload-artifact.
+        For more information, visit the GitHub Artifacts FAQ: https://github.com/actions/toolkit/blob/main/packages/artifact/docs/faq.md
+2026-04-07T08:37:27.9462247Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-07T08:37:27.9463069Z with:
+2026-04-07T08:37:27.9464591Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/push_repo_memory.cjs');
+await main();
+
+2026-04-07T08:37:27.9466393Z   github-token: ***
+2026-04-07T08:37:27.9466787Z   debug: false
+2026-04-07T08:37:27.9469521Z   user-agent: actions/github-script
+2026-04-07T08:37:27.9470352Z   result-encoding: json
+2026-04-07T08:37:27.9470775Z   retries: 0
+2026-04-07T08:37:27.9471196Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-07T08:37:27.9471717Z env:
+2026-04-07T08:37:27.9472228Z   GH_TOKEN: ***
+2026-04-07T08:37:27.9473959Z   GITHUB_RUN_ID: 24072313780
+2026-04-07T08:37:27.9474461Z   GITHUB_SERVER_URL: https://github.com
+2026-04-07T08:37:27.9475173Z   ARTIFACT_DIR: /tmp/gh-aw/repo-memory/default
+2026-04-07T08:37:27.9475700Z   MEMORY_ID: default
+2026-04-07T08:37:27.9476149Z   TARGET_REPO: Azure/azure-sdk-for-js
+2026-04-07T08:37:27.9476640Z   BRANCH_NAME: memory/archie
+2026-04-07T08:37:27.9477096Z   MAX_FILE_SIZE: 10240
+2026-04-07T08:37:27.9477506Z   MAX_FILE_COUNT: 100
+2026-04-07T08:37:27.9477910Z   MAX_PATCH_SIZE: 10240
+2026-04-07T08:37:27.9478321Z   ALLOWED_EXTENSIONS: []
+2026-04-07T08:37:27.9479247Z ##[endgroup]
+2026-04-07T08:37:28.0532686Z Environment configuration:
+2026-04-07T08:37:28.0535970Z   MEMORY_ID: default
+2026-04-07T08:37:28.0552115Z   MAX_FILE_SIZE: 10240
+2026-04-07T08:37:28.0553401Z   MAX_FILE_COUNT: 100
+2026-04-07T08:37:28.0554492Z   MAX_PATCH_SIZE: 10240
+2026-04-07T08:37:28.0555614Z   ALLOWED_EXTENSIONS: []
+2026-04-07T08:37:28.0556721Z   FILE_GLOB_FILTER: (empty - all files accepted)
+2026-04-07T08:37:28.0557845Z   FILE_GLOB_FILTER length: 0
+2026-04-07T08:37:28.0564840Z Memory directory not found in artifact: /tmp/gh-aw/repo-memory/default
+2026-04-07T08:37:28.0751433Z Post job cleanup.
+2026-04-07T08:37:28.1801225Z [command]/usr/bin/git version
+2026-04-07T08:37:28.1845070Z git version 2.53.0
+2026-04-07T08:37:28.1894118Z Copying '/home/runner/.gitconfig' to '/home/runner/work/_temp/fd3c75e4-eaab-4433-a24a-03075b5b3782/.gitconfig'
+2026-04-07T08:37:28.1906634Z Temporarily overriding HOME='/home/runner/work/_temp/fd3c75e4-eaab-4433-a24a-03075b5b3782' before making global git config changes
+2026-04-07T08:37:28.1912544Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-07T08:37:28.1921163Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-07T08:37:28.1961462Z Removing SSH command configuration
+2026-04-07T08:37:28.1965508Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-07T08:37:28.2005643Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-07T08:37:28.2244823Z Removing HTTP extra header
+2026-04-07T08:37:28.2346769Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-07T08:37:28.2389109Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-07T08:37:28.2623995Z Removing includeIf entries pointing to credentials config files
+2026-04-07T08:37:28.2641757Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-07T08:37:28.2677770Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-07T08:37:28.3058820Z Post job cleanup.
+2026-04-07T08:37:28.3388779Z Cleaning up /tmp/gh-aw...
+2026-04-07T08:37:28.3509134Z Cleaned up /tmp/gh-aw
+2026-04-07T08:37:28.3582549Z Evaluate and set job outputs
+2026-04-07T08:37:28.3589279Z Cleaning up orphan processes

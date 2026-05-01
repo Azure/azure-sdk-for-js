@@ -1,0 +1,13 @@
+{
+  "pr": 37532,
+  "package": "@azure/arm-azurestackhci",
+  "version": "4.0.0-beta.4",
+  "api_version": "2026-03-01-preview",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "package.json", "line": 9, "description": "autoPublish changed from true to false"},
+    {"type": "design", "category": "naming", "file": "review/arm-azurestackhci-node.api.md", "line": 190, "description": "AzureClouds enum missing Known prefix; members use UPPER_SNAKE_CASE instead of PascalCase"},
+    {"type": "design", "category": "type-safety", "file": "review/arm-azurestackhci-node.api.md", "line": 235, "description": "AzureSupportedClouds uses closed template literal type instead of string"}
+  ]
+}

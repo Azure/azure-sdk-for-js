@@ -1,0 +1,12 @@
+{
+  "pr": 37799,
+  "package": "@azure/arm-peering",
+  "version": "2.2.0-beta.1",
+  "api_version": "2025-05-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "description": "AzureClouds enum missing Known* prefix; members use UPPER_SNAKE_CASE instead of PascalCase"},
+    {"type": "design", "category": "type-safety", "description": "AzureSupportedClouds uses closed template literal type instead of string"}
+  ]
+}

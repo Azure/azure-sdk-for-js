@@ -1,0 +1,146 @@
+{
+  "id": 65854448545,
+  "name": "js - communication-short-codes - tests (Public windows_20x_node)",
+  "node_id": "CR_kwDOBnSy6c8AAAAPVTsjoQ",
+  "head_sha": "20b20babc9c17aa62a8ea3df691aa4655959efff",
+  "external_id": "3271|5965780|590cfd2a-581c-4dcb-a12e-6568ce786175",
+  "url": "https://api.github.com/repos/Azure/azure-sdk-for-js/check-runs/65854448545",
+  "html_url": "https://github.com/Azure/azure-sdk-for-js/runs/65854448545",
+  "details_url": "https://dev.azure.com/azure-sdk/590cfd2a-581c-4dcb-a12e-6568ce786175/_build/results?buildId=5965780&view=logs&jobId=76a06b4d-1e57-508e-1c1a-45b95c2dbb5d",
+  "status": "completed",
+  "conclusion": "failure",
+  "started_at": "2026-03-05T09:48:34Z",
+  "completed_at": "2026-03-05T10:03:55Z",
+  "output": {
+    "title": "Public windows_20x_node failed",
+    "summary": "[1 errors / 1 warnings](https://dev.azure.com/azure-sdk/590cfd2a-581c-4dcb-a12e-6568ce786175/_build/results?buildId=5965780)",
+    "text": null,
+    "annotations_count": 1,
+    "annotations_url": "https://api.github.com/repos/Azure/azure-sdk-for-js/check-runs/65854448545/annotations"
+  },
+  "check_suite": {
+    "id": 59448492030
+  },
+  "app": {
+    "id": 9426,
+    "client_id": "Iv1.3b08983b5115f30d",
+    "slug": "azure-pipelines",
+    "node_id": "MDM6QXBwOTQyNg==",
+    "owner": {
+      "login": "microsoft",
+      "id": 6154722,
+      "node_id": "MDEyOk9yZ2FuaXphdGlvbjYxNTQ3MjI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6154722?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/microsoft",
+      "html_url": "https://github.com/microsoft",
+      "followers_url": "https://api.github.com/users/microsoft/followers",
+      "following_url": "https://api.github.com/users/microsoft/following{/other_user}",
+      "gists_url": "https://api.github.com/users/microsoft/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/microsoft/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/microsoft/subscriptions",
+      "organizations_url": "https://api.github.com/users/microsoft/orgs",
+      "repos_url": "https://api.github.com/users/microsoft/repos",
+      "events_url": "https://api.github.com/users/microsoft/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/microsoft/received_events",
+      "type": "Organization",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "name": "Azure Pipelines",
+    "description": "### Continuously build, test, and deploy to any platform and cloud\r\n\r\n[Azure Pipelines](https://azure.microsoft.com/services/devops/pipelines/) offers cloud-hosted pipelines for Linux, macOS, and Windows with 10 free parallel jobs and unlimited minutes for open source projects.\r\n\r\n:v: **Any language, platform, and cloud**\r\nBuild, test, and deploy Node.js, Python,  Java, PHP, Ruby, Go, C/C++, C#, Android, and iOS apps. Run in parallel on Linux, macOS, and Windows. Deploy to cloud providers like Azure, AWS, and GCP. Distribute mobile apps through beta channels and app stores.\r\n\r\n:whale2: **Native container support**\r\nCreate new containers with ease and push them to any registry. Deploy containers to independent hosts or Kubernetes.\r\n\r\n:muscle: **Advanced workflows and features**\r\nEasy build chaining and multi-phased builds. Support for YAML, test integration, release gates, reporting, and more.\r\n\r\n:wrench: **Extensible**\r\nUse a range of build, test, and deployment tasks built by the community – hundreds of extensions from Slack to SonarCloud. You can even deploy from other CI systems, like Jenkins. Webhooks and REST APIs help you integrate.\r\n\r\n:blue_heart: **Free, to you from Azure Pipelines**\r\nFree cloud-hosted builds for public and private repositories.\r\n",
+    "external_url": "https://azure.microsoft.com/services/devops/pipelines/",
+    "html_url": "https://github.com/apps/azure-pipelines",
+    "created_at": "2018-02-23T17:14:32Z",
+    "updated_at": "2025-10-23T08:38:23Z",
+    "permissions": {
+      "checks": "write",
+      "contents": "write",
+      "deployments": "write",
+      "issues": "write",
+      "metadata": "read",
+      "pull_requests": "write",
+      "statuses": "write"
+    },
+    "events": [
+      "check_suite",
+      "create",
+      "issue_comment",
+      "pull_request",
+      "push",
+      "release",
+      "repository"
+    ]
+  },
+  "pull_requests": [
+    {
+      "url": "https://api.github.com/repos/Arcuity-ai/azure-sdk-for-js/pulls/868",
+      "id": 2480919427,
+      "number": 868,
+      "head": {
+        "ref": "main",
+        "sha": "8dc59d4bd4b767ecfa1dbdfa52047ac4fa35f267",
+        "repo": {
+          "id": 108311273,
+          "url": "https://api.github.com/repos/Azure/azure-sdk-for-js",
+          "name": "azure-sdk-for-js"
+        }
+      },
+      "base": {
+        "ref": "main",
+        "sha": "8ced647d1bb19423d6b0e7d72b2a6b1adb57fe6a",
+        "repo": {
+          "id": 555325359,
+          "url": "https://api.github.com/repos/Arcuity-ai/azure-sdk-for-js",
+          "name": "azure-sdk-for-js"
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/yoki31/azure-sdk-for-js/pulls/1",
+      "id": 819699322,
+      "number": 1,
+      "head": {
+        "ref": "main",
+        "sha": "8dc59d4bd4b767ecfa1dbdfa52047ac4fa35f267",
+        "repo": {
+          "id": 108311273,
+          "url": "https://api.github.com/repos/Azure/azure-sdk-for-js",
+          "name": "azure-sdk-for-js"
+        }
+      },
+      "base": {
+        "ref": "main",
+        "sha": "83b598305300b846dbd45b205c572d5e03211505",
+        "repo": {
+          "id": 447135097,
+          "url": "https://api.github.com/repos/yoki31/azure-sdk-for-js",
+          "name": "azure-sdk-for-js"
+        }
+      }
+    },
+    {
+      "url": "https://api.github.com/repos/dgfug/azure-sdk-for-js/pulls/31",
+      "id": 783449593,
+      "number": 31,
+      "head": {
+        "ref": "main",
+        "sha": "8dc59d4bd4b767ecfa1dbdfa52047ac4fa35f267",
+        "repo": {
+          "id": 108311273,
+          "url": "https://api.github.com/repos/Azure/azure-sdk-for-js",
+          "name": "azure-sdk-for-js"
+        }
+      },
+      "base": {
+        "ref": "main",
+        "sha": "1cc2222303999f7f4ee4e969ce4e21ff25a15ce4",
+        "repo": {
+          "id": 403875739,
+          "url": "https://api.github.com/repos/dgfug/azure-sdk-for-js",
+          "name": "azure-sdk-for-js"
+        }
+      }
+    }
+  ]
+}

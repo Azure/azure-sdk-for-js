@@ -1,0 +1,12 @@
+{
+  "pr": 37934,
+  "package": "@azure/arm-dataprotection",
+  "version": "5.0.0-beta.1",
+  "reviewedAt": "2026-04-03",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "dirty",
+  "conflictFiles": ["pnpm-lock.yaml"],
+  "ciStatus": "checkenforcer-pending",
+  "notes": "First beta 5.0.0-beta.1 after stable 4.0.0; TypeSpec migration; API version 2026-03-01; new overload constructor without subscriptionId (old overload with subscriptionId still present); no API issues found"
+}

@@ -1,0 +1,12 @@
+{
+  "pr": 37678,
+  "package": "@azure/arm-storagemover",
+  "version": "3.1.0",
+  "api_version": "2025-12-01",
+  "release_type": "stable",
+  "reviewed_at": "2026-03-30",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "package.json", "line": 98, "description": "apiRefLink uses ?view=azure-node-preview for stable release v3.1.0"}
+  ]
+}

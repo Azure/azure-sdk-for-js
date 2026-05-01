@@ -1,0 +1,146 @@
+From ed18b8dec48619fb14948332300be0ad6523a046 Mon Sep 17 00:00:00 2001
+From: GitHub Copilot <copilot@github.com>
+Date: Mon, 23 Mar 2026 09:25:43 +0000
+Subject: [PATCH] docs: fix documentation inconsistencies
+
+- Fix typo 'clientSecrat' -> 'clientSecret' in migration guide
+- Fix missing '/' in pnpm-lock merge conflict resolution command
+- Update test quickstart examples from mocha/chai to vitest:
+  - Replace 'import { assert } from "chai"' with vitest imports
+  - Replace 'import { Context } from "mocha"' with TestInfo from test-recorder
+  - Replace 'this.currentTest' (mocha) with 'ctx' (vitest context)
+  - Replace 'async function()' callbacks with arrow functions
+  - Use .js file extensions in imports (ESM)
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ ...or-next-generation-management-libraries.md |  2 +-
+ .../Quickstart-on-how-to-write-tests.md       | 35 +++++++++----------
+ .../resolve-pnpm-lock-merge-conflict.md       |  2 +-
+ 3 files changed, 19 insertions(+), 20 deletions(-)
+
+diff --git a/documentation/MIGRATION-guide-for-next-generation-management-libraries.md b/documentation/MIGRATION-guide-for-next-generation-management-libraries.md
+index ebbaad258..ce01452f6 100644
+--- a/documentation/MIGRATION-guide-for-next-generation-management-libraries.md
++++ b/documentation/MIGRATION-guide-for-next-generation-management-libraries.md
+@@ -41,7 +41,7 @@ into
+ 
+ ```typescript
+ import { ClientSecretCredential } from "@azure/identity";
+-const credentials = new ClientSecretCredential(tenantId, clientId, clientSecrat);
++const credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
+ ```
+ 
+ Please refer to [@azure/identity](https://www.npmjs.com/package/@azure/identity) for more details about `@azure/identity` and [migration guide from @azure/ms-rest-nodeauth to @azure/identity](https://github.com/Azure/ms-rest-nodeauth/blob/master/migrate-to-identity-v2.md) on how to migrate from `@azure/ms-rest-nodeauth`.  
+diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+index 4bbb503fe..3e2473bec 100644
+--- a/documentation/Quickstart-on-how-to-write-tests.md
++++ b/documentation/Quickstart-on-how-to-write-tests.md
+@@ -370,9 +370,9 @@ This simple test creates a resource and checks that the service handles it corre
+ 
+ ```typescript
+ import { Recorder } from "@azure-tools/test-recorder";
+-import { assert } from "chai";
+-import { PurviewDataMapClient } from "../../src";
+-import { createClient, createRecorder } from "./utils/recordedClient";
++import { assert, beforeEach, afterEach, describe, it } from "vitest";
++import type { PurviewDataMapClient } from "../../src/index.js";
++import { createClient, createRecorder } from "./utils/recordedClient.js";
+ 
+ describe("My test", () => {
+   let recorder: Recorder;
+@@ -380,14 +380,14 @@ describe("My test", () => {
+   let client: PurviewDataMapClient;
+   let glossaryName: string;
+ 
+-  beforeEach(async function () {
+-    recorder = await createRecorder(this);
++  beforeEach(async (ctx) => {
++    recorder = await createRecorder(ctx);
+     // Step 3: Create your client
+     client = await createClient(recorder);
+     glossaryName = "js-testing";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+@@ -415,11 +415,11 @@ describe("My test", () => {
+ ### `utils/recordedClient.ts`
+ 
+ ```typescript
+-import { Context } from "mocha";
++import type { TestInfo } from "@azure-tools/test-recorder";
+ import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
++import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { ClientOptions } from "@azure-rest/core-client";
++import type { ClientOptions } from "@azure-rest/core-client";
+ 
+ const envSetupForPlayback: Record<string, string> = {
+   ENDPOINT: "https://endpoint",
+@@ -439,8 +439,8 @@ const recorderEnvSetup: RecorderStartOptions = {
+  * Should be called first in the test suite to make sure environment variables are
+  * read before they are being used.
+  */
+-export async function createRecorder(context: Context): Promise<Recorder> {
+-  const recorder = new Recorder(context.currentTest);
++export async function createRecorder(context: TestInfo): Promise<Recorder> {
++  const recorder = new Recorder(context);
+   await recorder.start(recorderEnvSetup);
+   return recorder;
+ }
+@@ -484,9 +484,8 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
+ 
+ import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { assert } from "chai";
+-import { Context } from "mocha";
+-import { MonitorClient } from "../src/monitorClient";
++import { assert, beforeEach, afterEach, describe, it } from "vitest";
++import { MonitorClient } from "../src/monitorClient.js";
+ 
+ // Step 4: Add environment variables you'd like to mask the values in recordings
+ const replaceableVariables: Record<string, string> = {
+@@ -508,8 +507,8 @@ describe("Monitor client", () => {
+   let client: MonitorClient;
+   let diagnosticName: string;
+ 
+-  beforeEach(async function (this: Context) {
+-    recorder = new Recorder(this.currentTest);
++  beforeEach(async (ctx) => {
++    recorder = new Recorder(ctx);
+     await recorder.start(recorderOptions);
+     // Step 3: create clients
+     subscriptionId = env.SUBSCRIPTION_ID || "";
+@@ -518,11 +517,11 @@ describe("Monitor client", () => {
+     diagnosticName = "my-test-diagnostic-name";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+-  it("should create diagnosticSettings", async function () {
++  it("should create diagnosticSettings", async () => {
+     // Step 3: call createOrUpdate to prepare resource
+     const res = await client.diagnosticSettings.createOrUpdate("workflowsId", diagnosticName, {
+       storageAccountId: "storageId",
+diff --git a/documentation/resolve-pnpm-lock-merge-conflict.md b/documentation/resolve-pnpm-lock-merge-conflict.md
+index 31c98106e..f273b78cf 100644
+--- a/documentation/resolve-pnpm-lock-merge-conflict.md
++++ b/documentation/resolve-pnpm-lock-merge-conflict.md
+@@ -15,5 +15,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
+ Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
+ 
+ ```shell
+-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
++git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
+ ```
+-- 
+2.53.0
+

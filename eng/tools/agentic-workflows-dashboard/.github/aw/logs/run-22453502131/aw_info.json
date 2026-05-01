@@ -1,0 +1,30 @@
+{
+  "engine_id": "copilot",
+  "engine_name": "GitHub Copilot CLI",
+  "model": "",
+  "version": "",
+  "agent_version": "0.0.412",
+  "cli_version": "v0.47.3",
+  "workflow_name": "Documentation Consistency Check",
+  "experimental": false,
+  "supports_tools_allowlist": true,
+  "run_id": 22453502131,
+  "run_number": 2,
+  "run_attempt": "1",
+  "repository": "Azure/azure-sdk-for-js",
+  "ref": "refs/heads/aw/issue-instead-of-pr",
+  "sha": "ce3d871a4b2531ebb26578dcbfa99bfc575dd50b",
+  "actor": "timovv",
+  "event_name": "workflow_dispatch",
+  "staged": false,
+  "allowed_domains": [
+    "defaults"
+  ],
+  "firewall_enabled": true,
+  "awf_version": "v0.20.2",
+  "awmg_version": "v0.1.4",
+  "steps": {
+    "firewall": "squid"
+  },
+  "created_at": "2026-02-26T17:30:50.177Z"
+}

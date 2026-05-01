@@ -1,0 +1,289 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23838190977,
+  "processed_at": "2026-04-27T03:02:31.383392801Z",
+  "run": {
+    "databaseId": 23838190977,
+    "number": 196,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23838190977",
+    "status": "completed",
+    "conclusion": "failure",
+    "workflowName": "Management Release Assistant",
+    "workflowPath": ".github/workflows/mgmt-review.lock.yml",
+    "createdAt": "2026-04-01T07:56:17Z",
+    "startedAt": "2026-04-01T07:56:17Z",
+    "updatedAt": "2026-04-01T08:26:46Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-appservice-5864522",
+    "headSha": "2278afbe11111ef95e7a79d05d9298fed9ba400c",
+    "displayTitle": "Management Release Assistant",
+    "Duration": 1829000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 1,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23838190977"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "release_ops",
+    "label": "Release / Ops",
+    "reason": "Workflow metadata matches release or operational automation."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Release / Ops run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=0 tool_types=0 duration=30m29s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "github.com:443"
+    ],
+    "blocked_domains": [
+      "pkgs.dev.azure.com:443",
+      "release-assets.githubusercontent.com:443"
+    ],
+    "total_requests": 39,
+    "allowed_requests": 37,
+    "blocked_requests": 2,
+    "requests_by_domain": {
+      "api.github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 35,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pkgs.dev.azure.com:443": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 0,
+        "blocked": 1
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "call_count": 3,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-01T08:00:33.194715046Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-01T08:00:33.199725879Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-01T08:01:42.214674794Z",
+        "server_name": "github",
+        "tool_name": "pull_request_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-01T08:02:19.310025858Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-01T08:02:19.310595665Z",
+        "server_name": "github",
+        "tool_name": "get_file_contents",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 5,
+        "tool_call_count": 5,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "aw-prompts/prompt.txt",
+    "cache-memory/mgmt-review-pr-37842.json",
+    "cache-memory/pr-37230.json",
+    "cache-memory/pr-37369.json",
+    "cache-memory/pr-37572.json",
+    "cache-memory/pr-37630.json",
+    "cache-memory/pr-37633.json",
+    "cache-memory/pr-37634.json",
+    "cache-memory/pr-37678.json",
+    "cache-memory/pr-37732.json",
+    "cache-memory/pr-37786.json",
+    "cache-memory/pr-37790.json",
+    "cache-memory/pr-37821.json",
+    "cache-memory/pr-37826.json",
+    "cache-memory/pr-37870.json",
+    "cache-memory/pr-37879.json",
+    "cache-memory/pr-37903.json",
+    "cache-memory/pr-37904.json",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-output-items.jsonl",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_update_cache_memory.txt",
+    "workflow-logs/2_push_repo_memory.txt",
+    "workflow-logs/3_safe_outputs.txt",
+    "workflow-logs/4_agent.txt",
+    "workflow-logs/5_activation.txt",
+    "workflow-logs/6_pre_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/safe_outputs/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-01T07:56:53Z",
+      "completed_at": "2026-04-01T07:57:13Z",
+      "Duration": 20000000000
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-01T07:57:41Z",
+      "completed_at": "2026-04-01T07:58:07Z",
+      "Duration": 26000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-04-01T07:58:24Z",
+      "completed_at": "2026-04-01T08:25:14Z",
+      "Duration": 1610000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-01T08:25:36Z",
+      "completed_at": "2026-04-01T08:25:59Z",
+      "Duration": 23000000000
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-01T08:25:27Z",
+      "completed_at": "2026-04-01T08:25:40Z",
+      "Duration": 13000000000
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-01T08:25:28Z",
+      "completed_at": "2026-04-01T08:26:13Z",
+      "Duration": 45000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-01T08:26:28Z",
+      "completed_at": "2026-04-01T08:26:45Z",
+      "Duration": 17000000000
+    }
+  ]
+}

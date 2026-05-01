@@ -1,0 +1,24 @@
+{
+  "pr": 37954,
+  "package": "@azure/arm-relationships",
+  "version": "1.0.0-beta.1",
+  "reviewedAt": "2026-04-03",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "review/arm-relationships-node.api.md",
+      "line": 80,
+      "type": "design",
+      "description": "DependencyOfRelationshipsOperations.delete uses reserved JS keyword; @fixme comment in generator; fix via @clientName in client.tsp"
+    },
+    {
+      "file": "review/arm-relationships-node.api.md",
+      "line": 287,
+      "type": "design",
+      "description": "ServiceGroupMemberRelationshipsOperations.delete uses reserved JS keyword; @fixme comment in generator; fix via @clientName in client.tsp"
+    }
+  ],
+  "mergeState": "blocked",
+  "ciStatus": "checkenforcer_pending",
+  "notes": "First release 1.0.0-beta.1; preview API 2023-09-01-preview; extension resource (no subscriptionId); clean otherwise"
+}

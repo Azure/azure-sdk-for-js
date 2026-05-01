@@ -1,0 +1,292 @@
+<details>
+<summary>MCP Gateway</summary>
+
+- ✓ **startup** MCPG Gateway version: v0.2.19
+- ✓ **startup** Starting MCPG with config: stdin, listen: 0.0.0.0:80, log-dir: /tmp/gh-aw/mcp-logs/
+- ✓ **startup** Loaded 2 MCP server(s): [github safeoutputs]
+- ✓ **startup** Guards sink server ID logging enrichment disabled (no sink server IDs configured)
+- ✓ **startup** OpenTelemetry tracing disabled (no OTLP endpoint configured)
+- 🔍 rpc **safeoutputs**→`tools/list`
+- 🔍 rpc **safeoutputs**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"tools":[{"description":"Close a GitHub issue with a closing comment. Use this when work is complete, the issue is no longer relevant, or it's a duplicate. The closing comment should explain the resolution or reason for closing. CONSTRAINTS: Maximum 1 issue(s) can be closed. Target: *.","inputSchema":{"additionalProperties":false,"properties":{"body":{"description":"Closing comment explaining why the issue is being closed and summarizing any resolution, workaround, or concl...`
+- ✓ **backend**
+  ```
+  Successfully connected to MCP backend server, command=docker
+  ```
+- 🔍 rpc **github**→`tools/list`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"tools":[{"annotations":{"readOnlyHint":true,"title":"Get a specific label from a repository."},"description":"Get a specific label from a repository.","inputSchema":{"properties":{"name":{"description":"Label name.","type":"string"},"owner":{"description":"Repository owner (username or organization name)","type":"string"},"repo":{"description":"Repository name","type":"string"}},"required":["owner","repo","name"],"type":"object"},"name":"get_label","icons":[{"src":"data:im...`
+- ✓ **startup** Starting MCPG in ROUTED mode on 0.0.0.0:80
+- ✓ **startup** Routes: /mcp/<server> where <server> is one of: [github safeoutputs]
+- ✓ **backend**
+  ```
+  Successfully connected to MCP backend server, command=docker
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `issue_read`
+  
+  ```json
+  {"params":{"arguments":{"issue_number":"58434","method":"get","owner":"Azure","repo":"azure-sdk-for-net"},"name":"issue_read"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"{\"number\":58434,\"title\":\"[HDInsight] Docs: Update README with service-specific content, key concepts, and code examples\",\"body\":\"## Documentation Gap\\n\\n**Package:** `Azure.ResourceManager.HDInsight`\\n**Service directory:** `sdk/hdinsight/Azure.ResourceManager.HDInsight/`\\n**Triggered by:** commit 9939c2e97 (PR #57044) by `@live1206`\\n\\n## What Changed\\n\\nThe package was migrated from AutoRest/Swagger to TypeSpec-based code...`
+- 🔍 rpc **github**→`tools/call` `issue_read`
+  
+  ```json
+  {"params":{"arguments":{"issue_number":58434,"method":"get","owner":"Azure","repo":"azure-sdk-for-net"},"name":"issue_read"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"{\"number\":58434,\"title\":\"[HDInsight] Docs: Update README with service-specific content, key concepts, and code examples\",\"body\":\"## Documentation Gap\\n\\n**Package:** `Azure.ResourceManager.HDInsight`\\n**Service directory:** `sdk/hdinsight/Azure.ResourceManager.HDInsight/`\\n**Triggered by:** commit 9939c2e97 (PR #57044) by `@live1206`\\n\\n## What Changed\\n\\nThe package was migrated from AutoRest/Swagger to TypeSpec-based code...`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_issues`
+  
+  ```json
+  {"params":{"arguments":{"perPage":5,"query":"repo:Azure/azure-sdk-for-net HDInsight Mgmt label:customer-reported label:issue-addressed"},"name":"search_issues"}}
+  ```
+- 🔍 rpc **github**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"total_count\":0,\"incomplete_results\":false}","type":"text"}]}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_issues`
+  
+  ```json
+  {"params":{"arguments":{"perPage":3,"query":"repo:Azure/azure-sdk-for-net label:HDInsight label:Mgmt label:customer-reported label:issue-addressed"},"name":"search_issues"}}
+  ```
+- 🔍 rpc **github**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"total_count\":0,\"incomplete_results\":false}","type":"text"}]}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `get_label`
+  
+  ```json
+  {"params":{"arguments":{"name":"bot","owner":"Azure","repo":"azure-sdk-for-net"},"name":"get_label"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `get_label`
+  
+  ```json
+  {"params":{"arguments":{"name":"Service Attention","owner":"Azure","repo":"azure-sdk-for-net"},"name":"get_label"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `get_label`
+  
+  ```json
+  {"params":{"arguments":{"name":"Mgmt","owner":"Azure","repo":"azure-sdk-for-net"},"name":"get_label"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `get_label`
+  
+  ```json
+  {"params":{"arguments":{"name":"HDInsight","owner":"Azure","repo":"azure-sdk-for-net"},"name":"get_label"}}
+  ```
+- 🔍 rpc **github**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"color\":\"10066b\",\"description\":\"Workflow: This issue is responsible by Azure service team.\",\"id\":\"MDU6TGFiZWwxMDY5NDM0NzA3\",\"name\":\"Service Attention\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"color\":\"eaa875\",\"description\":\"The issue was opened by one of the well-known bots used for repository automation.\",\"id\":\"LA_kwDOACyxMM8AAAACbwnrIg\",\"name\":\"bot\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"color\":\"ffeb77\",\"description\":\"This issue is related to a management package.\",\"id\":\"MDU6TGFiZWwxMTc4NDQ4MTEx\",\"name\":\"Mgmt\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"color\":\"e99695\",\"description\":\"\",\"id\":\"MDU6TGFiZWwxNjM2NDMxMDg=\",\"name\":\"HDInsight\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` ⚠️`calling "tools/call": unknown tool "search_repositories"`
+- 🔍 rpc **safeoutputs**→`tools/call` `add_labels`
+  
+  ```json
+  {"params":{"arguments":{"item_number":58434,"labels":["bot","Mgmt","HDInsight"]},"name":"add_labels"}}
+  ```
+- 🔍 rpc **safeoutputs**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"result\":\"success\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **safeoutputs**→`tools/call` `assign_to_user`
+  
+  ```json
+  {"params":{"arguments":{"assignee":"ArthurMa1978","issue_number":"58434"},"name":"assign_to_user"}}
+  ```
+- 🔍 rpc **safeoutputs**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"result\":\"success\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **safeoutputs**→`tools/call` `add_comment`
+  
+  ```json
+  {"params":{"arguments":{"body":"Thank you for your feedback. Tagging and routing to the team member(s) best able to assist.","item_number":"58434"},"name":"add_comment"}}
+  ```
+- 🔍 rpc **safeoutputs**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"result\":\"success\",\"temporary_id\":\"aw_dqJtXqiK\",\"comment\":\"#aw_dqJtXqiK\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **safeoutputs**→`tools/call` `{"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"body":"## 🎯 Agentic Issue Triage\n\n**Summary:** This bot-filed issue requests documentation improvements for the `Azure.ResourceManager.HDInsight` package, including adding HDInsight-specific Key Concepts, inline code examples, and documentation for the new Entra User cluster administrator feature added in 1.2.0-beta.5.\n\n\u003cdetails\u003e\n\u003csummary\u003e📋 Issue Details\u003c/summary\u003e\n\n**Package:** `Azure.ResourceManager.HD...`
+- 🔍 rpc **safeoutputs**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"result\":\"success\",\"temporary_id\":\"aw_5hCfjKbG\",\"comment\":\"#aw_5hCfjKbG\"}","type":"text"}]}}
+  ```

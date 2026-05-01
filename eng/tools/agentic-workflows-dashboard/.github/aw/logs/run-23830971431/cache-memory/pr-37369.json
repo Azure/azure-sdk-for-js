@@ -1,0 +1,13 @@
+{
+  "pr": 37369,
+  "package": "@azure/arm-containerservicefleet",
+  "version": "3.0.0-beta.1",
+  "api_version": "2025-08-01-preview",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "description": "AzureClouds enum uses UPPER_SNAKE_CASE instead of PascalCase, missing Known prefix"},
+    {"type": "design", "category": "type-safety", "description": "AzureSupportedClouds uses closed template literal type instead of string"}
+  ],
+  "note": "Both issues pre-existing from 2.1.0-beta.2, not introduced in this PR diff"
+}

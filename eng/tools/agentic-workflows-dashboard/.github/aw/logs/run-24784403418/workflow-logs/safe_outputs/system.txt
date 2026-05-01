@@ -1,0 +1,9 @@
+2026-04-22T14:42:50.8120000Z Evaluating safe_outputs.if
+2026-04-22T14:42:50.8120000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && (needs.detection.result == 'success'))
+2026-04-22T14:42:50.8120000Z Expanded: (!false && ('success' != 'skipped') && ('success' == 'success'))
+2026-04-22T14:42:50.8120000Z Result: true
+2026-04-22T14:42:50.8340000Z Requested labels: ubuntu-slim
+2026-04-22T14:42:50.8340000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-22T14:42:50.8340000Z Waiting for a runner to pick up this job...
+2026-04-22T14:42:52.7060000Z Job is about to start running on the hosted runner: GitHub Actions 1031883442
+2026-04-22T14:42:52.7050000Z Job is waiting for a hosted runner to come online.

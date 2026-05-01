@@ -1,0 +1,127 @@
+<details>
+<summary>MCP Gateway</summary>
+
+- ✓ **startup** MCPG Gateway version: v0.2.14
+- ✓ **startup** Starting MCPG with config: stdin, listen: 0.0.0.0:80, log-dir: /tmp/gh-aw/mcp-logs/
+- ✓ **startup** Loaded 2 MCP server(s): [github safeoutputs]
+- ✓ **startup** Guards sink server ID logging enrichment disabled
+- 🔍 rpc **safeoutputs**→`tools/list`
+- 🔍 rpc **safeoutputs**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"tools":[{"description":"Create a new GitHub issue for tracking bugs, feature requests, or tasks. Use this for actionable work items that need assignment, labeling, and status tracking. For reports, announcements, or status updates that don't require task tracking, use create_discussion instead. CONSTRAINTS: Maximum 1 issue(s) can be created.","inputSchema":{"additionalProperties":false,"properties":{"body":{"description":"Detailed issue description in Markdown. Do NOT repe...`
+- ✓ **backend**
+  ```
+  Successfully connected to MCP backend server, command=docker
+  ```
+- 🔍 rpc **github**→`tools/list`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"tools":[{"annotations":{"readOnlyHint":true,"title":"Get commit details"},"description":"Get details for a commit from a GitHub repository","inputSchema":{"properties":{"include_diff":{"default":true,"description":"Whether to include file diffs and stats in the response. Default is true.","type":"boolean"},"owner":{"description":"Repository owner","type":"string"},"page":{"description":"Page number for pagination (min 1)","minimum":1,"type":"number"},"perPage":{"descriptio...`
+- ✓ **startup** Starting in ROUTED mode on 0.0.0.0:80
+- ✓ **startup** Routes: /mcp/<server> for servers: [github safeoutputs]
+- ✓ **backend**
+  ```
+  Successfully connected to MCP backend server, command=docker
+  ```
+- 🔍 rpc **github**→`tools/call` `search_repositories`
+  
+  ```json
+  {"params":{"arguments":{"perPage":10,"query":"repo:Azure/azure-sdk-for-net"},"name":"search_repositories"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"{\"total_count\":1,\"incomplete_results\":false,\"items\":[{\"id\":2928944,\"name\":\"azure-sdk-for-net\",\"full_name\":\"Azure/azure-sdk-for-net\",\"description\":\"This repository is for active development of the Azure SDK for .NET. For consumers of the SDK we recommend visiting our public developer docs at https://learn.microsoft.com/dotnet/azure/ or our versioned developer docs at https://azure.github.io/azure-sdk-for-net. \",\"html_url...`
+- 🔍 rpc **github**→`tools/call` `list_commits`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","perPage":5,"repo":"azure-sdk-for-net","sha":"main"},"name":"list_commits"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"[{\"sha\":\"[REDACTED]\",\"html_url\":\"https://github.com/Azure/azure-sdk-for-net/commit/[REDACTED]\",\"commit\":{\"message\":\"Filter preview API versions from ResourceVersions when default is GA (#57862)\\n\\nCo-authored-by: Copilot \\u003c223556219+Copilot@users.noreply.github.com\\u003e\",\"author\":{\"name\":\"Dapeng Zhang\",\"email\":\"dapzhang@microsoft.com\",\"date\":\"2026-04-08T07:15:23Z\"},\"committer\":{\"name\":\"GitHub\",\"em...`
+- 🔍 rpc **github**→`tools/call` `get_commit`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","repo":"azure-sdk-for-net","sha":"[REDACTED]"},"name":"get_commit"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"{\"sha\":\"[REDACTED]\",\"html_url\":\"https://github.com/Azure/azure-sdk-for-net/commit/[REDACTED]\",\"commit\":{\"message\":\"Filter preview API versions from ResourceVersions when default is GA (#57862)\\n\\nCo-authored-by: Copilot \\u003c223556219+Copilot@users.noreply.github.com\\u003e\",\"author\":{\"name\":\"Dapeng Zhang\",\"email\":\"dapzhang@microsoft.com\",\"date\":\"2026-04-08T07:15:23Z\"},\"committer\":{\"name\":\"GitHub\",\"ema...`
+- 🔍 rpc **github**→`tools/call` `get_commit`
+  
+  ```json
+  {"params":{"arguments":{"include_diff":true,"owner":"Azure","page":1,"perPage":10,"repo":"azure-sdk-for-net","sha":"[REDACTED]"},"name":"get_commit"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"sdk/batch/Azure.Provisioning.Batch","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"{\"sha\":\"[REDACTED]\",\"html_url\":\"https://github.com/Azure/azure-sdk-for-net/commit/[REDACTED]\",\"commit\":{\"message\":\"Filter preview API versions from ResourceVersions when default is GA (#57862)\\n\\nCo-authored-by: Copilot \\u003c223556219+Copilot@users.noreply.github.com\\u003e\",\"author\":{\"name\":\"Dapeng Zhang\",\"email\":\"dapzhang@microsoft.com\",\"date\":\"2026-04-08T07:15:23Z\"},\"committer\":{\"name\":\"GitHub\",\"ema...`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"[{\"type\":\"file\",\"size\":145,\"name\":\"Azure.Provisioning.Batch.slnx\",\"path\":\"sdk/batch/Azure.Provisioning.Batch/Azure.Provisioning.Batch.slnx\",\"sha\":\"[REDACTED]\",\"url\":\"https://api.github.com/repos/Azure/azure-sdk-for-net/contents/sdk/batch/Azure.Provisioning.Batch/Azure.Provisioning.Batch.slnx?ref=[REDACTED]\",\"git_url\":\"https://api.github.com/repos/Azure/azure-sdk-for-net/git/blobs/[REDACTED]\",\"html_url\":\"https://...`
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning/generator/Azure.Generator.Provisioning/src/Providers/ProvisioningResourceProvider.cs","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"sdk/batch/Azure.Provisioning.Batch/README.md","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"sdk/batch/Azure.Provisioning.Batch/CHANGELOG.md","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/sdk/batch/Azure.Provisioning.Batch/CHANGELOG.md","mimeType":"text/plain; charset=utf-8","text":"# Release History\n\n## 1.0.0-beta.2 (Unreleased)\n\n### Features Added\n\n### Breaking Changes\n\n### Bugs Fixed\n\n### Other Changes\n\n## 1.0.0-beta.1 (2026-03-25)\n\n### Features Added\n\n- Initial...`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/sdk/batch/Azure.Provisioning.Batch/README.md","mimeType":"text/plain; charset=utf-8","text":"# Azure Provisioning Batch client library for .NET\n\nAzure.Provisioning.Batch simplifies declarative resource provisioning for Azure Batch in .NET.\n\n## Getting started\n\n### Install the package\n\nIns...`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/eng/packages/http-client-csharp-provisioning/generator/Azure.Generator.Provisioning/src/Providers/ProvisioningResourceProvider.cs","mimeType":"text/plain; charset=utf-8","text":"// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT License.\n\nusing Azure.Generat...`
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning/generator/TestProjects/Local/Provisioning-TypeSpec/src/Generated/ConfigurationStore.cs","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/eng/packages/http-client-csharp-provisioning/generator/TestProjects/Local/Provisioning-TypeSpec/src/Generated/ConfigurationStore.cs","mimeType":"text/plain; charset=utf-8","text":"// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT License.\n\n// \u003cauto-gen...`
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"sdk/batch/Azure.Provisioning.Batch/tsp-location.yaml","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/sdk/batch/Azure.Provisioning.Batch/tsp-location.yaml","mimeType":"text/plain; charset=utf-8","text":"directory: specification/batch/resource-manager/Microsoft.Batch/Batch\ncommit: [REDACTED]\nrepo: Azure/azure-rest-api-specs\nemitterPackageJsonPath: \"eng/azure-typespec-http-client-csharp-provisi...`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"[{\"type\":\"file\",\"size\":111,\"name\":\".npmrc\",\"path\":\"eng/packages/http-client-csharp-provisioning/.npmrc\",\"sha\":\"[REDACTED]\",\"url\":\"https://api.github.com/repos/Azure/azure-sdk-for-net/contents/eng/packages/http-client-csharp-provisioning/.npmrc?ref=[REDACTED]\",\"git_url\":\"https://api.github.com/repos/Azure/azure-sdk-for-net/git/blobs/[REDACTED]\",\"html_url\":\"https://github.com/Azure/azure-sdk-for-net/blob/[REDACTED...`
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning/docs","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning/README.md","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/eng/packages/http-client-csharp-provisioning/README.md","mimeType":"text/plain; charset=utf-8","text":"# @azure-typespec/http-client-csharp-provisioning\n\nTypeSpec library for emitting Azure provisioning (infrastructure-as-code) libraries for C#.\n\n## Overview\n\nThis package generates `Azure.P...`
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"[{\"type\":\"file\",\"size\":18279,\"name\":\"design.md\",\"path\":\"eng/packages/http-client-csharp-provisioning/docs/design.md\",\"sha\":\"[REDACTED]\",\"url\":\"https://api.github.com/repos/Azure/azure-sdk-for-net/contents/eng/packages/http-client-csharp-provisioning/docs/design.md?ref=[REDACTED]\",\"git_url\":\"https://api.github.com/repos/Azure/azure-sdk-for-net/git/blobs/[REDACTED]\",\"html_url\":\"https://github.com/Azure/azure-sdk-f...`
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning/docs/design.md","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/eng/packages/http-client-csharp-provisioning/docs/design.md","mimeType":"text/plain; charset=utf-8","text":"# Provisioning Generator V2 — Design Document\n\n## 1. Background \u0026 Motivation\n\n### What is Azure.Provisioning?\n\nThe `Azure.Provisioning.*` libraries provide a C# infrastructure-...`
+- 🔍 rpc **github**→`tools/call` `get_file_contents`
+  
+  ```json
+  {"params":{"arguments":{"owner":"Azure","path":"eng/packages/http-client-csharp-provisioning/docs/provisioning-library-spec.md","ref":"main","repo":"azure-sdk-for-net"},"name":"get_file_contents"}}
+  ```
+- 🔍 rpc **github**←`resp` `{"jsonrpc":"2.0","id":1,"result":{"content":[{"type":"text","text":"successfully downloaded text file (SHA: [REDACTED])"},{"type":"resource","resource":{"uri":"repo://Azure/azure-sdk-for-net/sha/[REDACTED]/contents/eng/packages/http-client-csharp-provisioning/docs/provisioning-library-spec.md","mimeType":"text/plain; charset=utf-8","text":"# Provisioning Library Specification\n\nThis document describes the structure and shape of provisioning libraries that the provisioning generator must produce. All genera...`
+- 🔍 rpc **safeoutputs**→`tools/call` `{"jsonrpc":"2.0","method":"tools/call","params":{"arguments":{"body":"## Documentation Gap\n\n**Package:** `@azure-typespec/http-client-csharp-provisioning`\n**Service directory:** `eng/packages/http-client-csharp-provisioning/`\n**Triggered by:** commit 21456f8 (#57862) by @ArcturusZhang\n\n## What Changed\n\nCommit 21456f8 added conditional preview API version filtering in `ProvisioningResourceProvider.cs`. Previously, `ResourceVersions` may have included preview versions even when the default was GA. Now...`
+- 🔍 rpc **safeoutputs**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"result\":\"success\"}","type":"text"}]}}
+  ```
+- 🔍 rpc **safeoutputs**→`tools/call` `dispatch_triage`
+  
+  ```json
+  {"params":{"arguments":{},"name":"dispatch_triage"}}
+  ```
+- 🔍 rpc **safeoutputs**←`resp`
+  
+  ```json
+  {"id":1,"result":{"content":[{"text":"{\"result\":\"success\"}","type":"text"}]}}
+  ```

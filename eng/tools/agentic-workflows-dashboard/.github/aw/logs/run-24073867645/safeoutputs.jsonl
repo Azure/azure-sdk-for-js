@@ -1,0 +1,1 @@
+{"message":"No documentation gap found. Commit 6cae66e (PR #57863 by @haiyuazhang) only modified `.github/skills/mpg-migration-pr-review/SKILL.md` — an internal agent skill definition file. No SDK packages, public APIs, or user-facing documentation were changed.","type":"noop"}

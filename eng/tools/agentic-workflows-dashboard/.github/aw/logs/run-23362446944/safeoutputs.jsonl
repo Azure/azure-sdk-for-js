@@ -1,0 +1,2 @@
+{"item_number":57314,"labels":["needs-triage"],"type":"add_labels"}
+{"body":"⚠️ Agentic triage was unable to be completed because the GitHub CLI is not available in the workflow sandbox. This issue requires manual triage.","item_number":"57314","type":"add_comment","temporary_id":"aw_bgFp7zfL"}

@@ -1,0 +1,4 @@
+2026-04-10T17:01:00.9790000Z Evaluating pre_activation.if
+2026-04-10T17:01:00.9790000Z Evaluating: (success() && (((((github.event.label.name == 'security-review-needed') && (github.event.pull_request.head.repo.fork == false))) && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))))
+2026-04-10T17:01:00.9790000Z Expanded: (true && ((('Central-EngSys' == 'security-review-needed') && (github.event.pull_request.head.repo.fork == false)) && ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))
+2026-04-10T17:01:00.9790000Z Result: false

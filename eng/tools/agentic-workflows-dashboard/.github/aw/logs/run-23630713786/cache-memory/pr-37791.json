@@ -1,0 +1,24 @@
+{
+  "pr": 37791,
+  "package": "@azure/arm-automation",
+  "version": "11.0.0-beta.6",
+  "api_version": "2024-10-23",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "type": "design",
+      "category": "breaking_change",
+      "description": "dscCompilationJobOperations and dscCompilationJobStream removed from AutomationClient; all DscCompilationJob* types removed. Breaking Changes section in CHANGELOG.md is empty.",
+      "file": "review/arm-automation-node.api.md",
+      "line": 302
+    },
+    {
+      "type": "design",
+      "category": "breaking_change",
+      "description": "TrackedResource.location changed from optional to required (affects all resource types). Not documented in CHANGELOG.md.",
+      "file": "review/arm-automation-node.api.md",
+      "line": 3640
+    }
+  ]
+}

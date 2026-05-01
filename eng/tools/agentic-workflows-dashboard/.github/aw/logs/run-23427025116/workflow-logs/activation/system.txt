@@ -1,0 +1,4 @@
+2026-03-23T07:56:42.7860000Z Evaluating activation.if
+2026-03-23T07:56:42.7860000Z Evaluating: (success() && ((((needs.pre_activation.outputs.activated == 'true')) && ((github.event.label.name == 'mgmt-review-needed')))))
+2026-03-23T07:56:42.7860000Z Expanded: (false && ((needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'mgmt-review-needed')))
+2026-03-23T07:56:42.7860000Z Result: false

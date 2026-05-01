@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "pr": 37882,
+      "repo": "Azure/azure-sdk-for-js",
+      "package": "sdk/eventhub/event-hubs",
+      "date": "2026-03-28",
+      "outcome": "issues_found",
+      "findings": [
+        {"severity": "medium", "category": "memory-allocation", "file": "partitionKeyToIdMapper.ts", "summary": "Template literal string allocation on every cache lookup"},
+        {"severity": "medium", "category": "memory-allocation", "file": "partitionKeyToIdMapper.ts", "summary": "LRU delete+reinsert Map churn on every cache hit"},
+        {"severity": "low", "category": "memory-allocation", "file": "dataTransformer.ts", "summary": "body.trim() allocation in looksLikeJson per received message"}
+      ]
+    }
+  ]
+}

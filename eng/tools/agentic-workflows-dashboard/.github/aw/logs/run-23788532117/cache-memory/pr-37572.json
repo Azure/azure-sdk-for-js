@@ -1,0 +1,8 @@
+{
+  "pr": 37572,
+  "package": "@azure/arm-standbypool",
+  "version": "2.1.0",
+  "outcome": "issues_found",
+  "findings": 2,
+  "summary": "AzureClouds enum missing Known* prefix; AzureSupportedClouds uses closed template literal type instead of string"
+}

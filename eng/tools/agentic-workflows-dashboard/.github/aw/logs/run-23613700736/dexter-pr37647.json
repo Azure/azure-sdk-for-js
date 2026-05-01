@@ -1,0 +1,10 @@
+{
+  "pr": 37647,
+  "date": "2026-03-26",
+  "package": "@azure/postgresql-auth",
+  "path": "sdk/postgresql/postgresql-auth",
+  "type": "new_package",
+  "outcome": "clean",
+  "summary": "New client package for PostgreSQL Entra ID authentication. Proper workspace:^ for dev tools, catalog: for devDeps, semver ranges for runtime deps (core-auth ^1.9.0, logger ^1.2.0, tslib ^2.8.1). Peer deps pg >=8.0.0 and sequelize >=6.0.0 marked optional.",
+  "findings": []
+}

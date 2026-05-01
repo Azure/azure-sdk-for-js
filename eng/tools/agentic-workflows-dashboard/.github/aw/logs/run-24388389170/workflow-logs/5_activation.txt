@@ -1,0 +1,692 @@
+﻿2026-04-14T08:15:25.3685174Z Current runner version: '2.333.1'
+2026-04-14T08:15:25.3709354Z ##[group]Runner Image Provisioner
+2026-04-14T08:15:25.3710188Z Hosted Compute Agent
+2026-04-14T08:15:25.3710742Z Version: 20260213.493
+2026-04-14T08:15:25.3711328Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-14T08:15:25.3712432Z Build Date: 2026-02-13T00:28:41Z
+2026-04-14T08:15:25.3713115Z Worker ID: {e9c538ff-cd69-4ee0-b71b-1f53c7fe6881}
+2026-04-14T08:15:25.3713780Z Azure Region: centralus
+2026-04-14T08:15:25.3714290Z ##[endgroup]
+2026-04-14T08:15:25.3715734Z ##[group]VM Image
+2026-04-14T08:15:25.3716227Z - OS: Linux (x64)
+2026-04-14T08:15:25.3716793Z - Source: Docker
+2026-04-14T08:15:25.3717282Z - Name: ubuntu:24.04
+2026-04-14T08:15:25.3717741Z - Version: 20260413.54.1
+2026-04-14T08:15:25.3718259Z ##[endgroup]
+2026-04-14T08:15:25.3719276Z ##[group]GITHUB_TOKEN Permissions
+2026-04-14T08:15:25.3721032Z Actions: read
+2026-04-14T08:15:25.3721633Z Contents: read
+2026-04-14T08:15:25.3722551Z Metadata: read
+2026-04-14T08:15:25.3723219Z ##[endgroup]
+2026-04-14T08:15:25.3725551Z Secret source: Actions
+2026-04-14T08:15:25.3726201Z Prepare workflow directory
+2026-04-14T08:15:25.4061434Z Prepare all required actions
+2026-04-14T08:15:25.4099452Z Getting action download info
+2026-04-14T08:15:26.0070254Z Download action repository 'github/gh-aw-actions@2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc' (SHA:2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc)
+2026-04-14T08:15:26.7996792Z Download action repository 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3' (SHA:3a2844b7e9c422d3c10d287c895573f7108da1b3)
+2026-04-14T08:15:27.4048453Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-14T08:15:27.4734512Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-14T08:15:27.7606412Z Complete job name: activation
+2026-04-14T08:15:27.8196474Z ##[group]Run github/gh-aw-actions/setup@2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc
+2026-04-14T08:15:27.8197592Z with:
+2026-04-14T08:15:27.8198048Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-14T08:15:27.8198623Z   job-name: activation
+2026-04-14T08:15:27.8199068Z   trace-id: 69f98888df3e5fa2ab8367eb474ce96a
+2026-04-14T08:15:27.8199611Z   safe-output-artifact-client: false
+2026-04-14T08:15:27.8200288Z ##[endgroup]
+2026-04-14T08:15:29.1980037Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-14T08:15:29.1981096Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-14T08:15:29.1982420Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-14T08:15:29.1983470Z [otlp] INPUT_TRACE_ID=69f98888df3e5fa2ab8367eb474ce96a (will reuse activation trace)
+2026-04-14T08:15:29.1984349Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-14T08:15:29.1985123Z [otlp] resolved trace-id=69f98888df3e5fa2ab8367eb474ce96a
+2026-04-14T08:15:29.1985872Z [otlp] trace-id=69f98888df3e5fa2ab8367eb474ce96a written to GITHUB_OUTPUT
+2026-04-14T08:15:29.1986604Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-14T08:15:29.1987243Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-14T08:15:29.1987886Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-14T08:15:29.2173967Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-14T08:15:29.2174710Z with:
+2026-04-14T08:15:29.2177504Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/generate_aw_info.cjs');
+await main(core, context);
+
+2026-04-14T08:15:29.2179561Z   github-token: ***
+2026-04-14T08:15:29.2179946Z   debug: false
+2026-04-14T08:15:29.2180343Z   user-agent: actions/github-script
+2026-04-14T08:15:29.2180819Z   result-encoding: json
+2026-04-14T08:15:29.2182550Z   retries: 0
+2026-04-14T08:15:29.2183037Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-14T08:15:29.2183646Z env:
+2026-04-14T08:15:29.2191286Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T08:15:29.2200913Z   GITHUB_AW_OTEL_TRACE_ID: 69f98888df3e5fa2ab8367eb474ce96a
+2026-04-14T08:15:29.2201606Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: de06f310c0ab294c
+2026-04-14T08:15:29.2202418Z   GITHUB_AW_OTEL_JOB_START_MS: 1776154529188
+2026-04-14T08:15:29.2202961Z   GH_AW_INFO_ENGINE_ID: copilot
+2026-04-14T08:15:29.2203483Z   GH_AW_INFO_ENGINE_NAME: GitHub Copilot CLI
+2026-04-14T08:15:29.2203985Z   GH_AW_INFO_MODEL: auto
+2026-04-14T08:15:29.2204412Z   GH_AW_INFO_VERSION: 1.0.21
+2026-04-14T08:15:29.2205884Z   GH_AW_INFO_AGENT_VERSION: 1.0.21
+2026-04-14T08:15:29.2206726Z   GH_AW_INFO_CLI_VERSION: v0.68.1
+2026-04-14T08:15:29.2207221Z   GH_AW_INFO_WORKFLOW_NAME: Update Docs
+2026-04-14T08:15:29.2208190Z   GH_AW_INFO_EXPERIMENTAL: false
+2026-04-14T08:15:29.2208707Z   GH_AW_INFO_SUPPORTS_TOOLS_ALLOWLIST: true
+2026-04-14T08:15:29.2209362Z   GH_AW_INFO_STAGED: false
+2026-04-14T08:15:29.2209820Z   GH_AW_INFO_ALLOWED_DOMAINS: ["defaults"]
+2026-04-14T08:15:29.2210345Z   GH_AW_INFO_FIREWALL_ENABLED: true
+2026-04-14T08:15:29.2210823Z   GH_AW_INFO_AWF_VERSION: v0.25.18
+2026-04-14T08:15:29.2214443Z   GH_AW_INFO_AWMG_VERSION: 
+2026-04-14T08:15:29.2214958Z   GH_AW_INFO_FIREWALL_TYPE: squid
+2026-04-14T08:15:29.2215438Z   GH_AW_COMPILED_STRICT: true
+2026-04-14T08:15:29.2215868Z ##[endgroup]
+2026-04-14T08:15:29.4217054Z Starting context variable validation...
+2026-04-14T08:15:29.4225063Z ✓ github.event.organization.id is valid: 6844498
+2026-04-14T08:15:29.4230120Z ✓ github.event.repository.id is valid: 2928944
+2026-04-14T08:15:29.4256865Z ✓ github.event.sender.id is valid: 10554446
+2026-04-14T08:15:29.4261012Z Validated 3 context variables
+2026-04-14T08:15:29.4264888Z ✅ All context variables validated successfully
+2026-04-14T08:15:29.4269324Z Lockdown mode not explicitly enabled, skipping validation
+2026-04-14T08:15:29.4272708Z Repository visibility: unknown
+2026-04-14T08:15:29.4275999Z Compiled with strict mode: true
+2026-04-14T08:15:29.4563861Z Generated aw_info.json at: /tmp/gh-aw/aw_info.json
+2026-04-14T08:15:29.4567471Z {
+2026-04-14T08:15:29.4567863Z   "engine_id": "copilot",
+2026-04-14T08:15:29.4568330Z   "engine_name": "GitHub Copilot CLI",
+2026-04-14T08:15:29.4568837Z   "model": "auto",
+2026-04-14T08:15:29.4569214Z   "version": "1.0.21",
+2026-04-14T08:15:29.4569624Z   "agent_version": "1.0.21",
+2026-04-14T08:15:29.4570298Z   "workflow_name": "Update Docs",
+2026-04-14T08:15:29.4570765Z   "experimental": false,
+2026-04-14T08:15:29.4571214Z   "supports_tools_allowlist": true,
+2026-04-14T08:15:29.4571691Z   "run_id": 24388389170,
+2026-04-14T08:15:29.4572475Z   "run_number": 157,
+2026-04-14T08:15:29.4572875Z   "run_attempt": "1",
+2026-04-14T08:15:29.4573323Z   "repository": "Azure/azure-sdk-for-net",
+2026-04-14T08:15:29.4573842Z   "ref": "refs/heads/main",
+2026-04-14T08:15:29.4574328Z   "sha": "9df870f0f1635e4fa63746ad49fc5f2f714b33d4",
+2026-04-14T08:15:29.4574878Z   "actor": "ArcturusZhang",
+2026-04-14T08:15:29.4575322Z   "event_name": "push",
+2026-04-14T08:15:29.4575725Z   "target_repo": "",
+2026-04-14T08:15:29.4576115Z   "staged": false,
+2026-04-14T08:15:29.4576491Z   "allowed_domains": [
+2026-04-14T08:15:29.4576883Z     "defaults"
+2026-04-14T08:15:29.4577231Z   ],
+2026-04-14T08:15:29.4577571Z   "firewall_enabled": true,
+2026-04-14T08:15:29.4578006Z   "awf_version": "v0.25.18",
+2026-04-14T08:15:29.4578455Z   "awmg_version": "",
+2026-04-14T08:15:29.4578847Z   "steps": {
+2026-04-14T08:15:29.4579206Z     "firewall": "squid"
+2026-04-14T08:15:29.4579601Z   },
+2026-04-14T08:15:29.4579957Z   "created_at": "2026-04-14T08:15:29.430Z",
+2026-04-14T08:15:29.4580456Z   "cli_version": "v0.68.1"
+2026-04-14T08:15:29.4580864Z }
+2026-04-14T08:15:29.4612793Z Generated workflow overview in step summary
+2026-04-14T08:15:29.4809848Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/validate_multi_secret.sh" COPILOT_GITHUB_TOKEN 'GitHub Copilot CLI' https://github.github.com/gh-aw/reference/engines/#github-copilot-default
+2026-04-14T08:15:29.4812520Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/validate_multi_secret.sh" COPILOT_GITHUB_TOKEN 'GitHub Copilot CLI' https://github.github.com/gh-aw/reference/engines/#github-copilot-default[0m
+2026-04-14T08:15:29.4821366Z shell: /usr/bin/bash -e {0}
+2026-04-14T08:15:29.4822236Z env:
+2026-04-14T08:15:29.4829001Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T08:15:29.4836508Z   GITHUB_AW_OTEL_TRACE_ID: 69f98888df3e5fa2ab8367eb474ce96a
+2026-04-14T08:15:29.4837155Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: de06f310c0ab294c
+2026-04-14T08:15:29.4837724Z   GITHUB_AW_OTEL_JOB_START_MS: 1776154529188
+2026-04-14T08:15:29.4838874Z   COPILOT_GITHUB_TOKEN: ***
+2026-04-14T08:15:29.4839311Z ##[endgroup]
+2026-04-14T08:15:29.4902807Z <details>
+2026-04-14T08:15:29.4905479Z <summary>Agent Environment Validation</summary>
+2026-04-14T08:15:29.4907915Z 
+2026-04-14T08:15:29.4911036Z ✅ COPILOT_GITHUB_TOKEN: Configured (fine-grained PAT)
+2026-04-14T08:15:29.4914386Z </details>
+2026-04-14T08:15:29.5026053Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-14T08:15:29.5026748Z with:
+2026-04-14T08:15:29.5027111Z   persist-credentials: false
+2026-04-14T08:15:29.5027586Z   sparse-checkout: .github
+.agents
+
+2026-04-14T08:15:29.5028080Z   sparse-checkout-cone-mode: true
+2026-04-14T08:15:29.5029841Z   fetch-depth: 1
+2026-04-14T08:15:29.5030271Z   repository: Azure/azure-sdk-for-net
+2026-04-14T08:15:29.5030924Z   token: ***
+2026-04-14T08:15:29.5031295Z   ssh-strict: true
+2026-04-14T08:15:29.5031676Z   ssh-user: git
+2026-04-14T08:15:29.5032323Z   clean: true
+2026-04-14T08:15:29.5032691Z   fetch-tags: false
+2026-04-14T08:15:29.5033074Z   show-progress: true
+2026-04-14T08:15:29.5033455Z   lfs: false
+2026-04-14T08:15:29.5033828Z   submodules: false
+2026-04-14T08:15:29.5034312Z   set-safe-directory: true
+2026-04-14T08:15:29.5034727Z env:
+2026-04-14T08:15:29.5041535Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T08:15:29.5049167Z   GITHUB_AW_OTEL_TRACE_ID: 69f98888df3e5fa2ab8367eb474ce96a
+2026-04-14T08:15:29.5049805Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: de06f310c0ab294c
+2026-04-14T08:15:29.5050366Z   GITHUB_AW_OTEL_JOB_START_MS: 1776154529188
+2026-04-14T08:15:29.5050852Z ##[endgroup]
+2026-04-14T08:15:29.6309024Z Syncing repository: Azure/azure-sdk-for-net
+2026-04-14T08:15:29.6311436Z ##[group]Getting Git version info
+2026-04-14T08:15:29.6312832Z Working directory is '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-14T08:15:29.6313920Z [command]/usr/bin/git version
+2026-04-14T08:15:30.5928908Z git version 2.53.0
+2026-04-14T08:15:30.5930630Z ##[endgroup]
+2026-04-14T08:15:30.5936551Z Temporarily overriding HOME='/home/runner/work/_temp/2663cd42-306d-489e-98a9-88ab6eeb10cc' before making global git config changes
+2026-04-14T08:15:30.5937849Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-14T08:15:30.5938990Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-14T08:15:30.5940625Z Deleting the contents of '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-14T08:15:30.5941639Z ##[group]Initializing the repository
+2026-04-14T08:15:30.5942559Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-14T08:15:30.5943470Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-14T08:15:30.5944698Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-14T08:15:30.5945551Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-14T08:15:30.5946213Z hint: call:
+2026-04-14T08:15:30.5946550Z hint:
+2026-04-14T08:15:30.5946976Z hint: 	git config --global init.defaultBranch <name>
+2026-04-14T08:15:30.5947514Z hint:
+2026-04-14T08:15:30.5948020Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-14T08:15:30.5948872Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-14T08:15:30.5949535Z hint:
+2026-04-14T08:15:30.5949907Z hint: 	git branch -m <name>
+2026-04-14T08:15:30.5950308Z hint:
+2026-04-14T08:15:30.5950865Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-14T08:15:30.5952076Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/
+2026-04-14T08:15:30.5953633Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-net
+2026-04-14T08:15:30.5955035Z ##[endgroup]
+2026-04-14T08:15:30.5955663Z ##[group]Disabling automatic garbage collection
+2026-04-14T08:15:30.5956235Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-14T08:15:30.5957422Z ##[endgroup]
+2026-04-14T08:15:30.5958012Z ##[group]Setting up auth
+2026-04-14T08:15:30.5958449Z Removing SSH command configuration
+2026-04-14T08:15:30.5959117Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-14T08:15:30.5961011Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-14T08:15:30.5962894Z Removing HTTP extra header
+2026-04-14T08:15:30.5963671Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-14T08:15:30.5978150Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-14T08:15:30.5980473Z Removing includeIf entries pointing to credentials config files
+2026-04-14T08:15:30.5981342Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-14T08:15:30.5983458Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-14T08:15:30.5985943Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-14T08:15:30.5988591Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:30.5991371Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:30.5994373Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:30.5996771Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:30.5998700Z ##[endgroup]
+2026-04-14T08:15:30.5999307Z ##[group]Fetching the repository
+2026-04-14T08:15:30.6000601Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +9df870f0f1635e4fa63746ad49fc5f2f714b33d4:refs/remotes/origin/main
+2026-04-14T08:15:31.5966107Z From https://github.com/Azure/azure-sdk-for-net
+2026-04-14T08:15:31.5966892Z  * [new ref]         9df870f0f1635e4fa63746ad49fc5f2f714b33d4 -> origin/main
+2026-04-14T08:15:31.5968606Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-14T08:15:31.5969202Z   origin/main
+2026-04-14T08:15:31.5970217Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-14T08:15:31.5970861Z 9df870f0f1635e4fa63746ad49fc5f2f714b33d4
+2026-04-14T08:15:31.5972411Z ##[endgroup]
+2026-04-14T08:15:31.5973044Z ##[group]Determining the checkout info
+2026-04-14T08:15:31.5973758Z ##[endgroup]
+2026-04-14T08:15:31.5974358Z ##[group]Setting up sparse checkout
+2026-04-14T08:15:31.5974940Z [command]/usr/bin/git sparse-checkout set .github .agents
+2026-04-14T08:15:31.5976196Z ##[endgroup]
+2026-04-14T08:15:31.5976790Z ##[group]Checking out the ref
+2026-04-14T08:15:31.5977472Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-14T08:15:31.5978216Z Switched to a new branch 'main'
+2026-04-14T08:15:31.5978702Z branch 'main' set up to track 'origin/main'.
+2026-04-14T08:15:31.5979927Z ##[endgroup]
+2026-04-14T08:15:31.5980792Z [command]/usr/bin/git log -1 --format=%H
+2026-04-14T08:15:31.6000153Z 9df870f0f1635e4fa63746ad49fc5f2f714b33d4
+2026-04-14T08:15:31.6022294Z ##[group]Removing auth
+2026-04-14T08:15:31.6022800Z Removing SSH command configuration
+2026-04-14T08:15:31.6023521Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-14T08:15:31.6062717Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-14T08:15:31.6396914Z Removing HTTP extra header
+2026-04-14T08:15:31.6403156Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-14T08:15:31.6437692Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-14T08:15:31.6711410Z Removing includeIf entries pointing to credentials config files
+2026-04-14T08:15:31.6716004Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-14T08:15:31.6738161Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-14T08:15:31.6739397Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-14T08:15:31.6740309Z includeif.gitdir:/github/workspace/.git.path
+2026-04-14T08:15:31.6741001Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-14T08:15:31.6756509Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-14T08:15:31.6775713Z /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.6791053Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.6824571Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-14T08:15:31.6843835Z /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.6866345Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.6898010Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-14T08:15:31.6917289Z /github/runner_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.6948040Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.6981180Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-14T08:15:31.7000430Z /github/runner_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.7016242Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config
+2026-04-14T08:15:31.7066622Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-14T08:15:31.7421647Z Removing credentials config '/home/runner/work/_temp/git-credentials-a3f6d2f1-c55e-42fe-8fd0-d2d14b9da415.config'
+2026-04-14T08:15:31.7434392Z ##[endgroup]
+2026-04-14T08:15:31.7595273Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-14T08:15:31.7596009Z with:
+2026-04-14T08:15:31.7597644Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/check_workflow_timestamp_api.cjs');
+await main();
+
+2026-04-14T08:15:31.7599593Z   github-token: ***
+2026-04-14T08:15:31.7599980Z   debug: false
+2026-04-14T08:15:31.7600368Z   user-agent: actions/github-script
+2026-04-14T08:15:31.7600895Z   result-encoding: json
+2026-04-14T08:15:31.7601287Z   retries: 0
+2026-04-14T08:15:31.7601695Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-14T08:15:31.7602582Z env:
+2026-04-14T08:15:31.7609438Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T08:15:31.7616999Z   GITHUB_AW_OTEL_TRACE_ID: 69f98888df3e5fa2ab8367eb474ce96a
+2026-04-14T08:15:31.7617637Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: de06f310c0ab294c
+2026-04-14T08:15:31.7618196Z   GITHUB_AW_OTEL_JOB_START_MS: 1776154529188
+2026-04-14T08:15:31.7618782Z   GH_AW_WORKFLOW_FILE: update-samples-and-docs.lock.yml
+2026-04-14T08:15:31.7619804Z   GH_AW_CONTEXT_WORKFLOW_REF: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-14T08:15:31.7621349Z ##[endgroup]
+2026-04-14T08:15:31.8757472Z Checking for stale lock file using frontmatter hash:
+2026-04-14T08:15:31.8762952Z   Source: .github/workflows/update-samples-and-docs.md
+2026-04-14T08:15:31.8766807Z   Lock file: .github/workflows/update-samples-and-docs.lock.yml
+2026-04-14T08:15:31.8771490Z Env workflow ref already identifies this workflow, skipping referenced_workflows API lookup
+2026-04-14T08:15:31.8775776Z GITHUB_WORKFLOW_REF: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-14T08:15:31.8779534Z GH_AW_CONTEXT_WORKFLOW_REF: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main (available as env fallback)
+2026-04-14T08:15:31.8783509Z GITHUB_REPOSITORY: Azure/azure-sdk-for-net
+2026-04-14T08:15:31.8786219Z Resolved source repo: Azure/azure-sdk-for-net @ refs/heads/main
+2026-04-14T08:15:31.8789086Z Same-repo invocation: checking out Azure/azure-sdk-for-net @ refs/heads/main
+2026-04-14T08:15:32.3496247Z Frontmatter hash comparison:
+2026-04-14T08:15:32.3499584Z   Lock file hash:    9e0ec5a56767ec80e1ab33dbf926debc212c78a1213dc30f639fcc96697fd63d
+2026-04-14T08:15:32.3503584Z   Recomputed hash:   71cf52d59c77a14b6b9fb681a0aa5622ac6c7f9569f1322dd3c8f920360af635
+2026-04-14T08:15:32.3506821Z   Status: ⚠️  Hashes differ
+2026-04-14T08:15:32.3511012Z ═══ Debug hash recomputation (verbose mode) ═══
+2026-04-14T08:15:32.3514483Z Re-running hash computation with full logging to aid debugging.
+2026-04-14T08:15:32.3517682Z   Source file: .github/workflows/update-samples-and-docs.md
+2026-04-14T08:15:32.3520674Z   Source repo: Azure/azure-sdk-for-net @ refs/heads/main
+2026-04-14T08:15:32.4504651Z   Using GitHub API file reader for debug pass
+2026-04-14T08:15:32.4508251Z [hash-debug] Starting hash computation for: .github/workflows/update-samples-and-docs.md
+2026-04-14T08:15:32.5485940Z [hash-debug] File content length: 8800 bytes
+2026-04-14T08:15:32.5490025Z [hash-debug] Frontmatter text (2075 chars):
+2026-04-14T08:15:32.5490710Z ---
+2026-04-14T08:15:32.5491214Z description: |
+2026-04-14T08:15:32.5531251Z   Documentation gap detector for the Azure SDK repository
+2026-04-14T08:15:32.5532457Z   Triggered on every push to main, analyzes diffs to identify documentation
+2026-04-14T08:15:32.5533316Z   gaps and files GitHub issues for Copilot coding agent to implement
+2026-04-14T08:15:32.5533826Z 
+2026-04-14T08:15:32.5533971Z on:
+2026-04-14T08:15:32.5534296Z   push:
+2026-04-14T08:15:32.5534627Z     branches: [main]
+2026-04-14T08:15:32.5535016Z   workflow_dispatch:
+2026-04-14T08:15:32.5535246Z 
+2026-04-14T08:15:32.5535408Z permissions: read-all
+2026-04-14T08:15:32.5535656Z 
+2026-04-14T08:15:32.5535811Z network: defaults
+2026-04-14T08:15:32.5536026Z 
+2026-04-14T08:15:32.5536188Z safe-outputs:
+2026-04-14T08:15:32.5536568Z   report-failure-as-issue: false
+2026-04-14T08:15:32.5537019Z   create-issue:
+2026-04-14T08:15:32.5537362Z     max: 1
+2026-04-14T08:15:32.5537714Z   noop:
+2026-04-14T08:15:32.5538057Z     report-as-issue: false
+2026-04-14T08:15:32.5538454Z   jobs:
+2026-04-14T08:15:32.5538786Z     dispatch_triage:
+2026-04-14T08:15:32.5539396Z       description: "Dispatch the issue triage workflow for the newly created issue"
+2026-04-14T08:15:32.5540102Z       runs-on: ubuntu-latest
+2026-04-14T08:15:32.5540533Z       needs: safe_outputs
+2026-04-14T08:15:32.5540973Z       output: "Triage workflow dispatched"
+2026-04-14T08:15:32.5541463Z       permissions:
+2026-04-14T08:15:32.5544016Z         actions: write
+2026-04-14T08:15:32.5544549Z         issues: write
+2026-04-14T08:15:32.5544944Z       steps:
+2026-04-14T08:15:32.5545332Z         - name: Dispatch triage workflow
+2026-04-14T08:15:32.5545862Z           uses: actions/github-script@v9
+2026-04-14T08:15:32.5546343Z           env:
+2026-04-14T08:15:32.5546931Z             CREATED_ISSUE_NUMBER: "${{ needs.safe_outputs.outputs.created_issue_number }}"
+2026-04-14T08:15:32.5547629Z           with:
+2026-04-14T08:15:32.5547980Z             script: |
+2026-04-14T08:15:32.5548481Z               const issueNumber = process.env.CREATED_ISSUE_NUMBER;
+2026-04-14T08:15:32.5549123Z               if (!issueNumber || issueNumber === '') {
+2026-04-14T08:15:32.5549811Z                 core.info('No issue was created; skipping triage dispatch');
+2026-04-14T08:15:32.5550443Z                 return;
+2026-04-14T08:15:32.5550849Z               }
+2026-04-14T08:15:32.5551083Z 
+2026-04-14T08:15:32.5551540Z               const issueNum = parseInt(issueNumber, 10);
+2026-04-14T08:15:32.5552622Z               const repo = { owner: context.repo.owner, repo: context.repo.repo };
+2026-04-14T08:15:32.5553132Z 
+2026-04-14T08:15:32.5553572Z               const { data: issue } = await github.rest.issues.get({ ...repo, issue_number: issueNum });
+2026-04-14T08:15:32.5554399Z               if (issue.labels && issue.labels.length > 0) {
+2026-04-14T08:15:32.5555219Z                 await github.rest.issues.setLabels({ ...repo, issue_number: issueNum, labels: [] });
+2026-04-14T08:15:32.5556103Z                 core.info(`Removed all labels from issue #${issueNum}`);
+2026-04-14T08:15:32.5556699Z               }
+2026-04-14T08:15:32.5556910Z 
+2026-04-14T08:15:32.5557317Z               await github.rest.actions.createWorkflowDispatch({
+2026-04-14T08:15:32.5557905Z                 ...repo,
+2026-04-14T08:15:32.5558360Z                 workflow_id: 'issue-triage.lock.yml',
+2026-04-14T08:15:32.5558883Z                 ref: 'main',
+2026-04-14T08:15:32.5559358Z                 inputs: { issue_number: issueNumber }
+2026-04-14T08:15:32.5559858Z               });
+2026-04-14T08:15:32.5560327Z               core.info(`Dispatched triage for issue #${issueNum}`);
+2026-04-14T08:15:32.5560759Z 
+2026-04-14T08:15:32.5560899Z tools:
+2026-04-14T08:15:32.5561231Z   web-fetch:
+2026-04-14T08:15:32.5561572Z   github:
+2026-04-14T08:15:32.5562120Z     toolsets: [issues, repos]
+2026-04-14T08:15:32.5562415Z 
+2026-04-14T08:15:32.5562579Z timeout-minutes: 15
+2026-04-14T08:15:32.5562948Z ---
+2026-04-14T08:15:32.5563330Z [hash-debug] Markdown body length: 6716 chars
+2026-04-14T08:15:32.5563861Z [hash-debug] inlined-imports: false
+2026-04-14T08:15:32.5564348Z [hash-debug] Imported files (0): []
+2026-04-14T08:15:32.5564851Z [hash-debug] Normalized frontmatter-text:
+2026-04-14T08:15:32.5565343Z description: |
+2026-04-14T08:15:32.5565814Z   Documentation gap detector for the Azure SDK repository
+2026-04-14T08:15:32.5566570Z   Triggered on every push to main, analyzes diffs to identify documentation
+2026-04-14T08:15:32.5567384Z   gaps and files GitHub issues for Copilot coding agent to implement
+2026-04-14T08:15:32.5567851Z 
+2026-04-14T08:15:32.5568007Z on:
+2026-04-14T08:15:32.5568324Z   push:
+2026-04-14T08:15:32.5568664Z     branches: [main]
+2026-04-14T08:15:32.5569042Z   workflow_dispatch:
+2026-04-14T08:15:32.5569277Z 
+2026-04-14T08:15:32.5569440Z permissions: read-all
+2026-04-14T08:15:32.5569680Z 
+2026-04-14T08:15:32.5569839Z network: defaults
+2026-04-14T08:15:32.5570051Z 
+2026-04-14T08:15:32.5570204Z safe-outputs:
+2026-04-14T08:15:32.5570590Z   report-failure-as-issue: false
+2026-04-14T08:15:32.5571049Z   create-issue:
+2026-04-14T08:15:32.5571399Z     max: 1
+2026-04-14T08:15:32.5571734Z   noop:
+2026-04-14T08:15:32.5602630Z     report-as-issue: false
+2026-04-14T08:15:32.5603111Z   jobs:
+2026-04-14T08:15:32.5603460Z     dispatch_triage:
+2026-04-14T08:15:32.5604083Z       description: "Dispatch the issue triage workflow for the newly created issue"
+2026-04-14T08:15:32.5604809Z       runs-on: ubuntu-latest
+2026-04-14T08:15:32.5605245Z       needs: safe_outputs
+2026-04-14T08:15:32.5605691Z       output: "Triage workflow dispatched"
+2026-04-14T08:15:32.5606184Z       permissions:
+2026-04-14T08:15:32.5606554Z         actions: write
+2026-04-14T08:15:32.5606998Z         issues: write
+2026-04-14T08:15:32.5607370Z       steps:
+2026-04-14T08:15:32.5607757Z         - name: Dispatch triage workflow
+2026-04-14T08:15:32.5608271Z           uses: actions/github-script@v9
+2026-04-14T08:15:32.5610316Z           env:
+2026-04-14T08:15:32.5610964Z             CREATED_ISSUE_NUMBER: "${{ needs.safe_outputs.outputs.created_issue_number }}"
+2026-04-14T08:15:32.5611662Z           with:
+2026-04-14T08:15:32.5640265Z             script: |
+2026-04-14T08:15:32.5640829Z               const issueNumber = process.env.CREATED_ISSUE_NUMBER;
+2026-04-14T08:15:32.5641471Z               if (!issueNumber || issueNumber === '') {
+2026-04-14T08:15:32.5642843Z                 core.info('No issue was created; skipping triage dispatch');
+2026-04-14T08:15:32.5643680Z                 return;
+2026-04-14T08:15:32.5644065Z               }
+2026-04-14T08:15:32.5644281Z 
+2026-04-14T08:15:32.5644507Z               const issueNum = parseInt(issueNumber, 10);
+2026-04-14T08:15:32.5645213Z               const repo = { owner: context.repo.owner, repo: context.repo.repo };
+2026-04-14T08:15:32.5645722Z 
+2026-04-14T08:15:32.5646166Z               const { data: issue } = await github.rest.issues.get({ ...repo, issue_number: issueNum });
+2026-04-14T08:15:32.5647001Z               if (issue.labels && issue.labels.length > 0) {
+2026-04-14T08:15:32.5647817Z                 await github.rest.issues.setLabels({ ...repo, issue_number: issueNum, labels: [] });
+2026-04-14T08:15:32.5648788Z                 core.info(`Removed all labels from issue #${issueNum}`);
+2026-04-14T08:15:32.5649369Z               }
+2026-04-14T08:15:32.5649575Z 
+2026-04-14T08:15:32.5649842Z               await github.rest.actions.createWorkflowDispatch({
+2026-04-14T08:15:32.5673345Z                 ...repo,
+2026-04-14T08:15:32.5673853Z                 workflow_id: 'issue-triage.lock.yml',
+2026-04-14T08:15:32.5674396Z                 ref: 'main',
+2026-04-14T08:15:32.5674889Z                 inputs: { issue_number: issueNumber }
+2026-04-14T08:15:32.5675407Z               });
+2026-04-14T08:15:32.5675879Z               core.info(`Dispatched triage for issue #${issueNum}`);
+2026-04-14T08:15:32.5676321Z 
+2026-04-14T08:15:32.5676467Z tools:
+2026-04-14T08:15:32.5676799Z   web-fetch:
+2026-04-14T08:15:32.5677134Z   github:
+2026-04-14T08:15:32.5677491Z     toolsets: [issues, repos]
+2026-04-14T08:15:32.5677785Z 
+2026-04-14T08:15:32.5677955Z timeout-minutes: 15
+2026-04-14T08:15:32.5678539Z [hash-debug] No template expressions (env./vars.) found in markdown body
+2026-04-14T08:15:32.5679216Z [hash-debug] Canonical JSON (2168 chars):
+2026-04-14T08:15:32.5689914Z {"frontmatter-text":"description: |\n  Documentation gap detector for the Azure SDK repository\n  Triggered on every push to main, analyzes diffs to identify documentation\n  gaps and files GitHub issues for Copilot coding agent to implement\n\non:\n  push:\n    branches: [main]\n  workflow_dispatch:\n\npermissions: read-all\n\nnetwork: defaults\n\nsafe-outputs:\n  report-failure-as-issue: false\n  create-issue:\n    max: 1\n  noop:\n    report-as-issue: false\n  jobs:\n    dispatch_triage:\n      description: \"Dispatch the issue triage workflow for the newly created issue\"\n      runs-on: ubuntu-latest\n      needs: safe_outputs\n      output: \"Triage workflow dispatched\"\n      permissions:\n        actions: write\n        issues: write\n      steps:\n        - name: Dispatch triage workflow\n          uses: actions/github-script@v9\n          env:\n            CREATED_ISSUE_NUMBER: \"${{ needs.safe_outputs.outputs.created_issue_number }}\"\n          with:\n            script: |\n              const issueNumber = process.env.CREATED_ISSUE_NUMBER;\n              if (!issueNumber || issueNumber === '') {\n                core.info('No issue was created; skipping triage dispatch');\n                return;\n              }\n\n              const issueNum = parseInt(issueNumber, 10);\n              const repo = { owner: context.repo.owner, repo: context.repo.repo };\n\n              const { data: issue } = await github.rest.issues.get({ ...repo, issue_number: issueNum });\n              if (issue.labels && issue.labels.length > 0) {\n                await github.rest.issues.setLabels({ ...repo, issue_number: issueNum, labels: [] });\n                core.info(`Removed all labels from issue #${issueNum}`);\n              }\n\n              await github.rest.actions.createWorkflowDispatch({\n                ...repo,\n                workflow_id: 'issue-triage.lock.yml',\n                ref: 'main',\n                inputs: { issue_number: issueNumber }\n              });\n              core.info(`Dispatched triage for issue #${issueNum}`);\n\ntools:\n  web-fetch:\n  github:\n    toolsets: [issues, repos]\n\ntimeout-minutes: 15"}
+2026-04-14T08:15:32.5700906Z [hash-debug] Computed SHA-256 hash: 71cf52d59c77a14b6b9fb681a0aa5622ac6c7f9569f1322dd3c8f920360af635
+2026-04-14T08:15:32.5702189Z ═══ End of debug hash recomputation ═══
+2026-04-14T08:15:32.5722491Z ##[error]ERR_CONFIG: Lock file '.github/workflows/update-samples-and-docs.lock.yml' is outdated! The workflow file '.github/workflows/update-samples-and-docs.md' frontmatter has changed. Run 'gh aw compile' to regenerate the lock file.
+2026-04-14T08:15:32.5918254Z Post job cleanup.
+2026-04-14T08:15:32.6913943Z [command]/usr/bin/git version
+2026-04-14T08:15:32.6990460Z git version 2.53.0
+2026-04-14T08:15:32.7052947Z Temporarily overriding HOME='/home/runner/work/_temp/6549ba98-59de-4769-88cd-b73b6e4cac16' before making global git config changes
+2026-04-14T08:15:32.7056996Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-14T08:15:32.7067429Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-14T08:15:32.7104948Z Removing SSH command configuration
+2026-04-14T08:15:32.7111800Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-14T08:15:32.7159704Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-14T08:15:32.7495737Z Removing HTTP extra header
+2026-04-14T08:15:32.7501635Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-14T08:15:32.7542608Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-14T08:15:32.7825873Z Removing includeIf entries pointing to credentials config files
+2026-04-14T08:15:32.7835336Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-14T08:15:32.7870866Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-14T08:15:32.8346571Z Post job cleanup.
+2026-04-14T08:15:32.8721092Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-14T08:15:32.8729005Z Cleaning up /tmp/gh-aw...
+2026-04-14T08:15:32.8887480Z Cleaned up /tmp/gh-aw
+2026-04-14T08:15:32.8969211Z Evaluate and set job outputs
+2026-04-14T08:15:32.8982597Z Set output 'lockdown_check_failed'
+2026-04-14T08:15:32.8984559Z Set output 'model'
+2026-04-14T08:15:32.8985383Z Set output 'secret_verification_result'
+2026-04-14T08:15:32.8986086Z Set output 'setup-trace-id'
+2026-04-14T08:15:32.8986692Z Set output 'stale_lock_file_failed'
+2026-04-14T08:15:32.8987694Z Cleaning up orphan processes

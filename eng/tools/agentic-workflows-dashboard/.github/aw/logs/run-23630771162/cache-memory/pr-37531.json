@@ -1,0 +1,12 @@
+{
+  "pr": 37531,
+  "package": "@azure/arm-search",
+  "version": "4.0.0-beta.2",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "file": "review/arm-search-node.api.md", "line": 75, "description": "AzureClouds enum missing Known* prefix; should be KnownAzureClouds"},
+    {"type": "design", "file": "review/arm-search-node.api.md", "line": 82, "description": "AzureSupportedClouds uses closed template literal `${AzureClouds}` instead of string"},
+    {"type": "tool", "file": "package.json", "line": 9, "description": "autoPublish changed from true to false"}
+  ]
+}

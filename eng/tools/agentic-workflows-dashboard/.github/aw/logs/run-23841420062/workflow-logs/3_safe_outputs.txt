@@ -1,0 +1,874 @@
+﻿2026-04-01T10:00:03.8673874Z Current runner version: '2.333.1'
+2026-04-01T10:00:03.8753609Z ##[group]Runner Image Provisioner
+2026-04-01T10:00:03.8755233Z Hosted Compute Agent
+2026-04-01T10:00:03.8755759Z Version: 20260213.493
+2026-04-01T10:00:03.8756396Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-01T10:00:03.8757422Z Build Date: 2026-02-13T00:28:41Z
+2026-04-01T10:00:03.8758285Z Worker ID: {8ce6a378-07a4-4df8-bbcd-4535b002be72}
+2026-04-01T10:00:03.8759317Z Azure Region: westus3
+2026-04-01T10:00:03.8760248Z ##[endgroup]
+2026-04-01T10:00:03.8765837Z ##[group]VM Image
+2026-04-01T10:00:03.8767475Z - OS: Linux (x64)
+2026-04-01T10:00:03.8768354Z - Source: Docker
+2026-04-01T10:00:03.8770960Z - Name: ubuntu:24.04
+2026-04-01T10:00:03.8772013Z - Version: 20260323.53.1
+2026-04-01T10:00:03.8772564Z ##[endgroup]
+2026-04-01T10:00:03.8774123Z ##[group]GITHUB_TOKEN Permissions
+2026-04-01T10:00:03.8777969Z Contents: write
+2026-04-01T10:00:03.8779053Z Discussions: write
+2026-04-01T10:00:03.8779849Z Issues: write
+2026-04-01T10:00:03.8780930Z Metadata: read
+2026-04-01T10:00:03.8781791Z PullRequests: write
+2026-04-01T10:00:03.8783056Z ##[endgroup]
+2026-04-01T10:00:03.8786672Z Secret source: Actions
+2026-04-01T10:00:03.8788219Z Prepare workflow directory
+2026-04-01T10:00:03.9897633Z Prepare all required actions
+2026-04-01T10:00:03.9945323Z Getting action download info
+2026-04-01T10:00:04.9316146Z Download action repository 'github/gh-aw@32b3a711a9ee97d38e3989c90af0385aff0066a7' (SHA:32b3a711a9ee97d38e3989c90af0385aff0066a7)
+2026-04-01T10:00:24.7052560Z Download action repository 'actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3' (SHA:70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3)
+2026-04-01T10:00:26.8091397Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-01T10:00:26.8805722Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-01T10:00:27.6781732Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-01T10:00:27.9043754Z Complete job name: safe_outputs
+2026-04-01T10:00:27.9573999Z ##[group]Run github/gh-aw/actions/setup@32b3a711a9ee97d38e3989c90af0385aff0066a7
+2026-04-01T10:00:27.9574795Z with:
+2026-04-01T10:00:27.9575045Z   destination: /opt/gh-aw/actions
+2026-04-01T10:00:27.9575348Z   safe-output-custom-tokens: false
+2026-04-01T10:00:27.9575800Z env:
+2026-04-01T10:00:27.9576096Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:27.9576478Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:27.9577673Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:27.9579330Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:27.9579665Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:27.9579995Z ##[endgroup]
+2026-04-01T10:00:27.9684704Z ##[group]Run /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/setup.sh
+2026-04-01T10:00:27.9686554Z [36;1m/home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/setup.sh[0m
+2026-04-01T10:00:27.9695645Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-04-01T10:00:27.9696041Z env:
+2026-04-01T10:00:27.9696333Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:27.9696710Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:27.9697870Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:27.9699748Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:27.9700080Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:27.9700419Z   INPUT_DESTINATION: /opt/gh-aw/actions
+2026-04-01T10:00:27.9700744Z   INPUT_SAFE_OUTPUT_CUSTOM_TOKENS: false
+2026-04-01T10:00:27.9701030Z ##[endgroup]
+2026-04-01T10:00:27.9852533Z Copying activation files to /opt/gh-aw/actions
+2026-04-01T10:00:27.9855619Z Safe-output custom tokens support: false
+2026-04-01T10:00:27.9896002Z Created directory: /opt/gh-aw/actions
+2026-04-01T10:00:27.9913288Z Created /tmp/gh-aw directory
+2026-04-01T10:00:27.9935423Z Script directory: /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup
+2026-04-01T10:00:27.9959690Z Looking for JavaScript sources in: /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/js
+2026-04-01T10:00:27.9960612Z Contents of /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup:
+2026-04-01T10:00:27.9985812Z total 72
+2026-04-01T10:00:27.9986149Z drwxr-xr-x 6 runner runner  4096 Apr  1 10:00 .
+2026-04-01T10:00:27.9986626Z drwxr-xr-x 4 runner runner  4096 Apr  1 10:00 ..
+2026-04-01T10:00:27.9987020Z -rw-r--r-- 1 runner runner  3435 Mar 10 16:40 README.md
+2026-04-01T10:00:27.9987437Z -rw-r--r-- 1 runner runner   873 Mar 10 16:40 action.yml
+2026-04-01T10:00:27.9987833Z drwxr-xr-x 3 runner runner 32768 Apr  1 10:00 js
+2026-04-01T10:00:27.9988188Z drwxr-xr-x 2 runner runner  4096 Apr  1 10:00 md
+2026-04-01T10:00:27.9990867Z -rwxr-xr-x 1 runner runner 11911 Mar 10 16:40 setup.sh
+2026-04-01T10:00:27.9991307Z drwxr-xr-x 2 runner runner  4096 Apr  1 10:00 sh
+2026-04-01T10:00:27.9991679Z drwxr-xr-x 2 runner runner  4096 Apr  1 10:00 src
+2026-04-01T10:00:27.9995796Z Files in /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/js:
+2026-04-01T10:00:28.0022720Z TESTING_LIVE_API.md
+2026-04-01T10:00:28.0023235Z add_comment.cjs
+2026-04-01T10:00:28.0051933Z add_comment.test.cjs
+2026-04-01T10:00:28.0052247Z add_copilot_reviewer.cjs
+2026-04-01T10:00:28.0052749Z add_copilot_reviewer.test.cjs
+2026-04-01T10:00:28.0053045Z add_labels.cjs
+2026-04-01T10:00:28.0053267Z add_labels.test.cjs
+2026-04-01T10:00:28.0053498Z add_reaction.cjs
+2026-04-01T10:00:28.0053724Z add_reaction.test.cjs
+2026-04-01T10:00:28.0053982Z add_reaction_and_edit_comment.cjs
+2026-04-01T10:00:28.0086531Z Found 447 files in /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/js
+2026-04-01T10:00:28.0135605Z Copied: add_comment.cjs
+2026-04-01T10:00:28.0145692Z Skipping test file: add_comment.test.cjs
+2026-04-01T10:00:28.0166450Z Copied: add_copilot_reviewer.cjs
+2026-04-01T10:00:28.0176517Z Skipping test file: add_copilot_reviewer.test.cjs
+2026-04-01T10:00:28.0195991Z Copied: add_labels.cjs
+2026-04-01T10:00:28.0206037Z Skipping test file: add_labels.test.cjs
+2026-04-01T10:00:28.0225190Z Copied: add_reaction.cjs
+2026-04-01T10:00:28.0235165Z Skipping test file: add_reaction.test.cjs
+2026-04-01T10:00:28.0254833Z Copied: add_reaction_and_edit_comment.cjs
+2026-04-01T10:00:28.0264992Z Skipping test file: add_reaction_and_edit_comment.test.cjs
+2026-04-01T10:00:28.0284699Z Copied: add_reviewer.cjs
+2026-04-01T10:00:28.0294699Z Skipping test file: add_reviewer.test.cjs
+2026-04-01T10:00:28.0314647Z Copied: add_workflow_run_comment.cjs
+2026-04-01T10:00:28.0329627Z Skipping test file: add_workflow_run_comment.test.cjs
+2026-04-01T10:00:28.0349561Z Copied: assign_agent_helpers.cjs
+2026-04-01T10:00:28.0359545Z Skipping test file: assign_agent_helpers.test.cjs
+2026-04-01T10:00:28.0379436Z Copied: assign_copilot_to_created_issues.cjs
+2026-04-01T10:00:28.0389642Z Skipping test file: assign_copilot_to_created_issues.test.cjs
+2026-04-01T10:00:28.0409124Z Copied: assign_issue.cjs
+2026-04-01T10:00:28.0419148Z Skipping test file: assign_issue.test.cjs
+2026-04-01T10:00:28.0437793Z Copied: assign_milestone.cjs
+2026-04-01T10:00:28.8103404Z Skipping test file: assign_milestone.test.cjs
+2026-04-01T10:00:28.8103858Z Copied: assign_to_agent.cjs
+2026-04-01T10:00:28.8104192Z Skipping test file: assign_to_agent.test.cjs
+2026-04-01T10:00:28.8104523Z Copied: assign_to_user.cjs
+2026-04-01T10:00:28.8104804Z Skipping test file: assign_to_user.test.cjs
+2026-04-01T10:00:28.8105130Z Copied: autofix_code_scanning_alert.cjs
+2026-04-01T10:00:28.8105490Z Skipping test file: autofix_code_scanning_alert.test.cjs
+2026-04-01T10:00:28.8105887Z Skipping test file: check_admin_permissions.test.cjs
+2026-04-01T10:00:28.8106242Z Copied: check_command_position.cjs
+2026-04-01T10:00:28.8106565Z Skipping test file: check_command_position.test.cjs
+2026-04-01T10:00:28.8106904Z Copied: check_membership.cjs
+2026-04-01T10:00:28.8107199Z Skipping test file: check_membership.test.cjs
+2026-04-01T10:00:28.8107521Z Copied: check_permissions.cjs
+2026-04-01T10:00:28.8107820Z Skipping test file: check_permissions.test.cjs
+2026-04-01T10:00:28.8108149Z Copied: check_permissions_utils.cjs
+2026-04-01T10:00:28.8108501Z Skipping test file: check_permissions_utils.test.cjs
+2026-04-01T10:00:28.8109389Z Copied: check_rate_limit.cjs
+2026-04-01T10:00:28.8109701Z Skipping test file: check_rate_limit.test.cjs
+2026-04-01T10:00:28.8110028Z Copied: check_skip_bots.cjs
+2026-04-01T10:00:28.8110322Z Skipping test file: check_skip_bots.test.cjs
+2026-04-01T10:00:28.8110638Z Copied: check_skip_if_match.cjs
+2026-04-01T10:00:28.8110945Z Skipping test file: check_skip_if_match.test.cjs
+2026-04-01T10:00:28.8111275Z Copied: check_skip_if_no_match.cjs
+2026-04-01T10:00:28.8111605Z Skipping test file: check_skip_if_no_match.test.cjs
+2026-04-01T10:00:28.8111941Z Copied: check_skip_roles.cjs
+2026-04-01T10:00:28.8112222Z Skipping test file: check_skip_roles.test.cjs
+2026-04-01T10:00:28.8112534Z Copied: check_stop_time.cjs
+2026-04-01T10:00:28.8112816Z Skipping test file: check_stop_time.test.cjs
+2026-04-01T10:00:28.8113128Z Copied: check_team_member.cjs
+2026-04-01T10:00:28.8113434Z Skipping test file: check_team_member.test.cjs
+2026-04-01T10:00:28.8113791Z Copied: check_workflow_recompile_needed.cjs
+2026-04-01T10:00:28.8114376Z Skipping test file: check_workflow_recompile_needed.test.cjs
+2026-04-01T10:00:28.8114765Z Copied: check_workflow_timestamp.cjs
+2026-04-01T10:00:28.8115115Z Skipping test file: check_workflow_timestamp.test.cjs
+2026-04-01T10:00:28.8115466Z Copied: check_workflow_timestamp_api.cjs
+2026-04-01T10:00:28.8115826Z Skipping test file: check_workflow_timestamp_api.test.cjs
+2026-04-01T10:00:28.8116174Z Copied: checkout_pr_branch.cjs
+2026-04-01T10:00:28.8116477Z Skipping test file: checkout_pr_branch.test.cjs
+2026-04-01T10:00:28.8116802Z Copied: close_discussion.cjs
+2026-04-01T10:00:28.8117093Z Skipping test file: close_discussion.test.cjs
+2026-04-01T10:00:28.8117413Z Copied: close_entity_helpers.cjs
+2026-04-01T10:00:28.8117716Z Skipping test file: close_entity_helpers.test.cjs
+2026-04-01T10:00:28.8118056Z Copied: close_expired_discussions.cjs
+2026-04-01T10:00:28.8118392Z Skipping test file: close_expired_discussions.test.cjs
+2026-04-01T10:00:28.8128994Z Copied: close_expired_issues.cjs
+2026-04-01T10:00:28.8129401Z Skipping test file: close_expired_issues.test.cjs
+2026-04-01T10:00:28.8129792Z Copied: close_expired_pull_requests.cjs
+2026-04-01T10:00:28.8130241Z Skipping test file: close_expired_pull_requests.test.cjs
+2026-04-01T10:00:28.8131334Z Copied: close_issue.cjs
+2026-04-01T10:00:28.8131653Z Skipping test file: close_issue.test.cjs
+2026-04-01T10:00:28.8132223Z Copied: close_older_discussions.cjs
+2026-04-01T10:00:28.8132790Z Skipping test file: close_older_discussions.test.cjs
+2026-04-01T10:00:28.8133140Z Copied: close_older_entities.cjs
+2026-04-01T10:00:28.8133470Z Skipping test file: close_older_entities.test.cjs
+2026-04-01T10:00:28.8133805Z Copied: close_older_issues.cjs
+2026-04-01T10:00:28.8134110Z Skipping test file: close_older_issues.test.cjs
+2026-04-01T10:00:28.8134428Z Copied: close_pull_request.cjs
+2026-04-01T10:00:28.8134728Z Skipping test file: close_pull_request.test.cjs
+2026-04-01T10:00:28.8135295Z Copied: collect_ndjson_output.cjs
+2026-04-01T10:00:28.8135620Z Skipping test file: collect_ndjson_output.test.cjs
+2026-04-01T10:00:28.8135970Z Copied: comment_limit_helpers.cjs
+2026-04-01T10:00:28.8136283Z Skipping test file: comment_limit_helpers.test.cjs
+2026-04-01T10:00:28.8136615Z Copied: compute_text.cjs
+2026-04-01T10:00:28.8136883Z Skipping test file: compute_text.test.cjs
+2026-04-01T10:00:28.8137186Z Copied: constants.cjs
+2026-04-01T10:00:28.8137447Z Skipping test file: constants.test.cjs
+2026-04-01T10:00:28.8137779Z Copied: create_agent_session.cjs
+2026-04-01T10:00:28.8138452Z Skipping test file: create_agent_session.test.cjs
+2026-04-01T10:00:28.8139127Z Copied: create_code_scanning_alert.cjs
+2026-04-01T10:00:28.8139480Z Skipping test file: create_code_scanning_alert.test.cjs
+2026-04-01T10:00:28.8139847Z Copied: create_discussion.cjs
+2026-04-01T10:00:28.8140214Z Skipping test file: create_discussion_category_normalization.test.cjs
+2026-04-01T10:00:28.8140665Z Skipping test file: create_discussion_fallback.test.cjs
+2026-04-01T10:00:28.8141067Z Skipping test file: create_discussion_labels.test.cjs
+2026-04-01T10:00:28.8141399Z Copied: create_issue.cjs
+2026-04-01T10:00:28.8141673Z Skipping test file: create_issue.test.cjs
+2026-04-01T10:00:28.8142003Z Skipping test file: create_issue_group.test.cjs
+2026-04-01T10:00:28.8142365Z Skipping test file: create_issue_new_arch.test.cjs
+2026-04-01T10:00:28.8142703Z Copied: create_missing_data_issue.cjs
+2026-04-01T10:00:28.8143001Z Copied: create_missing_tool_issue.cjs
+2026-04-01T10:00:28.8143292Z Copied: create_pr_review_comment.cjs
+2026-04-01T10:00:28.8143630Z Skipping test file: create_pr_review_comment.test.cjs
+2026-04-01T10:00:28.8143969Z Copied: create_project.cjs
+2026-04-01T10:00:28.8144235Z Copied: create_project_status_update.cjs
+2026-04-01T10:00:28.8144592Z Skipping test file: create_project_status_update.test.cjs
+2026-04-01T10:00:28.8144941Z Copied: create_pull_request.cjs
+2026-04-01T10:00:28.8145245Z Skipping test file: create_pull_request.test.cjs
+2026-04-01T10:00:28.8145574Z Copied: demo_enhanced_errors.cjs
+2026-04-01T10:00:28.8145865Z Copied: determine_automatic_lockdown.cjs
+2026-04-01T10:00:28.8146352Z Skipping test file: determine_automatic_lockdown.test.cjs
+2026-04-01T10:00:28.8146724Z Copied: dispatch_workflow.cjs
+2026-04-01T10:00:28.8147022Z Skipping test file: dispatch_workflow.test.cjs
+2026-04-01T10:00:28.8147339Z Copied: display_file_helpers.cjs
+2026-04-01T10:00:28.8147646Z Skipping test file: display_file_helpers.test.cjs
+2026-04-01T10:00:28.8147967Z Copied: dynamic_checkout.cjs
+2026-04-01T10:00:28.8148256Z Skipping test file: dynamic_checkout.test.cjs
+2026-04-01T10:00:28.8158176Z Copied: ephemerals.cjs
+2026-04-01T10:00:28.8158950Z Skipping test file: ephemerals.test.cjs
+2026-04-01T10:00:28.8159297Z Copied: error_codes.cjs
+2026-04-01T10:00:28.8159566Z Copied: error_helpers.cjs
+2026-04-01T10:00:28.8159867Z Skipping test file: error_helpers.test.cjs
+2026-04-01T10:00:28.8160180Z Copied: error_recovery.cjs
+2026-04-01T10:00:28.8160487Z Skipping test file: error_recovery.test.cjs
+2026-04-01T10:00:28.8160814Z Copied: estimate_tokens.cjs
+2026-04-01T10:00:28.8161115Z Skipping test file: estimate_tokens.test.cjs
+2026-04-01T10:00:28.8161436Z Copied: expiration_helpers.cjs
+2026-04-01T10:00:28.8161750Z Copied: expired_entity_cleanup_helpers.cjs
+2026-04-01T10:00:28.8162070Z Copied: expired_entity_main_flow.cjs
+2026-04-01T10:00:28.8162421Z Skipping test file: expired_entity_main_flow.test.cjs
+2026-04-01T10:00:28.8162782Z Copied: expired_entity_search_helpers.cjs
+2026-04-01T10:00:28.8163155Z Skipping test file: expired_entity_search_helpers.test.cjs
+2026-04-01T10:00:28.8163523Z Copied: extra_empty_commit.cjs
+2026-04-01T10:00:28.8163824Z Skipping test file: extra_empty_commit.test.cjs
+2026-04-01T10:00:28.8164148Z Copied: file_helpers.cjs
+2026-04-01T10:00:28.8164417Z Skipping test file: file_helpers.test.cjs
+2026-04-01T10:00:28.8164726Z Copied: find_repo_checkout.cjs
+2026-04-01T10:00:28.8165025Z Skipping test file: find_repo_checkout.test.cjs
+2026-04-01T10:00:28.8165552Z Copied: firewall_blocked_domains.cjs
+2026-04-01T10:00:28.8165895Z Skipping test file: firewall_blocked_domains.test.cjs
+2026-04-01T10:00:28.8166256Z Copied: frontmatter_hash.cjs
+2026-04-01T10:00:28.8166559Z Skipping test file: frontmatter_hash.test.cjs
+2026-04-01T10:00:28.8166925Z Skipping test file: frontmatter_hash_github_api.test.cjs
+2026-04-01T10:00:28.8167285Z Copied: frontmatter_hash_pure.cjs
+2026-04-01T10:00:28.8167600Z Skipping test file: frontmatter_hash_pure.test.cjs
+2026-04-01T10:00:28.8167981Z Copied: fuzz_markdown_code_region_balancer_harness.cjs
+2026-04-01T10:00:28.8168331Z Copied: fuzz_mentions_harness.cjs
+2026-04-01T10:00:28.8168911Z Copied: fuzz_runtime_import_expressions_harness.cjs
+2026-04-01T10:00:28.8169351Z Skipping test file: fuzz_runtime_import_expressions_harness.test.cjs
+2026-04-01T10:00:28.8169780Z Copied: fuzz_sanitize_incoming_text_harness.cjs
+2026-04-01T10:00:28.8170113Z Copied: fuzz_sanitize_label_harness.cjs
+2026-04-01T10:00:28.8170421Z Copied: fuzz_sanitize_output_harness.cjs
+2026-04-01T10:00:28.8170751Z Copied: fuzz_template_substitution_harness.cjs
+2026-04-01T10:00:28.8171144Z Skipping test file: fuzz_template_substitution_harness.test.cjs
+2026-04-01T10:00:28.8171527Z Copied: fuzz_update_body_harness.cjs
+2026-04-01T10:00:28.8171817Z Copied: generate_aw_info.cjs
+2026-04-01T10:00:28.8172117Z Skipping test file: generate_aw_info.test.cjs
+2026-04-01T10:00:28.8172445Z Copied: generate_compact_schema.cjs
+2026-04-01T10:00:28.8172782Z Skipping test file: generate_compact_schema.test.cjs
+2026-04-01T10:00:28.8173119Z Copied: generate_footer.cjs
+2026-04-01T10:00:28.8173400Z Skipping test file: generate_footer.test.cjs
+2026-04-01T10:00:28.8173719Z Copied: generate_git_patch.cjs
+2026-04-01T10:00:28.8174016Z Skipping test file: generate_git_patch.test.cjs
+2026-04-01T10:00:28.8174344Z Copied: generate_history_link.cjs
+2026-04-01T10:00:28.8174656Z Skipping test file: generate_history_link.test.cjs
+2026-04-01T10:00:28.8174991Z Copied: generate_mcp_scripts_config.cjs
+2026-04-01T10:00:28.8175347Z Skipping test file: generate_mcp_scripts_config.test.cjs
+2026-04-01T10:00:28.8175708Z Copied: generate_workflow_overview.cjs
+2026-04-01T10:00:28.8176173Z Skipping test file: generate_workflow_overview.test.cjs
+2026-04-01T10:00:28.8176527Z Copied: get_base_branch.cjs
+2026-04-01T10:00:28.8176813Z Skipping test file: get_base_branch.test.cjs
+2026-04-01T10:00:28.8177120Z Copied: get_current_branch.cjs
+2026-04-01T10:00:28.8177437Z Skipping test file: get_current_branch.test.cjs
+2026-04-01T10:00:28.8177761Z Copied: get_repository_url.cjs
+2026-04-01T10:00:28.8178054Z Skipping test file: get_repository_url.test.cjs
+2026-04-01T10:00:28.8178373Z Copied: get_tracker_id.cjs
+2026-04-01T10:00:28.8188084Z Skipping test file: get_tracker_id.test.cjs
+2026-04-01T10:00:28.8188510Z Copied: git_helpers.cjs
+2026-04-01T10:00:28.8189179Z Skipping test file: git_helpers.test.cjs
+2026-04-01T10:00:28.8189537Z Skipping test file: git_patch_integration.test.cjs
+2026-04-01T10:00:28.8189892Z Copied: github_api_helpers.cjs
+2026-04-01T10:00:28.8190214Z Skipping test file: github_api_helpers.test.cjs
+2026-04-01T10:00:28.8190547Z Copied: glob_pattern_helpers.cjs
+2026-04-01T10:00:28.8190878Z Skipping test file: glob_pattern_helpers.test.cjs
+2026-04-01T10:00:28.8191217Z Copied: handle_agent_failure.cjs
+2026-04-01T10:00:28.8191537Z Skipping test file: handle_agent_failure.test.cjs
+2026-04-01T10:00:28.8191880Z Copied: handle_create_pr_error.cjs
+2026-04-01T10:00:28.8192201Z Skipping test file: handle_create_pr_error.test.cjs
+2026-04-01T10:00:28.8192534Z Copied: handle_noop_message.cjs
+2026-04-01T10:00:28.8192841Z Skipping test file: handle_noop_message.test.cjs
+2026-04-01T10:00:28.8193155Z Copied: handler_auth.cjs
+2026-04-01T10:00:28.8193425Z Skipping test file: handler_auth.test.cjs
+2026-04-01T10:00:28.8193721Z Copied: hide_comment.cjs
+2026-04-01T10:00:28.8193980Z Copied: interpolate_prompt.cjs
+2026-04-01T10:00:28.8194277Z Skipping test file: interpolate_prompt.test.cjs
+2026-04-01T10:00:28.8194662Z Skipping test file: interpolate_prompt_additional.test.cjs
+2026-04-01T10:00:28.8195209Z Copied: is_truthy.cjs
+2026-04-01T10:00:28.8195476Z Skipping test file: is_truthy.test.cjs
+2026-04-01T10:00:28.8195790Z Copied: json_repair_helpers.cjs
+2026-04-01T10:00:28.8196097Z Skipping test file: json_repair_helpers.test.cjs
+2026-04-01T10:00:28.8196433Z Copied: limit_enforcement_helpers.cjs
+2026-04-01T10:00:28.8196770Z Skipping test file: limit_enforcement_helpers.test.cjs
+2026-04-01T10:00:28.8197111Z Copied: link_sub_issue.cjs
+2026-04-01T10:00:28.8197382Z Skipping test file: link_sub_issue.test.cjs
+2026-04-01T10:00:28.8197687Z Copied: load_agent_output.cjs
+2026-04-01T10:00:28.8197977Z Skipping test file: load_agent_output.test.cjs
+2026-04-01T10:00:28.8198293Z Copied: lock-issue.cjs
+2026-04-01T10:00:28.8198791Z Skipping test file: lock-issue.test.cjs
+2026-04-01T10:00:28.8199123Z Copied: log_parser_bootstrap.cjs
+2026-04-01T10:00:28.8199452Z Skipping test file: log_parser_bootstrap.test.cjs
+2026-04-01T10:00:28.8199783Z Copied: log_parser_shared.cjs
+2026-04-01T10:00:28.8200085Z Skipping test file: log_parser_shared.test.cjs
+2026-04-01T10:00:28.8200412Z Copied: manifest_file_helpers.cjs
+2026-04-01T10:00:28.8200738Z Skipping test file: manifest_file_helpers.test.cjs
+2026-04-01T10:00:28.8201095Z Copied: mark_pull_request_as_ready_for_review.cjs
+2026-04-01T10:00:28.8201439Z Copied: markdown_code_region_balancer.cjs
+2026-04-01T10:00:28.8201795Z Skipping test file: markdown_code_region_balancer.test.cjs
+2026-04-01T10:00:28.8202160Z Copied: markdown_transformer.cjs
+2026-04-01T10:00:28.8202473Z Skipping test file: markdown_transformer.test.cjs
+2026-04-01T10:00:28.8202791Z Copied: markdown_unfencing.cjs
+2026-04-01T10:00:28.8203090Z Skipping test file: markdown_unfencing.test.cjs
+2026-04-01T10:00:28.8203409Z Copied: mcp-scripts-runner.cjs
+2026-04-01T10:00:28.8203715Z Skipping test file: mcp-scripts-runner.test.cjs
+2026-04-01T10:00:28.8204033Z Copied: mcp_enhanced_errors.cjs
+2026-04-01T10:00:28.8204339Z Skipping test file: mcp_enhanced_errors.test.cjs
+2026-04-01T10:00:28.8204661Z Copied: mcp_handler_go.cjs
+2026-04-01T10:00:28.8204937Z Skipping test file: mcp_handler_go.test.cjs
+2026-04-01T10:00:28.8205254Z Copied: mcp_handler_javascript.cjs
+2026-04-01T10:00:28.8205689Z Skipping test file: mcp_handler_javascript.test.cjs
+2026-04-01T10:00:28.8206029Z Copied: mcp_handler_python.cjs
+2026-04-01T10:00:28.8206293Z Copied: mcp_handler_shell.cjs
+2026-04-01T10:00:28.8206563Z Copied: mcp_http_transport.cjs
+2026-04-01T10:00:28.8206855Z Skipping test file: mcp_http_transport.test.cjs
+2026-04-01T10:00:28.8207181Z Copied: mcp_logger.cjs
+2026-04-01T10:00:28.8207436Z Skipping test file: mcp_logger.test.cjs
+2026-04-01T10:00:28.8207742Z Copied: mcp_scripts_bootstrap.cjs
+2026-04-01T10:00:28.8208061Z Skipping test file: mcp_scripts_bootstrap.test.cjs
+2026-04-01T10:00:28.8208396Z Copied: mcp_scripts_config_loader.cjs
+2026-04-01T10:00:28.8218492Z Skipping test file: mcp_scripts_config_loader.test.cjs
+2026-04-01T10:00:28.8219261Z Copied: mcp_scripts_mcp_server.cjs
+2026-04-01T10:00:28.8219621Z Skipping test file: mcp_scripts_mcp_server.test.cjs
+2026-04-01T10:00:28.8219975Z Copied: mcp_scripts_mcp_server_http.cjs
+2026-04-01T10:00:28.8220359Z Skipping test file: mcp_scripts_mcp_server_http.test.cjs
+2026-04-01T10:00:28.8220725Z Copied: mcp_scripts_tool_factory.cjs
+2026-04-01T10:00:28.8221095Z Skipping test file: mcp_scripts_tool_factory.test.cjs
+2026-04-01T10:00:28.8221466Z Copied: mcp_scripts_validation.cjs
+2026-04-01T10:00:28.8221795Z Skipping test file: mcp_scripts_validation.test.cjs
+2026-04-01T10:00:28.8222138Z Copied: mcp_server_core.cjs
+2026-04-01T10:00:28.8222426Z Skipping test file: mcp_server_core.test.cjs
+2026-04-01T10:00:28.8222765Z Copied: merge_remote_agent_github_folder.cjs
+2026-04-01T10:00:28.8223068Z Copied: messages.cjs
+2026-04-01T10:00:28.8223323Z Skipping test file: messages.test.cjs
+2026-04-01T10:00:28.8223626Z Copied: messages_close_discussion.cjs
+2026-04-01T10:00:28.8223920Z Copied: messages_core.cjs
+2026-04-01T10:00:28.8224177Z Copied: messages_footer.cjs
+2026-04-01T10:00:28.8224622Z Copied: messages_run_status.cjs
+2026-04-01T10:00:28.8224903Z Copied: messages_staged.cjs
+2026-04-01T10:00:28.8225157Z Copied: missing_data.cjs
+2026-04-01T10:00:28.8225430Z Skipping test file: missing_data.test.cjs
+2026-04-01T10:00:28.8225738Z Copied: missing_info_formatter.cjs
+2026-04-01T10:00:28.8226065Z Skipping test file: missing_info_formatter.test.cjs
+2026-04-01T10:00:28.8226406Z Copied: missing_issue_helpers.cjs
+2026-04-01T10:00:28.8226727Z Skipping test file: missing_issue_helpers.test.cjs
+2026-04-01T10:00:28.8227062Z Copied: missing_messages_helper.cjs
+2026-04-01T10:00:28.8227394Z Skipping test file: missing_messages_helper.test.cjs
+2026-04-01T10:00:28.8227721Z Copied: missing_tool.cjs
+2026-04-01T10:00:28.8227990Z Skipping test file: missing_tool.test.cjs
+2026-04-01T10:00:28.8228293Z Copied: noop.cjs
+2026-04-01T10:00:28.8228528Z Skipping test file: noop.test.cjs
+2026-04-01T10:00:28.8229059Z Copied: noop_handler.cjs
+2026-04-01T10:00:28.8229330Z Skipping test file: noop_handler.test.cjs
+2026-04-01T10:00:28.8229652Z Copied: normalize_branch_name.cjs
+2026-04-01T10:00:28.8229964Z Skipping test file: normalize_branch_name.test.cjs
+2026-04-01T10:00:28.8230302Z Copied: notify_comment_error.cjs
+2026-04-01T10:00:28.8230606Z Skipping test file: notify_comment_error.test.cjs
+2026-04-01T10:00:28.8230940Z Copied: parse_claude_log.cjs
+2026-04-01T10:00:28.8231254Z Skipping test file: parse_claude_log.test.cjs
+2026-04-01T10:00:28.8231573Z Copied: parse_codex_log.cjs
+2026-04-01T10:00:28.8231870Z Skipping test file: parse_codex_log.test.cjs
+2026-04-01T10:00:28.8232186Z Copied: parse_copilot_log.cjs
+2026-04-01T10:00:28.8232492Z Skipping test file: parse_copilot_log.test.cjs
+2026-04-01T10:00:28.8232819Z Copied: parse_custom_log.cjs
+2026-04-01T10:00:28.8233122Z Skipping test file: parse_custom_log.test.cjs
+2026-04-01T10:00:28.8233437Z Copied: parse_firewall_logs.cjs
+2026-04-01T10:00:28.8233746Z Skipping test file: parse_firewall_logs.test.cjs
+2026-04-01T10:00:28.8234064Z Copied: parse_gemini_log.cjs
+2026-04-01T10:00:28.8234376Z Skipping test file: parse_gemini_log.test.cjs
+2026-04-01T10:00:28.8234699Z Copied: parse_mcp_gateway_log.cjs
+2026-04-01T10:00:28.8235127Z Skipping test file: parse_mcp_gateway_log.test.cjs
+2026-04-01T10:00:28.8235480Z Copied: parse_mcp_scripts_logs.cjs
+2026-04-01T10:00:28.8235798Z Skipping test file: parse_mcp_scripts_logs.test.cjs
+2026-04-01T10:00:28.8236150Z Copied: parse_threat_detection_results.cjs
+2026-04-01T10:00:28.8236450Z Copied: pr_helpers.cjs
+2026-04-01T10:00:28.8236714Z Skipping test file: pr_helpers.test.cjs
+2026-04-01T10:00:28.8237008Z Copied: pr_review_buffer.cjs
+2026-04-01T10:00:28.8237299Z Skipping test file: pr_review_buffer.test.cjs
+2026-04-01T10:00:28.8237619Z Copied: push_repo_memory.cjs
+2026-04-01T10:00:28.8237903Z Skipping test file: push_repo_memory.test.cjs
+2026-04-01T10:00:28.8238355Z Copied: push_to_pull_request_branch.cjs
+2026-04-01T10:00:28.8248435Z Skipping test file: push_to_pull_request_branch.test.cjs
+2026-04-01T10:00:28.8249226Z Copied: read_buffer.cjs
+2026-04-01T10:00:28.8249532Z Skipping test file: read_buffer.test.cjs
+2026-04-01T10:00:28.8249851Z Copied: redact_secrets.cjs
+2026-04-01T10:00:28.8250132Z Skipping test file: redact_secrets.test.cjs
+2026-04-01T10:00:28.8250465Z Copied: remove_duplicate_title.cjs
+2026-04-01T10:00:28.8250788Z Skipping test file: remove_duplicate_title.test.cjs
+2026-04-01T10:00:28.8251127Z Copied: remove_labels.cjs
+2026-04-01T10:00:28.8251409Z Skipping test file: remove_labels.test.cjs
+2026-04-01T10:00:28.8251720Z Copied: render_template.cjs
+2026-04-01T10:00:28.8252010Z Skipping test file: render_template.test.cjs
+2026-04-01T10:00:28.8252330Z Copied: reply_to_pr_review_comment.cjs
+2026-04-01T10:00:28.8252680Z Skipping test file: reply_to_pr_review_comment.test.cjs
+2026-04-01T10:00:28.8253023Z Copied: repo_helpers.cjs
+2026-04-01T10:00:28.8253299Z Skipping test file: repo_helpers.test.cjs
+2026-04-01T10:00:28.8253602Z Copied: resolve_mentions.cjs
+2026-04-01T10:00:28.8253899Z Skipping test file: resolve_mentions.test.cjs
+2026-04-01T10:00:28.8254418Z Copied: resolve_mentions_from_payload.cjs
+2026-04-01T10:00:28.8254727Z Copied: resolve_pr_review_thread.cjs
+2026-04-01T10:00:28.8255070Z Skipping test file: resolve_pr_review_thread.test.cjs
+2026-04-01T10:00:28.8255420Z Copied: run_operation_update_upgrade.cjs
+2026-04-01T10:00:28.8255781Z Skipping test file: run_operation_update_upgrade.test.cjs
+2026-04-01T10:00:28.8256132Z Copied: runtime_import.cjs
+2026-04-01T10:00:28.8256414Z Skipping test file: runtime_import.test.cjs
+2026-04-01T10:00:28.8256728Z Copied: safe-outputs-mcp-server.cjs
+2026-04-01T10:00:28.8257033Z Copied: safe_output_handler_manager.cjs
+2026-04-01T10:00:28.8257387Z Skipping test file: safe_output_handler_manager.test.cjs
+2026-04-01T10:00:28.8257737Z Copied: safe_output_helpers.cjs
+2026-04-01T10:00:28.8258049Z Skipping test file: safe_output_helpers.test.cjs
+2026-04-01T10:00:28.8258374Z Copied: safe_output_manifest.cjs
+2026-04-01T10:00:28.8329253Z Skipping test file: safe_output_manifest.test.cjs
+2026-04-01T10:00:28.8329781Z Copied: safe_output_processor.cjs
+2026-04-01T10:00:28.8330259Z Skipping test file: safe_output_processor.test.cjs
+2026-04-01T10:00:28.8330725Z Copied: safe_output_summary.cjs
+2026-04-01T10:00:28.8331173Z Skipping test file: safe_output_summary.test.cjs
+2026-04-01T10:00:28.8331636Z Copied: safe_output_topological_sort.cjs
+2026-04-01T10:00:28.8332129Z Skipping test file: safe_output_topological_sort.test.cjs
+2026-04-01T10:00:28.8332615Z Copied: safe_output_type_validator.cjs
+2026-04-01T10:00:28.8333081Z Skipping test file: safe_output_type_validator.test.cjs
+2026-04-01T10:00:28.8333623Z Skipping test file: safe_output_types_validation.test.cjs
+2026-04-01T10:00:28.8334094Z Copied: safe_output_validator.cjs
+2026-04-01T10:00:28.8334521Z Skipping test file: safe_output_validator.test.cjs
+2026-04-01T10:00:28.8334971Z Copied: safe_outputs_action_outputs.cjs
+2026-04-01T10:00:28.8335462Z Skipping test file: safe_outputs_action_outputs.test.cjs
+2026-04-01T10:00:28.8335947Z Copied: safe_outputs_append.cjs
+2026-04-01T10:00:28.8336355Z Skipping test file: safe_outputs_append.test.cjs
+2026-04-01T10:00:28.8336802Z Copied: safe_outputs_bootstrap.cjs
+2026-04-01T10:00:28.8337457Z Skipping test file: safe_outputs_bootstrap.test.cjs
+2026-04-01T10:00:28.8338007Z Skipping test file: safe_outputs_branch_detection.test.cjs
+2026-04-01T10:00:28.8338514Z Copied: safe_outputs_config.cjs
+2026-04-01T10:00:28.8339107Z Skipping test file: safe_outputs_config.test.cjs
+2026-04-01T10:00:28.8339453Z Copied: safe_outputs_handlers.cjs
+2026-04-01T10:00:28.8339785Z Skipping test file: safe_outputs_handlers.test.cjs
+2026-04-01T10:00:28.8340226Z Skipping test file: safe_outputs_mcp_add_comment_constraints.test.cjs
+2026-04-01T10:00:28.8340650Z Copied: safe_outputs_mcp_client.cjs
+2026-04-01T10:00:28.8340993Z Skipping test file: safe_outputs_mcp_client.test.cjs
+2026-04-01T10:00:28.8341406Z Skipping test file: safe_outputs_mcp_error_messages.test.cjs
+2026-04-01T10:00:28.8341850Z Skipping test file: safe_outputs_mcp_large_content.test.cjs
+2026-04-01T10:00:28.8342302Z Skipping test file: safe_outputs_mcp_schema_validation.test.cjs
+2026-04-01T10:00:28.8342698Z Copied: safe_outputs_mcp_server.cjs
+2026-04-01T10:00:28.8343036Z Skipping test file: safe_outputs_mcp_server.test.cjs
+2026-04-01T10:00:28.8343462Z Skipping test file: safe_outputs_mcp_server_defaults.test.cjs
+2026-04-01T10:00:28.8343857Z Copied: safe_outputs_mcp_server_http.cjs
+2026-04-01T10:00:28.8344251Z Skipping test file: safe_outputs_mcp_server_http_dispatch.test.cjs
+2026-04-01T10:00:28.8344709Z Skipping test file: safe_outputs_mcp_server_patch.test.cjs
+2026-04-01T10:00:28.8345085Z Copied: safe_outputs_tools_loader.cjs
+2026-04-01T10:00:28.8345435Z Skipping test file: safe_outputs_tools_loader.test.cjs
+2026-04-01T10:00:28.8345840Z Skipping test file: safe_outputs_type_validation.test.cjs
+2026-04-01T10:00:28.8346211Z Copied: sanitize_content.cjs
+2026-04-01T10:00:28.8346508Z Skipping test file: sanitize_content.test.cjs
+2026-04-01T10:00:28.8346844Z Copied: sanitize_content_core.cjs
+2026-04-01T10:00:28.8347140Z Copied: sanitize_incoming_text.cjs
+2026-04-01T10:00:28.8347541Z Copied: sanitize_label_content.cjs
+2026-04-01T10:00:28.8347874Z Skipping test file: sanitize_label_content.test.cjs
+2026-04-01T10:00:28.8348219Z Copied: sanitize_output.cjs
+2026-04-01T10:00:28.8348516Z Skipping test file: sanitize_output.test.cjs
+2026-04-01T10:00:28.8349025Z Copied: sanitize_title.cjs
+2026-04-01T10:00:28.8349307Z Skipping test file: sanitize_title.test.cjs
+2026-04-01T10:00:28.8349615Z Copied: sanitize_workflow_name.cjs
+2026-04-01T10:00:28.8349932Z Skipping test file: sanitize_workflow_name.test.cjs
+2026-04-01T10:00:28.8350262Z Copied: sanitized_logging.cjs
+2026-04-01T10:00:28.8350590Z Skipping test file: sanitized_logging.test.cjs
+2026-04-01T10:00:28.8350907Z Copied: set_issue_type.cjs
+2026-04-01T10:00:28.8351174Z Skipping test file: set_issue_type.test.cjs
+2026-04-01T10:00:28.8351477Z Copied: setup_globals.cjs
+2026-04-01T10:00:28.8351757Z Skipping test file: setup_sh_file_lists.test.cjs
+2026-04-01T10:00:28.8352078Z Copied: setup_threat_detection.cjs
+2026-04-01T10:00:28.8352351Z Copied: shim.cjs
+2026-04-01T10:00:28.8352584Z Copied: staged_preview.cjs
+2026-04-01T10:00:28.8352858Z Skipping test file: staged_preview.test.cjs
+2026-04-01T10:00:28.8353171Z Copied: sub_issue_helpers.cjs
+2026-04-01T10:00:28.8353465Z Skipping test file: sub_issue_helpers.test.cjs
+2026-04-01T10:00:28.8353780Z Copied: submit_pr_review.cjs
+2026-04-01T10:00:28.8354073Z Skipping test file: submit_pr_review.test.cjs
+2026-04-01T10:00:28.8354393Z Copied: substitute_placeholders.cjs
+2026-04-01T10:00:28.8354731Z Skipping test file: substitute_placeholders.test.cjs
+2026-04-01T10:00:28.8355062Z Copied: templatable.cjs
+2026-04-01T10:00:28.8355329Z Skipping test file: templatable.test.cjs
+2026-04-01T10:00:28.8355626Z Copied: temporary_id.cjs
+2026-04-01T10:00:28.8355907Z Skipping test file: temporary_id.test.cjs
+2026-04-01T10:00:28.8356223Z Copied: test-live-github-api.cjs
+2026-04-01T10:00:28.8356514Z Copied: unassign_from_user.cjs
+2026-04-01T10:00:28.8356817Z Skipping test file: unassign_from_user.test.cjs
+2026-04-01T10:00:28.8357137Z Copied: unlock-issue.cjs
+2026-04-01T10:00:28.8357413Z Skipping test file: unlock-issue.test.cjs
+2026-04-01T10:00:28.8357845Z Copied: update_activation_comment.cjs
+2026-04-01T10:00:28.8358200Z Skipping test file: update_activation_comment.test.cjs
+2026-04-01T10:00:28.8358744Z Copied: update_context_helpers.cjs
+2026-04-01T10:00:28.8359084Z Skipping test file: update_context_helpers.test.cjs
+2026-04-01T10:00:28.8359421Z Copied: update_discussion.cjs
+2026-04-01T10:00:28.8359693Z Copied: update_handler_factory.cjs
+2026-04-01T10:00:28.8360008Z Skipping test file: update_handler_factory.test.cjs
+2026-04-01T10:00:28.8360328Z Copied: update_issue.cjs
+2026-04-01T10:00:28.8360596Z Skipping test file: update_issue.test.cjs
+2026-04-01T10:00:28.8360925Z Skipping test file: update_issue_generator.test.cjs
+2026-04-01T10:00:28.8361269Z Copied: update_pr_description_helpers.cjs
+2026-04-01T10:00:28.8361628Z Skipping test file: update_pr_description_helpers.test.cjs
+2026-04-01T10:00:28.8361989Z Copied: update_project.cjs
+2026-04-01T10:00:28.8362258Z Skipping test file: update_project.test.cjs
+2026-04-01T10:00:28.8362568Z Copied: update_pull_request.cjs
+2026-04-01T10:00:28.8362876Z Skipping test file: update_pull_request.test.cjs
+2026-04-01T10:00:28.8363191Z Copied: update_release.cjs
+2026-04-01T10:00:28.8363464Z Skipping test file: update_release.test.cjs
+2026-04-01T10:00:28.8363762Z Copied: update_runner.cjs
+2026-04-01T10:00:28.8364032Z Skipping test file: update_runner.test.cjs
+2026-04-01T10:00:28.8364331Z Copied: upload_assets.cjs
+2026-04-01T10:00:28.8364599Z Skipping test file: upload_assets.test.cjs
+2026-04-01T10:00:28.8364907Z Copied: validate_context_variables.cjs
+2026-04-01T10:00:28.8365254Z Skipping test file: validate_context_variables.test.cjs
+2026-04-01T10:00:28.8365640Z Copied: validate_lockdown_requirements.cjs
+2026-04-01T10:00:28.8366000Z Skipping test file: validate_lockdown_requirements.test.cjs
+2026-04-01T10:00:28.8366368Z Copied: validate_memory_files.cjs
+2026-04-01T10:00:28.8366787Z Skipping test file: validate_memory_files.test.cjs
+2026-04-01T10:00:28.8367121Z Copied: validate_secrets.cjs
+2026-04-01T10:00:28.8367410Z Skipping test file: validate_secrets.test.cjs
+2026-04-01T10:00:28.8367736Z Copied: workflow_metadata_helpers.cjs
+2026-04-01T10:00:28.8368068Z Skipping test file: workflow_metadata_helpers.test.cjs
+2026-04-01T10:00:28.8368419Z Copied: write_large_content_to_file.cjs
+2026-04-01T10:00:28.8388016Z Skipping test file: write_large_content_to_file.test.cjs
+2026-04-01T10:00:28.8388440Z Copied: package-lock.json
+2026-04-01T10:00:28.8389107Z Copied: package.json
+2026-04-01T10:00:28.8389378Z Copied: safe_outputs_tools.json
+2026-04-01T10:00:28.8389667Z Copied: tsconfig.build.json
+2026-04-01T10:00:28.8389930Z Copied: tsconfig.json
+2026-04-01T10:00:28.8390497Z Found shell scripts directory: /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/sh
+2026-04-01T10:00:28.8391150Z Copied shell script: append_agent_step_summary.sh
+2026-04-01T10:00:28.8391532Z Copied shell script: check_mcp_servers.sh
+2026-04-01T10:00:28.8391866Z Copied shell script: check_mcp_servers_test.sh
+2026-04-01T10:00:28.8392221Z Copied shell script: clean_git_credentials.sh
+2026-04-01T10:00:28.8392571Z Copied shell script: clean_git_credentials_test.sh
+2026-04-01T10:00:28.8392926Z Copied shell script: clone_repo_memory_branch.sh
+2026-04-01T10:00:28.8393299Z Copied shell script: convert_gateway_config_claude.sh
+2026-04-01T10:00:28.8393674Z Copied shell script: convert_gateway_config_codex.sh
+2026-04-01T10:00:28.8394063Z Copied shell script: convert_gateway_config_codex_test.sh
+2026-04-01T10:00:28.8394452Z Copied shell script: convert_gateway_config_copilot.sh
+2026-04-01T10:00:28.8394830Z Copied shell script: convert_gateway_config_gemini.sh
+2026-04-01T10:00:28.8395189Z Copied shell script: create_cache_memory_dir.sh
+2026-04-01T10:00:28.8395527Z Copied shell script: create_gh_aw_tmp_dir.sh
+2026-04-01T10:00:28.8395858Z Copied shell script: create_prompt_first.sh
+2026-04-01T10:00:28.8396213Z Copied shell script: detect_inference_access_error.sh
+2026-04-01T10:00:28.8396578Z Copied shell script: download_docker_images.sh
+2026-04-01T10:00:28.8397078Z Copied shell script: download_docker_images_test.sh
+2026-04-01T10:00:28.8397481Z Copied shell script: generate_git_patch.sh
+2026-04-01T10:00:28.8397802Z Copied shell script: install_awf_binary.sh
+2026-04-01T10:00:28.8398124Z Copied shell script: install_copilot_cli.sh
+2026-04-01T10:00:28.8398453Z Copied shell script: install_docker_macos.sh
+2026-04-01T10:00:28.8399294Z Copied shell script: print_prompt_summary.sh
+2026-04-01T10:00:28.8399637Z Copied shell script: sanitize_path.sh
+2026-04-01T10:00:28.8399945Z Copied shell script: sanitize_path_test.sh
+2026-04-01T10:00:28.8400265Z Copied shell script: start_mcp_gateway.sh
+2026-04-01T10:00:28.8400589Z Copied shell script: start_mcp_gateway_test.sh
+2026-04-01T10:00:28.8400935Z Copied shell script: start_mcp_scripts_server.sh
+2026-04-01T10:00:28.8401295Z Copied shell script: start_safe_outputs_server.sh
+2026-04-01T10:00:28.8401701Z Copied shell script: stop_mcp_gateway.sh
+2026-04-01T10:00:28.8402035Z Copied shell script: validate_gatewayed_server.sh
+2026-04-01T10:00:28.8402403Z Copied shell script: validate_gatewayed_server_test.sh
+2026-04-01T10:00:28.8402767Z Copied shell script: validate_multi_secret.sh
+2026-04-01T10:00:28.8403119Z Copied shell script: validate_prompt_placeholders.sh
+2026-04-01T10:00:28.8403513Z Copied shell script: validate_prompt_placeholders_test.sh
+2026-04-01T10:00:28.8403888Z Copied shell script: verify_mcp_gateway_health.sh
+2026-04-01T10:00:28.8404252Z Successfully copied 266 files to /opt/gh-aw/actions
+2026-04-01T10:00:28.8404618Z Copying prompt markdown files to /opt/gh-aw/prompts
+2026-04-01T10:00:28.8405275Z Found markdown prompts directory: /home/runner/work/_actions/github/gh-aw/32b3a711a9ee97d38e3989c90af0385aff0066a7/actions/setup/md
+2026-04-01T10:00:28.8405908Z Copied prompt: agent_failure_comment.md
+2026-04-01T10:00:28.8406211Z Copied prompt: agent_failure_issue.md
+2026-04-01T10:00:28.8406755Z Copied prompt: cache_memory_prompt.md
+2026-04-01T10:00:28.8407121Z Copied prompt: cache_memory_prompt_multi.md
+2026-04-01T10:00:28.8453384Z Copied prompt: inference_access_error.md
+2026-04-01T10:00:28.8453777Z Copied prompt: issue_group_parent.md
+2026-04-01T10:00:28.8454161Z Copied prompt: manifest_protection_create_pr_fallback.md
+2026-04-01T10:00:28.8454585Z Copied prompt: manifest_protection_push_failed_fallback.md
+2026-04-01T10:00:28.8455009Z Copied prompt: manifest_protection_push_to_pr_fallback.md
+2026-04-01T10:00:28.8455377Z Copied prompt: markdown.md
+2026-04-01T10:00:28.8455662Z Copied prompt: missing_data_issue.md
+2026-04-01T10:00:28.8455973Z Copied prompt: missing_tool_issue.md
+2026-04-01T10:00:28.8456267Z Copied prompt: noop_comment.md
+2026-04-01T10:00:28.8456557Z Copied prompt: noop_runs_issue.md
+2026-04-01T10:00:28.8456846Z Copied prompt: playwright_prompt.md
+2026-04-01T10:00:28.8457152Z Copied prompt: pr_checkout_failure.md
+2026-04-01T10:00:28.8457457Z Copied prompt: pr_context_prompt.md
+2026-04-01T10:00:28.8457753Z Copied prompt: repo_memory_prompt.md
+2026-04-01T10:00:28.8458062Z Copied prompt: repo_memory_prompt_multi.md
+2026-04-01T10:00:28.8458416Z Copied prompt: safe_outputs_auto_create_issue.md
+2026-04-01T10:00:28.8460946Z Copied prompt: safe_outputs_create_pull_request.md
+2026-04-01T10:00:28.8461349Z Copied prompt: safe_outputs_prompt.md
+2026-04-01T10:00:28.8461697Z Copied prompt: safe_outputs_push_to_pr_branch.md
+2026-04-01T10:00:28.8462032Z Copied prompt: temp_folder_prompt.md
+2026-04-01T10:00:28.8462344Z Copied prompt: threat_detection.md
+2026-04-01T10:00:28.8462642Z Copied prompt: workflow_install_note.md
+2026-04-01T10:00:28.8462961Z Copied prompt: workflow_recompile_issue.md
+2026-04-01T10:00:28.8463258Z Copied prompt: xpia.md
+2026-04-01T10:00:28.8463592Z Successfully copied 28 prompt files to /opt/gh-aw/prompts
+2026-04-01T10:00:28.8464008Z Copying mcp-scripts files to /opt/gh-aw/mcp-scripts
+2026-04-01T10:00:28.8464374Z Copied mcp-scripts: mcp_scripts_bootstrap.cjs
+2026-04-01T10:00:28.8464740Z Copied mcp-scripts: mcp_scripts_config_loader.cjs
+2026-04-01T10:00:28.8465097Z Copied mcp-scripts: mcp_scripts_mcp_server.cjs
+2026-04-01T10:00:28.8465630Z Copied mcp-scripts: mcp_scripts_mcp_server_http.cjs
+2026-04-01T10:00:28.8466007Z Copied mcp-scripts: mcp_scripts_tool_factory.cjs
+2026-04-01T10:00:28.8466368Z Copied mcp-scripts: mcp_scripts_validation.cjs
+2026-04-01T10:00:28.8466688Z Copied mcp-scripts: mcp_server_core.cjs
+2026-04-01T10:00:28.8466993Z Copied mcp-scripts: mcp_logger.cjs
+2026-04-01T10:00:28.8467299Z Copied mcp-scripts: mcp_http_transport.cjs
+2026-04-01T10:00:28.8467615Z Copied mcp-scripts: mcp_handler_shell.cjs
+2026-04-01T10:00:28.8467929Z Copied mcp-scripts: mcp_handler_python.cjs
+2026-04-01T10:00:28.8468235Z Copied mcp-scripts: mcp_handler_go.cjs
+2026-04-01T10:00:28.8469005Z Copied mcp-scripts: mcp_handler_javascript.cjs
+2026-04-01T10:00:28.8469357Z Copied mcp-scripts: read_buffer.cjs
+2026-04-01T10:00:28.8469691Z Copied mcp-scripts: generate_mcp_scripts_config.cjs
+2026-04-01T10:00:28.8470043Z Copied mcp-scripts: setup_globals.cjs
+2026-04-01T10:00:28.8470344Z Copied mcp-scripts: error_helpers.cjs
+2026-04-01T10:00:28.8470636Z Copied mcp-scripts: error_codes.cjs
+2026-04-01T10:00:28.8470941Z Copied mcp-scripts: mcp_enhanced_errors.cjs
+2026-04-01T10:00:28.8471253Z Copied mcp-scripts: shim.cjs
+2026-04-01T10:00:28.8471537Z Copied mcp-scripts: mcp-scripts-runner.cjs
+2026-04-01T10:00:28.8471939Z Successfully copied 21 mcp-scripts files to /opt/gh-aw/mcp-scripts
+2026-04-01T10:00:28.8474324Z Copying safe-outputs files to /opt/gh-aw/safeoutputs
+2026-04-01T10:00:28.8474743Z Copied safe-outputs: safe_outputs_mcp_server.cjs
+2026-04-01T10:00:28.8475137Z Copied safe-outputs: safe_outputs_mcp_server_http.cjs
+2026-04-01T10:00:28.8475526Z Copied safe-outputs: safe_outputs_bootstrap.cjs
+2026-04-01T10:00:28.8475887Z Copied safe-outputs: safe_outputs_tools_loader.cjs
+2026-04-01T10:00:28.8476251Z Copied safe-outputs: safe_outputs_config.cjs
+2026-04-01T10:00:28.8476798Z Copied safe-outputs: safe_outputs_handlers.cjs
+2026-04-01T10:00:28.8477196Z Copied safe-outputs: safe_outputs_append.cjs
+2026-04-01T10:00:28.8477530Z Copied safe-outputs: mcp_server_core.cjs
+2026-04-01T10:00:28.8477832Z Copied safe-outputs: mcp_logger.cjs
+2026-04-01T10:00:28.8478138Z Copied safe-outputs: mcp_http_transport.cjs
+2026-04-01T10:00:28.8478460Z Copied safe-outputs: mcp_handler_python.cjs
+2026-04-01T10:00:28.8479175Z Copied safe-outputs: mcp_handler_shell.cjs
+2026-04-01T10:00:28.8479500Z Copied safe-outputs: mcp_handler_go.cjs
+2026-04-01T10:00:28.8479835Z Copied safe-outputs: mcp_handler_javascript.cjs
+2026-04-01T10:00:28.8480171Z Copied safe-outputs: read_buffer.cjs
+2026-04-01T10:00:28.8480485Z Copied safe-outputs: mcp_scripts_validation.cjs
+2026-04-01T10:00:28.8480811Z Copied safe-outputs: messages.cjs
+2026-04-01T10:00:28.8481095Z Copied safe-outputs: messages_core.cjs
+2026-04-01T10:00:28.8569725Z Copied safe-outputs: messages_footer.cjs
+2026-04-01T10:00:28.8570109Z Copied safe-outputs: messages_run_status.cjs
+2026-04-01T10:00:28.8570467Z Copied safe-outputs: messages_staged.cjs
+2026-04-01T10:00:28.8570828Z Copied safe-outputs: messages_close_discussion.cjs
+2026-04-01T10:00:28.8571203Z Copied safe-outputs: estimate_tokens.cjs
+2026-04-01T10:00:28.8571547Z Copied safe-outputs: generate_git_patch.cjs
+2026-04-01T10:00:28.8571870Z Copied safe-outputs: get_base_branch.cjs
+2026-04-01T10:00:28.8572190Z Copied safe-outputs: get_current_branch.cjs
+2026-04-01T10:00:28.8572519Z Copied safe-outputs: normalize_branch_name.cjs
+2026-04-01T10:00:28.8572888Z Copied safe-outputs: write_large_content_to_file.cjs
+2026-04-01T10:00:28.8573270Z Copied safe-outputs: generate_compact_schema.cjs
+2026-04-01T10:00:28.8573611Z Copied safe-outputs: setup_globals.cjs
+2026-04-01T10:00:28.8573913Z Copied safe-outputs: error_helpers.cjs
+2026-04-01T10:00:28.8584822Z Copied safe-outputs: error_codes.cjs
+2026-04-01T10:00:28.8598033Z Copied safe-outputs: git_helpers.cjs
+2026-04-01T10:00:28.8610627Z Copied safe-outputs: find_repo_checkout.cjs
+2026-04-01T10:00:28.8621724Z Copied safe-outputs: mcp_enhanced_errors.cjs
+2026-04-01T10:00:28.8632529Z Copied safe-outputs: comment_limit_helpers.cjs
+2026-04-01T10:00:28.8644930Z Copied safe-outputs: shim.cjs
+2026-04-01T10:00:28.8659542Z Copied safe-outputs: repo_helpers.cjs
+2026-04-01T10:00:28.8670900Z Copied safe-outputs: glob_pattern_helpers.cjs
+2026-04-01T10:00:28.8681822Z Copied safe-outputs: handler_auth.cjs
+2026-04-01T10:00:28.8692595Z Copied safe-outputs: missing_messages_helper.cjs
+2026-04-01T10:00:28.8703919Z Copied safe-outputs: firewall_blocked_domains.cjs
+2026-04-01T10:00:28.8715376Z Copied safe-outputs: missing_info_formatter.cjs
+2026-04-01T10:00:28.8726238Z Copied safe-outputs: sanitize_content_core.cjs
+2026-04-01T10:00:28.8736855Z Copied safe-outputs: markdown_code_region_balancer.cjs
+2026-04-01T10:00:28.8748006Z Copied safe-outputs: temporary_id.cjs
+2026-04-01T10:00:28.8765871Z Copied safe-outputs MCP entry point: mcp-server.cjs
+2026-04-01T10:00:28.8779564Z Copied safe-outputs tools definition: tools.json
+2026-04-01T10:00:28.8780109Z Created empty config.json for safe-outputs server
+2026-04-01T10:00:28.8780638Z Successfully copied 48 safe-outputs files to /opt/gh-aw/safeoutputs
+2026-04-01T10:00:28.8781199Z Custom tokens not enabled - skipping @actions/github installation
+2026-04-01T10:00:28.9016339Z ##[group]Run actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+2026-04-01T10:00:28.9016846Z with:
+2026-04-01T10:00:28.9017066Z   name: agent-output
+2026-04-01T10:00:28.9017327Z   path: /tmp/gh-aw/safeoutputs/
+2026-04-01T10:00:28.9017603Z   merge-multiple: false
+2026-04-01T10:00:28.9017876Z   repository: Azure/azure-sdk-for-js
+2026-04-01T10:00:28.9018163Z   run-id: 23841420062
+2026-04-01T10:00:28.9018410Z   skip-decompress: false
+2026-04-01T10:00:28.9029195Z   digest-mismatch: error
+2026-04-01T10:00:28.9029500Z env:
+2026-04-01T10:00:28.9029806Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:28.9030190Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:28.9031664Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:28.9032914Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:28.9033232Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:28.9033551Z ##[endgroup]
+2026-04-01T10:00:29.1492824Z Downloading single artifact
+2026-04-01T10:00:29.4097087Z Preparing to download the following artifacts:
+2026-04-01T10:00:29.4099720Z - agent-output (ID: 6217748741, Size: 1389, Expected Digest: sha256:7cdfc3400d837a3fc052461fac860e73137c891d3b3e5da096eb2b335e6b1d2f)
+2026-04-01T10:00:29.8627029Z Redirecting to blob download url: https://productionresultssa15.blob.core.windows.net/actions-results/2227cdce-f026-4fb9-bc85-24da8ed80d5b/workflow-job-run-e2ba5419-0ee2-5e7d-9b7d-d8916a6b2511/artifacts/5feb6d3ffed3baf4352cf0f03dcabdcad81892c86a67977bf8e6087a64894dee.zip
+2026-04-01T10:00:29.8630470Z Starting download of artifact to: /tmp/gh-aw/safeoutputs
+2026-04-01T10:00:30.0865633Z (node:1029) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-01T10:00:30.0866906Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-01T10:00:30.0915001Z SHA256 digest of downloaded artifact is 7cdfc3400d837a3fc052461fac860e73137c891d3b3e5da096eb2b335e6b1d2f
+2026-04-01T10:00:30.0919161Z Artifact download completed successfully.
+2026-04-01T10:00:30.0921944Z Total of 1 artifact(s) downloaded
+2026-04-01T10:00:30.0929289Z Download artifact has finished successfully
+2026-04-01T10:00:30.1074149Z ##[group]Run mkdir -p /tmp/gh-aw/safeoutputs/
+2026-04-01T10:00:30.1074596Z [36;1mmkdir -p /tmp/gh-aw/safeoutputs/[0m
+2026-04-01T10:00:30.1074999Z [36;1mfind "/tmp/gh-aw/safeoutputs/" -type f -print[0m
+2026-04-01T10:00:30.1075506Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/safeoutputs/agent_output.json" >> "$GITHUB_ENV"[0m
+2026-04-01T10:00:30.1081195Z shell: /usr/bin/bash -e {0}
+2026-04-01T10:00:30.1081485Z env:
+2026-04-01T10:00:30.1081787Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:30.1082166Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:30.1083378Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:30.1084644Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:30.1084959Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:30.1085290Z ##[endgroup]
+2026-04-01T10:00:30.1171362Z /tmp/gh-aw/safeoutputs/agent_output.json
+2026-04-01T10:00:30.1253916Z ##[group]Run actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+2026-04-01T10:00:30.1254399Z with:
+2026-04-01T10:00:30.1254632Z   name: agent-artifacts
+2026-04-01T10:00:30.1254883Z   path: /tmp/gh-aw/
+2026-04-01T10:00:30.1255134Z   merge-multiple: false
+2026-04-01T10:00:30.1255401Z   repository: Azure/azure-sdk-for-js
+2026-04-01T10:00:30.1255695Z   run-id: 23841420062
+2026-04-01T10:00:30.1255940Z   skip-decompress: false
+2026-04-01T10:00:30.1256208Z   digest-mismatch: error
+2026-04-01T10:00:30.1256456Z env:
+2026-04-01T10:00:30.1256741Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:30.1257113Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:30.1258330Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:30.1260123Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:30.1260450Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:30.1260860Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/safeoutputs/agent_output.json
+2026-04-01T10:00:30.1261216Z ##[endgroup]
+2026-04-01T10:00:30.2921500Z Downloading single artifact
+2026-04-01T10:00:30.5203155Z Preparing to download the following artifacts:
+2026-04-01T10:00:30.5206444Z - agent-artifacts (ID: 6217749590, Size: 156232, Expected Digest: sha256:ebd972b856ab2e13a4d467185ad30393bb87182abc4863f32b8f9d201476a3ae)
+2026-04-01T10:00:30.9913968Z Redirecting to blob download url: https://productionresultssa15.blob.core.windows.net/actions-results/2227cdce-f026-4fb9-bc85-24da8ed80d5b/workflow-job-run-e2ba5419-0ee2-5e7d-9b7d-d8916a6b2511/artifacts/048a8fab6d204fbc816c87d3d94fee39902cbc8b565ed4f9f5e5ffce7f8bc3e1.zip
+2026-04-01T10:00:30.9916154Z Starting download of artifact to: /tmp/gh-aw
+2026-04-01T10:00:31.2171159Z (node:1044) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-01T10:00:31.2172331Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-01T10:00:31.4367221Z SHA256 digest of downloaded artifact is ebd972b856ab2e13a4d467185ad30393bb87182abc4863f32b8f9d201476a3ae
+2026-04-01T10:00:31.4370568Z Artifact download completed successfully.
+2026-04-01T10:00:31.4371886Z Total of 1 artifact(s) downloaded
+2026-04-01T10:00:31.4380862Z Download artifact has finished successfully
+2026-04-01T10:00:31.4603405Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-01T10:00:31.4603900Z with:
+2026-04-01T10:00:31.4604542Z   github-token: ***
+2026-04-01T10:00:31.4605434Z   script: const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/opt/gh-aw/actions/safe_output_handler_manager.cjs');
+await main();
+
+2026-04-01T10:00:31.4606361Z   debug: false
+2026-04-01T10:00:31.4606616Z   user-agent: actions/github-script
+2026-04-01T10:00:31.4606915Z   result-encoding: json
+2026-04-01T10:00:31.4607171Z   retries: 0
+2026-04-01T10:00:31.4607436Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-01T10:00:31.4607762Z env:
+2026-04-01T10:00:31.4608060Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:31.4608432Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:31.4610085Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:31.4611325Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:31.4611660Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:31.4612086Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/safeoutputs/agent_output.json
+2026-04-01T10:00:31.4621451Z   GH_AW_ALLOWED_DOMAINS: api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com
+2026-04-01T10:00:31.4660019Z   GITHUB_SERVER_URL: https://github.com
+2026-04-01T10:00:31.4660423Z   GITHUB_API_URL: https://api.github.com
+2026-04-01T10:00:31.4663845Z   GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"37912"},"create_pull_request_review_comment":{"max":10,"side":"RIGHT","target":"37912"},"missing_data":{},"missing_tool":{},"push_to_pull_request_branch":{"allowed_files":["pnpm-lock.yaml","sdk/","eng/"],"if_no_changes":"warn","max":3,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","AGENTS.md"],"protected_path_prefixes":[".github/",".agents/"]},"submit_pull_request_review":{"footer":"if-body","max":1,"target":"37912"}}
+2026-04-01T10:00:31.4667428Z   GH_AW_CI_TRIGGER_TOKEN: 
+2026-04-01T10:00:31.4667698Z ##[endgroup]
+2026-04-01T10:00:31.5859220Z Safe Output Handler Manager starting...
+2026-04-01T10:00:31.5868442Z Loaded config from GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"37912"},"create_pull_request_review_comment":{"max":10,"side":"RIGHT","target":"37912"},"missing_data":{},"missing_tool":{},"push_to_pull_request_branch":{"allowed_files":["pnpm-lock.yaml","sdk/","eng/"],"if_no_changes":"warn","max":3,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","AGENTS.md"],"protected_path_prefixes":[".github/",".agents/"]},"submit_pull_request_review":{"footer":"if-body","max":1,"target":"37912"}}
+2026-04-01T10:00:31.5889707Z Agent output content length: 2260
+2026-04-01T10:00:31.5891408Z Found 3 message(s) in agent output
+2026-04-01T10:00:31.5893563Z Using footer config from submit_pull_request_review: if-body
+2026-04-01T10:00:31.5896585Z PR review footer mode set to "if-body"
+2026-04-01T10:00:31.5900398Z Loading and initializing safe output handlers based on configuration...
+2026-04-01T10:00:31.5921554Z Add comment configuration: max=1, target=37912
+2026-04-01T10:00:31.5923105Z Default target repo: Azure/azure-sdk-for-js
+2026-04-01T10:00:31.5924169Z Hide-older-comments is enabled
+2026-04-01T10:00:31.5925548Z ✓ Loaded and initialized handler for: add_comment
+2026-04-01T10:00:31.5948240Z PR review comment target configuration: 37912
+2026-04-01T10:00:31.5950217Z Default comment side configuration: RIGHT
+2026-04-01T10:00:31.5951157Z Max count: 10
+2026-04-01T10:00:31.5952196Z Default target repo: Azure/azure-sdk-for-js
+2026-04-01T10:00:31.5954657Z ✓ Loaded and initialized handler for: create_pull_request_review_comment
+2026-04-01T10:00:31.5959369Z Submit PR review handler initialized: max=1, target=37912
+2026-04-01T10:00:31.5963454Z ✓ Loaded and initialized handler for: submit_pull_request_review
+2026-04-01T10:00:31.5990240Z Target: triggering
+2026-04-01T10:00:31.5992722Z If no changes: warn
+2026-04-01T10:00:31.5995018Z Max patch size: 1024 KB
+2026-04-01T10:00:31.5997277Z Max count: 3
+2026-04-01T10:00:31.6000054Z Default target repo: Azure/azure-sdk-for-js
+2026-04-01T10:00:31.6002911Z ✓ Loaded and initialized handler for: push_to_pull_request_branch
+2026-04-01T10:00:31.6044252Z Max count: unlimited
+2026-04-01T10:00:31.6048905Z ✓ Loaded and initialized handler for: missing_tool
+2026-04-01T10:00:31.6057368Z Max count: unlimited
+2026-04-01T10:00:31.6059570Z ✓ Loaded and initialized handler for: missing_data
+2026-04-01T10:00:31.6064946Z Loaded 6 handler(s)
+2026-04-01T10:00:31.6074426Z Collected 0 missing tool(s), 0 missing data item(s), and 0 noop message(s)
+2026-04-01T10:00:31.6076782Z Processing 3 message(s) in order of appearance...
+2026-04-01T10:00:31.6078065Z Processing message 1/3: add_comment
+2026-04-01T10:00:31.6085430Z Target repository: Azure/azure-sdk-for-js
+2026-04-01T10:00:31.6091253Z Using explicitly provided item_number: #37912
+2026-04-01T10:00:32.0557576Z [MENTIONS] Allowing parent entity authors in comment: azure-sdk
+2026-04-01T10:00:32.0631927Z Adding comment to issue/PR #37912 in Azure/azure-sdk-for-js
+2026-04-01T10:00:32.0637012Z Searching for previous comments with workflow ID: mgmt-review
+2026-04-01T10:00:32.3680160Z No previous comments found with matching workflow ID
+2026-04-01T10:00:33.0396888Z Created comment: https://github.com/Azure/azure-sdk-for-js/pull/37912#issuecomment-4168941217
+2026-04-01T10:00:33.0403224Z 📝 Manifest: logged add_comment → https://github.com/Azure/azure-sdk-for-js/pull/37912#issuecomment-4168941217
+2026-04-01T10:00:33.0423929Z ✓ Message 1 (add_comment) completed successfully
+2026-04-01T10:00:33.0426710Z Processing message 2/3: create_pull_request_review_comment
+2026-04-01T10:00:33.0433860Z Processing create_pull_request_review_comment: path=sdk/appservice/arm-appservice/CHANGELOG.md, line=3, bodyLength=637
+2026-04-01T10:00:33.0441584Z Target repository: Azure/azure-sdk-for-js
+2026-04-01T10:00:34.6041744Z Fetched full pull request details for PR #37912 in Azure/azure-sdk-for-js
+2026-04-01T10:00:34.6044703Z Set review context: Azure/azure-sdk-for-js#37912
+2026-04-01T10:00:34.6053003Z Buffered review comment 1: sdk/appservice/arm-appservice/CHANGELOG.md:3
+2026-04-01T10:00:34.6054831Z Buffered review comment on PR #37912 in Azure/azure-sdk-for-js at sdk/appservice/arm-appservice/CHANGELOG.md:3 [RIGHT]
+2026-04-01T10:00:34.6057123Z ✓ Message 2 (create_pull_request_review_comment) completed successfully
+2026-04-01T10:00:34.6059022Z Processing message 3/3: submit_pull_request_review
+2026-04-01T10:00:34.6062346Z Setting review metadata: event=COMMENT, bodyLength=812
+2026-04-01T10:00:34.6064287Z Set review metadata: event=COMMENT, bodyLength=812
+2026-04-01T10:00:34.6066159Z ✓ Message 3 (submit_pull_request_review) completed successfully
+2026-04-01T10:00:34.6069899Z 
+2026-04-01T10:00:34.6070068Z === Finalizing PR Review ===
+2026-04-01T10:00:34.6071583Z Submitting 1 buffered review comment(s) as a single PR review
+2026-04-01T10:00:34.6075421Z Footer mode "if-body": body is non-empty, adding footer
+2026-04-01T10:00:34.6093710Z Submitting PR review on Azure/azure-sdk-for-js#37912: event=COMMENT, comments=1, bodyLength=1711
+2026-04-01T10:00:35.7198525Z Created PR review #4043065532: https://github.com/Azure/azure-sdk-for-js/pull/37912#pullrequestreview-4043065532
+2026-04-01T10:00:35.7201918Z ✓ PR review submitted successfully: https://github.com/Azure/azure-sdk-for-js/pull/37912#pullrequestreview-4043065532
+2026-04-01T10:00:35.7204266Z Stored 0 missing tool(s), 0 missing data item(s), and 0 noop message(s) for footer generation
+2026-04-01T10:00:35.7238330Z 📝 Safe output summaries written to step summary
+2026-04-01T10:00:35.7241853Z 
+2026-04-01T10:00:35.7242440Z === Processing Summary ===
+2026-04-01T10:00:35.7245064Z Total messages: 3
+2026-04-01T10:00:35.7245831Z Successful: 3
+2026-04-01T10:00:35.7246616Z Failed: 0
+2026-04-01T10:00:35.7247442Z Temporary IDs registered: 0
+2026-04-01T10:00:35.7248183Z Synthetic updates: 0
+2026-04-01T10:00:35.7262387Z Exported temporary ID map with 0 mapping(s)
+2026-04-01T10:00:35.7274969Z Exported comment_id: 4168941217
+2026-04-01T10:00:35.7277714Z Exported comment_url: https://github.com/Azure/azure-sdk-for-js/pull/37912#issuecomment-4168941217
+2026-04-01T10:00:35.7280594Z Safe Output Handler Manager completed
+2026-04-01T10:00:35.7473297Z ##[group]Run actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+2026-04-01T10:00:35.7473935Z with:
+2026-04-01T10:00:35.7474140Z   name: safe-output-items
+2026-04-01T10:00:35.7474446Z   path: /tmp/safe-output-items.jsonl
+2026-04-01T10:00:35.7474725Z   if-no-files-found: warn
+2026-04-01T10:00:35.7474960Z   compression-level: 6
+2026-04-01T10:00:35.7475178Z   overwrite: false
+2026-04-01T10:00:35.7475393Z   include-hidden-files: false
+2026-04-01T10:00:35.7475629Z   archive: true
+2026-04-01T10:00:35.7475816Z env:
+2026-04-01T10:00:35.7476067Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-01T10:00:35.7476410Z   GH_AW_ENGINE_ID: copilot
+2026-04-01T10:00:35.7477619Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-01T10:00:35.7479222Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-01T10:00:35.7479520Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-01T10:00:35.7479902Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/safeoutputs/agent_output.json
+2026-04-01T10:00:35.7480239Z ##[endgroup]
+2026-04-01T10:00:35.9519633Z With the provided path, there will be 1 file uploaded
+2026-04-01T10:00:35.9527072Z Artifact name is valid!
+2026-04-01T10:00:35.9529114Z Root directory input is valid!
+2026-04-01T10:00:36.1504615Z Uploading artifact: safe-output-items.zip
+2026-04-01T10:00:36.1566870Z Beginning upload of artifact content to blob storage
+2026-04-01T10:00:36.4413282Z Uploaded bytes 299
+2026-04-01T10:00:36.5076201Z Finished uploading artifact content to blob storage!
+2026-04-01T10:00:36.5080993Z SHA256 digest of uploaded artifact is 5421f6d2f219242c145968978764a8f59c1b0481309da0eb0ff15a9a2b18307d
+2026-04-01T10:00:36.5083475Z Finalizing artifact upload
+2026-04-01T10:00:36.7763461Z Artifact safe-output-items successfully finalized. Artifact ID 6217899056
+2026-04-01T10:00:36.7764415Z Artifact safe-output-items has been successfully uploaded! Final size is 299 bytes. Artifact ID is 6217899056
+2026-04-01T10:00:36.7765461Z Artifact download URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/23841420062/artifacts/6217899056
+2026-04-01T10:00:36.7891338Z Evaluate and set job outputs
+2026-04-01T10:00:36.7902614Z Set output 'code_push_failure_count'
+2026-04-01T10:00:36.7904698Z Set output 'comment_id'
+2026-04-01T10:00:36.7905464Z Set output 'comment_url'
+2026-04-01T10:00:36.7905815Z Set output 'create_discussion_error_count'
+2026-04-01T10:00:36.7906246Z Set output 'process_safe_outputs_processed_count'
+2026-04-01T10:00:36.7906677Z Set output 'process_safe_outputs_temporary_id_map'
+2026-04-01T10:00:36.7907442Z Cleaning up orphan processes

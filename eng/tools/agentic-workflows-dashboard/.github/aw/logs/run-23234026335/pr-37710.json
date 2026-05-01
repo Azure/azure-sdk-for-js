@@ -1,0 +1,15 @@
+{
+  "pr": 37710,
+  "package": "@azure/arm-previewalertrule",
+  "reviewedAt": "2026-03-18T07:37:47Z",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "review/arm-previewalertrule-node.api.md",
+      "line": 84,
+      "issueType": "design",
+      "category": "naming",
+      "description": "KnownAlertSeverity enum members have _0..._4 prefixes; fix with @clientName in TypeSpec"
+    }
+  ]
+}

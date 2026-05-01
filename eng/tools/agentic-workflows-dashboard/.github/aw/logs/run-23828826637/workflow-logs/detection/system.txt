@@ -1,0 +1,9 @@
+2026-04-01T02:21:46.8990000Z Requested labels: ubuntu-latest
+2026-04-01T02:21:46.8990000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/dash.lock.yml@refs/heads/main
+2026-04-01T02:21:46.8990000Z Waiting for a runner to pick up this job...
+2026-04-01T02:21:46.8980000Z Evaluating detection.if
+2026-04-01T02:21:46.8980000Z Evaluating: (always() && (needs.agent.result != 'skipped'))
+2026-04-01T02:21:46.8980000Z Expanded: (true && ('cancelled' != 'skipped'))
+2026-04-01T02:21:46.8980000Z Result: true
+2026-04-01T02:22:04.7130000Z Job is waiting for a hosted runner to come online.
+2026-04-01T02:22:04.7130000Z Job is about to start running on the hosted runner: GitHub Actions 1028476699

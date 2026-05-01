@@ -1,0 +1,12 @@
+{
+  "pr": 38255,
+  "package": "@azure/arm-monitorslis",
+  "version": "1.0.0-beta.1",
+  "apiVersion": "2025-03-01-preview",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "blocked (pending required reviewer approvals: MaryGao, qiaozha, JialinHuang803)",
+  "ciStatus": "all ADO CI checks passed (buildId=6209519, 2026-04-25)",
+  "notes": "Second generation attempt for 1.0.0-beta.1 (previous: PR #38214 which had broken pnpm-lock.yaml). All CI passing. Version aligned across package.json/monitorContext.ts/CHANGELOG. New preview package, extension resource (no subscriptionId). Client name: MonitorClient. KnownVersions has only 2025-03-01-preview.",
+  "reviewedAt": "2026-04-27"
+}

@@ -1,0 +1,183 @@
+From e638ba6cae599893af4cef520f2f0ff77151e8b9 Mon Sep 17 00:00:00 2001
+From: GitHub Copilot <copilot@github.com>
+Date: Thu, 26 Feb 2026 23:23:23 +0000
+Subject: [PATCH] Fix documentation inconsistencies in documentation/ folder
+
+- Update Node.js version requirement from 'LTS versions' to 'Node.js 20 or
+  later' in Quickstart-on-how-to-write-tests.md and
+  Generate-code-from-TypeSpec.md (aligns with package.json engines node>=20)
+- Fix test examples in Quickstart-on-how-to-write-tests.md to use vitest
+  instead of mocha/chai patterns:
+  - Replace `import { assert } from "chai"` with vitest import
+  - Replace `import { Context } from "mocha"` with `TestInfo` from
+    `@azure-tools/test-recorder`
+  - Replace `new Recorder(context.currentTest)` with `new Recorder(context)`
+  - Replace `beforeEach(async function (this: Context)` with
+    `beforeEach(async (ctx) =>`
+- Fix missing `/` separator in resolve-pnpm-lock-merge-conflict.md shell
+  command: `git add `git rev-parse --show-toplevel`pnpm-lock.yaml` ->
+  `git add `git rev-parse --show-toplevel`/pnpm-lock.yaml`
+- Remove incorrect `npm install -g common/tools/dev-tool` command from
+  steps-after-generations.md; `npx dev-tool` is sufficient
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/Generate-code-from-TypeSpec.md  |  2 +-
+ .../Quickstart-on-how-to-write-tests.md       | 44 +++++++++----------
+ .../resolve-pnpm-lock-merge-conflict.md       |  2 +-
+ documentation/steps-after-generations.md      |  1 -
+ 4 files changed, 24 insertions(+), 25 deletions(-)
+
+diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+index 73df7f4e32..d6594b524e 100644
+--- a/documentation/Generate-code-from-TypeSpec.md
++++ b/documentation/Generate-code-from-TypeSpec.md
+@@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
+ 
+ ## Prerequisites
+ 
+-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
++- [Node.js 20 or later](https://github.com/nodejs/release#release-schedule)
+ - [Git](https://git-scm.com/downloads)
+ - Local Clone of Rest API Spec Repo Fork
+   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
+diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+index 4bbb503fe0..fa4c6f54c7 100644
+--- a/documentation/Quickstart-on-how-to-write-tests.md
++++ b/documentation/Quickstart-on-how-to-write-tests.md
+@@ -40,7 +40,7 @@ Please notice that this quickstart is based on 3.x.y version of recorder tool (`
+ 
+ - pnpm
+   - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
+-- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
++- [Node.js 20 or later](https://github.com/nodejs/release#release-schedule)
+ - A C++ compiler toolchain and Python (for compiling machine-code modules)
+   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
+ 
+@@ -369,10 +369,10 @@ This simple test creates a resource and checks that the service handles it corre
+ ### `glossary.spec.ts`
+ 
+ ```typescript
+-import { Recorder } from "@azure-tools/test-recorder";
+-import { assert } from "chai";
+-import { PurviewDataMapClient } from "../../src";
+-import { createClient, createRecorder } from "./utils/recordedClient";
++import type { Recorder } from "@azure-tools/test-recorder";
++import { PurviewDataMapClient } from "../../src/index.js";
++import { createClient, createRecorder } from "./utils/recordedClient.js";
++import { describe, it, assert, beforeEach, afterEach } from "vitest";
+ 
+ describe("My test", () => {
+   let recorder: Recorder;
+@@ -380,14 +380,14 @@ describe("My test", () => {
+   let client: PurviewDataMapClient;
+   let glossaryName: string;
+ 
+-  beforeEach(async function () {
+-    recorder = await createRecorder(this);
++  beforeEach(async (ctx) => {
++    recorder = await createRecorder(ctx);
+     // Step 3: Create your client
+     client = await createClient(recorder);
+     glossaryName = "js-testing";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+@@ -415,11 +415,11 @@ describe("My test", () => {
+ ### `utils/recordedClient.ts`
+ 
+ ```typescript
+-import { Context } from "mocha";
+-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
++import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
++import { Recorder } from "@azure-tools/test-recorder";
++import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { ClientOptions } from "@azure-rest/core-client";
++import type { ClientOptions } from "@azure-rest/core-client";
+ 
+ const envSetupForPlayback: Record<string, string> = {
+   ENDPOINT: "https://endpoint",
+@@ -439,8 +439,8 @@ const recorderEnvSetup: RecorderStartOptions = {
+  * Should be called first in the test suite to make sure environment variables are
+  * read before they are being used.
+  */
+-export async function createRecorder(context: Context): Promise<Recorder> {
+-  const recorder = new Recorder(context.currentTest);
++export async function createRecorder(context: TestInfo): Promise<Recorder> {
++  const recorder = new Recorder(context);
+   await recorder.start(recorderEnvSetup);
+   return recorder;
+ }
+@@ -482,11 +482,11 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
+  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
+  */
+ 
+-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
++import type { RecorderStartOptions } from "@azure-tools/test-recorder";
++import { env, Recorder } from "@azure-tools/test-recorder";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { assert } from "chai";
+-import { Context } from "mocha";
+-import { MonitorClient } from "../src/monitorClient";
++import { assert, describe, it, beforeEach, afterEach } from "vitest";
++import { MonitorClient } from "../src/monitorClient.js";
+ 
+ // Step 4: Add environment variables you'd like to mask the values in recordings
+ const replaceableVariables: Record<string, string> = {
+@@ -508,8 +508,8 @@ describe("Monitor client", () => {
+   let client: MonitorClient;
+   let diagnosticName: string;
+ 
+-  beforeEach(async function (this: Context) {
+-    recorder = new Recorder(this.currentTest);
++  beforeEach(async (ctx) => {
++    recorder = new Recorder(ctx);
+     await recorder.start(recorderOptions);
+     // Step 3: create clients
+     subscriptionId = env.SUBSCRIPTION_ID || "";
+@@ -518,11 +518,11 @@ describe("Monitor client", () => {
+     diagnosticName = "my-test-diagnostic-name";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+-  it("should create diagnosticSettings", async function () {
++  it("should create diagnosticSettings", async () => {
+     // Step 3: call createOrUpdate to prepare resource
+     const res = await client.diagnosticSettings.createOrUpdate("workflowsId", diagnosticName, {
+       storageAccountId: "storageId",
+diff --git a/documentation/resolve-pnpm-lock-merge-conflict.md b/documentation/resolve-pnpm-lock-merge-conflict.md
+index 06e592a0e6..154ba327e1 100644
+--- a/documentation/resolve-pnpm-lock-merge-conflict.md
++++ b/documentation/resolve-pnpm-lock-merge-conflict.md
+@@ -13,5 +13,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
+ Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
+ 
+ ```shell
+-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
++git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
+ ```
+diff --git a/documentation/steps-after-generations.md b/documentation/steps-after-generations.md
+index 2bb88b03a0..49d6ca22f8 100644
+--- a/documentation/steps-after-generations.md
++++ b/documentation/steps-after-generations.md
+@@ -124,7 +124,6 @@ You will need to add a sample configuration section in your `package.json` file
+ Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
+ 
+ ```shell
+-npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
+ cd ${PROJECT_ROOT}
+ npx dev-tool samples publish -f
+ ```
+-- 
+2.53.0
+

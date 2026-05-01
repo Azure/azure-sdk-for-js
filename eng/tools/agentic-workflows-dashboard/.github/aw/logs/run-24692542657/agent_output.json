@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: The triggering push (369b035, PR #58393 by `@m-nash`) only removes Azure.Identity PackageReference entries from test/sample/stress .csproj files. No new APIs, types, methods, or user-facing features were added or changed, so no documentation updates are required.","type":"noop"}],"errors":[]}

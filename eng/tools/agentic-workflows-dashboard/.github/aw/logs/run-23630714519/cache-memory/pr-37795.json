@@ -1,0 +1,11 @@
+{
+  "pr": 37795,
+  "package": "@azure/arm-serialconsole",
+  "version": "3.0.0-beta.1",
+  "api_version": "2024-07-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "CHANGELOG.md", "line": 4, "description": "Compared with version 2.1.0 is wrong — last released was 2.1.1 (2025-08-22). 2.1.1 entry also removed from CHANGELOG."}
+  ]
+}

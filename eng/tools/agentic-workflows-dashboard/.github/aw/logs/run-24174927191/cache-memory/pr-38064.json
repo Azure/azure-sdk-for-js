@@ -1,0 +1,18 @@
+{
+  "pr": 38064,
+  "package": "@azure/arm-deviceregistry",
+  "version": "1.2.0-beta.1",
+  "reviewedAt": "2026-04-09",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "review/arm-deviceregistry-node.api.md",
+      "line": 550,
+      "type": "design",
+      "description": "Event exported type clashes with DOM built-in Event; API Extractor renames to Event_2 leaking _2 suffix. Fix via @clientName to AssetEvent in spec."
+    }
+  ],
+  "mergeState": "blocked",
+  "ciStatus": "UnitTest FAILED (missing recordings) on ubuntu_22x_node, windows_20x_node, macoslatest_24x_node (buildId=6128823)",
+  "notes": "Beta release 1.2.0-beta.1; adds Credentials, Policies operation groups and NamespaceDevices.revoke; API version 2026-03-01-preview; user agent version aligned; CHANGELOG compares with 1.1.0 stable (correct); no alpha versions; Event naming clash with DOM is main design issue"
+}

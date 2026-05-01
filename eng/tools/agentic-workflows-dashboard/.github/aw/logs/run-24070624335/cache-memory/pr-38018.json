@@ -1,0 +1,17 @@
+{
+  "pr": 38018,
+  "package": "@azure/arm-kubernetesconfiguration-extensions",
+  "version": "1.0.0",
+  "reviewedAt": "2026-04-07",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "CHANGELOG.md",
+      "line": 3,
+      "type": "tool",
+      "description": "Prior beta history (1.0.0-beta.2, 1.0.0-beta.1) wiped out by generation tool when creating stable 1.0.0 entry"
+    }
+  ],
+  "ciStatus": "Analyze FAILED (buildId=6116129); Build+UnitTest all passed",
+  "notes": "Stable release from 1.0.0-beta.2; API version 2025-03-01; version consistency ok; AzureClouds UPPER_SNAKE_CASE by design"
+}

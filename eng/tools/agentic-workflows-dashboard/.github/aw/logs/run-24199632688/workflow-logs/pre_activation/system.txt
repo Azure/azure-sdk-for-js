@@ -1,0 +1,4 @@
+2026-04-09T15:50:05.2780000Z Evaluating pre_activation.if
+2026-04-09T15:50:05.2780000Z Evaluating: (success() && (((((github.event.label.name == 'architecture-review-needed') && (github.event.pull_request.head.repo.fork == false))) && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))))
+2026-04-09T15:50:05.2780000Z Expanded: (true && ((('Central-EngSys' == 'architecture-review-needed') && (github.event.pull_request.head.repo.fork == false)) && ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))
+2026-04-09T15:50:05.2780000Z Result: false

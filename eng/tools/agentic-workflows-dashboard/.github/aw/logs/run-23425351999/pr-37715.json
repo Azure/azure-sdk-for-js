@@ -1,0 +1,8 @@
+{
+  "pr": 37715,
+  "package": "@azure/arm-kubernetesconfiguration-fluxconfigurations",
+  "version": "1.0.0-beta.2",
+  "outcome": "clean",
+  "reviewedAt": "2026-03-23",
+  "notes": "No tool or API issues found. Version consistent (1.0.0-beta.2). CI passed."
+}

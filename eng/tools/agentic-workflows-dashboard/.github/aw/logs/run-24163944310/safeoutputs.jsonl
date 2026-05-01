@@ -1,0 +1,1 @@
+{"message":"No documentation gaps found in the triggering push. The head commit (f807284) is a KeyVault MigrationGuide doc-only fix. The prior ServiceBus commit (0a0a774) is a bug fix with an adequate CHANGELOG entry; the README's batch section requires no update since the public API is unchanged and no specific limits were documented there.","type":"noop"}

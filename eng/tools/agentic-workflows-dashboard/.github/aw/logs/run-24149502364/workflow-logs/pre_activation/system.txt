@@ -1,0 +1,4 @@
+2026-04-08T17:34:46.7770000Z Evaluating pre_activation.if
+2026-04-08T17:34:46.7770000Z Evaluating: (success() && (((github.event.label.name == 'performance-review-needed') && (github.event.pull_request.head.repo.fork == false))))
+2026-04-08T17:34:46.7770000Z Expanded: (true && (('docs-review-needed' == 'performance-review-needed') && (github.event.pull_request.head.repo.fork == false)))
+2026-04-08T17:34:46.7770000Z Result: false

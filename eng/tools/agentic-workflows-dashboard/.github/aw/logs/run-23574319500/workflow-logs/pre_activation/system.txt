@@ -1,0 +1,3 @@
+2026-03-26T02:21:21.8600000Z Requested labels: ubuntu-slim
+2026-03-26T02:21:21.8600000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/heads/main
+2026-03-26T02:21:21.8600000Z Waiting for a runner to pick up this job...

@@ -1,0 +1,15 @@
+{
+  "pr": 37848,
+  "package": "@azure/arm-resources-subscriptions",
+  "version": "3.0.0",
+  "api_version": "2022-12-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "package.json", "line": 209, "description": "apiRefLink uses ?view=azure-node-preview for stable release 3.0.0"},
+    {"type": "tool", "file": "CHANGELOG.md", "line": 27, "description": "Released version 2.1.1 (2025-08-22) dropped from changelog history by generation tool"},
+    {"type": "tool", "file": "CHANGELOG.md", "line": 71, "description": "### Features Added under 2.0.1 corrupted to **features** by generation tool"},
+    {"type": "design", "file": "review/arm-resources-subscriptions-node.api.md", "line": 28, "description": "AzureClouds enum members use UPPER_SNAKE_CASE instead of PascalCase; missing Known prefix"},
+    {"type": "design", "file": "review/arm-resources-subscriptions-node.api.md", "line": 35, "description": "AzureSupportedClouds is closed template literal type; should be string"}
+  ]
+}

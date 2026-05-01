@@ -1,0 +1,18 @@
+{
+  "pr": 37881,
+  "package": "@azure/arm-search",
+  "version": "4.0.0-beta.2",
+  "reviewedAt": "2026-04-02",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "CHANGELOG.md",
+      "line": 3,
+      "type": "tool",
+      "description": "Compared with 3.3.0 instead of prior beta 4.0.0-beta.1"
+    }
+  ],
+  "mergeState": "dirty",
+  "conflictFiles": ["pnpm-lock.yaml", "sdk/search/arm-search/package.json", "sdk/search/arm-search/src/searchManagementClient.ts"],
+  "ciStatus": "all-passed"
+}

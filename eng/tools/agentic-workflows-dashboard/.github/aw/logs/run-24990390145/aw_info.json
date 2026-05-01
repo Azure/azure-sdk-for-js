@@ -1,0 +1,36 @@
+{
+  "engine_id": "copilot",
+  "engine_name": "GitHub Copilot CLI",
+  "model": "auto",
+  "version": "1.0.20",
+  "agent_version": "1.0.20",
+  "workflow_name": "Analyze CI Test Failures",
+  "experimental": false,
+  "supports_tools_allowlist": true,
+  "run_id": 24990390145,
+  "run_number": 39,
+  "run_attempt": "1",
+  "repository": "Azure/azure-sdk-for-js",
+  "ref": "refs/heads/main",
+  "sha": "0dbfbadd830f75ae02cf565b8d647698496db7eb",
+  "actor": "deyaaeldeen",
+  "event_name": "schedule",
+  "target_repo": "",
+  "staged": false,
+  "allowed_domains": [
+    "defaults",
+    "api.github.com",
+    "github.com",
+    "api.githubcopilot.com",
+    "registry.npmjs.org",
+    "pkgs.dev.azure.com"
+  ],
+  "firewall_enabled": true,
+  "awf_version": "v0.25.18",
+  "awmg_version": "",
+  "steps": {
+    "firewall": "squid"
+  },
+  "created_at": "2026-04-27T10:42:04.591Z",
+  "cli_version": "v0.68.0"
+}

@@ -1,0 +1,9 @@
+2026-04-01T02:22:25.5410000Z Evaluating update_cache_memory.if
+2026-04-01T02:22:25.5410000Z Evaluating: (always() && (needs.detection.result == 'success'))
+2026-04-01T02:22:25.5410000Z Expanded: (true && ('success' == 'success'))
+2026-04-01T02:22:25.5410000Z Result: true
+2026-04-01T02:22:25.5430000Z Requested labels: ubuntu-latest
+2026-04-01T02:22:25.5430000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/dexter.lock.yml@refs/heads/main
+2026-04-01T02:22:25.5430000Z Waiting for a runner to pick up this job...
+2026-04-01T02:22:27.5520000Z Job is about to start running on the hosted runner: GitHub Actions 1028476737
+2026-04-01T02:22:27.5520000Z Job is waiting for a hosted runner to come online.

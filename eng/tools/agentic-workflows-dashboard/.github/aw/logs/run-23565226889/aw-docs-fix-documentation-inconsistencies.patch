@@ -1,0 +1,109 @@
+From 6da7c9a805149ed9fc67a2ec852ae37a9a449653 Mon Sep 17 00:00:00 2001
+From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+Date: Wed, 25 Mar 2026 21:40:30 +0000
+Subject: [PATCH] docs: fix documentation inconsistencies
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- Generate-code-from-TypeSpec.md: fix incorrect pnpm install command
+  (`npm install -g @pnpm` → `npm install -g pnpm`; the package name has
+  no @ prefix)
+
+- golden-testing-commands.md: update outdated test script names
+  (`unit-test:node` and `integration-test:node` are no longer used;
+  modern packages use `test:node`)
+
+- next-generation-quickstart.md: fix missing @ scope prefix
+  (`azure/arm-resources` → `@azure/arm-resources`)
+
+- resolve-pnpm-lock-merge-conflict.md: fix missing path separator in
+  one-liner shell command (`git rev-parse --show-toplevel`pnpm-lock.yaml
+  → `git rev-parse --show-toplevel`/pnpm-lock.yaml)
+
+- steps-after-generations.md: remove incorrect global dev-tool install
+  instruction (`npm install -g common/tools/dev-tool` is unnecessary
+  because `npx dev-tool` works directly from any workspace package
+  directory; the following line already uses npx)
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/Generate-code-from-TypeSpec.md      | 2 +-
+ documentation/golden-testing-commands.md          | 4 ++--
+ documentation/next-generation-quickstart.md       | 2 +-
+ documentation/resolve-pnpm-lock-merge-conflict.md | 2 +-
+ documentation/steps-after-generations.md          | 1 -
+ 5 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+index 73df7f4e32..990b5ceef5 100644
+--- a/documentation/Generate-code-from-TypeSpec.md
++++ b/documentation/Generate-code-from-TypeSpec.md
+@@ -49,7 +49,7 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
+ Install dependencies to use code-gen-pipeline,  
+ ```ps
+ npm --prefix eng/common/tsp-client ci
+-npm install -g @pnpm
++npm install -g pnpm
+ npm --prefix eng/tools/js-sdk-release-tools ci
+ ```
+ 
+diff --git a/documentation/golden-testing-commands.md b/documentation/golden-testing-commands.md
+index f746dfdc2c..4cc4e9b50a 100644
+--- a/documentation/golden-testing-commands.md
++++ b/documentation/golden-testing-commands.md
+@@ -62,13 +62,13 @@ export default mergeConfig(
+ ```ts
+    it.only("test title...")
+ ```
+-Run the test command such as `npm run unit-test:node` to run the test
++Run the test command such as `npm run test:node` to run the test
+ 
+ [powershell]: https://github.com/PowerShell/PowerShell
+ 
+ ## [Method 2] --testNamePattern
+ ```bash
+-npm run integration-test:node -- --testNamePattern "simple"
++npm run test:node -- --testNamePattern "simple"
+ ```
+ Reference - [Filtering Tests — Introduction to Testing JavaScript with Vitest](https://stevekinney.net/courses/testing/filtering-tests)
+ 
+diff --git a/documentation/next-generation-quickstart.md b/documentation/next-generation-quickstart.md
+index 3c409be548..ab0d953e93 100644
+--- a/documentation/next-generation-quickstart.md
++++ b/documentation/next-generation-quickstart.md
+@@ -3,7 +3,7 @@
+ We are excited to announce the GA of a new set of management plane libraries for JavaScript/TypeScript. Those libraries contain a number of new features including Azure Identity support, HTTP pipeline, error-handling, etc, and follow the new Azure SDK guidelines which create easy-to-use
+ APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
+ 
+-Currently, we have released GA version of several packages such as `azure/arm-resources`, `@azure/arm-storage`,
++Currently, we have released GA version of several packages such as `@azure/arm-resources`, `@azure/arm-storage`,
+ `@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
+ 
+ In this basic quickstart guide, we will walk you through how to
+diff --git a/documentation/resolve-pnpm-lock-merge-conflict.md b/documentation/resolve-pnpm-lock-merge-conflict.md
+index 31c98106ee..f273b78cf4 100644
+--- a/documentation/resolve-pnpm-lock-merge-conflict.md
++++ b/documentation/resolve-pnpm-lock-merge-conflict.md
+@@ -15,5 +15,5 @@ Here's the recommended process to resolve merge conflicts of `pnpm-lock.yaml` in
+ Step 4) to 6) can be combined and enhanced to run under any directory under the repo if you are using a \*NIX environment:
+ 
+ ```shell
+-git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`pnpm-lock.yaml
++git checkout upstream/main `git rev-parse --show-toplevel`/pnpm-lock.yaml && pnpm install && git add `git rev-parse --show-toplevel`/pnpm-lock.yaml
+ ```
+diff --git a/documentation/steps-after-generations.md b/documentation/steps-after-generations.md
+index 4cc3f30b97..9a8f2abaae 100644
+--- a/documentation/steps-after-generations.md
++++ b/documentation/steps-after-generations.md
+@@ -124,7 +124,6 @@ You will need to add a sample configuration section in your `package.json` file
+ Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
+ 
+ ```shell
+-npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
+ cd ${PROJECT_ROOT}
+ npx dev-tool samples publish -f
+ ```
+-- 
+2.53.0
+

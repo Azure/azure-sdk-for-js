@@ -1,0 +1,1 @@
+{"pr":38052,"package":"@azure/keyvault-common","date":"2026-04-08","outcome":"clean","summary":"Simple revert of empty 2.0.2 version bump. CHANGELOG and package.json consistent."}

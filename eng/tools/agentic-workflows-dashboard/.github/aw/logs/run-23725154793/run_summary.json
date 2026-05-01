@@ -1,0 +1,144 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23725154793,
+  "processed_at": "2026-04-27T03:06:44.952093942Z",
+  "run": {
+    "databaseId": 23725154793,
+    "number": 99,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23725154793",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Documentation Review",
+    "workflowPath": ".github/workflows/scribe.lock.yml",
+    "createdAt": "2026-03-30T02:20:35Z",
+    "startedAt": "2026-03-30T02:20:35Z",
+    "updatedAt": "2026-03-30T02:21:44Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-search-6075077",
+    "headSha": "ff38fc38ebbac3b501fa128489249ec12ccf7490",
+    "displayTitle": "Documentation Review",
+    "Duration": 69000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 2,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23725154793"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_update_cache_memory.txt",
+    "workflow-logs/2_push_repo_memory.txt",
+    "workflow-logs/4_detection.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-03-30T02:20:36Z",
+      "completed_at": "2026-03-30T02:20:36Z",
+      "Duration": 0
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-30T02:20:48Z",
+      "completed_at": "2026-03-30T02:21:08Z",
+      "Duration": 20000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-30T02:20:42Z",
+      "completed_at": "2026-03-30T02:20:42Z",
+      "Duration": 0
+    },
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-03-30T02:20:44Z",
+      "completed_at": "2026-03-30T02:20:36Z",
+      "Duration": -8000000000
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-30T02:21:13Z",
+      "completed_at": "2026-03-30T02:21:18Z",
+      "Duration": 5000000000
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-30T02:21:19Z",
+      "completed_at": "2026-03-30T02:21:31Z",
+      "Duration": 12000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-30T02:21:08Z",
+      "completed_at": "2026-03-30T02:21:08Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-30T02:21:34Z",
+      "completed_at": "2026-03-30T02:21:43Z",
+      "Duration": 9000000000
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+2026-04-02T08:19:39.0130000Z Evaluating pre_activation.if
+2026-04-02T08:19:39.0130000Z Evaluating: (success() && ((github.event.label.name == 'mgmt-review-needed')))
+2026-04-02T08:19:39.0130000Z Expanded: (true && ('Self-Service Release' == 'mgmt-review-needed'))
+2026-04-02T08:19:39.0130000Z Result: false

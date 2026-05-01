@@ -1,0 +1,77 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24661955398,
+  "processed_at": "2026-04-26T23:01:02.693547048Z",
+  "run": {
+    "databaseId": 24661955398,
+    "number": 237,
+    "url": "https://github.com/Azure/azure-sdk-for-net/actions/runs/24661955398",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Update Docs",
+    "workflowPath": ".github/workflows/update-samples-and-docs.lock.yml",
+    "createdAt": "2026-04-20T10:38:31Z",
+    "startedAt": "2026-04-20T10:38:31Z",
+    "updatedAt": "2026-04-20T10:38:45Z",
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "c3a2a3880a56150dd85b3ca424fdddcdf85e0122",
+    "displayTitle": "Update Docs",
+    "Duration": 14000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24661955398"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "repo_maintenance",
+    "label": "Repo Maintenance",
+    "reason": "Workflow metadata matches repository maintenance or update work."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "agentic_assessments": [
+    {
+      "kind": "overkill_for_agentic",
+      "severity": "low",
+      "summary": "This Repo Maintenance run looks stable enough that deterministic automation may be a simpler fit.",
+      "evidence": "turns=0 tool_types=0 actuation=read_only",
+      "recommendation": "Consider whether a scripted rule or deterministic workflow step could replace this agentic path."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": null,
+  "job_details": null
+}

@@ -1,0 +1,19 @@
+{
+  "pr": 37904,
+  "package": "@azure/arm-maps",
+  "version": "4.0.0-beta.1",
+  "api_version": "2025-10-01-preview",
+  "release_type": "beta",
+  "reviewed_at": "2026-03-31",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "type": "design",
+      "category": "type-safety",
+      "file": "review/arm-maps-node.api.md",
+      "line": 437,
+      "description": "OperationResultOperations.get returns PollerLike<OperationState<void>, void> - void return type not appropriate for get operation. OperationStatusOperations.get correctly returns OperationStatusResult."
+    }
+  ],
+  "notes": "Previous PR #37630 (same package, earlier version 4.0.0-beta.1) had same void return issue plus a version mismatch issue. Version mismatch is now fixed. Void return still present."
+}

@@ -1,0 +1,20 @@
+{
+  "pr": 38114,
+  "package": "@azure/arm-azurestackhci",
+  "version": "4.1.0-beta.1",
+  "previousVersion": "4.0.0",
+  "apiVersion": "2026-04-01-preview",
+  "reviewedAt": "2026-04-22",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/azurestackhci/arm-azurestackhci/review/arm-azurestackhci-node.api.md",
+      "line": 224,
+      "type": "design",
+      "description": "Client property 'updateSummariesOperationGroup' contains redundant 'OperationGroup' suffix; TypeSpec operation group should be renamed to a concise service-concept name"
+    }
+  ],
+  "mergeState": "blocked (awaiting required approvals)",
+  "ciStatus": "all checks passed (checkenforcer success, buildId from 2026-04-13)",
+  "notes": "First beta after stable 4.0.0 (api-version 2026-02-01); new api-version 2026-04-01-preview (strictly newer); CHANGELOG comparison correct (4.0.0); userAgent aligned to 4.1.0-beta.1; KnownVersions has 2026-02-01 and 2026-04-01-preview; 11 new operation groups added"
+}

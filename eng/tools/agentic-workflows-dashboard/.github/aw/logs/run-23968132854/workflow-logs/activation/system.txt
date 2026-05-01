@@ -1,0 +1,4 @@
+2026-04-04T01:13:43.9870000Z Evaluating activation.if
+2026-04-04T01:13:43.9870000Z Evaluating: (success() && (((needs.pre_activation.outputs.activated == 'true') && ((github.event.label.name == 'dependency-review-needed')))))
+2026-04-04T01:13:43.9870000Z Expanded: (false && ((needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'dependency-review-needed')))
+2026-04-04T01:13:43.9870000Z Result: false

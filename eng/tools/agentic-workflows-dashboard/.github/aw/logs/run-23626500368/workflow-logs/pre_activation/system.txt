@@ -1,0 +1,9 @@
+2026-03-27T01:24:44.6690000Z Requested labels: ubuntu-slim
+2026-03-27T01:24:44.6690000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/dexter.lock.yml@refs/heads/main
+2026-03-27T01:24:44.6690000Z Waiting for a runner to pick up this job...
+2026-03-27T01:24:44.6690000Z Evaluating pre_activation.if
+2026-03-27T01:24:44.6690000Z Evaluating: (success() && ((github.event.label.name == 'dependency-review-needed')))
+2026-03-27T01:24:44.6690000Z Expanded: (true && ('dependency-review-needed' == 'dependency-review-needed'))
+2026-03-27T01:24:44.6690000Z Result: true
+2026-03-27T01:24:45.6550000Z Job is about to start running on the hosted runner: GitHub Actions 1027748215
+2026-03-27T01:24:45.6560000Z Job is waiting for a hosted runner to come online.

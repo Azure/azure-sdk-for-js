@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: The push (commit 3203086dd, PR #58223) only added eng/common/scripts/azsdk_prompt_telemetry.ps1 — an internal engineering telemetry script. No SDK packages, public APIs, or service documentation were affected. No documentation gap issue is needed.","type":"noop"}],"errors":[]}

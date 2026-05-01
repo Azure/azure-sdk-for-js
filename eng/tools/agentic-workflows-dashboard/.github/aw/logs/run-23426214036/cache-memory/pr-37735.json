@@ -1,0 +1,8 @@
+{
+  "pr": 37735,
+  "package": "@azure/arm-tenantactivitylogalerts",
+  "reviewed_at": "2026-03-23",
+  "outcome": "clean",
+  "findings": [],
+  "ci": "passing"
+}

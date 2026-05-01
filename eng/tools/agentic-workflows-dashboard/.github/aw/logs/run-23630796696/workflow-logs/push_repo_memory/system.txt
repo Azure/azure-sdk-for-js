@@ -1,0 +1,9 @@
+2026-03-27T04:19:56.9070000Z Evaluating push_repo_memory.if
+2026-03-27T04:19:56.9070000Z Evaluating: (always() && (needs.agent.outputs.detection_success == 'true'))
+2026-03-27T04:19:56.9070000Z Expanded: (true && ('true' == 'true'))
+2026-03-27T04:19:56.9070000Z Result: true
+2026-03-27T04:19:58.9030000Z Requested labels: ubuntu-latest
+2026-03-27T04:19:58.9030000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/mgmt-review.lock.yml@refs/heads/main
+2026-03-27T04:19:58.9030000Z Waiting for a runner to pick up this job...
+2026-03-27T04:20:19.5710000Z Job is about to start running on the hosted runner: GitHub Actions 1027768345
+2026-03-27T04:20:19.5700000Z Job is waiting for a hosted runner to come online.

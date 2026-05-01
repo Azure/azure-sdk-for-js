@@ -1,0 +1,20 @@
+{
+  "pr": 37851,
+  "package": "@azure/ai-projects",
+  "reviewed_at": "2026-03-27T04:11:53Z",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/ai/ai-projects/package.json",
+      "line": 39,
+      "type": "tool",
+      "description": "Absolute machine path in constantPaths (/mnt/vss/_work/...) - generation tooling bug"
+    },
+    {
+      "file": "sdk/ai/ai-projects/review/ai-projects-node.api.md",
+      "line": 2244,
+      "type": "tool",
+      "description": "ae-forgotten-export warning for WorkIQPreviewTool - not exported from package entry point"
+    }
+  ]
+}

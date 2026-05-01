@@ -1,0 +1,11 @@
+{
+  "pr": 37633,
+  "package": "@azure/arm-alertsmanagement",
+  "reviewed_at": "2026-03-23",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "description": "KnownTimeRange enum _N prefix members"},
+    {"type": "design", "category": "naming", "description": "ProxyResource_1 _N suffix collision"}
+  ],
+  "ci": "failing"
+}

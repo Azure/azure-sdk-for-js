@@ -1,0 +1,3 @@
+{"item_number":58402,"labels":["customer-reported","question"],"type":"add_labels"}
+{"body":"This package reached end-of-life on 10/16/2025 and is no longer supported by Microsoft. Unfortunately, we cannot assist with this issue.","item_number":"58402","type":"add_comment","temporary_id":"aw_wfuU6b8c"}
+{"body":"Closing this issue as `Azure.Monitor.Query` reached end-of-life on 10/16/2025 and is no longer supported. Please refer to the [migration guide](https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/monitor/MigrationGuide_Query.md) for guidance on upgrading to the replacement packages.","issue_number":"58402","state_reason":"NOT_PLANNED","type":"close_issue"}

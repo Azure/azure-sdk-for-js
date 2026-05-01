@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: Commit bc2a5a039 by azure-sdk bot (PR #58406) only bumps UnbrandedGeneratorVersion to 1.0.0-alpha.20260420.6 across eng/ package files and updates the generator version dashboard. No service SDK code, APIs, or public types were added or changed, so no documentation gap exists.","type":"noop"}],"errors":[]}

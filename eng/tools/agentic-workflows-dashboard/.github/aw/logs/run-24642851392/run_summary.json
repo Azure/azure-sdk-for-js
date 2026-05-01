@@ -1,0 +1,77 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24642851392,
+  "processed_at": "2026-04-27T19:39:48.036718376Z",
+  "run": {
+    "databaseId": 24642851392,
+    "number": 3161,
+    "url": "https://github.com/Azure/azure-rest-api-specs/actions/runs/24642851392",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "SDK Generation Agent",
+    "workflowPath": ".github/workflows/sdk-generation-agent.lock.yml",
+    "createdAt": "2026-04-20T00:25:34Z",
+    "startedAt": "2026-04-20T00:25:34Z",
+    "updatedAt": "2026-04-20T00:25:35Z",
+    "event": "issues",
+    "headBranch": "main",
+    "headSha": "8b2ae2cd4aaa5292b115bb38663f722b8a694235",
+    "displayTitle": "SDK Generation Agent",
+    "Duration": 1000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24642851392"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "issue_response",
+    "label": "Issue Response",
+    "reason": "The run is primarily interacting with issue, discussion, or comment threads."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "agentic_assessments": [
+    {
+      "kind": "overkill_for_agentic",
+      "severity": "low",
+      "summary": "This Issue Response run looks stable enough that deterministic automation may be a simpler fit.",
+      "evidence": "turns=0 tool_types=0 actuation=read_only",
+      "recommendation": "Consider whether a scripted rule or deterministic workflow step could replace this agentic path."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": null,
+  "job_details": null
+}

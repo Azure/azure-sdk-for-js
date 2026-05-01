@@ -1,0 +1,24 @@
+{
+  "pr": 38137,
+  "package": "@azure/arm-cosmosdb",
+  "version": "17.0.0-beta.3",
+  "reviewedAt": "2026-04-17",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/cosmosdb/arm-cosmosdb/CHANGELOG.md",
+      "line": 4,
+      "type": "tool",
+      "description": "17.0.0-beta.3 compares with 16.4.0 instead of 17.0.0-beta.2 (same issue from 2026-04-14, still unresolved)"
+    },
+    {
+      "file": "sdk/cosmosdb/arm-cosmosdb/metadata.json",
+      "line": 3,
+      "type": "tool",
+      "description": "api-version 2025-11-01-preview is same as already in 17.0.0-beta.2 on main (confirmed via cosmosDBManagementClient.ts on main); still unresolved"
+    }
+  ],
+  "mergeState": "blocked (required approvals pending; CI all passed)",
+  "ciStatus": "all ADO CI checks passed (checkenforcer success)",
+  "notes": "TypeSpec migration from autorest-based 17.0.0-beta.2; api-version 2025-11-01-preview (same as beta.2 confirmed); CHANGELOG comparison base incorrect; 2 unresolved review comments from 2026-04-14 still present. No new issues found in 2026-04-17 re-review."
+}

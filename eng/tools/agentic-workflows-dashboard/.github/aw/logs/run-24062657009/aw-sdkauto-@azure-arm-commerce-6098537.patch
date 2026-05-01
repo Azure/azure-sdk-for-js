@@ -1,0 +1,64 @@
+From e94c3bc3ad00a52ae40a7385cd55c0e3962dc1f5 Mon Sep 17 00:00:00 2001
+From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+Date: Tue, 7 Apr 2026 03:34:59 +0000
+Subject: [PATCH] fix: update pnpm-lock.yaml catalog versions for
+ sdk/commerce/arm-commerce
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Update catalog-pinned dependency versions in pnpm-lock.yaml for the
+arm-commerce package to align with current main branch catalog versions:
+- @types/node: 20.19.37 → 20.19.39
+- typescript: 5.9.3 → 6.0.2
+- playwright: 1.58.2 → 1.59.1
+- vitest/@vitest resolution strings updated accordingly
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ pnpm-lock.yaml | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 89149e526a2..73527160ef6 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -4443,10 +4443,10 @@ importers:
+         version: 4.13.0
+       '@types/node':
+         specifier: 'catalog:'
+-        version: 20.19.37
++        version: 20.19.39
+       '@vitest/browser-playwright':
+         specifier: catalog:testing
+-        version: 4.1.2(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
++        version: 4.1.2(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.2)
+       '@vitest/coverage-istanbul':
+         specifier: catalog:testing
+         version: 4.1.2(vitest@4.1.2)
+@@ -4461,7 +4461,7 @@ importers:
+         version: 9.39.4
+       playwright:
+         specifier: catalog:testing
+-        version: 1.58.2
++        version: 1.59.1
+       prettier:
+         specifier: 'catalog:'
+         version: 3.8.1
+@@ -4470,11 +4470,10 @@ importers:
+         version: 6.1.3
+       typescript:
+         specifier: 'catalog:'
+-        version: 5.9.3
++        version: 6.0.2
+       vitest:
+         specifier: catalog:testing
+-        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
+-
++        version: 4.1.2(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.2)(vite@7.3.1(@types/node@20.19.39)(tsx@4.21.0)(yaml@2.8.3))
+   sdk/commerce/arm-commerce-profile-2020-09-01-hybrid:
+     dependencies:
+       '@azure/core-auth':
+-- 
+2.53.0
+

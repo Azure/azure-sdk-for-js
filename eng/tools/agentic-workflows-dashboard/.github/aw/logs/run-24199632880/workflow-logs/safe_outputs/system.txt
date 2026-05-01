@@ -1,0 +1,4 @@
+2026-04-09T15:50:11.8620000Z Evaluating safe_outputs.if
+2026-04-09T15:50:11.8620000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && (needs.detection.result == 'success'))
+2026-04-09T15:50:11.8620000Z Expanded: (!true && (needs.agent.result != 'skipped') && (needs.detection.result == 'success'))
+2026-04-09T15:50:11.8620000Z Result: false

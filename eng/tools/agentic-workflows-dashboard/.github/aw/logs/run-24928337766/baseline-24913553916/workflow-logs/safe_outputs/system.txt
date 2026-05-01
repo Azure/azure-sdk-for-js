@@ -1,0 +1,9 @@
+2026-04-24T21:58:37.0400000Z Requested labels: ubuntu-slim
+2026-04-24T21:58:37.0400000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-24T21:58:37.0400000Z Waiting for a runner to pick up this job...
+2026-04-24T21:58:37.0370000Z Evaluating safe_outputs.if
+2026-04-24T21:58:37.0370000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && (needs.detection.result == 'success'))
+2026-04-24T21:58:37.0370000Z Expanded: (!false && ('success' != 'skipped') && ('success' == 'success'))
+2026-04-24T21:58:37.0370000Z Result: true
+2026-04-24T21:58:43.6130000Z Job is about to start running on the hosted runner: GitHub Actions 1032360137
+2026-04-24T21:58:43.6130000Z Job is waiting for a hosted runner to come online.

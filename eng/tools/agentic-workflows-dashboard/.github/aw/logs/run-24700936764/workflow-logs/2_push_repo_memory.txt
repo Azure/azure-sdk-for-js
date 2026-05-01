@@ -1,0 +1,527 @@
+﻿2026-04-21T02:41:32.3685698Z Current runner version: '2.333.1'
+2026-04-21T02:41:32.3708585Z ##[group]Runner Image Provisioner
+2026-04-21T02:41:32.3709333Z Hosted Compute Agent
+2026-04-21T02:41:32.3709792Z Version: 20260213.493
+2026-04-21T02:41:32.3710424Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-21T02:41:32.3711055Z Build Date: 2026-02-13T00:28:41Z
+2026-04-21T02:41:32.3711661Z Worker ID: {3bdab9ea-0c1d-4cd4-9f7e-25943c183cf0}
+2026-04-21T02:41:32.3712326Z Azure Region: westus3
+2026-04-21T02:41:32.3712836Z ##[endgroup]
+2026-04-21T02:41:32.3714785Z ##[group]VM Image
+2026-04-21T02:41:32.3715454Z - OS: Linux (x64)
+2026-04-21T02:41:32.3716009Z - Source: Docker
+2026-04-21T02:41:32.3716478Z - Name: ubuntu:24.04
+2026-04-21T02:41:32.3716991Z - Version: 20260413.54.1
+2026-04-21T02:41:32.3717474Z ##[endgroup]
+2026-04-21T02:41:32.3718441Z ##[group]GITHUB_TOKEN Permissions
+2026-04-21T02:41:32.3721418Z Contents: write
+2026-04-21T02:41:32.3722455Z Metadata: read
+2026-04-21T02:41:32.3722885Z ##[endgroup]
+2026-04-21T02:41:32.3726061Z Secret source: Actions
+2026-04-21T02:41:32.3726852Z Prepare workflow directory
+2026-04-21T02:41:32.4059976Z Prepare all required actions
+2026-04-21T02:41:32.4097143Z Getting action download info
+2026-04-21T02:41:33.0703190Z Download action repository 'github/gh-aw-actions@0acfb4a691fe207cd8bc982ea5cb9d750d57a702' (SHA:0acfb4a691fe207cd8bc982ea5cb9d750d57a702)
+2026-04-21T02:41:34.1860441Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-21T02:41:34.2341544Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-21T02:41:35.0755911Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-21T02:41:36.0155357Z Complete job name: push_repo_memory
+2026-04-21T02:41:36.0856624Z ##[group]Run github/gh-aw-actions/setup@0acfb4a691fe207cd8bc982ea5cb9d750d57a702
+2026-04-21T02:41:36.0857947Z with:
+2026-04-21T02:41:36.0858416Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-21T02:41:36.0858989Z   job-name: push_repo_memory
+2026-04-21T02:41:36.0859465Z   trace-id: fb4fb80e7f2e8a3e9517c9080446bd61
+2026-04-21T02:41:36.0859994Z   safe-output-custom-tokens: false
+2026-04-21T02:41:36.0860502Z   safe-output-artifact-client: false
+2026-04-21T02:41:36.0861175Z ##[endgroup]
+2026-04-21T02:41:37.2800412Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-21T02:41:37.4086177Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-21T02:41:37.6293627Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-21T02:41:37.6295415Z [otlp] INPUT_TRACE_ID=fb4fb80e7f2e8a3e9517c9080446bd61 (will reuse activation trace)
+2026-04-21T02:41:37.6296522Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-21T02:41:37.6297532Z [otlp] resolved trace-id=fb4fb80e7f2e8a3e9517c9080446bd61
+2026-04-21T02:41:37.6298416Z [otlp] trace-id=fb4fb80e7f2e8a3e9517c9080446bd61 written to GITHUB_OUTPUT
+2026-04-21T02:41:37.6299192Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-21T02:41:37.6299986Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-21T02:41:37.6300723Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-21T02:41:37.6637813Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-21T02:41:37.6638623Z with:
+2026-04-21T02:41:37.6639848Z   persist-credentials: false
+2026-04-21T02:41:37.6640336Z   sparse-checkout: .
+2026-04-21T02:41:37.6642284Z   repository: Azure/azure-sdk-for-js
+2026-04-21T02:41:37.6645954Z   token: ***
+2026-04-21T02:41:37.6646438Z   ssh-strict: true
+2026-04-21T02:41:37.6646993Z   ssh-user: git
+2026-04-21T02:41:37.6647409Z   clean: true
+2026-04-21T02:41:37.6647859Z   sparse-checkout-cone-mode: true
+2026-04-21T02:41:37.6648410Z   fetch-depth: 1
+2026-04-21T02:41:37.6649469Z   fetch-tags: false
+2026-04-21T02:41:37.6650395Z   show-progress: true
+2026-04-21T02:41:37.6651436Z   lfs: false
+2026-04-21T02:41:37.6651905Z   submodules: false
+2026-04-21T02:41:37.6652571Z   set-safe-directory: true
+2026-04-21T02:41:37.6653089Z env:
+2026-04-21T02:41:37.6663141Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-21T02:41:37.6679030Z   GITHUB_AW_OTEL_TRACE_ID: fb4fb80e7f2e8a3e9517c9080446bd61
+2026-04-21T02:41:37.6681562Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: c6e8c9e6c3815466
+2026-04-21T02:41:37.6682808Z   GITHUB_AW_OTEL_JOB_START_MS: 1776739297516
+2026-04-21T02:41:37.6683558Z ##[endgroup]
+2026-04-21T02:41:38.5932903Z Syncing repository: Azure/azure-sdk-for-js
+2026-04-21T02:41:38.5936469Z ##[group]Getting Git version info
+2026-04-21T02:41:38.5937291Z Working directory is '/home/runner/work/azure-sdk-for-js/azure-sdk-for-js'
+2026-04-21T02:41:38.5938339Z [command]/usr/bin/git version
+2026-04-21T02:41:38.5938784Z git version 2.53.0
+2026-04-21T02:41:38.5940172Z ##[endgroup]
+2026-04-21T02:41:38.5945713Z Temporarily overriding HOME='/home/runner/work/_temp/23a06c2f-c841-49b5-9785-68a838e7b1b7' before making global git config changes
+2026-04-21T02:41:38.5947292Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-21T02:41:38.5948424Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-21T02:41:38.5950314Z Deleting the contents of '/home/runner/work/azure-sdk-for-js/azure-sdk-for-js'
+2026-04-21T02:41:38.5951377Z ##[group]Initializing the repository
+2026-04-21T02:41:38.5952353Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-21T02:41:38.5953260Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-21T02:41:38.5954139Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-21T02:41:38.5955926Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-21T02:41:38.5956637Z hint: call:
+2026-04-21T02:41:38.5956978Z hint:
+2026-04-21T02:41:38.5957408Z hint: 	git config --global init.defaultBranch <name>
+2026-04-21T02:41:38.5957957Z hint:
+2026-04-21T02:41:38.5958462Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-21T02:41:38.5959303Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-21T02:41:38.5959959Z hint:
+2026-04-21T02:41:38.5960310Z hint: 	git branch -m <name>
+2026-04-21T02:41:38.5960717Z hint:
+2026-04-21T02:41:38.5961418Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-21T02:41:38.5962557Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/
+2026-04-21T02:41:38.5964628Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-js
+2026-04-21T02:41:38.5966397Z ##[endgroup]
+2026-04-21T02:41:38.5967304Z ##[group]Disabling automatic garbage collection
+2026-04-21T02:41:38.5967920Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-21T02:41:38.5970168Z ##[endgroup]
+2026-04-21T02:41:38.5970769Z ##[group]Setting up auth
+2026-04-21T02:41:38.5971215Z Removing SSH command configuration
+2026-04-21T02:41:38.5972210Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-21T02:41:38.5974590Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-21T02:41:38.5976348Z Removing HTTP extra header
+2026-04-21T02:41:38.5977435Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-21T02:41:38.5980436Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-21T02:41:38.5982532Z Removing includeIf entries pointing to credentials config files
+2026-04-21T02:41:38.5983366Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-21T02:41:38.5985545Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-21T02:41:38.5988608Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-21T02:41:38.5991572Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:38.5995160Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:38.5998078Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:38.6000488Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:38.6002507Z ##[endgroup]
+2026-04-21T02:41:38.6003171Z ##[group]Fetching the repository
+2026-04-21T02:41:38.6004663Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +50208323c56344792fedd7251ba4e2d356aefafe:refs/remotes/origin/main
+2026-04-21T02:41:39.5651004Z From https://github.com/Azure/azure-sdk-for-js
+2026-04-21T02:41:39.5651771Z  * [new ref]         50208323c56344792fedd7251ba4e2d356aefafe -> origin/main
+2026-04-21T02:41:39.5653435Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-21T02:41:39.5654085Z   origin/main
+2026-04-21T02:41:39.5655459Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-21T02:41:39.5656066Z 50208323c56344792fedd7251ba4e2d356aefafe
+2026-04-21T02:41:39.5657265Z ##[endgroup]
+2026-04-21T02:41:39.5657889Z ##[group]Determining the checkout info
+2026-04-21T02:41:39.5658592Z ##[endgroup]
+2026-04-21T02:41:39.5659206Z ##[group]Setting up sparse checkout
+2026-04-21T02:41:39.5659717Z [command]/usr/bin/git sparse-checkout set .
+2026-04-21T02:41:39.5660906Z ##[endgroup]
+2026-04-21T02:41:39.5661493Z ##[group]Checking out the ref
+2026-04-21T02:41:39.5664981Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-21T02:41:39.9938813Z Switched to a new branch 'main'
+2026-04-21T02:41:39.9939743Z branch 'main' set up to track 'origin/main'.
+2026-04-21T02:41:39.9941353Z ##[endgroup]
+2026-04-21T02:41:39.9942443Z [command]/usr/bin/git log -1 --format=%H
+2026-04-21T02:41:39.9943489Z 50208323c56344792fedd7251ba4e2d356aefafe
+2026-04-21T02:41:39.9945348Z ##[group]Removing auth
+2026-04-21T02:41:39.9945803Z Removing SSH command configuration
+2026-04-21T02:41:39.9946648Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-21T02:41:39.9948584Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-21T02:41:39.9950335Z Removing HTTP extra header
+2026-04-21T02:41:39.9951117Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-21T02:41:39.9953418Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-21T02:41:39.9955749Z Removing includeIf entries pointing to credentials config files
+2026-04-21T02:41:39.9956600Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-21T02:41:39.9957537Z includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path
+2026-04-21T02:41:39.9958534Z includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path
+2026-04-21T02:41:39.9959357Z includeif.gitdir:/github/workspace/.git.path
+2026-04-21T02:41:39.9960019Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-21T02:41:39.9961568Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path
+2026-04-21T02:41:39.9962838Z /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9965184Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git.path /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9967649Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path
+2026-04-21T02:41:39.9968940Z /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9971139Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-js/azure-sdk-for-js/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9973369Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-21T02:41:39.9974544Z /github/runner_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9976511Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9978765Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-21T02:41:39.9979852Z /github/runner_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9981861Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config
+2026-04-21T02:41:39.9984104Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-21T02:41:39.9988247Z Removing credentials config '/home/runner/work/_temp/git-credentials-a3f39fe1-b05d-4c1e-bae5-dc3b4e2de7f2.config'
+2026-04-21T02:41:39.9989845Z ##[endgroup]
+2026-04-21T02:41:40.0077552Z ##[group]Run git config --global user.email "github-actions[bot]@users.noreply.github.com"
+2026-04-21T02:41:40.0078688Z [36;1mgit config --global user.email "github-actions[bot]@users.noreply.github.com"[0m
+2026-04-21T02:41:40.0079547Z [36;1mgit config --global user.name "github-actions[bot]"[0m
+2026-04-21T02:41:40.0080170Z [36;1mgit config --global am.keepcr true[0m
+2026-04-21T02:41:40.0080726Z [36;1m# Re-authenticate git with GitHub token[0m
+2026-04-21T02:41:40.0081330Z [36;1mSERVER_URL_STRIPPED="${SERVER_URL#https://}"[0m
+2026-04-21T02:41:40.0082290Z [36;1mgit remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@${SERVER_URL_STRIPPED}/${REPO_NAME}.git"[0m
+2026-04-21T02:41:40.0083341Z [36;1mecho "Git configured with standard GitHub Actions identity"[0m
+2026-04-21T02:41:40.0091820Z shell: /usr/bin/bash -e {0}
+2026-04-21T02:41:40.0092292Z env:
+2026-04-21T02:41:40.0100252Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-21T02:41:40.0107885Z   GITHUB_AW_OTEL_TRACE_ID: fb4fb80e7f2e8a3e9517c9080446bd61
+2026-04-21T02:41:40.0108515Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: c6e8c9e6c3815466
+2026-04-21T02:41:40.0109062Z   GITHUB_AW_OTEL_JOB_START_MS: 1776739297516
+2026-04-21T02:41:40.0109570Z   REPO_NAME: Azure/azure-sdk-for-js
+2026-04-21T02:41:40.0110052Z   SERVER_URL: https://github.com
+2026-04-21T02:41:40.0110722Z   GITHUB_TOKEN: ***
+2026-04-21T02:41:40.0111098Z ##[endgroup]
+2026-04-21T02:41:40.0269831Z Git configured with standard GitHub Actions identity
+2026-04-21T02:41:40.0360499Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-21T02:41:40.0361244Z with:
+2026-04-21T02:41:40.0361598Z   name: repo-memory-default
+2026-04-21T02:41:40.0362051Z   path: /tmp/gh-aw/repo-memory/default
+2026-04-21T02:41:40.0362535Z   merge-multiple: false
+2026-04-21T02:41:40.0362954Z   repository: Azure/azure-sdk-for-js
+2026-04-21T02:41:40.0363418Z   run-id: 24700936764
+2026-04-21T02:41:40.0363807Z   skip-decompress: false
+2026-04-21T02:41:40.0364229Z   digest-mismatch: error
+2026-04-21T02:41:40.0364998Z env:
+2026-04-21T02:41:40.0371810Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-21T02:41:40.0379588Z   GITHUB_AW_OTEL_TRACE_ID: fb4fb80e7f2e8a3e9517c9080446bd61
+2026-04-21T02:41:40.0380217Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: c6e8c9e6c3815466
+2026-04-21T02:41:40.0380778Z   GITHUB_AW_OTEL_JOB_START_MS: 1776739297516
+2026-04-21T02:41:40.0381264Z ##[endgroup]
+2026-04-21T02:41:40.5648370Z Downloading single artifact
+2026-04-21T02:41:40.5650583Z Preparing to download the following artifacts:
+2026-04-21T02:41:40.5652665Z - repo-memory-default (ID: 6545940623, Size: 3224, Expected Digest: sha256:a476dee1c8602359f4ff75298e988682bc22e9ac464157af66a621c7d398b1c9)
+2026-04-21T02:41:40.9207600Z Redirecting to blob download url: https://productionresultssa17.blob.core.windows.net/actions-results/72f7092d-8ca5-4b78-9b4e-77cf43221250/workflow-job-run-8a4a105e-3145-5649-8aab-a8e742a184a9/artifacts/a1d23a611a7a9623a46a3957bdaa168aae478d0d3492f71db435971112732845.zip
+2026-04-21T02:41:40.9222623Z Starting download of artifact to: /tmp/gh-aw/repo-memory/default
+2026-04-21T02:41:41.1397790Z (node:1176) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-21T02:41:41.1399613Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-21T02:41:41.1519719Z SHA256 digest of downloaded artifact is a476dee1c8602359f4ff75298e988682bc22e9ac464157af66a621c7d398b1c9
+2026-04-21T02:41:41.1524941Z Artifact download completed successfully.
+2026-04-21T02:41:41.1528078Z Total of 1 artifact(s) downloaded
+2026-04-21T02:41:41.1535739Z Download artifact has finished successfully
+2026-04-21T02:41:41.1688890Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-21T02:41:41.1689623Z with:
+2026-04-21T02:41:41.1691188Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/push_repo_memory.cjs');
+await main();
+
+2026-04-21T02:41:41.1693054Z   github-token: ***
+2026-04-21T02:41:41.1693456Z   debug: false
+2026-04-21T02:41:41.1693852Z   user-agent: actions/github-script
+2026-04-21T02:41:41.1694655Z   result-encoding: json
+2026-04-21T02:41:41.1695702Z   retries: 0
+2026-04-21T02:41:41.1696161Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-21T02:41:41.1696747Z env:
+2026-04-21T02:41:41.1704048Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-21T02:41:41.1712070Z   GITHUB_AW_OTEL_TRACE_ID: fb4fb80e7f2e8a3e9517c9080446bd61
+2026-04-21T02:41:41.1712725Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: c6e8c9e6c3815466
+2026-04-21T02:41:41.1713286Z   GITHUB_AW_OTEL_JOB_START_MS: 1776739297516
+2026-04-21T02:41:41.1713945Z   GH_TOKEN: ***
+2026-04-21T02:41:41.1714533Z   GITHUB_RUN_ID: 24700936764
+2026-04-21T02:41:41.1715859Z   GITHUB_SERVER_URL: https://github.com
+2026-04-21T02:41:41.1716443Z   ARTIFACT_DIR: /tmp/gh-aw/repo-memory/default
+2026-04-21T02:41:41.1717494Z   MEMORY_ID: default
+2026-04-21T02:41:41.1717931Z   TARGET_REPO: Azure/azure-sdk-for-js
+2026-04-21T02:41:41.1718436Z   BRANCH_NAME: memory/mgmt-review
+2026-04-21T02:41:41.1718896Z   MAX_FILE_SIZE: 10240
+2026-04-21T02:41:41.1719760Z   MAX_FILE_COUNT: 100
+2026-04-21T02:41:41.1720198Z   MAX_PATCH_SIZE: 10240
+2026-04-21T02:41:41.1721071Z   ALLOWED_EXTENSIONS: []
+2026-04-21T02:41:41.1721941Z ##[endgroup]
+2026-04-21T02:41:41.2740447Z Environment configuration:
+2026-04-21T02:41:41.2745792Z   MEMORY_ID: default
+2026-04-21T02:41:41.2748561Z   MAX_FILE_SIZE: 10240
+2026-04-21T02:41:41.2751119Z   MAX_FILE_COUNT: 100
+2026-04-21T02:41:41.2753662Z   MAX_PATCH_SIZE: 10240
+2026-04-21T02:41:41.2756804Z   ALLOWED_EXTENSIONS: []
+2026-04-21T02:41:41.2759442Z   FILE_GLOB_FILTER: (empty - all files accepted)
+2026-04-21T02:41:41.2762086Z   FILE_GLOB_FILTER length: 0
+2026-04-21T02:41:41.2768212Z Working in repository: /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-21T02:41:41.2772854Z Checking out branch: memory/mgmt-review...
+2026-04-21T02:41:42.2503370Z Switched to branch 'memory/mgmt-review'
+2026-04-21T02:41:42.2551219Z Checked out existing branch: memory/mgmt-review
+2026-04-21T02:41:42.2555037Z Destination directory: /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-21T02:41:42.2556574Z No file glob filter - all files will be accepted
+2026-04-21T02:41:42.2561323Z Scan complete: Found 6 file(s) to copy
+2026-04-21T02:41:42.2577647Z Files found:
+2026-04-21T02:41:42.2578859Z   - pr-37847.json (443 bytes)
+2026-04-21T02:41:42.2581956Z   - pr-37944.json (623 bytes)
+2026-04-21T02:41:42.2583556Z   - pr-37954.json (898 bytes)
+2026-04-21T02:41:42.2588724Z   - pr-37980.json (849 bytes)
+2026-04-21T02:41:42.2589222Z   - pr-38013.json (408 bytes)
+2026-04-21T02:41:42.2589697Z   - pr-review-history.md (1559 bytes)
+2026-04-21T02:41:42.2605487Z All file extensions are allowed in repo-memory directory
+2026-04-21T02:41:42.2610407Z Copying 6 validated file(s)...
+2026-04-21T02:41:42.2613726Z Copied: pr-37847.json (443 bytes)
+2026-04-21T02:41:42.2620575Z Copied: pr-37944.json (623 bytes)
+2026-04-21T02:41:42.2625263Z Copied: pr-37954.json (898 bytes)
+2026-04-21T02:41:42.2629541Z Copied: pr-37980.json (849 bytes)
+2026-04-21T02:41:42.2631776Z Copied: pr-38013.json (408 bytes)
+2026-04-21T02:41:42.2635447Z Copied: pr-review-history.md (1559 bytes)
+2026-04-21T02:41:42.2683705Z Changes detected, committing and pushing...
+2026-04-21T02:41:42.2754895Z Patch additions size: 1 KB (162 bytes) (configured limit: 10 KB (10240 bytes), effective with 20% overhead: 12 KB (12288 bytes))
+2026-04-21T02:41:42.2805516Z [memory/mgmt-review 00bec17] Update repo memory from workflow run 24700936764
+2026-04-21T02:41:42.2806433Z  1 file changed, 1 insertion(+)
+2026-04-21T02:41:42.2807529Z Pulling latest changes from memory/mgmt-review...
+2026-04-21T02:41:42.8739207Z From https://github.com/Azure/azure-sdk-for-js
+2026-04-21T02:41:42.8741925Z  * branch            memory/mgmt-review -> FETCH_HEAD
+2026-04-21T02:41:42.8823164Z Already up to date.
+2026-04-21T02:41:42.8846303Z Pushing changes to memory/mgmt-review...
+2026-04-21T02:41:44.8212330Z To https://github.com/Azure/azure-sdk-for-js.git
+2026-04-21T02:41:44.8217487Z    c306224..00bec17  HEAD -> memory/mgmt-review
+2026-04-21T02:41:44.8277544Z Successfully pushed changes to memory/mgmt-review branch
+2026-04-21T02:41:44.8694711Z Post job cleanup.
+2026-04-21T02:41:45.0001701Z [command]/usr/bin/git version
+2026-04-21T02:41:45.0045593Z git version 2.53.0
+2026-04-21T02:41:45.0105413Z Copying '/home/runner/.gitconfig' to '/home/runner/work/_temp/e2f1e560-2f37-4616-9b79-024bc4e2629e/.gitconfig'
+2026-04-21T02:41:45.0119839Z Temporarily overriding HOME='/home/runner/work/_temp/e2f1e560-2f37-4616-9b79-024bc4e2629e' before making global git config changes
+2026-04-21T02:41:45.0127543Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-21T02:41:45.0141578Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-js/azure-sdk-for-js
+2026-04-21T02:41:45.0219576Z Removing SSH command configuration
+2026-04-21T02:41:45.0221331Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-21T02:41:45.0259900Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-21T02:41:45.0458228Z Removing HTTP extra header
+2026-04-21T02:41:45.0466999Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-21T02:41:45.0510438Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-21T02:41:45.0838210Z Removing includeIf entries pointing to credentials config files
+2026-04-21T02:41:45.0857156Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-21T02:41:45.0910630Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-21T02:41:45.1313889Z Post job cleanup.
+2026-04-21T02:41:45.1733417Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-21T02:41:45.1741564Z Cleaning up /tmp/gh-aw...
+2026-04-21T02:41:45.1886530Z Cleaned up /tmp/gh-aw
+2026-04-21T02:41:45.1991855Z Evaluate and set job outputs
+2026-04-21T02:41:45.2001117Z Cleaning up orphan processes

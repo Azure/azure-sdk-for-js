@@ -1,0 +1,9 @@
+2026-04-21T09:01:56.7780000Z Evaluating pre_activation.if
+2026-04-21T09:01:56.7780000Z Evaluating: (success() && (((github.event.label.name == 'mgmt-review-needed') || (github.event_name == 'workflow_dispatch'))))
+2026-04-21T09:01:56.7780000Z Expanded: (true && (('mgmt-review-needed' == 'mgmt-review-needed') || (github.event_name == 'workflow_dispatch')))
+2026-04-21T09:01:56.7780000Z Result: true
+2026-04-21T09:01:56.7920000Z Requested labels: ubuntu-slim
+2026-04-21T09:01:56.7920000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/mgmt-review.lock.yml@refs/heads/main
+2026-04-21T09:01:56.7920000Z Waiting for a runner to pick up this job...
+2026-04-21T09:02:21.2270000Z Job is about to start running on the hosted runner: GitHub Actions 1031634122
+2026-04-21T09:02:21.2270000Z Job is waiting for a hosted runner to come online.

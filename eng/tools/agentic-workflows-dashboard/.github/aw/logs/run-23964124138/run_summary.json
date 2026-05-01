@@ -1,0 +1,139 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23964124138,
+  "processed_at": "2026-04-27T02:54:46.171109934Z",
+  "run": {
+    "databaseId": 23964124138,
+    "number": 165,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23964124138",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Architecture Review",
+    "workflowPath": ".github/workflows/archie.lock.yml",
+    "createdAt": "2026-04-03T22:12:07Z",
+    "startedAt": "2026-04-03T22:12:07Z",
+    "updatedAt": "2026-04-03T22:18:17Z",
+    "event": "pull_request_target",
+    "headBranch": "copilot/remove-claude-md",
+    "headSha": "986bcdc0d7796bfa4644f062efa6a564b77961d3",
+    "displayTitle": "Architecture Review",
+    "Duration": 370000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23964124138"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "moderate",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/1_push_repo_memory.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:12:07Z",
+      "completed_at": "2026-04-03T22:12:07Z",
+      "Duration": 0
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:12:07Z",
+      "completed_at": "2026-04-03T22:12:07Z",
+      "Duration": 0
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:12:08Z",
+      "completed_at": "2026-04-03T22:12:07Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:12:08Z",
+      "completed_at": "2026-04-03T22:12:07Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T22:18:05Z",
+      "completed_at": "2026-04-03T22:18:16Z",
+      "Duration": 11000000000
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:12:08Z",
+      "completed_at": "2026-04-03T22:12:08Z",
+      "Duration": 0
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:12:08Z",
+      "completed_at": "2026-04-03T22:12:08Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T22:18:16Z",
+      "completed_at": "2026-04-03T22:18:16Z",
+      "Duration": 0
+    }
+  ]
+}

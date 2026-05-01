@@ -1,0 +1,9 @@
+{
+  "pr": 37847,
+  "package": "@azure/arm-kubernetesconfiguration-extensions",
+  "version": "1.0.0",
+  "apiVersion": "2025-03-01",
+  "outcome": "clean",
+  "reviewed": "2026-03-27",
+  "notes": "First stable release from beta.2. New types: AccessDetail, AdditionalDetails, ManagementDetails. New enums: KnownAKSIdentityType, KnownAutoUpgradeMode. All versions aligned. No guideline violations found."
+}

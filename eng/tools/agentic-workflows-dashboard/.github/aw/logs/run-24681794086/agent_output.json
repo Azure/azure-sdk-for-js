@@ -1,0 +1,1 @@
+{"items":[{"message":"No documentation update needed. PR #58388 by `@m-nash` removed explicit Azure.Identity PackageReferences from 10 data plane test .csproj files (Azure.Core 1.53+ now includes the identity types). No production code, public APIs, types, or methods were added or changed, so no README or documentation gaps exist.","type":"noop"}],"errors":[]}

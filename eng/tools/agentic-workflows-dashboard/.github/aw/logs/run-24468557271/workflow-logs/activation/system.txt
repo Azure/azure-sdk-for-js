@@ -1,0 +1,9 @@
+2026-04-15T18:45:47.2360000Z Evaluating activation.if
+2026-04-15T18:45:47.2360000Z Evaluating: (success() && (((needs.pre_activation.outputs.activated == 'true') && (((github.event.label.name == 'docs-review-needed') || (github.event_name == 'workflow_dispatch'))))))
+2026-04-15T18:45:47.2360000Z Expanded: (true && (('true' == 'true') && (('docs-review-needed' == 'docs-review-needed') || (github.event_name == 'workflow_dispatch'))))
+2026-04-15T18:45:47.2360000Z Result: true
+2026-04-15T18:45:47.2360000Z Requested labels: ubuntu-slim
+2026-04-15T18:45:47.2360000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/heads/main
+2026-04-15T18:45:47.2360000Z Waiting for a runner to pick up this job...
+2026-04-15T19:02:00.0390000Z Job is waiting for a hosted runner to come online.
+2026-04-15T19:02:00.0390000Z Job is about to start running on the hosted runner: GitHub Actions 1030764167

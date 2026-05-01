@@ -1,0 +1,4 @@
+2026-04-06T19:48:54.8590000Z Evaluating pre_activation.if
+2026-04-06T19:48:54.8590000Z Evaluating: (success() && ((github.event.label.name == 'docs-review-needed')))
+2026-04-06T19:48:54.8590000Z Expanded: (true && ('Azure.Core' == 'docs-review-needed'))
+2026-04-06T19:48:54.8590000Z Result: false

@@ -1,0 +1,18 @@
+{
+  "pr": 37941,
+  "package": "@azure/arm-commerce",
+  "version": "4.0.0-beta.4",
+  "reviewedAt": "2026-04-03",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/commerce/arm-commerce/src/api/usageManagementContext.ts",
+      "line": 37,
+      "type": "tool",
+      "description": "userAgentInfo set to 1.0.0-beta.1 but package version is 4.0.0-beta.4 (version mismatch)"
+    }
+  ],
+  "mergeState": "blocked",
+  "ciStatus": "in_progress (buildId=6102865)",
+  "notes": "TypeSpec migration to 4.0.0-beta.4; first changelog entry (hard-coded); API version 2015-06-01-preview"
+}

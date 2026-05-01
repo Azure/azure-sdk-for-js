@@ -1,0 +1,11 @@
+{
+  "pr": 37993,
+  "repo": "Azure/azure-sdk-for-js",
+  "reviewed_at": "2026-04-10T03:01:12Z",
+  "author": "deyaaeldeen",
+  "package": "eng/common/mcp",
+  "file_changed": "eng/common/mcp/azure-sdk-mcp.ps1",
+  "summary": "clean",
+  "findings": [],
+  "notes": "Three defensive bug fixes in PowerShell MCP installer script: ErrorAction SilentlyContinue->Ignore, null guard for $localVersion, diagnostic logging of failed JSON parse. No security issues."
+}

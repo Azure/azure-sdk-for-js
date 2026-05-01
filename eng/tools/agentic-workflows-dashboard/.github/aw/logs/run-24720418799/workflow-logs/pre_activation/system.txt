@@ -1,0 +1,4 @@
+2026-04-21T11:41:58.5550000Z Evaluating pre_activation.if
+2026-04-21T11:41:58.5550000Z Evaluating: (success() && ((github.event.label.name == 'hero-scenarios-needed')))
+2026-04-21T11:41:58.5550000Z Expanded: (true && ('Compute' == 'hero-scenarios-needed'))
+2026-04-21T11:41:58.5550000Z Result: false

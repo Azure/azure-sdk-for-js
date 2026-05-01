@@ -1,0 +1,11 @@
+{
+  "pr": 38113,
+  "package": "@azure/arm-communication",
+  "version": "5.0.0",
+  "reviewedAt": "2026-04-13",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "blocked (draft PR; UnitTest failures due to stale recordings)",
+  "ciStatus": "UnitTest FAILED across all environments (api-version mismatch: recordings=2025-09-01, code=2026-03-18)",
+  "notes": "TypeSpec migration from Swagger-based 4.2.0 to TypeSpec 5.0.0; stable release; API version 2026-03-18; KnownVersions has 2025-09-01 and 2026-03-18; all versions aligned; no naming/type/export issues"
+}

@@ -1,0 +1,4 @@
+2026-04-09T15:50:05.2240000Z Evaluating pre_activation.if
+2026-04-09T15:50:05.2240000Z Evaluating: (success() && (((((github.event.label.name == 'performance-review-needed') && (github.event.pull_request.head.repo.fork == false))) && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))))
+2026-04-09T15:50:05.2240000Z Expanded: (true && ((('Central-EngSys' == 'performance-review-needed') && (github.event.pull_request.head.repo.fork == false)) && ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))
+2026-04-09T15:50:05.2240000Z Result: false

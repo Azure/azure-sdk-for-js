@@ -1,0 +1,213 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 22417671708,
+  "processed_at": "2026-04-27T02:59:23.98845191Z",
+  "run": {
+    "databaseId": 22417671708,
+    "number": 1,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/22417671708",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Documentation Consistency Check",
+    "workflowPath": ".github/workflows/docs-consistency-check.lock.yml",
+    "createdAt": "2026-02-25T21:55:58Z",
+    "startedAt": "2026-02-25T21:55:58Z",
+    "updatedAt": "2026-02-25T22:07:38Z",
+    "event": "workflow_dispatch",
+    "headBranch": "main",
+    "headSha": "c6d6ec3c4ba13e3608881330bc995baa70f41719",
+    "displayTitle": "Documentation Consistency Check",
+    "Duration": 700000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 3321138,
+    "EstimatedCost": 0,
+    "Turns": 45,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-22417671708"
+  },
+  "metrics": {
+    "TokenUsage": 3321138,
+    "EstimatedCost": 0,
+    "Turns": 45,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Code Fix run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=45 tool_types=0 duration=11m40s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=45",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.githubcopilot.com:443",
+      "github.com:443",
+      "registry.npmjs.org:443"
+    ],
+    "total_requests": 68,
+    "allowed_requests": 68,
+    "blocked_requests": 0,
+    "requests_by_domain": {
+      "api.githubcopilot.com:443": {
+        "allowed": 51,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "registry.npmjs.org:443": {
+        "allowed": 15,
+        "blocked": 0
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "create_pull_request",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-02-25T22:03:51.898002133Z",
+        "server_name": "safeoutputs",
+        "tool_name": "create_pull_request",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "safeoutputs",
+        "request_count": 1,
+        "tool_call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "aw.patch",
+    "aw_info.json",
+    "detection.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "outputs.jsonl",
+    "safe-output-items.jsonl",
+    "sandbox/agent/logs/conversation.md",
+    "sandbox/agent/logs/process-1772056676818-141.log",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/2_detection.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-25T21:56:12Z",
+      "completed_at": "2026-02-25T21:56:39Z",
+      "Duration": 27000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-25T21:56:43Z",
+      "completed_at": "2026-02-25T22:04:20Z",
+      "Duration": 457000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-25T22:04:26Z",
+      "completed_at": "2026-02-25T22:05:06Z",
+      "Duration": 40000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-25T22:05:24Z",
+      "completed_at": "2026-02-25T22:06:51Z",
+      "Duration": 87000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-25T22:07:10Z",
+      "completed_at": "2026-02-25T22:07:37Z",
+      "Duration": 27000000000
+    }
+  ]
+}

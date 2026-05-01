@@ -1,0 +1,10 @@
+2026-04-20T21:46:23.5040000Z Evaluating activation.if
+2026-04-20T21:46:23.5040000Z Evaluating: (success() && ((needs.pre_activation.outputs.activated == 'true')))
+2026-04-20T21:46:23.5040000Z Expanded: (true && ('true' == 'true'))
+2026-04-20T21:46:23.5040000Z Result: true
+2026-04-20T21:46:23.5080000Z Requested labels: ubuntu-slim
+2026-04-20T21:46:23.5080000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-20T21:46:23.5080000Z Waiting for a runner to pick up this job...
+2026-04-20T21:46:27.2220000Z All GitHub-hosted runners with label [ubuntu-slim] are busy. For more information, see https://gh.io/job-concurrency-limits
+2026-04-20T21:47:28.5160000Z Job is about to start running on the hosted runner: GitHub Actions 1031536091
+2026-04-20T21:47:28.5150000Z Job is waiting for a hosted runner to come online.

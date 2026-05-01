@@ -1,0 +1,163 @@
+From 3f0bd2e269263a49f0794a872c035f19ca991179 Mon Sep 17 00:00:00 2001
+From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+Date: Mon, 27 Apr 2026 09:52:24 +0000
+Subject: [PATCH] docs: fix documentation inconsistencies across multiple files
+
+- Update Node.js version requirements from 'LTS versions' to '20 or
+  later' in Quickstart-on-how-to-write-tests.md,
+  Generate-code-from-TypeSpec.md, and migrating-to-typespec.md to match
+  the repo's engines requirement (>=20) and align with DPG-quickstart.md
+  and RLC-quickstart.md
+
+- Replace 'npm run' with 'pnpm run' in golden-testing-commands.md for
+  all test commands (test:browser, test:node, unit-test:node,
+  integration-test:node) to match the repo's pnpm-based tooling
+
+- Replace deprecated 'dev-tool run customization apply-v2' with
+  'dev-tool run customization apply' in migrating-to-typespec.md (the
+  apply-v2 subcommand now emits a deprecation warning directing users
+  to use 'apply' instead)
+
+- Remove outdated NOTE in using-azure-identity.md claiming
+  InteractiveBrowserCredential does not support Node.js; Node.js support
+  was added and interactiveBrowserCredential.ts exists in the package
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/Generate-code-from-TypeSpec.md      |  2 +-
+ documentation/Quickstart-on-how-to-write-tests.md |  2 +-
+ documentation/golden-testing-commands.md          | 12 ++++++------
+ documentation/migrating-to-typespec.md            |  6 +++---
+ documentation/using-azure-identity.md             |  6 ++----
+ 5 files changed, 13 insertions(+), 15 deletions(-)
+
+diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+index 990b5ceef..b985c45e6 100644
+--- a/documentation/Generate-code-from-TypeSpec.md
++++ b/documentation/Generate-code-from-TypeSpec.md
+@@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
+ 
+ ## Prerequisites
+ 
+-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
++- [Node.js 20 or later](https://nodejs.org/en/download/)
+ - [Git](https://git-scm.com/downloads)
+ - Local Clone of Rest API Spec Repo Fork
+   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
+diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+index 5da6ae8c4..88cb125cc 100644
+--- a/documentation/Quickstart-on-how-to-write-tests.md
++++ b/documentation/Quickstart-on-how-to-write-tests.md
+@@ -40,7 +40,7 @@ Please note that this quickstart is based on version 4.x of the recorder tool (`
+ 
+ - pnpm
+   - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
+-- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
++- [Node.js 20 or later](https://nodejs.org/en/download/)
+ - A C++ compiler toolchain and Python (for compiling machine-code modules)
+   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
+ 
+diff --git a/documentation/golden-testing-commands.md b/documentation/golden-testing-commands.md
+index f746dfdc2..e2345d0de 100644
+--- a/documentation/golden-testing-commands.md
++++ b/documentation/golden-testing-commands.md
+@@ -16,8 +16,8 @@ If you're looking to be onboarded to the asset-sync workflow to push out the tes
+ 
+ | script name            | command(usually)                     |
+ |:-----------------------|:-------------------------------------|
+-| `npm run test:browser` | `dev-tool run test:vitest --browser` |
+-| `npm run test:node`    | `dev-tool run test:vitest`           |
++| `pnpm run test:browser` | `dev-tool run test:vitest --browser` |
++| `pnpm run test:node`    | `dev-tool run test:vitest`           |
+ |                        |                                      |
+ 
+ ## After migrating to asset-sync
+@@ -27,7 +27,7 @@ Expects that you have [powershell] installed.
+ 
+ | script command | What does it do?                                                                                                                                                                                                                                                                                                                     |
+ | :----------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+-| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `npm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
++| `npx dev-tool test-proxy init`                   | **[Only once per package]** Generates the `assets.json` with an empty tag. After `init`, run test commands such as `pnpm run test:node` to generate test recordings and `push` them.                                                                                                                                                                                                                                                               |
+ | `npx dev-tool test-proxy migrate --initial-push` | **[Only once per package]** To migrate the test recordings to the assets repo for the first time. Also generates `assets.json`                                                                                                                                                                                                           |
+ | `npx dev-tool test-proxy push`                   | To push the test recordings to the assets repo.                                                                                                                                                                                                                                                                |
+ | `npx dev-tool test-proxy reset`                  | Reverts the local changes to recordings and resets to what is currently checked in to the assets repo. This is a destructive operation.                                                                                                                                                                                              |
+@@ -62,17 +62,17 @@ export default mergeConfig(
+ ```ts
+    it.only("test title...")
+ ```
+-Run the test command such as `npm run unit-test:node` to run the test
++Run the test command such as `pnpm run unit-test:node` to run the test
+ 
+ [powershell]: https://github.com/PowerShell/PowerShell
+ 
+ ## [Method 2] --testNamePattern
+ ```bash
+-npm run integration-test:node -- --testNamePattern "simple"
++pnpm run integration-test:node -- --testNamePattern "simple"
+ ```
+ Reference - [Filtering Tests — Introduction to Testing JavaScript with Vitest](https://stevekinney.net/courses/testing/filtering-tests)
+ 
+ ## [Method 3] -- test file
+ ```bash
+-npm run test:node -- test/public/metricsClient.spec.ts
++pnpm run test:node -- test/public/metricsClient.spec.ts
+ ```
+\ No newline at end of file
+diff --git a/documentation/migrating-to-typespec.md b/documentation/migrating-to-typespec.md
+index b53a916c1..9d4eee4ec 100644
+--- a/documentation/migrating-to-typespec.md
++++ b/documentation/migrating-to-typespec.md
+@@ -22,7 +22,7 @@ Before starting the migration, ensure you have:
+ 
+ 1. **TypeSpec definitions ready**: Your service's TypeSpec definitions should be complete and merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs)
+ 2. **Local development environment**:
+-   - [Node.js LTS version](https://nodejs.org/en/about/releases/)
++   - [Node.js 20 or later](https://nodejs.org/en/download/)
+    - Local clone of your fork of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)
+    - Local clone of your fork of [azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs)
+ 3. **Understanding of your current SDK**: Know which packages in azure-sdk-for-js belong to your service
+@@ -100,7 +100,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
+ ```json
+ {
+   "scripts": {
+-    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply-v2 --skip index.ts",
++    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply --skip index.ts",
+     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+     "test": "npm run test:node && npm run test:browser",
+     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
+@@ -148,7 +148,7 @@ npm run generate:client
+ Use the dev-tool customization command to copy generated files to `src/` and merge with existing customizations:
+ 
+ ```bash
+-npx dev-tool customization apply-v2 --skip index.ts
++npx dev-tool customization apply --skip index.ts
+ ```
+ 
+ This command:
+diff --git a/documentation/using-azure-identity.md b/documentation/using-azure-identity.md
+index 9298262f2..c9544e292 100644
+--- a/documentation/using-azure-identity.md
++++ b/documentation/using-azure-identity.md
+@@ -263,7 +263,8 @@ The `InteractiveBrowserCredential` follows the [implicit grant
+ flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
+ which enables authentication for clients that run completely in the browser. It
+ is primarily useful for single-page web applications (SPAs) which need to
+-authenticate to access Azure resources and APIs directly.
++authenticate to access Azure resources and APIs directly. This credential also
++supports Node.js via the authorization code flow with PKCE.
+ 
+ To use this credential successfully, your app registration will need to be
+ configured with both the **Access tokens** and **ID tokens** options checked under
+@@ -275,9 +276,6 @@ to the URI of your web application. You must also make sure to specify the same
+ URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
+ creating an `InteractiveBrowserCredential`.
+ 
+-> NOTE: At this time, this credential can only be used in the browser but
+-> Node.js support will be added in the future (see issue [#4774](https://github.com/Azure/azure-sdk-for-js/issues/4774)).
+-
+ ### DeviceCodeCredential
+ 
+ The `DeviceCodeCredential` follows the [device code authorization
+-- 
+2.53.0
+

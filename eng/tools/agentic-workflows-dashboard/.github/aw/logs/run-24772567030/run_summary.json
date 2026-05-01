@@ -1,0 +1,2737 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24772567030,
+  "processed_at": "2026-04-26T22:59:58.928463799Z",
+  "run": {
+    "databaseId": 24772567030,
+    "number": 296,
+    "url": "https://github.com/Azure/azure-sdk-for-net/actions/runs/24772567030",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Update Docs",
+    "workflowPath": ".github/workflows/update-samples-and-docs.lock.yml",
+    "createdAt": "2026-04-22T10:07:47Z",
+    "startedAt": "2026-04-22T10:07:47Z",
+    "updatedAt": "2026-04-22T10:18:37Z",
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "c0bdd52b6a3df8b13d1ccd93ece8eb822f48b282",
+    "displayTitle": "Update Docs",
+    "Duration": 650000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 16,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24772567030"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 16,
+    "ToolCalls": [
+      {
+        "Name": "list_commits",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "get_commit",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azsdk_get_pull_request",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "List",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Search",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "list_commits",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 20,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "get_commit",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "create_issue",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "report_incomplete",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "dispatch_triage",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_release_by_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-report_incomplete",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_releases",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_branches",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 10,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "list_commits",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_commit",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_latest_release",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_tag",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_repositories",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_code",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "get_commit",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-dispatch_triage",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_file_contents",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_commits",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_tags",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "create_issue",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_verify_setup",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_generate_code",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_view",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_check_package",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_create_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_run_typespec_validation",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_commit",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_tag",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-snapshot_generated",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-finalize_migration",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_run_tests",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_commits",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-rename_codegen_type",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-run_code_generation",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_add_label_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_delegate_apiview_feedback",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_update_cache",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_get_copilot_review",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_release_by_tag",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_tags",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_language_exclusion_justification",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_failed_test_cases",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-dispatch_triage",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-report_incomplete",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-pregen_cleanup",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-verify_generated_unchanged",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_remove_label_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_create_pull_request",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_code",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-classify_errors",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_customized_code_update",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_check_project_in_public_repo",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_abandon_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_branches",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-fetch_to_fromlro",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-build_and_classify",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-add_codegen_suppress",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_generate_authoring_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_link_sdk_pull_request_to_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pull_request_link_for_current_branch",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_pack",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_release_sdk",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_releases",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-regex_replacement",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-run_tests",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_translate_samples",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_sdk_pull_request_link",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_failed_test_case_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_owner",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_analyze_pipeline",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_check_api_spec_ready_for_sdk",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-migrate_test_samples",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_analyze_log_file",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_check_service_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_github_user_details",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_create_service_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_repositories",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-commit_iteration",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-add_using_directive",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-nullable_annotation_fix",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_run_generate_sdk",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_sdk_details_in_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_label",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_get_review_url",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_release_plan_for_spec_pr",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_failed_test_run_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_build_code",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_update_changelog_content",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_api_spec_pull_request_in_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_update_version",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_service_details_by_typespec_path",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-create_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_file_contents",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-remove_using_directive",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_upgrade",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_typespec_init_project",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pipeline_llm_artifacts",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_update_release_plan",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_convert_swagger_to_typespec",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_modified_typespec_projects",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_get_comments",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-batch_fix",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-validate_tsp_config",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_link_namespace_approval_issue",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_generate_samples",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_apiview_request_copilot_review",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_run_check",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_package_update_metadata",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_latest_release",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "generator-agent-discover_project",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pipeline_status",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "azure-sdk-mcp-azsdk_get_pull_request",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      }
+    ],
+    "ToolSequences": [
+      [
+        "list_commits",
+        "get_commit",
+        "get_commit",
+        "get_commit",
+        "get_commit",
+        "get_commit",
+        "list_commits",
+        "List",
+        "azsdk_get_pull_request",
+        "Read",
+        "Read",
+        "search_issues",
+        "Read",
+        "Read",
+        "List",
+        "Search",
+        "List",
+        "Search",
+        "Read",
+        "create_issue",
+        "dispatch_triage"
+      ],
+      [
+        "Read"
+      ],
+      [
+        "safeoutputs___create_issue",
+        "safeoutputs-create_issue",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "safeoutputs___report_incomplete",
+        "safeoutputs-report_incomplete",
+        "safeoutputs___dispatch_triage",
+        "safeoutputs-dispatch_triage",
+        "github___get_commit",
+        "github-get_commit",
+        "github___get_file_contents",
+        "github-get_file_contents",
+        "github___get_label",
+        "github-get_label",
+        "github___get_latest_release",
+        "github-get_latest_release",
+        "github___get_release_by_tag",
+        "github-get_release_by_tag",
+        "github___get_tag",
+        "github-get_tag",
+        "github___issue_read",
+        "github-issue_read",
+        "github___list_branches",
+        "github-list_branches",
+        "github___list_commits",
+        "github-list_commits",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "github___list_issues",
+        "github-list_issues",
+        "github___list_releases",
+        "github-list_releases",
+        "github___list_tags",
+        "github-list_tags",
+        "github___search_code",
+        "github-search_code",
+        "github___search_issues",
+        "github-search_issues",
+        "github___search_repositories",
+        "github-search_repositories",
+        "tool",
+        "tool",
+        "list_commits"
+      ],
+      [
+        "tool",
+        "tool",
+        "get_commit",
+        "tool",
+        "tool",
+        "get_commit",
+        "tool",
+        "tool",
+        "get_commit",
+        "tool",
+        "tool",
+        "get_commit",
+        "tool",
+        "tool",
+        "get_commit",
+        "tool",
+        "tool",
+        "list_commits"
+      ],
+      [
+        "tool",
+        "tool",
+        "search_issues",
+        "tool",
+        "tool",
+        "create_issue"
+      ],
+      [
+        "tool",
+        "tool",
+        "dispatch_triage"
+      ],
+      [
+        "create_issue",
+        "create_issue",
+        "missing_tool",
+        "missing_tool",
+        "noop",
+        "noop",
+        "missing_data",
+        "missing_data",
+        "report_incomplete",
+        "report_incomplete",
+        "dispatch_triage",
+        "dispatch_triage",
+        "create_issue",
+        "create_issue",
+        "dispatch_triage",
+        "dispatch_triage"
+      ],
+      [
+        "safeoutputs___create_issue",
+        "safeoutputs-create_issue",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "safeoutputs___report_incomplete",
+        "safeoutputs-report_incomplete",
+        "safeoutputs___dispatch_triage",
+        "safeoutputs-dispatch_triage",
+        "github___get_commit",
+        "github-get_commit",
+        "github___get_file_contents",
+        "github-get_file_contents",
+        "github___get_label",
+        "github-get_label",
+        "github___get_latest_release",
+        "github-get_latest_release",
+        "github___get_release_by_tag",
+        "github-get_release_by_tag",
+        "github___get_tag",
+        "github-get_tag",
+        "github___issue_read",
+        "github-issue_read",
+        "github___list_branches",
+        "github-list_branches",
+        "github___list_commits",
+        "github-list_commits",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "github___list_issues",
+        "github-list_issues",
+        "github___list_releases",
+        "github-list_releases",
+        "github___list_tags",
+        "github-list_tags",
+        "github___search_code",
+        "github-search_code",
+        "github___search_issues",
+        "github-search_issues",
+        "github___search_repositories",
+        "github-search_repositories",
+        "tool",
+        "list_commits"
+      ],
+      [
+        "tool",
+        "get_commit",
+        "tool",
+        "get_commit",
+        "tool",
+        "get_commit",
+        "tool",
+        "get_commit",
+        "tool",
+        "get_commit",
+        "tool",
+        "list_commits"
+      ],
+      [
+        "tool",
+        "search_issues",
+        "tool",
+        "create_issue"
+      ],
+      [
+        "tool",
+        "dispatch_triage"
+      ],
+      [
+        "generator-agent-regex_replacement",
+        "generator-agent-fetch_to_fromlro",
+        "generator-agent-snapshot_generated",
+        "generator-agent-pregen_cleanup",
+        "generator-agent-remove_using_directive",
+        "generator-agent-commit_iteration",
+        "generator-agent-batch_fix",
+        "generator-agent-validate_tsp_config",
+        "generator-agent-rename_codegen_type",
+        "generator-agent-run_code_generation",
+        "generator-agent-classify_errors",
+        "generator-agent-run_tests",
+        "generator-agent-add_using_directive",
+        "generator-agent-migrate_test_samples",
+        "generator-agent-build_and_classify",
+        "generator-agent-nullable_annotation_fix",
+        "generator-agent-add_codegen_suppress",
+        "generator-agent-finalize_migration",
+        "generator-agent-verify_generated_unchanged",
+        "generator-agent-discover_project",
+        "generator-agent-regex_replacement",
+        "generator-agent-fetch_to_fromlro",
+        "generator-agent-snapshot_generated",
+        "generator-agent-pregen_cleanup",
+        "generator-agent-remove_using_directive",
+        "generator-agent-commit_iteration",
+        "generator-agent-batch_fix",
+        "generator-agent-validate_tsp_config",
+        "generator-agent-rename_codegen_type",
+        "generator-agent-run_code_generation",
+        "generator-agent-classify_errors",
+        "generator-agent-run_tests",
+        "generator-agent-add_using_directive",
+        "generator-agent-migrate_test_samples",
+        "generator-agent-build_and_classify",
+        "generator-agent-nullable_annotation_fix",
+        "generator-agent-add_codegen_suppress",
+        "generator-agent-finalize_migration",
+        "generator-agent-verify_generated_unchanged",
+        "generator-agent-discover_project",
+        "azure-sdk-mcp-azsdk_upgrade",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_label_owner",
+        "azure-sdk-mcp-azsdk_package_run_tests",
+        "azure-sdk-mcp-azsdk_update_release_plan",
+        "azure-sdk-mcp-azsdk_link_namespace_approval_issue",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_owner",
+        "azure-sdk-mcp-azsdk_package_generate_samples",
+        "azure-sdk-mcp-azsdk_analyze_log_file",
+        "azure-sdk-mcp-azsdk_apiview_request_copilot_review",
+        "azure-sdk-mcp-azsdk_run_generate_sdk",
+        "azure-sdk-mcp-azsdk_update_sdk_details_in_release_plan",
+        "azure-sdk-mcp-azsdk_convert_swagger_to_typespec",
+        "azure-sdk-mcp-azsdk_package_build_code",
+        "azure-sdk-mcp-azsdk_get_pipeline_status",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_label",
+        "azure-sdk-mcp-azsdk_package_pack",
+        "azure-sdk-mcp-azsdk_check_service_label",
+        "azure-sdk-mcp-azsdk_get_pull_request",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_label",
+        "azure-sdk-mcp-azsdk_package_update_changelog_content",
+        "azure-sdk-mcp-azsdk_create_release_plan",
+        "azure-sdk-mcp-azsdk_package_translate_samples",
+        "azure-sdk-mcp-azsdk_customized_code_update",
+        "azure-sdk-mcp-azsdk_typespec_check_project_in_public_repo",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_label_owner",
+        "azure-sdk-mcp-azsdk_typespec_delegate_apiview_feedback",
+        "azure-sdk-mcp-azsdk_update_api_spec_pull_request_in_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan",
+        "azure-sdk-mcp-azsdk_typespec_init_project",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_update_cache",
+        "azure-sdk-mcp-azsdk_apiview_get_copilot_review",
+        "azure-sdk-mcp-azsdk_get_failed_test_run_data",
+        "azure-sdk-mcp-azsdk_update_language_exclusion_justification",
+        "azure-sdk-mcp-azsdk_release_sdk",
+        "azure-sdk-mcp-azsdk_verify_setup",
+        "azure-sdk-mcp-azsdk_get_sdk_pull_request_link",
+        "azure-sdk-mcp-azsdk_get_modified_typespec_projects",
+        "azure-sdk-mcp-azsdk_package_run_check",
+        "azure-sdk-mcp-azsdk_get_github_user_details",
+        "azure-sdk-mcp-azsdk_apiview_get_review_url",
+        "azure-sdk-mcp-azsdk_run_typespec_validation",
+        "azure-sdk-mcp-azsdk_typespec_generate_authoring_plan",
+        "azure-sdk-mcp-azsdk_package_update_metadata",
+        "azure-sdk-mcp-azsdk_get_failed_test_case_data",
+        "azure-sdk-mcp-azsdk_abandon_release_plan",
+        "azure-sdk-mcp-azsdk_package_generate_code",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_view",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_owner",
+        "azure-sdk-mcp-azsdk_package_update_version",
+        "azure-sdk-mcp-azsdk_link_sdk_pull_request_to_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan_for_spec_pr",
+        "azure-sdk-mcp-azsdk_apiview_get_comments",
+        "azure-sdk-mcp-azsdk_analyze_pipeline",
+        "azure-sdk-mcp-azsdk_get_failed_test_cases",
+        "azure-sdk-mcp-azsdk_get_pull_request_link_for_current_branch",
+        "azure-sdk-mcp-azsdk_get_service_details_by_typespec_path",
+        "azure-sdk-mcp-azsdk_get_pipeline_llm_artifacts",
+        "azure-sdk-mcp-azsdk_create_pull_request",
+        "azure-sdk-mcp-azsdk_check_api_spec_ready_for_sdk",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_check_package",
+        "azure-sdk-mcp-azsdk_create_service_label",
+        "azure-sdk-mcp-azsdk_upgrade",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_label_owner",
+        "azure-sdk-mcp-azsdk_package_run_tests",
+        "azure-sdk-mcp-azsdk_update_release_plan",
+        "azure-sdk-mcp-azsdk_link_namespace_approval_issue",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_owner",
+        "azure-sdk-mcp-azsdk_package_generate_samples",
+        "azure-sdk-mcp-azsdk_analyze_log_file",
+        "azure-sdk-mcp-azsdk_apiview_request_copilot_review",
+        "azure-sdk-mcp-azsdk_run_generate_sdk",
+        "azure-sdk-mcp-azsdk_update_sdk_details_in_release_plan",
+        "azure-sdk-mcp-azsdk_convert_swagger_to_typespec",
+        "azure-sdk-mcp-azsdk_package_build_code",
+        "azure-sdk-mcp-azsdk_get_pipeline_status",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_label",
+        "azure-sdk-mcp-azsdk_package_pack",
+        "azure-sdk-mcp-azsdk_check_service_label",
+        "azure-sdk-mcp-azsdk_get_pull_request",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_package_label",
+        "azure-sdk-mcp-azsdk_package_update_changelog_content",
+        "azure-sdk-mcp-azsdk_create_release_plan",
+        "azure-sdk-mcp-azsdk_package_translate_samples",
+        "azure-sdk-mcp-azsdk_customized_code_update",
+        "azure-sdk-mcp-azsdk_typespec_check_project_in_public_repo",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_add_label_owner",
+        "azure-sdk-mcp-azsdk_typespec_delegate_apiview_feedback",
+        "azure-sdk-mcp-azsdk_update_api_spec_pull_request_in_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan",
+        "azure-sdk-mcp-azsdk_typespec_init_project",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_update_cache",
+        "azure-sdk-mcp-azsdk_apiview_get_copilot_review",
+        "azure-sdk-mcp-azsdk_get_failed_test_run_data",
+        "azure-sdk-mcp-azsdk_update_language_exclusion_justification",
+        "azure-sdk-mcp-azsdk_release_sdk",
+        "azure-sdk-mcp-azsdk_verify_setup",
+        "azure-sdk-mcp-azsdk_get_sdk_pull_request_link",
+        "azure-sdk-mcp-azsdk_get_modified_typespec_projects",
+        "azure-sdk-mcp-azsdk_package_run_check",
+        "azure-sdk-mcp-azsdk_get_github_user_details",
+        "azure-sdk-mcp-azsdk_apiview_get_review_url",
+        "azure-sdk-mcp-azsdk_run_typespec_validation",
+        "azure-sdk-mcp-azsdk_typespec_generate_authoring_plan",
+        "azure-sdk-mcp-azsdk_package_update_metadata",
+        "azure-sdk-mcp-azsdk_get_failed_test_case_data",
+        "azure-sdk-mcp-azsdk_abandon_release_plan",
+        "azure-sdk-mcp-azsdk_package_generate_code",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_view",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_remove_package_owner",
+        "azure-sdk-mcp-azsdk_package_update_version",
+        "azure-sdk-mcp-azsdk_link_sdk_pull_request_to_release_plan",
+        "azure-sdk-mcp-azsdk_get_release_plan_for_spec_pr",
+        "azure-sdk-mcp-azsdk_apiview_get_comments",
+        "azure-sdk-mcp-azsdk_analyze_pipeline",
+        "azure-sdk-mcp-azsdk_get_failed_test_cases",
+        "azure-sdk-mcp-azsdk_get_pull_request_link_for_current_branch",
+        "azure-sdk-mcp-azsdk_get_service_details_by_typespec_path",
+        "azure-sdk-mcp-azsdk_get_pipeline_llm_artifacts",
+        "azure-sdk-mcp-azsdk_create_pull_request",
+        "azure-sdk-mcp-azsdk_check_api_spec_ready_for_sdk",
+        "azure-sdk-mcp-azsdk_engsys_codeowner_check_package",
+        "azure-sdk-mcp-azsdk_create_service_label",
+        "safeoutputs-create_issue",
+        "safeoutputs-dispatch_triage",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop",
+        "safeoutputs-report_incomplete",
+        "safeoutputs-create_issue",
+        "safeoutputs-dispatch_triage",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop",
+        "safeoutputs-report_incomplete",
+        "github-get_commit",
+        "github-get_file_contents",
+        "github-get_label",
+        "github-get_latest_release",
+        "github-get_release_by_tag",
+        "github-get_tag",
+        "github-issue_read",
+        "github-list_branches",
+        "github-list_commits",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-list_releases",
+        "github-list_tags",
+        "github-search_code",
+        "github-search_issues",
+        "github-search_repositories",
+        "github-get_commit",
+        "github-get_file_contents",
+        "github-get_label",
+        "github-get_latest_release",
+        "github-get_release_by_tag",
+        "github-get_tag",
+        "github-issue_read",
+        "github-list_branches",
+        "github-list_commits",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-list_releases",
+        "github-list_tags",
+        "github-search_code",
+        "github-search_issues",
+        "github-search_repositories"
+      ]
+    ],
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "repo_maintenance",
+    "label": "Repo Maintenance",
+    "reason": "Workflow metadata matches repository maintenance or update work."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "broad",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.5
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Repo Maintenance run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=16 tool_types=139 duration=10m50s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "poor_agentic_control",
+      "severity": "medium",
+      "summary": "The run showed signs of broad or weakly controlled agentic behavior.",
+      "evidence": "friction=0 execution=exploratory actuation=read_only",
+      "recommendation": "Tighten instructions, reduce unnecessary tools, or delay write actions until the workflow has stronger evidence."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 50% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.50 turns=16",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    },
+    {
+      "kind": "model_downgrade_available",
+      "severity": "low",
+      "summary": "This Repo Maintenance run may not need a frontier model. A smaller model (e.g. gpt-4.1-mini, claude-haiku-4-5) could handle the task at lower cost.",
+      "evidence": "domain=repo_maintenance resource_profile=heavy actuation=read_only",
+      "recommendation": "Try engine.model: gpt-4.1-mini or claude-haiku-4-5 in the workflow frontmatter."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "0t3vsblobprodcus362.vsblob.vsassets.io:443",
+      "1javsblobprodcus364.vsblob.vsassets.io:443",
+      "1k9vsblobprodcus379.vsblob.vsassets.io:443",
+      "4m6vsblobprodcus384.vsblob.vsassets.io:443",
+      "4vyvsblobprodcus361.vsblob.vsassets.io:443",
+      "4zjvsblobprodcus390.vsblob.vsassets.io:443",
+      "7devsblobprodcus323.vsblob.vsassets.io:443",
+      "80zvsblobprodcus35.vsblob.vsassets.io:443",
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "ckzvsblobprodcus347.vsblob.vsassets.io:443",
+      "crl3.digicert.com",
+      "crl4.digicert.com",
+      "dc.services.visualstudio.com:443",
+      "frdvsblobprodcus327.vsblob.vsassets.io:443",
+      "github.com:443",
+      "k0ivsblobprodcus356.vsblob.vsassets.io:443",
+      "kh4vsblobprodcus325.vsblob.vsassets.io:443",
+      "kxqvsblobprodcus376.vsblob.vsassets.io:443",
+      "m16vsblobprodcus374.vsblob.vsassets.io:443",
+      "m8dvsblobprodcus37.vsblob.vsassets.io:443",
+      "mfjvsblobprodcus373.vsblob.vsassets.io:443",
+      "nn8vsblobprodcus340.vsblob.vsassets.io:443",
+      "o3svsblobprodcus318.vsblob.vsassets.io:443",
+      "pe3vsblobprodcus354.vsblob.vsassets.io:443",
+      "pkgs.dev.azure.com:443",
+      "release-assets.githubusercontent.com:443",
+      "s.symcb.com",
+      "s4uvsblobprodcus326.vsblob.vsassets.io:443",
+      "s8mvsblobprodcus38.vsblob.vsassets.io:443",
+      "sc4vsblobprodcus331.vsblob.vsassets.io:443",
+      "se1vsblobprodcus349.vsblob.vsassets.io:443",
+      "ts-crl.ws.symantec.com",
+      "u3hvsblobprodcus371.vsblob.vsassets.io:443",
+      "u6ovsblobprodcus377.vsblob.vsassets.io:443",
+      "ukkvsblobprodcus352.vsblob.vsassets.io:443",
+      "uy6vsblobprodcus34.vsblob.vsassets.io:443",
+      "vb4vsblobprodcus33.vsblob.vsassets.io:443",
+      "xupvsblobprodcus332.vsblob.vsassets.io:443",
+      "yluvsblobprodcus367.vsblob.vsassets.io:443",
+      "yttvsblobprodcus357.vsblob.vsassets.io:443"
+    ],
+    "blocked_domains": [
+      "centralus-2.in.applicationinsights.azure.com:443"
+    ],
+    "total_requests": 132,
+    "allowed_requests": 128,
+    "blocked_requests": 4,
+    "requests_by_domain": {
+      "0t3vsblobprodcus362.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "1javsblobprodcus364.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "1k9vsblobprodcus379.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4m6vsblobprodcus384.vsblob.vsassets.io:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "4vyvsblobprodcus361.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "4zjvsblobprodcus390.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "7devsblobprodcus323.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "80zvsblobprodcus35.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "api.github.com:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 24,
+        "blocked": 0
+      },
+      "centralus-2.in.applicationinsights.azure.com:443": {
+        "allowed": 0,
+        "blocked": 4
+      },
+      "ckzvsblobprodcus347.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "crl3.digicert.com": {
+        "allowed": 36,
+        "blocked": 0
+      },
+      "crl4.digicert.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "dc.services.visualstudio.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "frdvsblobprodcus327.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "k0ivsblobprodcus356.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "kh4vsblobprodcus325.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "kxqvsblobprodcus376.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "m16vsblobprodcus374.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "m8dvsblobprodcus37.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "mfjvsblobprodcus373.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "nn8vsblobprodcus340.vsblob.vsassets.io:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "o3svsblobprodcus318.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pe3vsblobprodcus354.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "pkgs.dev.azure.com:443": {
+        "allowed": 26,
+        "blocked": 0
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s.symcb.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s4uvsblobprodcus326.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "s8mvsblobprodcus38.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "sc4vsblobprodcus331.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "se1vsblobprodcus349.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ts-crl.ws.symantec.com": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "u3hvsblobprodcus371.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "u6ovsblobprodcus377.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "ukkvsblobprodcus352.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "uy6vsblobprodcus34.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "vb4vsblobprodcus33.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "xupvsblobprodcus332.vsblob.vsassets.io:443": {
+        "allowed": 2,
+        "blocked": 0
+      },
+      "yluvsblobprodcus367.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "yttvsblobprodcus357.vsblob.vsassets.io:443": {
+        "allowed": 1,
+        "blocked": 0
+      }
+    }
+  },
+  "policy_analysis": {
+    "policy_summary": "7 rules, SSL Bump disabled, DLP disabled",
+    "rule_hits": [],
+    "total_requests": 0,
+    "allowed_count": 0,
+    "denied_count": 0,
+    "unique_domains": 0
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "get_commit",
+        "call_count": 5,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "list_commits",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "create_issue",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "dispatch_triage",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-04-22T10:10:54.095199971Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:10:54.467176067Z",
+        "server_name": "github",
+        "tool_name": "list_commits",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:11:05.143920135Z",
+        "server_name": "github",
+        "tool_name": "get_commit",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:11:05.154979568Z",
+        "server_name": "github",
+        "tool_name": "get_commit",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:11:19.230712375Z",
+        "server_name": "github",
+        "tool_name": "get_commit",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:11:19.241004807Z",
+        "server_name": "github",
+        "tool_name": "get_commit",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:11:58.727981264Z",
+        "server_name": "github",
+        "tool_name": "get_commit",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:02.979775844Z",
+        "server_name": "github",
+        "tool_name": "list_commits",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:13:03.125711041Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:14:55.144391059Z",
+        "server_name": "safeoutputs",
+        "tool_name": "create_issue",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-04-22T10:14:59.726838407Z",
+        "server_name": "safeoutputs",
+        "tool_name": "dispatch_triage",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 9,
+        "tool_call_count": 9,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 2,
+        "tool_call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ],
+    "filtered_events": [
+      {
+        "timestamp": "2026-04-22T10:12:03.377685246Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@fc0467b",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@fc0467b' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/fc0467bf7f04a1aed04f39c32f98506cd7840723"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.379555389Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@6f98b3f",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@6f98b3f' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/6f98b3fc3b8cb6c77161becc526812b735600947"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.381382629Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@8a56794",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@8a56794' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/8a56794e40cf0f8a4416f55ee7342143c4b40647"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.383395008Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@e267131",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@e267131' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "ArthurMa1978",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/e2671314dc2a48454ebef91445aa82bc117a3591"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.385152821Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@7321e9e",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@7321e9e' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/7321e9e55b552beb8b6eb30e1db95adc6da6c025"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.386858166Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@712dd9e",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@712dd9e' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/712dd9ea879629939f14d9fc0f29b5fa575eea73"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.389372573Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@598a6b2",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@598a6b2' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/598a6b223542c9c7dc3e80cf7824479587bcf4a8"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.390889346Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@6af7db6",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@6af7db6' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "chienyuanchang",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/6af7db6572976f4b6cc65bb628c45456114e88a0"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.392183984Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@b8b94c3",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@b8b94c3' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/b8b94c350eb83b59177518fe4e2e4d737ac9db3d"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.393561847Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@1ecf278",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@1ecf278' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "live1206",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/1ecf2787170236def8ee6690fd41030664bdb911"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.394862476Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@30d7674",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@30d7674' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "jsquire",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/30d76744ea6240ff15de09eca38c27324c88b7f1"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.396176992Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@b04b97d",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@b04b97d' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/b04b97d99c452e7e52982dd210c167ed505b4c4c"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.400358442Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@2bbd73b",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@2bbd73b' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "m-nash",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/2bbd73b5760932bed923500471152cb84b6a62c5"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.402048008Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@ade79ce",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@ade79ce' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "m-nash",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/ade79ced4120562b8947e7ce63cc054ac021b228"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.403677531Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@3fe3bd5",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@3fe3bd5' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "m-redding",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/3fe3bd5517a37445c93a487bc41c95a16f1e1ac9"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.405185348Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@10b1ccf",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@10b1ccf' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/10b1ccf3e8c5095f9f3e58e3eb6696a57aa0df08"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.406645965Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@1f9b8a6",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@1f9b8a6' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/1f9b8a60ca6b18a33b082fbc0314363b36c13e25"
+      },
+      {
+        "timestamp": "2026-04-22T10:12:03.408167017Z",
+        "server_id": "github",
+        "tool_name": "list_commits",
+        "description": "commit:Azure/azure-sdk-for-net@9cf1236",
+        "reason": "Resource 'commit:Azure/azure-sdk-for-net@9cf1236' has lower integrity than agent requires. The agent cannot read data with integrity below \"approved\".",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "azure-sdk",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/commit/9cf12364688dd210b5c907b1a0199dd2e46b87eb"
+      }
+    ]
+  },
+  "token_usage_summary": {
+    "total_input_tokens": 821543,
+    "total_output_tokens": 8294,
+    "total_cache_read_tokens": 754041,
+    "total_cache_write_tokens": 0,
+    "total_requests": 15,
+    "total_duration_ms": 240332,
+    "total_response_bytes": 606622,
+    "cache_efficiency": 0.4785787365192843,
+    "total_effective_tokens": 930123,
+    "ambient_context": {
+      "input_tokens": 41580,
+      "cached_tokens": 0,
+      "effective_tokens": 41580
+    },
+    "by_model": {
+      "claude-sonnet-4.6": {
+        "provider": "copilot",
+        "input_tokens": 821543,
+        "output_tokens": 8294,
+        "cache_read_tokens": 754041,
+        "cache_write_tokens": 0,
+        "requests": 15,
+        "duration_ms": 240332,
+        "response_bytes": 606622,
+        "effective_tokens": 930123
+      }
+    }
+  },
+  "github_rate_limit_usage": {
+    "total_requests_made": 3,
+    "core_consumed": 13,
+    "core_remaining": 14967,
+    "core_limit": 15000,
+    "resources": [
+      {
+        "resource": "core",
+        "requests_made": 3,
+        "quota_consumed": 13,
+        "final_remaining": 14967,
+        "limit": 15000
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "agent_usage.json",
+    "aw-prompts/prompt.txt",
+    "detection.log",
+    "github_rate_limits.jsonl",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-outputs-items/safe-output-items.jsonl",
+    "safe-outputs-items/temporary-id-map.json",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1776852626091-173.log",
+    "sandbox/firewall/audit/docker-compose.redacted.yml",
+    "sandbox/firewall/audit/iptables-audit.txt",
+    "sandbox/firewall/audit/policy-manifest.json",
+    "sandbox/firewall/audit/squid.conf",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl",
+    "sandbox/firewall/logs/audit.jsonl",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_dispatch_triage.txt",
+    "workflow-logs/2_safe_outputs.txt",
+    "workflow-logs/3_detection.txt",
+    "workflow-logs/4_agent.txt",
+    "workflow-logs/5_activation.txt",
+    "workflow-logs/6_pre_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/dispatch_triage/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

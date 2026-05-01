@@ -1,0 +1,9 @@
+2026-04-07T09:01:52.3210000Z Evaluating push_repo_memory.if
+2026-04-07T09:01:52.3210000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))))
+2026-04-07T09:01:52.3210000Z Expanded: (true && (('skipped' == 'success') || ('skipped' == 'skipped')))
+2026-04-07T09:01:52.3210000Z Result: true
+2026-04-07T09:01:52.3220000Z Requested labels: ubuntu-slim
+2026-04-07T09:01:52.3220000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/archie.lock.yml@refs/heads/main
+2026-04-07T09:01:52.3220000Z Waiting for a runner to pick up this job...
+2026-04-07T09:01:59.6410000Z Job is about to start running on the hosted runner: GitHub Actions 1029339838
+2026-04-07T09:01:59.6420000Z Job is waiting for a hosted runner to come online.

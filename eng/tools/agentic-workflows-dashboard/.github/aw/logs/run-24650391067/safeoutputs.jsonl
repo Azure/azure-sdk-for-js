@@ -1,0 +1,1 @@
+{"message":"No action needed: Commit 6104725b6 is a batch release preparation (PR #58282) that only updates CHANGELOG.md files (stamping release dates) and bumps version numbers in .csproj files for 10 Azure.ResourceManager SDKs. No new implementation code, types, methods, or APIs were added or changed — no documentation gaps to address.","type":"noop"}

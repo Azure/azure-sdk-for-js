@@ -1,0 +1,4 @@
+2026-03-25T21:46:09.1070000Z Evaluating update_cache_memory.if
+2026-03-25T21:46:09.1070000Z Evaluating: (always() && (needs.agent.outputs.detection_success == 'true'))
+2026-03-25T21:46:09.1070000Z Expanded: (true && (null == 'true'))
+2026-03-25T21:46:09.1070000Z Result: false

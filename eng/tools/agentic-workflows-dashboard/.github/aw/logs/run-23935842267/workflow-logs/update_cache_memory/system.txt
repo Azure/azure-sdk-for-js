@@ -1,0 +1,4 @@
+2026-04-03T05:56:41.7740000Z Evaluating update_cache_memory.if
+2026-04-03T05:56:41.7740000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))) && (needs.agent.result == 'success'))
+2026-04-03T05:56:41.7740000Z Expanded: (true && (('cancelled' == 'success') || ('cancelled' == 'skipped')) && (needs.agent.result == 'success'))
+2026-04-03T05:56:41.7740000Z Result: false

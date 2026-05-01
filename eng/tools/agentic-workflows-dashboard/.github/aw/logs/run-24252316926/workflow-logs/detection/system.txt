@@ -1,0 +1,4 @@
+2026-04-10T16:14:06.6000000Z Evaluating detection.if
+2026-04-10T16:14:06.6000000Z Evaluating: (always() && (needs.agent.result != 'skipped') && (((needs.agent.outputs.output_types != '') || (needs.agent.outputs.has_patch == 'true'))))
+2026-04-10T16:14:06.6000000Z Expanded: (true && ('success' != 'skipped') && ((null != '') || ('false' == 'true')))
+2026-04-10T16:14:06.6000000Z Result: false

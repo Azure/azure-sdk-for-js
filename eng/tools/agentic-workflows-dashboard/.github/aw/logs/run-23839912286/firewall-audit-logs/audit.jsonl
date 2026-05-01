@@ -1,0 +1,9 @@
+{"ts":1775033280.972,"client":"::1","host":"-","dest":"-:-","method":"-","status":0,"decision":"NONE_NONE","url":"error:transaction-end-before-headers"}
+{"ts":1775033286.011,"client":"::1","host":"-","dest":"-:-","method":"-","status":0,"decision":"NONE_NONE","url":"error:transaction-end-before-headers"}
+{"ts":1775033290.986,"client":"172.30.0.30","host":"api.githubcopilot.com:443","dest":"140.82.112.22:443","method":"CONNECT","status":200,"decision":"TCP_TUNNEL","url":"api.githubcopilot.com:443"}
+{"ts":1775033291.077,"client":"::1","host":"-","dest":"-:-","method":"-","status":0,"decision":"NONE_NONE","url":"error:transaction-end-before-headers"}
+{"ts":1775033295.893,"client":"172.30.0.20","host":"api.github.com:443","dest":"140.82.112.6:443","method":"CONNECT","status":200,"decision":"TCP_TUNNEL","url":"api.github.com:443"}
+{"ts":1775033296.109,"client":"::1","host":"-","dest":"-:-","method":"-","status":0,"decision":"NONE_NONE","url":"error:transaction-end-before-headers"}
+{"ts":1775033296.249,"client":"172.30.0.20","host":"release-assets.githubusercontent.com:443","dest":"-:-","method":"CONNECT","status":403,"decision":"TCP_DENIED","url":"release-assets.githubusercontent.com:443"}
+{"ts":1775033296.307,"client":"172.30.0.20","host":"github.com:443","dest":"140.82.114.3:443","method":"CONNECT","status":200,"decision":"TCP_TUNNEL","url":"github.com:443"}
+{"ts":1775033297.331,"client":"172.30.0.30","host":"api.githubcopilot.com:443","dest":"140.82.112.22:443","method":"CONNECT","status":200,"decision":"TCP_TUNNEL","url":"api.githubcopilot.com:443"}

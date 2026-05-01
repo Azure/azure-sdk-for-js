@@ -1,0 +1,13 @@
+{
+  "pr": 37800,
+  "package": "@azure/arm-subscriptions",
+  "version": "7.0.0-beta.1",
+  "api_version": "2025-11-01-preview",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "package.json", "line": 9, "description": "autoPublish: false should be true"},
+    {"type": "design", "category": "naming", "file": "review/arm-subscriptions-node.api.md", "line": 76, "description": "AzureClouds enum members UPPER_SNAKE_CASE instead of PascalCase"},
+    {"type": "design", "category": "type-safety", "file": "review/arm-subscriptions-node.api.md", "line": 83, "description": "AzureSupportedClouds closed template literal type instead of string"}
+  ]
+}

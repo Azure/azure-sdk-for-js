@@ -1,0 +1,1 @@
+{"message":"No documentation update needed: The triggering push (commit 2452ce2, PR #58002) only modifies eng/common/scripts/Verify-Readme.ps1 (6 lines changed) — an internal engineering tooling script sync from azure-sdk-tools. No service SDK types, APIs, or public-facing code were changed, so no README, samples, or documentation updates are required.","type":"noop"}

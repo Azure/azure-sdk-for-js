@@ -1,0 +1,1 @@
+{"message":"No action needed: Analyzed commit eb24eded (PR #58193) by @m-redding. All changes are CI/infrastructure fixes (removing orphaned ci.yml, fixing broken docs link, fixing obsolete API usage, updating dependencies). No new APIs, types, or features were introduced that would create documentation gaps.","type":"noop"}

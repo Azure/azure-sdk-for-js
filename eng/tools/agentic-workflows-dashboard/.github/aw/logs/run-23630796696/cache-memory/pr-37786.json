@@ -1,0 +1,8 @@
+{
+  "pr": 37786,
+  "package": "@azure/arm-alertrulerecommendations",
+  "version": "1.0.0-beta.1",
+  "outcome": "clean",
+  "summary": "Initial release. All CI checks pass. Version consistent across package.json, CHANGELOG.md, and context file. No naming, type safety, or export issues.",
+  "reviewed_at": "2026-03-24"
+}

@@ -1,0 +1,23 @@
+{
+  "pr": 37853,
+  "package": "@azure/arm-cognitiveservices",
+  "version": "9.0.0-beta.1",
+  "reviewedAt": "2026-04-02",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "review/arm-cognitiveservices-node.api.md",
+      "line": 258,
+      "type": "tool",
+      "description": "ae-forgotten-export: _UsageListResult used in public API but not exported from index.d.ts"
+    },
+    {
+      "file": "review/arm-cognitiveservices-node.api.md",
+      "line": 2484,
+      "type": "tool",
+      "description": "ae-forgotten-export: _OutboundRuleListResult used in public API but not exported from index.d.ts"
+    }
+  ],
+  "ciStatus": "blocked-test-recordings",
+  "notes": "first-typespec-migration; checkenforcer pending; test recordings missing"
+}

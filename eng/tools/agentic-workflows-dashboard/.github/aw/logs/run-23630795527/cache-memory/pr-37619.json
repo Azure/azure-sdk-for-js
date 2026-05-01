@@ -1,0 +1,12 @@
+{
+  "pr": 37619,
+  "package": "@azure/arm-netapp",
+  "version": "23.0.1",
+  "api_version": "2025-12-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "CHANGELOG.md", "line": 5, "description": "Empty ### Features Added section for 23.0.1; type fixes not documented"},
+    {"type": "tool", "file": "package.json", "line": 97, "description": "apiRefLink uses ?view=azure-node-preview for stable release; should be ?view=azure-node-latest"}
+  ]
+}

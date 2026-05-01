@@ -1,0 +1,1 @@
+{"message":"No documentation update needed: The triggering push (ce5a694, PR #58398 by @jsquire) only modified `.github/CODEOWNERS` to add reviewer coverage for repository-wide configuration files. No SDK implementation code, public APIs, types, or methods were added or changed. No documentation gaps were identified.","type":"noop"}

@@ -1,0 +1,11 @@
+{
+  "pr": 37724,
+  "package": "@azure/keyvault-secrets",
+  "reviewed_at": "2026-03-23",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "category": "version-alignment", "description": "User-agent in generated/api/keyVaultContext.ts hardcoded to 1.0.0-beta.1 vs package 4.10.2; file missing from //metadata.constantPaths"},
+    {"type": "tool", "category": "missing-api-version", "description": "V20250701='2025-07-01' present in generated/models/models.ts KnownVersions but missing from src/models/models.ts (public API)"}
+  ],
+  "ci": "passing"
+}

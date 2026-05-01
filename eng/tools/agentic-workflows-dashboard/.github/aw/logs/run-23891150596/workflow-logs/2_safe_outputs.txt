@@ -1,0 +1,1793 @@
+﻿2026-04-02T08:42:44.7924639Z Current runner version: '2.333.1'
+2026-04-02T08:42:44.7950150Z ##[group]Runner Image Provisioner
+2026-04-02T08:42:44.7950960Z Hosted Compute Agent
+2026-04-02T08:42:44.7951485Z Version: 20260213.493
+2026-04-02T08:42:44.7952073Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-02T08:42:44.7952760Z Build Date: 2026-02-13T00:28:41Z
+2026-04-02T08:42:44.7953365Z Worker ID: {ddfa0991-2e26-43c1-bcfc-0c691cfa61d2}
+2026-04-02T08:42:44.7954036Z Azure Region: westus3
+2026-04-02T08:42:44.7954573Z ##[endgroup]
+2026-04-02T08:42:44.7955931Z ##[group]VM Image
+2026-04-02T08:42:44.7956529Z - OS: Linux (x64)
+2026-04-02T08:42:44.7957057Z - Source: Docker
+2026-04-02T08:42:44.7957535Z - Name: ubuntu:24.04
+2026-04-02T08:42:44.7957991Z - Version: 20260323.53.1
+2026-04-02T08:42:44.7958989Z ##[endgroup]
+2026-04-02T08:42:44.7960281Z ##[group]GITHUB_TOKEN Permissions
+2026-04-02T08:42:44.7962273Z Contents: write
+2026-04-02T08:42:44.7962783Z Discussions: write
+2026-04-02T08:42:44.7963274Z Issues: write
+2026-04-02T08:42:44.7963926Z Metadata: read
+2026-04-02T08:42:44.7964455Z PullRequests: write
+2026-04-02T08:42:44.7964973Z ##[endgroup]
+2026-04-02T08:42:44.7967036Z Secret source: Actions
+2026-04-02T08:42:44.7967708Z Prepare workflow directory
+2026-04-02T08:42:44.8636130Z Prepare all required actions
+2026-04-02T08:42:44.8676827Z Getting action download info
+2026-04-02T08:42:45.5365069Z Download action repository 'github/gh-aw-actions@934698b44320d87a7a9196339f90293f10bd2247' (SHA:934698b44320d87a7a9196339f90293f10bd2247)
+2026-04-02T08:42:47.1254732Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-02T08:42:47.9692253Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-02T08:42:48.0670361Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-02T08:42:48.7545585Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-02T08:42:48.9668638Z Complete job name: safe_outputs
+2026-04-02T08:42:49.0192705Z ##[group]Run github/gh-aw-actions/setup@934698b44320d87a7a9196339f90293f10bd2247
+2026-04-02T08:42:49.0193776Z with:
+2026-04-02T08:42:49.0194241Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-02T08:42:49.0194843Z   safe-output-custom-tokens: false
+2026-04-02T08:42:49.0195497Z env:
+2026-04-02T08:42:49.0195992Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:49.0196617Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:49.0197054Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:49.0199315Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:49.0201304Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:49.0201873Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:49.0202416Z ##[endgroup]
+2026-04-02T08:42:49.0594245Z Using RUNNER_TEMP: /home/runner/work/_temp (writable: yes)
+2026-04-02T08:42:49.0660397Z Copying activation files to /home/runner/work/_temp/gh-aw/actions
+2026-04-02T08:42:49.0661137Z Safe-output custom tokens support: false
+2026-04-02T08:42:49.0704692Z Created directory: /home/runner/work/_temp/gh-aw/actions
+2026-04-02T08:42:49.0721392Z Created /tmp/gh-aw directory
+2026-04-02T08:42:49.0754744Z Script directory: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup
+2026-04-02T08:42:49.0757012Z Looking for JavaScript sources in: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/js
+2026-04-02T08:42:49.0759057Z Contents of /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup:
+2026-04-02T08:42:49.0789657Z total 68
+2026-04-02T08:42:49.0790283Z drwxr-xr-x 6 runner runner  4096 Apr  2 08:42 .
+2026-04-02T08:42:49.0791034Z drwxr-xr-x 5 runner runner  4096 Apr  2 08:42 ..
+2026-04-02T08:42:49.0791807Z -rw-r--r-- 1 runner runner   648 Apr  1 15:09 action.yml
+2026-04-02T08:42:49.0792521Z -rw-r--r-- 1 runner runner   953 Apr  1 15:09 index.js
+2026-04-02T08:42:49.0793186Z drwxr-xr-x 3 runner runner 20480 Apr  2 08:42 js
+2026-04-02T08:42:49.0793834Z drwxr-xr-x 2 runner runner  4096 Apr  2 08:42 md
+2026-04-02T08:42:49.0794489Z -rw-r--r-- 1 runner runner  1244 Apr  1 15:09 post.js
+2026-04-02T08:42:49.0795165Z -rwxr-xr-x 1 runner runner 13104 Apr  1 15:09 setup.sh
+2026-04-02T08:42:49.0795816Z drwxr-xr-x 2 runner runner  4096 Apr  2 08:42 sh
+2026-04-02T08:42:49.0796462Z drwxr-xr-x 2 runner runner  4096 Apr  2 08:42 src
+2026-04-02T08:42:49.0804121Z Files in /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/js:
+2026-04-02T08:42:49.0829968Z TESTING_LIVE_API.md
+2026-04-02T08:42:49.0830768Z add_comment.cjs
+2026-04-02T08:42:49.0831286Z add_copilot_reviewer.cjs
+2026-04-02T08:42:49.0831822Z add_labels.cjs
+2026-04-02T08:42:49.0832265Z add_reaction.cjs
+2026-04-02T08:42:49.0832737Z add_reaction_and_edit_comment.cjs
+2026-04-02T08:42:49.0833252Z add_reviewer.cjs
+2026-04-02T08:42:49.0833696Z add_workflow_run_comment.cjs
+2026-04-02T08:42:49.0834224Z apply_safe_outputs_replay.cjs
+2026-04-02T08:42:49.0834754Z assign_agent_helpers.cjs
+2026-04-02T08:42:49.0869563Z Found 254 files in /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/js
+2026-04-02T08:42:49.0928844Z Copied: add_comment.cjs
+2026-04-02T08:42:49.0947199Z Copied: add_copilot_reviewer.cjs
+2026-04-02T08:42:49.0965723Z Copied: add_labels.cjs
+2026-04-02T08:42:49.0984327Z Copied: add_reaction.cjs
+2026-04-02T08:42:49.1003925Z Copied: add_reaction_and_edit_comment.cjs
+2026-04-02T08:42:49.1022520Z Copied: add_reviewer.cjs
+2026-04-02T08:42:49.1040795Z Copied: add_workflow_run_comment.cjs
+2026-04-02T08:42:49.1068899Z Copied: apply_safe_outputs_replay.cjs
+2026-04-02T08:42:49.1087438Z Copied: assign_agent_helpers.cjs
+2026-04-02T08:42:49.1106215Z Copied: assign_copilot_to_created_issues.cjs
+2026-04-02T08:42:49.1125001Z Copied: assign_issue.cjs
+2026-04-02T08:42:49.1143495Z Copied: assign_milestone.cjs
+2026-04-02T08:42:49.1163330Z Copied: assign_to_agent.cjs
+2026-04-02T08:42:49.1181846Z Copied: assign_to_user.cjs
+2026-04-02T08:42:49.1200813Z Copied: autofix_code_scanning_alert.cjs
+2026-04-02T08:42:49.1220125Z Copied: aw_context.cjs
+2026-04-02T08:42:49.1238015Z Copied: call_workflow.cjs
+2026-04-02T08:42:49.1256630Z Copied: check_command_position.cjs
+2026-04-02T08:42:49.1275154Z Copied: check_membership.cjs
+2026-04-02T08:42:49.1293592Z Copied: check_permissions.cjs
+2026-04-02T08:42:49.1312372Z Copied: check_permissions_utils.cjs
+2026-04-02T08:42:49.1330785Z Copied: check_rate_limit.cjs
+2026-04-02T08:42:49.1349088Z Copied: check_skip_bots.cjs
+2026-04-02T08:42:49.1369109Z Copied: check_skip_if_check_failing.cjs
+2026-04-02T08:42:49.1387430Z Copied: check_skip_if_helpers.cjs
+2026-04-02T08:42:49.1406028Z Copied: check_skip_if_match.cjs
+2026-04-02T08:42:49.1424360Z Copied: check_skip_if_no_match.cjs
+2026-04-02T08:42:49.1442886Z Copied: check_skip_roles.cjs
+2026-04-02T08:42:49.1461403Z Copied: check_stop_time.cjs
+2026-04-02T08:42:49.1480175Z Copied: check_team_member.cjs
+2026-04-02T08:42:49.1498707Z Copied: check_version_updates.cjs
+2026-04-02T08:42:49.1518574Z Copied: check_workflow_recompile_needed.cjs
+2026-04-02T08:42:49.1536570Z Copied: check_workflow_timestamp.cjs
+2026-04-02T08:42:49.1554972Z Copied: check_workflow_timestamp_api.cjs
+2026-04-02T08:42:49.1573647Z Copied: checkout_pr_branch.cjs
+2026-04-02T08:42:49.1592373Z Copied: close_discussion.cjs
+2026-04-02T08:42:49.1611142Z Copied: close_entity_helpers.cjs
+2026-04-02T08:42:49.1630011Z Copied: close_expired_discussions.cjs
+2026-04-02T08:42:49.1647878Z Copied: close_expired_issues.cjs
+2026-04-02T08:42:49.1666716Z Copied: close_expired_pull_requests.cjs
+2026-04-02T08:42:49.1686006Z Copied: close_issue.cjs
+2026-04-02T08:42:49.1704374Z Copied: close_older_discussions.cjs
+2026-04-02T08:42:49.1723018Z Copied: close_older_entities.cjs
+2026-04-02T08:42:49.1741376Z Copied: close_older_issues.cjs
+2026-04-02T08:42:49.1760225Z Copied: close_pull_request.cjs
+2026-04-02T08:42:49.1778807Z Copied: collect_ndjson_output.cjs
+2026-04-02T08:42:49.1796626Z Copied: comment_limit_helpers.cjs
+2026-04-02T08:42:49.1815021Z Copied: compute_text.cjs
+2026-04-02T08:42:49.1835165Z Copied: constants.cjs
+2026-04-02T08:42:49.1853693Z Copied: create_agent_session.cjs
+2026-04-02T08:42:49.1872178Z Copied: create_code_scanning_alert.cjs
+2026-04-02T08:42:49.1890824Z Copied: create_discussion.cjs
+2026-04-02T08:42:49.1909081Z Copied: create_issue.cjs
+2026-04-02T08:42:49.1927551Z Copied: create_missing_data_issue.cjs
+2026-04-02T08:42:49.1946405Z Copied: create_missing_tool_issue.cjs
+2026-04-02T08:42:49.1964865Z Copied: create_pr_review_comment.cjs
+2026-04-02T08:42:49.1985853Z Copied: create_project.cjs
+2026-04-02T08:42:49.2004454Z Copied: create_project_status_update.cjs
+2026-04-02T08:42:49.2023492Z Copied: create_pull_request.cjs
+2026-04-02T08:42:49.2042011Z Copied: demo_enhanced_errors.cjs
+2026-04-02T08:42:49.2060381Z Copied: determine_automatic_lockdown.cjs
+2026-04-02T08:42:49.2145083Z Copied: dispatch_repository.cjs
+2026-04-02T08:42:49.2164807Z Copied: dispatch_workflow.cjs
+2026-04-02T08:42:49.2183379Z Copied: display_file_helpers.cjs
+2026-04-02T08:42:49.2202023Z Copied: dynamic_checkout.cjs
+2026-04-02T08:42:49.2220220Z Copied: ephemerals.cjs
+2026-04-02T08:42:49.2238895Z Copied: error_codes.cjs
+2026-04-02T08:42:49.2257223Z Copied: error_helpers.cjs
+2026-04-02T08:42:49.2275734Z Copied: error_recovery.cjs
+2026-04-02T08:42:49.2294105Z Copied: estimate_tokens.cjs
+2026-04-02T08:42:49.2315284Z Copied: expiration_helpers.cjs
+2026-04-02T08:42:49.2339034Z Copied: expired_entity_cleanup_helpers.cjs
+2026-04-02T08:42:49.2362890Z Copied: expired_entity_main_flow.cjs
+2026-04-02T08:42:49.2381395Z Copied: expired_entity_search_helpers.cjs
+2026-04-02T08:42:49.2400052Z Copied: extra_empty_commit.cjs
+2026-04-02T08:42:49.2418955Z Copied: file_helpers.cjs
+2026-04-02T08:42:49.2436860Z Copied: find_repo_checkout.cjs
+2026-04-02T08:42:49.2456825Z Copied: firewall_blocked_domains.cjs
+2026-04-02T08:42:49.2475211Z Copied: frontmatter_hash.cjs
+2026-04-02T08:42:49.2493847Z Copied: frontmatter_hash_pure.cjs
+2026-04-02T08:42:49.2512549Z Copied: fuzz_markdown_code_region_balancer_harness.cjs
+2026-04-02T08:42:49.2531135Z Copied: fuzz_mentions_harness.cjs
+2026-04-02T08:42:49.2549402Z Copied: fuzz_runtime_import_expressions_harness.cjs
+2026-04-02T08:42:49.2568793Z Copied: fuzz_sanitize_incoming_text_harness.cjs
+2026-04-02T08:42:49.2587438Z Copied: fuzz_sanitize_label_harness.cjs
+2026-04-02T08:42:49.2606441Z Copied: fuzz_sanitize_output_harness.cjs
+2026-04-02T08:42:49.2625958Z Copied: fuzz_template_substitution_harness.cjs
+2026-04-02T08:42:49.2645262Z Copied: fuzz_update_body_harness.cjs
+2026-04-02T08:42:49.2663881Z Copied: gateway_difc_filtered.cjs
+2026-04-02T08:42:49.2682422Z Copied: generate_aw_info.cjs
+2026-04-02T08:42:49.2702515Z Copied: generate_compact_schema.cjs
+2026-04-02T08:42:49.2721000Z Copied: generate_footer.cjs
+2026-04-02T08:42:49.7936468Z Copied: generate_git_bundle.cjs
+2026-04-02T08:42:49.7960377Z Copied: generate_git_patch.cjs
+2026-04-02T08:42:49.7960905Z Copied: generate_history_link.cjs
+2026-04-02T08:42:49.7961421Z Copied: generate_mcp_scripts_config.cjs
+2026-04-02T08:42:49.7961956Z Copied: generate_observability_summary.cjs
+2026-04-02T08:42:49.7962495Z Copied: generate_safe_outputs_tools.cjs
+2026-04-02T08:42:49.7963037Z Copied: generate_workflow_overview.cjs
+2026-04-02T08:42:49.7963540Z Copied: get_base_branch.cjs
+2026-04-02T08:42:49.7963990Z Copied: get_current_branch.cjs
+2026-04-02T08:42:49.7964458Z Copied: get_repository_url.cjs
+2026-04-02T08:42:49.7964913Z Copied: get_tracker_id.cjs
+2026-04-02T08:42:49.7965351Z Copied: get_trigger_label.cjs
+2026-04-02T08:42:49.7965986Z Copied: git_helpers.cjs
+2026-04-02T08:42:49.7966410Z Copied: github_api_helpers.cjs
+2026-04-02T08:42:49.7966888Z Copied: glob_pattern_helpers.cjs
+2026-04-02T08:42:49.7967378Z Copied: handle_agent_failure.cjs
+2026-04-02T08:42:49.7967857Z Copied: handle_create_pr_error.cjs
+2026-04-02T08:42:49.7968739Z Copied: handle_noop_message.cjs
+2026-04-02T08:42:49.7969216Z Copied: handler_auth.cjs
+2026-04-02T08:42:49.7969643Z Copied: hide_comment.cjs
+2026-04-02T08:42:49.7970087Z Copied: interpolate_prompt.cjs
+2026-04-02T08:42:49.7970543Z Copied: is_truthy.cjs
+2026-04-02T08:42:49.7970966Z Copied: json_object_to_markdown.cjs
+2026-04-02T08:42:49.7971466Z Copied: json_repair_helpers.cjs
+2026-04-02T08:42:49.7971948Z Copied: limit_enforcement_helpers.cjs
+2026-04-02T08:42:49.7972450Z Copied: link_sub_issue.cjs
+2026-04-02T08:42:49.7972893Z Copied: load_agent_output.cjs
+2026-04-02T08:42:49.7973346Z Copied: lock-issue.cjs
+2026-04-02T08:42:49.7973769Z Copied: log_parser_bootstrap.cjs
+2026-04-02T08:42:49.7974267Z Copied: log_parser_shared.cjs
+2026-04-02T08:42:49.7974730Z Copied: manifest_file_helpers.cjs
+2026-04-02T08:42:49.7975261Z Copied: mark_pull_request_as_ready_for_review.cjs
+2026-04-02T08:42:49.7975844Z Copied: markdown_code_region_balancer.cjs
+2026-04-02T08:42:49.7976364Z Copied: markdown_transformer.cjs
+2026-04-02T08:42:49.7976854Z Copied: markdown_unfencing.cjs
+2026-04-02T08:42:49.7977318Z Copied: mcp-scripts-runner.cjs
+2026-04-02T08:42:49.7977783Z Copied: mcp_enhanced_errors.cjs
+2026-04-02T08:42:49.7978489Z Copied: mcp_handler_go.cjs
+2026-04-02T08:42:49.7978956Z Copied: mcp_handler_javascript.cjs
+2026-04-02T08:42:49.7979447Z Copied: mcp_handler_python.cjs
+2026-04-02T08:42:49.7979929Z Copied: mcp_handler_shell.cjs
+2026-04-02T08:42:49.7980393Z Copied: mcp_http_server_runner.cjs
+2026-04-02T08:42:49.7980879Z Copied: mcp_http_transport.cjs
+2026-04-02T08:42:49.7981336Z Copied: mcp_logger.cjs
+2026-04-02T08:42:49.7981761Z Copied: mcp_scripts_bootstrap.cjs
+2026-04-02T08:42:49.7982252Z Copied: mcp_scripts_config_loader.cjs
+2026-04-02T08:42:49.7982758Z Copied: mcp_scripts_mcp_server.cjs
+2026-04-02T08:42:49.7983257Z Copied: mcp_scripts_mcp_server_http.cjs
+2026-04-02T08:42:49.7983901Z Copied: mcp_scripts_tool_factory.cjs
+2026-04-02T08:42:49.7984409Z Copied: mcp_scripts_validation.cjs
+2026-04-02T08:42:49.7984888Z Copied: mcp_server_core.cjs
+2026-04-02T08:42:49.7985381Z Copied: merge_remote_agent_github_folder.cjs
+2026-04-02T08:42:49.7985893Z Copied: messages.cjs
+2026-04-02T08:42:49.7986316Z Copied: messages_close_discussion.cjs
+2026-04-02T08:42:49.7986825Z Copied: messages_core.cjs
+2026-04-02T08:42:49.7987263Z Copied: messages_footer.cjs
+2026-04-02T08:42:49.7987734Z Copied: messages_run_status.cjs
+2026-04-02T08:42:49.7988384Z Copied: messages_staged.cjs
+2026-04-02T08:42:49.7988847Z Copied: missing_data.cjs
+2026-04-02T08:42:49.7989288Z Copied: missing_info_formatter.cjs
+2026-04-02T08:42:49.7989786Z Copied: missing_issue_helpers.cjs
+2026-04-02T08:42:49.7990269Z Copied: missing_messages_helper.cjs
+2026-04-02T08:42:49.7990760Z Copied: missing_tool.cjs
+2026-04-02T08:42:49.7991176Z Copied: noop.cjs
+2026-04-02T08:42:49.7991665Z Copied: noop_handler.cjs
+2026-04-02T08:42:49.7992137Z Copied: normalize_branch_name.cjs
+2026-04-02T08:42:49.7992618Z Copied: notify_comment_error.cjs
+2026-04-02T08:42:49.7993087Z Copied: parse_claude_log.cjs
+2026-04-02T08:42:49.7993536Z Copied: parse_codex_log.cjs
+2026-04-02T08:42:49.7993990Z Copied: parse_copilot_log.cjs
+2026-04-02T08:42:49.7994455Z Copied: parse_custom_log.cjs
+2026-04-02T08:42:49.7994915Z Copied: parse_firewall_logs.cjs
+2026-04-02T08:42:49.7995392Z Copied: parse_gemini_log.cjs
+2026-04-02T08:42:49.7995845Z Copied: parse_mcp_gateway_log.cjs
+2026-04-02T08:42:49.7996325Z Copied: parse_mcp_scripts_logs.cjs
+2026-04-02T08:42:49.7996837Z Copied: parse_threat_detection_results.cjs
+2026-04-02T08:42:49.7997352Z Copied: pr_helpers.cjs
+2026-04-02T08:42:49.7997767Z Copied: pr_review_buffer.cjs
+2026-04-02T08:42:49.7998397Z Copied: push_repo_memory.cjs
+2026-04-02T08:42:49.7998850Z Copied: push_signed_commits.cjs
+2026-04-02T08:42:49.7999458Z Copied: push_to_pull_request_branch.cjs
+2026-04-02T08:42:49.7999952Z Copied: qmd_index.cjs
+2026-04-02T08:42:49.8000361Z Copied: read_buffer.cjs
+2026-04-02T08:42:49.8000806Z Copied: redact_secrets.cjs
+2026-04-02T08:42:49.8001271Z Copied: remove_duplicate_title.cjs
+2026-04-02T08:42:49.8001738Z Copied: remove_labels.cjs
+2026-04-02T08:42:49.8002192Z Copied: remove_trigger_label.cjs
+2026-04-02T08:42:49.8002649Z Copied: render_template.cjs
+2026-04-02T08:42:49.8003110Z Copied: reply_to_pr_review_comment.cjs
+2026-04-02T08:42:49.8003611Z Copied: repo_helpers.cjs
+2026-04-02T08:42:49.8004044Z Copied: resolve_host_repo.cjs
+2026-04-02T08:42:49.8004506Z Copied: resolve_mentions.cjs
+2026-04-02T08:42:49.8004977Z Copied: resolve_mentions_from_payload.cjs
+2026-04-02T08:42:49.8005496Z Copied: resolve_pr_review_thread.cjs
+2026-04-02T08:42:49.8006005Z Copied: run_operation_update_upgrade.cjs
+2026-04-02T08:42:49.8006514Z Copied: runtime_import.cjs
+2026-04-02T08:42:49.8006963Z Copied: safe-outputs-mcp-server.cjs
+2026-04-02T08:42:49.8007476Z Copied: safe_output_action_handler.cjs
+2026-04-02T08:42:49.8008213Z Copied: safe_output_handler_manager.cjs
+2026-04-02T08:42:49.8043176Z Copied: safe_output_helpers.cjs
+2026-04-02T08:42:49.8043698Z Copied: safe_output_manifest.cjs
+2026-04-02T08:42:49.8044201Z Copied: safe_output_processor.cjs
+2026-04-02T08:42:49.8044691Z Copied: safe_output_summary.cjs
+2026-04-02T08:42:49.8045184Z Copied: safe_output_topological_sort.cjs
+2026-04-02T08:42:49.8045719Z Copied: safe_output_type_validator.cjs
+2026-04-02T08:42:49.8046227Z Copied: safe_output_validator.cjs
+2026-04-02T08:42:49.8046723Z Copied: safe_outputs_action_outputs.cjs
+2026-04-02T08:42:49.8047225Z Copied: safe_outputs_append.cjs
+2026-04-02T08:42:49.8047724Z Copied: safe_outputs_bootstrap.cjs
+2026-04-02T08:42:49.8048473Z Copied: safe_outputs_config.cjs
+2026-04-02T08:42:49.8048972Z Copied: safe_outputs_handlers.cjs
+2026-04-02T08:42:49.8049452Z Copied: safe_outputs_mcp_client.cjs
+2026-04-02T08:42:49.8049948Z Copied: safe_outputs_mcp_server.cjs
+2026-04-02T08:42:49.8050454Z Copied: safe_outputs_mcp_server_http.cjs
+2026-04-02T08:42:49.8050963Z Copied: safe_outputs_tools_loader.cjs
+2026-04-02T08:42:49.8051648Z Copied: sanitize_content.cjs
+2026-04-02T08:42:49.8052124Z Copied: sanitize_content_core.cjs
+2026-04-02T08:42:49.8052604Z Copied: sanitize_incoming_text.cjs
+2026-04-02T08:42:49.8053084Z Copied: sanitize_label_content.cjs
+2026-04-02T08:42:49.8053561Z Copied: sanitize_output.cjs
+2026-04-02T08:42:49.8053997Z Copied: sanitize_title.cjs
+2026-04-02T08:42:49.8054445Z Copied: sanitize_workflow_name.cjs
+2026-04-02T08:42:49.8054925Z Copied: sanitized_logging.cjs
+2026-04-02T08:42:49.8055379Z Copied: set_issue_type.cjs
+2026-04-02T08:42:49.8055818Z Copied: setup_globals.cjs
+2026-04-02T08:42:49.8056255Z Copied: setup_threat_detection.cjs
+2026-04-02T08:42:49.8056725Z Copied: shim.cjs
+2026-04-02T08:42:49.8057110Z Copied: staged_preview.cjs
+2026-04-02T08:42:49.8057558Z Copied: sub_issue_helpers.cjs
+2026-04-02T08:42:49.8058036Z Copied: submit_pr_review.cjs
+2026-04-02T08:42:49.8058689Z Copied: substitute_placeholders.cjs
+2026-04-02T08:42:49.8059177Z Copied: templatable.cjs
+2026-04-02T08:42:49.8059593Z Copied: temporary_id.cjs
+2026-04-02T08:42:49.8060044Z Copied: test-live-github-api.cjs
+2026-04-02T08:42:49.8060522Z Copied: unassign_from_user.cjs
+2026-04-02T08:42:49.8061000Z Copied: unlock-issue.cjs
+2026-04-02T08:42:49.8061442Z Copied: update_activation_comment.cjs
+2026-04-02T08:42:49.8061940Z Copied: update_context_helpers.cjs
+2026-04-02T08:42:49.8062432Z Copied: update_discussion.cjs
+2026-04-02T08:42:49.8062895Z Copied: update_handler_factory.cjs
+2026-04-02T08:42:49.8063363Z Copied: update_issue.cjs
+2026-04-02T08:42:49.8063806Z Copied: update_pr_description_helpers.cjs
+2026-04-02T08:42:49.8064321Z Copied: update_project.cjs
+2026-04-02T08:42:49.8064758Z Copied: update_pull_request.cjs
+2026-04-02T08:42:49.8065219Z Copied: update_release.cjs
+2026-04-02T08:42:49.8065658Z Copied: update_runner.cjs
+2026-04-02T08:42:49.8066080Z Copied: upload_assets.cjs
+2026-04-02T08:42:49.8066659Z Copied: validate_context_variables.cjs
+2026-04-02T08:42:49.8067178Z Copied: validate_lockdown_requirements.cjs
+2026-04-02T08:42:49.8067699Z Copied: validate_memory_files.cjs
+2026-04-02T08:42:49.8068355Z Copied: validate_secrets.cjs
+2026-04-02T08:42:49.8068846Z Copied: workflow_metadata_helpers.cjs
+2026-04-02T08:42:49.8069355Z Copied: write_large_content_to_file.cjs
+2026-04-02T08:42:49.8069860Z Copied: package-lock.json
+2026-04-02T08:42:49.8070292Z Copied: package.json
+2026-04-02T08:42:49.8070712Z Copied: safe_outputs_tools.json
+2026-04-02T08:42:49.8071174Z Copied: tsconfig.build.json
+2026-04-02T08:42:49.8071599Z Copied: tsconfig.json
+2026-04-02T08:42:49.8072496Z Found shell scripts directory: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/sh
+2026-04-02T08:42:49.8073534Z Copied shell script: append_agent_step_summary.sh
+2026-04-02T08:42:49.8074094Z Copied shell script: check_mcp_servers.sh
+2026-04-02T08:42:49.8074643Z Copied shell script: check_mcp_servers_test.sh
+2026-04-02T08:42:49.8075243Z Copied shell script: clean_git_credentials.sh
+2026-04-02T08:42:49.8075828Z Copied shell script: clean_git_credentials_test.sh
+2026-04-02T08:42:49.8076964Z Copied shell script: clone_repo_memory_branch.sh
+2026-04-02T08:42:49.8129415Z Copied shell script: commit_cache_memory_git.sh
+2026-04-02T08:42:49.8130198Z Copied shell script: compute_artifact_prefix.sh
+2026-04-02T08:42:49.8130929Z Copied shell script: configure_gh_for_ghe.sh
+2026-04-02T08:42:49.8131646Z Copied shell script: configure_gh_for_ghe_test.sh
+2026-04-02T08:42:49.8132750Z Copied shell script: convert_gateway_config_claude.sh
+2026-04-02T08:42:49.8133562Z Copied shell script: convert_gateway_config_codex.sh
+2026-04-02T08:42:49.8134371Z Copied shell script: convert_gateway_config_codex_test.sh
+2026-04-02T08:42:49.8135198Z Copied shell script: convert_gateway_config_copilot.sh
+2026-04-02T08:42:49.8135992Z Copied shell script: convert_gateway_config_gemini.sh
+2026-04-02T08:42:49.8136773Z Copied shell script: create_cache_memory_dir.sh
+2026-04-02T08:42:49.8137481Z Copied shell script: create_gh_aw_tmp_dir.sh
+2026-04-02T08:42:49.8138424Z Copied shell script: create_prompt_first.sh
+2026-04-02T08:42:49.8139368Z Copied shell script: detect_inference_access_error.sh
+2026-04-02T08:42:49.8140142Z Copied shell script: download_docker_images.sh
+2026-04-02T08:42:49.8140774Z Copied shell script: download_docker_images_test.sh
+2026-04-02T08:42:49.8141351Z Copied shell script: generate_git_patch.sh
+2026-04-02T08:42:49.8141895Z Copied shell script: install_awf_binary.sh
+2026-04-02T08:42:49.8142428Z Copied shell script: install_copilot_cli.sh
+2026-04-02T08:42:49.8142972Z Copied shell script: install_docker_macos.sh
+2026-04-02T08:42:49.8143498Z Copied shell script: install_gh_cli.sh
+2026-04-02T08:42:49.8144021Z Copied shell script: parse_guard_list.sh
+2026-04-02T08:42:49.8144560Z Copied shell script: print_prompt_summary.sh
+2026-04-02T08:42:49.8145100Z Copied shell script: sanitize_path.sh
+2026-04-02T08:42:49.8145618Z Copied shell script: sanitize_path_test.sh
+2026-04-02T08:42:49.8146200Z Copied shell script: setup_cache_memory_git.sh
+2026-04-02T08:42:49.8146760Z Copied shell script: start_difc_proxy.sh
+2026-04-02T08:42:49.8147283Z Copied shell script: start_mcp_gateway.sh
+2026-04-02T08:42:49.8147819Z Copied shell script: start_mcp_gateway_test.sh
+2026-04-02T08:42:49.8148645Z Copied shell script: start_mcp_scripts_server.sh
+2026-04-02T08:42:49.8149277Z Copied shell script: start_safe_outputs_server.sh
+2026-04-02T08:42:49.8149829Z Copied shell script: stop_difc_proxy.sh
+2026-04-02T08:42:49.8150355Z Copied shell script: stop_mcp_gateway.sh
+2026-04-02T08:42:49.8150915Z Copied shell script: validate_gatewayed_server.sh
+2026-04-02T08:42:49.8151529Z Copied shell script: validate_gatewayed_server_test.sh
+2026-04-02T08:42:49.8152131Z Copied shell script: validate_multi_secret.sh
+2026-04-02T08:42:49.8152720Z Copied shell script: validate_prompt_placeholders.sh
+2026-04-02T08:42:49.8153374Z Copied shell script: validate_prompt_placeholders_test.sh
+2026-04-02T08:42:49.8154121Z Copied shell script: verify_mcp_gateway_health.sh
+2026-04-02T08:42:49.8154828Z Successfully copied 294 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-02T08:42:49.8155650Z Copying prompt markdown files to /home/runner/work/_temp/gh-aw/prompts
+2026-04-02T08:42:49.8156819Z Found markdown prompts directory: /home/runner/work/_actions/github/gh-aw-actions/934698b44320d87a7a9196339f90293f10bd2247/setup/md
+2026-04-02T08:42:49.8157833Z Copied prompt: agent_failure_comment.md
+2026-04-02T08:42:49.8158566Z Copied prompt: agent_failure_issue.md
+2026-04-02T08:42:49.8159068Z Copied prompt: agent_timeout.md
+2026-04-02T08:42:49.8159553Z Copied prompt: agentic_workflows_guide.md
+2026-04-02T08:42:49.8160090Z Copied prompt: app_token_minting_failed.md
+2026-04-02T08:42:49.8160701Z Copied prompt: assign_copilot_to_created_issues_failure.md
+2026-04-02T08:42:49.8161306Z Copied prompt: cache_memory_prompt.md
+2026-04-02T08:42:49.8161826Z Copied prompt: cache_memory_prompt_multi.md
+2026-04-02T08:42:49.8162390Z Copied prompt: github_mcp_tools_prompt.md
+2026-04-02T08:42:49.8163005Z Copied prompt: github_mcp_tools_with_safeoutputs_prompt.md
+2026-04-02T08:42:49.8163624Z Copied prompt: inference_access_error.md
+2026-04-02T08:42:49.8164175Z Copied prompt: integrity_filter_remediation.md
+2026-04-02T08:42:49.8164729Z Copied prompt: issue_group_parent.md
+2026-04-02T08:42:49.8165240Z Copied prompt: lockdown_check_failed.md
+2026-04-02T08:42:49.8165824Z Copied prompt: manifest_protection_create_pr_fallback.md
+2026-04-02T08:42:49.8166506Z Copied prompt: manifest_protection_push_failed_fallback.md
+2026-04-02T08:42:49.8167208Z Copied prompt: manifest_protection_push_to_pr_fallback.md
+2026-04-02T08:42:49.8167796Z Copied prompt: markdown.md
+2026-04-02T08:42:49.8168404Z Copied prompt: missing_data_issue.md
+2026-04-02T08:42:49.8168899Z Copied prompt: missing_tool_issue.md
+2026-04-02T08:42:49.8169391Z Copied prompt: noop_comment.md
+2026-04-02T08:42:49.8169850Z Copied prompt: noop_runs_issue.md
+2026-04-02T08:42:49.8170349Z Copied prompt: playwright_prompt.md
+2026-04-02T08:42:49.8170842Z Copied prompt: pr_checkout_failure.md
+2026-04-02T08:42:49.8171341Z Copied prompt: pr_context_prompt.md
+2026-04-02T08:42:49.8171969Z Copied prompt: pr_permission_denied_fallback.md
+2026-04-02T08:42:49.8172525Z Copied prompt: qmd_prompt.md
+2026-04-02T08:42:49.8172991Z Copied prompt: repo_memory_prompt.md
+2026-04-02T08:42:49.8173509Z Copied prompt: repo_memory_prompt_multi.md
+2026-04-02T08:42:49.8174072Z Copied prompt: safe_outputs_auto_create_issue.md
+2026-04-02T08:42:49.8174664Z Copied prompt: safe_outputs_create_pull_request.md
+2026-04-02T08:42:49.8175230Z Copied prompt: safe_outputs_prompt.md
+2026-04-02T08:42:49.8175784Z Copied prompt: safe_outputs_push_to_pr_branch.md
+2026-04-02T08:42:49.8176450Z Copied prompt: temp_folder_prompt.md
+2026-04-02T08:42:49.8176945Z Copied prompt: threat_detection.md
+2026-04-02T08:42:49.8177436Z Copied prompt: workflow_install_note.md
+2026-04-02T08:42:49.8177961Z Copied prompt: workflow_recompile_issue.md
+2026-04-02T08:42:49.8178730Z Copied prompt: xpia.md
+2026-04-02T08:42:49.8179359Z Successfully copied 38 prompt files to /home/runner/work/_temp/gh-aw/prompts
+2026-04-02T08:42:49.8180222Z Copying mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-02T08:42:49.8180944Z Copied mcp-scripts: mcp_scripts_bootstrap.cjs
+2026-04-02T08:42:49.8181525Z Copied mcp-scripts: mcp_scripts_config_loader.cjs
+2026-04-02T08:42:49.8182123Z Copied mcp-scripts: mcp_scripts_mcp_server.cjs
+2026-04-02T08:42:49.8182716Z Copied mcp-scripts: mcp_scripts_mcp_server_http.cjs
+2026-04-02T08:42:49.8183323Z Copied mcp-scripts: mcp_scripts_tool_factory.cjs
+2026-04-02T08:42:49.8183901Z Copied mcp-scripts: mcp_scripts_validation.cjs
+2026-04-02T08:42:49.8184455Z Copied mcp-scripts: mcp_server_core.cjs
+2026-04-02T08:42:49.8184965Z Copied mcp-scripts: mcp_logger.cjs
+2026-04-02T08:42:49.8185462Z Copied mcp-scripts: mcp_http_transport.cjs
+2026-04-02T08:42:49.8186020Z Copied mcp-scripts: mcp_http_server_runner.cjs
+2026-04-02T08:42:49.8186675Z Copied mcp-scripts: mcp_handler_shell.cjs
+2026-04-02T08:42:49.8187208Z Copied mcp-scripts: mcp_handler_python.cjs
+2026-04-02T08:42:49.8187751Z Copied mcp-scripts: mcp_handler_go.cjs
+2026-04-02T08:42:49.8188472Z Copied mcp-scripts: mcp_handler_javascript.cjs
+2026-04-02T08:42:49.8189008Z Copied mcp-scripts: read_buffer.cjs
+2026-04-02T08:42:49.8189566Z Copied mcp-scripts: generate_mcp_scripts_config.cjs
+2026-04-02T08:42:49.8190151Z Copied mcp-scripts: setup_globals.cjs
+2026-04-02T08:42:49.8190658Z Copied mcp-scripts: error_helpers.cjs
+2026-04-02T08:42:49.8191162Z Copied mcp-scripts: error_codes.cjs
+2026-04-02T08:42:49.8191648Z Copied mcp-scripts: constants.cjs
+2026-04-02T08:42:49.8192147Z Copied mcp-scripts: mcp_enhanced_errors.cjs
+2026-04-02T08:42:49.8192680Z Copied mcp-scripts: shim.cjs
+2026-04-02T08:42:49.8193161Z Copied mcp-scripts: mcp-scripts-runner.cjs
+2026-04-02T08:42:49.8193922Z Successfully copied 23 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-02T08:42:49.8194846Z Copying safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-02T08:42:49.8195555Z Copied safe-outputs: safe_outputs_mcp_server.cjs
+2026-04-02T08:42:49.8196170Z Copied safe-outputs: safe_outputs_mcp_server_http.cjs
+2026-04-02T08:42:49.8196798Z Copied safe-outputs: safe_outputs_bootstrap.cjs
+2026-04-02T08:42:49.8197385Z Copied safe-outputs: safe_outputs_tools_loader.cjs
+2026-04-02T08:42:49.8197965Z Copied safe-outputs: safe_outputs_config.cjs
+2026-04-02T08:42:49.8198689Z Copied safe-outputs: safe_outputs_handlers.cjs
+2026-04-02T08:42:49.8199266Z Copied safe-outputs: safe_outputs_append.cjs
+2026-04-02T08:42:49.8199806Z Copied safe-outputs: mcp_server_core.cjs
+2026-04-02T08:42:49.8200323Z Copied safe-outputs: mcp_logger.cjs
+2026-04-02T08:42:49.8200836Z Copied safe-outputs: mcp_http_transport.cjs
+2026-04-02T08:42:49.8201398Z Copied safe-outputs: mcp_http_server_runner.cjs
+2026-04-02T08:42:49.8201969Z Copied safe-outputs: mcp_handler_python.cjs
+2026-04-02T08:42:49.8202520Z Copied safe-outputs: mcp_handler_shell.cjs
+2026-04-02T08:42:49.8203048Z Copied safe-outputs: mcp_handler_go.cjs
+2026-04-02T08:42:49.8203587Z Copied safe-outputs: mcp_handler_javascript.cjs
+2026-04-02T08:42:49.8204251Z Copied safe-outputs: read_buffer.cjs
+2026-04-02T08:42:49.8204779Z Copied safe-outputs: mcp_scripts_validation.cjs
+2026-04-02T08:42:49.8205323Z Copied safe-outputs: messages.cjs
+2026-04-02T08:42:49.8205809Z Copied safe-outputs: messages_core.cjs
+2026-04-02T08:42:49.8206312Z Copied safe-outputs: messages_footer.cjs
+2026-04-02T08:42:49.8206852Z Copied safe-outputs: messages_run_status.cjs
+2026-04-02T08:42:49.8207389Z Copied safe-outputs: messages_staged.cjs
+2026-04-02T08:42:49.8207954Z Copied safe-outputs: messages_close_discussion.cjs
+2026-04-02T08:42:49.8208708Z Copied safe-outputs: estimate_tokens.cjs
+2026-04-02T08:42:49.8209248Z Copied safe-outputs: generate_git_patch.cjs
+2026-04-02T08:42:49.8209794Z Copied safe-outputs: generate_git_bundle.cjs
+2026-04-02T08:42:49.8210360Z Copied safe-outputs: get_base_branch.cjs
+2026-04-02T08:42:49.8210906Z Copied safe-outputs: get_current_branch.cjs
+2026-04-02T08:42:49.8211458Z Copied safe-outputs: normalize_branch_name.cjs
+2026-04-02T08:42:49.8212064Z Copied safe-outputs: write_large_content_to_file.cjs
+2026-04-02T08:42:49.8212686Z Copied safe-outputs: generate_compact_schema.cjs
+2026-04-02T08:42:49.8213254Z Copied safe-outputs: setup_globals.cjs
+2026-04-02T08:42:49.8213761Z Copied safe-outputs: error_helpers.cjs
+2026-04-02T08:42:49.8214267Z Copied safe-outputs: error_codes.cjs
+2026-04-02T08:42:49.8214778Z Copied safe-outputs: constants.cjs
+2026-04-02T08:42:49.8215268Z Copied safe-outputs: git_helpers.cjs
+2026-04-02T08:42:49.8215778Z Copied safe-outputs: github_api_helpers.cjs
+2026-04-02T08:42:49.8216320Z Copied safe-outputs: find_repo_checkout.cjs
+2026-04-02T08:42:49.8216891Z Copied safe-outputs: mcp_enhanced_errors.cjs
+2026-04-02T08:42:49.8217447Z Copied safe-outputs: comment_limit_helpers.cjs
+2026-04-02T08:42:49.8217979Z Copied safe-outputs: shim.cjs
+2026-04-02T08:42:49.8218777Z Copied safe-outputs: repo_helpers.cjs
+2026-04-02T08:42:49.8219320Z Copied safe-outputs: glob_pattern_helpers.cjs
+2026-04-02T08:42:49.8219861Z Copied safe-outputs: handler_auth.cjs
+2026-04-02T08:42:49.8220408Z Copied safe-outputs: missing_messages_helper.cjs
+2026-04-02T08:42:49.8220998Z Copied safe-outputs: firewall_blocked_domains.cjs
+2026-04-02T08:42:49.8221581Z Copied safe-outputs: gateway_difc_filtered.cjs
+2026-04-02T08:42:49.8222162Z Copied safe-outputs: missing_info_formatter.cjs
+2026-04-02T08:42:49.8222733Z Copied safe-outputs: sanitize_content_core.cjs
+2026-04-02T08:42:49.8223334Z Copied safe-outputs: markdown_code_region_balancer.cjs
+2026-04-02T08:42:49.8223909Z Copied safe-outputs: temporary_id.cjs
+2026-04-02T08:42:49.8224467Z Copied safe-outputs MCP entry point: mcp-server.cjs
+2026-04-02T08:42:49.8225071Z Copied safe-outputs tools definition: tools.json
+2026-04-02T08:42:49.8225667Z Created empty config.json for safe-outputs server
+2026-04-02T08:42:49.8226451Z Successfully copied 53 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-02T08:42:49.8227340Z Custom tokens not enabled - skipping @actions/github installation
+2026-04-02T08:42:49.8362404Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-02T08:42:49.8363136Z with:
+2026-04-02T08:42:49.8363510Z   name: agent
+2026-04-02T08:42:49.8363866Z   path: /tmp/gh-aw/
+2026-04-02T08:42:49.8364267Z   merge-multiple: false
+2026-04-02T08:42:49.8364687Z   repository: Azure/azure-sdk-for-js
+2026-04-02T08:42:49.8365163Z   run-id: 23891150596
+2026-04-02T08:42:49.8365556Z   skip-decompress: false
+2026-04-02T08:42:49.8365973Z   digest-mismatch: error
+2026-04-02T08:42:49.8366356Z env:
+2026-04-02T08:42:49.8366807Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:49.8367404Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:49.8367830Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:49.8370126Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:49.8372055Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:49.8372564Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:49.8373085Z ##[endgroup]
+2026-04-02T08:42:50.0321320Z Downloading single artifact
+2026-04-02T08:42:50.2679544Z Preparing to download the following artifacts:
+2026-04-02T08:42:50.2683358Z - agent (ID: 6237873408, Size: 5544000, Expected Digest: sha256:d9ee70e9d2eda8c97c68c2a7d312c2da6b7b95991d8df1bf4e735d18c18a39a7)
+2026-04-02T08:42:50.7101426Z Redirecting to blob download url: https://productionresultssa13.blob.core.windows.net/actions-results/d98dfe0f-3fd5-4a6d-a4a1-3cdb04673a00/workflow-job-run-d3ad17d1-98ef-5f9c-a0c7-c76f36af9dd1/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-02T08:42:50.7103463Z Starting download of artifact to: /tmp/gh-aw
+2026-04-02T08:42:51.0230312Z (node:912) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-02T08:42:51.0232083Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-02T08:42:52.1904026Z SHA256 digest of downloaded artifact is d9ee70e9d2eda8c97c68c2a7d312c2da6b7b95991d8df1bf4e735d18c18a39a7
+2026-04-02T08:42:52.1931373Z Artifact download completed successfully.
+2026-04-02T08:42:52.1932021Z Total of 1 artifact(s) downloaded
+2026-04-02T08:42:52.1932599Z Download artifact has finished successfully
+2026-04-02T08:42:52.2121080Z ##[group]Run mkdir -p /tmp/gh-aw/
+2026-04-02T08:42:52.2121865Z [36;1mmkdir -p /tmp/gh-aw/[0m
+2026-04-02T08:42:52.2122514Z [36;1mfind "/tmp/gh-aw/" -type f -print[0m
+2026-04-02T08:42:52.2123502Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-02T08:42:52.2135050Z shell: /usr/bin/bash -e {0}
+2026-04-02T08:42:52.2135612Z env:
+2026-04-02T08:42:52.2136178Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:52.2136949Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:52.2137452Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:52.2140349Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:52.2143097Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:52.2143732Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:52.2144374Z ##[endgroup]
+2026-04-02T08:42:52.2240864Z /tmp/gh-aw/agent/bin/pnpm
+2026-04-02T08:42:52.9831183Z /tmp/gh-aw/agent/bin/pnpx
+2026-04-02T08:42:52.9831894Z /tmp/gh-aw/agent/lib/node_modules/pnpm/README.md
+2026-04-02T08:42:52.9832726Z /tmp/gh-aw/agent/lib/node_modules/pnpm/bin/pnpx.cjs
+2026-04-02T08:42:52.9833549Z /tmp/gh-aw/agent/lib/node_modules/pnpm/bin/pnpm.cjs
+2026-04-02T08:42:52.9834338Z /tmp/gh-aw/agent/lib/node_modules/pnpm/LICENSE
+2026-04-02T08:42:52.9835108Z /tmp/gh-aw/agent/lib/node_modules/pnpm/package.json
+2026-04-02T08:42:52.9838436Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/reflink.darwin-arm64-2HJ4WGO6.node
+2026-04-02T08:42:52.9839859Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node-gyp-bin/node-gyp.cmd
+2026-04-02T08:42:52.9840944Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node-gyp-bin/node-gyp
+2026-04-02T08:42:52.9842070Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/reflink.win32-arm64-msvc-Q6BARPPB.node
+2026-04-02T08:42:52.9843091Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/worker.js
+2026-04-02T08:42:52.9844028Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/vendor/fastlist-0.3.0-x64.exe
+2026-04-02T08:42:52.9845124Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/vendor/fastlist-0.3.0-x86.exe
+2026-04-02T08:42:52.9846247Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/reflink.darwin-x64-3G3H6IW4.node
+2026-04-02T08:42:52.9847192Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/pnpm.cjs
+2026-04-02T08:42:52.9848342Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/reflink.win32-x64-msvc-J2TZHRQI.node
+2026-04-02T08:42:52.9849489Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/p-map/license
+2026-04-02T08:42:52.9850566Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/p-map/package.json
+2026-04-02T08:42:52.9851617Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/p-map/index.js
+2026-04-02T08:42:52.9852707Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/package.json
+2026-04-02T08:42:52.9854002Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:52.9855404Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/commonjs/index.js.map
+2026-04-02T08:42:52.9856794Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/commonjs/package.json
+2026-04-02T08:42:52.9858343Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/commonjs/index.js
+2026-04-02T08:42:52.9859766Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/esm/index.d.ts.map
+2026-04-02T08:42:52.9861148Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/esm/index.js.map
+2026-04-02T08:42:52.9862524Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/esm/package.json
+2026-04-02T08:42:52.9863860Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-scurry/dist/esm/index.js
+2026-04-02T08:42:52.9865450Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ssri/lib/index.js
+2026-04-02T08:42:52.9866553Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ssri/package.json
+2026-04-02T08:42:52.9867603Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fdir/LICENSE
+2026-04-02T08:42:52.9881355Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fdir/package.json
+2026-04-02T08:42:52.9882499Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fdir/dist/index.mjs
+2026-04-02T08:42:52.9883634Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fdir/dist/index.d.cts
+2026-04-02T08:42:52.9884846Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fdir/dist/index.d.mts
+2026-04-02T08:42:52.9885966Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fdir/dist/index.cjs
+2026-04-02T08:42:52.9887220Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/which/bin/which.js
+2026-04-02T08:42:52.9888601Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/which/lib/index.js
+2026-04-02T08:42:52.9889748Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/which/LICENSE
+2026-04-02T08:42:52.9890870Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/which/package.json
+2026-04-02T08:42:52.9892010Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-name/LICENSE
+2026-04-02T08:42:52.9893193Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-name/package.json
+2026-04-02T08:42:52.9894382Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-name/index.js
+2026-04-02T08:42:52.9895631Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/lib/bom-handling.js
+2026-04-02T08:42:52.9896910Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/lib/streams.js
+2026-04-02T08:42:52.9898684Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/lib/index.js
+2026-04-02T08:42:52.9900024Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/dbcs-codec.js
+2026-04-02T08:42:52.9901421Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/utf16.js
+2026-04-02T08:42:52.9902733Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/utf32.js
+2026-04-02T08:42:52.9904074Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/sbcs-data.js
+2026-04-02T08:42:52.9905475Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/sbcs-codec.js
+2026-04-02T08:42:52.9906947Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/eucjp.json
+2026-04-02T08:42:52.9908730Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/shiftjis.json
+2026-04-02T08:42:52.9910368Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/big5-added.json
+2026-04-02T08:42:52.9911939Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/cp936.json
+2026-04-02T08:42:52.9913546Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/gb18030-ranges.json
+2026-04-02T08:42:52.9915153Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/gbk-added.json
+2026-04-02T08:42:52.9916673Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/cp949.json
+2026-04-02T08:42:52.9918399Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/tables/cp950.json
+2026-04-02T08:42:52.9919838Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/internal.js
+2026-04-02T08:42:52.9921219Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/dbcs-data.js
+2026-04-02T08:42:52.9922575Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/utf7.js
+2026-04-02T08:42:52.9923889Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/index.js
+2026-04-02T08:42:52.9925328Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/encodings/sbcs-data-generated.js
+2026-04-02T08:42:52.9926855Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/LICENSE
+2026-04-02T08:42:52.9928247Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/iconv-lite/package.json
+2026-04-02T08:42:52.9929472Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/package.json
+2026-04-02T08:42:52.9930935Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:52.9932407Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/index.js.map
+2026-04-02T08:42:52.9933839Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/package.json
+2026-04-02T08:42:52.9935385Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/parse-args-cjs.d.cts.map
+2026-04-02T08:42:52.9936934Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/parse-args.js
+2026-04-02T08:42:52.9938628Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/index.js
+2026-04-02T08:42:52.9940124Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/commonjs/parse-args-cjs.cjs.map
+2026-04-02T08:42:52.9941646Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/parse-args.js.map
+2026-04-02T08:42:52.9943034Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/index.d.ts.map
+2026-04-02T08:42:52.9944438Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/parse-args.d.ts.map
+2026-04-02T08:42:52.9945822Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/index.js.map
+2026-04-02T08:42:52.9947143Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/package.json
+2026-04-02T08:42:52.9948650Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/parse-args.js
+2026-04-02T08:42:52.9949955Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/jackspeak/dist/esm/index.js
+2026-04-02T08:42:52.9951165Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/get.js
+2026-04-02T08:42:52.9952334Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/util/glob.js
+2026-04-02T08:42:52.9953510Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/util/tmp.js
+2026-04-02T08:42:52.9954804Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/util/hash-to-segments.js
+2026-04-02T08:42:52.9956080Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/verify.js
+2026-04-02T08:42:52.9957252Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/entry-index.js
+2026-04-02T08:42:52.9958697Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/put.js
+2026-04-02T08:42:52.9959874Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/memoization.js
+2026-04-02T08:42:52.9961054Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/index.js
+2026-04-02T08:42:52.9962244Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/content/write.js
+2026-04-02T08:42:52.9963499Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/content/read.js
+2026-04-02T08:42:52.9964749Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/content/path.js
+2026-04-02T08:42:52.9965991Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/content/rm.js
+2026-04-02T08:42:52.9967138Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/lib/rm.js
+2026-04-02T08:42:52.9968525Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cacache/package.json
+2026-04-02T08:42:52.9969727Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/lib/mediaType.js
+2026-04-02T08:42:52.9970975Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/lib/language.js
+2026-04-02T08:42:52.9972209Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/lib/encoding.js
+2026-04-02T08:42:52.9973558Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/lib/charset.js
+2026-04-02T08:42:52.9974727Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/LICENSE
+2026-04-02T08:42:52.9975871Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/package.json
+2026-04-02T08:42:52.9977143Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/negotiator/index.js
+2026-04-02T08:42:52.9978483Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-proxy-agent/LICENSE
+2026-04-02T08:42:52.9979746Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-proxy-agent/package.json
+2026-04-02T08:42:52.9981097Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-proxy-agent/dist/index.d.ts.map
+2026-04-02T08:42:52.9982485Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-proxy-agent/dist/index.js.map
+2026-04-02T08:42:52.9983818Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-proxy-agent/dist/index.js
+2026-04-02T08:42:52.9985274Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/license
+2026-04-02T08:42:52.9986601Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/ansi-regex/license
+2026-04-02T08:42:52.9988367Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/ansi-regex/package.json
+2026-04-02T08:42:52.9989994Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/ansi-regex/index.js
+2026-04-02T08:42:52.9991530Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/strip-ansi/license
+2026-04-02T08:42:52.9993921Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/strip-ansi/package.json
+2026-04-02T08:42:52.9995534Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/strip-ansi/index.js
+2026-04-02T08:42:52.9997092Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/string-width/license
+2026-04-02T08:42:52.9998889Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/string-width/package.json
+2026-04-02T08:42:53.0000525Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/string-width/index.js
+2026-04-02T08:42:53.0002085Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/ansi-styles/license
+2026-04-02T08:42:53.0003683Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/ansi-styles/package.json
+2026-04-02T08:42:53.0005278Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/ansi-styles/index.js
+2026-04-02T08:42:53.0006892Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/LICENSE-MIT.txt
+2026-04-02T08:42:53.0008746Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/text.js
+2026-04-02T08:42:53.0010361Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/es2015/text.js
+2026-04-02T08:42:53.0012024Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/es2015/index.js
+2026-04-02T08:42:53.0013678Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/package.json
+2026-04-02T08:42:53.0015275Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/node_modules/emoji-regex/index.js
+2026-04-02T08:42:53.0016652Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/package.json
+2026-04-02T08:42:53.0017830Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi-cjs/index.js
+2026-04-02T08:42:53.0019176Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/LICENSE
+2026-04-02T08:42:53.0020415Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/package.json
+2026-04-02T08:42:53.0022025Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/dist/parse-proxy-response.d.ts.map
+2026-04-02T08:42:53.0023687Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/dist/parse-proxy-response.js.map
+2026-04-02T08:42:53.0025191Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/dist/index.d.ts.map
+2026-04-02T08:42:53.0026647Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/dist/index.js.map
+2026-04-02T08:42:53.0027961Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/dist/index.js
+2026-04-02T08:42:53.0029572Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/https-proxy-agent/dist/parse-proxy-response.js
+2026-04-02T08:42:53.0030928Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/LICENSE
+2026-04-02T08:42:53.0032131Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/package.json
+2026-04-02T08:42:53.0033561Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/watchdog.d.ts.map
+2026-04-02T08:42:53.0035109Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/watchdog.js.map
+2026-04-02T08:42:53.0036591Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/watchdog.js
+2026-04-02T08:42:53.0038215Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0039793Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/proxy-signals.js.map
+2026-04-02T08:42:53.0041371Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/proxy-signals.js
+2026-04-02T08:42:53.0043023Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/all-signals.d.ts.map
+2026-04-02T08:42:53.0044610Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/all-signals.js.map
+2026-04-02T08:42:53.0046141Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/all-signals.js
+2026-04-02T08:42:53.0047608Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0049220Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/package.json
+2026-04-02T08:42:53.0050652Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/index.js
+2026-04-02T08:42:53.0052157Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/commonjs/proxy-signals.d.ts.map
+2026-04-02T08:42:53.0053694Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/watchdog.d.ts.map
+2026-04-02T08:42:53.0055153Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/watchdog.js.map
+2026-04-02T08:42:53.0056561Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/watchdog.js
+2026-04-02T08:42:53.0057954Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0059596Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/proxy-signals.js.map
+2026-04-02T08:42:53.0061094Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/proxy-signals.js
+2026-04-02T08:42:53.0062582Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/all-signals.d.ts.map
+2026-04-02T08:42:53.0064066Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/all-signals.js.map
+2026-04-02T08:42:53.0065491Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/all-signals.js
+2026-04-02T08:42:53.0066877Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/index.js.map
+2026-04-02T08:42:53.0068424Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/package.json
+2026-04-02T08:42:53.0069894Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/index.js
+2026-04-02T08:42:53.0071346Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/foreground-child/dist/esm/proxy-signals.d.ts.map
+2026-04-02T08:42:53.0072712Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/LICENSE
+2026-04-02T08:42:53.0074152Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/package.json
+2026-04-02T08:42:53.0075458Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/backoff.js
+2026-04-02T08:42:53.0076827Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/options.js.map
+2026-04-02T08:42:53.0078541Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/jitter/full/full.jitter.js.map
+2026-04-02T08:42:53.0080176Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/jitter/full/full.jitter.js
+2026-04-02T08:42:53.0081767Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/jitter/jitter.factory.js
+2026-04-02T08:42:53.0083351Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/jitter/jitter.factory.js.map
+2026-04-02T08:42:53.0084994Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/jitter/no/no.jitter.js.map
+2026-04-02T08:42:53.0086547Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/jitter/no/no.jitter.js
+2026-04-02T08:42:53.0088228Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/delay.base.js.map
+2026-04-02T08:42:53.0089831Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/delay.interface.js.map
+2026-04-02T08:42:53.0091533Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/skip-first/skip-first.delay.js
+2026-04-02T08:42:53.0093346Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/skip-first/skip-first.delay.js.map
+2026-04-02T08:42:53.0095015Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/delay.base.js
+2026-04-02T08:42:53.0096503Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/delay.factory.js
+2026-04-02T08:42:53.0098238Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/delay.factory.js.map
+2026-04-02T08:42:53.0099890Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/always/always.delay.js.map
+2026-04-02T08:42:53.0101547Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/always/always.delay.js
+2026-04-02T08:42:53.0103120Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/delay/delay.interface.js
+2026-04-02T08:42:53.0104586Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/backoff.js.map
+2026-04-02T08:42:53.0105943Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/exponential-backoff/dist/options.js
+2026-04-02T08:42:53.0107163Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/package.json
+2026-04-02T08:42:53.0108532Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0109876Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0111206Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/commonjs/package.json
+2026-04-02T08:42:53.0112503Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/commonjs/index.js
+2026-04-02T08:42:53.0113771Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0115032Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/esm/index.js.map
+2026-04-02T08:42:53.0116270Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/esm/package.json
+2026-04-02T08:42:53.0117611Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass/dist/esm/index.js
+2026-04-02T08:42:53.0119030Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-cache-semantics/LICENSE
+2026-04-02T08:42:53.0120290Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-cache-semantics/package.json
+2026-04-02T08:42:53.0121669Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/http-cache-semantics/index.js
+2026-04-02T08:42:53.0122772Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/debug/LICENSE
+2026-04-02T08:42:53.0123794Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/debug/package.json
+2026-04-02T08:42:53.0124860Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/debug/src/browser.js
+2026-04-02T08:42:53.0125909Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/debug/src/node.js
+2026-04-02T08:42:53.0126956Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/debug/src/index.js
+2026-04-02T08:42:53.0128023Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/debug/src/common.js
+2026-04-02T08:42:53.0129328Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/license
+2026-04-02T08:42:53.0130660Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/ansi-regex/license
+2026-04-02T08:42:53.0132241Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/ansi-regex/package.json
+2026-04-02T08:42:53.0133811Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/ansi-regex/index.js
+2026-04-02T08:42:53.0135331Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/strip-ansi/license
+2026-04-02T08:42:53.0136894Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/strip-ansi/package.json
+2026-04-02T08:42:53.0138633Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/strip-ansi/index.js
+2026-04-02T08:42:53.0140327Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/emoji-regex/LICENSE-MIT.txt
+2026-04-02T08:42:53.0141926Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/emoji-regex/text.js
+2026-04-02T08:42:53.0143524Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/emoji-regex/es2015/text.js
+2026-04-02T08:42:53.0145183Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/emoji-regex/es2015/index.js
+2026-04-02T08:42:53.0146826Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/emoji-regex/package.json
+2026-04-02T08:42:53.0148570Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/node_modules/emoji-regex/index.js
+2026-04-02T08:42:53.0151495Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/package.json
+2026-04-02T08:42:53.0152734Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width-cjs/index.js
+2026-04-02T08:42:53.0153877Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/shebang-regex/license
+2026-04-02T08:42:53.0155016Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/shebang-regex/package.json
+2026-04-02T08:42:53.0156243Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/shebang-regex/index.js
+2026-04-02T08:42:53.0157391Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/LICENSE
+2026-04-02T08:42:53.0159031Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/minipass/LICENSE
+2026-04-02T08:42:53.0160607Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/minipass/package.json
+2026-04-02T08:42:53.0162175Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/minipass/index.js
+2026-04-02T08:42:53.0163746Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/yallist/iterator.js
+2026-04-02T08:42:53.0165428Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/yallist/LICENSE
+2026-04-02T08:42:53.0166962Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/yallist/yallist.js
+2026-04-02T08:42:53.0168710Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/node_modules/yallist/package.json
+2026-04-02T08:42:53.0170248Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/package.json
+2026-04-02T08:42:53.0186942Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-pipeline/index.js
+2026-04-02T08:42:53.0188620Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/package.json
+2026-04-02T08:42:53.0189862Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0191172Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0192478Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/commonjs/package.json
+2026-04-02T08:42:53.0193730Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/commonjs/index.js
+2026-04-02T08:42:53.0194956Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0196356Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/esm/index.js.map
+2026-04-02T08:42:53.0197575Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/esm/package.json
+2026-04-02T08:42:53.0198969Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/chownr/dist/esm/index.js
+2026-04-02T08:42:53.0200185Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ansi-regex/license
+2026-04-02T08:42:53.0201274Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ansi-regex/package.json
+2026-04-02T08:42:53.0202414Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ansi-regex/index.js
+2026-04-02T08:42:53.0203500Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/err-code/package.json
+2026-04-02T08:42:53.0204563Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/err-code/index.js
+2026-04-02T08:42:53.0205602Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/err-code/index.umd.js
+2026-04-02T08:42:53.0206664Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/err-code/bower.json
+2026-04-02T08:42:53.0207734Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi-cjs/license
+2026-04-02T08:42:53.0209206Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi-cjs/node_modules/ansi-regex/license
+2026-04-02T08:42:53.0210722Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi-cjs/node_modules/ansi-regex/package.json
+2026-04-02T08:42:53.0212268Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi-cjs/node_modules/ansi-regex/index.js
+2026-04-02T08:42:53.0213602Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi-cjs/package.json
+2026-04-02T08:42:53.0214775Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi-cjs/index.js
+2026-04-02T08:42:53.0215922Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/unique-slug/lib/index.js
+2026-04-02T08:42:53.0217034Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/unique-slug/LICENSE
+2026-04-02T08:42:53.0218346Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/unique-slug/package.json
+2026-04-02T08:42:53.0219432Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/LICENSE
+2026-04-02T08:42:53.0220458Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/package.json
+2026-04-02T08:42:53.0221621Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/options.d.ts.map
+2026-04-02T08:42:53.0222815Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/posix.js
+2026-04-02T08:42:53.0224006Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/options.js.map
+2026-04-02T08:42:53.0225417Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/index.d.ts.map
+2026-04-02T08:42:53.0226635Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/posix.d.ts.map
+2026-04-02T08:42:53.0227830Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/win32.d.ts.map
+2026-04-02T08:42:53.0229387Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/index.js.map
+2026-04-02T08:42:53.0230579Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/options.js
+2026-04-02T08:42:53.0231756Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/package.json
+2026-04-02T08:42:53.0232938Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/posix.js.map
+2026-04-02T08:42:53.0234110Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/index.js
+2026-04-02T08:42:53.0235268Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/win32.js.map
+2026-04-02T08:42:53.0236408Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/cjs/win32.js
+2026-04-02T08:42:53.0250202Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/options.d.ts.map
+2026-04-02T08:42:53.0251545Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/posix.js
+2026-04-02T08:42:53.0252790Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/options.js.map
+2026-04-02T08:42:53.0254015Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/index.d.ts.map
+2026-04-02T08:42:53.0255234Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/posix.d.ts.map
+2026-04-02T08:42:53.0256447Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/win32.d.ts.map
+2026-04-02T08:42:53.0257638Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/index.js.map
+2026-04-02T08:42:53.0259164Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/options.js
+2026-04-02T08:42:53.0260342Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/package.json
+2026-04-02T08:42:53.0261539Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/posix.js.map
+2026-04-02T08:42:53.0262677Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/index.js
+2026-04-02T08:42:53.0263817Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/win32.js.map
+2026-04-02T08:42:53.0264939Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/isexe/dist/mjs/win32.js
+2026-04-02T08:42:53.0266008Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/LICENSE
+2026-04-02T08:42:53.0267108Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/package.json
+2026-04-02T08:42:53.0268582Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/unescape.js.map
+2026-04-02T08:42:53.0269994Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/unescape.d.ts.map
+2026-04-02T08:42:53.0271364Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/ast.d.ts.map
+2026-04-02T08:42:53.0272766Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/assert-valid-pattern.js
+2026-04-02T08:42:53.0274180Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0275454Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/ast.js
+2026-04-02T08:42:53.0276714Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/escape.js
+2026-04-02T08:42:53.0278299Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/assert-valid-pattern.js.map
+2026-04-02T08:42:53.0279850Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/brace-expressions.js.map
+2026-04-02T08:42:53.0281270Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/escape.d.ts.map
+2026-04-02T08:42:53.0282788Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/escape.js.map
+2026-04-02T08:42:53.0284296Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/assert-valid-pattern.d.ts.map
+2026-04-02T08:42:53.0285858Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/brace-expressions.d.ts.map
+2026-04-02T08:42:53.0287394Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0288923Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/package.json
+2026-04-02T08:42:53.0290223Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/index.js
+2026-04-02T08:42:53.0291594Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/brace-expressions.js
+2026-04-02T08:42:53.0292945Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/ast.js.map
+2026-04-02T08:42:53.0294253Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/commonjs/unescape.js
+2026-04-02T08:42:53.0295537Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/unescape.js.map
+2026-04-02T08:42:53.0296834Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/unescape.d.ts.map
+2026-04-02T08:42:53.0298371Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/ast.d.ts.map
+2026-04-02T08:42:53.0299714Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/assert-valid-pattern.js
+2026-04-02T08:42:53.0301078Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0302304Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/ast.js
+2026-04-02T08:42:53.0303473Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/escape.js
+2026-04-02T08:42:53.0304819Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/assert-valid-pattern.js.map
+2026-04-02T08:42:53.0307074Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/brace-expressions.js.map
+2026-04-02T08:42:53.0308620Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/escape.d.ts.map
+2026-04-02T08:42:53.0309901Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/escape.js.map
+2026-04-02T08:42:53.0311321Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/assert-valid-pattern.d.ts.map
+2026-04-02T08:42:53.0312812Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/brace-expressions.d.ts.map
+2026-04-02T08:42:53.0314152Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/index.js.map
+2026-04-02T08:42:53.0315387Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/package.json
+2026-04-02T08:42:53.0316585Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/index.js
+2026-04-02T08:42:53.0317865Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/brace-expressions.js
+2026-04-02T08:42:53.0319350Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/ast.js.map
+2026-04-02T08:42:53.0320563Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minimatch/dist/esm/unescape.js
+2026-04-02T08:42:53.0321703Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/retry/License
+2026-04-02T08:42:53.0322709Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/retry/lib/retry.js
+2026-04-02T08:42:53.0323823Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/retry/lib/retry_operation.js
+2026-04-02T08:42:53.0324963Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/retry/equation.gif
+2026-04-02T08:42:53.0326023Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/retry/package.json
+2026-04-02T08:42:53.0327032Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/retry/index.js
+2026-04-02T08:42:53.0328359Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/posix.js
+2026-04-02T08:42:53.0329455Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/lib/scan.js
+2026-04-02T08:42:53.0330602Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/lib/constants.js
+2026-04-02T08:42:53.0331713Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/lib/parse.js
+2026-04-02T08:42:53.0332900Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/lib/utils.js
+2026-04-02T08:42:53.0334018Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/lib/picomatch.js
+2026-04-02T08:42:53.0335533Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/LICENSE
+2026-04-02T08:42:53.0336620Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/package.json
+2026-04-02T08:42:53.0337684Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/picomatch/index.js
+2026-04-02T08:42:53.0338907Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/LICENSE
+2026-04-02T08:42:53.0339950Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/package.json
+2026-04-02T08:42:53.0341192Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/constants.d.ts.map
+2026-04-02T08:42:53.0342548Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0343855Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/constants.js
+2026-04-02T08:42:53.0345176Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/constants.js.map
+2026-04-02T08:42:53.0346495Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0347784Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/package.json
+2026-04-02T08:42:53.0349199Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/commonjs/index.js
+2026-04-02T08:42:53.0350471Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/constants.d.ts.map
+2026-04-02T08:42:53.0351751Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0352987Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/constants.js
+2026-04-02T08:42:53.0354223Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/constants.js.map
+2026-04-02T08:42:53.0355557Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/index.js.map
+2026-04-02T08:42:53.0356765Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/package.json
+2026-04-02T08:42:53.0357940Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minizlib/dist/esm/index.js
+2026-04-02T08:42:53.0359194Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi/license
+2026-04-02T08:42:53.0360274Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi/package.json
+2026-04-02T08:42:53.0361364Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/strip-ansi/index.js
+2026-04-02T08:42:53.0362493Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/eastasianwidth/eastasianwidth.js
+2026-04-02T08:42:53.0363707Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/eastasianwidth/package.json
+2026-04-02T08:42:53.0364923Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/package-lock.json
+2026-04-02T08:42:53.0366094Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/LICENSE
+2026-04-02T08:42:53.0367344Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/minipass/LICENSE
+2026-04-02T08:42:53.0369189Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/minipass/package.json
+2026-04-02T08:42:53.0370711Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/minipass/index.js
+2026-04-02T08:42:53.0372303Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/yallist/iterator.js
+2026-04-02T08:42:53.0373755Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/yallist/LICENSE
+2026-04-02T08:42:53.0375181Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/yallist/yallist.js
+2026-04-02T08:42:53.0376751Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/node_modules/yallist/package.json
+2026-04-02T08:42:53.0378405Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/package.json
+2026-04-02T08:42:53.0379571Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-sized/index.js
+2026-04-02T08:42:53.0380643Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/package.json
+2026-04-02T08:42:53.0381782Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/large-numbers.js
+2026-04-02T08:42:53.0383065Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/options.d.ts.map
+2026-04-02T08:42:53.0384376Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/symlink-error.js
+2026-04-02T08:42:53.0385626Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/extract.js.map
+2026-04-02T08:42:53.0386923Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/normalize-unicode.js
+2026-04-02T08:42:53.0388660Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/strip-absolute-path.d.ts.map
+2026-04-02T08:42:53.0389989Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/pack.js
+2026-04-02T08:42:53.0391182Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/types.d.ts.map
+2026-04-02T08:42:53.0392416Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/pax.d.ts.map
+2026-04-02T08:42:53.0393648Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/index.min.js
+2026-04-02T08:42:53.0395568Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/read-entry.js.map
+2026-04-02T08:42:53.0396871Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/mkdir.d.ts.map
+2026-04-02T08:42:53.0398498Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/write-entry.js.map
+2026-04-02T08:42:53.0399772Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/pack.js.map
+2026-04-02T08:42:53.0400981Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/create.js
+2026-04-02T08:42:53.0402234Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/symlink-error.js.map
+2026-04-02T08:42:53.0403548Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/make-command.js.map
+2026-04-02T08:42:53.0404811Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/list.d.ts.map
+2026-04-02T08:42:53.0406080Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/mode-fix.d.ts.map
+2026-04-02T08:42:53.0407358Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/winchars.d.ts.map
+2026-04-02T08:42:53.0409013Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/normalize-unicode.js.map
+2026-04-02T08:42:53.0410431Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/strip-absolute-path.js.map
+2026-04-02T08:42:53.0411757Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/mkdir.js.map
+2026-04-02T08:42:53.0413010Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/read-entry.d.ts.map
+2026-04-02T08:42:53.0414285Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/warn-method.js
+2026-04-02T08:42:53.0415506Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/read-entry.js
+2026-04-02T08:42:53.0416693Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/update.js
+2026-04-02T08:42:53.0418430Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/normalize-windows-path.js
+2026-04-02T08:42:53.0419880Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/warn-method.d.ts.map
+2026-04-02T08:42:53.0421152Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/cwd-error.js
+2026-04-02T08:42:53.0422497Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/options.js.map
+2026-04-02T08:42:53.0423733Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0425070Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/path-reservations.d.ts.map
+2026-04-02T08:42:53.0426465Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/path-reservations.js
+2026-04-02T08:42:53.0427765Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/index.min.js.map
+2026-04-02T08:42:53.0429504Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/normalize-windows-path.d.ts.map
+2026-04-02T08:42:53.0431110Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/make-command.d.ts.map
+2026-04-02T08:42:53.0432405Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/unpack.js
+2026-04-02T08:42:53.0433632Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/create.d.ts.map
+2026-04-02T08:42:53.0434931Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/process-umask.js
+2026-04-02T08:42:53.0436178Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/list.js.map
+2026-04-02T08:42:53.0437371Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/pax.js.map
+2026-04-02T08:42:53.0438889Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/list.js
+2026-04-02T08:42:53.0440089Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/extract.d.ts.map
+2026-04-02T08:42:53.0441366Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/header.js.map
+2026-04-02T08:42:53.0442744Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/strip-trailing-slashes.d.ts.map
+2026-04-02T08:42:53.0444075Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/types.js
+2026-04-02T08:42:53.0445268Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/pax.js
+2026-04-02T08:42:53.0446452Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/make-command.js
+2026-04-02T08:42:53.0447775Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/path-reservations.js.map
+2026-04-02T08:42:53.0449951Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/pack.d.ts.map
+2026-04-02T08:42:53.0451190Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/parse.d.ts.map
+2026-04-02T08:42:53.0452489Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/get-write-flag.js.map
+2026-04-02T08:42:53.0453737Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/header.js
+2026-04-02T08:42:53.0454933Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/replace.js.map
+2026-04-02T08:42:53.0456138Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/winchars.js
+2026-04-02T08:42:53.0457346Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/unpack.js.map
+2026-04-02T08:42:53.0458905Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/winchars.js.map
+2026-04-02T08:42:53.0460111Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/mkdir.js
+2026-04-02T08:42:53.0463940Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/process-umask.js.map
+2026-04-02T08:42:53.0465554Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/normalize-windows-path.js.map
+2026-04-02T08:42:53.0467153Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/cwd-error.d.ts.map
+2026-04-02T08:42:53.0468629Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/parse.js
+2026-04-02T08:42:53.0469868Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/write-entry.js
+2026-04-02T08:42:53.0471341Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/strip-trailing-slashes.js.map
+2026-04-02T08:42:53.0472749Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/get-write-flag.js
+2026-04-02T08:42:53.0474031Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/mode-fix.js.map
+2026-04-02T08:42:53.0475258Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/types.js.map
+2026-04-02T08:42:53.0476555Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/process-umask.d.ts.map
+2026-04-02T08:42:53.0477834Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/replace.js
+2026-04-02T08:42:53.0479489Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/update.d.ts.map
+2026-04-02T08:42:53.0480773Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/unpack.d.ts.map
+2026-04-02T08:42:53.0482098Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/get-write-flag.d.ts.map
+2026-04-02T08:42:53.0483415Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/parse.js.map
+2026-04-02T08:42:53.0484677Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0485902Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/header.d.ts.map
+2026-04-02T08:42:53.0487125Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/options.js
+2026-04-02T08:42:53.0488567Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/package.json
+2026-04-02T08:42:53.0492798Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/symlink-error.d.ts.map
+2026-04-02T08:42:53.0494215Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/replace.d.ts.map
+2026-04-02T08:42:53.0495509Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/cwd-error.js.map
+2026-04-02T08:42:53.0496765Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/index.js
+2026-04-02T08:42:53.0498404Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/strip-trailing-slashes.js
+2026-04-02T08:42:53.0499818Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/write-entry.d.ts.map
+2026-04-02T08:42:53.0501112Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/create.js.map
+2026-04-02T08:42:53.0502421Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/strip-absolute-path.js
+2026-04-02T08:42:53.0503717Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/update.js.map
+2026-04-02T08:42:53.0505015Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/large-numbers.js.map
+2026-04-02T08:42:53.0506399Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/normalize-unicode.d.ts.map
+2026-04-02T08:42:53.0507699Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/extract.js
+2026-04-02T08:42:53.0509186Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/large-numbers.d.ts.map
+2026-04-02T08:42:53.0510533Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/warn-method.js.map
+2026-04-02T08:42:53.0511783Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/commonjs/mode-fix.js
+2026-04-02T08:42:53.0512975Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/large-numbers.js
+2026-04-02T08:42:53.0514150Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/options.d.ts.map
+2026-04-02T08:42:53.0515510Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/symlink-error.js
+2026-04-02T08:42:53.0516701Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/extract.js.map
+2026-04-02T08:42:53.0517892Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/normalize-unicode.js
+2026-04-02T08:42:53.0519574Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/strip-absolute-path.d.ts.map
+2026-04-02T08:42:53.0520840Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/pack.js
+2026-04-02T08:42:53.0521964Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/types.d.ts.map
+2026-04-02T08:42:53.0523106Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/pax.d.ts.map
+2026-04-02T08:42:53.0524243Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/index.min.js
+2026-04-02T08:42:53.0525398Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/read-entry.js.map
+2026-04-02T08:42:53.0526576Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/mkdir.d.ts.map
+2026-04-02T08:42:53.0527775Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/write-entry.js.map
+2026-04-02T08:42:53.0529125Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/pack.js.map
+2026-04-02T08:42:53.0530227Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/create.js
+2026-04-02T08:42:53.0531374Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/symlink-error.js.map
+2026-04-02T08:42:53.0532612Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/make-command.js.map
+2026-04-02T08:42:53.0533795Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/list.d.ts.map
+2026-04-02T08:42:53.0534964Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/mode-fix.d.ts.map
+2026-04-02T08:42:53.0536150Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/winchars.d.ts.map
+2026-04-02T08:42:53.0537399Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/normalize-unicode.js.map
+2026-04-02T08:42:53.0538920Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/strip-absolute-path.js.map
+2026-04-02T08:42:53.0540160Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/mkdir.js.map
+2026-04-02T08:42:53.0541331Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/read-entry.d.ts.map
+2026-04-02T08:42:53.0542514Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/warn-method.js
+2026-04-02T08:42:53.0543662Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/read-entry.js
+2026-04-02T08:42:53.0544764Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/update.js
+2026-04-02T08:42:53.0545964Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/normalize-windows-path.js
+2026-04-02T08:42:53.0547252Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/warn-method.d.ts.map
+2026-04-02T08:42:53.0548631Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/cwd-error.js
+2026-04-02T08:42:53.0549784Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/options.js.map
+2026-04-02T08:42:53.0550933Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0552192Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/path-reservations.d.ts.map
+2026-04-02T08:42:53.0553499Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/path-reservations.js
+2026-04-02T08:42:53.0554716Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/index.min.js.map
+2026-04-02T08:42:53.0556018Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/normalize-windows-path.d.ts.map
+2026-04-02T08:42:53.0557366Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/make-command.d.ts.map
+2026-04-02T08:42:53.0558820Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/unpack.js
+2026-04-02T08:42:53.0559961Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/create.d.ts.map
+2026-04-02T08:42:53.0561139Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/process-umask.js
+2026-04-02T08:42:53.0562387Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/list.js.map
+2026-04-02T08:42:53.0563605Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/pax.js.map
+2026-04-02T08:42:53.0564696Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/list.js
+2026-04-02T08:42:53.0565807Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/extract.d.ts.map
+2026-04-02T08:42:53.0566974Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/header.js.map
+2026-04-02T08:42:53.0568438Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/strip-trailing-slashes.d.ts.map
+2026-04-02T08:42:53.0569719Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/types.js
+2026-04-02T08:42:53.0570781Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/pax.js
+2026-04-02T08:42:53.0571891Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/make-command.js
+2026-04-02T08:42:53.0573158Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/path-reservations.js.map
+2026-04-02T08:42:53.0574392Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/pack.d.ts.map
+2026-04-02T08:42:53.0575550Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/parse.d.ts.map
+2026-04-02T08:42:53.0576756Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/get-write-flag.js.map
+2026-04-02T08:42:53.0577940Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/header.js
+2026-04-02T08:42:53.0579263Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/replace.js.map
+2026-04-02T08:42:53.0580418Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/winchars.js
+2026-04-02T08:42:53.0581552Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/unpack.js.map
+2026-04-02T08:42:53.0582710Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/winchars.js.map
+2026-04-02T08:42:53.0583829Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/mkdir.js
+2026-04-02T08:42:53.0585015Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/process-umask.js.map
+2026-04-02T08:42:53.0586346Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/normalize-windows-path.js.map
+2026-04-02T08:42:53.0587656Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/cwd-error.d.ts.map
+2026-04-02T08:42:53.0588974Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/parse.js
+2026-04-02T08:42:53.0590081Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/write-entry.js
+2026-04-02T08:42:53.0591361Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/strip-trailing-slashes.js.map
+2026-04-02T08:42:53.0592662Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/get-write-flag.js
+2026-04-02T08:42:53.0593850Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/mode-fix.js.map
+2026-04-02T08:42:53.0595009Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/types.js.map
+2026-04-02T08:42:53.0596227Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/process-umask.d.ts.map
+2026-04-02T08:42:53.0597445Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/replace.js
+2026-04-02T08:42:53.0598774Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/update.d.ts.map
+2026-04-02T08:42:53.0599951Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/unpack.d.ts.map
+2026-04-02T08:42:53.0601179Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/get-write-flag.d.ts.map
+2026-04-02T08:42:53.0602519Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/parse.js.map
+2026-04-02T08:42:53.0603673Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/index.js.map
+2026-04-02T08:42:53.0604811Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/header.d.ts.map
+2026-04-02T08:42:53.0606024Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/options.js
+2026-04-02T08:42:53.0607127Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/package.json
+2026-04-02T08:42:53.0608511Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/symlink-error.d.ts.map
+2026-04-02T08:42:53.0609768Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/replace.d.ts.map
+2026-04-02T08:42:53.0610960Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/cwd-error.js.map
+2026-04-02T08:42:53.0612084Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/index.js
+2026-04-02T08:42:53.0613283Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/strip-trailing-slashes.js
+2026-04-02T08:42:53.0614573Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/write-entry.d.ts.map
+2026-04-02T08:42:53.0615767Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/create.js.map
+2026-04-02T08:42:53.0618277Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/strip-absolute-path.js
+2026-04-02T08:42:53.0620834Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/update.js.map
+2026-04-02T08:42:53.0622096Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/large-numbers.js.map
+2026-04-02T08:42:53.0623416Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/normalize-unicode.d.ts.map
+2026-04-02T08:42:53.0624676Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/extract.js
+2026-04-02T08:42:53.0625880Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/large-numbers.d.ts.map
+2026-04-02T08:42:53.0627151Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/warn-method.js.map
+2026-04-02T08:42:53.0628521Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tar/dist/esm/mode-fix.js
+2026-04-02T08:42:53.0629752Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/package.json
+2026-04-02T08:42:53.0631170Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0632701Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0634194Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/commonjs/package.json
+2026-04-02T08:42:53.0635662Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/commonjs/index.js
+2026-04-02T08:42:53.0637110Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0639325Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/esm/index.js.map
+2026-04-02T08:42:53.0640788Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/esm/package.json
+2026-04-02T08:42:53.0642258Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/package-json-from-dist/dist/esm/index.js
+2026-04-02T08:42:53.0643506Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/bin/node-gyp.js
+2026-04-02T08:42:53.0644591Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/util.js
+2026-04-02T08:42:53.0645670Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/node-gyp.js
+2026-04-02T08:42:53.0646864Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/find-node-directory.js
+2026-04-02T08:42:53.0648247Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/find-python.js
+2026-04-02T08:42:53.0649532Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/build.js
+2026-04-02T08:42:53.0650712Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/find-visualstudio.js
+2026-04-02T08:42:53.0651978Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/create-config-gypi.js
+2026-04-02T08:42:53.0653321Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/process-release.js
+2026-04-02T08:42:53.0654468Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/log.js
+2026-04-02T08:42:53.0655605Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/Find-VisualStudio.cs
+2026-04-02T08:42:53.0656774Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/list.js
+2026-04-02T08:42:53.0657819Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/clean.js
+2026-04-02T08:42:53.0659102Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/configure.js
+2026-04-02T08:42:53.0660209Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/remove.js
+2026-04-02T08:42:53.0661295Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/install.js
+2026-04-02T08:42:53.0662380Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/download.js
+2026-04-02T08:42:53.0663478Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/lib/rebuild.js
+2026-04-02T08:42:53.0664687Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/macOS_Catalina_acid_test.sh
+2026-04-02T08:42:53.0665914Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pyproject.toml
+2026-04-02T08:42:53.0667148Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/data/ninja/build.ninja
+2026-04-02T08:42:53.0668791Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/data/win/large-pdb-shim.cc
+2026-04-02T08:42:53.0670038Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/test_gyp.py
+2026-04-02T08:42:53.0671306Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/requirements.py
+2026-04-02T08:42:53.0672688Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/py.typed
+2026-04-02T08:42:53.0674002Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/tags.py
+2026-04-02T08:42:53.0675338Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/_elffile.py
+2026-04-02T08:42:53.0676687Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/metadata.py
+2026-04-02T08:42:53.0678029Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/markers.py
+2026-04-02T08:42:53.0679570Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/_musllinux.py
+2026-04-02T08:42:53.0680947Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/__init__.py
+2026-04-02T08:42:53.0682349Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.APACHE
+2026-04-02T08:42:53.0683713Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/utils.py
+2026-04-02T08:42:53.0685049Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/LICENSE
+2026-04-02T08:42:53.0686404Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/_parser.py
+2026-04-02T08:42:53.0687771Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/_structures.py
+2026-04-02T08:42:53.0689368Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.BSD
+2026-04-02T08:42:53.0690739Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/_tokenizer.py
+2026-04-02T08:42:53.0692131Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/_manylinux.py
+2026-04-02T08:42:53.0693656Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/specifiers.py
+2026-04-02T08:42:53.0695055Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/packaging/version.py
+2026-04-02T08:42:53.0696378Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSUserFile.py
+2026-04-02T08:42:53.0697806Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/simple_copy.py
+2026-04-02T08:42:53.0699370Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/xcode_emulation_test.py
+2026-04-02T08:42:53.0700747Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSVersion.py
+2026-04-02T08:42:53.0702074Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/common_test.py
+2026-04-02T08:42:53.0703441Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSSettings_test.py
+2026-04-02T08:42:53.0704784Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/input_test.py
+2026-04-02T08:42:53.0706080Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/xcode_ninja.py
+2026-04-02T08:42:53.0707385Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/ninja_syntax.py
+2026-04-02T08:42:53.0708896Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/msvs_emulation.py
+2026-04-02T08:42:53.0710234Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSSettings.py
+2026-04-02T08:42:53.0711553Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSToolFile.py
+2026-04-02T08:42:53.0712848Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/flock_tool.py
+2026-04-02T08:42:53.0714131Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/win_tool.py
+2026-04-02T08:42:53.0715367Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/input.py
+2026-04-02T08:42:53.0716604Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/__init__.py
+2026-04-02T08:42:53.0717844Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/xml_fix.py
+2026-04-02T08:42:53.0719273Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSNew.py
+2026-04-02T08:42:53.0720535Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/easy_xml.py
+2026-04-02T08:42:53.0721780Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/common.py
+2026-04-02T08:42:53.0723041Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/mac_tool.py
+2026-04-02T08:42:53.0724352Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/make.py
+2026-04-02T08:42:53.0725748Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/eclipse.py
+2026-04-02T08:42:53.0727112Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/xcode.py
+2026-04-02T08:42:53.0728662Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/msvs_test.py
+2026-04-02T08:42:53.0732231Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/xcode_test.py
+2026-04-02T08:42:53.0733717Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/ninja_test.py
+2026-04-02T08:42:53.0735422Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/ninja.py
+2026-04-02T08:42:53.0736825Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/__init__.py
+2026-04-02T08:42:53.0738441Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/cmake.py
+2026-04-02T08:42:53.0740113Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/dump_dependency_json.py
+2026-04-02T08:42:53.0741607Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/gypd.py
+2026-04-02T08:42:53.0743008Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/analyzer.py
+2026-04-02T08:42:53.0744642Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/compile_commands_json.py
+2026-04-02T08:42:53.0746131Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/msvs.py
+2026-04-02T08:42:53.0747491Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/gypsh.py
+2026-04-02T08:42:53.0749074Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/generator/android.py
+2026-04-02T08:42:53.0750448Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSProject.py
+2026-04-02T08:42:53.0751798Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/xcode_emulation.py
+2026-04-02T08:42:53.0753134Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/MSVSUtil.py
+2026-04-02T08:42:53.0754479Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/xcodeproj_file.py
+2026-04-02T08:42:53.0755864Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/pylib/gyp/easy_xml_test.py
+2026-04-02T08:42:53.0757090Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp_main.py
+2026-04-02T08:42:53.0758313Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp
+2026-04-02T08:42:53.0759343Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/LICENSE
+2026-04-02T08:42:53.0760559Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/release-please-config.json
+2026-04-02T08:42:53.0761758Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp.bat
+2026-04-02T08:42:53.0762777Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/LICENSE
+2026-04-02T08:42:53.0763807Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/package.json
+2026-04-02T08:42:53.0764970Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/src/win_delay_load_hook.cc
+2026-04-02T08:42:53.0766241Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/release-please-config.json
+2026-04-02T08:42:53.0767440Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/eslint.config.js
+2026-04-02T08:42:53.0768718Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi
+2026-04-02T08:42:53.0769752Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/abbrev/lib/index.js
+2026-04-02T08:42:53.0770759Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/abbrev/LICENSE
+2026-04-02T08:42:53.0771756Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/abbrev/package.json
+2026-04-02T08:42:53.0772852Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/unique-filename/lib/index.js
+2026-04-02T08:42:53.0775473Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/unique-filename/LICENSE
+2026-04-02T08:42:53.0776647Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/unique-filename/package.json
+2026-04-02T08:42:53.0777816Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/balanced-match/package.json
+2026-04-02T08:42:53.0779272Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/balanced-match/index.js
+2026-04-02T08:42:53.0780384Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/lib/dns.js
+2026-04-02T08:42:53.0781503Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/lib/errors.js
+2026-04-02T08:42:53.0782653Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/lib/agents.js
+2026-04-02T08:42:53.0783821Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/lib/options.js
+2026-04-02T08:42:53.0785174Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/lib/proxy.js
+2026-04-02T08:42:53.0786364Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/lib/index.js
+2026-04-02T08:42:53.0787543Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/agent/package.json
+2026-04-02T08:42:53.0788914Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/cp/polyfill.js
+2026-04-02T08:42:53.0790234Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/cp/errors.js
+2026-04-02T08:42:53.0791365Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/cp/LICENSE
+2026-04-02T08:42:53.0792484Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/cp/index.js
+2026-04-02T08:42:53.0793653Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/readdir-scoped.js
+2026-04-02T08:42:53.0794835Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/move-file.js
+2026-04-02T08:42:53.0796023Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/with-temp-dir.js
+2026-04-02T08:42:53.0797163Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/index.js
+2026-04-02T08:42:53.0798480Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/common/node.js
+2026-04-02T08:42:53.0799720Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/lib/common/get-options.js
+2026-04-02T08:42:53.0800933Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@npmcli/fs/package.json
+2026-04-02T08:42:53.0802044Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/imurmurhash/imurmurhash.js
+2026-04-02T08:42:53.0803160Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/imurmurhash/package.json
+2026-04-02T08:42:53.0804320Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/imurmurhash/imurmurhash.min.js
+2026-04-02T08:42:53.0805434Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/smart-buffer/LICENSE
+2026-04-02T08:42:53.0806555Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/smart-buffer/build/utils.js.map
+2026-04-02T08:42:53.0807776Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/smart-buffer/build/smartbuffer.js
+2026-04-02T08:42:53.0809218Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/smart-buffer/build/smartbuffer.js.map
+2026-04-02T08:42:53.0810463Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/smart-buffer/build/utils.js
+2026-04-02T08:42:53.0811630Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/smart-buffer/package.json
+2026-04-02T08:42:53.0812741Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-collect/LICENSE
+2026-04-02T08:42:53.0813881Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-collect/package.json
+2026-04-02T08:42:53.0815032Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-collect/index.js
+2026-04-02T08:42:53.0816129Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/promise-retry/LICENSE
+2026-04-02T08:42:53.0817236Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/promise-retry/package.json
+2026-04-02T08:42:53.0818518Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/promise-retry/index.js
+2026-04-02T08:42:53.0819576Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tinyglobby/LICENSE
+2026-04-02T08:42:53.0820651Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tinyglobby/package.json
+2026-04-02T08:42:53.0821764Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tinyglobby/dist/index.mjs
+2026-04-02T08:42:53.0822882Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tinyglobby/dist/index.d.cts
+2026-04-02T08:42:53.0824027Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tinyglobby/dist/index.d.mts
+2026-04-02T08:42:53.0825153Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/tinyglobby/dist/index.cjs
+2026-04-02T08:42:53.0826322Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/is-fullwidth-code-point/license
+2026-04-02T08:42:53.0827689Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/is-fullwidth-code-point/package.json
+2026-04-02T08:42:53.0829152Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/is-fullwidth-code-point/index.js
+2026-04-02T08:42:53.0830315Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/shebang-command/license
+2026-04-02T08:42:53.0831550Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/shebang-command/package.json
+2026-04-02T08:42:53.0832717Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/shebang-command/index.js
+2026-04-02T08:42:53.0833827Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks-proxy-agent/LICENSE
+2026-04-02T08:42:53.0834986Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks-proxy-agent/package.json
+2026-04-02T08:42:53.0836223Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks-proxy-agent/dist/index.d.ts.map
+2026-04-02T08:42:53.0837500Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks-proxy-agent/dist/index.js.map
+2026-04-02T08:42:53.0838960Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks-proxy-agent/dist/index.js
+2026-04-02T08:42:53.0840069Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/bin/nopt.js
+2026-04-02T08:42:53.0841062Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/lib/nopt.js
+2026-04-02T08:42:53.0842096Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/lib/debug.js
+2026-04-02T08:42:53.0843132Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/lib/type-defs.js
+2026-04-02T08:42:53.0844179Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/lib/nopt-lib.js
+2026-04-02T08:42:53.0845166Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/LICENSE
+2026-04-02T08:42:53.0846141Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/nopt/package.json
+2026-04-02T08:42:53.0847177Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/LICENSE.txt
+2026-04-02T08:42:53.0848438Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/package.json
+2026-04-02T08:42:53.0849598Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/browser.js
+2026-04-02T08:42:53.0850846Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/browser.d.ts.map
+2026-04-02T08:42:53.0852120Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/index.d.ts.map
+2026-04-02T08:42:53.0853354Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/signals.js
+2026-04-02T08:42:53.0854596Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/signals.d.ts.map
+2026-04-02T08:42:53.0855851Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/index.js.map
+2026-04-02T08:42:53.0857080Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/package.json
+2026-04-02T08:42:53.0858485Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/browser.js.map
+2026-04-02T08:42:53.0859717Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/index.js
+2026-04-02T08:42:53.0860924Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/cjs/signals.js.map
+2026-04-02T08:42:53.0862156Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/browser.js
+2026-04-02T08:42:53.0863405Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/browser.d.ts.map
+2026-04-02T08:42:53.0864668Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/index.d.ts.map
+2026-04-02T08:42:53.0865886Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/signals.js
+2026-04-02T08:42:53.0867130Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/signals.d.ts.map
+2026-04-02T08:42:53.0868543Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/index.js.map
+2026-04-02T08:42:53.0869793Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/package.json
+2026-04-02T08:42:53.0871150Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/browser.js.map
+2026-04-02T08:42:53.0872405Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/index.js
+2026-04-02T08:42:53.0873622Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/signal-exit/dist/mjs/signals.js.map
+2026-04-02T08:42:53.0874902Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/graceful-fs/polyfills.js
+2026-04-02T08:42:53.0876082Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/graceful-fs/clone.js
+2026-04-02T08:42:53.0877175Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/graceful-fs/graceful-fs.js
+2026-04-02T08:42:53.0878434Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/graceful-fs/LICENSE
+2026-04-02T08:42:53.0879512Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/graceful-fs/package.json
+2026-04-02T08:42:53.0880652Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/graceful-fs/legacy-streams.js
+2026-04-02T08:42:53.0881770Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/LICENSE
+2026-04-02T08:42:53.0883897Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/package.json
+2026-04-02T08:42:53.0885112Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ipv4.d.ts.map
+2026-04-02T08:42:53.0886319Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ipv6.d.ts.map
+2026-04-02T08:42:53.0887555Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/address-error.js
+2026-04-02T08:42:53.0888923Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ipv6.js
+2026-04-02T08:42:53.0890051Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ipv4.js.map
+2026-04-02T08:42:53.0891275Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/address-error.js.map
+2026-04-02T08:42:53.0892581Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v4/constants.d.ts.map
+2026-04-02T08:42:53.0893858Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v4/constants.js
+2026-04-02T08:42:53.0895088Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v4/constants.js.map
+2026-04-02T08:42:53.0896310Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/common.js.map
+2026-04-02T08:42:53.0897491Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ip-address.js
+2026-04-02T08:42:53.0898854Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ipv4.js
+2026-04-02T08:42:53.0900063Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ip-address.d.ts.map
+2026-04-02T08:42:53.0901318Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ip-address.js.map
+2026-04-02T08:42:53.0902531Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/common.d.ts.map
+2026-04-02T08:42:53.0903712Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/ipv6.js.map
+2026-04-02T08:42:53.0925564Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/common.js
+2026-04-02T08:42:53.0926825Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/constants.d.ts.map
+2026-04-02T08:42:53.0928414Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/constants.js
+2026-04-02T08:42:53.0930930Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/regular-expressions.d.ts.map
+2026-04-02T08:42:53.0933600Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/constants.js.map
+2026-04-02T08:42:53.0935047Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/helpers.js.map
+2026-04-02T08:42:53.0936404Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/regular-expressions.js.map
+2026-04-02T08:42:53.0937839Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/regular-expressions.js
+2026-04-02T08:42:53.0939534Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/helpers.js
+2026-04-02T08:42:53.0940779Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/v6/helpers.d.ts.map
+2026-04-02T08:42:53.0943200Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ip-address/dist/address-error.d.ts.map
+2026-04-02T08:42:53.0944632Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/LICENSE
+2026-04-02T08:42:53.0945708Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/package.json
+2026-04-02T08:42:53.0946887Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/commonjs/index.min.js
+2026-04-02T08:42:53.0948431Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0949780Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/commonjs/index.min.js.map
+2026-04-02T08:42:53.0951134Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/commonjs/index.js.map
+2026-04-02T08:42:53.0952437Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/commonjs/package.json
+2026-04-02T08:42:53.0953696Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/commonjs/index.js
+2026-04-02T08:42:53.0954902Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/esm/index.min.js
+2026-04-02T08:42:53.0956109Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.0957359Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/esm/index.min.js.map
+2026-04-02T08:42:53.0959369Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/esm/index.js.map
+2026-04-02T08:42:53.0960593Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/esm/package.json
+2026-04-02T08:42:53.0961762Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/lru-cache/dist/esm/index.js
+2026-04-02T08:42:53.0962877Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/proc-log/lib/index.js
+2026-04-02T08:42:53.0963905Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/proc-log/LICENSE
+2026-04-02T08:42:53.0964931Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/proc-log/package.json
+2026-04-02T08:42:53.0965958Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/LICENSE
+2026-04-02T08:42:53.0967046Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/client/socksclient.js
+2026-04-02T08:42:53.0968610Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/client/socksclient.js.map
+2026-04-02T08:42:53.0969814Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/index.js.map
+2026-04-02T08:42:53.0970880Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/index.js
+2026-04-02T08:42:53.0971961Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/util.js
+2026-04-02T08:42:53.0973121Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/util.js.map
+2026-04-02T08:42:53.0974334Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/receivebuffer.js
+2026-04-02T08:42:53.0975556Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/constants.js
+2026-04-02T08:42:53.0976789Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/constants.js.map
+2026-04-02T08:42:53.0978230Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/receivebuffer.js.map
+2026-04-02T08:42:53.0979527Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/helpers.js.map
+2026-04-02T08:42:53.0980744Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/build/common/helpers.js
+2026-04-02T08:42:53.0981860Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/socks/package.json
+2026-04-02T08:42:53.0982910Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/LICENSE
+2026-04-02T08:42:53.0984336Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/minipass/LICENSE
+2026-04-02T08:42:53.0985796Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/minipass/package.json
+2026-04-02T08:42:53.0987246Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/minipass/index.js
+2026-04-02T08:42:53.0989316Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/yallist/iterator.js
+2026-04-02T08:42:53.0990739Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/yallist/LICENSE
+2026-04-02T08:42:53.0992137Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/yallist/yallist.js
+2026-04-02T08:42:53.0993584Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/node_modules/yallist/package.json
+2026-04-02T08:42:53.0994891Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/package.json
+2026-04-02T08:42:53.0996029Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-flush/index.js
+2026-04-02T08:42:53.0997097Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/package.json
+2026-04-02T08:42:53.0998432Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.0999725Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/commonjs/index.js.map
+2026-04-02T08:42:53.1000976Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/commonjs/package.json
+2026-04-02T08:42:53.1002190Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/commonjs/index.js
+2026-04-02T08:42:53.1003382Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.1004574Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/esm/index.js.map
+2026-04-02T08:42:53.1005782Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/esm/package.json
+2026-04-02T08:42:53.1006926Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/yallist/dist/esm/index.js
+2026-04-02T08:42:53.1008010Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/LICENSE
+2026-04-02T08:42:53.1009248Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/package.json
+2026-04-02T08:42:53.1010409Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/dist/index.d.ts.map
+2026-04-02T08:42:53.1011597Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/dist/helpers.js.map
+2026-04-02T08:42:53.1012784Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/dist/index.js.map
+2026-04-02T08:42:53.1013925Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/dist/helpers.js
+2026-04-02T08:42:53.1015033Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/dist/index.js
+2026-04-02T08:42:53.1016187Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/agent-base/dist/helpers.d.ts.map
+2026-04-02T08:42:53.1017298Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-key/license
+2026-04-02T08:42:53.1018496Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-key/package.json
+2026-04-02T08:42:53.1019543Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/path-key/index.js
+2026-04-02T08:42:53.1020707Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/lib/util/resolveCommand.js
+2026-04-02T08:42:53.1021950Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/lib/util/escape.js
+2026-04-02T08:42:53.1023188Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/lib/util/readShebang.js
+2026-04-02T08:42:53.1024369Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/lib/enoent.js
+2026-04-02T08:42:53.1025467Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/lib/parse.js
+2026-04-02T08:42:53.1026537Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/LICENSE
+2026-04-02T08:42:53.1027832Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/which/which.js
+2026-04-02T08:42:53.1029410Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/which/bin/node-which
+2026-04-02T08:42:53.1030768Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/which/LICENSE
+2026-04-02T08:42:53.1032224Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/which/package.json
+2026-04-02T08:42:53.1033579Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/isexe/windows.js
+2026-04-02T08:42:53.1034905Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/isexe/LICENSE
+2026-04-02T08:42:53.1036245Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/isexe/package.json
+2026-04-02T08:42:53.1037592Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/isexe/index.js
+2026-04-02T08:42:53.1039090Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/node_modules/isexe/mode.js
+2026-04-02T08:42:53.1040299Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/package.json
+2026-04-02T08:42:53.1041370Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/cross-spawn/index.js
+2026-04-02T08:42:53.1042491Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-convert/conversions.js
+2026-04-02T08:42:53.1043603Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-convert/LICENSE
+2026-04-02T08:42:53.1044693Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-convert/package.json
+2026-04-02T08:42:53.1045799Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-convert/route.js
+2026-04-02T08:42:53.1046885Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/color-convert/index.js
+2026-04-02T08:42:53.1048208Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/internal/util.js
+2026-04-02T08:42:53.1049536Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/internal/primordials.js
+2026-04-02T08:42:53.1050848Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/internal/errors.js
+2026-04-02T08:42:53.1052147Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/internal/validators.js
+2026-04-02T08:42:53.1053374Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/LICENSE
+2026-04-02T08:42:53.1054510Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/package.json
+2026-04-02T08:42:53.1055659Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/index.js
+2026-04-02T08:42:53.1056768Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@pkgjs/parseargs/utils.js
+2026-04-02T08:42:53.1057823Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ms/package.json
+2026-04-02T08:42:53.1058945Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ms/index.js
+2026-04-02T08:42:53.1059949Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/encoding/lib/encoding.js
+2026-04-02T08:42:53.1061001Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/encoding/LICENSE
+2026-04-02T08:42:53.1062017Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/encoding/package.json
+2026-04-02T08:42:53.1063063Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi/license
+2026-04-02T08:42:53.1064103Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi/package.json
+2026-04-02T08:42:53.1065157Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/wrap-ansi/index.js
+2026-04-02T08:42:53.1066265Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/fetch.js
+2026-04-02T08:42:53.1067567Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/remote.js
+2026-04-02T08:42:53.1068989Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/pipeline.js
+2026-04-02T08:42:53.1070521Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/cache/policy.js
+2026-04-02T08:42:53.1071829Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/cache/entry.js
+2026-04-02T08:42:53.1073114Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/cache/errors.js
+2026-04-02T08:42:53.1074471Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/cache/key.js
+2026-04-02T08:42:53.1075738Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/cache/index.js
+2026-04-02T08:42:53.1076983Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/options.js
+2026-04-02T08:42:53.1128703Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/lib/index.js
+2026-04-02T08:42:53.1130337Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/LICENSE
+2026-04-02T08:42:53.1131864Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/make-fetch-happen/package.json
+2026-04-02T08:42:53.1133157Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/v8-compile-cache/LICENSE
+2026-04-02T08:42:53.1134321Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/v8-compile-cache/package.json
+2026-04-02T08:42:53.1135597Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/v8-compile-cache/v8-compile-cache.js
+2026-04-02T08:42:53.1136775Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width/license
+2026-04-02T08:42:53.1137843Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width/package.json
+2026-04-02T08:42:53.1139144Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/string-width/index.js
+2026-04-02T08:42:53.1140213Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/index.mjs
+2026-04-02T08:42:53.1141332Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/LICENSE.txt
+2026-04-02T08:42:53.1142489Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/build/lib/index.js
+2026-04-02T08:42:53.1143710Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/build/index.d.cts
+2026-04-02T08:42:53.1144911Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/build/index.cjs
+2026-04-02T08:42:53.1146056Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/cliui/package.json
+2026-04-02T08:42:53.1147218Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/LICENSE
+2026-04-02T08:42:53.1148600Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/package.json
+2026-04-02T08:42:53.1149978Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.1151419Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/commonjs/index.js.map
+2026-04-02T08:42:53.1152855Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/commonjs/package.json
+2026-04-02T08:42:53.1154262Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/commonjs/index.js
+2026-04-02T08:42:53.1155627Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.1156977Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/esm/index.js.map
+2026-04-02T08:42:53.1158500Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/esm/package.json
+2026-04-02T08:42:53.1159827Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/@isaacs/fs-minipass/dist/esm/index.js
+2026-04-02T08:42:53.1161020Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/brace-expansion/LICENSE
+2026-04-02T08:42:53.1162143Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/brace-expansion/package.json
+2026-04-02T08:42:53.1163285Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/brace-expansion/index.js
+2026-04-02T08:42:53.1164537Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/range.bnf
+2026-04-02T08:42:53.1165559Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/bin/semver.js
+2026-04-02T08:42:53.1166586Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/preload.js
+2026-04-02T08:42:53.1167639Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/classes/range.js
+2026-04-02T08:42:53.1169061Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/classes/comparator.js
+2026-04-02T08:42:53.1170186Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/classes/semver.js
+2026-04-02T08:42:53.1171276Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/classes/index.js
+2026-04-02T08:42:53.1172437Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/compare-loose.js
+2026-04-02T08:42:53.1173673Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/compare-build.js
+2026-04-02T08:42:53.1174873Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/rcompare.js
+2026-04-02T08:42:53.1176014Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/patch.js
+2026-04-02T08:42:53.1177124Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/rsort.js
+2026-04-02T08:42:53.1178448Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/prerelease.js
+2026-04-02T08:42:53.1179608Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/lt.js
+2026-04-02T08:42:53.1180681Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/diff.js
+2026-04-02T08:42:53.1181771Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/sort.js
+2026-04-02T08:42:53.1182846Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/gt.js
+2026-04-02T08:42:53.1183910Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/eq.js
+2026-04-02T08:42:53.1185000Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/clean.js
+2026-04-02T08:42:53.1186099Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/valid.js
+2026-04-02T08:42:53.1187216Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/minor.js
+2026-04-02T08:42:53.1188503Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/coerce.js
+2026-04-02T08:42:53.1189680Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/parse.js
+2026-04-02T08:42:53.1190777Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/cmp.js
+2026-04-02T08:42:53.1191862Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/neq.js
+2026-04-02T08:42:53.1192939Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/lte.js
+2026-04-02T08:42:53.1194026Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/major.js
+2026-04-02T08:42:53.1195163Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/satisfies.js
+2026-04-02T08:42:53.1196322Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/compare.js
+2026-04-02T08:42:53.1197431Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/inc.js
+2026-04-02T08:42:53.1198684Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/functions/gte.js
+2026-04-02T08:42:53.1199817Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/internal/identifiers.js
+2026-04-02T08:42:53.1200935Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/internal/re.js
+2026-04-02T08:42:53.1202035Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/internal/constants.js
+2026-04-02T08:42:53.1203218Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/internal/parse-options.js
+2026-04-02T08:42:53.1204377Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/internal/debug.js
+2026-04-02T08:42:53.1205489Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/internal/lrucache.js
+2026-04-02T08:42:53.1206670Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/LICENSE
+2026-04-02T08:42:53.1207676Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/package.json
+2026-04-02T08:42:53.1208869Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/index.js
+2026-04-02T08:42:53.1210036Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/min-version.js
+2026-04-02T08:42:53.1211153Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/outside.js
+2026-04-02T08:42:53.1212296Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/min-satisfying.js
+2026-04-02T08:42:53.1213501Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/to-comparators.js
+2026-04-02T08:42:53.1214703Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/max-satisfying.js
+2026-04-02T08:42:53.1215945Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/subset.js
+2026-04-02T08:42:53.1217016Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/ltr.js
+2026-04-02T08:42:53.1218223Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/valid.js
+2026-04-02T08:42:53.1229431Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/simplify.js
+2026-04-02T08:42:53.1230664Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/intersects.js
+2026-04-02T08:42:53.1231772Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/semver/ranges/gtr.js
+2026-04-02T08:42:53.1232876Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ansi-styles/license
+2026-04-02T08:42:53.1233959Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ansi-styles/package.json
+2026-04-02T08:42:53.1235038Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/ansi-styles/index.js
+2026-04-02T08:42:53.1236046Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/LICENSE
+2026-04-02T08:42:53.1237037Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/package.json
+2026-04-02T08:42:53.1238423Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/pattern.js.map
+2026-04-02T08:42:53.1239716Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/has-magic.d.ts.map
+2026-04-02T08:42:53.1240977Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/pattern.js
+2026-04-02T08:42:53.1242167Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/glob.js.map
+2026-04-02T08:42:53.1246240Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/glob.d.ts.map
+2026-04-02T08:42:53.1247546Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/has-magic.js.map
+2026-04-02T08:42:53.1249010Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/glob.js
+2026-04-02T08:42:53.1250197Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/has-magic.js
+2026-04-02T08:42:53.1251447Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/index.d.ts.map
+2026-04-02T08:42:53.1252688Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/walker.js
+2026-04-02T08:42:53.1254081Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/pattern.d.ts.map
+2026-04-02T08:42:53.1255390Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/walker.d.ts.map
+2026-04-02T08:42:53.1256643Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/ignore.d.ts.map
+2026-04-02T08:42:53.1257993Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/processor.js
+2026-04-02T08:42:53.1259371Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/index.js.map
+2026-04-02T08:42:53.1260573Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/package.json
+2026-04-02T08:42:53.1261807Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/processor.js.map
+2026-04-02T08:42:53.1263216Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/index.js
+2026-04-02T08:42:53.1264383Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/ignore.js
+2026-04-02T08:42:53.1265605Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/processor.d.ts.map
+2026-04-02T08:42:53.1266962Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/ignore.js.map
+2026-04-02T08:42:53.1268365Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/commonjs/walker.js.map
+2026-04-02T08:42:53.1269590Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/pattern.js.map
+2026-04-02T08:42:53.1270787Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/has-magic.d.ts.map
+2026-04-02T08:42:53.1271941Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/pattern.js
+2026-04-02T08:42:53.1273053Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/glob.js.map
+2026-04-02T08:42:53.1274184Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/glob.d.ts.map
+2026-04-02T08:42:53.1275343Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/has-magic.js.map
+2026-04-02T08:42:53.1276481Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/bin.d.mts
+2026-04-02T08:42:53.1277539Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/glob.js
+2026-04-02T08:42:53.1278798Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/has-magic.js
+2026-04-02T08:42:53.1281588Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/bin.d.mts.map
+2026-04-02T08:42:53.1282762Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/index.d.ts.map
+2026-04-02T08:42:53.1283874Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/bin.mjs
+2026-04-02T08:42:53.1284985Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/bin.mjs.map
+2026-04-02T08:42:53.1286087Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/walker.js
+2026-04-02T08:42:53.1287238Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/pattern.d.ts.map
+2026-04-02T08:42:53.1288616Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/walker.d.ts.map
+2026-04-02T08:42:53.1289802Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/ignore.d.ts.map
+2026-04-02T08:42:53.1290962Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/processor.js
+2026-04-02T08:42:53.1292104Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/index.js.map
+2026-04-02T08:42:53.1293249Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/package.json
+2026-04-02T08:42:53.1294430Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/processor.js.map
+2026-04-02T08:42:53.1295559Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/index.js
+2026-04-02T08:42:53.1296741Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/ignore.js
+2026-04-02T08:42:53.1298839Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/processor.d.ts.map
+2026-04-02T08:42:53.1300140Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/ignore.js.map
+2026-04-02T08:42:53.1301310Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/glob/dist/esm/walker.js.map
+2026-04-02T08:42:53.1301765Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fs-minipass/lib/index.js
+2026-04-02T08:42:53.1302176Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fs-minipass/LICENSE
+2026-04-02T08:42:53.1302649Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/fs-minipass/package.json
+2026-04-02T08:42:53.1303176Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/abort-error.js
+2026-04-02T08:42:53.1303664Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/response.js
+2026-04-02T08:42:53.1304318Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/request.js
+2026-04-02T08:42:53.1304788Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/body.js
+2026-04-02T08:42:53.1305242Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/blob.js
+2026-04-02T08:42:53.1305859Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/fetch-error.js
+2026-04-02T08:42:53.1306336Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/headers.js
+2026-04-02T08:42:53.1306804Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/lib/index.js
+2026-04-02T08:42:53.1307238Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/LICENSE
+2026-04-02T08:42:53.1307704Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/minipass-fetch/package.json
+2026-04-02T08:42:53.1308374Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/LICENSE-MIT.txt
+2026-04-02T08:42:53.1308836Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/RGI_Emoji.js
+2026-04-02T08:42:53.1309244Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/text.js
+2026-04-02T08:42:53.1309740Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/es2015/RGI_Emoji.js
+2026-04-02T08:42:53.1310204Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/es2015/text.js
+2026-04-02T08:42:53.1310666Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/es2015/index.js
+2026-04-02T08:42:53.1311113Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/package.json
+2026-04-02T08:42:53.1311528Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/emoji-regex/index.js
+2026-04-02T08:42:53.1311980Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/safer-buffer/dangerous.js
+2026-04-02T08:42:53.1312399Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/safer-buffer/tests.js
+2026-04-02T08:42:53.1312820Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/safer-buffer/LICENSE
+2026-04-02T08:42:53.1313276Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/safer-buffer/package.json
+2026-04-02T08:42:53.1313689Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/safer-buffer/safer.js
+2026-04-02T08:42:53.1314097Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/env-paths/license
+2026-04-02T08:42:53.1314526Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/env-paths/package.json
+2026-04-02T08:42:53.1314929Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/node_modules/env-paths/index.js
+2026-04-02T08:42:53.1315305Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/templates/completion.fish
+2026-04-02T08:42:53.1315711Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/templates/completion.ps1
+2026-04-02T08:42:53.1316078Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/templates/completion.zsh
+2026-04-02T08:42:53.1316457Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/templates/completion.bash
+2026-04-02T08:42:53.1316713Z /tmp/gh-aw/agent/lib/node_modules/pnpm/dist/pnpmrc
+2026-04-02T08:42:53.1316921Z /tmp/gh-aw/agent/pr-37847-memory.json
+2026-04-02T08:42:53.1317238Z /tmp/gh-aw/sandbox/agent/logs/process-1775118180355-152.log
+2026-04-02T08:42:53.1317429Z /tmp/gh-aw/agent-stdio.log
+2026-04-02T08:42:53.1317626Z /tmp/gh-aw/agent_output.json
+2026-04-02T08:42:53.1317812Z /tmp/gh-aw/safeoutputs.jsonl
+2026-04-02T08:42:53.1317997Z /tmp/gh-aw/mcp-logs/gateway.md
+2026-04-02T08:42:53.1318375Z /tmp/gh-aw/mcp-logs/github.log
+2026-04-02T08:42:53.1318577Z /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026-04-02T08:42:53.1318796Z /tmp/gh-aw/mcp-logs/safeoutputs/server.log
+2026-04-02T08:42:53.1318999Z /tmp/gh-aw/mcp-logs/safeoutputs.log
+2026-04-02T08:42:53.1319196Z /tmp/gh-aw/mcp-logs/start-gateway.log
+2026-04-02T08:42:53.1319382Z /tmp/gh-aw/mcp-logs/tools.json
+2026-04-02T08:42:53.1319575Z /tmp/gh-aw/mcp-logs/stderr.log
+2026-04-02T08:42:53.1319782Z /tmp/gh-aw/mcp-logs/rpc-messages.jsonl
+2026-04-02T08:42:53.1319991Z /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-02T08:42:53.1427194Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-02T08:42:53.1427387Z with:
+2026-04-02T08:42:53.1427568Z   name: agent
+2026-04-02T08:42:53.1427739Z   path: /tmp/gh-aw/
+2026-04-02T08:42:53.1427918Z   merge-multiple: false
+2026-04-02T08:42:53.1428700Z   repository: Azure/azure-sdk-for-js
+2026-04-02T08:42:53.1428866Z   run-id: 23891150596
+2026-04-02T08:42:53.1429054Z   skip-decompress: false
+2026-04-02T08:42:53.1429232Z   digest-mismatch: error
+2026-04-02T08:42:53.1429383Z env:
+2026-04-02T08:42:53.1429721Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:53.1429908Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:53.1430085Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:53.1432207Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:53.1432397Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:53.1432683Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:53.1432846Z ##[endgroup]
+2026-04-02T08:42:53.3211052Z Downloading single artifact
+2026-04-02T08:42:53.5713542Z Preparing to download the following artifacts:
+2026-04-02T08:42:53.5717568Z - agent (ID: 6237873408, Size: 5544000, Expected Digest: sha256:d9ee70e9d2eda8c97c68c2a7d312c2da6b7b95991d8df1bf4e735d18c18a39a7)
+2026-04-02T08:42:53.9883533Z Redirecting to blob download url: https://productionresultssa13.blob.core.windows.net/actions-results/d98dfe0f-3fd5-4a6d-a4a1-3cdb04673a00/workflow-job-run-d3ad17d1-98ef-5f9c-a0c7-c76f36af9dd1/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-02T08:42:53.9887688Z Starting download of artifact to: /tmp/gh-aw
+2026-04-02T08:42:54.2803978Z (node:927) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-02T08:42:54.2808308Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-02T08:42:55.4101321Z SHA256 digest of downloaded artifact is d9ee70e9d2eda8c97c68c2a7d312c2da6b7b95991d8df1bf4e735d18c18a39a7
+2026-04-02T08:42:55.4107697Z Artifact download completed successfully.
+2026-04-02T08:42:55.4116571Z Total of 1 artifact(s) downloaded
+2026-04-02T08:42:55.4125459Z Download artifact has finished successfully
+2026-04-02T08:42:55.4392732Z ##[group]Run # Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct
+2026-04-02T08:42:55.4395118Z [36;1m# Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct[0m
+2026-04-02T08:42:55.4397320Z [36;1m# GitHub instance (GHES/GHEC). On github.com this is a harmless no-op.[0m
+2026-04-02T08:42:55.4399480Z [36;1mGH_HOST="${GITHUB_SERVER_URL#https://}"[0m
+2026-04-02T08:42:55.4400805Z [36;1mGH_HOST="${GH_HOST#http://}"[0m
+2026-04-02T08:42:55.4402095Z [36;1mecho "GH_HOST=${GH_HOST}" >> "$GITHUB_ENV"[0m
+2026-04-02T08:42:55.4410362Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-04-02T08:42:55.4411775Z env:
+2026-04-02T08:42:55.4412895Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:55.4414379Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:55.4415375Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:55.4420451Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:55.4426976Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:55.4428508Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:55.4429806Z ##[endgroup]
+2026-04-02T08:42:55.4625573Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-02T08:42:55.4627191Z with:
+2026-04-02T08:42:55.4628804Z   github-token: ***
+2026-04-02T08:42:55.4632595Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/safe_output_handler_manager.cjs');
+await main();
+
+2026-04-02T08:42:55.4636701Z   debug: false
+2026-04-02T08:42:55.4637618Z   user-agent: actions/github-script
+2026-04-02T08:42:55.4639021Z   result-encoding: json
+2026-04-02T08:42:55.4639971Z   retries: 0
+2026-04-02T08:42:55.4640934Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-02T08:42:55.4642153Z env:
+2026-04-02T08:42:55.4643201Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:55.4644603Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:55.4645580Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:55.4650291Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:55.4654950Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:55.4656145Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:55.4657397Z   GH_HOST: github.com
+2026-04-02T08:42:55.4658614Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-02T08:42:55.4694286Z   GH_AW_ALLOWED_DOMAINS: api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,github.com,host.docker.internal,json-schema.org,json.schemastore.org,keyserver.ubuntu.com,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.npmjs.org,s.symcb.com,s.symcd.com,security.ubuntu.com,telemetry.enterprise.githubcopilot.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com
+2026-04-02T08:42:55.4727881Z   GITHUB_SERVER_URL: https://github.com
+2026-04-02T08:42:55.4729250Z   GITHUB_API_URL: https://api.github.com
+2026-04-02T08:42:55.4744057Z   GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"37847"},"create_pull_request_review_comment":{"max":10,"side":"RIGHT","target":"37847"},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"push_to_pull_request_branch":{"allowed_files":["pnpm-lock.yaml","sdk/","eng/"],"if_no_changes":"warn","max":3,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","AGENTS.md"],"protected_path_prefixes":[".github/",".agents/"]},"submit_pull_request_review":{"footer":"if-body","max":1,"target":"37847"}}
+2026-04-02T08:42:55.4758220Z   GH_AW_CI_TRIGGER_TOKEN: 
+2026-04-02T08:42:55.4759158Z ##[endgroup]
+2026-04-02T08:42:55.5809496Z Safe Output Handler Manager starting...
+2026-04-02T08:42:55.5830334Z Loaded config from GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"37847"},"create_pull_request_review_comment":{"max":10,"side":"RIGHT","target":"37847"},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"push_to_pull_request_branch":{"allowed_files":["pnpm-lock.yaml","sdk/","eng/"],"if_no_changes":"warn","max":3,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","AGENTS.md"],"protected_path_prefixes":[".github/",".agents/"]},"submit_pull_request_review":{"footer":"if-body","max":1,"target":"37847"}}
+2026-04-02T08:42:55.5852090Z Agent output content length: 1274
+2026-04-02T08:42:55.5854439Z Found 2 message(s) in agent output
+2026-04-02T08:42:55.5857595Z Using footer config from submit_pull_request_review: if-body
+2026-04-02T08:42:55.5862349Z PR review footer mode set to "if-body"
+2026-04-02T08:42:55.5867234Z Loading and initializing safe output handlers based on configuration...
+2026-04-02T08:42:55.5889754Z Add comment configuration: max=1, target=37847
+2026-04-02T08:42:55.5892425Z Default target repo: Azure/azure-sdk-for-js
+2026-04-02T08:42:55.5894600Z Hide-older-comments is enabled
+2026-04-02T08:42:55.5896998Z ✓ Loaded and initialized handler for: add_comment
+2026-04-02T08:42:56.4863841Z PR review comment target configuration: 37847
+2026-04-02T08:42:56.4865133Z Default comment side configuration: RIGHT
+2026-04-02T08:42:56.4866272Z Max count: 10
+2026-04-02T08:42:56.4867195Z Default target repo: Azure/azure-sdk-for-js
+2026-04-02T08:42:56.4869409Z ✓ Loaded and initialized handler for: create_pull_request_review_comment
+2026-04-02T08:42:56.4871150Z Submit PR review handler initialized: max=1, target=37847
+2026-04-02T08:42:56.4872539Z Default target repo: Azure/azure-sdk-for-js
+2026-04-02T08:42:56.4874024Z ✓ Loaded and initialized handler for: submit_pull_request_review
+2026-04-02T08:42:56.4877590Z Target: triggering
+2026-04-02T08:42:56.4878725Z If no changes: warn
+2026-04-02T08:42:56.4879606Z Max patch size: 1024 KB
+2026-04-02T08:42:56.4880511Z Max count: 3
+2026-04-02T08:42:56.4881407Z Default target repo: Azure/azure-sdk-for-js
+2026-04-02T08:42:56.4882923Z ✓ Loaded and initialized handler for: push_to_pull_request_branch
+2026-04-02T08:42:56.4892512Z Max count: unlimited
+2026-04-02T08:42:56.4893598Z ✓ Loaded and initialized handler for: missing_tool
+2026-04-02T08:42:56.4897077Z Max count: unlimited
+2026-04-02T08:42:56.4898480Z ✓ Loaded and initialized handler for: missing_data
+2026-04-02T08:42:56.4899693Z Max count: 1
+2026-04-02T08:42:56.4900638Z ✓ Loaded and initialized handler for: noop
+2026-04-02T08:42:56.4903437Z Loaded 7 handler(s)
+2026-04-02T08:42:56.4904698Z Collected 0 missing tool(s), 0 missing data item(s), and 0 noop message(s)
+2026-04-02T08:42:56.4906317Z Processing 2 message(s) in order of appearance...
+2026-04-02T08:42:56.4907571Z Processing message 1/2: add_comment
+2026-04-02T08:42:56.4908893Z Target repository: Azure/azure-sdk-for-js
+2026-04-02T08:42:56.4910119Z Using explicitly provided item_number: #37847
+2026-04-02T08:42:56.4911561Z [MENTIONS] Allowing parent entity authors in comment: azure-sdk
+2026-04-02T08:42:56.4913155Z Adding comment to issue/PR #37847 in Azure/azure-sdk-for-js
+2026-04-02T08:42:56.4914744Z Searching for previous comments with workflow ID: mgmt-review
+2026-04-02T08:42:56.4916256Z No previous comments found with matching workflow ID
+2026-04-02T08:42:56.8420611Z Created comment: https://github.com/Azure/azure-sdk-for-js/pull/37847#issuecomment-4175652034
+2026-04-02T08:42:56.8423963Z 📝 Manifest: logged add_comment → https://github.com/Azure/azure-sdk-for-js/pull/37847#issuecomment-4175652034
+2026-04-02T08:42:56.8426117Z ✓ Message 1 (add_comment) completed successfully
+2026-04-02T08:42:56.8427496Z Processing message 2/2: submit_pull_request_review
+2026-04-02T08:42:56.8439537Z Setting review metadata: event=COMMENT, bodyLength=598
+2026-04-02T08:42:56.8440986Z Set review metadata: event=COMMENT, bodyLength=598
+2026-04-02T08:42:56.8442586Z Set review context: Azure/azure-sdk-for-js#37847
+2026-04-02T08:42:56.8444124Z Set review context from triggering PR: Azure/azure-sdk-for-js#37847
+2026-04-02T08:42:56.8445761Z 📝 Manifest: logged submit_pull_request_review
+2026-04-02T08:42:56.8459748Z ✓ Message 2 (submit_pull_request_review) completed successfully
+2026-04-02T08:42:56.8460793Z 
+2026-04-02T08:42:56.8461197Z === Finalizing PR Review ===
+2026-04-02T08:42:56.8462386Z Submitting PR review (body-only, no inline comments)
+2026-04-02T08:42:56.8463826Z Footer mode "if-body": body is non-empty, adding footer
+2026-04-02T08:42:56.8467681Z Submitting PR review on Azure/azure-sdk-for-js#37847: event=COMMENT, comments=0, bodyLength=929
+2026-04-02T08:42:57.6168535Z Created PR review #4049221338: https://github.com/Azure/azure-sdk-for-js/pull/37847#pullrequestreview-4049221338
+2026-04-02T08:42:57.6177918Z ✓ PR review submitted successfully: https://github.com/Azure/azure-sdk-for-js/pull/37847#pullrequestreview-4049221338
+2026-04-02T08:42:57.6184425Z Stored 0 missing tool(s), 0 missing data item(s), and 0 noop message(s) for footer generation
+2026-04-02T08:42:57.6214527Z 📝 Safe output summaries written to step summary
+2026-04-02T08:42:57.6219314Z 
+2026-04-02T08:42:57.6219948Z === Processing Summary ===
+2026-04-02T08:42:57.6223392Z Total messages: 2
+2026-04-02T08:42:57.6226328Z Successful: 2
+2026-04-02T08:42:57.6229659Z Failed: 0
+2026-04-02T08:42:57.6232575Z Temporary IDs registered: 0
+2026-04-02T08:42:57.6236584Z Synthetic updates: 0
+2026-04-02T08:42:57.6248371Z Exported temporary ID map with 0 mapping(s)
+2026-04-02T08:42:57.6262267Z Exported comment_id: 4175652034
+2026-04-02T08:42:57.6269757Z Exported comment_url: https://github.com/Azure/azure-sdk-for-js/pull/37847#issuecomment-4175652034
+2026-04-02T08:42:57.6275171Z Safe Output Handler Manager completed
+2026-04-02T08:42:57.6636669Z ##[group]Run actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+2026-04-02T08:42:57.6639162Z with:
+2026-04-02T08:42:57.6639923Z   name: safe-output-items
+2026-04-02T08:42:57.6640897Z   path: /tmp/gh-aw/safe-output-items.jsonl
+2026-04-02T08:42:57.6642086Z   if-no-files-found: ignore
+2026-04-02T08:42:57.6643846Z   compression-level: 6
+2026-04-02T08:42:57.6644708Z   overwrite: false
+2026-04-02T08:42:57.6645542Z   include-hidden-files: false
+2026-04-02T08:42:57.6646545Z   archive: true
+2026-04-02T08:42:57.6647302Z env:
+2026-04-02T08:42:57.6648482Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-02T08:42:57.6649765Z   GH_AW_ENGINE_ID: copilot
+2026-04-02T08:42:57.6650665Z   GH_AW_ENGINE_MODEL: auto
+2026-04-02T08:42:57.6655171Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-02T08:42:57.6660700Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-02T08:42:57.6661808Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-02T08:42:57.6663437Z   GH_HOST: github.com
+2026-04-02T08:42:57.6664268Z ##[endgroup]
+2026-04-02T08:42:57.8858983Z With the provided path, there will be 1 file uploaded
+2026-04-02T08:42:57.8870988Z Artifact name is valid!
+2026-04-02T08:42:57.8875129Z Root directory input is valid!
+2026-04-02T08:42:58.1455743Z Uploading artifact: safe-output-items.zip
+2026-04-02T08:42:58.1521226Z Beginning upload of artifact content to blob storage
+2026-04-02T08:42:58.4528913Z Uploaded bytes 325
+2026-04-02T08:42:58.5232551Z Finished uploading artifact content to blob storage!
+2026-04-02T08:42:58.5239246Z SHA256 digest of uploaded artifact is 638bbd4d3c030ac0e100aaf80e0491df7b336e26adf9d42f52395242ab637a58
+2026-04-02T08:42:58.5244061Z Finalizing artifact upload
+2026-04-02T08:42:58.7611876Z Artifact safe-output-items successfully finalized. Artifact ID 6237903777
+2026-04-02T08:42:58.7616839Z Artifact safe-output-items has been successfully uploaded! Final size is 325 bytes. Artifact ID is 6237903777
+2026-04-02T08:42:58.7627977Z Artifact download URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/23891150596/artifacts/6237903777
+2026-04-02T08:42:58.7793681Z Post job cleanup.
+2026-04-02T08:42:58.8055494Z Cleaning up /tmp/gh-aw...
+2026-04-02T08:42:58.8438970Z Cleaned up /tmp/gh-aw
+2026-04-02T08:42:58.8534304Z Evaluate and set job outputs
+2026-04-02T08:42:58.8546675Z Set output 'code_push_failure_count'
+2026-04-02T08:42:58.8549934Z Set output 'comment_id'
+2026-04-02T08:42:58.8552004Z Set output 'comment_url'
+2026-04-02T08:42:58.8553308Z Set output 'create_discussion_error_count'
+2026-04-02T08:42:58.8554841Z Set output 'process_safe_outputs_processed_count'
+2026-04-02T08:42:58.8556442Z Set output 'process_safe_outputs_temporary_id_map'
+2026-04-02T08:42:58.8558758Z Cleaning up orphan processes

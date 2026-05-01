@@ -1,0 +1,14 @@
+{
+  "reviews": [
+    {
+      "pr": 37697,
+      "package": "@azure/ai-projects",
+      "version": "2.0.2",
+      "date": "2026-03-26",
+      "outcome": "issues_found",
+      "findings": 6,
+      "severities": {"medium": 4, "low": 2},
+      "summary": "Parameter ordering in BetaEvaluatorsOperations, pendingUpload naming, foundryFeatures inline literal, toolset parameter name inconsistency, camelCase blobUri, CodeBasedEvaluatorDefinition ambiguous optionals"
+    }
+  ]
+}

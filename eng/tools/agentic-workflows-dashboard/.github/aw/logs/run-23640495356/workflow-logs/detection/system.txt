@@ -1,0 +1,9 @@
+2026-03-27T09:48:23.6210000Z Evaluating detection.if
+2026-03-27T09:48:23.6210000Z Evaluating: (always() && (needs.agent.result != 'skipped'))
+2026-03-27T09:48:23.6210000Z Expanded: (true && ('cancelled' != 'skipped'))
+2026-03-27T09:48:23.6210000Z Result: true
+2026-03-27T09:48:23.6240000Z Requested labels: ubuntu-latest
+2026-03-27T09:48:23.6240000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/archie.lock.yml@refs/heads/main
+2026-03-27T09:48:23.6240000Z Waiting for a runner to pick up this job...
+2026-03-27T09:48:52.3580000Z Job is about to start running on the hosted runner: GitHub Actions 1027804513
+2026-03-27T09:48:52.3570000Z Job is waiting for a hosted runner to come online.

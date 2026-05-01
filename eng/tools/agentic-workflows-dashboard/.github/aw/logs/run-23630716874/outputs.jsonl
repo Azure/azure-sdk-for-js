@@ -1,0 +1,1 @@
+{"body":"The public API surface and tooling for `@azure/arm-kubernetesconfiguration-extensions@1.0.0` look good — no guideline violations found.\n\n<details>\n<summary>📊 Structured Report</summary>\n\n```json\n{\"agent\":\"mgmt-reviewer\",\"pr\":37847,\"summary\":\"clean\",\"findings\":[]}\n```\n\n</details>","event":"COMMENT","type":"submit_pull_request_review"}

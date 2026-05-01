@@ -1,0 +1,13 @@
+{
+  "pr": 37634,
+  "package": "@azure/arm-kubernetesconfiguration-extensiontypes",
+  "reviewed_at": "2026-03-23",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "description": "AzureClouds enum members use UPPER_SNAKE_CASE instead of PascalCase"},
+    {"type": "tool", "category": "configuration", "description": "autoPublish changed from true to false, inconsistent with sibling packages"}
+  ],
+  "ci": "passing",
+  "version": "1.0.0-beta.2",
+  "api_version": "2024-11-01-preview"
+}

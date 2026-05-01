@@ -1,0 +1,12 @@
+{
+  "reviews": [
+    {
+      "pr": 37792,
+      "package": "@azure/arm-attestation",
+      "version": "3.0.0-beta.1",
+      "date": "2026-03-27",
+      "outcome": "clean",
+      "notes": "Migration from azure-core-client to @azure-rest/core-client. Added PrivateLinkResources operations, KnownVersions enum. No naming issues, no alpha versions, version consistent across all files."
+    }
+  ]
+}

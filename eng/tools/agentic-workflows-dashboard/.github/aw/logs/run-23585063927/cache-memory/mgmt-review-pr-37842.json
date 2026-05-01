@@ -1,0 +1,11 @@
+{
+  "pr": 37842,
+  "package": "@azure/arm-network",
+  "version": "37.0.0",
+  "reviewed_at": "2026-03-26",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "package.json", "line": 193, "description": "apiRefLink uses ?view=azure-node-preview for stable release"},
+    {"type": "design", "file": "CHANGELOG.md", "line": 3, "description": "36.0.0 released 6 weeks ago (2026-02-11), frequent major releases"}
+  ]
+}

@@ -1,0 +1,1 @@
+{"message":"No action needed: The triggering push (6cc58ee92, PR #58511) only added a changelog entry to sdk/identity/Azure.Identity/CHANGELOG.md for the Azure.Identity 1.17.2 hotfix release. No new APIs, types, methods, or implementation code were added or changed, so no documentation gaps exist.","type":"noop"}

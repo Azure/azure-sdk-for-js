@@ -1,0 +1,4 @@
+2026-04-10T15:32:19.3610000Z Evaluating push_repo_memory.if
+2026-04-10T15:32:19.3610000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))) && (needs.agent.result == 'success'))
+2026-04-10T15:32:19.3610000Z Expanded: (true && (('cancelled' == 'success') || ('cancelled' == 'skipped')) && (needs.agent.result == 'success'))
+2026-04-10T15:32:19.3610000Z Result: false

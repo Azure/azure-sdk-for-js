@@ -1,0 +1,11 @@
+{
+  "pr": 37789,
+  "package": "@azure/arm-appservice",
+  "version": "19.0.0",
+  "api_version": "2025-05-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "file": "CHANGELOG.md", "line": 3, "description": "18.0.0 was released 2025-11-18 (~4 months ago), within 6-month frequent-major-release window"}
+  ]
+}

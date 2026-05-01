@@ -1,0 +1,1 @@
+{"message":"No action needed: The triggering push (a7d295691, PR #58234) only deleted an internal CI pipeline template file (eng/common/pipelines/templates/steps/bypass-local-dns.yml). No SDK packages, service APIs, or user-facing code were changed, so there are no documentation gaps to address.","type":"noop"}

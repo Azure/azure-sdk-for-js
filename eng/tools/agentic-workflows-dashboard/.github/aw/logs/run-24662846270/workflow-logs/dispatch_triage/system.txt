@@ -1,0 +1,9 @@
+2026-04-20T11:07:31.0440000Z Requested labels: ubuntu-latest
+2026-04-20T11:07:31.0440000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-20T11:07:31.0440000Z Waiting for a runner to pick up this job...
+2026-04-20T11:07:31.0380000Z Evaluating dispatch_triage.if
+2026-04-20T11:07:31.0380000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && contains(needs.agent.outputs.output_types, 'dispatch_triage'))
+2026-04-20T11:07:31.0380000Z Expanded: (!false && ('success' != 'skipped') && contains('create_issue,dispatch_triage', 'dispatch_triage'))
+2026-04-20T11:07:31.0380000Z Result: true
+2026-04-20T11:07:34.6470000Z Job is waiting for a hosted runner to come online.
+2026-04-20T11:07:34.6470000Z Job is about to start running on the hosted runner: GitHub Actions 1031428751

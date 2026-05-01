@@ -1,0 +1,4 @@
+{"timestamp":"2026-04-18T17:18:12.070Z","source":"response_headers","operation":"repos.getContent","resource":"core","limit":15000,"remaining":14987,"used":13,"reset":"2026-04-18T18:07:21.000Z"}
+{"timestamp":"2026-04-18T17:18:12.248Z","source":"response_headers","operation":"repos.getContent","resource":"core","limit":15000,"remaining":14986,"used":14,"reset":"2026-04-18T18:07:21.000Z"}
+{"timestamp":"2026-04-18T17:18:13.019Z","source":"response_headers","operation":"repos.getCollaboratorPermissionLevel","resource":"core","limit":15000,"remaining":14985,"used":15,"reset":"2026-04-18T18:07:21.000Z"}
+{"timestamp":"2026-04-18T17:21:42.380Z","source":"response_headers","operation":"repos.listCollaborators","resource":"core","limit":15000,"remaining":14982,"used":18,"reset":"2026-04-18T18:07:21.000Z"}

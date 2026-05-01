@@ -1,0 +1,9 @@
+2026-04-09T21:44:36.5690000Z Evaluating mention_owners.if
+2026-04-09T21:44:36.5690000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && contains(needs.agent.outputs.output_types, 'mention_owners'))
+2026-04-09T21:44:36.5690000Z Expanded: (!false && ('success' != 'skipped') && contains('add_labels,mention_owners,add_comment', 'mention_owners'))
+2026-04-09T21:44:36.5690000Z Result: true
+2026-04-09T21:44:36.5700000Z Requested labels: ubuntu-latest
+2026-04-09T21:44:36.5700000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-09T21:44:36.5700000Z Waiting for a runner to pick up this job...
+2026-04-09T21:44:41.0050000Z Job is about to start running on the hosted runner: GitHub Actions 1029865513
+2026-04-09T21:44:41.0060000Z Job is waiting for a hosted runner to come online.

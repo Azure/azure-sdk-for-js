@@ -1,0 +1,6 @@
+2026-04-15T18:57:22.1540000Z Evaluating agent.if
+2026-04-15T18:57:22.1540000Z Evaluating: success()
+2026-04-15T18:57:22.1540000Z Result: true
+2026-04-15T18:57:22.1640000Z Requested labels: ubuntu-latest
+2026-04-15T18:57:22.1640000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-15T18:57:22.1640000Z Waiting for a runner to pick up this job...

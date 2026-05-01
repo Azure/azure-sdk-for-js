@@ -1,0 +1,748 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23839912286,
+  "processed_at": "2026-04-27T03:22:03.884408009Z",
+  "run": {
+    "databaseId": 23839912286,
+    "number": 138,
+    "url": "https://github.com/Azure/azure-sdk-for-net/actions/runs/23839912286",
+    "status": "completed",
+    "conclusion": "failure",
+    "workflowName": "Agentic Triage",
+    "workflowPath": ".github/workflows/issue-triage.lock.yml",
+    "createdAt": "2026-04-01T08:41:35Z",
+    "startedAt": "2026-04-01T08:41:35Z",
+    "updatedAt": "2026-04-01T08:54:32Z",
+    "event": "issues",
+    "headBranch": "main",
+    "headSha": "f2a7d7f467174f0df0fa58d68cb0962b0dd80562",
+    "displayTitle": "Agentic Triage",
+    "Duration": 777000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 1,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23839912286"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 1,
+    "ToolCalls": [
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "mention_owners",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "remove_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-mention_owners",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      }
+    ],
+    "ToolSequences": [
+      [
+        "safeoutputs___add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs___remove_labels",
+        "safeoutputs___assign_to_user",
+        "safeoutputs___missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs___missing_data",
+        "safeoutputs___mention_owners",
+        "github___get_label",
+        "github___issue_read",
+        "github___list_issue_types",
+        "github___list_issues",
+        "github___search_issues"
+      ],
+      [
+        "add_comment",
+        "add_comment",
+        "add_labels",
+        "add_labels",
+        "remove_labels",
+        "remove_labels",
+        "assign_to_user",
+        "assign_to_user",
+        "missing_tool",
+        "missing_tool",
+        "noop",
+        "noop",
+        "missing_data",
+        "missing_data",
+        "mention_owners",
+        "mention_owners"
+      ],
+      [
+        "safeoutputs___add_comment",
+        "safeoutputs-add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs-add_labels",
+        "safeoutputs___remove_labels",
+        "safeoutputs-remove_labels",
+        "safeoutputs___assign_to_user",
+        "safeoutputs-assign_to_user",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "safeoutputs___mention_owners",
+        "safeoutputs-mention_owners",
+        "github___get_label",
+        "github-get_label",
+        "github___issue_read",
+        "github-issue_read",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "github___list_issues",
+        "github-list_issues",
+        "github___search_issues",
+        "github-search_issues"
+      ]
+    ],
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "triage",
+    "label": "Triage",
+    "reason": "The run focused on classification, routing, or issue state updates."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "broad",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 1
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Triage run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=1 tool_types=34 duration=12m57s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "poor_agentic_control",
+      "severity": "medium",
+      "summary": "The run showed signs of broad or weakly controlled agentic behavior.",
+      "evidence": "friction=0 execution=exploratory actuation=read_only",
+      "recommendation": "Tighten instructions, reduce unnecessary tools, or delay write actions until the workflow has stronger evidence."
+    },
+    {
+      "kind": "model_downgrade_available",
+      "severity": "low",
+      "summary": "This Triage run may not need a frontier model. A smaller model (e.g. gpt-4.1-mini, claude-haiku-4-5) could handle the task at lower cost.",
+      "evidence": "domain=triage resource_profile=heavy actuation=read_only",
+      "recommendation": "Try engine.model: gpt-4.1-mini or claude-haiku-4-5 in the workflow frontmatter."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "blocked_domains": [
+      "api.business.githubcopilot.com",
+      "api.enterprise.githubcopilot.com",
+      "api.github.com",
+      "api.githubcopilot.com",
+      "api.individual.githubcopilot.com",
+      "api.snapcraft.io",
+      "archive.ubuntu.com",
+      "azure.archive.ubuntu.com",
+      "crl.geotrust.com",
+      "crl.globalsign.com",
+      "crl.identrust.com",
+      "crl.sectigo.com",
+      "crl.thawte.com",
+      "crl.usertrust.com",
+      "crl.verisign.com",
+      "crl3.digicert.com",
+      "crl4.digicert.com",
+      "crls.ssl.com",
+      "github.com",
+      "host.docker.internal",
+      "json-schema.org",
+      "json.schemastore.org",
+      "keyserver.ubuntu.com",
+      "ocsp.digicert.com",
+      "ocsp.geotrust.com",
+      "ocsp.globalsign.com",
+      "ocsp.identrust.com",
+      "ocsp.sectigo.com",
+      "ocsp.ssl.com",
+      "ocsp.thawte.com",
+      "ocsp.usertrust.com",
+      "ocsp.verisign.com",
+      "packagecloud.io",
+      "packages.cloud.google.com",
+      "packages.microsoft.com",
+      "ppa.launchpad.net",
+      "raw.githubusercontent.com",
+      "registry.npmjs.org",
+      "release-assets.githubusercontent.com",
+      "s.symcb.com",
+      "s.symcd.com",
+      "security.ubuntu.com",
+      "telemetry.enterprise.githubcopilot.com",
+      "ts-crl.ws.symantec.com",
+      "ts-ocsp.ws.symantec.com",
+      "www.googleapis.com"
+    ],
+    "total_requests": 46,
+    "allowed_requests": 0,
+    "blocked_requests": 46,
+    "requests_by_domain": {
+      "api.business.githubcopilot.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "api.enterprise.githubcopilot.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "api.github.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "api.githubcopilot.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "api.individual.githubcopilot.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "api.snapcraft.io": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "archive.ubuntu.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "azure.archive.ubuntu.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.geotrust.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.globalsign.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.identrust.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.sectigo.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.thawte.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.usertrust.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl.verisign.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl3.digicert.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crl4.digicert.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "crls.ssl.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "github.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "host.docker.internal": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "json-schema.org": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "json.schemastore.org": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "keyserver.ubuntu.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.digicert.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.geotrust.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.globalsign.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.identrust.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.sectigo.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.ssl.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.thawte.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.usertrust.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ocsp.verisign.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "packagecloud.io": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "packages.cloud.google.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "packages.microsoft.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ppa.launchpad.net": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "raw.githubusercontent.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "registry.npmjs.org": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "release-assets.githubusercontent.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "s.symcb.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "s.symcd.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "security.ubuntu.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "telemetry.enterprise.githubcopilot.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ts-crl.ws.symantec.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "ts-ocsp.ws.symantec.com": {
+        "allowed": 0,
+        "blocked": 1
+      },
+      "www.googleapis.com": {
+        "allowed": 0,
+        "blocked": 1
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "firewall-audit-logs/access.log",
+    "firewall-audit-logs/audit.jsonl",
+    "firewall-audit-logs/cache.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-output-items.jsonl",
+    "sandbox/agent/logs/process-1775033289615-148.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/mention_owners/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

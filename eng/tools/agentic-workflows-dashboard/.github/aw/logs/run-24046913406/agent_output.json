@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: The triggering push (f749973e9, PR #57819) is an internal `eng/common` directory sync from azure-sdk-tools. It contains no user-facing SDK code changes, new public APIs, or resource types that would require documentation updates.","type":"noop"}],"errors":[]}

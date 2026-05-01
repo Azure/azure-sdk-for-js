@@ -1,0 +1,4 @@
+2026-04-08T04:55:28.8630000Z Evaluating pre_activation.if
+2026-04-08T04:55:28.8630000Z Evaluating: (success() && ((github.event.label.name == 'security-review-needed')))
+2026-04-08T04:55:28.8630000Z Expanded: (true && ('Created By Copilot' == 'security-review-needed'))
+2026-04-08T04:55:28.8630000Z Result: false

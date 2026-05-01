@@ -1,0 +1,9 @@
+2026-04-03T05:56:55.0790000Z Evaluating push_repo_memory.if
+2026-04-03T05:56:55.0790000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))))
+2026-04-03T05:56:55.0790000Z Expanded: (true && (('skipped' == 'success') || ('skipped' == 'skipped')))
+2026-04-03T05:56:55.0790000Z Result: true
+2026-04-03T05:57:18.6050000Z Requested labels: ubuntu-slim
+2026-04-03T05:57:18.6050000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/heads/main
+2026-04-03T05:57:18.6050000Z Waiting for a runner to pick up this job...
+2026-04-03T05:57:19.5670000Z Job is about to start running on the hosted runner: GitHub Actions 1028905299
+2026-04-03T05:57:19.5660000Z Job is waiting for a hosted runner to come online.

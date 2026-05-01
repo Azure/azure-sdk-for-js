@@ -1,0 +1,17 @@
+{
+  "pr": 38228,
+  "package": "@azure/arm-compute",
+  "version": "24.0.0",
+  "previousVersion": "23.3.0",
+  "type": "first-typespec-migration",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "type": "tool",
+      "category": "missing-devDependency",
+      "description": "@azure/arm-network dropped from devDependencies during TypeSpec migration, causing all UnitTest CI failures"
+    }
+  ],
+  "apiSurface": "clean",
+  "reviewedAt": "2026-04-21"
+}

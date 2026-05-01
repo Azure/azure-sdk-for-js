@@ -1,0 +1,3 @@
+2026-04-13T18:08:44.1690000Z Evaluating agent.if
+2026-04-13T18:08:44.1690000Z Evaluating: success()
+2026-04-13T18:08:44.1690000Z Result: false

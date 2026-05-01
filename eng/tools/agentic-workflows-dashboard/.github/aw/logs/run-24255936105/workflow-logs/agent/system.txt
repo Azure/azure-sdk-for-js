@@ -1,0 +1,8 @@
+2026-04-10T17:40:46.3500000Z Evaluating agent.if
+2026-04-10T17:40:46.3500000Z Evaluating: success()
+2026-04-10T17:40:46.3500000Z Result: true
+2026-04-10T17:40:46.5390000Z Requested labels: ubuntu-latest
+2026-04-10T17:40:46.5390000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/pull/38086/merge
+2026-04-10T17:40:46.5390000Z Waiting for a runner to pick up this job...
+2026-04-10T17:40:51.6270000Z Job is about to start running on the hosted runner: GitHub Actions 1030015516
+2026-04-10T17:40:51.6280000Z Job is waiting for a hosted runner to come online.

@@ -1,0 +1,1 @@
+{"message":"No documentation action needed: The triggering push (b5ab41dbcb) by @jsquire only modified `.github/CODEOWNERS_baseline_errors.txt` to baseline wildcard linter errors in CODEOWNERS. No SDK packages, APIs, types, or methods were added or changed, so there are no documentation gaps to file.","type":"noop"}

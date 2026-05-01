@@ -1,0 +1,18 @@
+{
+  "pr": 37932,
+  "package": "@azure/arm-managednetworkfabric",
+  "version": "2.0.0",
+  "reviewedAt": "2026-04-03",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "CHANGELOG.md",
+      "line": 871,
+      "type": "tool",
+      "description": "Missing 1.0.1 (2025-08-22) and 1.0.2 (Unreleased) entries - generator overwrote CHANGELOG history"
+    }
+  ],
+  "mergeState": "dirty",
+  "ciStatus": "pending (pnpm-lock conflict)",
+  "notes": "TypeSpec migration from Swagger-based 1.0.x to 2.0.0; API version 2025-07-15 stable"
+}

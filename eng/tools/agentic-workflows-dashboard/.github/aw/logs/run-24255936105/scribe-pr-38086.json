@@ -1,0 +1,1 @@
+{"pr":38086,"package":"@azure/core-lro","date":"2026-04-10","outcome":"issues_found","findings":[{"severity":"medium","category":"changelog","description":"CHANGELOG 3.3.2 Unreleased section left empty despite significant README v3 doc corrections"}]}

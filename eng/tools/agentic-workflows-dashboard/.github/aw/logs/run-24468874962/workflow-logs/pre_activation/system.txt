@@ -1,0 +1,6 @@
+2026-04-15T19:02:10.5010000Z Requested labels: ubuntu-slim
+2026-04-15T19:02:10.5010000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/update-samples-and-docs.lock.yml@refs/heads/main
+2026-04-15T19:02:10.5010000Z Waiting for a runner to pick up this job...
+2026-04-15T19:02:10.5000000Z Evaluating pre_activation.if
+2026-04-15T19:02:10.5000000Z Evaluating: success()
+2026-04-15T19:02:10.5000000Z Result: true

@@ -1,0 +1,12 @@
+{
+  "pr": 37793,
+  "package": "@azure/arm-hdinsight",
+  "version": "2.0.0-beta.1",
+  "api_version": "2025-01-15-preview",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "type-safety", "file": "review/arm-hdinsight-node.api.md", "line": 697, "description": "ExtensionsOperations.create returns PollerLike<OperationState<void>, void>; void not appropriate for create"},
+    {"type": "design", "category": "type-safety", "file": "review/arm-hdinsight-node.api.md", "line": 498, "description": "ConfigurationsOperations.update returns PollerLike<OperationState<void>, void>; void not appropriate for update"}
+  ]
+}

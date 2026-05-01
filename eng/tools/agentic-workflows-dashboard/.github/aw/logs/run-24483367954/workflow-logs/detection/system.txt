@@ -1,0 +1,10 @@
+2026-04-15T23:24:16.0720000Z Evaluating detection.if
+2026-04-15T23:24:16.0720000Z Evaluating: (always() && (needs.agent.result != 'skipped') && (((needs.agent.outputs.output_types != '') || (needs.agent.outputs.has_patch == 'true'))))
+2026-04-15T23:24:16.0720000Z Expanded: (true && ('success' != 'skipped') && (('add_labels,mention_owners,add_comment' != '') || (needs.agent.outputs.has_patch == 'true')))
+2026-04-15T23:24:16.0720000Z Result: true
+2026-04-15T23:24:16.0740000Z Requested labels: ubuntu-latest
+2026-04-15T23:24:16.0740000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-15T23:24:16.0740000Z Waiting for a runner to pick up this job...
+2026-04-15T23:24:21.5160000Z All GitHub-hosted runners with label [ubuntu-latest] are busy. For more information, see https://gh.io/job-concurrency-limits
+2026-04-15T23:26:35.7420000Z Job is waiting for a hosted runner to come online.
+2026-04-15T23:26:35.7430000Z Job is about to start running on the hosted runner: GitHub Actions 1030834527

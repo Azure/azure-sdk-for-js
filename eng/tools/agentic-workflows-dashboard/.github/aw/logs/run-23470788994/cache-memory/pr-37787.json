@@ -1,0 +1,9 @@
+{
+  "pr": 37787,
+  "package": "@azure/arm-prometheusrulegroups",
+  "version": "1.0.0-beta.1",
+  "reviewedAt": "2026-03-24T02:54:49Z",
+  "outcome": "clean",
+  "findings": [],
+  "ci": "Build Analyze failing on Azure DevOps; API surface looks good"
+}

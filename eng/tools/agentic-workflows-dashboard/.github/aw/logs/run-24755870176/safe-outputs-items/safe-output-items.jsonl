@@ -1,0 +1,3 @@
+{"type":"add_labels","number":58470,"timestamp":"2026-04-22T01:50:56.019Z"}
+{"type":"remove_labels","number":58470,"timestamp":"2026-04-22T01:50:56.700Z"}
+{"type":"add_comment","url":"https://github.com/Azure/azure-sdk-for-net/issues/58470#issuecomment-4293009207","repo":"Azure/azure-sdk-for-net","timestamp":"2026-04-22T01:50:57.474Z"}

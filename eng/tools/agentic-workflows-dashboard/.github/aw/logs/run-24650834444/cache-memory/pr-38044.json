@@ -1,0 +1,11 @@
+{
+  "pr": 38044,
+  "package": "@azure/arm-servicefabric",
+  "version": "4.0.0-beta.1",
+  "reviewedAt": "2026-04-08",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "pnpm-lock conflict auto-fixed (commit 04c80c9e482)",
+  "ciStatus": "pending (draft PR; ADO CI not yet started)",
+  "notes": "TypeSpec migration from Swagger-based 3.0.0 to TypeSpec 4.0.0-beta.1; API version 2026-03-01-preview; version aligned across package.json/context/CHANGELOG; no naming issues; KnownVersions has 2023-11-01-preview and 2026-03-01-preview (both previews). Third generation attempt (previous: PR #38022 and PR #37944). pnpm-lock conflict resolved by applying main lockfile and running pnpm install."
+}

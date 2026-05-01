@@ -1,0 +1,9 @@
+2026-04-09T05:56:06.5370000Z Evaluating activation.if
+2026-04-09T05:56:06.5370000Z Evaluating: (success() && (((needs.pre_activation.outputs.activated == 'true') && (((((github.event.label.name == 'mgmt-review-needed') && (github.event.pull_request.head.repo.fork == false))) && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))))))
+2026-04-09T05:56:06.5370000Z Expanded: (true && (('true' == 'true') && ((('mgmt-review-needed' == 'mgmt-review-needed') && (false == false)) && (('pull_request' != 'pull_request') || (108311273 == '108311273')))))
+2026-04-09T05:56:06.5370000Z Result: true
+2026-04-09T05:56:06.5420000Z Requested labels: ubuntu-slim
+2026-04-09T05:56:06.5420000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/mgmt-review.lock.yml@refs/pull/38064/merge
+2026-04-09T05:56:06.5420000Z Waiting for a runner to pick up this job...
+2026-04-09T05:56:07.3010000Z Job is about to start running on the hosted runner: GitHub Actions 1029732793
+2026-04-09T05:56:07.3010000Z Job is waiting for a hosted runner to come online.

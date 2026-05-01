@@ -1,0 +1,4 @@
+2026-03-20T15:50:49.8780000Z Evaluating pre_activation.if
+2026-03-20T15:50:49.8780000Z Evaluating: (success() && ((((((github.event_name != 'pull_request')) || ((github.event.pull_request.head.repo.id == github.repository_id)))) && ((((github.event_name != 'pull_request')) || ((((github.event.action != 'labeled')) || ((github.event.label.name == 'mgmt-review-needed')))))))))
+2026-03-20T15:50:49.8780000Z Expanded: (true && ((('pull_request' != 'pull_request') || (108311273 == '108311273')) && (('pull_request' != 'pull_request') || (('labeled' != 'labeled') || ('Central-EngSys' == 'mgmt-review-needed')))))
+2026-03-20T15:50:49.8780000Z Result: false

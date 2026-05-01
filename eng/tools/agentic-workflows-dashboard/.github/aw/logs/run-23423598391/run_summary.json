@@ -1,0 +1,1585 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23423598391,
+  "processed_at": "2026-04-27T03:23:11.224780891Z",
+  "run": {
+    "databaseId": 23423598391,
+    "number": 82,
+    "url": "https://github.com/Azure/azure-sdk-for-net/actions/runs/23423598391",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Agentic Triage",
+    "workflowPath": ".github/workflows/issue-triage.lock.yml",
+    "createdAt": "2026-03-23T05:56:56Z",
+    "startedAt": "2026-03-23T05:56:56Z",
+    "updatedAt": "2026-03-23T06:02:35Z",
+    "event": "issues",
+    "headBranch": "main",
+    "headSha": "f1d864fcc170d6f399e072f56a6f65bdf8392a05",
+    "displayTitle": "Agentic Triage",
+    "Duration": 339000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 12,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 4,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23423598391"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 12,
+    "ToolCalls": [
+      {
+        "Name": "add_comment",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "issue_read",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Search",
+        "CallCount": 3,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "search_issues",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Fetching",
+        "CallCount": 7,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "Read",
+        "CallCount": 5,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 26,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_comment",
+        "CallCount": 6,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "add_labels",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "remove_labels",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "assign_to_user",
+        "CallCount": 4,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_tool",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "noop",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "missing_data",
+        "CallCount": 2,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs___missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github___search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "tool",
+        "CallCount": 13,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-noop",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-get_label",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issue_types",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_comment",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_data",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-remove_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-issue_read",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-list_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "github-search_issues",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-add_labels",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-assign_to_user",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      },
+      {
+        "Name": "safeoutputs-missing_tool",
+        "CallCount": 1,
+        "MaxInputSize": 0,
+        "MaxOutputSize": 0,
+        "MaxDuration": 0
+      }
+    ],
+    "ToolSequences": [
+      [
+        "issue_read",
+        "issue_read",
+        "search_issues",
+        "list_issues",
+        "Fetching",
+        "Read",
+        "search_issues",
+        "search_issues",
+        "Search",
+        "Search",
+        "search_issues",
+        "Read",
+        "search_issues",
+        "Fetching",
+        "Fetching",
+        "Fetching",
+        "Fetching",
+        "Fetching",
+        "Fetching",
+        "search_issues",
+        "Search",
+        "Read",
+        "add_labels",
+        "assign_to_user",
+        "add_comment",
+        "add_comment"
+      ],
+      [
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read"
+      ],
+      [
+        "safeoutputs___add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs___remove_labels",
+        "safeoutputs___assign_to_user",
+        "safeoutputs___missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs___missing_data",
+        "github___get_label",
+        "github___issue_read",
+        "github___list_issue_types",
+        "github___list_issues",
+        "github___search_issues",
+        "tool",
+        "tool"
+      ],
+      [
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool"
+      ],
+      [
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool"
+      ],
+      [
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool"
+      ],
+      [
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool"
+      ],
+      [
+        "add_comment",
+        "add_comment",
+        "add_labels",
+        "add_labels",
+        "remove_labels",
+        "remove_labels",
+        "assign_to_user",
+        "assign_to_user",
+        "missing_tool",
+        "missing_tool",
+        "noop",
+        "noop",
+        "missing_data",
+        "missing_data",
+        "add_labels",
+        "add_labels",
+        "assign_to_user",
+        "assign_to_user",
+        "add_comment",
+        "add_comment",
+        "add_comment",
+        "add_comment"
+      ],
+      [
+        "safeoutputs___add_comment",
+        "safeoutputs-add_comment",
+        "safeoutputs___add_labels",
+        "safeoutputs-add_labels",
+        "safeoutputs___remove_labels",
+        "safeoutputs-remove_labels",
+        "safeoutputs___assign_to_user",
+        "safeoutputs-assign_to_user",
+        "safeoutputs___missing_tool",
+        "safeoutputs-missing_tool",
+        "safeoutputs___noop",
+        "safeoutputs-noop",
+        "safeoutputs___missing_data",
+        "safeoutputs-missing_data",
+        "github___get_label",
+        "github-get_label",
+        "github___issue_read",
+        "github-issue_read",
+        "github___list_issue_types",
+        "github-list_issue_types",
+        "github___list_issues",
+        "github-list_issues",
+        "github___search_issues",
+        "github-search_issues",
+        "tool"
+      ],
+      [
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool",
+        "tool"
+      ],
+      [
+        "tool",
+        "tool",
+        "tool"
+      ],
+      [
+        "safeoutputs-add_comment",
+        "safeoutputs-add_labels",
+        "safeoutputs-assign_to_user",
+        "safeoutputs-missing_data",
+        "safeoutputs-missing_tool",
+        "safeoutputs-noop",
+        "safeoutputs-remove_labels",
+        "github-get_label",
+        "github-issue_read",
+        "github-list_issue_types",
+        "github-list_issues",
+        "github-search_issues"
+      ]
+    ],
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "triage",
+    "label": "Triage",
+    "reason": "The run focused on classification, routing, or issue state updates."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "exploratory",
+    "tool_breadth": "broad",
+    "actuation_style": "write_heavy",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0.4166666666666667
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Triage run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=12 tool_types=38 duration=5m39s write_actions=8",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "poor_agentic_control",
+      "severity": "medium",
+      "summary": "The run showed signs of broad or weakly controlled agentic behavior.",
+      "evidence": "friction=0 execution=exploratory actuation=write_heavy",
+      "recommendation": "Tighten instructions, reduce unnecessary tools, or delay write actions until the workflow has stronger evidence."
+    },
+    {
+      "kind": "partially_reducible",
+      "severity": "low",
+      "summary": "About 58% of this run's turns appear to be data-gathering that could move to deterministic steps.",
+      "evidence": "agentic_fraction=0.42 turns=12",
+      "recommendation": "Move data-fetching work to frontmatter steps: (pre-agent) writing to /tmp/gh-aw/agent/ or post-steps: (post-agent) to reduce inference cost. See the Deterministic \u0026 Agentic Patterns guide."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.github.com:443",
+      "api.githubcopilot.com:443",
+      "github.com:443"
+    ],
+    "blocked_domains": [
+      "release-assets.githubusercontent.com:443"
+    ],
+    "total_requests": 35,
+    "allowed_requests": 34,
+    "blocked_requests": 1,
+    "requests_by_domain": {
+      "api.github.com:443": {
+        "allowed": 3,
+        "blocked": 0
+      },
+      "api.githubcopilot.com:443": {
+        "allowed": 30,
+        "blocked": 0
+      },
+      "github.com:443": {
+        "allowed": 1,
+        "blocked": 0
+      },
+      "release-assets.githubusercontent.com:443": {
+        "allowed": 0,
+        "blocked": 1
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "mcp_tool_usage": {
+    "summary": [
+      {
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "call_count": 6,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "list_issues",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "call_count": 6,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "call_count": 38,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "call_count": 2,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "add_labels",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      },
+      {
+        "server_name": "safeoutputs",
+        "tool_name": "assign_to_user",
+        "call_count": 1,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "max_input_size": 0,
+        "max_output_size": 0
+      }
+    ],
+    "tool_calls": [
+      {
+        "timestamp": "2026-03-23T05:58:51.565824016Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:51.574045165Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:51.581564378Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:51.593851577Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:51.879955394Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:51.888327033Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:51.896444848Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.597972328Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.605943417Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.613922733Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.629226255Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.873300075Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.882590632Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.890685313Z",
+        "server_name": "github",
+        "tool_name": "issue_read",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:59.290051075Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:59.302275839Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:59.49829047Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:59.507016993Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:58:59.51538925Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.09131355Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.099995062Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.111953119Z",
+        "server_name": "github",
+        "tool_name": "list_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.462005976Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.470430964Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.480837196Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.488525383Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.496704018Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.504968174Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.513151409Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.520974507Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.528932363Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.536976329Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.54608898Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.554347639Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:17.468941691Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:21.083032275Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:25.821162514Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.285822026Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.295310306Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.304684747Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.312468482Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.320147296Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.32818407Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.336152097Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.346195557Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.354269457Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.36275619Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:37.003062915Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:10.159617967Z",
+        "server_name": "github",
+        "tool_name": "search_issues",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:10.477913093Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:10.486798028Z",
+        "server_name": "github",
+        "tool_name": "search_repositories",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:33.110423672Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_labels",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:35.716805479Z",
+        "server_name": "safeoutputs",
+        "tool_name": "assign_to_user",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:38.51453003Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      },
+      {
+        "timestamp": "2026-03-23T06:00:51.420978754Z",
+        "server_name": "safeoutputs",
+        "tool_name": "add_comment",
+        "input_size": 0,
+        "output_size": 0,
+        "status": "unknown"
+      }
+    ],
+    "servers": [
+      {
+        "server_name": "github",
+        "request_count": 51,
+        "tool_call_count": 51,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      },
+      {
+        "server_name": "safeoutputs",
+        "request_count": 4,
+        "tool_call_count": 4,
+        "total_input_size": 0,
+        "total_output_size": 0,
+        "avg_duration": "0ns"
+      }
+    ],
+    "filtered_events": [
+      {
+        "timestamp": "2026-03-23T05:58:51.907075534Z",
+        "server_id": "github",
+        "tool_name": "issue_read",
+        "description": "issue:Azure/azure-sdk-for-net#57342",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57342' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ]
+      },
+      {
+        "timestamp": "2026-03-23T05:58:55.901921041Z",
+        "server_id": "github",
+        "tool_name": "issue_read",
+        "description": "issue:Azure/azure-sdk-for-net#57342",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57342' has lower integrity than agent requires. Agent would need to drop integrity tags [approved:all unapproved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ]
+      },
+      {
+        "timestamp": "2026-03-23T05:58:59.524481619Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#0",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#0' has lower integrity than agent requires. Agent would need to drop integrity tags [approved:all unapproved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ]
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.577604328Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57342",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57342' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "zhiweiv",
+        "number": "57342"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.578582829Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57334",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57334' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "mzhongl524",
+        "number": "57334"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.579497505Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57325",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57325' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "JoshLove-msft",
+        "number": "57325"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.58035931Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57316",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57316' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "m-nash",
+        "number": "57316"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.58138016Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57314",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57314' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "julealgon",
+        "number": "57314"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.58221265Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57311",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57311' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "m-nash",
+        "number": "57311"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.583009303Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57308",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57308' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "JoshLove-msft",
+        "number": "57308"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.583780068Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57303",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57303' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "ArthurMa1978",
+        "number": "57303"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.589532027Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57293",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57293' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "live1206",
+        "number": "57293"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:02.590405614Z",
+        "server_id": "github",
+        "tool_name": "list_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57287",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57287' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_login": "live1206",
+        "number": "57287"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:17.625363976Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:#0",
+        "reason": "Resource 'issue:#0' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "secrecy_tags": [
+          "private"
+        ],
+        "integrity_tags": [
+          "none:all"
+        ]
+      },
+      {
+        "timestamp": "2026-03-23T05:59:21.266272956Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:#0",
+        "reason": "Resource 'issue:#0' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "secrecy_tags": [
+          "private"
+        ],
+        "integrity_tags": [
+          "none:all"
+        ]
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.37898854Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#52999",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#52999' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_association": "NONE",
+        "author_login": "dellamonica",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/issues/52999",
+        "number": "52999"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.379811361Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#52558",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#52558' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_association": "NONE",
+        "author_login": "vlad-zuga",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/issues/52558",
+        "number": "52558"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.380769004Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#52400",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#52400' has lower integrity than agent requires. Agent would need to drop integrity tags [approved:all unapproved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_association": "NONE",
+        "author_login": "ngochieu-nguyen",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/issues/52400",
+        "number": "52400"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.381565828Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#52309",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#52309' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_association": "NONE",
+        "author_login": "peqi-ms",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/issues/52309",
+        "number": "52309"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:26.38236709Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#52093",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#52093' has lower integrity than agent requires. Agent would need to drop integrity tags [approved:all unapproved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_association": "NONE",
+        "author_login": "juchom",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/issues/52093",
+        "number": "52093"
+      },
+      {
+        "timestamp": "2026-03-23T05:59:37.208550559Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:#0",
+        "reason": "Resource 'issue:#0' has lower integrity than agent requires. Agent would need to drop integrity tags [unapproved:all approved:all] to trust this resource.",
+        "secrecy_tags": [
+          "private"
+        ],
+        "integrity_tags": [
+          "none:all"
+        ]
+      },
+      {
+        "timestamp": "2026-03-23T06:00:10.498189497Z",
+        "server_id": "github",
+        "tool_name": "search_issues",
+        "description": "issue:Azure/azure-sdk-for-net#57342",
+        "reason": "Resource 'issue:Azure/azure-sdk-for-net#57342' has lower integrity than agent requires. Agent would need to drop integrity tags [approved:all unapproved:all] to trust this resource.",
+        "integrity_tags": [
+          "none:all"
+        ],
+        "author_association": "NONE",
+        "author_login": "zhiweiv",
+        "html_url": "https://github.com/Azure/azure-sdk-for-net/issues/57342",
+        "number": "57342"
+      }
+    ]
+  },
+  "artifacts_list": [
+    "agent-stdio.log",
+    "agent_output.json",
+    "aw-prompts/prompt.txt",
+    "detection.log",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "safe-output-items.jsonl",
+    "safeoutputs.jsonl",
+    "sandbox/agent/logs/process-1774245518019-147.log",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/1_safe_outputs.txt",
+    "workflow-logs/2_agent.txt",
+    "workflow-logs/3_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

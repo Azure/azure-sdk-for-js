@@ -1,0 +1,111 @@
+﻿2026-04-09T06:27:55.0855193Z Current runner version: '2.333.1'
+2026-04-09T06:27:55.0890423Z ##[group]Runner Image Provisioner
+2026-04-09T06:27:55.0891667Z Hosted Compute Agent
+2026-04-09T06:27:55.0892599Z Version: 20260213.493
+2026-04-09T06:27:55.0893464Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-09T06:27:55.0894544Z Build Date: 2026-02-13T00:28:41Z
+2026-04-09T06:27:55.0895908Z Worker ID: {2adbe874-acc7-4131-ba4f-52e7cfa22f8b}
+2026-04-09T06:27:55.0897022Z Azure Region: eastus
+2026-04-09T06:27:55.0897881Z ##[endgroup]
+2026-04-09T06:27:55.0900157Z ##[group]Operating System
+2026-04-09T06:27:55.0901203Z Ubuntu
+2026-04-09T06:27:55.0901885Z 24.04.4
+2026-04-09T06:27:55.0902710Z LTS
+2026-04-09T06:27:55.0903343Z ##[endgroup]
+2026-04-09T06:27:55.0904165Z ##[group]Runner Image
+2026-04-09T06:27:55.0905246Z Image: ubuntu-24.04
+2026-04-09T06:27:55.0906085Z Version: 20260329.72.1
+2026-04-09T06:27:55.0907907Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260329.72/images/ubuntu/Ubuntu2404-Readme.md
+2026-04-09T06:27:55.0910213Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260329.72
+2026-04-09T06:27:55.0911677Z ##[endgroup]
+2026-04-09T06:27:55.0913478Z ##[group]GITHUB_TOKEN Permissions
+2026-04-09T06:27:55.0916494Z Actions: write
+2026-04-09T06:27:55.0917679Z Issues: write
+2026-04-09T06:27:55.0918460Z Metadata: read
+2026-04-09T06:27:55.0919258Z ##[endgroup]
+2026-04-09T06:27:55.0922501Z Secret source: Actions
+2026-04-09T06:27:55.0923946Z Prepare workflow directory
+2026-04-09T06:27:55.1369762Z Prepare all required actions
+2026-04-09T06:27:55.1424502Z Getting action download info
+2026-04-09T06:27:55.4388971Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-09T06:27:55.7789021Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-09T06:27:56.0657174Z Complete job name: dispatch_triage
+2026-04-09T06:27:56.1363202Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-09T06:27:56.1364392Z with:
+2026-04-09T06:27:56.1364981Z   name: agent
+2026-04-09T06:27:56.1365496Z   path: /home/runner/work/_temp/gh-aw/safe-jobs/
+2026-04-09T06:27:56.1366151Z   merge-multiple: false
+2026-04-09T06:27:56.1366651Z   repository: Azure/azure-sdk-for-net
+2026-04-09T06:27:56.1367221Z   run-id: 24175460057
+2026-04-09T06:27:56.1367671Z   skip-decompress: false
+2026-04-09T06:27:56.1368164Z   digest-mismatch: error
+2026-04-09T06:27:56.1368818Z ##[endgroup]
+2026-04-09T06:27:56.2808910Z Downloading single artifact
+2026-04-09T06:27:56.3648407Z Preparing to download the following artifacts:
+2026-04-09T06:27:56.3650505Z - agent (ID: 6343500294, Size: 196253, Expected Digest: sha256:f4edefd22ce5850a92e378afde23e0e188fb88cf6d8527bfde5d9b2be5e905d7)
+2026-04-09T06:27:56.4735974Z Redirecting to blob download url: https://productionresultssa11.blob.core.windows.net/actions-results/87f3270b-9a0b-43b3-b15a-e11247738451/workflow-job-run-83a95932-14a0-58c1-82ad-cb8ab6dbd7c9/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-09T06:27:56.4742180Z Starting download of artifact to: /home/runner/work/_temp/gh-aw/safe-jobs
+2026-04-09T06:27:56.5405721Z (node:2217) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-09T06:27:56.5409141Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-09T06:27:56.5623699Z SHA256 digest of downloaded artifact is f4edefd22ce5850a92e378afde23e0e188fb88cf6d8527bfde5d9b2be5e905d7
+2026-04-09T06:27:56.5625904Z Artifact download completed successfully.
+2026-04-09T06:27:56.5626773Z Total of 1 artifact(s) downloaded
+2026-04-09T06:27:56.5627912Z Download artifact has finished successfully
+2026-04-09T06:27:56.5817898Z ##[group]Run find "${RUNNER_TEMP}/gh-aw/safe-jobs/" -type f -print
+2026-04-09T06:27:56.5819562Z [36;1mfind "${RUNNER_TEMP}/gh-aw/safe-jobs/" -type f -print[0m
+2026-04-09T06:27:56.5821292Z [36;1mecho "GH_AW_AGENT_OUTPUT=${RUNNER_TEMP}/gh-aw/safe-jobs/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-09T06:27:56.5854194Z shell: /usr/bin/bash -e {0}
+2026-04-09T06:27:56.5855148Z ##[endgroup]
+2026-04-09T06:27:56.5944331Z /home/runner/work/_temp/gh-aw/safe-jobs/agent_output.json
+2026-04-09T06:27:56.5945925Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/github.log
+2026-04-09T06:27:56.5947199Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/tools.json
+2026-04-09T06:27:56.5949218Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/safeoutputs.log
+2026-04-09T06:27:56.5950628Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/stderr.log
+2026-04-09T06:27:56.5951964Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/rpc-messages.jsonl
+2026-04-09T06:27:56.5953383Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/gateway.md
+2026-04-09T06:27:56.5954904Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/safeoutputs/server.log
+2026-04-09T06:27:56.5956376Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/mcp-gateway.log
+2026-04-09T06:27:56.5957741Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/start-gateway.log
+2026-04-09T06:27:56.5958994Z /home/runner/work/_temp/gh-aw/safe-jobs/safeoutputs.jsonl
+2026-04-09T06:27:56.5960214Z /home/runner/work/_temp/gh-aw/safe-jobs/github_rate_limits.jsonl
+2026-04-09T06:27:56.5961410Z /home/runner/work/_temp/gh-aw/safe-jobs/agent-stdio.log
+2026-04-09T06:27:56.5962840Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/agent/logs/process-1775715693692-155.log
+2026-04-09T06:27:56.5964391Z /home/runner/work/_temp/gh-aw/safe-jobs/aw-prompts/prompt.txt
+2026-04-09T06:27:56.5965753Z /home/runner/work/_temp/gh-aw/safe-jobs/agent_usage.json
+2026-04-09T06:27:56.6114234Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-09T06:27:56.6115688Z with:
+2026-04-09T06:27:56.6124528Z   script: const issueNumber = process.env.CREATED_ISSUE_NUMBER;
+if (!issueNumber || issueNumber === '') {
+  core.info('No issue was created; skipping triage dispatch');
+  return;
+}
+
+const issueNum = parseInt(issueNumber, 10);
+const repo = { owner: context.repo.owner, repo: context.repo.repo };
+
+const { data: issue } = await github.rest.issues.get({ ...repo, issue_number: issueNum });
+if (issue.labels && issue.labels.length > 0) {
+  await github.rest.issues.setLabels({ ...repo, issue_number: issueNum, labels: [] });
+  core.info(`Removed all labels from issue #${issueNum}`);
+}
+
+await github.rest.actions.createWorkflowDispatch({
+  ...repo,
+  workflow_id: 'issue-triage.lock.yml',
+  ref: 'main',
+  inputs: { issue_number: issueNumber }
+});
+core.info(`Dispatched triage for issue #${issueNum}`);
+
+2026-04-09T06:27:56.6134089Z   github-token: ***
+2026-04-09T06:27:56.6134621Z   debug: false
+2026-04-09T06:27:56.6135202Z   user-agent: actions/github-script
+2026-04-09T06:27:56.6135904Z   result-encoding: json
+2026-04-09T06:27:56.6136436Z   retries: 0
+2026-04-09T06:27:56.6137144Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-09T06:27:56.6137925Z env:
+2026-04-09T06:27:56.6138354Z   CREATED_ISSUE_NUMBER: 57980
+2026-04-09T06:27:56.6139376Z   GH_AW_AGENT_OUTPUT: /home/runner/work/_temp/gh-aw/safe-jobs/agent_output.json
+2026-04-09T06:27:56.6140498Z ##[endgroup]
+2026-04-09T06:27:57.9370956Z Dispatched triage for issue #57980
+2026-04-09T06:27:57.9507632Z Cleaning up orphan processes

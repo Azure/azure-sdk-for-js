@@ -1,0 +1,11 @@
+{
+  "pr": 38110,
+  "package": "@azure/arm-azurestackhci",
+  "version": "4.0.1",
+  "apiVersion": "2026-02-01",
+  "reviewedAt": "2026-04-13",
+  "outcome": "clean",
+  "findings": [],
+  "ciStatus": "in_progress (ADO buildId=6142861: Build Build, Build Analyze still running; checkenforcer pending)",
+  "notes": "Patch bump from 4.0.0 to 4.0.1 with same API version 2026-02-01; emitter version updated 0.51.1->0.52.1; serializer fixes (return {} instead of item for read-only models); warp.config.yml restructured; no public API changes (review files unchanged); versions consistent across package.json/context/CHANGELOG."
+}

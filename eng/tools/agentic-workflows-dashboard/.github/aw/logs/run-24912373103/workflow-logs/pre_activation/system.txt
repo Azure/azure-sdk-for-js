@@ -1,0 +1,4 @@
+2026-04-24T21:19:00.3170000Z Evaluating pre_activation.if
+2026-04-24T21:19:00.3170000Z Evaluating: (success() && ((github.event.label.name == 'hero-scenarios-needed')))
+2026-04-24T21:19:00.3170000Z Expanded: (true && ('WaitForARMFeedback' == 'hero-scenarios-needed'))
+2026-04-24T21:19:00.3170000Z Result: false

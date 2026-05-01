@@ -1,0 +1,1 @@
+{"message":"No action needed: The triggering push (90b8d08) is an automated post-release version bump for Azure.ResourceManager.Attestation. The released version (1.0.0-beta.6) contained only dependency upgrades — no new types, methods, or APIs were added or changed. No documentation updates are required.","type":"noop"}

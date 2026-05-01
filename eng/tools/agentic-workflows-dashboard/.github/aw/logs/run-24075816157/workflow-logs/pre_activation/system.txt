@@ -1,0 +1,4 @@
+2026-04-07T10:04:08.1970000Z Evaluating pre_activation.if
+2026-04-07T10:04:08.1970000Z Evaluating: (success() && ((github.event.label.name == 'security-review-needed')))
+2026-04-07T10:04:08.1970000Z Expanded: (true && ('mgmt-review-needed' == 'security-review-needed'))
+2026-04-07T10:04:08.1970000Z Result: false

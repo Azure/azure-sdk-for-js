@@ -1,0 +1,1 @@
+{"integrity":"high","message":"No action needed: The triggering push (941cc979, PR #58324) by @jsquire modified only `.github/` GitHub Actions workflow YAML files (issue-triage.lock.yml, update-samples-and-docs.lock.yml, actions-lock.json, issue-triage.md). No SDK packages, public APIs, or implementation code were changed — no documentation gaps exist.","type":"noop"}

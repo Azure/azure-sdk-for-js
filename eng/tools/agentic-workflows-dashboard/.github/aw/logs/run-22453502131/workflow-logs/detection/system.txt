@@ -1,0 +1,9 @@
+2026-02-26T17:39:17.9120000Z Evaluating detection.if
+2026-02-26T17:39:17.9120000Z Evaluating: (success() && (((needs.agent.outputs.output_types != '') || (needs.agent.outputs.has_patch == 'true'))))
+2026-02-26T17:39:17.9120000Z Expanded: (true && (('noop,create_issue' != '') || (needs.agent.outputs.has_patch == 'true')))
+2026-02-26T17:39:17.9120000Z Result: true
+2026-02-26T17:39:18.3970000Z Requested labels: ubuntu-latest
+2026-02-26T17:39:18.3970000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/docs-consistency-check.lock.yml@refs/heads/aw/issue-instead-of-pr
+2026-02-26T17:39:18.3970000Z Waiting for a runner to pick up this job...
+2026-02-26T17:39:54.9110000Z Job is about to start running on the hosted runner: GitHub Actions 1023904068
+2026-02-26T17:39:54.9110000Z Job is waiting for a hosted runner to come online.

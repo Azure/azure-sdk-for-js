@@ -1,0 +1,10 @@
+2026-04-01T13:58:47.8740000Z Evaluating detection.if
+2026-04-01T13:58:47.8740000Z Evaluating: (always() && (needs.agent.result != 'skipped'))
+2026-04-01T13:58:47.8740000Z Expanded: (true && ('cancelled' != 'skipped'))
+2026-04-01T13:58:47.8740000Z Result: true
+2026-04-01T13:58:47.8780000Z Requested labels: ubuntu-latest
+2026-04-01T13:58:47.8780000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/heads/main
+2026-04-01T13:58:47.8780000Z Waiting for a runner to pick up this job...
+2026-04-01T13:59:01.1370000Z All GitHub-hosted runners with label [ubuntu-latest] are busy. For more information, see https://gh.io/job-concurrency-limits
+2026-04-01T13:59:21.0770000Z Job is waiting for a hosted runner to come online.
+2026-04-01T13:59:21.0770000Z Job is about to start running on the hosted runner: GitHub Actions 1028556524

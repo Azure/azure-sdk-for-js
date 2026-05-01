@@ -1,0 +1,4 @@
+2026-03-25T01:18:09.1740000Z Evaluating pre_activation.if
+2026-03-25T01:18:09.1740000Z Evaluating: (success() && ((github.event.label.name == 'performance-review-needed')))
+2026-03-25T01:18:09.1740000Z Expanded: (true && ('EngSys' == 'performance-review-needed'))
+2026-03-25T01:18:09.1740000Z Result: false

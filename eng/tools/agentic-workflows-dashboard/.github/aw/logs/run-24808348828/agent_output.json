@@ -1,0 +1,1 @@
+{"items":[{"message":"No action needed: The triggering push (commit 1c710ae, PR #58527 by `@m-nash`) only modified .github/CODEOWNERS to add `@Azure/azure-sdk-write-net-core` as an owner for the extensions package. This is a pure infrastructure/ownership change with no code, API, or user-facing changes that require documentation updates.","type":"noop"}],"errors":[]}

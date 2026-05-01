@@ -1,0 +1,4 @@
+2026-04-11T06:45:06.2400000Z Evaluating activation.if
+2026-04-11T06:45:06.2400000Z Evaluating: (success() && (((needs.pre_activation.outputs.activated == 'true') && (((((github.event.label.name == 'security-review-needed') && (github.event.pull_request.head.repo.fork == false))) && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id))))))))
+2026-04-11T06:45:06.2400000Z Expanded: (false && ((needs.pre_activation.outputs.activated == 'true') && (((github.event.label.name == 'security-review-needed') && (github.event.pull_request.head.repo.fork == false)) && ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)))))
+2026-04-11T06:45:06.2400000Z Result: false

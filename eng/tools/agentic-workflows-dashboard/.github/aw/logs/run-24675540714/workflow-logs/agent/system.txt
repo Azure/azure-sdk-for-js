@@ -1,0 +1,8 @@
+2026-04-20T15:36:59.8250000Z Requested labels: ubuntu-latest
+2026-04-20T15:36:59.8250000Z Job defined at: Azure/azure-rest-api-specs/.github/workflows/sdk-generation-agent.lock.yml@refs/heads/main
+2026-04-20T15:36:59.8250000Z Waiting for a runner to pick up this job...
+2026-04-20T15:36:59.8210000Z Evaluating agent.if
+2026-04-20T15:36:59.8210000Z Evaluating: success()
+2026-04-20T15:36:59.8210000Z Result: true
+2026-04-20T15:37:04.2380000Z Job is waiting for a hosted runner to come online.
+2026-04-20T15:37:04.2390000Z Job is about to start running on the hosted runner: GitHub Actions 1031458487

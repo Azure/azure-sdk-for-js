@@ -1,0 +1,145 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 22457016293,
+  "processed_at": "2026-04-27T02:59:17.113971495Z",
+  "run": {
+    "databaseId": 22457016293,
+    "number": 3,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/22457016293",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Documentation Consistency Check",
+    "workflowPath": ".github/workflows/docs-consistency-check.lock.yml",
+    "createdAt": "2026-02-26T19:06:39Z",
+    "startedAt": "2026-02-26T19:06:39Z",
+    "updatedAt": "2026-02-26T19:11:57Z",
+    "event": "workflow_dispatch",
+    "headBranch": "aw/issue-instead-of-pr",
+    "headSha": "c99722cf9c8c86ffe2bcad75bb33224001859b7e",
+    "displayTitle": "Documentation Consistency Check",
+    "Duration": 318000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 3,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-22457016293"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "moderate",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": {
+    "allowed_domains": [
+      "api.githubcopilot.com:443"
+    ],
+    "total_requests": 18,
+    "allowed_requests": 18,
+    "blocked_requests": 0,
+    "requests_by_domain": {
+      "api.githubcopilot.com:443": {
+        "allowed": 18,
+        "blocked": 0
+      }
+    }
+  },
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "agent-stdio.log",
+    "aw-prompts/prompt.txt",
+    "aw_info.json",
+    "mcp-logs/gateway.md",
+    "mcp-logs/github.log",
+    "mcp-logs/mcp-gateway.log",
+    "mcp-logs/rpc-messages.jsonl",
+    "mcp-logs/safeoutputs/server.log",
+    "mcp-logs/safeoutputs.log",
+    "mcp-logs/start-gateway.log",
+    "mcp-logs/stderr.log",
+    "mcp-logs/tools.json",
+    "sandbox/firewall/logs/access.log",
+    "sandbox/firewall/logs/cache.log",
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/3_agent.txt",
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-26T19:07:11Z",
+      "completed_at": "2026-02-26T19:07:33Z",
+      "Duration": 22000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-02-26T19:08:00Z",
+      "completed_at": "2026-02-26T19:11:07Z",
+      "Duration": 187000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-02-26T19:11:08Z",
+      "completed_at": "2026-02-26T19:11:08Z",
+      "Duration": 0
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-02-26T19:11:08Z",
+      "completed_at": "2026-02-26T19:11:08Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-02-26T19:11:31Z",
+      "completed_at": "2026-02-26T19:11:56Z",
+      "Duration": 25000000000
+    }
+  ]
+}

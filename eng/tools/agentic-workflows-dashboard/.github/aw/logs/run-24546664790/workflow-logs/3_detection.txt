@@ -1,0 +1,1241 @@
+﻿2026-04-17T03:53:38.5874935Z Current runner version: '2.333.1'
+2026-04-17T03:53:38.5902420Z ##[group]Runner Image Provisioner
+2026-04-17T03:53:38.5903375Z Hosted Compute Agent
+2026-04-17T03:53:38.5903899Z Version: 20260213.493
+2026-04-17T03:53:38.5904503Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-17T03:53:38.5905304Z Build Date: 2026-02-13T00:28:41Z
+2026-04-17T03:53:38.5905927Z Worker ID: {31bae0a0-0379-4b04-861a-f5bc6ba92a19}
+2026-04-17T03:53:38.5906635Z Azure Region: northcentralus
+2026-04-17T03:53:38.5907271Z ##[endgroup]
+2026-04-17T03:53:38.5908740Z ##[group]Operating System
+2026-04-17T03:53:38.5909374Z Ubuntu
+2026-04-17T03:53:38.5910367Z 24.04.4
+2026-04-17T03:53:38.5910934Z LTS
+2026-04-17T03:53:38.5911386Z ##[endgroup]
+2026-04-17T03:53:38.5911894Z ##[group]Runner Image
+2026-04-17T03:53:38.5912478Z Image: ubuntu-24.04
+2026-04-17T03:53:38.5912949Z Version: 20260406.80.1
+2026-04-17T03:53:38.5914262Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260406.80/images/ubuntu/Ubuntu2404-Readme.md
+2026-04-17T03:53:38.5915662Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260406.80
+2026-04-17T03:53:38.5916595Z ##[endgroup]
+2026-04-17T03:53:38.5917633Z ##[group]GITHUB_TOKEN Permissions
+2026-04-17T03:53:38.5920483Z Contents: read
+2026-04-17T03:53:38.5921057Z Metadata: read
+2026-04-17T03:53:38.5921574Z ##[endgroup]
+2026-04-17T03:53:38.5924020Z Secret source: Actions
+2026-04-17T03:53:38.5924810Z Prepare workflow directory
+2026-04-17T03:53:38.6305124Z Prepare all required actions
+2026-04-17T03:53:38.6348678Z Getting action download info
+2026-04-17T03:53:39.1273269Z Download action repository 'github/gh-aw-actions@2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc' (SHA:2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc)
+2026-04-17T03:53:39.7453451Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-17T03:53:40.2447948Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-17T03:53:40.2966995Z Download action repository 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3' (SHA:3a2844b7e9c422d3c10d287c895573f7108da1b3)
+2026-04-17T03:53:40.7742767Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-17T03:53:41.0771849Z Complete job name: detection
+2026-04-17T03:53:41.1722653Z ##[group]Run github/gh-aw-actions/setup@2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc
+2026-04-17T03:53:41.1724542Z with:
+2026-04-17T03:53:41.1725430Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-17T03:53:41.1726558Z   job-name: detection
+2026-04-17T03:53:41.1727437Z   trace-id: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:41.1728492Z   safe-output-artifact-client: false
+2026-04-17T03:53:41.1730080Z ##[endgroup]
+2026-04-17T03:53:42.3054299Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-17T03:53:42.4694544Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-17T03:53:42.5598824Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-17T03:53:42.5686800Z [otlp] INPUT_TRACE_ID=a23708b8544fce937f060d0266747e84 (will reuse activation trace)
+2026-04-17T03:53:42.5688768Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-17T03:53:42.5697992Z [otlp] resolved trace-id=a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:42.5699298Z [otlp] trace-id=a23708b8544fce937f060d0266747e84 written to GITHUB_OUTPUT
+2026-04-17T03:53:42.5700810Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-17T03:53:42.5701716Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-17T03:53:42.5704246Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-17T03:53:42.5998006Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-17T03:53:42.5998475Z with:
+2026-04-17T03:53:42.5998944Z   name: agent
+2026-04-17T03:53:42.5999145Z   path: /tmp/gh-aw/
+2026-04-17T03:53:42.5999357Z   merge-multiple: false
+2026-04-17T03:53:42.5999596Z   repository: Azure/azure-sdk-for-net
+2026-04-17T03:53:42.6000236Z   run-id: 24546664790
+2026-04-17T03:53:42.6000481Z   skip-decompress: false
+2026-04-17T03:53:42.6000705Z   digest-mismatch: error
+2026-04-17T03:53:42.6000906Z env:
+2026-04-17T03:53:42.6005363Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:42.6010331Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:42.6010704Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:42.6011011Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:42.6011262Z ##[endgroup]
+2026-04-17T03:53:42.7489018Z Downloading single artifact
+2026-04-17T03:53:42.8720021Z Preparing to download the following artifacts:
+2026-04-17T03:53:42.8721409Z - agent (ID: 6488393799, Size: 147429, Expected Digest: sha256:238caca3b387b021494a460e675a7cad4bb32dcc1551606e27c8d8d2bbe57df4)
+2026-04-17T03:53:43.0625121Z Redirecting to blob download url: https://productionresultssa8.blob.core.windows.net/actions-results/3a7ae1ce-d0bb-4df5-8436-9abfe84deaa8/workflow-job-run-8e24a510-dc27-5307-8891-fa0cb456265d/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-17T03:53:43.0626466Z Starting download of artifact to: /tmp/gh-aw
+2026-04-17T03:53:43.2007535Z (node:3021) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-17T03:53:43.2008921Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-17T03:53:43.2849183Z SHA256 digest of downloaded artifact is 238caca3b387b021494a460e675a7cad4bb32dcc1551606e27c8d8d2bbe57df4
+2026-04-17T03:53:43.2850157Z Artifact download completed successfully.
+2026-04-17T03:53:43.2850487Z Total of 1 artifact(s) downloaded
+2026-04-17T03:53:43.2854461Z Download artifact has finished successfully
+2026-04-17T03:53:43.2994620Z ##[group]Run mkdir -p /tmp/gh-aw/
+2026-04-17T03:53:43.2995066Z [36;1mmkdir -p /tmp/gh-aw/[0m
+2026-04-17T03:53:43.2995375Z [36;1mfind "/tmp/gh-aw/" -type f -print[0m
+2026-04-17T03:53:43.2995821Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-17T03:53:43.3021896Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:43.3022192Z env:
+2026-04-17T03:53:43.3026675Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:43.3032021Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:43.3032391Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:43.3032701Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:43.3032966Z ##[endgroup]
+2026-04-17T03:53:43.3132651Z /tmp/gh-aw/agent_output.json
+2026-04-17T03:53:43.3133241Z /tmp/gh-aw/agent_usage.json
+2026-04-17T03:53:43.3133575Z /tmp/gh-aw/safeoutputs.jsonl
+2026-04-17T03:53:43.3133901Z /tmp/gh-aw/github_rate_limits.jsonl
+2026-04-17T03:53:43.3134359Z /tmp/gh-aw/sandbox/agent/logs/process-1776397869215-165.log
+2026-04-17T03:53:43.3134743Z /tmp/gh-aw/agent-stdio.log
+2026-04-17T03:53:43.3135018Z /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:53:43.3135344Z /tmp/gh-aw/mcp-logs/safeoutputs.log
+2026-04-17T03:53:43.3135709Z /tmp/gh-aw/mcp-logs/github.log
+2026-04-17T03:53:43.3136104Z /tmp/gh-aw/mcp-logs/stderr.log
+2026-04-17T03:53:43.3136803Z /tmp/gh-aw/mcp-logs/rpc-messages.jsonl
+2026-04-17T03:53:43.3137293Z /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026-04-17T03:53:43.3137774Z /tmp/gh-aw/mcp-logs/start-gateway.log
+2026-04-17T03:53:43.3138253Z /tmp/gh-aw/mcp-logs/gateway.md
+2026-04-17T03:53:43.3138619Z /tmp/gh-aw/mcp-logs/tools.json
+2026-04-17T03:53:43.3138932Z /tmp/gh-aw/mcp-logs/safeoutputs/server.log
+2026-04-17T03:53:43.3182905Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/download_docker_images.sh" ghcr.io/github/gh-aw-firewall/agent:0.25.18 ghcr.io/github/gh-aw-firewall/api-proxy:0.25.18 ghcr.io/github/gh-aw-firewall/squid:0.25.18
+2026-04-17T03:53:43.3184490Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/download_docker_images.sh" ghcr.io/github/gh-aw-firewall/agent:0.25.18 ghcr.io/github/gh-aw-firewall/api-proxy:0.25.18 ghcr.io/github/gh-aw-firewall/squid:0.25.18[0m
+2026-04-17T03:53:43.3205934Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:43.3206200Z env:
+2026-04-17T03:53:43.3210883Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:43.3215888Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:43.3216254Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:43.3216570Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:43.3216832Z ##[endgroup]
+2026-04-17T03:53:43.3278205Z Starting download of 3 image(s) with max 4 concurrent downloads...
+2026-04-17T03:53:43.3523982Z Attempt 1 of 3: Pulling ghcr.io/github/gh-aw-firewall/squid:0.25.18...
+2026-04-17T03:53:43.3525055Z Attempt 1 of 3: Pulling ghcr.io/github/gh-aw-firewall/agent:0.25.18...
+2026-04-17T03:53:43.3526048Z Attempt 1 of 3: Pulling ghcr.io/github/gh-aw-firewall/api-proxy:0.25.18...
+2026-04-17T03:53:43.7714770Z ghcr.io/github/gh-aw-firewall/squid:0.25.18
+2026-04-17T03:53:43.7730066Z Successfully pulled ghcr.io/github/gh-aw-firewall/squid:0.25.18
+2026-04-17T03:53:45.1587702Z ghcr.io/github/gh-aw-firewall/api-proxy:0.25.18
+2026-04-17T03:53:45.1603049Z Successfully pulled ghcr.io/github/gh-aw-firewall/api-proxy:0.25.18
+2026-04-17T03:53:50.8161267Z ghcr.io/github/gh-aw-firewall/agent:0.25.18
+2026-04-17T03:53:50.8177398Z Successfully pulled ghcr.io/github/gh-aw-firewall/agent:0.25.18
+2026-04-17T03:53:50.8183607Z All images downloaded successfully
+2026-04-17T03:53:50.8226847Z ##[group]Run if [[ -n "$OUTPUT_TYPES" || "$HAS_PATCH" == "true" ]]; then
+2026-04-17T03:53:50.8227381Z [36;1mif [[ -n "$OUTPUT_TYPES" || "$HAS_PATCH" == "true" ]]; then[0m
+2026-04-17T03:53:50.8227769Z [36;1m  echo "run_detection=true" >> "$GITHUB_OUTPUT"[0m
+2026-04-17T03:53:50.8228210Z [36;1m  echo "Detection will run: output_types=$OUTPUT_TYPES, has_patch=$HAS_PATCH"[0m
+2026-04-17T03:53:50.8228604Z [36;1melse[0m
+2026-04-17T03:53:50.8228841Z [36;1m  echo "run_detection=false" >> "$GITHUB_OUTPUT"[0m
+2026-04-17T03:53:50.8229238Z [36;1m  echo "Detection skipped: no agent outputs or patches to analyze"[0m
+2026-04-17T03:53:50.8229594Z [36;1mfi[0m
+2026-04-17T03:53:50.8251412Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:50.8251682Z env:
+2026-04-17T03:53:50.8256101Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:50.8261315Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:50.8261704Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:50.8262012Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:50.8262324Z   OUTPUT_TYPES: add_labels,mention_owners,add_comment
+2026-04-17T03:53:50.8262615Z   HAS_PATCH: false
+2026-04-17T03:53:50.8262818Z ##[endgroup]
+2026-04-17T03:53:50.8308077Z Detection will run: output_types=add_labels,mention_owners,add_comment, has_patch=false
+2026-04-17T03:53:50.8338611Z ##[group]Run rm -f /tmp/gh-aw/mcp-config/mcp-servers.json
+2026-04-17T03:53:50.8339062Z [36;1mrm -f /tmp/gh-aw/mcp-config/mcp-servers.json[0m
+2026-04-17T03:53:50.8339406Z [36;1mrm -f /home/runner/.copilot/mcp-config.json[0m
+2026-04-17T03:53:50.8340037Z [36;1mrm -f "$GITHUB_WORKSPACE/.gemini/settings.json"[0m
+2026-04-17T03:53:50.8361089Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:50.8361340Z env:
+2026-04-17T03:53:50.8365797Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:50.8370737Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:50.8371096Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:50.8371400Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:50.8371657Z ##[endgroup]
+2026-04-17T03:53:50.8474003Z ##[group]Run mkdir -p /tmp/gh-aw/threat-detection/aw-prompts
+2026-04-17T03:53:50.8474550Z [36;1mmkdir -p /tmp/gh-aw/threat-detection/aw-prompts[0m
+2026-04-17T03:53:50.8475137Z [36;1mcp /tmp/gh-aw/aw-prompts/prompt.txt /tmp/gh-aw/threat-detection/aw-prompts/prompt.txt 2>/dev/null || true[0m
+2026-04-17T03:53:50.8475852Z [36;1mcp /tmp/gh-aw/agent_output.json /tmp/gh-aw/threat-detection/agent_output.json 2>/dev/null || true[0m
+2026-04-17T03:53:50.8476356Z [36;1mfor f in /tmp/gh-aw/aw-*.patch; do[0m
+2026-04-17T03:53:50.8476710Z [36;1m  [ -f "$f" ] && cp "$f" /tmp/gh-aw/threat-detection/ 2>/dev/null || true[0m
+2026-04-17T03:53:50.8477065Z [36;1mdone[0m
+2026-04-17T03:53:50.8477459Z [36;1mfor f in /tmp/gh-aw/aw-*.bundle; do[0m
+2026-04-17T03:53:50.8477808Z [36;1m  [ -f "$f" ] && cp "$f" /tmp/gh-aw/threat-detection/ 2>/dev/null || true[0m
+2026-04-17T03:53:50.8478144Z [36;1mdone[0m
+2026-04-17T03:53:50.8478367Z [36;1mecho "Prepared threat detection files:"[0m
+2026-04-17T03:53:50.8478766Z [36;1mls -la /tmp/gh-aw/threat-detection/ 2>/dev/null || true[0m
+2026-04-17T03:53:50.8499224Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:50.8499467Z env:
+2026-04-17T03:53:50.8504148Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:50.8508727Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:50.8509067Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:50.8509366Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:50.8509845Z ##[endgroup]
+2026-04-17T03:53:50.8599506Z Prepared threat detection files:
+2026-04-17T03:53:50.8613264Z total 16
+2026-04-17T03:53:50.8613636Z drwxr-xr-x 3 runner runner 4096 Apr 17 03:53 .
+2026-04-17T03:53:50.8614012Z drwxr-xr-x 6 runner runner 4096 Apr 17 03:53 ..
+2026-04-17T03:53:50.8614413Z -rw-r--r-- 1 runner runner 3503 Apr 17 03:53 agent_output.json
+2026-04-17T03:53:50.8614832Z drwxr-xr-x 2 runner runner 4096 Apr 17 03:53 aw-prompts
+2026-04-17T03:53:50.8690969Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-17T03:53:50.8691399Z with:
+2026-04-17T03:53:50.8692360Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/setup_threat_detection.cjs');
+await main();
+
+2026-04-17T03:53:50.8693589Z   github-token: ***
+2026-04-17T03:53:50.8693804Z   debug: false
+2026-04-17T03:53:50.8694019Z   user-agent: actions/github-script
+2026-04-17T03:53:50.8694292Z   result-encoding: json
+2026-04-17T03:53:50.8694497Z   retries: 0
+2026-04-17T03:53:50.8694724Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-17T03:53:50.8695003Z env:
+2026-04-17T03:53:50.8699308Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:50.8704477Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:50.8704830Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:50.8705133Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:50.8705396Z   WORKFLOW_NAME: Agentic Triage
+2026-04-17T03:53:50.8706715Z   WORKFLOW_DESCRIPTION: Intelligent issue triage assistant that processes new issues
+Analyzes issue content, evaluates whether the author is a customer,
+predicts labels, looks up owners from CODEOWNERS, and provides
+analysis notes including debugging strategies and resource links
+Implements the initial issue triage rules for the Azure SDK repository
+2026-04-17T03:53:50.8708046Z   HAS_PATCH: false
+2026-04-17T03:53:50.8708246Z ##[endgroup]
+2026-04-17T03:53:50.9661245Z Prompt file found: /tmp/gh-aw/threat-detection/aw-prompts/prompt.txt (28914 bytes)
+2026-04-17T03:53:50.9662891Z Agent output file found: /tmp/gh-aw/threat-detection/agent_output.json (3503 bytes)
+2026-04-17T03:53:50.9688900Z Threat detection setup completed
+2026-04-17T03:53:50.9810710Z ##[group]Run mkdir -p /tmp/gh-aw/threat-detection
+2026-04-17T03:53:50.9811166Z [36;1mmkdir -p /tmp/gh-aw/threat-detection[0m
+2026-04-17T03:53:50.9811520Z [36;1mtouch /tmp/gh-aw/threat-detection/detection.log[0m
+2026-04-17T03:53:50.9832524Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:50.9832778Z env:
+2026-04-17T03:53:50.9837072Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:50.9852124Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:50.9852506Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:50.9852808Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:50.9853119Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:53:50.9853404Z ##[endgroup]
+2026-04-17T03:53:50.9951480Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/install_copilot_cli.sh" 1.0.21
+2026-04-17T03:53:50.9952070Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/install_copilot_cli.sh" 1.0.21[0m
+2026-04-17T03:53:50.9973173Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:50.9973430Z env:
+2026-04-17T03:53:50.9977794Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:50.9982620Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:50.9982980Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:50.9983273Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:50.9983577Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:53:50.9983856Z   GH_HOST: github.com
+2026-04-17T03:53:50.9984059Z ##[endgroup]
+2026-04-17T03:53:51.0045182Z Ensuring correct ownership of /home/runner/.copilot...
+2026-04-17T03:53:51.0180946Z Installing GitHub Copilot CLI version v1.0.21 (os: Linux, arch: x86_64)...
+2026-04-17T03:53:51.0195088Z Downloading checksums from https://github.com/github/copilot-cli/releases/download/v1.0.21/SHA256SUMS.txt...
+2026-04-17T03:53:51.1216829Z Downloading binary from https://github.com/github/copilot-cli/releases/download/v1.0.21/copilot-linux-x64.tar.gz...
+2026-04-17T03:53:51.4211844Z Verifying SHA256 checksum for copilot-linux-x64.tar.gz...
+2026-04-17T03:53:51.4722613Z ✓ Checksum verification passed for copilot-linux-x64.tar.gz
+2026-04-17T03:53:51.4723827Z Installing binary to /usr/local/bin...
+2026-04-17T03:53:52.3747641Z Verifying Copilot CLI installation...
+2026-04-17T03:53:53.9748682Z GitHub Copilot CLI 1.0.21.
+2026-04-17T03:53:53.9749250Z Run 'copilot update' to check for updates.
+2026-04-17T03:53:54.0021697Z ✓ Copilot CLI installation complete
+2026-04-17T03:53:54.0161553Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/install_awf_binary.sh" v0.25.18
+2026-04-17T03:53:54.0162164Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/install_awf_binary.sh" v0.25.18[0m
+2026-04-17T03:53:54.0205101Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:54.0205399Z env:
+2026-04-17T03:53:54.0209883Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:54.0214673Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:54.0215036Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:54.0215337Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:54.0215626Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:53:54.0215901Z ##[endgroup]
+2026-04-17T03:53:54.0302456Z Installing awf with checksum verification (version: v0.25.18, os: Linux, arch: x86_64)
+2026-04-17T03:53:54.0316789Z Downloading checksums from 'https://github.com/github/gh-aw-firewall/releases/download/v0.25.18/checksums.txt'...
+2026-04-17T03:53:54.2281491Z Node.js >= 20 detected (v20.20.2), using lightweight bundle...
+2026-04-17T03:53:54.2282641Z Downloading bundle from 'https://github.com/github/gh-aw-firewall/releases/download/v0.25.18/awf-bundle.js'...
+2026-04-17T03:53:54.4065059Z Verifying SHA256 checksum for awf-bundle.js...
+2026-04-17T03:53:54.4128999Z ✓ Checksum verification passed for awf-bundle.js
+2026-04-17T03:53:54.4459873Z ✓ Installed awf bundle to /usr/local/lib/awf/awf-bundle.js
+2026-04-17T03:53:54.5233357Z 0.25.18
+2026-04-17T03:53:54.5278813Z ✓ AWF installation complete
+2026-04-17T03:53:54.5347312Z ##[group]Run set -o pipefail
+2026-04-17T03:53:54.5347659Z [36;1mset -o pipefail[0m
+2026-04-17T03:53:54.5347931Z [36;1mtouch /tmp/gh-aw/agent-step-summary.md[0m
+2026-04-17T03:53:54.5348317Z [36;1m(umask 177 && touch /tmp/gh-aw/threat-detection/detection.log)[0m
+2026-04-17T03:53:54.5348712Z [36;1m# shellcheck disable=SC1003[0m
+2026-04-17T03:53:54.5351923Z [36;1msudo -E awf --container-workdir "${GITHUB_WORKSPACE}" --mount "${RUNNER_TEMP}/gh-aw:${RUNNER_TEMP}/gh-aw:ro" --mount "${RUNNER_TEMP}/gh-aw:/host${RUNNER_TEMP}/gh-aw:ro" --env-all --exclude-env COPILOT_GITHUB_TOKEN --allow-domains api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,github.com,host.docker.internal,telemetry.enterprise.githubcopilot.com --log-level info --proxy-logs-dir /tmp/gh-aw/sandbox/firewall/logs --audit-dir /tmp/gh-aw/sandbox/firewall/audit --enable-host-access --image-tag 0.25.18 --skip-pull --enable-api-proxy \[0m
+2026-04-17T03:53:54.5355543Z [36;1m  -- /bin/bash -c 'node ${RUNNER_TEMP}/gh-aw/actions/copilot_driver.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --allow-all-tools --add-dir "${GITHUB_WORKSPACE}" --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"' 2>&1 | tee -a /tmp/gh-aw/threat-detection/detection.log[0m
+2026-04-17T03:53:54.5378225Z shell: /usr/bin/bash -e {0}
+2026-04-17T03:53:54.5378453Z env:
+2026-04-17T03:53:54.5382949Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:53:54.5387426Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:53:54.5387761Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:53:54.5388054Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:53:54.5388350Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:53:54.5388657Z   COPILOT_AGENT_RUNNER_TYPE: STANDALONE
+2026-04-17T03:53:54.5390254Z   COPILOT_GITHUB_TOKEN: ***
+2026-04-17T03:53:54.5390534Z   COPILOT_MODEL: 
+2026-04-17T03:53:54.5390750Z   GH_AW_PHASE: detection
+2026-04-17T03:53:54.5390969Z   GH_AW_VERSION: v0.68.1
+2026-04-17T03:53:54.5391205Z   GITHUB_API_URL: https://api.github.com
+2026-04-17T03:53:54.5391481Z   GITHUB_AW: true
+2026-04-17T03:53:54.5391674Z   GITHUB_HEAD_REF: 
+2026-04-17T03:53:54.5391863Z   GITHUB_REF_NAME: main
+2026-04-17T03:53:54.5392095Z   GITHUB_SERVER_URL: https://github.com
+2026-04-17T03:53:54.5392732Z   GITHUB_STEP_SUMMARY: /tmp/gh-aw/agent-step-summary.md
+2026-04-17T03:53:54.5393167Z   GITHUB_WORKSPACE: /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-17T03:53:54.5393616Z   GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+2026-04-17T03:53:54.5393953Z   GIT_AUTHOR_NAME: github-actions[bot]
+2026-04-17T03:53:54.5394309Z   GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+2026-04-17T03:53:54.5394673Z   GIT_COMMITTER_NAME: github-actions[bot]
+2026-04-17T03:53:54.5394942Z   XDG_CONFIG_HOME: /home/runner
+2026-04-17T03:53:54.5395168Z ##[endgroup]
+2026-04-17T03:53:54.6204875Z [INFO] Auto-detected DNS servers from /run/systemd/resolve/resolv.conf: 168.63.129.16
+2026-04-17T03:53:54.6213961Z [WARN] ⚠️  Using --env-all: All host environment variables will be passed to container
+2026-04-17T03:53:54.6214881Z [WARN]    This may expose sensitive credentials if logs or configs are shared
+2026-04-17T03:53:54.6216018Z [WARN] ⚠️  Host access enabled with host.docker.internal in allowed domains
+2026-04-17T03:53:54.6216772Z [WARN]    Containers can access ANY service running on the host machine
+2026-04-17T03:53:54.6217526Z [WARN]    Only use this for trusted workloads (e.g., MCP gateways)
+2026-04-17T03:53:54.6218134Z [INFO] API proxy enabled: OpenAI=false, Anthropic=false, Copilot=true, Gemini=false
+2026-04-17T03:53:54.6225253Z [INFO] Allowed domains: api.business.githubcopilot.com, api.enterprise.githubcopilot.com, api.github.com, api.githubcopilot.com, api.individual.githubcopilot.com, github.com, host.docker.internal, telemetry.enterprise.githubcopilot.com
+2026-04-17T03:53:54.6227747Z [INFO] Setting up host-level firewall network and iptables rules...
+2026-04-17T03:53:54.7045161Z [SUCCESS] Created network 'awf-net' with bridge 'fw-bridge'
+2026-04-17T03:53:54.7050688Z [INFO] Setting up host-level iptables rules...
+2026-04-17T03:53:54.8012938Z [INFO] Host access enabled: allowing traffic to gateway IPs 172.30.0.1, 172.17.0.1 on ports 80, 443
+2026-04-17T03:53:54.8551667Z [SUCCESS] Host-level iptables rules configured successfully
+2026-04-17T03:53:54.8611997Z [INFO] Generating configuration files...
+2026-04-17T03:53:54.9847389Z [WARN] --enable-api-proxy is active but GEMINI_API_KEY is not set.
+2026-04-17T03:53:54.9848595Z [WARN]    The api-proxy Gemini listener (port 10003) will start in fallback mode and return 503 responses until GEMINI_API_KEY is set.
+2026-04-17T03:53:54.9850203Z [WARN]    Set GEMINI_API_KEY in the AWF runner environment to enable Gemini credential isolation.
+2026-04-17T03:53:54.9851278Z [INFO] API proxy sidecar enabled - API keys will be held securely in sidecar container
+2026-04-17T03:53:54.9852155Z [INFO] API proxy will route through Squid to respect domain whitelisting
+2026-04-17T03:53:55.0076905Z [INFO] Starting containers...
+2026-04-17T03:53:55.2112496Z  Container awf-squid  Creating
+2026-04-17T03:53:55.2113162Z  Container awf-api-proxy  Creating
+2026-04-17T03:53:55.5205750Z  Container awf-api-proxy  Created
+2026-04-17T03:53:55.5939988Z  Container awf-squid  Created
+2026-04-17T03:53:55.5940976Z  Container awf-agent  Creating
+2026-04-17T03:53:55.6191024Z  Container awf-agent  Created
+2026-04-17T03:53:55.6191494Z  Container awf-iptables-init  Creating
+2026-04-17T03:53:55.6306666Z  Container awf-iptables-init  Created
+2026-04-17T03:53:55.6320233Z  Container awf-squid  Starting
+2026-04-17T03:53:55.6322529Z  Container awf-api-proxy  Starting
+2026-04-17T03:53:55.8433308Z  Container awf-api-proxy  Started
+2026-04-17T03:53:55.9784267Z  Container awf-squid  Started
+2026-04-17T03:53:55.9784760Z  Container awf-api-proxy  Waiting
+2026-04-17T03:53:55.9785046Z  Container awf-squid  Waiting
+2026-04-17T03:54:01.4800611Z  Container awf-api-proxy  Healthy
+2026-04-17T03:54:01.4801203Z  Container awf-squid  Healthy
+2026-04-17T03:54:01.4801670Z  Container awf-agent  Starting
+2026-04-17T03:54:01.6236223Z  Container awf-agent  Started
+2026-04-17T03:54:01.6236737Z  Container awf-agent  Waiting
+2026-04-17T03:54:07.1253424Z  Container awf-agent  Healthy
+2026-04-17T03:54:07.1254154Z  Container awf-iptables-init  Starting
+2026-04-17T03:54:07.2053726Z  Container awf-iptables-init  Started
+2026-04-17T03:54:07.2092506Z [SUCCESS] Containers started successfully
+2026-04-17T03:54:07.2099347Z [INFO] Executing agent command...
+2026-04-17T03:54:07.2276479Z [entrypoint] Agentic Workflow Firewall - Agent Container
+2026-04-17T03:54:07.2277150Z [entrypoint] ==================================
+2026-04-17T03:54:07.2277973Z [entrypoint] Adjusting awfuser UID:GID from 1000:1000 to 1001:1001
+2026-04-17T03:54:07.2278717Z [entrypoint] UID/GID adjustment complete
+2026-04-17T03:54:07.2279182Z [entrypoint] Configuring DNS...
+2026-04-17T03:54:07.2279975Z [entrypoint] DNS configured with Docker embedded DNS (127.0.0.11) only
+2026-04-17T03:54:07.2280452Z [entrypoint] Waiting for iptables initialization from init container...
+2026-04-17T03:54:07.5013941Z [entrypoint] iptables initialization complete
+2026-04-17T03:54:07.5037061Z [health-check] API Proxy Pre-flight Check
+2026-04-17T03:54:07.5037714Z [health-check] ==========================================
+2026-04-17T03:54:07.5045886Z [health-check] Checking GitHub Copilot API proxy configuration...
+2026-04-17T03:54:07.5047093Z [health-check] COPILOT_API_URL=http://172.30.0.30:10002
+2026-04-17T03:54:07.5048266Z [health-check] ✓ COPILOT_GITHUB_TOKEN is placeholder value (correct)
+2026-04-17T03:54:07.5049060Z [health-check] ✓ COPILOT_TOKEN is placeholder value (correct)
+2026-04-17T03:54:07.5050344Z [health-check] Testing connectivity to GitHub Copilot API proxy at http://172.30.0.30:10002...
+2026-04-17T03:54:07.5507088Z [health-check] ✓ GitHub Copilot API proxy is reachable at http://172.30.0.30:10002
+2026-04-17T03:54:07.5527972Z [health-check] ==========================================
+2026-04-17T03:54:07.5529149Z [health-check] ✓ All API proxy health checks passed
+2026-04-17T03:54:07.5530302Z [health-check] ✓ Credential isolation verified
+2026-04-17T03:54:07.5530912Z [health-check] ✓ Connectivity established
+2026-04-17T03:54:07.5531369Z [health-check] ==========================================
+2026-04-17T03:54:07.5531834Z [entrypoint] Pre-seeding JVM build tool proxy configuration (squid-proxy:3128)...
+2026-04-17T03:54:07.5668904Z [entrypoint] ✓ Created Maven proxy config (/host/home/runner/.m2/settings.xml)
+2026-04-17T03:54:07.5708532Z [entrypoint] ✓ Created Gradle proxy config (/host/home/runner/.gradle/gradle.properties)
+2026-04-17T03:54:07.5730488Z [entrypoint] ✓ Set JAVA_TOOL_OPTIONS with proxy and nonProxyHosts flags
+2026-04-17T03:54:07.5731123Z [entrypoint] Proxy configuration:
+2026-04-17T03:54:07.5731636Z [entrypoint]   HTTP_PROXY=http://172.30.0.10:3128
+2026-04-17T03:54:07.5732241Z [entrypoint]   HTTPS_PROXY=http://172.30.0.10:3128
+2026-04-17T03:54:07.5732663Z [entrypoint] Network information:
+2026-04-17T03:54:07.5836445Z [entrypoint]   IP address: 172.30.0.20 
+2026-04-17T03:54:07.5848344Z [entrypoint]   Hostname: 3cbdb8737672
+2026-04-17T03:54:07.8105400Z [entrypoint] ==================================
+2026-04-17T03:54:07.8105989Z [entrypoint] Chroot mode enabled - dropping CAP_SYS_CHROOT and CAP_SYS_ADMIN
+2026-04-17T03:54:07.8145459Z [entrypoint] Switching to awfuser (UID: 1001, GID: 1001)
+2026-04-17T03:54:07.8148168Z [entrypoint] Executing command: /bin/bash -c /bin/bash -c 'node ${RUNNER_TEMP}/gh-aw/actions/copilot_driver.cjs /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --allow-all-tools --add-dir "${GITHUB_WORKSPACE}" --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"'
+2026-04-17T03:54:07.8150917Z 
+2026-04-17T03:54:07.8155667Z [entrypoint] Chroot mode: running command inside host filesystem (/host)
+2026-04-17T03:54:07.8546098Z [entrypoint] Mounted procfs at /host/proc (nosuid,nodev,noexec)
+2026-04-17T03:54:07.8577285Z [entrypoint] One-shot token library copied to chroot at /tmp/awf-lib/one-shot-token.so
+2026-04-17T03:54:07.8700726Z [entrypoint] DNS configuration created in chroot (/host/etc/resolv.conf)
+2026-04-17T03:54:07.8860102Z [entrypoint] Chroot working directory: /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-17T03:54:07.8891369Z [entrypoint] Running as host user: runner (UID: 1001)
+2026-04-17T03:54:07.8891950Z [entrypoint] Using host PATH for chroot
+2026-04-17T03:54:07.8904356Z [entrypoint] Adding JAVA_HOME/bin to PATH: /usr/lib/jvm/temurin-17-jdk-amd64/bin
+2026-04-17T03:54:07.9003424Z [entrypoint] DNS configuration will be removed on exit
+2026-04-17T03:54:07.9024985Z [entrypoint] Transferred /host/tmp/gh-aw ownership to chroot user (1001:1001)
+2026-04-17T03:54:08.0181190Z [copilot-driver] 2026-04-17T03:54:07.938Z starting: command=/usr/local/bin/copilot maxRetries=3 initialDelayMs=5000 backoffMultiplier=2 maxDelayMs=60000 nodeVersion=v20.20.2 platform=linux
+2026-04-17T03:54:08.0196921Z [copilot-driver] 2026-04-17T03:54:08.019Z pre-flight: command is accessible and executable: /usr/local/bin/copilot
+2026-04-17T03:54:08.0200810Z [copilot-driver] 2026-04-17T03:54:08.019Z attempt 1: spawning: /usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --disable-builtin-mcps --allow-all-tools --add-dir /home/runner/work/azure-sdk-for-net/azure-sdk-for-net --prompt <redacted>
+2026-04-17T03:54:08.0233576Z [copilot-driver] 2026-04-17T03:54:08.022Z attempt 1: process started (pid=151)
+2026-04-17T03:54:12.9042962Z [entrypoint] Unsetting sensitive tokens from parent shell environment...
+2026-04-17T03:54:12.9045351Z [entrypoint] Unset COPILOT_GITHUB_TOKEN from /proc/1/environ
+2026-04-17T03:54:16.4811838Z ● Read agent output and workflow prompt (shell)
+2026-04-17T03:54:16.4812733Z   │ cat /tmp/gh-aw/threat-detection/agent_output.json && echo "---" && cat
+2026-04-17T03:54:16.4813607Z   │ /tmp/gh-aw/threat-detection/aw-prompts/prompt.txt
+2026-04-17T03:54:16.4814192Z   └ 6 lines...
+2026-04-17T03:54:16.4814387Z 
+2026-04-17T03:54:19.9742022Z ● Parse and view agent output JSON (shell)
+2026-04-17T03:54:19.9743415Z   │ cat /tmp/gh-aw/threat-detection/agent_output.json | python3 -m json.tool 2>/dev/null | head -200
+2026-04-17T03:54:19.9744426Z   └ 27 lines...
+2026-04-17T03:54:19.9744640Z 
+2026-04-17T03:54:23.2233412Z The agent output is a standard issue triage result — labeling, owner routing, and a comment with debugging notes. No malicious content, encoded secrets, or prompt injection detected.
+2026-04-17T03:54:23.2234179Z 
+2026-04-17T03:54:23.2258898Z THREAT_DETECTION_RESULT:{"prompt_injection":false,"secret_leak":false,"malicious_patch":false,"reasons":[]}
+2026-04-17T03:54:23.2259787Z 
+2026-04-17T03:54:23.2341210Z 
+2026-04-17T03:54:23.2350379Z Total usage est:        1 Premium request
+2026-04-17T03:54:23.2351150Z API time spent:         9s
+2026-04-17T03:54:23.2351409Z Total session time:     14s
+2026-04-17T03:54:23.2351664Z Total code changes:     +0 -0
+2026-04-17T03:54:23.2351917Z Breakdown by AI model:
+2026-04-17T03:54:23.2352455Z  claude-sonnet-4.6        54.8k in, 368 out, 35.6k cached (Est. 1 Premium request)
+2026-04-17T03:54:23.3495001Z [copilot-driver] 2026-04-17T03:54:23.348Z attempt 1: process exit event exitCode=0
+2026-04-17T03:54:23.3496400Z [copilot-driver] 2026-04-17T03:54:23.348Z attempt 1: process closed exitCode=0 duration=15s stdout=663B stderr=234B hasOutput=true
+2026-04-17T03:54:23.3497303Z [copilot-driver] 2026-04-17T03:54:23.348Z success on attempt 1: totalDuration=15s
+2026-04-17T03:54:23.9413803Z [INFO] Stopping containers...
+2026-04-17T03:54:24.0303783Z  Container awf-iptables-init  Stopping
+2026-04-17T03:54:24.0307367Z  Container awf-iptables-init  Stopped
+2026-04-17T03:54:24.0308038Z  Container awf-iptables-init  Removing
+2026-04-17T03:54:24.0350168Z  Container awf-iptables-init  Removed
+2026-04-17T03:54:24.0351546Z  Container awf-agent  Stopping
+2026-04-17T03:54:24.0355226Z  Container awf-agent  Stopped
+2026-04-17T03:54:24.0355705Z  Container awf-agent  Removing
+2026-04-17T03:54:24.0433327Z  Container awf-agent  Removed
+2026-04-17T03:54:24.0434693Z  Container awf-squid  Stopping
+2026-04-17T03:54:24.0435691Z  Container awf-api-proxy  Stopping
+2026-04-17T03:54:24.1233313Z  Container awf-api-proxy  Stopped
+2026-04-17T03:54:24.1241807Z  Container awf-api-proxy  Removing
+2026-04-17T03:54:24.1303484Z  Container awf-api-proxy  Removed
+2026-04-17T03:54:25.1712605Z  Container awf-squid  Stopped
+2026-04-17T03:54:25.1713141Z  Container awf-squid  Removing
+2026-04-17T03:54:25.1775754Z  Container awf-squid  Removed
+2026-04-17T03:54:25.1816745Z [SUCCESS] Containers stopped successfully
+2026-04-17T03:54:25.2381921Z [INFO] Agent session state preserved at: /tmp/awf-agent-session-state-1776398034615
+2026-04-17T03:54:25.2416412Z [INFO] API proxy logs available at: /tmp/gh-aw/sandbox/firewall/logs/api-proxy-logs
+2026-04-17T03:54:25.2439930Z [INFO] CLI proxy logs available at: /tmp/gh-aw/sandbox/firewall/logs/cli-proxy-logs
+2026-04-17T03:54:25.2462891Z [INFO] Squid logs available at: /tmp/gh-aw/sandbox/firewall/logs
+2026-04-17T03:54:25.2486611Z [INFO] Audit artifacts available at: /tmp/gh-aw/sandbox/firewall/audit
+2026-04-17T03:54:25.2530575Z [SUCCESS] Command completed successfully
+2026-04-17T03:54:25.2531142Z Process exiting with code: 0
+2026-04-17T03:54:25.2634460Z ##[group]Run actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+2026-04-17T03:54:25.2634887Z with:
+2026-04-17T03:54:25.2635067Z   name: detection
+2026-04-17T03:54:25.2635318Z   path: /tmp/gh-aw/threat-detection/detection.log
+2026-04-17T03:54:25.2635622Z   if-no-files-found: ignore
+2026-04-17T03:54:25.2635860Z   compression-level: 6
+2026-04-17T03:54:25.2636335Z   overwrite: false
+2026-04-17T03:54:25.2636549Z   include-hidden-files: false
+2026-04-17T03:54:25.2636771Z   archive: true
+2026-04-17T03:54:25.2636964Z env:
+2026-04-17T03:54:25.2642235Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:54:25.2646790Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:54:25.2647140Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:54:25.2647435Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:54:25.2647743Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:54:25.2648013Z ##[endgroup]
+2026-04-17T03:54:25.4178873Z With the provided path, there will be 1 file uploaded
+2026-04-17T03:54:25.4184627Z Artifact name is valid!
+2026-04-17T03:54:25.4185290Z Root directory input is valid!
+2026-04-17T03:54:25.5588148Z Uploading artifact: detection.zip
+2026-04-17T03:54:25.5638257Z Beginning upload of artifact content to blob storage
+2026-04-17T03:54:25.7404416Z Uploaded bytes 3091
+2026-04-17T03:54:25.7787292Z Finished uploading artifact content to blob storage!
+2026-04-17T03:54:25.7788550Z SHA256 digest of uploaded artifact is 2f78e184121efa54eb998339a948d765deb6234f072d57086935a4c857907676
+2026-04-17T03:54:25.7790054Z Finalizing artifact upload
+2026-04-17T03:54:25.9538028Z Artifact detection successfully finalized. Artifact ID 6488403182
+2026-04-17T03:54:25.9539234Z Artifact detection has been successfully uploaded! Final size is 3091 bytes. Artifact ID is 6488403182
+2026-04-17T03:54:25.9543383Z Artifact download URL: https://github.com/Azure/azure-sdk-for-net/actions/runs/24546664790/artifacts/6488403182
+2026-04-17T03:54:25.9716930Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-17T03:54:25.9717350Z with:
+2026-04-17T03:54:25.9718320Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/parse_threat_detection_results.cjs');
+await main();
+
+2026-04-17T03:54:25.9719591Z   github-token: ***
+2026-04-17T03:54:25.9720180Z   debug: false
+2026-04-17T03:54:25.9720392Z   user-agent: actions/github-script
+2026-04-17T03:54:25.9720653Z   result-encoding: json
+2026-04-17T03:54:25.9720865Z   retries: 0
+2026-04-17T03:54:25.9721089Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-17T03:54:25.9721369Z env:
+2026-04-17T03:54:25.9725611Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-17T03:54:25.9730719Z   GITHUB_AW_OTEL_TRACE_ID: a23708b8544fce937f060d0266747e84
+2026-04-17T03:54:25.9731077Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 8eba20e981b16bdb
+2026-04-17T03:54:25.9731376Z   GITHUB_AW_OTEL_JOB_START_MS: 1776398022570
+2026-04-17T03:54:25.9731685Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-17T03:54:25.9731981Z   RUN_DETECTION: true
+2026-04-17T03:54:25.9732190Z ##[endgroup]
+2026-04-17T03:54:26.0736514Z ════════════════════════════════════════════════════════
+2026-04-17T03:54:26.0737391Z 🛡️  Threat Detection: Parse Results & Conclude
+2026-04-17T03:54:26.0738254Z ════════════════════════════════════════════════════════
+2026-04-17T03:54:26.0738842Z 📋 RUN_DETECTION env: "true"
+2026-04-17T03:54:26.0739524Z 📁 Threat detection directory: /tmp/gh-aw/threat-detection
+2026-04-17T03:54:26.0740711Z 📄 Detection log path: /tmp/gh-aw/threat-detection/detection.log
+2026-04-17T03:54:26.0741624Z 🔍 Detection is required. Proceeding to parse detection log...
+2026-04-17T03:54:26.0742572Z ✔️  Detection log file exists: /tmp/gh-aw/threat-detection/detection.log
+2026-04-17T03:54:26.0743374Z 📊 Detection log stats: 145 lines, 8513 bytes
+2026-04-17T03:54:26.0744081Z 📄 Lines containing THREAT_DETECTION_RESULT (1 of 145):
+2026-04-17T03:54:26.0745090Z    [108] THREAT_DETECTION_RESULT:{"prompt_injection":false,"secret_leak":false,"malicious_patch":false,"reasons":[]}
+2026-04-17T03:54:26.0746253Z 🔎 Parsing THREAT_DETECTION_RESULT from detection log...
+2026-04-17T03:54:26.0747904Z 📋 Threat detection verdict:
+2026-04-17T03:54:26.0749914Z    prompt_injection : false
+2026-04-17T03:54:26.0750426Z    secret_leak      : false
+2026-04-17T03:54:26.0751612Z    malicious_patch  : false
+2026-04-17T03:54:26.0752064Z    reasons          : (none)
+2026-04-17T03:54:26.0752786Z ✅ No security threats detected. Safe outputs may proceed.
+2026-04-17T03:54:26.0756287Z ════════════════════════════════════════════════════════
+2026-04-17T03:54:26.0756993Z 🛡️  Threat detection conclusion complete.
+2026-04-17T03:54:26.0757739Z ════════════════════════════════════════════════════════
+2026-04-17T03:54:26.0872683Z Post job cleanup.
+2026-04-17T03:54:26.1181206Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-17T03:54:26.1198951Z Cleaning up /tmp/gh-aw...
+2026-04-17T03:54:26.1312030Z Cleaned up /tmp/gh-aw
+2026-04-17T03:54:26.1416700Z Evaluate and set job outputs
+2026-04-17T03:54:26.1423299Z Set output 'detection_conclusion'
+2026-04-17T03:54:26.1425059Z Set output 'detection_success'
+2026-04-17T03:54:26.1426645Z Cleaning up orphan processes

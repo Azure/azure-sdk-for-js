@@ -1,0 +1,4 @@
+2026-04-08T02:08:03.5580000Z Evaluating conclusion.if
+2026-04-08T02:08:03.5580000Z Evaluating: (always() && (((needs.agent.result != 'skipped') || (needs.activation.outputs.lockdown_check_failed == 'true'))))
+2026-04-08T02:08:03.5580000Z Expanded: (true && (('skipped' != 'skipped') || (null == 'true')))
+2026-04-08T02:08:03.5580000Z Result: false

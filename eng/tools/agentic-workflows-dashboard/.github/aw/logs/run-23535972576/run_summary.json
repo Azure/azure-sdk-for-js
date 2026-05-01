@@ -1,0 +1,131 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23535972576,
+  "processed_at": "2026-04-27T02:57:02.659417242Z",
+  "run": {
+    "databaseId": 23535972576,
+    "number": 17,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23535972576",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Performance Review",
+    "workflowPath": ".github/workflows/dash.lock.yml",
+    "createdAt": "2026-03-25T10:17:52Z",
+    "startedAt": "2026-03-25T10:17:52Z",
+    "updatedAt": "2026-03-25T10:18:29Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-databoundaries-6061123",
+    "headSha": "5453958592d0d397ef391d3c1918dbe5542063c3",
+    "displayTitle": "Performance Review",
+    "Duration": 37000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 4,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23535972576"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/pre_activation/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-03-25T10:17:53Z",
+      "completed_at": "2026-03-25T10:17:53Z",
+      "Duration": 0
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-03-25T10:17:53Z",
+      "completed_at": "2026-03-25T10:17:53Z",
+      "Duration": 0
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-25T10:18:00Z",
+      "completed_at": "2026-03-25T10:17:59Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-25T10:18:00Z",
+      "completed_at": "2026-03-25T10:17:59Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-25T10:18:11Z",
+      "completed_at": "2026-03-25T10:18:28Z",
+      "Duration": 17000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-25T10:18:00Z",
+      "completed_at": "2026-03-25T10:17:59Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-25T10:18:00Z",
+      "completed_at": "2026-03-25T10:17:59Z",
+      "Duration": -1000000000
+    }
+  ]
+}

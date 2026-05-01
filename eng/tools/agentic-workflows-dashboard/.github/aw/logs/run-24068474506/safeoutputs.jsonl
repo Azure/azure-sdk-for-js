@@ -1,0 +1,1 @@
+{"message":"No action needed: The triggering push (876c3f7a by @live1206) reverts a generator test change in eng/packages/http-client-csharp-mgmt/generator/ only — removing test TypeSpec fixtures and reverting FlattenPropertyVisitor.cs. No user-facing SDK code, public APIs, or documentation were changed. No documentation gap issue is warranted.","type":"noop"}

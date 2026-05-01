@@ -1,0 +1,1 @@
+{"items":[{"message":"No documentation updates needed. PR #58369 by `@RaviPidaparthi` is a version rollback (Core beta.23 → beta.22) to fix a NuGet dependency resolution issue. No new APIs, types, or functionality were introduced — purely a version number fix with no documentation impact.","type":"noop"}],"errors":[]}

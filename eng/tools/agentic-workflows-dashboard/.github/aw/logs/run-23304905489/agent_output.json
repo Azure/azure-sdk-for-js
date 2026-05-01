@@ -1,0 +1,1 @@
+{"items":[{"item_number":57250,"labels":["needs-triage"],"type":"add_labels"},{"body":"⚠️ Agentic triage was unable to be completed because the issue could not be retrieved via the available GitHub API tools in the workflow sandbox. This issue requires manual triage.","item_number":"57250","type":"add_comment","temporary_id":"aw_8zscMO6M"}],"errors":[]}

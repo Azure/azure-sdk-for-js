@@ -1,0 +1,4 @@
+2026-04-03T22:12:07.9360000Z Evaluating pre_activation.if
+2026-04-03T22:12:07.9360000Z Evaluating: (success() && ((github.event.label.name == 'performance-review-needed')))
+2026-04-03T22:12:07.9360000Z Expanded: (true && ('Created By Copilot' == 'performance-review-needed'))
+2026-04-03T22:12:07.9360000Z Result: false

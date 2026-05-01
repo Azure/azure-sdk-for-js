@@ -1,0 +1,35 @@
+{
+  "pr": 37292,
+  "package": "@azure/arm-domainregistration",
+  "version": "1.0.0",
+  "previousVersion": "1.0.0-beta.1",
+  "type": "typespec-migration-beta-to-stable",
+  "apiVersion": "2024-11-01",
+  "reviewedAt": "2026-04-22",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/domainregistration/arm-domainregistration/CHANGELOG.md",
+      "line": 3,
+      "issueType": "tool",
+      "category": "changelog",
+      "description": "1.0.0-beta.1 entry removed instead of preserved; tool replaced history instead of adding new entry"
+    },
+    {
+      "file": "sdk/domainregistration/arm-domainregistration/metadata.json",
+      "line": 2,
+      "issueType": "tool",
+      "category": "api-version",
+      "description": "api-version 2024-11-01 is same as in existing 1.0.0-beta.1 on main; should be strictly newer"
+    },
+    {
+      "file": "sdk/domainregistration/arm-domainregistration/review/arm-domainregistration-node.api.md",
+      "line": 332,
+      "issueType": "design",
+      "category": "reserved-keyword",
+      "description": "DomainsOperations.delete uses reserved JS keyword 'delete'; fix via @clientName in TypeSpec"
+    }
+  ],
+  "ciStatus": "UnitTest windows_20x_browser FAILED (buildId=5870486); checkenforcer pending on HEAD",
+  "notes": "TypeSpec migration from autorest-based 1.0.0-beta.1 to modular TypeSpec 1.0.0; api-version 2024-11-01 same as beta.1; client name DomainRegistrationManagementClient (correct); userAgent aligned to 1.0.0"
+}

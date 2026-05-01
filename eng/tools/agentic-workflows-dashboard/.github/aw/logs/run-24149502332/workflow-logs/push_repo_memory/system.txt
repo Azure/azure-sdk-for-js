@@ -1,0 +1,9 @@
+2026-04-08T17:34:47.6790000Z Evaluating push_repo_memory.if
+2026-04-08T17:34:47.6790000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))))
+2026-04-08T17:34:47.6790000Z Expanded: (true && (('skipped' == 'success') || ('skipped' == 'skipped')))
+2026-04-08T17:34:47.6790000Z Result: true
+2026-04-08T17:34:47.6820000Z Requested labels: ubuntu-slim
+2026-04-08T17:34:47.6820000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/mgmt-review.lock.yml@refs/pull/38052/merge
+2026-04-08T17:34:47.6820000Z Waiting for a runner to pick up this job...
+2026-04-08T17:39:12.8110000Z Job is about to start running on the hosted runner: GitHub Actions 1029607995
+2026-04-08T17:39:12.8110000Z Job is waiting for a hosted runner to come online.

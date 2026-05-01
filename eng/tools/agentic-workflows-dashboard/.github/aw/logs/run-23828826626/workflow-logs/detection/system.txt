@@ -1,0 +1,4 @@
+2026-04-01T02:21:40.0530000Z Evaluating detection.if
+2026-04-01T02:21:40.0530000Z Evaluating: (always() && (needs.agent.result != 'skipped'))
+2026-04-01T02:21:40.0530000Z Expanded: (true && ('skipped' != 'skipped'))
+2026-04-01T02:21:40.0530000Z Result: false

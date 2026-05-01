@@ -1,0 +1,18 @@
+{
+  "pr": 38212,
+  "package": "@azure/arm-containerservice",
+  "version": "25.1.0-beta.2",
+  "reviewedAt": "2026-04-20",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/containerservice/arm-containerservice/CHANGELOG.md",
+      "line": 4,
+      "type": "tool",
+      "description": "25.1.0-beta.2 compares with 25.0.0 instead of 25.1.0-beta.1 (previous beta on main)"
+    }
+  ],
+  "mergeState": "blocked (draft PR; UnitTest FAILED stale recordings; checkenforcer pending)",
+  "ciStatus": "UnitTest FAILED all environments - api-version=2026-02-02-preview vs recorded 2026-01-02-preview (buildId=6178352)",
+  "notes": "TypeSpec migration; API version 2026-02-02-preview (newer than main 2026-01-02-preview); client name ContainerServiceClient unchanged; KnownVersions includes new preview entry; CHANGELOG comparison base incorrect (25.0.0 instead of 25.1.0-beta.1)"
+}

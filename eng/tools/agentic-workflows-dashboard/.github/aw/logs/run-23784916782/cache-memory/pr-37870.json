@@ -1,0 +1,14 @@
+{
+  "pr": 37870,
+  "package": "@azure/arm-alertsmanagement",
+  "version": "1.0.0-beta.1",
+  "api_version": "2025-05-25-preview",
+  "release_type": "beta",
+  "reviewed_at": "2026-03-31",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "file": "review/arm-alertsmanagement-node.api.md", "line": 618, "description": "ProxyResource_1 _N suffix collision — AlertModification and AlertsSummary extend ProxyResource_1 instead of ProxyResource. Suggests TypeSpec model naming collision."}
+  ],
+  "ci": "passing",
+  "notes": "Previous PR #37633 (same package) had similar ProxyResource_1 issue plus KnownTimeRange _N prefix issue. KnownTimeRange is now fixed (OneD, OneH, SevenD, ThirtyD). ProxyResource_1 still present."
+}

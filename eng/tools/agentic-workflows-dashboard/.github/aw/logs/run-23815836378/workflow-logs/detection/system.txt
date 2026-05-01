@@ -1,0 +1,9 @@
+2026-03-31T19:47:26.4320000Z Requested labels: ubuntu-latest
+2026-03-31T19:47:26.4320000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/scribe.lock.yml@refs/heads/main
+2026-03-31T19:47:26.4320000Z Waiting for a runner to pick up this job...
+2026-03-31T19:47:26.4240000Z Evaluating detection.if
+2026-03-31T19:47:26.4240000Z Evaluating: (always() && (needs.agent.result != 'skipped'))
+2026-03-31T19:47:26.4240000Z Expanded: (true && ('success' != 'skipped'))
+2026-03-31T19:47:26.4240000Z Result: true
+2026-03-31T19:47:37.0090000Z Job is about to start running on the hosted runner: GitHub Actions 1028413937
+2026-03-31T19:47:37.0080000Z Job is waiting for a hosted runner to come online.

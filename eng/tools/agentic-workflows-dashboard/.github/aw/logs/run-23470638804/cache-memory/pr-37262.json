@@ -1,0 +1,9 @@
+{
+  "pr": 37262,
+  "package": "@azure/arm-recoveryservicesbackup",
+  "version": "14.0.0-beta.1",
+  "reviewedAt": "2026-03-24T02:48:58Z",
+  "outcome": "clean",
+  "notes": "First TypeSpec migration from 13.2.0. All versions consistent. tsp-location valid. No naming issues, no unknown types, no forgotten exports. Pre-existing void returns for update/patch/get-OperationResults operations carried over faithfully from old SDK by design.",
+  "ciStatus": "passing"
+}

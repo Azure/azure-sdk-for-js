@@ -1,0 +1,18 @@
+{
+  "pr": 37944,
+  "package": "@azure/arm-servicefabric",
+  "version": "4.0.0-beta.1",
+  "reviewedAt": "2026-04-03",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/servicefabric/arm-servicefabric/review/arm-servicefabric-node.api.md",
+      "line": 1185,
+      "type": "tool",
+      "description": "minInstancePercentage typed as Uint8Array instead of number — generation tool type-mapping error"
+    }
+  ],
+  "mergeState": "blocked",
+  "ciStatus": "pending (checkenforcer waiting)",
+  "notes": "TypeSpec migration from 3.0.0 to 4.0.0-beta.1; API version 2026-03-01-preview; first preview of v4"
+}

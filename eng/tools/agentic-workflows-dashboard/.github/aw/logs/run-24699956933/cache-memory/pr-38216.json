@@ -1,0 +1,8 @@
+{
+  "pr": 38216,
+  "package": "@azure/arm-netapp",
+  "reviewed_at": "2026-04-21",
+  "outcome": "clean",
+  "summary": "No API design or tool issues found. Version upgrade from 23.1.0-beta.1 to 24.0.0 with API version 2026-01-01 (strictly newer than 2025-12-01). All stable KnownVersions retained. Context file version aligned.",
+  "ci_status": "in_progress"
+}

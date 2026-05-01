@@ -1,0 +1,14 @@
+{
+  "pr": 37230,
+  "package": "@azure/arm-azurestackhci",
+  "version": "4.0.0",
+  "api_version": "2026-02-01",
+  "release_type": "stable",
+  "reviewed_at": "2026-03-31",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "file": "review/arm-azurestackhci-node.api.md", "line": 190, "description": "AzureClouds enum members use UPPER_SNAKE_CASE instead of PascalCase. Missing Known* prefix."},
+    {"type": "design", "category": "type-safety", "file": "review/arm-azurestackhci-node.api.md", "line": 224, "description": "AzureSupportedClouds uses closed template literal type `${AzureClouds}` instead of string."}
+  ],
+  "notes": "first-typespec-migration PR. Same AzureClouds/AzureSupportedClouds pattern seen in arm-containerservicefleet (#37369) and arm-standbypool (#37572)."
+}

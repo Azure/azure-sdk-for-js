@@ -1,0 +1,8 @@
+2026-03-11T08:24:29.4610000Z Evaluating activation.if
+2026-03-11T08:24:29.4610000Z Evaluating: success()
+2026-03-11T08:24:29.4610000Z Result: true
+2026-03-11T08:24:29.4650000Z Requested labels: ubuntu-slim
+2026-03-11T08:24:29.4650000Z Job defined at: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-03-11T08:24:29.4650000Z Waiting for a runner to pick up this job...
+2026-03-11T08:24:30.9570000Z Job is about to start running on the hosted runner: GitHub Actions 1025485649
+2026-03-11T08:24:30.9570000Z Job is waiting for a hosted runner to come online.

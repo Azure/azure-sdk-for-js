@@ -1,0 +1,13 @@
+{
+  "pr": 37558,
+  "package": "@azure/arm-alertprocessingrules",
+  "version": "1.0.0-beta.1",
+  "api_version": "2021-08-08",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "file": "arm-alertprocessingrules-node.api.md", "line": 92, "description": "AzureClouds enum members use UPPER_SNAKE_CASE instead of PascalCase"},
+    {"type": "design", "category": "type-safety", "file": "arm-alertprocessingrules-node.api.md", "line": 99, "description": "AzureSupportedClouds uses closed template literal type instead of string"},
+    {"type": "tool", "category": "naming", "file": "arm-alertprocessingrules-node.api.md", "line": 196, "description": "KnownVersions.V20210808 has synthetic V prefix from numeric version string"}
+  ]
+}

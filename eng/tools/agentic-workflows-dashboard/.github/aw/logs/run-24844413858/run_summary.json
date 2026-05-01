@@ -1,0 +1,93 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24844413858,
+  "processed_at": "2026-04-27T19:38:01.476130792Z",
+  "run": {
+    "databaseId": 24844413858,
+    "number": 3412,
+    "url": "https://github.com/Azure/azure-rest-api-specs/actions/runs/24844413858",
+    "status": "completed",
+    "conclusion": "failure",
+    "workflowName": "SDK Generation Agent",
+    "workflowPath": ".github/workflows/sdk-generation-agent.lock.yml",
+    "createdAt": "2026-04-23T15:40:27Z",
+    "startedAt": "2026-04-23T15:40:27Z",
+    "updatedAt": "2026-04-23T16:04:13Z",
+    "event": "issue_comment",
+    "headBranch": "main",
+    "headSha": "f1d9cb1b469584bcf541641381d10d106fbd60de",
+    "displayTitle": "SDK Generation Agent",
+    "Duration": 1426000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24844413858"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "issue_response",
+    "label": "Issue Response",
+    "reason": "The run is primarily interacting with issue, discussion, or comment threads."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "heavy",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "agentic_assessments": [
+    {
+      "kind": "resource_heavy_for_domain",
+      "severity": "high",
+      "summary": "This Issue Response run consumed a heavy execution profile for its task shape.",
+      "evidence": "turns=0 tool_types=0 duration=23m46s write_actions=0",
+      "recommendation": "Compare this run to similar successful runs and trim unnecessary turns, tools, or write actions."
+    },
+    {
+      "kind": "model_downgrade_available",
+      "severity": "low",
+      "summary": "This Issue Response run may not need a frontier model. A smaller model (e.g. gpt-4.1-mini, claude-haiku-4-5) could handle the task at lower cost.",
+      "evidence": "domain=issue_response resource_profile=heavy actuation=read_only",
+      "recommendation": "Try engine.model: gpt-4.1-mini or claude-haiku-4-5 in the workflow frontmatter."
+    }
+  ],
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/4_activation.txt",
+    "workflow-logs/5_pre_activation.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/safe_outputs/system.txt"
+  ],
+  "job_details": null
+}

@@ -1,0 +1,14 @@
+{
+  "pr": 37803,
+  "package": "@azure/arm-machinelearning",
+  "version": "4.0.0-beta.1",
+  "api_version": "2025-12-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "summary": "TypeSpec modular rewrite from 3.0.0 (Swagger-based) to 4.0.0-beta.1. Full SDK regeneration.",
+  "findings": [
+    {"type": "design", "category": "naming", "file": "review/arm-machinelearning-node.api.md", "line": 290, "description": "AzureClouds enum members use UPPER_SNAKE_CASE instead of PascalCase"},
+    {"type": "design", "category": "type-safety", "file": "review/arm-machinelearning-node.api.md", "line": 396, "description": "AzureSupportedClouds is closed template literal type instead of string"}
+  ],
+  "ci": "in_progress"
+}

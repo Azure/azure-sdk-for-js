@@ -1,0 +1,9 @@
+{
+  "pr": 37821,
+  "package": "@azure/arm-redhatopenshift",
+  "version": "1.0.0",
+  "api_version": "2025-07-25",
+  "reviewed_at": "2026-03-25",
+  "outcome": "clean",
+  "summary": "Stable release from 1.0.0-beta.1. Version consistent across package.json (1.0.0), context file (azsdk-js-arm-redhatopenshift/1.0.0), and CHANGELOG. No naming, type safety, export, or breaking change issues found. AzureClouds enum uses UPPER_SNAKE_CASE but not flagged by guidelines."
+}

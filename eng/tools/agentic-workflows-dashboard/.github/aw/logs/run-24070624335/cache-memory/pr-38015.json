@@ -1,0 +1,18 @@
+{
+  "pr": 38015,
+  "package": "@azure/arm-commerce",
+  "version": "4.0.0-beta.4",
+  "reviewedAt": "2026-04-07",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/commerce/arm-commerce/src/api/usageManagementContext.ts",
+      "line": 37,
+      "type": "tool",
+      "description": "userAgentInfo set to azsdk-js-arm-commerce/1.0.0-beta.1 but package version is 4.0.0-beta.4 (persistent bug across PR #37941 and #38015)"
+    }
+  ],
+  "mergeState": "dirty (pnpm-lock.yaml conflict; auto-fix failed due to ADO registry auth)",
+  "ciStatus": "not run (draft PR)",
+  "notes": "TypeSpec migration to 4.0.0-beta.4; third generation attempt (PR #37941 was prior); same version mismatch bug persists; api-version 2015-06-01-preview; emitter 0.51.1"
+}

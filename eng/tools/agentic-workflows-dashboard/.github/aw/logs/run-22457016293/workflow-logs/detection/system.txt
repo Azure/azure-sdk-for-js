@@ -1,0 +1,4 @@
+2026-02-26T19:11:08.3920000Z Evaluating detection.if
+2026-02-26T19:11:08.3920000Z Evaluating: (success() && (((needs.agent.outputs.output_types != '') || (needs.agent.outputs.has_patch == 'true'))))
+2026-02-26T19:11:08.3920000Z Expanded: (false && ((needs.agent.outputs.output_types != '') || (needs.agent.outputs.has_patch == 'true')))
+2026-02-26T19:11:08.3920000Z Result: false

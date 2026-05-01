@@ -1,0 +1,9 @@
+{
+  "pr": 37826,
+  "package": "@azure/arm-appnetwork",
+  "version": "1.0.0-beta.1",
+  "api_version": "2025-08-01-preview",
+  "reviewed_at": "2026-03-26",
+  "outcome": "clean",
+  "summary": "New package initial release. Versions aligned across package.json, appLinkContext.ts, and CHANGELOG.md. No naming violations, type safety issues, export gaps, or breaking changes found."
+}

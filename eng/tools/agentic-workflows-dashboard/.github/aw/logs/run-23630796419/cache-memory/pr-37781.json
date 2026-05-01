@@ -1,0 +1,12 @@
+{
+  "pr": 37781,
+  "package": "@azure/contoso-widgetmanager",
+  "version": "1.0.0-beta.1",
+  "api_version": "2022-12-01",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "package.json", "description": "CHANGELOG.md missing from new package"},
+    {"type": "design", "category": "naming", "file": "review/contoso-widgetmanager-node.api.md", "line": 34, "description": "OperationState_2 suffix in public API due to naming collision with @azure/core-lro import"}
+  ]
+}

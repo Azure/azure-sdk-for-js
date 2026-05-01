@@ -1,0 +1,4 @@
+2026-03-18T11:07:53.2120000Z Evaluating activation.if
+2026-03-18T11:07:53.2120000Z Evaluating: (success() && ((needs.pre_activation.outputs.activated == 'true')))
+2026-03-18T11:07:53.2120000Z Expanded: (true && ('false' == 'true'))
+2026-03-18T11:07:53.2120000Z Result: false

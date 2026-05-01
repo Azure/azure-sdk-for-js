@@ -1,0 +1,4 @@
+2026-04-13T18:08:44.6740000Z Evaluating dispatch_triage.if
+2026-04-13T18:08:44.6740000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && contains(needs.agent.outputs.output_types, 'dispatch_triage'))
+2026-04-13T18:08:44.6740000Z Expanded: (!false && ('skipped' != 'skipped') && contains(needs.agent.outputs.output_types, 'dispatch_triage'))
+2026-04-13T18:08:44.6740000Z Result: false

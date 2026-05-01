@@ -1,0 +1,134 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23427025116,
+  "processed_at": "2026-04-27T03:04:36.434893085Z",
+  "run": {
+    "databaseId": 23427025116,
+    "number": 48,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23427025116",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Management SDK PR Review",
+    "workflowPath": ".github/workflows/mgmt-review.lock.yml",
+    "createdAt": "2026-03-23T07:56:41Z",
+    "startedAt": "2026-03-23T07:56:41Z",
+    "updatedAt": "2026-03-23T07:57:02Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-purview-6000882",
+    "headSha": "d5b6bd2bc9db4a983cfadbb626c751ada3ec314b",
+    "displayTitle": "Management SDK PR Review",
+    "Duration": 21000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 6,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23427025116"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/safe_outputs/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-23T07:56:41Z",
+      "completed_at": "2026-03-23T07:56:42Z",
+      "Duration": 1000000000
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-23T07:56:42Z",
+      "completed_at": "2026-03-23T07:56:42Z",
+      "Duration": 0
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-23T07:56:42Z",
+      "completed_at": "2026-03-23T07:56:42Z",
+      "Duration": 0
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-23T07:56:42Z",
+      "completed_at": "2026-03-23T07:56:42Z",
+      "Duration": 0
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-23T07:56:42Z",
+      "completed_at": "2026-03-23T07:56:42Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-03-23T07:56:47Z",
+      "completed_at": "2026-03-23T07:57:01Z",
+      "Duration": 14000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-03-23T07:56:42Z",
+      "completed_at": "2026-03-23T07:56:42Z",
+      "Duration": 0
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "pr": 37926,
+  "package": "@azure/arm-playwright",
+  "version": "1.1.0-beta.1",
+  "reviewedAt": "2026-04-02",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "blocked",
+  "ciStatus": "all-passed",
+  "notes": "First beta after stable 1.0.0. Added MSI support + workspace properties (reporting, storageUri). All additive, no breaking changes. API versions 2025-07-01-preview, 2026-01-01-preview, 2026-02-01-preview added alongside existing 2025-09-01."
+}

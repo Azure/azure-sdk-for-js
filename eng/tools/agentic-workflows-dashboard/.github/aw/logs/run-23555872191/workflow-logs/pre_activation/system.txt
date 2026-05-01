@@ -1,0 +1,4 @@
+2026-03-25T17:52:28.4050000Z Evaluating pre_activation.if
+2026-03-25T17:52:28.4050000Z Evaluating: (success() && ((github.event.label.name == 'docs-review-needed')))
+2026-03-25T17:52:28.4050000Z Expanded: (true && ('architecture-review-needed' == 'docs-review-needed'))
+2026-03-25T17:52:28.4050000Z Result: false

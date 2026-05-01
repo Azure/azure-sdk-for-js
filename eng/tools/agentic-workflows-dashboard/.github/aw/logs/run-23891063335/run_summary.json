@@ -1,0 +1,143 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23891063335,
+  "processed_at": "2026-04-27T03:02:18.217041353Z",
+  "run": {
+    "databaseId": 23891063335,
+    "number": 211,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23891063335",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Management Release Assistant",
+    "workflowPath": ".github/workflows/mgmt-review.lock.yml",
+    "createdAt": "2026-04-02T08:17:20Z",
+    "startedAt": "2026-04-02T08:17:20Z",
+    "updatedAt": "2026-04-02T08:17:39Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-playwright-6092964",
+    "headSha": "1a030cb7c870d85f78a7046e3194028b4e5cf52c",
+    "displayTitle": "Management Release Assistant",
+    "Duration": 19000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 7,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23891063335"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "release_ops",
+    "label": "Release / Ops",
+    "reason": "Workflow metadata matches release or operational automation."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/safe_outputs/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:21Z",
+      "completed_at": "2026-04-02T08:17:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:22Z",
+      "completed_at": "2026-04-02T08:17:21Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:22Z",
+      "completed_at": "2026-04-02T08:17:21Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:22Z",
+      "completed_at": "2026-04-02T08:17:21Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-02T08:17:33Z",
+      "completed_at": "2026-04-02T08:17:39Z",
+      "Duration": 6000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:22Z",
+      "completed_at": "2026-04-02T08:17:22Z",
+      "Duration": 0
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:22Z",
+      "completed_at": "2026-04-02T08:17:22Z",
+      "Duration": 0
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-02T08:17:22Z",
+      "completed_at": "2026-04-02T08:17:22Z",
+      "Duration": 0
+    }
+  ]
+}

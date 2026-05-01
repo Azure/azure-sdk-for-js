@@ -1,0 +1,1 @@
+{"pr":37835,"repo":"azure-sdk-for-js","package":"monitor-opentelemetry","date":"2026-03-26","outcome":"clean","notes":"readFileSync /proc/meminfo in ObservableGauge callback at 60s interval - no measurable impact"}

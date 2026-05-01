@@ -1,0 +1,138 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24250741101,
+  "processed_at": "2026-04-27T03:05:30.125007498Z",
+  "run": {
+    "databaseId": 24250741101,
+    "number": 219,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/24250741101",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "workflowName": "Documentation Review",
+    "workflowPath": ".github/workflows/scribe.lock.yml",
+    "createdAt": "2026-04-10T15:32:11Z",
+    "startedAt": "2026-04-10T15:32:11Z",
+    "updatedAt": "2026-04-10T15:32:47Z",
+    "event": "pull_request",
+    "headBranch": "feature/ai-projects-typespec-latest",
+    "headSha": "8686d955140149a7fbad1f802d145278dfb0d367",
+    "displayTitle": "Documentation Review",
+    "Duration": 36000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 7,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24250741101"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/0_conclusion.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/pre_activation/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:12Z",
+      "completed_at": "2026-04-10T15:32:12Z",
+      "Duration": 0
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:13Z",
+      "completed_at": "2026-04-10T15:32:12Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:13Z",
+      "completed_at": "2026-04-10T15:32:13Z",
+      "Duration": 0
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:14Z",
+      "completed_at": "2026-04-10T15:32:13Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:14Z",
+      "completed_at": "2026-04-10T15:32:13Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-10T15:32:35Z",
+      "completed_at": "2026-04-10T15:32:46Z",
+      "Duration": 11000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:14Z",
+      "completed_at": "2026-04-10T15:32:13Z",
+      "Duration": -1000000000
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-04-10T15:32:14Z",
+      "completed_at": "2026-04-10T15:32:13Z",
+      "Duration": -1000000000
+    }
+  ]
+}

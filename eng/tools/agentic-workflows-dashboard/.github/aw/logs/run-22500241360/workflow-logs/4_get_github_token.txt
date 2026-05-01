@@ -1,0 +1,75 @@
+﻿2026-02-27T19:18:17.8824627Z Current runner version: '2.332.0'
+2026-02-27T19:18:17.8830716Z Runner name: '6b0fd72fc000000'
+2026-02-27T19:18:17.8831538Z Runner group name: 'azsdk-pool-github-runners'
+2026-02-27T19:18:17.8832391Z Machine name: '6b0fd72fc000000'
+2026-02-27T19:18:17.8849282Z ##[group]Operating System
+2026-02-27T19:18:17.8849982Z Ubuntu
+2026-02-27T19:18:17.8850440Z 24.04.3
+2026-02-27T19:18:17.8851019Z LTS
+2026-02-27T19:18:17.8851492Z ##[endgroup]
+2026-02-27T19:18:17.8852009Z ##[group]Runner Image
+2026-02-27T19:18:17.8852649Z Image: ubuntu-24.04
+2026-02-27T19:18:17.8853134Z Version: 20260111.209.1
+2026-02-27T19:18:17.8854121Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260111.209/images/ubuntu/Ubuntu2404-Readme.md
+2026-02-27T19:18:17.8855446Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260111.209
+2026-02-27T19:18:17.8856376Z ##[endgroup]
+2026-02-27T19:18:17.8856829Z ##[group]1ES Hosted Pool
+2026-02-27T19:18:17.8857578Z SKU: Standard_D4ads_v5
+2026-02-27T19:18:17.8858165Z Image: ubuntu-24.04
+2026-02-27T19:18:17.8858927Z Image Version: 127.0.0
+2026-02-27T19:18:17.8859418Z Local IP: 10.1.62.102
+2026-02-27T19:18:17.8859937Z Interactive Mode: False
+2026-02-27T19:18:17.8860511Z Request Id: 65184941675
+2026-02-27T19:18:17.8861026Z Pool Name: azsdk-pool-github-runners
+2026-02-27T19:18:17.8861620Z Location: westus2
+2026-02-27T19:18:17.8862121Z Work Folder: /mnt/vss/_work
+2026-02-27T19:18:17.8862752Z Resource Provider: VmssResourceProvider
+2026-02-27T19:18:17.8863329Z Worker Build Version: 31102837
+2026-02-27T19:18:17.8863933Z Network Isolation Policy: None
+2026-02-27T19:18:17.8864460Z ##[endgroup]
+2026-02-27T19:18:17.8865312Z ##[group]GITHUB_TOKEN Permissions
+2026-02-27T19:18:17.8867127Z Metadata: read
+2026-02-27T19:18:17.8867671Z ##[endgroup]
+2026-02-27T19:18:17.8869883Z Secret source: Actions
+2026-02-27T19:18:17.8870802Z Prepare workflow directory
+2026-02-27T19:18:17.9242138Z Prepare all required actions
+2026-02-27T19:18:17.9286447Z Getting action download info
+2026-02-27T19:18:18.3763772Z Download action repository 'azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8' (SHA:1384c340ab2dda50fed2bee3041d1d87018aa5e8)
+2026-02-27T19:18:19.1897512Z Download action repository 'azure/powershell@6101bc5f8a23168669e44f7e68db621ec5ecbc6e' (SHA:6101bc5f8a23168669e44f7e68db621ec5ecbc6e)
+2026-02-27T19:18:23.9829590Z Complete job name: get_github_token
+2026-02-27T19:18:24.0779586Z ##[group]Run azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8
+2026-02-27T19:18:24.0780340Z with:
+2026-02-27T19:18:24.0780588Z   allow-no-subscriptions: true
+2026-02-27T19:18:24.0780879Z   auth-type: IDENTITY
+2026-02-27T19:18:24.0781163Z   client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
+2026-02-27T19:18:24.0781503Z   enable-AzPSSession: true
+2026-02-27T19:18:24.0781805Z   tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+2026-02-27T19:18:24.0782132Z   environment: azurecloud
+2026-02-27T19:18:24.0782424Z   audience: api://AzureADTokenExchange
+2026-02-27T19:18:24.0782917Z ##[endgroup]
+2026-02-27T19:18:24.1284039Z Running Azure CLI Login.
+2026-02-27T19:18:53.9930709Z [command]/usr/bin/az cloud set -n azurecloud
+2026-02-27T19:18:54.2376903Z Done setting cloud: "azurecloud"
+2026-02-27T19:18:54.2378868Z Attempting Azure CLI login by using user-assigned managed identity...
+2026-02-27T19:18:54.9777767Z ##[error]Identity not found
+
+2026-02-27T19:18:54.9791327Z ##[error]Run the command below to authenticate interactively; additional arguments may be added as needed:
+az logout
+az login
+
+2026-02-27T19:18:55.0603550Z ##[error]Login failed with Error: The process '/usr/bin/az' failed with exit code 1. Double check if the 'auth-type' is correct. Refer to https://github.com/Azure/login#readme for more information.
+2026-02-27T19:18:55.0812402Z Post job cleanup.
+2026-02-27T19:18:55.1255838Z Clearing azure cli accounts from the local cache.
+2026-02-27T19:18:55.1266904Z [command]/usr/bin/az account clear
+2026-02-27T19:19:41.3469171Z {
+2026-02-27T19:19:41.3470314Z   Success: true,
+2026-02-27T19:19:41.3470885Z   Result: '/usr/share/az_12.5.0/Az.Accounts/5.3.1/Az.Accounts.psd1'
+2026-02-27T19:19:41.3472067Z }
+2026-02-27T19:19:41.3472991Z Clearing azure powershell accounts from the local cache.
+2026-02-27T19:19:41.3477656Z [command]/usr/bin/pwsh -Command Clear-AzContext -Scope Process
+2026-02-27T19:19:56.1323313Z [command]/usr/bin/pwsh -Command Clear-AzContext -Scope CurrentUser -Force -ErrorAction SilentlyContinue
+2026-02-27T19:20:01.7032041Z [33;1mWARNING: You're using Az version 12.5.0. The latest version of Az is 15.3.0. Upgrade your Az modules using the following commands:
+2026-02-27T19:20:01.7033460Z   Update-PSResource Az -WhatIf    -- Simulate updating your Az modules.
+2026-02-27T19:20:01.7034381Z   Update-PSResource Az            -- Update your Az modules.
+2026-02-27T19:20:01.7035864Z There will be breaking changes from 12.5.0 to 15.3.0. Open https://go.microsoft.com/fwlink/?linkid=2241373 and check the details.[0m
+2026-02-27T19:20:01.7986205Z Cleaning up orphan processes

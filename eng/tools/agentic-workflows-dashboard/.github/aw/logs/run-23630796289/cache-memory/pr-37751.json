@@ -1,0 +1,7 @@
+{
+  "pr": 37751,
+  "package": "@azure/arm-discovery",
+  "reviewed_at": "2026-03-27",
+  "outcome": "clean",
+  "summary": "Revert PR removing @azure/arm-discovery package entirely (revert of #37683). No API design or tooling issues - all package files are deleted, no new/modified API surface."
+}

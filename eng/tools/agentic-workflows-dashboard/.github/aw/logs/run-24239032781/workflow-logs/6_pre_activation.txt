@@ -1,0 +1,129 @@
+﻿2026-04-10T10:41:47.2573016Z Current runner version: '2.333.1'
+2026-04-10T10:41:47.2614855Z ##[group]Runner Image Provisioner
+2026-04-10T10:41:47.2615624Z Hosted Compute Agent
+2026-04-10T10:41:47.2616192Z Version: 20260213.493
+2026-04-10T10:41:47.2617138Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-10T10:41:47.2617808Z Build Date: 2026-02-13T00:28:41Z
+2026-04-10T10:41:47.2618466Z Worker ID: {72d7a049-6362-4c96-8763-63052d273a83}
+2026-04-10T10:41:47.2619103Z Azure Region: northcentralus
+2026-04-10T10:41:47.2619649Z ##[endgroup]
+2026-04-10T10:41:47.2621085Z ##[group]VM Image
+2026-04-10T10:41:47.2621596Z - OS: Linux (x64)
+2026-04-10T10:41:47.2622114Z - Source: Docker
+2026-04-10T10:41:47.2622553Z - Name: ubuntu:24.04
+2026-04-10T10:41:47.2623119Z - Version: 20260323.53.1
+2026-04-10T10:41:47.2623596Z ##[endgroup]
+2026-04-10T10:41:47.2624453Z ##[group]GITHUB_TOKEN Permissions
+2026-04-10T10:41:47.2626263Z Metadata: read
+2026-04-10T10:41:47.2627119Z ##[endgroup]
+2026-04-10T10:41:47.2629462Z Secret source: Actions
+2026-04-10T10:41:47.2630157Z Prepare workflow directory
+2026-04-10T10:41:47.3521823Z Prepare all required actions
+2026-04-10T10:41:47.3668323Z Getting action download info
+2026-04-10T10:41:47.8098507Z Download action repository 'github/gh-aw-actions@80471a493be8c528dd27daf73cd644242a7965e0' (SHA:80471a493be8c528dd27daf73cd644242a7965e0)
+2026-04-10T10:41:49.9470343Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-10T10:41:50.7390376Z Complete job name: pre_activation
+2026-04-10T10:41:50.7990354Z ##[group]Run github/gh-aw-actions/setup@80471a493be8c528dd27daf73cd644242a7965e0
+2026-04-10T10:41:50.7991545Z with:
+2026-04-10T10:41:50.7992059Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-10T10:41:50.7992690Z   job-name: pre_activation
+2026-04-10T10:41:50.7993204Z   safe-output-custom-tokens: false
+2026-04-10T10:41:50.7993921Z ##[endgroup]
+2026-04-10T10:41:54.3620832Z Successfully copied 307 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-10T10:41:54.5199007Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-10T10:41:54.5789668Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-10T10:41:54.5889378Z [otlp] INPUT_TRACE_ID not set, a new trace ID will be generated
+2026-04-10T10:41:54.5898148Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-10T10:41:54.5911977Z [otlp] resolved trace-id=6fe121d9322eca7f1fb5821337470bf2
+2026-04-10T10:41:54.5916513Z [otlp] trace-id=6fe121d9322eca7f1fb5821337470bf2 written to GITHUB_OUTPUT
+2026-04-10T10:41:54.5920873Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-10T10:41:54.5925186Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-10T10:41:54.5930810Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-10T10:41:54.6251170Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-10T10:41:54.6251991Z with:
+2026-04-10T10:41:54.6252671Z   github-token: ***
+2026-04-10T10:41:54.6254294Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/check_membership.cjs');
+await main();
+
+2026-04-10T10:41:54.6255976Z   debug: false
+2026-04-10T10:41:54.6256409Z   user-agent: actions/github-script
+2026-04-10T10:41:54.6257275Z   result-encoding: json
+2026-04-10T10:41:54.6257720Z   retries: 0
+2026-04-10T10:41:54.6258186Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-10T10:41:54.6258763Z env:
+2026-04-10T10:41:54.6267683Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-10T10:41:54.6275861Z   GITHUB_AW_OTEL_TRACE_ID: 6fe121d9322eca7f1fb5821337470bf2
+2026-04-10T10:41:54.6276588Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 1df69b3d1fecf186
+2026-04-10T10:41:54.6277458Z   GITHUB_AW_OTEL_JOB_START_MS: 1775817714593
+2026-04-10T10:41:54.6278067Z   GH_AW_REQUIRED_ROLES: admin,maintainer,write
+2026-04-10T10:41:54.6278626Z ##[endgroup]
+2026-04-10T10:41:54.8148513Z Checking if user 'ArthurMa1978' has required permissions for Azure/azure-sdk-for-net
+2026-04-10T10:41:54.8153901Z Required permissions: admin, maintainer, write
+2026-04-10T10:41:55.0603946Z Repository permission level: write
+2026-04-10T10:41:55.0618696Z ✅ User has write access to repository
+2026-04-10T10:41:55.1331311Z Post job cleanup.
+2026-04-10T10:41:55.1951879Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-10T10:41:55.1960529Z Cleaning up /tmp/gh-aw...
+2026-04-10T10:41:55.2155303Z Cleaned up /tmp/gh-aw
+2026-04-10T10:41:55.2354385Z Evaluate and set job outputs
+2026-04-10T10:41:55.2363260Z Set output 'activated'
+2026-04-10T10:41:55.2365286Z Set output 'setup-trace-id'
+2026-04-10T10:41:55.2366378Z Cleaning up orphan processes

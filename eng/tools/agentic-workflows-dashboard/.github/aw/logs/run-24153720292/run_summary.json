@@ -1,0 +1,143 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 24153720292,
+  "processed_at": "2026-04-27T02:55:48.510479447Z",
+  "run": {
+    "databaseId": 24153720292,
+    "number": 198,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/24153720292",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Performance Review",
+    "workflowPath": ".github/workflows/dash.lock.yml",
+    "createdAt": "2026-04-08T19:15:12Z",
+    "startedAt": "2026-04-08T19:15:12Z",
+    "updatedAt": "2026-04-08T19:20:48Z",
+    "event": "pull_request",
+    "headBranch": "revert-keyvault-common-version-bump",
+    "headSha": "0e2c6a605716ffe3e83af58204684ef50a3dc39b",
+    "displayTitle": "Performance Review",
+    "Duration": 336000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-24153720292"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "moderate",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/1_push_repo_memory.txt",
+    "workflow-logs/activation/system.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/pre_activation/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/safe_outputs/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:15:17Z",
+      "completed_at": "2026-04-08T19:15:17Z",
+      "Duration": 0
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:15:17Z",
+      "completed_at": "2026-04-08T19:15:17Z",
+      "Duration": 0
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:15:17Z",
+      "completed_at": "2026-04-08T19:15:17Z",
+      "Duration": 0
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-08T19:20:34Z",
+      "completed_at": "2026-04-08T19:20:47Z",
+      "Duration": 13000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:15:17Z",
+      "completed_at": "2026-04-08T19:15:17Z",
+      "Duration": 0
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:15:17Z",
+      "completed_at": "2026-04-08T19:15:17Z",
+      "Duration": 0
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:15:17Z",
+      "completed_at": "2026-04-08T19:15:17Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-08T19:20:48Z",
+      "completed_at": "2026-04-08T19:20:47Z",
+      "Duration": -1000000000
+    }
+  ]
+}

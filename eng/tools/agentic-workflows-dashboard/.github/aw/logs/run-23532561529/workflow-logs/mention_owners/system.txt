@@ -1,0 +1,4 @@
+2026-03-25T08:53:18.5790000Z Evaluating mention_owners.if
+2026-03-25T08:53:18.5790000Z Evaluating: ((!cancelled()) && (needs.agent.result != 'skipped') && contains(needs.agent.outputs.output_types, 'mention_owners'))
+2026-03-25T08:53:18.5790000Z Expanded: (!false && ('success' != 'skipped') && contains('add_labels', 'mention_owners'))
+2026-03-25T08:53:18.5790000Z Result: false

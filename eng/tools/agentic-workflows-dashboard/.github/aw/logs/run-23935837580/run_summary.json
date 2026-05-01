@@ -1,0 +1,141 @@
+{
+  "cli_version": "v0.71.0",
+  "run_id": 23935837580,
+  "processed_at": "2026-04-27T02:54:53.703942307Z",
+  "run": {
+    "databaseId": 23935837580,
+    "number": 156,
+    "url": "https://github.com/Azure/azure-sdk-for-js/actions/runs/23935837580",
+    "status": "completed",
+    "conclusion": "success",
+    "workflowName": "Architecture Review",
+    "workflowPath": ".github/workflows/archie.lock.yml",
+    "createdAt": "2026-04-03T05:56:19Z",
+    "startedAt": "2026-04-03T05:56:19Z",
+    "updatedAt": "2026-04-03T05:56:55Z",
+    "event": "pull_request_target",
+    "headBranch": "sdkauto/@azure-arm-servicefabric-6101245",
+    "headSha": "dfa63194b9d917de00698c91bf5f3f360a80fb17",
+    "displayTitle": "Architecture Review",
+    "Duration": 36000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "SafeItemsCount": 0,
+    "EffectiveTokens": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/home/deyaa/js4/eng/tools/agentic-workflows-dashboard/.github/aw/logs/run-23935837580"
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "artifacts_list": [
+    "workflow-logs/1_push_repo_memory.txt",
+    "workflow-logs/agent/system.txt",
+    "workflow-logs/conclusion/system.txt",
+    "workflow-logs/detection/system.txt",
+    "workflow-logs/push_repo_memory/system.txt",
+    "workflow-logs/safe_outputs/system.txt",
+    "workflow-logs/update_cache_memory/system.txt"
+  ],
+  "job_details": [
+    {
+      "name": "pre_activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:21Z",
+      "completed_at": "2026-04-03T05:56:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "activation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:21Z",
+      "completed_at": "2026-04-03T05:56:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "agent",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:21Z",
+      "completed_at": "2026-04-03T05:56:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "push_repo_memory",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-04-03T05:56:44Z",
+      "completed_at": "2026-04-03T05:56:54Z",
+      "Duration": 10000000000
+    },
+    {
+      "name": "detection",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:21Z",
+      "completed_at": "2026-04-03T05:56:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "safe_outputs",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:21Z",
+      "completed_at": "2026-04-03T05:56:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "update_cache_memory",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:21Z",
+      "completed_at": "2026-04-03T05:56:21Z",
+      "Duration": 0
+    },
+    {
+      "name": "conclusion",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-04-03T05:56:55Z",
+      "completed_at": "2026-04-03T05:56:55Z",
+      "Duration": 0
+    }
+  ]
+}

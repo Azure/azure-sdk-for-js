@@ -1,0 +1,1 @@
+{"message":"No documentation gap found: PR #57866 modifies an internal class (CodeTransparencyRedirectPolicy) to cache redirect URLs — no new public API was added. The CHANGELOG for 1.0.0-beta.9 already documents the bug fix under \"Bugs Fixed\". The README for Azure.Security.CodeTransparency already covers all required sections. No issue is needed.","type":"noop"}

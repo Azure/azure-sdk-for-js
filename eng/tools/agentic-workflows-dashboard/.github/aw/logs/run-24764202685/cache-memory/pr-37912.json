@@ -1,0 +1,17 @@
+{
+  "pr": 37912,
+  "package": "@azure/arm-appservice",
+  "version": "19.0.0",
+  "reviewedAt": "2026-04-02",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "review/arm-appservice-node.api.md",
+      "line": 4742,
+      "type": "design",
+      "description": "Request/Response DOM name clash - exported as Request_2/Response_2 internally"
+    }
+  ],
+  "ciStatus": "UnitTest ubuntu_22x_node FAILED (buildId=6092191)",
+  "notes": "TypeSpec migration from Swagger-based 18.0.0 to TypeSpec 19.0.0; API version 2025-05-01"
+}

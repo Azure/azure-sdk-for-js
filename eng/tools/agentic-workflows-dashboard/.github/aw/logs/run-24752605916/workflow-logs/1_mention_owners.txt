@@ -1,0 +1,202 @@
+﻿2026-04-21T23:58:15.2824929Z Current runner version: '2.333.1'
+2026-04-21T23:58:15.2893493Z ##[group]Runner Image Provisioner
+2026-04-21T23:58:15.2894820Z Hosted Compute Agent
+2026-04-21T23:58:15.2895699Z Version: 20260415.520
+2026-04-21T23:58:15.2896741Z Commit: af089020f5f67b61ccc91db6c07980876c02bf7b
+2026-04-21T23:58:15.2898107Z Build Date: 2026-04-15T18:07:08Z
+2026-04-21T23:58:15.2899460Z Worker ID: {2a50e460-79ae-4898-8d3b-d838e74892f7}
+2026-04-21T23:58:15.2900677Z Azure Region: eastus2
+2026-04-21T23:58:15.2901616Z ##[endgroup]
+2026-04-21T23:58:15.2903772Z ##[group]Operating System
+2026-04-21T23:58:15.2904679Z Ubuntu
+2026-04-21T23:58:15.2905661Z 24.04.4
+2026-04-21T23:58:15.2906375Z LTS
+2026-04-21T23:58:15.2907090Z ##[endgroup]
+2026-04-21T23:58:15.2907789Z ##[group]Runner Image
+2026-04-21T23:58:15.2909009Z Image: ubuntu-24.04
+2026-04-21T23:58:15.2909863Z Version: 20260420.95.1
+2026-04-21T23:58:15.2911856Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260420.95/images/ubuntu/Ubuntu2404-Readme.md
+2026-04-21T23:58:15.2914303Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260420.95
+2026-04-21T23:58:15.2915957Z ##[endgroup]
+2026-04-21T23:58:15.2917687Z ##[group]GITHUB_TOKEN Permissions
+2026-04-21T23:58:15.2920728Z Issues: write
+2026-04-21T23:58:15.2921697Z Metadata: read
+2026-04-21T23:58:15.2922553Z ##[endgroup]
+2026-04-21T23:58:15.2925122Z Secret source: Actions
+2026-04-21T23:58:15.2926771Z Prepare workflow directory
+2026-04-21T23:58:15.3383140Z Prepare all required actions
+2026-04-21T23:58:15.3437558Z Getting action download info
+2026-04-21T23:58:15.6943206Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-21T23:58:16.0579934Z Download action repository 'actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553' (SHA:373c709c69115d41ff229c7e5df9f8788daa9553)
+2026-04-21T23:58:16.3933529Z Complete job name: mention_owners
+2026-04-21T23:58:16.4710351Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-21T23:58:16.4712319Z with:
+2026-04-21T23:58:16.4713113Z   name: agent
+2026-04-21T23:58:16.4714011Z   path: /home/runner/work/_temp/gh-aw/safe-jobs/
+2026-04-21T23:58:16.4715209Z   merge-multiple: false
+2026-04-21T23:58:16.4716157Z   repository: Azure/azure-sdk-for-net
+2026-04-21T23:58:16.4717214Z   run-id: 24752605916
+2026-04-21T23:58:16.4718075Z   skip-decompress: false
+2026-04-21T23:58:16.4719202Z   digest-mismatch: error
+2026-04-21T23:58:16.4720419Z ##[endgroup]
+2026-04-21T23:58:16.6110232Z Downloading single artifact
+2026-04-21T23:58:16.6872695Z Preparing to download the following artifacts:
+2026-04-21T23:58:16.6876768Z - agent (ID: 6567731699, Size: 184379, Expected Digest: sha256:7930b79553bef7f4e1eb4ab51f97d41fa46f9f85f1ae1337fe4d4d2d18477efa)
+2026-04-21T23:58:16.8027799Z Redirecting to blob download url: https://productionresultssa18.blob.core.windows.net/actions-results/6894e3f0-f973-46b8-bcb4-36d312669912/workflow-job-run-958b4a7c-7a26-5231-92be-2286f2fcf923/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-21T23:58:16.8033665Z Starting download of artifact to: /home/runner/work/_temp/gh-aw/safe-jobs
+2026-04-21T23:58:16.8246878Z (node:2157) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-21T23:58:16.8251427Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-21T23:58:16.8510528Z SHA256 digest of downloaded artifact is 7930b79553bef7f4e1eb4ab51f97d41fa46f9f85f1ae1337fe4d4d2d18477efa
+2026-04-21T23:58:16.8513339Z Artifact download completed successfully.
+2026-04-21T23:58:16.8515217Z Total of 1 artifact(s) downloaded
+2026-04-21T23:58:16.8517061Z Download artifact has finished successfully
+2026-04-21T23:58:16.8701210Z ##[group]Run find "${RUNNER_TEMP}/gh-aw/safe-jobs/" -type f -print
+2026-04-21T23:58:16.8702981Z [36;1mfind "${RUNNER_TEMP}/gh-aw/safe-jobs/" -type f -print[0m
+2026-04-21T23:58:16.8705289Z [36;1mecho "GH_AW_AGENT_OUTPUT=${RUNNER_TEMP}/gh-aw/safe-jobs/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-21T23:58:16.8815020Z shell: /usr/bin/bash -e {0}
+2026-04-21T23:58:16.8815996Z ##[endgroup]
+2026-04-21T23:58:16.8930363Z /home/runner/work/_temp/gh-aw/safe-jobs/safeoutputs.jsonl
+2026-04-21T23:58:16.8932910Z /home/runner/work/_temp/gh-aw/safe-jobs/agent_usage.json
+2026-04-21T23:58:16.8935405Z /home/runner/work/_temp/gh-aw/safe-jobs/agent_output.json
+2026-04-21T23:58:16.8937061Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/start-gateway.log
+2026-04-21T23:58:16.8938940Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/stderr.log
+2026-04-21T23:58:16.8940559Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/mcp-gateway.log
+2026-04-21T23:58:16.8942205Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/github.log
+2026-04-21T23:58:16.8943787Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/safeoutputs.log
+2026-04-21T23:58:16.8945490Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/rpc-messages.jsonl
+2026-04-21T23:58:16.8947154Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/gateway.md
+2026-04-21T23:58:16.8948922Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/tools.json
+2026-04-21T23:58:16.8950613Z /home/runner/work/_temp/gh-aw/safe-jobs/mcp-logs/safeoutputs/server.log
+2026-04-21T23:58:16.8952234Z /home/runner/work/_temp/gh-aw/safe-jobs/agent-stdio.log
+2026-04-21T23:58:16.8953746Z /home/runner/work/_temp/gh-aw/safe-jobs/github_rate_limits.jsonl
+2026-04-21T23:58:16.8955760Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/logs/api-proxy-logs/token-usage.jsonl
+2026-04-21T23:58:16.8957881Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/logs/access.log
+2026-04-21T23:58:16.8959900Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/logs/cache.log
+2026-04-21T23:58:16.8961744Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/logs/audit.jsonl
+2026-04-21T23:58:16.8963790Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/audit/docker-compose.redacted.yml
+2026-04-21T23:58:16.8965858Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/audit/squid.conf
+2026-04-21T23:58:16.8967951Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/audit/policy-manifest.json
+2026-04-21T23:58:16.8970219Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/firewall/audit/iptables-audit.txt
+2026-04-21T23:58:16.8972313Z /home/runner/work/_temp/gh-aw/safe-jobs/sandbox/agent/logs/process-1776815732808-167.log
+2026-04-21T23:58:16.8974225Z /home/runner/work/_temp/gh-aw/safe-jobs/aw-prompts/prompt.txt
+2026-04-21T23:58:16.9146610Z ##[group]Run actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
+2026-04-21T23:58:16.9148056Z with:
+2026-04-21T23:58:16.9181461Z   script: const fs = require('fs');
+const outputFile = process.env.GH_AW_AGENT_OUTPUT;
+
+function resolveIssueNumber() {
+  if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {
+    return context.issue.number;
+  }
+  const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);
+  if (Number.isInteger(parsed) && parsed > 0) {
+    return parsed;
+  }
+  return null;
+}
+
+const issueNumber = resolveIssueNumber();
+const owner = context.repo.owner;
+const repo = context.repo.repo;
+
+if (issueNumber === null) {
+  core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);
+  return;
+}
+
+async function failSafe(reason) {
+  core.error(`mention_owners failed: ${reason}`);
+  try {
+    await github.rest.issues.addLabels({
+      owner, repo, issue_number: issueNumber,
+      labels: ['needs-team-triage']
+    });
+    await github.rest.issues.createComment({
+      owner, repo, issue_number: issueNumber,
+      body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'
+    });
+  } catch (recoveryError) {
+    core.error(`Recovery also failed: ${recoveryError.message}`);
+  }
+  core.setFailed(reason);
+}
+
+if (!outputFile) {
+  await failSafe('No agent output path provided');
+  return;
+}
+if (!fs.existsSync(outputFile)) {
+  await failSafe(`Agent output file not found: ${outputFile}`);
+  return;
+}
+
+let agentOutput;
+try {
+  agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+} catch (parseError) {
+  await failSafe(`Failed to parse agent output: ${parseError.message}`);
+  return;
+}
+
+if (!agentOutput || !Array.isArray(agentOutput.items)) {
+  await failSafe('Agent output missing items array');
+  return;
+}
+
+const items = agentOutput.items.filter(i => i.type === 'mention_owners');
+if (items.length === 0) {
+  await failSafe('No mention_owners items in agent output');
+  return;
+}
+
+for (const item of items) {
+  if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
+    await failSafe('mention_owners item missing owners field');
+    return;
+  }
+
+  const mentions = item.owners
+    .split(/[\s,]+/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(raw => {
+      const normalized = raw.replace(/^\\?@/, '');
+      if (/\r|\n/.test(normalized)) return null;
+      if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
+      return `@${normalized}`;
+    })
+    .filter(Boolean);
+
+  if (mentions.length === 0) {
+    await failSafe('No valid owners after parsing owners field');
+    return;
+  }
+
+  const body = item.message
+    ? `${item.message}\n\n//cc: ${mentions.join(' ')}`
+    : mentions.join(' ');
+
+  try {
+    await github.rest.issues.createComment({
+      owner, repo, issue_number: issueNumber,
+      body
+    });
+    core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
+  } catch (apiError) {
+    await failSafe(`GitHub API error posting comment: ${apiError.message}`);
+    return;
+  }
+}
+
+2026-04-21T23:58:16.9215705Z   github-token: ***
+2026-04-21T23:58:16.9216508Z   debug: false
+2026-04-21T23:58:16.9217317Z   user-agent: actions/github-script
+2026-04-21T23:58:16.9218312Z   result-encoding: json
+2026-04-21T23:58:16.9219271Z   retries: 0
+2026-04-21T23:58:16.9220142Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-21T23:58:16.9221226Z env:
+2026-04-21T23:58:16.9221954Z   DISPATCH_ISSUE_NUMBER: 58466
+2026-04-21T23:58:16.9223280Z   GH_AW_AGENT_OUTPUT: /home/runner/work/_temp/gh-aw/safe-jobs/agent_output.json
+2026-04-21T23:58:16.9224695Z ##[endgroup]
+2026-04-21T23:58:17.5795887Z Posted routing comment on #58466 mentioning: @efrainretana, @mattgotteiner
+2026-04-21T23:58:17.6200599Z Cleaning up orphan processes

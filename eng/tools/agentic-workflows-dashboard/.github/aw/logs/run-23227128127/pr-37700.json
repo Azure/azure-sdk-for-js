@@ -1,0 +1,11 @@
+{
+  "pr": 37700,
+  "package": "@azure/arm-alertsmanagement",
+  "version": "1.0.0-beta.1",
+  "reviewed_at": "2026-03-18T03:06:56Z",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "design", "category": "naming", "detail": "ProxyResource_1 duplicate model naming - _N suffix"},
+    {"type": "design", "category": "naming", "detail": "KnownTimeRange enum _1D/_1H/_30D/_7D _ prefix naming"}
+  ]
+}

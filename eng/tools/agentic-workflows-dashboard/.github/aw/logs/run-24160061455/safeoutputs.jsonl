@@ -1,0 +1,1 @@
+{"message":"No documentation issue needed: PR #57941 (ServiceBus batch sizing fix) already has a comprehensive CHANGELOG entry. The README already shows the correct safe-batching pattern. No new public APIs were added — only internal AMQP behavior was corrected.","type":"noop"}

@@ -1,0 +1,4 @@
+2026-03-25T21:45:15.1790000Z Evaluating conclusion.if
+2026-03-25T21:45:15.1790000Z Evaluating: ((always()) && ((needs.agent.result != 'skipped')))
+2026-03-25T21:45:15.1790000Z Expanded: (true && ('skipped' != 'skipped'))
+2026-03-25T21:45:15.1790000Z Result: false

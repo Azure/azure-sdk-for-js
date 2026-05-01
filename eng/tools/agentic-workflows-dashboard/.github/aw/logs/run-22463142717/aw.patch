@@ -1,0 +1,229 @@
+From f2dbecea31bd779ae96797955e500c7b8961a101 Mon Sep 17 00:00:00 2001
+From: GitHub Copilot <copilot@github.com>
+Date: Thu, 26 Feb 2026 22:09:48 +0000
+Subject: [PATCH] docs: fix documentation inconsistencies
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- Fix outdated mocha/chai test examples in Quickstart-on-how-to-write-tests.md
+  to use vitest patterns (VitestTestContext, arrow function beforeEach, vitest
+  imports instead of chai/mocha)
+- Fix incorrect pnpm install command in Generate-code-from-TypeSpec.md
+  ('npm install -g @pnpm' → 'npm install -g pnpm')
+- Fix missing trailing '...' in pnpm build --filter commands in
+  steps-after-generations.md (Windows and Linux playback/record examples)
+- Update using-azure-identity.md:
+  - InteractiveBrowserCredential: replace deprecated implicit grant flow
+    description with current authorization code + PKCE flow, add Node.js
+    support info, remove stale browser-only note
+  - DefaultAzureCredential: update credential chain to include
+    WorkloadIdentityCredential, VisualStudioCodeCredential, AzureCliCredential,
+    AzurePowerShellCredential, and AzureDeveloperCliCredential
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ documentation/Generate-code-from-TypeSpec.md  |  2 +-
+ .../Quickstart-on-how-to-write-tests.md       | 35 +++++++++----------
+ documentation/steps-after-generations.md      |  6 ++--
+ documentation/using-azure-identity.md         | 33 +++++++++--------
+ 4 files changed, 40 insertions(+), 36 deletions(-)
+
+diff --git a/documentation/Generate-code-from-TypeSpec.md b/documentation/Generate-code-from-TypeSpec.md
+index 73df7f4e3..990b5ceef 100644
+--- a/documentation/Generate-code-from-TypeSpec.md
++++ b/documentation/Generate-code-from-TypeSpec.md
+@@ -49,7 +49,7 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
+ Install dependencies to use code-gen-pipeline,  
+ ```ps
+ npm --prefix eng/common/tsp-client ci
+-npm install -g @pnpm
++npm install -g pnpm
+ npm --prefix eng/tools/js-sdk-release-tools ci
+ ```
+ 
+diff --git a/documentation/Quickstart-on-how-to-write-tests.md b/documentation/Quickstart-on-how-to-write-tests.md
+index 4bbb503fe..9c7886de7 100644
+--- a/documentation/Quickstart-on-how-to-write-tests.md
++++ b/documentation/Quickstart-on-how-to-write-tests.md
+@@ -370,9 +370,9 @@ This simple test creates a resource and checks that the service handles it corre
+ 
+ ```typescript
+ import { Recorder } from "@azure-tools/test-recorder";
+-import { assert } from "chai";
+-import { PurviewDataMapClient } from "../../src";
+-import { createClient, createRecorder } from "./utils/recordedClient";
++import { describe, it, assert, beforeEach, afterEach } from "vitest";
++import { PurviewDataMapClient } from "../../src/index.js";
++import { createClient, createRecorder } from "./utils/recordedClient.js";
+ 
+ describe("My test", () => {
+   let recorder: Recorder;
+@@ -380,14 +380,14 @@ describe("My test", () => {
+   let client: PurviewDataMapClient;
+   let glossaryName: string;
+ 
+-  beforeEach(async function () {
+-    recorder = await createRecorder(this);
++  beforeEach(async (ctx) => {
++    recorder = await createRecorder(ctx);
+     // Step 3: Create your client
+     client = await createClient(recorder);
+     glossaryName = "js-testing";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+@@ -415,9 +415,9 @@ describe("My test", () => {
+ ### `utils/recordedClient.ts`
+ 
+ ```typescript
+-import { Context } from "mocha";
+-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
++import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
++import { Recorder } from "@azure-tools/test-recorder";
++import PurviewDataMap, { PurviewDataMapClient } from "../../../src/index.js";
+ import { createTestCredential } from "@azure-tools/test-credential";
+ import { ClientOptions } from "@azure-rest/core-client";
+ 
+@@ -439,8 +439,8 @@ const recorderEnvSetup: RecorderStartOptions = {
+  * Should be called first in the test suite to make sure environment variables are
+  * read before they are being used.
+  */
+-export async function createRecorder(context: Context): Promise<Recorder> {
+-  const recorder = new Recorder(context.currentTest);
++export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
++  const recorder = new Recorder(context);
+   await recorder.start(recorderEnvSetup);
+   return recorder;
+ }
+@@ -484,9 +484,8 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
+ 
+ import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+ import { createTestCredential } from "@azure-tools/test-credential";
+-import { assert } from "chai";
+-import { Context } from "mocha";
+-import { MonitorClient } from "../src/monitorClient";
++import { describe, it, assert, beforeEach, afterEach } from "vitest";
++import { MonitorClient } from "../src/monitorClient.js";
+ 
+ // Step 4: Add environment variables you'd like to mask the values in recordings
+ const replaceableVariables: Record<string, string> = {
+@@ -508,8 +507,8 @@ describe("Monitor client", () => {
+   let client: MonitorClient;
+   let diagnosticName: string;
+ 
+-  beforeEach(async function (this: Context) {
+-    recorder = new Recorder(this.currentTest);
++  beforeEach(async (ctx) => {
++    recorder = new Recorder(ctx);
+     await recorder.start(recorderOptions);
+     // Step 3: create clients
+     subscriptionId = env.SUBSCRIPTION_ID || "";
+@@ -518,11 +517,11 @@ describe("Monitor client", () => {
+     diagnosticName = "my-test-diagnostic-name";
+   });
+ 
+-  afterEach(async function () {
++  afterEach(async () => {
+     await recorder.stop();
+   });
+ 
+-  it("should create diagnosticSettings", async function () {
++  it("should create diagnosticSettings", async () => {
+     // Step 3: call createOrUpdate to prepare resource
+     const res = await client.diagnosticSettings.createOrUpdate("workflowsId", diagnosticName, {
+       storageAccountId: "storageId",
+diff --git a/documentation/steps-after-generations.md b/documentation/steps-after-generations.md
+index 2bb88b03a..b43da0acb 100644
+--- a/documentation/steps-after-generations.md
++++ b/documentation/steps-after-generations.md
+@@ -67,7 +67,7 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Windows, you could use `SET`:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}
++    pnpm build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
+     On Linux, you could use below commands:
+ 
+     ```shell
+-      pnpm build --filter=${PACKAGE_NAME}
++    pnpm build --filter=${PACKAGE_NAME}...
+     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+     On Windows, you can use:
+ 
+     ```shell
+-    pnpm build --filter=${PACKAGE_NAME}
++    pnpm build --filter=${PACKAGE_NAME}...
+     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+     ```
+ 
+diff --git a/documentation/using-azure-identity.md b/documentation/using-azure-identity.md
+index e83912248..689c0c204 100644
+--- a/documentation/using-azure-identity.md
++++ b/documentation/using-azure-identity.md
+@@ -259,25 +259,25 @@ that have been tested to confirm support for managed identity authentication.
+ 
+ ### InteractiveBrowserCredential
+ 
+-The `InteractiveBrowserCredential` follows the [implicit grant
+-flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
+-which enables authentication for clients that run completely in the browser. It
+-is primarily useful for single-page web applications (SPAs) which need to
+-authenticate to access Azure resources and APIs directly.
+-
+-To use this credential successfully, your app registration will need to be
+-configured with both the **Access tokens** and **ID tokens** options checked under
+-**Implicit grant** in the **Authentication** page.
+-
+-You will also need to add a redirect URI in the **Redirect URIs** section of the
++The `InteractiveBrowserCredential` follows the [authorization code
++flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
++with [PKCE](https://datatracker.ietf.org/doc/html/rfc7636) which enables
++authentication for clients running in the browser or on Node.js. It
++is primarily useful for single-page web applications (SPAs) and desktop
++applications which need to authenticate to access Azure resources and APIs
++directly.
++
++On Node.js it opens a browser window and listens for a redirect response. On
++browsers it authenticates via a popup or redirect. For Node.js, the Microsoft
++Entra application should be configured with a "Mobile and desktop applications"
++redirect endpoint.
++
++You will need to add a redirect URI in the **Redirect URIs** section of the
+ **Authentication** page for your app registration. The redirect URI must point
+ to the URI of your web application. You must also make sure to specify the same
+ URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
+ creating an `InteractiveBrowserCredential`.
+ 
+-> NOTE: At this time, this credential can only be used in the browser but
+-> Node.js support will be added in the future (see issue [#4774](https://github.com/Azure/azure-sdk-for-js/issues/4774)).
+-
+ ### DeviceCodeCredential
+ 
+ The `DeviceCodeCredential` follows the [device code authorization
+@@ -314,7 +314,12 @@ which tries each of the following credential types in order until one of them
+ succeeds:
+ 
+ - `EnvironmentCredential`
++- `WorkloadIdentityCredential`
+ - `ManagedIdentityCredential`
++- `VisualStudioCodeCredential`
++- `AzureCliCredential`
++- `AzurePowerShellCredential`
++- `AzureDeveloperCliCredential`
+ 
+ This credential type is ideal when one of the credentials in the chain will work
+ in the current environment, whether it's your local development or a production
+-- 
+2.53.0
+

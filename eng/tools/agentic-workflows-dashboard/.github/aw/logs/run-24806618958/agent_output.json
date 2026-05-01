@@ -1,0 +1,1 @@
+{"items":[{"message":"No documentation gap found: PR #58516 adds internal Spector test coverage (encode/datetime) and XML serialization generator infrastructure to eng/packages/http-client-csharp. No new user-facing emitter options or public APIs were introduced; the generator README requires no updates.","type":"noop"}],"errors":[]}

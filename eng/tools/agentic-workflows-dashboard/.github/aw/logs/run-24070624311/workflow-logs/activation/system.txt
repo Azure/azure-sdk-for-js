@@ -1,0 +1,4 @@
+2026-04-07T07:52:51.0360000Z Evaluating activation.if
+2026-04-07T07:52:51.0360000Z Evaluating: (success() && (((needs.pre_activation.outputs.activated == 'true') && ((github.event.label.name == 'architecture-review-needed')))))
+2026-04-07T07:52:51.0360000Z Expanded: (false && ((needs.pre_activation.outputs.activated == 'true') && (github.event.label.name == 'architecture-review-needed')))
+2026-04-07T07:52:51.0360000Z Result: false

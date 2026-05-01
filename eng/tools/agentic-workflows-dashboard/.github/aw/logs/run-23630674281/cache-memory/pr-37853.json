@@ -1,0 +1,13 @@
+{
+  "pr": 37853,
+  "package": "@azure/arm-cognitiveservices",
+  "version": "9.0.0-beta.1",
+  "reviewed_at": "2026-03-27",
+  "outcome": "issues_found",
+  "findings": [
+    {"type": "tool", "file": "arm-cognitiveservices-node.api.md", "line": 237, "description": "ae-forgotten-export: _UsageListResult not exported from entry point"},
+    {"type": "tool", "file": "arm-cognitiveservices-node.api.md", "line": 2371, "description": "ae-forgotten-export: _OutboundRuleListResult not exported from entry point"},
+    {"type": "design", "file": "arm-cognitiveservices-node.api.md", "line": 471, "description": "AzureClouds enum missing Known* prefix"},
+    {"type": "tool", "file": "arm-cognitiveservices-node.api.md", "line": 478, "description": "AzureSupportedClouds uses closed template literal type instead of string"}
+  ]
+}

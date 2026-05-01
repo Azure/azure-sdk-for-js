@@ -1,0 +1,12 @@
+{
+  "pr": 38290,
+  "package": "@azure/arm-prometheusrulegroups",
+  "version": "1.0.0-beta.1",
+  "apiVersion": "2023-03-01",
+  "outcome": "clean",
+  "findings": [],
+  "mergeState": "blocked (UnitTest checks still running at review time)",
+  "ciStatus": "Build Analyze passed; UnitTest checks in-progress (buildId=6212570)",
+  "notes": "First release 1.0.0-beta.1; API version 2023-03-01; new package under sdk/prometheusrulegroups/; client name PrometheusRuleGroupsManagementClient; version aligned across package.json/context/CHANGELOG; KnownVersions has only 2023-03-01; no API or tooling issues.",
+  "reviewedAt": "2026-04-27"
+}

@@ -1,0 +1,9 @@
+2026-04-08T04:55:29.8380000Z Requested labels: ubuntu-slim
+2026-04-08T04:55:29.8380000Z Job defined at: Azure/azure-sdk-for-js/.github/workflows/sentinel.lock.yml@refs/heads/main
+2026-04-08T04:55:29.8380000Z Waiting for a runner to pick up this job...
+2026-04-08T04:55:29.8360000Z Evaluating push_repo_memory.if
+2026-04-08T04:55:29.8360000Z Evaluating: (always() && (((needs.detection.result == 'success') || (needs.detection.result == 'skipped'))))
+2026-04-08T04:55:29.8360000Z Expanded: (true && (('skipped' == 'success') || ('skipped' == 'skipped')))
+2026-04-08T04:55:29.8360000Z Result: true
+2026-04-08T04:55:30.1340000Z Job is waiting for a hosted runner to come online.
+2026-04-08T04:55:30.1340000Z Job is about to start running on the hosted runner: GitHub Actions 1029515149

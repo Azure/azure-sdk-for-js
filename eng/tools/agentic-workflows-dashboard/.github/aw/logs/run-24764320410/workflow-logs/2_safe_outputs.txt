@@ -1,0 +1,678 @@
+﻿2026-04-22T06:54:51.3861126Z Current runner version: '2.333.1'
+2026-04-22T06:54:51.3934085Z ##[group]Runner Image Provisioner
+2026-04-22T06:54:51.3935013Z Hosted Compute Agent
+2026-04-22T06:54:51.3935555Z Version: 20260213.493
+2026-04-22T06:54:51.3936139Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-22T06:54:51.3936767Z Build Date: 2026-02-13T00:28:41Z
+2026-04-22T06:54:51.3937920Z Worker ID: {020ac9b3-954d-42c6-82c2-8b6097d7fb11}
+2026-04-22T06:54:51.3938574Z Azure Region: northcentralus
+2026-04-22T06:54:51.3939115Z ##[endgroup]
+2026-04-22T06:54:51.3943517Z ##[group]VM Image
+2026-04-22T06:54:51.3944187Z - OS: Linux (x64)
+2026-04-22T06:54:51.3944683Z - Source: Docker
+2026-04-22T06:54:51.3945107Z - Name: ubuntu:24.04
+2026-04-22T06:54:51.3945652Z - Version: 20260413.54.1
+2026-04-22T06:54:51.3946120Z ##[endgroup]
+2026-04-22T06:54:51.3947408Z ##[group]GITHUB_TOKEN Permissions
+2026-04-22T06:54:51.3949582Z Contents: write
+2026-04-22T06:54:51.3960530Z Discussions: write
+2026-04-22T06:54:51.3961299Z Issues: write
+2026-04-22T06:54:51.3961811Z Metadata: read
+2026-04-22T06:54:51.3962306Z PullRequests: write
+2026-04-22T06:54:51.3962756Z ##[endgroup]
+2026-04-22T06:54:51.3965208Z Secret source: Actions
+2026-04-22T06:54:51.3966830Z Prepare workflow directory
+2026-04-22T06:54:51.5056736Z Prepare all required actions
+2026-04-22T06:54:51.5123387Z Getting action download info
+2026-04-22T06:54:52.2444629Z Download action repository 'github/gh-aw-actions@0acfb4a691fe207cd8bc982ea5cb9d750d57a702' (SHA:0acfb4a691fe207cd8bc982ea5cb9d750d57a702)
+2026-04-22T06:54:52.8290002Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-22T06:54:53.2314605Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-22T06:54:53.3563093Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-22T06:54:53.6812616Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-22T06:54:54.0154955Z Complete job name: safe_outputs
+2026-04-22T06:54:54.1058326Z ##[group]Run github/gh-aw-actions/setup@0acfb4a691fe207cd8bc982ea5cb9d750d57a702
+2026-04-22T06:54:54.1060675Z with:
+2026-04-22T06:54:54.1061161Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-22T06:54:54.1061726Z   job-name: safe_outputs
+2026-04-22T06:54:54.1062184Z   trace-id: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:54.1063064Z   safe-output-custom-tokens: false
+2026-04-22T06:54:54.1063578Z   safe-output-artifact-client: false
+2026-04-22T06:54:54.1064384Z env:
+2026-04-22T06:54:54.1064864Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:54:54.1065488Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:54:54.1065945Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:54:54.1066366Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:54:54.1068738Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:54:54.1071437Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:54:54.1071972Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:54:54.1072511Z ##[endgroup]
+2026-04-22T06:54:56.0046991Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-22T06:54:56.0048073Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-22T06:54:56.0049104Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-22T06:54:56.0050474Z [otlp] INPUT_TRACE_ID=e2be90484bd194943d042fd5c5bd362c (will reuse activation trace)
+2026-04-22T06:54:56.0051366Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-22T06:54:56.0052438Z [otlp] resolved trace-id=e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:56.0053200Z [otlp] trace-id=e2be90484bd194943d042fd5c5bd362c written to GITHUB_OUTPUT
+2026-04-22T06:54:56.0053930Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-22T06:54:56.0056451Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-22T06:54:56.0057381Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-22T06:54:56.0282267Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-22T06:54:56.0283063Z with:
+2026-04-22T06:54:56.0283397Z   name: agent
+2026-04-22T06:54:56.0284524Z   path: /tmp/gh-aw/
+2026-04-22T06:54:56.0285327Z   merge-multiple: false
+2026-04-22T06:54:56.0286122Z   repository: Azure/azure-sdk-for-js
+2026-04-22T06:54:56.0286620Z   run-id: 24764320410
+2026-04-22T06:54:56.0287019Z   skip-decompress: false
+2026-04-22T06:54:56.0287536Z   digest-mismatch: error
+2026-04-22T06:54:56.0287942Z env:
+2026-04-22T06:54:56.0288403Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:54:56.0289011Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:54:56.0289470Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:54:56.0290157Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:54:56.0293139Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:54:56.0298610Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:54:56.0299166Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:54:56.0309514Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-22T06:54:56.0321865Z   GITHUB_AW_OTEL_TRACE_ID: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:56.0324105Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: a1bbfe10686edf59
+2026-04-22T06:54:56.0324720Z   GITHUB_AW_OTEL_JOB_START_MS: 1776840895993
+2026-04-22T06:54:56.0325210Z ##[endgroup]
+2026-04-22T06:54:56.3050931Z Downloading single artifact
+2026-04-22T06:54:56.7997942Z (node:975) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-22T06:54:56.7999578Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-22T06:54:56.8002261Z Preparing to download the following artifacts:
+2026-04-22T06:54:56.8003297Z - agent (ID: 6572192277, Size: 622982, Expected Digest: sha256:fea52f152ffeaad165ef4d5b383186c8f9c0420d0ed6e228e11ca6baa622d21d)
+2026-04-22T06:54:56.8019444Z Redirecting to blob download url: https://productionresultssa9.blob.core.windows.net/actions-results/922e035e-251c-4f38-bbfc-ade73217e567/workflow-job-run-ea5f1ab7-ad1d-5233-8a60-f1fe38ac3f90/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-22T06:54:56.8022689Z Starting download of artifact to: /tmp/gh-aw
+2026-04-22T06:54:57.0107204Z SHA256 digest of downloaded artifact is fea52f152ffeaad165ef4d5b383186c8f9c0420d0ed6e228e11ca6baa622d21d
+2026-04-22T06:54:57.0108363Z Artifact download completed successfully.
+2026-04-22T06:54:57.0108934Z Total of 1 artifact(s) downloaded
+2026-04-22T06:54:57.0112692Z Download artifact has finished successfully
+2026-04-22T06:54:57.0308701Z ##[group]Run mkdir -p /tmp/gh-aw/
+2026-04-22T06:54:57.0309405Z [36;1mmkdir -p /tmp/gh-aw/[0m
+2026-04-22T06:54:57.0310238Z [36;1mfind "/tmp/gh-aw/" -type f -print[0m
+2026-04-22T06:54:57.0312404Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/agent_output.json" >> "$GITHUB_OUTPUT"[0m
+2026-04-22T06:54:57.0327298Z shell: /usr/bin/bash -e {0}
+2026-04-22T06:54:57.0327782Z env:
+2026-04-22T06:54:57.0329917Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:54:57.0330648Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:54:57.0331131Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:54:57.0331573Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:54:57.0334572Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:54:57.0341822Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:54:57.0342404Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:54:57.0355691Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-22T06:54:57.0365504Z   GITHUB_AW_OTEL_TRACE_ID: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:57.0366212Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: a1bbfe10686edf59
+2026-04-22T06:54:57.0366789Z   GITHUB_AW_OTEL_JOB_START_MS: 1776840895993
+2026-04-22T06:54:57.0368098Z ##[endgroup]
+2026-04-22T06:54:57.0602608Z /tmp/gh-aw/sandbox/agent/logs/process-1776840422219-163.log
+2026-04-22T06:54:57.0604290Z /tmp/gh-aw/safeoutputs.jsonl
+2026-04-22T06:54:57.0608450Z /tmp/gh-aw/agent_usage.json
+2026-04-22T06:54:57.0611028Z /tmp/gh-aw/agent-stdio.log
+2026-04-22T06:54:57.0611635Z /tmp/gh-aw/github_rate_limits.jsonl
+2026-04-22T06:54:57.0612173Z /tmp/gh-aw/mcp-logs/safeoutputs/server.log
+2026-04-22T06:54:57.0612720Z /tmp/gh-aw/mcp-logs/rpc-messages.jsonl
+2026-04-22T06:54:57.0613248Z /tmp/gh-aw/mcp-logs/tools.json
+2026-04-22T06:54:57.0614651Z /tmp/gh-aw/mcp-logs/github.log
+2026-04-22T06:54:57.0615204Z /tmp/gh-aw/mcp-logs/safeoutputs.log
+2026-04-22T06:54:57.0615730Z /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026-04-22T06:54:57.0616227Z /tmp/gh-aw/mcp-logs/gateway.md
+2026-04-22T06:54:57.0616686Z /tmp/gh-aw/mcp-logs/stderr.log
+2026-04-22T06:54:57.0617166Z /tmp/gh-aw/mcp-logs/start-gateway.log
+2026-04-22T06:54:57.0618942Z /tmp/gh-aw/aw-prompts/prompt.txt
+2026-04-22T06:54:57.0620167Z /tmp/gh-aw/agent_output.json
+2026-04-22T06:54:57.0825871Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-22T06:54:57.0826758Z with:
+2026-04-22T06:54:57.0827119Z   name: agent
+2026-04-22T06:54:57.0829199Z   path: /tmp/gh-aw/
+2026-04-22T06:54:57.0829912Z   merge-multiple: false
+2026-04-22T06:54:57.0830386Z   repository: Azure/azure-sdk-for-js
+2026-04-22T06:54:57.0830876Z   run-id: 24764320410
+2026-04-22T06:54:57.0831289Z   skip-decompress: false
+2026-04-22T06:54:57.0833855Z   digest-mismatch: error
+2026-04-22T06:54:57.0835748Z env:
+2026-04-22T06:54:57.0841401Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:54:57.0842204Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:54:57.0842694Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:54:57.0843130Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:54:57.0846455Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:54:57.0849954Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:54:57.0850511Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:54:57.0864216Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-22T06:54:57.0876888Z   GITHUB_AW_OTEL_TRACE_ID: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:57.0877597Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: a1bbfe10686edf59
+2026-04-22T06:54:57.0878413Z   GITHUB_AW_OTEL_JOB_START_MS: 1776840895993
+2026-04-22T06:54:57.0880034Z ##[endgroup]
+2026-04-22T06:54:57.3471442Z Downloading single artifact
+2026-04-22T06:54:57.7874399Z (node:990) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-04-22T06:54:57.7905096Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-04-22T06:54:57.7908085Z Preparing to download the following artifacts:
+2026-04-22T06:54:57.7909994Z - agent (ID: 6572192277, Size: 622982, Expected Digest: sha256:fea52f152ffeaad165ef4d5b383186c8f9c0420d0ed6e228e11ca6baa622d21d)
+2026-04-22T06:54:57.7925334Z Redirecting to blob download url: https://productionresultssa9.blob.core.windows.net/actions-results/922e035e-251c-4f38-bbfc-ade73217e567/workflow-job-run-ea5f1ab7-ad1d-5233-8a60-f1fe38ac3f90/artifacts/d4f0bc5a29de06b510f9aa428f1eedba926012b591fef7a518e776a7c9bd1824.zip
+2026-04-22T06:54:57.7932845Z Starting download of artifact to: /tmp/gh-aw
+2026-04-22T06:54:57.9951400Z SHA256 digest of downloaded artifact is fea52f152ffeaad165ef4d5b383186c8f9c0420d0ed6e228e11ca6baa622d21d
+2026-04-22T06:54:57.9955193Z Artifact download completed successfully.
+2026-04-22T06:54:57.9964506Z Total of 1 artifact(s) downloaded
+2026-04-22T06:54:58.0001192Z Download artifact has finished successfully
+2026-04-22T06:54:58.0108655Z ##[group]Run # Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct
+2026-04-22T06:54:58.0110956Z [36;1m# Derive GH_HOST from GITHUB_SERVER_URL so the gh CLI targets the correct[0m
+2026-04-22T06:54:58.0111951Z [36;1m# GitHub instance (GHES/GHEC). On github.com this is a harmless no-op.[0m
+2026-04-22T06:54:58.0112737Z [36;1mGH_HOST="${GITHUB_SERVER_URL#https://}"[0m
+2026-04-22T06:54:58.0113310Z [36;1mGH_HOST="${GH_HOST#http://}"[0m
+2026-04-22T06:54:58.0114447Z [36;1mecho "GH_HOST=${GH_HOST}" >> "$GITHUB_ENV"[0m
+2026-04-22T06:54:58.0128164Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-04-22T06:54:58.0128812Z env:
+2026-04-22T06:54:58.0129307Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:54:58.0130974Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:54:58.0131476Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:54:58.0131922Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:54:58.0134967Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:54:58.0137626Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:54:58.0138195Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:54:58.0147485Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-22T06:54:58.0156353Z   GITHUB_AW_OTEL_TRACE_ID: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:58.0157029Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: a1bbfe10686edf59
+2026-04-22T06:54:58.0157609Z   GITHUB_AW_OTEL_JOB_START_MS: 1776840895993
+2026-04-22T06:54:58.0158111Z ##[endgroup]
+2026-04-22T06:54:58.0422743Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-22T06:54:58.0423604Z with:
+2026-04-22T06:54:58.0424199Z   github-token: ***
+2026-04-22T06:54:58.0427047Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/safe_output_handler_manager.cjs');
+await main();
+
+2026-04-22T06:54:58.0428844Z   debug: false
+2026-04-22T06:54:58.0431566Z   user-agent: actions/github-script
+2026-04-22T06:54:58.0435708Z   result-encoding: json
+2026-04-22T06:54:58.0436154Z   retries: 0
+2026-04-22T06:54:58.0436591Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-22T06:54:58.0437130Z env:
+2026-04-22T06:54:58.0440383Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:54:58.0441098Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:54:58.0441589Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:54:58.0442107Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:54:58.0444493Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:54:58.0446552Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:54:58.0447505Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:54:58.0456340Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-22T06:54:58.0494740Z   GITHUB_AW_OTEL_TRACE_ID: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:54:58.0495470Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: a1bbfe10686edf59
+2026-04-22T06:54:58.0496064Z   GITHUB_AW_OTEL_JOB_START_MS: 1776840895993
+2026-04-22T06:54:58.0497648Z   GH_HOST: github.com
+2026-04-22T06:54:58.0498234Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-04-22T06:54:58.0518771Z   GH_AW_ALLOWED_DOMAINS: api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.npms.io,api.snapcraft.io,archive.ubuntu.com,azure.archive.ubuntu.com,bun.sh,cdn.jsdelivr.net,crl.geotrust.com,crl.globalsign.com,crl.identrust.com,crl.sectigo.com,crl.thawte.com,crl.usertrust.com,crl.verisign.com,crl3.digicert.com,crl4.digicert.com,crls.ssl.com,deb.nodesource.com,deno.land,dev.azure.com,esm.sh,get.pnpm.io,github.com,googleapis.deno.dev,googlechromelabs.github.io,host.docker.internal,json-schema.org,json.schemastore.org,jsr.io,keyserver.ubuntu.com,nodejs.org,npm.pkg.github.com,npmjs.com,npmjs.org,ocsp.digicert.com,ocsp.geotrust.com,ocsp.globalsign.com,ocsp.identrust.com,ocsp.sectigo.com,ocsp.ssl.com,ocsp.thawte.com,ocsp.usertrust.com,ocsp.verisign.com,packagecloud.io,packages.cloud.google.com,packages.microsoft.com,ppa.launchpad.net,raw.githubusercontent.com,registry.bower.io,registry.npmjs.com,registry.npmjs.org,registry.yarnpkg.com,repo.yarnpkg.com,s.symcb.com,s.symcd.com,security.ubuntu.com,skimdb.npmjs.com,storage.googleapis.com,telemetry.enterprise.githubcopilot.com,telemetry.vercel.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,www.googleapis.com,www.npmjs.com,www.npmjs.org,yarnpkg.com
+2026-04-22T06:54:58.0539860Z   GITHUB_SERVER_URL: https://github.com
+2026-04-22T06:54:58.0540433Z   GITHUB_API_URL: https://api.github.com
+2026-04-22T06:54:58.0546947Z   GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"38114"},"create_pull_request_review_comment":{"max":10,"side":"RIGHT","target":"38114"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"push_to_pull_request_branch":{"allowed_files":["sdk/","eng/","pnpm-lock.yaml"],"if_no_changes":"warn","max":3,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","AGENTS.md"],"protected_files_policy":"allowed","protected_path_prefixes":[".github/",".agents/"]},"report_incomplete":{},"submit_pull_request_review":{"footer":"if-body","max":1,"target":"38114"}}
+2026-04-22T06:54:58.0553917Z   GH_AW_CI_TRIGGER_TOKEN: 
+2026-04-22T06:54:58.0554354Z ##[endgroup]
+2026-04-22T06:54:58.2131709Z Safe Output Handler Manager starting...
+2026-04-22T06:54:58.2148697Z Loaded config from GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"38114"},"create_pull_request_review_comment":{"max":10,"side":"RIGHT","target":"38114"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"push_to_pull_request_branch":{"allowed_files":["sdk/","eng/","pnpm-lock.yaml"],"if_no_changes":"warn","max":3,"max_patch_size":1024,"protected_files":["package.json","bun.lockb","bunfig.toml","deno.json","deno.jsonc","deno.lock","global.json","NuGet.Config","Directory.Packages.props","mix.exs","mix.lock","go.mod","go.sum","stack.yaml","stack.yaml.lock","pom.xml","build.gradle","build.gradle.kts","settings.gradle","settings.gradle.kts","gradle.properties","package-lock.json","yarn.lock","pnpm-lock.yaml","npm-shrinkwrap.json","requirements.txt","Pipfile","Pipfile.lock","pyproject.toml","setup.py","setup.cfg","Gemfile","Gemfile.lock","uv.lock","CODEOWNERS","AGENTS.md"],"protected_files_policy":"allowed","protected_path_prefixes":[".github/",".agents/"]},"report_incomplete":{},"submit_pull_request_review":{"footer":"if-body","max":1,"target":"38114"}}
+2026-04-22T06:54:58.2258090Z Agent output content length: 2591
+2026-04-22T06:54:58.2260831Z Found 3 message(s) in agent output
+2026-04-22T06:54:58.2267534Z Using footer config from submit_pull_request_review: if-body
+2026-04-22T06:54:58.2270904Z PR review footer mode set to "if-body"
+2026-04-22T06:54:58.2276972Z Loading and initializing safe output handlers based on configuration...
+2026-04-22T06:54:58.2324984Z Add comment configuration: max=1, target=38114
+2026-04-22T06:54:58.2334227Z Default target repo: Azure/azure-sdk-for-js
+2026-04-22T06:54:58.2337717Z Hide-older-comments is enabled
+2026-04-22T06:54:58.2341550Z ✓ Loaded and initialized handler for: add_comment
+2026-04-22T06:54:58.2370332Z PR review comment target configuration: 38114
+2026-04-22T06:54:58.2372410Z Default comment side configuration: RIGHT
+2026-04-22T06:54:58.2373693Z Max count: 10
+2026-04-22T06:54:58.2377049Z Default target repo: Azure/azure-sdk-for-js
+2026-04-22T06:54:58.2381057Z ✓ Loaded and initialized handler for: create_pull_request_review_comment
+2026-04-22T06:54:58.2398960Z Submit PR review handler initialized: max=1, target=38114
+2026-04-22T06:54:58.2402353Z Default target repo: Azure/azure-sdk-for-js
+2026-04-22T06:54:58.2404866Z ✓ Loaded and initialized handler for: submit_pull_request_review
+2026-04-22T06:54:58.2454096Z Target: triggering
+2026-04-22T06:54:58.2457135Z If no changes: warn
+2026-04-22T06:54:58.2459373Z Max patch size: 1024 KB
+2026-04-22T06:54:58.2461069Z Max count: 3
+2026-04-22T06:54:58.2462089Z Default target repo: Azure/azure-sdk-for-js
+2026-04-22T06:54:58.2465366Z ✓ Loaded and initialized handler for: push_to_pull_request_branch
+2026-04-22T06:54:58.2498830Z Max count: unlimited
+2026-04-22T06:54:58.2500924Z ✓ Loaded and initialized handler for: missing_tool
+2026-04-22T06:54:58.2507069Z Max count: unlimited
+2026-04-22T06:54:58.2508835Z ✓ Loaded and initialized handler for: missing_data
+2026-04-22T06:54:58.2513499Z Max count: 1
+2026-04-22T06:54:58.2515609Z ✓ Loaded and initialized handler for: noop
+2026-04-22T06:54:58.2520764Z Max count: unlimited
+2026-04-22T06:54:58.2522677Z ✓ Loaded and initialized handler for: report_incomplete
+2026-04-22T06:54:58.2561026Z Title prefix: [incomplete]
+2026-04-22T06:54:58.2563020Z Default labels: agentic-workflows
+2026-04-22T06:54:58.2566019Z Max count: 1
+2026-04-22T06:54:58.2569007Z ✓ Loaded and initialized handler for: create_report_incomplete_issue
+2026-04-22T06:54:58.2595356Z Loaded 9 handler(s)
+2026-04-22T06:54:58.2606191Z Collected 0 missing tool(s), 0 missing data item(s), 0 noop message(s), and 0 incomplete signal(s)
+2026-04-22T06:54:58.2610105Z Processing 3 message(s) in order of appearance...
+2026-04-22T06:54:58.2613402Z Processing message 1/3: create_pull_request_review_comment
+2026-04-22T06:54:58.2622811Z Processing create_pull_request_review_comment: path=sdk/azurestackhci/arm-azurestackhci/review/arm-azurestackhci-node.api.md, line=224, bodyLength=1084
+2026-04-22T06:54:58.2634071Z Target repository: Azure/azure-sdk-for-js
+2026-04-22T06:54:59.3121117Z Fetched full pull request details for PR #38114 in Azure/azure-sdk-for-js
+2026-04-22T06:54:59.3122170Z Set review context: Azure/azure-sdk-for-js#38114
+2026-04-22T06:54:59.3123746Z Buffered review comment 1: sdk/azurestackhci/arm-azurestackhci/review/arm-azurestackhci-node.api.md:224
+2026-04-22T06:54:59.3127213Z Buffered review comment on PR #38114 in Azure/azure-sdk-for-js at sdk/azurestackhci/arm-azurestackhci/review/arm-azurestackhci-node.api.md:224 [RIGHT]
+2026-04-22T06:54:59.3130404Z 📝 Manifest: logged create_pull_request_review_comment
+2026-04-22T06:54:59.3131572Z ✓ Message 1 (create_pull_request_review_comment) completed successfully
+2026-04-22T06:54:59.3132596Z Processing message 2/3: submit_pull_request_review
+2026-04-22T06:54:59.3133466Z Setting review metadata: event=COMMENT, bodyLength=844
+2026-04-22T06:54:59.3134304Z Set review metadata: event=COMMENT, bodyLength=844
+2026-04-22T06:54:59.3135554Z 📝 Manifest: logged submit_pull_request_review
+2026-04-22T06:54:59.3136489Z ✓ Message 2 (submit_pull_request_review) completed successfully
+2026-04-22T06:54:59.3137360Z Processing message 3/3: add_comment
+2026-04-22T06:54:59.3138007Z Target repository: Azure/azure-sdk-for-js
+2026-04-22T06:54:59.3138725Z Using explicitly provided item_number: #38114
+2026-04-22T06:55:00.3116533Z [MENTIONS] Allowing parent entity authors in comment: azure-sdk
+2026-04-22T06:55:00.3118288Z Adding comment to issue/PR #38114 in Azure/azure-sdk-for-js
+2026-04-22T06:55:00.3120058Z Searching for previous comments with workflow ID: mgmt-review
+2026-04-22T06:55:00.3121659Z No previous comments found with matching workflow ID
+2026-04-22T06:55:00.3123379Z Created comment: https://github.com/Azure/azure-sdk-for-js/pull/38114#issuecomment-4294188282
+2026-04-22T06:55:00.3126451Z 📝 Manifest: logged add_comment → https://github.com/Azure/azure-sdk-for-js/pull/38114#issuecomment-4294188282
+2026-04-22T06:55:00.3128668Z ✓ Message 3 (add_comment) completed successfully
+2026-04-22T06:55:00.3129496Z 
+2026-04-22T06:55:00.3130063Z === Finalizing PR Review ===
+2026-04-22T06:55:00.3131339Z Submitting 1 buffered review comment(s) as a single PR review
+2026-04-22T06:55:00.3133941Z Footer mode "if-body": body is non-empty, adding footer
+2026-04-22T06:55:00.3137101Z Submitting PR review on Azure/azure-sdk-for-js#38114: event=COMMENT, comments=1, bodyLength=1175
+2026-04-22T06:55:01.2115831Z Created PR review #4152617415: https://github.com/Azure/azure-sdk-for-js/pull/38114#pullrequestreview-4152617415
+2026-04-22T06:55:01.2125207Z ✓ PR review submitted successfully: https://github.com/Azure/azure-sdk-for-js/pull/38114#pullrequestreview-4152617415
+2026-04-22T06:55:01.2130798Z Stored 0 missing tool(s), 0 missing data item(s), 0 noop message(s), and 0 incomplete signal(s) for footer generation
+2026-04-22T06:55:01.2154260Z 📝 Safe output summaries written to step summary
+2026-04-22T06:55:01.2155896Z 
+2026-04-22T06:55:01.2156414Z === Processing Summary ===
+2026-04-22T06:55:01.2158656Z Total messages: 3
+2026-04-22T06:55:01.2160087Z Successful: 3
+2026-04-22T06:55:01.2161538Z Failed: 0
+2026-04-22T06:55:01.2165998Z Temporary IDs registered: 0
+2026-04-22T06:55:01.2168914Z Synthetic updates: 0
+2026-04-22T06:55:01.2186495Z Exported temporary ID map with 0 mapping(s)
+2026-04-22T06:55:01.2188399Z Exported comment_id: 4294188282
+2026-04-22T06:55:01.2212496Z Exported comment_url: https://github.com/Azure/azure-sdk-for-js/pull/38114#issuecomment-4294188282
+2026-04-22T06:55:01.2216131Z Safe Output Handler Manager completed
+2026-04-22T06:55:01.2576701Z ##[group]Run actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+2026-04-22T06:55:01.2579916Z with:
+2026-04-22T06:55:01.2580795Z   name: safe-outputs-items
+2026-04-22T06:55:01.2581889Z   path: /tmp/gh-aw/safe-output-items.jsonl
+2026-04-22T06:55:01.2583130Z   if-no-files-found: ignore
+2026-04-22T06:55:01.2584130Z   compression-level: 6
+2026-04-22T06:55:01.2586078Z   overwrite: false
+2026-04-22T06:55:01.2589550Z   include-hidden-files: false
+2026-04-22T06:55:01.2590970Z   archive: true
+2026-04-22T06:55:01.2593345Z env:
+2026-04-22T06:55:01.2594424Z   GH_AW_CALLER_WORKFLOW_ID: Azure/azure-sdk-for-js/mgmt-review
+2026-04-22T06:55:01.2595898Z   GH_AW_EFFECTIVE_TOKENS: 1703271
+2026-04-22T06:55:01.2596974Z   GH_AW_ENGINE_ID: copilot
+2026-04-22T06:55:01.2598327Z   GH_AW_ENGINE_MODEL: auto
+2026-04-22T06:55:01.2604334Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-22T06:55:01.2610042Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-22T06:55:01.2611304Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-22T06:55:01.2649950Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-22T06:55:01.2684745Z   GITHUB_AW_OTEL_TRACE_ID: e2be90484bd194943d042fd5c5bd362c
+2026-04-22T06:55:01.2686311Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: a1bbfe10686edf59
+2026-04-22T06:55:01.2687997Z   GITHUB_AW_OTEL_JOB_START_MS: 1776840895993
+2026-04-22T06:55:01.2689194Z   GH_HOST: github.com
+2026-04-22T06:55:01.2690310Z ##[endgroup]
+2026-04-22T06:55:01.5356958Z With the provided path, there will be 1 file uploaded
+2026-04-22T06:55:01.5369946Z Artifact name is valid!
+2026-04-22T06:55:01.5374264Z Root directory input is valid!
+2026-04-22T06:55:01.7111741Z Uploading artifact: safe-outputs-items.zip
+2026-04-22T06:55:01.7392118Z Beginning upload of artifact content to blob storage
+2026-04-22T06:55:01.9766662Z Uploaded bytes 350
+2026-04-22T06:55:02.0208154Z Finished uploading artifact content to blob storage!
+2026-04-22T06:55:02.0231602Z SHA256 digest of uploaded artifact is c0dec15407ede38f206552533ca85cb8dab16c35249fd209c41f0b12558900c0
+2026-04-22T06:55:02.0238223Z Finalizing artifact upload
+2026-04-22T06:55:02.2663977Z Artifact safe-outputs-items successfully finalized. Artifact ID 6572216219
+2026-04-22T06:55:02.2676307Z Artifact safe-outputs-items has been successfully uploaded! Final size is 350 bytes. Artifact ID is 6572216219
+2026-04-22T06:55:02.2692545Z Artifact download URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/24764320410/artifacts/6572216219
+2026-04-22T06:55:02.2975542Z Post job cleanup.
+2026-04-22T06:55:02.3568597Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-22T06:55:02.3597014Z Cleaning up /tmp/gh-aw...
+2026-04-22T06:55:02.3868603Z Cleaned up /tmp/gh-aw
+2026-04-22T06:55:02.4067049Z Evaluate and set job outputs
+2026-04-22T06:55:02.4088606Z Set output 'code_push_failure_count'
+2026-04-22T06:55:02.4096134Z Set output 'comment_id'
+2026-04-22T06:55:02.4100467Z Set output 'comment_url'
+2026-04-22T06:55:02.4102844Z Set output 'create_discussion_error_count'
+2026-04-22T06:55:02.4109092Z Set output 'process_safe_outputs_processed_count'
+2026-04-22T06:55:02.4114566Z Set output 'process_safe_outputs_temporary_id_map'
+2026-04-22T06:55:02.4117804Z Cleaning up orphan processes

@@ -1,0 +1,71 @@
+From 8527a603f48223a434986c65cda6fc97e0363ed1 Mon Sep 17 00:00:00 2001
+From: "github-actions[bot]" <github-actions[bot]@users.noreply.github.com>
+Date: Wed, 22 Apr 2026 08:05:13 +0000
+Subject: [PATCH] fix: update pnpm-lock.yaml for arm-horizondb with correct
+ package versions
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Update arm-horizondb devDependency versions in pnpm-lock.yaml to match
+what is actually present in the lockfile snapshots section:
+- @types/node: 20.19.37 → 20.19.39
+- @vitest/browser-playwright: 4.1.0 → 4.1.4
+- @vitest/coverage-istanbul: 4.1.0 → 4.1.4
+- playwright: 1.58.2 → 1.59.1
+- prettier: 3.8.1 → 3.8.2
+- vitest: 4.1.0 → 4.1.4
+
+Fixes ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY CI failures.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+---
+ pnpm-lock.yaml | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 0a58621117f..a981304a99b 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -14865,13 +14865,13 @@ importers:
+         version: 4.13.0
+       '@types/node':
+         specifier: 'catalog:'
+-        version: 20.19.37
++        version: 20.19.39
+       '@vitest/browser-playwright':
+         specifier: catalog:testing
+-        version: 4.1.0(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.0)
++        version: 4.1.4(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)
+       '@vitest/coverage-istanbul':
+         specifier: catalog:testing
+-        version: 4.1.0(vitest@4.1.0)
++        version: 4.1.4(vitest@4.1.4)
+       cross-env:
+         specifier: 'catalog:'
+         version: 10.1.0
+@@ -14883,10 +14883,10 @@ importers:
+         version: 9.39.4
+       playwright:
+         specifier: catalog:testing
+-        version: 1.58.2
++        version: 1.59.1
+       prettier:
+         specifier: 'catalog:'
+-        version: 3.8.1
++        version: 3.8.2
+       rimraf:
+         specifier: 'catalog:'
+         version: 6.1.3
+@@ -14895,7 +14895,7 @@ importers:
+         version: 5.9.3
+       vitest:
+         specifier: catalog:testing
+-        version: 4.1.0(@opentelemetry/api@1.9.0)(@types/node@20.19.37)(@vitest/browser-playwright@4.1.0)(vite@7.3.1(@types/node@20.19.37)(tsx@4.21.0)(yaml@2.8.3))
++        version: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-istanbul@4.1.4)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
+ 
+ 
+   sdk/hybridcompute/arm-hybridcompute:
+-- 
+2.53.0
+

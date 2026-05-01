@@ -1,0 +1,19 @@
+{
+  "pr": 38291,
+  "package": "@azure/arm-alertsmanagement",
+  "version": "1.0.0-beta.1",
+  "apiVersion": "2025-05-25-preview",
+  "outcome": "issues_found",
+  "findings": [
+    {
+      "file": "sdk/alertsmanagement/arm-alertsmanagement/review/arm-alertsmanagement-node.api.md",
+      "line": 618,
+      "type": "design",
+      "description": "ProxyResource_1 exported publicly due to naming collision with ARM common-types ProxyResource; fix via @clientName in spec repo client.tsp"
+    }
+  ],
+  "mergeState": "blocked (ADO CI all in_progress)",
+  "ciStatus": "all ADO CI checks in_progress at review time (buildId=6212647)",
+  "notes": "First release 1.0.0-beta.1; API version 2025-05-25-preview; new package under sdk/alertsmanagement/; client name AlertsManagementClient (no subscriptionId in constructor - scope-based operations); KnownVersions has only 2025-05-25-preview; version aligned across package.json/context/CHANGELOG.",
+  "reviewedAt": "2026-04-27"
+}

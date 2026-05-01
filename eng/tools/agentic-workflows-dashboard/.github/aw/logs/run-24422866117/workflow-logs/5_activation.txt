@@ -1,0 +1,1015 @@
+﻿2026-04-14T22:13:38.4074590Z Current runner version: '2.333.1'
+2026-04-14T22:13:38.4103745Z ##[group]Runner Image Provisioner
+2026-04-14T22:13:38.4105037Z Hosted Compute Agent
+2026-04-14T22:13:38.4105551Z Version: 20260213.493
+2026-04-14T22:13:38.4106211Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-14T22:13:38.4106887Z Build Date: 2026-02-13T00:28:41Z
+2026-04-14T22:13:38.4107509Z Worker ID: {4655b2a7-5e58-4b18-acc7-2d81e89b59da}
+2026-04-14T22:13:38.4108224Z Azure Region: eastus
+2026-04-14T22:13:38.4108713Z ##[endgroup]
+2026-04-14T22:13:38.4110066Z ##[group]VM Image
+2026-04-14T22:13:38.4110631Z - OS: Linux (x64)
+2026-04-14T22:13:38.4111119Z - Source: Docker
+2026-04-14T22:13:38.4111614Z - Name: ubuntu:24.04
+2026-04-14T22:13:38.4112149Z - Version: 20260413.54.1
+2026-04-14T22:13:38.4112628Z ##[endgroup]
+2026-04-14T22:13:38.4114281Z ##[group]GITHUB_TOKEN Permissions
+2026-04-14T22:13:38.4116472Z Actions: read
+2026-04-14T22:13:38.4117005Z Contents: read
+2026-04-14T22:13:38.4117470Z Discussions: write
+2026-04-14T22:13:38.4118255Z Issues: write
+2026-04-14T22:13:38.4118790Z Metadata: read
+2026-04-14T22:13:38.4119284Z PullRequests: write
+2026-04-14T22:13:38.4119751Z ##[endgroup]
+2026-04-14T22:13:38.4122165Z Secret source: Actions
+2026-04-14T22:13:38.4122840Z Prepare workflow directory
+2026-04-14T22:13:38.4466667Z Prepare all required actions
+2026-04-14T22:13:38.4504521Z Getting action download info
+2026-04-14T22:13:38.9608795Z Download action repository 'github/gh-aw-actions@2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc' (SHA:2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc)
+2026-04-14T22:13:39.2999627Z Download action repository 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3' (SHA:3a2844b7e9c422d3c10d287c895573f7108da1b3)
+2026-04-14T22:13:39.4879260Z Download action repository 'actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd' (SHA:de0fac2e4500dabe0009e67214ff5f5447ce83dd)
+2026-04-14T22:13:39.5492455Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+2026-04-14T22:13:39.8398772Z Complete job name: activation
+2026-04-14T22:13:39.9093593Z ##[group]Run github/gh-aw-actions/setup@2fe53acc038ba01c3bbdc767d4b25df31ca5bdfc
+2026-04-14T22:13:39.9095077Z with:
+2026-04-14T22:13:39.9095530Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-14T22:13:39.9096086Z   job-name: activation
+2026-04-14T22:13:39.9096519Z   safe-output-artifact-client: false
+2026-04-14T22:13:39.9097155Z ##[endgroup]
+2026-04-14T22:13:41.2151048Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-14T22:13:41.2152081Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-14T22:13:41.2153072Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-14T22:13:41.2154275Z [otlp] INPUT_TRACE_ID not set, a new trace ID will be generated
+2026-04-14T22:13:41.2155032Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-14T22:13:41.2155728Z [otlp] resolved trace-id=4738a8bab0467a0ba6409a5763b953fc
+2026-04-14T22:13:41.2156535Z [otlp] trace-id=4738a8bab0467a0ba6409a5763b953fc written to GITHUB_OUTPUT
+2026-04-14T22:13:41.2157249Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-14T22:13:41.2243192Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-14T22:13:41.2244209Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-14T22:13:41.2417826Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-14T22:13:41.2418516Z with:
+2026-04-14T22:13:41.2420110Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/generate_aw_info.cjs');
+await main(core, context);
+
+2026-04-14T22:13:41.2422002Z   github-token: ***
+2026-04-14T22:13:41.2422389Z   debug: false
+2026-04-14T22:13:41.2422772Z   user-agent: actions/github-script
+2026-04-14T22:13:41.2423426Z   result-encoding: json
+2026-04-14T22:13:41.2423815Z   retries: 0
+2026-04-14T22:13:41.2424532Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-14T22:13:41.2425039Z env:
+2026-04-14T22:13:41.2431783Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T22:13:41.2439151Z   GITHUB_AW_OTEL_TRACE_ID: 4738a8bab0467a0ba6409a5763b953fc
+2026-04-14T22:13:41.2439776Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: faa48e5a57a55a13
+2026-04-14T22:13:41.2440326Z   GITHUB_AW_OTEL_JOB_START_MS: 1776204821132
+2026-04-14T22:13:41.2440847Z   GH_AW_INFO_ENGINE_ID: copilot
+2026-04-14T22:13:41.2441324Z   GH_AW_INFO_ENGINE_NAME: GitHub Copilot CLI
+2026-04-14T22:13:41.2441810Z   GH_AW_INFO_MODEL: auto
+2026-04-14T22:13:41.2442227Z   GH_AW_INFO_VERSION: 1.0.21
+2026-04-14T22:13:41.2442663Z   GH_AW_INFO_AGENT_VERSION: 1.0.21
+2026-04-14T22:13:41.2443121Z   GH_AW_INFO_CLI_VERSION: v0.68.1
+2026-04-14T22:13:41.2443601Z   GH_AW_INFO_WORKFLOW_NAME: Agentic Triage
+2026-04-14T22:13:41.2444255Z   GH_AW_INFO_EXPERIMENTAL: false
+2026-04-14T22:13:41.2444734Z   GH_AW_INFO_SUPPORTS_TOOLS_ALLOWLIST: true
+2026-04-14T22:13:41.2445390Z   GH_AW_INFO_STAGED: false
+2026-04-14T22:13:41.2445888Z   GH_AW_INFO_ALLOWED_DOMAINS: ["defaults","api.nuget.org"]
+2026-04-14T22:13:41.2446454Z   GH_AW_INFO_FIREWALL_ENABLED: true
+2026-04-14T22:13:41.2446918Z   GH_AW_INFO_AWF_VERSION: v0.25.18
+2026-04-14T22:13:41.2447359Z   GH_AW_INFO_AWMG_VERSION: 
+2026-04-14T22:13:41.2447782Z   GH_AW_INFO_FIREWALL_TYPE: squid
+2026-04-14T22:13:41.2448231Z   GH_AW_COMPILED_STRICT: true
+2026-04-14T22:13:41.2448653Z ##[endgroup]
+2026-04-14T22:13:41.3667527Z Starting context variable validation...
+2026-04-14T22:13:41.3673155Z ✓ github.event.issue.number is valid: 58160
+2026-04-14T22:13:41.3675819Z ✓ github.event.organization.id is valid: 6844498
+2026-04-14T22:13:41.3677400Z ✓ github.event.repository.id is valid: 2928944
+2026-04-14T22:13:41.3679058Z ✓ github.event.sender.id is valid: 64171366
+2026-04-14T22:13:41.3681541Z Validated 4 context variables
+2026-04-14T22:13:41.3682685Z ✅ All context variables validated successfully
+2026-04-14T22:13:41.3685934Z Lockdown mode not explicitly enabled, skipping validation
+2026-04-14T22:13:41.3687165Z Repository visibility: unknown
+2026-04-14T22:13:41.3689660Z Compiled with strict mode: true
+2026-04-14T22:13:41.3731219Z Generated aw_info.json at: /tmp/gh-aw/aw_info.json
+2026-04-14T22:13:41.3732484Z {
+2026-04-14T22:13:41.3732853Z   "engine_id": "copilot",
+2026-04-14T22:13:41.3733304Z   "engine_name": "GitHub Copilot CLI",
+2026-04-14T22:13:41.3734439Z   "model": "auto",
+2026-04-14T22:13:41.3734829Z   "version": "1.0.21",
+2026-04-14T22:13:41.3735228Z   "agent_version": "1.0.21",
+2026-04-14T22:13:41.3735679Z   "workflow_name": "Agentic Triage",
+2026-04-14T22:13:41.3736151Z   "experimental": false,
+2026-04-14T22:13:41.3736587Z   "supports_tools_allowlist": true,
+2026-04-14T22:13:41.3737054Z   "run_id": 24422866117,
+2026-04-14T22:13:41.3737458Z   "run_number": 283,
+2026-04-14T22:13:41.3737844Z   "run_attempt": "1",
+2026-04-14T22:13:41.3738266Z   "repository": "Azure/azure-sdk-for-net",
+2026-04-14T22:13:41.3738768Z   "ref": "refs/heads/main",
+2026-04-14T22:13:41.3739247Z   "sha": "1174fcf9a5c68bda11c9dfeeff38451b55e74796",
+2026-04-14T22:13:41.3739771Z   "actor": "m-nash",
+2026-04-14T22:13:41.3740173Z   "event_name": "issues",
+2026-04-14T22:13:41.3740581Z   "target_repo": "",
+2026-04-14T22:13:41.3740965Z   "staged": false,
+2026-04-14T22:13:41.3741350Z   "allowed_domains": [
+2026-04-14T22:13:41.3741734Z     "defaults",
+2026-04-14T22:13:41.3742101Z     "api.nuget.org"
+2026-04-14T22:13:41.3742469Z   ],
+2026-04-14T22:13:41.3742821Z   "firewall_enabled": true,
+2026-04-14T22:13:41.3743253Z   "awf_version": "v0.25.18",
+2026-04-14T22:13:41.3743672Z   "awmg_version": "",
+2026-04-14T22:13:41.3752482Z   "steps": {
+2026-04-14T22:13:41.3752889Z     "firewall": "squid"
+2026-04-14T22:13:41.3753300Z   },
+2026-04-14T22:13:41.3753687Z   "created_at": "2026-04-14T22:13:41.369Z",
+2026-04-14T22:13:41.3754556Z   "cli_version": "v0.68.1"
+2026-04-14T22:13:41.3754967Z }
+2026-04-14T22:13:41.3885468Z Generated workflow overview in step summary
+2026-04-14T22:13:41.3999124Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-14T22:13:41.3999801Z with:
+2026-04-14T22:13:41.4000408Z   github-token: ***
+2026-04-14T22:13:41.4001935Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/add_reaction.cjs');
+await main();
+
+2026-04-14T22:13:41.4003525Z   debug: false
+2026-04-14T22:13:41.4004241Z   user-agent: actions/github-script
+2026-04-14T22:13:41.4004734Z   result-encoding: json
+2026-04-14T22:13:41.4005121Z   retries: 0
+2026-04-14T22:13:41.4005527Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-14T22:13:41.4006019Z env:
+2026-04-14T22:13:41.4012747Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T22:13:41.4020119Z   GITHUB_AW_OTEL_TRACE_ID: 4738a8bab0467a0ba6409a5763b953fc
+2026-04-14T22:13:41.4020903Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: faa48e5a57a55a13
+2026-04-14T22:13:41.4021454Z   GITHUB_AW_OTEL_JOB_START_MS: 1776204821132
+2026-04-14T22:13:41.4021940Z   GH_AW_REACTION: eyes
+2026-04-14T22:13:41.4022322Z ##[endgroup]
+2026-04-14T22:13:41.5373080Z Adding reaction: eyes
+2026-04-14T22:13:41.5379313Z Adding reaction to: /repos/Azure/azure-sdk-for-net/issues/58160/reactions
+2026-04-14T22:13:41.8394337Z Successfully added reaction: eyes (id: 309991263)
+2026-04-14T22:13:41.9190165Z ##[group]Run bash "${RUNNER_TEMP}/gh-aw/actions/validate_multi_secret.sh" COPILOT_GITHUB_TOKEN 'GitHub Copilot CLI' https://github.github.com/gh-aw/reference/engines/#github-copilot-default
+2026-04-14T22:13:41.9192402Z [36;1mbash "${RUNNER_TEMP}/gh-aw/actions/validate_multi_secret.sh" COPILOT_GITHUB_TOKEN 'GitHub Copilot CLI' https://github.github.com/gh-aw/reference/engines/#github-copilot-default[0m
+2026-04-14T22:13:41.9202510Z shell: /usr/bin/bash -e {0}
+2026-04-14T22:13:41.9202973Z env:
+2026-04-14T22:13:41.9210234Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T22:13:41.9217942Z   GITHUB_AW_OTEL_TRACE_ID: 4738a8bab0467a0ba6409a5763b953fc
+2026-04-14T22:13:41.9218557Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: faa48e5a57a55a13
+2026-04-14T22:13:41.9219102Z   GITHUB_AW_OTEL_JOB_START_MS: 1776204821132
+2026-04-14T22:13:41.9220261Z   COPILOT_GITHUB_TOKEN: ***
+2026-04-14T22:13:41.9220687Z ##[endgroup]
+2026-04-14T22:13:41.9290862Z <details>
+2026-04-14T22:13:41.9293609Z <summary>Agent Environment Validation</summary>
+2026-04-14T22:13:41.9296635Z 
+2026-04-14T22:13:41.9299857Z ✅ COPILOT_GITHUB_TOKEN: Configured (fine-grained PAT)
+2026-04-14T22:13:41.9302557Z </details>
+2026-04-14T22:13:41.9484743Z ##[group]Run actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+2026-04-14T22:13:41.9485422Z with:
+2026-04-14T22:13:41.9485777Z   persist-credentials: false
+2026-04-14T22:13:41.9486237Z   sparse-checkout: .github
+.agents
+
+2026-04-14T22:13:41.9486726Z   sparse-checkout-cone-mode: true
+2026-04-14T22:13:41.9487163Z   fetch-depth: 1
+2026-04-14T22:13:41.9487553Z   repository: Azure/azure-sdk-for-net
+2026-04-14T22:13:41.9488160Z   token: ***
+2026-04-14T22:13:41.9488502Z   ssh-strict: true
+2026-04-14T22:13:41.9488862Z   ssh-user: git
+2026-04-14T22:13:41.9489199Z   clean: true
+2026-04-14T22:13:41.9489548Z   fetch-tags: false
+2026-04-14T22:13:41.9489918Z   show-progress: true
+2026-04-14T22:13:41.9490282Z   lfs: false
+2026-04-14T22:13:41.9490621Z   submodules: false
+2026-04-14T22:13:41.9490990Z   set-safe-directory: true
+2026-04-14T22:13:41.9491562Z env:
+2026-04-14T22:13:41.9498754Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T22:13:41.9506192Z   GITHUB_AW_OTEL_TRACE_ID: 4738a8bab0467a0ba6409a5763b953fc
+2026-04-14T22:13:41.9506829Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: faa48e5a57a55a13
+2026-04-14T22:13:41.9507374Z   GITHUB_AW_OTEL_JOB_START_MS: 1776204821132
+2026-04-14T22:13:41.9507841Z ##[endgroup]
+2026-04-14T22:13:42.0549426Z Syncing repository: Azure/azure-sdk-for-net
+2026-04-14T22:13:42.0551194Z ##[group]Getting Git version info
+2026-04-14T22:13:42.0551967Z Working directory is '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-14T22:13:42.0594800Z [command]/usr/bin/git version
+2026-04-14T22:13:42.0827804Z git version 2.53.0
+2026-04-14T22:13:42.0864822Z ##[endgroup]
+2026-04-14T22:13:42.0889343Z Temporarily overriding HOME='/home/runner/work/_temp/4d5af8d0-9cd1-4af5-ad8d-7ac0672e2743' before making global git config changes
+2026-04-14T22:13:42.0893332Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-14T22:13:42.0901184Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-14T22:13:42.6201748Z Deleting the contents of '/home/runner/work/azure-sdk-for-net/azure-sdk-for-net'
+2026-04-14T22:13:42.6202935Z ##[group]Initializing the repository
+2026-04-14T22:13:42.6203638Z [command]/usr/bin/git init /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-14T22:13:42.6204816Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-04-14T22:13:42.6206096Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-04-14T22:13:42.6206934Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-04-14T22:13:42.6207594Z hint: call:
+2026-04-14T22:13:42.6207939Z hint:
+2026-04-14T22:13:42.6208373Z hint: 	git config --global init.defaultBranch <name>
+2026-04-14T22:13:42.6208927Z hint:
+2026-04-14T22:13:42.6209422Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-04-14T22:13:42.6210254Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-04-14T22:13:42.6210908Z hint:
+2026-04-14T22:13:42.6211255Z hint: 	git branch -m <name>
+2026-04-14T22:13:42.6211660Z hint:
+2026-04-14T22:13:42.6212209Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-04-14T22:13:42.6213194Z Initialized empty Git repository in /home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/
+2026-04-14T22:13:42.6215015Z [command]/usr/bin/git remote add origin https://github.com/Azure/azure-sdk-for-net
+2026-04-14T22:13:42.6216427Z ##[endgroup]
+2026-04-14T22:13:42.6217053Z ##[group]Disabling automatic garbage collection
+2026-04-14T22:13:42.6217621Z [command]/usr/bin/git config --local gc.auto 0
+2026-04-14T22:13:42.6218788Z ##[endgroup]
+2026-04-14T22:13:42.6219371Z ##[group]Setting up auth
+2026-04-14T22:13:42.6219809Z Removing SSH command configuration
+2026-04-14T22:13:42.6220477Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-14T22:13:42.6222348Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-14T22:13:42.6224147Z Removing HTTP extra header
+2026-04-14T22:13:42.6224895Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-14T22:13:42.6227131Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-14T22:13:42.6229150Z Removing includeIf entries pointing to credentials config files
+2026-04-14T22:13:42.6229982Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-14T22:13:42.6231575Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-14T22:13:42.6234743Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-04-14T22:13:42.6237413Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:42.6240593Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:42.6243201Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:42.6245677Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:42.6247766Z ##[endgroup]
+2026-04-14T22:13:42.6248377Z ##[group]Fetching the repository
+2026-04-14T22:13:42.6249699Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +1174fcf9a5c68bda11c9dfeeff38451b55e74796:refs/remotes/origin/main
+2026-04-14T22:13:43.6214917Z From https://github.com/Azure/azure-sdk-for-net
+2026-04-14T22:13:43.6215812Z  * [new ref]         1174fcf9a5c68bda11c9dfeeff38451b55e74796 -> origin/main
+2026-04-14T22:13:43.6217401Z [command]/usr/bin/git branch --list --remote origin/main
+2026-04-14T22:13:43.6217971Z   origin/main
+2026-04-14T22:13:43.6218906Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-04-14T22:13:43.6219515Z 1174fcf9a5c68bda11c9dfeeff38451b55e74796
+2026-04-14T22:13:43.6220707Z ##[endgroup]
+2026-04-14T22:13:43.6221319Z ##[group]Determining the checkout info
+2026-04-14T22:13:43.6222019Z ##[endgroup]
+2026-04-14T22:13:43.6222627Z ##[group]Setting up sparse checkout
+2026-04-14T22:13:43.6223197Z [command]/usr/bin/git sparse-checkout set .github .agents
+2026-04-14T22:13:43.6264907Z ##[endgroup]
+2026-04-14T22:13:43.6265529Z ##[group]Checking out the ref
+2026-04-14T22:13:43.6266233Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-04-14T22:13:43.6583765Z Switched to a new branch 'main'
+2026-04-14T22:13:43.6589206Z branch 'main' set up to track 'origin/main'.
+2026-04-14T22:13:43.6611771Z ##[endgroup]
+2026-04-14T22:13:43.6650238Z [command]/usr/bin/git log -1 --format=%H
+2026-04-14T22:13:43.6669415Z 1174fcf9a5c68bda11c9dfeeff38451b55e74796
+2026-04-14T22:13:43.6685058Z ##[group]Removing auth
+2026-04-14T22:13:43.6685662Z Removing SSH command configuration
+2026-04-14T22:13:43.6687083Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-14T22:13:43.6726509Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-14T22:13:43.7074959Z Removing HTTP extra header
+2026-04-14T22:13:43.7079396Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-14T22:13:43.7111116Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-14T22:13:43.7498905Z Removing includeIf entries pointing to credentials config files
+2026-04-14T22:13:43.7505687Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-14T22:13:43.7532316Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-14T22:13:43.7609917Z includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-14T22:13:43.7610852Z includeif.gitdir:/github/workspace/.git.path
+2026-04-14T22:13:43.7611505Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-14T22:13:43.7613223Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path
+2026-04-14T22:13:43.7665647Z /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.7698533Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git.path /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.7736544Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path
+2026-04-14T22:13:43.7753637Z /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.7880468Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/azure-sdk-for-net/azure-sdk-for-net/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.8026689Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-04-14T22:13:43.8078057Z /github/runner_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.8080183Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.8097044Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-04-14T22:13:43.8113670Z /github/runner_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.8139374Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config
+2026-04-14T22:13:43.8181327Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-14T22:13:43.8468642Z Removing credentials config '/home/runner/work/_temp/git-credentials-f4c4e951-7f3f-4f75-b14a-33de204151e4.config'
+2026-04-14T22:13:43.8484514Z ##[endgroup]
+2026-04-14T22:13:43.8662325Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-04-14T22:13:43.8663150Z with:
+2026-04-14T22:13:43.8665174Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/check_workflow_timestamp_api.cjs');
+await main();
+
+2026-04-14T22:13:43.8667079Z   github-token: ***
+2026-04-14T22:13:43.8667449Z   debug: false
+2026-04-14T22:13:43.8667832Z   user-agent: actions/github-script
+2026-04-14T22:13:43.8668293Z   result-encoding: json
+2026-04-14T22:13:43.8668683Z   retries: 0
+2026-04-14T22:13:43.8669081Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-14T22:13:43.8669568Z env:
+2026-04-14T22:13:43.8676573Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-14T22:13:43.8699080Z   GITHUB_AW_OTEL_TRACE_ID: 4738a8bab0467a0ba6409a5763b953fc
+2026-04-14T22:13:43.8699712Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: faa48e5a57a55a13
+2026-04-14T22:13:43.8700247Z   GITHUB_AW_OTEL_JOB_START_MS: 1776204821132
+2026-04-14T22:13:43.8700763Z   GH_AW_WORKFLOW_FILE: issue-triage.lock.yml
+2026-04-14T22:13:43.8716785Z   GH_AW_CONTEXT_WORKFLOW_REF: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-14T22:13:43.8717624Z ##[endgroup]
+2026-04-14T22:13:43.9918980Z Checking for stale lock file using frontmatter hash:
+2026-04-14T22:13:43.9924382Z   Source: .github/workflows/issue-triage.md
+2026-04-14T22:13:43.9927315Z   Lock file: .github/workflows/issue-triage.lock.yml
+2026-04-14T22:13:43.9931249Z Env workflow ref already identifies this workflow, skipping referenced_workflows API lookup
+2026-04-14T22:13:44.0025073Z GITHUB_WORKFLOW_REF: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main
+2026-04-14T22:13:44.0028971Z GH_AW_CONTEXT_WORKFLOW_REF: Azure/azure-sdk-for-net/.github/workflows/issue-triage.lock.yml@refs/heads/main (available as env fallback)
+2026-04-14T22:13:44.0032159Z GITHUB_REPOSITORY: Azure/azure-sdk-for-net
+2026-04-14T22:13:44.0035568Z Resolved source repo: Azure/azure-sdk-for-net @ refs/heads/main
+2026-04-14T22:13:44.0043484Z Same-repo invocation: checking out Azure/azure-sdk-for-net @ refs/heads/main
+2026-04-14T22:13:44.2711637Z Frontmatter hash comparison:
+2026-04-14T22:13:44.2715669Z   Lock file hash:    7888ca19d7a6e3f5cfb4a4af1605a31f5a69f21028a603550e0dd886714ca527
+2026-04-14T22:13:44.2720183Z   Recomputed hash:   5b79deaa3d9aeccb4303c5c39e2192d79d2904529660969493985e63ab7cbb07
+2026-04-14T22:13:44.2723478Z   Status: ⚠️  Hashes differ
+2026-04-14T22:13:44.2728493Z ═══ Debug hash recomputation (verbose mode) ═══
+2026-04-14T22:13:44.2731407Z Re-running hash computation with full logging to aid debugging.
+2026-04-14T22:13:44.2734938Z   Source file: .github/workflows/issue-triage.md
+2026-04-14T22:13:44.2737804Z   Source repo: Azure/azure-sdk-for-net @ refs/heads/main
+2026-04-14T22:13:44.3494947Z   Using GitHub API file reader for debug pass
+2026-04-14T22:13:44.3498393Z [hash-debug] Starting hash computation for: .github/workflows/issue-triage.md
+2026-04-14T22:13:44.4236835Z [hash-debug] File content length: 27521 bytes
+2026-04-14T22:13:44.4241065Z [hash-debug] Frontmatter text (6521 chars):
+2026-04-14T22:13:44.4241703Z ---
+2026-04-14T22:13:44.4242190Z description: |
+2026-04-14T22:13:44.4242890Z   Intelligent issue triage assistant that processes new issues
+2026-04-14T22:13:44.4243870Z   Analyzes issue content, evaluates whether the author is a customer,
+2026-04-14T22:13:44.4288569Z   predicts labels, looks up owners from CODEOWNERS, and provides
+2026-04-14T22:13:44.4289453Z   analysis notes including debugging strategies and resource links
+2026-04-14T22:13:44.4290258Z   Implements the initial issue triage rules for the Azure SDK repository
+2026-04-14T22:13:44.4290748Z 
+2026-04-14T22:13:44.4290893Z on:
+2026-04-14T22:13:44.4291212Z   issues:
+2026-04-14T22:13:44.4291547Z     types: [opened]
+2026-04-14T22:13:44.4291923Z   workflow_dispatch:
+2026-04-14T22:13:44.4292300Z     inputs:
+2026-04-14T22:13:44.4292633Z       issue_number:
+2026-04-14T22:13:44.4293248Z         description: "Issue number to triage (used when dispatched from another workflow)"
+2026-04-14T22:13:44.4294151Z         required: true
+2026-04-14T22:13:44.4294536Z         type: string
+2026-04-14T22:13:44.4294913Z   roles: all
+2026-04-14T22:13:44.4295254Z   reaction: eyes
+2026-04-14T22:13:44.4295472Z 
+2026-04-14T22:13:44.4295637Z permissions: read-all
+2026-04-14T22:13:44.4295868Z 
+2026-04-14T22:13:44.4296047Z network:
+2026-04-14T22:13:44.4296381Z   allowed:
+2026-04-14T22:13:44.4296715Z     - defaults
+2026-04-14T22:13:44.4297076Z     - "api.nuget.org"
+2026-04-14T22:13:44.4297315Z 
+2026-04-14T22:13:44.4297469Z safe-outputs:
+2026-04-14T22:13:44.4297856Z   report-failure-as-issue: false
+2026-04-14T22:13:44.4298290Z   add-labels:
+2026-04-14T22:13:44.4298629Z     max: 7
+2026-04-14T22:13:44.4298959Z     target: "*"
+2026-04-14T22:13:44.4299314Z   remove-labels:
+2026-04-14T22:13:44.4299660Z     max: 7
+2026-04-14T22:13:44.4299983Z     target: "*"
+2026-04-14T22:13:44.4300331Z   add-comment:
+2026-04-14T22:13:44.4300667Z     max: 2
+2026-04-14T22:13:44.4300997Z     target: "*"
+2026-04-14T22:13:44.4301351Z   assign-to-user:
+2026-04-14T22:13:44.4301703Z     max: 1
+2026-04-14T22:13:44.4302052Z     target: "*"
+2026-04-14T22:13:44.4302400Z   close-issue:
+2026-04-14T22:13:44.4302744Z     max: 1
+2026-04-14T22:13:44.4303069Z     target: "*"
+2026-04-14T22:13:44.4303416Z   noop:
+2026-04-14T22:13:44.4303771Z     report-as-issue: false
+2026-04-14T22:13:44.4304352Z   jobs:
+2026-04-14T22:13:44.4304685Z     mention_owners:
+2026-04-14T22:13:44.4305634Z       description: "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization"
+2026-04-14T22:13:44.4306636Z       runs-on: ubuntu-latest
+2026-04-14T22:13:44.4307099Z       output: "Owner mention comment posted"
+2026-04-14T22:13:44.4307574Z       permissions:
+2026-04-14T22:13:44.4307948Z         issues: write
+2026-04-14T22:13:44.4308328Z       inputs:
+2026-04-14T22:13:44.4308662Z         message:
+2026-04-14T22:13:44.4309224Z           description: "The comment body text without any @mentions or @ symbols"
+2026-04-14T22:13:44.4309872Z           required: true
+2026-04-14T22:13:44.4310272Z           type: string
+2026-04-14T22:13:44.4310651Z         owners:
+2026-04-14T22:13:44.4311461Z           description: "Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')"
+2026-04-14T22:13:44.4312655Z           required: true
+2026-04-14T22:13:44.4313062Z           type: string
+2026-04-14T22:13:44.4313438Z       steps:
+2026-04-14T22:13:44.4314099Z         - name: Post mention comment
+2026-04-14T22:13:44.4314589Z           uses: actions/github-script@v9
+2026-04-14T22:13:44.4315050Z           env:
+2026-04-14T22:13:44.4315597Z             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
+2026-04-14T22:13:44.4316261Z           with:
+2026-04-14T22:13:44.4316622Z             script: |
+2026-04-14T22:13:44.4317032Z               const fs = require('fs');
+2026-04-14T22:13:44.4317583Z               const outputFile = process.env.GH_AW_AGENT_OUTPUT;
+2026-04-14T22:13:44.4317986Z 
+2026-04-14T22:13:44.4318182Z               function resolveIssueNumber() {
+2026-04-14T22:13:44.4318918Z                 if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {
+2026-04-14T22:13:44.4319628Z                   return context.issue.number;
+2026-04-14T22:13:44.4320106Z                 }
+2026-04-14T22:13:44.4320617Z                 const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);
+2026-04-14T22:13:44.4321321Z                 if (Number.isInteger(parsed) && parsed > 0) {
+2026-04-14T22:13:44.4321864Z                   return parsed;
+2026-04-14T22:13:44.4322273Z                 }
+2026-04-14T22:13:44.4322646Z                 return null;
+2026-04-14T22:13:44.4323050Z               }
+2026-04-14T22:13:44.4323254Z 
+2026-04-14T22:13:44.4323470Z               const issueNumber = resolveIssueNumber();
+2026-04-14T22:13:44.4354501Z               const owner = context.repo.owner;
+2026-04-14T22:13:44.4355200Z               const repo = context.repo.repo;
+2026-04-14T22:13:44.4355562Z 
+2026-04-14T22:13:44.4355744Z               if (issueNumber === null) {
+2026-04-14T22:13:44.4357117Z                 core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);
+2026-04-14T22:13:44.4358426Z                 return;
+2026-04-14T22:13:44.4358823Z               }
+2026-04-14T22:13:44.4359037Z 
+2026-04-14T22:13:44.4359239Z               async function failSafe(reason) {
+2026-04-14T22:13:44.4359813Z                 core.error(`mention_owners failed: ${reason}`);
+2026-04-14T22:13:44.4360355Z                 try {
+2026-04-14T22:13:44.4360793Z                   await github.rest.issues.addLabels({
+2026-04-14T22:13:44.4361355Z                     owner, repo, issue_number: issueNumber,
+2026-04-14T22:13:44.4361917Z                     labels: ['needs-team-triage']
+2026-04-14T22:13:44.4362390Z                   });
+2026-04-14T22:13:44.4362827Z                   await github.rest.issues.createComment({
+2026-04-14T22:13:44.4363398Z                     owner, repo, issue_number: issueNumber,
+2026-04-14T22:13:44.4383636Z                     body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'
+2026-04-14T22:13:44.4384987Z                   });
+2026-04-14T22:13:44.4385410Z                 } catch (recoveryError) {
+2026-04-14T22:13:44.4386029Z                   core.error(`Recovery also failed: ${recoveryError.message}`);
+2026-04-14T22:13:44.4386651Z                 }
+2026-04-14T22:13:44.4387035Z                 core.setFailed(reason);
+2026-04-14T22:13:44.4387499Z               }
+2026-04-14T22:13:44.4387703Z 
+2026-04-14T22:13:44.4387885Z               if (!outputFile) {
+2026-04-14T22:13:44.4388396Z                 await failSafe('No agent output path provided');
+2026-04-14T22:13:44.4388945Z                 return;
+2026-04-14T22:13:44.4389316Z               }
+2026-04-14T22:13:44.4389703Z               if (!fs.existsSync(outputFile)) {
+2026-04-14T22:13:44.4390332Z                 await failSafe(`Agent output file not found: ${outputFile}`);
+2026-04-14T22:13:44.4390929Z                 return;
+2026-04-14T22:13:44.4391300Z               }
+2026-04-14T22:13:44.4391498Z 
+2026-04-14T22:13:44.4391669Z               let agentOutput;
+2026-04-14T22:13:44.4392417Z               try {
+2026-04-14T22:13:44.4393025Z                 agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+2026-04-14T22:13:44.4393752Z               } catch (parseError) {
+2026-04-14T22:13:44.4415818Z                 await failSafe(`Failed to parse agent output: ${parseError.message}`);
+2026-04-14T22:13:44.4416527Z                 return;
+2026-04-14T22:13:44.4416904Z               }
+2026-04-14T22:13:44.4417114Z 
+2026-04-14T22:13:44.4417385Z               if (!agentOutput || !Array.isArray(agentOutput.items)) {
+2026-04-14T22:13:44.4418055Z                 await failSafe('Agent output missing items array');
+2026-04-14T22:13:44.4418588Z                 return;
+2026-04-14T22:13:44.4418966Z               }
+2026-04-14T22:13:44.4419168Z 
+2026-04-14T22:13:44.4419529Z               const items = agentOutput.items.filter(i => i.type === 'mention_owners');
+2026-04-14T22:13:44.4420213Z               if (items.length === 0) {
+2026-04-14T22:13:44.4420811Z                 await failSafe('No mention_owners items in agent output');
+2026-04-14T22:13:44.4421385Z                 return;
+2026-04-14T22:13:44.4421766Z               }
+2026-04-14T22:13:44.4421967Z 
+2026-04-14T22:13:44.4422151Z               for (const item of items) {
+2026-04-14T22:13:44.4422821Z                 if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
+2026-04-14T22:13:44.4423648Z                   await failSafe('mention_owners item missing owners field');
+2026-04-14T22:13:44.4424800Z                   return;
+2026-04-14T22:13:44.4425203Z                 }
+2026-04-14T22:13:44.4425411Z 
+2026-04-14T22:13:44.4425605Z                 const mentions = item.owners
+2026-04-14T22:13:44.4426089Z                   .split(/[\s,]+/)
+2026-04-14T22:13:44.4426546Z                   .map(s => s.trim())
+2026-04-14T22:13:44.4427014Z                   .filter(Boolean)
+2026-04-14T22:13:44.4427445Z                   .map(raw => {
+2026-04-14T22:13:44.4427950Z                     const normalized = raw.replace(/^\\?@/, '');
+2026-04-14T22:13:44.4428543Z                     if (/\r|\n/.test(normalized)) return null;
+2026-04-14T22:13:44.4429242Z                     if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
+2026-04-14T22:13:44.4429899Z                     return `@${normalized}`;
+2026-04-14T22:13:44.4430356Z                   })
+2026-04-14T22:13:44.4430738Z                   .filter(Boolean);
+2026-04-14T22:13:44.4431026Z 
+2026-04-14T22:13:44.4431216Z                 if (mentions.length === 0) {
+2026-04-14T22:13:44.4431817Z                   await failSafe('No valid owners after parsing owners field');
+2026-04-14T22:13:44.4432422Z                   return;
+2026-04-14T22:13:44.4432799Z                 }
+2026-04-14T22:13:44.4433011Z 
+2026-04-14T22:13:44.4433183Z                 const body = item.message
+2026-04-14T22:13:44.4433730Z                   ? `${item.message}\n\n//cc: ${mentions.join(' ')}`
+2026-04-14T22:13:44.4434476Z                   : mentions.join(' ');
+2026-04-14T22:13:44.4434796Z 
+2026-04-14T22:13:44.4434949Z                 try {
+2026-04-14T22:13:44.4435400Z                   await github.rest.issues.createComment({
+2026-04-14T22:13:44.4435971Z                     owner, repo, issue_number: issueNumber,
+2026-04-14T22:13:44.4436482Z                     body
+2026-04-14T22:13:44.4436852Z                   });
+2026-04-14T22:13:44.4437516Z                   core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
+2026-04-14T22:13:44.4438274Z                 } catch (apiError) {
+2026-04-14T22:13:44.4438907Z                   await failSafe(`GitHub API error posting comment: ${apiError.message}`);
+2026-04-14T22:13:44.4439573Z                   return;
+2026-04-14T22:13:44.4439951Z                 }
+2026-04-14T22:13:44.4440287Z               }
+2026-04-14T22:13:44.4440507Z 
+2026-04-14T22:13:44.4440657Z tools:
+2026-04-14T22:13:44.4440982Z   web-fetch:
+2026-04-14T22:13:44.4441321Z   github:
+2026-04-14T22:13:44.4441666Z     toolsets: [issues]
+2026-04-14T22:13:44.4442376Z     # Triage must read issues from all users, including external
+2026-04-14T22:13:44.4443089Z     # customers with NONE author_association; without this, the
+2026-04-14T22:13:44.4443856Z     # auto-applied "approved" policy filters them out via DIFC
+2026-04-14T22:13:44.4444649Z     min-integrity: none
+2026-04-14T22:13:44.4444901Z 
+2026-04-14T22:13:44.4445069Z timeout-minutes: 10
+2026-04-14T22:13:44.4445423Z ---
+2026-04-14T22:13:44.4445806Z [hash-debug] Markdown body length: 20991 chars
+2026-04-14T22:13:44.4446336Z [hash-debug] inlined-imports: false
+2026-04-14T22:13:44.4446801Z [hash-debug] Imported files (0): []
+2026-04-14T22:13:44.4447286Z [hash-debug] Normalized frontmatter-text:
+2026-04-14T22:13:44.4447768Z description: |
+2026-04-14T22:13:44.4448269Z   Intelligent issue triage assistant that processes new issues
+2026-04-14T22:13:44.4449015Z   Analyzes issue content, evaluates whether the author is a customer,
+2026-04-14T22:13:44.4449793Z   predicts labels, looks up owners from CODEOWNERS, and provides
+2026-04-14T22:13:44.4450528Z   analysis notes including debugging strategies and resource links
+2026-04-14T22:13:44.4451309Z   Implements the initial issue triage rules for the Azure SDK repository
+2026-04-14T22:13:44.4451801Z 
+2026-04-14T22:13:44.4451964Z on:
+2026-04-14T22:13:44.4452278Z   issues:
+2026-04-14T22:13:44.4452616Z     types: [opened]
+2026-04-14T22:13:44.4452983Z   workflow_dispatch:
+2026-04-14T22:13:44.4453356Z     inputs:
+2026-04-14T22:13:44.4453693Z       issue_number:
+2026-04-14T22:13:44.4454475Z         description: "Issue number to triage (used when dispatched from another workflow)"
+2026-04-14T22:13:44.4455188Z         required: true
+2026-04-14T22:13:44.4455569Z         type: string
+2026-04-14T22:13:44.4455935Z   roles: all
+2026-04-14T22:13:44.4456279Z   reaction: eyes
+2026-04-14T22:13:44.4456488Z 
+2026-04-14T22:13:44.4456657Z permissions: read-all
+2026-04-14T22:13:44.4456899Z 
+2026-04-14T22:13:44.4457047Z network:
+2026-04-14T22:13:44.4457394Z   allowed:
+2026-04-14T22:13:44.4457743Z     - defaults
+2026-04-14T22:13:44.4458101Z     - "api.nuget.org"
+2026-04-14T22:13:44.4458337Z 
+2026-04-14T22:13:44.4458497Z safe-outputs:
+2026-04-14T22:13:44.4458874Z   report-failure-as-issue: false
+2026-04-14T22:13:44.4459305Z   add-labels:
+2026-04-14T22:13:44.4459648Z     max: 7
+2026-04-14T22:13:44.4459973Z     target: "*"
+2026-04-14T22:13:44.4460326Z   remove-labels:
+2026-04-14T22:13:44.4460676Z     max: 7
+2026-04-14T22:13:44.4461002Z     target: "*"
+2026-04-14T22:13:44.4461359Z   add-comment:
+2026-04-14T22:13:44.4461692Z     max: 2
+2026-04-14T22:13:44.4462025Z     target: "*"
+2026-04-14T22:13:44.4462379Z   assign-to-user:
+2026-04-14T22:13:44.4462732Z     max: 1
+2026-04-14T22:13:44.4463061Z     target: "*"
+2026-04-14T22:13:44.4463400Z   close-issue:
+2026-04-14T22:13:44.4463736Z     max: 1
+2026-04-14T22:13:44.4464280Z     target: "*"
+2026-04-14T22:13:44.4464691Z   noop:
+2026-04-14T22:13:44.4465041Z     report-as-issue: false
+2026-04-14T22:13:44.4465436Z   jobs:
+2026-04-14T22:13:44.4465774Z     mention_owners:
+2026-04-14T22:13:44.4466678Z       description: "Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization"
+2026-04-14T22:13:44.4467662Z       runs-on: ubuntu-latest
+2026-04-14T22:13:44.4468116Z       output: "Owner mention comment posted"
+2026-04-14T22:13:44.4468593Z       permissions:
+2026-04-14T22:13:44.4468958Z         issues: write
+2026-04-14T22:13:44.4469341Z       inputs:
+2026-04-14T22:13:44.4469668Z         message:
+2026-04-14T22:13:44.4470216Z           description: "The comment body text without any @mentions or @ symbols"
+2026-04-14T22:13:44.4470867Z           required: true
+2026-04-14T22:13:44.4471260Z           type: string
+2026-04-14T22:13:44.4471634Z         owners:
+2026-04-14T22:13:44.4472444Z           description: "Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')"
+2026-04-14T22:13:44.4473356Z           required: true
+2026-04-14T22:13:44.4473746Z           type: string
+2026-04-14T22:13:44.4474384Z       steps:
+2026-04-14T22:13:44.4474757Z         - name: Post mention comment
+2026-04-14T22:13:44.4475313Z           uses: actions/github-script@v9
+2026-04-14T22:13:44.4475769Z           env:
+2026-04-14T22:13:44.4476309Z             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
+2026-04-14T22:13:44.4476951Z           with:
+2026-04-14T22:13:44.4477300Z             script: |
+2026-04-14T22:13:44.4477685Z               const fs = require('fs');
+2026-04-14T22:13:44.4478240Z               const outputFile = process.env.GH_AW_AGENT_OUTPUT;
+2026-04-14T22:13:44.4478638Z 
+2026-04-14T22:13:44.4478880Z               function resolveIssueNumber() {
+2026-04-14T22:13:44.4479578Z                 if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {
+2026-04-14T22:13:44.4480291Z                   return context.issue.number;
+2026-04-14T22:13:44.4480768Z                 }
+2026-04-14T22:13:44.4481283Z                 const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);
+2026-04-14T22:13:44.4481978Z                 if (Number.isInteger(parsed) && parsed > 0) {
+2026-04-14T22:13:44.4482511Z                   return parsed;
+2026-04-14T22:13:44.4482929Z                 }
+2026-04-14T22:13:44.4483290Z                 return null;
+2026-04-14T22:13:44.4483685Z               }
+2026-04-14T22:13:44.4483890Z 
+2026-04-14T22:13:44.4484262Z               const issueNumber = resolveIssueNumber();
+2026-04-14T22:13:44.4484808Z               const owner = context.repo.owner;
+2026-04-14T22:13:44.4485329Z               const repo = context.repo.repo;
+2026-04-14T22:13:44.4485651Z 
+2026-04-14T22:13:44.4485831Z               if (issueNumber === null) {
+2026-04-14T22:13:44.4487165Z                 core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);
+2026-04-14T22:13:44.4488468Z                 return;
+2026-04-14T22:13:44.4488846Z               }
+2026-04-14T22:13:44.4489041Z 
+2026-04-14T22:13:44.4489226Z               async function failSafe(reason) {
+2026-04-14T22:13:44.4489793Z                 core.error(`mention_owners failed: ${reason}`);
+2026-04-14T22:13:44.4490322Z                 try {
+2026-04-14T22:13:44.4490739Z                   await github.rest.issues.addLabels({
+2026-04-14T22:13:44.4491304Z                     owner, repo, issue_number: issueNumber,
+2026-04-14T22:13:44.4491843Z                     labels: ['needs-team-triage']
+2026-04-14T22:13:44.4492329Z                   });
+2026-04-14T22:13:44.4492772Z                   await github.rest.issues.createComment({
+2026-04-14T22:13:44.4493332Z                     owner, repo, issue_number: issueNumber,
+2026-04-14T22:13:44.4494614Z                     body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'
+2026-04-14T22:13:44.4495502Z                   });
+2026-04-14T22:13:44.4495899Z                 } catch (recoveryError) {
+2026-04-14T22:13:44.4496522Z                   core.error(`Recovery also failed: ${recoveryError.message}`);
+2026-04-14T22:13:44.4497130Z                 }
+2026-04-14T22:13:44.4497505Z                 core.setFailed(reason);
+2026-04-14T22:13:44.4497954Z               }
+2026-04-14T22:13:44.4498153Z 
+2026-04-14T22:13:44.4498326Z               if (!outputFile) {
+2026-04-14T22:13:44.4498850Z                 await failSafe('No agent output path provided');
+2026-04-14T22:13:44.4499389Z                 return;
+2026-04-14T22:13:44.4499754Z               }
+2026-04-14T22:13:44.4500136Z               if (!fs.existsSync(outputFile)) {
+2026-04-14T22:13:44.4500756Z                 await failSafe(`Agent output file not found: ${outputFile}`);
+2026-04-14T22:13:44.4501357Z                 return;
+2026-04-14T22:13:44.4501725Z               }
+2026-04-14T22:13:44.4501915Z 
+2026-04-14T22:13:44.4502081Z               let agentOutput;
+2026-04-14T22:13:44.4502493Z               try {
+2026-04-14T22:13:44.4503160Z                 agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+2026-04-14T22:13:44.4503821Z               } catch (parseError) {
+2026-04-14T22:13:44.4504716Z                 await failSafe(`Failed to parse agent output: ${parseError.message}`);
+2026-04-14T22:13:44.4505369Z                 return;
+2026-04-14T22:13:44.4505737Z               }
+2026-04-14T22:13:44.4505937Z 
+2026-04-14T22:13:44.4506204Z               if (!agentOutput || !Array.isArray(agentOutput.items)) {
+2026-04-14T22:13:44.4506862Z                 await failSafe('Agent output missing items array');
+2026-04-14T22:13:44.4507416Z                 return;
+2026-04-14T22:13:44.4507774Z               }
+2026-04-14T22:13:44.4507983Z 
+2026-04-14T22:13:44.4508341Z               const items = agentOutput.items.filter(i => i.type === 'mention_owners');
+2026-04-14T22:13:44.4509034Z               if (items.length === 0) {
+2026-04-14T22:13:44.4509614Z                 await failSafe('No mention_owners items in agent output');
+2026-04-14T22:13:44.4510209Z                 return;
+2026-04-14T22:13:44.4510586Z               }
+2026-04-14T22:13:44.4510785Z 
+2026-04-14T22:13:44.4510960Z               for (const item of items) {
+2026-04-14T22:13:44.4511638Z                 if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {
+2026-04-14T22:13:44.4512448Z                   await failSafe('mention_owners item missing owners field');
+2026-04-14T22:13:44.4513040Z                   return;
+2026-04-14T22:13:44.4513424Z                 }
+2026-04-14T22:13:44.4513631Z 
+2026-04-14T22:13:44.4513812Z                 const mentions = item.owners
+2026-04-14T22:13:44.4514464Z                   .split(/[\s,]+/)
+2026-04-14T22:13:44.4514922Z                   .map(s => s.trim())
+2026-04-14T22:13:44.4515373Z                   .filter(Boolean)
+2026-04-14T22:13:44.4515813Z                   .map(raw => {
+2026-04-14T22:13:44.4516299Z                     const normalized = raw.replace(/^\\?@/, '');
+2026-04-14T22:13:44.4516901Z                     if (/\r|\n/.test(normalized)) return null;
+2026-04-14T22:13:44.4517583Z                     if (!/^[A-Za-z0-9-]+(?:\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;
+2026-04-14T22:13:44.4518225Z                     return `@${normalized}`;
+2026-04-14T22:13:44.4518694Z                   })
+2026-04-14T22:13:44.4519078Z                   .filter(Boolean);
+2026-04-14T22:13:44.4519366Z 
+2026-04-14T22:13:44.4519550Z                 if (mentions.length === 0) {
+2026-04-14T22:13:44.4520167Z                   await failSafe('No valid owners after parsing owners field');
+2026-04-14T22:13:44.4520780Z                   return;
+2026-04-14T22:13:44.4521157Z                 }
+2026-04-14T22:13:44.4521362Z 
+2026-04-14T22:13:44.4521542Z                 const body = item.message
+2026-04-14T22:13:44.4522082Z                   ? `${item.message}\n\n//cc: ${mentions.join(' ')}`
+2026-04-14T22:13:44.4522640Z                   : mentions.join(' ');
+2026-04-14T22:13:44.4522939Z 
+2026-04-14T22:13:44.4523096Z                 try {
+2026-04-14T22:13:44.4523540Z                   await github.rest.issues.createComment({
+2026-04-14T22:13:44.4524255Z                     owner, repo, issue_number: issueNumber,
+2026-04-14T22:13:44.4524775Z                     body
+2026-04-14T22:13:44.4525158Z                   });
+2026-04-14T22:13:44.4525832Z                   core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);
+2026-04-14T22:13:44.4526599Z                 } catch (apiError) {
+2026-04-14T22:13:44.4527251Z                   await failSafe(`GitHub API error posting comment: ${apiError.message}`);
+2026-04-14T22:13:44.4527919Z                   return;
+2026-04-14T22:13:44.4528292Z                 }
+2026-04-14T22:13:44.4528637Z               }
+2026-04-14T22:13:44.4528835Z 
+2026-04-14T22:13:44.4528990Z tools:
+2026-04-14T22:13:44.4529309Z   web-fetch:
+2026-04-14T22:13:44.4529647Z   github:
+2026-04-14T22:13:44.4529977Z     toolsets: [issues]
+2026-04-14T22:13:44.4530481Z     # Triage must read issues from all users, including external
+2026-04-14T22:13:44.4531293Z     # customers with NONE author_association; without this, the
+2026-04-14T22:13:44.4531990Z     # auto-applied "approved" policy filters them out via DIFC
+2026-04-14T22:13:44.4532678Z     min-integrity: none
+2026-04-14T22:13:44.4532915Z 
+2026-04-14T22:13:44.4533070Z timeout-minutes: 10
+2026-04-14T22:13:44.4533631Z [hash-debug] No template expressions (env./vars.) found in markdown body
+2026-04-14T22:13:44.4534467Z [hash-debug] Canonical JSON (6762 chars):
+2026-04-14T22:13:44.4567629Z {"frontmatter-text":"description: |\n  Intelligent issue triage assistant that processes new issues\n  Analyzes issue content, evaluates whether the author is a customer,\n  predicts labels, looks up owners from CODEOWNERS, and provides\n  analysis notes including debugging strategies and resource links\n  Implements the initial issue triage rules for the Azure SDK repository\n\non:\n  issues:\n    types: [opened]\n  workflow_dispatch:\n    inputs:\n      issue_number:\n        description: \"Issue number to triage (used when dispatched from another workflow)\"\n        required: true\n        type: string\n  roles: all\n  reaction: eyes\n\npermissions: read-all\n\nnetwork:\n  allowed:\n    - defaults\n    - \"api.nuget.org\"\n\nsafe-outputs:\n  report-failure-as-issue: false\n  add-labels:\n    max: 7\n    target: \"*\"\n  remove-labels:\n    max: 7\n    target: \"*\"\n  add-comment:\n    max: 2\n    target: \"*\"\n  assign-to-user:\n    max: 1\n    target: \"*\"\n  close-issue:\n    max: 1\n    target: \"*\"\n  noop:\n    report-as-issue: false\n  jobs:\n    mention_owners:\n      description: \"Post a routing comment @mentioning team owners on the triggering issue; bypasses safe-outputs mention neutralization\"\n      runs-on: ubuntu-latest\n      output: \"Owner mention comment posted\"\n      permissions:\n        issues: write\n      inputs:\n        message:\n          description: \"The comment body text without any @mentions or @ symbols\"\n          required: true\n          type: string\n        owners:\n          description: \"Comma-separated GitHub usernames to notify, without the @ prefix (e.g. 'user1, user2, Azure/team-name')\"\n          required: true\n          type: string\n      steps:\n        - name: Post mention comment\n          uses: actions/github-script@v9\n          env:\n            DISPATCH_ISSUE_NUMBER: \"${{ github.event.inputs.issue_number || '' }}\"\n          with:\n            script: |\n              const fs = require('fs');\n              const outputFile = process.env.GH_AW_AGENT_OUTPUT;\n\n              function resolveIssueNumber() {\n                if (Number.isInteger(context.issue?.number) && context.issue.number > 0) {\n                  return context.issue.number;\n                }\n                const parsed = parseInt(process.env.DISPATCH_ISSUE_NUMBER, 10);\n                if (Number.isInteger(parsed) && parsed > 0) {\n                  return parsed;\n                }\n                return null;\n              }\n\n              const issueNumber = resolveIssueNumber();\n              const owner = context.repo.owner;\n              const repo = context.repo.repo;\n\n              if (issueNumber === null) {\n                core.setFailed(`Unable to determine a valid issue number. context.issue.number=${context.issue?.number ?? 'undefined'}, DISPATCH_ISSUE_NUMBER=${process.env.DISPATCH_ISSUE_NUMBER ?? 'undefined'}`);\n                return;\n              }\n\n              async function failSafe(reason) {\n                core.error(`mention_owners failed: ${reason}`);\n                try {\n                  await github.rest.issues.addLabels({\n                    owner, repo, issue_number: issueNumber,\n                    labels: ['needs-team-triage']\n                  });\n                  await github.rest.issues.createComment({\n                    owner, repo, issue_number: issueNumber,\n                    body: '⚠️ Automated triage was unable to complete owner notification for this issue. Routing for manual triage'\n                  });\n                } catch (recoveryError) {\n                  core.error(`Recovery also failed: ${recoveryError.message}`);\n                }\n                core.setFailed(reason);\n              }\n\n              if (!outputFile) {\n                await failSafe('No agent output path provided');\n                return;\n              }\n              if (!fs.existsSync(outputFile)) {\n                await failSafe(`Agent output file not found: ${outputFile}`);\n                return;\n              }\n\n              let agentOutput;\n              try {\n                agentOutput = JSON.parse(fs.readFileSync(outputFile, 'utf8'));\n              } catch (parseError) {\n                await failSafe(`Failed to parse agent output: ${parseError.message}`);\n                return;\n              }\n\n              if (!agentOutput || !Array.isArray(agentOutput.items)) {\n                await failSafe('Agent output missing items array');\n                return;\n              }\n\n              const items = agentOutput.items.filter(i => i.type === 'mention_owners');\n              if (items.length === 0) {\n                await failSafe('No mention_owners items in agent output');\n                return;\n              }\n\n              for (const item of items) {\n                if (!item.owners || typeof item.owners !== 'string' || !item.owners.trim()) {\n                  await failSafe('mention_owners item missing owners field');\n                  return;\n                }\n\n                const mentions = item.owners\n                  .split(/[\\s,]+/)\n                  .map(s => s.trim())\n                  .filter(Boolean)\n                  .map(raw => {\n                    const normalized = raw.replace(/^\\\\?@/, '');\n                    if (/\\r|\\n/.test(normalized)) return null;\n                    if (!/^[A-Za-z0-9-]+(?:\\/[A-Za-z0-9-]+)?$/.test(normalized)) return null;\n                    return `@${normalized}`;\n                  })\n                  .filter(Boolean);\n\n                if (mentions.length === 0) {\n                  await failSafe('No valid owners after parsing owners field');\n                  return;\n                }\n\n                const body = item.message\n                  ? `${item.message}\\n\\n//cc: ${mentions.join(' ')}`\n                  : mentions.join(' ');\n\n                try {\n                  await github.rest.issues.createComment({\n                    owner, repo, issue_number: issueNumber,\n                    body\n                  });\n                  core.info(`Posted routing comment on #${issueNumber} mentioning: ${mentions.join(', ')}`);\n                } catch (apiError) {\n                  await failSafe(`GitHub API error posting comment: ${apiError.message}`);\n                  return;\n                }\n              }\n\ntools:\n  web-fetch:\n  github:\n    toolsets: [issues]\n    # Triage must read issues from all users, including external\n    # customers with NONE author_association; without this, the\n    # auto-applied \"approved\" policy filters them out via DIFC\n    min-integrity: none\n\ntimeout-minutes: 10"}
+2026-04-14T22:13:44.4598359Z [hash-debug] Computed SHA-256 hash: 5b79deaa3d9aeccb4303c5c39e2192d79d2904529660969493985e63ab7cbb07
+2026-04-14T22:13:44.4599310Z ═══ End of debug hash recomputation ═══
+2026-04-14T22:13:44.4620789Z ##[error]ERR_CONFIG: Lock file '.github/workflows/issue-triage.lock.yml' is outdated! The workflow file '.github/workflows/issue-triage.md' frontmatter has changed. Run 'gh aw compile' to regenerate the lock file.
+2026-04-14T22:13:44.4799739Z Post job cleanup.
+2026-04-14T22:13:44.5687819Z [command]/usr/bin/git version
+2026-04-14T22:13:44.5729371Z git version 2.53.0
+2026-04-14T22:13:44.5775776Z Temporarily overriding HOME='/home/runner/work/_temp/d93264c3-4808-41d2-8dc0-6414838a8802' before making global git config changes
+2026-04-14T22:13:44.5801070Z Adding repository directory to the temporary git global config as a safe directory
+2026-04-14T22:13:44.5810139Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/azure-sdk-for-net/azure-sdk-for-net
+2026-04-14T22:13:44.5845873Z Removing SSH command configuration
+2026-04-14T22:13:44.5851420Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-04-14T22:13:44.5887847Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-04-14T22:13:44.6283105Z Removing HTTP extra header
+2026-04-14T22:13:44.6290364Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-04-14T22:13:44.6331830Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-04-14T22:13:44.6656307Z Removing includeIf entries pointing to credentials config files
+2026-04-14T22:13:44.6661729Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-04-14T22:13:44.6702502Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-04-14T22:13:44.7206816Z Post job cleanup.
+2026-04-14T22:13:44.7500225Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-14T22:13:44.7507292Z Cleaning up /tmp/gh-aw...
+2026-04-14T22:13:44.7631992Z Cleaned up /tmp/gh-aw
+2026-04-14T22:13:44.7721065Z Evaluate and set job outputs
+2026-04-14T22:13:44.7735823Z Set output 'lockdown_check_failed'
+2026-04-14T22:13:44.7737790Z Set output 'model'
+2026-04-14T22:13:44.7738634Z Set output 'secret_verification_result'
+2026-04-14T22:13:44.7739325Z Set output 'setup-trace-id'
+2026-04-14T22:13:44.7739917Z Set output 'stale_lock_file_failed'
+2026-04-14T22:13:44.7740850Z Cleaning up orphan processes

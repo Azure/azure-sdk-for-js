@@ -1,0 +1,479 @@
+﻿2026-04-10T17:01:24.7606305Z Current runner version: '2.333.1'
+2026-04-10T17:01:24.7632229Z ##[group]Runner Image Provisioner
+2026-04-10T17:01:24.7632984Z Hosted Compute Agent
+2026-04-10T17:01:24.7634029Z Version: 20260213.493
+2026-04-10T17:01:24.7634621Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+2026-04-10T17:01:24.7635302Z Build Date: 2026-02-13T00:28:41Z
+2026-04-10T17:01:24.7635951Z Worker ID: {ea2f6cb8-8565-43de-8d04-79ce4031bf1a}
+2026-04-10T17:01:24.7636596Z Azure Region: westus3
+2026-04-10T17:01:24.7637114Z ##[endgroup]
+2026-04-10T17:01:24.7638428Z ##[group]VM Image
+2026-04-10T17:01:24.7639016Z - OS: Linux (x64)
+2026-04-10T17:01:24.7639488Z - Source: Docker
+2026-04-10T17:01:24.7639955Z - Name: ubuntu:24.04
+2026-04-10T17:01:24.7640477Z - Version: 20260323.53.1
+2026-04-10T17:01:24.7640987Z ##[endgroup]
+2026-04-10T17:01:24.7642260Z ##[group]GITHUB_TOKEN Permissions
+2026-04-10T17:01:24.7645028Z Contents: write
+2026-04-10T17:01:24.7645530Z Discussions: write
+2026-04-10T17:01:24.7646080Z Issues: write
+2026-04-10T17:01:24.7646741Z Metadata: read
+2026-04-10T17:01:24.7647330Z PullRequests: write
+2026-04-10T17:01:24.7647784Z ##[endgroup]
+2026-04-10T17:01:24.7649944Z Secret source: Actions
+2026-04-10T17:01:24.7650634Z Prepare workflow directory
+2026-04-10T17:01:24.7986554Z Prepare all required actions
+2026-04-10T17:01:24.8024459Z Getting action download info
+2026-04-10T17:01:25.2284319Z Download action repository 'github/gh-aw-actions@0acfb4a691fe207cd8bc982ea5cb9d750d57a702' (SHA:0acfb4a691fe207cd8bc982ea5cb9d750d57a702)
+2026-04-10T17:01:27.0064901Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-04-10T17:01:28.1018632Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+2026-04-10T17:01:28.9363427Z Complete job name: conclusion
+2026-04-10T17:01:28.9928900Z ##[group]Run github/gh-aw-actions/setup@0acfb4a691fe207cd8bc982ea5cb9d750d57a702
+2026-04-10T17:01:28.9929969Z with:
+2026-04-10T17:01:28.9930423Z   destination: /home/runner/work/_temp/gh-aw/actions
+2026-04-10T17:01:28.9931000Z   job-name: conclusion
+2026-04-10T17:01:28.9931434Z   safe-output-custom-tokens: false
+2026-04-10T17:01:28.9931920Z   safe-output-artifact-client: false
+2026-04-10T17:01:28.9932543Z ##[endgroup]
+2026-04-10T17:01:29.9975487Z Successfully copied 311 files to /home/runner/work/_temp/gh-aw/actions
+2026-04-10T17:01:30.0000364Z Successfully copied 24 mcp-scripts files to /home/runner/work/_temp/gh-aw/mcp-scripts
+2026-04-10T17:01:30.0001437Z Successfully copied 55 safe-outputs files to /home/runner/work/_temp/gh-aw/safeoutputs
+2026-04-10T17:01:30.0002343Z [otlp] INPUT_TRACE_ID not set, a new trace ID will be generated
+2026-04-10T17:01:30.0003084Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping setup span
+2026-04-10T17:01:30.0004600Z [otlp] resolved trace-id=1777ee4d9bb475a08b3f1f43725757c7
+2026-04-10T17:01:30.0005337Z [otlp] trace-id=1777ee4d9bb475a08b3f1f43725757c7 written to GITHUB_OUTPUT
+2026-04-10T17:01:30.0006066Z [otlp] GITHUB_AW_OTEL_TRACE_ID written to GITHUB_ENV
+2026-04-10T17:01:30.0006692Z [otlp] GITHUB_AW_OTEL_PARENT_SPAN_ID written to GITHUB_ENV
+2026-04-10T17:01:30.0007340Z [otlp] GITHUB_AW_OTEL_JOB_START_MS written to GITHUB_ENV
+2026-04-10T17:01:30.0162918Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-04-10T17:01:30.0164208Z with:
+2026-04-10T17:01:30.0164550Z   name: agent
+2026-04-10T17:01:30.0164919Z   path: /tmp/gh-aw/
+2026-04-10T17:01:30.0165315Z   merge-multiple: false
+2026-04-10T17:01:30.0165749Z   repository: Azure/azure-sdk-for-js
+2026-04-10T17:01:30.0166210Z   run-id: 24254407320
+2026-04-10T17:01:30.0166612Z   skip-decompress: false
+2026-04-10T17:01:30.0167033Z   digest-mismatch: error
+2026-04-10T17:01:30.0167414Z env:
+2026-04-10T17:01:30.0174248Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-10T17:01:30.0181590Z   GITHUB_AW_OTEL_TRACE_ID: 1777ee4d9bb475a08b3f1f43725757c7
+2026-04-10T17:01:30.0182210Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 93c3d391e97c2c91
+2026-04-10T17:01:30.0182754Z   GITHUB_AW_OTEL_JOB_START_MS: 1775840489992
+2026-04-10T17:01:30.0183231Z ##[endgroup]
+2026-04-10T17:01:30.2736627Z Downloading single artifact
+2026-04-10T17:01:30.5320992Z ##[error]Unable to download artifact(s): Artifact not found for name: agent
+        Please ensure that your artifact is not expired and the artifact was uploaded using a compatible version of toolkit/upload-artifact.
+        For more information, visit the GitHub Artifacts FAQ: https://github.com/actions/toolkit/blob/main/packages/artifact/docs/faq.md
+2026-04-10T17:01:30.5537801Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-10T17:01:30.5538477Z with:
+2026-04-10T17:01:30.5539080Z   github-token: ***
+2026-04-10T17:01:30.5540581Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/handle_noop_message.cjs');
+await main();
+
+2026-04-10T17:01:30.5542166Z   debug: false
+2026-04-10T17:01:30.5542561Z   user-agent: actions/github-script
+2026-04-10T17:01:30.5543037Z   result-encoding: json
+2026-04-10T17:01:30.5543440Z   retries: 0
+2026-04-10T17:01:30.5544117Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-10T17:01:30.5544639Z env:
+2026-04-10T17:01:30.5551427Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-10T17:01:30.5590546Z   GITHUB_AW_OTEL_TRACE_ID: 1777ee4d9bb475a08b3f1f43725757c7
+2026-04-10T17:01:30.5591212Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 93c3d391e97c2c91
+2026-04-10T17:01:30.5591763Z   GITHUB_AW_OTEL_JOB_START_MS: 1775840489992
+2026-04-10T17:01:30.5592259Z   GH_AW_AGENT_OUTPUT: 
+2026-04-10T17:01:30.5592642Z   GH_AW_NOOP_MAX: 1
+2026-04-10T17:01:30.5593079Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-10T17:01:30.5594343Z   GH_AW_RUN_URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/24254407320
+2026-04-10T17:01:30.5595052Z   GH_AW_AGENT_CONCLUSION: cancelled
+2026-04-10T17:01:30.5595544Z   GH_AW_NOOP_REPORT_AS_ISSUE: true
+2026-04-10T17:01:30.5595975Z ##[endgroup]
+2026-04-10T17:01:30.6552862Z No GH_AW_AGENT_OUTPUT environment variable found
+2026-04-10T17:01:30.6558925Z Could not load agent output, skipping
+2026-04-10T17:01:30.6687252Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-10T17:01:30.6687920Z with:
+2026-04-10T17:01:30.6688526Z   github-token: ***
+2026-04-10T17:01:30.6689985Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/missing_tool.cjs');
+await main();
+
+2026-04-10T17:01:30.6691542Z   debug: false
+2026-04-10T17:01:30.6691937Z   user-agent: actions/github-script
+2026-04-10T17:01:30.6692404Z   result-encoding: json
+2026-04-10T17:01:30.6692805Z   retries: 0
+2026-04-10T17:01:30.6693211Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-10T17:01:30.6694069Z env:
+2026-04-10T17:01:30.6701186Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-10T17:01:30.6709832Z   GITHUB_AW_OTEL_TRACE_ID: 1777ee4d9bb475a08b3f1f43725757c7
+2026-04-10T17:01:30.6710469Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 93c3d391e97c2c91
+2026-04-10T17:01:30.6711020Z   GITHUB_AW_OTEL_JOB_START_MS: 1775840489992
+2026-04-10T17:01:30.6711512Z   GH_AW_AGENT_OUTPUT: 
+2026-04-10T17:01:30.6711922Z   GH_AW_MISSING_TOOL_CREATE_ISSUE: true
+2026-04-10T17:01:30.6712452Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-10T17:01:30.6713204Z ##[endgroup]
+2026-04-10T17:01:30.7623118Z Max count: unlimited
+2026-04-10T17:01:30.7778352Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-10T17:01:30.7779047Z with:
+2026-04-10T17:01:30.7779653Z   github-token: ***
+2026-04-10T17:01:30.7781235Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/report_incomplete_handler.cjs');
+await main();
+
+2026-04-10T17:01:30.7783052Z   debug: false
+2026-04-10T17:01:30.7783436Z   user-agent: actions/github-script
+2026-04-10T17:01:30.7784222Z   result-encoding: json
+2026-04-10T17:01:30.7784617Z   retries: 0
+2026-04-10T17:01:30.7785012Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-10T17:01:30.7785519Z env:
+2026-04-10T17:01:30.7792394Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-10T17:01:30.7800056Z   GITHUB_AW_OTEL_TRACE_ID: 1777ee4d9bb475a08b3f1f43725757c7
+2026-04-10T17:01:30.7800678Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 93c3d391e97c2c91
+2026-04-10T17:01:30.7801233Z   GITHUB_AW_OTEL_JOB_START_MS: 1775840489992
+2026-04-10T17:01:30.7801727Z   GH_AW_AGENT_OUTPUT: 
+2026-04-10T17:01:30.7802148Z   GH_AW_REPORT_INCOMPLETE_CREATE_ISSUE: true
+2026-04-10T17:01:30.7803892Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-10T17:01:30.7805591Z ##[endgroup]
+2026-04-10T17:01:30.8834385Z Max count: unlimited
+2026-04-10T17:01:30.8994147Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-04-10T17:01:30.8994861Z with:
+2026-04-10T17:01:30.8995481Z   github-token: ***
+2026-04-10T17:01:30.8997013Z   script: const { setupGlobals } = require('/home/runner/work/_temp/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/home/runner/work/_temp/gh-aw/actions/handle_agent_failure.cjs');
+await main();
+
+2026-04-10T17:01:30.8998570Z   debug: false
+2026-04-10T17:01:30.8998950Z   user-agent: actions/github-script
+2026-04-10T17:01:30.8999412Z   result-encoding: json
+2026-04-10T17:01:30.8999791Z   retries: 0
+2026-04-10T17:01:30.9000197Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-04-10T17:01:30.9000695Z env:
+2026-04-10T17:01:30.9007758Z   GH_AW_MODEL_MULTIPLIERS: {
+  "version": "1",
+  "description": "Effective Tokens (ET) computation data per the gh-aw Effective Tokens Specification v0.2.0. Token class weights are applied first to normalize across token classes, then the per-model multiplier scales the result relative to the reference model.",
+  "reference_model": "claude-sonnet-4.5",
+  "token_class_weights": {
+    "input": 1.0,
+    "cached_input": 0.1,
+    "output": 4.0,
+    "reasoning": 4.0,
+    "cache_write": 1.0
+  },
+  "multipliers": {
+    "claude-haiku-4.5": 0.1,
+    "claude-3-5-haiku": 0.1,
+    "claude-3-haiku": 0.1,
+    "claude-sonnet-4.5": 1.0,
+    "claude-sonnet-4.6": 1.0,
+    "claude-3-5-sonnet": 1.0,
+    "claude-3-7-sonnet": 1.0,
+    "claude-3-sonnet": 1.0,
+    "claude-opus-4.5": 5.0,
+    "claude-opus-4.6": 5.0,
+    "claude-3-5-opus": 5.0,
+    "claude-3-opus": 5.0,
+    "gpt-4o": 1.0,
+    "gpt-4o-mini": 0.1,
+    "gpt-4.1": 1.0,
+    "gpt-4.1-2025-04-14": 1.0,
+    "gpt-41-copilot": 1.0,
+    "gpt-4.1-mini": 0.1,
+    "gpt-4.1-nano": 0.05,
+    "gpt-4-turbo": 1.0,
+    "gpt-4": 1.0,
+    "gpt-5": 1.0,
+    "gpt-5-mini": 0,
+    "gpt-5.1": 1.0,
+    "gpt-5.1-codex": 1.0,
+    "gpt-5.1-codex-mini": 0.33,
+    "gpt-5.1-codex-max": 1.0,
+    "gpt-5.2": 1.0,
+    "gpt-5.2-codex": 1.0,
+    "gpt-5.3-codex": 1.0,
+    "gpt-5.4": 1.0,
+    "gpt-5.4-mini": 0.33,
+    "o1": 3.0,
+    "o1-mini": 0.5,
+    "o1-pro": 10.0,
+    "o3": 3.0,
+    "o3-mini": 0.5,
+    "o4-mini": 0.5,
+    "gemini-2.5-pro": 1.0,
+    "gemini-2.5-flash": 0.2,
+    "gemini-2.0-flash": 0.1,
+    "gemini-1.5-pro": 1.0,
+    "gemini-1.5-flash": 0.1
+  }
+}
+2026-04-10T17:01:30.9030806Z   GITHUB_AW_OTEL_TRACE_ID: 1777ee4d9bb475a08b3f1f43725757c7
+2026-04-10T17:01:30.9031427Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 93c3d391e97c2c91
+2026-04-10T17:01:30.9031986Z   GITHUB_AW_OTEL_JOB_START_MS: 1775840489992
+2026-04-10T17:01:30.9032475Z   GH_AW_AGENT_OUTPUT: 
+2026-04-10T17:01:30.9032914Z   GH_AW_WORKFLOW_NAME: Management Release Assistant
+2026-04-10T17:01:30.9033806Z   GH_AW_RUN_URL: https://github.com/Azure/azure-sdk-for-js/actions/runs/24254407320
+2026-04-10T17:01:30.9034503Z   GH_AW_AGENT_CONCLUSION: cancelled
+2026-04-10T17:01:30.9034969Z   GH_AW_WORKFLOW_ID: mgmt-review
+2026-04-10T17:01:30.9035431Z   GH_AW_ENGINE_ID: copilot
+2026-04-10T17:01:30.9035866Z   GH_AW_SECRET_VERIFICATION_RESULT: 
+2026-04-10T17:01:30.9036324Z   GH_AW_CHECKOUT_PR_SUCCESS: 
+2026-04-10T17:01:30.9036754Z   GH_AW_INFERENCE_ACCESS_ERROR: 
+2026-04-10T17:01:30.9037194Z   GH_AW_CODE_PUSH_FAILURE_ERRORS: 
+2026-04-10T17:01:30.9037642Z   GH_AW_CODE_PUSH_FAILURE_COUNT: 
+2026-04-10T17:01:30.9038090Z   GH_AW_LOCKDOWN_CHECK_FAILED: 
+2026-04-10T17:01:30.9039937Z   GH_AW_SAFE_OUTPUT_MESSAGES: {"footer":"\u003e ⚡ *Benchmarked by [{workflow_name}]({run_url})*","runStarted":"⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review...","runSuccess":"⚡ [{workflow_name}]({run_url}) completed the management SDK PR review. ✅","runFailure":"⚡ [{workflow_name}]({run_url}) {status}. ❌"}
+2026-04-10T17:01:30.9041849Z   GH_AW_PUSH_REPO_MEMORY_RESULT: cancelled
+2026-04-10T17:01:30.9042379Z   GH_AW_REPO_MEMORY_VALIDATION_FAILED_default: 
+2026-04-10T17:01:30.9042910Z   GH_AW_REPO_MEMORY_VALIDATION_ERROR_default: 
+2026-04-10T17:01:30.9043897Z   GH_AW_REPO_MEMORY_PATCH_SIZE_EXCEEDED_default: 
+2026-04-10T17:01:30.9044437Z   GH_AW_GROUP_REPORTS: false
+2026-04-10T17:01:30.9044883Z   GH_AW_FAILURE_REPORT_AS_ISSUE: true
+2026-04-10T17:01:30.9045341Z   GH_AW_TIMEOUT_MINUTES: 35
+2026-04-10T17:01:30.9045748Z ##[endgroup]
+2026-04-10T17:01:31.0077814Z Agent conclusion: cancelled
+2026-04-10T17:01:31.0082824Z Workflow name: Management Release Assistant
+2026-04-10T17:01:31.0086050Z Workflow ID: mgmt-review
+2026-04-10T17:01:31.0088621Z Secret verification result: 
+2026-04-10T17:01:31.0091192Z Assignment error count: 0
+2026-04-10T17:01:31.0093961Z Assign copilot failure count: 0
+2026-04-10T17:01:31.0096574Z Create discussion error count: 0
+2026-04-10T17:01:31.0099099Z Code push failure count: 0
+2026-04-10T17:01:31.0101990Z Checkout PR success: 
+2026-04-10T17:01:31.0106759Z Inference access error: false
+2026-04-10T17:01:31.0109689Z Push repo-memory result: cancelled
+2026-04-10T17:01:31.0112599Z App token minting failed (safe_outputs/conclusion/activation): false/false/false
+2026-04-10T17:01:31.0116341Z Lockdown check failed: false
+2026-04-10T17:01:31.0126623Z No GH_AW_AGENT_OUTPUT environment variable found
+2026-04-10T17:01:31.0130579Z Agent job did not fail and no assignment/discussion/code-push/push-repo-memory/app-token/lockdown/report-incomplete errors and has safe outputs (conclusion: cancelled), skipping failure handling
+2026-04-10T17:01:31.0344366Z Post job cleanup.
+2026-04-10T17:01:31.0671147Z [otlp] OTEL_EXPORTER_OTLP_ENDPOINT not set, skipping conclusion span
+2026-04-10T17:01:31.0678088Z Cleaning up /tmp/gh-aw...
+2026-04-10T17:01:31.0825417Z Cleaned up /tmp/gh-aw
+2026-04-10T17:01:31.0963541Z Evaluate and set job outputs
+2026-04-10T17:01:31.0975257Z Cleaning up orphan processes

@@ -1,0 +1,14 @@
+{
+  "pr": 37993,
+  "package": "@azure/ai-projects",
+  "version": "2.1.0",
+  "date": "2026-04-14",
+  "outcome": "issues_found",
+  "findings": [
+    {"severity": "medium", "category": "tsdoc", "file": "src/classic/beta/index.ts", "note": "New BetaOperations properties skills/toolboxes missing JSDoc"},
+    {"severity": "medium", "category": "tsdoc", "file": "src/aiProjectClient.ts", "note": "Class-level @property beta annotation dangling after list removal"},
+    {"severity": "medium", "category": "tsdoc", "file": "src/aiProjectClient.ts", "note": "Field-level beta JSDoc lists non-existent 'Evaluation Rules' beta sub-route"},
+    {"severity": "low", "category": "changelog", "file": "CHANGELOG.md", "note": "Breaking change entry for container_protocol_versions doesn't name the affected type"}
+  ],
+  "recurring_patterns": ["BetaOperations interface properties added without JSDoc"]
+}
