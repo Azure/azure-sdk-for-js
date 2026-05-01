@@ -558,7 +558,7 @@ describe("snippets", () => {
   it("CosmosClientWithAADScope", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const aadCredentials = new DefaultAzureCredential();
-    // @ts-ignore - aadScope is internal API
+    // @ts-ignore
     const client = new CosmosClient({
       endpoint,
       aadCredentials,
