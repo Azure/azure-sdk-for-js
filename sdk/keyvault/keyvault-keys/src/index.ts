@@ -318,14 +318,13 @@ export class KeyClient {
    */
   public createKey(
     name: string,
-    keyType: KeyType,
     options: CreateKeyOptions = {},
   ): Promise<KeyVaultKey> {
     return tracingClient.withSpan("KeyClient.createKey", options, async (updatedOptions) => {
       const response = await this.client.createKey(
         name,
         {
-          kty: keyType,
+          kty: "RSA",
           curve: options?.curve,
           keyAttributes: {
             enabled: options?.enabled,
