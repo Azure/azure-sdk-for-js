@@ -42,7 +42,7 @@ import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenti
 import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
-import { isCosmosEndpoint } from "#platform/utils/isCosmosEndpoint";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpointUtil.js";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you

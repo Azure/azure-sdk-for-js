@@ -60,7 +60,7 @@ import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { escapeQuotes } from "./odata.js";
 import { getClientParamsFromConnectionString } from "./utils/connectionString.js";
 import { handleTableAlreadyExists } from "./utils/errorHelpers.js";
-import { isCosmosEndpoint } from "#platform/utils/isCosmosEndpoint";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpointUtil.js";
 import { isCredential } from "./utils/isCredential.js";
 import { logger } from "./logger.js";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
