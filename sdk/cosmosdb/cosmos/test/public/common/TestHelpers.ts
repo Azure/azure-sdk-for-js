@@ -49,8 +49,6 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
-import fs from "node:fs";
-import path from "node:path";
 import { assert, expect, vi } from "vitest";
 import { AssertionError } from "assertion-error";
 
@@ -722,18 +720,6 @@ export async function changeFeedAllVersionsDeleteItems(
 export function isValidV4UUID(uuid: string): boolean {
   const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
   return uuidRegex.test(uuid);
-}
-
-export function readAndParseJSONFile(fileName: string): any {
-  const filePath = path.join(__dirname, fileName);
-  const rawData = fs.readFileSync(filePath, "utf-8");
-  let parsedData: any;
-  try {
-    parsedData = JSON.parse(rawData);
-  } catch (error) {
-    console.error("Error parsing JSON file:", error);
-  }
-  return parsedData;
 }
 
 export function initializeMockPartitionKeyRanges(

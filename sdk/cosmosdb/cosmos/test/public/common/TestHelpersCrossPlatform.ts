@@ -34,6 +34,7 @@ declare module "vitest" {
   interface ProvidedContext {
     cosmosEndpoint: string;
     cosmosMasterKey: string;
+    cosmosUserSasTokenKey: string;
     skipTestForSignOff: boolean;
   }
 }
