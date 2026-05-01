@@ -19,7 +19,7 @@ export interface MongoClusterManagementClientOptionalParams extends ClientOption
 
 // @public
 export interface MongoClusterManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

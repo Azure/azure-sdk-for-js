@@ -1,5 +1,30 @@
 # Release History
 
+## 2.0.0-beta.1 (2026-05-01)
+Compared with version 1.1.0
+
+### Features Added
+  - Interface MongoClusterProperties has a new optional parameter networkBypassMode
+  - Interface MongoClusterUpdateProperties has a new optional parameter networkBypassMode
+  - Added Type Alias NetworkBypassMode
+  - Added Enum KnownNetworkBypassMode
+  - Enum KnownVersions has a new value V20240301Preview
+  - Enum KnownVersions has a new value V20240601Preview
+  - Enum KnownVersions has a new value V20241001Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20250701Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20260201Preview
+
+### Breaking Changes
+  - Operation FirewallRulesOperations.createOrUpdate has a new signature
+  - Operation FirewallRulesOperations.get has a new signature
+  - Operation FirewallRulesOperations.listByMongoCluster has a new signature
+  - Interface FirewallRuleProperties has a new required parameter endIPAddress
+  - Interface FirewallRuleProperties has a new required parameter startIPAddress
+  - Interface FirewallRuleProperties no longer has parameter endIpAddress
+  - Interface FirewallRuleProperties no longer has parameter startIpAddress
+
 ## 1.1.0 (2025-10-15)
 
 ### Features Added

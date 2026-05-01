@@ -772,7 +772,7 @@
 # PRLabel: %Mgmt
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
