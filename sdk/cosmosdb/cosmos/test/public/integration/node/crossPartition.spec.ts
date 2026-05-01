@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import util from "node:util";
-import type { Container, ContainerDefinition } from "../../../src/index.js";
-import { DataType, IndexKind } from "../../../src/index.js";
-import type { SqlQuerySpec } from "../../../src/index.js";
-import type { QueryIterator } from "../../../src/index.js";
+import type { Container, ContainerDefinition } from "../../../../src/index.js";
+import { DataType, IndexKind } from "../../../../src/index.js";
+import type { SqlQuerySpec } from "../../../../src/index.js";
+import type { QueryIterator } from "../../../../src/index.js";
 import {
   bulkInsertItems,
   getTestContainer,
   removeAllDatabases,
   generateDocuments,
-} from "../common/TestHelpers.js";
-import type { FeedResponse, FeedOptions } from "../../../src/index.js";
+} from "../../common/TestHelpers.js";
+import type { FeedResponse, FeedOptions } from "../../../../src/index.js";
 import { describe, it, assert, beforeAll } from "vitest";
-import { emulatorUnavailable, linuxEmulator } from "../common/_testConfig.js";
+import { emulatorUnavailable, linuxEmulator } from "../../common/_testConfig.js";
 
 function compare(key: string) {
   return function (a: any, b: any): number {
