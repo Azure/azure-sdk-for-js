@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { concatUint8Arrays } from "../../../../src/utils/uint8.js";
+import { concatUint8Arrays } from "../../../../../src/utils/uint8.js";
 import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import { Buffer } from "buffer";
 

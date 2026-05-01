@@ -5,9 +5,9 @@
  * Global setup for integration tests (both Node and browser).
  * Runs in Node.js context before tests start.
  *
- * - Verifies the Cosmos emulator is reachable
- * - Cleans up all databases
- * - Provides endpoint, masterKey, and config to tests via inject()
+ * - Attempts to connect to the Cosmos emulator
+ * - If reachable, cleans up all databases and provides config via inject()
+ * - If unreachable, logs a warning (unit tests still run, integration tests skip)
  */
 import type { TestProject } from "vitest/node";
 import { CosmosClient, CosmosDbDiagnosticLevel } from "../../../src/index.js";
@@ -30,7 +30,6 @@ export default async function ({ provide }: TestProject): Promise<void> {
   // Disable TLS verification for the self-signed emulator certificate
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-  // Verify emulator is reachable and clean up databases
   const client = new CosmosClient({
     endpoint,
     key: masterKey,
@@ -41,12 +40,11 @@ export default async function ({ provide }: TestProject): Promise<void> {
   try {
     const { resources: databases } = await client.databases.readAll().fetchAll();
     await Promise.all(databases.map((db) => client.database(db.id).delete()));
-  } catch (err: any) {
+  } catch {
     console.warn(
-      `⚠️  Could not connect to Cosmos emulator at ${endpoint}. ` +
-        `Make sure the emulator is running. Error: ${err.message}`,
+      `⚠️  Cosmos emulator not available at ${endpoint}. Integration tests will be skipped.`,
     );
-    throw err;
+    return;
   }
 
   provide("cosmosEndpoint", endpoint);
