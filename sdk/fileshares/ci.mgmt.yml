@@ -11,7 +11,6 @@ trigger:
   paths:
     include:
       - sdk/fileshares/ci.mgmt.yml
-      - sdk/fileshares/arm-fileshares/
       - sdk/fileshares/arm-fileshares
 pr:
   branches:
@@ -25,7 +24,6 @@ pr:
   paths:
     include:
       - sdk/fileshares/ci.mgmt.yml
-      - sdk/fileshares/arm-fileshares/
       - sdk/fileshares/arm-fileshares
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
