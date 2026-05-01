@@ -12,8 +12,6 @@ export default mergeConfig(
         enabled: false,
       },
       fileParallelism: false,
-      include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
-      exclude: ["test/**/browser/**", "test/**/react-native/**", "test/snippets.spec.ts"],
       globalSetup: ["test/public/common/globalSetup.ts"],
     },
   }),
