@@ -7,21 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-<<<<<<< HEAD
-@@ -17,8 +17,9 @@
- import * as coreClient from '@azure/core-client';
- import * as coreHttpCompat from '@azure/core-http-compat';
- import * as coreRestPipeline from '@azure/core-rest-pipeline';
- import { Credential as Credential_2 } from '@azure/storage-blob';
-+import { Credential as Credential_3 } from '@azure/storage-common';
- import { CredentialPolicy } from '@azure/storage-blob';
- import { CredentialPolicyCreator } from '@azure/storage-blob';
- import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
- import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
-@@ -316,9 +317,10 @@
-=======
-@@ -314,9 +314,10 @@
->>>>>>> origin/main
+@@ -316,9 +316,10 @@
  }
  
  // @public
@@ -33,11 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-<<<<<<< HEAD
-@@ -343,9 +345,9 @@
-=======
-@@ -341,9 +342,9 @@
->>>>>>> origin/main
+@@ -343,9 +344,9 @@
  // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
  //
  // @public
@@ -48,11 +30,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
      createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
      delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
-<<<<<<< HEAD
-@@ -395,9 +397,9 @@
-=======
-@@ -393,9 +394,9 @@
->>>>>>> origin/main
+@@ -395,9 +396,9 @@
  }
  
  // @public
@@ -63,11 +41,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
      delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-<<<<<<< HEAD
-@@ -473,9 +475,9 @@
-=======
-@@ -467,9 +468,9 @@
->>>>>>> origin/main
+@@ -473,9 +474,9 @@
  }
  
  // @public
@@ -78,11 +52,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
      generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
-<<<<<<< HEAD
-@@ -1123,12 +1125,12 @@
-=======
-@@ -1116,12 +1117,12 @@
->>>>>>> origin/main
+@@ -1123,12 +1124,12 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -97,11 +67,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
  
-<<<<<<< HEAD
-@@ -1240,9 +1242,9 @@
-=======
-@@ -1233,9 +1234,9 @@
->>>>>>> origin/main
+@@ -1240,9 +1241,9 @@
  // @public (undocumented)
  export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
  

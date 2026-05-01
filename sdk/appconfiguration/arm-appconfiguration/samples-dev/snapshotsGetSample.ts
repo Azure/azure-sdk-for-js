@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the specified snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration snapshots the data plane API should be used instead.
  *
  * @summary gets the properties of the specified snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration snapshots the data plane API should be used instead.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresGetSnapshot.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresGetSnapshot.json
  */
 async function snapshotsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

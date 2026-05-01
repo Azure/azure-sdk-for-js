@@ -1,6 +1,6 @@
 ---
 name: update-changelog
-description: 'Insert a new top entry into ai-projects CHANGELOG.md summarizing the regeneration. Use when classifying API changes into Breaking Changes / Features Added / Bugs Fixed / Other Changes buckets after a TypeSpec regeneration. Matches the existing house style and leaves the version line as a placeholder for human review.'
+description: 'Update ai-projects CHANGELOG.md after a TypeSpec regeneration. Merges new items into the existing top (Unreleased) entry when present; otherwise creates a new top entry, classifying changes into Breaking Changes / Features Added / Bugs Fixed / Other Changes buckets and syncing package.json version as needed.'
 ---
 
 # Update CHANGELOG.md for an ai-projects regeneration
@@ -50,11 +50,14 @@ For each item from the api-surface diff plus each hand-applied edit:
 
 Beta-namespace additions still go under **Features Added**, with the namespace path included (e.g., `project.beta.toolboxes`).
 
-### Step 3: Insert a new top entry
+### Step 3: Insert or extend the top entry
 
-Use [templates/changelog-entry.md](./templates/changelog-entry.md). Insert it directly **above** the most recent existing entry.
+First, **inspect the current top entry in `CHANGELOG.md`**:
 
-Pick a tentative next version following semver against the previous CHANGELOG entry:
+- If it is already an `## <version> (Unreleased)` (or otherwise unreleased) entry, **do not create a new entry and do not bump the version.** Instead, merge the new items into the existing buckets under that entry — adding new bullets, keeping the existing ones, and dropping any subsection that ends up empty. Skip Step 3.5 entirely in this case (the `package.json` version already matches).
+- Only if the current top entry is a released version (i.e. its header has a date, not `(Unreleased)`) do you create a new top entry. Use [templates/changelog-entry.md](./templates/changelog-entry.md) and insert it directly **above** that released entry.
+
+When creating a new entry, pick a tentative next version following semver against the previous CHANGELOG entry:
 
 - **Breaking Changes** present → bump major (e.g., `2.1.0` → `3.0.0`).
 - **Features Added** only → bump minor (e.g., `2.1.0` → `2.2.0`).
@@ -66,7 +69,9 @@ Drop empty subsections (don't leave a `### Bugs Fixed` heading with no items und
 
 ### Step 3.5: Sync `package.json` version
 
-The `version` field in [`package.json`](../../../package.json) MUST match the version in the new top CHANGELOG entry. After choosing the version above, update `package.json` to match (e.g., `"version": "2.2.0"`). Release tooling fails CI if these drift.
+**Skip this step if you merged into an existing `(Unreleased)` entry in Step 3** — the version did not change, so `package.json` is already correct.
+
+When you created a new top entry, the `version` field in [`package.json`](../../../package.json) MUST match the version in that new entry. Update `package.json` to match (e.g., `"version": "2.2.0"`). Release tooling fails CI if these drift.
 
 ### Step 4: Validate
 
