@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import { DefaultRetryPolicy } from "../../../../../src/retry/defaultRetryPolicy.js";
+import { DefaultRetryPolicy } from "../../../../src/retry/defaultRetryPolicy.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
   OperationType,
   StatusCodes,
-} from "../../../../../src/index.js";
-import { CosmosDbDiagnosticLevel } from "../../../../../dist/esm/index.js";
+  CosmosDbDiagnosticLevel,
+} from "../../../../src/index.js";
 
 describe("DefaultRetryPolicy", () => {
   const dummyError = {

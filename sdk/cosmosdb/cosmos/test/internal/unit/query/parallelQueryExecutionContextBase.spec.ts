@@ -7,17 +7,17 @@ import type {
   QueryInfo,
   QueryIterator,
   Resource,
-} from "../../../../../src/index.js";
-import { CosmosDbDiagnosticLevel } from "../../../../../src/index.js";
-import type { ClientContext } from "../../../../../src/index.js";
-import { TestParallelQueryExecutionContext } from "../../common/testParallelQueryExecutionContext.js";
+} from "../../../../src/index.js";
+import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
+import type { ClientContext } from "../../../../src/index.js";
+import { TestParallelQueryExecutionContext } from "../common/testParallelQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
   initializeMockPartitionKeyRanges,
-} from "../../../../public/common/TestHelpers.js";
+} from "../../../public/common/TestHelpersCrossPlatform.js";
 import { describe, it, assert, expect, beforeEach, vi } from "vitest";
-import { SmartRoutingMapProvider } from "../../../../../src/routing/smartRoutingMapProvider.js";
+import { SmartRoutingMapProvider } from "../../../../src/routing/smartRoutingMapProvider.js";
 
 describe("parallelQueryExecutionContextBase", () => {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
