@@ -218,7 +218,7 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
     });
   });
 
-  describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)("test changefeed for one prefix partition key", () => {
+  describe.skipIf(skipTestForSignOff || linuxEmulator)("test changefeed for one prefix partition key", () => {
     let container: Container;
 
     beforeAll(async () => {
@@ -470,7 +470,7 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
     });
   });
 
-  describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)("test changefeed for entire container", () => {
+  describe.skipIf(skipTestForSignOff || linuxEmulator)("test changefeed for entire container", () => {
     let container: Container;
 
     beforeAll(async () => {
@@ -1501,7 +1501,7 @@ describe.skipIf(emulatorUnavailable || linuxEmulator)("Change Feed with Priority
     );
   });
 
-  it.skipIf(skipTestForSignOff || emulatorUnavailable)(
+  it.skipIf(skipTestForSignOff)(
     "should use PriorityLevel with ChangeFeedMode.AllVersionsAndDeletes",
     async () => {
       // Create a separate container with AllVersionsAndDeletes mode enabled

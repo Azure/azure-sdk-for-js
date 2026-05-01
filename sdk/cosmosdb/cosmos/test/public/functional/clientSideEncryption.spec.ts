@@ -1413,7 +1413,7 @@ describe.skipIf(emulatorUnavailable || linuxEmulator)("ClientSideEncryption", ()
     verifyExpectedDocResponse(testDoc1, response.result[0]);
   });
 
-  it.skipIf(skipTestForSignOff || emulatorUnavailable)("encryption change feed with allVersionsAndDeletes", async () => {
+  it.skipIf(skipTestForSignOff)("encryption change feed with allVersionsAndDeletes", async () => {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -2876,7 +2876,7 @@ describe.skipIf(emulatorUnavailable || linuxEmulator)("ClientSideEncryption", ()
     verifyDiagnostics(replaceResponse.diagnostics, true, true, 14, 12);
   });
 
-  it.skipIf(skipTestForSignOff || emulatorUnavailable)("encryption delete all items in a partition key", async () => {
+  it.skipIf(skipTestForSignOff)("encryption delete all items in a partition key", async () => {
     const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer, "pk2")).resource);
     const testDoc3 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
