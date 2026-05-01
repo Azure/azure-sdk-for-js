@@ -35,7 +35,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "C:\\Users\\hoppewang\\work\\azure-sdk-for-js\\sdk\\batch\\batch\\generated/api/batchContext.ts",
+        "path": "src/api/batchContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
