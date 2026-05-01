@@ -375,6 +375,22 @@ export class KeyClient {
   }
 
   /**
+   * Validates a key name and throws if invalid.
+   * @param name - The key name to validate.
+   */
+  public validateKeyName(name: string): void {
+    if (!name || name.length === 0) {
+      throw new Error("Key name cannot be empty");
+    }
+    if (name.length > 127) {
+      throw new Error("Key name cannot exceed 127 characters");
+    }
+    if (!/^[a-zA-Z0-9-]+$/.test(name)) {
+      throw new Error("Key name can only contain alphanumeric characters and hyphens");
+    }
+  }
+
+  /**
    * The createRSAKey method creates a new RSA key in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
