@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { isNodeLike } from "@azure/core-util";
+
+declare const process: { env: Record<string, string | undefined> } | undefined;
+
 export function isCosmosEndpoint(url: string): boolean {
   const parsedURL = new URL(url);
   if (parsedURL.hostname.indexOf(".table.cosmosdb.") !== -1) {
@@ -19,9 +23,10 @@ export function isCosmosEndpoint(url: string): boolean {
     return false;
   }
 
-  const azuriteAccounts = (
-    globalThis as { process?: { env?: Record<string, string> } }
-  ).process?.env?.AZURITE_ACCOUNTS?.split(":");
+  const azuriteAccounts =
+    isNodeLike && typeof process !== "undefined"
+      ? process.env.AZURITE_ACCOUNTS?.split(":")
+      : undefined;
   if (azuriteAccounts?.[0] && parsedURL.hostname.includes(azuriteAccounts[0])) {
     return false;
   }
