@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * Global setup for browser integration tests.
- * Runs in Node.js context before the browser tests start.
+ * Global setup for integration tests (both Node and browser).
+ * Runs in Node.js context before tests start.
  *
  * - Verifies the Cosmos emulator is reachable
- * - Cleans up all databases (uses Node APIs not available in browser)
- * - Provides endpoint, masterKey, and config to browser tests via inject()
+ * - Cleans up all databases
+ * - Provides endpoint, masterKey, and config to tests via inject()
  */
 import type { TestProject } from "vitest/node";
 import { CosmosClient, CosmosDbDiagnosticLevel } from "../../../src/index.js";

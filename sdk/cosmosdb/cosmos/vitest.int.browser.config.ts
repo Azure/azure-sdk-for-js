@@ -16,7 +16,7 @@ export default mergeConfig(
     },
     test: {
       fileParallelism: false,
-      globalSetup: [resolve(__dirname, "test/public/common/globalSetup.browser.ts")],
+      globalSetup: [resolve(__dirname, "test/public/common/globalSetup.ts")],
       include: ["test/public/functional/clientSideEncryption.spec.ts"],
       exclude: ["test/**/node/**"],
     },

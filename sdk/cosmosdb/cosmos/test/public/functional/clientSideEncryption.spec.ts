@@ -46,21 +46,14 @@ import {
   testDeleteItem,
   verifyDiagnostics,
 } from "../common/encryptionTestHelpers.js";
-import { removeAllDatabases, getDefaultClient } from "../common/TestHelpersCrossPlatform.js";
+import { removeAllDatabases } from "../common/TestHelpersCrossPlatform.js";
 import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll, inject } from "vitest";
 
-// In browser tests, values come from globalSetup via inject().
-// In Node tests, fall back to environment variables (same as _testConfig.ts/_fakeTestSecrets.ts).
-const endpoint =
-  inject("cosmosEndpoint") || process.env.ACCOUNT_HOST || "https://localhost:8081";
-const masterKey =
-  inject("cosmosMasterKey") ||
-  process.env.ACCOUNT_KEY ||
-  "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-const skipTestForSignOff =
-  inject("skipTestForSignOff") ?? process.env.SKIP_COMPUTE_GATEWAY_TESTS === "true";
+const endpoint = inject("cosmosEndpoint");
+const masterKey = inject("cosmosMasterKey");
+const skipTestForSignOff = inject("skipTestForSignOff");
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
