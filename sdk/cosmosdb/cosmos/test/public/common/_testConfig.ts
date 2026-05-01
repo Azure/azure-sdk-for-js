@@ -8,3 +8,6 @@ export const endpoint = inject("cosmosEndpoint");
 export const skipTestForSignOff: boolean = inject("skipTestForSignOff");
 // When true, integration tests that require the Cosmos emulator should be skipped
 export const emulatorUnavailable: boolean = inject("emulatorUnavailable");
+// When true, tests requiring Windows-only emulator features (e.g. EnableSqlComputeEndpoint,
+// certain preview capabilities like vector search) should be skipped
+export const linuxEmulator: boolean = inject("linuxEmulator");

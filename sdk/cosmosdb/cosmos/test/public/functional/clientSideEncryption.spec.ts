@@ -50,7 +50,7 @@ import { removeAllDatabases } from "../common/TestHelpers.js";
 import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll, inject } from "vitest";
-import { emulatorUnavailable } from "../common/_testConfig.js";
+import { emulatorUnavailable, linuxEmulator } from "../common/_testConfig.js";
 
 const endpoint = inject("cosmosEndpoint");
 const masterKey = inject("cosmosMasterKey");
@@ -68,7 +68,7 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe.skipIf(emulatorUnavailable)("ClientSideEncryption", () => {
+describe.skipIf(emulatorUnavailable || linuxEmulator)("ClientSideEncryption", () => {
   beforeAll(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();

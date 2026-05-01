@@ -25,8 +25,8 @@ import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { Constants } from "../../../src/common/constants.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
-import { skipTestForSignOff } from "../common/_testConfig.js";
-import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
+
+import { endpoint, emulatorUnavailable, skipTestForSignOff, linuxEmulator } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { addEntropy } from "../common/TestHelpers.js";
 
@@ -218,7 +218,7 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
     });
   });
 
-  describe.skipIf(skipTestForSignOff || emulatorUnavailable)("test changefeed for one prefix partition key", () => {
+  describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)("test changefeed for one prefix partition key", () => {
     let container: Container;
 
     beforeAll(async () => {
@@ -470,7 +470,7 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
     });
   });
 
-  describe.skipIf(skipTestForSignOff || emulatorUnavailable)("test changefeed for entire container", () => {
+  describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)("test changefeed for entire container", () => {
     let container: Container;
 
     beforeAll(async () => {
@@ -594,7 +594,7 @@ describe.skipIf(emulatorUnavailable)("Change Feed Iterator", { timeout: 20000 },
   });
 });
 
-describe.skipIf(skipTestForSignOff || emulatorUnavailable)("test changefeed for feed range", () => {
+describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)("test changefeed for feed range", () => {
   let container: Container;
 
   beforeAll(async () => {
@@ -709,7 +709,7 @@ describe.skipIf(skipTestForSignOff || emulatorUnavailable)("test changefeed for 
   });
 });
 
-describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
+describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
   "test changefeed allVersionsAndDeletes mode for entire container",
   () => {
     let container: Container;
@@ -856,7 +856,7 @@ describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
   },
 );
 
-describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
+describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
   "test changefeed allVersionsAndDeletes mode for a feed range",
   () => {
     let container: Container;
@@ -1004,7 +1004,7 @@ describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
   },
 );
 
-describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
+describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
   "test changefeed allVersionsAndDeletes mode for a partition key",
   () => {
     let container: Container;
@@ -1152,7 +1152,7 @@ describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
   },
 );
 
-describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
+describe.skipIf(skipTestForSignOff || emulatorUnavailable || linuxEmulator)(
   "test changefeed allVersionsAndDeletes mode for a prefix partition key",
   () => {
     let container: Container;
@@ -1318,7 +1318,7 @@ describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
   },
 );
 
-describe.skipIf(emulatorUnavailable)("Change Feed with Priority Level", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable || linuxEmulator)("Change Feed with Priority Level", { timeout: 20000 }, () => {
   let container: Container;
   let priorityLevelHeaderCaptured: string | undefined;
 
