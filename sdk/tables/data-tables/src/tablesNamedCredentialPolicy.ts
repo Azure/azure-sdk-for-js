@@ -9,7 +9,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "./utils/constants.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
-import { computeHMACSHA256 } from "#platform/utils/computeHMACSHA256";
+import { computeHMACSHA256 } from "./utils/computeHMACSHA256.js";
 
 /**
  * The programmatic identifier of the tablesNamedKeyCredentialPolicy.
@@ -20,30 +20,33 @@ export const tablesNamedKeyCredentialPolicyName = "tablesNamedKeyCredentialPolic
  * tablesNamedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
  */
 export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): PipelinePolicy {
-  function signRequest(request: PipelineRequest): void {
-    const headerValue = getAuthorizationHeader(request, credential);
+  async function signRequest(request: PipelineRequest): Promise<void> {
+    const headerValue = await getAuthorizationHeader(request, credential);
     request.headers.set(HeaderConstants.AUTHORIZATION, headerValue);
   }
 
   return {
     name: tablesNamedKeyCredentialPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      signRequest(request);
+      await signRequest(request);
       return next(request);
     },
   };
 }
 
-export function getAuthorizationHeader(
+export async function getAuthorizationHeader(
   request: PipelineRequest,
   credential: NamedKeyCredential,
-): string {
+): Promise<string> {
   if (!request.headers.has(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
   }
 
   if (request.body && typeof request.body === "string" && request.body.length > 0) {
-    request.headers.set(HeaderConstants.CONTENT_LENGTH, Buffer.byteLength(request.body));
+    request.headers.set(
+      HeaderConstants.CONTENT_LENGTH,
+      new TextEncoder().encode(request.body).length,
+    );
   }
 
   // If x-ms-date is present, use it otherwise date
@@ -58,7 +61,7 @@ export function getAuthorizationHeader(
     getCanonicalizedResourceString(request, credential),
   ].join("\n");
 
-  const signature = computeHMACSHA256(stringToSign, credential.key);
+  const signature = await computeHMACSHA256(stringToSign, credential.key);
 
   return `SharedKeyLite ${credential.name}:${signature}`;
 }

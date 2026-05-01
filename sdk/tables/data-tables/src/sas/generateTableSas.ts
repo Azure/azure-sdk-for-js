@@ -16,11 +16,11 @@ import { tableSasPermissionsFromString } from "./tableSasPermisions.js";
  * @param options - Optional parameters.
  * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
  */
-export function generateTableSas(
+export async function generateTableSas(
   tableName: string,
   credential: NamedKeyCredential,
   options: TableSasSignatureValues = {},
-): string {
+): Promise<string> {
   let { expiresOn, permissions } = options;
 
   if (!isNamedKeyCredential(credential)) {
@@ -42,11 +42,13 @@ export function generateTableSas(
     }
   }
 
-  const sas = generateTableSasQueryParameters(tableName, credential, {
-    ...options,
-    expiresOn,
-    permissions,
-  }).toString();
+  const sas = (
+    await generateTableSasQueryParameters(tableName, credential, {
+      ...options,
+      expiresOn,
+      permissions,
+    })
+  ).toString();
 
   return sas;
 }

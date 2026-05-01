@@ -14,7 +14,7 @@ import {
 import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants.js";
-import { computeHMACSHA256 } from "#platform/utils/computeHMACSHA256";
+import { computeHMACSHA256 } from "../utils/computeHMACSHA256.js";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
 
 /**
@@ -88,10 +88,10 @@ export interface AccountSasSignatureValues {
  * @param accountSasSignatureValues -
  * @param sharedKeyCredential -
  */
-export function generateAccountSasQueryParameters(
+export async function generateAccountSasQueryParameters(
   accountSasSignatureValues: AccountSasSignatureValues,
   credential: NamedKeyCredential,
-): SasQueryParameters {
+): Promise<SasQueryParameters> {
   const version = accountSasSignatureValues.version
     ? accountSasSignatureValues.version
     : SERVICE_VERSION;
@@ -120,7 +120,7 @@ export function generateAccountSasQueryParameters(
     "", // Account SAS requires an additional newline character
   ].join("\n");
 
-  const signature: string = computeHMACSHA256(stringToSign, credential.key);
+  const signature: string = await computeHMACSHA256(stringToSign, credential.key);
 
   return new SasQueryParameters(version, signature, {
     permissions: parsedPermissions.toString(),

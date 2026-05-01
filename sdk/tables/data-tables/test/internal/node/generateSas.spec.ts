@@ -32,7 +32,7 @@ describe("SAS generation", function () {
 
     it("should generate a SAS token with default values", async () => {
       // Create the table SAS token
-      const tableSas = generateTableSas(
+      const tableSas = await generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
       );
@@ -42,7 +42,7 @@ describe("SAS generation", function () {
 
     it("should generate a SAS token with start partition and row keys", async () => {
       // Create the table SAS token
-      const tableSas = generateTableSas(
+      const tableSas = await generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
         { startPartitionKey: "P1", startRowKey: "1" },
@@ -53,7 +53,7 @@ describe("SAS generation", function () {
 
     it("should generate a SAS token with end partition and row keys", async () => {
       // Create the table SAS token
-      const tableSas = generateTableSas(
+      const tableSas = await generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
         { endPartitionKey: "P1", endRowKey: "1" },
@@ -64,7 +64,7 @@ describe("SAS generation", function () {
 
     it("should generate a SAS token with explicit permissions", async () => {
       // Create the table SAS token
-      const tableSas = generateTableSas(
+      const tableSas = await generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
         {
@@ -80,7 +80,7 @@ describe("SAS generation", function () {
 
     it("should generate a SAS token with explicit expiry", async () => {
       // Create the table SAS token
-      const tableSas = generateTableSas(
+      const tableSas = await generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
         {
@@ -93,7 +93,7 @@ describe("SAS generation", function () {
 
     it("should generate a SAS token with identifier", async () => {
       // Create the table SAS token
-      const tableSas = generateTableSas(
+      const tableSas = await generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
         {
@@ -118,28 +118,36 @@ describe("SAS generation", function () {
 
     it("should generate account SAS token with default values", async () => {
       // Create the table SAS token
-      const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"));
+      const tableSas = await generateAccountSas(
+        new AzureNamedKeyCredential("keyName", "keySecret"),
+      );
 
       assert.equal(tableSas, expectedSas5);
     });
 
     it("should generate a SAS token with explicit permissions", async () => {
       // Create the table SAS token
-      const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"), {
-        permissions: {
-          add: true,
-          delete: true,
+      const tableSas = await generateAccountSas(
+        new AzureNamedKeyCredential("keyName", "keySecret"),
+        {
+          permissions: {
+            add: true,
+            delete: true,
+          },
         },
-      });
+      );
 
       assert.equal(tableSas, expectedSas6);
     });
 
     it("should generate a SAS token with explicit expiry", async () => {
       // Create the table SAS token
-      const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"), {
-        expiresOn: new Date("2022-12-12"),
-      });
+      const tableSas = await generateAccountSas(
+        new AzureNamedKeyCredential("keyName", "keySecret"),
+        {
+          expiresOn: new Date("2022-12-12"),
+        },
+      );
 
       assert.equal(tableSas, expectedSas7);
     });

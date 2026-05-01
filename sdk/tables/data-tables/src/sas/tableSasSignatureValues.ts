@@ -15,7 +15,7 @@ import type { TableSasPermissions } from "./tableSasPermisions.js";
 import { tableSasPermissionsToString } from "./tableSasPermisions.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants.js";
-import { computeHMACSHA256 } from "#platform/utils/computeHMACSHA256";
+import { computeHMACSHA256 } from "../utils/computeHMACSHA256.js";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
 
 /**
@@ -101,11 +101,11 @@ export interface TableSasSignatureValues {
  *
  * **Note**: When identifier is not provided, permissions has a default value of "read" and expiresOn of one hour from the time the token is generated.
  */
-export function generateTableSasQueryParameters(
+export async function generateTableSasQueryParameters(
   tableName: string,
   credential: NamedKeyCredential,
   tableSasSignatureValues: TableSasSignatureValues,
-): SasQueryParameters {
+): Promise<SasQueryParameters> {
   const version = tableSasSignatureValues.version ?? SERVICE_VERSION;
 
   if (credential === undefined) {
@@ -147,7 +147,7 @@ export function generateTableSasQueryParameters(
     endingRowKey,
   ].join("\n");
 
-  const signature = computeHMACSHA256(stringToSign, credential.key);
+  const signature = await computeHMACSHA256(stringToSign, credential.key);
 
   return new SasQueryParameters(version, signature, {
     permissions: signedPermissions,
