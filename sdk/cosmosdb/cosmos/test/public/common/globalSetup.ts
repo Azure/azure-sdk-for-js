@@ -124,8 +124,11 @@ export default async function ({ provide }: TestProject): Promise<void> {
   // which lacks EnableSqlComputeEndpoint and some preview features
   const isLinuxEmulator = process.platform !== "win32" && !process.env.ACCOUNT_HOST;
 
-  // Disable TLS verification for the self-signed emulator certificate
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  // Disable TLS verification only for the emulator's self-signed certificate.
+  // The well-known default key indicates we're targeting an emulator, not a real service.
+  if (masterKey === DEFAULT_KEY) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  }
 
   // Always provide config values so inject() never returns undefined
   provide("cosmosEndpoint", endpoint);
