@@ -13,7 +13,7 @@ import {
 } from "../common/TestHelpers.js";
 import type { FeedResponse, FeedOptions } from "../../../src/index.js";
 import { describe, it, assert, beforeAll } from "vitest";
-import { emulatorUnavailable, linuxEmulator } from "../common/_testConfig.js";
+import { emulatorUnavailable, skipTestForSignOff } from "../common/_testConfig.js";
 
 function compare(key: string) {
   return function (a: any, b: any): number {
@@ -27,1019 +27,1031 @@ function compare(key: string) {
   };
 }
 
-describe.skipIf(emulatorUnavailable || linuxEmulator)("Cross-Partition", { timeout: 30000 }, () => {
-  describe("Validate-Query", () => {
-    const documentDefinitions = generateDocuments(20);
+describe.skipIf(emulatorUnavailable || skipTestForSignOff)(
+  "Cross-Partition",
+  { timeout: 30000 },
+  () => {
+    describe("Validate-Query", () => {
+      const documentDefinitions = generateDocuments(20);
 
-    const containerDefinition: ContainerDefinition = {
-      id: "sample container",
-      indexingPolicy: {
-        includedPaths: [
-          {
-            path: "/",
-            indexes: [
-              {
-                kind: IndexKind.Range,
-                dataType: DataType.Number,
-              },
-              {
-                kind: IndexKind.Range,
-                dataType: DataType.String,
-              },
-            ],
-          },
-        ],
-      },
-      partitionKey: {
-        paths: ["/id"],
-      },
-    };
-    const containerOptions = { offerThroughput: 25100 };
+      const containerDefinition: ContainerDefinition = {
+        id: "sample container",
+        indexingPolicy: {
+          includedPaths: [
+            {
+              path: "/",
+              indexes: [
+                {
+                  kind: IndexKind.Range,
+                  dataType: DataType.Number,
+                },
+                {
+                  kind: IndexKind.Range,
+                  dataType: DataType.String,
+                },
+              ],
+            },
+          ],
+        },
+        partitionKey: {
+          paths: ["/id"],
+        },
+      };
+      const containerOptions = { offerThroughput: 25100 };
 
-    let container: Container;
+      let container: Container;
 
-    // - removes all the databases,
-    // - creates a new database,
-    // - creates a new collection,
-    // - bulk inserts documents to the container
-    beforeAll(async () => {
-      await removeAllDatabases();
-      container = await getTestContainer(
-        "Validate 中文 Query",
-        undefined,
-        containerDefinition,
-        containerOptions,
-      );
-      await bulkInsertItems(container, documentDefinitions);
-    });
-
-    const validateResults = function (
-      actualResults: any[],
-      expectedOrderIds: string[],
-      expectedCount: number,
-    ): void {
-      assert.equal(
-        actualResults.length,
-        expectedCount ||
-          (expectedOrderIds && expectedOrderIds.length) ||
-          documentDefinitions.length,
-        "actual results length doesn't match with expected results length.",
-      );
-      if (expectedOrderIds) {
-        assert.deepStrictEqual(
-          actualResults.map((doc) => doc.id || doc),
-          expectedOrderIds,
+      // - removes all the databases,
+      // - creates a new database,
+      // - creates a new collection,
+      // - bulk inserts documents to the container
+      beforeAll(async () => {
+        await removeAllDatabases();
+        container = await getTestContainer(
+          "Validate 中文 Query",
+          undefined,
+          containerDefinition,
+          containerOptions,
         );
-      }
-    };
+        await bulkInsertItems(container, documentDefinitions);
+      });
 
-    const validateFetchAll = async function (
-      queryIterator: QueryIterator<any>,
-      options: any,
-      expectedOrderIds: string[],
-      expectedCount: number,
-    ): Promise<FeedResponse<any>> {
-      options.continuation = undefined;
-      const response = await queryIterator.fetchAll();
-      const { resources: results } = response;
-      assert.equal(
-        results.length,
-        expectedCount ||
+      const validateResults = function (
+        actualResults: any[],
+        expectedOrderIds: string[],
+        expectedCount: number,
+      ): void {
+        assert.equal(
+          actualResults.length,
+          expectedCount ||
+            (expectedOrderIds && expectedOrderIds.length) ||
+            documentDefinitions.length,
+          "actual results length doesn't match with expected results length.",
+        );
+        if (expectedOrderIds) {
+          assert.deepStrictEqual(
+            actualResults.map((doc) => doc.id || doc),
+            expectedOrderIds,
+          );
+        }
+      };
+
+      const validateFetchAll = async function (
+        queryIterator: QueryIterator<any>,
+        options: any,
+        expectedOrderIds: string[],
+        expectedCount: number,
+      ): Promise<FeedResponse<any>> {
+        options.continuation = undefined;
+        const response = await queryIterator.fetchAll();
+        const { resources: results } = response;
+        assert.equal(
+          results.length,
+          expectedCount ||
+            (expectedOrderIds && expectedOrderIds.length) ||
+            documentDefinitions.length,
+          "invalid number of results",
+        );
+        assert.equal(
+          queryIterator.hasMoreResults(),
+          false,
+          "hasMoreResults: no more results is left",
+        );
+
+        validateResults(results, expectedOrderIds, expectedCount);
+        return response;
+      };
+
+      const validateFetchNextAndHasMoreResults = async function (
+        options: any,
+        queryIterator: QueryIterator<any>,
+        expectedOrderIds: string[],
+        fetchAllResponse: FeedResponse<any>,
+        expectedCount: number,
+        expectedIteratorCalls: number,
+      ): Promise<void> {
+        const pageSize = options["maxItemCount"];
+        let totalExecuteNextRequestCharge = 0;
+        let totalIteratorCalls = 0;
+        let totalFetchedResults: any[] = [];
+        const expectedLength =
+          expectedCount ||
           (expectedOrderIds && expectedOrderIds.length) ||
-          documentDefinitions.length,
-        "invalid number of results",
-      );
-      assert.equal(
-        queryIterator.hasMoreResults(),
-        false,
-        "hasMoreResults: no more results is left",
-      );
+          documentDefinitions.length;
+        while (queryIterator.hasMoreResults()) {
+          const {
+            resources: results,
+            queryMetrics,
+            requestCharge,
+          } = await queryIterator.fetchNext();
+          totalIteratorCalls++;
+          assert(queryMetrics, "expected response have query metrics");
 
-      validateResults(results, expectedOrderIds, expectedCount);
-      return response;
-    };
-
-    const validateFetchNextAndHasMoreResults = async function (
-      options: any,
-      queryIterator: QueryIterator<any>,
-      expectedOrderIds: string[],
-      fetchAllResponse: FeedResponse<any>,
-      expectedCount: number,
-      expectedIteratorCalls: number,
-    ): Promise<void> {
-      const pageSize = options["maxItemCount"];
-      let totalExecuteNextRequestCharge = 0;
-      let totalIteratorCalls = 0;
-      let totalFetchedResults: any[] = [];
-      const expectedLength =
-        expectedCount ||
-        (expectedOrderIds && expectedOrderIds.length) ||
-        documentDefinitions.length;
-      while (queryIterator.hasMoreResults()) {
-        const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
-        totalIteratorCalls++;
-        assert(queryMetrics, "expected response have query metrics");
-
-        if (totalFetchedResults.length > expectedLength) {
-          break;
-        }
-        if (results) {
-          totalFetchedResults = totalFetchedResults.concat(results);
-        }
-        totalExecuteNextRequestCharge += requestCharge;
-        assert(requestCharge >= 0);
-
-        if (totalFetchedResults.length < expectedLength) {
-          if (results) {
-            assert(results.length <= pageSize, "executeNext: invalid fetch block size");
+          if (totalFetchedResults.length > expectedLength) {
+            break;
           }
-          assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
-        } else {
-          // no more results
-          assert.equal(
-            expectedLength,
-            totalFetchedResults.length,
-            "executeNext: didn't fetch all the results",
-          );
+          if (results) {
+            totalFetchedResults = totalFetchedResults.concat(results);
+          }
+          totalExecuteNextRequestCharge += requestCharge;
+          assert(requestCharge >= 0);
+
+          if (totalFetchedResults.length < expectedLength) {
+            if (results) {
+              assert(results.length <= pageSize, "executeNext: invalid fetch block size");
+            }
+            assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+          } else {
+            // no more results
+            assert.equal(
+              expectedLength,
+              totalFetchedResults.length,
+              "executeNext: didn't fetch all the results",
+            );
+          }
         }
-      }
 
-      if (expectedIteratorCalls) {
-        assert.equal(totalIteratorCalls, expectedIteratorCalls);
-      }
-      // no more results
-      validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
-      assert.equal(
-        queryIterator.hasMoreResults(),
-        false,
-        "hasMoreResults: no more results is left",
-      );
-      assert(totalExecuteNextRequestCharge > 0);
-      const percentDifference =
-        Math.abs(fetchAllResponse.requestCharge - totalExecuteNextRequestCharge) /
-        totalExecuteNextRequestCharge;
-      assert(
-        percentDifference <= 0.1,
-        `difference between fetchAll request charge and executeNext request charge should be less than 10%, found :${
-          percentDifference * 100
-        }. \n fetchAllResponse.requestCharge: ${
-          fetchAllResponse.requestCharge
-        }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`,
-      );
-    };
-
-    const validateFetchNextAndHasMoreResultsWithEnableQueryControl = async function (
-      queryIterator: QueryIterator<any>,
-      expectedOrderIds: string[],
-      expectedCount: number,
-    ): Promise<void> {
-      let totalExecuteNextRequestCharge = 0;
-      let totalIteratorCalls = 0;
-      let totalFetchedResults: any[] = [];
-      const expectedLength =
-        expectedCount ||
-        (expectedOrderIds && expectedOrderIds.length) ||
-        documentDefinitions.length;
-      while (queryIterator.hasMoreResults()) {
-        const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
-        totalIteratorCalls++;
-        assert(queryMetrics, "expected response have query metrics");
-
-        if (totalFetchedResults.length > expectedLength) {
-          break;
+        if (expectedIteratorCalls) {
+          assert.equal(totalIteratorCalls, expectedIteratorCalls);
         }
-        if (results) {
-          totalFetchedResults = totalFetchedResults.concat(results);
-        }
-        totalExecuteNextRequestCharge += requestCharge;
-        assert(requestCharge >= 0);
-
-        if (totalFetchedResults.length < expectedLength) {
-          assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
-        } else {
-          // no more results
-          assert.equal(
-            expectedLength,
-            totalFetchedResults.length,
-            "executeNext: didn't fetch all the results",
-          );
-        }
-      }
-      // no more results
-      validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
-      assert.equal(
-        queryIterator.hasMoreResults(),
-        false,
-        "hasMoreResults: no more results is left",
-      );
-    };
-
-    const validateAsyncIterator = async function (
-      queryIterator: QueryIterator<any>,
-      expectedOrderIds: any[],
-      expectedCount: number,
-    ): Promise<void> {
-      const expectedLength =
-        expectedCount ||
-        (expectedOrderIds && expectedOrderIds.length) ||
-        documentDefinitions.length;
-      const results: any[] = [];
-      let completed = false;
-      for await (const { resources: items } of queryIterator.getAsyncIterator()) {
-        assert.equal(completed, false, "iterator called after all results returned");
-        results.push(...items);
-        if (results.length === expectedLength) {
-          completed = true;
-        }
-      }
-      assert.equal(completed, true, "AsyncIterator should see all expected results");
-      validateResults(results, expectedOrderIds, expectedCount);
-    };
-
-    const executeQueryAndValidateResults = async function ({
-      query,
-      options,
-      expectedOrderIds,
-      expectedCount,
-      expectedRus,
-      expectedIteratorCalls,
-    }: {
-      query: string | SqlQuerySpec;
-      options: any;
-      expectedOrderIds?: any[];
-      expectedCount?: number;
-      expectedRus?: number;
-      expectedIteratorCalls?: number;
-    }): Promise<void> {
-      options.populateQueryMetrics = true;
-      const queryIterator = container.items.query(query, options);
-      console.log(" fetchAll called with options: ", options);
-      const fetchAllResponse = await validateFetchAll(
-        queryIterator,
-        options,
-        expectedOrderIds,
-        expectedCount,
-      );
-      console.log(" fetchAll response: ", fetchAllResponse);
-      if (expectedRus) {
-        const percentDifference =
-          Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
-        assert(
-          percentDifference <= 0.05,
-          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${
-            percentDifference * 100
-          }`,
+        // no more results
+        validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
+        assert.equal(
+          queryIterator.hasMoreResults(),
+          false,
+          "hasMoreResults: no more results is left",
         );
-      }
-      queryIterator.reset();
-      console.log(" validateFetchNextAndHasMoreResults called with options: ", options);
-      await validateFetchNextAndHasMoreResults(
+        assert(totalExecuteNextRequestCharge > 0);
+        const percentDifference =
+          Math.abs(fetchAllResponse.requestCharge - totalExecuteNextRequestCharge) /
+          totalExecuteNextRequestCharge;
+        assert(
+          percentDifference <= 0.1,
+          `difference between fetchAll request charge and executeNext request charge should be less than 10%, found :${
+            percentDifference * 100
+          }. \n fetchAllResponse.requestCharge: ${
+            fetchAllResponse.requestCharge
+          }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`,
+        );
+      };
+
+      const validateFetchNextAndHasMoreResultsWithEnableQueryControl = async function (
+        queryIterator: QueryIterator<any>,
+        expectedOrderIds: string[],
+        expectedCount: number,
+      ): Promise<void> {
+        let totalExecuteNextRequestCharge = 0;
+        let totalIteratorCalls = 0;
+        let totalFetchedResults: any[] = [];
+        const expectedLength =
+          expectedCount ||
+          (expectedOrderIds && expectedOrderIds.length) ||
+          documentDefinitions.length;
+        while (queryIterator.hasMoreResults()) {
+          const {
+            resources: results,
+            queryMetrics,
+            requestCharge,
+          } = await queryIterator.fetchNext();
+          totalIteratorCalls++;
+          assert(queryMetrics, "expected response have query metrics");
+
+          if (totalFetchedResults.length > expectedLength) {
+            break;
+          }
+          if (results) {
+            totalFetchedResults = totalFetchedResults.concat(results);
+          }
+          totalExecuteNextRequestCharge += requestCharge;
+          assert(requestCharge >= 0);
+
+          if (totalFetchedResults.length < expectedLength) {
+            assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+          } else {
+            // no more results
+            assert.equal(
+              expectedLength,
+              totalFetchedResults.length,
+              "executeNext: didn't fetch all the results",
+            );
+          }
+        }
+        // no more results
+        validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
+        assert.equal(
+          queryIterator.hasMoreResults(),
+          false,
+          "hasMoreResults: no more results is left",
+        );
+      };
+
+      const validateAsyncIterator = async function (
+        queryIterator: QueryIterator<any>,
+        expectedOrderIds: any[],
+        expectedCount: number,
+      ): Promise<void> {
+        const expectedLength =
+          expectedCount ||
+          (expectedOrderIds && expectedOrderIds.length) ||
+          documentDefinitions.length;
+        const results: any[] = [];
+        let completed = false;
+        for await (const { resources: items } of queryIterator.getAsyncIterator()) {
+          assert.equal(completed, false, "iterator called after all results returned");
+          results.push(...items);
+          if (results.length === expectedLength) {
+            completed = true;
+          }
+        }
+        assert.equal(completed, true, "AsyncIterator should see all expected results");
+        validateResults(results, expectedOrderIds, expectedCount);
+      };
+
+      const executeQueryAndValidateResults = async function ({
+        query,
         options,
-        queryIterator,
         expectedOrderIds,
-        fetchAllResponse,
         expectedCount,
+        expectedRus,
         expectedIteratorCalls,
-      );
-      queryIterator.reset();
-      console.log("fetchNext successful");
-      console.log(" validateAsyncIterator called with options: ", options);
-      await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
-      console.log("validateAsyncIterator successful");
-      const queryIteratorWithEnableQueryControl = container.items.query(query, options);
-      await validateFetchAll(
-        queryIteratorWithEnableQueryControl,
-        options,
-        expectedOrderIds,
-        expectedCount,
-      );
-      queryIteratorWithEnableQueryControl.reset();
-      await validateFetchNextAndHasMoreResultsWithEnableQueryControl(
-        queryIteratorWithEnableQueryControl,
-        expectedOrderIds,
-        expectedCount,
-      );
-    };
-
-    it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 0,
+      }: {
+        query: string | SqlQuerySpec;
+        options: any;
+        expectedOrderIds?: any[];
+        expectedCount?: number;
+        expectedRus?: number;
+        expectedIteratorCalls?: number;
+      }): Promise<void> {
+        options.populateQueryMetrics = true;
+        const queryIterator = container.items.query(query, options);
+        console.log(" fetchAll called with options: ", options);
+        const fetchAllResponse = await validateFetchAll(
+          queryIterator,
+          options,
+          expectedOrderIds,
+          expectedCount,
+        );
+        console.log(" fetchAll response: ", fetchAllResponse);
+        if (expectedRus) {
+          const percentDifference =
+            Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
+          assert(
+            percentDifference <= 0.05,
+            `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${
+              percentDifference * 100
+            }`,
+          );
+        }
+        queryIterator.reset();
+        console.log(" validateFetchNextAndHasMoreResults called with options: ", options);
+        await validateFetchNextAndHasMoreResults(
+          options,
+          queryIterator,
+          expectedOrderIds,
+          fetchAllResponse,
+          expectedCount,
+          expectedIteratorCalls,
+        );
+        queryIterator.reset();
+        console.log("fetchNext successful");
+        console.log(" validateAsyncIterator called with options: ", options);
+        await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
+        console.log("validateAsyncIterator successful");
+        const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+        await validateFetchAll(
+          queryIteratorWithEnableQueryControl,
+          options,
+          expectedOrderIds,
+          expectedCount,
+        );
+        queryIteratorWithEnableQueryControl.reset();
+        await validateFetchNextAndHasMoreResultsWithEnableQueryControl(
+          queryIteratorWithEnableQueryControl,
+          expectedOrderIds,
+          expectedCount,
+        );
       };
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-      });
-    });
+      it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 0,
+        };
 
-    it("Validate-Parallel-Query As String With maxDegreeOfParallelism: -1", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r";
-      const options: FeedOptions = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: -1,
-        forceQueryPlan: true,
-        populateQueryMetrics: true,
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-      });
-    });
-
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 1,
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-      });
-    });
-
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r";
-      const options: FeedOptions = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 3,
-        bufferItems: true,
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-      });
-    });
-
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 0", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 0,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+        });
       });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
+      it("Validate-Parallel-Query As String With maxDegreeOfParallelism: -1", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r";
+        const options: FeedOptions = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: -1,
+          forceQueryPlan: true,
+          populateQueryMetrics: true,
+        };
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1 #nosignoff", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 1,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+        });
       });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
+      it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 1,
+        };
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 3,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+        });
       });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
+      it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r";
+        const options: FeedOptions = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 3,
+          bufferItems: true,
+        };
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: -1,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+        });
       });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
+      it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 0", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.spam";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 0,
+        };
 
-    it("Validate DISTINCT Query", async () => {
-      // simple order by query in string format
-      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r";
-      const options = {
-        maxItemCount: 2,
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedCount: 3 });
-    });
-
-    it("Validate DISTINCT OrderBy Query", async () => {
-      // simple order by query in string format
-      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3 DESC";
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = ["eggs2", "eggs1", "eggs0"];
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate parallel DISTINCT Query", async () => {
-      // simple order by query in string format
-      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 3,
-        bufferItems: true,
-      };
-
-      const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate DISTINCT Query with maxItemCount = 1", async () => {
-      // simple order by query in string format
-      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
-      const options = {
-        maxItemCount: 1,
-      };
-
-      const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate DISTINCT Query with maxItemCount = 20", async () => {
-      // simple order by query in string format
-      const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
-      const options = {
-        maxItemCount: 20,
-      };
-
-      const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate Simple OrderBy Query As String", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
-      });
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate Simple OrderBy Query", async () => {
-      // simple order by query
-      const querySpec = {
-        query: "SELECT * FROM root r order by r.spam",
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
-      });
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate OrderBy Query With ASC", async () => {
-      // an order by query with explicit ascending ordering
-      const querySpec = {
-        query: "SELECT * FROM root r order by r.spam ASC",
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
-      });
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate OrderBy Query With DESC", async () => {
-      // an order by query with explicit descending ordering
-      const querySpec = {
-        query: "SELECT * FROM root r order by r.spam DESC",
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions
-        .sort(compare("spam"))
-        .map(function (r) {
-          return r["id"];
-        })
-        .reverse();
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate OrderBy with top", async () => {
-      // an order by query with top, total existing docs more than requested top count
-      const topCount = 9;
-      const querySpec = {
-        query: `SELECT top ${topCount} * FROM root r order by r.spam`,
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions
-        .sort(compare("spam"))
-        .map(function (r) {
-          return r["id"];
-        })
-        .slice(0, topCount);
-
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate OrderBy with Top Query (less results than top counts)", async () => {
-      // an order by query with top, total existing docs less than requested top count
-      const topCount = 30;
-      // sanity check
-      assert(topCount > documentDefinitions.length, "test setup is wrong");
-      const querySpec = {
-        query: `SELECT top ${topCount} * FROM root r order by r.spam`,
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
-        return r["id"];
-      });
-
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate Top Query with maxDegreeOfParallelism = 3", async () => {
-      // a top query
-      const topCount = 6;
-      // sanity check
-      assert(topCount < documentDefinitions.length, "test setup is wrong");
-
-      const query = `SELECT top ${topCount} * FROM root r`;
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 3,
-        forceQueryPlan: true,
-        bufferItems: true,
-      };
-
-      // prepare expected behavior verifier
-      const queryIterator = container.items.query(query, options);
-
-      const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, topCount);
-
-      // select unique ids
-      const uniqueIds: any = {};
-      results.forEach(function (item) {
-        uniqueIds[item.id] = true;
-      });
-      // assert no duplicate results
-      assert.equal(results.length, Object.keys(uniqueIds).length);
-    });
-
-    it("Validate Top Query", async () => {
-      // a top query
-      const topCount = 6;
-      // sanity check
-      assert(topCount < documentDefinitions.length, "test setup is wrong");
-
-      const query = `SELECT top ${topCount} * FROM root r`;
-      const options = {
-        maxItemCount: 2,
-      };
-
-      // prepare expected behavior verifier
-      const queryIterator = container.items.query(query, options);
-
-      const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, topCount);
-
-      // select unique ids
-      const uniqueIds: any = {};
-      results.forEach((item) => {
-        uniqueIds[item.id] = true;
-      });
-      // assert no duplicate results
-      assert.equal(results.length, Object.keys(uniqueIds).length);
-    });
-
-    it("Validate Top Query (with 0 topCount)", async () => {
-      // a top query
-      const topCount = 0;
-      // sanity check
-      assert(topCount < documentDefinitions.length, "test setup is wrong");
-
-      const query = `SELECT top ${topCount} * FROM root r`;
-      const options = {
-        maxItemCount: 2,
-      };
-
-      // prepare expected behavior verifier
-      const queryIterator = container.items.query(query, options);
-
-      const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, topCount);
-
-      // select unique ids
-      const uniqueIds: any = {};
-      results.forEach((item) => {
-        uniqueIds[item.id] = true;
-      });
-      // assert no duplicate results
-      assert.equal(results.length, Object.keys(uniqueIds).length);
-    });
-
-    it("Validate Parametrized Top Query", async () => {
-      // a top query
-      const topCount = 6;
-      // sanity check
-      assert(topCount < documentDefinitions.length, "test setup is wrong");
-
-      const querySpec: SqlQuerySpec = {
-        query: "SELECT top @n * FROM root r",
-
-        parameters: [{ name: "@n", value: topCount }],
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      // prepare expected behavior verifier
-      const queryIterator = container.items.query(querySpec, options);
-
-      const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, topCount);
-
-      // select unique ids
-      const uniqueIds: any = {};
-      results.forEach((item) => {
-        uniqueIds[item.id] = true;
-      });
-      // assert no duplicate results
-      assert.equal(results.length, Object.keys(uniqueIds).length);
-    });
-
-    it("Validate OrderBy with Parametrized Top Query", async () => {
-      // a parametrized top order by query
-      const topCount = 9;
-      // sanity check
-      assert(topCount < documentDefinitions.length, "test setup is wrong");
-      // a parametrized top order by query
-      const querySpec = {
-        query: "SELECT top @n * FROM root r order by r.spam",
-
-        parameters: [{ name: "@n", value: topCount }],
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions
-        .sort(compare("spam"))
-        .map(function (r) {
-          return r["id"];
-        })
-        .slice(0, topCount);
-
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
-      });
-    });
-
-    it("Validate OrderBy with Parametrized Predicate", async () => {
-      // an order by query combined with parametrized predicate
-      const querySpec = {
-        query: "SELECT * FROM root r where r.cnt > @cnt order by r.spam",
-        parameters: [{ name: "@cnt", value: 5 }],
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions
-        .sort(compare("spam"))
-        .filter(function (r) {
-          return r["cnt"] > 5;
-        })
-        .map(function (r) {
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
           return r["id"];
         });
 
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
       });
-    });
 
-    it("Validate Error Handling - Orderby where types are noncomparable", async () => {
-      // test orderby with different order by item type
-      // an order by query
-      const query = {
-        query: "SELECT * FROM root r order by r.spam2",
-      };
-      const options = {
-        maxItemCount: 2,
-      };
+      it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1 #nosignoff", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.spam";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 1,
+        };
 
-      // prepare expected behavior verifier
-      try {
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.spam";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 3,
+        };
+
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.spam";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: -1,
+        };
+
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate DISTINCT Query", async () => {
+        // simple order by query in string format
+        const query = "SELECT DISTINCT VALUE r.spam3 FROM root r";
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({ query, options, expectedCount: 3 });
+      });
+
+      it("Validate DISTINCT OrderBy Query", async () => {
+        // simple order by query in string format
+        const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3 DESC";
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = ["eggs2", "eggs1", "eggs0"];
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate parallel DISTINCT Query", async () => {
+        // simple order by query in string format
+        const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 3,
+          bufferItems: true,
+        };
+
+        const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate DISTINCT Query with maxItemCount = 1", async () => {
+        // simple order by query in string format
+        const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
+        const options = {
+          maxItemCount: 1,
+        };
+
+        const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate DISTINCT Query with maxItemCount = 20", async () => {
+        // simple order by query in string format
+        const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
+        const options = {
+          maxItemCount: 20,
+        };
+
+        const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Simple OrderBy Query As String", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.spam";
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Simple OrderBy Query", async () => {
+        // simple order by query
+        const querySpec = {
+          query: "SELECT * FROM root r order by r.spam",
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy Query With ASC", async () => {
+        // an order by query with explicit ascending ordering
+        const querySpec = {
+          query: "SELECT * FROM root r order by r.spam ASC",
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy Query With DESC", async () => {
+        // an order by query with explicit descending ordering
+        const querySpec = {
+          query: "SELECT * FROM root r order by r.spam DESC",
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions
+          .sort(compare("spam"))
+          .map(function (r) {
+            return r["id"];
+          })
+          .reverse();
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy with top", async () => {
+        // an order by query with top, total existing docs more than requested top count
+        const topCount = 9;
+        const querySpec = {
+          query: `SELECT top ${topCount} * FROM root r order by r.spam`,
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions
+          .sort(compare("spam"))
+          .map(function (r) {
+            return r["id"];
+          })
+          .slice(0, topCount);
+
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy with Top Query (less results than top counts)", async () => {
+        // an order by query with top, total existing docs less than requested top count
+        const topCount = 30;
+        // sanity check
+        assert(topCount > documentDefinitions.length, "test setup is wrong");
+        const querySpec = {
+          query: `SELECT top ${topCount} * FROM root r order by r.spam`,
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+          return r["id"];
+        });
+
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Top Query with maxDegreeOfParallelism = 3", async () => {
+        // a top query
+        const topCount = 6;
+        // sanity check
+        assert(topCount < documentDefinitions.length, "test setup is wrong");
+
+        const query = `SELECT top ${topCount} * FROM root r`;
+        const options = {
+          maxItemCount: 2,
+          maxDegreeOfParallelism: 3,
+          forceQueryPlan: true,
+          bufferItems: true,
+        };
+
+        // prepare expected behavior verifier
         const queryIterator = container.items.query(query, options);
-        await queryIterator.fetchAll();
-      } catch (err: any) {
-        assert.notEqual(err, undefined);
-      }
-    });
 
-    it("Validate OrderBy Integer Query", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.cnt";
-      const options = {
-        maxItemCount: 2,
-      };
+        const { resources: results } = await queryIterator.fetchAll();
+        assert.equal(results.length, topCount);
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("cnt")).map(function (r) {
-        return r["id"];
+        // select unique ids
+        const uniqueIds: any = {};
+        results.forEach(function (item) {
+          uniqueIds[item.id] = true;
+        });
+        // assert no duplicate results
+        assert.equal(results.length, Object.keys(uniqueIds).length);
       });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
+      it("Validate Top Query", async () => {
+        // a top query
+        const topCount = 6;
+        // sanity check
+        assert(topCount < documentDefinitions.length, "test setup is wrong");
+
+        const query = `SELECT top ${topCount} * FROM root r`;
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // prepare expected behavior verifier
+        const queryIterator = container.items.query(query, options);
+
+        const { resources: results } = await queryIterator.fetchAll();
+        assert.equal(results.length, topCount);
+
+        // select unique ids
+        const uniqueIds: any = {};
+        results.forEach((item) => {
+          uniqueIds[item.id] = true;
+        });
+        // assert no duplicate results
+        assert.equal(results.length, Object.keys(uniqueIds).length);
       });
-    });
 
-    it("Validate OrderBy Floating Point Number Query", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.number";
-      const options = {
-        maxItemCount: 2,
-      };
+      it("Validate Top Query (with 0 topCount)", async () => {
+        // a top query
+        const topCount = 0;
+        // sanity check
+        assert(topCount < documentDefinitions.length, "test setup is wrong");
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("number")).map(function (r) {
-        return r["id"];
+        const query = `SELECT top ${topCount} * FROM root r`;
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // prepare expected behavior verifier
+        const queryIterator = container.items.query(query, options);
+
+        const { resources: results } = await queryIterator.fetchAll();
+        assert.equal(results.length, topCount);
+
+        // select unique ids
+        const uniqueIds: any = {};
+        results.forEach((item) => {
+          uniqueIds[item.id] = true;
+        });
+        // assert no duplicate results
+        assert.equal(results.length, Object.keys(uniqueIds).length);
       });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options,
-        expectedOrderIds: expectedOrderedIds,
+      it("Validate Parametrized Top Query", async () => {
+        // a top query
+        const topCount = 6;
+        // sanity check
+        assert(topCount < documentDefinitions.length, "test setup is wrong");
+
+        const querySpec: SqlQuerySpec = {
+          query: "SELECT top @n * FROM root r",
+
+          parameters: [{ name: "@n", value: topCount }],
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // prepare expected behavior verifier
+        const queryIterator = container.items.query(querySpec, options);
+
+        const { resources: results } = await queryIterator.fetchAll();
+        assert.equal(results.length, topCount);
+
+        // select unique ids
+        const uniqueIds: any = {};
+        results.forEach((item) => {
+          uniqueIds[item.id] = true;
+        });
+        // assert no duplicate results
+        assert.equal(results.length, Object.keys(uniqueIds).length);
       });
-    });
 
-    it("Validate OrderBy Boolean Query", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.boolVar";
-      const options = {
-        maxItemCount: 2,
-      };
+      it("Validate OrderBy with Parametrized Top Query", async () => {
+        // a parametrized top order by query
+        const topCount = 9;
+        // sanity check
+        assert(topCount < documentDefinitions.length, "test setup is wrong");
+        // a parametrized top order by query
+        const querySpec = {
+          query: "SELECT top @n * FROM root r order by r.spam",
 
-      const queryIterator = container.items.query(query, options);
-      const { resources: results } = await queryIterator.fetchAll();
-      assert.equal(results.length, documentDefinitions.length);
+          parameters: [{ name: "@n", value: topCount }],
+        };
+        const options = {
+          maxItemCount: 2,
+        };
 
-      let index = 0;
-      while (index < results.length) {
-        if (results[index].boolVar) {
-          break;
+        const expectedOrderedIds = documentDefinitions
+          .sort(compare("spam"))
+          .map(function (r) {
+            return r["id"];
+          })
+          .slice(0, topCount);
+
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy with Parametrized Predicate", async () => {
+        // an order by query combined with parametrized predicate
+        const querySpec = {
+          query: "SELECT * FROM root r where r.cnt > @cnt order by r.spam",
+          parameters: [{ name: "@cnt", value: 5 }],
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions
+          .sort(compare("spam"))
+          .filter(function (r) {
+            return r["cnt"] > 5;
+          })
+          .map(function (r) {
+            return r["id"];
+          });
+
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Error Handling - Orderby where types are noncomparable", async () => {
+        // test orderby with different order by item type
+        // an order by query
+        const query = {
+          query: "SELECT * FROM root r order by r.spam2",
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // prepare expected behavior verifier
+        try {
+          const queryIterator = container.items.query(query, options);
+          await queryIterator.fetchAll();
+        } catch (err: any) {
+          assert.notEqual(err, undefined);
         }
-        assert(results[index].id % 2 === 1);
-        index++;
-      }
-
-      while (index < results.length) {
-        assert(results[index].boolVar);
-        assert(results[index].id % 2 === 0);
-        index++;
-      }
-    });
-
-    it("Validate simple LIMIT OFFSET", async () => {
-      const limit = 1;
-      const offset = 7;
-
-      const querySpec = {
-        query: `SELECT * FROM root r OFFSET ${offset} LIMIT ${limit}`,
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedCount: 1,
-        expectedIteratorCalls: 1,
       });
-    });
 
-    it("Validate filtered LIMIT OFFSET", async () => {
-      const limit = 1;
-      const offset = 2;
+      it("Validate OrderBy Integer Query", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.cnt";
+        const options = {
+          maxItemCount: 2,
+        };
 
-      // an order by query with explicit ascending ordering
-      const querySpec = {
-        query: `SELECT * FROM root r WHERE r.number > 5 OFFSET ${offset} LIMIT ${limit}`,
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedCount: 1,
-      });
-    });
-
-    // TODO Add test for OFFSET LIMIT filtered on partition
-
-    it("Validate OrderBy Query With ASC and LIMIT 2 and OFFSET 10", async () => {
-      const limit = 2;
-      const offset = 10;
-
-      // an order by query with explicit ascending ordering
-      const querySpec = {
-        query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`,
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions
-        .sort(compare("spam"))
-        .map(function (r) {
+        const expectedOrderedIds = documentDefinitions.sort(compare("cnt")).map(function (r) {
           return r["id"];
-        })
-        .splice(offset, limit);
+        });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
       });
-    });
 
-    it("Validate OrderBy Query With ASC and LIMIT 0 and OFFSET 5", async () => {
-      const limit = 5;
-      const offset = 0;
+      it("Validate OrderBy Floating Point Number Query", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.number";
+        const options = {
+          maxItemCount: 2,
+        };
 
-      // an order by query with explicit ascending ordering
-      const querySpec = {
-        query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`,
-      };
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const expectedOrderedIds = documentDefinitions
-        .sort(compare("spam"))
-        .map(function (r) {
+        const expectedOrderedIds = documentDefinitions.sort(compare("number")).map(function (r) {
           return r["id"];
-        })
-        .splice(offset, limit);
+        });
 
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options,
-        expectedOrderIds: expectedOrderedIds,
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy Boolean Query", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.boolVar";
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const queryIterator = container.items.query(query, options);
+        const { resources: results } = await queryIterator.fetchAll();
+        assert.equal(results.length, documentDefinitions.length);
+
+        let index = 0;
+        while (index < results.length) {
+          if (results[index].boolVar) {
+            break;
+          }
+          assert(results[index].id % 2 === 1);
+          index++;
+        }
+
+        while (index < results.length) {
+          assert(results[index].boolVar);
+          assert(results[index].id % 2 === 0);
+          index++;
+        }
+      });
+
+      it("Validate simple LIMIT OFFSET", async () => {
+        const limit = 1;
+        const offset = 7;
+
+        const querySpec = {
+          query: `SELECT * FROM root r OFFSET ${offset} LIMIT ${limit}`,
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedCount: 1,
+          expectedIteratorCalls: 1,
+        });
+      });
+
+      it("Validate filtered LIMIT OFFSET", async () => {
+        const limit = 1;
+        const offset = 2;
+
+        // an order by query with explicit ascending ordering
+        const querySpec = {
+          query: `SELECT * FROM root r WHERE r.number > 5 OFFSET ${offset} LIMIT ${limit}`,
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedCount: 1,
+        });
+      });
+
+      // TODO Add test for OFFSET LIMIT filtered on partition
+
+      it("Validate OrderBy Query With ASC and LIMIT 2 and OFFSET 10", async () => {
+        const limit = 2;
+        const offset = 10;
+
+        // an order by query with explicit ascending ordering
+        const querySpec = {
+          query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`,
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions
+          .sort(compare("spam"))
+          .map(function (r) {
+            return r["id"];
+          })
+          .splice(offset, limit);
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate OrderBy Query With ASC and LIMIT 0 and OFFSET 5", async () => {
+        const limit = 5;
+        const offset = 0;
+
+        // an order by query with explicit ascending ordering
+        const querySpec = {
+          query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`,
+        };
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const expectedOrderedIds = documentDefinitions
+          .sort(compare("spam"))
+          .map(function (r) {
+            return r["id"];
+          })
+          .splice(offset, limit);
+
+        // validates the results size and order
+        await executeQueryAndValidateResults({
+          query: querySpec,
+          options,
+          expectedOrderIds: expectedOrderedIds,
+        });
+      });
+
+      it("Validate Failure", async () => {
+        // simple order by query in string format
+        const query = "SELECT * FROM root r order by r.spam";
+
+        const options = {
+          maxItemCount: 2,
+        };
+
+        const queryIterator = container.items.query(query, options);
+
+        let firstTime = true;
+
+        await queryIterator.fetchNext();
+
+        if (firstTime) {
+          firstTime = false;
+        }
       });
     });
-
-    it("Validate Failure", async () => {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-
-      const options = {
-        maxItemCount: 2,
-      };
-
-      const queryIterator = container.items.query(query, options);
-
-      let firstTime = true;
-
-      await queryIterator.fetchNext();
-
-      if (firstTime) {
-        firstTime = false;
-      }
-    });
-  });
-});
+  },
+);

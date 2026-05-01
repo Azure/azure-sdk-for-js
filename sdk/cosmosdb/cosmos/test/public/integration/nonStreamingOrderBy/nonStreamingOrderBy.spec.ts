@@ -3,7 +3,7 @@
 
 import type { Container } from "../../../../src/index.js";
 import { CosmosClient } from "../../../../src/index.js";
-import { endpoint, emulatorUnavailable, linuxEmulator } from "../../common/_testConfig.js";
+import { endpoint, emulatorUnavailable, skipTestForSignOff } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src/index.js";
@@ -14,7 +14,7 @@ import {
 } from "../../../../src/documents/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
-describe.skipIf(emulatorUnavailable || linuxEmulator)(
+describe.skipIf(emulatorUnavailable || skipTestForSignOff)(
   "Test nonStreaming Queries",
   { timeout: 30000 },
   () => {
