@@ -328,6 +328,12 @@ if (result.contents && result.contents.length > 0) {
 
 ### Convert results to LLM-ready text
 
+> [!NOTE]
+> **Preview feature**: `toLlmInput()` is currently in preview and may change in
+> future releases. We welcome feedback — please file suggestions or issues on
+> [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues) with the
+> `Cognitive - Content Understanding` label.
+
 Use the `toLlmInput()` helper to convert any analysis result into a text format that LLMs
 can consume directly — YAML front matter with extracted fields followed by the markdown body.
 This works with all content types (documents, images, audio, video) and handles multi-segment
