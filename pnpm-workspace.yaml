@@ -55,3 +55,11 @@ catalogs:
     vitest: ^4.1.2
 
 linkWorkspacePackages: true
+
+allowBuilds:
+  '@azure/msal-node-extensions': false
+  '@azure/msal-node-runtime': false
+  autorest: false
+  esbuild: false
+  keytar: false
+  protobufjs: false
