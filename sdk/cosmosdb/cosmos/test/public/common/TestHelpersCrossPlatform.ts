@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { DatabaseDefinition, Response } from "../../../src/index.js";
+import { CosmosClient, CosmosDbDiagnosticLevel } from "../../../src/index.js";
+import { endpoint } from "./_testConfig.js";
+import { masterKey } from "./_fakeTestSecrets.js";
+import { assert } from "vitest";
+
+export function getDefaultClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint,
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+    diagnosticLevel: CosmosDbDiagnosticLevel.info,
+  });
+}
+
+export async function removeAllDatabases(client?: CosmosClient): Promise<void> {
+  try {
+    if (!client) {
+      client = getDefaultClient();
+    }
+    const { resources: databases } = await client.databases.readAll().fetchAll();
+    const length = databases.length;
+
+    if (length === 0) {
+      return;
+    }
+
+    await Promise.all(
+      databases.map<Promise<Response<DatabaseDefinition>>>(async (database: DatabaseDefinition) =>
+        client.database(database.id).delete(),
+      ),
+    );
+  } catch (err: any) {
+    console.log("An error occured", err);
+    assert.fail(err);
+    throw err;
+  }
+}
