@@ -3,8 +3,5 @@
   "compilerOptions": {
     "lib": ["DOM", "ES2023"],
     "types": []
-  },
-  "include": [
-    "../src/index.ts"
-  ]
+  }
 }
