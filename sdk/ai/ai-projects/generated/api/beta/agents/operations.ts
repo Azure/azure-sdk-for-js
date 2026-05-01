@@ -14,14 +14,12 @@ import {
   agentSessionResourceDeserializer,
   _AgentsPagedResultAgentSessionResource,
   _agentsPagedResultAgentSessionResourceDeserializer,
+  SessionLogEvent,
+  sessionLogEventDeserializer,
   SessionFileWriteResponse,
   sessionFileWriteResponseDeserializer,
   SessionDirectoryListResponse,
   sessionDirectoryListResponseDeserializer,
-  ManagedAgentIdentityBlueprint,
-  managedAgentIdentityBlueprintDeserializer,
-  PagedManagedAgentIdentityBlueprint,
-  pagedManagedAgentIdentityBlueprintDeserializer,
   BetaAgentsDownloadSessionFileResponse,
 } from "../../../models/models.js";
 import {
@@ -30,14 +28,11 @@ import {
 } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
-  ListManagedIdentityBlueprintsOptionalParams,
-  DeleteManagedIdentityBlueprintOptionalParams,
-  GetManagedIdentityBlueprintOptionalParams,
-  CreateOrUpdateManagedIdentityBlueprintOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsListSessionFilesOptionalParams,
+  BetaAgentsGetSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
+  BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
@@ -51,243 +46,18 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listManagedIdentityBlueprintsSend(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  options: ListManagedIdentityBlueprintsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints{?order,limit,api%2Dversion}",
-    {
-      order: options?.order,
-      limit: options?.limit,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _listManagedIdentityBlueprintsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PagedManagedAgentIdentityBlueprint> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return pagedManagedAgentIdentityBlueprintDeserializer(result.body);
-}
-
-export async function listManagedIdentityBlueprints(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  options: ListManagedIdentityBlueprintsOptionalParams = { requestOptions: {} },
-): Promise<PagedManagedAgentIdentityBlueprint> {
-  const result = await _listManagedIdentityBlueprintsSend(context, foundryFeatures, options);
-  return _listManagedIdentityBlueprintsDeserialize(result);
-}
-
-export function _deleteManagedIdentityBlueprintSend(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: DeleteManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
-    {
-      blueprint_name: blueprintName,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
-    });
-}
-
-export async function _deleteManagedIdentityBlueprintDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Deletes a managed agent identity blueprint by name. */
-export async function deleteManagedIdentityBlueprint(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: DeleteManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deleteManagedIdentityBlueprintSend(
-    context,
-    foundryFeatures,
-    blueprintName,
-    options,
-  );
-  return _deleteManagedIdentityBlueprintDeserialize(result);
-}
-
-export function _getManagedIdentityBlueprintSend(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: GetManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
-    {
-      blueprint_name: blueprintName,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getManagedIdentityBlueprintDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ManagedAgentIdentityBlueprint> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return managedAgentIdentityBlueprintDeserializer(result.body);
-}
-
-/** Retrieves a managed agent identity blueprint by name. */
-export async function getManagedIdentityBlueprint(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  options: GetManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _getManagedIdentityBlueprintSend(
-    context,
-    foundryFeatures,
-    blueprintName,
-    options,
-  );
-  return _getManagedIdentityBlueprintDeserialize(result);
-}
-
-export function _createOrUpdateManagedIdentityBlueprintSend(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  name: string,
-  options: CreateOrUpdateManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/managedAgentIdentityBlueprints/{blueprint_name}{?api%2Dversion}",
-    {
-      blueprint_name: blueprintName,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-features": foundryFeatures,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { name: name },
-    });
-}
-
-export async function _createOrUpdateManagedIdentityBlueprintDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ManagedAgentIdentityBlueprint> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return managedAgentIdentityBlueprintDeserializer(result.body);
-}
-
-export async function createOrUpdateManagedIdentityBlueprint(
-  context: Client,
-  foundryFeatures: "AgentEndpoints=V1Preview",
-  blueprintName: string,
-  name: string,
-  options: CreateOrUpdateManagedIdentityBlueprintOptionalParams = { requestOptions: {} },
-): Promise<ManagedAgentIdentityBlueprint> {
-  const result = await _createOrUpdateManagedIdentityBlueprintSend(
-    context,
-    foundryFeatures,
-    blueprintName,
-    name,
-    options,
-  );
-  return _createOrUpdateManagedIdentityBlueprintDeserialize(result);
-}
-
 export function _deleteSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,recursive,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,recursive,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       recursive: options?.recursive,
       "api%2Dversion": context.apiVersion ?? "v1",
@@ -328,26 +98,26 @@ export async function _deleteSessionFileDeserialize(result: PathUncheckedRespons
 export async function deleteSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDeleteSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await _deleteSessionFileSend(context, agentName, agentSessionId, path, options);
   return _deleteSessionFileDeserialize(result);
 }
 
-export function _listSessionFilesSend(
+export function _getSessionFilesSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
-  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files{?path,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -369,7 +139,7 @@ export function _listSessionFilesSend(
     });
 }
 
-export async function _listSessionFilesDeserialize(
+export async function _getSessionFilesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionDirectoryListResponse> {
   const expectedStatuses = ["200"];
@@ -387,29 +157,29 @@ export async function _listSessionFilesDeserialize(
  * List files and directories at a given path in the session sandbox.
  * Returns only the immediate children of the specified directory (non-recursive).
  */
-export async function listSessionFiles(
+export async function getSessionFiles(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
-  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
-  const result = await _listSessionFilesSend(context, agentName, sessionId, path, options);
-  return _listSessionFilesDeserialize(result);
+  const result = await _getSessionFilesSend(context, agentName, agentSessionId, path, options);
+  return _getSessionFilesDeserialize(result);
 }
 
 export function _downloadSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -449,27 +219,27 @@ export async function _downloadSessionFileDeserialize(
 export async function downloadSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentsDownloadSessionFileResponse> {
-  const result = await _downloadSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await _downloadSessionFileSend(context, agentName, agentSessionId, path, options);
   return _downloadSessionFileDeserialize(result);
 }
 
 export function _uploadSessionFileSend(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path_1 = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/sessions/{session_id}/files/content{?path,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/sessions/{agent_session_id}/files/content{?path,api%2Dversion}",
     {
       agent_name: agentName,
-      session_id: sessionId,
+      agent_session_id: agentSessionId,
       path: path,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
@@ -496,7 +266,7 @@ export function _uploadSessionFileSend(
 export async function _uploadSessionFileDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SessionFileWriteResponse> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
@@ -514,7 +284,7 @@ export async function _uploadSessionFileDeserialize(
 export async function uploadSessionFile(
   context: Client,
   agentName: string,
-  sessionId: string,
+  agentSessionId: string,
   path: string,
   content: Uint8Array,
   options: BetaAgentsUploadSessionFileOptionalParams = { requestOptions: {} },
@@ -522,12 +292,104 @@ export async function uploadSessionFile(
   const result = await _uploadSessionFileSend(
     context,
     agentName,
-    sessionId,
+    agentSessionId,
     path,
     content,
     options,
   );
   return _uploadSessionFileDeserialize(result);
+}
+
+export function _getSessionLogStreamSend(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api%2Dversion}",
+    {
+      agent_name: agentName,
+      agent_version: agentVersion,
+      session_id: sessionId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "text/event-stream",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getSessionLogStreamDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SessionLogEvent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return sessionLogEventDeserializer(result.body);
+}
+
+/**
+ * Streams console logs (stdout / stderr) for a specific hosted agent session
+ * as a Server-Sent Events (SSE) stream.
+ *
+ * Each SSE frame contains:
+ * - `event`: always `"log"`
+ * - `data`: a plain-text log line (currently JSON-formatted, but the schema
+ * is not contractual and may include additional keys or change format
+ * over time — clients should treat it as an opaque string)
+ *
+ * Example SSE frames:
+ * ```
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.121Z","stream":"stdout","message":"Starting FoundryCBAgent server on port 8088"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:33:17.130Z","stream":"stderr","message":"INFO: Application startup complete."}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:34:52.714Z","stream":"status","message":"Successfully connected to container"}
+ *
+ * event: log
+ * data: {"timestamp":"2026-03-10T09:35:52.714Z","stream":"status","message":"No logs since last 60 seconds"}
+ * ```
+ *
+ * The stream remains open until the client disconnects or the server
+ * terminates the connection. Clients should handle reconnection as needed.
+ */
+export async function getSessionLogStream(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  sessionId: string,
+  options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
+): Promise<SessionLogEvent> {
+  const result = await _getSessionLogStreamSend(
+    context,
+    agentName,
+    agentVersion,
+    sessionId,
+    options,
+  );
+  return _getSessionLogStreamDeserialize(result);
 }
 
 export function _listSessionsSend(

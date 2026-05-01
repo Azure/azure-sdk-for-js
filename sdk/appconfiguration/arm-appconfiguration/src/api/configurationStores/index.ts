@@ -14,16 +14,16 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type ConfigurationStoresListDeletedOptionalParams,
-  type ConfigurationStoresPurgeDeletedOptionalParams,
-  type ConfigurationStoresGetDeletedOptionalParams,
-  type ConfigurationStoresRegenerateKeyOptionalParams,
-  type ConfigurationStoresListKeysOptionalParams,
-  type ConfigurationStoresListOptionalParams,
-  type ConfigurationStoresListByResourceGroupOptionalParams,
-  type ConfigurationStoresDeleteOptionalParams,
-  type ConfigurationStoresUpdateOptionalParams,
-  type ConfigurationStoresCreateOptionalParams,
-  type ConfigurationStoresGetOptionalParams,
+export type {
+  ConfigurationStoresListDeletedOptionalParams,
+  ConfigurationStoresPurgeDeletedOptionalParams,
+  ConfigurationStoresGetDeletedOptionalParams,
+  ConfigurationStoresRegenerateKeyOptionalParams,
+  ConfigurationStoresListKeysOptionalParams,
+  ConfigurationStoresListOptionalParams,
+  ConfigurationStoresListByResourceGroupOptionalParams,
+  ConfigurationStoresDeleteOptionalParams,
+  ConfigurationStoresUpdateOptionalParams,
+  ConfigurationStoresCreateOptionalParams,
+  ConfigurationStoresGetOptionalParams,
 } from "./options.js";

@@ -4,12 +4,12 @@ Azure AI Content Understanding is a multimodal AI service that extracts semantic
 
 Use the client library for Azure AI Content Understanding to:
 
-* **Extract document content** - Extract text, tables, figures, layout information, and structured markdown from documents (PDF, images with text or hand-written text, Office documents and more)
-* **Transcribe and analyze audio** - Convert audio content into searchable transcripts with speaker diarization and timing information
-* **Analyze video content** - Extract visual frames, transcribe audio tracks, and generate structured summaries from video files
-* **Leverage prebuilt analyzers** - Use production-ready prebuilt analyzers across industries including finance and tax (invoices, receipts, tax forms), identity verification (passports, driver's licenses), mortgage and lending (loan applications, appraisals), procurement and contracts (purchase orders, agreements), and utilities (billing statements)
-* **Create custom analyzers** - Build domain-specific analyzers for specialized content extraction needs across all four modalities (documents, video, audio, and images)
-* **Classify documents and video** - Automatically categorize and extract information from documents and video by type
+- **Extract document content** - Extract text, tables, figures, layout information, and structured markdown from documents (PDF, images with text or hand-written text, Office documents and more)
+- **Transcribe and analyze audio** - Convert audio content into searchable transcripts with speaker diarization and timing information
+- **Analyze video content** - Extract visual frames, transcribe audio tracks, and generate structured summaries from video files
+- **Leverage prebuilt analyzers** - Use production-ready prebuilt analyzers across industries including finance and tax (invoices, receipts, tax forms), identity verification (passports, driver's licenses), mortgage and lending (loan applications, appraisals), procurement and contracts (purchase orders, agreements), and utilities (billing statements)
+- **Create custom analyzers** - Build domain-specific analyzers for specialized content extraction needs across all four modalities (documents, video, audio, and images)
+- **Classify documents and video** - Automatically categorize and extract information from documents and video by type
 
 Key links:
 
@@ -71,6 +71,7 @@ After creating your Microsoft Foundry resource, you must grant yourself the **Co
 #### Step 2: Deploy required models
 
 **Important:** The prebuilt and custom analyzers require large language model deployments. You must deploy at least these models before using prebuilt analyzers and custom analyzers:
+
 - `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` require **gpt-4.1-mini** and **text-embedding-3-large**
 - Other prebuilt analyzers like `prebuilt-invoice`, `prebuilt-receipt` require **gpt-4.1** and **text-embedding-3-large**
 
@@ -164,6 +165,7 @@ const client = new ContentUnderstandingClient(endpoint, new AzureKeyCredential(a
 ```
 
 To get your API key:
+
 1. Go to [Azure Portal][azure_portal]
 2. Navigate to your Microsoft Foundry resource
 3. Go to **Resource Management** > **Keys and Endpoint**
@@ -172,6 +174,7 @@ To get your API key:
 For more information on authentication, see [Azure Identity client library][azure_identity].
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -182,15 +185,15 @@ Content Understanding provides a rich set of prebuilt analyzers that are ready t
 
 Prebuilt analyzers are organized into several categories:
 
-* **RAG analyzers** - Optimized for retrieval-augmented generation scenarios with semantic analysis and markdown extraction. These analyzers return markdown and a one-paragraph `Summary` for each content item:
-  * **`prebuilt-documentSearch`** - Extracts content from documents (PDF, images, Office documents) with layout preservation, table detection, figure analysis, and structured markdown output. Optimized for RAG scenarios.
-  * **`prebuilt-imageSearch`** - Analyzes standalone images and returns a one-paragraph description of the image content. Optimized for image understanding and search scenarios. For images that contain text (including hand-written text), use `prebuilt-documentSearch`.
-  * **`prebuilt-audioSearch`** - Transcribes audio content with speaker diarization, timing information, and conversation summaries. Supports multilingual transcription.
-  * **`prebuilt-videoSearch`** - Analyzes video content with visual frame extraction, audio transcription, and structured summaries. Provides temporal alignment of visual and audio content and can return multiple segments per video.
-* **Content extraction analyzers** - Focus on OCR and layout analysis (e.g., `prebuilt-read`, `prebuilt-layout`)
-* **Base analyzers** - Fundamental content processing capabilities used as parent analyzers for custom analyzers (e.g., `prebuilt-document`, `prebuilt-image`, `prebuilt-audio`, `prebuilt-video`)
-* **Domain-specific analyzers** - Preconfigured analyzers for common document categories including financial documents (invoices, receipts, bank statements), identity documents (passports, driver's licenses), tax forms, mortgage documents, and contracts, and utilities (billing statements)
-* **Utility analyzers** - Specialized tools for schema generation and field extraction (e.g., `prebuilt-documentFieldSchema`, `prebuilt-documentFields`)
+- **RAG analyzers** - Optimized for retrieval-augmented generation scenarios with semantic analysis and markdown extraction. These analyzers return markdown and a one-paragraph `Summary` for each content item:
+  - **`prebuilt-documentSearch`** - Extracts content from documents (PDF, images, Office documents) with layout preservation, table detection, figure analysis, and structured markdown output. Optimized for RAG scenarios.
+  - **`prebuilt-imageSearch`** - Analyzes standalone images and returns a one-paragraph description of the image content. Optimized for image understanding and search scenarios. For images that contain text (including hand-written text), use `prebuilt-documentSearch`.
+  - **`prebuilt-audioSearch`** - Transcribes audio content with speaker diarization, timing information, and conversation summaries. Supports multilingual transcription.
+  - **`prebuilt-videoSearch`** - Analyzes video content with visual frame extraction, audio transcription, and structured summaries. Provides temporal alignment of visual and audio content and can return multiple segments per video.
+- **Content extraction analyzers** - Focus on OCR and layout analysis (e.g., `prebuilt-read`, `prebuilt-layout`)
+- **Base analyzers** - Fundamental content processing capabilities used as parent analyzers for custom analyzers (e.g., `prebuilt-document`, `prebuilt-image`, `prebuilt-audio`, `prebuilt-video`)
+- **Domain-specific analyzers** - Preconfigured analyzers for common document categories including financial documents (invoices, receipts, bank statements), identity documents (passports, driver's licenses), tax forms, mortgage documents, and contracts, and utilities (billing statements)
+- **Utility analyzers** - Specialized tools for schema generation and field extraction (e.g., `prebuilt-documentFieldSchema`, `prebuilt-documentFields`)
 
 For a complete list of available prebuilt analyzers and their capabilities, see the [Prebuilt analyzers documentation][prebuilt_analyzers_docs].
 
@@ -202,8 +205,8 @@ You can create custom analyzers with specific field schemas for multi-modal cont
 
 The API returns different content types based on the input:
 
-* **`document`** - For document files (PDF, HTML, images, Office documents such as Word, Excel, PowerPoint, and more). Provides basic information such as page count and MIME type. Retrieve detailed information including pages, tables, figures, paragraphs, and many others.
-* **`audioVisual`** - For audio and video files. Provides basic information such as timing information (start/end times) and frame dimensions (for video). Retrieve detailed information including transcript phrases, timing information, and for video, key frame references and more.
+- **`document`** - For document files (PDF, HTML, images, Office documents such as Word, Excel, PowerPoint, and more). Provides basic information such as page count and MIME type. Retrieve detailed information including pages, tables, figures, paragraphs, and many others.
+- **`audioVisual`** - For audio and video files. Provides basic information such as timing information (start/end times) and frame dimensions (for video). Retrieve detailed information including transcript phrases, timing information, and for video, key frame references and more.
 
 ### Asynchronous operations
 
@@ -217,8 +220,8 @@ The SDK provides poller types that handle polling automatically when using `poll
 
 ### Main classes
 
-* **`ContentUnderstandingClient`** - The main client for analyzing content, as well as creating, managing, and configuring analyzers
-* **`AnalysisResult`** - Contains the structured results of an analysis operation, including content elements, markdown, and metadata
+- **`ContentUnderstandingClient`** - The main client for analyzing content, as well as creating, managing, and configuring analyzers
+- **`AnalysisResult`** - Contains the structured results of an analysis operation, including content elements, markdown, and metadata
 
 ### Thread safety
 
@@ -239,15 +242,15 @@ You can familiarize yourself with different APIs using [Samples][samples_directo
 
 The samples demonstrate:
 
-* **Configuration** - Configure model deployment defaults for prebuilt analyzers and custom analyzers
-* **Document Content Extraction** - Extract structured markdown content from PDFs and images using `prebuilt-documentSearch`, optimized for RAG (Retrieval-Augmented Generation) applications
-* **Multi-Modal Content Analysis** - Analyze content from URLs across all modalities: extract markdown and summaries from documents, images, audio, and video using `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, and `prebuilt-videoSearch`
-* **Domain-Specific Analysis** - Extract structured fields from invoices using `prebuilt-invoice`
-* **Advanced Document Features** - Extract charts, hyperlinks, formulas, and annotations from documents
-* **Custom Analyzers** - Create custom analyzers with field schemas for specialized extraction needs
-* **Document Classification** - Create and use classifiers to categorize documents
-* **Analyzer Management** - Get, list, update, copy, and delete analyzers
-* **Result Management** - Retrieve result files from video analysis and delete analysis results
+- **Configuration** - Configure model deployment defaults for prebuilt analyzers and custom analyzers
+- **Document Content Extraction** - Extract structured markdown content from PDFs and images using `prebuilt-documentSearch`, optimized for RAG (Retrieval-Augmented Generation) applications
+- **Multi-Modal Content Analysis** - Analyze content from URLs across all modalities: extract markdown and summaries from documents, images, audio, and video using `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, and `prebuilt-videoSearch`
+- **Domain-Specific Analysis** - Extract structured fields from invoices using `prebuilt-invoice`
+- **Advanced Document Features** - Extract charts, hyperlinks, formulas, and annotations from documents
+- **Custom Analyzers** - Create custom analyzers with field schemas for specialized extraction needs
+- **Document Classification** - Create and use classifiers to categorize documents
+- **Analyzer Management** - Get, list, update, copy, and delete analyzers
+- **Result Management** - Retrieve result files from video analysis and delete analysis results
 
 ### Extract markdown content from documents
 
@@ -323,23 +326,75 @@ if (result.contents && result.contents.length > 0) {
 }
 ```
 
-See the [samples directory][samples_directory] for complete examples.
+### Convert results to LLM-ready text
+
+Use the `toLlmInput()` helper to convert any analysis result into a text format that LLMs
+can consume directly — YAML front matter with extracted fields followed by the markdown body.
+This works with all content types (documents, images, audio, video) and handles multi-segment
+results and classification hierarchies automatically.
+
+````typescript snippet:ignore
+import * as fs from "fs";
+import { ContentUnderstandingClient, toLlmInput } from "@azure/ai-content-understanding";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"]!;
+const client = new ContentUnderstandingClient(endpoint, new DefaultAzureCredential());
+
+// Analyze a document with text, tables, and charts using prebuilt-documentSearch (CU's primary RAG analyzer)
+const pdfBytes = fs.readFileSync("sample_files/sample_document_features.pdf");
+const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf");
+const result = await poller.pollUntilDone();
+
+// One line to get LLM-ready text
+const text = toLlmInput(result);
+console.log(text);
+// Output:
+//   ---
+//   contentType: document
+//   pages: 1
+//   fields:
+//     Summary: The document provides an overview of Latin, includes a sample
+//       table with names and corporate affiliations, presents a bar chart
+//       figure illustrating monthly values, and describes the AI Document
+//       Intelligence service...
+//   ---
+//   <!-- page 1 -->
+//   # ==This is title==
+//   ## 1. Text
+//   [Latin](https://en.wikipedia.org/wiki/Latin) refers to an ancient Italic language...
+//   ## 2. Page Objects
+//   ### 2.1 Table
+//   <table><caption>Table 1: This is a dummy table</caption>...</table>
+//   ### 2.2. Figure
+//   ![Values...](figures/1.1 "Bar chart with six bars: Jan=200, Feb=300...")
+//   ```chart
+//   {"type":"bar","data":{"labels":["Jan","Feb",...],...}}
+//   ```
+//   ...
+````
+
+See the [advanced sample][js_cu_sample_to_llm_input] for output options (fields-only,
+markdown-only, custom metadata), multi-page content ranges, and multi-segment video.
 
 ## Troubleshooting
 
 ### Common issues
 
 **Error: "Access denied due to invalid subscription key or wrong API endpoint"**
+
 - Verify your endpoint URL is correct and includes the trailing slash
 - Ensure your API key is valid or that your Microsoft Entra ID credentials have the correct permissions
 - Make sure you have the **Cognitive Services User** role assigned to your account
 
 **Error: "Model deployment not found" or "Default model deployment not configured"**
+
 - Ensure you have deployed the required models (gpt-4.1, gpt-4.1-mini, text-embedding-3-large) in Microsoft Foundry
 - Verify you have configured the default model deployments (see [Configure Model Deployments](#step-3-configure-model-deployments-required-for-prebuilt-analyzers))
 - Check that your deployment names match what you configured in the defaults
 
 **Error: "Operation failed" or timeout**
+
 - Content Understanding operations are asynchronous and may take time to complete
 - Ensure you are properly polling for results using `pollUntilDone()` on the poller object
 - Check the operation status for more details about the failure
@@ -560,8 +615,8 @@ For full setup instructions and available samples, see:
 
 ## Next steps
 
-* Explore the [samples directory][samples_directory] for complete code examples
-* Read the [Azure AI Content Understanding documentation][product_docs] for detailed service information
+- Explore the [samples directory][samples_directory] for complete code examples
+- Read the [Azure AI Content Understanding documentation][product_docs] for detailed service information
 
 ## Contributing
 
@@ -572,6 +627,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 <!-- LINKS -->
+
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
@@ -582,6 +638,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [deploy_models_docs]: https://learn.microsoft.com/azure/ai-studio/how-to/deploy-models-openai
 [prebuilt_analyzers_docs]: https://learn.microsoft.com/azure/ai-services/content-understanding/concepts/prebuilt-analyzers
 [samples_directory]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples
+[js_cu_sample_to_llm_input]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples-dev/toLlmInput.ts
 [sample_update_defaults]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples-dev/updateDefaults.ts
 [client_options]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/pipelineoptions?view=azure-node-latest
 [accessing_response]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/pipelineresponse?view=azure-node-latest

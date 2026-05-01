@@ -900,17 +900,6 @@ export function convertDataDeletionDetectionPolicyToPublic(
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
 }
 
-export function getRandomIntegerInclusive(min: number, max: number): number {
-  // Make sure inputs are integers.
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  // Pick a random offset from zero to the size of the range.
-  // Since Math.random() can never return 1, we have to make the range one larger
-  // in order to be inclusive of the maximum value after we take the floor.
-  const offset = Math.floor(Math.random() * (max - min + 1));
-  return offset + min;
-}
-
 function convertKnowledgeStoreToPublic(
   knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined,
 ): SearchIndexerKnowledgeStore | undefined {
