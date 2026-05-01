@@ -30,7 +30,7 @@ import type { TableClientLike } from "./utils/internalModels.js";
 import type { TableServiceErrorOdataError } from "./generated/index.js";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpointUtil.js";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { tracingClient } from "./utils/tracing.js";
 
 /**

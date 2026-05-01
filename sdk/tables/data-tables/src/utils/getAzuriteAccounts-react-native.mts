@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { getAzuriteAccounts } from "./isCosmosEndpoint-browser.mjs";
+export { getAzuriteAccounts } from "./getAzuriteAccounts-browser.mjs";
