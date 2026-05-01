@@ -404,6 +404,9 @@ export function list(
           "foundry-features": "MemoryStores=V1Preview",
         },
       },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      basePath: "/memory_stores",
     },
   );
 }

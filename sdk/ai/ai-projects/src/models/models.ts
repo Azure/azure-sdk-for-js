@@ -9351,7 +9351,7 @@ export function _agentsPagedResultSkillObjectDeserializer(
   item: any,
 ): _AgentsPagedResultSkillObject {
   return {
-    data: skillObjectArrayDeserializer(item),
+    data: skillObjectArrayDeserializer(item?.data ?? []),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
