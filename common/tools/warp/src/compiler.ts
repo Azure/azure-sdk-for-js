@@ -10,6 +10,7 @@ import { transform as esbuildTransform } from "esbuild";
 import type { WarpTarget } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
+import { compileTargetWithTsgo } from "./tsgoCompiler.ts";
 
 /**
  * Parsed tsconfig data needed for compilation and exports rewriting.
@@ -490,42 +491,6 @@ export function programIdentity(
     hash.update("\0moduleType:" + moduleType);
   }
   return hash.digest("hex").slice(0, 16);
-}
-
-// ── Aliases consumed by parallel.ts (will be removed when parallel.ts adopts programIdentity) ──
-
-/** @deprecated Use optionsSignature + programIdentity instead. */
-export function sourceIdentity(fileNames: readonly string[], polyfillSuffix?: string): string {
-  const filesHash = crypto
-    .createHash("sha256")
-    .update([...fileNames].sort().join("\0"))
-    .digest("hex")
-    .slice(0, 16);
-  return polyfillSuffix ? `${filesHash}\0polyfill:${polyfillSuffix}` : filesHash;
-}
-
-interface DedupGroup {
-  primary: ParsedTargetConfig;
-  copies: ParsedTargetConfig[];
-}
-
-/** @deprecated Use per-target dedup with optionsSignature + programIdentity. */
-export function groupBySignature(
-  configs: ParsedTargetConfig[],
-  getEffectiveSuffix?: (pc: ParsedTargetConfig) => string | undefined,
-): DedupGroup[] {
-  const map = new Map<string, DedupGroup>();
-  for (const pc of configs) {
-    const suffix = getEffectiveSuffix ? getEffectiveSuffix(pc) : pc.target.polyfillSuffix;
-    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames, suffix);
-    const existing = map.get(sig);
-    if (existing) {
-      existing.copies.push(pc);
-    } else {
-      map.set(sig, { primary: pc, copies: [] });
-    }
-  }
-  return [...map.values()];
 }
 
 /** @deprecated Use copyDir instead. */
@@ -1031,9 +996,10 @@ export async function compileTarget(
  */
 export async function compileAllTargets(
   parsedConfigs: ParsedTargetConfig[],
-  options?: { clean?: boolean; packageRoot?: string },
+  options?: { clean?: boolean; packageRoot?: string; tsgoPath?: string },
 ): Promise<CompileResult[]> {
   const clean = options?.clean ?? true;
+  const tsgoPath = options?.tsgoPath;
   validateOutDirs(parsedConfigs);
   const log = getLogger();
   const cache = new SharedSourceFileCache();
@@ -1226,8 +1192,14 @@ export async function compileAllTargets(
         await copyDir(alreadyEmittedOutDir, parsed.outDir);
       }
     } else {
-      // First time seeing this emit identity — full or typecheck-less compile
-      result = await compileTarget(parsed, host, { typeCheck: needsTypeCheck });
+      // First time seeing this emit identity — full or typecheck-less compile.
+      // Use tsgo when available and the target doesn't need host overrides
+      // (polyfills or CJS moduleType).
+      if (tsgoPath && !hasPolyfills && parsed.target.moduleType !== "commonjs") {
+        result = await compileTargetWithTsgo(tsgoPath, parsed, options?.packageRoot ?? "");
+      } else {
+        result = await compileTarget(parsed, host, { typeCheck: needsTypeCheck });
+      }
     }
 
     const timeLabel =

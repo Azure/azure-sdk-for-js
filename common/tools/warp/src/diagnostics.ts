@@ -41,11 +41,21 @@ export function formatSingleDiagnostic(diag: ts.Diagnostic, prefix: string): str
 /**
  * Format diagnostics from multiple targets with [target] prefix.
  * Serialises diagnostics by target so output is grouped and readable.
+ *
+ * Supports both structured `ts.Diagnostic` arrays (from the programmatic API)
+ * and pre-formatted `diagnosticText` strings (from worker threads or external
+ * compilers like tsgo).
  */
 export function formatDiagnostics(results: CompileResult[]): string {
   const lines: string[] = [];
 
   for (const result of results) {
+    // Prefer pre-formatted text (from workers, tsgo, or esbuild errors)
+    if (result.diagnosticText) {
+      lines.push(result.diagnosticText);
+      continue;
+    }
+
     if (result.diagnostics.length === 0) continue;
 
     const prefix = `[${result.target.name}]`;

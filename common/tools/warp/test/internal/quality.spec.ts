@@ -946,24 +946,10 @@ describe("missing dist files fail the build", () => {
 });
 
 // ---------------------------------------------------------------------------
-// WarpError wrapping for worker / parallel errors
+// WarpError construction
 // ---------------------------------------------------------------------------
 
-describe("WarpError wrapping", () => {
-  it("resolveWorkerPath throws WarpError with COMPILE_ERROR", () => {
-    // The internal resolveWorkerPath can't be tested directly without mocking,
-    // but we can verify the WarpError construction pattern works correctly.
-    const err = new WarpError(
-      "COMPILE_ERROR",
-      `[warp] Worker thread crashed while compiling target "esm". Try running without --parallel. Original error: OOM`,
-      { cause: new Error("OOM") },
-    );
-    expect(err.code).toBe("COMPILE_ERROR");
-    expect(err.message).toContain("--parallel");
-    expect(err.message).toContain("esm");
-    expect(err.cause).toBeInstanceOf(Error);
-  });
-
+describe("WarpError construction", () => {
   it("DIST_MISSING code is a valid WarpErrorCode", () => {
     const err = new WarpError("DIST_MISSING", "[warp] Missing dist files");
     expect(err.code).toBe("DIST_MISSING");

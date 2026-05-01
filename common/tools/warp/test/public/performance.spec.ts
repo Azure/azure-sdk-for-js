@@ -6,7 +6,7 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
-import { build, sourceIdentity, optionsSignature } from "../../src/index.ts";
+import { build, optionsSignature } from "../../src/index.ts";
 import type ts from "typescript";
 
 async function exists(p: string): Promise<boolean> {
@@ -23,27 +23,6 @@ async function createTmpDir(): Promise<string> {
 async function cleanup(dir: string): Promise<void> {
   await fs.rm(dir, { recursive: true, force: true });
 }
-
-describe("sourceIdentity", () => {
-  it("same files + same polyfill → same identity", () => {
-    const files = ["/a/b.ts", "/a/c.ts"];
-    expect(sourceIdentity(files, "-browser")).toBe(sourceIdentity(files, "-browser"));
-  });
-
-  it("same files + different polyfill → different identity", () => {
-    const files = ["/a/b.ts"];
-    expect(sourceIdentity(files, "-browser")).not.toBe(sourceIdentity(files, "-workerd"));
-  });
-
-  it("same files + no polyfill → same identity", () => {
-    const files = ["/a/b.ts"];
-    expect(sourceIdentity(files)).toBe(sourceIdentity(files));
-  });
-
-  it("different files → different identity", () => {
-    expect(sourceIdentity(["/a.ts"])).not.toBe(sourceIdentity(["/b.ts"]));
-  });
-});
 
 describe("skip-typecheck optimization", () => {
   let tmpDir: string;
@@ -412,128 +391,6 @@ describe("polyfill + skip-typecheck interaction", () => {
     expect(await exists(path.join(tmpDir, "dist/esm/greeter.d.ts"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/browser/greeter.d.ts"))).toBe(true);
     expect(await exists(path.join(tmpDir, "dist/cjs/greeter.d.ts"))).toBe(true);
-  });
-});
-
-describe("parallel compilation", () => {
-  let tmpDir: string;
-
-  beforeEach(async () => {
-    tmpDir = await createTmpDir();
-  });
-
-  afterEach(async () => {
-    await cleanup(tmpDir);
-  });
-
-  async function writeProject(dir: string): Promise<void> {
-    await fs.mkdir(path.join(dir, "src"), { recursive: true });
-    await fs.writeFile(
-      path.join(dir, "src/index.ts"),
-      'export const greeting: string = "hello";\n',
-    );
-    await fs.writeFile(
-      path.join(dir, "src/index-browser.mts"),
-      'export const greeting: string = "browser-hello";\n',
-    );
-
-    const mkTsconfig = (outDir: string, extra: Record<string, unknown> = {}) => ({
-      compilerOptions: {
-        outDir,
-        rootDir: "./src",
-        module: "NodeNext",
-        moduleResolution: "NodeNext",
-        target: "ES2023",
-        declaration: true,
-        strict: true,
-        ...extra,
-      },
-      include: ["src/**/*.ts"],
-    });
-
-    await fs.writeFile(
-      path.join(dir, "tsconfig.esm.json"),
-      JSON.stringify(mkTsconfig("./dist/esm")),
-    );
-    await fs.writeFile(
-      path.join(dir, "tsconfig.cjs.json"),
-      JSON.stringify(mkTsconfig("./dist/cjs", { module: "Node16", moduleResolution: "Node16" })),
-    );
-    await fs.writeFile(
-      path.join(dir, "tsconfig.browser.json"),
-      JSON.stringify(mkTsconfig("./dist/browser")),
-    );
-
-    await fs.writeFile(
-      path.join(dir, "warp.config.yml"),
-      stringify({
-        exports: { ".": "./src/index.ts" },
-        targets: [
-          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-          {
-            name: "browser",
-            condition: "browser",
-            tsconfig: "./tsconfig.browser.json",
-            polyfillSuffix: "-browser",
-          },
-          {
-            name: "cjs",
-            condition: "require",
-            tsconfig: "./tsconfig.cjs.json",
-            moduleType: "commonjs",
-          },
-        ],
-      }),
-    );
-
-    await fs.writeFile(
-      path.join(dir, "package.json"),
-      `${JSON.stringify({ name: "test-parallel", version: "1.0.0", type: "module" }, null, 2)}\n`,
-    );
-  }
-
-  it("produces identical output to sequential mode", async () => {
-    // Build sequentially
-    await writeProject(tmpDir);
-    const seqResult = await build({ cwd: tmpDir });
-    expect(seqResult.success).toBe(true);
-
-    const seqFiles = new Map<string, string>();
-    for (const sub of ["esm", "cjs", "browser"]) {
-      const dir = path.join(tmpDir, "dist", sub);
-      for (const f of await fs.readdir(dir)) {
-        seqFiles.set(`${sub}/${f}`, await fs.readFile(path.join(dir, f), "utf-8"));
-      }
-    }
-
-    // Build in parallel
-    const parResult = await build({ cwd: tmpDir, parallel: true });
-    expect(parResult.success).toBe(true);
-
-    // Compare outputs
-    for (const [relPath, seqContent] of seqFiles) {
-      const parContent = await fs.readFile(path.join(tmpDir, "dist", relPath), "utf-8");
-      expect(parContent, `${relPath} differs`).toBe(seqContent);
-    }
-  });
-
-  it("handles polyfills correctly in parallel", async () => {
-    await writeProject(tmpDir);
-    const result = await build({ cwd: tmpDir, parallel: true });
-    expect(result.success).toBe(true);
-
-    const esmContent = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
-    const browserContent = await fs.readFile(path.join(tmpDir, "dist/browser/index.js"), "utf-8");
-    const cjsContent = await fs.readFile(path.join(tmpDir, "dist/cjs/index.js"), "utf-8");
-
-    expect(esmContent).toContain('"hello"');
-    expect(browserContent).toContain('"browser-hello"');
-    expect(cjsContent).toContain('"hello"');
-
-    // All targets should have declarations
-    expect(await exists(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
-    expect(await exists(path.join(tmpDir, "dist/browser/index.d.ts"))).toBe(true);
-    expect(await exists(path.join(tmpDir, "dist/cjs/index.d.ts"))).toBe(true);
   });
 });
 

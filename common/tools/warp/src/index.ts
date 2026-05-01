@@ -22,8 +22,6 @@ export {
   discoverPolyfills,
   optionsSignature,
   programIdentity,
-  sourceIdentity,
-  groupBySignature,
   copyDtsFiles,
   validateOutDirs,
   cleanOutDir,

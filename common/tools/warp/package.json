@@ -32,6 +32,7 @@
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@typescript/native-preview": "beta",
     "esbuild": "^0.27.3",
     "tsx": "catalog:",
     "typescript": "catalog:",

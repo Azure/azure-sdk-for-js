@@ -25,6 +25,7 @@ import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
+import { resolveTsgo, getTsgoVersion } from "./tsgoCompiler.ts";
 
 export interface BuildOptions {
   /** Working directory. Defaults to process.cwd(). */
@@ -37,12 +38,19 @@ export interface BuildOptions {
   dryRun?: boolean;
   /** When true (default), remove outDirs before compilation. */
   clean?: boolean;
-  /** When true, compile independent targets in parallel using worker threads. */
-  parallel?: boolean;
+
   /** When true, compute and display the size/API-surface report after building. */
   stats?: boolean;
   /** Only build targets whose name matches one of the given values. */
   target?: string[];
+  /**
+   * Compiler backend to use for compilation.
+   * - `"tsc"` (default): Uses the TypeScript programmatic API.
+   * - `"tsgo"`: Uses the native TypeScript 7.0+ CLI (`tsgo`) for ~10x faster
+   *   compilation. Requires `@typescript/native-preview` to be installed.
+   *   Falls back to the TS API for targets needing polyfill substitution.
+   */
+  compiler?: "tsc" | "tsgo";
 }
 
 export interface BuildResult {
@@ -164,20 +172,19 @@ async function compileStep(
   log.info(`[warp] Compiling ${targetCount} target(s)...`);
   const compileStart = performance.now();
 
-  let results: CompileResult[];
+  let tsgoPath: string | undefined;
 
-  if (options.parallel) {
-    const { compileAllTargetsParallel } = await import("./parallel.js");
-    results = await compileAllTargetsParallel(parsedConfigs, {
-      clean: options.clean ?? true,
-      packageRoot,
-    });
-  } else {
-    results = await compileAllTargets(parsedConfigs, {
-      clean: options.clean ?? true,
-      packageRoot,
-    });
+  if (options.compiler === "tsgo") {
+    tsgoPath = resolveTsgo();
+    const version = await getTsgoVersion();
+    log.info(`[warp] Using tsgo compiler${version ? ` (v${version})` : ""}: ${tsgoPath}`);
   }
+
+  const results = await compileAllTargets(parsedConfigs, {
+    clean: options.clean ?? true,
+    packageRoot,
+    tsgoPath,
+  });
 
   return { results, compileTimeMs: performance.now() - compileStart };
 }
@@ -187,14 +194,14 @@ async function postCompileStep(
   results: CompileResult[],
   config: WarpConfig,
   packageRoot: string,
-  parallel: boolean,
+  skipDiagnosticFormat: boolean,
   stats: boolean,
   skipPackageJsonUpdate: boolean,
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
-  // Report diagnostics
-  if (!parallel) {
+  // Print diagnostics
+  if (!skipDiagnosticFormat) {
     const diagnosticOutput = formatDiagnostics(results);
     if (diagnosticOutput) {
       log.info("");
@@ -315,12 +322,11 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   // Check for errors
   const hasErrors = results.some((r) => !r.success);
   if (hasErrors) {
-    if (!options.parallel) {
-      const diagnosticOutput = formatDiagnostics(results);
-      if (diagnosticOutput) {
-        log.info("");
-        log.info(diagnosticOutput);
-      }
+    // Print diagnostics
+    const diagnosticOutput = formatDiagnostics(results);
+    if (diagnosticOutput) {
+      log.info("");
+      log.info(diagnosticOutput);
     }
     const failedTargets = results.filter((r) => !r.success).map((r) => r.target.name);
     log.error(`\n[warp] Build failed for targets: ${failedTargets.join(", ")}`);
@@ -402,7 +408,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     results,
     config,
     packageRoot,
-    !!options.parallel,
+    false,
     !!options.stats,
     !!(options.target && options.target.length > 0),
   );

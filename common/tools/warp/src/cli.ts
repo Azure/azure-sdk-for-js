@@ -12,9 +12,9 @@ async function main(): Promise<void> {
     args: process.argv.slice(2),
     options: {
       config: { type: "string" },
+      compiler: { type: "string" },
       "dry-run": { type: "boolean", default: false },
       "no-clean": { type: "boolean", default: false },
-      parallel: { type: "boolean", default: false },
       target: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
       json: { type: "boolean", default: false },
@@ -40,7 +40,12 @@ async function main(): Promise<void> {
     setLogLevel("verbose");
   }
 
-  const useParallel = values.parallel ?? false;
+  const validCompilers = ["tsc", "tsgo"] as const;
+  const compiler = values.compiler as (typeof validCompilers)[number] | undefined;
+  if (compiler !== undefined && !validCompilers.includes(compiler)) {
+    console.error(`[warp] Invalid --compiler value: "${compiler}". Must be "tsc" or "tsgo".`);
+    process.exit(1);
+  }
 
   if (command === "init") {
     const { init } = await import("./init.js");
@@ -54,8 +59,8 @@ async function main(): Promise<void> {
     const ac = await watch({
       configPath: values.config,
       clean: !values["no-clean"],
-      parallel: useParallel,
       target: values.target,
+      compiler,
     });
 
     // Graceful shutdown
@@ -75,10 +80,10 @@ async function main(): Promise<void> {
   const result = await build({
     dryRun: values["dry-run"],
     clean: !values["no-clean"],
-    parallel: useParallel,
     target: values.target,
     stats: values.stats,
     configPath: values.config,
+    compiler,
   });
 
   if (values.json) {
@@ -123,9 +128,9 @@ Commands:
 
 Options:
   --config <path>   Path to warp config file (resolved relative to cwd)
+  --compiler <name> Compiler backend: "tsc" (default) or "tsgo" (TypeScript 7.0+ native)
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
-  --parallel        Compile in parallel using worker threads (default: off)
   --target <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
   --json            Output machine-readable JSON (implies --quiet)
