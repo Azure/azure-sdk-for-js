@@ -138,11 +138,6 @@
       "browser": "./src/*-browser.mts",
       "react-native": "./src/*-react-native.mts",
       "default": "./src/*.ts"
-    },
-    "#platform/utils/*": {
-      "browser": "./src/utils/*-browser.mts",
-      "react-native": "./src/utils/*-react-native.mts",
-      "default": "./src/utils/*.ts"
     }
   }
 }
