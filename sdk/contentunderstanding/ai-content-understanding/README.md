@@ -330,10 +330,8 @@ if (result.contents && result.contents.length > 0) {
 
 ### Convert results to LLM-ready text
 
-> [!NOTE]
-> **Preview feature**: `toLlmInput()` is currently in preview and may change in
-> future releases. We welcome feedback — please
-> [file an issue][file_issue].
+> **Note:** `toLlmInput()` is currently in preview and may change in future releases.
+> We welcome feedback — please [file an issue][file_issue].
 
 Use the `toLlmInput()` helper to convert any analysis result into a text format that LLMs
 can consume directly — YAML front matter with extracted fields followed by the markdown body.
