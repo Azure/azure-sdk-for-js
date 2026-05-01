@@ -33,4 +33,17 @@ describe("skills deserialization", () => {
     assert.equal(result.last_id, "skill-1");
     assert.isFalse(result.has_more);
   });
+
+  it("should deserialize skill results returned as a direct array", () => {
+    const result = _agentsPagedResultSkillObjectDeserializer([
+      {
+        skill_id: "skill-1",
+        has_blob: false,
+        name: "test-skill",
+      },
+    ]);
+
+    assert.lengthOf(result.data, 1);
+    assert.equal(result.data[0].name, "test-skill");
+  });
 });
