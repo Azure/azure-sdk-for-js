@@ -125,5 +125,12 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
+    }
   }
 }
