@@ -17,7 +17,7 @@ const command = async (...args: string[]): Promise<boolean> => {
   log(
     "⚠️  'dev-tool customization apply-v2' is deprecated and will be removed soon. Use 'dev-tool customization apply' instead.",
   );
-  const applyCommand = (await import("./apply")).default;
+  const applyCommand = (await import("./apply.ts")).default;
   return applyCommand(...args);
 };
 
