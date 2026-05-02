@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
-import { isNodeLike } from "@azure/core-util";
+import "dotenv/config";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
@@ -44,10 +43,6 @@ import { ServiceBusClient } from "@azure/service-bus";
 import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 import { assert } from "vitest";
-
-if (isNodeLike) {
-  dotenv.config();
-}
 
 const envSetupForPlayback: Record<string, string> = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://Sanitized/;accesskey=redacted",
