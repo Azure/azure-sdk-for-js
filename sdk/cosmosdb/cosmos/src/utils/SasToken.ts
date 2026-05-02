@@ -77,7 +77,7 @@ export async function createAuthorizationSasToken(
                           is an invalid partition key value range`);
     }
     sasTokenProperties.partitionKeyValueRanges.forEach((range) => {
-      partitionRanges += `${stringToUint8Array(range, "utf-8")},`;
+      partitionRanges += `${range},`;
     });
   }
 
