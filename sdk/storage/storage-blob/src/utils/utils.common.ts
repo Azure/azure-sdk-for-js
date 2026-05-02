@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -498,44 +497,6 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
     blockIDPrefix +
     padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
-}
-
-/**
- * Delay specified time interval.
- *
- * @param timeInMs -
- * @param aborter -
- * @param abortError -
- */
-export async function delay(
-  timeInMs: number,
-  aborter?: AbortSignalLike,
-  abortError?: Error,
-): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    /* eslint-disable-next-line prefer-const */
-    let timeout: any;
-
-    const abortHandler = () => {
-      if (timeout !== undefined) {
-        clearTimeout(timeout);
-      }
-      reject(abortError);
-    };
-
-    const resolveHandler = () => {
-      if (aborter !== undefined) {
-        aborter.removeEventListener("abort", abortHandler);
-      }
-      resolve();
-    };
-
-    timeout = setTimeout(resolveHandler, timeInMs);
-
-    if (aborter !== undefined) {
-      aborter.addEventListener("abort", abortHandler);
-    }
-  });
 }
 
 /**

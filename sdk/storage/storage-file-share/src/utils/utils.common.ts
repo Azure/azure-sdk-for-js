@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
@@ -390,43 +389,6 @@ export function base64encode(content: string): string {
  */
 export function base64decode(encodedString: string): string {
   return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
-}
-
-/**
- * Delay specified time interval.
- *
- * @param timeInMs -
- * @param aborter -
- * @param abortError -
- */
-export async function delay(
-  timeInMs: number,
-  aborter?: AbortSignalLike,
-  abortError?: Error,
-): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    /* eslint-disable-next-line prefer-const */
-    let timeout: any;
-
-    const abortHandler = (): void => {
-      if (timeout !== undefined) {
-        clearTimeout(timeout);
-      }
-      reject(abortError);
-    };
-
-    const resolveHandler = (): void => {
-      if (aborter !== undefined) {
-        aborter.removeEventListener("abort", abortHandler);
-      }
-      resolve();
-    };
-
-    timeout = setTimeout(resolveHandler, timeInMs);
-    if (aborter !== undefined) {
-      aborter.addEventListener("abort", abortHandler);
-    }
-  });
 }
 
 export function sanitizeURL(url: string): string {

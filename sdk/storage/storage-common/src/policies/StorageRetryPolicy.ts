@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { AbortError } from "@azure/abort-controller";
 import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
@@ -12,10 +11,11 @@ import type {
 } from "@azure/core-http-compat";
 import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
+import { delay, getRandomIntegerInclusive } from "@azure/core-util";
 
 import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { HeaderConstants, URLConstants } from "../utils/constants.js";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";
 import { StorageRetryPolicyType } from "./StorageRetryPolicyType.js";
 
@@ -41,8 +41,6 @@ const DEFAULT_RETRY_OPTIONS: StorageRetryOptions = {
   secondaryHost: "",
   tryTimeoutInMs: undefined, // Use server side default timeout strategy
 };
-
-const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
@@ -286,10 +284,10 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
           break;
       }
     } else {
-      delayTimeInMs = Math.random() * 1000;
+      delayTimeInMs = getRandomIntegerInclusive(0, 1000);
     }
 
     logger.info(`RetryPolicy: Delay for ${delayTimeInMs}ms`);
-    return delay(delayTimeInMs, abortSignal, RETRY_ABORT_ERROR);
+    return delay(delayTimeInMs, { abortSignal });
   }
 }
