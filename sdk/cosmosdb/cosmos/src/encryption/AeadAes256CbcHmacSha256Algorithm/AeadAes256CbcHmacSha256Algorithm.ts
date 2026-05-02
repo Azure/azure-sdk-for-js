@@ -106,8 +106,9 @@ function concat(arrays: Uint8Array<ArrayBuffer>[]): Uint8Array<ArrayBuffer> {
 
 function uint8ArrayEquals(a: Uint8Array<ArrayBuffer>, b: Uint8Array<ArrayBuffer>): boolean {
   if (a.length !== b.length) return false;
+  let result = 0;
   for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) return false;
+    result |= a[i]! ^ b[i]!;
   }
-  return true;
+  return result === 0;
 }
