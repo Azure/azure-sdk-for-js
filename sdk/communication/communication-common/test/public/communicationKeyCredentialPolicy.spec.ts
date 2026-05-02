@@ -44,7 +44,23 @@ describe("CommunicationKeyCredentialPolicy", function () {
   });
 });
 
-async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<string> {
+describe("CommunicationKeyCredentialPolicy", function () {
+  it("signs the request correctly with explicit port", async function () {
+    const authHeader = await verifyHeadersForUrlReturnAuthHeader(
+      "https://example.com:8080/testPath",
+      "example.com:8080",
+    );
+    assert.equal(
+      authHeader,
+      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=zFAbbRWjUmDbcK/DT3cYgnwMyh+kXJxBpC3qlxnPCh0=",
+    );
+  });
+});
+
+async function verifyHeadersForUrlReturnAuthHeader(
+  urlToTest: string,
+  expectedHost?: string,
+): Promise<string> {
   const credential = new MockKeyCredential("pw==");
   const communicationKeyCredentialPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
 
@@ -84,6 +100,9 @@ async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<s
   assert.equal(hashHeader, "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=");
   // Host header is now always set (browsers silently ignore forbidden headers)
   assert.isNotEmpty(hostHeader);
+  if (expectedHost) {
+    assert.equal(hostHeader, expectedHost);
+  }
   return authHeader;
 }
 

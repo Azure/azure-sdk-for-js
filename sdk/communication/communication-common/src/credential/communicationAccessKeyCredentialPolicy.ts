@@ -37,14 +37,12 @@ export function createCommunicationAccessKeyCredentialPolicy(
       const url = new URL(request.url);
       const query = url.searchParams.toString();
       const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
-      const port = url.port;
-      const hostAndPort = port ? `${url.host}:${port}` : url.host;
 
-      const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
+      const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${url.host};${contentHash}`;
       const signature = await computeSha256Hmac(credential.key, stringToSign, "base64");
 
       // Host is a forbidden header in browsers (silently ignored), but needed in Node.js
-      request.headers.set("Host", hostAndPort);
+      request.headers.set("Host", url.host);
       request.headers.set(dateHeader, utcNow);
       request.headers.set("x-ms-content-sha256", contentHash);
       request.headers.set(
