@@ -35,7 +35,7 @@ describe("SAS Token Payload", () => {
 
     // Extract payload from token: "type=sas&ver=1.0&sig=<sig>;<payloadBase64>"
     const payloadBase64 = token.split(";").slice(1).join(";");
-    const payload = Buffer.from(payloadBase64, "base64").toString("utf-8");
+    const payload = atob(payloadBase64);
 
     // The partition ranges line should contain the plain string values, not byte arrays
     const lines = payload.split("\n");
@@ -67,7 +67,7 @@ describe("SAS Token Payload", () => {
 
     const token = await createAuthorizationSasToken(masterKey, sasTokenProperties);
     const payloadBase64 = token.split(";").slice(1).join(";");
-    const payload = Buffer.from(payloadBase64, "base64").toString("utf-8");
+    const payload = atob(payloadBase64);
     const lines = payload.split("\n");
     expect(lines[3]).toBe("");
   });
