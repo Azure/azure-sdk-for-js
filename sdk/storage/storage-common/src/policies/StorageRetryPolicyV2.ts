@@ -8,7 +8,7 @@ import type {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
-import { delay, getErrorMessage } from "@azure/core-util";
+import { delay, getErrorMessage, getRandomIntegerInclusive } from "@azure/core-util";
 import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { HeaderConstants, URLConstants } from "../utils/constants.js";
 import { setURLHost, setURLParameter } from "../utils/utils.common.js";
@@ -139,7 +139,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
           break;
       }
     } else {
-      delayTimeInMs = Math.random() * 1000;
+      delayTimeInMs = getRandomIntegerInclusive(0, 1000);
     }
 
     logger.info(`RetryPolicy: Delay for ${delayTimeInMs}ms`);
