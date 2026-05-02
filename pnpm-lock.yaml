@@ -33102,9 +33102,6 @@ importers:
       protobufjs-cli:
         specifier: ^1.1.3
         version: 1.2.0(protobufjs@7.5.5)
-      react-native:
-        specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33169,9 +33166,6 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
-      react-native:
-        specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3

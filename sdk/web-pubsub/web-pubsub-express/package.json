@@ -63,7 +63,6 @@
     "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
-    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -77,14 +76,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -98,14 +89,5 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
-  "module": "./dist/esm/index.js",
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
-  "imports": {
-    "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "react-native": "./src/*-react-native.mts",
-      "default": "./src/*.ts"
-    }
-  }
+  "module": "./dist/esm/index.js"
 }
