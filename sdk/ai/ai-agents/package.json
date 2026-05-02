@@ -80,6 +80,7 @@
     "mkdirp": "^3.0.1",
     "playwright": "catalog:testing",
     "prettier": "^3.2.5",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
