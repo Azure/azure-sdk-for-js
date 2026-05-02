@@ -4,7 +4,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -464,7 +464,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
 }
 
 /**
@@ -473,7 +473,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
 }
 
 /**

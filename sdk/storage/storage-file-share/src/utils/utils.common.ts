@@ -23,7 +23,7 @@ import {
   StorageChecksumAlgorithm,
 } from "../models.js";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
@@ -379,7 +379,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
 }
 
 /**
@@ -388,7 +388,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
 }
 
 export function sanitizeURL(url: string): string {
