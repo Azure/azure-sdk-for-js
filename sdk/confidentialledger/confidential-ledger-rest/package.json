@@ -109,5 +109,10 @@
         "default": "./dist/commonjs/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }
