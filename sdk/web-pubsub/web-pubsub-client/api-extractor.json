@@ -1,3 +1,6 @@
 {
-  "extends": "../../../api-extractor-base.json"
+  "extends": "../../../api-extractor-base.json",
+  "compiler": {
+    "tsconfigFilePath": "./config/tsconfig.src.esm.json"
+  }
 }
