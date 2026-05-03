@@ -9,7 +9,6 @@ import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 import type { RestError } from "../restError.js";
 import { isRestError } from "../restError.js";
-import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -245,7 +244,7 @@ export function bearerTokenAuthenticationPolicy(
           let parsedClaim: string;
           // Return the response immediately if claims is not a valid base64 encoded string
           try {
-            parsedClaim = uint8ArrayToString(stringToUint8Array(claims, "base64"), "utf-8");
+            parsedClaim = atob(claims);
           } catch (e) {
             logger.warning(
               `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`,
@@ -287,7 +286,7 @@ export function bearerTokenAuthenticationPolicy(
             if (claims) {
               let parsedClaim: string;
               try {
-                parsedClaim = uint8ArrayToString(stringToUint8Array(claims, "base64"), "utf-8");
+                parsedClaim = atob(claims);
               } catch (e) {
                 logger.warning(
                   `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`,
