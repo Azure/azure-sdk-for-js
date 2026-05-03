@@ -116,6 +116,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "react-native": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
