@@ -5,7 +5,6 @@
  * @summary Use AAD token credentials when sending a whatsapp template message.
  */
 
-import type { TokenCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
 import type {
   MessageTemplate,
@@ -33,10 +32,7 @@ export async function main(): Promise<void> {
     return;
   }
 
-  // DefaultAzureCredential works in both Node.js and browser environments
-  // In Node.js, it uses environment variables, managed identity, or Azure CLI
-  // In browsers, it requires interactive authentication to be configured
-  const credential: TokenCredential = new DefaultAzureCredential();
+  const credential = new DefaultAzureCredential();
 
   const client = NotificationClient(endpoint, credential);
 
