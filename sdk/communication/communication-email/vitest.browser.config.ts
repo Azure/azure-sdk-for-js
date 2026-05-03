@@ -1,4 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { default } from "../../../eng/vitestconfigs/browser.config.ts";
+import { defineConfig, mergeConfig } from "vitest/config";
+import base from "../../../eng/vitestconfigs/browser.config.ts";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default mergeConfig(
+  base,
+  defineConfig({
+    test: {
+      globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
+    },
+  }),
+);
