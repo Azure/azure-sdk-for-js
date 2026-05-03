@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * Node.js-only tests for ChatThreadClient.
+ * These tests are excluded from browser test runs via vitest config.
+ * TODO: Re-record the tests with the new recorder to enable browser testing.
+ */
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   ChatClient,
@@ -8,16 +14,14 @@ import type {
   ChatThreadClient,
   NoneRetentionPolicy,
   ThreadCreationDateRetentionPolicy,
-} from "../../src/index.js";
-import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
+} from "../../../src/index.js";
+import { createChatClient, createRecorder, createTestUser } from "../utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { isNodeLike } from "@azure/core-util";
 
-// TODO: Re-record the tests with the new recorder
-describe("ChatThreadClient", { skip: !isNodeLike }, () => {
+describe("ChatThreadClient", () => {
   let messageId: string;
   let recorder: Recorder;
   let chatClient: ChatClient;
