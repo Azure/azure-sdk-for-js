@@ -1,20 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
-import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
-
-if (isNodeLike) {
-  dotenv.config();
-}
 
 export interface RecordedClient<T> {
   client: T;

@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 import type { TokenCredential } from "@azure/identity";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
@@ -12,12 +11,8 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { TieringClient } from "../../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
-
-if (isNodeLike) {
-  dotenv.config();
-}
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient<T> {
   client: T;
@@ -96,22 +91,8 @@ export async function createRecordedClientWithToken(
 
   if (isPlaybackMode()) {
     credential = createMockToken();
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new TieringClient(endpoint, credential, recorder.configureClientOptions({})),
-      recorder,
-    };
-  }
-
-  if (isNodeLike) {
-    credential = new DefaultAzureCredential();
   } else {
-    credential = new ClientSecretCredential(
-      assertEnvironmentVariable("AZURE_TENANT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-    );
+    credential = createTestCredential();
   }
 
   // casting is a workaround to enable min-max testing
