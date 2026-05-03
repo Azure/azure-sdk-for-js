@@ -35,7 +35,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@azure/communication-signaling>@azure/core-rest-pipeline": "link:sdk/core/core-rest-pipeline"
+      "@azure/core-rest-pipeline": "link:sdk/core/core-rest-pipeline"
     }
   }
 }
