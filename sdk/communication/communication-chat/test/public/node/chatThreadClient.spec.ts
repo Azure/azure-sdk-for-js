@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * Node.js-only tests for ChatThreadClient.
- * These tests are excluded from browser test runs via vitest config.
- * TODO: Re-record the tests with the new recorder to enable browser testing.
- */
-
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   ChatClient,
