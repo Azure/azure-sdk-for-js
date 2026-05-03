@@ -11,6 +11,8 @@ Use the client library for Azure AI Content Understanding to:
 - **Create custom analyzers** - Build domain-specific analyzers for specialized content extraction needs across all four modalities (documents, video, audio, and images)
 - **Classify documents and video** - Automatically categorize and extract information from documents and video by type
 
+If you have encountered issues or want to suggest features, please [file an issue][file_issue].
+
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding)
@@ -327,6 +329,9 @@ if (result.contents && result.contents.length > 0) {
 ```
 
 ### Convert results to LLM-ready text
+
+> **Note:** `toLlmInput()` is currently in preview and may change in future releases.
+> We welcome feedback — please [file an issue][file_issue].
 
 Use the `toLlmInput()` helper to convert any analysis result into a text format that LLMs
 can consume directly — YAML front matter with extracted fields followed by the markdown body.
@@ -646,3 +651,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [handling_failures]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
 [diagnostics]: https://learn.microsoft.com/javascript/api/@azure/logger?view=azure-node-latest
 [client_lifetime]: https://learn.microsoft.com/azure/developer/javascript/sdk/use-azure-sdk
+[file_issue]: https://github.com/Azure/azure-sdk-for-js/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result

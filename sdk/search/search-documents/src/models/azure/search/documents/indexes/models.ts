@@ -5731,27 +5731,6 @@ export function indexingScheduleDeserializer(item: any): IndexingSchedule {
   };
 }
 
-/** Permission types to ingest together with document content. */
-export enum KnownKnowledgeSourceIngestionPermissionOption {
-  /** Ingest explicit user identifiers alongside document content. */
-  UserIds = "userIds",
-  /** Ingest group identifiers alongside document content. */
-  GroupIds = "groupIds",
-  /** Ingest RBAC scope information alongside document content. */
-  RbacScope = "rbacScope",
-}
-
-/**
- * Permission types to ingest together with document content. \
- * {@link KnownKnowledgeSourceIngestionPermissionOption} can be used interchangeably with KnowledgeSourceIngestionPermissionOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **userIds**: Ingest explicit user identifiers alongside document content. \
- * **groupIds**: Ingest group identifiers alongside document content. \
- * **rbacScope**: Ingest RBAC scope information alongside document content.
- */
-export type KnowledgeSourceIngestionPermissionOption = string;
-
 /** Optional content extraction mode. Default is 'minimal'. */
 export enum KnownKnowledgeSourceContentExtractionMode {
   /** Extracts only essential metadata while deferring most content processing. */

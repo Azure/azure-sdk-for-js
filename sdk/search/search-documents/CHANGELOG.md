@@ -10,10 +10,12 @@
 
 ### Other Changes
 
-## 13.0.0 (2026-03-24)
+## 13.0.0 (2026-05-01)
 
 ### Features Added
 
+- Added `debug` property to `BaseSearchRequestOptions` to enable debug mode for non-semantic search queries.
+- Added `oversampling` property to `BaseVectorQuery` for vector search oversampling configuration.
 - Added `KnowledgeRetrievalClient` for agentic retrieval operations on knowledge bases.
 - Added support for knowledge sources with multiple kinds: `searchIndex`, `azureBlob`, `indexedOneLake`, and `web`.
 - Added `ContentUnderstandingSkill` for enhanced content extraction and understanding in indexer pipelines.
@@ -25,8 +27,14 @@
 - Upgraded from beta to stable release with API refinements.
 - Removed preview-only properties from `KnowledgeBase` interface: `retrievalReasoningEffort`, `outputMode`, `retrievalInstructions`, `answerInstructions`.
 
+### Bugs Fixed
+
+- Fixed `VectorizableImageBinaryQuery` to properly map `binaryImage` property to the service's `base64Image` field.
+
 ### Other Changes
 
+- Removed empty `DebugInfo` interface that provided no value.
+- Regenerated from latest TypeSpec spec with `KnowledgeBaseModelWebSummarizationActivityRecord` moved to correct location.
 - Code is now generated from TypeSpec to align with the latest service definitions and code generation pipeline.
 
 ## 12.3.0-beta.1 (2025-11-17)
