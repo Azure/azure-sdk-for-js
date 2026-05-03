@@ -35,8 +35,7 @@ describe("AlphaIdsClient - headers", function () {
   });
 
   it("sets correct default user-agent", function () {
-    const userAgent =
-      request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
       userAgent as string,
       new RegExp(`azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g"),
@@ -103,8 +102,7 @@ describe("AlphaIdsClient - headers", function () {
 
     request = spy.mock.calls[0][0];
 
-    const userAgent =
-      request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
       userAgent as string,
       new RegExp(

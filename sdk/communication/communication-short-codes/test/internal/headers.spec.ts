@@ -35,8 +35,7 @@ describe("ShortCodesClient - headers", () => {
   });
 
   it("sets correct default user-agent", () => {
-    const userAgent =
-      request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
       userAgent as string,
       new RegExp(`azsdk-js-communication-short-codes/${SDK_VERSION}`, "g"),
@@ -103,8 +102,7 @@ describe("ShortCodesClient - headers", () => {
 
     request = spy.mock.calls[0][0];
 
-    const userAgent =
-      request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
       userAgent as string,
       new RegExp(

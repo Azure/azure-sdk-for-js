@@ -36,8 +36,7 @@ describe("TollFreeVerificationClient - headers", () => {
   });
 
   it("sets correct default user-agent", async () => {
-    const userAgent =
-      request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
       userAgent as string,
       new RegExp(`azsdk-js-communication-toll-free-verification/${SDK_VERSION}`, "g"),
@@ -104,8 +103,7 @@ describe("TollFreeVerificationClient - headers", () => {
 
     request = spy.mock.calls[0][0];
 
-    const userAgent =
-      request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
       userAgent as string,
       new RegExp(
