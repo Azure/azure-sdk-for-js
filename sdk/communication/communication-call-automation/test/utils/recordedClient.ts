@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "dotenv/config";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";

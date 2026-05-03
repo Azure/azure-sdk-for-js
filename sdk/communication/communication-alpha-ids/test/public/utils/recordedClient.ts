@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "dotenv/config";
 import type { TokenCredential } from "@azure/identity";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { ClientOptions } from "@azure-rest/core-client";
-import "dotenv/config";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import JobRouter from "../../../src/index.js";
