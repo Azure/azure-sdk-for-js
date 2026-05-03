@@ -7,6 +7,7 @@ import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import { AuthenticationError, AuthenticationErrorName } from "../errors.js";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint.js";
 import { SDK_VERSION } from "../constants.js";
@@ -324,7 +325,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       }
       const base64Metadata = accessToken.split(".")[1];
       const { appid, upn, tid, oid } = JSON.parse(
-        Buffer.from(base64Metadata, "base64").toString("utf8"),
+        uint8ArrayToString(stringToUint8Array(base64Metadata, "base64"), "utf-8"),
       );
 
       logger.info(
