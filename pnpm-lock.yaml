@@ -31891,6 +31891,9 @@ importers:
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
+      '@azure/core-util':
+        specifier: ^1.11.0
+        version: link:../../core/core-util
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
