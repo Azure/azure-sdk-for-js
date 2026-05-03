@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:autorest": "autorest --typescript --v3 ./swagger/README.md",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -63,6 +63,7 @@
     "tslib": "^2.7.0"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/core-util": "workspace:^",
@@ -77,6 +78,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
