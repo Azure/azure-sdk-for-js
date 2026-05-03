@@ -90,6 +90,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-util": "^1.13.0",
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.24.0",
     "tslib": "^2.8.1"

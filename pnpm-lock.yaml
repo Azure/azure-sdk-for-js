@@ -18552,6 +18552,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.13.0
+        version: link:../../core/core-util
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
