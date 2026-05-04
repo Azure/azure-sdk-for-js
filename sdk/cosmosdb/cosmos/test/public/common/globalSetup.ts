@@ -30,17 +30,19 @@ const DEFAULT_KEY =
 let originalTlsRejectUnauthorized: string | undefined;
 
 async function isEmulatorReady(endpoint: string, key: string): Promise<boolean> {
+  const client = new CosmosClient({
+    endpoint,
+    key,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+    diagnosticLevel: CosmosDbDiagnosticLevel.info,
+  });
   try {
-    const client = new CosmosClient({
-      endpoint,
-      key,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-      diagnosticLevel: CosmosDbDiagnosticLevel.info,
-    });
     await client.databases.readAll().fetchAll();
     return true;
   } catch {
     return false;
+  } finally {
+    client.dispose();
   }
 }
 
@@ -85,10 +87,14 @@ async function cleanupDatabases(endpoint: string, key: string): Promise<void> {
     diagnosticLevel: CosmosDbDiagnosticLevel.info,
   });
 
-  const { resources: databases } = await client.databases.readAll().fetchAll();
-  if (databases.length > 0) {
-    await Promise.all(databases.map((db) => client.database(db.id).delete()));
-    console.log(`🗑️  Cleaned up ${databases.length} existing database(s)`);
+  try {
+    const { resources: databases } = await client.databases.readAll().fetchAll();
+    if (databases.length > 0) {
+      await Promise.all(databases.map((db) => client.database(db.id).delete()));
+      console.log(`🗑️  Cleaned up ${databases.length} existing database(s)`);
+    }
+  } finally {
+    client.dispose();
   }
 }
 

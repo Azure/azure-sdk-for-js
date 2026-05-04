@@ -60,7 +60,7 @@ describe("AeadAes256CbcHmacSha256 Algorithm", () => {
 
   it("should throw an error if ciphertext is too short", async () => {
     const invalidCipherText = new Uint8Array([0x1]);
-    await expect(() => algorithm.decrypt(invalidCipherText)).rejects.toThrow(
+    await expect(algorithm.decrypt(invalidCipherText)).rejects.toThrow(
       /Invalid cipher text length/,
     );
   });
@@ -70,9 +70,7 @@ describe("AeadAes256CbcHmacSha256 Algorithm", () => {
     const cipherText = await algorithm.encrypt(plainText);
     // The first byte of the cipher text represents algo version, altering it should throw error
     cipherText[0] = 0x2;
-    await expect(() => algorithm.decrypt(cipherText)).rejects.toThrow(
-      /Invalid cipher text version/,
-    );
+    await expect(algorithm.decrypt(cipherText)).rejects.toThrow(/Invalid cipher text version/);
   });
 
   it("should throw an error if the authentication tag is invalid", async () => {
@@ -81,6 +79,6 @@ describe("AeadAes256CbcHmacSha256 Algorithm", () => {
     // Modify the last byte of cipherText to make the authentication tag invalid
     cipherText[cipherText.length - 1] = ~cipherText[cipherText.length - 1];
     // should fail while decrypting since cipher text is tampered
-    await expect(() => algorithm.decrypt(cipherText)).rejects.toThrow(/Invalid authentication tag/);
+    await expect(algorithm.decrypt(cipherText)).rejects.toThrow(/Invalid authentication tag/);
   });
 });
