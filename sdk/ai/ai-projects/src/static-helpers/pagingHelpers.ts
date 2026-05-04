@@ -53,6 +53,8 @@ export interface BuildPagedAsyncIteratorOptions {
   nextLinkMethod?: "GET" | "POST";
   apiVersion?: KnownApiVersions;
   nextPageRequestOptions?: Record<string, unknown>;
+  cursorFieldName?: string;
+  hasMoreFieldName?: string;
 }
 
 /**
@@ -75,11 +77,17 @@ export function buildPagedAsyncIterator<
   const nextLinkMethod = options.nextLinkMethod ?? "GET";
   const apiVersion = options.apiVersion;
   const nextPageRequestOptions = options.nextPageRequestOptions;
+  const cursorFieldName = options.cursorFieldName;
+  const hasMoreFieldName = options.hasMoreFieldName;
+  let initialRequestUrl: URL | undefined;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
       let result;
       if (pageLink === undefined) {
         result = await getInitialResponse();
+        if (cursorFieldName && hasMoreFieldName) {
+          initialRequestUrl = new URL(result.request.url);
+        }
       } else {
         const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
         result =
@@ -90,10 +98,18 @@ export function buildPagedAsyncIterator<
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);
+      let resolvedNextLink = nextLink;
+      if (!resolvedNextLink && cursorFieldName && hasMoreFieldName && initialRequestUrl) {
+        const body = results as Record<string, unknown>;
+        if (body[hasMoreFieldName] === true && body[cursorFieldName]) {
+          initialRequestUrl.searchParams.set("after", body[cursorFieldName] as string);
+          resolvedNextLink = initialRequestUrl.toString();
+        }
+      }
       const values = getElements<TElement>(results, itemName) as TPage;
       return {
         page: values,
-        nextPageLink: nextLink,
+        nextPageLink: resolvedNextLink,
       };
     },
     byPage: (settings?: TPageSettings) => {
