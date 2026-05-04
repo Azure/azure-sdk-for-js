@@ -21235,6 +21235,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.11.0
+        version: link:../../core/core-util
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -21266,9 +21269,6 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
-      '@azure/core-util':
-        specifier: workspace:^
-        version: link:../../core/core-util
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
