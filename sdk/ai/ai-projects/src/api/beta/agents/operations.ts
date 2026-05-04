@@ -346,6 +346,9 @@ export function listSessions(
       nextPageRequestOptions: {
         headers: { "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview" },
       },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+      basePath: `/agents/${agentName}/endpoint/sessions`,
     },
   );
 }
