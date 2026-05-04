@@ -14,7 +14,7 @@ import type {
   WebPubSubMessage,
 } from "../models/messages.js";
 import type { JSONTypes } from "../webPubSubClient.js";
-import { Buffer } from "buffer";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export function parseMessages(input: string): WebPubSubMessage | null {
   // The interface does allow "ArrayBuffer" to be passed in, but this implementation does not. So let's throw a useful error.
@@ -256,7 +256,7 @@ function getPayload(data: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType):
     case "binary":
     case "protobuf": {
       if (data instanceof ArrayBuffer) {
-        return Buffer.from(data).toString("base64");
+        return uint8ArrayToString(new Uint8Array(data), "base64");
       }
       throw new TypeError("Message must be a ArrayBuffer");
     }
@@ -272,8 +272,8 @@ function parsePayload(data: any, dataType: string): JSONTypes | ArrayBuffer | nu
   } else if (dataType === "json") {
     return data as JSONTypes;
   } else if (dataType === "binary" || dataType === "protobuf") {
-    const buf = Buffer.from(data as string, "base64");
-    return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer;
+    const bytes = stringToUint8Array(data as string, "base64");
+    return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
   } else {
     // Forward compatible
     return null;

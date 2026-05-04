@@ -24,6 +24,13 @@
 
 - Regenerated client from latest TypeSpec (commit `94f9262a`).
 
+## 2.1.1 (2026-05-04)
+
+### Bugs Fixed
+
+- Fix agent list operations that only returned the first page of results due to missing cursor-based pagination support
+- Fix deserializer incorrectly calling `.map()` on the response.
+
 ## 2.1.0 (2026-04-17)
 
 ### Breaking Changes

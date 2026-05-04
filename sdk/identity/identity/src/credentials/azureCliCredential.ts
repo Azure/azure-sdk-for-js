@@ -13,6 +13,7 @@ import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scope
 import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
 import child_process from "child_process";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import { tracingClient } from "../util/tracing.js";
 import { checkSubscription } from "../util/subscriptionUtils.js";
 
@@ -155,7 +156,7 @@ export class AzureCliCredential implements TokenCredential {
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     const claimsValue = options.claims;
     if (claimsValue && claimsValue.trim()) {
-      const encodedClaims = btoa(claimsValue);
+      const encodedClaims = uint8ArrayToString(stringToUint8Array(claimsValue, "utf-8"), "base64");
       let loginCmd = `az login --claims-challenge ${encodedClaims} --scope ${scope}`;
 
       const tenantIdFromOptions = options.tenantId;

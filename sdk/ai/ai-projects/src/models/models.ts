@@ -9351,10 +9351,10 @@ export function _agentsPagedResultSkillObjectDeserializer(
   item: any,
 ): _AgentsPagedResultSkillObject {
   return {
-    data: skillObjectArrayDeserializer(item),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    data: skillObjectArrayDeserializer(item?.data ?? []),
+    first_id: item?.["first_id"],
+    last_id: item?.["last_id"],
+    has_more: item?.["has_more"],
   };
 }
 
