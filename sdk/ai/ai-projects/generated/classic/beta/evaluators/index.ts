@@ -3,26 +3,68 @@
 
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  $delete,
+  cancel,
+  list,
+  get,
+  create,
   updateVersion,
   createVersion,
   deleteVersion,
   getVersion,
-  list,
+  listLatestVersions,
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
 import {
+  BetaEvaluatorsDeleteOptionalParams,
+  BetaEvaluatorsCancelOptionalParams,
+  BetaEvaluatorsListOptionalParams,
+  BetaEvaluatorsGetOptionalParams,
+  BetaEvaluatorsCreateOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListOptionalParams,
+  BetaEvaluatorsListLatestVersionsOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import { EvaluatorVersion } from "../../../models/models.js";
+import { EvaluatorVersion, EvaluatorGenerationJob } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
+  /**
+   * Deletes an evaluator generation job by its ID. Deletes the job record only;
+   * the generated evaluator (if any) is preserved.
+   */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (jobId: string, options?: BetaEvaluatorsDeleteOptionalParams) => Promise<void>;
+  /** Cancels an evaluator generation job by its ID. */
+  cancel: (
+    jobId: string,
+    options?: BetaEvaluatorsCancelOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /** Returns a list of evaluator generation jobs. */
+  list: (
+    options?: BetaEvaluatorsListOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
+  /** Gets the details of an evaluator generation job by its ID. */
+  get: (
+    jobId: string,
+    options?: BetaEvaluatorsGetOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /**
+   * Creates an evaluator generation job. The service generates rubric-based evaluator
+   * definitions from the provided source materials asynchronously.
+   */
+  create: (
+    body: EvaluatorGenerationJob,
+    options?: BetaEvaluatorsCreateOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
   /** Update an existing EvaluatorVersion with the given version id */
   updateVersion: (
     name: string,
@@ -53,9 +95,9 @@ export interface BetaEvaluatorsOperations {
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** List the latest version of each evaluator */
-  list: (
+  listLatestVersions: (
     foundryFeatures: "Evaluations=V1Preview",
-    options?: BetaEvaluatorsListOptionalParams,
+    options?: BetaEvaluatorsListLatestVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
   /** List all versions of the given evaluator */
   listVersions: (
@@ -67,6 +109,14 @@ export interface BetaEvaluatorsOperations {
 
 function _getBetaEvaluators(context: AIProjectContext) {
   return {
+    delete: (jobId: string, options?: BetaEvaluatorsDeleteOptionalParams) =>
+      $delete(context, jobId, options),
+    cancel: (jobId: string, options?: BetaEvaluatorsCancelOptionalParams) =>
+      cancel(context, jobId, options),
+    list: (options?: BetaEvaluatorsListOptionalParams) => list(context, options),
+    get: (jobId: string, options?: BetaEvaluatorsGetOptionalParams) => get(context, jobId, options),
+    create: (body: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateOptionalParams) =>
+      create(context, body, options),
     updateVersion: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",
@@ -92,8 +142,10 @@ function _getBetaEvaluators(context: AIProjectContext) {
       version: string,
       options?: BetaEvaluatorsGetVersionOptionalParams,
     ) => getVersion(context, name, foundryFeatures, version, options),
-    list: (foundryFeatures: "Evaluations=V1Preview", options?: BetaEvaluatorsListOptionalParams) =>
-      list(context, foundryFeatures, options),
+    listLatestVersions: (
+      foundryFeatures: "Evaluations=V1Preview",
+      options?: BetaEvaluatorsListLatestVersionsOptionalParams,
+    ) => listLatestVersions(context, foundryFeatures, options),
     listVersions: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",

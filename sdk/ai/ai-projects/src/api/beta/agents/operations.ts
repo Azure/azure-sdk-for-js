@@ -295,12 +295,12 @@ export function _getSessionLogStreamSend(
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
       session_id: sessionId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
