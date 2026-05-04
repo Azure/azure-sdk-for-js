@@ -59,16 +59,21 @@ describe("context.ts", () => {
     process.env = originalEnv;
   });
   it("captures the Microsoft OpenTelemetry version when present", () => {
-    const originalEnv = process.env;
-    const newEnv = <{ [id: string]: string }>{};
-    newEnv["MICROSOFT_OPENTELEMETRY_VERSION"] = "_testMotVersion";
-    process.env = newEnv;
-    const context = new Context();
-    context["_loadInternalContext"]();
-    assert.isTrue(
-      context.tags["ai.internal.sdkVersion"].endsWith(":mot_testMotVersion"),
-      "Wrong ai.internal.sdkVersion",
-    );
-    process.env = originalEnv;
+    const originalMotVersion = process.env["MICROSOFT_OPENTELEMETRY_VERSION"];
+    process.env["MICROSOFT_OPENTELEMETRY_VERSION"] = "_testMotVersion";
+    try {
+      const context = new Context();
+      context["_loadInternalContext"]();
+      assert.isTrue(
+        context.tags["ai.internal.sdkVersion"].endsWith(":mot_testMotVersion"),
+        "Wrong ai.internal.sdkVersion",
+      );
+    } finally {
+      if (originalMotVersion === undefined) {
+        delete process.env["MICROSOFT_OPENTELEMETRY_VERSION"];
+      } else {
+        process.env["MICROSOFT_OPENTELEMETRY_VERSION"] = originalMotVersion;
+      }
+    }
   });
 });
