@@ -348,7 +348,6 @@ export function listSessions(
       },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: `/agents/${agentName}/endpoint/sessions`,
     },
   );
 }

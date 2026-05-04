@@ -99,7 +99,6 @@ export function listVersions(
       apiVersion: context.apiVersion,
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: `/agents/${agentName}/versions`,
     },
   );
 }
@@ -370,7 +369,6 @@ export function list(
       apiVersion: context.apiVersion,
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: "/agents",
     },
   );
 }
