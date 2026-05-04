@@ -15,6 +15,11 @@
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
+- Added `EvaluatorGenerationJob`, `EvaluatorGenerationInputs`, `EvaluatorGenerationJobSource`, `RubricBasedEvaluatorDefinition`, `RubricCriterion`, and related union / helper types for the new evaluator-generation LRO.
+- Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.evaluators`.
+- Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
+- Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
+- Added `ApiError` model interface and its deserializers to the public API surface.
 
 ### Bugs Fixed
 
@@ -22,7 +27,7 @@
 
 ### Other Changes
 
-- Regenerated client from latest TypeSpec (commit `94f9262a`).
+- Regenerated client from latest TypeSpec (commit `63dc02bd`).
 
 ## 2.1.0 (2026-04-17)
 
