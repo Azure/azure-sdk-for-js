@@ -24,6 +24,9 @@ export default mergeConfig(
     resolve: {
       conditions: ["browser"],
     },
+    optimizeDeps: {
+      include: ["@azure-tools/test-recorder"],
+    },
     test: {
       include: ["test/**/*.spec.ts"],
       exclude: ["test/**/node/**", "test/**/react-native/**", "test/snippets.spec.ts"],
