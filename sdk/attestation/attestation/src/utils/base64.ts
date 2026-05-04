@@ -44,6 +44,9 @@ export function base64UrlDecodeString(value: string): Uint8Array {
 }
 
 export function hexToByteArray(value: string): Uint8Array {
+  if (value.length % 2 !== 0) {
+    throw new Error("Invalid hex string: length must be even");
+  }
   return stringToUint8Array(value, "hex");
 }
 

@@ -325,7 +325,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       }
       const base64Metadata = accessToken.split(".")[1];
       const { appid, upn, tid, oid } = JSON.parse(
-        uint8ArrayToString(stringToUint8Array(base64Metadata, "base64"), "utf-8"),
+        uint8ArrayToString(stringToUint8Array(base64Metadata, "base64url"), "utf-8"),
       );
 
       logger.info(
