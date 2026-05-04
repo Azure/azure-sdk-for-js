@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { hmacSha256 } from "#platform/encryption/crypto";
+import { hmacSha256 } from "../crypto.js";
 
 export abstract class DataEncryptionKey {
   private keySizeInBits = 256;

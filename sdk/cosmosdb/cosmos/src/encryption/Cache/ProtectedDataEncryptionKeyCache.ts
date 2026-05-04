@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { generateRandomBytes } from "#platform/encryption/crypto";
+import { generateRandomBytes } from "../crypto.js";
 import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey.js";
 import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
 import { Constants } from "../../common/index.js";
