@@ -26,6 +26,9 @@ const DEFAULT_ENDPOINT = "https://localhost:8081";
 const DEFAULT_KEY =
   "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
+// Store original value to restore in teardown
+let originalTlsRejectUnauthorized: string | undefined;
+
 async function isEmulatorReady(endpoint: string, key: string): Promise<boolean> {
   try {
     const client = new CosmosClient({
@@ -51,6 +54,7 @@ export default async function ({ provide }: TestProject): Promise<void> {
   // Disable TLS verification only for the emulator's self-signed certificate.
   // The well-known default key indicates we're targeting an emulator, not a real service.
   if (masterKey === DEFAULT_KEY) {
+    originalTlsRejectUnauthorized = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   }
 
@@ -85,5 +89,16 @@ async function cleanupDatabases(endpoint: string, key: string): Promise<void> {
   if (databases.length > 0) {
     await Promise.all(databases.map((db) => client.database(db.id).delete()));
     console.log(`🗑️  Cleaned up ${databases.length} existing database(s)`);
+  }
+}
+
+/**
+ * Global teardown - restores NODE_TLS_REJECT_UNAUTHORIZED to its original value.
+ */
+export function teardown(): void {
+  if (originalTlsRejectUnauthorized !== undefined) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = originalTlsRejectUnauthorized;
+  } else {
+    delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
   }
 }
