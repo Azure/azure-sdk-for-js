@@ -60,6 +60,7 @@ jobs:
           PRBody: |
             This PR upgrades the JS REX Validation Tool to the latest version.
             Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+          AuthToken: ''
 
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
@@ -149,6 +150,7 @@ jobs:
             TargetRepoName: $(DocRepoName)
             TargetRepoOwner: $(DocRepoOwner)
             WorkingDirectory: $(DocRepoLocation)
+            AuthToken: ''
 
         - task: AzureCLI@2
           displayName: Queue Docs CI build for main
@@ -224,6 +226,7 @@ jobs:
             WorkingDirectory: $(DocRepoLocation)
             ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
             PushArgs: -f
+            AuthToken: ''
 
         - task: AzureCLI@2
           displayName: Queue Docs CI build for daily branch
