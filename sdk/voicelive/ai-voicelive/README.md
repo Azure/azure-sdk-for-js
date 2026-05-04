@@ -510,8 +510,8 @@ useInstrumenter({
 This produces spans identical to the CommonJS bridge.
 
 > Complete, runnable samples:
-> - **Node.js (ESM):** [`samples/telemetry/`](samples/telemetry/README.md) — console exporter and Azure Monitor variant.
-> - **Browser (Vite):** [`samples/telemetry-browser/`](samples/telemetry-browser/README.md) — in-page span viewer.
+> - **Node.js (ESM):** [`samples/telemetry/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) — console exporter and Azure Monitor variant.
+> - **Browser (Vite):** [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md) — in-page span viewer.
 
 #### Span attributes
 

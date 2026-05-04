@@ -11,7 +11,7 @@ Demonstrates enabling distributed tracing for the Azure Voice Live SDK in a Node
 >
 > Both samples are ESM (`"type": "module"`). `@azure/opentelemetry-instrumentation-azure-sdk` patches the SDK via CommonJS `require`-hooks, which do not fire on ESM `import`s, so it emits no spans in this configuration. We instead bridge `@azure/core-tracing` directly into OpenTelemetry via `useInstrumenter()`, which produces the same spans in both ESM and CommonJS.
 >
-> If your app is **CommonJS**, prefer the canonical `createAzureSdkInstrumentation()` pattern shown in the [package README](../../README.md#telemetry--distributed-tracing) — it matches every other Azure SDK for JavaScript.
+> If your app is **CommonJS**, prefer the canonical `createAzureSdkInstrumentation()` pattern shown in the [package README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#telemetry--distributed-tracing) — it matches every other Azure SDK for JavaScript.
 
 ## Setup
 
@@ -61,4 +61,4 @@ Each span carries GenAI semantic convention attributes:
 | `gen_ai.voice.turn_count` | `1` |
 | `gen_ai.voice.first_token_latency_ms` | `342.5` |
 
-For the browser version, see [`../telemetry-browser/`](../telemetry-browser/).
+For the browser version, see [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md).
