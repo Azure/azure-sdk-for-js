@@ -557,15 +557,6 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
 }
 
 // @public
-export interface BetaDatasetsOperations {
-    cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJob>;
-    createGenerationJob: (body: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => Promise<DataGenerationJob>;
-    deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
-    getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJob>;
-    listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJob>;
-}
-
-// @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
 }
 
@@ -772,6 +763,7 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 // @public
 export interface BetaOperations {
     agents: BetaAgentsOperations;
+    // Warning: (ae-forgotten-export) The symbol "BetaDatasetsOperations" needs to be exported by the entry point index.d.ts
     datasets: BetaDatasetsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
