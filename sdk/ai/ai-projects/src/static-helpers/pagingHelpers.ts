@@ -55,7 +55,6 @@ export interface BuildPagedAsyncIteratorOptions {
   nextPageRequestOptions?: Record<string, unknown>;
   cursorFieldName?: string;
   hasMoreFieldName?: string;
-  basePath?: string;
 }
 
 /**
@@ -80,15 +79,14 @@ export function buildPagedAsyncIterator<
   const nextPageRequestOptions = options.nextPageRequestOptions;
   const cursorFieldName = options.cursorFieldName;
   const hasMoreFieldName = options.hasMoreFieldName;
-  const basePath = options.basePath;
-  let initialSearchParams: URLSearchParams | undefined;
+  let initialRequestUrl: URL | undefined;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
       let result;
       if (pageLink === undefined) {
         result = await getInitialResponse();
-        if (cursorFieldName && hasMoreFieldName && basePath) {
-          initialSearchParams = new URL(result.request.url).searchParams;
+        if (cursorFieldName && hasMoreFieldName) {
+          initialRequestUrl = new URL(result.request.url);
         }
       } else {
         const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
@@ -101,11 +99,11 @@ export function buildPagedAsyncIterator<
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);
       let resolvedNextLink = nextLink;
-      if (!resolvedNextLink && cursorFieldName && hasMoreFieldName && initialSearchParams) {
+      if (!resolvedNextLink && cursorFieldName && hasMoreFieldName && initialRequestUrl) {
         const body = results as Record<string, unknown>;
         if (body[hasMoreFieldName] === true && body[cursorFieldName]) {
-          initialSearchParams.set("after", body[cursorFieldName] as string);
-          resolvedNextLink = `${basePath}?${initialSearchParams.toString()}`;
+          initialRequestUrl.searchParams.set("after", body[cursorFieldName] as string);
+          resolvedNextLink = initialRequestUrl.toString();
         }
       }
       const values = getElements<TElement>(results, itemName) as TPage;

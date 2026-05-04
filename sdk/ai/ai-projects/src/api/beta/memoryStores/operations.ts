@@ -406,7 +406,6 @@ export function list(
       },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: "/memory_stores",
     },
   );
 }

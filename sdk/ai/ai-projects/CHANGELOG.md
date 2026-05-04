@@ -23,7 +23,8 @@
 ### Other Changes
 
 - Regenerated client from latest TypeSpec (commit `94f9262a`).
-## 2.1.1 (Unreleased)
+
+## 2.1.1 (2026-05-04)
 
 ### Bugs Fixed
 
