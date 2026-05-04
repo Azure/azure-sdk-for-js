@@ -34,7 +34,6 @@ import type {
 } from "../handlers/sessionHandlers.js";
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 import type { AgentSessionConfig } from "./types.js";
-import type { OperationTracingOptions } from "@azure/core-tracing";
 import { SessionTelemetryTracker } from "../telemetry/index.js";
 
 export interface VoiceLiveSessionOptions {
@@ -56,8 +55,6 @@ export interface ConnectOptions {
   abortSignal?: AbortSignalLike;
   /** Override connection timeout for this operation */
   timeoutInMs?: number;
-  /** Tracing options for distributed tracing */
-  tracingOptions?: OperationTracingOptions;
 }
 
 export interface SendEventOptions {
@@ -200,7 +197,7 @@ export class VoiceLiveSession {
       });
 
       // Start the connect span (parent for the session lifetime)
-      this._telemetryTracker.startConnectSpan({ tracingOptions: options.tracingOptions });
+      this._telemetryTracker.startConnectSpan();
 
       // Get WebSocket URL with authentication and model or agent config
       const wsUrl = await this._credentialHandler.getWebSocketUrl(

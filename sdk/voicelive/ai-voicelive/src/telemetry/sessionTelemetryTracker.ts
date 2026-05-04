@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TracingSpan, TracingContext, OperationTracingOptions } from "@azure/core-tracing";
+import type { TracingSpan, TracingContext } from "@azure/core-tracing";
 import { tracingClient } from "./tracing.js";
 import {
   AZ_NAMESPACE,
@@ -127,14 +127,13 @@ export class SessionTelemetryTracker {
 
   /**
    * Starts the connect span (parent span for the whole session lifecycle).
-   * Accepts optional tracingOptions to parent the span under an external context.
    *
    * Resets all per-session state so that a single SessionTelemetryTracker instance
    * can be reused across reconnects (VoiceLiveSession may disconnect and reconnect
    * with the same tracker). Guards against being called while a previous connect
    * span is still active to avoid orphaning it.
    */
-  startConnectSpan(options?: { tracingOptions?: OperationTracingOptions }): void {
+  startConnectSpan(): void {
     // Guard: if a previous connect span is still active (caller forgot to traceClose),
     // close it cleanly before starting a new one to avoid leaking the span.
     if (this._connectSpan) {
@@ -156,7 +155,7 @@ export class SessionTelemetryTracker {
 
     const { span, updatedOptions } = tracingClient.startSpan(
       OperationName.Connect,
-      { tracingOptions: options?.tracingOptions },
+      {},
       {
         spanAttributes: {
           [AZ_NAMESPACE]: AZ_NAMESPACE_VALUE,
