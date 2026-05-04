@@ -6,6 +6,5 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false
-  },
-  "include": ["../src/**/*.ts", "../src/**/*.mts", "../src/encryption/crypto.d.mts"]
+  }
 }

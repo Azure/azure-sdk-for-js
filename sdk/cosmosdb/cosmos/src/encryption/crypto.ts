@@ -6,6 +6,39 @@
  * Works in Node.js 20+, browsers, and React Native (with polyfill).
  */
 
+// Local type declarations for environments without DOM lib (React Native).
+// Using `declare const` shadows globalThis locally without conflicting with DOM types.
+declare const globalThis: {
+  crypto: {
+    subtle: {
+      importKey(
+        format: string,
+        keyData: Uint8Array<ArrayBuffer>,
+        algorithm: { name: string; hash?: { name: string } },
+        extractable: boolean,
+        keyUsages: string[],
+      ): Promise<CryptoKey>;
+      sign(algorithm: string, key: CryptoKey, data: Uint8Array<ArrayBuffer>): Promise<ArrayBuffer>;
+      encrypt(
+        algorithm: { name: string; iv: Uint8Array<ArrayBuffer> },
+        key: CryptoKey,
+        data: Uint8Array<ArrayBuffer>,
+      ): Promise<ArrayBuffer>;
+      decrypt(
+        algorithm: { name: string; iv: Uint8Array<ArrayBuffer> },
+        key: CryptoKey,
+        data: Uint8Array<ArrayBuffer>,
+      ): Promise<ArrayBuffer>;
+    };
+    getRandomValues<T extends ArrayBufferView>(array: T): T;
+  };
+};
+
+// Minimal CryptoKey interface for typing
+interface CryptoKey {
+  readonly type: string;
+}
+
 export async function hmacSha256(
   key: Uint8Array<ArrayBuffer>,
   data: Uint8Array<ArrayBuffer>,
