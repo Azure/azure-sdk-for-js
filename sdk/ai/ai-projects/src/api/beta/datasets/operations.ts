@@ -22,10 +22,7 @@ import type {
   BetaDatasetsListGenerationJobsOptionalParams,
   BetaDatasetsGetGenerationJobOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _deleteGenerationJobSend(
@@ -43,17 +40,15 @@ export function _deleteGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteGenerationJobDeserialize(
@@ -95,18 +90,16 @@ export function _cancelGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _cancelGenerationJobDeserialize(
@@ -147,21 +140,19 @@ export function _createGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: dataGenerationJobSerializer(body),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: dataGenerationJobSerializer(body),
+  });
 }
 
 export async function _createGenerationJobDeserialize(
@@ -211,18 +202,16 @@ export function _listGenerationJobsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listGenerationJobsDeserialize(
@@ -268,18 +257,16 @@ export function _getGenerationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getGenerationJobDeserialize(

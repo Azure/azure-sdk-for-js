@@ -17,9 +17,11 @@
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
 - Added `EvaluatorGenerationJob`, `EvaluatorGenerationInputs`, `EvaluatorGenerationJobSource`, `RubricBasedEvaluatorDefinition`, `RubricCriterion`, and related union / helper types for the new evaluator-generation LRO.
 - Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.evaluators`.
+- Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.datasets`.
 - Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
 - Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
 - Added `ApiError` model interface and its deserializers to the public API surface.
+- Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 
 ### Bugs Fixed
 
