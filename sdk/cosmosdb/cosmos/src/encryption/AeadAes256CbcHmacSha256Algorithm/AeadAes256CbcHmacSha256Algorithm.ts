@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import { EncryptionType } from "../enums/index.js";
-import {
-  hmacSha256,
-  aes256CbcEncrypt,
-  aes256CbcDecrypt,
-  generateRandomBytes,
-} from "../crypto.js";
+import { hmacSha256, aes256CbcEncrypt, aes256CbcDecrypt, generateRandomBytes } from "../crypto.js";
 import type { DataEncryptionKey } from "../EncryptionKey/index.js";
 
 export class AeadAes256CbcHmacSha256Algorithm {
@@ -46,7 +41,9 @@ export class AeadAes256CbcHmacSha256Algorithm {
     return concat([new Uint8Array([this.algoVersion]), authTagBuffer, iv, cipherTextBuffer]);
   }
 
-  public async decrypt(cipherTextBuffer: Uint8Array<ArrayBuffer>): Promise<Uint8Array<ArrayBuffer>> {
+  public async decrypt(
+    cipherTextBuffer: Uint8Array<ArrayBuffer>,
+  ): Promise<Uint8Array<ArrayBuffer>> {
     if (cipherTextBuffer.length < this.minimumCipherTextLength) {
       throw new Error("Invalid cipher text length");
     }
