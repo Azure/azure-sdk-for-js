@@ -37,6 +37,7 @@ permissions:
   contents: read
   pull-requests: read
   actions: read
+  vulnerability-alerts: read
   security-events: read
 tools:
   github:

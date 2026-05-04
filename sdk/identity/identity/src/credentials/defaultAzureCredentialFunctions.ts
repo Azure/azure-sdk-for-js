@@ -7,18 +7,18 @@ import type {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialResourceIdOptions,
 } from "./defaultAzureCredentialOptions.js";
-import { EnvironmentCredential } from "./environmentCredential.js";
+import { EnvironmentCredential } from "#platform/credentials/environmentCredential";
 import type {
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
 } from "./managedIdentityCredential/options.js";
-import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
-import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
-import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
-import { AzureCliCredential } from "./azureCliCredential.js";
-import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
+import { ManagedIdentityCredential } from "#platform/credentials/managedIdentityCredential/index";
+import { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
+import { AzureDeveloperCliCredential } from "#platform/credentials/azureDeveloperCliCredential";
+import { AzureCliCredential } from "#platform/credentials/azureCliCredential";
+import { AzurePowerShellCredential } from "#platform/credentials/azurePowerShellCredential";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
+import { VisualStudioCodeCredential } from "#platform/credentials/visualStudioCodeCredential";
 import { BrokerCredential } from "./brokerCredential.js";
 
 /**

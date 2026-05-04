@@ -5,7 +5,7 @@ import type { ClientParamsFromConnectionString, ConnectionString } from "./inter
 import {
   fromAccountConnectionString,
   getAccountConnectionString,
-} from "./accountConnectionString.js";
+} from "#platform/utils/accountConnectionString";
 
 import type { TableServiceClientOptions } from "../models.js";
 

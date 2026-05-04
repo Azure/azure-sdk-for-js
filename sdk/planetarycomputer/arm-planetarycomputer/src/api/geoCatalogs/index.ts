@@ -9,11 +9,11 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type GeoCatalogsListBySubscriptionOptionalParams,
-  type GeoCatalogsListByResourceGroupOptionalParams,
-  type GeoCatalogsDeleteOptionalParams,
-  type GeoCatalogsUpdateOptionalParams,
-  type GeoCatalogsCreateOptionalParams,
-  type GeoCatalogsGetOptionalParams,
+export type {
+  GeoCatalogsListBySubscriptionOptionalParams,
+  GeoCatalogsListByResourceGroupOptionalParams,
+  GeoCatalogsDeleteOptionalParams,
+  GeoCatalogsUpdateOptionalParams,
+  GeoCatalogsCreateOptionalParams,
+  GeoCatalogsGetOptionalParams,
 } from "./options.js";

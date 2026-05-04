@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeUrl.ts - Analyze a document from a URL.
+ * Sample test for analyzeUrl.ts - Analyze a document from a URL.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";

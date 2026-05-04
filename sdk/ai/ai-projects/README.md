@@ -1331,6 +1331,29 @@ To report issues with the client library, or request additional features, please
 
 Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
 
+## Regenerating from TypeSpec (maintainers)
+
+This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The full workflow is encoded as six skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+
+To dispatch a regen as a cloud agent task, run from this directory:
+
+```powershell
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1                     # latest commit on feature/foundry-release
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -TspCommit <sha>    # pin a specific commit
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -DryRun             # render the prompt locally, do not dispatch
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -Repo myuser/azure-sdk-for-js -Follow   # smoke-test on a fork
+```
+
+> On Windows, invoking the script directly (e.g. `./scripts/start-cloud-regen.ps1`) may be blocked by the default `Restricted` execution policy. The `pwsh -NoProfile -File ...` form above sidesteps that. Alternatively, run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` once to allow local scripts.
+
+Prerequisites:
+
+- `gh` CLI installed and authenticated (`gh auth login`) against the target repo. The `agent-task` subcommand is in preview and requires a recent `gh`.
+- Membership in an organization with the GitHub Copilot coding agent enabled for the target repo.
+- Push access to the target repo (the cloud agent uses its own GitHub App identity to push and open the draft PR).
+
+Caveat: the dispatched prompt runs `pnpm install --filter @azure/ai-projects...` and `pnpm --filter @azure/ai-projects... build` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require

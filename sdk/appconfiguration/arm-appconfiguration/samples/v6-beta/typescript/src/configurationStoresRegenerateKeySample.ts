@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates an access key for the specified configuration store.
  *
  * @summary regenerates an access key for the specified configuration store.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresRegenerateKey.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresRegenerateKey.json
  */
 async function configurationStoresRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all compute limit features for the subscription at the specified location.
  *
  * @summary lists all compute limit features for the subscription at the specified location.
- * x-ms-original-file: 2026-03-20/Features_List.json
+ * x-ms-original-file: 2026-04-30/Features_List.json
  */
 async function listFeatures(): Promise<void> {
   const credential = new DefaultAzureCredential();
