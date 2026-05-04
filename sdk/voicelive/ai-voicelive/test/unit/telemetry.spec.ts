@@ -3,6 +3,8 @@
 
 import { describe, it, expect, beforeEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { MockInstrumenter } from "@azure-tools/test-utils-vitest";
+import { useInstrumenter } from "@azure/core-tracing";
 import {
   SessionTelemetryTracker,
   OperationName,
@@ -564,5 +566,98 @@ describe("Telemetry - supportsTracing", () => {
       tracker.startConnectSpan(options);
       tracker.recordConnectError(new Error("auth failed"));
     }) as any).toSupportTracing(["connect"]);
+  });
+});
+
+/**
+ * Explicit span-graph assertions.
+ *
+ * The `toSupportTracing(["connect"])` matcher only checks that the root span has a
+ * direct child named "connect" and that all spans were closed. It does NOT verify
+ * that send/recv/close children were actually created under the connect span — so
+ * regressions where traceSend/traceRecv silently stop emitting spans would still
+ * pass the matcher. These tests inspect the MockInstrumenter span graph directly
+ * to lock in the parent/child structure.
+ */
+describe("Telemetry - span graph structure", () => {
+  /** Names of all spans started during the callback, in start order. */
+  function captureSpans(driver: () => void): { name: string; parentId: string | undefined }[] {
+    const instrumenter = new MockInstrumenter();
+    useInstrumenter(instrumenter);
+    try {
+      driver();
+      return instrumenter.startedSpans.map((s) => ({
+        name: s.name,
+        parentId: s.parentSpan()?.spanId,
+      }));
+    } finally {
+      // Reset to the no-op instrumenter to avoid polluting other tests.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      useInstrumenter(undefined as any);
+    }
+  }
+
+  it("creates connect, send, recv, and close spans with connect as their parent", () => {
+    const spans = captureSpans(() => {
+      const tracker = new SessionTelemetryTracker({
+        serverAddress: "test.cognitiveservices.azure.com",
+        model: "gpt-4o-realtime-preview",
+      });
+      tracker.startConnectSpan();
+      tracker.traceSend({ type: KnownClientEventType.SessionUpdate });
+      tracker.traceRecv({
+        type: KnownServerEventType.SessionCreated,
+        session: { id: "sess_test" },
+      });
+      tracker.traceSend({ type: KnownClientEventType.ResponseCreate });
+      tracker.traceRecv({ type: KnownServerEventType.ResponseDone });
+      tracker.traceClose();
+    });
+
+    // The connect span must exist and be the root of this graph.
+    const connect = spans.find((s) => s.name === "connect");
+    expect(connect, "connect span should exist").toBeDefined();
+    expect(connect?.parentId, "connect should have no parent").toBeUndefined();
+
+    // Children must include both sends, both recvs, and the close — and each must
+    // be parented to the connect span.
+    const expectedChildNames = [
+      `send ${KnownClientEventType.SessionUpdate}`,
+      `recv ${KnownServerEventType.SessionCreated}`,
+      `send ${KnownClientEventType.ResponseCreate}`,
+      `recv ${KnownServerEventType.ResponseDone}`,
+      "close",
+    ];
+    const actualChildren = spans.filter((s) => s.name !== "connect");
+    expect(actualChildren.map((s) => s.name).sort()).toEqual([...expectedChildNames].sort());
+    for (const child of actualChildren) {
+      expect(child.parentId, `${child.name} should be a child of connect`).toBeDefined();
+    }
+  });
+
+  it("does not create spans for high-frequency delta recv events", () => {
+    const spans = captureSpans(() => {
+      const tracker = new SessionTelemetryTracker({ model: "gpt-4o-realtime-preview" });
+      tracker.startConnectSpan();
+      // These deltas are filtered out and must not produce spans.
+      tracker.traceRecv({ type: KnownServerEventType.ResponseAudioDelta, delta: "AAA=" });
+      tracker.traceRecv({ type: KnownServerEventType.ResponseTextDelta, delta: "hi" });
+      tracker.traceClose();
+    });
+
+    expect(spans.map((s) => s.name).sort()).toEqual(["close", "connect"].sort());
+  });
+
+  it("creates a close span even when traceClose is called with an error", () => {
+    const spans = captureSpans(() => {
+      const tracker = new SessionTelemetryTracker({ model: "gpt-4o-realtime-preview" });
+      tracker.startConnectSpan();
+      tracker.traceSend({ type: KnownClientEventType.SessionUpdate });
+      tracker.traceClose(new Error("connection lost"));
+    });
+
+    expect(spans.map((s) => s.name).sort()).toEqual(
+      [`send ${KnownClientEventType.SessionUpdate}`, "close", "connect"].sort(),
+    );
   });
 });

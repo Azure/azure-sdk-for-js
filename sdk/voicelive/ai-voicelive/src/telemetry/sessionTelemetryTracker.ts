@@ -128,8 +128,32 @@ export class SessionTelemetryTracker {
   /**
    * Starts the connect span (parent span for the whole session lifecycle).
    * Accepts optional tracingOptions to parent the span under an external context.
+   *
+   * Resets all per-session state so that a single SessionTelemetryTracker instance
+   * can be reused across reconnects (VoiceLiveSession may disconnect and reconnect
+   * with the same tracker). Guards against being called while a previous connect
+   * span is still active to avoid orphaning it.
    */
   startConnectSpan(options?: { tracingOptions?: OperationTracingOptions }): void {
+    // Guard: if a previous connect span is still active (caller forgot to traceClose),
+    // close it cleanly before starting a new one to avoid leaking the span.
+    if (this._connectSpan) {
+      this.traceClose();
+    }
+
+    // Reset all per-session counters and IDs so values from a prior session do not
+    // leak into the new one.
+    this._sessionId = undefined;
+    this._conversationId = this._options.conversationId; // restore initial value, if any
+    this._turnCount = 0;
+    this._interruptionCount = 0;
+    this._audioBytesSent = 0;
+    this._audioBytesReceived = 0;
+    this._mcpCallCount = 0;
+    this._mcpListToolsCount = 0;
+    this._responseCreateTime = undefined;
+    this._firstTokenLatencyRecorded = false;
+
     const { span, updatedOptions } = tracingClient.startSpan(
       OperationName.Connect,
       { tracingOptions: options?.tracingOptions },
@@ -317,7 +341,10 @@ export class SessionTelemetryTracker {
       // Add span event
       this._addRecvSpanEvent(span, eventType, event);
 
-      span.setStatus({ status: "success" });
+      // Don't overwrite the error status set by _addErrorSpanEvent for server "error" events.
+      if (eventTypeStr !== KnownServerEventType.Error) {
+        span.setStatus({ status: "success" });
+      }
     } catch (err: any) {
       span.setStatus({ status: "error", error: err });
     } finally {
@@ -522,8 +549,12 @@ export class SessionTelemetryTracker {
     }
 
     // System instructions
+    // Only record system instructions when content recording is explicitly enabled.
+    // System prompts often contain sensitive customer content, so they must not leak
+    // into traces by default. _addSystemInstructionsSpanEvent already enforces the
+    // same gate for the span event payload.
     const instructions = session.instructions as string | undefined;
-    if (instructions) {
+    if (instructions && this._enableContentRecording) {
       this._connectSpan?.setAttribute(GEN_AI_SYSTEM_MESSAGE, instructions);
       this._addSystemInstructionsSpanEvent(span, instructions);
     }

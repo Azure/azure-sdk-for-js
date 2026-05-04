@@ -40,6 +40,14 @@ const config = {
             {
                 // Ensure test-utils-vitest and SDK source share the same @azure/core-tracing
                 // instance so useInstrumenter() in supportsTracing tests is visible to both.
+                //
+                // We deliberately point at core-tracing's built ESM output rather than its
+                // src/. Aliasing to src/index.ts breaks because state.ts uses tshy's
+                // CJS-bridge import "../commonjs/state-cjs.js", which only exists under
+                // dist/ after a build. Prerequisite: core-tracing must be built before
+                // running these tests (handled by the workspace build/CI; for local runs,
+                // run `rush build -t @azure/core-tracing` or `npm run build` in
+                // sdk/core/core-tracing first).
                 find: "@azure/core-tracing",
                 replacement: resolve(process.cwd(), "../../core/core-tracing/dist/esm/index.js"),
             },
