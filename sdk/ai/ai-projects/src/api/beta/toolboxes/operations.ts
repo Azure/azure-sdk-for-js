@@ -291,7 +291,6 @@ export function listVersions(
       nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: `/toolboxes/${toolboxName}/versions`,
     },
   );
 }
@@ -354,7 +353,6 @@ export function list(
       nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: "/toolboxes",
     },
   );
 }

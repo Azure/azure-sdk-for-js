@@ -192,7 +192,6 @@ export function list(
       nextPageRequestOptions: { headers: { "foundry-features": "Skills=V1Preview" } },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
-      basePath: "/skills",
     },
   );
 }
