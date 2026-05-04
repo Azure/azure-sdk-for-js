@@ -418,6 +418,120 @@ const subscription = session.subscribe({
 - Check that audio formats (PCM16, PCM24) are supported
 - Ensure proper audio context setup for playback
 
+### Telemetry / Distributed Tracing
+
+The VoiceLive SDK supports [distributed tracing](https://learn.microsoft.com/azure/azure-monitor/app/distributed-tracing) via the `@azure/core-tracing` package. Tracing is **no-op by default** — no spans are created unless you opt in by registering an OpenTelemetry-compatible tracing provider.
+
+#### How it works
+
+When tracing is enabled, the SDK automatically creates spans for the session lifecycle:
+
+```
+connect (parent span — open for the entire session lifetime)
+├── send session.update
+├── send conversation.item.create
+├── send response.create
+├── recv session.created
+├── recv response.done          ← turn count incremented, token usage recorded
+├── send response.cancel        ← interruption count incremented
+├── recv error                  ← error event recorded
+└── close                       ← session-level counters finalized
+```
+
+Span attributes follow the [OpenTelemetry GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) (`gen_ai.system`, `gen_ai.operation.name`, `gen_ai.request.model`, etc.) plus VoiceLive-specific extensions (`gen_ai.voice.session_id`, `gen_ai.voice.turn_count`, `gen_ai.voice.audio_bytes_sent`, …). Session-level metrics are aggregated onto the `connect` span when the session ends.
+
+#### Enable tracing (Node.js, CommonJS — recommended)
+
+For CommonJS apps, use the standard Azure SDK instrumentation bridge:
+
+```bash
+npm install @azure/opentelemetry-instrumentation-azure-sdk @opentelemetry/instrumentation @opentelemetry/sdk-trace-node
+```
+
+```javascript
+const {
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+  ConsoleSpanExporter,
+} = require("@opentelemetry/sdk-trace-node");
+const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
+
+// 1. Configure an OpenTelemetry tracer provider
+const provider = new NodeTracerProvider({
+  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+});
+provider.register();
+
+// 2. Register the Azure SDK instrumentation BEFORE requiring @azure/ai-voicelive
+registerInstrumentations({
+  instrumentations: [createAzureSdkInstrumentation()],
+});
+
+// 3. Use VoiceLive — spans are emitted automatically
+const { VoiceLiveClient } = require("@azure/ai-voicelive");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+const client = new VoiceLiveClient(endpoint, new DefaultAzureCredential());
+const session = client.createSession("gpt-4o-realtime-preview");
+await session.connect(); // creates "connect" span
+```
+
+#### Enable tracing (Node.js ESM and browsers)
+
+`createAzureSdkInstrumentation` relies on CommonJS require-hooks and produces no spans when the SDK is loaded as ESM (i.e. `"type": "module"` packages or browser bundlers like Vite). For those environments, register a minimal `Instrumenter` directly through `useInstrumenter` from `@azure/core-tracing`:
+
+```typescript
+import { useInstrumenter } from "@azure/core-tracing";
+import { trace, context } from "@opentelemetry/api";
+
+useInstrumenter({
+  startSpan(name, spanOptions) {
+    const ctx = spanOptions.tracingContext ?? context.active();
+    const tracer = trace.getTracer(spanOptions.packageName ?? "@azure/ai-voicelive", spanOptions.packageVersion);
+    const span = tracer.startSpan(name, { attributes: spanOptions.spanAttributes }, ctx);
+    return {
+      span: {
+        end: () => span.end(),
+        setStatus: (s) => { if (s.status === "error") span.setStatus({ code: 2, message: String(s.error ?? "") }); },
+        setAttribute: (k, v) => span.setAttribute(k, v),
+        isRecording: () => span.isRecording(),
+        recordException: (e) => span.recordException(e),
+      },
+      tracingContext: trace.setSpan(ctx, span),
+    };
+  },
+  withContext: (ctx, fn, ...args) => context.with(ctx, fn, undefined, ...args),
+  parseTraceparentHeader: () => undefined,
+  createRequestHeaders: () => ({}),
+});
+```
+
+This produces spans identical to the CommonJS bridge.
+
+> Complete, runnable samples:
+> - **Node.js (ESM):** [`samples/telemetry/`](samples/telemetry/README.md) — console exporter and Azure Monitor variant.
+> - **Browser (Vite):** [`samples/telemetry-browser/`](samples/telemetry-browser/README.md) — in-page span viewer.
+
+#### Span attributes
+
+The SDK sets attributes following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/):
+
+| Attribute | Description |
+|---|---|
+| `az.namespace` | Always `Microsoft.CognitiveServices` |
+| `gen_ai.system` | Always `az.ai.voicelive` |
+| `gen_ai.operation.name` | `connect`, `send`, `recv`, or `close` |
+| `gen_ai.request.model` | The model name (e.g., `gpt-4o-realtime-preview`) |
+| `gen_ai.voice.session_id` | Voice session ID from `session.created` |
+| `gen_ai.voice.turn_count` | Total completed response turns (connect span) |
+| `gen_ai.voice.interruption_count` | Number of `response.cancel` events (connect span) |
+| `gen_ai.voice.audio_bytes_sent` | Total audio bytes sent (connect span) |
+| `gen_ai.voice.audio_bytes_received` | Total audio bytes received (connect span) |
+| `gen_ai.voice.first_token_latency_ms` | Time from `response.create` to first audio/text delta |
+| `gen_ai.usage.input_tokens` | Input token count from `response.done` |
+| `gen_ai.usage.output_tokens` | Output token count from `response.done` |
+
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of WebSocket messages and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:

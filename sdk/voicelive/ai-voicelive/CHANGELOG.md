@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### Features Added
+
+- Added distributed tracing support via `@azure/core-tracing`. Spans are emitted for the session lifecycle (`connect`, `send`, `recv`, `close`) following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). Tracing is no-op by default and activates only when an OpenTelemetry tracer provider is registered — CommonJS apps can use the standard `@azure/opentelemetry-instrumentation-azure-sdk` bridge, while ESM and browser apps register an Instrumenter directly via `useInstrumenter`. See the [Telemetry / Distributed Tracing](README.md#telemetry--distributed-tracing) section in the README, plus the new [`samples/telemetry/`](samples/telemetry/README.md) (Node.js ESM, console + Azure Monitor) and [`samples/telemetry-browser/`](samples/telemetry-browser/README.md) (browser, Vite) samples.
+
 ### Bugs Fixed
 
 - Fixed `voiceSerializer` to properly convert Azure voice properties (e.g., `endpointId`, `customLexiconUrl`) to snake_case wire format (`endpoint_id`, `custom_lexicon_url`). Previously, Azure voice objects passed through `requestSessionSerializer` were sent with camelCase keys, which the service rejected.

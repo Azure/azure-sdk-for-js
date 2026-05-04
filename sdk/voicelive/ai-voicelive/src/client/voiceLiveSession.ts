@@ -34,6 +34,8 @@ import type {
 } from "../handlers/sessionHandlers.js";
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 import type { AgentSessionConfig } from "./types.js";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import { SessionTelemetryTracker } from "../telemetry/index.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
@@ -54,6 +56,8 @@ export interface ConnectOptions {
   abortSignal?: AbortSignalLike;
   /** Override connection timeout for this operation */
   timeoutInMs?: number;
+  /** Tracing options for distributed tracing */
+  tracingOptions?: OperationTracingOptions;
 }
 
 export interface SendEventOptions {
@@ -93,6 +97,8 @@ export class VoiceLiveSession {
   private _disposed = false;
   // Handler-based subscription management
   private readonly _subscriptionManager: SubscriptionManager;
+  // Telemetry tracker for tracing
+  private readonly _telemetryTracker: SessionTelemetryTracker;
 
   /**
    * Creates an instance of VoiceLiveSession for model-centric sessions.
@@ -154,6 +160,18 @@ export class VoiceLiveSession {
     // Initialize handler-based subscription management
     this._subscriptionManager = new SubscriptionManager();
 
+    // Initialize telemetry tracker (no-op if user has no tracing configured)
+    const parsedUrl = this._parseEndpoint(this._endpoint);
+    this._telemetryTracker = new SessionTelemetryTracker({
+      serverAddress: parsedUrl.hostname,
+      serverPort: parsedUrl.port,
+      model: this._model,
+      agentName: this._agentConfig?.agentName,
+      agentVersion: this._agentConfig?.agentVersion,
+      agentProjectName: this._agentConfig?.projectName,
+      conversationId: this._agentConfig?.conversationId,
+    });
+
     logger.info("VoiceLiveSession created", {
       endpoint: this._endpoint,
       model: this._model,
@@ -180,6 +198,9 @@ export class VoiceLiveSession {
         model: this._model,
         agentName: this._agentConfig?.agentName,
       });
+
+      // Start the connect span (parent for the session lifetime)
+      this._telemetryTracker.startConnectSpan({ tracingOptions: options.tracingOptions });
 
       // Get WebSocket URL with authentication and model or agent config
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
@@ -211,9 +232,11 @@ export class VoiceLiveSession {
       // Connect with proper error handling
       await this._connectionManager.connect(options.abortSignal);
 
+      this._telemetryTracker.recordConnectSuccess();
       logger.info("Successfully connected to Voice Live service");
     } catch (error) {
       logger.error("Failed to connect to Voice Live service", { error });
+      this._telemetryTracker.recordConnectError(error instanceof Error ? error : new Error(String(error)));
 
       // Use error classification
       if (error instanceof VoiceLiveConnectionError) {
@@ -239,6 +262,8 @@ export class VoiceLiveSession {
     } catch (error) {
       logger.error("Error during disconnect", { error });
     } finally {
+      // End tracing for this session
+      this._telemetryTracker.traceClose();
       this._connectionManager = undefined;
       this._sessionId = undefined;
       this._activeTurnId = undefined;
@@ -496,6 +521,9 @@ export class VoiceLiveSession {
 
     logger.error("Session marked as permanently dead", { reason });
 
+    // End tracing with error
+    this._telemetryTracker.traceClose(new Error(reason));
+
     // Mark as disposed to prevent further use
     this._disposed = true;
 
@@ -515,6 +543,8 @@ export class VoiceLiveSession {
       // Parse and process the message
       const parsed = this._messageParser.parseIncomingMessage(data);
       if (parsed && parsed.type === "server") {
+        // Trace the received event
+        this._telemetryTracker.traceRecv(parsed.event as unknown as Record<string, unknown>);
         // Handle server events
         this._handleServerEvent(parsed.event);
       }
@@ -579,6 +609,9 @@ export class VoiceLiveSession {
     }
 
     try {
+      // Trace the send operation
+      this._telemetryTracker.traceSend(event as unknown as Record<string, unknown>);
+
       const serialized = this._messageParser.serializeOutgoingMessage(event);
       await this._connectionManager.send(serialized, options.abortSignal);
 
@@ -626,5 +659,19 @@ export class VoiceLiveSession {
       binary += String.fromCharCode(bytes[i]);
     }
     return btoa(binary);
+  }
+
+  private _parseEndpoint(endpoint: string): { hostname: string; port: number | undefined } {
+    try {
+      const url = new URL(endpoint);
+      const port = url.port
+        ? parseInt(url.port, 10)
+        : url.protocol === "https:" || url.protocol === "wss:"
+          ? 443
+          : 80;
+      return { hostname: url.hostname, port };
+    } catch {
+      return { hostname: endpoint, port: undefined };
+    }
   }
 }
