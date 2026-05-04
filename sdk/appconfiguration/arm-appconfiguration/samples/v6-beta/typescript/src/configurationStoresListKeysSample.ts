@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the access key for the specified configuration store.
  *
  * @summary lists the access key for the specified configuration store.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresListKeys.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresListKeys.json
  */
 async function configurationStoresListKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

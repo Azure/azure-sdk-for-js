@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer.js";
+import { base64Decode, base64Encode } from "#platform/utils/bufferSerializer";
 
 import type { ConnectionString } from "../../src/utils/internalModels.js";
 import { extractConnectionStringParts } from "../../src/utils/connectionString.js";

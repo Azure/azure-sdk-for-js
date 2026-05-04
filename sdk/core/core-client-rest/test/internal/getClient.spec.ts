@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi, expect } from "vitest";
 import { getClient } from "../../src/getClient.js";
 import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
@@ -11,17 +11,22 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { createEmptyPipeline, createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 describe("getClient", () => {
-  const httpClient = {
+  const httpClient: HttpClient = {
     sendRequest: (req: PipelineRequest) => {
       return Promise.resolve({
         headers: createHttpHeaders(),
         status: 200,
         request: req,
-      }) as Promise<PipelineResponse>;
+      });
     },
   };
 
@@ -103,7 +108,7 @@ describe("getClient", () => {
       });
     });
 
-    it("should encode url when not skip query parameter encoding and api version parameter exists", async () => {
+    it("should preserve comma in query parameter when encoding is enabled and api version parameter exists", async () => {
       const apiVersion = "2021-11-18";
       const client = getClient("https://example.org", { apiVersion, httpClient });
       const validationPolicy: PipelinePolicy = {
@@ -161,10 +166,13 @@ describe("getClient", () => {
       ],
     });
     client.pipeline.addPolicy(retryPolicy, { phase: "Retry" });
-    assert(client);
+    assert.isDefined(client);
     const policies = client.pipeline.getOrderedPolicies();
-    assert.isTrue(policies.indexOf(policy2) < policies.indexOf(retryPolicy));
-    assert.isTrue(policies.indexOf(retryPolicy) < policies.indexOf(policy1));
+    const policy2Index = policies.indexOf(policy2);
+    const retryPolicyIndex = policies.indexOf(retryPolicy);
+    const policy1Index = policies.indexOf(policy1);
+    assert.isBelow(policy2Index, retryPolicyIndex);
+    assert.isBelow(retryPolicyIndex, policy1Index);
   });
 
   it("should use the client setting for `allowInsecureConnection` when the request setting is undefined", async () => {
@@ -204,20 +212,18 @@ describe("getClient", () => {
   });
 
   it("stream methods should call onResponse", async () => {
-    let called = false;
     const fakeHttpClient: HttpClient = {
       sendRequest: async (request) => {
         return { headers: createHttpHeaders(), status: 200, request };
       },
     };
 
+    const onResponseFn = vi.fn();
     const client = getClient("https://example.org", {
       httpClient: fakeHttpClient,
     });
     const res = client.pathUnchecked("/foo").get({
-      onResponse: () => {
-        called = true;
-      },
+      onResponse: onResponseFn,
     });
 
     if (isNodeLike) {
@@ -225,35 +231,36 @@ describe("getClient", () => {
     } else {
       await res.asBrowserStream();
     }
-    assert.isTrue(called);
+    expect(onResponseFn).toHaveBeenCalled();
   });
 
   it("onResponse legacyError is passed in", async () => {
-    let called = false;
     const fakeHttpClient: HttpClient = {
       sendRequest: async () => {
         throw new RestError("error", {
-          response: { status: 404, headers: createHttpHeaders({}) } as PipelineResponse,
+          response: {
+            status: 404,
+            headers: createHttpHeaders({}),
+            request: createPipelineRequest({ url: "https://example.org/foo" }),
+          },
         });
       },
     };
 
+    const onResponseFn = vi.fn((_: any, err: any, legacyError: any) => {
+      assert.isDefined(err, "err should be defined");
+      assert.equal(err, legacyError);
+    });
     const client = getClient("https://example.org", {
       httpClient: fakeHttpClient,
     });
 
-    try {
-      await client.pathUnchecked("/foo").get({
-        onResponse: (_, err, legacyError) => {
-          assert.isDefined(err);
-          assert.equal(err, legacyError);
-          called = true;
-        },
-      });
-      assert.fail("Expected error to be thrown");
-    } catch (e: unknown) {
-      assert.isTrue(called);
-    }
+    await expect(
+      client.pathUnchecked("/foo").get({
+        onResponse: onResponseFn,
+      }),
+    ).rejects.toThrow(/error/);
+    expect(onResponseFn).toHaveBeenCalled();
   });
 
   it("should support query parameter with explode set to true", async () => {
@@ -293,16 +300,134 @@ describe("getClient", () => {
       .get();
   });
 
+  describe("HTTP methods", () => {
+    it("should support post method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "POST");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").post();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+
+    it("should support put method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "PUT");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").put();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+
+    it("should support patch method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "PATCH");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").patch();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+
+    it("should support delete method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "DELETE");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").delete();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+
+    it("should support head method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "HEAD");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").head();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+
+    it("should support options method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "OPTIONS");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").options();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+
+    it("should support trace method", async () => {
+      const sendRequestSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => {
+        assert.equal(req.method, "TRACE");
+        return next(req);
+      });
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: sendRequestSpy,
+      };
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").trace();
+      expect(sendRequestSpy).toHaveBeenCalled();
+    });
+  });
+
   describe("when pipeline is passed via options", () => {
     it("should use the provided pipeline when passed via second parameter (options only)", async () => {
-      let customPolicyInvoked = false;
+      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
       const customPipeline = createEmptyPipeline();
       const customPolicy: PipelinePolicy = {
         name: "customTrackingPolicy",
-        sendRequest: (req, next) => {
-          customPolicyInvoked = true;
-          return next(req);
-        },
+        sendRequest: sendRequestFn,
       };
       customPipeline.addPolicy(customPolicy);
 
@@ -312,21 +437,15 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      assert.isTrue(
-        customPolicyInvoked,
-        "Custom pipeline policy should have been invoked when pipeline passed via second parameter",
-      );
+      expect(sendRequestFn).toHaveBeenCalled();
     });
 
     it("should use the provided pipeline when passed via third parameter (with TokenCredential)", async () => {
-      let customPolicyInvoked = false;
+      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
       const customPipeline = createEmptyPipeline();
       const customPolicy: PipelinePolicy = {
         name: "customTrackingPolicy",
-        sendRequest: (req, next) => {
-          customPolicyInvoked = true;
-          return next(req);
-        },
+        sendRequest: sendRequestFn,
       };
       customPipeline.addPolicy(customPolicy);
 
@@ -340,21 +459,15 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      assert.isTrue(
-        customPolicyInvoked,
-        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with TokenCredential",
-      );
+      expect(sendRequestFn).toHaveBeenCalled();
     });
 
     it("should use the provided pipeline when passed via third parameter (with KeyCredential)", async () => {
-      let customPolicyInvoked = false;
+      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
       const customPipeline = createEmptyPipeline();
       const customPolicy: PipelinePolicy = {
         name: "customTrackingPolicy",
-        sendRequest: (req, next) => {
-          customPolicyInvoked = true;
-          return next(req);
-        },
+        sendRequest: sendRequestFn,
       };
       customPipeline.addPolicy(customPolicy);
 
@@ -368,29 +481,25 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      assert.isTrue(
-        customPolicyInvoked,
-        "Custom pipeline policy should have been invoked when pipeline passed via third parameter with KeyCredential",
-      );
+      expect(sendRequestFn).toHaveBeenCalled();
     });
 
     it("should preserve custom pipeline policies order", async () => {
-      const policiesInvoked: string[] = [];
+      const firstSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => next(req));
+      const secondSpy = vi.fn<
+        (req: PipelineRequest, next: SendRequest) => Promise<PipelineResponse>
+      >((req, next) => next(req));
       const customPipeline = createEmptyPipeline();
 
       const firstPolicy: PipelinePolicy = {
         name: "firstPolicy",
-        sendRequest: (req, next) => {
-          policiesInvoked.push("first");
-          return next(req);
-        },
+        sendRequest: firstSpy,
       };
       const secondPolicy: PipelinePolicy = {
         name: "secondPolicy",
-        sendRequest: (req, next) => {
-          policiesInvoked.push("second");
-          return next(req);
-        },
+        sendRequest: secondSpy,
       };
 
       customPipeline.addPolicy(firstPolicy);
@@ -402,7 +511,11 @@ describe("getClient", () => {
       });
 
       await client.pathUnchecked("/foo").get();
-      assert.deepEqual(policiesInvoked, ["first", "second"], "Policies should be invoked in order");
+      expect(firstSpy).toHaveBeenCalled();
+      expect(secondSpy).toHaveBeenCalled();
+      expect(firstSpy.mock.invocationCallOrder[0]).toBeLessThan(
+        secondSpy.mock.invocationCallOrder[0],
+      );
     });
 
     it("should not add default policies when custom pipeline is provided", async () => {

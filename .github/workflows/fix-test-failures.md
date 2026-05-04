@@ -24,11 +24,10 @@ safe-outputs:
 network:
   allowed:
     - defaults
-    - "api.github.com"
-    - "github.com"
-    - "api.githubcopilot.com"
-    - "registry.npmjs.org"
-    - "pkgs.dev.azure.com"
+    - threat-detection
+    - github
+    - node
+    - dotnet
 ---
 
 # Analyze CI Test Failures

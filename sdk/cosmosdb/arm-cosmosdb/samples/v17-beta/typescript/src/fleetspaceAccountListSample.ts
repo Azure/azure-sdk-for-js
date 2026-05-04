@@ -3,36 +3,27 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all the fleetspaces accounts  under a fleetspace.
+ * This sample demonstrates how to lists all the fleetspaces accounts  under a fleetspace.
  *
- * @summary Lists all the fleetspaces accounts  under a fleetspace.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetspaceAccountList.json
+ * @summary lists all the fleetspaces accounts  under a fleetspace.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetspaceAccountList.json
  */
-async function cosmosDbFleetspaceAccountList(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
-  const fleetspaceName = "fleetspace1";
+async function cosmosDBFleetspaceAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fleetspaceAccount.list(
-    resourceGroupName,
-    fleetName,
-    fleetspaceName,
-  )) {
+  for await (const item of client.fleetspaceAccount.list("rg1", "fleet1", "fleetspace1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbFleetspaceAccountList();
+  await cosmosDBFleetspaceAccountList();
 }
 
 main().catch(console.error);

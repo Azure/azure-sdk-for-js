@@ -30,7 +30,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       configStoreName: configStoreName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,6 +49,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -70,6 +71,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, configStoreName, snapshotName, body, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
@@ -87,7 +89,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       configStoreName: configStoreName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,6 +106,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sn
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

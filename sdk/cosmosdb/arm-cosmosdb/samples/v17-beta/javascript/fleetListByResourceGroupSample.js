@@ -3,29 +3,27 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists all the fleets under the specified subscription and resource group.
+ * This sample demonstrates how to lists all the fleets under the specified subscription and resource group.
  *
- * @summary Lists all the fleets under the specified subscription and resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetList.json
+ * @summary lists all the fleets under the specified subscription and resource group.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetList_ListByResourceGroup.json
  */
-async function cosmosDbFleetListByResourceGroup() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
+async function cosmosDBFleetListByResourceGroup() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fleet.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.fleet.listByResourceGroup("rg1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await cosmosDbFleetListByResourceGroup();
+  await cosmosDBFleetListByResourceGroup();
 }
 
 main().catch(console.error);

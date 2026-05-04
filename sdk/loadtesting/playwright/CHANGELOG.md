@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.1.5 (2026-04-24)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed failure during report upload for test runs longer than 5 minutes when using GitHub OIDC authentication.
 
 ## 1.1.4 (2026-04-10)
 
