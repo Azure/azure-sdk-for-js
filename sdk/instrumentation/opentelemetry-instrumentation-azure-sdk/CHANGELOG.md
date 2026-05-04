@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0 (2026-05-04)
+
+### Features Added
+
+- First stable release of the Azure SDK OpenTelemetry Instrumentation library.
+
 ## 1.0.0-beta.10 (2026-03-04)
 
 ### Other Changes
