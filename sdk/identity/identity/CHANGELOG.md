@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text.
+
 ### Other Changes
 
 ## 4.14.0-beta.3 (2026-04-08)
