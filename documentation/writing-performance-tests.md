@@ -59,21 +59,17 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     TSCONFIG
 
     - Modify the "extends" string in the copied tsconfig by adding ".." since the perf tests project is located a level below the actual SDK.
-    - Set the `compilerOptions.module` to `commonjs` in the `tsconfig` to allow running the tests with `ts-node`.
 
     In the end, your tsconfig may look something like below.
 
 ```json
 {
   "extends": "../../../../tsconfig.lib.json",
-  "compilerOptions": {
-    "module": "commonjs",
-    "declarationDir": "./types/latest",
-    "outDir": "./dist-esm",
-  },
-  "compileOnSave": true,
-  "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    }
+  ]
 }
 ```
 
@@ -85,7 +81,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 2. It is expected that the track-1 perf tests are counterparts of track-2 tests, so they need to have the same names as specified in the track-2 tests for convenience.
 
-3. Add a `package.json` such as [example-track-1-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+3. Add a `package.json` for your track-1 perf test package at `sdk/<service>/perf-tests/<service-sdk>` folder.
 
    Make sure to import your `<service-sdk>` and the `test-perf` project.
 
@@ -243,7 +239,7 @@ To run a particular test, use `npm run perf-test:node` - takes the test class na
 
 ### [Adding Readme/Instructions](#adding-readme/instructions)
 
-Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob/README.md) and [storage-blob-perf-tests-readme-track-1](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/README.md) and have similar set of instructions for your perf project.
+Refer to [storage-blob-perf-tests-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-perf-tests/README.md) and have similar set of instructions for your perf project.
 
 ### [Testing an older track 2 version](#testing-an-older-track-2-version)
 
