@@ -5,7 +5,10 @@
  * @internal
  */
 export { tracingClient } from "./tracing.js";
-export { SessionTelemetryTracker, type SessionTelemetryOptions } from "./sessionTelemetryTracker.js";
+export {
+  SessionTelemetryTracker,
+  type SessionTelemetryOptions,
+} from "./sessionTelemetryTracker.js";
 /**
  * @internal
  * Attribute constants and operation names. Not part of the public API surface.

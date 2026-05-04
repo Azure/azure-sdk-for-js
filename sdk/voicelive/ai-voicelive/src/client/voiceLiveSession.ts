@@ -233,7 +233,9 @@ export class VoiceLiveSession {
       logger.info("Successfully connected to Voice Live service");
     } catch (error) {
       logger.error("Failed to connect to Voice Live service", { error });
-      this._telemetryTracker.recordConnectError(error instanceof Error ? error : new Error(String(error)));
+      this._telemetryTracker.recordConnectError(
+        error instanceof Error ? error : new Error(String(error)),
+      );
 
       // Use error classification
       if (error instanceof VoiceLiveConnectionError) {

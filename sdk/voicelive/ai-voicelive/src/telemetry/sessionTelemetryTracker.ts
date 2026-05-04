@@ -209,10 +209,9 @@ export class SessionTelemetryTracker {
     const eventType = (event.type as string) ?? undefined;
     const spanName = eventType ? `send ${eventType}` : "send";
 
-    const { span } = tracingClient.startSpan(
-      spanName,
-      { tracingOptions: { tracingContext: this._connectTracingContext } },
-    );
+    const { span } = tracingClient.startSpan(spanName, {
+      tracingOptions: { tracingContext: this._connectTracingContext },
+    });
     try {
       this._setCommonAttributes(span, OperationName.Send, eventType);
 
@@ -279,10 +278,9 @@ export class SessionTelemetryTracker {
 
     const spanName = eventType ? `recv ${eventType}` : "recv";
 
-    const { span } = tracingClient.startSpan(
-      spanName,
-      { tracingOptions: { tracingContext: this._connectTracingContext } },
-    );
+    const { span } = tracingClient.startSpan(spanName, {
+      tracingOptions: { tracingContext: this._connectTracingContext },
+    });
     try {
       this._setCommonAttributes(span, OperationName.Recv, eventType);
 
@@ -358,10 +356,9 @@ export class SessionTelemetryTracker {
     if (!this._connectSpan || !this._connectTracingContext) return;
 
     // Create a close child span (use startSpan+end, not withSpan, to stay synchronous)
-    const { span: closeSpan } = tracingClient.startSpan(
-      OperationName.Close,
-      { tracingOptions: { tracingContext: this._connectTracingContext } },
-    );
+    const { span: closeSpan } = tracingClient.startSpan(OperationName.Close, {
+      tracingOptions: { tracingContext: this._connectTracingContext },
+    });
     try {
       this._setCommonAttributes(closeSpan, OperationName.Close, undefined);
       if (this._sessionId) {
@@ -581,10 +578,7 @@ export class SessionTelemetryTracker {
     }
   }
 
-  private _extractResponseDone(
-    event: Record<string, unknown>,
-    span: TracingSpan,
-  ): void {
+  private _extractResponseDone(event: Record<string, unknown>, span: TracingSpan): void {
     const response = event.response as Record<string, unknown> | undefined;
     if (!response) return;
 
@@ -602,10 +596,7 @@ export class SessionTelemetryTracker {
     }
   }
 
-  private _extractRecvEventIds(
-    event: Record<string, unknown>,
-    span: TracingSpan,
-  ): void {
+  private _extractRecvEventIds(event: Record<string, unknown>, span: TracingSpan): void {
     const eventType = (event.type as string) ?? "";
 
     // Top-level IDs (available on most response.* events)
@@ -688,10 +679,7 @@ export class SessionTelemetryTracker {
     }
   }
 
-  private _extractSendEventIds(
-    event: Record<string, unknown>,
-    span: TracingSpan,
-  ): void {
+  private _extractSendEventIds(event: Record<string, unknown>, span: TracingSpan): void {
     const responseId = event.response_id as string | undefined;
     if (responseId) {
       span.setAttribute(GEN_AI_RESPONSE_ID, responseId);
@@ -720,10 +708,7 @@ export class SessionTelemetryTracker {
     }
   }
 
-  private _extractTokenUsage(
-    event: Record<string, unknown>,
-    span: TracingSpan,
-  ): void {
+  private _extractTokenUsage(event: Record<string, unknown>, span: TracingSpan): void {
     // Token usage can be at top-level event.usage or nested in response.usage (response.done)
     let usage = event.usage as Record<string, unknown> | undefined;
     if (!usage) {
@@ -785,10 +770,7 @@ export class SessionTelemetryTracker {
     span.addEvent?.(GEN_AI_OUTPUT_MESSAGES_EVENT, { attributes: attrs });
   }
 
-  private _addErrorSpanEvent(
-    span: TracingSpan,
-    event: Record<string, unknown>,
-  ): void {
+  private _addErrorSpanEvent(span: TracingSpan, event: Record<string, unknown>): void {
     const errorObj = event.error as Record<string, unknown> | undefined;
     const attrs: Record<string, unknown> = {
       [GEN_AI_SYSTEM]: AZ_AI_VOICELIVE_SYSTEM,
@@ -802,16 +784,12 @@ export class SessionTelemetryTracker {
     span.addEvent?.(GEN_AI_VOICE_ERROR_EVENT, { attributes: attrs });
 
     // Also set error status on the span
-    const errorMessage =
-      (errorObj?.message as string) ?? "Server error";
+    const errorMessage = (errorObj?.message as string) ?? "Server error";
     span.setStatus({ status: "error", error: errorMessage });
     span.setAttribute(ERROR_TYPE, (errorObj?.type as string) ?? "server_error");
   }
 
-  private _addRateLimitsSpanEvent(
-    span: TracingSpan,
-    event: Record<string, unknown>,
-  ): void {
+  private _addRateLimitsSpanEvent(span: TracingSpan, event: Record<string, unknown>): void {
     const rateLimits = event.rate_limits;
     const attrs: Record<string, unknown> = {
       [GEN_AI_SYSTEM]: AZ_AI_VOICELIVE_SYSTEM,
@@ -826,10 +804,7 @@ export class SessionTelemetryTracker {
     span.addEvent?.(GEN_AI_VOICE_RATE_LIMITS_EVENT, { attributes: attrs });
   }
 
-  private _addSystemInstructionsSpanEvent(
-    span: TracingSpan,
-    instructions: string,
-  ): void {
+  private _addSystemInstructionsSpanEvent(span: TracingSpan, instructions: string): void {
     if (!this._enableContentRecording) return;
     const attrs: Record<string, unknown> = {
       [GEN_AI_SYSTEM]: AZ_AI_VOICELIVE_SYSTEM,

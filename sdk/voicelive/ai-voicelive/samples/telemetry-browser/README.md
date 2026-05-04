@@ -39,5 +39,5 @@ Open the URL in a browser, enter your **endpoint** and **API key**, then click
 
 ## Node.js equivalent
 
-See the companion [Node.js telemetry sample](../telemetry/README.md) for a
+See the companion [Node.js telemetry sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) for a
 console-based exporter and Azure Monitor integration.
