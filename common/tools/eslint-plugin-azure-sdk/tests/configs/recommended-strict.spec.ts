@@ -174,7 +174,7 @@ describe("plugin exports", () => {
     expect(configs.recommendedStrict.length).toBeGreaterThan(configs.recommended.length);
   });
 
-  it("recommended array length and sentinel rules should be unchanged", () => {
+  it("should not modify the original recommended config (sentinel rules match expected values)", () => {
     const recommendedRules = flattenRules(configs.recommended);
     // Sentinel rules that must be present in recommended
     expect(recommendedRules["no-var"]).toBe("error");
