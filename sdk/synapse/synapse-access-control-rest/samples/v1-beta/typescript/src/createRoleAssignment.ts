@@ -15,9 +15,9 @@ const endpoint = process.env["ENDPOINT"] || "";
 async function main(): Promise<void> {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
   const roleAssignmentId = crypto.randomUUID();
-  // Id of the principal to give aassing the tole to.
+  // Id of the principal to give assigning the role to.
   const principalId = "<principal id>";
-  // Id of the role to assing
+  // Id of the role to assign
   const roleId = "<role id>";
   // Workspace scope
   const scope = "workspaces/<worskpaceName>";
