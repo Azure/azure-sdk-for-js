@@ -448,7 +448,7 @@ For CommonJS apps, use the standard Azure SDK instrumentation bridge:
 npm install @azure/opentelemetry-instrumentation-azure-sdk @opentelemetry/instrumentation @opentelemetry/sdk-trace-node
 ```
 
-```javascript
+```
 const {
   NodeTracerProvider,
   SimpleSpanProcessor,
@@ -481,7 +481,7 @@ await session.connect(); // creates "connect" span
 
 `createAzureSdkInstrumentation` relies on CommonJS require-hooks and produces no spans when the SDK is loaded as ESM (i.e. `"type": "module"` packages or browser bundlers like Vite). For those environments, register a minimal `Instrumenter` directly through `useInstrumenter` from `@azure/core-tracing`:
 
-```typescript
+```
 import { useInstrumenter } from "@azure/core-tracing";
 import { trace, context } from "@opentelemetry/api";
 
