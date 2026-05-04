@@ -2,28 +2,18 @@
 // Licensed under the MIT License.
 
 export {
-  $delete,
-  cancel,
-  list,
-  get,
-  create,
   updateVersion,
   createVersion,
   deleteVersion,
   getVersion,
-  listLatestVersions,
+  list,
   listVersions,
 } from "./operations.js";
 export type {
-  BetaEvaluatorsDeleteOptionalParams,
-  BetaEvaluatorsCancelOptionalParams,
-  BetaEvaluatorsListOptionalParams,
-  BetaEvaluatorsGetOptionalParams,
-  BetaEvaluatorsCreateOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
+  BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "./options.js";

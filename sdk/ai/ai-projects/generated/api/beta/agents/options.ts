@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentEndpointConfig, AgentCard, PageOrder } from "../../../models/models.js";
+import { AgentEndpoint, AgentCard, PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -89,7 +89,7 @@ export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptio
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentEndpoints=V1Preview";
   /** The endpoint configuration for the agent */
-  agentEndpoint?: AgentEndpointConfig;
+  agentEndpoint?: AgentEndpoint;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }

@@ -4,7 +4,7 @@
 import {
   AgentKind,
   AgentBlueprintReferenceUnion,
-  AgentEndpointConfig,
+  AgentEndpoint,
   AgentCard,
   AgentDefinitionOptInKeys,
   PageOrder,
@@ -175,7 +175,7 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
-  agentEndpoint?: AgentEndpointConfig;
+  agentEndpoint?: AgentEndpoint;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }

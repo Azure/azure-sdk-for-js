@@ -5,7 +5,7 @@ import { AIProjectContext as Client } from "../../index.js";
 import {
   Agent,
   agentDeserializer,
-  agentEndpointConfigSerializer,
+  agentEndpointSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
   versionIndicatorUnionSerializer,
@@ -672,7 +672,7 @@ export function _patchAgentObjectSend(
       body: {
         agent_endpoint: !options?.agentEndpoint
           ? options?.agentEndpoint
-          : agentEndpointConfigSerializer(options?.agentEndpoint),
+          : agentEndpointSerializer(options?.agentEndpoint),
         agent_card: !options?.agentCard
           ? options?.agentCard
           : agentCardSerializer(options?.agentCard),
