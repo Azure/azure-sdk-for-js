@@ -62,7 +62,55 @@ export default azsdkEslint.config([
 
 - `azsdkEslint.configs.recommended` - Recommended rules for Azure SDK packages
 - `azsdkEslint.configs.recommendedTypeChecked` - Recommended rules with type-checked linting enabled
+- `azsdkEslint.configs.recommendedStrict` - Opt-in stricter rules to catch hard-to-maintain code patterns. Includes `eslint-plugin-sonarjs` recommended rules plus structural caps (cognitive-complexity, max-lines-per-function, etc.) and additional code-smell rules.
+- `azsdkEslint.configs.recommendedStrictTypeChecked` - Same as `recommendedStrict` plus type-checked rules (requires TypeScript project configuration).
 - `azsdkEslint.configs.internal` - Configuration for internal/utility packages
+
+### Opt-in Strict Preset
+
+The `recommendedStrict` and `recommendedStrictTypeChecked` presets layer additional maintainability and code-smell rules on top of `recommended`. They are intended for new packages or as part of an incremental cleanup effort. **These presets are intentionally noisy on existing code** — treat findings as a backlog rather than blocking CI until you've triaged them.
+
+#### Usage
+
+```js
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default [...azsdkEslint.configs.recommendedStrictTypeChecked];
+```
+
+Alternatively, use the `configStrict()` convenience helper (mirrors `config()` but based on `recommendedStrict`):
+
+```js
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.configStrict();
+```
+
+#### Peer dependency
+
+The strict preset requires `eslint-plugin-sonarjs` (peer dependency — add it explicitly to your `devDependencies` if not already present transitively):
+
+```json
+{
+  "devDependencies": {
+    "eslint-plugin-sonarjs": "^3.0.2"
+  }
+}
+```
+
+#### Rule categories added by the strict preset
+
+- **Structural caps** — `max-lines-per-function`, `max-classes-per-file`, `@typescript-eslint/max-params`, `sonarjs/cognitive-complexity`
+- **Anti "clever one-liner"** — `no-nested-ternary`, `no-unneeded-ternary`, `no-implicit-coercion`, `no-lonely-if`, `no-else-return`
+- **Mutation / scoping** — `no-param-reassign` (promoted to error with props), `@typescript-eslint/prefer-readonly` (type-checked)
+- **Switch / control flow** — `curly: all`, `default-case`, `default-case-last`, `@typescript-eslint/consistent-return`, `@typescript-eslint/switch-exhaustiveness-check` (type-checked)
+- **Imports** — `no-duplicate-imports`, `@typescript-eslint/consistent-type-imports` (promoted to error), `@typescript-eslint/no-import-type-side-effects`, `@typescript-eslint/no-deprecated` (type-checked)
+- **Errors thrown / caught** — `no-empty` (no allowEmptyCatch), `@typescript-eslint/only-throw-error`, `@typescript-eslint/use-unknown-in-catch-callback-variable`, `@typescript-eslint/prefer-promise-reject-errors` (type-checked)
+- **Async safety** — `no-await-in-loop` (warn), `no-promise-executor-return`, `require-atomic-updates`, `@typescript-eslint/return-await` (type-checked)
+- **Dead / redundant code** — `no-useless-rename`, `no-useless-return`, `no-useless-concat`, `@typescript-eslint/no-unnecessary-condition`, `@typescript-eslint/no-unnecessary-type-arguments`, `@typescript-eslint/no-unnecessary-template-expression` (type-checked)
+- **sonarjs code-smell rules** — Full `sonarjs/recommended` config with select high-noise rules silenced (`no-duplicate-string`, `no-commented-code`, `todo-tag`)
 
 ### Custom Entry Point
 

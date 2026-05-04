@@ -10,6 +10,7 @@ import promise from "eslint-plugin-promise";
 
 import eslintCustomized from "./eslint-customized.js";
 import azureSdkCustomized from "./azure-sdk-customized.js";
+import { recommendedStrictDelta } from "./recommended-strict.js";
 
 // Type assertion helper to work around type incompatibilities between
 // typescript-eslint's FlatConfig types and ESLint core's defineConfig types
@@ -61,6 +62,14 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
 export default (plugin: FlatConfig.Plugin) => ({
   recommended: recommended(plugin, { typeChecked: false }),
   recommendedTypeChecked: recommended(plugin, { typeChecked: true }),
+  recommendedStrict: [
+    ...recommended(plugin, { typeChecked: false }),
+    ...recommendedStrictDelta({ typeChecked: false }),
+  ],
+  recommendedStrictTypeChecked: [
+    ...recommended(plugin, { typeChecked: true }),
+    ...recommendedStrictDelta({ typeChecked: true }),
+  ],
   internal: defineConfig(
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],

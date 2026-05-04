@@ -28,8 +28,17 @@ function config(customConfigs?: FlatConfig.ConfigArray) {
   ];
 }
 
+function configStrict(customConfigs?: FlatConfig.ConfigArray) {
+  return [
+    ...configs.recommendedStrict,
+    ...(customConfigs ?? []),
+    globalIgnores(["**/test/snippets.spec.ts", "**/test/stress"]),
+  ];
+}
+
 export default {
   ...plugin,
   configs,
   config,
+  configStrict,
 };
