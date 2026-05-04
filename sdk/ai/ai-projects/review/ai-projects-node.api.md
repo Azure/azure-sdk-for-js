@@ -2125,11 +2125,11 @@ export type InputFidelity = "high" | "low";
 // @public
 export interface Insight {
     displayName: string;
-    readonly insight_id: string;
-    readonly metadata: InsightsMetadata;
+    readonly insight_id?: string;
+    readonly metadata?: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
-    readonly state: OperationState;
+    readonly state?: OperationState;
 }
 
 // @public

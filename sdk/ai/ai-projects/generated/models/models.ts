@@ -7977,11 +7977,11 @@ export function evaluatorGenerationJobArrayDeserializer(
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly insight_id: string;
+  readonly insight_id?: string;
   /** Metadata about the insights report. */
-  readonly metadata: InsightsMetadata;
+  readonly metadata?: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state: OperationState;
+  readonly state?: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -8000,7 +8000,7 @@ export function insightSerializer(item: Insight): any {
 export function insightDeserializer(item: any): Insight {
   return {
     insight_id: item["id"],
-    metadata: insightsMetadataDeserializer(item["metadata"]),
+    metadata: !item["metadata"] ? item["metadata"] : insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
     request: insightRequestUnionDeserializer(item["request"]),
