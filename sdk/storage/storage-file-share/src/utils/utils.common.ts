@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
@@ -23,7 +24,7 @@ import {
   StorageChecksumAlgorithm,
 } from "../models.js";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
-import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
@@ -379,7 +380,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -388,7 +389,44 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+}
+
+/**
+ * Delay specified time interval.
+ *
+ * @param timeInMs -
+ * @param aborter -
+ * @param abortError -
+ */
+export async function delay(
+  timeInMs: number,
+  aborter?: AbortSignalLike,
+  abortError?: Error,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    /* eslint-disable-next-line prefer-const */
+    let timeout: any;
+
+    const abortHandler = (): void => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    };
+
+    const resolveHandler = (): void => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
 }
 
 export function sanitizeURL(url: string): string {

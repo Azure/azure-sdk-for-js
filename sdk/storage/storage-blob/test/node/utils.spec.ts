@@ -3,8 +3,7 @@
 import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { delay } from "@azure/core-util";
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";
 import { readStreamToLocalFile, streamToBuffer2, streamToBuffer3 } from "../../src/utils/utils.js";

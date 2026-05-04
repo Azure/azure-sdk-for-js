@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { isNodeLike } from "@azure/core-util";
 import { structuredMessageDecodingStream, type NodeJSReadableStream } from "@azure/storage-common";
 import type { BlobImmutabilityPolicyMode } from "./generatedModels.js";
 
@@ -504,7 +505,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * @readonly
    */
   public get readableStreamBody(): NodeJSReadableStream | undefined {
-    return this.blobDownloadStream;
+    return isNodeLike ? this.blobDownloadStream : undefined;
   }
 
   /**

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { StorageCRC64Calculator } from "./StorageCRC64Calculator.js";
+import { isNodeLike } from "@azure/core-util";
 
 const MESSAGE_VERSION: number = 1;
 const MESSAGE_HEADER_LENGTH: number = 13;
@@ -255,16 +256,35 @@ export class StructuredMessageDecoding {
     if (input.length < offset + 8) {
       throw new Error("CRC64 buffer error, something wrong with crc64 calculator");
     }
-    const view = new DataView(input.buffer, input.byteOffset + offset, 8);
-    return Number(view.getBigUint64(0, true));
+
+    if (isNodeLike) {
+      const internalBuffer = Buffer.alloc(8);
+      for (let index = 0; index < 6; ++index) {
+        internalBuffer[index] = input[offset + index];
+      }
+
+      return Number(internalBuffer.readBigInt64LE());
+    } else {
+      const view = new DataView(input.buffer, offset, 8);
+      return Number(view.getBigUint64(0, true));
+    }
   }
 
   private toInt16(input: Uint8Array): number {
     if (input.length !== 2) {
       throw new Error("CRC64 buffer error, something wrong with crc64 calculator");
     }
-    const view = new DataView(input.buffer, input.byteOffset, 2);
-    return view.getUint16(0, true);
+
+    if (isNodeLike) {
+      const internalBuffer = Buffer.alloc(2);
+      for (let index = 0; index < 2; ++index) {
+        internalBuffer[index] = input[index];
+      }
+
+      return Number(internalBuffer.readInt16LE());
+    } else {
+      return input[0] + input[1] * 256;
+    }
   }
 
   private checkCrc64CheckSum(first: Uint8Array, second: Uint8Array): boolean {

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -464,7 +465,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -473,7 +474,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**
@@ -497,6 +498,44 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
     blockIDPrefix +
     padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
+}
+
+/**
+ * Delay specified time interval.
+ *
+ * @param timeInMs -
+ * @param aborter -
+ * @param abortError -
+ */
+export async function delay(
+  timeInMs: number,
+  aborter?: AbortSignalLike,
+  abortError?: Error,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    /* eslint-disable-next-line prefer-const */
+    let timeout: any;
+
+    const abortHandler = () => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    };
+
+    const resolveHandler = () => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
 }
 
 /**

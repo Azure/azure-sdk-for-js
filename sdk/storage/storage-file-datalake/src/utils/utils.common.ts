@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { ContainerEncryptionScope, HttpRequestBody, WithResponse } from "@azure/storage-blob";
 import {
   CpkInfo,
@@ -463,7 +463,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -472,7 +472,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**

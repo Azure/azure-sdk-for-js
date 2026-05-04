@@ -178,15 +178,35 @@ export class StructuredMessageEncoding {
     if (buffer.length < offset + 8) {
       throw new Error("Buffer length is not expected.");
     }
-    const view = new DataView(buffer.buffer, buffer.byteOffset + offset, 8);
-    view.setBigUint64(0, BigInt(input), true);
+
+    if (isNodeLike) {
+      const internalBuffer = Buffer.alloc(8);
+      internalBuffer.writeBigUInt64LE(BigInt(input));
+
+      for (let index = 0; index < 6; ++index) {
+        buffer[offset + index] = internalBuffer[index];
+      }
+    } else {
+      const view = new DataView(buffer.buffer, offset, 8);
+      view.setBigUint64(0, BigInt(input), true);
+    }
   }
 
   private fillInt16(buffer: Uint8Array, offset: number, input: number) {
     if (buffer.length < offset + 2) {
       throw new Error("Buffer length is not expected.");
     }
-    const view = new DataView(buffer.buffer, buffer.byteOffset + offset, 2);
-    view.setUint16(0, input, true);
+
+    if (isNodeLike) {
+      const internalBuffer = Buffer.alloc(2);
+      internalBuffer.writeInt16LE(input);
+
+      for (let index = 0; index < 2; ++index) {
+        buffer[offset + index] = internalBuffer[index];
+      }
+    } else {
+      const view = new DataView(buffer.buffer, offset, 2);
+      view.setUint16(0, input, true);
+    }
   }
 }

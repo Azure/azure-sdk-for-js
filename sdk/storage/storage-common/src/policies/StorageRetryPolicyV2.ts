@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AbortError } from "@azure/abort-controller";
 import type {
   PipelinePolicy,
   PipelineRequest,
@@ -8,10 +9,10 @@ import type {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
-import { delay, getErrorMessage, getRandomIntegerInclusive } from "@azure/core-util";
+import { getErrorMessage } from "@azure/core-util";
 import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { HeaderConstants, URLConstants } from "../utils/constants.js";
-import { setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";
 
 /**
@@ -40,6 +41,8 @@ const retriableErrors = [
   "EPIPE",
   "REQUEST_SEND_ERROR",
 ] as const;
+
+const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
@@ -139,7 +142,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
           break;
       }
     } else {
-      delayTimeInMs = getRandomIntegerInclusive(0, 1000);
+      delayTimeInMs = Math.random() * 1000;
     }
 
     logger.info(`RetryPolicy: Delay for ${delayTimeInMs}ms`);
@@ -189,9 +192,11 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         }
         retryAgain = shouldRetry({ isPrimaryRetry, attempt, response, error });
         if (retryAgain) {
-          await delay(calculateDelay(isPrimaryRetry, attempt), {
-            abortSignal: request.abortSignal,
-          });
+          await delay(
+            calculateDelay(isPrimaryRetry, attempt),
+            request.abortSignal,
+            RETRY_ABORT_ERROR,
+          );
         }
         attempt++;
       }
