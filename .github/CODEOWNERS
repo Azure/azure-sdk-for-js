@@ -139,7 +139,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @alvinjiang-msft
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -147,7 +147,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @alvinjiang-msft
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
