@@ -58,9 +58,9 @@ export class KeyVaultBackupClient {
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
    *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
    * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
+   * const client = new KeyVaultBackupClient(url, credentials);
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -83,13 +83,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginPreBackup_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginPreBackup(blobStorageUri, sasToken);
@@ -120,13 +113,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginPreBackup_NonSAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const poller = await client.beginPreBackup(blobStorageUri);
    *
@@ -188,13 +174,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginPreRestore_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginPreRestore(blobStorageUri, sasToken);
@@ -224,13 +203,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginPreRestore_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginPreRestore(blobStorageUri, sasToken);
@@ -259,13 +231,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginPreRestore_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginPreRestore(blobStorageUri, sasToken);
@@ -333,13 +298,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginBackup_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginBackup(blobStorageUri, sasToken);
@@ -373,13 +331,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginBackup_NonSAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const poller = await client.beginBackup(blobStorageUri);
    *
@@ -444,13 +395,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginRestore_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginRestore(blobStorageUri, sasToken);
@@ -484,13 +428,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginRestore_NonSAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const poller = await client.beginRestore(blobStorageUri);
    *
@@ -564,13 +501,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginSelectiveKeyRestore_SAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>";
    * const sasToken = "<sas-token>";
    * const keyName = "<key-name>";
@@ -610,13 +540,6 @@ export class KeyVaultBackupClient {
    *
    * Example usage:
    * ```ts snippet:ReadmeSampleBeginSelectiveKeyRestore_NonSAS
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-   *
-   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * const credentials = new DefaultAzureCredential();
-   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
-   *
    * const blobStorageUri = "<blob-storage-uri>";
    * const keyName = "<key-name>";
    * const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri);
