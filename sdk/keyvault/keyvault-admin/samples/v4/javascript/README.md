@@ -12,11 +12,13 @@ urlFragment: keyvault-admin-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Administration in some common scenarios.
 
-| **File Name**                                             | **Description**                                                                                       |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| [accessControlHelloWorld.js][accesscontrolhelloworld]     | Uses an AccessControlClient to list, create, and assign roles to users.                               |
-| [backupRestoreHelloWorld.js][backuprestorehelloworld]     | Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
-| [backupSelectiveKeyRestore.js][backupselectivekeyrestore] | Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
+| **File Name**                                                       | **Description**                                                                                                      |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [node/accessControlHelloWorld.js][node_accesscontrolhelloworld]     | Uses an AccessControlClient to list, create, and assign roles to users.                                              |
+| [node/backupRestoreHelloWorld.js][node_backuprestorehelloworld]     | Uses a BackupClient to backup and fully restore an Azure Key Vault Managed HSM using Azure Storage Blob.             |
+| [node/backupSelectiveKeyRestore.js][node_backupselectivekeyrestore] | Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob. |
+| [node/gettingStarted.js][node_gettingstarted]                       | Authenticates with Azure Managed HSM and creates access control, backup, and settings clients.                       |
+| [node/updateSettings.js][node_updatesettings]                       | Demonstrates how to retrieve and update account settings for Managed HSM.                                            |
 
 ## Prerequisites
 
@@ -25,12 +27,6 @@ The sample programs are compatible with [LTS versions of Node.js](https://github
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
 - [Azure Key Vault][createinstance_azurekeyvault]
-
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://learn.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -51,22 +47,24 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node accessControlHelloWorld.js
+node node/accessControlHelloWorld.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<client object id>" node accessControlHelloWorld.js
+npx cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<client object id>" node node/accessControlHelloWorld.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/accessControlHelloWorld.js
-[backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupRestoreHelloWorld.js
-[backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupSelectiveKeyRestore.js
+[node_accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/node/accessControlHelloWorld.js
+[node_backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/node/backupRestoreHelloWorld.js
+[node_backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/node/backupSelectiveKeyRestore.js
+[node_gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/node/gettingStarted.js
+[node_updatesettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/node/updateSettings.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-admin
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal

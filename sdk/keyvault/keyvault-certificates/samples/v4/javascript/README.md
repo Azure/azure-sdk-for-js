@@ -12,17 +12,18 @@ urlFragment: keyvault-certificates-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Certificates in some common scenarios.
 
-| **File Name**                             | **Description**                                                                                                            |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [backupAndRestore.js][backupandrestore]   | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
-| [contacts.js][contacts]                   | Creates, updates, and deletes certificate contacts.                                                                        |
-| [deleteAndRecover.js][deleteandrecover]   | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
-| [helloWorld.js][helloworld]               | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
-| [importCertificate.js][importcertificate] | Imports a PFX and PEM certificate and then deletes them.                                                                   |
-| [issuers.js][issuers]                     | Creates, updates and deletes certificate issuers.                                                                          |
-| [listCertificates.js][listcertificates]   | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
-| [mergeCertificate.js][mergecertificate]   | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
-| [operations.js][operations]               | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
+| **File Name**                                       | **Description**                                                                                                            |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [node/backupAndRestore.js][node_backupandrestore]   | Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.    |
+| [node/contacts.js][node_contacts]                   | Creates, updates, and deletes certificate contacts.                                                                        |
+| [node/deleteAndRecover.js][node_deleteandrecover]   | Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).      |
+| [node/gettingStarted.js][node_gettingstarted]       | Authenticates with Azure Key Vault and creates a CertificateClient.                                                        |
+| [node/helloWorld.js][node_helloworld]               | Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.                     |
+| [node/importCertificate.js][node_importcertificate] | Imports a PFX and PEM certificate and then deletes them.                                                                   |
+| [node/issuers.js][node_issuers]                     | Creates, updates and deletes certificate issuers.                                                                          |
+| [node/listCertificates.js][node_listcertificates]   | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
+| [node/mergeCertificate.js][node_mergecertificate]   | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
+| [node/operations.js][node_operations]               | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
 
 ## Prerequisites
 
@@ -31,12 +32,6 @@ The sample programs are compatible with [LTS versions of Node.js](https://github
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
 - [Azure Key Vault][createinstance_azurekeyvault]
-
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://learn.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -57,28 +52,29 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node backupAndRestore.js
+node node/backupAndRestore.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env KEYVAULT_URI="<keyvault uri>" node backupAndRestore.js
+npx cross-env KEYVAULT_URI="<keyvault uri>" node node/backupAndRestore.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/backupAndRestore.js
-[contacts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/contacts.js
-[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/deleteAndRecover.js
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/helloWorld.js
-[importcertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/importCertificate.js
-[issuers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/issuers.js
-[listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/listCertificates.js
-[mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/mergeCertificate.js
-[operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/operations.js
+[node_backupandrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/backupAndRestore.js
+[node_contacts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/contacts.js
+[node_deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/deleteAndRecover.js
+[node_gettingstarted]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/gettingStarted.js
+[node_helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/helloWorld.js
+[node_importcertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/importCertificate.js
+[node_issuers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/issuers.js
+[node_listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/listCertificates.js
+[node_mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/mergeCertificate.js
+[node_operations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples/v4/javascript/node/operations.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-certificates
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
