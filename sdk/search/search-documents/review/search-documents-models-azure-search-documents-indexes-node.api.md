@@ -737,9 +737,6 @@ export interface KnowledgeSource {
 export type KnowledgeSourceContentExtractionMode = string;
 
 // @public
-export type KnowledgeSourceIngestionPermissionOption = string;
-
-// @public
 export type KnowledgeSourceKind = string;
 
 // @public
@@ -1027,13 +1024,6 @@ export enum KnownKnowledgeBaseModelKind {
 export enum KnownKnowledgeSourceContentExtractionMode {
     Minimal = "minimal",
     Standard = "standard"
-}
-
-// @public
-export enum KnownKnowledgeSourceIngestionPermissionOption {
-    GroupIds = "groupIds",
-    RbacScope = "rbacScope",
-    UserIds = "userIds"
 }
 
 // @public

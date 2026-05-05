@@ -36,6 +36,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "playwright": "catalog:testing",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

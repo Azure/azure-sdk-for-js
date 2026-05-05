@@ -69,6 +69,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -96,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-planetarycomputer?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-planetarycomputer"
   },
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",

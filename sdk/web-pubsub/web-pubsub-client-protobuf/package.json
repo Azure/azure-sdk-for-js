@@ -78,6 +78,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "protobufjs-cli": "^1.1.3",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

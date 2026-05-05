@@ -190,6 +190,8 @@ export function list(
       itemName: "data",
       apiVersion: context.apiVersion,
       nextPageRequestOptions: { headers: { "foundry-features": "Skills=V1Preview" } },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
     },
   );
 }

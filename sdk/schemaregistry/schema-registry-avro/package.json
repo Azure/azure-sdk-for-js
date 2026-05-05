@@ -89,6 +89,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "process": "^0.11.10",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "stream": "^0.0.3",
     "typescript": "catalog:",

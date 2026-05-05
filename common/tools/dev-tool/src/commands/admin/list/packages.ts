@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../../framework/command.ts";
 import path from "node:path";
-import { resolveRoot } from "../../../util/resolveProject";
-import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
+import { resolveRoot } from "../../../util/resolveProject.ts";
+import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson.ts";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
   paths: {
@@ -50,8 +50,8 @@ async function echoPackage(project: RushJsonProject, paths: boolean, cwd: string
 ```ts
 import path from "node:path";
 import { writeFile } from "node:fs/promises";
-import { resolveProject } from "../../../../util/resolveProject";
-import { RushJsonProject } from "../../../../util/synthesizedRushJson";
+import { resolveProject } from "../../../../util/resolveProject.ts";
+import { RushJsonProject } from "../../../../util/synthesizedRushJson.ts";
 
 export default async function listPackageCallback(
   project: RushJsonProject,

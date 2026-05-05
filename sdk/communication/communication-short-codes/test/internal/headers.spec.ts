@@ -8,7 +8,6 @@ import { ShortCodesClient } from "../../src/shortCodesClient.js";
 import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients.js";
-import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("ShortCodesClient - headers", () => {
@@ -31,17 +30,14 @@ describe("ShortCodesClient - headers", () => {
     request = spy.mock.calls[0][0];
   });
 
-  it("[node] sets correct host", (ctx) => {
-    if (!isNodeLike) {
-      ctx.skip();
-    }
+  it("sets correct host", () => {
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
   it("sets correct default user-agent", () => {
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(`azsdk-js-communication-short-codes/${SDK_VERSION}`, "g"),
     );
   });
@@ -106,9 +102,9 @@ describe("ShortCodesClient - headers", () => {
 
     request = spy.mock.calls[0][0];
 
-    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
+    const userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
     assert.match(
-      request.headers.get(userAgentHeader) as string,
+      userAgent as string,
       new RegExp(
         `shortcodesclient-headers-test azsdk-js-communication-short-codes/${SDK_VERSION}`,
         "g",

@@ -78,13 +78,14 @@
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "react-native": "catalog:testing",
+    "rimraf": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:testing",
-    "dotenv": "catalog:testing"
+    "vitest": "catalog:testing"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",

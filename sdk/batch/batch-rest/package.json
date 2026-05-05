@@ -80,6 +80,7 @@
     "moment": "^2.30.1",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

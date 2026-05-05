@@ -94,7 +94,12 @@ export function listVersions(
     () => _listVersionsSend(context, agentName, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
@@ -359,7 +364,12 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
   );
 }
 
