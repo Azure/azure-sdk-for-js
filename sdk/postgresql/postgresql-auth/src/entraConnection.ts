@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import { logger } from "./logger.js";
 
 /**
@@ -76,9 +77,7 @@ function decodeJwtToken(token: string): DecodedJwtPayload | null {
     }
 
     const payload = parts[1];
-    // Add padding if needed for base64 decoding
-    const paddedPayload = payload + "=".repeat((4 - (payload.length % 4)) % 4);
-    const decodedPayload = Buffer.from(paddedPayload, "base64url").toString("utf8");
+    const decodedPayload = uint8ArrayToString(stringToUint8Array(payload, "base64url"), "utf-8");
 
     return JSON.parse(decodedPayload) as DecodedJwtPayload;
   } catch (error: unknown) {
