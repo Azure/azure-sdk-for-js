@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/web-pubsub": ["../src/index.ts"]
+    }
+  }
+}

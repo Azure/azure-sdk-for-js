@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-migrate": ["../src/index.ts"]
+    }
+  }
+}

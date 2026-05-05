@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/maps-geolocation": ["../src/index.ts"]
+    }
+  }
+}

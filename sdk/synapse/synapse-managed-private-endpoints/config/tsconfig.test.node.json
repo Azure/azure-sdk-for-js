@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/synapse-managed-private-endpoints": ["../src/index.ts"]
+    }
+  }
+}
