@@ -59,9 +59,9 @@ Once you've authenticated with [the authentication method that suits you best][d
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
 const credentials = new DefaultAzureCredential();
-const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
+const client = new KeyVaultAccessControlClient(url, credentials);
 ```
 
 ### Create KeyVaultBackupClient
@@ -72,9 +72,9 @@ Once you've authenticated with [the authentication method that suits you best][d
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+const url = process.env["AZURE_MANAGEDHSM_URI"] || "<managedhsm-url>";
 const credentials = new DefaultAzureCredential();
-const client = new KeyVaultBackupClient(vaultUrl, credentials);
+const client = new KeyVaultBackupClient(url, credentials);
 ```
 
 ## Key concepts
