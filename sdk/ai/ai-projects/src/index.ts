@@ -173,6 +173,8 @@ export type {
   AgentBlueprintReferenceType,
   ManagedAgentIdentityBlueprintReference,
   AgentEndpointConfig,
+  /** @deprecated Use AgentEndpointConfig instead */
+  AgentEndpoint,
   VersionSelector,
   VersionSelectionRule,
   VersionSelectionRuleUnion,
@@ -193,6 +195,7 @@ export type {
   AgentCard,
   AgentCardSkill,
   ApiErrorResponse,
+  ApiError,
   ErrorModel,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
@@ -564,6 +567,7 @@ export type {
   BetaSchedulesOperations,
   BetaSkillsOperations,
   BetaToolboxesOperations,
+  BetaDatasetsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 

@@ -11,14 +11,14 @@
  * @summary Demonstrates data generation job operations using the beta datasets API.
  */
 
-import { AIProjectClient } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { AIProjectClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
-export async function main(): Promise<void> {
+async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating data generation job...");
@@ -50,7 +50,7 @@ export async function main(): Promise<void> {
     `Data generation job created (id: ${generationJob.id}, status: ${generationJob.status})`,
   );
 
-  const fetchedJob = await project.beta.datasets.getGenerationJob(generationJob.id!, {
+  const fetchedJob = await project.beta.datasets.getGenerationJob(generationJob.id, {
     foundryFeatures: "DataGenerationJobs=V1Preview",
   });
   console.log(`Fetched data generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`);
@@ -64,7 +64,7 @@ export async function main(): Promise<void> {
   }
 
   if (generationJob.status === "queued" || generationJob.status === "in_progress") {
-    const cancelledJob = await project.beta.datasets.cancelGenerationJob(generationJob.id!, {
+    const cancelledJob = await project.beta.datasets.cancelGenerationJob(generationJob.id, {
       foundryFeatures: "DataGenerationJobs=V1Preview",
     });
     console.log(
@@ -72,7 +72,7 @@ export async function main(): Promise<void> {
     );
   }
 
-  await project.beta.datasets.deleteGenerationJob(generationJob.id!, {
+  await project.beta.datasets.deleteGenerationJob(generationJob.id, {
     foundryFeatures: "DataGenerationJobs=V1Preview",
   });
   console.log("Data generation job deleted");
@@ -81,3 +81,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

@@ -191,9 +191,9 @@ export function _listGenerationJobsSend(
       after: options?.after,
       before: options?.before,
       scenario: options?.scenario,
-      type: !options?.typeParam
-        ? options?.typeParam
-        : options?.typeParam.map((p: any) => {
+      type: !options?.type
+        ? options?.type
+        : options?.type.map((p: any) => {
             return p;
           }),
       "api%2Dversion": context.apiVersion ?? "v1",

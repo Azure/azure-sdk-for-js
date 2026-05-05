@@ -13,7 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("node:fs/promises");
 const path = require("path");
+const { fileURLToPath } = require("node:url");
 require("dotenv/config");
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
