@@ -603,6 +603,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -682,6 +685,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -852,6 +858,9 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -958,6 +967,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1079,6 +1091,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1155,6 +1170,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1228,6 +1246,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1301,6 +1322,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1362,6 +1386,9 @@ importers:
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1618,6 +1645,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1685,6 +1715,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1785,6 +1818,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1907,6 +1943,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1983,6 +2022,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2044,6 +2086,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2123,6 +2168,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2199,6 +2247,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2266,6 +2317,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2345,6 +2399,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2424,6 +2481,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2494,6 +2554,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2555,6 +2618,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2637,6 +2703,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2710,6 +2779,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2774,6 +2846,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2838,6 +2913,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2908,6 +2986,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2987,6 +3068,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3054,6 +3138,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3115,6 +3202,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3194,6 +3284,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3273,6 +3366,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3343,6 +3439,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3428,6 +3527,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3525,6 +3627,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3616,6 +3721,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3686,6 +3794,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3753,6 +3864,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3823,6 +3937,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3896,6 +4013,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3966,6 +4086,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4042,6 +4165,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4103,6 +4229,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4161,6 +4290,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4243,6 +4375,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4322,6 +4457,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4407,6 +4545,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4501,6 +4642,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4623,6 +4767,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4696,6 +4843,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4760,6 +4910,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4839,6 +4992,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6292,6 +6448,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6362,6 +6521,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6444,6 +6606,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6517,6 +6682,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6596,6 +6764,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6675,6 +6846,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6754,6 +6928,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6833,6 +7010,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6903,6 +7083,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7049,6 +7232,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7128,6 +7314,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7198,6 +7387,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7262,6 +7454,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7332,6 +7527,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7411,6 +7609,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7490,6 +7691,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7691,6 +7895,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7770,6 +7977,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7849,6 +8059,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7928,6 +8141,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8007,6 +8223,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8092,6 +8311,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9156,6 +9378,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9253,6 +9478,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9323,6 +9551,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9393,6 +9624,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9460,6 +9694,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9539,6 +9776,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9618,6 +9858,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9679,6 +9922,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9749,6 +9995,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9816,6 +10065,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9886,6 +10138,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9956,6 +10211,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10020,6 +10278,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10090,6 +10351,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10169,6 +10433,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10236,6 +10503,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10309,6 +10579,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10388,6 +10661,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10458,6 +10734,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10537,6 +10816,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10616,6 +10898,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10680,6 +10965,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10744,6 +11032,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10814,6 +11105,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10890,6 +11184,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10954,6 +11251,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11033,6 +11333,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11112,6 +11415,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11182,6 +11488,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11264,6 +11573,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11343,6 +11655,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11410,6 +11725,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11477,6 +11795,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11547,6 +11868,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11632,6 +11956,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11705,6 +12032,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11784,6 +12114,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11854,6 +12187,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11924,6 +12260,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12000,6 +12339,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12079,6 +12421,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12155,6 +12500,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12234,6 +12582,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12301,6 +12652,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12380,6 +12734,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12450,6 +12807,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12520,6 +12880,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12599,6 +12962,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12672,6 +13038,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12736,6 +13105,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12812,6 +13184,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12891,6 +13266,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12961,6 +13339,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13040,6 +13421,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13204,6 +13588,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13305,6 +13692,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13378,6 +13768,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13448,6 +13841,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13581,6 +13977,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13958,6 +14357,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14037,6 +14439,9 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14113,6 +14518,9 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14174,6 +14582,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14238,6 +14649,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14332,6 +14746,9 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14448,6 +14865,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14518,6 +14938,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14582,6 +15005,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14649,6 +15075,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14728,6 +15157,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14807,6 +15239,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14886,6 +15321,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14956,6 +15394,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15035,6 +15476,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15114,6 +15558,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15193,6 +15640,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15263,6 +15713,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15342,6 +15795,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15412,6 +15868,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15485,6 +15944,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15555,6 +16017,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15981,6 +16446,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16060,6 +16528,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16130,6 +16601,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16203,6 +16677,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16270,6 +16747,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16337,6 +16817,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16416,6 +16899,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16495,6 +16981,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16565,6 +17054,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16644,6 +17136,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16723,6 +17218,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16793,6 +17291,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17423,6 +17924,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17502,6 +18006,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17575,6 +18082,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17654,6 +18164,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17733,6 +18246,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17812,6 +18328,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17882,6 +18401,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17952,6 +18474,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18031,6 +18556,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18101,6 +18629,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18180,6 +18711,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18250,6 +18784,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18329,6 +18866,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18393,6 +18933,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18463,6 +19006,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18594,6 +19140,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18664,6 +19213,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18725,6 +19277,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18789,6 +19344,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18859,6 +19417,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18920,6 +19481,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18990,6 +19554,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19057,6 +19624,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19118,6 +19688,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19185,6 +19758,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19249,6 +19825,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19313,6 +19892,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19383,6 +19965,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19453,6 +20038,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19532,6 +20120,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19599,6 +20190,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19663,6 +20257,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19742,6 +20339,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19806,6 +20406,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19885,6 +20488,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19964,6 +20570,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20046,6 +20655,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20128,6 +20740,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20210,6 +20825,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20277,6 +20895,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20350,6 +20971,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20414,6 +21038,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20478,6 +21105,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20548,6 +21178,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20618,6 +21251,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20697,6 +21333,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20776,6 +21415,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20858,6 +21500,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20922,6 +21567,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20995,6 +21643,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21086,6 +21737,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21520,6 +22174,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21608,6 +22265,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21672,6 +22332,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21739,6 +22402,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21809,6 +22475,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21888,6 +22557,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21964,6 +22636,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22034,6 +22709,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22113,6 +22791,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22189,6 +22870,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22256,6 +22940,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22332,6 +23019,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22411,6 +23101,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22490,6 +23183,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22569,6 +23265,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22636,6 +23335,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22715,6 +23417,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22782,6 +23487,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22861,6 +23569,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22940,6 +23651,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23007,6 +23721,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23086,6 +23803,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23156,6 +23876,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23232,6 +23955,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23293,6 +24019,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23372,6 +24101,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23451,6 +24183,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23530,6 +24265,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23603,6 +24341,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23667,6 +24408,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23737,6 +24481,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23801,6 +24548,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23874,6 +24624,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23941,6 +24694,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24020,6 +24776,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24151,6 +24910,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24218,6 +24980,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24291,6 +25056,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24361,6 +25129,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24440,6 +25211,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24513,6 +25287,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24592,6 +25369,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24659,6 +25439,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24729,6 +25512,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24802,6 +25588,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24878,6 +25667,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24957,6 +25749,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25030,6 +25825,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25100,6 +25898,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25173,6 +25974,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25246,6 +26050,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25328,6 +26135,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25407,6 +26217,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25486,6 +26299,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25556,6 +26372,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25629,6 +26448,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25705,6 +26527,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25784,6 +26609,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25854,6 +26682,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25924,6 +26755,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26003,6 +26837,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26064,6 +26901,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26128,6 +26968,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26198,6 +27041,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26262,6 +27108,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26332,6 +27181,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26402,6 +27254,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26475,6 +27330,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26545,6 +27403,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26624,6 +27485,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26700,6 +27564,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26791,6 +27658,9 @@ importers:
       process:
         specifier: ^0.11.10
         version: 0.11.10
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26925,6 +27795,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26995,6 +27868,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27074,6 +27950,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27272,6 +28151,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27342,6 +28224,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27412,6 +28297,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27482,6 +28370,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27540,6 +28431,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27604,6 +28498,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27674,6 +28571,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27822,6 +28722,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27938,6 +28841,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28020,6 +28926,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28099,6 +29008,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28163,6 +29075,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28242,6 +29157,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28312,6 +29230,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28391,6 +29312,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28461,6 +29385,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28540,6 +29467,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28610,6 +29540,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28680,6 +29613,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28753,6 +29689,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28823,6 +29762,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28902,6 +29844,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28975,6 +29920,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29045,6 +29993,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29148,6 +30099,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29239,6 +30193,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29352,6 +30309,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29452,6 +30412,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29592,6 +30555,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29690,6 +30656,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29781,6 +30750,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29863,6 +30835,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29939,6 +30914,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30018,6 +30996,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30082,6 +31063,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30161,6 +31145,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30228,6 +31215,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30295,6 +31285,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30362,6 +31355,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30432,6 +31428,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30508,6 +31507,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30572,6 +31574,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30642,6 +31647,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30712,6 +31720,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30785,6 +31796,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30858,6 +31872,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30937,6 +31954,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31010,6 +32030,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31077,6 +32100,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31147,6 +32173,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31354,6 +32383,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31424,6 +32456,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31528,6 +32563,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31601,6 +32639,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31680,6 +32721,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31796,6 +32840,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31857,6 +32904,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31921,6 +32971,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32003,6 +33056,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32116,6 +33172,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32180,6 +33239,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32253,6 +33315,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32338,6 +33403,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32411,6 +33479,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32490,6 +33561,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32563,6 +33637,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32627,6 +33704,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32697,6 +33777,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32788,6 +33871,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32858,6 +33944,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32928,6 +34017,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33095,6 +34187,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33171,6 +34266,9 @@ importers:
       protobufjs-cli:
         specifier: ^1.1.3
         version: 1.2.2(protobufjs@7.5.6)
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33235,6 +34333,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33314,6 +34415,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33384,6 +34488,9 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.59.1
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33463,6 +34570,9 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
+      react-native:
+        specifier: catalog:testing
+        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3

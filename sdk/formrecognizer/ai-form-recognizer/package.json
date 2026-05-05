@@ -100,6 +100,7 @@
     "magic-string": "~0.30.10",
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "rollup": "^4.0.0",
     "typescript": "catalog:",
