@@ -650,7 +650,8 @@ function assembleOutput(
     lines.push("}");
     lines.push("");
   } else {
-    // Multi-it: module-level describe statements (in original order) + named functions + main()
+    // Multi-it: module-level describe statements + main() first + named helper functions
+    // (Function declarations are hoisted, so main() can reference functions defined below)
     if (describeTexts.length > 0) {
       for (const v of describeTexts) {
         lines.push(v);
@@ -658,17 +659,7 @@ function assembleOutput(
       lines.push("");
     }
 
-    for (const fn of functions) {
-      lines.push(`async function ${fn.name}() {`);
-      for (const stmt of fn.bodyTexts) {
-        for (const line of stmt.split("\n")) {
-          lines.push("  " + line);
-        }
-      }
-      lines.push("}");
-      lines.push("");
-    }
-
+    // Emit main() first for better readability — readers see the entry point immediately
     lines.push("export async function main(): Promise<void> {");
     for (const stmt of mainPreambleTexts) {
       for (const line of stmt.split("\n")) {
@@ -710,6 +701,18 @@ function assembleOutput(
     }
     lines.push("}");
     lines.push("");
+
+    // Named helper functions (after main for readability)
+    for (const fn of functions) {
+      lines.push(`async function ${fn.name}(): Promise<void> {`);
+      for (const stmt of fn.bodyTexts) {
+        for (const line of stmt.split("\n")) {
+          lines.push("  " + line);
+        }
+      }
+      lines.push("}");
+      lines.push("");
+    }
   }
 
   // catch handler (platform-aware)

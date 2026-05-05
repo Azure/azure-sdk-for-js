@@ -302,6 +302,21 @@ describe("operations", () => {
       expect(readIdx).toBeGreaterThan(createIdx);
       expect(deleteIdx).toBeGreaterThan(readIdx);
     });
+
+    it("main() appears before helper functions for readability", () => {
+      const result = compileSampleTest(multiInput, {
+        isSourceImport: testIsSourceImport,
+        packageName: "@azure/my-client",
+      });
+      const mainIdx = result.outputText.indexOf("export async function main()");
+      const createItemIdx = result.outputText.indexOf("async function createItem()");
+      const readItemIdx = result.outputText.indexOf("async function readItem()");
+      const deleteItemIdx = result.outputText.indexOf("async function deleteItem()");
+      expect(mainIdx).toBeGreaterThanOrEqual(0);
+      expect(createItemIdx).toBeGreaterThan(mainIdx);
+      expect(readItemIdx).toBeGreaterThan(mainIdx);
+      expect(deleteItemIdx).toBeGreaterThan(mainIdx);
+    });
   });
 
   // ── Test 4: Full-featured (widget lifecycle) ────────────────────
