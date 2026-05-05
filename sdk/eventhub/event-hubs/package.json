@@ -126,6 +126,7 @@
     "node-forge": "^1.3.2",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
@@ -153,5 +154,10 @@
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }
