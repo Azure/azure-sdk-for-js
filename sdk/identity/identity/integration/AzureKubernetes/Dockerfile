@@ -18,6 +18,9 @@ RUN npm run build
 FROM ${BASE_IMAGE}
 WORKDIR /app
 
+# Azure Linux base image does not include wget by default
+RUN tdnf install -y wget && tdnf clean all
+
 # Copy only the built app and necessary files
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
