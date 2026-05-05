@@ -137,5 +137,10 @@
         "default": "./dist/commonjs/loader.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }
