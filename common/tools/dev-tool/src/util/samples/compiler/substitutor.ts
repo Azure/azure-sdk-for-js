@@ -1,0 +1,309 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import ts from "typescript";
+import { Substitution, CompilerError } from "./types.js";
+import { isDeclarationName } from "./bindingAnalyzer.js";
+import { collectBindingNames } from "./astUtils.js";
+
+/**
+ * Result of the forPublishing substitution pass.
+ */
+export interface SubstitutionResult {
+  /** The transformed source file with forPublishing calls replaced */
+  transformedFile: ts.SourceFile;
+  /** Details of each substitution performed */
+  substitutions: Substitution[];
+}
+
+/**
+ * Result of the sampleOnly substitution pass.
+ */
+export interface SampleOnlyResult {
+  /** The transformed source file with sampleOnly calls replaced */
+  transformedFile: ts.SourceFile;
+  /** Count of sampleOnly calls replaced */
+  replacementCount: number;
+}
+
+/**
+ * Combined result of forPublishing and sampleOnly substitution.
+ */
+export interface CombinedSubstitutionResult {
+  /** The transformed source file with all calls replaced */
+  transformedFile: ts.SourceFile;
+  /** Details of forPublishing substitutions */
+  substitutions: Substitution[];
+  /** Count of sampleOnly calls replaced */
+  sampleOnlyCount: number;
+}
+
+/**
+ * Collect free variable names referenced in an expression.
+ * For `x.y.z` only `x` is collected (not `y`, `z`), since `y` and `z` are
+ * property names rather than binding references.
+ */
+export function collectFreeVariables(node: ts.Expression): Set<string> {
+  const names = new Set<string>();
+  const localScopes: Set<string>[] = [];
+
+  function isLocal(name: string): boolean {
+    for (const scope of localScopes) {
+      if (scope.has(name)) return true;
+    }
+    return false;
+  }
+
+  function visit(n: ts.Node): void {
+    if (ts.isPropertyAccessExpression(n)) {
+      // Only visit the left side (expression), not the .name
+      visit(n.expression);
+      return;
+    }
+
+    // Enter nested function/arrow scope — collect parameters
+    if (ts.isArrowFunction(n) || ts.isFunctionExpression(n)) {
+      const scope = new Set<string>();
+      for (const param of n.parameters) {
+        collectBindingNames(param.name, scope);
+      }
+      localScopes.push(scope);
+      ts.forEachChild(n, visit);
+      localScopes.pop();
+      return;
+    }
+
+    // Variable declarations inside expressions (rare but possible)
+    if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name)) {
+      if (localScopes.length > 0) {
+        localScopes[localScopes.length - 1].add(n.name.text);
+      }
+    }
+
+    if (ts.isIdentifier(n) && !isDeclarationName(n) && !isLocal(n.text)) {
+      names.add(n.text);
+    }
+    ts.forEachChild(n, visit);
+  }
+
+  visit(node);
+  return names;
+}
+
+/**
+ * Common validation for intrinsic call expression arrow functions.
+ * Returns the expression body from the arrow function argument.
+ */
+function validateArrowArgument(
+  arg: ts.Expression,
+  intrinsicName: string,
+  fileName: string,
+  sourceFile: ts.SourceFile,
+): ts.Expression {
+  if (!ts.isArrowFunction(arg)) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
+    throw new CompilerError(
+      `Argument to ${intrinsicName} must be an arrow function`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  if (arg.parameters.length > 0) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(arg.getStart(sourceFile));
+    throw new CompilerError(
+      `Arrow function in ${intrinsicName} must take no parameters (use a thunk: () => expr)`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  const body = arg.body;
+
+  if (ts.isBlock(body)) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(body.getStart(sourceFile));
+    throw new CompilerError(
+      `Arrow function in ${intrinsicName} must have an expression body, not a block body`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  return body as ts.Expression;
+}
+
+/**
+ * Validate a `forPublishing(...)` call expression and extract the published expression.
+ */
+function validateAndExtract(
+  node: ts.CallExpression,
+  fileName: string,
+  sourceFile: ts.SourceFile,
+): ts.Expression {
+  const args = node.arguments;
+
+  if (args.length !== 2) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile));
+    throw new CompilerError(
+      `forPublishing expects exactly 2 arguments, got ${args.length}`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  return validateArrowArgument(args[1], "forPublishing", fileName, sourceFile);
+}
+
+/**
+ * Validate a `sampleOnly(...)` call expression and extract the sample expression.
+ *
+ * sampleOnly takes a single argument: an arrow function returning the sample-only value.
+ * At runtime it returns undefined; the compiler replaces the call with the arrow body.
+ */
+function validateAndExtractSampleOnly(
+  node: ts.CallExpression,
+  fileName: string,
+  sourceFile: ts.SourceFile,
+): ts.Expression {
+  const args = node.arguments;
+
+  if (args.length !== 1) {
+    const { line } = sourceFile.getLineAndCharacterOfPosition(node.getStart(sourceFile));
+    throw new CompilerError(
+      `sampleOnly expects exactly 1 argument, got ${args.length}`,
+      fileName,
+      line + 1,
+    );
+  }
+
+  return validateArrowArgument(args[0], "sampleOnly", fileName, sourceFile);
+}
+
+// ── Core Substitution Engine ─────────────────────────────────────────────────
+
+/**
+ * Combined substitution pass for both forPublishing and sampleOnly calls.
+ *
+ * This is the core substitution engine. It performs both substitutions in a single
+ * AST transformation, avoiding the need to print and re-parse between passes.
+ *
+ * The single-purpose exports (substituteForPublishing, substituteSampleOnly) are
+ * thin wrappers around this function for backwards compatibility.
+ *
+ * @param sourceFile - The parsed source file
+ * @param checker - TypeChecker for symbol resolution
+ * @param fileName - For error messages
+ * @returns The transformed source file and substitution details for both constructs
+ */
+export function substituteTestPublishing(
+  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+  fileName: string,
+): CombinedSubstitutionResult {
+  const substitutions: Substitution[] = [];
+  let sampleOnlyCount = 0;
+
+  // Find both import symbols in a single pass over imports
+  let forPublishingSymbol: ts.Symbol | undefined;
+  let sampleOnlySymbol: ts.Symbol | undefined;
+
+  for (const stmt of sourceFile.statements) {
+    if (!ts.isImportDeclaration(stmt) || !stmt.moduleSpecifier) continue;
+    const spec = ts.isStringLiteral(stmt.moduleSpecifier) ? stmt.moduleSpecifier.text : "";
+    if (!spec.includes("test-publishing")) continue;
+
+    const clause = stmt.importClause;
+    if (!clause?.namedBindings || !ts.isNamedImports(clause.namedBindings)) continue;
+
+    for (const el of clause.namedBindings.elements) {
+      const originalName = el.propertyName?.text ?? el.name.text;
+      if (originalName === "forPublishing" && !forPublishingSymbol) {
+        forPublishingSymbol = checker.getSymbolAtLocation(el.name);
+      } else if (originalName === "sampleOnly" && !sampleOnlySymbol) {
+        sampleOnlySymbol = checker.getSymbolAtLocation(el.name);
+      }
+    }
+  }
+
+  // If neither import exists, return early
+  if (!forPublishingSymbol && !sampleOnlySymbol) {
+    return { transformedFile: sourceFile, substitutions: [], sampleOnlyCount: 0 };
+  }
+
+  const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
+    return (sf) => {
+      function visitor(node: ts.Node): ts.Node {
+        if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
+          const calleeSymbol = checker.getSymbolAtLocation(node.expression);
+
+          // Handle forPublishing
+          if (forPublishingSymbol && calleeSymbol === forPublishingSymbol) {
+            const publishedExpr = validateAndExtract(node, fileName, sourceFile);
+            substitutions.push({
+              originalNode: node,
+              publishedExpression: publishedExpr,
+              freeVariables: collectFreeVariables(publishedExpr),
+            });
+            return publishedExpr;
+          }
+
+          // Handle sampleOnly
+          if (sampleOnlySymbol && calleeSymbol === sampleOnlySymbol) {
+            const sampleExpr = validateAndExtractSampleOnly(node, fileName, sf);
+            sampleOnlyCount++;
+            return sampleExpr;
+          }
+        }
+
+        return ts.visitEachChild(node, visitor, context);
+      }
+
+      return ts.visitEachChild(sf, visitor, context);
+    };
+  };
+
+  const result = ts.transform(sourceFile, [transformer]);
+  const transformedFile = result.transformed[0];
+  result.dispose();
+
+  return { transformedFile, substitutions, sampleOnlyCount };
+}
+
+// ── Thin Wrappers (Backwards Compatibility) ──────────────────────────────────
+
+/**
+ * Find all `forPublishing(testVal, () => sampleVal)` calls and replace them
+ * with the arrow body expression.
+ *
+ * Note: This is a thin wrapper around substituteTestPublishing for backwards compatibility.
+ * For combined substitution, use substituteTestPublishing directly.
+ */
+export function substituteForPublishing(
+  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+  fileName: string = "<unknown>",
+): SubstitutionResult {
+  const combined = substituteTestPublishing(sourceFile, checker, fileName);
+  return {
+    transformedFile: combined.transformedFile,
+    substitutions: combined.substitutions,
+  };
+}
+
+/**
+ * Substitute `sampleOnly(() => expr)` calls with the arrow body expression.
+ *
+ * Note: This is a thin wrapper around substituteTestPublishing for backwards compatibility.
+ * For combined substitution, use substituteTestPublishing directly.
+ */
+export function substituteSampleOnly(
+  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
+  fileName: string,
+): SampleOnlyResult {
+  const combined = substituteTestPublishing(sourceFile, checker, fileName);
+  return {
+    transformedFile: combined.transformedFile,
+    replacementCount: combined.sampleOnlyCount,
+  };
+}

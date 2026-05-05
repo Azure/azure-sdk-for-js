@@ -28,6 +28,7 @@ import { resolveModule } from "./transforms";
 import { Config, resolveConfig } from "../resolveTsConfig";
 import { CompilerOptions } from "typescript";
 import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
+import { compileSampleTests } from "./compileSampleTests";
 
 const log = createPrinter("generator");
 
@@ -405,7 +406,22 @@ export async function makeSamplesFactory(
 
   log.debug("Computed full generation path:", versionFolder);
 
-  const finalSourcePath = sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE);
+  // If no explicit sourcePath, check for sample-tests first, fall back to samples-dev/
+  let finalSourcePath = sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE);
+  let sampleTestsResult: Awaited<ReturnType<typeof compileSampleTests>> = null;
+
+  if (!sourcePath) {
+    // Try compiling sample-tests; if found, use the staging directory
+    sampleTestsResult = await compileSampleTests(projectInfo.path, projectInfo.name);
+    if (sampleTestsResult) {
+      log.info(`Using compiled sample-tests from ${sampleTestsResult.stagingDir}`);
+      finalSourcePath = sampleTestsResult.stagingDir;
+    }
+  }
+
+  // Use sample.env from staging (if compiled) or fall back to package root
+  const sampleEnvPath =
+    sampleTestsResult?.sampleEnvPath ?? path.join(projectInfo.path, "sample.env");
 
   const info = await makeSampleGenerationInfo(projectInfo, finalSourcePath, versionFolder, onError);
   info.isBeta = isBeta;
@@ -442,7 +458,7 @@ export async function makeSamplesFactory(
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
   const actionIfDestinationDirty = options?.force ? "warn" : "throw";
-  return dir(
+  const factory = dir(
     versionFolder,
     safeClean(
       lazy((outputDirectory) =>
@@ -455,7 +471,7 @@ export async function makeSamplesFactory(
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
               file("tsconfig.json", () => createTsconfig(projectInfo)),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
@@ -469,7 +485,7 @@ export async function makeSamplesFactory(
                 createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
-              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              copy("sample.env", sampleEnvPath),
               // Extract the JS Module Text from the module info structures
               ...info.moduleInfos
                 // Only include the modules if they were not skipped
@@ -492,4 +508,18 @@ export async function makeSamplesFactory(
       { actionIfDirty: actionIfDestinationDirty },
     ),
   );
+
+  // Wrap factory to clean up sample-tests staging directory after use
+  if (sampleTestsResult) {
+    const cleanup = sampleTestsResult.cleanup;
+    return async (basePath: string) => {
+      try {
+        await factory(basePath);
+      } finally {
+        await cleanup();
+      }
+    };
+  }
+
+  return factory;
 }
