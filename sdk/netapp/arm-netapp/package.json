@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-netapp",
-  "version": "24.0.0",
+  "version": "24.0.1",
   "description": "A generated SDK for NetAppManagementClient.",
   "engines": {
     "node": ">=20.0.0"
