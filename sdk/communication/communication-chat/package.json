@@ -136,8 +136,8 @@
   },
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
       "default": "./src/*.ts"
     }
   }
