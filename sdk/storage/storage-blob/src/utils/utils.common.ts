@@ -5,7 +5,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -28,13 +28,13 @@ import {
   PathStylePorts,
   URLConstants,
 } from "./constants.js";
+import type { StorageChecksumAlgorithm } from "../models.js";
 import {
   type Tags,
   type ObjectReplicationPolicy,
   type ObjectReplicationRule,
   type ObjectReplicationStatus,
   type HttpAuthorization,
-  StorageChecksumAlgorithm,
 } from "../models.js";
 import type {
   ListBlobsFlatSegmentResponseModel,
@@ -45,7 +45,7 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
-import { HttpRequestBody } from "../Pipeline.js";
+import type { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
 /**
@@ -107,7 +107,7 @@ export function escapeURLPath(url: string): string {
   path = path || "/";
 
   path = escape(path);
-  urlParsed.pathname = path;
+  (urlParsed as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -185,12 +185,12 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     let defaultEndpointsProtocol = "";
     let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
+    let accountKey: Uint8Array = new Uint8Array(0);
     let endpointSuffix = "";
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    accountKey = stringToUint8Array(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
@@ -274,7 +274,7 @@ export function appendToURLPath(url: string, name: string): string {
 
   let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.pathname = path;
+  (urlParsed as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -334,7 +334,7 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  */
 export function setURLHost(url: string, host: string): string {
   const urlParsed = new URL(url);
-  urlParsed.hostname = host;
+  (urlParsed as { hostname: string }).hostname = host;
   return urlParsed.toString();
 }
 
@@ -460,24 +460,6 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 }
 
 /**
- * Base64 encode.
- *
- * @param content -
- */
-export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
-}
-
-/**
- * Base64 decode.
- *
- * @param encodedString -
- */
-export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
-}
-
-/**
  * Generate a 64 bytes base64 block ID string.
  *
  * @param blockIndex -
@@ -497,7 +479,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
   const res =
     blockIDPrefix +
     padStart(blockIndex.toString(), maxSourceStringLength - blockIDPrefix.length, "0");
-  return base64encode(res);
+  return uint8ArrayToString(stringToUint8Array(res, "utf-8"), "base64");
 }
 
 /**

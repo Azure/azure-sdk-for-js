@@ -6,7 +6,7 @@ import {
   getConnectionStringFromEnvironment,
   recorderEnvSetup,
   configureStorageClient,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "../../src/QueueServiceClient.js";
 import { newPipeline } from "../../src/index.js";

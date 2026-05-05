@@ -12,7 +12,7 @@ import {
   configureBlobStorageClient,
   SimpleTokenCredential,
   parseJwt,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { ContainerClient, BlobClient, BlobServiceClient } from "../../src/index.js";
 import {
   newPipeline,

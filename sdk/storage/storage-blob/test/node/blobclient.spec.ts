@@ -38,7 +38,7 @@ import {
   getUniqueName,
   parseJwt,
   recorderEnvSetup,
-} from "../utils/index.js";
+} from "#test-utils";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.js";

@@ -31,13 +31,13 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

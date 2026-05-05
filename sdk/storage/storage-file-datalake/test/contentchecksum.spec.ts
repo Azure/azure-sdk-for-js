@@ -4,14 +4,14 @@
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
 import type { DataLakeFileSystemClient } from "../src/index.js";
-import { DataLakeFileClient } from "../src/index.js";
+import type { DataLakeFileClient } from "../src/index.js";
 import {
   bodyToString,
   getDataLakeServiceClient,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { describe, it, expect, assert, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 

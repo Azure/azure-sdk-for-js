@@ -3,24 +3,30 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
+  NodeBuffer,
+  NodeReadableStream,
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNodeLike } from "@azure/core-util";
 import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
-import type { Readable } from "node:stream";
-import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
-import { BlobQueryResponse } from "./BlobQueryResponse.js";
-import type { UserDelegationKey } from "@azure/storage-common";
+import { BlobDownloadResponse } from "#platform/BlobDownloadResponse";
+import { BlobQueryResponse } from "#platform/BlobQueryResponse";
+import type { Readable, UserDelegationKey } from "@azure/storage-common";
 import {
   AnonymousCredential,
   StorageSharedKeyCredential,
   structuredMessageDecodingStream,
 } from "@azure/storage-common";
+import { isStorageSharedKeyCredential, parseConnectionString } from "#platform/credentials";
+import {
+  getDownloadProgressCallback,
+  shouldReturnEarlyForBrowserResponse,
+  isQuerySupported,
+} from "#platform/downloadHelpers";
 import type {
   AppendBlob,
   Blob as StorageBlob,
@@ -148,8 +154,9 @@ import type {
   BlobClientOptions,
   BlobClientConfig,
   AccessTierModifiedConditions,
+  StorageChecksumAlgorithm,
 } from "./models.js";
-import { ensureCpkIfSpecified, toAccessTier, StorageChecksumAlgorithm } from "./models.js";
+import { ensureCpkIfSpecified, toAccessTier } from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
@@ -171,6 +178,10 @@ import {
   BufferScheduler,
   StorageCRC64Calculator,
   structuredMessageDecodingBrowser,
+  isBuffer,
+  allocBuffer,
+  getBufferLength,
+  createBlobFromData,
 } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
@@ -209,7 +220,7 @@ import {
   fsStat,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.js";
+} from "#platform/utils/utils";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
@@ -994,7 +1005,7 @@ export class BlobClient extends StorageClient {
     containerName: string,
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
-    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+
     options?: BlobClientOptions,
   );
   /**
@@ -1013,7 +1024,7 @@ export class BlobClient extends StorageClient {
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
-    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+
     options?: BlobClientOptions,
   );
   /**
@@ -1044,7 +1055,7 @@ export class BlobClient extends StorageClient {
       | PipelineLike,
     blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
-    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+
     options?: BlobClientOptions,
   ) {
     options = options || {};
@@ -1056,7 +1067,7 @@ export class BlobClient extends StorageClient {
       pipeline = credentialOrPipelineOrContainerName;
       options = blobNameOrOptions as BlobClientConfig;
     } else if (
-      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipelineOrContainerName) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -1085,34 +1096,22 @@ export class BlobClient extends StorageClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeLike) {
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName!,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
-            encodeURIComponent(blobName),
-          );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
+      const parsedConn = parseConnectionString(urlOrConnectionString);
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(
+          appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
+          encodeURIComponent(blobName),
+        );
+        options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
         url =
           appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName),
           ) +
           "?" +
-          extractedCreds.accountSas;
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -1307,7 +1306,7 @@ export class BlobClient extends StorageClient {
             ifTags: options.conditions?.tagConditions,
           },
           requestOptions: {
-            onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            onDownloadProgress: getDownloadProgressCallback(options.onProgress),
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1327,7 +1326,7 @@ export class BlobClient extends StorageClient {
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
       // Return browser response immediately
-      if (!isNodeLike) {
+      if (shouldReturnEarlyForBrowserResponse) {
         if (contentChecksumAlgorithm === "StorageCrc64") {
           wrappedRes.blobBody = structuredMessageDecodingBrowser(await wrappedRes.blobBody!);
         }
@@ -1366,7 +1365,7 @@ export class BlobClient extends StorageClient {
 
       return new BlobDownloadResponse(
         wrappedRes,
-        async (start: number): Promise<NodeJS.ReadableStream> => {
+        async (start: number): Promise<NodeReadableStream> => {
           const updatedDownloadOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: {
@@ -1970,7 +1969,7 @@ export class BlobClient extends StorageClient {
     offset?: number,
     count?: number,
     options?: BlobDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -1988,23 +1987,23 @@ export class BlobClient extends StorageClient {
    * @param options - BlobDownloadToBufferOptions
    */
   public async downloadToBuffer(
-    buffer: Buffer,
+    buffer: NodeBuffer,
     offset?: number,
     count?: number,
     options?: BlobDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   public async downloadToBuffer(
-    param1?: Buffer | number,
+    param1?: NodeBuffer | number,
     param2?: number,
     param3?: BlobDownloadToBufferOptions | number,
     param4: BlobDownloadToBufferOptions = {},
-  ): Promise<Buffer | undefined> {
-    let buffer: Buffer | undefined;
+  ): Promise<NodeBuffer | undefined> {
+    let buffer: NodeBuffer | undefined;
     let offset = 0;
     let count = 0;
     let options = param4;
-    if (param1 instanceof Buffer) {
+    if (isBuffer(param1)) {
       buffer = param1;
       offset = param2 || 0;
       count = typeof param3 === "number" ? param3 : 0;
@@ -2056,7 +2055,7 @@ export class BlobClient extends StorageClient {
         // Allocate the buffer of size = count if the buffer is not provided
         if (!buffer) {
           try {
-            buffer = Buffer.alloc(count);
+            buffer = allocBuffer(count);
           } catch (error: any) {
             throw new Error(
               `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
@@ -2064,7 +2063,7 @@ export class BlobClient extends StorageClient {
           }
         }
 
-        if (buffer.length < count) {
+        if (getBufferLength(buffer!) < count) {
           throw new RangeError(
             `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
           );
@@ -2792,7 +2791,7 @@ export class AppendBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
       options = blobNameOrOptions as BlobClientConfig;
     } else if (
-      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipelineOrContainerName) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -2819,34 +2818,22 @@ export class AppendBlobClient extends BlobClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeLike) {
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName!,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
-            encodeURIComponent(blobName),
-          );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
+      const parsedConn = parseConnectionString(urlOrConnectionString);
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(
+          appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
+          encodeURIComponent(blobName),
+        );
+        options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
         url =
           appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName),
           ) +
           "?" +
-          extractedCreds.accountSas;
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -3865,7 +3852,7 @@ export class BlockBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
       options = blobNameOrOptions as BlobClientConfig;
     } else if (
-      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipelineOrContainerName) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -3894,34 +3881,22 @@ export class BlockBlobClient extends BlobClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeLike) {
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName!,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
-            encodeURIComponent(blobName),
-          );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
+      const parsedConn = parseConnectionString(urlOrConnectionString);
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(
+          appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
+          encodeURIComponent(blobName),
+        );
+        options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
         url =
           appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName),
           ) +
           "?" +
-          extractedCreds.accountSas;
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -4009,7 +3984,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobQueryOptions = {},
   ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    if (!isNodeLike) {
+    if (!isQuerySupported) {
       throw new Error("This operation currently is only supported in Node.js.");
     }
 
@@ -4408,34 +4383,36 @@ export class BlockBlobClient extends BlobClient {
    * @param options -
    */
   public async uploadData(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView,
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
-      if (isNodeLike) {
-        let buffer: Buffer;
-        if (data instanceof Buffer) {
-          buffer = data;
-        } else if (data instanceof ArrayBuffer) {
-          buffer = Buffer.from(data);
-        } else {
-          data = data as ArrayBufferView;
-          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
-        }
-
+      // Handle Blob specially (browser-optimized path with streaming support)
+      if (data instanceof Blob) {
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
-          buffer.byteLength,
-          updatedOptions,
-        );
-      } else {
-        const browserBlob = new Blob([data as any]);
-        return this.uploadSeekableInternal(
-          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
-          browserBlob.size,
+          (offset: number, size: number): Blob => data.slice(offset, offset + size),
+          data.size,
           updatedOptions,
         );
       }
+
+      // Everything else can be treated as bytes using standard JS APIs
+      // Buffer extends Uint8Array, so this handles Buffer too
+      let bytes: Uint8Array;
+      if (data instanceof Uint8Array) {
+        bytes = data;
+      } else if (data instanceof ArrayBuffer) {
+        bytes = new Uint8Array(data);
+      } else {
+        // ArrayBufferView (DataView, typed arrays, etc.)
+        bytes = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+      }
+
+      return this.uploadSeekableInternal(
+        (offset: number, size: number): Uint8Array => bytes.slice(offset, offset + size),
+        bytes.byteLength,
+        updatedOptions,
+      );
     });
   }
 
@@ -4466,7 +4443,7 @@ export class BlockBlobClient extends BlobClient {
       "BlockBlobClient-uploadBrowserData",
       options,
       async (updatedOptions) => {
-        const browserBlob = new Blob([browserData as any]);
+        const browserBlob = createBlobFromData(browserData);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -5218,7 +5195,7 @@ export class PageBlobClient extends BlobClient {
       pipeline = credentialOrPipelineOrContainerName;
       options = blobNameOrOptions as BlobClientConfig;
     } else if (
-      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipelineOrContainerName) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -5245,34 +5222,22 @@ export class PageBlobClient extends BlobClient {
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeLike) {
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName!,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
-            encodeURIComponent(blobName),
-          );
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
+      const parsedConn = parseConnectionString(urlOrConnectionString);
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(
+          appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
+          encodeURIComponent(blobName),
+        );
+        options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
         url =
           appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            appendToURLPath(parsedConn.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName),
           ) +
           "?" +
-          extractedCreds.accountSas;
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

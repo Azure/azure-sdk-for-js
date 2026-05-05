@@ -6,7 +6,7 @@ import {
   getEncryptionScope_1,
   getEncryptionScope_2,
   getUniqueName,
-} from "./utils/index.js";
+} from "#test-utils";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   BlobServiceClient,

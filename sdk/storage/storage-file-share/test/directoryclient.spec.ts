@@ -8,7 +8,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import type { FilePosixProperties, ShareClient, ShareServiceClient } from "../src/index.js";
 import { ShareDirectoryClient, FileSystemAttributes } from "../src/index.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";

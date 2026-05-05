@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { StorageContextClient } from "./StorageContextClient.js";
+import { StorageContextClient } from "#platform/StorageContextClient";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
 import type { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import type { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
@@ -17,7 +17,7 @@ import {
 import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import { DataLakeClientConfig } from "./models.js";
+import type { DataLakeClientConfig } from "./models.js";
 
 /**
  * An interface for options common to every remote operation.

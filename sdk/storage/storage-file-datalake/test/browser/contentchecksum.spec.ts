@@ -8,7 +8,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import { getBrowserFile, arrayBufferEqual } from "../utils/index-browser.mjs";
 import { MB } from "../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";

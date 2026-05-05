@@ -8,7 +8,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
 import {
   newPipeline,

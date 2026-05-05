@@ -9,7 +9,7 @@ import {
   getDataLakeServiceClient,
   configureStorageClient,
   SimpleTokenCredential,
-} from "../utils/index.js";
+} from "#test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

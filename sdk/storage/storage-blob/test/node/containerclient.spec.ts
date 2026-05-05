@@ -7,7 +7,7 @@ import {
   getConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { PublicAccessType } from "../../src/index.js";
 import { getBlobServiceAccountAudience } from "../../src/index.js";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";

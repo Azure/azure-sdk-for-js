@@ -4,15 +4,13 @@
 import {
   base64encode,
   bodyToString,
-  configureBlobStorageClient,
   getBSU,
   getRecorderUniqueVariable,
-  getSASConnectionStringFromEnvironment,
   getUniqueName,
   isSuperSet,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type {
@@ -1109,65 +1107,6 @@ describe("ContainerClient", () => {
       );
     } catch (error: any) {
       assert.strictEqual(error.statusCode as number, 404);
-    }
-  });
-
-  it("can be created with a sas connection string", async () => {
-    const newClient = new ContainerClient(
-      getSASConnectionStringFromEnvironment(recorder),
-      containerName,
-    );
-    configureBlobStorageClient(recorder, newClient);
-
-    const result = await newClient.getProperties();
-
-    assert.isAbove(result.etag!.length, 0);
-    assert.isDefined(result.lastModified);
-    assert.isUndefined(result.leaseDuration);
-    assert.equal(result.leaseState, "available");
-    assert.equal(result.leaseStatus, "unlocked");
-    assert.isDefined(result.requestId);
-    assert.isDefined(result.version);
-    assert.isDefined(result.date);
-    assert.isUndefined(result.blobPublicAccess);
-  });
-
-  it("can be created with a sas connection string and a container name and an option bag", async () => {
-    const newClient = new ContainerClient(
-      getSASConnectionStringFromEnvironment(recorder),
-      containerName,
-      {
-        retryOptions: {
-          maxTries: 5,
-        },
-      },
-    );
-    configureBlobStorageClient(recorder, newClient);
-
-    const result = await newClient.getProperties();
-
-    assert.isAbove(result.etag!.length, 0);
-    assert.isDefined(result.lastModified);
-    assert.isUndefined(result.leaseDuration);
-    assert.equal(result.leaseState, "available");
-    assert.equal(result.leaseStatus, "unlocked");
-    assert.isDefined(result.requestId);
-    assert.isDefined(result.version);
-    assert.isDefined(result.date);
-    assert.isUndefined(result.blobPublicAccess);
-  });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new ContainerClient(getSASConnectionStringFromEnvironment(recorder), "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName parameter",
-        error.message,
-        "Error message is different than expected.",
-      );
     }
   });
 

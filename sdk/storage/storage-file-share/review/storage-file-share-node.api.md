@@ -12,21 +12,22 @@ import { BaseRequestPolicy } from '@azure/storage-common';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-common';
+import { Credential } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
-import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
-import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+import type { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import type { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import type { Readable } from 'node:stream';
-import { RequestPolicy } from '@azure/core-http-compat';
-import { RequestPolicyFactory } from '@azure/core-http-compat';
-import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+import type { Readable } from '@azure/storage-common';
+import type { RequestPolicy } from '@azure/core-http-compat';
+import type { RequestPolicyFactory } from '@azure/core-http-compat';
+import type { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { StorageBrowserPolicyFactory } from '@azure/storage-common';
 import { StorageRetryOptions } from '@azure/storage-common';
@@ -39,7 +40,7 @@ import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
-import { WebResourceLike as WebResource } from '@azure/core-http-compat';
+import type { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -158,7 +159,7 @@ export interface CorsRule {
     maxAgeInSeconds: number;
 }
 
-export { Credential_2 as Credential }
+export { Credential }
 
 export { CredentialPolicy }
 
@@ -775,7 +776,7 @@ export interface FileGetRangeListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeRenames?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
-    range?: Range_2;
+    range?: Range;
 }
 
 // @public
@@ -1339,7 +1340,7 @@ export interface Metrics {
 export type ModeCopyMode = "source" | "override";
 
 // @public
-export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: Credential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface NfsFileMode {
@@ -1395,11 +1396,10 @@ export interface PosixRolePermissions {
 }
 
 // @public
-interface Range_2 {
+export interface Range {
     count?: number;
     offset: number;
 }
-export { Range_2 as Range }
 
 // @public
 export interface RangeModel {
@@ -1580,7 +1580,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool" | "Premium
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: ShareClientOptions);
-    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
@@ -1738,7 +1738,7 @@ export type ShareDeleteResponse = WithResponse<ShareDeleteHeaders, ShareDeleteHe
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
@@ -1785,7 +1785,7 @@ export interface ShareExistsOptions extends CommonOptions {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
@@ -1795,8 +1795,8 @@ export class ShareFileClient extends StorageClient {
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
-    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(buffer: NodeBuffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<NodeBuffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<NodeBuffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     exists(options?: FileExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
@@ -1823,11 +1823,11 @@ export class ShareFileClient extends StorageClient {
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
     get shareName(): string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
-    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
+    uploadData(data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
     uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
     uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
-    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
+    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJSReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
     withShareSnapshot(shareSnapshot: string): ShareFileClient;
@@ -2116,7 +2116,7 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: Credential | TokenCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;

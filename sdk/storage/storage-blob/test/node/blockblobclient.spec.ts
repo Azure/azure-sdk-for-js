@@ -6,8 +6,8 @@ import * as zlib from "zlib";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import {
-  SimpleTokenCredential,
   base64encode,
+  SimpleTokenCredential,
   bodyToString,
   configureBlobStorageClient,
   generateRandomUint8Array,
@@ -19,7 +19,7 @@ import {
   parseJwt,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { BlobClient, ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   BlockBlobClient,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { QueueClient } from "../src/QueueClient.js";
-import { getQSU } from "./utils/index.js";
+import { getQSU } from "#test-utils";
 import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

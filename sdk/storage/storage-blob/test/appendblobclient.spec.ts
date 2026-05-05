@@ -3,16 +3,8 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient } from "../src/index.js";
-import { AppendBlobClient } from "../src/index.js";
-import {
-  bodyToString,
-  configureBlobStorageClient,
-  getBSU,
-  getSASConnectionStringFromEnvironment,
-  getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
-} from "./utils/index.js";
+import type { AppendBlobClient } from "../src/index.js";
+import { bodyToString, getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppendBlobClient", () => {
@@ -108,45 +100,6 @@ describe("AppendBlobClient", () => {
     const downloadResponse = await appendBlobClient.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
-  });
-
-  it("can be created with a sas connection string", async () => {
-    const newClient = new AppendBlobClient(
-      getSASConnectionStringFromEnvironment(recorder),
-      containerName,
-      blobName,
-    );
-    configureBlobStorageClient(recorder, newClient);
-
-    await newClient.create();
-    await newClient.download();
-  });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      new AppendBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected.",
-      );
-    }
-  });
-
-  it("throws error if constructor blobName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new AppendBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected.",
-      );
-    }
   });
 
   it("appendBlock with invalid CRC64 should fail", async () => {

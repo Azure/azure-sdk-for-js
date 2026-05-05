@@ -8,7 +8,7 @@ import {
   configureStorageClient,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
 export interface FileSystemList {
@@ -1062,7 +1063,7 @@ export type PathReadResponse = PathReadHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 /** Optional parameters. */

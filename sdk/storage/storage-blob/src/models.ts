@@ -13,7 +13,7 @@ import type {
   BlobDownloadResponseModel,
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
-import { StoragePipelineOptions } from "./Pipeline.js";
+import type { StoragePipelineOptions } from "./Pipeline.js";
 
 /**
  * Blob tags.

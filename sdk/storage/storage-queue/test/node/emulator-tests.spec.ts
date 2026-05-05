@@ -6,7 +6,7 @@ import {
   getQSU,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

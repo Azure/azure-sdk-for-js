@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../../src/index.js";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "#test-utils";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("StorageSharedKeyCredentialPolicy Node.js only", () => {

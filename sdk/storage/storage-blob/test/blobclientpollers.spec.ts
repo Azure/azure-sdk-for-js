@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getBSU } from "./utils/index.js";
+import { getBSU } from "#test-utils";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   getUniqueName,

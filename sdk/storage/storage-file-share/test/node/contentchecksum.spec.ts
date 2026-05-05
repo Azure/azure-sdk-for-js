@@ -6,7 +6,7 @@ import * as path from "node:path";
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../../src/index.js";
-import { ShareFileClient } from "../../src/index.js";
+import type { ShareFileClient } from "../../src/index.js";
 import {
   createRandomLocalFile,
   // compareBodyWithUint8Array,
@@ -14,10 +14,10 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
-import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
+import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 
 // uploadData
 // uploadFile

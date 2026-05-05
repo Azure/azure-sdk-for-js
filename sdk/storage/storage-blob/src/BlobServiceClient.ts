@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   ServiceGetUserDelegationKeyHeaders,
@@ -41,6 +39,8 @@ import {
 } from "./utils/utils.common.js";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { StorageSharedKeyCredential, AnonymousCredential } from "@azure/storage-common";
+import { isStorageSharedKeyCredential, parseConnectionString } from "#platform/credentials";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
 import { tracingClient } from "./utils/tracing.js";
@@ -66,7 +66,7 @@ import type {
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
 } from "./generated/src/index.js";
-import { BlobClientConfig, BlobClientOptions } from "./models.js";
+import type { BlobClientConfig, BlobClientOptions } from "./models.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -357,27 +357,15 @@ export class BlobServiceClient extends StorageClient {
     options?: BlobClientOptions,
   ): BlobServiceClient {
     options = options || {};
-    const extractedCreds = extractConnectionStringParts(connectionString);
-    if (extractedCreds.kind === "AccountConnString") {
-      if (isNodeLike) {
-        const sharedKeyCredential = new StorageSharedKeyCredential(
-          extractedCreds.accountName!,
-          extractedCreds.accountKey,
-        );
-
-        if (!options.proxyOptions) {
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        }
-
-        const pipeline = newPipeline(sharedKeyCredential, options);
-        return new BlobServiceClient(extractedCreds.url, pipeline);
-      } else {
-        throw new Error("Account connection string is only supported in Node.js environment");
-      }
-    } else if (extractedCreds.kind === "SASConnString") {
+    const parsedConn = parseConnectionString(connectionString);
+    if (parsedConn.kind === "AccountConnString") {
+      options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+      const pipeline = newPipeline(parsedConn.credential, options);
+      return new BlobServiceClient(parsedConn.url, pipeline);
+    } else if (parsedConn.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
       return new BlobServiceClient(
-        extractedCreds.url + "?" + extractedCreds.accountSas,
+        parsedConn.url + "?" + extractConnectionStringParts(connectionString).accountSas,
         pipeline,
         options,
       );
@@ -463,7 +451,7 @@ export class BlobServiceClient extends StorageClient {
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNodeLike && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipeline) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {

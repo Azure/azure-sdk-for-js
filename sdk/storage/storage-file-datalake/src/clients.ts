@@ -3,16 +3,15 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import type { RequestBodyType as HttpRequestBody, NodeBuffer } from "@azure/core-rest-pipeline";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import type { Readable } from "node:stream";
-import type { UserDelegationKey } from "@azure/storage-common";
-import { BufferScheduler } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
+import { shouldReturnEarlyForBrowserResponse } from "#platform/credentials";
+import type { Readable, UserDelegationKey } from "@azure/storage-common";
+import { BufferScheduler, isBuffer } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
@@ -111,7 +110,7 @@ import {
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common.js";
-import { fsCreateReadStream, fsStat } from "./utils/utils.js";
+import { fsCreateReadStream, fsStat } from "#platform/utils/utils";
 import type {
   PathAppendDataHeaders,
   PathAppendDataOptionalParams,
@@ -1370,7 +1369,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const response = ParsePathGetPropertiesExtraHeaderValues(
         rawResponse as FileReadResponse,
       ) as FileReadResponse;
-      if (!isNodeLike && !response.contentAsBlob) {
+      if (shouldReturnEarlyForBrowserResponse && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1507,34 +1506,36 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options -
    */
   public async upload(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
-      if (isNodeLike) {
-        let buffer: Buffer;
-        if (data instanceof Buffer) {
-          buffer = data;
-        } else if (data instanceof ArrayBuffer) {
-          buffer = Buffer.from(data);
-        } else {
-          data = data as ArrayBufferView;
-          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
-        }
-
+      // Handle Blob specially (browser-optimized path with streaming support)
+      if (data instanceof Blob) {
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
-          buffer.length,
-          updatedOptions,
-        );
-      } else {
-        const browserBlob = new Blob([data as ArrayBuffer]);
-        return this.uploadSeekableInternal(
-          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
-          browserBlob.size,
+          (offset: number, size: number): Blob => data.slice(offset, offset + size),
+          data.size,
           updatedOptions,
         );
       }
+
+      // Everything else can be treated as bytes using standard JS APIs
+      // Buffer extends Uint8Array, so this handles Buffer too
+      let bytes: Uint8Array;
+      if (data instanceof Uint8Array) {
+        bytes = data;
+      } else if (data instanceof ArrayBuffer) {
+        bytes = new Uint8Array(data);
+      } else {
+        // ArrayBufferView (DataView, typed arrays, etc.)
+        bytes = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+      }
+
+      return this.uploadSeekableInternal(
+        (offset: number, size: number): Uint8Array => bytes.slice(offset, offset + size),
+        bytes.byteLength,
+        updatedOptions,
+      );
     });
   }
 
@@ -1779,11 +1780,11 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options -
    */
   public async readToBuffer(
-    buffer: Buffer,
+    buffer: NodeBuffer,
     offset?: number,
     count?: number,
     options?: FileReadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -1803,19 +1804,19 @@ export class DataLakeFileClient extends DataLakePathClient {
     offset?: number,
     count?: number,
     options?: FileReadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   public async readToBuffer(
-    bufferOrOffset?: Buffer | number,
+    bufferOrOffset?: NodeBuffer | number,
     offsetOrCount?: number,
     countOrOptions?: FileReadToBufferOptions | number,
     optOptions: FileReadToBufferOptions = {},
-  ): Promise<Buffer> {
-    let buffer: Buffer | undefined = undefined;
+  ): Promise<NodeBuffer> {
+    let buffer: NodeBuffer | undefined = undefined;
     let offset = 0;
     let count = 0;
     let options = optOptions;
-    if (bufferOrOffset instanceof Buffer) {
+    if (isBuffer(bufferOrOffset)) {
       buffer = bufferOrOffset;
       offset = offsetOrCount || 0;
       count = typeof countOrOptions === "number" ? countOrOptions : 0;
@@ -1946,7 +1947,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
       const response = rawResponse as FileReadResponse;
-      if (!isNodeLike && !response.contentAsBlob) {
+      if (shouldReturnEarlyForBrowserResponse && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;

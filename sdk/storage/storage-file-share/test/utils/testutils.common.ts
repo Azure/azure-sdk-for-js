@@ -7,7 +7,7 @@ import type {
   FindReplaceSanitizer,
 } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { isBrowser } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
@@ -53,11 +53,21 @@ const sasParams = [
   "ske",
   "sks",
   "skv",
+  "_",
 ];
-if (isBrowser) {
-  sasParams.push("_");
-}
-export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
+
+// Sanitizer to remove trailing & from URIs - fixes mismatch between old recordings
+// (made with trailing &) and current browser requests (without trailing &)
+const trailingAmpersandSanitizer: FindReplaceSanitizer = {
+  regex: true,
+  target: "&$",
+  value: "",
+};
+
+export const uriSanitizers: UriSanitizers = [
+  ...sasParams.map(getUriSanitizerForQueryParam),
+  trailingAmpersandSanitizer,
+];
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Comment following line to skip user delegation key/SAS related cases in record and play
@@ -98,11 +108,11 @@ export function getUniqueName(prefix: string): string {
 }
 
 export function base64encode(content: string): string {
-  return isBrowser ? btoa(content) : Buffer.from(content).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
 }
 
 export function base64decode(encodedString: string): string {
-  return isBrowser ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
 }
 
 /**

@@ -21,7 +21,7 @@ import {
   configureBlobStorageClient,
   SimpleTokenCredential,
   parseJwt,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";

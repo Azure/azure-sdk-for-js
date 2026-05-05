@@ -4,12 +4,17 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
+  NodeBuffer,
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { NodeJSReadableStream, UserDelegationKey } from "@azure/storage-common";
+import type { NodeJSReadableStream, Readable, UserDelegationKey } from "@azure/storage-common";
+import { parseConnectionString } from "#platform/credentials";
+import {
+  getDownloadProgressCallback,
+  shouldReturnEarlyForBrowserResponse,
+} from "#platform/downloadHelpers";
 import type {
   CopyFileSmbInfo,
   DeleteSnapshotsOptionType,
@@ -147,10 +152,10 @@ import { tracingClient } from "./utils/tracing.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileDownloadResponse } from "./FileDownloadResponse.js";
+import { FileDownloadResponse } from "#platform/FileDownloadResponse";
 import type { Range } from "./Range.js";
 import { rangeToString } from "./Range.js";
-import {
+import type {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
   FileAndDirectorySetPropertiesCommonOptions,
@@ -175,13 +180,13 @@ import {
   fileChangeTimeToString,
 } from "./models.js";
 import { Batch } from "./utils/Batch.js";
-import { BufferScheduler } from "./utils/BufferScheduler.js";
+import { BufferScheduler } from "#platform/utils/BufferScheduler";
 import {
   fsStat,
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.js";
+} from "#platform/utils/utils";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
 import { randomUUID } from "@azure/core-util";
 import {
@@ -193,11 +198,13 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
 import type { ListFilesIncludeType } from "./generated/src/index.js";
-import type { Readable } from "node:stream";
 import {
   StorageCRC64Calculator,
   structuredMessageDecodingBrowser,
   structuredMessageDecodingStream,
+  isBuffer,
+  allocBuffer,
+  getBufferLength,
 } from "@azure/storage-common";
 
 export type { ShareClientOptions, ShareClientConfig } from "./models.js";
@@ -747,21 +754,16 @@ export class ShareClient extends StorageClient {
       typeof credentialOrPipelineOrShareName === "string"
     ) {
       // (connectionString: string, name: string, options?: ShareClientOptions)
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
+      const parsedConn = parseConnectionString(urlOrConnectionString);
       const name = credentialOrPipelineOrShareName;
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeLike) {
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName!,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(extractedCreds.url, name);
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
-        url = appendToURLPath(extractedCreds.url, name) + "?" + extractedCreds.accountSas;
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(parsedConn.url, name);
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
+        url =
+          appendToURLPath(parsedConn.url, name) +
+          "?" +
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -4253,7 +4255,7 @@ export class ShareFileClient extends StorageClient {
       const rawResponse = await this.context.download({
         ...updatedOptions,
         requestOptions: {
-          onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+          onDownloadProgress: getDownloadProgressCallback(updatedOptions.onProgress), // for Node.js, progress is reported by RetriableReadableStream
         },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         ...this.shareClientConfig,
@@ -4273,7 +4275,7 @@ export class ShareFileClient extends StorageClient {
       } as any);
 
       // Return browser response immediately
-      if (!isNodeLike) {
+      if (shouldReturnEarlyForBrowserResponse) {
         if (contentChecksumAlgorithm === "StorageCrc64") {
           res.blobBody = structuredMessageDecodingBrowser(await res.blobBody!);
         }
@@ -4952,34 +4954,36 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async uploadData(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("ShareFileClient-uploadData", options, async (updatedOptions) => {
-      if (isNodeLike) {
-        let buffer: Buffer;
-        if (data instanceof Buffer) {
-          buffer = data;
-        } else if (data instanceof ArrayBuffer) {
-          buffer = Buffer.from(data);
-        } else {
-          data = data as ArrayBufferView;
-          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
-        }
-
+      // Handle Blob specially (browser-optimized path with streaming support)
+      if (data instanceof Blob) {
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
-          buffer.byteLength,
-          updatedOptions,
-        );
-      } else {
-        const browserBlob = new Blob([data as any]);
-        return this.uploadSeekableInternal(
-          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
-          browserBlob.size,
+          (offset: number, size: number): Blob => data.slice(offset, offset + size),
+          data.size,
           updatedOptions,
         );
       }
+
+      // Everything else can be treated as bytes using standard JS APIs
+      // Buffer extends Uint8Array, so this handles Buffer too
+      let bytes: Uint8Array;
+      if (data instanceof Uint8Array) {
+        bytes = data;
+      } else if (data instanceof ArrayBuffer) {
+        bytes = new Uint8Array(data);
+      } else {
+        // ArrayBufferView (DataView, typed arrays, etc.)
+        bytes = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+      }
+
+      return this.uploadSeekableInternal(
+        (offset: number, size: number): Uint8Array => bytes.slice(offset, offset + size),
+        bytes.byteLength,
+        updatedOptions,
+      );
     });
   }
 
@@ -5051,7 +5055,7 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   async uploadResetableStream(
-    streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
+    streamFactory: (offset: number, count?: number) => NodeJSReadableStream,
     size: number,
     options: FileParallelUploadOptions = {},
   ): Promise<void> {
@@ -5156,11 +5160,11 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async downloadToBuffer(
-    buffer: Buffer,
+    buffer: NodeBuffer,
     offset?: number,
     count?: number,
     options?: FileDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME
@@ -5180,20 +5184,20 @@ export class ShareFileClient extends StorageClient {
     offset?: number,
     count?: number,
     options?: FileDownloadToBufferOptions,
-  ): Promise<Buffer>;
+  ): Promise<NodeBuffer>;
 
   public async downloadToBuffer(
-    bufferOrOffset?: Buffer | number,
+    bufferOrOffset?: NodeBuffer | number,
     offsetOrCount?: number,
     countOrOptions?: FileDownloadToBufferOptions | number,
     optOptions: FileDownloadToBufferOptions = {},
-  ): Promise<Buffer> {
-    let buffer: Buffer | undefined = undefined;
+  ): Promise<NodeBuffer> {
+    let buffer: NodeBuffer | undefined = undefined;
     let offset: number;
     let count: number;
     let options: FileDownloadToBufferOptions = optOptions;
 
-    if (bufferOrOffset instanceof Buffer) {
+    if (isBuffer(bufferOrOffset)) {
       buffer = bufferOrOffset;
       offset = offsetOrCount || 0;
       count = typeof countOrOptions === "number" ? countOrOptions : 0;
@@ -5246,7 +5250,7 @@ export class ShareFileClient extends StorageClient {
 
         if (!buffer) {
           try {
-            buffer = Buffer.alloc(count);
+            buffer = allocBuffer(count);
           } catch (error: any) {
             throw new Error(
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
@@ -5256,7 +5260,7 @@ export class ShareFileClient extends StorageClient {
           }
         }
 
-        if (buffer.length < count) {
+        if (getBufferLength(buffer!) < count) {
           throw new RangeError(
             `The buffer's size should be equal to or larger than the request count of bytes: ${count}`,
           );
@@ -5290,7 +5294,7 @@ export class ShareFileClient extends StorageClient {
           });
         }
         await batch.do();
-        return buffer;
+        return buffer!;
       },
     );
   }
@@ -5353,15 +5357,16 @@ export class ShareFileClient extends StorageClient {
           stream,
           bufferSize,
           maxBuffers,
-          async (buffer: Buffer, offset?: number) => {
-            if (transferProgress + buffer.length > size) {
+          async (buffer: NodeBuffer, offset?: number) => {
+            const bufLen = getBufferLength(buffer);
+            if (transferProgress + bufLen > size) {
               throw new RangeError(
                 `Stream size is larger than file size ${size} bytes, uploading failed. ` +
                   `Please make sure stream length is less or equal than file size.`,
               );
             }
 
-            await this.uploadRange(buffer, offset!, buffer.length, {
+            await this.uploadRange(buffer, offset!, bufLen, {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: updatedOptions.tracingOptions,
@@ -5369,7 +5374,7 @@ export class ShareFileClient extends StorageClient {
             });
 
             // Update progress after block is successfully uploaded to server, in case of block trying
-            transferProgress += buffer.length;
+            transferProgress += bufLen;
             if (options.onProgress) {
               options.onProgress({ loadedBytes: transferProgress });
             }

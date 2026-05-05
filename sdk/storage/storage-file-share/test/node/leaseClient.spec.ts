@@ -6,7 +6,7 @@ import {
   getUniqueName,
   getTokenBSUWithDefaultCredential,
   bodyToString,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

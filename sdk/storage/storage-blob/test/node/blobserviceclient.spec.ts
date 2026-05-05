@@ -7,7 +7,7 @@ import {
   getTokenBSUWithDefaultCredential,
   recorderEnvSetup,
   SimpleTokenCredential,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";

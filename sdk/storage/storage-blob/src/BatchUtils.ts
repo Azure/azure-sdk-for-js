@@ -20,7 +20,3 @@ export async function getBodyAsText(
 
   return buffer.toString();
 }
-
-export function utf8ByteLength(str: string): number {
-  return Buffer.byteLength(str);
-}

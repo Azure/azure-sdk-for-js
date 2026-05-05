@@ -32,7 +32,7 @@ import {
   recorderEnvSetup,
   SimpleTokenCredential,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

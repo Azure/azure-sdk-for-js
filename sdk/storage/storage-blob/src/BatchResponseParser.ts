@@ -11,7 +11,7 @@ import {
   HeaderConstants,
   HTTPURLConnection,
 } from "./utils/constants.js";
-import { getBodyAsText } from "./BatchUtils.js";
+import { getBodyAsText } from "#platform/BatchUtils";
 import type { BatchSubRequest } from "./BlobBatch.js";
 import type { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse.js";
 import { logger } from "./log.js";

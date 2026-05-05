@@ -3,7 +3,6 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
 import type {
   EnqueuedMessage,
   DequeuedMessageItem,
@@ -46,8 +45,8 @@ import {
   assertResponse,
 } from "./utils/utils.common.js";
 import type { UserDelegationKey } from "@azure/storage-common";
-import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { AnonymousCredential } from "@azure/storage-common";
+import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import { isStorageSharedKeyCredential, parseConnectionString } from "#platform/credentials";
 import { tracingClient } from "./utils/tracing.js";
 import type { Metadata } from "./models.js";
 import {
@@ -508,7 +507,7 @@ export class QueueClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      (isNode && credentialOrPipelineOrQueueName instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipelineOrQueueName) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
@@ -528,27 +527,19 @@ export class QueueClient extends StorageClient {
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
       // (connectionString: string, containerName: string, queueName: string, options?: StoragePipelineOptions)
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
-          const queueName = credentialOrPipelineOrQueueName;
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(extractedCreds.url, queueName);
+      const queueName = credentialOrPipelineOrQueueName;
+      const parsedConn = parseConnectionString(urlOrConnectionString);
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(parsedConn.url, queueName);
 
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
+        options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
 
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
-        const queueName = credentialOrPipelineOrQueueName;
-        url = appendToURLPath(extractedCreds.url, queueName) + "?" + extractedCreds.accountSas;
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
+        url =
+          appendToURLPath(parsedConn.url, queueName) +
+          "?" +
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

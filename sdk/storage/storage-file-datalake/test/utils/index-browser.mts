@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { DataLakeClientOptions, DataLakeServiceClient, newPipeline } from "../../src/index.js";
+import type { DataLakeClientOptions} from "../../src/index.js";
+import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
 import { AnonymousCredential } from "@azure/storage-common";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -101,7 +102,7 @@ export function getEncryptionScope(): string {
  */
 export async function bodyToString(
   response: {
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: unknown;
     blobBody?: Promise<Blob>;
   },
   _length?: number,
@@ -155,3 +156,5 @@ export function getSASConnectionStringFromEnvironment(): string {
   }
   return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }
+
+export * from "./fakeTestSecrets.js";

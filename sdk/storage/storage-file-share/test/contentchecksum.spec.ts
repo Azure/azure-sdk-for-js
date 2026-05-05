@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../src/index.js";
-import { ShareFileClient } from "../src/index.js";
+import type { ShareFileClient } from "../src/index.js";
 import {
   bodyToString,
   // compareBodyWithUint8Array,
@@ -11,7 +11,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 

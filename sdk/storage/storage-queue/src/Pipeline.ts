@@ -5,8 +5,6 @@ import type {
   KeepAliveOptions,
   ExtendedServiceClientOptions,
   HttpPipelineLogLevel,
-} from "@azure/core-http-compat";
-import {
   CompatResponse as HttpOperationResponse,
   RequestPolicy as IHttpClient,
   HttpHeadersLike as HttpHeaders,
@@ -14,9 +12,8 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
-  convertHttpClient,
-  createRequestPolicyFactoryPolicy,
 } from "@azure/core-http-compat";
+import { convertHttpClient, createRequestPolicyFactoryPolicy } from "@azure/core-http-compat";
 import type {
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,
@@ -43,10 +40,10 @@ import {
   getCachedDefaultHttpClient,
   storageBrowserPolicy,
   storageRetryPolicy,
-  storageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
   storageRequestFailureDetailsParserPolicy,
+  storageSharedKeyCredentialPolicy,
 } from "@azure/storage-common";
 import {
   StorageOAuthScopes,

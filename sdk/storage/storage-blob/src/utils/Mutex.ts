@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { scheduleImmediate } from "#platform/utils/scheduler";
+
 enum MutexLockStatus {
   LOCKED,
   UNLOCKED,
@@ -61,7 +63,7 @@ export class Mutex {
   private static emitUnlockEvent(key: string) {
     if (this.listeners[key] !== undefined && this.listeners[key].length > 0) {
       const handler = this.listeners[key].shift();
-      setImmediate(() => {
+      scheduleImmediate(() => {
         handler!.call(this);
       });
     }

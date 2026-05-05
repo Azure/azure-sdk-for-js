@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import type {
   ContainerItem,
   CpkInfo as BlobCpkInfo,
@@ -21,7 +22,6 @@ import type {
   ServiceListFileSystemsSegmentResponse,
 } from "./models.js";
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
-import { base64encode } from "./utils/utils.common.js";
 
 /**
  * Get a blob endpoint URL from incoming blob or dfs endpoint URLs.
@@ -79,7 +79,7 @@ function mapHostUrl(url: string, hostMappings: string[][], callerMethodName: str
       break;
     }
   }
-  urlParsed.hostname = host;
+  (urlParsed as { hostname: string }).hostname = host;
   const result = urlParsed.toString();
   // don't add a trailing slash if one wasn't already present
   if (!url.endsWith("/") && result.endsWith("/")) {
@@ -193,7 +193,7 @@ export function toProperties(metadata?: Metadata): string | undefined {
   for (const key in metadata) {
     if (Object.prototype.hasOwnProperty.call(metadata, key)) {
       const value = metadata[key];
-      properties.push(`${key}=${base64encode(value)}`);
+      properties.push(`${key}=${uint8ArrayToString(stringToUint8Array(value, "utf-8"), "base64")}`);
     }
   }
 

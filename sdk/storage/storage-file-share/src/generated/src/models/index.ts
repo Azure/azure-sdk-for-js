@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
@@ -2878,7 +2879,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 /** Optional parameters. */

@@ -12,7 +12,7 @@ import {
   uriSanitizers,
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
-} from "../utils/index.js";
+} from "#test-utils";
 import type {
   ShareServiceClient,
   SignedIdentifier,

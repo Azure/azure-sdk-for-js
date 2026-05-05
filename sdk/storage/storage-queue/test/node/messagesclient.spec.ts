@@ -7,7 +7,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   configureStorageClient,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient.js";
 import type { TokenCredential } from "@azure/core-auth";

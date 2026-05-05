@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNodeLike } from "@azure/core-util";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
 
 import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src/index.js";
@@ -15,8 +14,8 @@ import {
   recorderEnvSetup,
   sleep,
   uriSanitizers,
-} from "./utils/index.js";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
+  Test_CPK_INFO,
+} from "#test-utils";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
@@ -892,7 +891,7 @@ describe("DataLakePathClient", () => {
       contentDisposition: "contentDisposition",
       contentEncoding: "contentEncoding",
       contentLanguage: "contentLanguage",
-      contentMD5: isNodeLike ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      contentMD5: new Uint8Array([1, 2, 3, 4]),
       contentType: "contentType",
     };
     await fileClient.setHttpHeaders(headers);

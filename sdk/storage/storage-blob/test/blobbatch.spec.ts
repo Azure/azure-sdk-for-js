@@ -11,7 +11,7 @@ import {
   getTokenBSU,
   getUniqueName,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src/index.js";
 import type { ContainerClient, BlockBlobClient, BlobBatchClient } from "../src/index.js";
