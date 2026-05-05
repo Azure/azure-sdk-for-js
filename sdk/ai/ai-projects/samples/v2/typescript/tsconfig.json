@@ -7,16 +7,15 @@
       "DOM"
     ],
     "importHelpers": true,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "types": [
-      "node"
-    ],
+    "moduleResolution": "node10",
+    "esModuleInterop": true,
     "outDir": "./dist",
-    "resolveJsonModule": true,
-    "moduleResolution": "node10"
+    "resolveJsonModule": true
   },
   "include": [
     "./src"
