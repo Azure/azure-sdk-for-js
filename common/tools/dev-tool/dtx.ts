@@ -21,7 +21,10 @@ const args = [
 
 const subProcess = spawn(engine, args, { stdio: "inherit" });
 
-subProcess.on("exit", (code) => process.exit(code ?? 0));
+subProcess.on("exit", (code, signal) => {
+  console.error(`subprocess exited with ${code} and signal ${signal}`);
+  process.exit(code ?? 0);
+});
 subProcess.on("error", (error) => {
   console.error(error);
   process.exit(1);
