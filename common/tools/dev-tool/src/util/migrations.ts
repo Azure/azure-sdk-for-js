@@ -12,11 +12,8 @@ import { createPrinter } from "./printer.ts";
 import type { ProjectInfo } from "./resolveProject.ts";
 import { METADATA_KEY } from "./resolveProject.ts";
 import { format } from "./prettier.ts";
-import { getDirname } from "./dirname.ts";
 
 const { debug } = createPrinter("util/migrations");
-
-const __dirname = getDirname(import.meta.url);
 
 /**
  * The context in which a migration runs.
@@ -242,7 +239,7 @@ export function loadMigrations() {
 
   return (_loadJob ??= (async function () {
     for await (const f of findMatchingFiles(
-      path.resolve(__dirname, "..", "migrations"),
+      path.resolve(import.meta.dirname, "..", "migrations"),
       (fn) => fn.endsWith(".ts") && !fn.endsWith(".d.ts"),
     )) {
       await import(f);

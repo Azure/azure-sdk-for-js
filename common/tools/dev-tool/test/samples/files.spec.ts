@@ -9,13 +9,11 @@ import { makeSamplesFactory } from "../../src/util/samples/generation.ts";
 import * as git from "../../src/util/git.ts";
 import { findMatchingFiles } from "../../src/util/findMatchingFiles.ts";
 import { METADATA_KEY } from "../../src/util/resolveProject.ts";
-import { getDirname } from "../../src/util/dirname.ts";
 
 // Please read: ./files/README.md
 
-const __dirname = getDirname(import.meta.url);
-const INPUT_PATH = path.join(__dirname, "files", "inputs");
-const EXPECT_PATH = path.join(__dirname, "files", "expectations");
+const INPUT_PATH = path.join(import.meta.dirname, "files", "inputs");
+const EXPECT_PATH = path.join(import.meta.dirname, "files", "expectations");
 
 describe("File content tests", { timeout: 50000 }, async function () {
   const shouldWriteExpectations = process.env.TEST_MODE === "record";
