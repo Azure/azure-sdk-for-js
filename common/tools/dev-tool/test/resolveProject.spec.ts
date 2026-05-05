@@ -7,16 +7,18 @@ import { resolveProject } from "../src/util/resolveProject.ts";
 
 describe("Project Resolution", () => {
   it("resolution halts at monorepo root", async () => {
-    await expect(resolveProject(path.join(__dirname, "..", ".."))).rejects.toThrow(/monorepo root/);
+    await expect(resolveProject(path.join(import.meta.dirname, "..", ".."))).rejects.toThrow(
+      /monorepo root/,
+    );
   });
 
   it("resolution halts at filesystem root", async () => {
-    const p = path.join(__dirname, "..", "..", "..", "..", "..");
+    const p = path.join(import.meta.dirname, "..", "..", "..", "..", "..");
     await expect(resolveProject(p)).rejects.toThrow(/filesystem root/);
   });
 
   it("resolution finds dev-tool package", async () => {
-    const packageInfo = await resolveProject(__dirname);
+    const packageInfo = await resolveProject(import.meta.dirname);
     assert.equal(packageInfo.name, "@azure/dev-tool");
     assert.match(
       packageInfo.path,

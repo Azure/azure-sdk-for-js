@@ -14,6 +14,16 @@ vi.mock("fs/promises", async () => {
   };
 });
 
+// we want path.resolve to behave like posix for our memfs tests
+vi.mock("path", async () => {
+  const path = await import("node:path/posix");
+  return {
+    default: {
+      ...path,
+    },
+  };
+});
+
 describe("resolveConfig", () => {
   beforeEach(() => {
     vol.reset();
