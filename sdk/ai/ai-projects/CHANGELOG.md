@@ -27,10 +27,6 @@
 
 - Fixed missing `BetaAgentsGetSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
 
-### Other Changes
-
-- Regenerated client from latest TypeSpec (commit `63dc02bd`).
-
 ## 2.1.1 (2026-05-04)
 
 ### Bugs Fixed
