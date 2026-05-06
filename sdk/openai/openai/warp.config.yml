@@ -1,3 +1,10 @@
 extends: ../../../warp.base.config.yml
-exports:
-  "./types": "./src/types/index.ts"
+targets:
+  esm:
+    tsconfig: ./config/tsconfig.src.esm.json
+  browser:
+    tsconfig: ./config/tsconfig.src.browser.json
+  react-native:
+    tsconfig: ./config/tsconfig.src.react-native.json
+  cjs:
+    tsconfig: ./config/tsconfig.src.cjs.json

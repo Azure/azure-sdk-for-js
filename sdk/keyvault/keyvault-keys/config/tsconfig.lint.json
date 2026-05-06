@@ -1,4 +1,10 @@
 {
   "extends": "../../../../tsconfig.json",
-  "include": ["../src", "../test"]
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "..",
+    "paths": {}
+  },
+  "include": ["../src/**/*.ts", "../src/**/*.mts", "../test/**/*.ts", "../test/**/*.mts"]
 }

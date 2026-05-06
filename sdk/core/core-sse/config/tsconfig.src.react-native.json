@@ -1,7 +1,3 @@
 {
-  "extends": "../../../../eng/tsconfigs/src.react-native.json",
-  "compilerOptions": {
-    "lib": ["ES2023", "ESNext.Disposable"]
-  },
-  "include": ["../src/index.ts"]
+  "extends": "../../../../eng/tsconfigs/src.react-native.json"
 }
