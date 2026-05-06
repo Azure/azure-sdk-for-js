@@ -102,5 +102,5 @@ export async function createRecorder(context: TestInfo): Promise<Recorder> {
 }
 
 export const testPollingOptions = {
-  intervalInMs: isLiveMode() ? undefined : 0,
+  updateIntervalInMs: isLiveMode() ? undefined : 0,
 };

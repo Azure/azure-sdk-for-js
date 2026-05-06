@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
-import { isNodeLike } from "@azure/core-util";
-import fs from "node:fs";
+import fs from "node:fs/promises";
+import path from "node:path";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
@@ -43,10 +42,6 @@ import { ServiceBusClient } from "@azure/service-bus";
 import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 import { assert } from "vitest";
-
-if (isNodeLike) {
-  dotenv.config();
-}
 
 const envSetupForPlayback: Record<string, string> = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://Sanitized/;accesskey=redacted",
@@ -306,8 +301,12 @@ export async function waitForEvent(
   return undefined;
 }
 
-export function persistEvents(testName: string): void {
+export async function persistEvents(testName: string): Promise<void> {
   if (isRecordMode()) {
+    if (!testName) {
+      return;
+    }
+
     // sanitize the events values accordingly
     const sanitizedEvents: any[] = [];
     for (const event of eventsToPersist) {
@@ -317,9 +316,7 @@ export function persistEvents(testName: string): void {
     }
 
     const jsonArrayString = JSON.stringify(sanitizedEvents, null, 2);
-    fs.writeFile(`recordings\\${testName}.json`, jsonArrayString, (err) => {
-      if (err) throw err;
-    });
+    await fs.writeFile(path.join("recordings", `${testName}.json`), jsonArrayString);
     // Clear the array for next test to use
     while (eventsToPersist.length > 0) {
       eventsToPersist.pop();
@@ -329,19 +326,12 @@ export function persistEvents(testName: string): void {
 
 export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
-    let data: string = "";
-    // Different OS has different file system path format.
-    try {
-      data = fs.readFileSync(`recordings\\${testName}.json`, "utf-8");
-    } catch {
-      console.log("original path doesn't work");
-      data = fs.readFileSync(`recordings/${testName}.json`, "utf-8");
-    }
+    const data = await fs.readFile(path.join("recordings", `${testName}.json`), "utf-8");
     const loadedEvents = JSON.parse(data);
 
-    loadedEvents.forEach(async (oneEvent: any) => {
+    for (const oneEvent of loadedEvents) {
       await eventBodyHandler(oneEvent);
-    });
+    }
   }
 }
 

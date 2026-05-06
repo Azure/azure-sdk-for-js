@@ -3,32 +3,22 @@
 
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra keyspace.
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Cassandra keyspace.
  *
- * @summary Deletes an existing Azure Cosmos DB Cassandra keyspace.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraKeyspaceDelete.json
+ * @summary deletes an existing Azure Cosmos DB Cassandra keyspace.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraKeyspaceDelete.json
  */
-async function cosmosDbCassandraKeyspaceDelete(): Promise<void> {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspaceName";
+async function cosmosDBCassandraKeyspaceDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result =
-    await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(
-      resourceGroupName,
-      accountName,
-      keyspaceName,
-    );
-  console.log(result);
+  await client.cassandraResources.deleteCassandraKeyspace("rg1", "ddb1", "keyspaceName");
 }
 
 async function main(): Promise<void> {
-  await cosmosDbCassandraKeyspaceDelete();
+  await cosmosDBCassandraKeyspaceDelete();
 }
 
 main().catch(console.error);

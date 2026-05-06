@@ -35,7 +35,7 @@ import {
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { SearchClientOptionalParams } from "./api/searchContext.js";
+export type { SearchClientOptionalParams } from "./api/searchContext.js";
 
 export class SearchClient {
   private _client: SearchContext;

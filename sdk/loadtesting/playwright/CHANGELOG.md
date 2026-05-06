@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.6 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,19 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.5 (2026-04-24)
+
+### Bugs Fixed
+
+- Fixed failure during report upload for test runs longer than 5 minutes when using GitHub OIDC authentication.
+
+## 1.1.4 (2026-04-10)
+
+### Bugs Fixed
+
+- Provided a direct Azure Portal URL to the specific Playwright test run.
+
 
 ## 1.1.3 (2026-03-18)
 

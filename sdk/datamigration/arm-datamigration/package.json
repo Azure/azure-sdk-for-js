@@ -43,11 +43,16 @@
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/datamigration/arm-datamigration"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -84,7 +89,7 @@
   "autoPublish": true,
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datamigration/arm-datamigration",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datamigration/arm-datamigration/README.md",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
@@ -112,6 +117,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   }
 }

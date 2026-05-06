@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { AIProjectClientOptionalParams } from "./aiProjectContext.js";
 export { createAIProject, type AIProjectContext } from "./aiProjectContext.js";
 

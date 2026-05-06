@@ -780,7 +780,7 @@ export class KeyClient {
       async (updatedOptions) => {
         const response = await this.client.getKeyAttestation(
           name,
-          updatedOptions.version ?? "",
+          updatedOptions.version,
           updatedOptions,
         );
         return getKeyFromKeyBundle(response);
@@ -1078,7 +1078,7 @@ export class KeyClient {
       const { nonce, algorithm, ...rest } = updatedOptions;
       const result = await this.client.release(
         name,
-        options?.version || "",
+        updatedOptions.version,
         {
           targetAttestationToken,
           enc: algorithm,

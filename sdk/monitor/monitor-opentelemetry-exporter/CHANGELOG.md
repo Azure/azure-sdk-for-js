@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 8KB by default.
 
 ### Features Added
 
@@ -14,6 +14,11 @@
 - The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
 - Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
 - Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
+- The exporter now reads the `MICROSOFT_OPENTELEMETRY_VERSION` environment variable and includes it in the `ai.internal.sdkVersion` tag with the `mot` prefix.
+
+### Other Changes
+
+- Revert custom properties limit to 8KB.
 
 ### Bugs Fixed
 

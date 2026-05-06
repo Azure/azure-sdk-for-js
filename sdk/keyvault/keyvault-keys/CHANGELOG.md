@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix dependency issue.
+
 ### Other Changes
 
 ## 4.10.0 (2025-06-10)

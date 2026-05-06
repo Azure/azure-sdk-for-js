@@ -34,7 +34,8 @@ import type {
 } from "./secretsModels.js";
 import { LATEST_API_VERSION } from "./secretsModels.js";
 import type { DeletionRecoveryLevel } from "./models/models.js";
-import { KnownDeletionRecoveryLevel } from "./models/models.js";
+import { KnownDeletionRecoveryLevel, KnownContentType } from "./models/models.js";
+import type { ContentType } from "./models/models.js";
 import type { KeyVaultSecretIdentifier } from "./identifier.js";
 import { parseKeyVaultSecretIdentifier } from "./identifier.js";
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
@@ -49,6 +50,8 @@ export {
   type DeletedSecret,
   type DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
+  type ContentType,
+  KnownContentType,
   type GetSecretOptions,
   type GetDeletedSecretOptions,
   type PurgeDeletedSecretOptions,
@@ -105,7 +108,7 @@ export class SecretClient {
    * const vaultName = "<YOUR KEYVAULT NAME>";
    * const url = `https://${vaultName}.vault.azure.net`;
    *
-   * // Lastly, create our keys client and connect to the service
+   * // Lastly, create our secrets client and connect to the service
    * const client = new SecretClient(url, credential);
    * ```
    * @param vaultUrl - The base URL to the vault. You should validate that this URL references a valid Key Vault resource. See https://aka.ms/azsdk/blog/vault-uri for details.
@@ -186,7 +189,14 @@ export class SecretClient {
     value: string,
     options: SetSecretOptions = {},
   ): Promise<KeyVaultSecret> {
-    const { enabled, notBefore, expiresOn: expires, tags, ...remainingOptions } = options;
+    const {
+      contentType,
+      enabled,
+      notBefore,
+      expiresOn: expires,
+      tags,
+      ...remainingOptions
+    } = options;
 
     return tracingClient.withSpan(
       "SecretClient.setSecret",
@@ -194,7 +204,7 @@ export class SecretClient {
       async (updatedOptions) => {
         const response = await this.client.setSecret(
           secretName,
-          { value, secretAttributes: { enabled, notBefore, expires }, tags },
+          { value, contentType, secretAttributes: { enabled, notBefore, expires }, tags },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response);
@@ -275,7 +285,14 @@ export class SecretClient {
     secretVersion: string,
     options: UpdateSecretPropertiesOptions = {},
   ): Promise<SecretProperties> {
-    const { enabled, notBefore, expiresOn: expires, tags, ...remainingOptions } = options;
+    const {
+      contentType,
+      enabled,
+      notBefore,
+      expiresOn: expires,
+      tags,
+      ...remainingOptions
+    } = options;
 
     return tracingClient.withSpan(
       "SecretClient.updateSecretProperties",
@@ -284,7 +301,7 @@ export class SecretClient {
         const response = await this.client.updateSecret(
           secretName,
           secretVersion,
-          { secretAttributes: { enabled, notBefore, expires }, tags },
+          { contentType, secretAttributes: { enabled, notBefore, expires }, tags },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response).properties;

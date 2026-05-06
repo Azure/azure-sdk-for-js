@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a managed cluster.
  *
  * @summary gets a managed cluster.
- * x-ms-original-file: 2026-01-01/ManagedClustersGet.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersGet.json
  */
 async function getManagedCluster() {
   const credential = new DefaultAzureCredential();

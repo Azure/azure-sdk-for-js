@@ -139,8 +139,17 @@ function Get-PackageInfoNameOverride {
 function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   Confirm-NodeInstallation
   $packageAndVersion = $pkgId + "@" + $pkgVersion
-  $npmVersion = (npm show $packageAndVersion version)
-  if ($LastExitCode -ne 0) {
+  $npmShowOutput = (npm show $packageAndVersion version 2>&1)
+  $showExitCode = $LastExitCode
+  if ($showExitCode -ne 0) {
+    $outputText = ($npmShowOutput | Out-String)
+    # A 404 response proves the registry is reachable; the package/version
+    # simply doesn't exist. Skip 'npm ping' which is unsupported by some
+    # registries (e.g. Azure DevOps feeds).
+    if ($outputText -match "E404") {
+      $global:LASTEXITCODE = 0
+      return $False
+    }
     npm ping
     if ($LastExitCode -eq 0) {
       return $False
@@ -148,7 +157,9 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
     Write-Host "Could not find a deployed version of $pkgId, and NPM connectivity check failed."
     exit(1)
   }
-  return $npmVersion -eq $pkgVersion
+  # With 2>&1, filter to stdout strings only (stderr becomes ErrorRecord objects)
+  $npmVersion = $npmShowOutput | Where-Object { $_ -is [string] } | Select-Object -Last 1
+  return "$npmVersion".Trim() -eq $pkgVersion
 }
 
 function Get-PackageJsonContentFromPackage($package, $workingDirectory) {

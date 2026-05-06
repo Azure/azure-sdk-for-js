@@ -772,6 +772,13 @@
       }
     }
   },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  },
   "keywords": [
     "node",
     "azure",
@@ -789,7 +796,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/cognitiveservices/arm-cognitiveservices"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

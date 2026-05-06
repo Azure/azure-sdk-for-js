@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes specific machines in an agent pool.
  *
  * @summary deletes specific machines in an agent pool.
- * x-ms-original-file: 2026-01-01/AgentPoolsDeleteMachines.json
+ * x-ms-original-file: 2026-02-01/AgentPoolsDeleteMachines.json
  */
 async function deleteSpecificMachinesInAnAgentPool() {
   const credential = new DefaultAzureCredential();

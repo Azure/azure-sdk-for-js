@@ -375,6 +375,9 @@ export type ExtendedLocationTypes = string;
 export type Format = string;
 
 // @public
+export type GatewayAPIIstioEnabled = string;
+
+// @public
 export type GPUDriver = string;
 
 // @public
@@ -542,6 +545,12 @@ export enum KnownFormat {
 }
 
 // @public
+export enum KnownGatewayAPIIstioEnabled {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownGPUDriver {
     Install = "Install",
     None = "None"
@@ -667,6 +676,12 @@ export enum KnownManagedClusterSKUTier {
 }
 
 // @public
+export enum KnownManagedGatewayType {
+    Disabled = "Disabled",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownNamespaceProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -751,7 +766,8 @@ export enum KnownOssku {
     Ubuntu2204 = "Ubuntu2204",
     Ubuntu2404 = "Ubuntu2404",
     Windows2019 = "Windows2019",
-    Windows2022 = "Windows2022"
+    Windows2022 = "Windows2022",
+    Windows2025 = "Windows2025"
 }
 
 // @public
@@ -893,7 +909,8 @@ export enum KnownUpgradeChannel {
 // @public
 export enum KnownVersions {
     V20251001 = "2025-10-01",
-    V20260101 = "2026-01-01"
+    V20260101 = "2026-01-01",
+    V20260201 = "2026-02-01"
 }
 
 // @public
@@ -1082,6 +1099,7 @@ export interface ManagedCluster extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
+    hostedSystemProfile?: ManagedClusterHostedSystemProfile;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     identity?: ManagedClusterIdentity;
     identityProfile?: Record<string, UserAssignedIdentity>;
@@ -1222,6 +1240,11 @@ export interface ManagedClusterAPIServerAccessProfile {
 }
 
 // @public
+export interface ManagedClusterAppRoutingIstio {
+    mode?: GatewayAPIIstioEnabled;
+}
+
+// @public
 export interface ManagedClusterAutoUpgradeProfile {
     nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
     upgradeChannel?: UpgradeChannel;
@@ -1229,7 +1252,18 @@ export interface ManagedClusterAutoUpgradeProfile {
 
 // @public
 export interface ManagedClusterAzureMonitorProfile {
+    appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
     metrics?: ManagedClusterAzureMonitorProfileMetrics;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoring {
+    autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+}
+
+// @public
+export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
+    enabled?: boolean;
 }
 
 // @public
@@ -1256,6 +1290,13 @@ export interface ManagedClusterCostAnalysis {
 }
 
 // @public
+export interface ManagedClusterHostedSystemProfile {
+    enabled?: boolean;
+    nodeSubnetID?: string;
+    systemNodeSubnetID?: string;
+}
+
+// @public
 export interface ManagedClusterHttpProxyConfig {
     enabled?: boolean;
     httpProxy?: string;
@@ -1275,7 +1316,13 @@ export interface ManagedClusterIdentity {
 
 // @public
 export interface ManagedClusterIngressProfile {
+    gatewayAPI?: ManagedClusterIngressProfileGatewayConfiguration;
     webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+}
+
+// @public
+export interface ManagedClusterIngressProfileGatewayConfiguration {
+    installation?: ManagedGatewayType;
 }
 
 // @public
@@ -1287,6 +1334,7 @@ export interface ManagedClusterIngressProfileNginx {
 export interface ManagedClusterIngressProfileWebAppRouting {
     dnsZoneResourceIds?: string[];
     enabled?: boolean;
+    gatewayAPIImplementations?: ManagedClusterWebAppRoutingGatewayAPIImplementations;
     readonly identity?: UserAssignedIdentity;
     nginx?: ManagedClusterIngressProfileNginx;
 }
@@ -1432,6 +1480,7 @@ export interface ManagedClusterProperties {
     enableRbac?: boolean;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
+    hostedSystemProfile?: ManagedClusterHostedSystemProfile;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     identityProfile?: Record<string, UserAssignedIdentity>;
     ingressProfile?: ManagedClusterIngressProfile;
@@ -1586,6 +1635,11 @@ export interface ManagedClusterUpgradeProfileProperties {
 }
 
 // @public
+export interface ManagedClusterWebAppRoutingGatewayAPIImplementations {
+    appRoutingIstio?: ManagedClusterAppRoutingIstio;
+}
+
+// @public
 export interface ManagedClusterWindowsProfile {
     adminPassword?: string;
     adminUsername: string;
@@ -1609,6 +1663,9 @@ export interface ManagedClusterWorkloadAutoScalerProfileKeda {
 export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
     enabled: boolean;
 }
+
+// @public
+export type ManagedGatewayType = string;
 
 // @public
 export interface ManagedNamespace extends TrackedResource {

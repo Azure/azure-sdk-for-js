@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-document-intelligence",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Document Intelligence Rest Client",
   "engines": {
     "node": ">=20.0.0"
@@ -24,7 +24,11 @@
     "CHANGELOG.md"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/documentintelligence/ai-document-intelligence-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -63,6 +67,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -119,5 +124,12 @@
     "disableDocsMs": true
   },
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

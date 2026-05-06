@@ -3,27 +3,23 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB Throughput Pool
+ * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB Throughput Pool
  *
- * @summary Retrieves the properties of an existing Azure Cosmos DB Throughput Pool
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/throughputPool/CosmosDBThroughputPoolGet.json
+ * @summary retrieves the properties of an existing Azure Cosmos DB Throughput Pool
+ * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolGet.json
  */
-async function cosmosDbThroughputPoolGet() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
-  const throughputPoolName = "tp1";
+async function cosmosDBThroughputPoolGet() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.throughputPool.get(resourceGroupName, throughputPoolName);
+  const result = await client.throughputPool.get("rgName", "tp1");
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbThroughputPoolGet();
+  await cosmosDBThroughputPoolGet();
 }
 
 main().catch(console.error);

@@ -42,8 +42,8 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "tsx": "^4.17.0",
-    "typescript": "~5.8.2",
-    "typescript-eslint": "~8.46.4",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "~8.58.0",
     "vitest": "^4.0.0"
   },
   "scripts": {

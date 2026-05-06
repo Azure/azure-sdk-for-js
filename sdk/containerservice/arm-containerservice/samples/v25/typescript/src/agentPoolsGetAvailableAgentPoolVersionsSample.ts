@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to see [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
  *
  * @summary see [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
- * x-ms-original-file: 2026-01-01/AgentPoolsGetAgentPoolAvailableVersions.json
+ * x-ms-original-file: 2026-02-01/AgentPoolsGetAgentPoolAvailableVersions.json
  */
 async function getAvailableVersionsForAgentPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

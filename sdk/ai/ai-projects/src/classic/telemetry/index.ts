@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { createTelemetryOperations } from "../../api/telemetry/operations.js";
 import type { ConnectionsOperations } from "../connections/index.js";
 

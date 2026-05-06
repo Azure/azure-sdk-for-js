@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned.
  *
  * @summary aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned.
- * x-ms-original-file: 2026-01-01/ManagedClustersAbortOperation.json
+ * x-ms-original-file: 2026-02-01/ManagedClustersAbortOperation.json
  */
 async function abortOperationOnManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

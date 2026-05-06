@@ -1,0 +1,19 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "include": [
+    "../src/node-events.d.ts",
+    "../src/index.ts",
+    "../src/search/index.ts",
+    "../src/search/api/index.ts",
+    "../src/searchIndex/index.ts",
+    "../src/searchIndex/api/index.ts",
+    "../src/searchIndexer/index.ts",
+    "../src/searchIndexer/api/index.ts",
+    "../src/knowledgeBaseRetrieval/index.ts",
+    "../src/knowledgeBaseRetrieval/api/index.ts",
+    "../src/models/index.ts",
+    "../src/models/azure/search/documents/index.ts",
+    "../src/models/azure/search/documents/indexes/index.ts",
+    "../src/models/azure/search/documents/knowledgeBases/index.ts"
+  ]
+}
