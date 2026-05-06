@@ -20,7 +20,11 @@ export interface EventMessage {
  * A stream of event messages
  */
 export type EventMessageStream = ReadableStream<EventMessage> &
-  AsyncDisposable &
+  PlatformAsyncDisposable &
   AsyncIterable<EventMessage>;
 
-export type { NodeIncomingMessage, NodeJSReadableStream } from "#platform/types";
+export type {
+  NodeIncomingMessage,
+  NodeJSReadableStream,
+  AsyncDisposable as PlatformAsyncDisposable,
+} from "#platform/types";

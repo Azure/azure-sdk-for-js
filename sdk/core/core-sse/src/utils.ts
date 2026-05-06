@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NodeIncomingMessage } from "#platform/types";
+import type { NodeIncomingMessage, AsyncDisposable } from "#platform/types";
 import { cancelNodeStream } from "#platform/types";
 import type { NodeJSReadableStream } from "./models.js";
 
