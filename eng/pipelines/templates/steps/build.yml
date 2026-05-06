@@ -30,6 +30,10 @@ steps:
     displayName: "Install Pnpm"
 
   - script: |
+      pnpm -v
+    displayName: "Oput Pnpm version"
+
+  - script: |
       npm ci
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     workingDirectory: ./eng/tools/eng-package-utils
