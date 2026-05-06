@@ -6,6 +6,7 @@
     { "path": "./config/tsconfig.src.cjs.json" },
     { "path": "./config/tsconfig.test.node.json" },
     { "path": "./config/tsconfig.test.browser.json" },
+    { "path": "./tsconfig.samples.json" },
     { "path": "./config/tsconfig.snippets.json" }
   ],
   "files": []
