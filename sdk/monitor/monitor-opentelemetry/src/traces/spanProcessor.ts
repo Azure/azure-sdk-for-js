@@ -9,7 +9,6 @@ import { Logger } from "../shared/logging/index.js";
 import {
   GEN_AI_OPERATION_INVOKE_AGENT,
   GEN_AI_OPERATION_NAME,
-  MAIN_AGENT_ATTRIBUTE_PREFIX,
   MAIN_AGENT_ONEND_MAPPING,
   MAIN_AGENT_ONSTART_MAPPING,
 } from "../utils/genaiAttributes.js";
@@ -56,9 +55,10 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
     if (!parentSpan) {
       return;
     }
-    // Active spans returned by trace.getSpan are SDK Span instances which
-    // expose the `attributes` accessor used by ReadableSpan. Cast to read.
-    const parentAttributes = (parentSpan as unknown as ReadableSpan).attributes;
+    // The Span returned by trace.getSpan may be a non-recording span or a
+    // foreign implementation that does not expose `attributes`. Only proceed
+    // when the parent looks like a ReadableSpan with readable attributes.
+    const parentAttributes = (parentSpan as Partial<ReadableSpan>).attributes;
     if (!parentAttributes) {
       return;
     }
@@ -80,14 +80,20 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
     if (!attributes || attributes[GEN_AI_OPERATION_NAME] !== GEN_AI_OPERATION_INVOKE_AGENT) {
       return;
     }
-    for (const key of Object.keys(attributes)) {
-      if (key.startsWith(MAIN_AGENT_ATTRIBUTE_PREFIX)) {
+    // Only check the four target attributes defined by the spec rather than
+    // scanning every key on the span.
+    for (const { target } of MAIN_AGENT_ONEND_MAPPING) {
+      if (attributes[target] !== undefined) {
         return;
       }
     }
-    // Mutate the underlying Span; this processor runs before BatchSpanProcessor
-    // so the exporter observes these attributes.
-    const writableSpan = span as unknown as Span;
+    // The processor runs before BatchSpanProcessor, so mutating the span here
+    // is observed by the exporter. Guard against ReadableSpan snapshots that
+    // don't expose a writable `setAttribute` (e.g., future SDK changes).
+    const writableSpan = span as Partial<Span>;
+    if (typeof writableSpan.setAttribute !== "function") {
+      return;
+    }
     for (const { target, source } of MAIN_AGENT_ONEND_MAPPING) {
       const value = attributes[source];
       if (value !== undefined) {
