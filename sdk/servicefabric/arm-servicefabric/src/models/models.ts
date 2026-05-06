@@ -1728,8 +1728,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2106,8 +2106,8 @@ export function vmSizeDeserializer(item: any): VMSize {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ArmProxyResource extends Resource {}
 
-export function armProxyResourceSerializer(item: ArmProxyResource): any {
-  return item;
+export function armProxyResourceSerializer(_item: ArmProxyResource): any {
+  return {};
 }
 
 export function armProxyResourceDeserializer(item: any): ArmProxyResource {
@@ -2190,9 +2190,9 @@ export interface ApplicationTypeResourceProperties {
 }
 
 export function applicationTypeResourcePropertiesSerializer(
-  item: ApplicationTypeResourceProperties,
+  _item: ApplicationTypeResourceProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function applicationTypeResourcePropertiesDeserializer(
@@ -2544,8 +2544,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
