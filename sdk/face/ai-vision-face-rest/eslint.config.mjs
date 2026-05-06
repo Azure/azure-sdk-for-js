@@ -1,10 +1,13 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default azsdkEslint.config([
+export default [
+  ...azsdkEslint.configs.recommended,
   {
-    rules: {
-      "tsdoc/syntax": "warn",
-      "@azure/azure-sdk/ts-modules-only-named": "warn",
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: "./config/tsconfig.lint.json",
+      },
     },
   },
-]);
+];

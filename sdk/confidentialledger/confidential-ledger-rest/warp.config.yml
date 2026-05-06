@@ -1,12 +1,10 @@
-exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
-
+extends: ../../../warp.base.config.yml
 targets:
-  - name: esm
-    condition: import
-    tsconfig: "../../../tsconfig.src.esm.json"
-  - name: commonjs
-    condition: require
-    tsconfig: "../../../tsconfig.src.cjs.json"
-    moduleType: commonjs
+  esm:
+    tsconfig: ./config/tsconfig.src.esm.json
+  browser:
+    tsconfig: ./config/tsconfig.src.browser.json
+  react-native:
+    tsconfig: ./config/tsconfig.src.react-native.json
+  cjs:
+    tsconfig: ./config/tsconfig.src.cjs.json
