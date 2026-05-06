@@ -18,17 +18,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
  
  // @public
-@@ -22,20 +20,18 @@
-     id: string;
-     retry?: number;
- }
- 
--// Warning: (ae-forgotten-export) The symbol "AsyncDisposable_2" needs to be exported by the entry point index.d.ts
-+// Warning: (ae-forgotten-export) The symbol "AsyncDisposable" needs to be exported by the entry point index.d.ts
- //
+@@ -26,14 +24,12 @@
  // @public
--export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable_2 & AsyncIterable<EventMessage>;
-+export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
+ export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
  
  // @public
 -export type NodeIncomingMessage = IncomingMessage;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NodeIncomingMessage, AsyncDisposable } from "#platform/types";
+import type { NodeIncomingMessage } from "#platform/types";
 import { cancelNodeStream } from "#platform/types";
 import type { NodeJSReadableStream } from "./models.js";
 
@@ -27,10 +27,9 @@ function makeAsyncDisposable<T>(
   webStream: any,
   dispose: () => PromiseLike<void>,
 ): asserts webStream is ReadableStream<T> & AsyncDisposable {
-  const symbolAsAny = Symbol as any;
-  symbolAsAny.asyncDispose ??= Symbol("Symbol.asyncDispose");
-  if (!webStream[symbolAsAny.asyncDispose]) {
-    webStream[symbolAsAny.asyncDispose] = () => dispose();
+  (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
+  if (!webStream[Symbol.asyncDispose]) {
+    webStream[Symbol.asyncDispose] = () => dispose();
   }
 }
 

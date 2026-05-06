@@ -58,10 +58,3 @@ export type NodeJSReadableStream = never;
 export function cancelNodeStream(_stream: never): void {
   // unreachable
 }
-
-/**
- * `AsyncDisposable` is not available in React Native.
- *
- * @public
- */
-export type AsyncDisposable = never;

@@ -31,10 +31,3 @@ export function cancelNodeStream(stream: IncomingMessage | NodeJSReadableStream)
     stream.destroy();
   }
 }
-
-/**
- * Re-export of the global `AsyncDisposable` interface for use in platform-neutral code.
- *
- * @public
- */
-export type AsyncDisposable = globalThis.AsyncDisposable;

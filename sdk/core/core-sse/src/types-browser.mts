@@ -18,10 +18,3 @@ export type NodeJSReadableStream = never;
 export function cancelNodeStream(_stream: never): void {
   // unreachable
 }
-
-/**
- * `AsyncDisposable` is not available in browser.
- *
- * @public
- */
-export type AsyncDisposable = never;
