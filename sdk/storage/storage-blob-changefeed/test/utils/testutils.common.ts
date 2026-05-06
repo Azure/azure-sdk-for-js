@@ -44,7 +44,18 @@ const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv
 if (!isNodeLike) {
   sasParams.push("_");
 }
-export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
+
+// strip trailing & so old recordings (with &) match new requests (without &)
+const trailingAmpersandSanitizer: FindReplaceSanitizer = {
+  regex: true,
+  target: "&$",
+  value: "",
+};
+
+export const uriSanitizers: FindReplaceSanitizer[] = [
+  ...sasParams.map(getUriSanitizerForQueryParam),
+  trailingAmpersandSanitizer,
+];
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Used in record and playback modes

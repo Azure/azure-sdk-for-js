@@ -53,7 +53,17 @@ if (!isNodeLike) {
   sasParams.push("_");
 }
 
-export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
+// strip trailing & so old recordings (with &) match new requests (without &)
+const trailingAmpersandSanitizer = {
+  regex: true,
+  target: "&$",
+  value: "",
+};
+
+export const uriSanitizers: UriSanitizers = [
+  ...sasParams.map(getUriSanitizerForQueryParam),
+  trailingAmpersandSanitizer,
+];
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Used in record and playback modes

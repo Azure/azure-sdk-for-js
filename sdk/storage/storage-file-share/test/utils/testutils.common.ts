@@ -57,7 +57,18 @@ const sasParams = [
 if (isBrowser) {
   sasParams.push("_");
 }
-export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
+
+// strip trailing & so old recordings (with &) match new requests (without &)
+const trailingAmpersandSanitizer: FindReplaceSanitizer = {
+  regex: true,
+  target: "&$",
+  value: "",
+};
+
+export const uriSanitizers: UriSanitizers = [
+  ...sasParams.map(getUriSanitizerForQueryParam),
+  trailingAmpersandSanitizer,
+];
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Comment following line to skip user delegation key/SAS related cases in record and play
