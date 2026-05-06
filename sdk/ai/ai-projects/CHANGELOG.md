@@ -16,7 +16,6 @@
 - Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
 - Added `EvaluatorGenerationJob`, `EvaluatorGenerationInputs`, `EvaluatorGenerationJobSource`, `RubricBasedEvaluatorDefinition`, `RubricCriterion`, and related union / helper types for the new evaluator-generation LRO.
-- Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.evaluators`.
 - Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.datasets`.
 - Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
 - Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
