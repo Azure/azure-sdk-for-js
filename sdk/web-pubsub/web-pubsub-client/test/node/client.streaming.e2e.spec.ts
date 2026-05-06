@@ -268,16 +268,16 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const socket = await startClientAndConnect(client, wss);
 
-    const streamErrorViaOnStream = withTimeout(
+    const streamErrorViaOnGroupStream = withTimeout(
       new Promise<{ streamId: string; group: string; error: any }>((resolve) => {
-        client!.onStream("g1", () => ({
+        client!.onGroupStream("g1", () => ({
           onError: (args) => {
             resolve({ streamId: args.streamId, group: args.group, error: args.error });
           },
         }));
       }),
       2000,
-      "Timed out waiting for endOfStream error to trigger onStream.onError.",
+      "Timed out waiting for endOfStream error to trigger onGroupStream.onError.",
     );
 
     // First message creates the active handler
@@ -297,7 +297,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       error: { name: "StreamNotFound", message: "not found" },
     });
 
-    await expect(streamErrorViaOnStream).resolves.toEqual({
+    await expect(streamErrorViaOnGroupStream).resolves.toEqual({
       streamId: "s-closed",
       group: "g1",
       error: { name: "StreamNotFound", message: "not found" },
@@ -413,7 +413,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const streamDone = withTimeout(
       new Promise<{ result: string; error?: any }>((resolve) => {
         const chunks: string[] = [];
-        client!.onStream(
+        client!.onGroupStream(
           "g1",
           () => ({
             onMessage: (args) => {
@@ -459,7 +459,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const socket = await startClientAndConnect(client, wss);
 
     let called = false;
-    client.onStream(
+    client.onGroupStream(
       "g1",
       () => ({
         onMessage: () => {
@@ -492,7 +492,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const timeoutResult = withTimeout(
       new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
         let messageCount = 0;
-        client!.onStream(
+        client!.onGroupStream(
           "g1",
           () => ({
             onMessage: () => {
@@ -534,7 +534,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const sequence = withTimeout(
       new Promise<string[]>((resolve) => {
         const order: string[] = [];
-        client!.onStream("g1", () => ({
+        client!.onGroupStream("g1", () => ({
           onMessage: (args) => {
             order.push(`message:${args.data as string}`);
           },
@@ -571,7 +571,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const result = withTimeout(
       new Promise<{ messageCount: number; completed: boolean }>((resolve) => {
         let messageCount = 0;
-        client!.onStream("g1", () => ({
+        client!.onGroupStream("g1", () => ({
           onMessage: () => {
             messageCount++;
           },
@@ -606,7 +606,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const done = withTimeout(
       new Promise<string>((resolve) => {
         const chunks: string[] = [];
-        client!.onStream(
+        client!.onGroupStream(
           "g1",
           () => ({
             onMessage: (args) => chunks.push(args.data as string),
@@ -662,7 +662,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const done = withTimeout(
       new Promise<string>((resolve) => {
         const chunks: string[] = [];
-        client!.onStream(
+        client!.onGroupStream(
           "g1",
           () => ({
             onMessage: (args) => chunks.push(args.data as string),
@@ -735,7 +735,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     expect(removedHandlerCalled).toBe(false);
   });
 
-  it("stops delivering stream lifecycle callbacks after onStream disposer is called", async () => {
+  it("stops delivering stream lifecycle callbacks after onGroupStream disposer is called", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -749,7 +749,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     client.on("group-message", onGroupMessage);
 
     let invoked = false;
-    const subscription = client.onStream("g1", () => ({
+    const subscription = client.onGroupStream("g1", () => ({
       onMessage: () => {
         invoked = true;
       },

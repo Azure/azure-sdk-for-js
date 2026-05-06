@@ -58,7 +58,7 @@ async function main(): Promise<void> {
     console.log(`Received message from ${e.message.group} ${formatPayload(e.message.data)}`);
   });
 
-  const streamSubscription = client.onStream(groupName, (streamId) => {
+  const streamSubscription = client.onGroupStream(groupName, (streamId) => {
     return {
       onMessage: (args) => {
         console.log(

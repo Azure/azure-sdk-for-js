@@ -10,7 +10,7 @@ import type {
   ServerDataMessage,
   StreamDataError,
   StreamInfo,
-  StreamEndUserError,
+  StreamEndError,
   WebPubSubDataType,
 } from "./messages.js";
 
@@ -225,7 +225,7 @@ export interface EndStreamOptions {
   /**
    * Optional stream end error.
    */
-  error?: StreamEndUserError;
+  error?: StreamEndError;
   /**
    * Optional abort signal.
    */
@@ -333,7 +333,7 @@ export interface OnRejoinGroupFailedArgs {
 /**
  * Stream message delivered to a stream handler.
  */
-export interface OnStreamDataArgs {
+export interface OnGroupStreamDataArgs {
   /**
    * Group name.
    */
@@ -363,7 +363,7 @@ export interface OnStreamDataArgs {
 /**
  * Stream terminal event.
  */
-export interface OnStreamEndArgs {
+export interface OnGroupStreamEndArgs {
   /**
    * Stream identifier.
    */
@@ -381,25 +381,25 @@ export interface OnStreamEndArgs {
 /**
  * Callback contract for consuming one logical stream.
  */
-export interface StreamHandler {
+export interface GroupStreamHandler {
   /**
    * Called for every stream fragment.
    */
-  onMessage?: (args: OnStreamDataArgs) => void;
+  onMessage?: (args: OnGroupStreamDataArgs) => void;
   /**
    * Called when the stream completes without error.
    */
-  onComplete?: (args: OnStreamEndArgs) => void;
+  onComplete?: (args: OnGroupStreamEndArgs) => void;
   /**
    * Called when the stream ends with error.
    */
-  onError?: (args: OnStreamEndArgs) => void;
+  onError?: (args: OnGroupStreamEndArgs) => void;
 }
 
 /**
- * onStream operation options.
+ * onGroupStream operation options.
  */
-export interface OnStreamOptions {
+export interface OnGroupStreamOptions {
   /**
    * Inactivity timeout in milliseconds for a stream handler in the client-side registry.
    * The timer is reset whenever a new stream fragment is received.
@@ -417,9 +417,9 @@ export interface OnStreamOptions {
 }
 
 /**
- * Stream subscription handle returned by `onStream`.
+ * Group stream subscription handle returned by `onGroupStream`.
  */
-export interface StreamSubscription {
+export interface GroupStreamSubscription {
   /**
    * Unregister this stream subscription.
    */

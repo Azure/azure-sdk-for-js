@@ -29,10 +29,10 @@ import type {
   SendStreamDataOptions,
   SendStreamKeepaliveOptions,
   EndStreamOptions,
-  StreamHandler,
-  OnStreamOptions,
+  GroupStreamHandler,
+  OnGroupStreamOptions,
   StreamPublisher,
-  StreamSubscription as StreamSubscriptionHandle,
+  GroupStreamSubscription as GroupStreamSubscriptionHandle,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -379,11 +379,11 @@ export class WebPubSubClient {
    * @param options - Stream receive options.
    * @returns A stream subscription object. Call `close()` to unregister this stream subscription.
    */
-  public onStream(
+  public onGroupStream(
     groupName: string,
-    handlerFactory: (streamId: string) => StreamHandler,
-    options?: OnStreamOptions,
-  ): StreamSubscriptionHandle {
+    handlerFactory: (streamId: string) => GroupStreamHandler,
+    options?: OnGroupStreamOptions,
+  ): GroupStreamSubscriptionHandle {
     return this._inboundStreams.subscribe(groupName, handlerFactory, options);
   }
 

@@ -311,7 +311,7 @@ export interface StreamDataError {
  * Stream end error that a publisher can send to the service.
  * The service decides the high-level error name classification.
  */
-export interface StreamEndUserError {
+export interface StreamEndError {
   /**
    * Optional error message.
    */
@@ -575,7 +575,7 @@ export interface StreamEndMessage extends WebPubSubMessageBase {
   /**
    * Optional end error.
    */
-  error?: StreamEndUserError;
+  error?: StreamEndError;
 }
 
 /**

@@ -4,11 +4,11 @@
 import { randomUUID } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
-  OnStreamDataArgs,
-  OnStreamEndArgs,
-  OnStreamOptions,
-  StreamHandler,
-  StreamSubscription,
+  OnGroupStreamDataArgs,
+  OnGroupStreamEndArgs,
+  OnGroupStreamOptions,
+  GroupStreamHandler,
+  GroupStreamSubscription,
 } from "./models/index.js";
 import type { GroupDataMessage, StreamDataError } from "./models/messages.js";
 
@@ -31,9 +31,9 @@ export class InboundStreamSession {
 
   public subscribe(
     groupName: string,
-    handlerFactory: (streamId: string) => StreamHandler,
-    options?: OnStreamOptions,
-  ): StreamSubscription {
+    handlerFactory: (streamId: string) => GroupStreamHandler,
+    options?: OnGroupStreamOptions,
+  ): GroupStreamSubscription {
     const subscription = new InboundStreamSubscription(
       randomUUID(),
       groupName,
@@ -113,7 +113,7 @@ export class InboundStreamSession {
 
       const shouldEmitMessage = !stream.endOfStream || this._hasStreamPayload(message);
       if (shouldEmitMessage) {
-        const onMessageArgs: OnStreamDataArgs = {
+        const onMessageArgs: OnGroupStreamDataArgs = {
           group: message.group,
           fromUserId: message.fromUserId,
           sequenceId: message.sequenceId,
@@ -125,7 +125,7 @@ export class InboundStreamSession {
       }
 
       if (stream.endOfStream) {
-        const terminalArgs: OnStreamEndArgs = {
+        const terminalArgs: OnGroupStreamEndArgs = {
           streamId: stream.streamId,
           group: message.group,
           error: stream.error,
@@ -170,7 +170,7 @@ export class InboundStreamSession {
     return `${subscriptionId}|${groupName}|${streamId}`;
   }
 
-  private _invokeOnMessage(active: ActiveStreamHandler, args: OnStreamDataArgs): void {
+  private _invokeOnMessage(active: ActiveStreamHandler, args: OnGroupStreamDataArgs): void {
     try {
       active.handler.onMessage?.(args);
     } catch (err) {
@@ -178,7 +178,7 @@ export class InboundStreamSession {
     }
   }
 
-  private _invokeOnComplete(active: ActiveStreamHandler, args: OnStreamEndArgs): void {
+  private _invokeOnComplete(active: ActiveStreamHandler, args: OnGroupStreamEndArgs): void {
     try {
       active.handler.onComplete?.(args);
     } catch (err) {
@@ -189,7 +189,7 @@ export class InboundStreamSession {
   private _invokeOnError(
     active: ActiveStreamHandler,
     error: StreamDataError,
-    args?: OnStreamEndArgs,
+    args?: OnGroupStreamEndArgs,
   ): void {
     try {
       active.handler.onError?.(
@@ -261,7 +261,7 @@ class InboundStreamSubscription {
   public readonly id: string;
   public readonly groupName: string;
   public readonly options: InboundStreamOptions;
-  public readonly handlerFactory: (streamId: string) => StreamHandler;
+  public readonly handlerFactory: (streamId: string) => GroupStreamHandler;
   // Tracks streamIds currently skipped by handleFromStart=true.
   public readonly ignoredStreamIds: Set<string>;
 
@@ -269,7 +269,7 @@ class InboundStreamSubscription {
     id: string,
     groupName: string,
     options: InboundStreamOptions,
-    handlerFactory: (streamId: string) => StreamHandler,
+    handlerFactory: (streamId: string) => GroupStreamHandler,
   ) {
     this.id = id;
     this.groupName = groupName;
@@ -284,14 +284,14 @@ class ActiveStreamHandler {
   public readonly key: string;
   public readonly streamId: string;
   public readonly group: string;
-  public readonly handler: StreamHandler;
+  public readonly handler: GroupStreamHandler;
   private readonly _ttlInMs: number;
 
   constructor(
     key: string,
     streamId: string,
     group: string,
-    handler: StreamHandler,
+    handler: GroupStreamHandler,
     ttlInMs: number,
   ) {
     this.key = key;

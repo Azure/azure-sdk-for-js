@@ -86,7 +86,7 @@ export type DownstreamMessageType =
 // @public
 export interface EndStreamOptions {
     abortSignal?: AbortSignalLike;
-    error?: StreamEndUserError;
+    error?: StreamEndError;
 }
 
 // @public
@@ -103,6 +103,18 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
     readonly kind: "groupData";
     sequenceId?: number;
     stream?: StreamInfo;
+}
+
+// @public
+export interface GroupStreamHandler {
+    onComplete?: (args: OnGroupStreamEndArgs) => void;
+    onError?: (args: OnGroupStreamEndArgs) => void;
+    onMessage?: (args: OnGroupStreamDataArgs) => void;
+}
+
+// @public
+export interface GroupStreamSubscription {
+    close(): void;
 }
 
 // @public
@@ -204,6 +216,29 @@ export interface OnGroupDataMessageArgs {
 }
 
 // @public
+export interface OnGroupStreamDataArgs {
+    data: JSONTypes | ArrayBuffer;
+    dataType: WebPubSubDataType;
+    fromUserId: string;
+    group: string;
+    sequenceId?: number;
+    stream: StreamInfo;
+}
+
+// @public
+export interface OnGroupStreamEndArgs {
+    error?: StreamDataError;
+    group: string;
+    streamId: string;
+}
+
+// @public
+export interface OnGroupStreamOptions {
+    handleFromStart?: boolean;
+    ttlInMs?: number;
+}
+
+// @public
 export interface OnRejoinGroupFailedArgs {
     error: Error;
     group: string;
@@ -216,29 +251,6 @@ export interface OnServerDataMessageArgs {
 
 // @public
 export interface OnStoppedArgs {
-}
-
-// @public
-export interface OnStreamDataArgs {
-    data: JSONTypes | ArrayBuffer;
-    dataType: WebPubSubDataType;
-    fromUserId: string;
-    group: string;
-    sequenceId?: number;
-    stream: StreamInfo;
-}
-
-// @public
-export interface OnStreamEndArgs {
-    error?: StreamDataError;
-    group: string;
-    streamId: string;
-}
-
-// @public
-export interface OnStreamOptions {
-    handleFromStart?: boolean;
-    ttlInMs?: number;
 }
 
 // @public
@@ -373,23 +385,16 @@ export interface StreamDataMessage extends WebPubSubMessageBase {
 }
 
 // @public
-export interface StreamEndMessage extends WebPubSubMessageBase {
-    error?: StreamEndUserError;
-    readonly kind: "streamEnd";
-    streamId: string;
-}
-
-// @public
-export interface StreamEndUserError {
+export interface StreamEndError {
     message?: string;
     userErrorCode?: string;
 }
 
 // @public
-export interface StreamHandler {
-    onComplete?: (args: OnStreamEndArgs) => void;
-    onError?: (args: OnStreamEndArgs) => void;
-    onMessage?: (args: OnStreamDataArgs) => void;
+export interface StreamEndMessage extends WebPubSubMessageBase {
+    error?: StreamEndError;
+    readonly kind: "streamEnd";
+    streamId: string;
 }
 
 // @public
@@ -416,11 +421,6 @@ export interface StreamPublisher {
     onError(listener: (error: StreamDataError) => void): () => void;
     publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
     readonly streamId: string;
-}
-
-// @public
-export interface StreamSubscription {
-    close(): void;
 }
 
 // @public
@@ -492,7 +492,7 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onStream(groupName: string, handlerFactory: (streamId: string) => StreamHandler, options?: OnStreamOptions): StreamSubscription;
+    onGroupStream(groupName: string, handlerFactory: (streamId: string) => GroupStreamHandler, options?: OnGroupStreamOptions): GroupStreamSubscription;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
