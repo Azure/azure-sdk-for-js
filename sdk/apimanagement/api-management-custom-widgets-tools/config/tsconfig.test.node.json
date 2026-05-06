@@ -1,8 +1,0 @@
-{
-  "extends": "../../../../eng/tsconfigs/test.node.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure/api-management-custom-widgets-tools": ["../src/index.ts"]
-    }
-  }
-}
