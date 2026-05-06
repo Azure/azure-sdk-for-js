@@ -33801,6 +33801,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-tracing':
+        specifier: ^1.2.0
+        version: link:../../core/core-tracing
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util

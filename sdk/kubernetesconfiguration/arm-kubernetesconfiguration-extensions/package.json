@@ -196,5 +196,10 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions"
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

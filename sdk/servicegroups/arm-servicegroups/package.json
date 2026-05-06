@@ -178,5 +178,10 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-servicegroups?view=azure-node-preview"
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

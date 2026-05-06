@@ -214,5 +214,12 @@
         "default": "./dist/commonjs/models/index.js"
       }
     }
+  },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }
