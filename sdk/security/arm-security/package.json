@@ -721,6 +721,7 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
+    "react-native": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -741,5 +742,12 @@
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
+  },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }

@@ -115,6 +115,11 @@ export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
  * @internal
  */
 export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
+/**
+ * Microsoft OpenTelemetry version.
+ * @internal
+ */
+export const ENV_MICROSOFT_OPENTELEMETRY_VERSION = "MICROSOFT_OPENTELEMETRY_VERSION";
 
 /**
  * Resource attribute used for Application Insights correlation when specified.

@@ -11,8 +11,8 @@ import { randomUUID as coreRandomUUID, isNodeLike } from "@azure/core-util";
 import { AbortError } from "@azure/abort-controller";
 import type { AzureLogLevel } from "@azure/logger";
 import type { GetTokenOptions } from "@azure/core-auth";
-import type { AccountInfo, AuthError } from "./msal.js";
-import { LogLevel } from "./msal.js";
+import type { AccountInfo, AuthError } from "#platform/msal/msal";
+import { LogLevel } from "#platform/msal/msal";
 
 export interface ILoggerCallback {
   (level: LogLevel, message: string, containsPii: boolean): void;

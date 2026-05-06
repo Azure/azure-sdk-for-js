@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/communication-rooms": ["../src/index.ts"],
+      "@azure/communication-rooms/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

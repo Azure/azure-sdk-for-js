@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+
 /**
  * Encodes a string in base64 format.
  * @param value - the string to encode
  * @internal
  */
 export function encodeString(value: string): string {
-  return Buffer.from(value).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(value, "utf-8"), "base64");
 }
 
 /**
  * Encodes a byte array in base64 format.
- * @param value - the Uint8Aray to encode
+ * @param value - the Uint8Array to encode
  * @internal
  */
 export function encodeByteArray(value: Uint8Array): string {
-  const bufferValue = Buffer.isBuffer(value) ? value : Buffer.from(value);
-  return bufferValue.toString("base64");
+  return uint8ArrayToString(value, "base64");
 }
 
 /**
@@ -26,7 +27,7 @@ export function encodeByteArray(value: Uint8Array): string {
  * @internal
  */
 export function decodeString(value: string): Uint8Array {
-  return Buffer.from(value, "base64");
+  return stringToUint8Array(value, "base64");
 }
 
 /**
@@ -35,5 +36,5 @@ export function decodeString(value: string): Uint8Array {
  * @internal
  */
 export function decodeStringToString(value: string): string {
-  return Buffer.from(value, "base64").toString();
+  return uint8ArrayToString(stringToUint8Array(value, "base64"), "utf-8");
 }

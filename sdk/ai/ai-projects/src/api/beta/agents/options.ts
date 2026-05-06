@@ -13,7 +13,7 @@ export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
 }
@@ -26,6 +26,12 @@ export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface BetaAgentsUploadSessionFileOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
 }

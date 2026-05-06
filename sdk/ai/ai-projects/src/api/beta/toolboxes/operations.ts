@@ -289,6 +289,8 @@ export function listVersions(
       itemName: "data",
       apiVersion: context.apiVersion,
       nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
     },
   );
 }
@@ -349,6 +351,8 @@ export function list(
       itemName: "data",
       apiVersion: context.apiVersion,
       nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
     },
   );
 }

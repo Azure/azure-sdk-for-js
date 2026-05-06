@@ -3,13 +3,23 @@
 
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import { vol } from "memfs";
-import { resolveConfig } from "../src/util/resolveTsConfig";
+import { resolveConfig } from "../src/util/resolveTsConfig.ts";
 
 vi.mock("fs/promises", async () => {
   const memfs = await import("memfs");
   return {
     default: {
       ...memfs.fs.promises,
+    },
+  };
+});
+
+// we want path.resolve to behave like posix for our memfs tests
+vi.mock("path", async () => {
+  const path = await import("node:path/posix");
+  return {
+    default: {
+      ...path,
     },
   };
 });

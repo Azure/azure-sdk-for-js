@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { uint8ArrayToString } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import {
   type RequestSession,
@@ -621,10 +622,6 @@ export class VoiceLiveSession {
 
   private _arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
     const bytes = buffer instanceof ArrayBuffer ? new Uint8Array(buffer) : buffer;
-    let binary = "";
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
+    return uint8ArrayToString(bytes, "base64");
   }
 }

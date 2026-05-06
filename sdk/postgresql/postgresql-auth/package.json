@@ -1,6 +1,6 @@
 {
   "name": "@azure/postgresql-auth",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure Entra ID authentication extension for PostgreSQL in JavaScript",
   "engines": {
     "node": ">=20.0.0"
@@ -27,7 +27,11 @@
     "LICENSE"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/postgresql/postgresql-auth"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -46,6 +50,7 @@
   },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-util": "^1.13.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -106,5 +111,10 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }
