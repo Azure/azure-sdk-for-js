@@ -37,4 +37,4 @@ export function cancelNodeStream(stream: IncomingMessage | NodeJSReadableStream)
  *
  * @public
  */
-export type { AsyncDisposable };
+export type AsyncDisposable = globalThis.AsyncDisposable;

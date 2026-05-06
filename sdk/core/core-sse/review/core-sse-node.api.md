@@ -23,8 +23,10 @@ export interface EventMessage {
     retry?: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "AsyncDisposable_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
+export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable_2 & AsyncIterable<EventMessage>;
 
 // @public
 export type NodeIncomingMessage = IncomingMessage;

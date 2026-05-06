@@ -27,9 +27,10 @@ function makeAsyncDisposable<T>(
   webStream: any,
   dispose: () => PromiseLike<void>,
 ): asserts webStream is ReadableStream<T> & AsyncDisposable {
-  (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
-  if (!webStream[Symbol.asyncDispose]) {
-    webStream[Symbol.asyncDispose] = () => dispose();
+  const symbolAsAny = Symbol as any;
+  symbolAsAny.asyncDispose ??= Symbol("Symbol.asyncDispose");
+  if (!webStream[symbolAsAny.asyncDispose]) {
+    webStream[symbolAsAny.asyncDispose] = () => dispose();
   }
 }
 
