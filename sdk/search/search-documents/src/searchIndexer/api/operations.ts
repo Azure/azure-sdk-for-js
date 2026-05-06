@@ -67,7 +67,9 @@ export function _createSkillsetSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -120,7 +122,9 @@ export function _getSkillsetsSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -172,7 +176,9 @@ export function _getSkillsetSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -225,7 +231,9 @@ export function _deleteSkillsetSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -280,7 +288,9 @@ export function _createOrUpdateSkillsetSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -338,7 +348,9 @@ export function _getIndexerStatusSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -391,7 +403,9 @@ export function _createIndexerSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -444,7 +458,9 @@ export function _getIndexersSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -496,7 +512,9 @@ export function _getIndexerSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -549,7 +567,9 @@ export function _deleteIndexerSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -604,7 +624,9 @@ export function _createOrUpdateIndexerSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -662,7 +684,9 @@ export function _runIndexerSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -713,7 +737,9 @@ export function _resetIndexerSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -764,7 +790,9 @@ export function _createDataSourceConnectionSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -817,7 +845,9 @@ export function _getDataSourceConnectionsSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -869,7 +899,9 @@ export function _getDataSourceConnectionSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
@@ -922,7 +954,9 @@ export function _deleteDataSourceConnectionSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
@@ -979,7 +1013,9 @@ export function _createOrUpdateDataSourceConnectionSend(
     contentType: "application/json",
     headers: {
       ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
         : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),

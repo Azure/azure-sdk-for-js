@@ -3,9 +3,10 @@
 
 export {
   deleteSessionFile,
-  listSessionFiles,
+  getSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
+  getSessionLogStream,
   listSessions,
   deleteSession,
   getSession,
@@ -14,9 +15,10 @@ export {
 } from "./operations.js";
 export type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsListSessionFilesOptionalParams,
+  BetaAgentsGetSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
+  BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,

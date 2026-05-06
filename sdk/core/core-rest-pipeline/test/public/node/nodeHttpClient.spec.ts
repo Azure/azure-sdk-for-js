@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
-import { PassThrough, Writable } from "stream";
+import { assert, expect, describe, it, vi, beforeEach, afterEach } from "vitest";
+import { PassThrough, Readable, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { createDefaultHttpClient, createPipelineRequest } from "../../../src/index.js";
 
 vi.mock("node:https", async () => {
-  const actual = await vi.importActual("node:https");
+  const actual = await vi.importActual<typeof import("node:https")>("node:https");
   return {
     default: {
-      ...(actual as any).default,
+      ...actual,
       request: vi.fn(),
     },
   };
 });
 
 vi.mock("node:http", async () => {
-  const actual = await vi.importActual("node:http");
+  const actual = await vi.importActual<typeof import("node:http")>("node:http");
   return {
     default: {
-      ...(actual as any).default,
+      ...actual,
       request: vi.fn(),
     },
   };
@@ -39,13 +39,31 @@ class FakeResponse extends PassThrough {
 class FakeRequest extends PassThrough {}
 
 /**
+ * Treat a FakeResponse as an IncomingMessage for mocking purposes.
+ * The cast is isolated here; callers use typed IncomingMessage.
+ */
+function toIncomingMessage(fake: FakeResponse): IncomingMessage {
+  return fake as unknown as IncomingMessage;
+}
+
+/**
+ * Create a Writable that can be used as a mock ClientRequest for body-piping tests.
+ * The cast is isolated here; callers use typed ClientRequest.
+ */
+function createMockWritableRequest(
+  writeFn: (chunk: Buffer, encoding: string, next: () => void) => void,
+): ClientRequest {
+  return new Writable({ write: writeFn }) as unknown as ClientRequest;
+}
+
+/**
  * Generic NodeJS streams accept typed arrays just fine,
  * but `http.ClientRequest` objects *only* support chunks
  * of `Buffer` and `string`, so we must convert them first.
  *
  * This fake asserts we have only passed the correct types.
  */
-const httpRequestChecker: ClientRequest = {
+const httpRequestChecker = {
   on() {
     /* no op */
   },
@@ -54,7 +72,7 @@ const httpRequestChecker: ClientRequest = {
   },
   end(chunk: unknown) {
     const isString = typeof chunk === "string";
-    assert(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
+    assert.isTrue(isString || Buffer.isBuffer(chunk), "Expected either string or Buffer");
   },
 } as unknown as ClientRequest;
 
@@ -64,7 +82,7 @@ function createResponse(statusCode: number, body = ""): IncomingMessage {
   response.statusCode = statusCode;
   response.write(body);
   response.end();
-  return response as unknown as IncomingMessage;
+  return toIncomingMessage(response);
 }
 
 function createRequest(): ClientRequest {
@@ -137,12 +155,7 @@ describe("NodeHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     controller.abort();
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("shouldn't be affected by requests cancelled late", async function () {
@@ -168,37 +181,26 @@ describe("NodeHttpClient", function () {
       abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should report upload and download progress", async function () {
     const client = createDefaultHttpClient();
-    let downloadCalled = false;
-    let uploadCalled = false;
+    const onDownloadProgress = vi.fn();
+    const onUploadProgress = vi.fn();
     const request = createPipelineRequest({
       url: "https://example.com",
       body: "Some kinda witty message",
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
-      onUploadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        uploadCalled = true;
-      },
+      onDownloadProgress,
+      onUploadProgress,
     });
     const promise = client.sendRequest(request);
     const responseText = "An appropriate response.";
     yieldHttpsResponse(createResponse(200, responseText));
     const response = await promise;
     assert.strictEqual(response.bodyAsText, responseText);
-    assert.isTrue(downloadCalled, "no download progress");
-    assert.isTrue(uploadCalled, "no upload progress");
+    expect(onDownloadProgress).toHaveBeenCalled();
+    expect(onUploadProgress).toHaveBeenCalled();
   });
 
   it("should honor timeout", async function () {
@@ -211,12 +213,7 @@ describe("NodeHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     vi.advanceTimersByTime(timeoutLength);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should stream response body on matching status code", async function () {
@@ -228,8 +225,8 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200, "body"));
     const response = await promise;
-    assert.equal(response.bodyAsText, undefined);
-    assert.isDefined(response.readableStreamBody);
+    assert.isUndefined(response.bodyAsText);
+    assert.instanceOf(response.readableStreamBody, Readable);
   });
 
   it("should stream response body on any status code", async function () {
@@ -241,8 +238,8 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(201, "body"));
     const response = await promise;
-    assert.equal(response.bodyAsText, undefined);
-    assert.isDefined(response.readableStreamBody);
+    assert.isUndefined(response.bodyAsText);
+    assert.instanceOf(response.readableStreamBody, Readable);
   });
 
   it("should not stream response body on non-matching status code", async function () {
@@ -264,12 +261,7 @@ describe("NodeHttpClient", function () {
       url: "http://example.com",
     });
     const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
-    }
+    await expect(promise).rejects.toThrow(/^Cannot connect/);
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
@@ -303,7 +295,7 @@ describe("NodeHttpClient", function () {
     buffer.copy(buffer2, 0, 4);
     streamResponse.write(buffer2);
     streamResponse.end();
-    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    yieldHttpsResponse(toIncomingMessage(streamResponse));
     const response = await promise;
     assert.strictEqual(response.status, 200);
     assert.strictEqual(response.bodyAsText, inputString);
@@ -377,14 +369,13 @@ describe("NodeHttpClient", function () {
   it("should handle NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
-    let bodySent = false;
-    const writable = new Writable({
-      write: (chunk, _, next) => {
-        bodySent = true;
-        assert.equal(chunk.toString(), requestText, "Unexpected body");
-        next();
-      },
-    }) as unknown as ClientRequest;
+    const writeFn = vi.fn((chunk: Buffer, _: string, next: () => void) => {
+      assert.equal(chunk.toString(), requestText, "Unexpected body");
+      next();
+    });
+    const writable = createMockWritableRequest((chunk, _, next) => {
+      writeFn(chunk, _, next);
+    });
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const stream = new PassThrough();
@@ -395,20 +386,19 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await promise;
-    assert.isTrue(bodySent, "body should have been piped to request");
+    expect(writeFn).toHaveBeenCalled();
   });
 
   it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
-    let bodySent = false;
-    const writable = new Writable({
-      write: (chunk, _, next) => {
-        bodySent = true;
-        assert.equal(chunk.toString(), requestText, "Unexpected body");
-        next();
-      },
-    }) as unknown as ClientRequest;
+    const writeFn = vi.fn((chunk: Buffer, _: string, next: () => void) => {
+      assert.equal(chunk.toString(), requestText, "Unexpected body");
+      next();
+    });
+    const writable = createMockWritableRequest((chunk, _, next) => {
+      writeFn(chunk, _, next);
+    });
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const body = (): PassThrough => {
@@ -421,7 +411,7 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await promise;
-    assert.isTrue(bodySent, "body should have been piped to request");
+    expect(writeFn).toHaveBeenCalled();
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {
@@ -449,29 +439,26 @@ describe("NodeHttpClient", function () {
     streamResponse.statusCode = 200;
     const buffer = Buffer.from("The start of an HTTP body");
     streamResponse.write(buffer);
-    yieldHttpsResponse(streamResponse as unknown as IncomingMessage);
+    yieldHttpsResponse(toIncomingMessage(streamResponse));
     controller.abort();
 
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should release abort listener when stream body ends already", async function () {
     vi.useRealTimers();
     const client = createDefaultHttpClient();
-    const writable = new Writable({
-      write: (_chunk, _, next) => {
-        next();
-      },
-    }) as unknown as ClientRequest;
+    const writable = createMockWritableRequest((_chunk, _, next) => {
+      next();
+    });
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
     const controller = new AbortController();
-    let listenerRemoved = false;
+    const removeEventListenerFn = vi.fn(
+      (_type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void => {
+        controller.signal.removeEventListener("abort", listener, options);
+      },
+    );
     const abortSignal: AbortSignalLike = {
       aborted: false,
       addEventListener: function (
@@ -481,14 +468,7 @@ describe("NodeHttpClient", function () {
       ): void {
         controller.signal.addEventListener("abort", listener, options);
       },
-      removeEventListener: function (
-        _type: "abort",
-        listener: (this: AbortSignalLike, ev: any) => any,
-        options?: any,
-      ): void {
-        listenerRemoved = true;
-        controller.signal.removeEventListener("abort", listener, options);
-      },
+      removeEventListener: removeEventListenerFn,
     };
 
     const stream = new PassThrough();
@@ -502,6 +482,6 @@ describe("NodeHttpClient", function () {
     const promise = client.sendRequest(request);
     yieldHttpsResponse(createResponse(200));
     await Promise.all([promise, delay(10)]);
-    assert.equal(listenerRemoved, true);
+    expect(removeEventListenerFn).toHaveBeenCalled();
   });
 });

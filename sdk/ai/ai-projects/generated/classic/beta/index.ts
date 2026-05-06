@@ -3,6 +3,7 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
+import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
@@ -20,6 +21,7 @@ import { BetaToolboxesOperations, _getBetaToolboxesOperations } from "./toolboxe
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
+  datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
   toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
@@ -33,6 +35,7 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
+    datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
     toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),

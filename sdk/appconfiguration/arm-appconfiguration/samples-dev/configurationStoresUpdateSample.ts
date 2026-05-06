@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a configuration store with the specified parameters.
  *
  * @summary updates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresUpdate.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresUpdate.json
  */
 async function configurationStoresUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function configurationStoresUpdate(): Promise<void> {
  * This sample demonstrates how to updates a configuration store with the specified parameters.
  *
  * @summary updates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresUpdateDisableLocalAuth.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresUpdateDisableLocalAuth.json
  */
 async function configurationStoresUpdateDisableLocalAuth(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function configurationStoresUpdateDisableLocalAuth(): Promise<void> {
  * This sample demonstrates how to updates a configuration store with the specified parameters.
  *
  * @summary updates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresUpdateWithIdentity.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresUpdateWithIdentity.json
  */
 async function configurationStoresUpdateWithIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();

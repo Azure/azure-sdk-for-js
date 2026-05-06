@@ -13,6 +13,7 @@ import {
 } from "../util/tenantIdUtils.js";
 import { tracingClient } from "../util/tracing.js";
 import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 const logger = credentialLogger("AzureDeveloperCliCredential");
 
@@ -95,7 +96,7 @@ export const developerCliCredentialInternals = {
 
     let claimsSections: string[] = [];
     if (claims) {
-      const encodedClaims = btoa(claims);
+      const encodedClaims = uint8ArrayToString(stringToUint8Array(claims, "utf-8"), "base64");
       claimsSections = ["--claims", encodedClaims];
     }
     return new Promise((resolve, reject) => {
