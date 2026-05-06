@@ -8,6 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import type { NodeReadableStream } from "#platform/types";
 
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
@@ -4632,7 +4633,7 @@ export type RunbookDraftReplaceContentResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */

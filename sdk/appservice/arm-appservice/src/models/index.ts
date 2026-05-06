@@ -5,6 +5,7 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import type * as coreClient from "@azure/core-client";
+import type { NodeReadableStream } from "#platform/types";
 
 /** Collection of App Service Environments. */
 export interface AppServiceEnvironmentCollection {
@@ -13228,7 +13229,7 @@ export type WebAppsGetWebSiteContainerLogsResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -13249,7 +13250,7 @@ export type WebAppsGetContainerLogsZipResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -13624,7 +13625,7 @@ export type WebAppsGetInstanceProcessDumpResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -13933,7 +13934,7 @@ export type WebAppsGetProcessDumpResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -13995,7 +13996,7 @@ export type WebAppsListPublishingProfileXmlWithSecretsResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -14436,7 +14437,7 @@ export type WebAppsGetWebSiteContainerLogsSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -14457,7 +14458,7 @@ export type WebAppsGetContainerLogsZipSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -14839,7 +14840,7 @@ export type WebAppsGetInstanceProcessDumpSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -15127,7 +15128,7 @@ export type WebAppsGetProcessDumpSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
@@ -15192,7 +15193,7 @@ export type WebAppsListPublishingProfileXmlWithSecretsSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 /** Optional parameters. */
