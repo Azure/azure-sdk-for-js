@@ -1,5 +1,405 @@
 # Release History
 
+## 2.0.0-beta.2 (2026-05-06)
+Compared with version 1.3.0
+
+### Features Added
+  - Added operation group AccessBridgesOperations
+  - Added operation group KubernetesVersionsOperations
+  - Added operation AgentPoolsOperations.createOrUpdate
+  - Added operation AgentPoolsOperations.delete
+  - Added operation AgentPoolsOperations.update
+  - Added operation BareMetalMachineKeySetsOperations.createOrUpdate
+  - Added operation BareMetalMachineKeySetsOperations.delete
+  - Added operation BareMetalMachineKeySetsOperations.update
+  - Added operation BareMetalMachinesOperations.cordon
+  - Added operation BareMetalMachinesOperations.createOrUpdate
+  - Added operation BareMetalMachinesOperations.delete
+  - Added operation BareMetalMachinesOperations.powerOff
+  - Added operation BareMetalMachinesOperations.reimage
+  - Added operation BareMetalMachinesOperations.replace
+  - Added operation BareMetalMachinesOperations.restart
+  - Added operation BareMetalMachinesOperations.runCommand
+  - Added operation BareMetalMachinesOperations.runDataExtracts
+  - Added operation BareMetalMachinesOperations.runDataExtractsRestricted
+  - Added operation BareMetalMachinesOperations.runReadCommands
+  - Added operation BareMetalMachinesOperations.start
+  - Added operation BareMetalMachinesOperations.uncordon
+  - Added operation BareMetalMachinesOperations.update
+  - Added operation BmcKeySetsOperations.createOrUpdate
+  - Added operation BmcKeySetsOperations.delete
+  - Added operation BmcKeySetsOperations.update
+  - Added operation CloudServicesNetworksOperations.createOrUpdate
+  - Added operation CloudServicesNetworksOperations.delete
+  - Added operation CloudServicesNetworksOperations.update
+  - Added operation ClusterManagersOperations.createOrUpdate
+  - Added operation ClusterManagersOperations.delete
+  - Added operation ClusterManagersOperations.updateRelayPrivateEndpointConnection
+  - Added operation ClustersOperations.continueUpdateVersion
+  - Added operation ClustersOperations.createOrUpdate
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.deploy
+  - Added operation ClustersOperations.inspect
+  - Added operation ClustersOperations.rotateCredential
+  - Added operation ClustersOperations.scanRuntime
+  - Added operation ClustersOperations.update
+  - Added operation ClustersOperations.updateVersion
+  - Added operation ConsolesOperations.createOrUpdate
+  - Added operation ConsolesOperations.delete
+  - Added operation ConsolesOperations.update
+  - Added operation KubernetesClusterFeaturesOperations.createOrUpdate
+  - Added operation KubernetesClusterFeaturesOperations.delete
+  - Added operation KubernetesClusterFeaturesOperations.update
+  - Added operation KubernetesClustersOperations.createOrUpdate
+  - Added operation KubernetesClustersOperations.delete
+  - Added operation KubernetesClustersOperations.restartNode
+  - Added operation KubernetesClustersOperations.update
+  - Added operation L2NetworksOperations.createOrUpdate
+  - Added operation L2NetworksOperations.delete
+  - Added operation L3NetworksOperations.createOrUpdate
+  - Added operation L3NetworksOperations.delete
+  - Added operation MetricsConfigurationsOperations.createOrUpdate
+  - Added operation MetricsConfigurationsOperations.delete
+  - Added operation MetricsConfigurationsOperations.update
+  - Added operation RacksOperations.createOrUpdate
+  - Added operation RacksOperations.delete
+  - Added operation RacksOperations.update
+  - Added operation StorageAppliancesOperations.createOrUpdate
+  - Added operation StorageAppliancesOperations.delete
+  - Added operation StorageAppliancesOperations.disableRemoteVendorManagement
+  - Added operation StorageAppliancesOperations.enableRemoteVendorManagement
+  - Added operation StorageAppliancesOperations.runReadCommands
+  - Added operation StorageAppliancesOperations.update
+  - Added operation TrunkedNetworksOperations.createOrUpdate
+  - Added operation TrunkedNetworksOperations.delete
+  - Added operation VirtualMachinesOperations.assignRelay
+  - Added operation VirtualMachinesOperations.createOrUpdate
+  - Added operation VirtualMachinesOperations.delete
+  - Added operation VirtualMachinesOperations.powerOff
+  - Added operation VirtualMachinesOperations.reimage
+  - Added operation VirtualMachinesOperations.restart
+  - Added operation VirtualMachinesOperations.start
+  - Added operation VirtualMachinesOperations.update
+  - Added operation VolumesOperations.createOrUpdate
+  - Added operation VolumesOperations.delete
+  - Added Class NetworkCloudClient
+  - Added Interface AccessBridge
+  - Added Interface AccessBridgeEndpoint
+  - Added Interface AccessBridgePatchParameters
+  - Added Interface AccessBridgePatchProperties
+  - Added Interface AccessBridgeProperties
+  - Added Interface AccessBridgesCreateOrUpdateOptionalParams
+  - Added Interface AccessBridgesDeleteOptionalParams
+  - Added Interface AccessBridgeSecurityRule
+  - Added Interface AccessBridgesGetOptionalParams
+  - Added Interface AccessBridgesListByResourceGroupOptionalParams
+  - Added Interface AccessBridgesListBySubscriptionOptionalParams
+  - Added Interface AccessBridgesUpdateOptionalParams
+  - Added Interface AgentPoolPatchProperties
+  - Added Interface AgentPoolProperties
+  - Added Interface BareMetalMachineKeySetPatchProperties
+  - Added Interface BareMetalMachineKeySetProperties
+  - Added Interface BareMetalMachineMonitoringConfigurationStatus
+  - Added Interface BareMetalMachinePatchProperties
+  - Added Interface BareMetalMachineProperties
+  - Added Interface BareMetalMachineReimageParameters
+  - Added Interface BmcKeySetPatchProperties
+  - Added Interface BmcKeySetProperties
+  - Added Interface CloudServicesNetworkPatchProperties
+  - Added Interface CloudServicesNetworkProperties
+  - Added Interface ClusterInspectParameters
+  - Added Interface ClusterManagerProperties
+  - Added Interface ClusterManagerRelayConfiguration
+  - Added Interface ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams
+  - Added Interface ClusterManagerUpdateRelayPrivateEndpointConnectionParameters
+  - Added Interface ClusterMetricsConfigurationPatchProperties
+  - Added Interface ClusterMetricsConfigurationProperties
+  - Added Interface ClusterPatchProperties
+  - Added Interface ClusterProperties
+  - Added Interface ClusterRotateCredentialParameters
+  - Added Interface ClustersInspectOptionalParams
+  - Added Interface ClustersRotateCredentialOptionalParams
+  - Added Interface ConsolePatchProperties
+  - Added Interface ConsoleProperties
+  - Added Interface FilterDevices
+  - Added Interface KubernetesClusterFeaturePatchProperties
+  - Added Interface KubernetesClusterFeatureProperties
+  - Added Interface KubernetesClusterPatchProperties
+  - Added Interface KubernetesClusterProperties
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionPatchParameters
+  - Added Interface KubernetesVersionProperties
+  - Added Interface KubernetesVersionsCreateOrUpdateOptionalParams
+  - Added Interface KubernetesVersionsDeleteOptionalParams
+  - Added Interface KubernetesVersionsGetOptionalParams
+  - Added Interface KubernetesVersionsListByResourceGroupOptionalParams
+  - Added Interface KubernetesVersionsListBySubscriptionOptionalParams
+  - Added Interface KubernetesVersionsUpdateOptionalParams
+  - Added Interface KubernetesVersionValue
+  - Added Interface L2NetworkProperties
+  - Added Interface L3NetworkProperties
+  - Added Interface MachineSkuProperties
+  - Added Interface NetworkCloudClientOptionalParams
+  - Added Interface OperationStatusResultProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface RackProperties
+  - Added Interface RackSkuProperties
+  - Added Interface RacksPatchProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface StorageApplianceExpansionShelf
+  - Added Interface StorageApplianceMonitoringConfigurationStatus
+  - Added Interface StorageAppliancePatchProperties
+  - Added Interface StorageApplianceProperties
+  - Added Interface StorageApplianceSkuProperties
+  - Added Interface TrunkedNetworkProperties
+  - Added Interface VirtualMachinePatchProperties
+  - Added Interface VirtualMachineProperties
+  - Added Interface VolumeProperties
+  - Interface BareMetalMachine has a new optional parameter bmcIpv4Address
+  - Interface BareMetalMachine has a new optional parameter bmcIpv6Address
+  - Interface BareMetalMachine has a new optional parameter monitoringConfigurationStatus
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter lastSuccessfulVersionUpdateTime
+  - Interface Cluster has a new optional parameter managedCredentials
+  - Interface ClusterContinueUpdateVersionParameters has a new optional parameter safeguardMode
+  - Interface ClusterManager has a new optional parameter kind
+  - Interface ClusterManager has a new optional parameter relayConfiguration
+  - Interface ClusterUpdateVersionParameters has a new optional parameter safeguardMode
+  - Interface RackSku has a new optional parameter deploymentType
+  - Interface RuntimeProtectionConfiguration has a new optional parameter definitionUpdateMode
+  - Interface RuntimeProtectionStatus has a new optional parameter agentHealthStatus
+  - Interface RuntimeProtectionStatus has a new optional parameter agentHealthStatusIssues
+  - Interface RuntimeProtectionStatus has a new optional parameter agentLicenseStatus
+  - Interface RuntimeProtectionStatus has a new optional parameter definitionUpdateMode
+  - Interface RuntimeProtectionStatus has a new optional parameter enforcementLevel
+  - Interface StorageAppliance has a new optional parameter expansionShelves
+  - Interface StorageAppliance has a new optional parameter monitoringConfigurationStatus
+  - Interface Volume has a new optional parameter assignedStorageApplianceId
+  - Added Type Alias AccessBridgeAllowedName
+  - Added Type Alias AccessBridgeDetailedStatus
+  - Added Type Alias AccessBridgeProvisioningState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BareMetalMachineMetricsConfigurationStatusLogLevel
+  - Added Type Alias BareMetalMachineMetricsConfigurationStatusMetricsLevel
+  - Added Type Alias BareMetalMachineReimageSafeguardMode
+  - Added Type Alias ClusterContinueUpdateVersionSafeguardMode
+  - Added Type Alias ClusterInspectAdditionalAction
+  - Added Type Alias ClusterUpdateVersionSafeguardMode
+  - Added Type Alias DeploymentType
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias KubernetesVersionProvisioningState
+  - Added Type Alias RelayPrivateEndpointConnectionState
+  - Added Type Alias RuntimeProtectionAgentHealthStatus
+  - Added Type Alias RuntimeProtectionAgentLicenseStatus
+  - Added Type Alias RuntimeProtectionDefinitionUpdateMode
+  - Added Type Alias SecurityRuleDirection
+  - Added Type Alias StorageApplianceMetricsConfigurationStatusLogLevel
+  - Added Type Alias StorageApplianceMetricsConfigurationStatusMetricsLevel
+  - Added Type Alias TransportProtocol
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessBridgeAllowedName
+  - Added Enum KnownAccessBridgeDetailedStatus
+  - Added Enum KnownAccessBridgeProvisioningState
+  - Added Enum KnownBareMetalMachineMetricsConfigurationStatusLogLevel
+  - Added Enum KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel
+  - Added Enum KnownBareMetalMachineReimageSafeguardMode
+  - Added Enum KnownClusterContinueUpdateVersionSafeguardMode
+  - Added Enum KnownClusterInspectAdditionalAction
+  - Added Enum KnownClusterUpdateVersionSafeguardMode
+  - Added Enum KnownDeploymentType
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownKubernetesVersionProvisioningState
+  - Added Enum KnownRelayPrivateEndpointConnectionState
+  - Added Enum KnownRuntimeProtectionAgentHealthStatus
+  - Added Enum KnownRuntimeProtectionAgentLicenseStatus
+  - Added Enum KnownRuntimeProtectionDefinitionUpdateMode
+  - Added Enum KnownSecurityRuleDirection
+  - Added Enum KnownStorageApplianceMetricsConfigurationStatusLogLevel
+  - Added Enum KnownStorageApplianceMetricsConfigurationStatusMetricsLevel
+  - Added Enum KnownTransportProtocol
+  - Added Enum KnownVersions
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Initializing
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value None
+  - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Repairing
+  - Enum KnownCommandOutputType has a new value ClusterSupportAdministrativeActions
+  - Enum KnownHugepagesSize has a new value HugepagesSize1G
+  - Enum KnownHugepagesSize has a new value HugepagesSize2M
+
+### Breaking Changes
+  - Removed operation AgentPools.beginCreateOrUpdate
+  - Removed operation AgentPools.beginCreateOrUpdateAndWait
+  - Removed operation AgentPools.beginDelete
+  - Removed operation AgentPools.beginDeleteAndWait
+  - Removed operation AgentPools.beginUpdate
+  - Removed operation AgentPools.beginUpdateAndWait
+  - Removed operation BareMetalMachineKeySets.beginCreateOrUpdate
+  - Removed operation BareMetalMachineKeySets.beginCreateOrUpdateAndWait
+  - Removed operation BareMetalMachineKeySets.beginDelete
+  - Removed operation BareMetalMachineKeySets.beginDeleteAndWait
+  - Removed operation BareMetalMachineKeySets.beginUpdate
+  - Removed operation BareMetalMachineKeySets.beginUpdateAndWait
+  - Removed operation BareMetalMachines.beginCordon
+  - Removed operation BareMetalMachines.beginCordonAndWait
+  - Removed operation BareMetalMachines.beginCreateOrUpdate
+  - Removed operation BareMetalMachines.beginCreateOrUpdateAndWait
+  - Removed operation BareMetalMachines.beginDelete
+  - Removed operation BareMetalMachines.beginDeleteAndWait
+  - Removed operation BareMetalMachines.beginPowerOff
+  - Removed operation BareMetalMachines.beginPowerOffAndWait
+  - Removed operation BareMetalMachines.beginReimage
+  - Removed operation BareMetalMachines.beginReimageAndWait
+  - Removed operation BareMetalMachines.beginReplace
+  - Removed operation BareMetalMachines.beginReplaceAndWait
+  - Removed operation BareMetalMachines.beginRestart
+  - Removed operation BareMetalMachines.beginRestartAndWait
+  - Removed operation BareMetalMachines.beginRunCommand
+  - Removed operation BareMetalMachines.beginRunCommandAndWait
+  - Removed operation BareMetalMachines.beginRunDataExtracts
+  - Removed operation BareMetalMachines.beginRunDataExtractsAndWait
+  - Removed operation BareMetalMachines.beginRunDataExtractsRestricted
+  - Removed operation BareMetalMachines.beginRunDataExtractsRestrictedAndWait
+  - Removed operation BareMetalMachines.beginRunReadCommands
+  - Removed operation BareMetalMachines.beginRunReadCommandsAndWait
+  - Removed operation BareMetalMachines.beginStart
+  - Removed operation BareMetalMachines.beginStartAndWait
+  - Removed operation BareMetalMachines.beginUncordon
+  - Removed operation BareMetalMachines.beginUncordonAndWait
+  - Removed operation BareMetalMachines.beginUpdate
+  - Removed operation BareMetalMachines.beginUpdateAndWait
+  - Removed operation BmcKeySets.beginCreateOrUpdate
+  - Removed operation BmcKeySets.beginCreateOrUpdateAndWait
+  - Removed operation BmcKeySets.beginDelete
+  - Removed operation BmcKeySets.beginDeleteAndWait
+  - Removed operation BmcKeySets.beginUpdate
+  - Removed operation BmcKeySets.beginUpdateAndWait
+  - Removed operation CloudServicesNetworks.beginCreateOrUpdate
+  - Removed operation CloudServicesNetworks.beginCreateOrUpdateAndWait
+  - Removed operation CloudServicesNetworks.beginDelete
+  - Removed operation CloudServicesNetworks.beginDeleteAndWait
+  - Removed operation CloudServicesNetworks.beginUpdate
+  - Removed operation CloudServicesNetworks.beginUpdateAndWait
+  - Removed operation ClusterManagers.beginCreateOrUpdate
+  - Removed operation ClusterManagers.beginCreateOrUpdateAndWait
+  - Removed operation ClusterManagers.beginDelete
+  - Removed operation ClusterManagers.beginDeleteAndWait
+  - Removed operation Clusters.beginContinueUpdateVersion
+  - Removed operation Clusters.beginContinueUpdateVersionAndWait
+  - Removed operation Clusters.beginCreateOrUpdate
+  - Removed operation Clusters.beginCreateOrUpdateAndWait
+  - Removed operation Clusters.beginDelete
+  - Removed operation Clusters.beginDeleteAndWait
+  - Removed operation Clusters.beginDeploy
+  - Removed operation Clusters.beginDeployAndWait
+  - Removed operation Clusters.beginScanRuntime
+  - Removed operation Clusters.beginScanRuntimeAndWait
+  - Removed operation Clusters.beginUpdate
+  - Removed operation Clusters.beginUpdateAndWait
+  - Removed operation Clusters.beginUpdateVersion
+  - Removed operation Clusters.beginUpdateVersionAndWait
+  - Removed operation Consoles.beginCreateOrUpdate
+  - Removed operation Consoles.beginCreateOrUpdateAndWait
+  - Removed operation Consoles.beginDelete
+  - Removed operation Consoles.beginDeleteAndWait
+  - Removed operation Consoles.beginUpdate
+  - Removed operation Consoles.beginUpdateAndWait
+  - Removed operation KubernetesClusterFeatures.beginCreateOrUpdate
+  - Removed operation KubernetesClusterFeatures.beginCreateOrUpdateAndWait
+  - Removed operation KubernetesClusterFeatures.beginDelete
+  - Removed operation KubernetesClusterFeatures.beginDeleteAndWait
+  - Removed operation KubernetesClusterFeatures.beginUpdate
+  - Removed operation KubernetesClusterFeatures.beginUpdateAndWait
+  - Removed operation KubernetesClusters.beginCreateOrUpdate
+  - Removed operation KubernetesClusters.beginCreateOrUpdateAndWait
+  - Removed operation KubernetesClusters.beginDelete
+  - Removed operation KubernetesClusters.beginDeleteAndWait
+  - Removed operation KubernetesClusters.beginRestartNode
+  - Removed operation KubernetesClusters.beginRestartNodeAndWait
+  - Removed operation KubernetesClusters.beginUpdate
+  - Removed operation KubernetesClusters.beginUpdateAndWait
+  - Removed operation L2Networks.beginCreateOrUpdate
+  - Removed operation L2Networks.beginCreateOrUpdateAndWait
+  - Removed operation L2Networks.beginDelete
+  - Removed operation L2Networks.beginDeleteAndWait
+  - Removed operation L3Networks.beginCreateOrUpdate
+  - Removed operation L3Networks.beginCreateOrUpdateAndWait
+  - Removed operation L3Networks.beginDelete
+  - Removed operation L3Networks.beginDeleteAndWait
+  - Removed operation MetricsConfigurations.beginCreateOrUpdate
+  - Removed operation MetricsConfigurations.beginCreateOrUpdateAndWait
+  - Removed operation MetricsConfigurations.beginDelete
+  - Removed operation MetricsConfigurations.beginDeleteAndWait
+  - Removed operation MetricsConfigurations.beginUpdate
+  - Removed operation MetricsConfigurations.beginUpdateAndWait
+  - Removed operation Racks.beginCreateOrUpdate
+  - Removed operation Racks.beginCreateOrUpdateAndWait
+  - Removed operation Racks.beginDelete
+  - Removed operation Racks.beginDeleteAndWait
+  - Removed operation Racks.beginUpdate
+  - Removed operation Racks.beginUpdateAndWait
+  - Removed operation StorageAppliances.beginCreateOrUpdate
+  - Removed operation StorageAppliances.beginCreateOrUpdateAndWait
+  - Removed operation StorageAppliances.beginDelete
+  - Removed operation StorageAppliances.beginDeleteAndWait
+  - Removed operation StorageAppliances.beginDisableRemoteVendorManagement
+  - Removed operation StorageAppliances.beginDisableRemoteVendorManagementAndWait
+  - Removed operation StorageAppliances.beginEnableRemoteVendorManagement
+  - Removed operation StorageAppliances.beginEnableRemoteVendorManagementAndWait
+  - Removed operation StorageAppliances.beginRunReadCommands
+  - Removed operation StorageAppliances.beginRunReadCommandsAndWait
+  - Removed operation StorageAppliances.beginUpdate
+  - Removed operation StorageAppliances.beginUpdateAndWait
+  - Removed operation TrunkedNetworks.beginCreateOrUpdate
+  - Removed operation TrunkedNetworks.beginCreateOrUpdateAndWait
+  - Removed operation TrunkedNetworks.beginDelete
+  - Removed operation TrunkedNetworks.beginDeleteAndWait
+  - Removed operation VirtualMachines.beginAssignRelay
+  - Removed operation VirtualMachines.beginAssignRelayAndWait
+  - Removed operation VirtualMachines.beginCreateOrUpdate
+  - Removed operation VirtualMachines.beginCreateOrUpdateAndWait
+  - Removed operation VirtualMachines.beginDelete
+  - Removed operation VirtualMachines.beginDeleteAndWait
+  - Removed operation VirtualMachines.beginPowerOff
+  - Removed operation VirtualMachines.beginPowerOffAndWait
+  - Removed operation VirtualMachines.beginReimage
+  - Removed operation VirtualMachines.beginReimageAndWait
+  - Removed operation VirtualMachines.beginRestart
+  - Removed operation VirtualMachines.beginRestartAndWait
+  - Removed operation VirtualMachines.beginStart
+  - Removed operation VirtualMachines.beginStartAndWait
+  - Removed operation VirtualMachines.beginUpdate
+  - Removed operation VirtualMachines.beginUpdateAndWait
+  - Removed operation Volumes.beginCreateOrUpdate
+  - Removed operation Volumes.beginCreateOrUpdateAndWait
+  - Removed operation Volumes.beginDelete
+  - Removed operation Volumes.beginDeleteAndWait
+  - Deleted Class NetworkCloud
+  - Removed Interface AgentPoolConfiguration
+  - Removed Interface AgentPoolList
+  - Removed Interface BareMetalMachineKeySetList
+  - Removed Interface BareMetalMachineList
+  - Removed Interface BmcKeySetList
+  - Removed Interface CloudServicesNetworkList
+  - Removed Interface ClusterList
+  - Removed Interface ClusterManagerList
+  - Removed Interface ClusterMetricsConfigurationList
+  - Removed Interface ConsoleList
+  - Removed Interface KubernetesClusterFeatureList
+  - Removed Interface KubernetesClusterList
+  - Removed Interface L2NetworkList
+  - Removed Interface L3NetworkList
+  - Removed Interface NetworkCloudOptionalParams
+  - Removed Interface RackList
+  - Removed Interface RackSkuList
+  - Removed Interface StorageApplianceList
+  - Removed Interface TagsParameter
+  - Removed Interface TrunkedNetworkList
+  - Removed Interface VirtualMachineList
+  - Removed Interface VolumeList
+  - Enum KnownHugepagesSize no longer has value OneG
+  - Enum KnownHugepagesSize no longer has value TwoM
+
 ## 1.3.0 (2025-12-16)
 
 ### Features Added
