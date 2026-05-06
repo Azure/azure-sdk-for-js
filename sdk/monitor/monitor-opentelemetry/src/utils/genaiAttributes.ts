@@ -3,8 +3,7 @@
 
 /**
  * Attribute name constants and mapping tables for GenAI main agent
- * attribution. See:
- * https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/blob/main/ApplicationInsights/genai_main_agent_attribution.md
+ * attribution.
  *
  * @internal
  */
