@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-internal-avro": ["../src/index.ts"],
+      "@azure/storage-internal-avro/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

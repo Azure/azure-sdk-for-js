@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/onlineexperimentation": ["../src/index.ts"],
+      "@azure-rest/onlineexperimentation/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

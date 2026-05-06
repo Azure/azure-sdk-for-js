@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/arm-containerservice": ["../src/index.ts"],
+      "@azure-rest/arm-containerservice/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

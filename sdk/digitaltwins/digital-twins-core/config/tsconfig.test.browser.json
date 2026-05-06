@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/digital-twins-core": ["../src/index.ts"],
+      "@azure/digital-twins-core/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

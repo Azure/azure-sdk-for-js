@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/purview-workflow": ["../src/index.ts"],
+      "@azure-rest/purview-workflow/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

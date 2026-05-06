@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-cloudhealth": ["../src/index.ts"],
+      "@azure/arm-cloudhealth/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

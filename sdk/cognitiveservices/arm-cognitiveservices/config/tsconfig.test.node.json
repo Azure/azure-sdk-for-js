@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-cognitiveservices": ["../src/index.ts"],
+      "@azure/arm-cognitiveservices/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

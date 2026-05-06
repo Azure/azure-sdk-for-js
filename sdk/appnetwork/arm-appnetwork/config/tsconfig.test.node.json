@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-appnetwork": ["../src/index.ts"],
+      "@azure/arm-appnetwork/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

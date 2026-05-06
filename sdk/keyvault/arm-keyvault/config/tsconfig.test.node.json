@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-keyvault": ["../src/index.ts"],
+      "@azure/arm-keyvault/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

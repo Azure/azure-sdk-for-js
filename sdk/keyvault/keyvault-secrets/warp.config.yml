@@ -1,4 +1,8 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — @azure/keyvault-secrets build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
 
 targets:
   - name: browser

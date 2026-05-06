@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/monitor-opentelemetry": ["../src/index.ts"],
+      "@azure/monitor-opentelemetry/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

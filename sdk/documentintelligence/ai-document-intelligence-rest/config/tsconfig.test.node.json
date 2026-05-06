@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/ai-document-intelligence": ["../src/index.ts"],
+      "@azure-rest/ai-document-intelligence/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

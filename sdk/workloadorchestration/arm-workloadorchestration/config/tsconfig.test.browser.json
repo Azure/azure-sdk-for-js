@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-workloadorchestration": ["../src/index.ts"],
+      "@azure/arm-workloadorchestration/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
