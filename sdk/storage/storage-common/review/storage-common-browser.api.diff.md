@@ -7,21 +7,82 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -36,12 +36,10 @@
-     abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
-     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+@@ -7,10 +7,10 @@
+ import type { CompatResponse } from '@azure/core-http-compat';
+ import type { HttpClient } from '@azure/core-rest-pipeline';
+ import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+ import type { NodeBuffer } from '@azure/core-rest-pipeline';
++import type { NodeReadableStream } from '@azure/core-rest-pipeline';
+ import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+-import { Readable } from 'node:stream';
+ import type { RequestBodyType } from '@azure/core-rest-pipeline';
+ import type { RequestPolicy } from '@azure/core-http-compat';
+ import type { RequestPolicyFactory } from '@azure/core-http-compat';
+ import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+@@ -19,12 +19,12 @@
+ 
+ // Warning: (ae-internal-missing-underscore) The name "allocBuffer" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
+-export function allocBuffer(size: number): NodeBuffer;
++export function allocBuffer(_size: number): NodeBuffer;
+ 
+ // @public
+-export class AnonymousCredential extends Credential {
++export class AnonymousCredential extends Credential_2 {
+     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
  }
+ 
+ // @public
+@@ -46,13 +46,14 @@
+ 
+ // Warning: (ae-internal-missing-underscore) The name "bufferFromArrayBuffer" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
+-export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
++export function bufferFromArrayBuffer(_ab: ArrayBuffer, _byteOffset?: number, _length?: number): NodeBuffer;
  
 -// @public
 +// @public (undocumented)
  export class BufferScheduler {
 -    constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
--    do(): Promise<void>;
++    constructor(_readable: NodeReadableStream, _bufferSize: number, _maxBuffers: number, _outgoingHandler: OutgoingHandler, _concurrency: number, _encoding?: string);
++    // (undocumented)
+     do(): Promise<void>;
  }
  
+ // Warning: (ae-internal-missing-underscore) The name "createBlobFromData" should be prefixed with an underscore because the declaration is marked as @internal
+@@ -60,11 +61,12 @@
+ // @internal
+ export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
+ 
  // @public
- abstract class Credential_2 implements RequestPolicyFactory {
-@@ -64,16 +62,8 @@
+-export abstract class Credential implements RequestPolicyFactory {
++abstract class Credential_2 implements RequestPolicyFactory {
+     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
+ }
++export { Credential_2 as Credential }
+ 
+ // @public
+ export abstract class CredentialPolicy extends BaseRequestPolicy {
+     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+@@ -76,30 +78,31 @@
+ 
+ // Warning: (ae-internal-missing-underscore) The name "getBufferLength" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
+-export function getBufferLength(buffer: NodeBuffer): number;
++export function getBufferLength(_buffer: NodeBuffer): number;
+ 
+ // @public (undocumented)
+ export function getCachedDefaultHttpClient(): HttpClient;
+ 
+ // Warning: (ae-internal-missing-underscore) The name "isBuffer" should be prefixed with an underscore because the declaration is marked as @internal
+ //
+ // @internal
+-export function isBuffer(value: unknown): value is NodeBuffer;
++export function isBuffer(_value: unknown): _value is NodeBuffer;
+ 
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
@@ -29,21 +90,30 @@ For the complete API surface, see the corresponding -node.api.md file.
 -export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 -    destroy(error?: Error): this;
 -}
--
++export type NodeJSReadableStream = NodeReadableStream extends never ? never : NodeReadableStream & {
++    destroy(error?: Error): NodeJSReadableStream;
++};
+ 
 -// @public
 -export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
--
--// @public
++// @public (undocumented)
++export type OutgoingHandler = (body: () => NodeReadableStream, length: number, offset?: number) => Promise<unknown>;
+ 
+-export { Readable }
++// @public (undocumented)
++export type Readable = never;
+ 
+ // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-     sendRequest(request: WebResourceLike): Promise<CompatResponse>;
- }
-@@ -146,73 +136,64 @@
+@@ -173,58 +176,46 @@
+     FIXED = 1
  }
  
  // @public
- export class StorageSharedKeyCredential extends Credential_2 {
+-export class StorageSharedKeyCredential extends Credential {
 -    constructor(accountName: string, accountKey: string);
++export class StorageSharedKeyCredential extends Credential_2 {
 +    constructor(_accountName: string, _accountKey: string);
      readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
@@ -68,8 +138,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
 -    // (undocumented)
-     accountKey: Buffer;
+-    accountKey: Buffer;
 -    // (undocumented)
++    accountKey: unknown;
      accountName: string;
  }
  
@@ -79,13 +150,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
 +// @public (undocumented)
-+export const structuredMessageDecodingStream = 1;
++export const structuredMessageDecodingStream: (_source: never, _options: StructuredMessageDecodingStreamOptions) => never;
  
 -// @public
--export interface StructuredMessageDecodingStreamOptions {
--    highWaterMark?: number;
--}
--
++// @public (undocumented)
+ export interface StructuredMessageDecodingStreamOptions {
++    // (undocumented)
+     highWaterMark?: number;
+ }
+ 
 -// @public
 +// @public (undocumented)
  export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
@@ -100,22 +173,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
  export interface UserDelegationKey {
--    signedDelegatedUserTenantId: string | undefined;
-+    // (undocumented)
+     signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
-+    // (undocumented)
      signedObjectId: string;
-+    // (undocumented)
-     signedService: string;
-+    // (undocumented)
-     signedStartsOn: Date;
-+    // (undocumented)
-     signedTenantId: string;
-+    // (undocumented)
-     signedVersion: string;
-+    // (undocumented)
-     value: string;
- }
+@@ -237,10 +228,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

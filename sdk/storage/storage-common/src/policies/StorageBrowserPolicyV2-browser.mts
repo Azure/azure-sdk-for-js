@@ -7,6 +7,8 @@ import type {
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
+import { setURLParameter } from "../utils/utils.common.js";
 
 /**
  * The programmatic identifier of the StorageBrowserPolicy.
@@ -16,13 +18,23 @@ export const storageBrowserPolicyName = "storageBrowserPolicy";
 /**
  * storageBrowserPolicy is a policy used to prevent browsers from caching requests
  * and to remove cookies and explicit content-length headers.
- *
- * In Node.js, this policy is a no-op pass-through.
  */
 export function storageBrowserPolicy(): PipelinePolicy {
   return {
     name: storageBrowserPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (request.method === "GET" || request.method === "HEAD") {
+        request.url = setURLParameter(
+          request.url,
+          URLConstants.Parameters.FORCE_BROWSER_NO_CACHE,
+          new Date().getTime().toString(),
+        );
+      }
+
+      request.headers.delete(HeaderConstants.COOKIE);
+
+      // According to XHR standards, content-length should be fully controlled by browsers
+      request.headers.delete(HeaderConstants.CONTENT_LENGTH);
       return next(request);
     },
   };
