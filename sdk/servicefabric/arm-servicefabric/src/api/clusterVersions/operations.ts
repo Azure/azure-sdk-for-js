@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagementContext as Client } from "../index.js";
-import type {
-  ClusterCodeVersionsListResult,
-  ClusterVersionsEnvironment,
-} from "../../models/models.js";
+import { ServiceFabricManagementContext as Client } from "../index.js";
 import {
   errorModelDeserializer,
+  ClusterCodeVersionsListResult,
   clusterCodeVersionsListResultDeserializer,
+  ClusterVersionsEnvironment,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ClusterVersionsListByEnvironmentOptionalParams,
   ClusterVersionsListOptionalParams,
   ClusterVersionsGetByEnvironmentOptionalParams,
   ClusterVersionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByEnvironmentSend(
   context: Client,

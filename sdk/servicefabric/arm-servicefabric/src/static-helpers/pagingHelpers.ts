@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
+import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**

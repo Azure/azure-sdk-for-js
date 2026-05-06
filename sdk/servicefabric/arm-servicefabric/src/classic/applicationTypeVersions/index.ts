@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
+import { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/applicationTypeVersions/operations.js";
-import type {
+import {
   ApplicationTypeVersionsListOptionalParams,
   ApplicationTypeVersionsDeleteOptionalParams,
   ApplicationTypeVersionsCreateOrUpdateOptionalParams,
   ApplicationTypeVersionsGetOptionalParams,
 } from "../../api/applicationTypeVersions/options.js";
-import type { ApplicationTypeVersionResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ApplicationTypeVersionResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApplicationTypeVersions operations. */
 export interface ApplicationTypeVersionsOperations {
@@ -30,11 +29,6 @@ export interface ApplicationTypeVersionsOperations {
     options?: ApplicationTypeVersionsListOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
   /** Delete a Service Fabric application type version resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

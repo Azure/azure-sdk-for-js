@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
+import { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/applications/operations.js";
-import type {
+import {
   ApplicationsListOptionalParams,
   ApplicationsDeleteOptionalParams,
   ApplicationsUpdateOptionalParams,
   ApplicationsCreateOrUpdateOptionalParams,
   ApplicationsGetOptionalParams,
 } from "../../api/applications/options.js";
-import type { ApplicationResource, ApplicationResourceUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ApplicationResource, ApplicationResourceUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Applications operations. */
 export interface ApplicationsOperations {
@@ -25,11 +24,6 @@ export interface ApplicationsOperations {
     options?: ApplicationsListOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationResource>;
   /** Delete a Service Fabric application resource with the specified name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
