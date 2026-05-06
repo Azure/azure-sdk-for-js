@@ -1,7 +1,0 @@
-{
-  "extends": "../../../../eng/tsconfigs/snippets.json",
-  "compilerOptions": {
-    "paths": {}
-  },
-  "include": ["../test/snippets.spec.ts"]
-}
