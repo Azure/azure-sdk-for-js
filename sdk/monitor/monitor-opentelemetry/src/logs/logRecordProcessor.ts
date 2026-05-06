@@ -7,7 +7,7 @@ import type { Context } from "@opentelemetry/api";
 import { trace } from "@opentelemetry/api";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Logger } from "../shared/logging/index.js";
-import { MAIN_AGENT_ATTRIBUTE_PREFIX } from "../utils/genaiAttributes.js";
+import { MAIN_AGENT_TARGET_ATTRIBUTES } from "../utils/genaiAttributes.js";
 
 /**
  * Azure Monitor LogRecord Processor.
@@ -44,16 +44,18 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     if (!span) {
       return;
     }
-    const spanAttributes = (span as unknown as ReadableSpan).attributes;
+    // The Span returned by trace.getSpan may be a non-recording span or a
+    // foreign implementation that does not expose `attributes`.
+    const spanAttributes = (span as Partial<ReadableSpan>).attributes;
     if (!spanAttributes) {
       return;
     }
-    for (const key of Object.keys(spanAttributes)) {
-      if (key.startsWith(MAIN_AGENT_ATTRIBUTE_PREFIX)) {
-        const value = spanAttributes[key];
-        if (value !== undefined) {
-          logRecord.setAttribute(key, value);
-        }
+    // Copy only the spec-defined main-agent attributes rather than scanning
+    // every attribute on the span by prefix.
+    for (const key of MAIN_AGENT_TARGET_ATTRIBUTES) {
+      const value = spanAttributes[key];
+      if (value !== undefined) {
+        logRecord.setAttribute(key, value);
       }
     }
   }

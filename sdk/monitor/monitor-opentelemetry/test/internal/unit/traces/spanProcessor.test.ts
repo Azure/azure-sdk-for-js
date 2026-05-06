@@ -130,6 +130,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
       span.setAttribute("gen_ai.agent.id", "a-id");
       span.setAttribute("gen_ai.agent.version", "1.2");
       span.setAttribute("gen_ai.conversation.id", "c-id");
+      span.end();
 
       processor.onEnd(span as unknown as ReadableSpan);
 
@@ -144,6 +145,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
       const span = tracerProvider.getTracer("test").startSpan("chat") as Span;
       span.setAttribute("gen_ai.operation.name", "chat");
       span.setAttribute("gen_ai.agent.name", "a");
+      span.end();
 
       processor.onEnd(span as unknown as ReadableSpan);
 
@@ -156,6 +158,7 @@ describe("Library/AzureMonitorSpanProcessor", () => {
       span.setAttribute("gen_ai.operation.name", "invoke_agent");
       span.setAttribute("microsoft.gen_ai.main_agent.name", "preset");
       span.setAttribute("gen_ai.agent.id", "should-not-copy");
+      span.end();
 
       processor.onEnd(span as unknown as ReadableSpan);
 

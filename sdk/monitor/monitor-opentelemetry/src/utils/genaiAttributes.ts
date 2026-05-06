@@ -16,7 +16,19 @@ export const MAIN_AGENT_ID = "microsoft.gen_ai.main_agent.id";
 export const MAIN_AGENT_VERSION = "microsoft.gen_ai.main_agent.version";
 export const MAIN_AGENT_CONVERSATION_ID = "microsoft.gen_ai.main_agent.conversation_id";
 
-export const MAIN_AGENT_ATTRIBUTE_PREFIX = "microsoft.gen_ai.main_agent.";
+/**
+ * The fixed set of `microsoft.gen_ai.main_agent.*` attribute keys defined by
+ * the spec. Used to copy/check just these keys instead of scanning the full
+ * attribute map.
+ *
+ * @internal
+ */
+export const MAIN_AGENT_TARGET_ATTRIBUTES: readonly string[] = [
+  MAIN_AGENT_NAME,
+  MAIN_AGENT_ID,
+  MAIN_AGENT_VERSION,
+  MAIN_AGENT_CONVERSATION_ID,
+];
 
 /**
  * Mapping used by SpanProcessor.OnStart: copy primary attribute from the
