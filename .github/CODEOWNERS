@@ -1057,7 +1057,7 @@
 # PRLabel: %Mgmt
 /sdk/imagebuilder/arm-imagebuilder/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/securityinsight/arm-securityinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
