@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { NodeReadableStream } from "#platform/types";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {

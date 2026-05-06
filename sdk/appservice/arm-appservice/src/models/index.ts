@@ -5,7 +5,7 @@
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import type * as coreClient from "@azure/core-client";
-import type { NodeReadableStream } from "#platform/types";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 /** Collection of App Service Environments. */
 export interface AppServiceEnvironmentCollection {
