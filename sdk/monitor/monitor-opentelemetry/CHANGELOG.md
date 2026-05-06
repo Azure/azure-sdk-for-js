@@ -6,10 +6,6 @@
 
 - Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
 
-### Other Changes
-
-- Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
-
 ### Features Added
 
 - Added GenAI main agent attribution: `AzureMonitorSpanProcessor` and `AzureLogRecordProcessor` now propagate `microsoft.gen_ai.main_agent.*` attributes (with fallback to `gen_ai.agent.*` / `gen_ai.conversation.id`) from parent spans to child spans, derive them on `invoke_agent` spans, and copy them from the active span onto emitted log records. Implements [GenAI Main Agent Attribution](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/blob/main/ApplicationInsights/genai_main_agent_attribution.md).
