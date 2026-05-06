@@ -1,0 +1,92 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { purge, get, list } from "../../api/deletedAccounts/operations.js";
+import {
+  DeletedAccountsPurgeOptionalParams,
+  DeletedAccountsGetOptionalParams,
+  DeletedAccountsListOptionalParams,
+} from "../../api/deletedAccounts/options.js";
+import { Account } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a DeletedAccounts operations. */
+export interface DeletedAccountsOperations {
+  /** Deletes a Cognitive Services account from the resource group. */
+  purge: (
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeletedAccountsPurgeOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use purge instead */
+  beginPurge: (
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeletedAccountsPurgeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use purge instead */
+  beginPurgeAndWait: (
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeletedAccountsPurgeOptionalParams,
+  ) => Promise<void>;
+  /** Returns a Cognitive Services account specified by the parameters. */
+  get: (
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeletedAccountsGetOptionalParams,
+  ) => Promise<Account>;
+  /** Returns all the resources of a particular type belonging to a subscription. */
+  list: (options?: DeletedAccountsListOptionalParams) => PagedAsyncIterableIterator<Account>;
+}
+
+function _getDeletedAccounts(context: CognitiveServicesManagementContext) {
+  return {
+    purge: (
+      location: string,
+      resourceGroupName: string,
+      accountName: string,
+      options?: DeletedAccountsPurgeOptionalParams,
+    ) => purge(context, location, resourceGroupName, accountName, options),
+    beginPurge: async (
+      location: string,
+      resourceGroupName: string,
+      accountName: string,
+      options?: DeletedAccountsPurgeOptionalParams,
+    ) => {
+      const poller = purge(context, location, resourceGroupName, accountName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPurgeAndWait: async (
+      location: string,
+      resourceGroupName: string,
+      accountName: string,
+      options?: DeletedAccountsPurgeOptionalParams,
+    ) => {
+      return await purge(context, location, resourceGroupName, accountName, options);
+    },
+    get: (
+      location: string,
+      resourceGroupName: string,
+      accountName: string,
+      options?: DeletedAccountsGetOptionalParams,
+    ) => get(context, location, resourceGroupName, accountName, options),
+    list: (options?: DeletedAccountsListOptionalParams) => list(context, options),
+  };
+}
+
+export function _getDeletedAccountsOperations(
+  context: CognitiveServicesManagementContext,
+): DeletedAccountsOperations {
+  return {
+    ..._getDeletedAccounts(context),
+  };
+}
