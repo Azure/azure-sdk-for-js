@@ -57,7 +57,7 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
   /** Filter data generation jobs by their scenario. */
   scenario?: DataGenerationJobScenario;
   /** Filter data generation jobs by their type. */
-  typeParam?: DataGenerationJobType[];
+  type?: DataGenerationJobType[];
 }
 
 /** Optional parameters. */

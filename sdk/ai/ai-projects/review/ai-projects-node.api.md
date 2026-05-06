@@ -102,6 +102,9 @@ export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgent
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | AgentDefinition;
 
+// @public @deprecated (undocumented)
+export type AgentEndpoint = AgentEndpointConfig;
+
 // @public
 export interface AgentEndpointAuthorizationScheme {
     // (undocumented)
@@ -316,6 +319,24 @@ export interface AISearchIndexResource {
 }
 
 // @public
+export interface ApiError {
+    // (undocumented)
+    additionalInfo?: Record<string, any>;
+    // (undocumented)
+    code: string | null;
+    // (undocumented)
+    debugInfo?: Record<string, any>;
+    // (undocumented)
+    details?: ApiError[];
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    param?: string;
+    // (undocumented)
+    type?: string;
+}
+
+// @public
 export interface ApiErrorResponse {
     error: ErrorModel;
 }
@@ -514,7 +535,6 @@ export interface BetaAgentsOperations {
 // @public
 export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptions {
     agentCard?: AgentCard;
-    // Warning: (ae-forgotten-export) The symbol "AgentEndpoint" needs to be exported by the entry point index.d.ts
     agentEndpoint?: AgentEndpoint;
     foundryFeatures?: "AgentEndpoints=V1Preview";
 }
@@ -553,7 +573,16 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
     limit?: number;
     order?: PageOrder;
     scenario?: DataGenerationJobScenario;
-    typeParam?: DataGenerationJobType[];
+    type?: DataGenerationJobType[];
+}
+
+// @public
+export interface BetaDatasetsOperations {
+    cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    createGenerationJob: (body: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
+    getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJob>;
 }
 
 // @public
@@ -763,7 +792,6 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 // @public
 export interface BetaOperations {
     agents: BetaAgentsOperations;
-    // Warning: (ae-forgotten-export) The symbol "BetaDatasetsOperations" needs to be exported by the entry point index.d.ts
     datasets: BetaDatasetsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
@@ -1304,14 +1332,13 @@ export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
 
 // @public
 export interface DataGenerationJob {
-    readonly created_at: Date;
-    // Warning: (ae-forgotten-export) The symbol "ApiError" needs to be exported by the entry point index.d.ts
+    readonly created_at?: Date;
     readonly error?: ApiError;
     readonly finished_at?: Date;
-    readonly id: string;
+    readonly id?: string;
     inputs?: DataGenerationJobInputs;
     readonly result?: DataGenerationJobResult;
-    readonly status: JobStatus;
+    readonly status?: JobStatus;
 }
 
 // @public
@@ -1777,13 +1804,13 @@ export interface EvaluatorGenerationInputs {
 
 // @public
 export interface EvaluatorGenerationJob {
-    readonly created_at: Date;
+    readonly created_at?: Date;
     readonly error?: ApiError;
     readonly finished_at?: Date;
-    readonly id: string;
+    readonly id?: string;
     inputs?: EvaluatorGenerationInputs;
     readonly result?: EvaluatorVersion;
-    readonly status: JobStatus;
+    readonly status?: JobStatus;
     readonly usage?: EvaluatorGenerationTokenUsage;
 }
 

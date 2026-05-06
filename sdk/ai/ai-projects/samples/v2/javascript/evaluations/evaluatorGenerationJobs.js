@@ -11,14 +11,14 @@
  * @summary Demonstrates evaluator generation job operations using the beta evaluators API.
  */
 
-import { AIProjectClient } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { AIProjectClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
-export async function main(): Promise<void> {
+async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating evaluator generation job...");
@@ -45,7 +45,7 @@ export async function main(): Promise<void> {
     `Evaluator generation job created (id: ${generationJob.id}, status: ${generationJob.status})`,
   );
 
-  const fetchedJob = await project.beta.evaluators.getGenerationJob(generationJob.id!, {
+  const fetchedJob = await project.beta.evaluators.getGenerationJob(generationJob.id, {
     foundryFeatures: "Evaluations=V1Preview",
   });
   console.log(
@@ -61,7 +61,7 @@ export async function main(): Promise<void> {
   }
 
   if (generationJob.status === "queued" || generationJob.status === "in_progress") {
-    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(generationJob.id!, {
+    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(generationJob.id, {
       foundryFeatures: "Evaluations=V1Preview",
     });
     console.log(
@@ -69,7 +69,7 @@ export async function main(): Promise<void> {
     );
   }
 
-  await project.beta.evaluators.deleteGenerationJob(generationJob.id!, {
+  await project.beta.evaluators.deleteGenerationJob(generationJob.id, {
     foundryFeatures: "Evaluations=V1Preview",
   });
   console.log("Evaluator generation job deleted");
@@ -78,3 +78,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

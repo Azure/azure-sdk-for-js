@@ -7559,17 +7559,17 @@ export function datasetReferenceDeserializer(item: any): DatasetReference {
 /** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
 export interface EvaluatorGenerationJob {
   /** Server-assigned unique identifier. */
-  readonly id: string;
+  readonly id?: string;
   /** Caller-supplied inputs. */
   inputs?: EvaluatorGenerationInputs;
   /** Result produced on success. */
   readonly result?: EvaluatorVersion;
   /** Current lifecycle status. */
-  readonly status: JobStatus;
+  readonly status?: JobStatus;
   /** Error details — populated only on failure. */
   readonly error?: ApiError;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
-  readonly created_at: Date;
+  readonly created_at?: Date;
   /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
   readonly finished_at?: Date;
   /** Token consumption summary. Populated when the job reaches a terminal state. */
@@ -10035,17 +10035,17 @@ export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse 
 /** Data Generation Job resource. */
 export interface DataGenerationJob {
   /** Server-assigned unique identifier. */
-  readonly id: string;
+  readonly id?: string;
   /** Caller-supplied inputs. */
   inputs?: DataGenerationJobInputs;
   /** Result produced on success. */
   readonly result?: DataGenerationJobResult;
   /** Current lifecycle status. */
-  readonly status: JobStatus;
+  readonly status?: JobStatus;
   /** Error details — populated only on failure. */
   readonly error?: ApiError;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
-  readonly created_at: Date;
+  readonly created_at?: Date;
   /** The timestamp when the job was finished, represented in Unix time (seconds since January 1, 1970). */
   readonly finished_at?: Date;
 }
