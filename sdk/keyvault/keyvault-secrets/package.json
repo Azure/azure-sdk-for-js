@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-secrets",
-  "version": "4.11.1",
+  "version": "4.11.2",
   "description": "Azure Key Vault Secrets",
   "engines": {
     "node": ">=20.0.0"
@@ -134,5 +134,10 @@
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

@@ -4,8 +4,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { resolveRoot } from "./resolveProject";
-import { createPrinter } from "./printer";
+import { resolveRoot } from "./resolveProject.ts";
+import { createPrinter } from "./printer.ts";
 
 const log = createPrinter("vscode");
 

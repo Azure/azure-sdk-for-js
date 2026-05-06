@@ -70,6 +70,7 @@
     "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:",
@@ -97,5 +98,10 @@
     }
   },
   "type": "module",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

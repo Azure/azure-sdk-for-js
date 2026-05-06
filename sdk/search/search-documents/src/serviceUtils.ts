@@ -161,7 +161,7 @@ const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
-    return skills;
+    return [];
   }
 
   // This validation has already GAed
@@ -194,7 +194,7 @@ export function convertCognitiveServicesAccountToPublic(
   cognitiveServicesAccount?: CognitiveServicesAccountUnion,
 ): CognitiveServicesAccount | undefined {
   if (!cognitiveServicesAccount) {
-    return cognitiveServicesAccount;
+    return undefined;
   }
 
   const deserializers: Record<
@@ -277,7 +277,7 @@ function convertAnalyzersToPublic(
   analyzers?: LexicalAnalyzerUnion[],
 ): LexicalAnalyzer[] | undefined {
   if (!analyzers) {
-    return analyzers;
+    return undefined;
   }
 
   const result: LexicalAnalyzer[] = [];
@@ -304,7 +304,7 @@ function convertAnalyzersToPublic(
 
 export function convertFieldsToPublic(fields?: GeneratedSearchField[]): SearchField[] | undefined {
   if (!fields) {
-    return fields;
+    return undefined;
   }
 
   return fields.map<SearchField>((field): SearchField => {
@@ -368,7 +368,7 @@ function convertTokenizersToPublic(
   tokenizers?: LexicalTokenizerUnion[],
 ): LexicalTokenizer[] | undefined {
   if (!tokenizers) {
-    return tokenizers;
+    return undefined;
   }
 
   const result: LexicalTokenizer[] = [];
@@ -392,7 +392,7 @@ export function convertSimilarityToPublic(
   similarity?: SimilarityUnion,
 ): SimilarityAlgorithm | undefined {
   if (!similarity) {
-    return similarity;
+    return undefined;
   }
 
   if (similarity.odatatype === "#Microsoft.Azure.Search.ClassicSimilarity") {
@@ -406,7 +406,7 @@ function convertEncryptionKeyToPublic(
   encryptionKey?: GeneratedSearchResourceEncryptionKey,
 ): SearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
-    return encryptionKey;
+    return undefined;
   }
 
   const result: SearchResourceEncryptionKey = {
@@ -425,7 +425,7 @@ function convertEncryptionKeyToGenerated(
   encryptionKey?: SearchResourceEncryptionKey,
 ): GeneratedSearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
-    return encryptionKey;
+    return undefined;
   }
 
   const result: GeneratedSearchResourceEncryptionKey = {
@@ -475,7 +475,7 @@ export function generatedVectorSearchVectorizerToPublicVectorizer(
   generatedVectorizer?: GeneratedVectorSearchVectorizer,
 ): VectorSearchVectorizer | undefined {
   if (!generatedVectorizer) {
-    return generatedVectorizer;
+    return undefined;
   }
 
   const knownVectorizerDeserializers: Record<
@@ -570,7 +570,7 @@ function generatedAzureMachineLearningVectorizerParametersToPublicAzureMachineLe
   aMLParameters?: GeneratedAMLParameters,
 ): AzureMachineLearningVectorizerParameters | undefined {
   if (!aMLParameters) {
-    return aMLParameters;
+    return undefined;
   }
 
   const { resourceId, authenticationKey, scoringUri } = aMLParameters;
@@ -608,7 +608,7 @@ export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchA
   generatedAlgorithmConfiguration?: GeneratedVectorSearchAlgorithmConfiguration,
 ): VectorSearchAlgorithmConfiguration | undefined {
   if (!generatedAlgorithmConfiguration) {
-    return generatedAlgorithmConfiguration;
+    return undefined;
   }
 
   if (["hnsw", "exhaustiveKnn"].includes(generatedAlgorithmConfiguration.kind)) {
@@ -629,7 +629,7 @@ export function generatedVectorSearchToPublicVectorSearch(
   vectorSearch?: GeneratedVectorSearch,
 ): VectorSearch | undefined {
   if (!vectorSearch) {
-    return vectorSearch;
+    return undefined;
   }
 
   return {
@@ -863,7 +863,7 @@ export function convertSearchIndexerDataIdentityToPublic(
   searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion,
 ): SearchIndexerDataIdentity | undefined {
   if (!searchIndexerDataIdentity) {
-    return searchIndexerDataIdentity;
+    return undefined;
   }
 
   if (searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.DataNoneIdentity") {
@@ -877,7 +877,7 @@ export function convertDataChangeDetectionPolicyToPublic(
   dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion,
 ): DataChangeDetectionPolicy | undefined {
   if (!dataChangeDetectionPolicy) {
-    return dataChangeDetectionPolicy;
+    return undefined;
   }
 
   if (
@@ -894,7 +894,7 @@ export function convertDataDeletionDetectionPolicyToPublic(
   dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion,
 ): DataDeletionDetectionPolicy | undefined {
   if (!dataDeletionDetectionPolicy) {
-    return dataDeletionDetectionPolicy;
+    return undefined;
   }
 
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
@@ -904,7 +904,7 @@ function convertKnowledgeStoreToPublic(
   knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined,
 ): SearchIndexerKnowledgeStore | undefined {
   if (!knowledgeStore) {
-    return knowledgeStore;
+    return undefined;
   }
 
   return {
@@ -932,7 +932,7 @@ export function convertKnowledgeBaseToGenerated(
   knowledgeBase: KnowledgeBase | undefined,
 ): GeneratedKnowledgeBase | undefined {
   if (!knowledgeBase) {
-    return knowledgeBase;
+    return undefined;
   }
 
   return {
@@ -946,7 +946,7 @@ export function convertKnowledgeSourceToPublic(
   knowledgeSource: GeneratedKnowledgeSource,
 ): KnowledgeSource | undefined {
   if (!knowledgeSource) {
-    return knowledgeSource;
+    return undefined;
   }
 
   switch (knowledgeSource.kind) {
@@ -1004,17 +1004,20 @@ export function convertKnowledgeSourceToGenerated(
   knowledgeSource: KnowledgeSource | undefined,
 ): GeneratedKnowledgeSource | undefined {
   if (!knowledgeSource) {
-    return knowledgeSource;
+    return undefined;
   }
   const { encryptionKey } = knowledgeSource;
-  return { ...knowledgeSource, encryptionKey: convertEncryptionKeyToGenerated(encryptionKey) };
+  return {
+    ...knowledgeSource,
+    encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+  } as GeneratedKnowledgeSource;
 }
 
 function convertKnowledgeIngestionParametersToPublic(
   params: GeneratedKnowledgeSourceIngestionParameters | undefined,
 ): KnowledgeSourceIngestionParameters | undefined {
   if (!params) {
-    return params;
+    return undefined;
   }
 
   const { embeddingModel, chatCompletionModel, identity, ...rest } = params;
@@ -1034,7 +1037,7 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
   params: GeneratedAzureBlobKnowledgeSourceParameters | undefined,
 ): AzureBlobKnowledgeSourceParameters | undefined {
   if (!params) {
-    return params;
+    return undefined;
   }
   const { embeddingModel, chatCompletionModel, identity, ...rest } =
     params.ingestionParameters ?? {};

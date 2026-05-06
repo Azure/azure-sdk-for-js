@@ -69,6 +69,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -411,5 +412,10 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

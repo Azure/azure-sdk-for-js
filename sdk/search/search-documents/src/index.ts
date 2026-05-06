@@ -157,7 +157,6 @@ export {
   type KeywordMarkerTokenFilter,
   type KnowledgeBaseModelKind,
   type KnowledgeSourceContentExtractionMode,
-  type KnowledgeSourceIngestionPermissionOption,
   type KnowledgeSourceKind,
   type KnowledgeSourceReference,
   type KnowledgeSourceSynchronizationStatus,
@@ -305,6 +304,7 @@ export {
   type WebKnowledgeSourceDomain,
   type WordDelimiterTokenFilter,
 } from "./models/azure/search/documents/indexes/index.js";
+export type { KnowledgeBaseModelWebSummarizationActivityRecord } from "./models/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export type {
