@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text.
+- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text. [#38416](https://github.com/Azure/azure-sdk-for-js/pull/38416)
 
 ### Other Changes
 
