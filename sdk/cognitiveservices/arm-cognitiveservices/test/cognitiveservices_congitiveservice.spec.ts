@@ -103,7 +103,9 @@ describe("CognitiveServices test", () => {
   });
 
   it("accounts regenerateKey test", async () => {
-    const res = await client.accounts.regenerateKey(resourceGroup, accountName, { keyName: "Key2" });
+    const res = await client.accounts.regenerateKey(resourceGroup, accountName, {
+      keyName: "Key2",
+    });
     assert.notEqual(res.key2, "");
   });
 
