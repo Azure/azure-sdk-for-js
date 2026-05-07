@@ -3,7 +3,7 @@
 
 import type { AccessToken, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { isNamedKeyCredential, isSASCredential } from "@azure/core-auth";
-import { signString } from "#platform/hmacSha256";
+import { signString } from "../util/hmacSha256.js";
 
 /**
  * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.

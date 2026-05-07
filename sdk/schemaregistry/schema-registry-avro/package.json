@@ -89,6 +89,7 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "process": "^0.11.10",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "stream": "^0.0.3",
     "typescript": "catalog:",
@@ -116,5 +117,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

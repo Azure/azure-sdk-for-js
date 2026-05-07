@@ -41,7 +41,7 @@ export interface KnowledgeBaseActivityRecord {
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
-export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
 
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
@@ -109,6 +109,13 @@ export interface KnowledgeBaseMessageImageContent extends KnowledgeBaseMessageCo
 export interface KnowledgeBaseMessageTextContent extends KnowledgeBaseMessageContent {
     text: string;
     type: "text";
+}
+
+// @public
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+    inputTokensCount?: number;
+    outputTokensCount?: number;
+    type: "modelWebSummarization";
 }
 
 // @public
@@ -202,7 +209,6 @@ export interface KnowledgeSourceIngestionParameters {
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizerUnion;
     identity?: SearchIndexerDataIdentityUnion;
-    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
 
@@ -258,6 +264,7 @@ export enum KnownKnowledgeBaseActivityRecordType {
     AgenticReasoning = "agenticReasoning",
     AzureBlob = "azureBlob",
     IndexedOneLake = "indexedOneLake",
+    ModelWebSummarization = "modelWebSummarization",
     SearchIndex = "searchIndex",
     Web = "web"
 }

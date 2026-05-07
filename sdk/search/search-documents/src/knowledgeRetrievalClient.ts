@@ -123,7 +123,12 @@ export class KnowledgeRetrievalClient {
 
     this.serviceVersion = options.serviceVersion ?? utils.defaultServiceVersion;
 
-    this.client = new GeneratedClient(endpoint, credential, internalClientPipelineOptions);
+    this.client = new GeneratedClient(
+      endpoint,
+      credential,
+      knowledgeBaseName,
+      internalClientPipelineOptions,
+    );
 
     this.pipeline = this.client.pipeline;
 
@@ -153,7 +158,7 @@ export class KnowledgeRetrievalClient {
       "KnowledgeRetrievalClient-retrieve",
       options,
       async (updatedOptions) => {
-        return this.client.retrieve(this.knowledgeBaseName, retrievalRequest, updatedOptions);
+        return this.client.retrieve(retrievalRequest, updatedOptions);
       },
     );
   }

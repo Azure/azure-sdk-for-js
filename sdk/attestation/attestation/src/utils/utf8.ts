@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
+
 /**
  * Converts a string into a utf8 encoded byte array.
  * @param content - The utf8 string to convert.
  * @internal
  */
 export function stringToBytes(content: string): Uint8Array {
-  return Buffer.from(content, "utf8");
+  return stringToUint8Array(content, "utf-8");
 }
 
 /**
@@ -16,5 +18,5 @@ export function stringToBytes(content: string): Uint8Array {
  * @internal
  */
 export function bytesToString(content: Uint8Array): string {
-  return Buffer.from(content.buffer, content.byteOffset, content.byteLength).toString("ascii");
+  return uint8ArrayToString(content, "utf-8");
 }

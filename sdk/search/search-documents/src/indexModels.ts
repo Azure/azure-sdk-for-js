@@ -226,6 +226,13 @@ export interface BaseVectorQuery<TModel extends object> {
    * Controls how many vectors can be matched from each document in a vector search query. Setting it to 1 ensures at most one vector per document is matched, guaranteeing results come from distinct documents. Setting it to 0 (unlimited) allows multiple relevant vectors from the same document to be matched. Default is 0.
    */
   perDocumentVectorLimit?: number;
+  /**
+   * Oversampling factor. Minimum value is 1. It overrides the 'defaultOversampling' parameter
+   * configured in the index definition. It can be set only when 'rerankWithOriginalVectors' is
+   * true. This parameter is only permitted when a compression method is used on the underlying
+   * vector field.
+   */
+  oversampling?: number;
 }
 
 /**
@@ -407,6 +414,10 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
+  /**
+   * Enables a debugging tool that can be used to further explore your search results.
+   */
+  debug?: QueryDebugMode;
 }
 
 /**

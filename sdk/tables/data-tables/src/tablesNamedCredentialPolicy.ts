@@ -9,7 +9,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "./utils/constants.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
-import { computeHMACSHA256 } from "./utils/computeHMACSHA256.js";
+import { computeHMACSHA256 } from "#platform/utils/computeHMACSHA256";
 
 /**
  * The programmatic identifier of the tablesNamedKeyCredentialPolicy.

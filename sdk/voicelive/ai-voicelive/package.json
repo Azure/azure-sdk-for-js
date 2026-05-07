@@ -45,6 +45,7 @@
     "@azure/abort-controller": "^2.1.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "https-proxy-agent": "^7.0.1",
@@ -69,6 +70,7 @@
     "microsoft-cognitiveservices-speech-sdk": "^1.47.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -146,5 +148,10 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }
