@@ -660,7 +660,7 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
   describe("AzureAvatarVoiceSyncVoice (GA 1.0.0)", () => {
     it("serializes camelCase fields to snake_case wire format", () => {
       const voice: AzureAvatarVoiceSyncVoice = {
-        type: "azure-avatar-voice-sync",
+        type: "avatar-voice-sync",
         model: "avatar-sync-model",
         temperature: 0.7,
         customLexiconUrl: "https://example.com/lex.xml",
@@ -675,7 +675,7 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
 
       const wire = azureAvatarVoiceSyncVoiceSerializer(voice);
 
-      expect(wire.type).toBe("azure-avatar-voice-sync");
+      expect(wire.type).toBe("avatar-voice-sync");
       expect(wire.custom_lexicon_url).toBe("https://example.com/lex.xml");
       expect(wire.custom_text_normalization_url).toBe("https://example.com/norm.xml");
       expect(wire.prefer_locales).toEqual(["en-US", "fr-FR"]);
@@ -687,7 +687,7 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
 
     it("round-trips through serializer + deserializer", () => {
       const original: AzureAvatarVoiceSyncVoice = {
-        type: "azure-avatar-voice-sync",
+        type: "avatar-voice-sync",
         model: "m1",
         customLexiconUrl: "https://lex",
         customTextNormalizationUrl: "https://norm",
@@ -705,11 +705,11 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
 
     it("preserves undefined optional fields without leaking camelCase keys", () => {
       const minimal: AzureAvatarVoiceSyncVoice = {
-        type: "azure-avatar-voice-sync",
+        type: "avatar-voice-sync",
         model: "m1",
       };
       const wire = azureAvatarVoiceSyncVoiceSerializer(minimal);
-      expect(wire.type).toBe("azure-avatar-voice-sync");
+      expect(wire.type).toBe("avatar-voice-sync");
       expect(wire.custom_lexicon_url).toBeUndefined();
       expect(wire.prefer_locales).toBeUndefined();
     });
