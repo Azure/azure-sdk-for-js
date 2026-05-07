@@ -1261,7 +1261,7 @@ describe("AppConfigurationClient", () => {
         "checkConfigSetting-multiPage",
         `checkConfigSetting-multiPage${Math.floor(Math.random() * 100000)}`,
       );
-      // Avoid unmatched sync-token headers in playback mode 
+      // Avoid unmatched sync-token headers in playback mode
       await recorder.setMatcher("CustomDefaultMatcher", {
         excludedHeaders: ["Sync-Token"],
       });
