@@ -29,6 +29,11 @@ describe("AppConfigurationClient", () => {
 
   beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
+    // Avoid unmatched sync-token headers in playback mode
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["sync-token"],
+    });
+
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
@@ -1261,10 +1266,6 @@ describe("AppConfigurationClient", () => {
         "checkConfigSetting-multiPage",
         `checkConfigSetting-multiPage${Math.floor(Math.random() * 100000)}`,
       );
-      // Avoid unmatched sync-token headers in playback mode
-      await recorder.setMatcher("CustomDefaultMatcher", {
-        excludedHeaders: ["Sync-Token"],
-      });
       // Create 101 settings to ensure we have at least 2 pages (page size is 100)
       const expectedNumberOfLabels = 101;
 
