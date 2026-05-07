@@ -19,7 +19,7 @@ export * from "./StorageRetryPolicyFactory.js";
 export { BaseRequestPolicy } from "./policies/RequestPolicy.js";
 export * from "./policies/AnonymousCredentialPolicy.js";
 export * from "./policies/CredentialPolicy.js";
-export * from "./policies/StorageBrowserPolicyV2-browser.mjs";
+export * from "#platform/policies/StorageBrowserPolicyV2";
 export * from "#platform/policies/StorageCorrectContentLengthPolicy";
 export * from "./policies/StorageRetryPolicyV2.js";
 export * from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
