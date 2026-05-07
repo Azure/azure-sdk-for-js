@@ -1,6 +1,6 @@
 # Release History
 
-## 12.30.0-beta.3 (Unreleased)
+## 12.30.0-beta.2 (Unreleased)
 
 ### Features Added
 

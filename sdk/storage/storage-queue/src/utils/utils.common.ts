@@ -218,12 +218,14 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     let defaultEndpointsProtocol = "";
     let accountName = "";
-    let accountKey: Uint8Array = new Uint8Array(0);
     let endpointSuffix = "";
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = stringToUint8Array(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountKey = stringToUint8Array(
+      getValueInConnString(connectionString, "AccountKey"),
+      "base64",
+    );
 
     if (!queueEndpoint) {
       // QueueEndpoint is not present in the Account connection string
