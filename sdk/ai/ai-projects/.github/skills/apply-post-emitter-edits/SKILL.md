@@ -1,22 +1,26 @@
 ---
 name: apply-post-emitter-edits
-description: 'Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill.'
+description: 'Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill.'
 ---
 
 # Apply Post-Emitter Edits to ai-projects
 
 The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, enforces a list of standing rules (protected files, additions-only models, banned parameter shapes), and verifies the build. There is no `incoming/` staging directory and no three-way merge.
 
+When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file as the validation guide for deciding whether SDK source changes match upstream intent. The standing workarounds still apply, but upstream commit descriptions can explain intentional non-additive spec changes that should be preserved rather than blindly reverted.
+
 ## When to Use
 
 - Right after the `regenerate-from-typespec` skill has run `npm run generate:client`.
 - `git status` shows uncommitted changes under `src/` and/or `generated/`.
+- `temp/typespec-commit-descriptions.md` exists and should be used to validate that the post-merge SDK diff adheres to the upstream TypeSpec change descriptions.
 - You need to apply the standing list of search/replace/rename workarounds to emitted code.
 - You're verifying that protected hand-maintained files were not clobbered.
 
 ## Inputs
 
 - The working-tree diff: `git diff -- sdk/ai/ai-projects/src sdk/ai/ai-projects/generated`.
+- `temp/typespec-commit-descriptions.md` from `regenerate-from-typespec` — upstream commit subjects and bodies for the old-exclusive/new-inclusive TypeSpec range.
 - [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md) — protected files, additions-only models, `foundryFeatures` rule, `BetaEvaluatorsOperations.list` rule.
 
 The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.md](../../../scripts/post-emitter-workarounds.md). If it has been updated, prefer it over the bundled reference.
@@ -24,6 +28,12 @@ The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.m
 ## Procedure
 
 Run from `sdk/ai/ai-projects/`.
+
+### Step -1: Read the upstream validation guide
+
+If `temp/typespec-commit-descriptions.md` exists, read it before resolving conflicts or reverting model changes. Extract the expected upstream themes (for example: added operations, renamed parameters, removed fields, required-vs-optional shape changes, hidden protocol methods). Use those descriptions to validate the final `src/`, `generated/`, and API report diffs.
+
+Do not treat the guide as permission for broad emitter churn. It is a tie-breaker for changes that would otherwise conflict with standing rules. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
 
 ### Step 0: Resolve diff3 conflict markers (if present)
 
@@ -147,7 +157,9 @@ Also look for duplicate **properties within a single interface** (not just dupli
 
 ### Step 3: Apply additions-only rule for models
 
-Review `git diff` for `src/models/models.ts` and `src/models/index.ts` and revert any **deletions or modifications** to existing models — keep only the `+` lines (your own additions from Step 2).
+Review `git diff` for `src/models/models.ts` and `src/models/index.ts` and revert any **deletions or modifications** to existing models — keep only the `+` lines (your own additions from Step 2) unless `temp/typespec-commit-descriptions.md` clearly describes the non-additive shape change.
+
+Examples of commit-description-validated exceptions include a field explicitly removed upstream, a union member explicitly removed upstream, or response properties explicitly made required. When keeping one of these exceptions, make sure the API report reflects the same upstream intent.
 
 ```powershell
 git diff HEAD -- src/models/models.ts src/models/index.ts
@@ -238,6 +250,8 @@ git diff -- review/ai-projects-node.api.md | Select-String '^\+' | Select-Object
 ```
 
 **Spot-check that newly added types from Step 2 appear in `review/ai-projects-node.api.md`.** If a type was added to `generated/` but is missing from the API report, Step 2 was incomplete — go back and propagate it.
+
+If `temp/typespec-commit-descriptions.md` exists, also spot-check that the API report changes line up with the upstream commit descriptions. For example, added operations/types should appear, hidden protocol methods should stay out of the public surface, and described removals or requiredness changes should be visible where applicable.
 
 Finally:
 

@@ -122,6 +122,11 @@ This PR also seeds (or updates) the Copilot skills under ``sdk/ai/ai-projects/.g
 - **update-changelog** — inserts an ``## Unreleased`` entry classified into Breaking Changes / Features Added / Bugs Fixed / Other Changes.
 - **open-regeneration-pr** — (this skill) commits the regen output as five (or six, with skills) logical commits and opens a draft PR via ``gh``.
 
+## Skill updates in this PR
+
+- ``regenerate-from-typespec`` now captures upstream TypeSpec commit descriptions for the old-exclusive/new-inclusive range in ``temp/typespec-commit-descriptions.md`` before running the emitter.
+- ``apply-post-emitter-edits`` now treats ``temp/typespec-commit-descriptions.md`` as a validation guide when deciding whether SDK diff changes match upstream TypeSpec intent, including intentional non-additive model changes.
+
 ## Verification checklist
 
 - [ ] ``npx dev-tool run build-package`` (all four targets)
