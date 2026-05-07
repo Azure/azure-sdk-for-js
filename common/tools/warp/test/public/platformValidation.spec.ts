@@ -5,14 +5,27 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
-import { validatePlatformImports } from "../../src/resolveImports.ts";
+import { validateNoDirectImports } from "../../src/resolveImports.ts";
 import type { ImportsMap } from "../../src/resolveImports.ts";
+import ts from "typescript";
 
 async function createTmpDir(): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), "warp-platform-validation-"));
 }
 
-describe("validatePlatformImports", () => {
+async function collectSourceFiles(srcDir: string): Promise<string[]> {
+  const sourceFiles: string[] = [];
+  if (!ts.sys.directoryExists(srcDir)) return sourceFiles;
+  for (const entry of ts.sys.readDirectory(srcDir, [".ts", ".mts", ".cts"], [], [])) {
+    sourceFiles.push(entry);
+  }
+  for (const subdir of ts.sys.getDirectories(srcDir)) {
+    sourceFiles.push(...(await collectSourceFiles(path.join(srcDir, subdir))));
+  }
+  return sourceFiles;
+}
+
+describe("validateNoDirectImports with platform file validation", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
@@ -31,18 +44,18 @@ describe("validatePlatformImports", () => {
     },
   };
 
+  async function validate() {
+    const srcDir = path.join(tmpDir, "src");
+    const sourceFiles = await collectSourceFiles(srcDir);
+    return validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
+  }
+
   it("returns empty array when no platform files exist", async () => {
     await fs.mkdir(path.join(tmpDir, "src"));
-    await fs.writeFile(
-      path.join(tmpDir, "src", "index.ts"),
-      `export * from "./utils.js";`,
-    );
-    await fs.writeFile(
-      path.join(tmpDir, "src", "utils.ts"),
-      `export const foo = 1;`,
-    );
+    await fs.writeFile(path.join(tmpDir, "src", "index.ts"), `export * from "./utils.js";`);
+    await fs.writeFile(path.join(tmpDir, "src", "utils.ts"), `export const foo = 1;`);
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toEqual([]);
   });
 
@@ -55,7 +68,7 @@ describe("validatePlatformImports", () => {
     await fs.writeFile(path.join(tmpDir, "src", "utils.ts"), `export const foo = 1;`);
     await fs.writeFile(path.join(tmpDir, "src", "utils-browser.mts"), `export const foo = 2;`);
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toEqual([]);
   });
 
@@ -68,7 +81,7 @@ describe("validatePlatformImports", () => {
     await fs.writeFile(path.join(tmpDir, "src", "utils.ts"), `export const foo = 1;`);
     await fs.writeFile(path.join(tmpDir, "src", "utils-browser.mts"), `export const foo = 2;`);
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toHaveLength(1);
     expect(violations[0]).toMatchObject({
       specifier: "./utils.js",
@@ -92,7 +105,7 @@ export { a, b };`,
     await fs.writeFile(path.join(tmpDir, "src", "moduleB.ts"), `export const b = 1;`);
     await fs.writeFile(path.join(tmpDir, "src", "moduleB-browser.mts"), `export const b = 2;`);
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toHaveLength(2);
     expect(violations[0].specifier).toBe("./moduleA.js");
     expect(violations[0].line).toBe(1);
@@ -106,12 +119,9 @@ export { a, b };`,
       path.join(tmpDir, "src", "index-browser.mts"),
       `export * from "./constants.js";`,
     );
-    await fs.writeFile(
-      path.join(tmpDir, "src", "constants.ts"),
-      `export const VERSION = "1.0";`,
-    );
+    await fs.writeFile(path.join(tmpDir, "src", "constants.ts"), `export const VERSION = "1.0";`);
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toEqual([]);
   });
 
@@ -121,16 +131,13 @@ export { a, b };`,
       path.join(tmpDir, "src", "index-browser.mts"),
       `export * from "./policies/auth.js";`,
     );
-    await fs.writeFile(
-      path.join(tmpDir, "src", "policies", "auth.ts"),
-      `export const auth = {};`,
-    );
+    await fs.writeFile(path.join(tmpDir, "src", "policies", "auth.ts"), `export const auth = {};`);
     await fs.writeFile(
       path.join(tmpDir, "src", "policies", "auth-browser.mts"),
       `export const auth = { browser: true };`,
     );
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toHaveLength(1);
     expect(violations[0].specifier).toBe("./policies/auth.js");
     expect(violations[0].suggestedImport).toBe("#platform/policies/auth");
@@ -148,7 +155,7 @@ export { a, b };`,
       `export const hash = () => {};`,
     );
 
-    const violations = await validatePlatformImports(importsMap, tmpDir);
+    const violations = await validate();
     expect(violations).toHaveLength(1);
     expect(violations[0].targetPlatform).toBe("react-native");
     expect(violations[0].suggestedImport).toBe("#platform/hash");

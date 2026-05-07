@@ -18,7 +18,6 @@ import {
   buildConditionsSet,
   validateNoDirectImports,
   resolveSubpathImport,
-  validatePlatformImports,
 } from "./resolveImports.ts";
 import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
@@ -288,32 +287,34 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     for (const pc of parsedConfigs) {
       for (const f of pc.parsedConfig.fileNames) allSourceFiles.add(f);
     }
-    const violations = validateNoDirectImports([...allSourceFiles], importsMap, packageRoot);
+
+    // Also validate platform files when polyfillSuffix is NOT active
+    const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
+    const violations = validateNoDirectImports(
+      [...allSourceFiles],
+      importsMap,
+      packageRoot,
+      !usesPolyfill,
+    );
+
     if (violations.length > 0) {
-      log.error(
-        `\n[warp] Found ${violations.length} direct import(s) bypassing the #imports mechanism:`,
-      );
-      for (const v of violations) {
+      const platformViolations = violations.filter((v) => v.targetPlatform);
+      const regularViolations = violations.filter((v) => !v.targetPlatform);
+
+      if (regularViolations.length > 0) {
         log.error(
-          `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+          `\n[warp] Found ${regularViolations.length} direct import(s) bypassing the #imports mechanism:`,
+        );
+        for (const v of regularViolations) {
+          log.error(
+            `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+          );
+        }
+        log.error(
+          `\n[warp] These files are mapped via package.json "imports". Use the #-prefixed specifier to ensure correct platform-specific resolution.`,
         );
       }
-      log.error(
-        `\n[warp] These files are mapped via package.json "imports". Use the #-prefixed specifier to ensure correct platform-specific resolution.`,
-      );
-      log.flush();
-      return {
-        success: false,
-        config,
-        totalTimeMs: performance.now() - buildStart,
-      };
-    }
 
-    // Step 1c: Validate platform-specific files use #platform imports
-    // Only applies when polyfillSuffix is NOT active (polyfill handles it otherwise)
-    const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
-    if (!usesPolyfill) {
-      const platformViolations = await validatePlatformImports(importsMap, packageRoot);
       if (platformViolations.length > 0) {
         log.error(
           `\n[warp] Found ${platformViolations.length} platform-specific file(s) bypassing #platform imports:`,
@@ -326,13 +327,14 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
         log.error(
           `\n[warp] Platform entry files (e.g., *-browser.mts) must use #platform imports to ensure correct resolution.`,
         );
-        log.flush();
-        return {
-          success: false,
-          config,
-          totalTimeMs: performance.now() - buildStart,
-        };
       }
+
+      log.flush();
+      return {
+        success: false,
+        config,
+        totalTimeMs: performance.now() - buildStart,
+      };
     }
   }
 
