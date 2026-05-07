@@ -1,8 +1,4 @@
-# warp.config.yml — @azure/core-lro build configuration
-
-exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
+extends: ../../../warp.base.config.yml
 
 targets:
   - name: browser
