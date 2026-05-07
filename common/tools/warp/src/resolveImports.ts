@@ -574,6 +574,8 @@ interface WildcardPattern {
   regex: RegExp;
   /** The `#`-prefixed key (with `*`) from the imports map, e.g., `#platform/*`. */
   key: string;
+  /** The condition under which this pattern applies (e.g., "browser", "default"). */
+  condition?: string;
 }
 
 /**
@@ -589,20 +591,24 @@ export function buildImportTargetIndex(
 ): { exactPaths: Map<string, string>; wildcardPatterns: WildcardPattern[] } {
   const exactPaths = new Map<string, string>();
   const wildcardPatterns: WildcardPattern[] = [];
-  // Deduplicate wildcard regexes by their source string
   const seenPatterns = new Set<string>();
 
-  function collectFromTarget(target: PackageTarget, key: string, hasWildcard: boolean): void {
+  function collectFromTarget(
+    target: PackageTarget,
+    key: string,
+    hasWildcard: boolean,
+    condition?: string,
+  ): void {
     if (target === null || target === undefined) return;
     if (typeof target === "string") {
       if (hasWildcard && target.includes("*")) {
-        // Convert wildcard target to regex: "./src/*-browser.mts" → /^\/abs\/src\/(.+)-browser\.mts$/
         const abs = path.resolve(packageRoot, target);
         const escaped = abs.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         const regexSource = "^" + escaped.replace("\\*", "(.+)") + "$";
-        if (!seenPatterns.has(regexSource)) {
-          seenPatterns.add(regexSource);
-          wildcardPatterns.push({ regex: new RegExp(regexSource), key });
+        const dedupKey = `${regexSource}:${condition ?? ""}`;
+        if (!seenPatterns.has(dedupKey)) {
+          seenPatterns.add(dedupKey);
+          wildcardPatterns.push({ regex: new RegExp(regexSource), key, condition });
         }
       } else {
         const abs = path.resolve(packageRoot, target);
@@ -611,12 +617,12 @@ export function buildImportTargetIndex(
       return;
     }
     if (Array.isArray(target)) {
-      for (const item of target) collectFromTarget(item, key, hasWildcard);
+      for (const item of target) collectFromTarget(item, key, hasWildcard, condition);
       return;
     }
-    // Conditional object — recurse into all branches
-    for (const nested of Object.values(target)) {
-      collectFromTarget(nested, key, hasWildcard);
+    // Conditional object — recurse into branches with condition tracking
+    for (const [cond, nested] of Object.entries(target)) {
+      collectFromTarget(nested, key, hasWildcard, cond);
     }
   }
 
@@ -632,6 +638,16 @@ export function buildImportTargetIndex(
 }
 
 /**
+ * Result of looking up a file path in the import target index.
+ */
+interface ImportTargetMatch {
+  /** The resolved `#`-prefixed key (wildcards replaced). */
+  key: string;
+  /** The condition under which this target applies, if any. */
+  condition?: string;
+}
+
+/**
  * Look up a resolved file path in the import target index.
  * Returns the `#`-prefixed key if the path is a target, or undefined.
  *
@@ -642,17 +658,16 @@ function lookupImportTarget(
   resolvedPath: string,
   exactPaths: Map<string, string>,
   wildcardPatterns: WildcardPattern[],
-): string | undefined {
+): ImportTargetMatch | undefined {
   // Fast exact check first
   const exactKey = exactPaths.get(resolvedPath);
-  if (exactKey) return exactKey;
+  if (exactKey) return { key: exactKey };
 
   // Try wildcard patterns
-  for (const { regex, key } of wildcardPatterns) {
+  for (const { regex, key, condition } of wildcardPatterns) {
     const match = resolvedPath.match(regex);
     if (match && match[1]) {
-      // Replace * in key with matched portion
-      return key.replace("*", match[1]);
+      return { key: key.replace("*", match[1]), condition };
     }
   }
   return undefined;
@@ -839,11 +854,11 @@ export function validateNoDirectImports(
     // with divergent resolutions. These files only run under their specific
     // condition (e.g., Node default), so their direct imports to other
     // same-condition files are correct.
-    const selfKey = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
-    if (selfKey) {
-      const selfIsWildcard = selfKey !== exactPaths.get(filePath);
+    const selfMatch = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
+    if (selfMatch) {
+      const selfIsWildcard = selfMatch.key !== exactPaths.get(filePath);
       if (
-        hasDivergentResolutions(selfKey, importsMap, packageRoot, selfIsWildcard, divergenceCache)
+        hasDivergentResolutions(selfMatch.key, importsMap, packageRoot, selfIsWildcard, divergenceCache)
       ) {
         continue;
       }
@@ -868,21 +883,21 @@ export function validateNoDirectImports(
       const resolved = resolveRelativeSpecifier(specifier, filePath);
       if (!resolved) continue;
 
-      const key = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
-      if (!key) continue;
+      const match = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
+      if (!match) continue;
 
       // Only flag if the imported target has divergent resolutions.
       // For example, importing `./helper.js` is fine if `#platform/helper`
       // has only a `default` entry and no condition-specific variants.
-      const isWildcard = key !== exactPaths.get(resolved);
-      if (!hasDivergentResolutions(key, importsMap, packageRoot, isWildcard, divergenceCache)) {
+      const isWildcard = match.key !== exactPaths.get(resolved);
+      if (!hasDivergentResolutions(match.key, importsMap, packageRoot, isWildcard, divergenceCache)) {
         continue;
       }
 
       violations.push({
         file: filePath,
         specifier,
-        suggestedImport: key,
+        suggestedImport: match.key,
         line,
       });
     }
@@ -974,74 +989,6 @@ export interface PlatformImportViolation {
   targetPlatform: string;
 }
 
-/** A wildcard pattern with its condition. */
-interface ConditionedPattern {
-  regex: RegExp;
-  key: string;
-  condition: string;
-}
-
-/**
- * Build an index of wildcard patterns with their conditions.
- * For each non-default condition in a divergent import entry, creates a regex
- * that matches files targeted by that condition.
- */
-function buildConditionedPatternIndex(
-  importsMap: ImportsMap,
-  packageRoot: string,
-): ConditionedPattern[] {
-  const patterns: ConditionedPattern[] = [];
-  const seenPatterns = new Set<string>();
-
-  for (const [key, target] of Object.entries(importsMap)) {
-    if (!key.includes("*")) continue;
-    if (typeof target !== "object" || target === null || Array.isArray(target)) continue;
-
-    // Check if this entry has divergent resolutions (multiple distinct targets)
-    const leafTargets = new Set<string>();
-    for (const value of Object.values(target)) {
-      if (typeof value === "string" && value.includes("*")) {
-        leafTargets.add(value);
-      }
-    }
-    if (leafTargets.size < 2) continue; // Not divergent
-
-    // Build pattern for each non-default condition
-    for (const [condition, value] of Object.entries(target)) {
-      if (condition === "default") continue;
-      if (typeof value !== "string" || !value.includes("*")) continue;
-
-      const abs = path.resolve(packageRoot, value);
-      const escaped = abs.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const regexSource = "^" + escaped.replace("\\*", "(.+)") + "$";
-
-      if (!seenPatterns.has(regexSource)) {
-        seenPatterns.add(regexSource);
-        patterns.push({ regex: new RegExp(regexSource), key, condition });
-      }
-    }
-  }
-
-  return patterns;
-}
-
-/**
- * Look up a file path in the conditioned pattern index.
- * Returns the key (with wildcard replaced) and condition if matched.
- */
-function lookupConditionedTarget(
-  filePath: string,
-  patterns: ConditionedPattern[],
-): { key: string; condition: string } | undefined {
-  for (const { regex, key, condition } of patterns) {
-    const match = filePath.match(regex);
-    if (match && match[1]) {
-      return { key: key.replace("*", match[1]), condition };
-    }
-  }
-  return undefined;
-}
-
 /**
  * Validate that platform-specific files use #-prefixed imports correctly.
  * Returns violations that should fail the build.
@@ -1057,15 +1004,13 @@ export async function validatePlatformImports(
 ): Promise<PlatformImportViolation[]> {
   const violations: PlatformImportViolation[] = [];
 
-  // Build index of platform-specific file patterns
-  const conditionedPatterns = buildConditionedPatternIndex(importsMap, packageRoot);
-  if (conditionedPatterns.length === 0) return violations;
-
-  // Build standard import target index for checking imported files
   const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, packageRoot);
+  
+  const hasPlatformPatterns = wildcardPatterns.some((p) => p.condition && p.condition !== "default");
+  if (!hasPlatformPatterns) return violations;
+
   const divergenceCache = new Map<string, boolean>();
 
-  // Find all source files
   const srcDir = path.join(packageRoot, "src");
   const sourceFiles: string[] = [];
 
@@ -1083,14 +1028,13 @@ export async function validatePlatformImports(
   let validatedCount = 0;
 
   for (const filePath of sourceFiles) {
-    // Check if this file is a platform-specific target
-    const match = lookupConditionedTarget(filePath, conditionedPatterns);
-    if (!match) continue;
+    // Check if this file is a platform-specific target (non-default condition)
+    const selfMatch = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
+    if (!selfMatch?.condition || selfMatch.condition === "default") continue;
 
     validatedCount++;
-    const { key: selfKey, condition } = match;
+    const { condition } = selfMatch;
 
-    // Parse file and extract imports
     const content = ts.sys.readFile(filePath);
     if (!content) continue;
 
@@ -1106,21 +1050,17 @@ export async function validatePlatformImports(
     const conditions = new Set([condition, "import", "default"]);
 
     for (const { text: specifier, line } of specifiers) {
-      // Resolve the import to an absolute path
       const resolved = resolveRelativeSpecifier(specifier, filePath);
       if (!resolved) continue;
 
-      // Check if the imported file is a target of an imports entry
-      const importKey = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
-      if (!importKey) continue;
+      const importMatch = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
+      if (!importMatch) continue;
 
-      // Check if this import key has divergent resolutions
-      const isWildcard = importKey !== exactPaths.get(resolved);
-      if (!hasDivergentResolutions(importKey, importsMap, packageRoot, isWildcard, divergenceCache))
+      const isWildcard = importMatch.key !== exactPaths.get(resolved);
+      if (!hasDivergentResolutions(importMatch.key, importsMap, packageRoot, isWildcard, divergenceCache))
         continue;
 
-      // The import bypasses #imports - resolve what it SHOULD be
-      const platformResolved = resolveSubpathImport(importKey, importsMap, conditions);
+      const platformResolved = resolveSubpathImport(importMatch.key, importsMap, conditions);
       if (!platformResolved) continue;
 
       const platformAbsPath = path.resolve(packageRoot, platformResolved);
@@ -1129,7 +1069,7 @@ export async function validatePlatformImports(
           file: filePath,
           line,
           specifier,
-          suggestedImport: importKey,
+          suggestedImport: importMatch.key,
           targetPlatform: condition,
         });
       }
