@@ -4,9 +4,10 @@
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   deleteSessionFile,
-  listSessionFiles,
+  getSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
+  getSessionLogStream,
   listSessions,
   deleteSession,
   getSession,
@@ -15,9 +16,10 @@ import {
 } from "../../../api/beta/agents/operations.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsListSessionFilesOptionalParams,
+  BetaAgentsGetSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
+  BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
@@ -28,6 +30,7 @@ import type {
   Agent,
   VersionIndicatorUnion,
   AgentSessionResource,
+  BetaAgentsGetSessionLogStreamResponse,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
@@ -42,7 +45,7 @@ export interface BetaAgentsOperations {
    */
   deleteSessionFile: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     options?: BetaAgentsDeleteSessionFileOptionalParams,
   ) => Promise<void>;
@@ -50,16 +53,16 @@ export interface BetaAgentsOperations {
    * List files and directories at a given path in the session sandbox.
    * Returns only the immediate children of the specified directory (non-recursive).
    */
-  listSessionFiles: (
+  getSessionFiles: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
-    options?: BetaAgentsListSessionFilesOptionalParams,
+    options?: BetaAgentsGetSessionFilesOptionalParams,
   ) => Promise<SessionDirectoryListResponse>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     options?: BetaAgentsDownloadSessionFileOptionalParams,
   ) => Promise<BetaAgentsDownloadSessionFileResponse>;
@@ -69,11 +72,45 @@ export interface BetaAgentsOperations {
    */
   uploadSessionFile: (
     agentName: string,
-    sessionId: string,
+    agentSessionId: string,
     path: string,
     content: Uint8Array,
     options?: BetaAgentsUploadSessionFileOptionalParams,
   ) => Promise<SessionFileWriteResponse>;
+  /**
+   * Streams console logs (stdout / stderr) for a specific hosted agent session
+   * as a Server-Sent Events (SSE) stream.
+   *
+   * Each SSE frame contains:
+   * - `event`: always `"log"`
+   * - `data`: a plain-text log line (currently JSON-formatted, but the schema
+   * is not contractual and may include additional keys or change format
+   * over time — clients should treat it as an opaque string)
+   *
+   * Example SSE frames:
+   * ```
+   * event: log
+   * data: {"timestamp":"2026-03-10T09:33:17.121Z","stream":"stdout","message":"Starting FoundryCBAgent server on port 8088"}
+   *
+   * event: log
+   * data: {"timestamp":"2026-03-10T09:33:17.130Z","stream":"stderr","message":"INFO: Application startup complete."}
+   *
+   * event: log
+   * data: {"timestamp":"2026-03-10T09:34:52.714Z","stream":"status","message":"Successfully connected to container"}
+   *
+   * event: log
+   * data: {"timestamp":"2026-03-10T09:35:52.714Z","stream":"status","message":"No logs since last 60 seconds"}
+   * ```
+   *
+   * The stream remains open until the client disconnects or the server
+   * terminates the connection. Clients should handle reconnection as needed.
+   */
+  getSessionLogStream: (
+    agentName: string,
+    agentVersion: string,
+    sessionId: string,
+    options?: BetaAgentsGetSessionLogStreamOptionalParams,
+  ) => Promise<BetaAgentsGetSessionLogStreamResponse>;
   /** Returns a list of sessions for the specified agent. */
   listSessions: (
     agentName: string,
@@ -117,29 +154,35 @@ function _getBetaAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       options?: BetaAgentsDeleteSessionFileOptionalParams,
-    ) => deleteSessionFile(context, agentName, sessionId, path, options),
-    listSessionFiles: (
+    ) => deleteSessionFile(context, agentName, agentSessionId, path, options),
+    getSessionFiles: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
-      options?: BetaAgentsListSessionFilesOptionalParams,
-    ) => listSessionFiles(context, agentName, sessionId, path, options),
+      options?: BetaAgentsGetSessionFilesOptionalParams,
+    ) => getSessionFiles(context, agentName, agentSessionId, path, options),
     downloadSessionFile: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       options?: BetaAgentsDownloadSessionFileOptionalParams,
-    ) => downloadSessionFile(context, agentName, sessionId, path, options),
+    ) => downloadSessionFile(context, agentName, agentSessionId, path, options),
     uploadSessionFile: (
       agentName: string,
-      sessionId: string,
+      agentSessionId: string,
       path: string,
       content: Uint8Array,
       options?: BetaAgentsUploadSessionFileOptionalParams,
-    ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
+    ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    getSessionLogStream: (
+      agentName: string,
+      agentVersion: string,
+      sessionId: string,
+      options?: BetaAgentsGetSessionLogStreamOptionalParams,
+    ) => getSessionLogStream(context, agentName, agentVersion, sessionId, options),
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) =>
       listSessions(context, agentName, options),
     deleteSession: (

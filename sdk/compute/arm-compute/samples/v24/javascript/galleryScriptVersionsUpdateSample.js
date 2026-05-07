@@ -1,0 +1,93 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to update a gallery Script Version.
+ *
+ * @summary update a gallery Script Version.
+ * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScriptVersion_Update.json
+ */
+async function updateASimpleGalleryScriptVersion() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.galleryScriptVersions.update(
+    "myResourceGroupName",
+    "myGalleryName",
+    "myGalleryScriptName",
+    "1.0.0",
+    {
+      publishingProfile: {
+        source: {
+          scriptLink:
+            "https://mystorageaccount.blob.core.windows.net/mycontainer/myScript.ps1?{sasKey}",
+          parameters: [
+            { name: "location", required: true, defaultValue: "westus", type: "String" },
+            {
+              name: "myGalleryScriptParameter1",
+              required: true,
+              type: "String",
+              defaultValue: "default value of parameter",
+              description: "description of the parameter",
+            },
+            {
+              name: "myGalleryScriptParameter2",
+              required: false,
+              type: "String",
+              defaultValue: "default value of parameter",
+              description: "description of the parameter",
+            },
+            {
+              name: "numberOfUnits",
+              required: true,
+              type: "Int",
+              defaultValue: "3",
+              description: "description of the parameter",
+              minValue: "1",
+              maxValue: "5",
+            },
+            {
+              name: "weightOfUnit",
+              required: true,
+              type: "Double",
+              defaultValue: "0.6",
+              description: "description of the parameter",
+              minValue: "0.1",
+              maxValue: "2",
+            },
+            {
+              name: "typeOfProduct",
+              required: false,
+              type: "Enum",
+              defaultValue: "Fruit",
+              description: "description of the parameter",
+              enumValues: ["Fruit", "Vegetable", "Greens", "Nuts"],
+            },
+          ],
+        },
+        targetRegions: [
+          {
+            name: "West US",
+            regionalReplicaCount: 2,
+            storageAccountType: "Standard_LRS",
+            excludeFromLatest: false,
+          },
+        ],
+        replicaCount: 2,
+        endOfLifeDate: new Date("2027-07-01T07:00:00Z"),
+        storageAccountType: "Standard_LRS",
+      },
+      safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await updateASimpleGalleryScriptVersion();
+}
+
+main().catch(console.error);

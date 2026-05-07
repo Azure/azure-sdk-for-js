@@ -102,11 +102,6 @@
   },
   "module": "./dist/esm/index.js",
   "imports": {
-    "#platform/base64": {
-      "browser": "./src/base64-web.mts",
-      "react-native": "./src/base64-web.mts",
-      "default": "./src/base64.ts"
-    },
     "#platform/state": {
       "browser": "./src/state-web.mts",
       "react-native": "./src/state-web.mts",

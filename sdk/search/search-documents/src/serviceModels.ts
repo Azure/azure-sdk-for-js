@@ -49,7 +49,6 @@ import type {
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnowledgeSourceContentExtractionMode,
-  KnowledgeSourceIngestionPermissionOption,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
@@ -3142,8 +3141,6 @@ export interface KnowledgeSourceIngestionParameters {
   disableImageVerbalization?: boolean;
   /** Optional schedule for data ingestion. */
   ingestionSchedule?: IndexingSchedule;
-  /** Optional list of permission types to ingest together with document content. If specified, it will set the indexer permission options for the data source. */
-  ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
   /** Optional content extraction mode. Default is 'minimal'. */
   contentExtractionMode?: KnowledgeSourceContentExtractionMode;
   /** Optional AI Services configuration for content processing. */

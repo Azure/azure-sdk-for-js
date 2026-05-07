@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration snapshots the data plane API should be used instead.
  *
  * @summary creates a snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration snapshots the data plane API should be used instead.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateSnapshot.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateSnapshot.json
  */
 async function snapshotsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

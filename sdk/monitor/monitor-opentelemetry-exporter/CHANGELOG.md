@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.40 (Unreleased)
+## 1.0.0-beta.40 (2026-05-07)
 
 ### Breaking Changes
 
@@ -14,6 +14,7 @@
 - The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.
 - Throttled telemetry (429 responses) is now persisted to disk for retry instead of being silently dropped.
 - Specific GenAI properties are now truncated to 256KB instead of being exempt from truncation limits.
+- The exporter now reads the `MICROSOFT_OPENTELEMETRY_VERSION` environment variable and includes it in the `ai.internal.sdkVersion` tag with the `mot` prefix.
 
 ### Other Changes
 

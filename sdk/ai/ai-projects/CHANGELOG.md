@@ -1,5 +1,38 @@
 # Release History
 
+## 2.2.0 (Unreleased)
+
+### Breaking Changes
+
+- Renamed `project.beta.agents.listSessionFiles` to `project.beta.agents.getSessionFiles`.
+- Updated the exported `HeaderIsolationKeySource` model shape to remove fields that were previously present.
+- Renamed `UpdateToolboxRequest.toolbox_name` to `name`.
+
+### Features Added
+
+- Added `FabricIQPreviewTool` (and `FabricIQPreviewToolParameters`) as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`, plus the `SessionLogEvent` / `SessionLogEventType` model types.
+- Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
+- Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
+- Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
+- Added `EvaluatorGenerationJob`, `EvaluatorGenerationInputs`, `EvaluatorGenerationJobSource`, `RubricBasedEvaluatorDefinition`, `RubricCriterion`, and related union / helper types for the new evaluator-generation LRO.
+- Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.datasets`.
+- Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
+- Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
+- Added `ApiError` model interface and its deserializers to the public API surface.
+- Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+
+### Bugs Fixed
+
+- Fixed missing `BetaAgentsGetSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
+
+## 2.1.1 (2026-05-04)
+
+### Bugs Fixed
+
+- Fix agent list operations that only returned the first page of results due to missing cursor-based pagination support
+- Fix deserializer incorrectly calling `.map()` on the response.
+
 ## 2.1.0 (2026-04-17)
 
 ### Breaking Changes

@@ -116,3 +116,8 @@ export type {
   CopyAnalyzerOptionalParams,
 } from "./api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+
+// CUSTOMIZATION: SDK-IMPROVEMENT: Static helper that converts an AnalysisResult into
+// LLM-friendly text (YAML front matter + markdown). Mirrors the Python `to_llm_input`
+// and .NET `LlmInputHelper.ToLlmInput` helpers.
+export { toLlmInput, type ToLlmInputOptions } from "./static-helpers/llmInputHelper.js";
