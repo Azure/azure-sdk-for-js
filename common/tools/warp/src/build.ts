@@ -307,6 +307,10 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
         totalTimeMs: performance.now() - buildStart,
       };
     }
+
+    // NOTE: Build-time validation for platform-specific imports was considered
+    // but disabled. The polyfill mechanism handles direct imports in platform
+    // files (e.g., -browser.mts). Use `warp trace` to debug platform issues.
   }
 
   // Step 2: Compile

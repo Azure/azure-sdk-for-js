@@ -249,6 +249,110 @@ async function extractImports(filePath: string): Promise<string[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Build-time validation
+// ---------------------------------------------------------------------------
+
+/** Violation found during platform import validation. */
+export interface PlatformImportViolation {
+  file: string;
+  line: number;
+  specifier: string;
+  suggestedImport: string;
+  targetPlatform: string;
+}
+
+/**
+ * Validate that platform-specific files use #platform imports correctly.
+ * Returns violations that should fail the build.
+ */
+export async function validatePlatformImports(
+  _sourceFiles: readonly string[],
+  importsMap: ImportsMap,
+  packageRoot: string,
+): Promise<PlatformImportViolation[]> {
+  const violations: PlatformImportViolation[] = [];
+
+  // Scan src/ directory for platform-specific files since tsconfig may not include them
+  const srcDir = path.join(packageRoot, "src");
+  const platformFiles = findPlatformFiles(srcDir);
+
+  for (const filePath of platformFiles) {
+    const platform = detectFilePlatform(filePath);
+    if (!platform) continue;
+
+    const content = ts.sys.readFile(filePath);
+    if (!content) continue;
+
+    const sourceFile = ts.createSourceFile(
+      path.basename(filePath),
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+
+    const conditions = new Set([platform, "import", "default"]);
+
+    ts.forEachChild(sourceFile, function visit(node) {
+      let specifier: string | undefined;
+      if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)) {
+        specifier = node.moduleSpecifier.text;
+      } else if (ts.isExportDeclaration(node) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
+        specifier = node.moduleSpecifier.text;
+      }
+
+      if (specifier && specifier.startsWith(".") && !specifier.startsWith("#")) {
+        const fromDir = path.dirname(filePath);
+        const resolved = path.resolve(fromDir, specifier);
+        const relPath = specifier.replace(/^\.\//, "").replace(/\.(js|ts|mts|mjs)$/, "");
+        const platformSpecifier = `#platform/${relPath}`;
+        const platformResolved = resolveSubpathImport(platformSpecifier, importsMap, conditions);
+
+        if (platformResolved) {
+          const platformAbsPath = path.resolve(packageRoot, platformResolved);
+          const exists = fs.existsSync(platformAbsPath);
+          if (exists && platformAbsPath !== resolved) {
+            const line = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
+            violations.push({
+              file: filePath,
+              line,
+              specifier,
+              suggestedImport: platformSpecifier,
+              targetPlatform: platform,
+            });
+          }
+        }
+      }
+
+      ts.forEachChild(node, visit);
+    });
+  }
+
+  const log = getLogger();
+  log.info(`[warp] Validated ${platformFiles.length} platform-specific file(s)`);
+
+  return violations;
+}
+
+/**
+ * Find all platform-specific files in a directory tree.
+ */
+function findPlatformFiles(dir: string): string[] {
+  const result: string[] = [];
+  if (!fs.existsSync(dir)) return result;
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      result.push(...findPlatformFiles(fullPath));
+    } else if (entry.isFile() && detectFilePlatform(fullPath)) {
+      result.push(fullPath);
+    }
+  }
+  return result;
+}
+
+// ---------------------------------------------------------------------------
 // Import resolution
 // ---------------------------------------------------------------------------
 
