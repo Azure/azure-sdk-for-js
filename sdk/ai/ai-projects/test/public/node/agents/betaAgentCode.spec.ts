@@ -92,21 +92,23 @@ function createMockAgentVersionResponseBody(): Record<string, unknown> {
   };
 }
 
+type MockPipelineResponse = Partial<PipelineResponse> & { jsonBody?: unknown };
+
 function createCodeAgentsClient(
-  responseFn: (request: PipelineRequest) => Partial<PipelineResponse>,
+  responseFn: (request: PipelineRequest) => MockPipelineResponse,
 ): BetaAgentsOperations {
   const options: AIProjectClientOptionalParams = { additionalPolicies: [] };
   options.additionalPolicies?.push({
     policy: {
       name: "RequestMockPolicy",
       sendRequest: async (request: PipelineRequest) => {
-        const response = responseFn(request);
+        const { jsonBody, ...response } = responseFn(request);
         const jsonHeaders =
-          response.body !== undefined && response.readableStreamBody === undefined
+          jsonBody !== undefined && response.readableStreamBody === undefined
             ? createHttpHeaders({ "content-type": "application/json" })
             : createHttpHeaders();
         return {
-          bodyAsText: response.body !== undefined ? JSON.stringify(response.body) : undefined,
+          bodyAsText: jsonBody !== undefined ? JSON.stringify(jsonBody) : undefined,
           headers: jsonHeaders,
           status: 200,
           request,
@@ -165,7 +167,7 @@ describe("beta agents - code-based operations", () => {
         },
       });
       return {
-        body: createMockAgentResponseBody(),
+        jsonBody: createMockAgentResponseBody(),
       };
     });
 
@@ -235,7 +237,7 @@ describe("beta agents - code-based operations", () => {
         codeZipSha256: request.headers.get("x-ms-code-zip-sha256") ?? "",
       };
       return {
-        body: createMockAgentVersionResponseBody(),
+        jsonBody: createMockAgentVersionResponseBody(),
       };
     });
 
@@ -287,7 +289,7 @@ describe("beta agents - code-based operations", () => {
   it("surfaces service failures from code-based agent operations", async () => {
     const betaAgents = createCodeAgentsClient(() => ({
       status: 400,
-      body: {
+      jsonBody: {
         error: {
           code: "InvalidRequest",
           message: "The code payload is invalid.",
