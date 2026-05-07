@@ -855,10 +855,11 @@ export function validateNoDirectImports(
     const selfMatch = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
     
     // Determine if this is a platform-specific file (non-default condition)
-    const isPlatformFile = selfMatch?.condition && selfMatch.condition !== "default";
+    const platformCondition =
+      selfMatch?.condition && selfMatch.condition !== "default" ? selfMatch.condition : undefined;
 
     // For platform files, only validate if requested
-    if (isPlatformFile) {
+    if (platformCondition) {
       platformFileCount++;
       if (!validatePlatformFiles) continue;
     } else if (selfMatch) {
@@ -891,8 +892,8 @@ export function validateNoDirectImports(
     const relativeSpecifiers = collectRelativeSpecifiers(sourceFile);
 
     // For platform files, we resolve imports under their specific condition
-    const conditions = isPlatformFile
-      ? new Set([selfMatch!.condition!, "import", "default"])
+    const conditions = platformCondition
+      ? new Set([platformCondition, "import", "default"])
       : undefined;
 
     for (const { text: specifier, line } of relativeSpecifiers) {
@@ -908,7 +909,7 @@ export function validateNoDirectImports(
       }
 
       // For platform files, check if the import resolves to the wrong variant
-      if (isPlatformFile && conditions) {
+      if (platformCondition && conditions) {
         const platformResolved = resolveSubpathImport(match.key, importsMap, conditions);
         if (platformResolved) {
           const platformAbsPath = path.resolve(packageRoot, platformResolved);
@@ -921,7 +922,7 @@ export function validateNoDirectImports(
         specifier,
         suggestedImport: match.key,
         line,
-        targetPlatform: isPlatformFile ? selfMatch!.condition : undefined,
+        targetPlatform: platformCondition,
       });
     }
   }
