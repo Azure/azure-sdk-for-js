@@ -814,10 +814,10 @@ importers:
         specifier: ^1.11.1
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.39
-        version: 1.0.0-beta.39
+        specifier: 1.0.0-beta.40
+        version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
-        specifier: ^1.0.0-beta.7
+        specifier: ^1.0.0
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -920,11 +920,11 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.39
-        version: 1.0.0-beta.39
+        specifier: 1.0.0-beta.40
+        version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
-        specifier: 1.0.0-beta.7
-        version: 1.0.0-beta.7
+        specifier: ^1.0.0
+        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -1044,11 +1044,11 @@ importers:
         specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/monitor-opentelemetry':
-        specifier: ^1.16.0
+        specifier: ^1.17.0
         version: link:../../monitor/monitor-opentelemetry
       '@azure/opentelemetry-instrumentation-azure-sdk':
-        specifier: 1.0.0-beta.7
-        version: 1.0.0-beta.7
+        specifier: ^1.0.0
+        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@modelcontextprotocol/sdk':
         specifier: ^1.25.1
         version: 1.29.0(zod@4.4.2)
@@ -14592,6 +14592,85 @@ importers:
         specifier: catalog:testing
         version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-istanbul@4.1.5)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))
 
+  sdk/fileshares/arm-fileshares:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.19.39
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.5(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.5(vitest@4.1.5)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.59.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.3
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.5(@opentelemetry/api@1.9.1)(@types/node@20.19.39)(@vitest/browser-playwright@4.1.5)(@vitest/coverage-istanbul@4.1.5)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))
+
   sdk/fluidrelay/arm-fluidrelay:
     dependencies:
       '@azure/core-auth':
@@ -21808,10 +21887,10 @@ importers:
         specifier: ^1.3.0
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.39
-        version: 1.0.0-beta.39
+        specifier: 1.0.0-beta.40
+        version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
-        specifier: ^1.0.0-beta.9
+        specifier: ^1.0.0
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@microsoft/applicationinsights-web-snippet':
         specifier: ^1.2.3
@@ -22041,7 +22120,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
-        specifier: ^1.16.0
+        specifier: ^1.17.0
         version: link:../monitor-opentelemetry
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -22136,8 +22215,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.39
-        version: 1.0.0-beta.39
+        specifier: 1.0.0-beta.40
+        version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -22227,8 +22306,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.39
-        version: 1.0.0-beta.39
+        specifier: 1.0.0-beta.40
+        version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -30169,6 +30248,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.5(playwright@1.59.1)(vite@7.3.1(@types/node@20.19.39)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.1.5(vitest@4.1.5)
@@ -30181,6 +30263,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.59.1
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
@@ -33795,6 +33880,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-tracing':
+        specifier: ^1.2.0
+        version: link:../../core/core-tracing
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -34023,12 +34111,12 @@ importers:
 
   sdk/web-pubsub/web-pubsub:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.2
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-paging':
         specifier: ^1.6.2
         version: link:../../core/core-paging
@@ -34747,10 +34835,6 @@ packages:
     resolution: {integrity: sha1-Cey+hAiSgQAjgn7y2DjyGaUcHDU=}
     engines: {node: '>=14.0.0'}
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
-    resolution: {integrity: sha1-s7A+yKgRlkxXsxdEIsmHqsfouOA=}
-    engines: {node: '>=20.0.0'}
-
   '@azure/msal-browser@4.30.0':
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
@@ -34789,10 +34873,6 @@ packages:
   '@azure/msal-node@5.1.5':
     resolution: {integrity: sha1-lvjFgBhXHOUK3BC83x/BgZCosA4=}
     engines: {node: '>=20'}
-
-  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.7':
-    resolution: {integrity: sha1-21XICnd4NxMS+P+Vp7hUoU6I3XY=}
-    engines: {node: '>=18.0.0'}
 
   '@azure/schema-registry@1.3.0':
     resolution: {integrity: sha1-ar8s+l5LGqEE/fiSs2F9FmM9xxQ=}
@@ -35785,10 +35865,6 @@ packages:
     resolution: {integrity: sha1-UpBjddpNZMIGsMTLj/ogkhRlTsw=}
     engines: {node: '>=14'}
 
-  '@opentelemetry/api-logs@0.53.0':
-    resolution: {integrity: sha1-xHjL2BIOwlR7ZO36A6VSz+QhcL4=}
-    engines: {node: '>=14'}
-
   '@opentelemetry/api-logs@0.57.0':
     resolution: {integrity: sha1-eU+f9jQ2cfaOIo7rYG1BbEqyllM=}
     engines: {node: '>=14'}
@@ -36001,12 +36077,6 @@ packages:
 
   '@opentelemetry/instrumentation@0.52.1':
     resolution: {integrity: sha1-Ln5Go4vXr78Dz2iMhisLQ0GLf0g=}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.3.0
-
-  '@opentelemetry/instrumentation@0.53.0':
-    resolution: {integrity: sha1-5jaeQBXrURJGik1F043K2n2tiS0=}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -40646,23 +40716,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.39':
-    dependencies:
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/api-logs': 0.205.0
-      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/resources': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-logs': 0.205.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-metrics': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-trace-base': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.40.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/msal-browser@4.30.0':
     dependencies:
       '@azure/msal-common': 15.17.0
@@ -40701,17 +40754,6 @@ snapshots:
     dependencies:
       '@azure/msal-common': 16.5.2
       jsonwebtoken: 9.0.3
-
-  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.7':
-    dependencies:
-      '@azure/core-tracing': 1.3.1
-      '@azure/logger': 1.3.0
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.1)
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
 
   '@azure/schema-registry@1.3.0':
     dependencies:
@@ -41873,10 +41915,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
 
-  '@opentelemetry/api-logs@0.53.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-
   '@opentelemetry/api-logs@0.57.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -42162,18 +42200,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.52.1
-      '@types/shimmer': 1.2.0
-      import-in-the-middle: 1.15.0
-      require-in-the-middle: 7.5.2
-      semver: 7.7.4
-      shimmer: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@opentelemetry/instrumentation@0.53.0(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/api-logs': 0.53.0
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.15.0
       require-in-the-middle: 7.5.2

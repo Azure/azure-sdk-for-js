@@ -17,7 +17,7 @@ import {
   agentVersionDeserializer,
   agentDefinitionUnionSerializer,
   agentBlueprintReferenceUnionSerializer,
-  agentEndpointSerializer,
+  agentEndpointConfigSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
   deleteAgentResponseDeserializer,
@@ -639,7 +639,7 @@ export function _createSend(
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
       agent_endpoint: !options?.agentEndpoint
         ? options?.agentEndpoint
-        : agentEndpointSerializer(options?.agentEndpoint),
+        : agentEndpointConfigSerializer(options?.agentEndpoint),
       agent_card: !options?.agentCard
         ? options?.agentCard
         : agentCardSerializer(options?.agentCard),

@@ -24,7 +24,7 @@ export interface Agent {
     latest: AgentVersion;
   };
   /** The endpoint configuration for the agent */
-  agent_endpoint?: AgentEndpoint;
+  agent_endpoint?: AgentEndpointConfig;
   /** The instance identity of the agent */
   readonly instance_identity?: AgentIdentity;
   /** The blueprint for the agent */
@@ -42,7 +42,7 @@ export function agentDeserializer(item: any): Agent {
     versions: _agentVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
-      : agentEndpointDeserializer(item["agent_endpoint"]),
+      : agentEndpointConfigDeserializer(item["agent_endpoint"]),
     instance_identity: !item["instance_identity"]
       ? item["instance_identity"]
       : agentIdentityDeserializer(item["instance_identity"]),
@@ -357,6 +357,7 @@ export type ToolUnion =
   | WorkIQPreviewTool
   | FabricIQPreviewTool
   | MemorySearchPreviewTool
+  | ToolboxSearchPreviewTool
   | CodeInterpreterTool
   | FunctionTool
   | FileSearchTool
@@ -414,6 +415,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
+
+    case "toolbox_search_preview":
+      return toolboxSearchPreviewToolSerializer(item as ToolboxSearchPreviewTool);
 
     case "code_interpreter":
       return codeInterpreterToolSerializer(item as CodeInterpreterTool);
@@ -506,6 +510,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
+    case "toolbox_search_preview":
+      return toolboxSearchPreviewToolDeserializer(item as ToolboxSearchPreviewTool);
+
     case "code_interpreter":
       return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
 
@@ -581,6 +588,7 @@ export type ToolType =
   | "memory_search_preview"
   | "work_iq_preview"
   | "fabric_iq_preview"
+  | "toolbox_search_preview"
   | "azure_ai_search"
   | "azure_function"
   | "bing_grounding"
@@ -591,6 +599,10 @@ export type ToolType =
 export interface BingGroundingTool extends Tool {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The bing grounding search tool parameters. */
   bing_grounding: BingGroundingSearchToolParameters;
 }
@@ -598,6 +610,8 @@ export interface BingGroundingTool extends Tool {
 export function bingGroundingToolSerializer(item: BingGroundingTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
   };
 }
@@ -605,6 +619,8 @@ export function bingGroundingToolSerializer(item: BingGroundingTool): any {
 export function bingGroundingToolDeserializer(item: any): BingGroundingTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_grounding: bingGroundingSearchToolParametersDeserializer(item["bing_grounding"]),
   };
 }
@@ -696,6 +712,10 @@ export function bingGroundingSearchConfigurationDeserializer(
 export interface MicrosoftFabricPreviewTool extends Tool {
   /** The object type, which is always 'fabric_dataagent_preview'. */
   type: "fabric_dataagent_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The fabric data agent tool parameters. */
   fabric_dataagent_preview: FabricDataAgentToolParameters;
 }
@@ -703,6 +723,8 @@ export interface MicrosoftFabricPreviewTool extends Tool {
 export function microsoftFabricPreviewToolSerializer(item: MicrosoftFabricPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
       item["fabric_dataagent_preview"],
     ),
@@ -712,6 +734,8 @@ export function microsoftFabricPreviewToolSerializer(item: MicrosoftFabricPrevie
 export function microsoftFabricPreviewToolDeserializer(item: any): MicrosoftFabricPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     fabric_dataagent_preview: fabricDataAgentToolParametersDeserializer(
       item["fabric_dataagent_preview"],
     ),
@@ -779,6 +803,10 @@ export function toolProjectConnectionDeserializer(item: any): ToolProjectConnect
 export interface SharepointPreviewTool extends Tool {
   /** The object type, which is always 'sharepoint_grounding_preview'. */
   type: "sharepoint_grounding_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The sharepoint grounding tool parameters. */
   sharepoint_grounding_preview: SharepointGroundingToolParameters;
 }
@@ -786,6 +814,8 @@ export interface SharepointPreviewTool extends Tool {
 export function sharepointPreviewToolSerializer(item: SharepointPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -795,6 +825,8 @@ export function sharepointPreviewToolSerializer(item: SharepointPreviewTool): an
 export function sharepointPreviewToolDeserializer(item: any): SharepointPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     sharepoint_grounding_preview: sharepointGroundingToolParametersDeserializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -834,6 +866,10 @@ export function sharepointGroundingToolParametersDeserializer(
 export interface AzureAISearchTool extends Tool {
   /** The object type, which is always 'azure_ai_search'. */
   type: "azure_ai_search";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
 }
@@ -841,6 +877,8 @@ export interface AzureAISearchTool extends Tool {
 export function azureAISearchToolSerializer(item: AzureAISearchTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
   };
 }
@@ -848,6 +886,8 @@ export function azureAISearchToolSerializer(item: AzureAISearchTool): any {
 export function azureAISearchToolDeserializer(item: any): AzureAISearchTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     azure_ai_search: azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
   };
 }
@@ -1197,6 +1237,10 @@ export function _openApiFunctionDefinitionFunctionDeserializer(
 export interface BingCustomSearchPreviewTool extends Tool {
   /** The object type, which is always 'bing_custom_search_preview'. */
   type: "bing_custom_search_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The bing custom search tool parameters. */
   bing_custom_search_preview: BingCustomSearchToolParameters;
 }
@@ -1204,6 +1248,8 @@ export interface BingCustomSearchPreviewTool extends Tool {
 export function bingCustomSearchPreviewToolSerializer(item: BingCustomSearchPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
       item["bing_custom_search_preview"],
     ),
@@ -1213,6 +1259,8 @@ export function bingCustomSearchPreviewToolSerializer(item: BingCustomSearchPrev
 export function bingCustomSearchPreviewToolDeserializer(item: any): BingCustomSearchPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     bing_custom_search_preview: bingCustomSearchToolParametersDeserializer(
       item["bing_custom_search_preview"],
     ),
@@ -1308,6 +1356,10 @@ export function bingCustomSearchConfigurationDeserializer(
 export interface BrowserAutomationPreviewTool extends Tool {
   /** The object type, which is always 'browser_automation_preview'. */
   type: "browser_automation_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The Browser Automation Tool parameters. */
   browser_automation_preview: BrowserAutomationToolParameters;
 }
@@ -1315,6 +1367,8 @@ export interface BrowserAutomationPreviewTool extends Tool {
 export function browserAutomationPreviewToolSerializer(item: BrowserAutomationPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     browser_automation_preview: browserAutomationToolParametersSerializer(
       item["browser_automation_preview"],
     ),
@@ -1324,6 +1378,8 @@ export function browserAutomationPreviewToolSerializer(item: BrowserAutomationPr
 export function browserAutomationPreviewToolDeserializer(item: any): BrowserAutomationPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
@@ -1553,6 +1609,10 @@ export function structuredOutputDefinitionDeserializer(item: any): StructuredOut
 export interface A2APreviewTool extends Tool {
   /** The type of the tool. Always `"a2a_preview`. */
   type: "a2a_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** Base URL of the agent. */
   base_url?: string;
   /**
@@ -1570,6 +1630,8 @@ export interface A2APreviewTool extends Tool {
 export function a2APreviewToolSerializer(item: A2APreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1579,6 +1641,8 @@ export function a2APreviewToolSerializer(item: A2APreviewTool): any {
 export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1762,6 +1826,10 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
 export interface MemorySearchPreviewTool extends Tool {
   /** The type of the tool. Always `memory_search_preview`. */
   type: "memory_search_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
   /** The name of the memory store to use. */
   memory_store_name: string;
   /**
@@ -1779,6 +1847,8 @@ export interface MemorySearchPreviewTool extends Tool {
 export function memorySearchPreviewToolSerializer(item: MemorySearchPreviewTool): any {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1791,6 +1861,8 @@ export function memorySearchPreviewToolSerializer(item: MemorySearchPreviewTool)
 export function memorySearchPreviewToolDeserializer(item: any): MemorySearchPreviewTool {
   return {
     type: item["type"],
+    name: item["name"],
+    description: item["description"],
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1813,6 +1885,32 @@ export function memorySearchOptionsSerializer(item: MemorySearchOptions): any {
 export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions {
   return {
     max_memories: item["max_memories"],
+  };
+}
+
+/**
+ * A tool for searching over the agent's toolbox.
+ * When present, deferred tools are hidden from `tools/list` and only
+ * discoverable via `search_tools` queries at runtime.
+ */
+export interface ToolboxSearchPreviewTool extends Tool {
+  /** The type of the tool. Always `toolbox_search_preview`. */
+  type: "toolbox_search_preview";
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
+}
+
+export function toolboxSearchPreviewToolSerializer(item: ToolboxSearchPreviewTool): any {
+  return { type: item["type"], name: item["name"], description: item["description"] };
+}
+
+export function toolboxSearchPreviewToolDeserializer(item: any): ToolboxSearchPreviewTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
   };
 }
 
@@ -4700,8 +4798,8 @@ export function managedAgentIdentityBlueprintReferenceDeserializer(
   };
 }
 
-/** model interface AgentEndpoint */
-export interface AgentEndpoint {
+/** model interface AgentEndpointConfig */
+export interface AgentEndpointConfig {
   /** The version selector of the agent endpoint determines how traffic is routed to different versions of the agent. */
   version_selector?: VersionSelector;
   /** The protocols that the agent supports */
@@ -4710,7 +4808,7 @@ export interface AgentEndpoint {
   authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
 }
 
-export function agentEndpointSerializer(item: AgentEndpoint): any {
+export function agentEndpointConfigSerializer(item: AgentEndpointConfig): any {
   return {
     version_selector: !item["version_selector"]
       ? item["version_selector"]
@@ -4726,7 +4824,7 @@ export function agentEndpointSerializer(item: AgentEndpoint): any {
   };
 }
 
-export function agentEndpointDeserializer(item: any): AgentEndpoint {
+export function agentEndpointConfigDeserializer(item: any): AgentEndpointConfig {
   return {
     version_selector: !item["version_selector"]
       ? item["version_selector"]
@@ -4741,6 +4839,9 @@ export function agentEndpointDeserializer(item: any): AgentEndpoint {
       : agentEndpointAuthorizationSchemeUnionArrayDeserializer(item["authorization_schemes"]),
   };
 }
+
+/** @deprecated Use AgentEndpointConfig instead. */
+export type AgentEndpoint = AgentEndpointConfig;
 
 /** model interface VersionSelector */
 export interface VersionSelector {
@@ -5170,6 +5271,43 @@ export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
     error: errorDeserializer(item["error"]),
   };
+}
+
+/** model interface ApiError */
+export interface ApiError {
+  code: string | null;
+  message: string;
+  param?: string;
+  type?: string;
+  details?: ApiError[];
+  additionalInfo?: Record<string, any>;
+  debugInfo?: Record<string, any>;
+}
+
+export function apiErrorDeserializer(item: any): ApiError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    param: item["param"],
+    type: item["type"],
+    details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : Object.fromEntries(
+          Object.entries(item["additionalInfo"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    debugInfo: !item["debugInfo"]
+      ? item["debugInfo"]
+      : Object.fromEntries(
+          Object.entries(item["debugInfo"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
+  return result.map((item) => {
+    return apiErrorDeserializer(item);
+  });
 }
 
 /** model interface ErrorModel */
@@ -5939,6 +6077,9 @@ export function blobReferenceSasCredentialDeserializer(item: any): SasCredential
     type: item["type"],
   };
 }
+
+/** Type alias for BlobReferenceSasCredential - same as SasCredential */
+export type BlobReferenceSasCredential = SasCredential;
 
 /** Represents a reference to a blob for consumption */
 export interface DatasetCredential {
@@ -7023,6 +7164,8 @@ export interface EvaluatorVersion {
   categories: EvaluatorCategory[];
   /** Definition of the evaluator */
   definition: EvaluatorDefinitionUnion;
+  /** Provenance artifacts from the generation pipeline. Read-only; present only on evaluator versions created via an EvaluatorGenerationJob. Each artifact resolves to a versioned Foundry Dataset. */
+  readonly generation_artifacts?: EvaluatorGenerationArtifacts;
   /** Creator of the evaluator */
   readonly created_by?: string;
   /** Creation date/time of the evaluator */
@@ -7060,6 +7203,9 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
     evaluator_type: item["evaluator_type"],
     categories: item["categories"],
     definition: evaluatorDefinitionUnionDeserializer(item["definition"]),
+    generation_artifacts: !item["generation_artifacts"]
+      ? item["generation_artifacts"]
+      : evaluatorGenerationArtifactsDeserializer(item["generation_artifacts"]),
     created_by: item["created_by"],
     created_at: item["created_at"],
     modified_at: item["modified_at"],
@@ -7079,7 +7225,7 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 /** Base evaluator configuration with discriminator */
 export interface EvaluatorDefinition {
   /** The type of evaluator definition */
-  /** The discriminator possible values: code, prompt */
+  /** The discriminator possible values: code, prompt, rubrics */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
   init_parameters?: Record<string, unknown>;
@@ -7113,6 +7259,7 @@ export function evaluatorDefinitionDeserializer(item: any): EvaluatorDefinition 
 export type EvaluatorDefinitionUnion =
   | CodeBasedEvaluatorDefinition
   | PromptBasedEvaluatorDefinition
+  | RubricBasedEvaluatorDefinition
   | EvaluatorDefinition;
 
 export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnion): any {
@@ -7122,6 +7269,9 @@ export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnio
 
     case "prompt":
       return promptBasedEvaluatorDefinitionSerializer(item as PromptBasedEvaluatorDefinition);
+
+    case "rubrics":
+      return rubricBasedEvaluatorDefinitionSerializer(item as RubricBasedEvaluatorDefinition);
 
     default:
       return evaluatorDefinitionSerializer(item);
@@ -7136,6 +7286,9 @@ export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefini
     case "prompt":
       return promptBasedEvaluatorDefinitionDeserializer(item as PromptBasedEvaluatorDefinition);
 
+    case "rubrics":
+      return rubricBasedEvaluatorDefinitionDeserializer(item as RubricBasedEvaluatorDefinition);
+
     default:
       return evaluatorDefinitionDeserializer(item);
   }
@@ -7147,7 +7300,8 @@ export type EvaluatorDefinitionType =
   | "code"
   | "prompt_and_code"
   | "service"
-  | "openai_graders";
+  | "openai_graders"
+  | "rubrics";
 
 export function evaluatorMetricRecordSerializer(
   item: Record<string, EvaluatorMetric>,
@@ -7288,6 +7442,505 @@ export function promptBasedEvaluatorDefinitionDeserializer(
   };
 }
 
+export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
+  type: "rubrics";
+  /** Rubric criteria — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual criterion with rubric_id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same rubric structure. */
+  rubric_criteria: RubricCriterion[];
+}
+
+export function rubricBasedEvaluatorDefinitionSerializer(
+  item: RubricBasedEvaluatorDefinition,
+): any {
+  return {
+    type: item["type"],
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
+    metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
+    rubric_criteria: rubricCriterionArraySerializer(item["rubric_criteria"]),
+  };
+}
+
+export function rubricBasedEvaluatorDefinitionDeserializer(
+  item: any,
+): RubricBasedEvaluatorDefinition {
+  return {
+    type: item["type"],
+    init_parameters: !item["init_parameters"]
+      ? item["init_parameters"]
+      : Object.fromEntries(
+          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    data_schema: !item["data_schema"]
+      ? item["data_schema"]
+      : Object.fromEntries(
+          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : evaluatorMetricRecordDeserializer(item["metrics"]),
+    rubric_criteria: rubricCriterionArrayDeserializer(item["rubric_criteria"]),
+  };
+}
+
+export function rubricCriterionArraySerializer(result: Array<RubricCriterion>): any[] {
+  return result.map((item) => {
+    return rubricCriterionSerializer(item);
+  });
+}
+
+export function rubricCriterionArrayDeserializer(result: Array<RubricCriterion>): any[] {
+  return result.map((item) => {
+    return rubricCriterionDeserializer(item);
+  });
+}
+
+/** A single rubric criterion — one measurable quality dimension in an evaluator's scoring blueprint. */
+export interface RubricCriterion {
+  /** Stable identifier for this rubric criterion (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated catalog; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
+  rubric_id: string;
+  /** What this criterion measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
+  description: string;
+  /** Relative weight of this criterion (1-10). The generation pipeline assigns exactly one criterion weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
+  weight: number;
+  /** When true, the LLM judge always scores this criterion regardless of relevance (skips applicability assessment). The service-generated general quality/policy criterion has this set to true and is non-editable. Users may set this on their own custom criteria. */
+  always_applicable?: boolean;
+}
+
+export function rubricCriterionSerializer(item: RubricCriterion): any {
+  return {
+    rubric_id: item["rubric_id"],
+    description: item["description"],
+    weight: item["weight"],
+    always_applicable: item["always_applicable"],
+  };
+}
+
+export function rubricCriterionDeserializer(item: any): RubricCriterion {
+  return {
+    rubric_id: item["rubric_id"],
+    description: item["description"],
+    weight: item["weight"],
+    always_applicable: item["always_applicable"],
+  };
+}
+
+/** Service-managed provenance artifacts produced by an evaluator generation job. Present only on EvaluatorVersion resources created via the generation pipeline. The combined-JSONL Foundry Dataset is read-only and resolves to a versioned dataset in a service-reserved namespace. */
+export interface EvaluatorGenerationArtifacts {
+  /** Reference to the single Foundry Dataset (one combined JSONL file, version-aligned to `EvaluatorVersion.version`) holding all artifacts produced by the generation pipeline. Each row in the JSONL carries a `kind` field discriminating its content (e.g. `spec`, `tools`, `context`). */
+  dataset: DatasetReference;
+  /** The kinds of rows present in `dataset`. Always contains `"spec"` (the generated evaluation specification, a Markdown document describing what the evaluator measures). May additionally contain `"tools"` (when the generation pipeline produced or inferred OpenAI tool schemas) and/or `"context"` (when supplementary materials such as file uploads or trace samples were used during generation). */
+  kinds: string[];
+}
+
+export function evaluatorGenerationArtifactsDeserializer(item: any): EvaluatorGenerationArtifacts {
+  return {
+    dataset: datasetReferenceDeserializer(item["dataset"]),
+    kinds: item["kinds"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Reference to a versioned Foundry Dataset. */
+export interface DatasetReference {
+  /** Dataset name. */
+  name: string;
+  /** Dataset version. */
+  version: string;
+}
+
+export function datasetReferenceDeserializer(item: any): DatasetReference {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Evaluator Generation Job resource — a long-running job that generates rubric-based evaluator definitions from source materials. On success, the result is the persisted EvaluatorVersion. */
+export interface EvaluatorGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id?: string;
+  /** Caller-supplied inputs. */
+  inputs?: EvaluatorGenerationInputs;
+  /** Result produced on success. */
+  readonly result?: EvaluatorVersion;
+  /** Current lifecycle status. */
+  readonly status?: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at?: Date;
+  /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+  /** Token consumption summary. Populated when the job reaches a terminal state. */
+  readonly usage?: EvaluatorGenerationTokenUsage;
+}
+
+export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : evaluatorGenerationInputsSerializer(item["inputs"]),
+  };
+}
+
+export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : evaluatorGenerationInputsDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+    usage: !item["usage"]
+      ? item["usage"]
+      : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
+  };
+}
+
+/** Caller-supplied inputs for an evaluator generation job. */
+export interface EvaluatorGenerationInputs {
+  /** Display name for this generation job. */
+  name: string;
+  /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
+  sources: EvaluatorGenerationJobSourceUnion[];
+  /** Category determines the rubric generation focus: 'quality' (default) produces quality-focused rubric criteria, 'safety' produces policy-derived safety rubric criteria. Both use the same rubric structure. Singular because quality and safety generation are mutually exclusive pipelines — the output EvaluatorVersion.categories is an array (e.g., ['agents', 'quality']). */
+  category?: EvaluatorCategory;
+  /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
+  model: string;
+  /** The evaluator name to create or update. If an evaluator with this name already exists, the service retrieves the latest version's criteria as context for improvement. */
+  evaluator_name: string;
+}
+
+export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
+  return {
+    name: item["name"],
+    sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
+    category: item["category"],
+    model: item["model"],
+    evaluator_name: item["evaluator_name"],
+  };
+}
+
+export function evaluatorGenerationInputsDeserializer(item: any): EvaluatorGenerationInputs {
+  return {
+    name: item["name"],
+    sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    category: item["category"],
+    model: item["model"],
+    evaluator_name: item["evaluator_name"],
+  };
+}
+
+export function evaluatorGenerationJobSourceUnionArraySerializer(
+  result: Array<EvaluatorGenerationJobSourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSourceUnionSerializer(item);
+  });
+}
+
+export function evaluatorGenerationJobSourceUnionArrayDeserializer(
+  result: Array<EvaluatorGenerationJobSourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSourceUnionDeserializer(item);
+  });
+}
+
+/** The base source model for evaluator generation jobs. Polymorphic over `type`. */
+export interface EvaluatorGenerationJobSource {
+  /** The type of source. */
+  /** The discriminator possible values: prompt, agent, traces, dataset */
+  type: EvaluatorGenerationJobSourceType;
+}
+
+export function evaluatorGenerationJobSourceSerializer(item: EvaluatorGenerationJobSource): any {
+  return { type: item["type"] };
+}
+
+export function evaluatorGenerationJobSourceDeserializer(item: any): EvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for EvaluatorGenerationJobSourceUnion */
+export type EvaluatorGenerationJobSourceUnion =
+  | PromptEvaluatorGenerationJobSource
+  | AgentEvaluatorGenerationJobSource
+  | TracesEvaluatorGenerationJobSource
+  | DatasetEvaluatorGenerationJobSource
+  | EvaluatorGenerationJobSource;
+
+export function evaluatorGenerationJobSourceUnionSerializer(
+  item: EvaluatorGenerationJobSourceUnion,
+): any {
+  switch (item.type) {
+    case "prompt":
+      return promptEvaluatorGenerationJobSourceSerializer(
+        item as PromptEvaluatorGenerationJobSource,
+      );
+
+    case "agent":
+      return agentEvaluatorGenerationJobSourceSerializer(item as AgentEvaluatorGenerationJobSource);
+
+    case "traces":
+      return tracesEvaluatorGenerationJobSourceSerializer(
+        item as TracesEvaluatorGenerationJobSource,
+      );
+
+    case "dataset":
+      return datasetEvaluatorGenerationJobSourceSerializer(
+        item as DatasetEvaluatorGenerationJobSource,
+      );
+
+    default:
+      return evaluatorGenerationJobSourceSerializer(item);
+  }
+}
+
+export function evaluatorGenerationJobSourceUnionDeserializer(
+  item: any,
+): EvaluatorGenerationJobSourceUnion {
+  switch (item["type"]) {
+    case "prompt":
+      return promptEvaluatorGenerationJobSourceDeserializer(
+        item as PromptEvaluatorGenerationJobSource,
+      );
+
+    case "agent":
+      return agentEvaluatorGenerationJobSourceDeserializer(
+        item as AgentEvaluatorGenerationJobSource,
+      );
+
+    case "traces":
+      return tracesEvaluatorGenerationJobSourceDeserializer(
+        item as TracesEvaluatorGenerationJobSource,
+      );
+
+    case "dataset":
+      return datasetEvaluatorGenerationJobSourceDeserializer(
+        item as DatasetEvaluatorGenerationJobSource,
+      );
+
+    default:
+      return evaluatorGenerationJobSourceDeserializer(item);
+  }
+}
+
+/** The supported source types for evaluator generation jobs. */
+export type EvaluatorGenerationJobSourceType = "prompt" | "agent" | "traces" | "dataset";
+
+/** Prompt source for evaluator generation jobs — inline text provided by the user. */
+export interface PromptEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Prompt. */
+  type: "prompt";
+  /** Inline prompt text (e.g., agent description, policy text, supplementary context). */
+  prompt: string;
+}
+
+export function promptEvaluatorGenerationJobSourceSerializer(
+  item: PromptEvaluatorGenerationJobSource,
+): any {
+  return { type: item["type"], description: item["description"], prompt: item["prompt"] };
+}
+
+export function promptEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): PromptEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    prompt: item["prompt"],
+  };
+}
+
+/** Agent source for evaluator generation jobs — references an agent to fetch instructions and metadata from. */
+export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Agent. */
+  type: "agent";
+  /** The agent name to fetch instructions from. */
+  agent_name: string;
+  /** The agent version. If not specified, the latest version is used. */
+  agent_version?: string;
+}
+
+export function agentEvaluatorGenerationJobSourceSerializer(
+  item: AgentEvaluatorGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export function agentEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): AgentEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Traces source for evaluator generation jobs — conversation traces from Application Insights. */
+export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Traces. */
+  type: "traces";
+  /** The unique agent ID used to filter traces. Optional — when omitted, traces are filtered by `agent_name` (and `agent_version` if specified). */
+  agent_id?: string;
+  /** The agent name to fetch traces for. */
+  agent_name: string;
+  /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
+  agent_version?: string;
+  /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
+  start_time?: Date;
+  /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
+  end_time?: Date;
+  /** Maximum number of traces to retrieve. */
+  max_traces?: number;
+}
+
+export function tracesEvaluatorGenerationJobSourceSerializer(
+  item: TracesEvaluatorGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: !item["start_time"]
+      ? item["start_time"]
+      : (item["start_time"].getTime() / 1000) | 0,
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    max_traces: item["max_traces"],
+  };
+}
+
+export function tracesEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): TracesEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: !item["start_time"] ? item["start_time"] : new Date(item["start_time"] * 1000),
+    end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
+    max_traces: item["max_traces"],
+  };
+}
+
+/** Dataset source for evaluator generation jobs — reference to a dataset. */
+export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Dataset. */
+  type: "dataset";
+  /** The name of the dataset. */
+  name: string;
+  /** The version of the dataset. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function datasetEvaluatorGenerationJobSourceSerializer(
+  item: DatasetEvaluatorGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function datasetEvaluatorGenerationJobSourceDeserializer(
+  item: any,
+): DatasetEvaluatorGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** Extensible status values shared by Foundry jobs. */
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+
+/** Token consumption summary for an evaluator generation job. Populated when the job reaches a terminal state. */
+export interface EvaluatorGenerationTokenUsage {
+  /** Number of input (prompt) tokens consumed. */
+  input_tokens: number;
+  /** Number of output (completion) tokens generated. */
+  output_tokens: number;
+  /** Total tokens consumed (input + output). */
+  total_tokens: number;
+}
+
+export function evaluatorGenerationTokenUsageDeserializer(
+  item: any,
+): EvaluatorGenerationTokenUsage {
+  return {
+    input_tokens: item["input_tokens"],
+    output_tokens: item["output_tokens"],
+    total_tokens: item["total_tokens"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultEvaluatorGenerationJob {
+  /** The requested list of items. */
+  data: EvaluatorGenerationJob[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultEvaluatorGenerationJobDeserializer(
+  item: any,
+): _AgentsPagedResultEvaluatorGenerationJob {
+  return {
+    data: evaluatorGenerationJobArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function evaluatorGenerationJobArraySerializer(
+  result: Array<EvaluatorGenerationJob>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobSerializer(item);
+  });
+}
+
+export function evaluatorGenerationJobArrayDeserializer(
+  result: Array<EvaluatorGenerationJob>,
+): any[] {
+  return result.map((item) => {
+    return evaluatorGenerationJobDeserializer(item);
+  });
+}
+
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
@@ -7314,7 +7967,7 @@ export function insightSerializer(item: Insight): any {
 export function insightDeserializer(item: any): Insight {
   return {
     insight_id: item["id"],
-    metadata: insightsMetadataDeserializer(item["metadata"]),
+    metadata: !item["metadata"] ? item["metadata"] : insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
     request: insightRequestUnionDeserializer(item["request"]),
@@ -7385,7 +8038,7 @@ export function insightRequestUnionSerializer(item: InsightRequestUnion): any {
 }
 
 export function insightRequestUnionDeserializer(item: any): InsightRequestUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "EvaluationRunClusterInsight":
       return evaluationRunClusterInsightRequestDeserializer(
         item as EvaluationRunClusterInsightRequest,
@@ -9379,6 +10032,742 @@ export function deleteSkillResponseDeserializer(item: any): DeleteSkillResponse 
   };
 }
 
+/** Data Generation Job resource. */
+export interface DataGenerationJob {
+  /** Server-assigned unique identifier. */
+  readonly id?: string;
+  /** Caller-supplied inputs. */
+  inputs?: DataGenerationJobInputs;
+  /** Result produced on success. */
+  readonly result?: DataGenerationJobResult;
+  /** Current lifecycle status. */
+  readonly status?: JobStatus;
+  /** Error details — populated only on failure. */
+  readonly error?: ApiError;
+  /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
+  readonly created_at?: Date;
+  /** The timestamp when the job was finished, represented in Unix time (seconds since January 1, 1970). */
+  readonly finished_at?: Date;
+}
+
+export function dataGenerationJobSerializer(item: DataGenerationJob): any {
+  return {
+    inputs: !item["inputs"] ? item["inputs"] : dataGenerationJobInputsSerializer(item["inputs"]),
+  };
+}
+
+export function dataGenerationJobDeserializer(item: any): DataGenerationJob {
+  return {
+    id: item["id"],
+    inputs: !item["inputs"] ? item["inputs"] : dataGenerationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
+    status: item["status"],
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    created_at: new Date(item["created_at"] * 1000),
+    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
+  };
+}
+
+/** Caller-supplied inputs for a data generation job. */
+export interface DataGenerationJobInputs {
+  /** The display name of the data generation job. */
+  name: string;
+  /** The sources used for the data generation job. */
+  sources: DataGenerationJobSourceUnion[];
+  /** The options for the data generation job. */
+  options: DataGenerationJobOptionsUnion;
+  /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
+  scenario: DataGenerationJobScenario;
+}
+
+export function dataGenerationJobInputsSerializer(item: DataGenerationJobInputs): any {
+  return {
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
+    options: dataGenerationJobOptionsUnionSerializer(item["options"]),
+    scenario: item["scenario"],
+  };
+}
+
+export function dataGenerationJobInputsDeserializer(item: any): DataGenerationJobInputs {
+  return {
+    name: item["name"],
+    sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
+    options: dataGenerationJobOptionsUnionDeserializer(item["options"]),
+    scenario: item["scenario"],
+  };
+}
+
+export function dataGenerationJobSourceUnionArraySerializer(
+  result: Array<DataGenerationJobSourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return dataGenerationJobSourceUnionSerializer(item);
+  });
+}
+
+export function dataGenerationJobSourceUnionArrayDeserializer(
+  result: Array<DataGenerationJobSourceUnion>,
+): any[] {
+  return result.map((item) => {
+    return dataGenerationJobSourceUnionDeserializer(item);
+  });
+}
+
+/** The base source model for data generation jobs. */
+export interface DataGenerationJobSource {
+  /** The type of source. */
+  /** The discriminator possible values: prompt, agent, traces, dataset, file */
+  type: DataGenerationJobSourceType;
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+}
+
+export function dataGenerationJobSourceSerializer(item: DataGenerationJobSource): any {
+  return { type: item["type"], description: item["description"] };
+}
+
+export function dataGenerationJobSourceDeserializer(item: any): DataGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+  };
+}
+
+/** Alias for DataGenerationJobSourceUnion */
+export type DataGenerationJobSourceUnion =
+  | PromptDataGenerationJobSource
+  | AgentDataGenerationJobSource
+  | TracesDataGenerationJobSource
+  | DatasetDataGenerationJobSource
+  | FileDataGenerationJobSource
+  | DataGenerationJobSource;
+
+export function dataGenerationJobSourceUnionSerializer(item: DataGenerationJobSourceUnion): any {
+  switch (item.type) {
+    case "prompt":
+      return promptDataGenerationJobSourceSerializer(item as PromptDataGenerationJobSource);
+
+    case "agent":
+      return agentDataGenerationJobSourceSerializer(item as AgentDataGenerationJobSource);
+
+    case "traces":
+      return tracesDataGenerationJobSourceSerializer(item as TracesDataGenerationJobSource);
+
+    case "dataset":
+      return datasetDataGenerationJobSourceSerializer(item as DatasetDataGenerationJobSource);
+
+    case "file":
+      return fileDataGenerationJobSourceSerializer(item as FileDataGenerationJobSource);
+
+    default:
+      return dataGenerationJobSourceSerializer(item);
+  }
+}
+
+export function dataGenerationJobSourceUnionDeserializer(item: any): DataGenerationJobSourceUnion {
+  switch (item["type"]) {
+    case "prompt":
+      return promptDataGenerationJobSourceDeserializer(item as PromptDataGenerationJobSource);
+
+    case "agent":
+      return agentDataGenerationJobSourceDeserializer(item as AgentDataGenerationJobSource);
+
+    case "traces":
+      return tracesDataGenerationJobSourceDeserializer(item as TracesDataGenerationJobSource);
+
+    case "dataset":
+      return datasetDataGenerationJobSourceDeserializer(item as DatasetDataGenerationJobSource);
+
+    case "file":
+      return fileDataGenerationJobSourceDeserializer(item as FileDataGenerationJobSource);
+
+    default:
+      return dataGenerationJobSourceDeserializer(item);
+  }
+}
+
+/** The supported source types for data generation jobs. */
+export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "dataset" | "file";
+
+/** Prompt source for data generation jobs — inline text provided by the user. */
+export interface PromptDataGenerationJobSource extends DataGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Prompt. */
+  type: "prompt";
+  /** Inline prompt text (e.g., agent description, policy text, supplementary context). */
+  prompt: string;
+}
+
+export function promptDataGenerationJobSourceSerializer(item: PromptDataGenerationJobSource): any {
+  return { type: item["type"], description: item["description"], prompt: item["prompt"] };
+}
+
+export function promptDataGenerationJobSourceDeserializer(
+  item: any,
+): PromptDataGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    prompt: item["prompt"],
+  };
+}
+
+/** Agent source for data generation jobs — references an agent to fetch instructions and metadata from. */
+export interface AgentDataGenerationJobSource extends DataGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Agent. */
+  type: "agent";
+  /** The agent name to fetch instructions from. */
+  agent_name: string;
+  /** The agent version. If not specified, the latest version is used. */
+  agent_version?: string;
+}
+
+export function agentDataGenerationJobSourceSerializer(item: AgentDataGenerationJobSource): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+export function agentDataGenerationJobSourceDeserializer(item: any): AgentDataGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+  };
+}
+
+/** Traces source for data generation jobs — conversation traces from Application Insights. */
+export interface TracesDataGenerationJobSource extends DataGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Traces. */
+  type: "traces";
+  /** The unique agent ID used to filter traces. Optional — when omitted, traces are filtered by `agent_name` (and `agent_version` if specified). */
+  agent_id?: string;
+  /** The agent name to fetch traces for. */
+  agent_name: string;
+  /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
+  agent_version?: string;
+  /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
+  start_time?: Date;
+  /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
+  end_time?: Date;
+  /** Maximum number of traces to retrieve. */
+  max_traces?: number;
+}
+
+export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerationJobSource): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: !item["start_time"]
+      ? item["start_time"]
+      : (item["start_time"].getTime() / 1000) | 0,
+    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
+    max_traces: item["max_traces"],
+  };
+}
+
+export function tracesDataGenerationJobSourceDeserializer(
+  item: any,
+): TracesDataGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    agent_id: item["agent_id"],
+    agent_name: item["agent_name"],
+    agent_version: item["agent_version"],
+    start_time: !item["start_time"] ? item["start_time"] : new Date(item["start_time"] * 1000),
+    end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
+    max_traces: item["max_traces"],
+  };
+}
+
+/** Dataset source for data generation jobs — reference to a dataset. */
+export interface DatasetDataGenerationJobSource extends DataGenerationJobSource {
+  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
+  description?: string;
+  /** The source type for this source, which is Dataset. */
+  type: "dataset";
+  /** The name of the dataset. */
+  name: string;
+  /** The version of the dataset. If not specified, the latest version is used. */
+  version?: string;
+}
+
+export function datasetDataGenerationJobSourceSerializer(
+  item: DatasetDataGenerationJobSource,
+): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+export function datasetDataGenerationJobSourceDeserializer(
+  item: any,
+): DatasetDataGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** File source for data generation jobs — Azure OpenAI file input. */
+export interface FileDataGenerationJobSource extends DataGenerationJobSource {
+  /** The source type for this job, which is File. */
+  type: "file";
+  /** Input Azure Open AI file id used for data generation. */
+  id: string;
+}
+
+export function fileDataGenerationJobSourceSerializer(item: FileDataGenerationJobSource): any {
+  return { type: item["type"], description: item["description"], id: item["id"] };
+}
+
+export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGenerationJobSource {
+  return {
+    type: item["type"],
+    description: item["description"],
+    id: item["id"],
+  };
+}
+
+/** Options for managing data generation jobs. */
+export interface DataGenerationJobOptions {
+  /** The data generation job type. */
+  /** The discriminator possible values: simple_qna, traces, tool_use, task */
+  type: DataGenerationJobType;
+  /** Maximum number of samples to generate. */
+  max_samples: number;
+  /** The proportion of the generated data to be used for training when the data is used for fine-tuning. The rest will be used for validation. Value should be between 0 and 1. */
+  train_split?: number;
+  /** The LLM model options. */
+  model_options?: DataGenerationModelOptions;
+}
+
+export function dataGenerationJobOptionsSerializer(item: DataGenerationJobOptions): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** Alias for DataGenerationJobOptionsUnion */
+export type DataGenerationJobOptionsUnion =
+  | SimpleQnADataGenerationJobOptions
+  | TracesDataGenerationJobOptions
+  | ToolUseFineTuningDataGenerationJobOptions
+  | TaskDataGenerationJobOptions
+  | DataGenerationJobOptions;
+
+export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobOptionsUnion): any {
+  switch (item.type) {
+    case "simple_qna":
+      return simpleQnADataGenerationJobOptionsSerializer(item as SimpleQnADataGenerationJobOptions);
+
+    case "traces":
+      return tracesDataGenerationJobOptionsSerializer(item as TracesDataGenerationJobOptions);
+
+    case "tool_use":
+      return toolUseFineTuningDataGenerationJobOptionsSerializer(
+        item as ToolUseFineTuningDataGenerationJobOptions,
+      );
+
+    case "task":
+      return taskDataGenerationJobOptionsSerializer(item as TaskDataGenerationJobOptions);
+
+    default:
+      return dataGenerationJobOptionsSerializer(item);
+  }
+}
+
+export function dataGenerationJobOptionsUnionDeserializer(
+  item: any,
+): DataGenerationJobOptionsUnion {
+  switch (item["type"]) {
+    case "simple_qna":
+      return simpleQnADataGenerationJobOptionsDeserializer(
+        item as SimpleQnADataGenerationJobOptions,
+      );
+
+    case "traces":
+      return tracesDataGenerationJobOptionsDeserializer(item as TracesDataGenerationJobOptions);
+
+    case "tool_use":
+      return toolUseFineTuningDataGenerationJobOptionsDeserializer(
+        item as ToolUseFineTuningDataGenerationJobOptions,
+      );
+
+    case "task":
+      return taskDataGenerationJobOptionsDeserializer(item as TaskDataGenerationJobOptions);
+
+    default:
+      return dataGenerationJobOptionsDeserializer(item);
+  }
+}
+
+/** The supported data generation job types. */
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task";
+
+/** LLM model options for data generation jobs. */
+export interface DataGenerationModelOptions {
+  /** Base model name used to generate data. */
+  model: string;
+}
+
+export function dataGenerationModelOptionsSerializer(item: DataGenerationModelOptions): any {
+  return { model: item["model"] };
+}
+
+export function dataGenerationModelOptionsDeserializer(item: any): DataGenerationModelOptions {
+  return {
+    model: item["model"],
+  };
+}
+
+/** The options for a data generation job with SimpleQnA type. */
+export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is SimpleQnA for this model. */
+  type: "simple_qna";
+  /** The question types to generate. Used only for fine-tuning scenarios. */
+  question_types?: SimpleQnAFineTuningQuestionType[];
+}
+
+export function simpleQnADataGenerationJobOptionsSerializer(
+  item: SimpleQnADataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+    question_types: !item["question_types"]
+      ? item["question_types"]
+      : item["question_types"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function simpleQnADataGenerationJobOptionsDeserializer(
+  item: any,
+): SimpleQnADataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    question_types: !item["question_types"]
+      ? item["question_types"]
+      : item["question_types"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The supported question types for SimpleQnA data generation jobs used for fine-tuning scenarios. */
+export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
+
+/** The options for a data generation job with Traces type. */
+export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is Traces for this model. */
+  type: "traces";
+}
+
+export function tracesDataGenerationJobOptionsSerializer(
+  item: TracesDataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function tracesDataGenerationJobOptionsDeserializer(
+  item: any,
+): TracesDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** The options for a data generation job with ToolUse type. Used only for fine-tuning scenarios. */
+export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is ToolUse for this model. */
+  type: "tool_use";
+}
+
+export function toolUseFineTuningDataGenerationJobOptionsSerializer(
+  item: ToolUseFineTuningDataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
+  item: any,
+): ToolUseFineTuningDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** The options for a data generation job with Task type. */
+export interface TaskDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is Task for this model. */
+  type: "task";
+}
+
+export function taskDataGenerationJobOptionsSerializer(item: TaskDataGenerationJobOptions): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function taskDataGenerationJobOptionsDeserializer(item: any): TaskDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** The supported scenarios for a data generation job. */
+export type DataGenerationJobScenario =
+  | "supervised_finetuning"
+  | "reinforcement_finetuning"
+  | "evaluation";
+
+/** Result produced by a successful data generation job. */
+export interface DataGenerationJobResult {
+  /** The final job outputs: Azure OpenAI files for fine-tuning, or datasets for evaluation. */
+  outputs?: DataGenerationJobOutputUnion[];
+  /** The number of samples actually generated. */
+  generated_samples: number;
+  /** The token usage information for the data generation job. */
+  token_usage?: DataGenerationTokenUsage;
+}
+
+export function dataGenerationJobResultDeserializer(item: any): DataGenerationJobResult {
+  return {
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : dataGenerationJobOutputUnionArrayDeserializer(item["outputs"]),
+    generated_samples: item["generated_samples"],
+    token_usage: !item["token_usage"]
+      ? item["token_usage"]
+      : dataGenerationTokenUsageDeserializer(item["token_usage"]),
+  };
+}
+
+export function dataGenerationJobOutputUnionArrayDeserializer(
+  result: Array<DataGenerationJobOutputUnion>,
+): any[] {
+  return result.map((item) => {
+    return dataGenerationJobOutputUnionDeserializer(item);
+  });
+}
+
+/** Output information for a data generation job. */
+export interface DataGenerationJobOutput {
+  /** The type of the output. */
+  /** The discriminator possible values: file, dataset */
+  type: DataGenerationJobOutputType;
+}
+
+export function dataGenerationJobOutputDeserializer(item: any): DataGenerationJobOutput {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for DataGenerationJobOutputUnion */
+export type DataGenerationJobOutputUnion =
+  | FileDataGenerationJobOutput
+  | DatasetDataGenerationJobOutput
+  | DataGenerationJobOutput;
+
+export function dataGenerationJobOutputUnionDeserializer(item: any): DataGenerationJobOutputUnion {
+  switch (item["type"]) {
+    case "file":
+      return fileDataGenerationJobOutputDeserializer(item as FileDataGenerationJobOutput);
+
+    case "dataset":
+      return datasetDataGenerationJobOutputDeserializer(item as DatasetDataGenerationJobOutput);
+
+    default:
+      return dataGenerationJobOutputDeserializer(item);
+  }
+}
+
+/** The supported output file types for a data generation job. */
+export type DataGenerationJobOutputType = "file" | "dataset";
+
+/** Azure OpenAI file output for a data generation job. */
+export interface FileDataGenerationJobOutput extends DataGenerationJobOutput {
+  /** Azure OpenAI file output. */
+  type: "file";
+  /** The id of the output Azure OpenAI file. */
+  readonly id: string;
+  /** The filename of the output Azure OpenAI file. */
+  readonly filename: string;
+}
+
+export function fileDataGenerationJobOutputDeserializer(item: any): FileDataGenerationJobOutput {
+  return {
+    type: item["type"],
+    id: item["id"],
+    filename: item["filename"],
+  };
+}
+
+/** Dataset output for a data generation job. */
+export interface DatasetDataGenerationJobOutput extends DataGenerationJobOutput {
+  /** Dataset output. */
+  type: "dataset";
+  /** The id of the output dataset created. */
+  readonly id?: string;
+  /** The name of the output dataset and can be optionally set during job creation time. */
+  name?: string;
+  /** The version of the output dataset. */
+  readonly version?: string;
+  /** Description of the output dataset and can be optionally set during job creation time. */
+  description?: string;
+  /** Tag dictionary of the output dataset and can be optionally set during job creation time. */
+  tags?: Record<string, string>;
+}
+
+export function datasetDataGenerationJobOutputDeserializer(
+  item: any,
+): DatasetDataGenerationJobOutput {
+  return {
+    type: item["type"],
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Token usage information for a data generation job. */
+export interface DataGenerationTokenUsage {
+  /** The number of prompt tokens used. */
+  readonly prompt_tokens?: number;
+  /** The number of completion tokens generated. */
+  readonly completion_tokens?: number;
+  /** Total number of tokens used. */
+  readonly total_tokens?: number;
+}
+
+export function dataGenerationTokenUsageDeserializer(item: any): DataGenerationTokenUsage {
+  return {
+    prompt_tokens: item["prompt_tokens"],
+    completion_tokens: item["completion_tokens"],
+    total_tokens: item["total_tokens"],
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultDataGenerationJob {
+  /** The requested list of items. */
+  data: DataGenerationJob[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultDataGenerationJobDeserializer(
+  item: any,
+): _AgentsPagedResultDataGenerationJob {
+  return {
+    data: dataGenerationJobArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function dataGenerationJobArraySerializer(result: Array<DataGenerationJob>): any[] {
+  return result.map((item) => {
+    return dataGenerationJobSerializer(item);
+  });
+}
+
+export function dataGenerationJobArrayDeserializer(result: Array<DataGenerationJob>): any[] {
+  return result.map((item) => {
+    return dataGenerationJobDeserializer(item);
+  });
+}
+
 /** model interface UpdateToolboxRequest */
 export interface UpdateToolboxRequest {
   /** The name of the toolbox to update. */
@@ -9421,7 +10810,8 @@ export type FoundryFeaturesOptInKeys =
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
   | "MemoryStores=V1Preview"
-  | "Toolboxes=V1Preview";
+  | "Toolboxes=V1Preview"
+  | "DataGenerationJobs=V1Preview";
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference";
 /** Type of MemoryStoreType */

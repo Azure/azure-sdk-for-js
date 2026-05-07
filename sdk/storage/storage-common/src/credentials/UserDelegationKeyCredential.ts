@@ -4,8 +4,6 @@
 import { createHmac } from "node:crypto";
 import type { UserDelegationKey } from "./UserDelegationKey.js";
 
-export type { UserDelegationKey } from "./UserDelegationKey.js";
-
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
