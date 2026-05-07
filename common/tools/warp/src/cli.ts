@@ -21,6 +21,8 @@ async function main(): Promise<void> {
       verbose: { type: "boolean", default: false },
       quiet: { type: "boolean", default: false },
       help: { type: "boolean", default: false },
+      depth: { type: "string" },
+      entry: { type: "string", multiple: true },
     },
     allowPositionals: true,
     strict: true,
@@ -63,6 +65,49 @@ async function main(): Promise<void> {
       ac.abort();
       process.exit(0);
     });
+    return;
+  }
+
+  if (command === "trace") {
+    // Trace mode: visualize platform import resolution across targets
+    const { findWarpConfig } = await import("./config.js");
+    const { traceImports, formatTraceResult } = await import("./trace.js");
+    const path = await import("node:path");
+
+    const packageRoot = path.resolve(process.cwd());
+    const found = await findWarpConfig(packageRoot, values.config);
+    if (!found) {
+      console.error(`[warp] No Warp configuration found in ${packageRoot}`);
+      process.exit(1);
+    }
+
+    const maxDepth = values.depth ? parseInt(values.depth, 10) : 10;
+    if (isNaN(maxDepth) || maxDepth < 1) {
+      console.error(`[warp] --depth must be a positive integer`);
+      process.exit(1);
+    }
+
+    const result = await traceImports({
+      packageRoot,
+      config: found.config,
+      maxDepth,
+      entryPoints: values.entry,
+    });
+
+    if (values.json) {
+      console.log(JSON.stringify(result, null, 2));
+    } else {
+      console.log(formatTraceResult(result, packageRoot));
+
+      // Summary message (useful for CI)
+      if (result.divergences.length > 0) {
+        console.log(`\n[warp] Found ${result.divergences.length} platform import divergence(s).`);
+        console.log(
+          `[warp] Review the above to ensure each target resolves to the correct platform variant.`,
+        );
+      }
+    }
+
     return;
   }
 
@@ -120,6 +165,7 @@ Commands:
   build             Compile all targets
   watch             Build then watch for source changes and rebuild
   init              Scaffold a new warp.config.yml in the current directory
+  trace             Trace platform import resolution across targets
 
 Options:
   --config <path>   Path to warp config file (resolved relative to cwd)
@@ -132,6 +178,10 @@ Options:
   --verbose         Print debug-level detail (cache hits, file lists)
   --quiet           Suppress all output except errors
   --help            Show this help message
+
+Trace options:
+  --depth <n>       Maximum import chain depth to trace (default: 10)
+  --entry <subpath> Only trace specific entry points (repeatable)
 
 See the docs for more information: ${docsLink}
 `);

@@ -26,6 +26,7 @@ warp <command> [options]
 | ------- | ------------ |
 | `build` | Compile all targets defined in your config |
 | `watch` | Build then watch for source changes and rebuild |
+| `trace` | Trace platform import (`#`-prefixed) resolution across targets |
 | `init`  | Scaffold a new `warp.config.yml` by detecting existing tsconfigs |
 | `help`  | Print usage info |
 
@@ -43,6 +44,13 @@ warp <command> [options]
 | `--verbose` | Print debug-level detail (cache hits, file lists) |
 | `--quiet` | Suppress all output except errors |
 | `--help` | Show help |
+
+### Trace options
+
+| Flag | Description |
+| ---- | ----------- |
+| `--depth <n>` | Maximum import chain depth to trace (default: 10) |
+| `--entry <subpath>` | Only trace specific entry points from exports (repeatable) |
 
 ## Configuration
 
@@ -177,6 +185,53 @@ Import resolution is automatic when the package has an `"imports"` field in `pac
 - **Self-contained output** — the emitted files contain only relative paths, with no runtime dependency on `#imports` resolution
 
 Import resolution and `polyfillSuffix` are orthogonal and can coexist on the same target during incremental migration.
+
+### Import tracing
+
+The `warp trace` command visualizes how `#`-prefixed imports resolve across targets, helping catch misconfigured platform imports before they cause hard-to-debug runtime failures.
+
+**Example:** A browser entry point accidentally importing the Node variant:
+
+```
+warp trace
+```
+
+Output:
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  Platform Import Divergences                                 ║
+╚══════════════════════════════════════════════════════════════╝
+
+#platform/indexPlatform:
+  browser      → src/indexPlatform-browser.mts
+  esm          → src/indexPlatform.ts
+  commonjs     → src/indexPlatform.ts
+
+╔══════════════════════════════════════════════════════════════╗
+║  Import Graphs by Target                                     ║
+╚══════════════════════════════════════════════════════════════╝
+
+Target: browser (browser)
+Conditions: import, browser, default
+
+└─ src/index.ts
+   └─ #platform/indexPlatform → src/indexPlatform-browser.mts (browser)
+      └─ #platform/policies/CachePolicy → src/policies/CachePolicy-browser.mts (browser)
+
+Target: esm (import)
+Conditions: import, default
+
+└─ src/index.ts
+   └─ #platform/indexPlatform → src/indexPlatform.ts
+      └─ #platform/policies/CachePolicy → src/policies/CachePolicy.ts
+```
+
+The **divergences** section lists every `#`-prefixed import that resolves to different files across targets — this is expected for platform-specific code. Review this list to ensure each target points to the correct variant.
+
+The **import graphs** section shows the full resolution chain from each entry point, making it easy to trace how a specific module ends up being included.
+
+Use `--json` for machine-readable output in CI pipelines.
 
 ### Target deduplication
 
