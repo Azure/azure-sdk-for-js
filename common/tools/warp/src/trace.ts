@@ -56,6 +56,8 @@ export interface ImportNode {
   children: ImportNode[];
   /** Annotation for the resolved file (e.g., "(Node no-op)" or "(browser)") */
   annotation?: string;
+  /** Warning if this import bypasses platform resolution */
+  warning?: string;
 }
 
 /** Import graph for a single target. */
@@ -66,12 +68,30 @@ export interface TargetImportGraph {
   entryPoints: ImportNode[];
 }
 
+/** Warning about a potential platform import misconfiguration */
+export interface PlatformWarning {
+  /** Type of warning */
+  type: "missing-platform-import" | "wrong-variant";
+  /** Target where the issue was found */
+  target: string;
+  /** File containing the problematic import */
+  file: string;
+  /** The import specifier */
+  specifier: string;
+  /** Human-readable message */
+  message: string;
+  /** Suggested fix */
+  suggestion?: string;
+}
+
 /** Result of tracing imports across all targets. */
 export interface TraceResult {
   /** Per-target import graphs */
   graphs: TargetImportGraph[];
   /** Cross-target comparison: specifiers that resolve differently */
   divergences: ImportDivergence[];
+  /** Warnings about potential misconfigurations */
+  warnings: PlatformWarning[];
 }
 
 /** A specifier that resolves to different files across targets. */
@@ -96,17 +116,80 @@ export interface ImportDivergence {
  * - Files ending in `-native.mts` or `-native.ts` → "(react-native)"
  * - Platform entry files with "Node" in name → "(Node no-op)"
  */
-function detectAnnotation(resolvedPath: string | undefined): string | undefined {
+function detectAnnotation(
+  resolvedPath: string | undefined,
+  targetName: string,
+): string | undefined {
   if (!resolvedPath) return "(unresolved)";
 
   const basename = path.basename(resolvedPath);
+  const filePlatform = detectFilePlatform(resolvedPath);
 
-  if (basename.includes("-browser.")) return "(browser)";
-  if (basename.includes("-native.")) return "(react-native)";
-  if (basename.includes("-node.")) return "(Node)";
+  if (!filePlatform) return undefined;
 
-  // Detect Node no-op pattern: non-platform-suffixed file that has a browser variant
-  // This is harder to detect without checking sibling files, so we leave it to heuristics
+  // Check if the file's platform matches the current target
+  const normalizedTarget = targetName.toLowerCase();
+  const normalizedPlatform = filePlatform.toLowerCase();
+
+  if (normalizedTarget === normalizedPlatform) {
+    return `(${filePlatform})`;
+  }
+
+  // Cross-target import! Highlight it
+  return `(${filePlatform} ⚠️ imported by ${targetName})`;
+}
+
+/**
+ * Detect the platform suffix from a file path.
+ */
+function detectFilePlatform(filePath: string): string | undefined {
+  const basename = path.basename(filePath);
+
+  if (basename.includes("-browser.")) return "browser";
+  if (basename.includes("-react-native.")) return "react-native";
+  if (basename.includes("-native.")) return "react-native";
+  if (basename.includes("-node.")) return "node";
+  if (basename.includes("-workerd.")) return "workerd";
+
+  return undefined;
+}
+
+/**
+ * Check if a direct import should have used a #platform import instead.
+ * Uses the package.json imports field to determine if a #platform equivalent exists.
+ */
+function checkMissingPlatformImport(
+  specifier: string,
+  resolvedPath: string | undefined,
+  fromFile: string,
+  targetName: string,
+  importsMap: ImportsMap | undefined,
+  conditions: ReadonlySet<string>,
+  packageRoot: string,
+): PlatformWarning | undefined {
+  if (specifier.startsWith("#") || !resolvedPath || !importsMap) return undefined;
+
+  const fromPlatform = detectFilePlatform(fromFile);
+  if (!fromPlatform) return undefined;
+
+  const relPath = specifier.replace(/^\.\//, "").replace(/\.(js|ts|mts|mjs)$/, "");
+  const platformSpecifier = `#platform/${relPath}`;
+  const platformResolved = resolveSubpathImport(platformSpecifier, importsMap, conditions);
+  if (!platformResolved) return undefined;
+
+  const platformAbsPath = path.resolve(packageRoot, platformResolved);
+  if (!fs.existsSync(platformAbsPath)) return undefined;
+
+  if (platformAbsPath !== resolvedPath) {
+    return {
+      type: "missing-platform-import",
+      target: targetName,
+      file: fromFile,
+      specifier,
+      message: `imports "${path.relative(packageRoot, resolvedPath)}" but #platform resolves to "${path.relative(packageRoot, platformAbsPath)}"`,
+      suggestion: `Use "${platformSpecifier}" to get the correct ${targetName} variant`,
+    };
+  }
 
   return undefined;
 }
@@ -237,10 +320,30 @@ async function buildImportGraph(
   visited: Set<string>,
   depth: number,
   maxDepth: number,
+  targetName: string,
+  warnings: PlatformWarning[],
+  fromFile?: string,
 ): Promise<ImportNode> {
   const isPlatformImport = specifier.startsWith("#");
   const displayPath = resolvedPath ? path.relative(packageRoot, resolvedPath) : undefined;
-  const annotation = detectAnnotation(resolvedPath);
+  const annotation = detectAnnotation(resolvedPath, targetName);
+
+  let warning: string | undefined;
+  if (fromFile && resolvedPath) {
+    const platformWarning = checkMissingPlatformImport(
+      specifier,
+      resolvedPath,
+      fromFile,
+      targetName,
+      importsMap,
+      conditions,
+      packageRoot,
+    );
+    if (platformWarning) {
+      warnings.push(platformWarning);
+      warning = `⚠️ ${platformWarning.suggestion}`;
+    }
+  }
 
   const node: ImportNode = {
     specifier,
@@ -249,20 +352,18 @@ async function buildImportGraph(
     isPlatformImport,
     children: [],
     annotation,
+    warning,
   };
 
-  // Stop if we've hit the depth limit or can't resolve the file
   if (depth >= maxDepth || !resolvedPath || visited.has(resolvedPath)) {
     return node;
   }
 
   visited.add(resolvedPath);
 
-  // Only follow imports that are platform-relevant (# imports or lead to them)
   const imports = await extractImports(resolvedPath);
 
   for (const importSpec of imports) {
-    // Only trace `#`-prefixed imports and relative imports that might contain them
     if (importSpec.startsWith("#") || importSpec.startsWith(".")) {
       const childResolved = resolveSpecifier(
         importSpec,
@@ -281,10 +382,14 @@ async function buildImportGraph(
         visited,
         depth + 1,
         maxDepth,
+        targetName,
+        warnings,
+        resolvedPath,
       );
 
-      // Only include if it's a platform import or has platform imports in children
-      if (childNode.isPlatformImport || childNode.children.length > 0) {
+      const isCrossTargetImport = childNode.annotation?.includes("⚠️") ?? false;
+      const hasWarning = !!childNode.warning;
+      if (childNode.isPlatformImport || childNode.children.length > 0 || isCrossTargetImport || hasWarning) {
         node.children.push(childNode);
       }
     }
@@ -426,7 +531,28 @@ export function formatTraceResult(result: TraceResult, packageRoot: string): str
   const useColor = process.stdout.isTTY ?? false;
   const lines: string[] = [];
 
-  // Section 1: Divergences (most important - show first)
+  // Section 0: Warnings (most critical - show first if any)
+  if (result.warnings.length > 0) {
+    lines.push("╔══════════════════════════════════════════════════════════════╗");
+    lines.push("║  ⚠️  WARNINGS - Potential Platform Import Issues              ║");
+    lines.push("╚══════════════════════════════════════════════════════════════╝");
+    lines.push("");
+
+    for (const warning of result.warnings) {
+      const relFile = path.relative(packageRoot, warning.file);
+      const warningLine = useColor ? ANSI_RED + "⚠️  " + warning.target + ANSI_RESET : "⚠️  " + warning.target;
+      lines.push(warningLine + ": " + relFile);
+      lines.push(`    imports: ${warning.specifier}`);
+      lines.push(`    issue: ${warning.message}`);
+      if (warning.suggestion) {
+        const fix = useColor ? ANSI_GREEN + warning.suggestion + ANSI_RESET : warning.suggestion;
+        lines.push(`    fix: ${fix}`);
+      }
+      lines.push("");
+    }
+  }
+
+  // Section 1: Divergences
   if (result.divergences.length > 0) {
     lines.push("╔══════════════════════════════════════════════════════════════╗");
     lines.push("║  Platform Import Divergences                                 ║");
@@ -503,6 +629,7 @@ export async function traceImports(options: TraceOptions): Promise<TraceResult> 
   const importsMap = await readPackageImports(packageRoot);
 
   const graphs: TargetImportGraph[] = [];
+  const allWarnings: PlatformWarning[] = [];
 
   for (const target of config.targets) {
     const pc = parseTargetTsConfig(target, packageRoot);
@@ -532,6 +659,7 @@ export async function traceImports(options: TraceOptions): Promise<TraceResult> 
 
       const absSourcePath = path.resolve(packageRoot, sourcePath);
       const visited = new Set<string>();
+      const warnings: PlatformWarning[] = [];
 
       const rootNode = await buildImportGraph(
         sourcePath,
@@ -542,7 +670,11 @@ export async function traceImports(options: TraceOptions): Promise<TraceResult> 
         visited,
         0,
         maxDepth,
+        target.name,
+        warnings,
       );
+
+      allWarnings.push(...warnings);
 
       // Only include if there are platform imports somewhere
       if (rootNode.children.length > 0) {
@@ -555,5 +687,5 @@ export async function traceImports(options: TraceOptions): Promise<TraceResult> 
 
   const divergences = findDivergences(graphs);
 
-  return { graphs, divergences };
+  return { graphs, divergences, warnings: allWarnings };
 }
