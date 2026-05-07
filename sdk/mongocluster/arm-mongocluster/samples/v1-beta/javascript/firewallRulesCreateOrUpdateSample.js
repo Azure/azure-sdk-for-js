@@ -15,7 +15,7 @@ async function createsAFirewallRuleOnAMongoClusterResource() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const result = await client.firewallRules.createOrUpdate("TestGroup", "myMongoCluster", "rule1", {
-    properties: { startIPAddress: "0.0.0.0", endIPAddress: "255.255.255.255" },
+    properties: { startIpAddress: "0.0.0.0", endIpAddress: "255.255.255.255" },
   });
   console.log(result);
 }

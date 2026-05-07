@@ -126,9 +126,9 @@ export interface FirewallRule extends ProxyResource {
 
 // @public
 export interface FirewallRuleProperties {
-    endIPAddress: string;
+    endIpAddress: string;
     readonly provisioningState?: ProvisioningState;
-    startIPAddress: string;
+    startIpAddress: string;
 }
 
 // @public
@@ -350,7 +350,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 // @public

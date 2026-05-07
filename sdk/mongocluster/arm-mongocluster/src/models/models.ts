@@ -1086,7 +1086,7 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
@@ -1531,20 +1531,20 @@ export interface FirewallRuleProperties {
   /** The provisioning state of the firewall rule. */
   readonly provisioningState?: ProvisioningState;
   /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
-  startIPAddress: string;
+  startIpAddress: string;
   /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
-  endIPAddress: string;
+  endIpAddress: string;
 }
 
 export function firewallRulePropertiesSerializer(item: FirewallRuleProperties): any {
-  return { startIpAddress: item["startIPAddress"], endIpAddress: item["endIPAddress"] };
+  return { startIpAddress: item["startIpAddress"], endIpAddress: item["endIpAddress"] };
 }
 
 export function firewallRulePropertiesDeserializer(item: any): FirewallRuleProperties {
   return {
     provisioningState: item["provisioningState"],
-    startIPAddress: item["startIpAddress"],
-    endIPAddress: item["endIpAddress"],
+    startIpAddress: item["startIpAddress"],
+    endIpAddress: item["endIpAddress"],
   };
 }
 
