@@ -974,62 +974,123 @@ export interface PlatformImportViolation {
   targetPlatform: string;
 }
 
+/** A wildcard pattern with its condition. */
+interface ConditionedPattern {
+  regex: RegExp;
+  key: string;
+  condition: string;
+}
+
 /**
- * Detect the platform from a file's name based on suffix convention.
- * Returns "browser", "react-native", "node", or undefined if not platform-specific.
+ * Build an index of wildcard patterns with their conditions.
+ * For each non-default condition in a divergent import entry, creates a regex
+ * that matches files targeted by that condition.
  */
-function detectFilePlatform(filePath: string): string | undefined {
-  const basename = path.basename(filePath);
-  if (basename.includes("-browser.")) return "browser";
-  if (basename.includes("-react-native.")) return "react-native";
-  if (basename.includes("-native.")) return "react-native";
-  if (basename.includes("-node.")) return "node";
-  if (basename.includes("-workerd.")) return "workerd";
+function buildConditionedPatternIndex(
+  importsMap: ImportsMap,
+  packageRoot: string,
+): ConditionedPattern[] {
+  const patterns: ConditionedPattern[] = [];
+  const seenPatterns = new Set<string>();
+
+  for (const [key, target] of Object.entries(importsMap)) {
+    if (!key.includes("*")) continue;
+    if (typeof target !== "object" || target === null || Array.isArray(target)) continue;
+
+    // Check if this entry has divergent resolutions (multiple distinct targets)
+    const leafTargets = new Set<string>();
+    for (const value of Object.values(target)) {
+      if (typeof value === "string" && value.includes("*")) {
+        leafTargets.add(value);
+      }
+    }
+    if (leafTargets.size < 2) continue; // Not divergent
+
+    // Build pattern for each non-default condition
+    for (const [condition, value] of Object.entries(target)) {
+      if (condition === "default") continue;
+      if (typeof value !== "string" || !value.includes("*")) continue;
+
+      const abs = path.resolve(packageRoot, value);
+      const escaped = abs.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regexSource = "^" + escaped.replace("\\*", "(.+)") + "$";
+
+      if (!seenPatterns.has(regexSource)) {
+        seenPatterns.add(regexSource);
+        patterns.push({ regex: new RegExp(regexSource), key, condition });
+      }
+    }
+  }
+
+  return patterns;
+}
+
+/**
+ * Look up a file path in the conditioned pattern index.
+ * Returns the key (with wildcard replaced) and condition if matched.
+ */
+function lookupConditionedTarget(
+  filePath: string,
+  patterns: ConditionedPattern[],
+): { key: string; condition: string } | undefined {
+  for (const { regex, key, condition } of patterns) {
+    const match = filePath.match(regex);
+    if (match && match[1]) {
+      return { key: key.replace("*", match[1]), condition };
+    }
+  }
   return undefined;
 }
 
 /**
- * Find all platform-specific files in a directory tree.
- */
-function findPlatformFiles(dir: string): string[] {
-  const fss = require("node:fs") as typeof import("node:fs");
-  const result: string[] = [];
-  if (!fss.existsSync(dir)) return result;
-
-  const entries = fss.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      result.push(...findPlatformFiles(fullPath));
-    } else if (entry.isFile() && detectFilePlatform(fullPath)) {
-      result.push(fullPath);
-    }
-  }
-  return result;
-}
-
-/**
- * Validate that platform-specific files use #platform imports correctly.
+ * Validate that platform-specific files use #-prefixed imports correctly.
  * Returns violations that should fail the build.
  *
- * This validation only applies when polyfillSuffix is NOT active.
- * When polyfillSuffix is used, the polyfill mechanism handles platform
- * resolution at compile time, so direct imports work correctly.
+ * Platform-specific files are determined from the imports map in package.json.
+ * Files that are targets of divergent wildcard imports (non-default conditions
+ * like "browser", "react-native") are validated to ensure they use the
+ * #-prefixed import specifier for any import that has a platform variant.
  */
 export async function validatePlatformImports(
   importsMap: ImportsMap,
   packageRoot: string,
 ): Promise<PlatformImportViolation[]> {
-  const fss = require("node:fs") as typeof import("node:fs");
   const violations: PlatformImportViolation[] = [];
 
+  // Build index of platform-specific file patterns
+  const conditionedPatterns = buildConditionedPatternIndex(importsMap, packageRoot);
+  if (conditionedPatterns.length === 0) return violations;
+
+  // Build standard import target index for checking imported files
+  const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, packageRoot);
+  const divergenceCache = new Map<string, boolean>();
+
+  // Find all source files
   const srcDir = path.join(packageRoot, "src");
-  const platformFiles = findPlatformFiles(srcDir);
+  const sourceFiles: string[] = [];
 
-  for (const filePath of platformFiles) {
-    const platform = detectFilePlatform(filePath);
-    if (!platform) continue;
+  function collectSourceFiles(dir: string): void {
+    if (!ts.sys.directoryExists(dir)) return;
+    for (const entry of ts.sys.readDirectory(dir, [".ts", ".mts", ".cts"], [], [])) {
+      sourceFiles.push(entry);
+    }
+    for (const subdir of ts.sys.getDirectories(dir)) {
+      collectSourceFiles(path.join(dir, subdir));
+    }
+  }
+  collectSourceFiles(srcDir);
 
+  let validatedCount = 0;
+
+  for (const filePath of sourceFiles) {
+    // Check if this file is a platform-specific target
+    const match = lookupConditionedTarget(filePath, conditionedPatterns);
+    if (!match) continue;
+
+    validatedCount++;
+    const { key: selfKey, condition } = match;
+
+    // Parse file and extract imports
     const content = ts.sys.readFile(filePath);
     if (!content) continue;
 
@@ -1039,50 +1100,44 @@ export async function validatePlatformImports(
       ts.ScriptTarget.Latest,
       true,
     );
+    const specifiers = collectRelativeSpecifiers(sourceFile);
+    if (specifiers.length === 0) continue;
 
-    const conditions = new Set([platform, "import", "default"]);
+    const conditions = new Set([condition, "import", "default"]);
 
-    ts.forEachChild(sourceFile, function visit(node) {
-      let specifier: string | undefined;
-      if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)) {
-        specifier = node.moduleSpecifier.text;
-      } else if (
-        ts.isExportDeclaration(node) &&
-        node.moduleSpecifier &&
-        ts.isStringLiteral(node.moduleSpecifier)
-      ) {
-        specifier = node.moduleSpecifier.text;
+    for (const { text: specifier, line } of specifiers) {
+      // Resolve the import to an absolute path
+      const resolved = resolveRelativeSpecifier(specifier, filePath);
+      if (!resolved) continue;
+
+      // Check if the imported file is a target of an imports entry
+      const importKey = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
+      if (!importKey) continue;
+
+      // Check if this import key has divergent resolutions
+      const isWildcard = importKey !== exactPaths.get(resolved);
+      if (!hasDivergentResolutions(importKey, importsMap, packageRoot, isWildcard, divergenceCache))
+        continue;
+
+      // The import bypasses #imports - resolve what it SHOULD be
+      const platformResolved = resolveSubpathImport(importKey, importsMap, conditions);
+      if (!platformResolved) continue;
+
+      const platformAbsPath = path.resolve(packageRoot, platformResolved);
+      if (platformAbsPath !== resolved) {
+        violations.push({
+          file: filePath,
+          line,
+          specifier,
+          suggestedImport: importKey,
+          targetPlatform: condition,
+        });
       }
-
-      if (specifier && specifier.startsWith(".") && !specifier.startsWith("#")) {
-        const fromDir = path.dirname(filePath);
-        const resolved = path.resolve(fromDir, specifier);
-        const relPath = specifier.replace(/^\.\//, "").replace(/\.(js|ts|mts|mjs)$/, "");
-        const platformSpecifier = `#platform/${relPath}`;
-        const platformResolved = resolveSubpathImport(platformSpecifier, importsMap, conditions);
-
-        if (platformResolved) {
-          const platformAbsPath = path.resolve(packageRoot, platformResolved);
-          const exists = fss.existsSync(platformAbsPath);
-          if (exists && platformAbsPath !== resolved) {
-            const line = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
-            violations.push({
-              file: filePath,
-              line,
-              specifier,
-              suggestedImport: platformSpecifier,
-              targetPlatform: platform,
-            });
-          }
-        }
-      }
-
-      ts.forEachChild(node, visit);
-    });
+    }
   }
 
   const log = getLogger();
-  log.info(`[warp] Validated ${platformFiles.length} platform-specific file(s)`);
+  log.info(`[warp] Validated ${validatedCount} platform-specific file(s)`);
 
   return violations;
 }
