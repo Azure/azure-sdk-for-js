@@ -5,13 +5,24 @@
 ### Breaking Changes
 
 - Renamed `project.beta.agents.listSessionFiles` to `project.beta.agents.getSessionFiles`.
+- Removed the `isolationKey` positional parameter from `project.beta.agents.createSession` and `project.beta.agents.deleteSession`.
 - Updated the exported `HeaderIsolationKeySource` model shape to remove fields that were previously present.
+- Removed `IsolationKeySource`, `IsolationKeySourceUnion`, `IsolationKeySourceKind`, `EntraIsolationKeySource`, and `HeaderIsolationKeySource` from the public API surface.
+- Removed `TaskDataGenerationJobOptions` and the `"task"` member from `DataGenerationJobType` / `DataGenerationJobOptionsUnion`.
+- Renamed `body` parameters to `job` for beta data generation jobs and evaluator generation jobs.
+- Renamed `body` parameters to `taxonomy` for beta evaluation taxonomy create/update operations.
+- Changed `DataGenerationTokenUsage` token count properties from optional to required.
+- Changed `Insight` response properties `insight_id`, `metadata`, and `state` from optional to required.
+- Changed `ModelSamplingParams` sampling properties from required to optional.
 - Renamed `UpdateToolboxRequest.toolbox_name` to `name`.
 
 ### Features Added
 
 - Added `FabricIQPreviewTool` (and `FabricIQPreviewToolParameters`) as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 - Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`, plus the `SessionLogEvent` / `SessionLogEventType` model types.
+- Added `createAgentFromCode`, `updateAgentFromCode`, `createAgentVersionFromCode`, `downloadAgentCode`, and `downloadAgentVersionCode` operations on `project.beta.agents` for code-based hosted agents.
+- Added `CreateAgentFromCodeContent`, `CreateAgentVersionFromCodeRequest`, `CreateAgentVersionFromCodeContent`, `FileContents`, `BetaAgentsDownloadAgentCodeResponse`, and `BetaAgentsDownloadAgentVersionCodeResponse` model types for code-based hosted agent uploads and downloads.
+- Added `CodeDependencyResolution` and `dependency_resolution` on `CodeConfiguration` for code-based hosted agent dependency resolution.
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
@@ -25,6 +36,7 @@
 ### Bugs Fixed
 
 - Fixed missing `BetaAgentsGetSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
+- Fixed samples and beta agent tests to use the regenerated beta agents session signatures.
 
 ## 2.1.1 (2026-05-04)
 
@@ -86,6 +98,7 @@
 ## 2.0.0-beta.5 (2026-02-24)
 
 ### Features Added
+
 - Add `project.beta` route for accessing beta features, including:
   - `project.beta.schedules`
   - `project.beta.redTeams`
@@ -93,7 +106,6 @@
   - `project.beta.insights`
   - `project.beta.evaluators`
   - `project.beta.evaluationTaxonomies`
-
 
 ## 2.0.0-beta.4 (2026-01-29)
 
@@ -117,7 +129,7 @@
 
 ### Bugs Fixed
 
-- fix response json schema deserializer 
+- fix response json schema deserializer
 
 ## 2.0.0-beta.2 (2025-12-02)
 
@@ -152,7 +164,7 @@ Initial stable release of the AI projects client library.
 - remove `project.redTeams`
 - remove `project.evaluations`
 - remove `project.inference.chatCompletions`, `project.inference.embeddings` and `project.inference.imageEmbeddings`. For guidance on obtaining an authenticated `azure-ai-inference` client for your AI Foundry Project,
-refer to the updated samples in the `samples\inference` directory.
+  refer to the updated samples in the `samples\inference` directory.
 - rename `project.telemetry.getConnectionString` to `project.telemetry.getApplicationInsightsConnectionString`
 - rename `project.inference.azureOpenAI` to `project.getAzureOpenAIClient`
 - remove `project.inference`
