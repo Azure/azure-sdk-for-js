@@ -24,10 +24,6 @@ For a detailed guide on migrating from v12 to v13, see the [Migration Guide](htt
 - Removed `AuthenticationTokenSettings` interface and `BatchAccessScope` type.
 - Removed `authenticationTokenSettings` property from `BatchJobManagerTask`, `BatchTask`, and `BatchTaskCreateOptions`.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 13.0.0-beta.2 (2026-02-20)
 
 ### Breaking Changes
