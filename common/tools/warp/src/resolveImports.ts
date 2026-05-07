@@ -554,6 +554,14 @@ export async function resolveImportsInDir(
 // ---------------------------------------------------------------------------
 
 /**
+ * Entry in the exact paths index, tracking key and condition.
+ */
+interface ExactPathEntry {
+  key: string;
+  condition?: string;
+}
+
+/**
  * A pattern entry from a wildcard imports map target.
  * The `*` in the target is replaced with a regex capture group.
  */
@@ -570,14 +578,14 @@ interface WildcardPattern {
  * Build lookup structures for matching resolved file paths against an imports map.
  *
  * Returns:
- * - `exactPaths`: Map from absolute path → `#key` for non-wildcard entries
+ * - `exactPaths`: Map from absolute path → {key, condition} for non-wildcard entries
  * - `wildcardPatterns`: Array of regex patterns for wildcard (`*`) entries
  */
 export function buildImportTargetIndex(
   importsMap: ImportsMap,
   packageRoot: string,
-): { exactPaths: Map<string, string>; wildcardPatterns: WildcardPattern[] } {
-  const exactPaths = new Map<string, string>();
+): { exactPaths: Map<string, ExactPathEntry>; wildcardPatterns: WildcardPattern[] } {
+  const exactPaths = new Map<string, ExactPathEntry>();
   const wildcardPatterns: WildcardPattern[] = [];
   const seenPatterns = new Set<string>();
 
@@ -600,7 +608,7 @@ export function buildImportTargetIndex(
         }
       } else {
         const abs = path.resolve(packageRoot, target);
-        exactPaths.set(abs, key);
+        exactPaths.set(abs, { key, condition });
       }
       return;
     }
@@ -644,12 +652,12 @@ interface ImportTargetMatch {
  */
 function lookupImportTarget(
   resolvedPath: string,
-  exactPaths: Map<string, string>,
+  exactPaths: Map<string, ExactPathEntry>,
   wildcardPatterns: WildcardPattern[],
 ): ImportTargetMatch | undefined {
   // Fast exact check first
-  const exactKey = exactPaths.get(resolvedPath);
-  if (exactKey) return { key: exactKey };
+  const exact = exactPaths.get(resolvedPath);
+  if (exact) return { key: exact.key, condition: exact.condition };
 
   // Try wildcard patterns
   for (const { regex, key, condition } of wildcardPatterns) {
@@ -673,7 +681,12 @@ export function collectImportTargetPaths(
   importsMap: ImportsMap,
   packageRoot: string,
 ): Map<string, string> {
-  return buildImportTargetIndex(importsMap, packageRoot).exactPaths;
+  const index = buildImportTargetIndex(importsMap, packageRoot);
+  const result = new Map<string, string>();
+  for (const [path, entry] of index.exactPaths) {
+    result.set(path, entry.key);
+  }
+  return result;
 }
 
 /**
@@ -864,11 +877,13 @@ export function validateNoDirectImports(
       if (!validatePlatformFiles) continue;
     } else if (selfMatch) {
       // Default-condition file that is an import target - check if divergent
+      const exactEntry = exactPaths.get(filePath);
+      const isWildcard = !exactEntry || exactEntry.key !== selfMatch.key;
       const selfIsDivergent = hasDivergentResolutions(
         selfMatch.key,
         importsMap,
         packageRoot,
-        selfMatch.key !== exactPaths.get(filePath),
+        isWildcard,
         divergenceCache,
       );
       if (selfIsDivergent) {
@@ -891,9 +906,10 @@ export function validateNoDirectImports(
 
     const relativeSpecifiers = collectRelativeSpecifiers(sourceFile);
 
-    // For platform files, we resolve imports under their specific condition
+    // For platform files, derive module type from file extension
+    const moduleType = filePath.endsWith(".cts") ? "require" : "import";
     const conditions = platformCondition
-      ? new Set([platformCondition, "import", "default"])
+      ? new Set([platformCondition, moduleType, "default"])
       : undefined;
 
     for (const { text: specifier, line } of relativeSpecifiers) {
@@ -903,7 +919,8 @@ export function validateNoDirectImports(
       const match = lookupImportTarget(resolved, exactPaths, wildcardPatterns);
       if (!match) continue;
 
-      const isWildcard = match.key !== exactPaths.get(resolved);
+      const exactEntry = exactPaths.get(resolved);
+      const isWildcard = !exactEntry || exactEntry.key !== match.key;
       if (!hasDivergentResolutions(match.key, importsMap, packageRoot, isWildcard, divergenceCache)) {
         continue;
       }

@@ -160,4 +160,68 @@ export { a, b };`,
     expect(violations[0].targetPlatform).toBe("react-native");
     expect(violations[0].suggestedImport).toBe("#platform/hash");
   });
+
+  it("handles exact-match platform files (non-wildcard)", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"));
+
+    // Exact mapping (no wildcard)
+    const exactImportsMap: ImportsMap = {
+      "#platform/crypto": {
+        browser: "./src/crypto-browser.mts",
+        default: "./src/crypto.ts",
+      },
+      "#platform/hash": {
+        browser: "./src/hash-browser.mts",
+        default: "./src/hash.ts",
+      },
+    };
+
+    // Browser file directly imports default variant (should use #platform/hash)
+    await fs.writeFile(
+      path.join(tmpDir, "src", "crypto-browser.mts"),
+      `export * from "./hash.js";`,
+    );
+    await fs.writeFile(path.join(tmpDir, "src", "crypto.ts"), `export const c = 1;`);
+    await fs.writeFile(path.join(tmpDir, "src", "hash.ts"), `export const hash = () => {};`);
+    await fs.writeFile(
+      path.join(tmpDir, "src", "hash-browser.mts"),
+      `export const hash = () => {};`,
+    );
+
+    const srcDir = path.join(tmpDir, "src");
+    const sourceFiles = await collectSourceFiles(srcDir);
+    const violations = validateNoDirectImports(sourceFiles, exactImportsMap, tmpDir, true);
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].targetPlatform).toBe("browser");
+    expect(violations[0].suggestedImport).toBe("#platform/hash");
+    expect(violations[0].file).toContain("crypto-browser.mts");
+  });
+
+  it("uses require condition for .cts files", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"));
+
+    const ctsImportsMap: ImportsMap = {
+      "#platform/*": {
+        require: "./src/*-cjs.cts",
+        default: "./src/*.ts",
+      },
+    };
+
+    // CJS file directly imports default variant
+    await fs.writeFile(
+      path.join(tmpDir, "src", "index-cjs.cts"),
+      `export * from "./helper.js";`,
+    );
+    await fs.writeFile(path.join(tmpDir, "src", "helper.ts"), `export const h = 1;`);
+    await fs.writeFile(path.join(tmpDir, "src", "helper-cjs.cts"), `export const h = 2;`);
+
+    const srcDir = path.join(tmpDir, "src");
+    const sourceFiles = await collectSourceFiles(srcDir);
+    const violations = validateNoDirectImports(sourceFiles, ctsImportsMap, tmpDir, true);
+
+    expect(violations).toHaveLength(1);
+    expect(violations[0].targetPlatform).toBe("require");
+    expect(violations[0].suggestedImport).toBe("#platform/helper");
+  });
 });
