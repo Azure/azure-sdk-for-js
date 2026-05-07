@@ -65,10 +65,10 @@ npx cross-env KEYVAULT_URI="<keyvault uri>" node cryptography.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v1-beta/javascript/cryptography.js
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v1-beta/javascript/helloWorld.js
-[keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v1-beta/javascript/keyRotation.js
-[securewrapkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v1-beta/javascript/secureWrapKey.js
+[cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/javascript/cryptography.js
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/javascript/helloWorld.js
+[keyrotation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/javascript/keyRotation.js
+[securewrapkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/javascript/secureWrapKey.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
