@@ -3,6 +3,7 @@
 
 import type { CognitiveServicesManagementContext as Client } from "../index.js";
 import type {
+  OutboundRuleBasicResource,
   _OutboundRuleListResult,
   ManagedNetworkSettingsBasicResource,
 } from "../../models/models.js";
@@ -11,6 +12,8 @@ import {
   _outboundRuleListResultDeserializer,
   managedNetworkSettingsBasicResourceSerializer,
 } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { OutboundRulesPostOptionalParams } from "./options.js";
@@ -69,13 +72,30 @@ export function post(
   managedNetworkName: string,
   body: ManagedNetworkSettingsBasicResource,
   options: OutboundRulesPostOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult> {
-  return getLongRunningPoller(context, _postDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _postSend(context, resourceGroupName, accountName, managedNetworkName, body, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
-  }) as PollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>;
+): PagedAsyncIterableIterator<OutboundRuleBasicResource> {
+  const initialPagingPoller = getLongRunningPoller(
+    context,
+    async (result: PathUncheckedResponse) => result,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _postSend(context, resourceGroupName, accountName, managedNetworkName, body, options),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
+  ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
+
+  return buildPagedAsyncIterator(
+    context,
+    async () => await initialPagingPoller,
+    _postDeserialize,
+    ["202", "200", "201"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    },
+  );
 }

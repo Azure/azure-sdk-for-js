@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
-import { list, purge, get } from "../../api/deletedAccounts/operations.js";
+import { purge, get, list } from "../../api/deletedAccounts/operations.js";
 import type {
-  DeletedAccountsListOptionalParams,
   DeletedAccountsPurgeOptionalParams,
   DeletedAccountsGetOptionalParams,
+  DeletedAccountsListOptionalParams,
 } from "../../api/deletedAccounts/options.js";
 import type { Account } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -16,8 +16,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeletedAccounts operations. */
 export interface DeletedAccountsOperations {
-  /** Returns all the resources of a particular type belonging to a subscription. */
-  list: (options?: DeletedAccountsListOptionalParams) => PagedAsyncIterableIterator<Account>;
   /** Deletes a Cognitive Services account from the resource group. */
   purge: (
     location: string,
@@ -46,11 +44,12 @@ export interface DeletedAccountsOperations {
     accountName: string,
     options?: DeletedAccountsGetOptionalParams,
   ) => Promise<Account>;
+  /** Returns all the resources of a particular type belonging to a subscription. */
+  list: (options?: DeletedAccountsListOptionalParams) => PagedAsyncIterableIterator<Account>;
 }
 
 function _getDeletedAccounts(context: CognitiveServicesManagementContext) {
   return {
-    list: (options?: DeletedAccountsListOptionalParams) => list(context, options),
     purge: (
       location: string,
       resourceGroupName: string,
@@ -81,6 +80,7 @@ function _getDeletedAccounts(context: CognitiveServicesManagementContext) {
       accountName: string,
       options?: DeletedAccountsGetOptionalParams,
     ) => get(context, location, resourceGroupName, accountName, options),
+    list: (options?: DeletedAccountsListOptionalParams) => list(context, options),
   };
 }
 

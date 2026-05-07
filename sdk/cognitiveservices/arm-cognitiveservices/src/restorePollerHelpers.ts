@@ -7,7 +7,6 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/agentDeployments/operations.js";
 import { _provisionManagedNetworkDeserialize } from "./api/managedNetworkProvisions/operations.js";
-import { _postDeserialize } from "./api/outboundRules/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeManagedNetworkSettings,
   _patchDeserialize,
@@ -143,8 +142,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/provision":
     { deserializer: _provisionManagedNetworkDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/batchOutboundRules":
-    { deserializer: _postDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}":
     {
       deserializer: _$deleteDeserializeManagedNetworkSettings,
@@ -194,7 +191,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":
-    { deserializer: _$deleteDeserializeProjects, expectedStatuses: ["202", "204", "200"] },
+    { deserializer: _$deleteDeserializeProjects, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}":

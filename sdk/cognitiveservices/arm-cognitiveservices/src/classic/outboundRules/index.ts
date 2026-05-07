@@ -5,12 +5,10 @@ import type { CognitiveServicesManagementContext } from "../../api/cognitiveServ
 import { post } from "../../api/outboundRules/operations.js";
 import type { OutboundRulesPostOptionalParams } from "../../api/outboundRules/options.js";
 import type {
-  _OutboundRuleListResult,
+  OutboundRuleBasicResource,
   ManagedNetworkSettingsBasicResource,
 } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OutboundRules operations. */
 export interface OutboundRulesOperations {
@@ -21,23 +19,15 @@ export interface OutboundRulesOperations {
     managedNetworkName: string,
     body: ManagedNetworkSettingsBasicResource,
     options?: OutboundRulesPostOptionalParams,
-  ) => PollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>;
+  ) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
   /** @deprecated use post instead */
-  beginPost: (
+  beginListPostAndWait: (
     resourceGroupName: string,
     accountName: string,
     managedNetworkName: string,
     body: ManagedNetworkSettingsBasicResource,
     options?: OutboundRulesPostOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>>;
-  /** @deprecated use post instead */
-  beginPostAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    managedNetworkName: string,
-    body: ManagedNetworkSettingsBasicResource,
-    options?: OutboundRulesPostOptionalParams,
-  ) => Promise<_OutboundRuleListResult>;
+  ) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
 }
 
 function _getOutboundRules(context: CognitiveServicesManagementContext) {
@@ -49,32 +39,14 @@ function _getOutboundRules(context: CognitiveServicesManagementContext) {
       body: ManagedNetworkSettingsBasicResource,
       options?: OutboundRulesPostOptionalParams,
     ) => post(context, resourceGroupName, accountName, managedNetworkName, body, options),
-    beginPost: async (
+    beginListPostAndWait: (
       resourceGroupName: string,
       accountName: string,
       managedNetworkName: string,
       body: ManagedNetworkSettingsBasicResource,
       options?: OutboundRulesPostOptionalParams,
     ) => {
-      const poller = post(
-        context,
-        resourceGroupName,
-        accountName,
-        managedNetworkName,
-        body,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginPostAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      managedNetworkName: string,
-      body: ManagedNetworkSettingsBasicResource,
-      options?: OutboundRulesPostOptionalParams,
-    ) => {
-      return await post(context, resourceGroupName, accountName, managedNetworkName, body, options);
+      return post(context, resourceGroupName, accountName, managedNetworkName, body, options);
     },
   };
 }

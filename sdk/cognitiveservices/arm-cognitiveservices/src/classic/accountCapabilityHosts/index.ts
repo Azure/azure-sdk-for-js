@@ -24,11 +24,6 @@ export interface AccountCapabilityHostsOperations {
     options?: AccountCapabilityHostsListOptionalParams,
   ) => PagedAsyncIterableIterator<CapabilityHost>;
   /** Delete account capabilityHost. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

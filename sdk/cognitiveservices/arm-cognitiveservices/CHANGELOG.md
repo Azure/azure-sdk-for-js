@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0-beta.1 (2026-03-31)
+## 9.0.0-beta.1 (2026-05-07)
 Compared with version 8.1.0
 
 ### Features Added
@@ -108,11 +108,9 @@ Compared with version 8.1.0
   - Added Interface PageSettings
   - Added Interface PrivateEndpointOutboundRule
   - Added Interface PrivateEndpointOutboundRuleDestination
-  - Added Interface RaiExternalSafetyProvider
   - Added Interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams
   - Added Interface RaiExternalSafetyProviderDeleteOptionalParams
   - Added Interface RaiExternalSafetyProviderGetOptionalParams
-  - Added Interface RaiExternalSafetyProviderProperties
   - Added Interface RaiExternalSafetyProviderSchema
   - Added Interface RaiExternalSafetyProviderSchemaProperties
   - Added Interface RaiExternalSafetyProvidersListOptionalParams
@@ -172,7 +170,6 @@ Compared with version 8.1.0
   - Added Type Alias OutboundRuleUnion
   - Added Type Alias QuotaScopeType
   - Added Type Alias RaiActionType
-  - Added Type Alias RaiExternalSafetyProviderCreateOrUpdateResponse
   - Added Type Alias RoutingMode
   - Added Type Alias RuleAction
   - Added Type Alias RuleCategory
@@ -239,7 +236,6 @@ Compared with version 8.1.0
   - Operation AccountConnections.create has a new signature
   - Operation AccountConnections.get has a new signature
   - Operation AccountConnections.update has a new signature
-  - Operation Accounts.regenerateKey has a new signature
   - Operation EncryptionScopes.beginDeleteAndWait has a new signature
   - Operation ProjectCapabilityHosts.beginDeleteAndWait has a new signature
   - Operation ProjectConnections.create has a new signature
@@ -250,8 +246,11 @@ Compared with version 8.1.0
   - Operation RaiPolicies.beginDeleteAndWait has a new signature
   - Operation RaiTopics.beginDeleteAndWait has a new signature
   - Removed Interface AzureEntityResource
+  - Removed Interface CustomTopicConfig
   - Removed Interface NetworkSecurityPerimeterConfigurationList
+  - Removed Interface RaiTopicConfig
   - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
+  - Interface RaiPolicyProperties no longer has parameter customTopics
   - Type alias "ConnectionPropertiesV2Union" has been changed
 
 ## 8.1.0 (2025-11-13)

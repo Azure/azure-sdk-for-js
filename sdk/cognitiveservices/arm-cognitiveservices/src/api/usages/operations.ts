@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { CognitiveServicesManagementContext as Client } from "../index.js";
-import type { _UsageListResult, Usage } from "../../models/models.js";
-import { errorResponseDeserializer, _usageListResultDeserializer } from "../../models/models.js";
+import type { UsageListResult, Usage } from "../../models/models.js";
+import { errorResponseDeserializer, usageListResultDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -34,7 +34,7 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_UsageListResult> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<UsageListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -43,7 +43,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
     throw error;
   }
 
-  return _usageListResultDeserializer(result.body);
+  return usageListResultDeserializer(result.body);
 }
 
 /** Get usages for the requested subscription */

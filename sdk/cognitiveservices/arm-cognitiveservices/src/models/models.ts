@@ -180,6 +180,28 @@ export function domainAvailabilityDeserializer(item: any): DomainAvailability {
   };
 }
 
+/** Calculate Model Capacity parameter. */
+export interface CalculateModelCapacityParameter {
+  /** Properties of Cognitive Services account deployment model. */
+  model?: DeploymentModel;
+  /** The name of SKU. */
+  skuName?: string;
+  /** List of Model Capacity Calculator Workload. */
+  workloads?: ModelCapacityCalculatorWorkload[];
+}
+
+export function calculateModelCapacityParameterSerializer(
+  item: CalculateModelCapacityParameter,
+): any {
+  return {
+    model: !item["model"] ? item["model"] : deploymentModelSerializer(item["model"]),
+    skuName: item["skuName"],
+    workloads: !item["workloads"]
+      ? item["workloads"]
+      : modelCapacityCalculatorWorkloadArraySerializer(item["workloads"]),
+  };
+}
+
 /** Properties of Cognitive Services account deployment model. */
 export interface DeploymentModel {
   /** Deployment model publisher. */
@@ -288,6 +310,14 @@ export function requestMatchPatternDeserializer(item: any): RequestMatchPattern 
   };
 }
 
+export function modelCapacityCalculatorWorkloadArraySerializer(
+  result: Array<ModelCapacityCalculatorWorkload>,
+): any[] {
+  return result.map((item) => {
+    return modelCapacityCalculatorWorkloadSerializer(item);
+  });
+}
+
 /** Model Capacity Calculator Workload. */
 export interface ModelCapacityCalculatorWorkload {
   /** Request per minute. */
@@ -322,36 +352,6 @@ export function modelCapacityCalculatorWorkloadRequestParamSerializer(
     avgPromptTokens: item["avgPromptTokens"],
     avgGeneratedTokens: item["avgGeneratedTokens"],
   };
-}
-
-/** Calculate Model Capacity parameter. */
-export interface CalculateModelCapacityParameter {
-  /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
-  /** The name of SKU. */
-  skuName?: string;
-  /** List of Model Capacity Calculator Workload. */
-  workloads?: ModelCapacityCalculatorWorkload[];
-}
-
-export function calculateModelCapacityParameterSerializer(
-  item: CalculateModelCapacityParameter,
-): any {
-  return {
-    model: !item["model"] ? item["model"] : deploymentModelSerializer(item["model"]),
-    skuName: item["skuName"],
-    workloads: !item["workloads"]
-      ? item["workloads"]
-      : modelCapacityCalculatorWorkloadArraySerializer(item["workloads"]),
-  };
-}
-
-export function modelCapacityCalculatorWorkloadArraySerializer(
-  result: Array<ModelCapacityCalculatorWorkload>,
-): any[] {
-  return result.map((item) => {
-    return modelCapacityCalculatorWorkloadSerializer(item);
-  });
 }
 
 /** Calculate Model Capacity result. */
@@ -491,7 +491,7 @@ export enum KnownActionType {
 export type ActionType = string;
 
 /** Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU. */
-export interface Account extends Resource {
+export interface Account extends ProxyResource {
   /** Properties of Cognitive Services account. */
   properties?: AccountProperties;
   /** Resource tags. */
@@ -1187,8 +1187,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -1766,8 +1766,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1780,8 +1780,8 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1807,8 +1807,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1964,14 +1964,14 @@ export function accountSkuDeserializer(item: any): AccountSku {
 }
 
 /** The response to a list usage request. */
-export interface _UsageListResult {
+export interface UsageListResult {
   /** The link used to get the next page of Usages. */
   nextLink?: string;
   /** The list of usages for Cognitive Service account. */
   value?: Usage[];
 }
 
-export function _usageListResultDeserializer(item: any): _UsageListResult {
+export function usageListResultDeserializer(item: any): UsageListResult {
   return {
     nextLink: item["nextLink"],
     value: !item["value"] ? item["value"] : usageArrayDeserializer(item["value"]),
@@ -2473,7 +2473,7 @@ export interface DeploymentProperties {
   serviceTier?: ServiceTier;
   /** The state of the deployment. Controls whether the deployment is accepting inference requests. Use 'Running' for active deployments that process requests, or 'Paused' to temporarily stop inference while preserving the deployment configuration. */
   deploymentState?: DeploymentState;
-  /** Routing configuration for the deployment. This property is only applicable when the deployed model is 'model-router' version 2025-11-18 or later. Allows you to select the models subset for routing and the routing mode (balanced, accuracy, cost) for routing across all supported models or the model subset. */
+  /** Routing configuration for the model-router deployment. This property is only applicable when the deployed model is 'model-router' version 2025-11-18 or later. Allows you to select the models subset for routing and the routing mode (balanced, quality, cost) for routing across all supported models or the model subset. */
   routing?: DeploymentRouting;
 }
 
@@ -2682,11 +2682,11 @@ export enum KnownDeploymentState {
  */
 export type DeploymentState = string;
 
-/** Routing configuration for the deployment. Specifies how requests are routed across multiple models. */
+/** Routing configuration for the model-router deployment. Specifies how requests are routed across multiple models. */
 export interface DeploymentRouting {
-  /** The routing mode that determines how requests are distributed across models. */
+  /** The model-router routing mode that determines how requests are distributed across models. */
   mode?: RoutingMode;
-  /** Optional. The list of models that the model router can use to route requests across. If not specified, the model router will route to all available models specified in the model-router version. */
+  /** Optional. The list of model-router supported models that the model router can use to route requests across. If not specified, the model router will route to all available models specified in the model-router version. */
   models?: DeploymentModel[];
 }
 
@@ -2704,24 +2704,24 @@ export function deploymentRoutingDeserializer(item: any): DeploymentRouting {
   };
 }
 
-/** The routing mode that determines how requests are distributed across models. */
+/** The model-router routing mode that determines how requests are distributed across models. */
 export enum KnownRoutingMode {
   /** Route requests to minimize cost while meeting performance requirements. */
   Cost = "cost",
-  /** Balance cost and accuracy when routing requests across models. */
+  /** Balance cost and quality when routing requests across models. */
   Balanced = "balanced",
-  /** Route requests to maximize accuracy regardless of cost. */
-  Accuracy = "accuracy",
+  /** Route requests to maximize quality regardless of cost. */
+  Quality = "quality",
 }
 
 /**
- * The routing mode that determines how requests are distributed across models. \
+ * The model-router routing mode that determines how requests are distributed across models. \
  * {@link KnownRoutingMode} can be used interchangeably with RoutingMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **cost**: Route requests to minimize cost while meeting performance requirements. \
- * **balanced**: Balance cost and accuracy when routing requests across models. \
- * **accuracy**: Route requests to maximize accuracy regardless of cost.
+ * **balanced**: Balance cost and quality when routing requests across models. \
+ * **quality**: Route requests to maximize quality regardless of cost.
  */
 export type RoutingMode = string;
 
@@ -2824,7 +2824,7 @@ export function skuResourceDeserializer(item: any): SkuResource {
 }
 
 /** Cognitive Services account commitment plan. */
-export interface CommitmentPlan extends Resource {
+export interface CommitmentPlan extends ProxyResource {
   /** Properties of Cognitive Services account commitment plan. */
   properties?: CommitmentPlanProperties;
   /** Resource tags. */
@@ -3339,8 +3339,6 @@ export interface RaiPolicyProperties {
   contentFilters?: RaiPolicyContentFilter[];
   /** The list of custom Blocklist. */
   customBlocklists?: CustomBlocklistConfig[];
-  /** The list of custom rai topics. */
-  customTopics?: CustomTopicConfig[];
   /** The list of Safety Providers. */
   safetyProviders?: SafetyProviderConfig[];
 }
@@ -3355,9 +3353,6 @@ export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
     customBlocklists: !item["customBlocklists"]
       ? item["customBlocklists"]
       : customBlocklistConfigArraySerializer(item["customBlocklists"]),
-    customTopics: !item["customTopics"]
-      ? item["customTopics"]
-      : customTopicConfigArraySerializer(item["customTopics"]),
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArraySerializer(item["safetyProviders"]),
@@ -3375,9 +3370,6 @@ export function raiPolicyPropertiesDeserializer(item: any): RaiPolicyProperties 
     customBlocklists: !item["customBlocklists"]
       ? item["customBlocklists"]
       : customBlocklistConfigArrayDeserializer(item["customBlocklists"]),
-    customTopics: !item["customTopics"]
-      ? item["customTopics"]
-      : customTopicConfigArrayDeserializer(item["customTopics"]),
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArrayDeserializer(item["safetyProviders"]),
@@ -3594,36 +3586,6 @@ export function customBlocklistConfigDeserializer(item: any): CustomBlocklistCon
   };
 }
 
-export function customTopicConfigArraySerializer(result: Array<CustomTopicConfig>): any[] {
-  return result.map((item) => {
-    return customTopicConfigSerializer(item);
-  });
-}
-
-export function customTopicConfigArrayDeserializer(result: Array<CustomTopicConfig>): any[] {
-  return result.map((item) => {
-    return customTopicConfigDeserializer(item);
-  });
-}
-
-/** Gets or sets the source to which filter applies. */
-export interface CustomTopicConfig extends RaiTopicConfig {
-  /** Content source to apply the Content Filters. */
-  source?: RaiPolicyContentSource;
-}
-
-export function customTopicConfigSerializer(item: CustomTopicConfig): any {
-  return { topicName: item["topicName"], blocking: item["blocking"], source: item["source"] };
-}
-
-export function customTopicConfigDeserializer(item: any): CustomTopicConfig {
-  return {
-    topicName: item["topicName"],
-    blocking: item["blocking"],
-    source: item["source"],
-  };
-}
-
 export function safetyProviderConfigArraySerializer(result: Array<SafetyProviderConfig>): any[] {
   return result.map((item) => {
     return safetyProviderConfigSerializer(item);
@@ -3673,25 +3635,6 @@ export function raiBlocklistConfigSerializer(item: RaiBlocklistConfig): any {
 export function raiBlocklistConfigDeserializer(item: any): RaiBlocklistConfig {
   return {
     blocklistName: item["blocklistName"],
-    blocking: item["blocking"],
-  };
-}
-
-/** Azure OpenAI RAI topic config. */
-export interface RaiTopicConfig {
-  /** Name of RAI topic. */
-  topicName?: string;
-  /** If blocking would occur. */
-  blocking?: boolean;
-}
-
-export function raiTopicConfigSerializer(item: RaiTopicConfig): any {
-  return { topicName: item["topicName"], blocking: item["blocking"] };
-}
-
-export function raiTopicConfigDeserializer(item: any): RaiTopicConfig {
-  return {
-    topicName: item["topicName"],
     blocking: item["blocking"],
   };
 }
@@ -4679,7 +4622,7 @@ export function defenderForAISettingArrayDeserializer(result: Array<DefenderForA
 }
 
 /** Cognitive Services project is an Azure resource representing the provisioned account's project, it's type, location and SKU. */
-export interface Project extends Resource {
+export interface Project extends ProxyResource {
   /** Properties of Cognitive Services project. */
   properties?: ProjectProperties;
   /** Resource tags. */
@@ -7664,65 +7607,6 @@ export function raiExternalSafetyProviderSchemaPropertiesDeserializer(
   };
 }
 
-/** Cognitive Services Rai External Safety provider. */
-export interface RaiExternalSafetyProvider extends ProxyResource {
-  /** Resource Etag. */
-  readonly etag?: string;
-  /** Resource tags. */
-  readonly tags?: Record<string, string>;
-  /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderProperties;
-}
-
-export function raiExternalSafetyProviderDeserializer(item: any): RaiExternalSafetyProvider {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    etag: item["etag"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    properties: !item["properties"]
-      ? item["properties"]
-      : raiExternalSafetyProviderPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** RAI External SafetyProvider properties. */
-export interface RaiExternalSafetyProviderProperties {
-  /** The unique identifier of the safety provider. */
-  providerId?: string;
-  /** Name of the safety provider. */
-  providerName?: string;
-  /** Safety provider mode sync/async. */
-  mode?: string;
-  /** Webhook URL for the safety provider. */
-  url?: string;
-  /** Creation time of the safety provider. */
-  createdAt?: Date;
-  /** Last modified time of the safety provider. */
-  lastModifiedAt?: Date;
-}
-
-export function raiExternalSafetyProviderPropertiesDeserializer(
-  item: any,
-): RaiExternalSafetyProviderProperties {
-  return {
-    providerId: item["providerId"],
-    providerName: item["providerName"],
-    mode: item["mode"],
-    url: item["url"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
 /** The list of cognitive services RAI External Safety Providers. */
 export interface _RaiExternalSafetyProviderResult {
   /** The link used to get the next page of Rai External Safety Provider. */
@@ -8641,9 +8525,9 @@ export function managedNetworkSettingsBasicResourceSerializer(
 export interface ManagedNetworkProvisionOptions {}
 
 export function managedNetworkProvisionOptionsSerializer(
-  item: ManagedNetworkProvisionOptions,
+  _item: ManagedNetworkProvisionOptions,
 ): any {
-  return item;
+  return {};
 }
 
 /** Agent Deployment resource */
@@ -9390,15 +9274,6 @@ export enum KnownVersions {
   V20260115Preview = "2026-01-15-preview",
 }
 
-/** Alias for _CreateOrUpdateUnionResponse */
-export type _CreateOrUpdateUnionResponse =
-  | RaiExternalSafetyProviderSchema
-  | RaiExternalSafetyProvider;
-
-export function _createOrUpdateUnionResponseDeserializer(item: any): _CreateOrUpdateUnionResponse {
-  return item;
-}
-
 export function raiBlocklistItemBulkRequestArraySerializer(
   result: Array<RaiBlocklistItemBulkRequest>,
 ): any[] {
@@ -9428,7 +9303,3 @@ export function _defenderForAISettingPropertiesDeserializer(item: any) {
     state: item["state"],
   };
 }
-
-export type RaiExternalSafetyProviderCreateOrUpdateResponse = {
-  body: RaiExternalSafetyProviderSchema | RaiExternalSafetyProvider;
-};

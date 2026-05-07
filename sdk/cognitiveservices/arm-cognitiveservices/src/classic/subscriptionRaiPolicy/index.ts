@@ -16,11 +16,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a SubscriptionRaiPolicy operations. */
 export interface SubscriptionRaiPolicyOperations {
   /** Deletes the specified Content Filters associated with the subscription. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     raiPolicyName: string,
     options?: SubscriptionRaiPolicyDeleteOptionalParams,

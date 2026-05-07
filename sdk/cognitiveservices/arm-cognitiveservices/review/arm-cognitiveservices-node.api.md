@@ -37,7 +37,7 @@ export interface AccessKeyAuthTypeConnectionProperties extends ConnectionPropert
 }
 
 // @public
-export interface Account extends Resource {
+export interface Account extends ProxyResource {
     readonly etag?: string;
     identity?: Identity;
     kind?: string;
@@ -254,9 +254,8 @@ export interface AccountsOperations {
     listKeys: (resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams) => Promise<ApiKeys>;
     listModels: (resourceGroupName: string, accountName: string, options?: AccountsListModelsOptionalParams) => PagedAsyncIterableIterator<AccountModel>;
     listSkus: (resourceGroupName: string, accountName: string, options?: AccountsListSkusOptionalParams) => Promise<AccountSkuListResult>;
-    // Warning: (ae-forgotten-export) The symbol "_UsageListResult" needs to be exported by the entry point index.d.ts
-    listUsages: (resourceGroupName: string, accountName: string, options?: AccountsListUsagesOptionalParams) => Promise<_UsageListResult>;
-    regenerateKey: (resourceGroupName: string, accountName: string, parameters: RegenerateKeyParameters, options?: AccountsRegenerateKeyOptionalParams) => Promise<ApiKeys>;
+    listUsages: (resourceGroupName: string, accountName: string, options?: AccountsListUsagesOptionalParams) => Promise<UsageListResult>;
+    regenerateKey: (resourceGroupName: string, accountName: string, keyName: KeyName, options?: AccountsRegenerateKeyOptionalParams) => Promise<ApiKeys>;
     update: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams) => PollerLike<OperationState<Account>, Account>;
 }
 
@@ -702,7 +701,7 @@ export interface CommitmentPeriod {
 }
 
 // @public
-export interface CommitmentPlan extends Resource {
+export interface CommitmentPlan extends ProxyResource {
     readonly etag?: string;
     kind?: string;
     location?: string;
@@ -1043,11 +1042,6 @@ export interface CustomKeys {
 export interface CustomKeysConnectionProperties extends ConnectionPropertiesV2 {
     authType: "CustomKeys";
     credentials?: CustomKeys;
-}
-
-// @public
-export interface CustomTopicConfig extends RaiTopicConfig {
-    source?: RaiPolicyContentSource;
 }
 
 // @public
@@ -1959,9 +1953,9 @@ export enum KnownRoutingMethods {
 
 // @public
 export enum KnownRoutingMode {
-    Accuracy = "accuracy",
     Balanced = "balanced",
-    Cost = "cost"
+    Cost = "cost",
+    Quality = "quality"
 }
 
 // @public
@@ -2477,11 +2471,8 @@ export interface OutboundRuleOperations {
 // @public
 export interface OutboundRulesOperations {
     // @deprecated (undocumented)
-    beginPost: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => Promise<SimplePollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>>;
-    // @deprecated (undocumented)
-    beginPostAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => Promise<_OutboundRuleListResult>;
-    // Warning: (ae-forgotten-export) The symbol "_OutboundRuleListResult" needs to be exported by the entry point index.d.ts
-    post: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => PollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>;
+    beginListPostAndWait: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
+    post: (resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
 }
 
 // @public
@@ -2634,7 +2625,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export interface Project extends Resource {
+export interface Project extends ProxyResource {
     readonly etag?: string;
     identity?: Identity;
     location?: string;
@@ -2999,20 +2990,8 @@ export interface RaiContentFiltersOperations {
 }
 
 // @public
-export interface RaiExternalSafetyProvider extends ProxyResource {
-    readonly etag?: string;
-    properties?: RaiExternalSafetyProviderProperties;
-    readonly tags?: Record<string, string>;
-}
-
-// @public
 export interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export type RaiExternalSafetyProviderCreateOrUpdateResponse = {
-    body: RaiExternalSafetyProviderSchema | RaiExternalSafetyProvider;
-};
 
 // @public
 export interface RaiExternalSafetyProviderDeleteOptionalParams extends OperationOptions {
@@ -3029,19 +3008,9 @@ export interface RaiExternalSafetyProviderOperations {
     beginDelete: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (safetyProviderName: string, safetyProvider: RaiExternalSafetyProviderSchema, options?: RaiExternalSafetyProviderCreateOrUpdateOptionalParams) => Promise<RaiExternalSafetyProviderCreateOrUpdateResponse>;
+    createOrUpdate: (safetyProviderName: string, safetyProvider: RaiExternalSafetyProviderSchema, options?: RaiExternalSafetyProviderCreateOrUpdateOptionalParams) => Promise<RaiExternalSafetyProviderSchema>;
     delete: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (safetyProviderName: string, options?: RaiExternalSafetyProviderGetOptionalParams) => Promise<RaiExternalSafetyProviderSchema>;
-}
-
-// @public
-export interface RaiExternalSafetyProviderProperties {
-    createdAt?: Date;
-    lastModifiedAt?: Date;
-    mode?: string;
-    providerId?: string;
-    providerName?: string;
-    url?: string;
 }
 
 // @public
@@ -3136,7 +3105,6 @@ export interface RaiPolicyProperties {
     basePolicyName?: string;
     contentFilters?: RaiPolicyContentFilter[];
     customBlocklists?: CustomBlocklistConfig[];
-    customTopics?: CustomTopicConfig[];
     mode?: RaiPolicyMode;
     safetyProviders?: SafetyProviderConfig[];
     readonly type?: RaiPolicyType;
@@ -3210,12 +3178,6 @@ export interface RaiTopic extends ProxyResource {
     readonly etag?: string;
     properties?: RaiTopicProperties;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface RaiTopicConfig {
-    blocking?: boolean;
-    topicName?: string;
 }
 
 // @public
@@ -3575,6 +3537,12 @@ export interface Usage {
     scopeType?: QuotaScopeType;
     status?: QuotaUsageStatus;
     unit?: UnitType;
+}
+
+// @public
+export interface UsageListResult {
+    nextLink?: string;
+    value?: Usage[];
 }
 
 // @public

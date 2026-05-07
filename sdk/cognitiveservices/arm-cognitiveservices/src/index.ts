@@ -22,13 +22,13 @@ export type {
   ErrorAdditionalInfo,
   CheckDomainAvailabilityParameter,
   DomainAvailability,
+  CalculateModelCapacityParameter,
   DeploymentModel,
   CallRateLimit,
   ThrottlingRule,
   RequestMatchPattern,
   ModelCapacityCalculatorWorkload,
   ModelCapacityCalculatorWorkloadRequestParam,
-  CalculateModelCapacityParameter,
   CalculateModelCapacityResult,
   CalculateModelCapacityResultEstimatedCapacity,
   Operation,
@@ -84,6 +84,7 @@ export type {
   KeyName,
   AccountSkuListResult,
   AccountSku,
+  UsageListResult,
   Usage,
   UnitType,
   MetricName,
@@ -133,10 +134,8 @@ export type {
   RaiPolicyContentSource,
   RaiActionType,
   CustomBlocklistConfig,
-  CustomTopicConfig,
   SafetyProviderConfig,
   RaiBlocklistConfig,
-  RaiTopicConfig,
   RaiSafetyProviderConfig,
   RaiBlocklistItem,
   RaiBlocklistItemProperties,
@@ -234,8 +233,6 @@ export type {
   PrivateLinkResourceProperties,
   RaiExternalSafetyProviderSchema,
   RaiExternalSafetyProviderSchemaProperties,
-  RaiExternalSafetyProvider,
-  RaiExternalSafetyProviderProperties,
   CapabilityHost,
   CapabilityHostProperties,
   CapabilityHostKind,
@@ -284,7 +281,6 @@ export type {
   Model,
   ModelCapacityListResultValueItem,
   ModelSkuCapacityProperties,
-  RaiExternalSafetyProviderCreateOrUpdateResponse,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -430,9 +426,9 @@ export type {
   DefenderForAISettingsGetOptionalParams,
 } from "./api/defenderForAISettings/index.js";
 export type {
-  DeletedAccountsListOptionalParams,
   DeletedAccountsPurgeOptionalParams,
   DeletedAccountsGetOptionalParams,
+  DeletedAccountsListOptionalParams,
 } from "./api/deletedAccounts/index.js";
 export type {
   DeploymentsResumeOptionalParams,

@@ -27,7 +27,7 @@ export interface AccessKeyAuthTypeConnectionProperties extends ConnectionPropert
 }
 
 // @public
-export interface Account extends Resource {
+export interface Account extends ProxyResource {
     readonly etag?: string;
     identity?: Identity;
     kind?: string;
@@ -359,7 +359,7 @@ export interface CommitmentPeriod {
 }
 
 // @public
-export interface CommitmentPlan extends Resource {
+export interface CommitmentPlan extends ProxyResource {
     readonly etag?: string;
     kind?: string;
     location?: string;
@@ -573,11 +573,6 @@ export interface CustomKeys {
 export interface CustomKeysConnectionProperties extends ConnectionPropertiesV2 {
     authType: "CustomKeys";
     credentials?: CustomKeys;
-}
-
-// @public
-export interface CustomTopicConfig extends RaiTopicConfig {
-    source?: RaiPolicyContentSource;
 }
 
 // @public
@@ -1353,9 +1348,9 @@ export enum KnownRoutingMethods {
 
 // @public
 export enum KnownRoutingMode {
-    Accuracy = "accuracy",
     Balanced = "balanced",
-    Cost = "cost"
+    Cost = "cost",
+    Quality = "quality"
 }
 
 // @public
@@ -1804,7 +1799,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export interface Project extends Resource {
+export interface Project extends ProxyResource {
     readonly etag?: string;
     identity?: Identity;
     location?: string;
@@ -1951,28 +1946,6 @@ export interface RaiContentFilterProperties {
 }
 
 // @public
-export interface RaiExternalSafetyProvider extends ProxyResource {
-    readonly etag?: string;
-    properties?: RaiExternalSafetyProviderProperties;
-    readonly tags?: Record<string, string>;
-}
-
-// @public (undocumented)
-export type RaiExternalSafetyProviderCreateOrUpdateResponse = {
-    body: RaiExternalSafetyProviderSchema | RaiExternalSafetyProvider;
-};
-
-// @public
-export interface RaiExternalSafetyProviderProperties {
-    createdAt?: Date;
-    lastModifiedAt?: Date;
-    mode?: string;
-    providerId?: string;
-    providerName?: string;
-    url?: string;
-}
-
-// @public
 export interface RaiExternalSafetyProviderSchema extends ProxyResource {
     readonly etag?: string;
     properties?: RaiExternalSafetyProviderSchemaProperties;
@@ -2026,7 +1999,6 @@ export interface RaiPolicyProperties {
     basePolicyName?: string;
     contentFilters?: RaiPolicyContentFilter[];
     customBlocklists?: CustomBlocklistConfig[];
-    customTopics?: CustomTopicConfig[];
     mode?: RaiPolicyMode;
     safetyProviders?: SafetyProviderConfig[];
     readonly type?: RaiPolicyType;
@@ -2071,12 +2043,6 @@ export interface RaiTopic extends ProxyResource {
     readonly etag?: string;
     properties?: RaiTopicProperties;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface RaiTopicConfig {
-    blocking?: boolean;
-    topicName?: string;
 }
 
 // @public
@@ -2333,6 +2299,12 @@ export interface Usage {
     scopeType?: QuotaScopeType;
     status?: QuotaUsageStatus;
     unit?: UnitType;
+}
+
+// @public
+export interface UsageListResult {
+    nextLink?: string;
+    value?: Usage[];
 }
 
 // @public

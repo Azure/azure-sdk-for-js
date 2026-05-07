@@ -82,10 +82,10 @@ export function listModels(context: CognitiveServicesManagementContext, resource
 export function listSkus(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, options?: AccountsListSkusOptionalParams): Promise<AccountSkuListResult>;
 
 // @public
-export function listUsages(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, options?: AccountsListUsagesOptionalParams): Promise<_UsageListResult>;
+export function listUsages(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, options?: AccountsListUsagesOptionalParams): Promise<UsageListResult>;
 
 // @public
-export function regenerateKey(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, parameters: RegenerateKeyParameters, options?: AccountsRegenerateKeyOptionalParams): Promise<ApiKeys>;
+export function regenerateKey(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, keyName: KeyName, options?: AccountsRegenerateKeyOptionalParams): Promise<ApiKeys>;
 
 // @public
 export function update(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): PollerLike<OperationState<Account>, Account>;

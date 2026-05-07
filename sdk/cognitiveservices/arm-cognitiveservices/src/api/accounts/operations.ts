@@ -6,9 +6,9 @@ import type {
   Account,
   _AccountListResult,
   ApiKeys,
-  RegenerateKeyParameters,
+  KeyName,
   AccountSkuListResult,
-  _UsageListResult,
+  UsageListResult,
   _AccountModelListResult,
   AccountModel,
 } from "../../models/models.js";
@@ -18,9 +18,8 @@ import {
   accountDeserializer,
   _accountListResultDeserializer,
   apiKeysDeserializer,
-  regenerateKeyParametersSerializer,
   accountSkuListResultDeserializer,
-  _usageListResultDeserializer,
+  usageListResultDeserializer,
   _accountModelListResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -129,7 +128,7 @@ export function _listUsagesSend(
 
 export async function _listUsagesDeserialize(
   result: PathUncheckedResponse,
-): Promise<_UsageListResult> {
+): Promise<UsageListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -138,7 +137,7 @@ export async function _listUsagesDeserialize(
     throw error;
   }
 
-  return _usageListResultDeserializer(result.body);
+  return usageListResultDeserializer(result.body);
 }
 
 /** Get usages for the requested Cognitive Services account */
@@ -147,7 +146,7 @@ export async function listUsages(
   resourceGroupName: string,
   accountName: string,
   options: AccountsListUsagesOptionalParams = { requestOptions: {} },
-): Promise<_UsageListResult> {
+): Promise<UsageListResult> {
   const result = await _listUsagesSend(context, resourceGroupName, accountName, options);
   return _listUsagesDeserialize(result);
 }
@@ -205,7 +204,7 @@ export function _regenerateKeySend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  parameters: RegenerateKeyParameters,
+  keyName: KeyName,
   options: AccountsRegenerateKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -224,7 +223,7 @@ export function _regenerateKeySend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: regenerateKeyParametersSerializer(parameters),
+    body: { keyName: keyName },
   });
 }
 
@@ -245,14 +244,14 @@ export async function regenerateKey(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  parameters: RegenerateKeyParameters,
+  keyName: KeyName,
   options: AccountsRegenerateKeyOptionalParams = { requestOptions: {} },
 ): Promise<ApiKeys> {
   const result = await _regenerateKeySend(
     context,
     resourceGroupName,
     accountName,
-    parameters,
+    keyName,
     options,
   );
   return _regenerateKeyDeserialize(result);
@@ -444,11 +443,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a Cognitive Services account from the resource group. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,

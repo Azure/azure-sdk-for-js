@@ -31,9 +31,9 @@ import type {
 import type {
   Account,
   ApiKeys,
-  RegenerateKeyParameters,
+  KeyName,
   AccountSkuListResult,
-  _UsageListResult,
+  UsageListResult,
   AccountModel,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -54,7 +54,7 @@ export interface AccountsOperations {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsListUsagesOptionalParams,
-  ) => Promise<_UsageListResult>;
+  ) => Promise<UsageListResult>;
   /** List available SKUs for the requested Cognitive Services account */
   listSkus: (
     resourceGroupName: string,
@@ -65,7 +65,7 @@ export interface AccountsOperations {
   regenerateKey: (
     resourceGroupName: string,
     accountName: string,
-    parameters: RegenerateKeyParameters,
+    keyName: KeyName,
     options?: AccountsRegenerateKeyOptionalParams,
   ) => Promise<ApiKeys>;
   /** Lists the account keys for the specified Cognitive Services account. */
@@ -82,11 +82,6 @@ export interface AccountsOperations {
     options?: AccountsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Account>;
   /** Deletes a Cognitive Services account from the resource group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -174,9 +169,9 @@ function _getAccounts(context: CognitiveServicesManagementContext) {
     regenerateKey: (
       resourceGroupName: string,
       accountName: string,
-      parameters: RegenerateKeyParameters,
+      keyName: KeyName,
       options?: AccountsRegenerateKeyOptionalParams,
-    ) => regenerateKey(context, resourceGroupName, accountName, parameters, options),
+    ) => regenerateKey(context, resourceGroupName, accountName, keyName, options),
     listKeys: (
       resourceGroupName: string,
       accountName: string,

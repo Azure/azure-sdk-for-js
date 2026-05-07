@@ -6,8 +6,6 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export interface OutboundRulesPostOptionalParams extends OperationOptions {
@@ -15,7 +13,7 @@ export interface OutboundRulesPostOptionalParams extends OperationOptions {
 }
 
 // @public
-export function post(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams): PollerLike<OperationState<_OutboundRuleListResult>, _OutboundRuleListResult>;
+export function post(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, managedNetworkName: string, body: ManagedNetworkSettingsBasicResource, options?: OutboundRulesPostOptionalParams): PagedAsyncIterableIterator<OutboundRuleBasicResource>;
 
 // (No @packageDocumentation comment for this package)
 

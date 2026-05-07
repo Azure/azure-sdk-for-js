@@ -13,7 +13,7 @@ import type { PollerLike } from '@azure/core-lro';
 export function $delete(context: CognitiveServicesManagementContext, safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: CognitiveServicesManagementContext, safetyProviderName: string, safetyProvider: RaiExternalSafetyProviderSchema, options?: RaiExternalSafetyProviderCreateOrUpdateOptionalParams): Promise<RaiExternalSafetyProviderCreateOrUpdateResponse>;
+export function createOrUpdate(context: CognitiveServicesManagementContext, safetyProviderName: string, safetyProvider: RaiExternalSafetyProviderSchema, options?: RaiExternalSafetyProviderCreateOrUpdateOptionalParams): Promise<RaiExternalSafetyProviderSchema>;
 
 // @public
 export function get(context: CognitiveServicesManagementContext, safetyProviderName: string, options?: RaiExternalSafetyProviderGetOptionalParams): Promise<RaiExternalSafetyProviderSchema>;

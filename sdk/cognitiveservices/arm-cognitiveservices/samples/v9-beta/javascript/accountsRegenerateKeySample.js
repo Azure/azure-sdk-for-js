@@ -14,9 +14,7 @@ async function regenerateKeys() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
-  const result = await client.accounts.regenerateKey("myResourceGroup", "myAccount", {
-    keyName: "Key2",
-  });
+  const result = await client.accounts.regenerateKey("myResourceGroup", "myAccount", "Key2");
   console.log(result);
 }
 

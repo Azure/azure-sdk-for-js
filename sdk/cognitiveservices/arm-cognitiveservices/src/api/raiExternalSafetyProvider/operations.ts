@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import type { CognitiveServicesManagementContext as Client } from "../index.js";
-import type {
-  RaiExternalSafetyProviderSchema,
-  RaiExternalSafetyProviderCreateOrUpdateResponse,
-} from "../../models/models.js";
+import type { RaiExternalSafetyProviderSchema } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   raiExternalSafetyProviderSchemaSerializer,
@@ -54,11 +51,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified custom topic associated with the subscription. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   safetyProviderName: string,
@@ -100,7 +92,7 @@ export function _createOrUpdateSend(
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<RaiExternalSafetyProviderCreateOrUpdateResponse> {
+): Promise<RaiExternalSafetyProviderSchema> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -109,7 +101,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return raiExternalSafetyProviderSchemaDeserializer(result.body);
 }
 
 /** Create the rai safety provider associated with the subscription. */
@@ -118,7 +110,7 @@ export async function createOrUpdate(
   safetyProviderName: string,
   safetyProvider: RaiExternalSafetyProviderSchema,
   options: RaiExternalSafetyProviderCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<RaiExternalSafetyProviderCreateOrUpdateResponse> {
+): Promise<RaiExternalSafetyProviderSchema> {
   const result = await _createOrUpdateSend(context, safetyProviderName, safetyProvider, options);
   return _createOrUpdateDeserialize(result);
 }
