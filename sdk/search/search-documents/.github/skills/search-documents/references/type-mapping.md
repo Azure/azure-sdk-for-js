@@ -4,41 +4,41 @@
 
 ### Search Fields
 
-| User-Facing Property | Generated (Wire) Name | Location                                           |
-| -------------------- | --------------------- | -------------------------------------------------- |
-| `analyzerName`       | `analyzerName`        | `serviceUtils.ts: convertFieldsToGenerated/Public` |
-| `searchAnalyzerName` | `searchAnalyzerName`  | `serviceUtils.ts`                                  |
-| `indexAnalyzerName`  | `indexAnalyzerName`   | `serviceUtils.ts`                                  |
-| `normalizerName`     | `normalizerName`      | `serviceUtils.ts`                                  |
-| `synonymMapNames`    | `synonymMapNames`     | `serviceUtils.ts`                                  |
+| User-Facing Property | Generated (Wire) Name | Location |
+|---|---|---|
+| `analyzerName` | `analyzerName` | `serviceUtils.ts: convertFieldsToGenerated/Public` |
+| `searchAnalyzerName` | `searchAnalyzerName` | `serviceUtils.ts` |
+| `indexAnalyzerName` | `indexAnalyzerName` | `serviceUtils.ts` |
+| `normalizerName` | `normalizerName` | `serviceUtils.ts` |
+| `synonymMapNames` | `synonymMapNames` | `serviceUtils.ts` |
 
 ### Encryption Keys
 
-| User-Facing         | Generated (Wire) Name |
-| ------------------- | --------------------- |
-| `applicationId`     | `applicationId`       |
-| `applicationSecret` | `applicationSecret`   |
-| `vaultUrl`          | `vaultUri`            |
+| User-Facing | Generated (Wire) Name |
+|---|---|
+| `applicationId` | `applicationId` |
+| `applicationSecret` | `applicationSecret` |
+| `vaultUrl` | `vaultUri` |
 
 ### Vector Search
 
-| User-Facing                  | Generated (Wire) Name                 |
-| ---------------------------- | ------------------------------------- |
-| `parameters` (CustomWebApi)  | `webApiParameters`                    |
+| User-Facing | Generated (Wire) Name |
+|---|---|
+| `parameters` (CustomWebApi) | `webApiParameters` |
 | `aIServicesVisionParameters` | `aiServicesVisionParameters` (casing) |
 
 ### Custom Analyzers
 
-| User-Facing     | Generated (Wire) Name   |
-| --------------- | ----------------------- |
+| User-Facing | Generated (Wire) Name |
+|---|---|
 | `tokenizerName` | `tokenizer` (shortened) |
 
 ### Other
 
-| User-Facing | Generated (Wire) Name     | Context          |
-| ----------- | ------------------------- | ---------------- |
-| `hidden`    | `!retrievable` (inverted) | Field visibility |
-| `etag`      | `eTag`                    | SynonymMap       |
+| User-Facing | Generated (Wire) Name | Context |
+|---|---|---|
+| `hidden` | `!retrievable` (inverted) | Field visibility |
+| `etag` | `eTag` | SynonymMap |
 
 ## The additionalProperties Pattern
 
@@ -63,6 +63,40 @@ function generatedSearchResultToPublicSearchResult<TModel>(results) {
 
 Affects: `search()`, `suggest()`, `autocomplete()`, `getDocument()`, `indexDocuments()`
 
+## Wire Format Encodings
+
+### Array-to-String Joins (in searchClient.ts)
+
+| User Option | Wire Format | Notes |
+|---|---|---|
+| `searchFields: string[]` | comma-separated string | |
+| `select: string[]` | comma-separated string | Defaults to `"*"` if not provided |
+| `orderBy: string[]` | comma-separated string | |
+
+### Pipe-Delimited Semantic Encoding (in searchClient.ts)
+
+| User Option | Wire Format Example |
+|---|---|
+| `queryAnswers: { answerType, count, threshold, maxAnswerLength }` | `"extractive\|count-3,threshold-0.7,maxcharlength-200"` |
+| `queryCaptions: { captionType, highlight, maxCaptionLength }` | `"extractive\|highlight-true,maxcharlength-200"` |
+| `queryRewrites: { rewritesType, count }` | `"generative\|count-5"` |
+
+Note: `maxAnswerLength` maps to `maxcharlength` (not `maxanswerlength`). Config items are only appended if present.
+
+### Vector Query Dispatch
+
+`convertVectorQuery()` dispatches on `vectorQuery.kind`: `"text"`, `"vector"`, `"imageUrl"`, `"imageBinary"`. Only `"text"` has `queryRewrites` to convert. For all kinds, `fields` is joined into a comma-separated string. Unknown kinds get a logger warning and are passed through (forward-compat).
+
+### SynonymMap Wire Format
+
+- `format: "solr"` is always injected — the public type doesn't expose a format field.
+- Generated type: `synonyms` as string (newline-delimited). Public type: `synonyms` as `string[]`.
+- Generated type: `eTag`. Public type: `etag` (lowercase).
+
+### resetDocuments Body Restructuring
+
+`resetDocuments()` restructures flat options (`documentKeys`, `datasourceDocumentIds`) into a nested `keysOrIds` object expected by the wire format.
+
 ## Null Handling
 
 TypeSpec marks many optional properties as `T | null`. Mitigation:
@@ -77,6 +111,14 @@ User code uses `as const` (readonly). Cast when passing to generated code:
 ```typescript
 select: userSelect as string[] | undefined;
 ```
+
+## AML Vectorizer Auth Kind Inference
+
+`generatedAzureMachineLearningVectorizerParametersToPublic...` infers `authKind` via `switch(true)`: `resourceId` non-null → `"token"`, `authenticationKey` non-null → `"key"`, `scoringUri` non-null → `"none"`. Order of checks matters.
+
+## Known Skills Whitelist
+
+`convertSkillsToPublic()` filters through a hardcoded `knownSkills` record in `serviceUtils.ts`. Unknown skill types returned by the service are **silently dropped**. Adding support for new skill types requires updating this record.
 
 ## Backward Compat (`backcompatTypes.ts`)
 
@@ -96,13 +138,13 @@ Deprecated enums preserved: `KnownEntityCategory`, `KnownEntityRecognitionSkillL
 
 `generatedVectorSearchToPublicVectorSearch()`, `generatedVectorSearchVectorizerToPublicVectorizer()`, `generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration()`
 
-Note: There is no `publicVectorSearchToGeneratedVectorSearch()` — `publicIndexToGeneratedIndex()` passes `vectorSearch` through directly without a dedicated reverse conversion.
+Note: No `publicVectorSearchToGeneratedVectorSearch()` — `publicIndexToGeneratedIndex()` passes `vectorSearch` through directly.
 
 ### Skillsets/Indexers
 
 `convertSkillsToPublic()`, `convertCognitiveServicesAccountToPublic()`, `convertCognitiveServicesAccountToGenerated()`, `generatedSkillsetToPublicSkillset()`, `publicSkillsetToGeneratedSkillset()`, `publicSearchIndexerToGeneratedSearchIndexer()`, `generatedSearchIndexerToPublicSearchIndexer()`, `publicDataSourceToGeneratedDataSource()`, `generatedDataSourceToPublicDataSource()`
 
-Note: There is no `convertSkillsToGenerated()` — `publicSkillsetToGeneratedSkillset()` passes individual skills through directly via `SearchIndexerSkillUnion`.
+Note: No `convertSkillsToGenerated()` — skills are passed through as `SearchIndexerSkillUnion`.
 
 ### Synonym Maps
 

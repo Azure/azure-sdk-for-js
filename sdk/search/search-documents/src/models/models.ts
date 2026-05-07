@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchIndexResponse } from "./azure/search/documents/indexes/models.js";
-import { searchIndexResponseArrayDeserializer } from "./azure/search/documents/indexes/models.js";
+import {
+  searchIndexResponseArrayDeserializer,
+  SearchIndexResponse,
+} from "./azure/search/documents/indexes/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.

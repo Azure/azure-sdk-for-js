@@ -364,7 +364,7 @@
 # PRLabel: %Mgmt
 /sdk/apicenter/arm-apicenter/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

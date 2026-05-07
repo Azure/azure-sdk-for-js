@@ -5,11 +5,13 @@ import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import type { Stats } from "node:fs";
 import { userInfo } from "node:os";
 import path from "node:path";
-import { panic } from "./assert";
-import { findMatchingFiles } from "./findMatchingFiles";
-import { createPrinter, Printer } from "./printer";
-import { METADATA_KEY, ProjectInfo } from "./resolveProject";
-import { format } from "./prettier";
+import { panic } from "./assert.ts";
+import { findMatchingFiles } from "./findMatchingFiles.ts";
+import type { Printer } from "./printer.ts";
+import { createPrinter } from "./printer.ts";
+import type { ProjectInfo } from "./resolveProject.ts";
+import { METADATA_KEY } from "./resolveProject.ts";
+import { format } from "./prettier.ts";
 
 const { debug } = createPrinter("util/migrations");
 
@@ -237,7 +239,7 @@ export function loadMigrations() {
 
   return (_loadJob ??= (async function () {
     for await (const f of findMatchingFiles(
-      path.resolve(__dirname, "..", "migrations"),
+      path.resolve(import.meta.dirname, "..", "migrations"),
       (fn) => fn.endsWith(".ts") && !fn.endsWith(".d.ts"),
     )) {
       await import(f);

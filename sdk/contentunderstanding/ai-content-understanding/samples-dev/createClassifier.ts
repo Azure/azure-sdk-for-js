@@ -21,7 +21,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure/ai-content-understanding";
+import { ContentUnderstandingClient, toLlmInput } from "@azure/ai-content-understanding";
 import type {
   ContentAnalyzer,
   ContentAnalyzerConfig,
@@ -50,7 +50,12 @@ export async function main(): Promise<void> {
   const analyzerId = `my_classifier_${Math.floor(Date.now() / 1000)}`;
   console.log(`Creating classifier '${analyzerId}'...`);
 
-  // Define content categories for classification
+  // Define content categories for classification.
+  // Each category has a description that helps the AI model identify matching documents.
+  // Optionally, set analyzerId on a category to route matched segments to a prebuilt
+  // or custom analyzer for field extraction. For example, setting
+  // analyzerId: "prebuilt-invoice" on the Invoice category will automatically extract
+  // invoice fields (vendor, line items, totals, etc.) from segments classified as Invoice.
   const contentCategories = {
     Loan_Application: {
       description:
@@ -63,6 +68,7 @@ export async function main(): Promise<void> {
         "Billing documents issued by sellers or service providers to request " +
         "payment for goods or services, detailing items, prices, taxes, totals, " +
         "and payment terms.",
+      analyzerId: "prebuilt-invoice", // Route Invoice segments for field extraction
     },
     Bank_Statement: {
       description:
@@ -130,6 +136,17 @@ export async function main(): Promise<void> {
   } else {
     console.log("No content found in the analysis result.");
   }
+
+  // ======================================================================
+  // Convert classification results to LLM-friendly text.
+  // ======================================================================
+  // toLlmInput automatically detects classification results: it expands the parent
+  // into per-segment blocks, each with its category label in the YAML front matter.
+  // Segments are separated by a ***** divider.
+  console.log("\nLLM-ready output:");
+  console.log("=".repeat(50));
+  console.log(toLlmInput(analyzeResult));
+  console.log("=".repeat(50));
 
   // Clean up - delete the classifier
   console.log(`\nCleaning up: deleting classifier '${analyzerId}'...`);
