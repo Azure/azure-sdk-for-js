@@ -308,9 +308,36 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
       };
     }
 
-    // NOTE: Build-time validation for platform-specific imports was considered
-    // but disabled. The polyfill mechanism handles direct imports in platform
-    // files (e.g., -browser.mts). Use `warp trace` to debug platform issues.
+    // Step 1c: Validate platform-specific files use #platform imports
+    // Only run when polyfillSuffix is NOT active - polyfill handles direct imports
+    const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
+    if (!usesPolyfill) {
+      const { validatePlatformImports } = await import("./trace.ts");
+      const platformViolations = await validatePlatformImports(
+        [...allSourceFiles],
+        importsMap,
+        packageRoot,
+      );
+      if (platformViolations.length > 0) {
+        log.error(
+          `\n[warp] Found ${platformViolations.length} platform-specific file(s) bypassing #platform imports:`,
+        );
+        for (const v of platformViolations) {
+          log.error(
+            `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+          );
+        }
+        log.error(
+          `\n[warp] Platform entry files (e.g., *-browser.mts) must use #platform imports to ensure correct resolution.`,
+        );
+        log.flush();
+        return {
+          success: false,
+          config,
+          totalTimeMs: performance.now() - buildStart,
+        };
+      }
+    }
   }
 
   // Step 2: Compile
