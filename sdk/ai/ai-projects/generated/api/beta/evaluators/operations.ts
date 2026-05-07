@@ -263,7 +263,7 @@ export async function getGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -288,7 +288,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluatorGenerationJobSerializer(body),
+      body: evaluatorGenerationJobSerializer(job),
     });
 }
 
@@ -312,10 +312,10 @@ export async function _createGenerationJobDeserialize(
  */
 export async function createGenerationJob(
   context: Client,
-  body: EvaluatorGenerationJob,
+  job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorGenerationJob> {
-  const result = await _createGenerationJobSend(context, body, options);
+  const result = await _createGenerationJobSend(context, job, options);
   return _createGenerationJobDeserialize(result);
 }
 

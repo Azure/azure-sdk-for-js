@@ -12,7 +12,12 @@ import {
   deleteSession,
   getSession,
   createSession,
+  downloadAgentCode,
+  downloadAgentVersionCode,
+  createAgentVersionFromCode,
   patchAgentObject,
+  updateAgentFromCode,
+  createAgentFromCode,
 } from "../../../api/beta/agents/operations.js";
 import {
   BetaAgentsDeleteSessionFileOptionalParams,
@@ -24,16 +29,26 @@ import {
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsDownloadAgentVersionCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsUpdateAgentFromCodeOptionalParams,
+  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import {
   Agent,
+  AgentVersion,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
   SessionLogEvent,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsDownloadAgentCodeResponse,
+  BetaAgentsDownloadAgentVersionCodeResponse,
 } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
@@ -123,7 +138,6 @@ export interface BetaAgentsOperations {
   deleteSession: (
     agentName: string,
     sessionId: string,
-    isolationKey: string,
     options?: BetaAgentsDeleteSessionOptionalParams,
   ) => Promise<void>;
   /** Retrieves a session by ID. */
@@ -139,14 +153,63 @@ export interface BetaAgentsOperations {
    */
   createSession: (
     agentName: string,
-    isolationKey: string,
     versionIndicator: VersionIndicatorUnion,
     options?: BetaAgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
+  /**
+   * Download the code zip for the latest version of a code-based hosted agent.
+   * Returns the previously-uploaded zip (`application/zip`).
+   * The SHA-256 digest of the returned bytes matches the `content_hash` on the latest version's `code_configuration`.
+   */
+  downloadAgentCode: (
+    agentName: string,
+    options?: BetaAgentsDownloadAgentCodeOptionalParams,
+  ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
+  /**
+   * Download the code zip for a specific version of a code-based hosted agent.
+   * Returns the previously-uploaded zip (`application/zip`).
+   * The SHA-256 digest of the returned bytes matches the `content_hash` on the agent version's `code_configuration`.
+   */
+  downloadAgentVersionCode: (
+    agentName: string,
+    agentVersion: string,
+    options?: BetaAgentsDownloadAgentVersionCodeOptionalParams,
+  ) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>;
+  createAgentVersionFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentVersionFromCodeContent,
+    options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  ) => Promise<AgentVersion>;
   /** Updates an agent endpoint. */
   patchAgentObject: (
     agentName: string,
     options?: BetaAgentsPatchAgentObjectOptionalParams,
+  ) => Promise<Agent>;
+  /**
+   * Updates a code-based agent by uploading new code and creating a new version.
+   * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  updateAgentFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentVersionFromCodeContent,
+    options?: BetaAgentsUpdateAgentFromCodeOptionalParams,
+  ) => Promise<Agent>;
+  /**
+   * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
+   * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
+   * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  createAgentFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    body: CreateAgentFromCodeContent,
+    options?: BetaAgentsCreateAgentFromCodeOptionalParams,
   ) => Promise<Agent>;
 }
 
@@ -188,9 +251,8 @@ function _getBetaAgents(context: AIProjectContext) {
     deleteSession: (
       agentName: string,
       sessionId: string,
-      isolationKey: string,
       options?: BetaAgentsDeleteSessionOptionalParams,
-    ) => deleteSession(context, agentName, sessionId, isolationKey, options),
+    ) => deleteSession(context, agentName, sessionId, options),
     getSession: (
       agentName: string,
       sessionId: string,
@@ -198,12 +260,36 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => getSession(context, agentName, sessionId, options),
     createSession: (
       agentName: string,
-      isolationKey: string,
       versionIndicator: VersionIndicatorUnion,
       options?: BetaAgentsCreateSessionOptionalParams,
-    ) => createSession(context, agentName, isolationKey, versionIndicator, options),
+    ) => createSession(context, agentName, versionIndicator, options),
+    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
+      downloadAgentCode(context, agentName, options),
+    downloadAgentVersionCode: (
+      agentName: string,
+      agentVersion: string,
+      options?: BetaAgentsDownloadAgentVersionCodeOptionalParams,
+    ) => downloadAgentVersionCode(context, agentName, agentVersion, options),
+    createAgentVersionFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentVersionFromCodeContent,
+      options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, body, options),
     patchAgentObject: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
       patchAgentObject(context, agentName, options),
+    updateAgentFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentVersionFromCodeContent,
+      options?: BetaAgentsUpdateAgentFromCodeOptionalParams,
+    ) => updateAgentFromCode(context, agentName, codeZipSha256, body, options),
+    createAgentFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      body: CreateAgentFromCodeContent,
+      options?: BetaAgentsCreateAgentFromCodeOptionalParams,
+    ) => createAgentFromCode(context, agentName, codeZipSha256, body, options),
   };
 }
 

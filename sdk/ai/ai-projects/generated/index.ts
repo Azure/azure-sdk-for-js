@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { FileContents } from "./static-helpers/multipartHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -130,6 +131,7 @@ export type {
   AgentProtocol,
   ContainerConfiguration,
   CodeConfiguration,
+  CodeDependencyResolution,
   TelemetryConfig,
   TelemetryEndpoint,
   TelemetryEndpointUnion,
@@ -187,11 +189,6 @@ export type {
   AgentEndpointAuthorizationSchemeUnion,
   AgentEndpointAuthorizationSchemeType,
   EntraAuthorizationScheme,
-  IsolationKeySource,
-  IsolationKeySourceUnion,
-  IsolationKeySourceKind,
-  EntraIsolationKeySource,
-  HeaderIsolationKeySource,
   BotServiceAuthorizationScheme,
   BotServiceRbacAuthorizationScheme,
   AgentCard,
@@ -242,6 +239,9 @@ export type {
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeRequest,
+  CreateAgentVersionFromCodeContent,
   VersionIndicator,
   VersionIndicatorUnion,
   VersionIndicatorType,
@@ -395,7 +395,6 @@ export type {
   SimpleQnAFineTuningQuestionType,
   TracesDataGenerationJobOptions,
   ToolUseFineTuningDataGenerationJobOptions,
-  TaskDataGenerationJobOptions,
   DataGenerationJobScenario,
   DataGenerationJobResult,
   DataGenerationJobOutput,
@@ -413,6 +412,8 @@ export type {
   MemoryStoreObjectType,
   BetaSkillsDownloadResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsDownloadAgentCodeResponse,
+  BetaAgentsDownloadAgentVersionCodeResponse,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
@@ -471,7 +472,12 @@ export type {
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsDownloadAgentVersionCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsUpdateAgentFromCodeOptionalParams,
+  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "./api/beta/agents/index.js";
 export type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -568,3 +574,4 @@ export type {
   BetaToolboxesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { FileContents };
