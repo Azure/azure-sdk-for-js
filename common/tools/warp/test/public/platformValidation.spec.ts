@@ -224,4 +224,71 @@ export { a, b };`,
     expect(violations[0].targetPlatform).toBe("require");
     expect(violations[0].suggestedImport).toBe("#platform/helper");
   });
+
+  it("skips platform file validation when validatePlatformFiles is false", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"));
+
+    // Browser file with direct import that would fail with validatePlatformFiles=true
+    await fs.writeFile(
+      path.join(tmpDir, "src", "index-browser.mts"),
+      `export * from "./utils.js";`,
+    );
+    await fs.writeFile(path.join(tmpDir, "src", "utils.ts"), `export const foo = 1;`);
+    await fs.writeFile(path.join(tmpDir, "src", "utils-browser.mts"), `export const foo = 2;`);
+
+    const srcDir = path.join(tmpDir, "src");
+    const sourceFiles = await collectSourceFiles(srcDir);
+
+    // With validatePlatformFiles=false, no violations should be reported
+    const violations = validateNoDirectImports(sourceFiles, importsMap, tmpDir, false);
+    expect(violations).toEqual([]);
+
+    // Verify that with validatePlatformFiles=true, it would find a violation
+    const violationsWithValidation = validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
+    expect(violationsWithValidation).toHaveLength(1);
+  });
+
+  it("detects violations in both browser and react-native files", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"));
+
+    // Both platform files have violations
+    await fs.writeFile(
+      path.join(tmpDir, "src", "index-browser.mts"),
+      `export * from "./crypto.js";`,
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src", "index-react-native.mts"),
+      `export * from "./crypto.js";`,
+    );
+    await fs.writeFile(path.join(tmpDir, "src", "crypto.ts"), `export const c = 1;`);
+    await fs.writeFile(path.join(tmpDir, "src", "crypto-browser.mts"), `export const c = 2;`);
+    await fs.writeFile(path.join(tmpDir, "src", "crypto-react-native.mts"), `export const c = 3;`);
+
+    const srcDir = path.join(tmpDir, "src");
+    const sourceFiles = await collectSourceFiles(srcDir);
+    const violations = validateNoDirectImports(sourceFiles, importsMap, tmpDir, true);
+
+    expect(violations).toHaveLength(2);
+    const platforms = violations.map((v) => v.targetPlatform).sort();
+    expect(platforms).toEqual(["browser", "react-native"]);
+  });
+
+  it("default parameter for validatePlatformFiles is false", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"));
+
+    // Browser file with direct import
+    await fs.writeFile(
+      path.join(tmpDir, "src", "index-browser.mts"),
+      `export * from "./utils.js";`,
+    );
+    await fs.writeFile(path.join(tmpDir, "src", "utils.ts"), `export const foo = 1;`);
+    await fs.writeFile(path.join(tmpDir, "src", "utils-browser.mts"), `export const foo = 2;`);
+
+    const srcDir = path.join(tmpDir, "src");
+    const sourceFiles = await collectSourceFiles(srcDir);
+
+    // Call without explicit validatePlatformFiles parameter (should default to false)
+    const violations = validateNoDirectImports(sourceFiles, importsMap, tmpDir);
+    expect(violations).toEqual([]);
+  });
 });
