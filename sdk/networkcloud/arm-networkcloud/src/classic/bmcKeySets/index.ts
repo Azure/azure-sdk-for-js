@@ -18,6 +18,7 @@ import {
 } from "../../api/bmcKeySets/options.js";
 import { OperationStatusResult, BmcKeySet } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BmcKeySets operations. */
@@ -35,6 +36,20 @@ export interface BmcKeySetsOperations {
     bmcKeySetName: string,
     options?: BmcKeySetsDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    clusterName: string,
+    bmcKeySetName: string,
+    options?: BmcKeySetsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    bmcKeySetName: string,
+    options?: BmcKeySetsDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Patch properties of baseboard management controller key set for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently. */
   update: (
     resourceGroupName: string,
@@ -42,6 +57,20 @@ export interface BmcKeySetsOperations {
     bmcKeySetName: string,
     options?: BmcKeySetsUpdateOptionalParams,
   ) => PollerLike<OperationState<BmcKeySet>, BmcKeySet>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    bmcKeySetName: string,
+    options?: BmcKeySetsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<BmcKeySet>, BmcKeySet>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    bmcKeySetName: string,
+    options?: BmcKeySetsUpdateOptionalParams,
+  ) => Promise<BmcKeySet>;
   /** Create a new baseboard management controller key set or update the existing one for the provided cluster. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -50,6 +79,22 @@ export interface BmcKeySetsOperations {
     bmcKeySetParameters: BmcKeySet,
     options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<BmcKeySet>, BmcKeySet>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    bmcKeySetName: string,
+    bmcKeySetParameters: BmcKeySet,
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<BmcKeySet>, BmcKeySet>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    bmcKeySetName: string,
+    bmcKeySetParameters: BmcKeySet,
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
+  ) => Promise<BmcKeySet>;
   /** Get baseboard management controller key set of the provided cluster. */
   get: (
     resourceGroupName: string,
@@ -72,12 +117,48 @@ function _getBmcKeySets(context: NetworkCloudContext) {
       bmcKeySetName: string,
       options?: BmcKeySetsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, clusterName, bmcKeySetName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      clusterName: string,
+      bmcKeySetName: string,
+      options?: BmcKeySetsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, clusterName, bmcKeySetName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      bmcKeySetName: string,
+      options?: BmcKeySetsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, clusterName, bmcKeySetName, options);
+    },
     update: (
       resourceGroupName: string,
       clusterName: string,
       bmcKeySetName: string,
       options?: BmcKeySetsUpdateOptionalParams,
     ) => update(context, resourceGroupName, clusterName, bmcKeySetName, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      bmcKeySetName: string,
+      options?: BmcKeySetsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, clusterName, bmcKeySetName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      bmcKeySetName: string,
+      options?: BmcKeySetsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, clusterName, bmcKeySetName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
@@ -93,6 +174,40 @@ function _getBmcKeySets(context: NetworkCloudContext) {
         bmcKeySetParameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      bmcKeySetName: string,
+      bmcKeySetParameters: BmcKeySet,
+      options?: BmcKeySetsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        clusterName,
+        bmcKeySetName,
+        bmcKeySetParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      bmcKeySetName: string,
+      bmcKeySetParameters: BmcKeySet,
+      options?: BmcKeySetsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        clusterName,
+        bmcKeySetName,
+        bmcKeySetParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       clusterName: string,

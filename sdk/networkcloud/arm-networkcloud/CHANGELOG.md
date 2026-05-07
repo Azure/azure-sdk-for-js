@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.2 (2026-05-06)
+## 2.0.0-beta.2 (2026-05-07)
 Compared with version 1.3.0
 
 ### Features Added
@@ -32,9 +32,15 @@ Compared with version 1.3.0
   - Added operation CloudServicesNetworksOperations.createOrUpdate
   - Added operation CloudServicesNetworksOperations.delete
   - Added operation CloudServicesNetworksOperations.update
+  - Added operation ClusterManagersOperations.beginUpdateRelayPrivateEndpointConnection
+  - Added operation ClusterManagersOperations.beginUpdateRelayPrivateEndpointConnectionAndWait
   - Added operation ClusterManagersOperations.createOrUpdate
   - Added operation ClusterManagersOperations.delete
   - Added operation ClusterManagersOperations.updateRelayPrivateEndpointConnection
+  - Added operation ClustersOperations.beginInspect
+  - Added operation ClustersOperations.beginInspectAndWait
+  - Added operation ClustersOperations.beginRotateCredential
+  - Added operation ClustersOperations.beginRotateCredentialAndWait
   - Added operation ClustersOperations.continueUpdateVersion
   - Added operation ClustersOperations.createOrUpdate
   - Added operation ClustersOperations.delete
@@ -82,7 +88,6 @@ Compared with version 1.3.0
   - Added operation VirtualMachinesOperations.update
   - Added operation VolumesOperations.createOrUpdate
   - Added operation VolumesOperations.delete
-  - Added Class NetworkCloudClient
   - Added Interface AccessBridge
   - Added Interface AccessBridgeEndpoint
   - Added Interface AccessBridgePatchParameters
@@ -139,7 +144,6 @@ Compared with version 1.3.0
   - Added Interface L2NetworkProperties
   - Added Interface L3NetworkProperties
   - Added Interface MachineSkuProperties
-  - Added Interface NetworkCloudClientOptionalParams
   - Added Interface OperationStatusResultProperties
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
@@ -148,6 +152,7 @@ Compared with version 1.3.0
   - Added Interface RackSkuProperties
   - Added Interface RacksPatchProperties
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface StorageApplianceExpansionShelf
   - Added Interface StorageApplianceMonitoringConfigurationStatus
   - Added Interface StorageAppliancePatchProperties
@@ -224,157 +229,8 @@ Compared with version 1.3.0
   - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value None
   - Enum KnownCloudServicesNetworkStorageStatusStatus has a new value Repairing
   - Enum KnownCommandOutputType has a new value ClusterSupportAdministrativeActions
-  - Enum KnownHugepagesSize has a new value HugepagesSize1G
-  - Enum KnownHugepagesSize has a new value HugepagesSize2M
 
 ### Breaking Changes
-  - Removed operation AgentPools.beginCreateOrUpdate
-  - Removed operation AgentPools.beginCreateOrUpdateAndWait
-  - Removed operation AgentPools.beginDelete
-  - Removed operation AgentPools.beginDeleteAndWait
-  - Removed operation AgentPools.beginUpdate
-  - Removed operation AgentPools.beginUpdateAndWait
-  - Removed operation BareMetalMachineKeySets.beginCreateOrUpdate
-  - Removed operation BareMetalMachineKeySets.beginCreateOrUpdateAndWait
-  - Removed operation BareMetalMachineKeySets.beginDelete
-  - Removed operation BareMetalMachineKeySets.beginDeleteAndWait
-  - Removed operation BareMetalMachineKeySets.beginUpdate
-  - Removed operation BareMetalMachineKeySets.beginUpdateAndWait
-  - Removed operation BareMetalMachines.beginCordon
-  - Removed operation BareMetalMachines.beginCordonAndWait
-  - Removed operation BareMetalMachines.beginCreateOrUpdate
-  - Removed operation BareMetalMachines.beginCreateOrUpdateAndWait
-  - Removed operation BareMetalMachines.beginDelete
-  - Removed operation BareMetalMachines.beginDeleteAndWait
-  - Removed operation BareMetalMachines.beginPowerOff
-  - Removed operation BareMetalMachines.beginPowerOffAndWait
-  - Removed operation BareMetalMachines.beginReimage
-  - Removed operation BareMetalMachines.beginReimageAndWait
-  - Removed operation BareMetalMachines.beginReplace
-  - Removed operation BareMetalMachines.beginReplaceAndWait
-  - Removed operation BareMetalMachines.beginRestart
-  - Removed operation BareMetalMachines.beginRestartAndWait
-  - Removed operation BareMetalMachines.beginRunCommand
-  - Removed operation BareMetalMachines.beginRunCommandAndWait
-  - Removed operation BareMetalMachines.beginRunDataExtracts
-  - Removed operation BareMetalMachines.beginRunDataExtractsAndWait
-  - Removed operation BareMetalMachines.beginRunDataExtractsRestricted
-  - Removed operation BareMetalMachines.beginRunDataExtractsRestrictedAndWait
-  - Removed operation BareMetalMachines.beginRunReadCommands
-  - Removed operation BareMetalMachines.beginRunReadCommandsAndWait
-  - Removed operation BareMetalMachines.beginStart
-  - Removed operation BareMetalMachines.beginStartAndWait
-  - Removed operation BareMetalMachines.beginUncordon
-  - Removed operation BareMetalMachines.beginUncordonAndWait
-  - Removed operation BareMetalMachines.beginUpdate
-  - Removed operation BareMetalMachines.beginUpdateAndWait
-  - Removed operation BmcKeySets.beginCreateOrUpdate
-  - Removed operation BmcKeySets.beginCreateOrUpdateAndWait
-  - Removed operation BmcKeySets.beginDelete
-  - Removed operation BmcKeySets.beginDeleteAndWait
-  - Removed operation BmcKeySets.beginUpdate
-  - Removed operation BmcKeySets.beginUpdateAndWait
-  - Removed operation CloudServicesNetworks.beginCreateOrUpdate
-  - Removed operation CloudServicesNetworks.beginCreateOrUpdateAndWait
-  - Removed operation CloudServicesNetworks.beginDelete
-  - Removed operation CloudServicesNetworks.beginDeleteAndWait
-  - Removed operation CloudServicesNetworks.beginUpdate
-  - Removed operation CloudServicesNetworks.beginUpdateAndWait
-  - Removed operation ClusterManagers.beginCreateOrUpdate
-  - Removed operation ClusterManagers.beginCreateOrUpdateAndWait
-  - Removed operation ClusterManagers.beginDelete
-  - Removed operation ClusterManagers.beginDeleteAndWait
-  - Removed operation Clusters.beginContinueUpdateVersion
-  - Removed operation Clusters.beginContinueUpdateVersionAndWait
-  - Removed operation Clusters.beginCreateOrUpdate
-  - Removed operation Clusters.beginCreateOrUpdateAndWait
-  - Removed operation Clusters.beginDelete
-  - Removed operation Clusters.beginDeleteAndWait
-  - Removed operation Clusters.beginDeploy
-  - Removed operation Clusters.beginDeployAndWait
-  - Removed operation Clusters.beginScanRuntime
-  - Removed operation Clusters.beginScanRuntimeAndWait
-  - Removed operation Clusters.beginUpdate
-  - Removed operation Clusters.beginUpdateAndWait
-  - Removed operation Clusters.beginUpdateVersion
-  - Removed operation Clusters.beginUpdateVersionAndWait
-  - Removed operation Consoles.beginCreateOrUpdate
-  - Removed operation Consoles.beginCreateOrUpdateAndWait
-  - Removed operation Consoles.beginDelete
-  - Removed operation Consoles.beginDeleteAndWait
-  - Removed operation Consoles.beginUpdate
-  - Removed operation Consoles.beginUpdateAndWait
-  - Removed operation KubernetesClusterFeatures.beginCreateOrUpdate
-  - Removed operation KubernetesClusterFeatures.beginCreateOrUpdateAndWait
-  - Removed operation KubernetesClusterFeatures.beginDelete
-  - Removed operation KubernetesClusterFeatures.beginDeleteAndWait
-  - Removed operation KubernetesClusterFeatures.beginUpdate
-  - Removed operation KubernetesClusterFeatures.beginUpdateAndWait
-  - Removed operation KubernetesClusters.beginCreateOrUpdate
-  - Removed operation KubernetesClusters.beginCreateOrUpdateAndWait
-  - Removed operation KubernetesClusters.beginDelete
-  - Removed operation KubernetesClusters.beginDeleteAndWait
-  - Removed operation KubernetesClusters.beginRestartNode
-  - Removed operation KubernetesClusters.beginRestartNodeAndWait
-  - Removed operation KubernetesClusters.beginUpdate
-  - Removed operation KubernetesClusters.beginUpdateAndWait
-  - Removed operation L2Networks.beginCreateOrUpdate
-  - Removed operation L2Networks.beginCreateOrUpdateAndWait
-  - Removed operation L2Networks.beginDelete
-  - Removed operation L2Networks.beginDeleteAndWait
-  - Removed operation L3Networks.beginCreateOrUpdate
-  - Removed operation L3Networks.beginCreateOrUpdateAndWait
-  - Removed operation L3Networks.beginDelete
-  - Removed operation L3Networks.beginDeleteAndWait
-  - Removed operation MetricsConfigurations.beginCreateOrUpdate
-  - Removed operation MetricsConfigurations.beginCreateOrUpdateAndWait
-  - Removed operation MetricsConfigurations.beginDelete
-  - Removed operation MetricsConfigurations.beginDeleteAndWait
-  - Removed operation MetricsConfigurations.beginUpdate
-  - Removed operation MetricsConfigurations.beginUpdateAndWait
-  - Removed operation Racks.beginCreateOrUpdate
-  - Removed operation Racks.beginCreateOrUpdateAndWait
-  - Removed operation Racks.beginDelete
-  - Removed operation Racks.beginDeleteAndWait
-  - Removed operation Racks.beginUpdate
-  - Removed operation Racks.beginUpdateAndWait
-  - Removed operation StorageAppliances.beginCreateOrUpdate
-  - Removed operation StorageAppliances.beginCreateOrUpdateAndWait
-  - Removed operation StorageAppliances.beginDelete
-  - Removed operation StorageAppliances.beginDeleteAndWait
-  - Removed operation StorageAppliances.beginDisableRemoteVendorManagement
-  - Removed operation StorageAppliances.beginDisableRemoteVendorManagementAndWait
-  - Removed operation StorageAppliances.beginEnableRemoteVendorManagement
-  - Removed operation StorageAppliances.beginEnableRemoteVendorManagementAndWait
-  - Removed operation StorageAppliances.beginRunReadCommands
-  - Removed operation StorageAppliances.beginRunReadCommandsAndWait
-  - Removed operation StorageAppliances.beginUpdate
-  - Removed operation StorageAppliances.beginUpdateAndWait
-  - Removed operation TrunkedNetworks.beginCreateOrUpdate
-  - Removed operation TrunkedNetworks.beginCreateOrUpdateAndWait
-  - Removed operation TrunkedNetworks.beginDelete
-  - Removed operation TrunkedNetworks.beginDeleteAndWait
-  - Removed operation VirtualMachines.beginAssignRelay
-  - Removed operation VirtualMachines.beginAssignRelayAndWait
-  - Removed operation VirtualMachines.beginCreateOrUpdate
-  - Removed operation VirtualMachines.beginCreateOrUpdateAndWait
-  - Removed operation VirtualMachines.beginDelete
-  - Removed operation VirtualMachines.beginDeleteAndWait
-  - Removed operation VirtualMachines.beginPowerOff
-  - Removed operation VirtualMachines.beginPowerOffAndWait
-  - Removed operation VirtualMachines.beginReimage
-  - Removed operation VirtualMachines.beginReimageAndWait
-  - Removed operation VirtualMachines.beginRestart
-  - Removed operation VirtualMachines.beginRestartAndWait
-  - Removed operation VirtualMachines.beginStart
-  - Removed operation VirtualMachines.beginStartAndWait
-  - Removed operation VirtualMachines.beginUpdate
-  - Removed operation VirtualMachines.beginUpdateAndWait
-  - Removed operation Volumes.beginCreateOrUpdate
-  - Removed operation Volumes.beginCreateOrUpdateAndWait
-  - Removed operation Volumes.beginDelete
-  - Removed operation Volumes.beginDeleteAndWait
-  - Deleted Class NetworkCloud
   - Removed Interface AgentPoolConfiguration
   - Removed Interface AgentPoolList
   - Removed Interface BareMetalMachineKeySetList
@@ -389,7 +245,6 @@ Compared with version 1.3.0
   - Removed Interface KubernetesClusterList
   - Removed Interface L2NetworkList
   - Removed Interface L3NetworkList
-  - Removed Interface NetworkCloudOptionalParams
   - Removed Interface RackList
   - Removed Interface RackSkuList
   - Removed Interface StorageApplianceList
@@ -397,8 +252,6 @@ Compared with version 1.3.0
   - Removed Interface TrunkedNetworkList
   - Removed Interface VirtualMachineList
   - Removed Interface VolumeList
-  - Enum KnownHugepagesSize no longer has value OneG
-  - Enum KnownHugepagesSize no longer has value TwoM
 
 ## 1.3.0 (2025-12-16)
 

@@ -17,7 +17,7 @@ export interface NetworkCloudContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface NetworkCloudClientOptionalParams extends ClientOptions {
+export interface NetworkCloudOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,7 +29,7 @@ export interface NetworkCloudClientOptionalParams extends ClientOptions {
 export function createNetworkCloud(
   credential: TokenCredential,
   subscriptionId: string,
-  options: NetworkCloudClientOptionalParams = {},
+  options: NetworkCloudOptionalParams = {},
 ): NetworkCloudContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";

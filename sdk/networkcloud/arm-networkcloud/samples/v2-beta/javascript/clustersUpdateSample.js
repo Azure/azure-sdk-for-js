@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { NetworkCloudClient } = require("@azure/arm-networkcloud");
+const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function patchClusterAggregatorOrSingleRackDefinition() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       aggregatorOrSingleRackDefinition: {
@@ -68,7 +68,7 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
 async function patchClusterAnalyticsOutput() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       identity: {
@@ -104,7 +104,7 @@ async function patchClusterAnalyticsOutput() {
 async function patchClusterCommandOutput() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       identity: {
@@ -150,7 +150,7 @@ async function patchClusterCommandOutput() {
 async function patchClusterLocation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       clusterLocation: "Foo Street, 3rd Floor, row 9",
@@ -169,7 +169,7 @@ async function patchClusterLocation() {
 async function patchRuntimeProtectionConfiguration() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       runtimeProtectionConfiguration: {
@@ -191,7 +191,7 @@ async function patchRuntimeProtectionConfiguration() {
 async function patchSecretArchive() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       secretArchiveSettings: {
@@ -217,7 +217,7 @@ async function patchSecretArchive() {
 async function patchUpdateStrategy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       updateStrategy: {
@@ -242,7 +242,7 @@ async function patchUpdateStrategy() {
 async function patchVulnerabilityScanning() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       vulnerabilityScanningSettings: { containerScan: "Enabled" },

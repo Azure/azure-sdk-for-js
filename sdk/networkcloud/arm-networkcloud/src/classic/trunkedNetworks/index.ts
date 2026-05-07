@@ -20,6 +20,7 @@ import {
 } from "../../api/trunkedNetworks/options.js";
 import { OperationStatusResult, TrunkedNetwork } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TrunkedNetworks operations. */
@@ -39,6 +40,18 @@ export interface TrunkedNetworksOperations {
     trunkedNetworkName: string,
     options?: TrunkedNetworksDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    trunkedNetworkName: string,
+    options?: TrunkedNetworksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    trunkedNetworkName: string,
+    options?: TrunkedNetworksDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Update tags associated with the provided trunked network. */
   update: (
     resourceGroupName: string,
@@ -52,6 +65,20 @@ export interface TrunkedNetworksOperations {
     trunkedNetworkParameters: TrunkedNetwork,
     options?: TrunkedNetworksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<TrunkedNetwork>, TrunkedNetwork>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    trunkedNetworkName: string,
+    trunkedNetworkParameters: TrunkedNetwork,
+    options?: TrunkedNetworksCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<TrunkedNetwork>, TrunkedNetwork>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    trunkedNetworkName: string,
+    trunkedNetworkParameters: TrunkedNetwork,
+    options?: TrunkedNetworksCreateOrUpdateOptionalParams,
+  ) => Promise<TrunkedNetwork>;
   /** Get properties of the provided trunked network. */
   get: (
     resourceGroupName: string,
@@ -73,6 +100,22 @@ function _getTrunkedNetworks(context: NetworkCloudContext) {
       trunkedNetworkName: string,
       options?: TrunkedNetworksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, trunkedNetworkName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      trunkedNetworkName: string,
+      options?: TrunkedNetworksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, trunkedNetworkName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      trunkedNetworkName: string,
+      options?: TrunkedNetworksDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, trunkedNetworkName, options);
+    },
     update: (
       resourceGroupName: string,
       trunkedNetworkName: string,
@@ -91,6 +134,36 @@ function _getTrunkedNetworks(context: NetworkCloudContext) {
         trunkedNetworkParameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      trunkedNetworkName: string,
+      trunkedNetworkParameters: TrunkedNetwork,
+      options?: TrunkedNetworksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        trunkedNetworkName,
+        trunkedNetworkParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      trunkedNetworkName: string,
+      trunkedNetworkParameters: TrunkedNetwork,
+      options?: TrunkedNetworksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        trunkedNetworkName,
+        trunkedNetworkParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       trunkedNetworkName: string,

@@ -9,18 +9,18 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createNetworkCloud(credential: TokenCredential, subscriptionId: string, options?: NetworkCloudClientOptionalParams): NetworkCloudContext;
-
-// @public
-export interface NetworkCloudClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
+export function createNetworkCloud(credential: TokenCredential, subscriptionId: string, options?: NetworkCloudOptionalParams): NetworkCloudContext;
 
 // @public
 export interface NetworkCloudContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
+}
+
+// @public
+export interface NetworkCloudOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // (No @packageDocumentation comment for this package)

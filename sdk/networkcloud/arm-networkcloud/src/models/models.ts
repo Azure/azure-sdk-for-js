@@ -4833,9 +4833,9 @@ export function agentOptionsDeserializer(item: any): AgentOptions {
 /** The size of the hugepages to allocate. */
 export enum KnownHugepagesSize {
   /** 2M hugepages */
-  HugepagesSize2M = "2M",
+  TwoM = "2M",
   /** 1G hugepages */
-  HugepagesSize1G = "1G",
+  OneG = "1G",
 }
 
 /**

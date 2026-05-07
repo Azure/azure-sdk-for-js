@@ -20,6 +20,7 @@ import {
 } from "../../api/l2Networks/options.js";
 import { OperationStatusResult, L2Network } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a L2Networks operations. */
@@ -39,6 +40,18 @@ export interface L2NetworksOperations {
     l2NetworkName: string,
     options?: L2NetworksDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    l2NetworkName: string,
+    options?: L2NetworksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    l2NetworkName: string,
+    options?: L2NetworksDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Update tags associated with the provided layer 2 (L2) network. */
   update: (
     resourceGroupName: string,
@@ -52,6 +65,20 @@ export interface L2NetworksOperations {
     l2NetworkParameters: L2Network,
     options?: L2NetworksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<L2Network>, L2Network>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    l2NetworkName: string,
+    l2NetworkParameters: L2Network,
+    options?: L2NetworksCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<L2Network>, L2Network>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    l2NetworkName: string,
+    l2NetworkParameters: L2Network,
+    options?: L2NetworksCreateOrUpdateOptionalParams,
+  ) => Promise<L2Network>;
   /** Get properties of the provided layer 2 (L2) network. */
   get: (
     resourceGroupName: string,
@@ -73,6 +100,22 @@ function _getL2Networks(context: NetworkCloudContext) {
       l2NetworkName: string,
       options?: L2NetworksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, l2NetworkName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      l2NetworkName: string,
+      options?: L2NetworksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, l2NetworkName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      l2NetworkName: string,
+      options?: L2NetworksDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, l2NetworkName, options);
+    },
     update: (
       resourceGroupName: string,
       l2NetworkName: string,
@@ -84,6 +127,36 @@ function _getL2Networks(context: NetworkCloudContext) {
       l2NetworkParameters: L2Network,
       options?: L2NetworksCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, l2NetworkName, l2NetworkParameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      l2NetworkName: string,
+      l2NetworkParameters: L2Network,
+      options?: L2NetworksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        l2NetworkName,
+        l2NetworkParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      l2NetworkName: string,
+      l2NetworkParameters: L2Network,
+      options?: L2NetworksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        l2NetworkName,
+        l2NetworkParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       l2NetworkName: string,

@@ -20,6 +20,7 @@ import {
 } from "../../api/cloudServicesNetworks/options.js";
 import { OperationStatusResult, CloudServicesNetwork } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudServicesNetworks operations. */
@@ -39,12 +40,36 @@ export interface CloudServicesNetworksOperations {
     cloudServicesNetworkName: string,
     options?: CloudServicesNetworksDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    cloudServicesNetworkName: string,
+    options?: CloudServicesNetworksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    cloudServicesNetworkName: string,
+    options?: CloudServicesNetworksDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently. */
   update: (
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     options?: CloudServicesNetworksUpdateOptionalParams,
   ) => PollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    cloudServicesNetworkName: string,
+    options?: CloudServicesNetworksUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    cloudServicesNetworkName: string,
+    options?: CloudServicesNetworksUpdateOptionalParams,
+  ) => Promise<CloudServicesNetwork>;
   /** Create a new cloud services network or update the properties of the existing cloud services network. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -52,6 +77,20 @@ export interface CloudServicesNetworksOperations {
     cloudServicesNetworkParameters: CloudServicesNetwork,
     options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    cloudServicesNetworkName: string,
+    cloudServicesNetworkParameters: CloudServicesNetwork,
+    options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    cloudServicesNetworkName: string,
+    cloudServicesNetworkParameters: CloudServicesNetwork,
+    options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
+  ) => Promise<CloudServicesNetwork>;
   /** Get properties of the provided cloud services network. */
   get: (
     resourceGroupName: string,
@@ -73,11 +112,43 @@ function _getCloudServicesNetworks(context: NetworkCloudContext) {
       cloudServicesNetworkName: string,
       options?: CloudServicesNetworksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, cloudServicesNetworkName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      cloudServicesNetworkName: string,
+      options?: CloudServicesNetworksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, cloudServicesNetworkName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      cloudServicesNetworkName: string,
+      options?: CloudServicesNetworksDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, cloudServicesNetworkName, options);
+    },
     update: (
       resourceGroupName: string,
       cloudServicesNetworkName: string,
       options?: CloudServicesNetworksUpdateOptionalParams,
     ) => update(context, resourceGroupName, cloudServicesNetworkName, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      cloudServicesNetworkName: string,
+      options?: CloudServicesNetworksUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, cloudServicesNetworkName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      cloudServicesNetworkName: string,
+      options?: CloudServicesNetworksUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, cloudServicesNetworkName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       cloudServicesNetworkName: string,
@@ -91,6 +162,36 @@ function _getCloudServicesNetworks(context: NetworkCloudContext) {
         cloudServicesNetworkParameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      cloudServicesNetworkName: string,
+      cloudServicesNetworkParameters: CloudServicesNetwork,
+      options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        cloudServicesNetworkName,
+        cloudServicesNetworkParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      cloudServicesNetworkName: string,
+      cloudServicesNetworkParameters: CloudServicesNetwork,
+      options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        cloudServicesNetworkName,
+        cloudServicesNetworkParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       cloudServicesNetworkName: string,

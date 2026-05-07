@@ -20,6 +20,7 @@ import {
 } from "../../api/volumes/options.js";
 import { OperationStatusResult, Volume } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
@@ -39,6 +40,18 @@ export interface VolumesOperations {
     volumeName: string,
     options?: VolumesDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    volumeName: string,
+    options?: VolumesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    volumeName: string,
+    options?: VolumesDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Update tags associated with the provided volume. */
   update: (
     resourceGroupName: string,
@@ -52,6 +65,20 @@ export interface VolumesOperations {
     volumeParameters: Volume,
     options?: VolumesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Volume>, Volume>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    volumeName: string,
+    volumeParameters: Volume,
+    options?: VolumesCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Volume>, Volume>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    volumeName: string,
+    volumeParameters: Volume,
+    options?: VolumesCreateOrUpdateOptionalParams,
+  ) => Promise<Volume>;
   /** Get properties of the provided volume. */
   get: (
     resourceGroupName: string,
@@ -73,6 +100,22 @@ function _getVolumes(context: NetworkCloudContext) {
       volumeName: string,
       options?: VolumesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, volumeName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      volumeName: string,
+      options?: VolumesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, volumeName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      volumeName: string,
+      options?: VolumesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, volumeName, options);
+    },
     update: (
       resourceGroupName: string,
       volumeName: string,
@@ -84,6 +127,36 @@ function _getVolumes(context: NetworkCloudContext) {
       volumeParameters: Volume,
       options?: VolumesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, volumeName, volumeParameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      volumeName: string,
+      volumeParameters: Volume,
+      options?: VolumesCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        volumeName,
+        volumeParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      volumeName: string,
+      volumeParameters: Volume,
+      options?: VolumesCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        volumeName,
+        volumeParameters,
+        options,
+      );
+    },
     get: (resourceGroupName: string, volumeName: string, options?: VolumesGetOptionalParams) =>
       get(context, resourceGroupName, volumeName, options),
   };

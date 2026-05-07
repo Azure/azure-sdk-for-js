@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { NetworkCloudClient } = require("@azure/arm-networkcloud");
+const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function createOrUpdateBareMetalMachineKeySetOfCluster() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachineKeySets.createOrUpdate(
     "resourceGroupName",
     "clusterName",

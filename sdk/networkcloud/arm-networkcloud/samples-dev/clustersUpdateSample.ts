@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudClient } from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       aggregatorOrSingleRackDefinition: {
@@ -68,7 +68,7 @@ async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
 async function patchClusterAnalyticsOutput(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       identity: {
@@ -104,7 +104,7 @@ async function patchClusterAnalyticsOutput(): Promise<void> {
 async function patchClusterCommandOutput(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       identity: {
@@ -150,7 +150,7 @@ async function patchClusterCommandOutput(): Promise<void> {
 async function patchClusterLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       clusterLocation: "Foo Street, 3rd Floor, row 9",
@@ -169,7 +169,7 @@ async function patchClusterLocation(): Promise<void> {
 async function patchRuntimeProtectionConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       runtimeProtectionConfiguration: {
@@ -191,7 +191,7 @@ async function patchRuntimeProtectionConfiguration(): Promise<void> {
 async function patchSecretArchive(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       secretArchiveSettings: {
@@ -217,7 +217,7 @@ async function patchSecretArchive(): Promise<void> {
 async function patchUpdateStrategy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       updateStrategy: {
@@ -242,7 +242,7 @@ async function patchUpdateStrategy(): Promise<void> {
 async function patchVulnerabilityScanning(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "123e4567-e89b-12d3-a456-426655440000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.update("resourceGroupName", "clusterName", {
     clusterUpdateParameters: {
       vulnerabilityScanningSettings: { containerScan: "Enabled" },

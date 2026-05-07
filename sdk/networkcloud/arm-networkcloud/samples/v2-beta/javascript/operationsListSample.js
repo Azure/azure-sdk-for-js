@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { NetworkCloudClient } = require("@azure/arm-networkcloud");
+const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function listResourceProviderOperations() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new NetworkCloudClient(credential, subscriptionId);
+  const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);

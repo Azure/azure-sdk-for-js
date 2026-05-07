@@ -8,7 +8,8 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { NetworkCloudClient } from "./networkCloudClient.js";
+export { NetworkCloud } from "./networkCloud.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -473,7 +474,7 @@ export {
   KnownClusterMetricsConfigurationProvisioningState,
   KnownVersions,
 } from "./models/index.js";
-export type { NetworkCloudClientOptionalParams } from "./api/index.js";
+export type { NetworkCloudOptionalParams } from "./api/index.js";
 export type {
   AccessBridgesListBySubscriptionOptionalParams,
   AccessBridgesListByResourceGroupOptionalParams,

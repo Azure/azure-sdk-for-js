@@ -20,6 +20,7 @@ import {
 } from "../../api/l3Networks/options.js";
 import { OperationStatusResult, L3Network } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a L3Networks operations. */
@@ -39,6 +40,18 @@ export interface L3NetworksOperations {
     l3NetworkName: string,
     options?: L3NetworksDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    l3NetworkName: string,
+    options?: L3NetworksDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    l3NetworkName: string,
+    options?: L3NetworksDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Update tags associated with the provided layer 3 (L3) network. */
   update: (
     resourceGroupName: string,
@@ -52,6 +65,20 @@ export interface L3NetworksOperations {
     l3NetworkParameters: L3Network,
     options?: L3NetworksCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<L3Network>, L3Network>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    l3NetworkName: string,
+    l3NetworkParameters: L3Network,
+    options?: L3NetworksCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<L3Network>, L3Network>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    l3NetworkName: string,
+    l3NetworkParameters: L3Network,
+    options?: L3NetworksCreateOrUpdateOptionalParams,
+  ) => Promise<L3Network>;
   /** Get properties of the provided layer 3 (L3) network. */
   get: (
     resourceGroupName: string,
@@ -73,6 +100,22 @@ function _getL3Networks(context: NetworkCloudContext) {
       l3NetworkName: string,
       options?: L3NetworksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, l3NetworkName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      l3NetworkName: string,
+      options?: L3NetworksDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, l3NetworkName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      l3NetworkName: string,
+      options?: L3NetworksDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, l3NetworkName, options);
+    },
     update: (
       resourceGroupName: string,
       l3NetworkName: string,
@@ -84,6 +127,36 @@ function _getL3Networks(context: NetworkCloudContext) {
       l3NetworkParameters: L3Network,
       options?: L3NetworksCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, l3NetworkName, l3NetworkParameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      l3NetworkName: string,
+      l3NetworkParameters: L3Network,
+      options?: L3NetworksCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        l3NetworkName,
+        l3NetworkParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      l3NetworkName: string,
+      l3NetworkParameters: L3Network,
+      options?: L3NetworksCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        l3NetworkName,
+        l3NetworkParameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       l3NetworkName: string,

@@ -1683,8 +1683,8 @@ export enum KnownFeatureDetailedStatus {
 
 // @public
 export enum KnownHugepagesSize {
-    HugepagesSize1G = "1G",
-    HugepagesSize2M = "2M"
+    OneG = "1G",
+    TwoM = "2M"
 }
 
 // @public

@@ -32,7 +32,7 @@ Install the Azure NetworkCloud client library for JavaScript with `npm`:
 npm install @azure/arm-networkcloud
 ```
 
-### Create and authenticate a `NetworkCloudClient`
+### Create and authenticate a `NetworkCloud`
 
 To create a client object to access the Azure NetworkCloud API, you will need the `endpoint` of your Azure NetworkCloud resource and a `credential`. The Azure NetworkCloud client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure NetworkCloud resource in the [Azure Portal][azure_portal].
@@ -52,25 +52,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { NetworkCloudClient } from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new NetworkCloudClient(new DefaultAzureCredential(), subscriptionId);
+const client = new NetworkCloud(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { NetworkCloudClient } from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new NetworkCloudClient(credential, subscriptionId);
+const client = new NetworkCloud(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### NetworkCloudClient
+### NetworkCloud
 
-`NetworkCloudClient` is the primary interface for developers using the Azure NetworkCloud client library. Explore the methods on this client object to understand the different features of the Azure NetworkCloud service that you can access.
+`NetworkCloud` is the primary interface for developers using the Azure NetworkCloud client library. Explore the methods on this client object to understand the different features of the Azure NetworkCloud service that you can access.
 
 ## Troubleshooting
 

@@ -3,7 +3,7 @@
 
 import {
   NetworkCloudContext,
-  NetworkCloudClientOptionalParams,
+  NetworkCloudOptionalParams,
   createNetworkCloud,
 } from "./api/index.js";
 import {
@@ -67,9 +67,9 @@ import { VolumesOperations, _getVolumesOperations } from "./classic/volumes/inde
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { NetworkCloudClientOptionalParams } from "./api/networkCloudContext.js";
+export type { NetworkCloudOptionalParams } from "./api/networkCloudContext.js";
 
-export class NetworkCloudClient {
+export class NetworkCloud {
   private _client: NetworkCloudContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
@@ -78,7 +78,7 @@ export class NetworkCloudClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: NetworkCloudClientOptionalParams = {},
+    options: NetworkCloudOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions

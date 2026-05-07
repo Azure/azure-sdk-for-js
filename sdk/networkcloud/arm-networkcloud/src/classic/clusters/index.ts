@@ -38,6 +38,7 @@ import {
   ClusterUpdateVersionParameters,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Clusters operations. */
@@ -49,12 +50,38 @@ export interface ClustersOperations {
     clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
     options?: ClustersUpdateVersionOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use updateVersion instead */
+  beginUpdateVersion: (
+    resourceGroupName: string,
+    clusterName: string,
+    clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
+    options?: ClustersUpdateVersionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use updateVersion instead */
+  beginUpdateVersionAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
+    options?: ClustersUpdateVersionOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration. */
   scanRuntime: (
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersScanRuntimeOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use scanRuntime instead */
+  beginScanRuntime: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use scanRuntime instead */
+  beginScanRuntimeAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Rotate the specified cluster credential. */
   rotateCredential: (
     resourceGroupName: string,
@@ -62,18 +89,56 @@ export interface ClustersOperations {
     body: ClusterRotateCredentialParameters,
     options?: ClustersRotateCredentialOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use rotateCredential instead */
+  beginRotateCredential: (
+    resourceGroupName: string,
+    clusterName: string,
+    body: ClusterRotateCredentialParameters,
+    options?: ClustersRotateCredentialOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use rotateCredential instead */
+  beginRotateCredentialAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    body: ClusterRotateCredentialParameters,
+    options?: ClustersRotateCredentialOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Trigger an inspection of the cluster to perform validation and optional corrective actions based on the supplied additional actions and filters. */
   inspect: (
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersInspectOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use inspect instead */
+  beginInspect: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersInspectOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use inspect instead */
+  beginInspectAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersInspectOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Deploy the cluster using the rack configuration provided during creation. */
   deploy: (
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeployOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use deploy instead */
+  beginDeploy: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeployOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use deploy instead */
+  beginDeployAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeployOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update. */
   continueUpdateVersion: (
     resourceGroupName: string,
@@ -81,6 +146,20 @@ export interface ClustersOperations {
     clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
     options?: ClustersContinueUpdateVersionOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use continueUpdateVersion instead */
+  beginContinueUpdateVersion: (
+    resourceGroupName: string,
+    clusterName: string,
+    clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
+    options?: ClustersContinueUpdateVersionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use continueUpdateVersion instead */
+  beginContinueUpdateVersionAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
+    options?: ClustersContinueUpdateVersionOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Get a list of clusters in the provided subscription. */
   listBySubscription: (
     options?: ClustersListBySubscriptionOptionalParams,
@@ -96,12 +175,36 @@ export interface ClustersOperations {
     clusterName: string,
     options?: ClustersDeleteOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeleteOptionalParams,
+  ) => Promise<OperationStatusResult>;
   /** Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently. */
   update: (
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<Cluster>, Cluster>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersUpdateOptionalParams,
+  ) => Promise<Cluster>;
   /** Create a new cluster or update the properties of the cluster if it exists. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -109,6 +212,20 @@ export interface ClustersOperations {
     clusterParameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Cluster>, Cluster>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    clusterParameters: Cluster,
+    options?: ClustersCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    clusterParameters: Cluster,
+    options?: ClustersCreateOrUpdateOptionalParams,
+  ) => Promise<Cluster>;
   /** Get properties of the provided cluster. */
   get: (
     resourceGroupName: string,
@@ -132,27 +249,123 @@ function _getClusters(context: NetworkCloudContext) {
         clusterUpdateVersionParameters,
         options,
       ),
+    beginUpdateVersion: async (
+      resourceGroupName: string,
+      clusterName: string,
+      clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
+      options?: ClustersUpdateVersionOptionalParams,
+    ) => {
+      const poller = updateVersion(
+        context,
+        resourceGroupName,
+        clusterName,
+        clusterUpdateVersionParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateVersionAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
+      options?: ClustersUpdateVersionOptionalParams,
+    ) => {
+      return await updateVersion(
+        context,
+        resourceGroupName,
+        clusterName,
+        clusterUpdateVersionParameters,
+        options,
+      );
+    },
     scanRuntime: (
       resourceGroupName: string,
       clusterName: string,
       options?: ClustersScanRuntimeOptionalParams,
     ) => scanRuntime(context, resourceGroupName, clusterName, options),
+    beginScanRuntime: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersScanRuntimeOptionalParams,
+    ) => {
+      const poller = scanRuntime(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginScanRuntimeAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersScanRuntimeOptionalParams,
+    ) => {
+      return await scanRuntime(context, resourceGroupName, clusterName, options);
+    },
     rotateCredential: (
       resourceGroupName: string,
       clusterName: string,
       body: ClusterRotateCredentialParameters,
       options?: ClustersRotateCredentialOptionalParams,
     ) => rotateCredential(context, resourceGroupName, clusterName, body, options),
+    beginRotateCredential: async (
+      resourceGroupName: string,
+      clusterName: string,
+      body: ClusterRotateCredentialParameters,
+      options?: ClustersRotateCredentialOptionalParams,
+    ) => {
+      const poller = rotateCredential(context, resourceGroupName, clusterName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRotateCredentialAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      body: ClusterRotateCredentialParameters,
+      options?: ClustersRotateCredentialOptionalParams,
+    ) => {
+      return await rotateCredential(context, resourceGroupName, clusterName, body, options);
+    },
     inspect: (
       resourceGroupName: string,
       clusterName: string,
       options?: ClustersInspectOptionalParams,
     ) => inspect(context, resourceGroupName, clusterName, options),
+    beginInspect: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersInspectOptionalParams,
+    ) => {
+      const poller = inspect(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginInspectAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersInspectOptionalParams,
+    ) => {
+      return await inspect(context, resourceGroupName, clusterName, options);
+    },
     deploy: (
       resourceGroupName: string,
       clusterName: string,
       options?: ClustersDeployOptionalParams,
     ) => deploy(context, resourceGroupName, clusterName, options),
+    beginDeploy: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersDeployOptionalParams,
+    ) => {
+      const poller = deploy(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeployAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersDeployOptionalParams,
+    ) => {
+      return await deploy(context, resourceGroupName, clusterName, options);
+    },
     continueUpdateVersion: (
       resourceGroupName: string,
       clusterName: string,
@@ -166,6 +379,36 @@ function _getClusters(context: NetworkCloudContext) {
         clusterContinueUpdateVersionParameters,
         options,
       ),
+    beginContinueUpdateVersion: async (
+      resourceGroupName: string,
+      clusterName: string,
+      clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
+      options?: ClustersContinueUpdateVersionOptionalParams,
+    ) => {
+      const poller = continueUpdateVersion(
+        context,
+        resourceGroupName,
+        clusterName,
+        clusterContinueUpdateVersionParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginContinueUpdateVersionAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
+      options?: ClustersContinueUpdateVersionOptionalParams,
+    ) => {
+      return await continueUpdateVersion(
+        context,
+        resourceGroupName,
+        clusterName,
+        clusterContinueUpdateVersionParameters,
+        options,
+      );
+    },
     listBySubscription: (options?: ClustersListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (
@@ -177,17 +420,79 @@ function _getClusters(context: NetworkCloudContext) {
       clusterName: string,
       options?: ClustersDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, clusterName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, clusterName, options);
+    },
     update: (
       resourceGroupName: string,
       clusterName: string,
       options?: ClustersUpdateOptionalParams,
     ) => update(context, resourceGroupName, clusterName, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: ClustersUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, clusterName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
       clusterParameters: Cluster,
       options?: ClustersCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, clusterName, clusterParameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      clusterParameters: Cluster,
+      options?: ClustersCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        clusterName,
+        clusterParameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      clusterParameters: Cluster,
+      options?: ClustersCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        clusterName,
+        clusterParameters,
+        options,
+      );
+    },
     get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) =>
       get(context, resourceGroupName, clusterName, options),
   };
