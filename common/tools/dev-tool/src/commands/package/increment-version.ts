@@ -3,13 +3,14 @@
 
 import * as path from "node:path";
 import { readFile, writeFile } from "node:fs/promises";
-import { format } from "../../util/prettier";
-import { resolveProject, resolveRoot, METADATA_KEY, ProjectInfo } from "../../util/resolveProject";
-import { createPrinter } from "../../util/printer";
-import { run } from "../../util/run";
-import { hasPowerShell } from "../../util/pwsh";
-import { leafCommand } from "../../framework/command";
-import { makeCommandInfo } from "../../framework/command";
+import { format } from "../../util/prettier.ts";
+import type { ProjectInfo } from "../../util/resolveProject.ts";
+import { resolveProject, resolveRoot, METADATA_KEY } from "../../util/resolveProject.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { run } from "../../util/run.ts";
+import { hasPowerShell } from "../../util/pwsh.ts";
+import { leafCommand } from "../../framework/command.ts";
+import { makeCommandInfo } from "../../framework/command.ts";
 import { prerelease, inc } from "semver";
 
 const log = createPrinter("increment-version");

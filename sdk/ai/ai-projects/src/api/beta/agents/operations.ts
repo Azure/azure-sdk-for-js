@@ -14,7 +14,7 @@ import type {
 } from "../../../models/models.js";
 import {
   agentDeserializer,
-  agentEndpointSerializer,
+  agentEndpointConfigSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
   versionIndicatorUnionSerializer,
@@ -443,6 +443,8 @@ export function listSessions(
       nextPageRequestOptions: {
         headers: { "foundry-features": "HostedAgents=V1Preview,AgentEndpoints=V1Preview" },
       },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
     },
   );
 }
@@ -655,7 +657,7 @@ export function _patchAgentObjectSend(
     body: {
       agent_endpoint: !options?.agentEndpoint
         ? options?.agentEndpoint
-        : agentEndpointSerializer(options?.agentEndpoint),
+        : agentEndpointConfigSerializer(options?.agentEndpoint),
       agent_card: !options?.agentCard
         ? options?.agentCard
         : agentCardSerializer(options?.agentCard),
