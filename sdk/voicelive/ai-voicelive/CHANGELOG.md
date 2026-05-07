@@ -22,8 +22,8 @@ General Availability release of `@azure/ai-voicelive`. This release upgrades the
   - Voice: `AzureAvatarVoiceSyncVoice`.
   - Session output control: `SessionIncludeOption`, `KnownSessionIncludeOption`.
   - Output audio buffer control: `ClientEventOutputAudioBufferClear`, `ServerEventOutputAudioBufferCleared`.
-  - Web search tool: `ResponseWebSearchCallItem`, `KnownResponseWebSearchCallItemStatus`, `ServerEventResponseWebSearchCallSearching`, `ServerEventResponseWebSearchCallInProgress`, `ServerEventResponseWebSearchCallCompleted`, `ActionSearch`, `ActionSearchSource`, `ActionOpenPage`, `ActionFind`.
-  - File search tool: `ResponseFileSearchCallItem`, `FileSearchResult`, `KnownResponseFileSearchCallItemStatus`, `ServerEventResponseFileSearchCallSearching`, `ServerEventResponseFileSearchCallInProgress`, `ServerEventResponseFileSearchCallCompleted`.
+  - Web search tool: `ResponseWebSearchCallItem`, `ServerEventResponseWebSearchCallSearching`, `ServerEventResponseWebSearchCallInProgress`, `ServerEventResponseWebSearchCallCompleted`, `ActionSearch`, `ActionSearchSource`, `ActionOpenPage`, `ActionFind`.
+  - File search tool: `ResponseFileSearchCallItem`, `FileSearchResult`, `ServerEventResponseFileSearchCallSearching`, `ServerEventResponseFileSearchCallInProgress`, `ServerEventResponseFileSearchCallCompleted`.
   - Avatar speaking-state events: `ServerEventSessionAvatarSwitchToSpeaking`, `ServerEventSessionAvatarSwitchToIdle`, `ServerEventResponseVideoDelta`.
   - Word- and phrase-level transcription: `TranscriptionPhrase`, `TranscriptionWord`.
   - Annotated audio transcripts: `ServerEventResponseAudioTranscriptAnnotationAdded`.
