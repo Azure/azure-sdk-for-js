@@ -7958,7 +7958,7 @@ export interface InsightGenerationRequest {
   request: InsightRequestUnion;
 }
 
-export function insightSerializer(item: InsightGenerationRequest | Insight): any {
+export function insightSerializer(item: InsightGenerationRequest): any {
   return {
     displayName: item["displayName"],
     request: insightRequestUnionSerializer(item["request"]),

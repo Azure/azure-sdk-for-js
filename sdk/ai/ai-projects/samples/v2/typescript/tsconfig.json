@@ -13,9 +13,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "outDir": "./dist",
     "resolveJsonModule": true,
     "moduleResolution": "node10"
