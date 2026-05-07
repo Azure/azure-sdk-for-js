@@ -209,10 +209,7 @@ export { a, b };`,
     };
 
     // CJS file directly imports default variant
-    await fs.writeFile(
-      path.join(tmpDir, "src", "index-cjs.cts"),
-      `export * from "./helper.js";`,
-    );
+    await fs.writeFile(path.join(tmpDir, "src", "index-cjs.cts"), `export * from "./helper.js";`);
     await fs.writeFile(path.join(tmpDir, "src", "helper.ts"), `export const h = 1;`);
     await fs.writeFile(path.join(tmpDir, "src", "helper-cjs.cts"), `export const h = 2;`);
 

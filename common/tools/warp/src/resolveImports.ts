@@ -866,7 +866,7 @@ export function validateNoDirectImports(
 
   for (const filePath of sourceFiles) {
     const selfMatch = lookupImportTarget(filePath, exactPaths, wildcardPatterns);
-    
+
     // Determine if this is a platform-specific file (non-default condition)
     const platformCondition =
       selfMatch?.condition && selfMatch.condition !== "default" ? selfMatch.condition : undefined;
@@ -921,7 +921,9 @@ export function validateNoDirectImports(
 
       const exactEntry = exactPaths.get(resolved);
       const isWildcard = !exactEntry || exactEntry.key !== match.key;
-      if (!hasDivergentResolutions(match.key, importsMap, packageRoot, isWildcard, divergenceCache)) {
+      if (
+        !hasDivergentResolutions(match.key, importsMap, packageRoot, isWildcard, divergenceCache)
+      ) {
         continue;
       }
 
@@ -1021,4 +1023,3 @@ export function buildConditionsSet(
 
   return conditions;
 }
-
