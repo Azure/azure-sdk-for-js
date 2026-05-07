@@ -41,10 +41,10 @@ export function _listRunsSend(
   options: BetaSchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{id}/runs{?api%2Dversion,type,enabled}",
+    "/schedules/{id}/runs{?api-version,type,enabled}",
     {
       id: scheduleId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
       type: options?.typeParam,
       enabled: options?.enabled,
     },
@@ -99,11 +99,11 @@ export function _getRunSend(
   options: BetaSchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{schedule_id}/runs/{run_id}{?api%2Dversion}",
+    "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
     {
       schedule_id: scheduleId,
       run_id: runId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,10 +153,10 @@ export function _createOrUpdateSend(
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{id}{?api%2Dversion}",
+    "/schedules/{id}{?api-version}",
     {
       id: scheduleId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,9 +203,9 @@ export function _listSend(
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules{?api%2Dversion,type,enabled}",
+    "/schedules{?api-version,type,enabled}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
       type: options?.typeParam,
       enabled: options?.enabled,
     },
@@ -256,10 +256,10 @@ export function _getSend(
   options: BetaSchedulesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{id}{?api%2Dversion}",
+    "/schedules/{id}{?api-version}",
     {
       id: scheduleId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,10 +304,10 @@ export function _$deleteSend(
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{id}{?api%2Dversion}",
+    "/schedules/{id}{?api-version}",
     {
       id: scheduleId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

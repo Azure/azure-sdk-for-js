@@ -41,10 +41,10 @@ export function _$deleteSend(
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}{?api%2Dversion}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,10 +99,10 @@ export function _updateSend(
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}{?api%2Dversion}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,13 +155,13 @@ export function _listSend(
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills{?limit,order,after,before,api%2Dversion}",
+    "/skills{?limit,order,after,before,api-version}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,10 +215,10 @@ export function _downloadSend(
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}:download{?api%2Dversion}",
+    "/skills/{name}:download{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,10 +269,10 @@ export function _getSend(
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}{?api%2Dversion}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -320,9 +320,9 @@ export function _createFromPackageSend(
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills:import{?api%2Dversion}",
+    "/skills:import{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -374,9 +374,9 @@ export function _createSend(
   options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills{?api%2Dversion}",
+    "/skills{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

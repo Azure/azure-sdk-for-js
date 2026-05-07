@@ -35,10 +35,10 @@ export function _deleteGenerationJobSend(
   options: BetaDatasetsDeleteGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs/{jobId}{?api%2Dversion}",
+    "/data_generation_jobs/{jobId}{?api-version}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,10 +87,10 @@ export function _cancelGenerationJobSend(
   options: BetaDatasetsCancelGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs/{jobId}:cancel{?api%2Dversion}",
+    "/data_generation_jobs/{jobId}:cancel{?api-version}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,9 +140,9 @@ export function _createGenerationJobSend(
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs{?api%2Dversion}",
+    "/data_generation_jobs{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +194,7 @@ export function _listGenerationJobsSend(
   options: BetaDatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs{?limit,order,after,before,scenario,type,api%2Dversion}",
+    "/data_generation_jobs{?limit,order,after,before,scenario,type,api-version}",
     {
       limit: options?.limit,
       order: options?.order,
@@ -206,7 +206,7 @@ export function _listGenerationJobsSend(
         : options?.typeParam.map((p: any) => {
             return p;
           }),
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,10 +260,10 @@ export function _getGenerationJobSend(
   options: BetaDatasetsGetGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs/{jobId}{?api%2Dversion}",
+    "/data_generation_jobs/{jobId}{?api-version}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

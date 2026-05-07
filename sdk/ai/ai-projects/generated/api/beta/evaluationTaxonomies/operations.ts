@@ -36,10 +36,10 @@ export function _updateSend(
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api%2Dversion}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,10 +90,10 @@ export function _createSend(
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api%2Dversion}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,10 +143,10 @@ export function _$deleteSend(
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api%2Dversion}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,9 +191,9 @@ export function _listSend(
   options: BetaEvaluationTaxonomiesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies{?api%2Dversion,inputName,inputType}",
+    "/evaluationtaxonomies{?api-version,inputName,inputType}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
       inputName: options?.inputName,
       inputType: options?.inputType,
     },
@@ -246,10 +246,10 @@ export function _getSend(
   options: BetaEvaluationTaxonomiesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationtaxonomies/{name}{?api%2Dversion}",
+    "/evaluationtaxonomies/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

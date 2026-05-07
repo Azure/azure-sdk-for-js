@@ -43,11 +43,11 @@ export function _getCredentialsSend(
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}/credentials{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}/credentials{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,11 +91,11 @@ export function _pendingUploadSend(
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}/startPendingUpload{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}/startPendingUpload{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,11 +142,11 @@ export function _createOrUpdateSend(
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,11 +192,11 @@ export function _$deleteSend(
   options: DatasetsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -237,11 +237,11 @@ export function _getSend(
   options: DatasetsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -280,9 +280,9 @@ export function _listSend(
   options: DatasetsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets{?api%2Dversion}",
+    "/datasets{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -327,10 +327,10 @@ export function _listVersionsSend(
   options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions{?api%2Dversion}",
+    "/datasets/{name}/versions{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

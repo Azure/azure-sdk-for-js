@@ -34,9 +34,9 @@ export function _createSend(
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/redTeams/runs:run{?api%2Dversion}",
+    "/redTeams/runs:run{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,9 +85,9 @@ export function _listSend(
   options: BetaRedTeamsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/redTeams/runs{?api%2Dversion}",
+    "/redTeams/runs{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,10 +136,10 @@ export function _getSend(
   options: BetaRedTeamsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/redTeams/runs/{name}{?api%2Dversion}",
+    "/redTeams/runs/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

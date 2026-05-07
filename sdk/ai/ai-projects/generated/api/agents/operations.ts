@@ -54,14 +54,14 @@ export function _listVersionsSend(
   options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?limit,order,after,before,api%2Dversion}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
     {
       agent_name: agentName,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,11 +111,11 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,11 +161,11 @@ export function _getVersionSend(
   options: AgentsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,10 +210,10 @@ export function _createAgentVersionFromManifestSend(
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions:import{?api%2Dversion}",
+    "/agents/{agent_name}/versions:import{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,10 +273,10 @@ export function _createVersionSend(
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api%2Dversion}",
+    "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,14 +335,14 @@ export function _listSend(
   options: AgentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?kind,limit,order,after,before,api%2Dversion}",
+    "/agents{?kind,limit,order,after,before,api-version}",
     {
       kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -390,10 +390,10 @@ export function _$deleteSend(
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api%2Dversion}",
+    "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,10 +444,10 @@ export function _updateAgentFromManifestSend(
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/import{?api%2Dversion}",
+    "/agents/{agent_name}/import{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -511,9 +511,9 @@ export function _createAgentFromManifestSend(
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents:import{?api%2Dversion}",
+    "/agents:import{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,10 +574,10 @@ export function _updateAgentSend(
   options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api%2Dversion}",
+    "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -639,9 +639,9 @@ export function _createAgentSend(
   options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api%2Dversion}",
+    "/agents{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -706,10 +706,10 @@ export function _getSend(
   options: AgentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api%2Dversion}",
+    "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

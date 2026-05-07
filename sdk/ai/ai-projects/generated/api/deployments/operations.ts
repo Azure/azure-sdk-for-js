@@ -26,9 +26,9 @@ export function _listSend(
   options: DeploymentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/deployments{?api%2Dversion,modelPublisher,modelName,deploymentType}",
+    "/deployments{?api-version,modelPublisher,modelName,deploymentType}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
       modelPublisher: options?.modelPublisher,
       modelName: options?.modelName,
       deploymentType: options?.deploymentType,
@@ -80,10 +80,10 @@ export function _getSend(
   options: DeploymentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/deployments/{name}{?api%2Dversion}",
+    "/deployments/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

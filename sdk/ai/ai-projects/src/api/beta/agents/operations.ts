@@ -308,12 +308,12 @@ export function _getSessionLogStreamSend(
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
       session_id: sessionId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -637,10 +637,10 @@ export function _downloadAgentCodeSend(
   options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/code:download{?api%2Dversion}",
+    "/agents/{agent_name}/code:download{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -694,11 +694,11 @@ export function _downloadAgentVersionCodeSend(
   options: BetaAgentsDownloadAgentVersionCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/code:download{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}/code:download{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -754,10 +754,10 @@ export function _createAgentVersionFromCodeSend(
   options: BetaAgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api%2Dversion}",
+    "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -874,10 +874,10 @@ export function _updateAgentFromCodeSend(
   options: BetaAgentsUpdateAgentFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api%2Dversion}",
+    "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -937,9 +937,9 @@ export function _createAgentFromCodeSend(
   options: BetaAgentsCreateAgentFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api%2Dversion}",
+    "/agents{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

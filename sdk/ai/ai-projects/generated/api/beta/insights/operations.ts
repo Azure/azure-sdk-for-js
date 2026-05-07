@@ -32,14 +32,14 @@ export function _listSend(
   options: BetaInsightsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/insights{?type,evalId,runId,agentName,includeCoordinates,api%2Dversion}",
+    "/insights{?type,evalId,runId,agentName,includeCoordinates,api-version}",
     {
       type: options?.typeParam,
       evalId: options?.evalId,
       runId: options?.runId,
       agentName: options?.agentName,
       includeCoordinates: options?.includeCoordinates,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,11 +91,11 @@ export function _getSend(
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/insights/{id}{?includeCoordinates,api%2Dversion}",
+    "/insights/{id}{?includeCoordinates,api-version}",
     {
       id: insightId,
       includeCoordinates: options?.includeCoordinates,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,9 +143,9 @@ export function _generateSend(
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/insights{?api%2Dversion}",
+    "/insights{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

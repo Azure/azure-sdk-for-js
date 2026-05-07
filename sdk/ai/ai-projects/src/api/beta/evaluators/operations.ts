@@ -42,10 +42,10 @@ export function _deleteGenerationJobSend(
   options: BetaEvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs/{jobId}{?api%2Dversion}",
+    "/evaluator_generation_jobs/{jobId}{?api-version}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,10 +95,10 @@ export function _cancelGenerationJobSend(
   options: BetaEvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs/{jobId}:cancel{?api%2Dversion}",
+    "/evaluator_generation_jobs/{jobId}:cancel{?api-version}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,14 +145,14 @@ export function _listGenerationJobsSend(
   options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs{?limit,order,after,before,category,api%2Dversion}",
+    "/evaluator_generation_jobs{?limit,order,after,before,category,api-version}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
       category: options?.category,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,10 +204,10 @@ export function _getGenerationJobSend(
   options: BetaEvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs/{jobId}{?api%2Dversion}",
+    "/evaluator_generation_jobs/{jobId}{?api-version}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,9 +255,9 @@ export function _createGenerationJobSend(
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluator_generation_jobs{?api%2Dversion}",
+    "/evaluator_generation_jobs{?api-version}",
     {
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
