@@ -308,6 +308,36 @@ describe("snippets", () => {
     const result = await client.releaseKey("myKey", "<attestation-target>");
   });
 
+  it("ReadmeSampleSecureWrapKey", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.vault.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+    console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
+  });
+
+  it("ReadmeSampleSecureUnwrapKey", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.vault.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+    const unwrapped = await client.secureUnwrapKey(
+      "myKey",
+      wrapped.algorithm,
+      wrapped.result,
+      "<attestation-target>",
+    );
+    console.log(unwrapped.keyID, unwrapped.algorithm, unwrapped.result);
+  });
+
   it("ReadmeSampleGetKeyRotationPolicy", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
