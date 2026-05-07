@@ -60,7 +60,7 @@ export interface BetaEvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    body: EvaluatorGenerationJob,
+    job: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
   ) => Promise<EvaluatorGenerationJob>;
   /** Update an existing EvaluatorVersion with the given version id */
@@ -114,9 +114,9 @@ function _getBetaEvaluators(context: AIProjectContext) {
     getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      body: EvaluatorGenerationJob,
+      job: EvaluatorGenerationJob,
       options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, body, options),
+    ) => createGenerationJob(context, job, options),
     updateVersion: (
       name: string,
       version: string,

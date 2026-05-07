@@ -97,7 +97,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview";
+export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview" | "CodeAgents=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | AgentDefinition;
@@ -461,6 +461,16 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
+export interface BetaAgentsCreateAgentFromCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: AgentDefinitionOptInKeys;
+}
+
+// @public
+export interface BetaAgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: AgentDefinitionOptInKeys;
+}
+
+// @public
 export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions {
     agentSessionId?: string;
     foundryFeatures?: "AgentEndpoints=V1Preview";
@@ -476,6 +486,28 @@ export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOpti
 export interface BetaAgentsDeleteSessionOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentEndpoints=V1Preview";
 }
+
+// @public
+export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: "CodeAgents=V1Preview";
+}
+
+// @public (undocumented)
+export type BetaAgentsDownloadAgentCodeResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaAgentsDownloadAgentVersionCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: "CodeAgents=V1Preview";
+}
+
+// @public (undocumented)
+export type BetaAgentsDownloadAgentVersionCodeResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
 // @public
 export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOptions {
@@ -520,15 +552,21 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaAgentsOperations {
-    createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
-    deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
+    createAgentFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: BetaAgentsCreateAgentFromCodeOptionalParams) => Promise<Agent>;
+    // (undocumented)
+    createAgentVersionFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
+    createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
+    deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
+    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) => Promise<BetaAgentsDownloadAgentCodeResponse>;
+    downloadAgentVersionCode: (agentName: string, agentVersion: string, options?: BetaAgentsDownloadAgentVersionCodeOptionalParams) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>;
     downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionFiles: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsGetSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsGetSessionLogStreamResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    updateAgentFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: BetaAgentsUpdateAgentFromCodeOptionalParams) => Promise<Agent>;
     uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
@@ -537,6 +575,11 @@ export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptio
     agentCard?: AgentCard;
     agentEndpoint?: AgentEndpoint;
     foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsUpdateAgentFromCodeOptionalParams extends OperationOptions {
+    foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 // @public
@@ -579,7 +622,7 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
 // @public
 export interface BetaDatasetsOperations {
     cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJob>;
-    createGenerationJob: (body: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    createGenerationJob: (job: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => Promise<DataGenerationJob>;
     deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
     getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJob>;
     listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJob>;
@@ -608,11 +651,11 @@ export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOpt
 
 // @public
 export interface BetaEvaluationTaxonomiesOperations {
-    create: (name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
+    create: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
     get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
-    update: (name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
+    update: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
 }
 
 // @public
@@ -677,7 +720,7 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 // @public
 export interface BetaEvaluatorsOperations {
     cancelGenerationJob: (jobId: string, options?: BetaEvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    createGenerationJob: (body: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
+    createGenerationJob: (job: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteGenerationJob: (jobId: string, options?: BetaEvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
@@ -1101,9 +1144,13 @@ export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
 // @public
 export interface CodeConfiguration {
     readonly content_hash?: string;
+    dependency_resolution: CodeDependencyResolution;
     entry_point: string[];
     runtime: string;
 }
+
+// @public
+export type CodeDependencyResolution = "bundled" | "remote_build";
 
 // @public
 export interface CodeInterpreterTool extends Tool {
@@ -1271,6 +1318,33 @@ export interface CosmosDBIndex extends Index {
 }
 
 // @public
+export interface CreateAgentFromCodeContent {
+    code: FileContents | {
+        contents: FileContents;
+        contentType?: string;
+        filename?: string;
+    };
+    metadata: CreateAgentVersionFromCodeRequest;
+}
+
+// @public
+export interface CreateAgentVersionFromCodeContent {
+    code: FileContents | {
+        contents: FileContents;
+        contentType?: string;
+        filename?: string;
+    };
+    metadata: CreateAgentVersionFromCodeRequest;
+}
+
+// @public
+export interface CreateAgentVersionFromCodeRequest {
+    definition: HostedAgentDefinition;
+    description?: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
 export interface CreateFromPackageOptionalParams extends OperationOptions {
 }
 
@@ -1358,7 +1432,7 @@ export interface DataGenerationJobOptions {
 }
 
 // @public
-export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | TaskDataGenerationJobOptions | DataGenerationJobOptions;
+export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
 
 // @public
 export interface DataGenerationJobOutput {
@@ -1394,7 +1468,7 @@ export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "datas
 export type DataGenerationJobSourceUnion = PromptDataGenerationJobSource | AgentDataGenerationJobSource | TracesDataGenerationJobSource | DatasetDataGenerationJobSource | FileDataGenerationJobSource | DataGenerationJobSource;
 
 // @public
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use";
 
 // @public
 export interface DataGenerationModelOptions {
@@ -1403,9 +1477,9 @@ export interface DataGenerationModelOptions {
 
 // @public
 export interface DataGenerationTokenUsage {
-    readonly completion_tokens?: number;
-    readonly prompt_tokens?: number;
-    readonly total_tokens?: number;
+    readonly completion_tokens: number;
+    readonly prompt_tokens: number;
+    readonly total_tokens: number;
 }
 
 // @public
@@ -1586,20 +1660,12 @@ export interface EmptyModelParam {
 // @public
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
     // (undocumented)
-    isolation_key_source: IsolationKeySourceUnion;
-    // (undocumented)
     type: "Entra";
 }
 
 // @public
 export interface EntraIDCredentials extends BaseCredentials {
     readonly type: "AAD";
-}
-
-// @public
-export interface EntraIsolationKeySource extends IsolationKeySource {
-    // (undocumented)
-    kind: "Entra";
 }
 
 // @public
@@ -1899,6 +1965,9 @@ export interface FieldMapping {
 }
 
 // @public
+export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+
+// @public
 export interface FileDataGenerationJobOutput extends DataGenerationJobOutput {
     readonly filename: string;
     readonly id: string;
@@ -2003,12 +2072,6 @@ export interface FunctionToolParam {
 
 // @public
 export type GrammarSyntax = "lark" | "regex";
-
-// @public
-export interface HeaderIsolationKeySource extends IsolationKeySource {
-    // (undocumented)
-    kind: "Header";
-}
 
 // @public
 export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
@@ -2144,11 +2207,11 @@ export type InputFidelity = "high" | "low";
 // @public
 export interface Insight {
     displayName: string;
-    readonly insight_id?: string;
-    readonly metadata?: InsightsMetadata;
+    readonly insight_id: string;
+    readonly metadata: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
-    readonly state?: OperationState;
+    readonly state: OperationState;
 }
 
 // @public
@@ -2218,18 +2281,6 @@ export interface InsightSummary {
 
 // @public
 export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
-
-// @public
-export interface IsolationKeySource {
-    // (undocumented)
-    kind: IsolationKeySourceKind;
-}
-
-// @public
-export type IsolationKeySourceKind = "Entra" | "Header";
-
-// @public
-export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationKeySource | IsolationKeySource;
 
 // @public
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
@@ -2454,10 +2505,10 @@ export interface ModelDeploymentSku {
 
 // @public
 export interface ModelSamplingParams {
-    max_completion_tokens: number;
-    seed: number;
-    temperature: number;
-    top_p: number;
+    max_completion_tokens?: number;
+    seed?: number;
+    temperature?: number;
+    top_p?: number;
 }
 
 // @public
@@ -2894,11 +2945,6 @@ export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
 
 // @public
 export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
-
-// @public
-export interface TaskDataGenerationJobOptions extends DataGenerationJobOptions {
-    type: "task";
-}
 
 // @public
 export interface TaxonomyCategory {

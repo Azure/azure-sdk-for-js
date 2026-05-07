@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { FileContents } from "../static-helpers/multipartHelpers.js";
+import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
@@ -3668,6 +3670,13 @@ export interface CodeConfiguration {
   runtime: string;
   /** The entry point command and arguments for the code execution. */
   entry_point: string[];
+  /**
+   * How package dependencies are resolved at deployment time. Defaults to `bundled`,
+   * where the caller bundles all dependencies into the uploaded zip and the service
+   * performs no remote build. `remote_build` instructs the service to build
+   * dependencies remotely from the manifest included in the uploaded zip.
+   */
+  dependency_resolution: CodeDependencyResolution;
   /** The SHA-256 hex digest of the uploaded code zip. Set by the service from the `x-ms-code-zip-sha256` request header; read-only in responses and never accepted in request payloads. */
   readonly content_hash?: string;
 }
@@ -3678,6 +3687,7 @@ export function codeConfigurationSerializer(item: CodeConfiguration): any {
     entry_point: item["entry_point"].map((p: any) => {
       return p;
     }),
+    dependency_resolution: item["dependency_resolution"],
   };
 }
 
@@ -3687,9 +3697,13 @@ export function codeConfigurationDeserializer(item: any): CodeConfiguration {
     entry_point: item["entry_point"].map((p: any) => {
       return p;
     }),
+    dependency_resolution: item["dependency_resolution"],
     content_hash: item["content_hash"],
   };
 }
+
+/** How package dependencies are resolved at deployment time for a code-based hosted agent. */
+export type CodeDependencyResolution = "bundled" | "remote_build";
 
 /** Customer-supplied telemetry configuration for exporting container logs, traces, and metrics. */
 export interface TelemetryConfig {
@@ -5040,100 +5054,15 @@ export type AgentEndpointAuthorizationSchemeType = "Entra" | "BotService" | "Bot
 /** model interface EntraAuthorizationScheme */
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
   type: "Entra";
-  isolation_key_source: IsolationKeySourceUnion;
 }
 
 export function entraAuthorizationSchemeSerializer(item: EntraAuthorizationScheme): any {
-  return {
-    type: item["type"],
-    isolation_key_source: isolationKeySourceUnionSerializer(item["isolation_key_source"]),
-  };
+  return { type: item["type"] };
 }
 
 export function entraAuthorizationSchemeDeserializer(item: any): EntraAuthorizationScheme {
   return {
     type: item["type"],
-    isolation_key_source: isolationKeySourceUnionDeserializer(item["isolation_key_source"]),
-  };
-}
-
-/** model interface IsolationKeySource */
-export interface IsolationKeySource {
-  kind: IsolationKeySourceKind;
-}
-
-export function isolationKeySourceSerializer(item: IsolationKeySource): any {
-  return { kind: item["kind"] };
-}
-
-export function isolationKeySourceDeserializer(item: any): IsolationKeySource {
-  return {
-    kind: item["kind"],
-  };
-}
-
-/** Alias for IsolationKeySourceUnion */
-export type IsolationKeySourceUnion =
-  | EntraIsolationKeySource
-  | HeaderIsolationKeySource
-  | IsolationKeySource;
-
-export function isolationKeySourceUnionSerializer(item: IsolationKeySourceUnion): any {
-  switch (item.kind) {
-    case "Entra":
-      return entraIsolationKeySourceSerializer(item as EntraIsolationKeySource);
-
-    case "Header":
-      return headerIsolationKeySourceSerializer(item as HeaderIsolationKeySource);
-
-    default:
-      return isolationKeySourceSerializer(item);
-  }
-}
-
-export function isolationKeySourceUnionDeserializer(item: any): IsolationKeySourceUnion {
-  switch (item["kind"]) {
-    case "Entra":
-      return entraIsolationKeySourceDeserializer(item as EntraIsolationKeySource);
-
-    case "Header":
-      return headerIsolationKeySourceDeserializer(item as HeaderIsolationKeySource);
-
-    default:
-      return isolationKeySourceDeserializer(item);
-  }
-}
-
-/** Type of IsolationKeySourceKind */
-export type IsolationKeySourceKind = "Entra" | "Header";
-
-/** model interface EntraIsolationKeySource */
-export interface EntraIsolationKeySource extends IsolationKeySource {
-  kind: "Entra";
-}
-
-export function entraIsolationKeySourceSerializer(item: EntraIsolationKeySource): any {
-  return { kind: item["kind"] };
-}
-
-export function entraIsolationKeySourceDeserializer(item: any): EntraIsolationKeySource {
-  return {
-    kind: item["kind"],
-  };
-}
-
-/** model interface HeaderIsolationKeySource */
-export interface HeaderIsolationKeySource extends IsolationKeySource {
-  kind: "Header";
-}
-
-export function headerIsolationKeySourceSerializer(item: HeaderIsolationKeySource): any {
-  return { kind: item["kind"] };
-}
-
-export function headerIsolationKeySourceDeserializer(item: any): HeaderIsolationKeySource {
-  return {
-    kind: item["kind"],
   };
 }
 
@@ -6473,6 +6402,70 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
   };
 }
 
+/** Multipart request body for creating a new code-based agent (POST /agents). Inherits from CreateAgentVersionFromCodeContent for future extensibility. */
+export interface CreateAgentFromCodeContent {
+  /** JSON metadata including description and hosted definition. */
+  metadata: CreateAgentVersionFromCodeRequest;
+  /** The code zip file (max 250 MB). */
+  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function createAgentFromCodeContentSerializer(item: CreateAgentFromCodeContent): any {
+  return [
+    { name: "metadata", body: createAgentVersionFromCodeRequestSerializer(item["metadata"]) },
+    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
+  ];
+}
+
+/**
+ * JSON metadata for code-based agent operations (create, update, create version).
+ * The agent name comes from the URL path parameter or the `x-ms-agent-name` header,
+ * so it is not included in this model.
+ * The content hash (SHA-256 of the zip) is carried in the `x-ms-code-zip-sha256` header.
+ */
+export interface CreateAgentVersionFromCodeRequest {
+  /** A human-readable description of the agent. */
+  description?: string;
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be
+   * useful for storing additional information about the object in a structured
+   * format, and querying for objects via API or the dashboard.
+   *
+   * Keys are strings with a maximum length of 64 characters. Values are strings
+   * with a maximum length of 512 characters.
+   */
+  metadata?: Record<string, string>;
+  /** The hosted agent definition including code_configuration (runtime, entry_point), cpu, memory, and protocol_versions. */
+  definition: HostedAgentDefinition;
+}
+
+export function createAgentVersionFromCodeRequestSerializer(
+  item: CreateAgentVersionFromCodeRequest,
+): any {
+  return {
+    description: item["description"],
+    metadata: item["metadata"],
+    definition: hostedAgentDefinitionSerializer(item["definition"]),
+  };
+}
+
+/** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
+export interface CreateAgentVersionFromCodeContent {
+  /** JSON metadata including description and hosted definition. */
+  metadata: CreateAgentVersionFromCodeRequest;
+  /** The code zip file (max 250 MB). */
+  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function createAgentVersionFromCodeContentSerializer(
+  item: CreateAgentVersionFromCodeContent,
+): any {
+  return [
+    { name: "metadata", body: createAgentVersionFromCodeRequestSerializer(item["metadata"]) },
+    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
+  ];
+}
+
 /** Version indicator determining which agent version backs the session. */
 export interface VersionIndicator {
   /** The type of version indicator. */
@@ -6896,14 +6889,14 @@ export function azureAIModelTargetDeserializer(item: any): AzureAIModelTarget {
 
 /** Represents a set of parameters used to control the sampling behavior of a language model during text generation. */
 export interface ModelSamplingParams {
-  /** The temperature parameter for sampling. */
-  temperature: number;
-  /** The top-p parameter for nucleus sampling. */
-  top_p: number;
-  /** The random seed for reproducibility. */
-  seed: number;
+  /** The temperature parameter for sampling. Defaults to 1.0. */
+  temperature?: number;
+  /** The top-p parameter for nucleus sampling. Defaults to 1.0. */
+  top_p?: number;
+  /** The random seed for reproducibility. Defaults to 42. */
+  seed?: number;
   /** The maximum number of tokens allowed in the completion. */
-  max_completion_tokens: number;
+  max_completion_tokens?: number;
 }
 
 export function modelSamplingParamsSerializer(item: ModelSamplingParams): any {
@@ -7944,11 +7937,11 @@ export function evaluatorGenerationJobArrayDeserializer(
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly insight_id?: string;
+  readonly insight_id: string;
   /** Metadata about the insights report. */
-  readonly metadata?: InsightsMetadata;
+  readonly metadata: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state?: OperationState;
+  readonly state: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -7967,7 +7960,7 @@ export function insightSerializer(item: Insight): any {
 export function insightDeserializer(item: any): Insight {
   return {
     insight_id: item["id"],
-    metadata: !item["metadata"] ? item["metadata"] : insightsMetadataDeserializer(item["metadata"]),
+    metadata: insightsMetadataDeserializer(item["metadata"]),
     state: item["state"],
     displayName: item["displayName"],
     request: insightRequestUnionDeserializer(item["request"]),
@@ -10351,7 +10344,7 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 /** Options for managing data generation jobs. */
 export interface DataGenerationJobOptions {
   /** The data generation job type. */
-  /** The discriminator possible values: simple_qna, traces, tool_use, task */
+  /** The discriminator possible values: simple_qna, traces, tool_use */
   type: DataGenerationJobType;
   /** Maximum number of samples to generate. */
   max_samples: number;
@@ -10388,7 +10381,6 @@ export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
-  | TaskDataGenerationJobOptions
   | DataGenerationJobOptions;
 
 export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobOptionsUnion): any {
@@ -10403,9 +10395,6 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
       return toolUseFineTuningDataGenerationJobOptionsSerializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
       );
-
-    case "task":
-      return taskDataGenerationJobOptionsSerializer(item as TaskDataGenerationJobOptions);
 
     default:
       return dataGenerationJobOptionsSerializer(item);
@@ -10429,16 +10418,13 @@ export function dataGenerationJobOptionsUnionDeserializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
       );
 
-    case "task":
-      return taskDataGenerationJobOptionsDeserializer(item as TaskDataGenerationJobOptions);
-
     default:
       return dataGenerationJobOptionsDeserializer(item);
   }
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -10557,34 +10543,6 @@ export function toolUseFineTuningDataGenerationJobOptionsSerializer(
 export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
   item: any,
 ): ToolUseFineTuningDataGenerationJobOptions {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-    train_split: item["train_split"],
-    model_options: !item["model_options"]
-      ? item["model_options"]
-      : dataGenerationModelOptionsDeserializer(item["model_options"]),
-  };
-}
-
-/** The options for a data generation job with Task type. */
-export interface TaskDataGenerationJobOptions extends DataGenerationJobOptions {
-  /** The data generation job type, which is Task for this model. */
-  type: "task";
-}
-
-export function taskDataGenerationJobOptionsSerializer(item: TaskDataGenerationJobOptions): any {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-    train_split: item["train_split"],
-    model_options: !item["model_options"]
-      ? item["model_options"]
-      : dataGenerationModelOptionsSerializer(item["model_options"]),
-  };
-}
-
-export function taskDataGenerationJobOptionsDeserializer(item: any): TaskDataGenerationJobOptions {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -10718,11 +10676,11 @@ export function datasetDataGenerationJobOutputDeserializer(
 /** Token usage information for a data generation job. */
 export interface DataGenerationTokenUsage {
   /** The number of prompt tokens used. */
-  readonly prompt_tokens?: number;
+  readonly prompt_tokens: number;
   /** The number of completion tokens generated. */
-  readonly completion_tokens?: number;
+  readonly completion_tokens: number;
   /** Total number of tokens used. */
-  readonly total_tokens?: number;
+  readonly total_tokens: number;
 }
 
 export function dataGenerationTokenUsageDeserializer(item: any): DataGenerationTokenUsage {
@@ -10799,7 +10757,8 @@ export type AgentDefinitionOptInKeys =
   | "HostedAgents=V1Preview"
   | "WorkflowAgents=V1Preview"
   | "ContainerAgents=V1Preview"
-  | "AgentEndpoints=V1Preview";
+  | "AgentEndpoints=V1Preview"
+  | "CodeAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */
@@ -10844,6 +10803,40 @@ export type BetaSkillsDownloadResponse = {
 };
 
 export type BetaAgentsDownloadSessionFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+export type BetaAgentsDownloadAgentCodeResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+export type BetaAgentsDownloadAgentVersionCodeResponse = {
   /**
    * BROWSER ONLY
    *

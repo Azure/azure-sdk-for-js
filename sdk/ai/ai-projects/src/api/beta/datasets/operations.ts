@@ -128,7 +128,7 @@ export async function cancelGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  body: DataGenerationJob,
+  job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -151,7 +151,7 @@ export function _createGenerationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: dataGenerationJobSerializer(body),
+    body: dataGenerationJobSerializer(job),
   });
 }
 
@@ -172,10 +172,10 @@ export async function _createGenerationJobDeserialize(
 /** Creates a data generation job. */
 export async function createGenerationJob(
   context: Client,
-  body: DataGenerationJob,
+  job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): Promise<DataGenerationJob> {
-  const result = await _createGenerationJobSend(context, body, options);
+  const result = await _createGenerationJobSend(context, job, options);
   return _createGenerationJobDeserialize(result);
 }
 

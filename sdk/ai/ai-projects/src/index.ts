@@ -126,6 +126,7 @@ export type {
   AgentProtocol,
   ContainerConfiguration,
   CodeConfiguration,
+  CodeDependencyResolution,
   TelemetryConfig,
   TelemetryEndpoint,
   TelemetryEndpointUnion,
@@ -185,11 +186,6 @@ export type {
   AgentEndpointAuthorizationSchemeUnion,
   AgentEndpointAuthorizationSchemeType,
   EntraAuthorizationScheme,
-  IsolationKeySource,
-  IsolationKeySourceUnion,
-  IsolationKeySourceKind,
-  EntraIsolationKeySource,
-  HeaderIsolationKeySource,
   BotServiceAuthorizationScheme,
   BotServiceRbacAuthorizationScheme,
   AgentCard,
@@ -241,6 +237,9 @@ export type {
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeRequest,
+  CreateAgentVersionFromCodeContent,
   VersionIndicator,
   VersionIndicatorUnion,
   VersionIndicatorType,
@@ -394,7 +393,6 @@ export type {
   SimpleQnAFineTuningQuestionType,
   TracesDataGenerationJobOptions,
   ToolUseFineTuningDataGenerationJobOptions,
-  TaskDataGenerationJobOptions,
   DataGenerationJobScenario,
   DataGenerationJobResult,
   DataGenerationJobOutput,
@@ -413,9 +411,12 @@ export type {
   KnownApiVersions,
   BetaSkillsDownloadResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsDownloadAgentCodeResponse,
+  BetaAgentsDownloadAgentVersionCodeResponse,
   BetaAgentsGetSessionLogStreamResponse,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
+export type { FileContents } from "./static-helpers/multipartHelpers.js";
 export type {
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
@@ -472,7 +473,12 @@ export type {
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsDownloadAgentVersionCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsUpdateAgentFromCodeOptionalParams,
+  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "./api/beta/agents/index.js";
 export type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
