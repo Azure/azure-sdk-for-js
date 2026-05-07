@@ -960,3 +960,129 @@ export function buildConditionsSet(
 
   return conditions;
 }
+
+// ---------------------------------------------------------------------------
+// Platform-specific file validation
+// ---------------------------------------------------------------------------
+
+/** Violation found during platform import validation. */
+export interface PlatformImportViolation {
+  file: string;
+  line: number;
+  specifier: string;
+  suggestedImport: string;
+  targetPlatform: string;
+}
+
+/**
+ * Detect the platform from a file's name based on suffix convention.
+ * Returns "browser", "react-native", "node", or undefined if not platform-specific.
+ */
+function detectFilePlatform(filePath: string): string | undefined {
+  const basename = path.basename(filePath);
+  if (basename.includes("-browser.")) return "browser";
+  if (basename.includes("-react-native.")) return "react-native";
+  if (basename.includes("-native.")) return "react-native";
+  if (basename.includes("-node.")) return "node";
+  if (basename.includes("-workerd.")) return "workerd";
+  return undefined;
+}
+
+/**
+ * Find all platform-specific files in a directory tree.
+ */
+function findPlatformFiles(dir: string): string[] {
+  const fss = require("node:fs") as typeof import("node:fs");
+  const result: string[] = [];
+  if (!fss.existsSync(dir)) return result;
+
+  const entries = fss.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      result.push(...findPlatformFiles(fullPath));
+    } else if (entry.isFile() && detectFilePlatform(fullPath)) {
+      result.push(fullPath);
+    }
+  }
+  return result;
+}
+
+/**
+ * Validate that platform-specific files use #platform imports correctly.
+ * Returns violations that should fail the build.
+ *
+ * This validation only applies when polyfillSuffix is NOT active.
+ * When polyfillSuffix is used, the polyfill mechanism handles platform
+ * resolution at compile time, so direct imports work correctly.
+ */
+export async function validatePlatformImports(
+  importsMap: ImportsMap,
+  packageRoot: string,
+): Promise<PlatformImportViolation[]> {
+  const fss = require("node:fs") as typeof import("node:fs");
+  const violations: PlatformImportViolation[] = [];
+
+  const srcDir = path.join(packageRoot, "src");
+  const platformFiles = findPlatformFiles(srcDir);
+
+  for (const filePath of platformFiles) {
+    const platform = detectFilePlatform(filePath);
+    if (!platform) continue;
+
+    const content = ts.sys.readFile(filePath);
+    if (!content) continue;
+
+    const sourceFile = ts.createSourceFile(
+      path.basename(filePath),
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+
+    const conditions = new Set([platform, "import", "default"]);
+
+    ts.forEachChild(sourceFile, function visit(node) {
+      let specifier: string | undefined;
+      if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)) {
+        specifier = node.moduleSpecifier.text;
+      } else if (
+        ts.isExportDeclaration(node) &&
+        node.moduleSpecifier &&
+        ts.isStringLiteral(node.moduleSpecifier)
+      ) {
+        specifier = node.moduleSpecifier.text;
+      }
+
+      if (specifier && specifier.startsWith(".") && !specifier.startsWith("#")) {
+        const fromDir = path.dirname(filePath);
+        const resolved = path.resolve(fromDir, specifier);
+        const relPath = specifier.replace(/^\.\//, "").replace(/\.(js|ts|mts|mjs)$/, "");
+        const platformSpecifier = `#platform/${relPath}`;
+        const platformResolved = resolveSubpathImport(platformSpecifier, importsMap, conditions);
+
+        if (platformResolved) {
+          const platformAbsPath = path.resolve(packageRoot, platformResolved);
+          const exists = fss.existsSync(platformAbsPath);
+          if (exists && platformAbsPath !== resolved) {
+            const line = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
+            violations.push({
+              file: filePath,
+              line,
+              specifier,
+              suggestedImport: platformSpecifier,
+              targetPlatform: platform,
+            });
+          }
+        }
+      }
+
+      ts.forEachChild(node, visit);
+    });
+  }
+
+  const log = getLogger();
+  log.info(`[warp] Validated ${platformFiles.length} platform-specific file(s)`);
+
+  return violations;
+}

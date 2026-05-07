@@ -18,6 +18,7 @@ import {
   buildConditionsSet,
   validateNoDirectImports,
   resolveSubpathImport,
+  validatePlatformImports,
 } from "./resolveImports.ts";
 import type { ImportsMap } from "./resolveImports.ts";
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
@@ -306,6 +307,32 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
         config,
         totalTimeMs: performance.now() - buildStart,
       };
+    }
+
+    // Step 1c: Validate platform-specific files use #platform imports
+    // Only applies when polyfillSuffix is NOT active (polyfill handles it otherwise)
+    const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
+    if (!usesPolyfill) {
+      const platformViolations = await validatePlatformImports(importsMap, packageRoot);
+      if (platformViolations.length > 0) {
+        log.error(
+          `\n[warp] Found ${platformViolations.length} platform-specific file(s) bypassing #platform imports:`,
+        );
+        for (const v of platformViolations) {
+          log.error(
+            `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+          );
+        }
+        log.error(
+          `\n[warp] Platform entry files (e.g., *-browser.mts) must use #platform imports to ensure correct resolution.`,
+        );
+        log.flush();
+        return {
+          success: false,
+          config,
+          totalTimeMs: performance.now() - buildStart,
+        };
+      }
     }
   }
 
