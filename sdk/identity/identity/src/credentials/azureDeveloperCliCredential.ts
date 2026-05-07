@@ -37,25 +37,56 @@ export const azureDeveloperCliPublicErrorMessages = {
  */
 export const developerCliCredentialInternals = {
   /**
-   * Parses azd stderr JSON output to extract the error message.
-   * azd outputs JSON like: \{"type":"consoleMessage","timestamp":"...","data":\{"message":"ERROR: ..."\}\}
-   * If parsing succeeds and .data.message exists, returns the trimmed message.
-   * Otherwise, returns the raw stderr.
+   * Parses azd stderr JSON output to extract a human-readable error message.
+   *
+   * Three formats are supported across azd versions:
+   * - pre-v1.23.7: `{"type":"consoleMessage","data":{"message":"..."}}`
+   * - v1.23.7 - v1.23.15: an empty `consoleMessage` line followed by `{"error":"...","message":"...","suggestion":"..."}`
+   * - v1.24.0+: `{"error":"...","message":"...","suggestion":"..."}`
+   *
+   * The structured `error` field is preferred. If absent, falls back to the
+   * first non-empty `data.message` from a legacy `consoleMessage` line. If
+   * neither is found, the raw stderr is returned unchanged so plain-text and
+   * malformed output continue to surface to callers.
+   *
    * @param stderr - The stderr output from azd command
    * @returns The parsed error message or raw stderr
    * @internal
    */
   parseAzdStderr(stderr: string): string {
-    try {
-      const parsed = JSON.parse(stderr);
-      const message = parsed?.data?.message;
-      if (typeof message === "string" && message.trim().length > 0) {
-        return message.trim();
-      }
-    } catch {
-      // If JSON parsing fails, fall through to return raw stderr
+    if (!stderr?.trim()) {
+      return stderr;
     }
-    return stderr;
+
+    let fallback: string | undefined;
+
+    for (const rawLine of stderr.split("\n")) {
+      const line = rawLine.trim();
+      if (!line.startsWith("{")) {
+        continue;
+      }
+
+      let parsed: any;
+      try {
+        parsed = JSON.parse(line);
+      } catch {
+        // Not valid JSON on this line; continue.
+        continue;
+      }
+
+      if (typeof parsed?.error === "string" && parsed.error.trim()) {
+        return parsed.error.trim();
+      }
+
+      if (fallback === undefined) {
+        const message = parsed?.data?.message;
+        if (typeof message === "string" && message.trim()) {
+          fallback = message.trim();
+        }
+      }
+    }
+
+    return fallback ?? stderr;
   },
 
   /**
