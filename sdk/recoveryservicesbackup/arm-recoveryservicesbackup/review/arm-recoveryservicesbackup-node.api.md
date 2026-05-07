@@ -3405,12 +3405,12 @@ export interface ResourceGuardOperationDetail {
 }
 
 // @public
-export interface ResourceGuardProxiesGetOptionalParams extends OperationOptions {
+export interface ResourceGuardProxiesListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface ResourceGuardProxiesOperations {
-    get: (vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesGetOptionalParams) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
+    list: (vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesListOptionalParams) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
 }
 
 // @public

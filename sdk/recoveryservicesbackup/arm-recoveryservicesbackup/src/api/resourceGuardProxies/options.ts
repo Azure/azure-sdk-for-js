@@ -4,4 +4,4 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ResourceGuardProxiesGetOptionalParams extends OperationOptions {}
+export interface ResourceGuardProxiesListOptionalParams extends OperationOptions {}

@@ -15,7 +15,7 @@ async function getVaultGuardProxies() {
   const subscriptionId = "0b352192-dcac-4cc7-992e-a96190ccc68c";
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.resourceGuardProxies.get("sampleVault", "SampleResourceGroup")) {
+  for await (const item of client.resourceGuardProxies.list("sampleVault", "SampleResourceGroup")) {
     resArray.push(item);
   }
 
