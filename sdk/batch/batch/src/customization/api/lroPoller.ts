@@ -17,13 +17,13 @@ import type {
   TerminateJobOptionalParams,
   DeleteJobScheduleOptionalParams,
   TerminateJobScheduleOptionalParams,
-} from "./options.js";
-import type { BatchContext } from "./batchContext.js";
+} from "../../api/options.js";
+import type { BatchContext } from "../../api/batchContext.js";
 import type {
   BatchJobDisableOptions,
   BatchNodeRemoveOptions,
   BatchPoolResizeOptions,
-} from "../models/models.js";
+} from "../../models/models.js";
 import {
   _deletePool,
   getPool,
@@ -43,7 +43,7 @@ import {
   _deleteJobSchedule,
   getJobSchedule,
   _terminateJobSchedule,
-} from "./operations.js";
+} from "../../api/operations.js";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createBatchPoller } from "../static-helpers/batchPoller.js";
 
