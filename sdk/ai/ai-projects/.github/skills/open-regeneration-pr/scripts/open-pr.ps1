@@ -126,6 +126,7 @@ This PR also seeds (or updates) the Copilot skills under ``sdk/ai/ai-projects/.g
 
 - ``regenerate-from-typespec`` now captures upstream TypeSpec commit descriptions for the old-exclusive/new-inclusive range in ``temp/typespec-commit-descriptions.md`` before running the emitter.
 - ``apply-post-emitter-edits`` now treats ``temp/typespec-commit-descriptions.md`` as a validation guide when deciding whether SDK diff changes match upstream TypeSpec intent, including intentional non-additive model changes.
+- ``update-changelog`` now summarizes new public methods/routes without enumerating every generated helper model, class, union member, or enum value introduced to support them.
 
 ## Verification checklist
 

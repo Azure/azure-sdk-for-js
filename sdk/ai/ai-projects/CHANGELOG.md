@@ -18,17 +18,16 @@
 ### Features Added
 
 - Added `FabricIQPreviewTool` (and `FabricIQPreviewToolParameters`) as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
-- Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`, plus the `SessionLogEvent` / `SessionLogEventType` model types.
+- Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`.
 - Added `createAgentFromCode`, `updateAgentFromCode`, `createAgentVersionFromCode`, `downloadAgentCode`, and `downloadAgentVersionCode` operations on `project.beta.agents` for code-based hosted agents, plus the `"CodeAgents=V1Preview"` opt-in value on `AgentDefinitionOptInKeys`.
 - Added `CodeDependencyResolution` and `dependency_resolution` on `CodeConfiguration` for code-based hosted agent dependency resolution.
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
-- Added `TelemetryConfig`, `TelemetryEndpoint` (`OtlpTelemetryEndpoint`), `TelemetryEndpointAuth` (`HeaderTelemetryEndpointAuth`), `TelemetryDataKind`, `TelemetryEndpointKind`, `TelemetryEndpointAuthType`, `TelemetryTransportProtocol`, and the corresponding union types for configuring telemetry endpoints.
+- Added telemetry endpoint configuration support for hosted agents.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
-- Added `EvaluatorGenerationJob`, `EvaluatorGenerationInputs`, `EvaluatorGenerationJobSource`, `RubricBasedEvaluatorDefinition`, `RubricCriterion`, and related union / helper types for the new evaluator-generation LRO.
+- Added evaluator generation support on `project.beta.evaluators`.
 - Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.datasets`.
 - Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
 - Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
-- Added `ApiError` model interface and its deserializers to the public API surface.
 - Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 
 ### Bugs Fixed
