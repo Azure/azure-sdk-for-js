@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { BatchNodeFile } from "../models/models.js";
+import type { BatchNodeFile } from "../../models/models.js";
 
 export function getBatchNodeFileProperties(rawHeaders: RawHttpHeaders): BatchNodeFile {
   const url =
