@@ -683,8 +683,8 @@ export function collectImportTargetPaths(
 ): Map<string, string> {
   const index = buildImportTargetIndex(importsMap, packageRoot);
   const result = new Map<string, string>();
-  for (const [path, entry] of index.exactPaths) {
-    result.set(path, entry.key);
+  for (const [absPath, entry] of index.exactPaths) {
+    result.set(absPath, entry.key);
   }
   return result;
 }
@@ -948,7 +948,7 @@ export function validateNoDirectImports(
 
   if (validatePlatformFiles) {
     const log = getLogger();
-    log.info(`[warp] Validated ${platformFileCount} platform-specific file(s)`);
+    log.verbose(`[warp] Validated ${platformFileCount} platform-specific file(s)`);
   }
 
   return violations;

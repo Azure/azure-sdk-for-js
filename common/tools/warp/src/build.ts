@@ -288,7 +288,10 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
       for (const f of pc.parsedConfig.fileNames) allSourceFiles.add(f);
     }
 
-    // Also validate platform files when polyfillSuffix is NOT active
+    // Validate platform files when polyfillSuffix is NOT configured.
+    // Note: We check config rather than whether polyfill files exist on disk.
+    // If polyfillSuffix is configured but no files exist, the build will fail
+    // later anyway. Calling discoverPolyfills here would add I/O overhead.
     const usesPolyfill = config.targets.some((t) => t.polyfillSuffix);
     const violations = validateNoDirectImports(
       [...allSourceFiles],
@@ -317,15 +320,15 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
 
       if (platformViolations.length > 0) {
         log.error(
-          `\n[warp] Found ${platformViolations.length} platform-specific file(s) bypassing #platform imports:`,
+          `\n[warp] Found ${platformViolations.length} platform-specific file(s) bypassing #imports:`,
         );
         for (const v of platformViolations) {
           log.error(
-            `  ${path.relative(packageRoot, v.file)}:${v.line}  ${v.specifier}  →  use ${v.suggestedImport}`,
+            `  ${path.relative(packageRoot, v.file)}:${v.line} [${v.targetPlatform}]  ${v.specifier}  →  use ${v.suggestedImport}`,
           );
         }
         log.error(
-          `\n[warp] Platform entry files (e.g., *-browser.mts) must use #platform imports to ensure correct resolution.`,
+          `\n[warp] Platform entry files must use #-prefixed imports to ensure correct resolution.`,
         );
       }
 

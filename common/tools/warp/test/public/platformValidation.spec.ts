@@ -92,6 +92,22 @@ describe("validateNoDirectImports with platform file validation", () => {
     expect(violations[0].line).toBe(1);
   });
 
+  it("allows platform file to import its own platform variant directly", async () => {
+    // A browser file importing ./utils-browser.mjs resolves to the correct platform
+    // variant for that condition. This is intentionally allowed since the import
+    // resolves correctly at runtime.
+    await fs.mkdir(path.join(tmpDir, "src"));
+    await fs.writeFile(
+      path.join(tmpDir, "src", "index-browser.mts"),
+      `export * from "./utils-browser.mjs";`,
+    );
+    await fs.writeFile(path.join(tmpDir, "src", "utils.ts"), `export const foo = 1;`);
+    await fs.writeFile(path.join(tmpDir, "src", "utils-browser.mts"), `export const foo = 2;`);
+
+    const violations = await validate();
+    expect(violations).toEqual([]);
+  });
+
   it("detects multiple violations in same file", async () => {
     await fs.mkdir(path.join(tmpDir, "src"));
     await fs.writeFile(
