@@ -8,6 +8,8 @@ import type {
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
 import { BaseRequestPolicy } from "./RequestPolicy.js";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
+import { setURLParameter } from "../utils/utils.common.js";
 
 /**
  * StorageBrowserPolicy will handle differences between Node.js and browser runtime, including:
@@ -19,8 +21,6 @@ import { BaseRequestPolicy } from "./RequestPolicy.js";
  * 2. Remove cookie header for security
  *
  * 3. Remove content-length header to avoid browsers warning
- *
- * In Node.js, this policy is a no-op pass-through.
  */
 export class StorageBrowserPolicy extends BaseRequestPolicy {
   /**
@@ -40,6 +40,19 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
    * @param request -
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    if (request.method.toUpperCase() === "GET" || request.method.toUpperCase() === "HEAD") {
+      request.url = setURLParameter(
+        request.url,
+        URLConstants.Parameters.FORCE_BROWSER_NO_CACHE,
+        new Date().getTime().toString(),
+      );
+    }
+
+    request.headers.remove(HeaderConstants.COOKIE);
+
+    // According to XHR standards, content-length should be fully controlled by browsers
+    request.headers.remove(HeaderConstants.CONTENT_LENGTH);
+
     return this._nextPolicy.sendRequest(request);
   }
 }
