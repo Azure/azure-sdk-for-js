@@ -25,6 +25,7 @@ import type {
   AzureCustomVoice,
   AzureStandardVoice,
   AzurePersonalVoice,
+  AzureAvatarVoiceSyncVoice,
   Voice,
   RequestSession,
 } from "../../src/models/index.js";
@@ -37,9 +38,14 @@ import {
   azureStandardVoiceDeserializer,
   azurePersonalVoiceSerializer,
   azurePersonalVoiceDeserializer,
+  azureAvatarVoiceSyncVoiceSerializer,
+  azureAvatarVoiceSyncVoiceDeserializer,
   voiceSerializer,
   voiceDeserializer,
   requestSessionSerializer,
+  serverEventSessionAvatarSwitchToSpeakingDeserializer,
+  serverEventSessionAvatarSwitchToIdleDeserializer,
+  serverEventResponseVideoDeltaDeserializer,
   KnownAvatarConfigTypes,
   KnownPhotoAvatarBaseModes,
   KnownAvatarOutputProtocol,
@@ -648,6 +654,100 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
 
       const serialized = requestSessionSerializer(session);
       expect(serialized.voice).toBe("alloy");
+    });
+  });
+
+  describe("AzureAvatarVoiceSyncVoice (GA 1.0.0)", () => {
+    it("serializes camelCase fields to snake_case wire format", () => {
+      const voice: AzureAvatarVoiceSyncVoice = {
+        type: "azure-avatar-voice-sync",
+        model: "avatar-sync-model",
+        temperature: 0.7,
+        customLexiconUrl: "https://example.com/lex.xml",
+        customTextNormalizationUrl: "https://example.com/norm.xml",
+        preferLocales: ["en-US", "fr-FR"],
+        locale: "en-US",
+        style: "cheerful",
+        pitch: "+5%",
+        rate: "medium",
+        volume: "loud",
+      };
+
+      const wire = azureAvatarVoiceSyncVoiceSerializer(voice);
+
+      expect(wire.type).toBe("azure-avatar-voice-sync");
+      expect(wire.custom_lexicon_url).toBe("https://example.com/lex.xml");
+      expect(wire.custom_text_normalization_url).toBe("https://example.com/norm.xml");
+      expect(wire.prefer_locales).toEqual(["en-US", "fr-FR"]);
+      // Ensure camelCase keys never leak to the wire.
+      expect(wire).not.toHaveProperty("customLexiconUrl");
+      expect(wire).not.toHaveProperty("customTextNormalizationUrl");
+      expect(wire).not.toHaveProperty("preferLocales");
+    });
+
+    it("round-trips through serializer + deserializer", () => {
+      const original: AzureAvatarVoiceSyncVoice = {
+        type: "azure-avatar-voice-sync",
+        model: "m1",
+        customLexiconUrl: "https://lex",
+        customTextNormalizationUrl: "https://norm",
+        preferLocales: ["en-US"],
+        locale: "en-US",
+      };
+
+      const wire = azureAvatarVoiceSyncVoiceSerializer(original);
+      const result = azureAvatarVoiceSyncVoiceDeserializer(wire);
+
+      expect(result.customLexiconUrl).toBe(original.customLexiconUrl);
+      expect(result.customTextNormalizationUrl).toBe(original.customTextNormalizationUrl);
+      expect(result.preferLocales).toEqual(original.preferLocales);
+    });
+
+    it("preserves undefined optional fields without leaking camelCase keys", () => {
+      const minimal: AzureAvatarVoiceSyncVoice = {
+        type: "azure-avatar-voice-sync",
+        model: "m1",
+      };
+      const wire = azureAvatarVoiceSyncVoiceSerializer(minimal);
+      expect(wire.type).toBe("azure-avatar-voice-sync");
+      expect(wire.custom_lexicon_url).toBeUndefined();
+      expect(wire.prefer_locales).toBeUndefined();
+    });
+  });
+
+  describe("Avatar speaking-state and video server events (GA 1.0.0)", () => {
+    it("deserializes session.avatar.switch_to_speaking", () => {
+      const evt = serverEventSessionAvatarSwitchToSpeakingDeserializer({
+        type: "session.avatar.switch_to_speaking",
+        event_id: "e1",
+        turn_id: "t-42",
+      });
+      expect(evt.type).toBe("session.avatar.switch_to_speaking");
+      expect(evt.eventId).toBe("e1");
+      expect(evt.turnId).toBe("t-42");
+    });
+
+    it("deserializes session.avatar.switch_to_idle", () => {
+      const evt = serverEventSessionAvatarSwitchToIdleDeserializer({
+        type: "session.avatar.switch_to_idle",
+        event_id: "e2",
+        turn_id: "t-99",
+      });
+      expect(evt.eventId).toBe("e2");
+      expect(evt.turnId).toBe("t-99");
+    });
+
+    it("deserializes response.video.delta with codec and base64 payload", () => {
+      const evt = serverEventResponseVideoDeltaDeserializer({
+        type: "response.video.delta",
+        event_id: "e3",
+        output_index: 2,
+        codec: "h264",
+        delta: "AAECAwQ=",
+      });
+      expect(evt.outputIndex).toBe(2);
+      expect(evt.codec).toBe("h264");
+      expect(evt.delta).toBe("AAECAwQ=");
     });
   });
 });
