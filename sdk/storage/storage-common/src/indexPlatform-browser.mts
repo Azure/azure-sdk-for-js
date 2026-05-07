@@ -25,6 +25,7 @@ export * from "./policies/StorageRetryPolicyV2.js";
 export * from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
 export * from "#platform/credentials/UserDelegationKeyCredential";
+export type { UserDelegationKey } from "./credentials/UserDelegationKey.js";
 
 // Readable is Node.js only - export a never type for browser builds
 export type Readable = never;

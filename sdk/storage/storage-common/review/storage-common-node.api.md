@@ -17,9 +17,7 @@ import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
 import type { RestError } from '@azure/core-rest-pipeline';
 import type { WebResourceLike } from '@azure/core-http-compat';
 
-// Warning: (ae-internal-missing-underscore) The name "allocBuffer" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function allocBuffer(size: number): NodeBuffer;
 
 // @public
@@ -44,9 +42,7 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "bufferFromArrayBuffer" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
 
 // @public
@@ -55,9 +51,7 @@ export class BufferScheduler {
     do(): Promise<void>;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "createBlobFromData" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
 
 // @public
@@ -74,17 +68,13 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 // @public
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
 
-// Warning: (ae-internal-missing-underscore) The name "getBufferLength" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function getBufferLength(buffer: NodeBuffer): number;
 
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
 
-// Warning: (ae-internal-missing-underscore) The name "isBuffer" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public

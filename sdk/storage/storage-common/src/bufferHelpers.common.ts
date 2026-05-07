@@ -5,7 +5,6 @@
  * Creates a Blob from the given data.
  * Uses an indirect constructor reference to work around React Native's restrictive
  * Blob type definitions (which only accept string | Blob, not ArrayBuffer).
- * @internal
  */
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob {
   if (data instanceof Blob) {
