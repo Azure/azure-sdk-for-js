@@ -138,9 +138,6 @@ export async function main(): Promise<void> {
 
     console.log("\nGenerating cluster insights...");
     let clusterInsight = await project.beta.insights.generate({
-      insight_id: "",
-      metadata: { createdAt: new Date() },
-      state: "NotStarted",
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",

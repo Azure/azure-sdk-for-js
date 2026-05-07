@@ -7950,7 +7950,15 @@ export interface Insight {
   readonly result?: InsightResultUnion;
 }
 
-export function insightSerializer(item: Insight): any {
+/** Request body for generating an insight. */
+export interface InsightGenerationRequest {
+  /** User friendly display name for the insight. */
+  displayName: string;
+  /** Request for the insights analysis. */
+  request: InsightRequestUnion;
+}
+
+export function insightSerializer(item: InsightGenerationRequest | Insight): any {
   return {
     displayName: item["displayName"],
     request: insightRequestUnionSerializer(item["request"]),
@@ -10819,6 +10827,10 @@ export type BetaAgentsDownloadSessionFileResponse = {
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
+/**
+ * Response type for the `downloadAgentCode` operation.
+ * Use `blobBody` in browser environments and `readableStreamBody` in Node.js to read the zip payload.
+ */
 export type BetaAgentsDownloadAgentCodeResponse = {
   /**
    * BROWSER ONLY
@@ -10836,6 +10848,10 @@ export type BetaAgentsDownloadAgentCodeResponse = {
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
+/**
+ * Response type for the `downloadAgentVersionCode` operation.
+ * Use `blobBody` in browser environments and `readableStreamBody` in Node.js to read the zip payload.
+ */
 export type BetaAgentsDownloadAgentVersionCodeResponse = {
   /**
    * BROWSER ONLY

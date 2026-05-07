@@ -288,6 +288,7 @@ export type {
   JobStatus,
   EvaluatorGenerationTokenUsage,
   Insight,
+  InsightGenerationRequest,
   InsightsMetadata,
   OperationState,
   InsightRequest,

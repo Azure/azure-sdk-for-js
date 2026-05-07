@@ -404,6 +404,7 @@ export type {
   UpdateToolboxRequest,
   AgentType,
   AgentDefinitionOptInKeys,
+  InsightGenerationRequest,
   PageOrder,
   FoundryFeaturesOptInKeys,
   PendingUploadType,

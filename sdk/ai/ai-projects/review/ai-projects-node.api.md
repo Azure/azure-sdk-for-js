@@ -492,7 +492,7 @@ export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOpti
     foundryFeatures?: "CodeAgents=V1Preview";
 }
 
-// @public (undocumented)
+// @public
 export type BetaAgentsDownloadAgentCodeResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
@@ -503,7 +503,7 @@ export interface BetaAgentsDownloadAgentVersionCodeOptionalParams extends Operat
     foundryFeatures?: "CodeAgents=V1Preview";
 }
 
-// @public (undocumented)
+// @public
 export type BetaAgentsDownloadAgentVersionCodeResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
@@ -553,7 +553,6 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 // @public
 export interface BetaAgentsOperations {
     createAgentFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: BetaAgentsCreateAgentFromCodeOptionalParams) => Promise<Agent>;
-    // (undocumented)
     createAgentVersionFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
@@ -763,7 +762,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaInsightsOperations {
-    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+    generate: (insight: InsightGenerationRequest, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
     get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
@@ -2224,6 +2223,12 @@ export interface InsightCluster {
     suggestion: string;
     suggestionTitle: string;
     weight: number;
+}
+
+// @public
+export interface InsightGenerationRequest {
+    displayName: string;
+    request: InsightRequestUnion;
 }
 
 // @public

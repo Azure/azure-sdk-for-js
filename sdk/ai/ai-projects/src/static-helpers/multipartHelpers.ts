@@ -11,12 +11,27 @@ export type FileContents =
   | Uint8Array
   | Blob;
 
+type FilePartInput =
+  | FileContents
+  | {
+      contents: FileContents;
+      contentType?: string;
+      filename?: string;
+    }
+  | null
+  | undefined;
+
 export function createFilePartDescriptor(
   partName: string,
-  fileInput: any,
+  fileInput: FilePartInput,
   defaultContentType?: string,
-): any {
-  if (fileInput.contents) {
+): {
+  name: string;
+  body: FileContents | null | undefined;
+  contentType?: string;
+  filename?: string;
+} {
+  if (fileInput != null && typeof fileInput === "object" && "contents" in fileInput) {
     return {
       name: partName,
       body: fileInput.contents,

@@ -174,6 +174,13 @@ export interface BetaAgentsOperations {
     agentVersion: string,
     options?: BetaAgentsDownloadAgentVersionCodeOptionalParams,
   ) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>;
+  /**
+   * Creates a new version for an existing code-based hosted agent.
+   * @param agentName - The name of the agent to version.
+   * @param codeZipSha256 - The SHA-256 hex digest of the uploaded zip payload.
+   * @param body - Multipart content containing JSON metadata and the code zip file.
+   * @param options - Optional parameters for the request.
+   */
   createAgentVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
