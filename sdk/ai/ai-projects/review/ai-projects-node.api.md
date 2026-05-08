@@ -319,24 +319,6 @@ export interface AISearchIndexResource {
 }
 
 // @public
-export interface ApiError {
-    // (undocumented)
-    additionalInfo?: Record<string, any>;
-    // (undocumented)
-    code: string | null;
-    // (undocumented)
-    debugInfo?: Record<string, any>;
-    // (undocumented)
-    details?: ApiError[];
-    // (undocumented)
-    message: string;
-    // (undocumented)
-    param?: string;
-    // (undocumented)
-    type?: string;
-}
-
-// @public
 export interface ApiErrorResponse {
     error: ErrorModel;
 }
@@ -1406,7 +1388,7 @@ export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
 // @public
 export interface DataGenerationJob {
     readonly created_at?: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly finished_at?: Date;
     readonly id?: string;
     inputs?: DataGenerationJobInputs;
@@ -1870,7 +1852,7 @@ export interface EvaluatorGenerationInputs {
 // @public
 export interface EvaluatorGenerationJob {
     readonly created_at?: Date;
-    readonly error?: ApiError;
+    readonly error?: ErrorModel;
     readonly finished_at?: Date;
     readonly id?: string;
     inputs?: EvaluatorGenerationInputs;

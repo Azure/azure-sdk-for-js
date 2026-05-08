@@ -186,7 +186,6 @@ export type {
   AgentCard,
   AgentCardSkill,
   ApiErrorResponse,
-  ApiError,
   ErrorModel,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
