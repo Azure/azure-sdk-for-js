@@ -155,7 +155,7 @@ describe("Utility Helpers Node.js only", () => {
     // multiple buffered chunks from a single `readable` event - the exact scenario
     // that regressed in Node.js v26 (see nodejs/node#60441).
     function makeMultiChunkStream(chunks: Buffer[]): Readable {
-      const stream = new Readable({ read() { } });
+      const stream = new Readable({ read() {} });
       for (const chunk of chunks) {
         stream.push(chunk);
       }
