@@ -44,18 +44,7 @@ const mockSas =
 
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid", "_"];
 
-// Sanitizer to remove trailing & from URIs - fixes mismatch between old recordings
-// (made with trailing &) and current browser requests (without trailing &)
-const trailingAmpersandSanitizer: FindReplaceSanitizer = {
-  regex: true,
-  target: "&$",
-  value: "",
-};
-
-export const uriSanitizers: FindReplaceSanitizer[] = [
-  ...sasParams.map(getUriSanitizerForQueryParam),
-  trailingAmpersandSanitizer,
-];
+export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Used in record and playback modes

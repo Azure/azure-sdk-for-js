@@ -56,18 +56,7 @@ const sasParams = [
   "_",
 ];
 
-// Sanitizer to remove trailing & from URIs - fixes mismatch between old recordings
-// (made with trailing &) and current browser requests (without trailing &)
-const trailingAmpersandSanitizer: FindReplaceSanitizer = {
-  regex: true,
-  target: "&$",
-  value: "",
-};
-
-export const uriSanitizers: UriSanitizers = [
-  ...sasParams.map(getUriSanitizerForQueryParam),
-  trailingAmpersandSanitizer,
-];
+export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Comment following line to skip user delegation key/SAS related cases in record and play

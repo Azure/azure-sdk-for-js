@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Recorder, RecorderStartOptions, RegexSanitizer } from "@azure-tools/test-recorder";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
@@ -51,18 +51,7 @@ const sasParams = [
   "_",
 ];
 
-// Sanitizer to remove trailing & from URIs - fixes mismatch between old recordings
-// (made with trailing &) and current browser requests (without trailing &)
-const trailingAmpersandSanitizer: RegexSanitizer = {
-  regex: true,
-  target: "&$",
-  value: "",
-};
-
-export const uriSanitizers: UriSanitizers = [
-  ...sasParams.map(getUriSanitizerForQueryParam),
-  trailingAmpersandSanitizer,
-];
+export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Used in record and playback modes
