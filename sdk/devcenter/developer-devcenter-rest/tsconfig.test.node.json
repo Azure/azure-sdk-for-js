@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/developer-devcenter": ["./src/index.ts"],
+      "@azure-rest/developer-devcenter/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

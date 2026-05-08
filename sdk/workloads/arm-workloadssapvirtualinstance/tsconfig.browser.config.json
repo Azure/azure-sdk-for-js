@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-workloadssapvirtualinstance": ["./dist/browser/index.d.ts"],
+      "@azure/arm-workloadssapvirtualinstance/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
+}

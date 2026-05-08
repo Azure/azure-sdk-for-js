@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-workspaces": ["./src/index.ts"],
+      "@azure/arm-workspaces/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
