@@ -800,7 +800,7 @@ export interface BackupEngineBase {
 }
 
 // @public
-export interface BackupEngineBaseResource extends Resource {
+export interface BackupEngineBaseResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupEngineBaseUnion;
@@ -868,7 +868,7 @@ export interface BackupResourceConfig {
 }
 
 // @public
-export interface BackupResourceConfigResource extends Resource {
+export interface BackupResourceConfigResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupResourceConfig;
@@ -893,7 +893,7 @@ export interface BackupResourceEncryptionConfigExtended extends BackupResourceEn
 }
 
 // @public (undocumented)
-export interface BackupResourceEncryptionConfigExtendedResource extends Resource {
+export interface BackupResourceEncryptionConfigExtendedResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupResourceEncryptionConfigExtended;
@@ -921,7 +921,7 @@ export interface BackupResourceVaultConfig {
 }
 
 // @public
-export interface BackupResourceVaultConfigResource extends Resource {
+export interface BackupResourceVaultConfigResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: BackupResourceVaultConfig;
@@ -1509,7 +1509,7 @@ export interface Job {
 }
 
 // @public
-export interface JobResource extends Resource {
+export interface JobResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: JobUnion;
@@ -2071,7 +2071,8 @@ export enum KnownVaultSubResourceType {
 export enum KnownVersions {
     V20250201 = "2025-02-01",
     V20250801 = "2025-08-01",
-    V20260101Preview = "2026-01-01-preview"
+    V20260101 = "2026-01-01",
+    V20260131Preview = "2026-01-31-preview"
 }
 
 // @public
@@ -2277,10 +2278,6 @@ export interface NameInfo {
 }
 
 // @public
-export interface OkResponse {
-}
-
-// @public
 export interface OperationResultInfo extends OperationResultInfoBase {
     jobList?: string[];
     objectType: "OperationResultInfo";
@@ -2438,7 +2435,7 @@ export interface PrivateEndpointConnection {
 }
 
 // @public
-export interface PrivateEndpointConnectionResource extends Resource {
+export interface PrivateEndpointConnectionResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: PrivateEndpointConnection;
@@ -2506,7 +2503,7 @@ export interface ProtectedItem {
 export type ProtectedItemHealthStatus = string;
 
 // @public
-export interface ProtectedItemResource extends Resource {
+export interface ProtectedItemResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectedItemUnion;
@@ -2530,7 +2527,7 @@ export interface ProtectionContainer {
 }
 
 // @public
-export interface ProtectionContainerResource extends Resource {
+export interface ProtectionContainerResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectionContainerUnion;
@@ -2554,7 +2551,7 @@ export interface ProtectionIntent {
 export type ProtectionIntentItemType = string;
 
 // @public
-export interface ProtectionIntentResource extends Resource {
+export interface ProtectionIntentResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectionIntentUnion;
@@ -2575,7 +2572,7 @@ export interface ProtectionPolicy {
 }
 
 // @public
-export interface ProtectionPolicyResource extends Resource {
+export interface ProtectionPolicyResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ProtectionPolicyUnion;
@@ -2593,6 +2590,10 @@ export type ProtectionStatus = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type RecoveryMode = string;
@@ -2634,7 +2635,7 @@ export interface RecoveryPointRehydrationInfo {
 }
 
 // @public
-export interface RecoveryPointResource extends Resource {
+export interface RecoveryPointResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: RecoveryPointUnion;
@@ -2698,7 +2699,7 @@ export interface ResourceGuardProxyBase {
 }
 
 // @public (undocumented)
-export interface ResourceGuardProxyBaseResource extends Resource {
+export interface ResourceGuardProxyBaseResource extends ProxyResource {
     eTag?: string;
     location?: string;
     properties?: ResourceGuardProxyBase;
