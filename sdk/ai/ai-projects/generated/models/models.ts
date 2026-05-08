@@ -5177,13 +5177,50 @@ export function agentCardSkillDeserializer(item: any): AgentCardSkill {
 
 /** Error response for API failures. */
 export interface ApiErrorResponse {
-  error: ErrorModel;
+  error: ApiError;
 }
 
 export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
   return {
-    error: errorDeserializer(item["error"]),
+    error: apiErrorDeserializer(item["error"]),
   };
+}
+
+/** model interface ApiError */
+export interface ApiError {
+  code: string | null;
+  message: string;
+  param?: string;
+  type?: string;
+  details?: ApiError[];
+  additionalInfo?: Record<string, any>;
+  debugInfo?: Record<string, any>;
+}
+
+export function apiErrorDeserializer(item: any): ApiError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    param: item["param"],
+    type: item["type"],
+    details: !item["details"] ? item["details"] : apiErrorArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : Object.fromEntries(
+          Object.entries(item["additionalInfo"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    debugInfo: !item["debugInfo"]
+      ? item["debugInfo"]
+      : Object.fromEntries(
+          Object.entries(item["debugInfo"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
+  return result.map((item) => {
+    return apiErrorDeserializer(item);
+  });
 }
 
 /** A deleted agent Object */
@@ -7555,7 +7592,7 @@ export interface EvaluatorGenerationJob {
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ErrorModel;
+  readonly error?: ApiError;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at: Date;
   /** The timestamp when the job finished, represented in Unix time (seconds since January 1, 1970). */
@@ -7578,7 +7615,7 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
       : evaluatorGenerationInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : evaluatorVersionDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
     usage: !item["usage"]
@@ -8993,7 +9030,7 @@ export interface MemoryStoreUpdateResponse {
   /** The result of memory store update operation when status is "completed". */
   result?: MemoryStoreUpdateCompletedResult;
   /** Error object that describes the error when status is "failed". */
-  error?: ErrorModel;
+  error?: ApiError;
 }
 
 export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpdateResponse {
@@ -9004,7 +9041,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
     result: !item["result"]
       ? item["result"]
       : memoryStoreUpdateCompletedResultDeserializer(item["result"]),
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
   };
 }
 
@@ -10093,7 +10130,7 @@ export interface DataGenerationJob {
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
-  readonly error?: ErrorModel;
+  readonly error?: ApiError;
   /** The timestamp when the job was created, represented in Unix time (seconds since January 1, 1970). */
   readonly created_at: Date;
   /** The timestamp when the job was finished, represented in Unix time (seconds since January 1, 1970). */
@@ -10112,7 +10149,7 @@ export function dataGenerationJobDeserializer(item: any): DataGenerationJob {
     inputs: !item["inputs"] ? item["inputs"] : dataGenerationJobInputsDeserializer(item["inputs"]),
     result: !item["result"] ? item["result"] : dataGenerationJobResultDeserializer(item["result"]),
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
   };

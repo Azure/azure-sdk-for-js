@@ -147,6 +147,8 @@ Then, for each genuine addition:
 3. **Classic surface** (`src/classic/.../index.ts`): paste the new method onto the operations interface and the factory return object. Same `foundryFeatures` rule.
 4. **Beta union members** (e.g. a new `FabricIQPreviewTool` added to `ToolUnion`): also update the `*Serializer` / `*Deserializer` switch statements that dispatch on the union discriminator.
 
+**ApiError / ErrorModel compatibility**: preserve the public error shape from `@azure/ai-projects` 2.1.1. `ApiErrorResponse` and `ErrorModel` are public; a standalone `ApiError` model is not part of the public API surface. If the emitter adds `ApiError`, `apiErrorDeserializer`, or `apiErrorArrayDeserializer` under `generated/`, do **not** propagate those symbols into `src/` exports or API review output. Keep `ApiErrorResponse.error` and job/resource `error` properties typed as `ErrorModel`, and deserialize them with `errorDeserializer`. Do not edit `generated/` just to remove emitted `ApiError`; doing so creates churn for the next merge.
+
 If nothing is missing, this step is a no-op — confirm and move on.
 
 #### Step 2b: Detect and dedupe redeclared symbols
