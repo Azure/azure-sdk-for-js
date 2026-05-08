@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.browser.shared.config.ts";
+import viteConfig from "../../../eng/vitestconfigs/browser.config.ts";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
