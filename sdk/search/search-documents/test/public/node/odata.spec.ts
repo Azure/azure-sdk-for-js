@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { assert, describe, it } from "vitest";
-import { odata } from "../../src/index.js";
+import { odata } from "../../../src/index.js";
 
 describe("odata", function () {
   it("simple string isn't changed", function () {

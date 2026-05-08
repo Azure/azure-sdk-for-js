@@ -1,7 +1,7 @@
 {
   "extends": "../../../../eng/tsconfigs/src.react-native.json",
   "include": [
-    "../src/node-events.d.ts",
+    "../src/events.d.ts",
     "../src/index.ts",
     "../src/search/index.ts",
     "../src/search/api/index.ts",
