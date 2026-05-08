@@ -1,6 +1,6 @@
 {
   "name": "@azure/batch",
-  "version": "13.0.0-beta.3",
+  "version": "13.0.0",
   "description": "Azure Batch client library for JavaScript",
   "engines": {
     "node": ">=20.0.0"
@@ -62,7 +62,7 @@
     "@azure/arm-batch": "workspace:^",
     "@azure/arm-compute": "workspace:^",
     "@azure/arm-keyvault": "workspace:^",
-    "@azure/arm-resources": "catalog:arm",
+    "@azure/arm-resources": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",

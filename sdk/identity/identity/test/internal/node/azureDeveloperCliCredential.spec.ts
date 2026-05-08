@@ -341,6 +341,81 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       const result = developerCliCredentialInternals.parseAzdStderr(json);
       assert.equal(result, json);
     });
+
+    it("extracts structured error field (v1.24.0+ single line)", () => {
+      const aadError =
+        "fetching token: failed to authenticate:\n(invalid_tenant) AADSTS90002: Tenant 'test' not found";
+      const json = JSON.stringify({
+        error: aadError,
+        links: [{ title: "azd auth login reference", url: "https://example.com" }],
+        message: "Authentication with Azure failed.",
+        suggestion: "Run 'azd auth login' to sign in again.",
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, aadError);
+    });
+
+    it("prefers structured error preceded by empty consoleMessage (v1.23.7 - v1.23.15)", () => {
+      const aadError = "fetching token: failed to authenticate";
+      const input =
+        JSON.stringify({
+          type: "consoleMessage",
+          timestamp: "2026-04-13T17:43:24.7558297-07:00",
+          data: { message: "\n" },
+        }) +
+        "\n" +
+        JSON.stringify({
+          error: aadError,
+          message: "Authentication with Azure failed.",
+          suggestion: "Run 'azd auth login' to sign in again.",
+        });
+      const result = developerCliCredentialInternals.parseAzdStderr(input);
+      assert.equal(result, aadError);
+    });
+
+    it("prefers structured error over non-empty consoleMessage", () => {
+      const aadError = "AADSTS70008: Refresh token expired";
+      const input =
+        JSON.stringify({
+          type: "consoleMessage",
+          timestamp: "2024-01-01T00:00:00Z",
+          data: { message: "some informational console output" },
+        }) +
+        "\n" +
+        JSON.stringify({
+          error: aadError,
+          message: "Authentication with Azure failed.",
+        });
+      const result = developerCliCredentialInternals.parseAzdStderr(input);
+      assert.equal(result, aadError);
+    });
+
+    it("falls back to first non-empty consoleMessage when no structured error", () => {
+      const firstMessage = "ERROR: fetching token: interactive login needed";
+      const input =
+        JSON.stringify({
+          type: "consoleMessage",
+          data: { message: "\n" },
+        }) +
+        "\n" +
+        JSON.stringify({
+          type: "consoleMessage",
+          data: { message: firstMessage },
+        }) +
+        "\n" +
+        JSON.stringify({
+          type: "consoleMessage",
+          data: { message: "trailing detail" },
+        });
+      const result = developerCliCredentialInternals.parseAzdStderr(input);
+      assert.equal(result, firstMessage);
+    });
+
+    it("returns raw stderr when structured error field is empty", () => {
+      const json = JSON.stringify({ error: "   ", message: "Authentication failed." });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, json);
+    });
   });
 
   describe("error message parsing integration", () => {
@@ -369,6 +444,47 @@ describe("AzureDeveloperCliCredential (internal)", function () {
         assert.fail("Expected error to be thrown");
       } catch (error: any) {
         assert.equal(error.message, "plain text error message");
+      }
+    });
+
+    it("parses structured error from azd v1.24.0+ stderr", async () => {
+      const aadError = "AADSTS90002: Tenant 'test' not found";
+      stdout = "";
+      stderr = JSON.stringify({
+        error: aadError,
+        message: "Authentication with Azure failed.",
+        suggestion: "Run 'azd auth login' to sign in again.",
+      });
+      const credential = new AzureDeveloperCliCredential();
+      try {
+        await credential.getToken("https://service/.default");
+        assert.fail("Expected error to be thrown");
+      } catch (error: any) {
+        assert.equal(error.message, aadError);
+      }
+    });
+
+    it("parses structured error preceded by empty consoleMessage from azd v1.23.7-v1.23.15 stderr", async () => {
+      const aadError = "AADSTS90002: Tenant 'test' not found";
+      stdout = "";
+      stderr =
+        JSON.stringify({
+          type: "consoleMessage",
+          timestamp: "2026-04-13T17:43:24.7558297-07:00",
+          data: { message: "\n" },
+        }) +
+        "\n" +
+        JSON.stringify({
+          error: aadError,
+          message: "Authentication with Azure failed.",
+          suggestion: "Run 'azd auth login' to sign in again.",
+        });
+      const credential = new AzureDeveloperCliCredential();
+      try {
+        await credential.getToken("https://service/.default");
+        assert.fail("Expected error to be thrown");
+      } catch (error: any) {
+        assert.equal(error.message, aadError);
       }
     });
   });
