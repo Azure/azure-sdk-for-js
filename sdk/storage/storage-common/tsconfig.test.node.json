@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-common": ["./src/index.ts"],
+      "@azure/storage-common/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
