@@ -23,7 +23,6 @@ import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { ignoreOutgoingRequestHook } from "../utils/common.js";
 import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
-import { AzureFunctionsInstrumentation } from "@azure/functions-opentelemetry-instrumentation";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { ApplicationInsightsSampler } from "./sampler.js";
 
@@ -148,11 +147,6 @@ export class TraceHandler {
     ) {
       this._instrumentations.push(
         new RedisInstrumentation(this._config.instrumentationOptions.redis),
-      );
-    }
-    if (this._config.instrumentationOptions.azureFunctions?.enabled) {
-      this._instrumentations.push(
-        new AzureFunctionsInstrumentation(this._config.instrumentationOptions.azureFunctions),
       );
     }
   }
