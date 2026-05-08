@@ -17,6 +17,7 @@ import type { ServiceBusReceivedMessage } from "../../src/serviceBusMessage.js";
 import { DispositionType } from "../../src/serviceBusMessage.js";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors.js";
 import { isNode } from "@azure/core-util";
+import "../../src/experimental/index.js"; // Import for omitMessageBody type augmentation
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {

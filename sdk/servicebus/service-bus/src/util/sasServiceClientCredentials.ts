@@ -3,7 +3,7 @@
 import type { AccessToken, NamedKeyCredential } from "@azure/core-auth";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { generateKey } from "#platform/util/crypto";
+import { generateKey } from "./crypto.js";
 import type { SasTokenProvider } from "@azure/core-amqp";
 import { createSasTokenProvider } from "@azure/core-amqp";
 

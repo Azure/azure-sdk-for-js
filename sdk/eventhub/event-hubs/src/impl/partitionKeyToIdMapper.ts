@@ -82,12 +82,15 @@ function computeHash(
     case 11:
       c += data[index + 10] << 16;
       curr = 10;
+    /* falls through */
     case 10:
       c += data[index + 9] << 8;
       curr = 9;
+    /* falls through */
     case 9:
       c += data[index + 8];
       curr = 8;
+    /* falls through */
     case 8:
       b += readUInt32(data, index + 4);
       a += readUInt32(data, index);
@@ -95,21 +98,26 @@ function computeHash(
     case 7:
       b += data[index + 6] << 16;
       curr = 6;
+    /* falls through */
     case 6:
       b += data[index + 5] << 8;
       curr = 5;
+    /* falls through */
     case 5:
       b += data[index + 4];
       curr = 4;
+    /* falls through */
     case 4:
       a += readUInt32(data, index);
       break;
     case 3:
       a += data[index + 2] << 16;
       curr = 2;
+    /* falls through */
     case 2:
       a += data[index + 1] << 8;
       curr = 1;
+    /* falls through */
     case 1:
       a += data[index];
       break;

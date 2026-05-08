@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ProcessErrorArgs, ServiceBusReceivedMessage } from "../src/index.js";
 import { ServiceBusAdministrationClient, ServiceBusClient } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
@@ -88,11 +89,11 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const receiver = serviceBusClient.createReceiver("my-queue");
     // @ts-preserve-whitespace
-    const myMessageHandler = async (message) => {
+    const myMessageHandler = async (message: ServiceBusReceivedMessage) => {
       // your code here
       console.log(`message.body: ${message.body}`);
     };
-    const myErrorHandler = async (args) => {
+    const myErrorHandler = async (args: ProcessErrorArgs) => {
       console.log(
         `Error occurred with ${args.entityPath} within ${args.fullyQualifiedNamespace}: `,
         args.error,
