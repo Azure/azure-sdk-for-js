@@ -371,8 +371,8 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   tsconfig.compilerOptions.outDir = "./dist";
   tsconfig.compilerOptions.resolveJsonModule = true;
 
-  tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
-  tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
+  tsconfig.compilerOptions.moduleResolution = "nodenext"; // ts.ModuleResolutionKind.NodeNext
+  tsconfig.compilerOptions.module = "nodenext"; // ts.ModuleKind.NodeNext
   return jsonify(tsconfig);
 }
 
