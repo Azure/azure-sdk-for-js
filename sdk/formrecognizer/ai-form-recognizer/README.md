@@ -420,7 +420,7 @@ Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript 
 
 ```ts snippet:ReadmeSamplePrebuiltRead
 import { DefaultAzureCredential } from "@azure/identity";
-import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DocumentAnalysisClient, DocumentSpan } from "@azure/ai-form-recognizer";
 import { createReadStream } from "node:fs";
 import { PrebuiltReadModel } from "../samples-dev/prebuilt/prebuilt-read.js";
 
@@ -476,7 +476,7 @@ if (!languages || languages.length <= 0) {
   }
 }
 
-function* getTextOfSpans(content, spans) {
+function* getTextOfSpans(content: string, spans: DocumentSpan[]): Generator<string> {
   for (const span of spans) {
     yield content.slice(span.offset, span.offset + span.length);
   }
@@ -506,7 +506,7 @@ const poller = await client.beginClassifyDocumentFromUrl("<classifier id>", docu
 
 const result = await poller.pollUntilDone();
 
-if (result?.documents?.length === 0) {
+if (!result?.documents?.length) {
   throw new Error("Failed to extract any documents.");
 }
 

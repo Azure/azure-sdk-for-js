@@ -552,7 +552,7 @@ export class DocumentAnalysisClient {
    *
    * const result = await poller.pollUntilDone();
    *
-   * if (result?.documents?.length === 0) {
+   * if (!result?.documents?.length) {
    *   throw new Error("Failed to extract any documents.");
    * }
    *
@@ -614,7 +614,7 @@ export class DocumentAnalysisClient {
    *
    * const result = await poller.pollUntilDone();
    *
-   * if (result?.documents?.length === 0) {
+   * if (!result?.documents?.length) {
    *   throw new Error("Failed to extract any documents.");
    * }
    *
