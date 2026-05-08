@@ -23,6 +23,7 @@ import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { ignoreOutgoingRequestHook } from "../utils/common.js";
 import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
+import { AzureFunctionsHook } from "./azureFnHook.js";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { ApplicationInsightsSampler } from "./sampler.js";
 
@@ -36,6 +37,7 @@ export class TraceHandler {
   private _instrumentations: Instrumentation[];
   private _config: InternalConfig;
   private _metricHandler: MetricHandler;
+  private _azureFunctionsHook: AzureFunctionsHook;
   private _sampler: Sampler;
 
   /**
@@ -66,6 +68,7 @@ export class TraceHandler {
     };
     this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
+    this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }
 
@@ -89,6 +92,7 @@ export class TraceHandler {
    * Shutdown handler
    */
   public async shutdown(): Promise<void> {
+    this._azureFunctionsHook.shutdown();
     await this._batchSpanProcessor.shutdown();
     await this._azureSpanProcessor.shutdown();
     await this._azureExporter.shutdown();
