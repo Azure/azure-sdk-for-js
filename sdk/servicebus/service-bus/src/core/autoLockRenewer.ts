@@ -32,7 +32,10 @@ export class LockRenewer {
    * A map of link names to individual maps for each
    * link that map a message ID to its auto-renewal timer.
    */
-  private _messageRenewLockTimers = new Map<string, Map<string, NodeJS.Timeout | undefined>>();
+  private _messageRenewLockTimers = new Map<
+    string,
+    Map<string, ReturnType<typeof setTimeout> | undefined>
+  >();
 
   // just here for make unit testing a bit easier.
   private _calculateRenewAfterDuration: typeof calculateRenewAfterDuration;
@@ -210,8 +213,8 @@ export class LockRenewer {
             }, amount);
 
             // Prevent the active Timer from keeping the Node.js event loop active.
-            if (typeof autoRenewTimer.unref === "function") {
-              autoRenewTimer.unref();
+            if (typeof (autoRenewTimer as any).unref === "function") {
+              (autoRenewTimer as any).unref();
             }
 
             linkMessageMap.set(bMessage.messageId as string, autoRenewTimer);
@@ -230,11 +233,13 @@ export class LockRenewer {
     }
   }
 
-  private _getOrCreateMapForLink(linkEntity: MinimalLink): Map<string, NodeJS.Timeout | undefined> {
+  private _getOrCreateMapForLink(
+    linkEntity: MinimalLink,
+  ): Map<string, ReturnType<typeof setTimeout> | undefined> {
     if (!this._messageRenewLockTimers.has(linkEntity.name)) {
       this._messageRenewLockTimers.set(
         linkEntity.name,
-        new Map<string, NodeJS.Timeout | undefined>(),
+        new Map<string, ReturnType<typeof setTimeout> | undefined>(),
       );
     }
 
@@ -243,7 +248,7 @@ export class LockRenewer {
 
   private _stopAndRemoveById(
     linkEntity: MinimalLink,
-    linkMessageMap: Map<string, NodeJS.Timeout | undefined>,
+    linkMessageMap: Map<string, ReturnType<typeof setTimeout> | undefined>,
     messageId: string | undefined,
   ): void {
     if (messageId == null) {
@@ -253,7 +258,7 @@ export class LockRenewer {
     // TODO: messageId doesn't actually need to be unique. Perhaps we should use lockToken
     // instead?
     if (linkMessageMap.has(messageId)) {
-      clearTimeout(linkMessageMap.get(messageId) as NodeJS.Timeout);
+      clearTimeout(linkMessageMap.get(messageId));
       logger.verbose(
         `${linkEntity.logPrefix} Cleared the message renew lock timer for message with id '${messageId}'.`,
       );

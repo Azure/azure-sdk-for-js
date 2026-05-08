@@ -1,7 +1,7 @@
 {
   "name": "@azure/eventhubs-checkpointstore-table",
   "sdk-type": "client",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An Azure Storage Table solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -35,8 +35,8 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
-    "build:test:browser": "dev-tool run build-package && dev-tool run build-test",
-    "build:test:node": "dev-tool run build-package && dev-tool run build-test",
+    "build:test:browser": "dev-tool run build-package",
+    "build:test:node": "dev-tool run build-package",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp *.tgz *.log *.xml",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -45,7 +45,7 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets",
@@ -109,6 +109,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

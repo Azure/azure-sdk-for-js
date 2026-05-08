@@ -24,7 +24,7 @@ import type { EventHubClientOptions } from "./models/public.js";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig.js";
 import type { PartitionReceiver } from "./partitionReceiver.js";
 import type { EventHubSender } from "./eventHubSender.js";
-import { getRuntimeInfo } from "./util/runtimeInfo.js";
+import { getRuntimeInfo } from "#platform/util/runtimeInfo";
 import { isCredential } from "./util/typeGuards.js";
 import { packageJsonInfo } from "./util/constants.js";
 import type { AbortSignalLike } from "@azure/abort-controller";

@@ -1,0 +1,6 @@
+{
+  "extends": "../../../../eng/tsconfigs/snippets.json",
+  "compilerOptions": {
+    "noFallthroughCasesInSwitch": false
+  }
+}

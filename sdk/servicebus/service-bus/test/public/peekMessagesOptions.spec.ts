@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ServiceBusReceiver, ServiceBusSender } from "../../src/index.js";
+import "../../src/experimental/index.js"; // Import for omitMessageBody type augmentation
 import type { EntityName, ServiceBusClientForTests } from "./utils/testutils2.js";
 import { createServiceBusClientForTests } from "./utils/testutils2.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
