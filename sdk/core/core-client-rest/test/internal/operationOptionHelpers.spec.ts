@@ -36,4 +36,10 @@ describe("operationOptionsToRequestParameters", () => {
     assert.equal(result.abortSignal, abortController.signal);
     assert.equal(result.onResponse, onResponse);
   });
+
+  it("preserves tracingOptions", () => {
+    const tracingOptions = { tracingContext: {} as any };
+    const result = operationOptionsToRequestParameters({ tracingOptions });
+    assert.deepEqual(result.tracingOptions, tracingOptions);
+  });
 });

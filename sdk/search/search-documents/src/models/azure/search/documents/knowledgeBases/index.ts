@@ -36,6 +36,7 @@ export type {
   KnowledgeBaseActivityRecordType,
   KnowledgeBaseErrorDetail,
   KnowledgeBaseErrorAdditionalInfo,
+  KnowledgeBaseModelWebSummarizationActivityRecord,
   KnowledgeBaseAgenticReasoningActivityRecord,
   KnowledgeRetrievalReasoningEffort,
   KnowledgeRetrievalReasoningEffortUnion,

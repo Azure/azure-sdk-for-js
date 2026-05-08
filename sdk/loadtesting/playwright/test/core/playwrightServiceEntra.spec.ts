@@ -31,6 +31,10 @@ describe("playwrightServiceEntra", () => {
       (playwrightServiceEntra as any)["_entraIdAccessToken"],
       "fetchEntraIdAccessToken",
     ).mockResolvedValue(true);
+    vi.spyOn(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"],
+      "prefetchStorageAccessToken",
+    ).mockResolvedValue(undefined);
     vi.spyOn(playwrightServiceEntra as any, "entraIdGlobalSetupRotationHandler");
 
     await playwrightServiceEntra.globalSetup();
@@ -38,6 +42,60 @@ describe("playwrightServiceEntra", () => {
     expect(
       (playwrightServiceEntra as any)["_entraIdAccessToken"].fetchEntraIdAccessToken,
     ).toHaveBeenCalledOnce();
+    expect(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"].prefetchStorageAccessToken,
+    ).toHaveBeenCalledOnce();
+    expect(
+      (playwrightServiceEntra as any).entraIdGlobalSetupRotationHandler,
+    ).toHaveBeenCalledOnce();
+  });
+
+  it("should prefetch storage token after fetching management token during global setup", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
+    const callOrder: string[] = [];
+    vi.spyOn(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"],
+      "fetchEntraIdAccessToken",
+    ).mockImplementation(async () => {
+      callOrder.push("fetch");
+    });
+    vi.spyOn(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"],
+      "prefetchStorageAccessToken",
+    ).mockImplementation(async () => {
+      callOrder.push("prefetch");
+    });
+    vi.spyOn(playwrightServiceEntra as any, "entraIdGlobalSetupRotationHandler").mockImplementation(
+      () => {
+        callOrder.push("rotationHandler");
+      },
+    );
+
+    await playwrightServiceEntra.globalSetup();
+
+    expect(callOrder).to.deep.equal(["fetch", "prefetch", "rotationHandler"]);
+  });
+
+  it("should not fail global setup if storage token prefetch rejects", async () => {
+    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = playwrightServiceEntraModule.default;
+    (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
+
+    vi.spyOn(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"],
+      "fetchEntraIdAccessToken",
+    ).mockResolvedValue(true);
+    vi.spyOn(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"],
+      "prefetchStorageAccessToken",
+    ).mockResolvedValue(undefined);
+    vi.spyOn(playwrightServiceEntra as any, "entraIdGlobalSetupRotationHandler");
+
+    await expect(playwrightServiceEntra.globalSetup()).resolves.toBeUndefined();
+
     expect(
       (playwrightServiceEntra as any).entraIdGlobalSetupRotationHandler,
     ).toHaveBeenCalledOnce();
@@ -56,6 +114,10 @@ describe("playwrightServiceEntra", () => {
     ).mockImplementation(() => {
       throw new Error("Failed to fetch access token");
     });
+    vi.spyOn(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"],
+      "prefetchStorageAccessToken",
+    ).mockResolvedValue(undefined);
     vi.spyOn(playwrightServiceEntra as any, "entraIdGlobalSetupRotationHandler");
 
     await expect(() => playwrightServiceEntra.globalSetup()).rejects.toThrowError();
@@ -63,6 +125,9 @@ describe("playwrightServiceEntra", () => {
     expect(
       (playwrightServiceEntra as any)["_entraIdAccessToken"].fetchEntraIdAccessToken,
     ).toHaveBeenCalledOnce();
+    expect(
+      (playwrightServiceEntra as any)["_entraIdAccessToken"].prefetchStorageAccessToken,
+    ).not.toHaveBeenCalled();
     expect(
       (playwrightServiceEntra as any).entraIdGlobalSetupRotationHandler,
     ).not.toHaveBeenCalled();

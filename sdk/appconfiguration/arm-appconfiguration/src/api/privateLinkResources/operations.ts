@@ -30,7 +30,7 @@ export function _listByConfigurationStoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       configStoreName: configStoreName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,6 +49,7 @@ export async function _listByConfigurationStoreDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -67,7 +68,11 @@ export function listByConfigurationStore(
     () => _listByConfigurationStoreSend(context, resourceGroupName, configStoreName, options),
     _listByConfigurationStoreDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -85,7 +90,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       configStoreName: configStoreName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,6 +107,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

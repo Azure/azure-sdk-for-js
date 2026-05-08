@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates vault storage model type.
  *
  * @summary updates vault storage model type.
- * x-ms-original-file: 2026-01-01-preview/Common/BackupStorageConfig_Patch.json
+ * x-ms-original-file: 2026-01-31-preview/Common/BackupStorageConfig_Patch.json
  */
 async function updateVaultStorageConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

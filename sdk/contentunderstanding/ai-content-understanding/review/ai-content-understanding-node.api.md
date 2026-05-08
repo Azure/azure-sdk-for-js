@@ -40,6 +40,16 @@ export interface AnalysisInput {
 }
 
 // @public
+export interface AnalysisOperationMetadata {
+    readonly operationId?: string;
+    readonly usage?: UsageDetails;
+}
+
+// @public
+export interface AnalysisOperationState extends OperationState_2<AnalysisResult>, AnalysisOperationMetadata {
+}
+
+// @public
 export interface AnalysisResult {
     analyzerId?: string;
     apiVersion?: string;
@@ -49,10 +59,10 @@ export interface AnalysisResult {
     warnings?: ErrorModel[];
 }
 
-// @public (undocumented)
-export interface AnalysisResultPoller extends PollerLike<OperationState_2<AnalysisResult>, AnalysisResult> {
-    operationId?: string;
-    usage?: UsageDetails;
+// @public
+export interface AnalysisResultPoller extends PollerLike<AnalysisOperationState, AnalysisResult> {
+    // @deprecated
+    readonly operationId?: string;
 }
 
 // @public
@@ -621,6 +631,16 @@ export type TableFormat = "html" | "markdown";
 export interface TimeField extends ContentField {
     fieldType: "time";
     value?: string;
+}
+
+// @public
+export function toLlmInput(result: AnalysisResult, options?: ToLlmInputOptions): string;
+
+// @public
+export interface ToLlmInputOptions {
+    includeFields?: boolean;
+    includeMarkdown?: boolean;
+    metadata?: Record<string, unknown>;
 }
 
 // @public

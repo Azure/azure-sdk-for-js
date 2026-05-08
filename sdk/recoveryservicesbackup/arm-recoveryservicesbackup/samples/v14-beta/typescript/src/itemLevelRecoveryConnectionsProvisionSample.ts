@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
  * explorer displaying all the recoverable files and folders. This is an asynchronous operation. To know the status of
  * provisioning, call GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/Provision_Ilr.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/Provision_Ilr.json
  */
 async function provisionInstantItemLevelRecoveryForAzureVm(): Promise<void> {
   const credential = new DefaultAzureCredential();

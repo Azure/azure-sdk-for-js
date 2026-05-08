@@ -1,4 +1,4 @@
-# warp.config.yml — @azure/batch build configuration
+# warp.config.yml — build configuration
 
 exports:
   "./package.json": "./package.json"
@@ -22,4 +22,3 @@ targets:
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
-    moduleType: commonjs

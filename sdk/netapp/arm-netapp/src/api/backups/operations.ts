@@ -45,7 +45,7 @@ export function _getVolumeLatestRestoreStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +107,7 @@ export function _getLatestStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,7 +167,7 @@ export function _listByVaultSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
       "%24filter": options?.filter,
     },
     {
@@ -207,11 +207,7 @@ export function listByVault(
     () => _listByVaultSend(context, resourceGroupName, accountName, backupVaultName, options),
     _listByVaultDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-12-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -231,7 +227,7 @@ export function _$deleteSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +268,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -292,7 +288,7 @@ export function _updateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,7 +329,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Backup>, Backup>;
 }
 
@@ -354,7 +350,7 @@ export function _createSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -404,7 +400,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-12-15-preview",
+    apiVersion: context.apiVersion ?? "2026-01-01",
   }) as PollerLike<OperationState<Backup>, Backup>;
 }
 
@@ -424,7 +420,7 @@ export function _getSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

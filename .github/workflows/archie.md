@@ -12,20 +12,32 @@ on:
   permissions:
     pull-requests: write
   steps:
-    - name: Remove trigger label
-      id: remove_label
+    - name: Swap trigger label to in-progress
+      id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'architecture-review-needed'
       uses: actions/github-script@v8
       with:
         script: |
+          const pr = context.payload.pull_request.number;
+          // Remove trigger label
           try {
             await github.rest.issues.removeLabel({
               ...context.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: pr,
               name: 'architecture-review-needed'
             });
           } catch (e) {
-            core.warning(`Could not remove label: ${e.message}`);
+            core.warning(`Could not remove trigger label: ${e.message}`);
+          }
+          // Add in-progress label
+          try {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr,
+              labels: ['architecture-review-in-progress']
+            });
+          } catch (e) {
+            core.warning(`Could not add in-progress label: ${e.message}`);
           }
 labels: [architecture-review-needed]
 if: github.event.label.name == 'architecture-review-needed' || github.event_name == 'workflow_dispatch'
@@ -152,3 +164,12 @@ body confirming the API surface looks good.
 
 After posting, store a brief summary in cache-memory (PR number,
 package, outcome) so future runs can detect repeat patterns.
+
+## Final Step — Update Labels
+
+After completing all review steps, update the PR labels to indicate completion:
+
+1. Remove the `architecture-review-in-progress` label
+2. Add the `architecture-review-added` label
+
+Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.
