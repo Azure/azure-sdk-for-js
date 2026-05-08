@@ -50,11 +50,8 @@ import { removeAllDatabases } from "../common/TestHelpers.js";
 import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll, inject } from "vitest";
-import { emulatorUnavailable } from "../common/_testConfig.js";
-
-const endpoint = inject("cosmosEndpoint");
-const masterKey = inject("cosmosMasterKey");
-const skipTestForSignOff = inject("skipTestForSignOff");
+import { emulatorUnavailable, skipTestForSignOff, endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;

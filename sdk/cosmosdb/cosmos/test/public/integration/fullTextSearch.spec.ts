@@ -4,7 +4,7 @@
 import type { ContainerDefinition, Container, SqlQuerySpec } from "../../../src/index.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
-import testDocuments from "../common/text-3properties-1536dimensions-100documents.json";
+import testDocuments from "../common/text-3properties-1536dimensions-100documents.json" with { type: "json" };
 import { emulatorUnavailable } from "../common/_testConfig.js";
 
 describe.skipIf(emulatorUnavailable)("FTSQuery", { timeout: 20000 }, () => {

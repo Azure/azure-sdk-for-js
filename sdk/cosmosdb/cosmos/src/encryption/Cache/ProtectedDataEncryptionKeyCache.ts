@@ -14,7 +14,7 @@ import { uint8ArrayToString } from "@azure/core-util";
  * @hidden
  */
 export class ProtectedDataEncryptionKeyCache {
-  // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue hex])
+  // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue as hex string])
   private cache: Map<string, [Date, ProtectedDataEncryptionKey]>;
   // interval for clear cache to run
   cacheRefresher: (() => void) | undefined;

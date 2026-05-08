@@ -4,6 +4,7 @@
 import { EncryptionType } from "../enums/index.js";
 import { hmacSha256, aes256CbcEncrypt, aes256CbcDecrypt, generateRandomBytes } from "../crypto.js";
 import type { DataEncryptionKey } from "../EncryptionKey/index.js";
+import { concatUint8Arrays } from "../../utils/uint8.js";
 
 export class AeadAes256CbcHmacSha256Algorithm {
   private algoVersion = 0x1;
@@ -38,7 +39,12 @@ export class AeadAes256CbcHmacSha256Algorithm {
       plainTextBuffer,
     );
     const authTagBuffer = await this.generateAuthenticationTag(iv, cipherTextBuffer);
-    return concat([new Uint8Array([this.algoVersion]), authTagBuffer, iv, cipherTextBuffer]);
+    return concatUint8Arrays([
+      new Uint8Array([this.algoVersion]),
+      authTagBuffer,
+      iv,
+      cipherTextBuffer,
+    ]) as Uint8Array<ArrayBuffer>;
   }
 
   public async decrypt(
@@ -72,7 +78,12 @@ export class AeadAes256CbcHmacSha256Algorithm {
     iv: Uint8Array<ArrayBuffer>,
     cipherTextBuffer: Uint8Array<ArrayBuffer>,
   ): Promise<Uint8Array<ArrayBuffer>> {
-    const buffer = concat([this.version, iv, cipherTextBuffer, this.versionSize]);
+    const buffer = concatUint8Arrays([
+      this.version,
+      iv,
+      cipherTextBuffer,
+      this.versionSize,
+    ]) as Uint8Array<ArrayBuffer>;
     return hmacSha256(this.dataEncryptionKey.macKeyBuffer, buffer);
   }
 
@@ -86,17 +97,6 @@ export class AeadAes256CbcHmacSha256Algorithm {
       throw new Error("Invalid authentication tag");
     }
   }
-}
-
-function concat(arrays: Uint8Array<ArrayBuffer>[]): Uint8Array<ArrayBuffer> {
-  const totalLength = arrays.reduce((sum, arr) => sum + arr.length, 0);
-  const result = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const arr of arrays) {
-    result.set(arr, offset);
-    offset += arr.length;
-  }
-  return result;
 }
 
 function uint8ArrayEquals(a: Uint8Array<ArrayBuffer>, b: Uint8Array<ArrayBuffer>): boolean {
