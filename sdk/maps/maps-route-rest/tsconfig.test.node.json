@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/maps-route": ["./src/index.ts"],
+      "@azure-rest/maps-route/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
