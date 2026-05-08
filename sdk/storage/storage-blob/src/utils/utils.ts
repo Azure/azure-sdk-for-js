@@ -31,6 +31,10 @@ export async function streamToBuffer(
     );
 
     stream.on("readable", () => {
+      // Already filled the requested amount; ignore any further `readable` events.
+      if (pos >= count) {
+        return;
+      }
       // Drain all currently-buffered chunks. Required since Node.js v26, where
       // `stream.read()` returns one buffered chunk at a time instead of the
       // concatenation of all queued data (see nodejs/node#60441).
@@ -62,6 +66,7 @@ export async function streamToBuffer(
             `Stream drains before getting enough data needed. Data read: ${pos}, data need: ${count}`,
           ),
         );
+        return;
       }
       resolve();
     });
