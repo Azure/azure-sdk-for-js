@@ -5,9 +5,9 @@ description: 'Apply language-specific post-emitter fixes to ai-projects after a 
 
 # Apply Post-Emitter Edits to ai-projects
 
-The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, enforces a list of standing rules (protected files, additions-only models, banned parameter shapes), and verifies the build. There is no `incoming/` staging directory and no three-way merge.
+The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory and no three-way merge.
 
-When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file as the validation guide for deciding whether SDK source changes match upstream intent. The standing workarounds still apply, but upstream commit descriptions can explain intentional non-additive spec changes that should be preserved rather than blindly reverted.
+When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
 
 ## When to Use
 
@@ -29,11 +29,20 @@ The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.m
 
 Run from `sdk/ai/ai-projects/`.
 
+Use this phase order to avoid mixing unrelated decisions:
+
+| Phase | Steps | Exit point |
+| --- | --- | --- |
+| Cleanup | Step -1, Step 0, Step 1 | Upstream intent is known, conflict markers are gone, protected files are restored. |
+| Public surface | Step 2, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
+| Workarounds | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up. |
+| Verification | Step 6 | Build, API extraction, API report spot-checks, and formatting all pass. |
+
 ### Step -1: Read the upstream validation guide
 
 If `temp/typespec-commit-descriptions.md` exists, read it before resolving conflicts or reverting model changes. Extract the expected upstream themes (for example: added operations, renamed parameters, removed fields, required-vs-optional shape changes, hidden protocol methods). Use those descriptions to validate the final `src/`, `generated/`, and API report diffs.
 
-Do not treat the guide as permission for broad emitter churn. It is a tie-breaker for changes that would otherwise conflict with standing rules. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
+Do not use the guide to keep extensive emitted-code changes that are unrelated to the captured upstream commit descriptions. Use it as the deciding evidence only for specific conflicts between a standing rule and an upstream-described TypeSpec change, such as a removed field, renamed parameter, requiredness change, or hidden protocol method. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
 
 ### Step 0: Resolve diff3 conflict markers (if present)
 
@@ -171,6 +180,11 @@ If the diff includes removals or renames you cannot easily isolate, restore the 
 
 From [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md):
 
+- **`api-version` string literals must not be URL-escaped in `src/`.** The JS TypeSpec emitter currently has a bug where the literal string `api-version` can be emitted as `api%2Dversion`. Replace any `api%2Dversion` instances in `src/` with `api-version`. Do not apply this correction under `generated/`; changing generated output before customization can create larger initial diffs in `src/` after the three-way merge.
+  ```powershell
+  Get-ChildItem -Recurse -File src -Include *.ts |
+    Select-String -Pattern 'api%2Dversion' -SimpleMatch
+  ```
 - **`foundryFeatures` must NEVER be a positional method parameter** — but it IS allowed as a property on an `*Options` / `*OptionalParams` class (i.e. as a member of the options bag). Concretely:
   - **Allowed** — `foundryFeatures?: "Foo=V1Preview"` declared as a field on `BetaSkillsListOptionalParams`, then accessed via `options?.foundryFeatures`. The emitter does this by default for many list operations and it is fine.
   - **NOT allowed** — `foundryFeatures` appearing as a positional parameter on a method or `*Send` helper, e.g. `function _$deleteSend(context, name, foundryFeatures, options)` or `delete: (name, foundryFeatures, options) => ...`. If the emitter introduced this, revert to the prior signature and instantiate `foundryFeatures` as a local `const` inside the method body before sending it over the wire.
