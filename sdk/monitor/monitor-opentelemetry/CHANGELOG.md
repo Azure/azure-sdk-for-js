@@ -2,10 +2,6 @@
 
 ## 1.17.0 (2026-05-07)
 
-### Other Changes
-
-- Restructured `samples-dev` to use the standard Azure SDK dev-tool format with `@summary` tags.
-
 ### Features Added
 
 - Added GenAI main agent attribution: `AzureMonitorSpanProcessor` and `AzureLogRecordProcessor` now propagate `microsoft.gen_ai.main_agent.*` attributes (with fallback to `gen_ai.agent.*` / `gen_ai.conversation.id`) from parent spans to child spans, derive them on `invoke_agent` spans, and copy them from the active span onto emitted log records.
@@ -14,8 +10,7 @@
 
 ### Bugs Fixed
 
-- Removed `@azure/functions-opentelemetry-instrumentation` from the distro. The integration introduced an ESM/CommonJS interop crash (`SyntaxError: Named export 'AzureFunctionsInstrumentation' not found`) for any consumer running Node with `"type": "module"`, because the package ships as a webpack-bundled CJS-only module without an `"exports"` map. The `azureFunctions` entry has been removed from `InstrumentationOptions` and from the default instrumentation set; the `@azure/functions-opentelemetry-instrumentation` package is no longer a dependency. Customers who need Azure Functions context propagation can install and register the package explicitly via the OpenTelemetry SDK or wait for a future distro release that takes the package back in once a compatible build ships.
-
+- Removed `@azure/functions-opentelemetry-instrumentation` from the distro and dropped the `azureFunctions` entry from `InstrumentationOptions`.
 - Fixed Available Memory performance counter on Linux to report `MemAvailable` from `/proc/meminfo` instead of `MemFree` (via `os.freemem()`). `MemAvailable` accounts for reclaimable memory (page cache, buffers), providing a more accurate measure of memory available to processes.
 - Fixed standard metrics and performance counters recording 0ms duration for all sub-second requests. `span.duration` is an `HrTime` tuple `[seconds, nanoseconds]` but was incorrectly read as `span.duration[0]` (seconds only). Converted to milliseconds using `hrTimeToMilliseconds()` from `@opentelemetry/core`.
 
