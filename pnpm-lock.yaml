@@ -1036,7 +1036,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -4502,7 +4502,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4593,7 +4593,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -4700,24 +4700,27 @@ importers:
 
   sdk/cognitiveservices/arm-cognitiveservices:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -4734,12 +4737,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.39
@@ -4764,9 +4767,6 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.3
-      react-native:
-        specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12381,7 +12381,7 @@ importers:
         version: link:../../core/abort-controller
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -14779,7 +14779,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -23593,7 +23593,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/arm-search':
         specifier: ^3.2.0
         version: 3.3.0
@@ -33098,7 +33098,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -33439,7 +33439,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -33518,7 +33518,7 @@ importers:
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        version: 8.1.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -34702,6 +34702,10 @@ packages:
   '@azure/app-configuration@1.8.0':
     resolution: {integrity: sha1-ru73sUmGrXAAFWPiTJb1tbW1tmo=}
     engines: {node: '>=18.0.0'}
+
+  '@azure/arm-cognitiveservices@8.1.0':
+    resolution: {integrity: sha1-s5gC7dcvYydU4LU7cBDCVDT7AmU=}
+    engines: {node: '>=20.0.0'}
 
   '@azure/arm-cosmosdb@16.0.0-beta.6':
     resolution: {integrity: sha1-BbFUloKpxuHjesmLNzt4OyXQdYE=}
@@ -40361,6 +40365,18 @@ snapshots:
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-cognitiveservices@8.1.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
