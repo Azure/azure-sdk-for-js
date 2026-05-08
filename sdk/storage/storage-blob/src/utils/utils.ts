@@ -33,6 +33,8 @@ export async function streamToBuffer(
     stream.on("readable", () => {
       // Already filled the requested amount; ignore any further `readable` events.
       if (pos >= count) {
+        clearTimeout(timeout);
+        resolve();
         return;
       }
       // Drain all currently-buffered chunks. Required since Node.js v26, where
@@ -66,7 +68,6 @@ export async function streamToBuffer(
             `Stream drains before getting enough data needed. Data read: ${pos}, data need: ${count}`,
           ),
         );
-        return;
       }
       resolve();
     });
