@@ -1,66 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  LocalUsersListOptionalParams} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List the local users associated with the storage account.
+ * This sample demonstrates how to list the local users associated with the storage account.
  *
- * @summary List the local users associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/LocalUsersList.json
+ * @summary list the local users associated with the storage account.
+ * x-ms-original-file: 2025-08-01/LocalUsersList.json
  */
 async function listLocalUsers(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
-  const accountName = "sto2527";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.localUsersOperations.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.localUsers.list("res6977", "sto2527")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List the local users associated with the storage account.
+ * This sample demonstrates how to list the local users associated with the storage account.
  *
- * @summary List the local users associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/LocalUsersListNFSv3Enabled.json
+ * @summary list the local users associated with the storage account.
+ * x-ms-original-file: 2025-08-01/LocalUsersListNFSv3Enabled.json
  */
-async function listNfSv3EnabledLocalUsers(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
-  const accountName = "sto2527";
-  const include = "nfsv3";
-  const options: LocalUsersListOptionalParams = { include };
+async function listNFSv3EnabledLocalUsers(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.localUsersOperations.list(
-    resourceGroupName,
-    accountName,
-    options,
-  )) {
+  for await (const item of client.localUsers.list("res6977", "sto2527", { include: "nfsv3" })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
   await listLocalUsers();
-  await listNfSv3EnabledLocalUsers();
+  await listNFSv3EnabledLocalUsers();
 }
 
 main().catch(console.error);

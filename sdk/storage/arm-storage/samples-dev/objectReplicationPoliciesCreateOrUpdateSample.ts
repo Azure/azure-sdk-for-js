@@ -1,171 +1,143 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ObjectReplicationPolicy} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update the object replication policy of the storage account.
+ * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
- * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+ * @summary create or update the object replication policy of the storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountCreateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnDestination(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "dst112";
-  const objectReplicationPolicyId = "default";
-  const properties: ObjectReplicationPolicy = {
-    destinationAccount: "dst112",
-    metrics: { enabled: true },
-    priorityReplication: { enabled: true },
-    rules: [
-      {
-        destinationContainer: "dcont139",
-        filters: { prefixMatch: ["blobA", "blobB"] },
-        sourceContainer: "scont139",
-      },
-    ],
-    sourceAccount: "src1122",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result =
-    await client.objectReplicationPoliciesOperations.createOrUpdate(
-      resourceGroupName,
-      accountName,
-      objectReplicationPolicyId,
-      properties,
-    );
+  const result = await client.objectReplicationPolicies.createOrUpdate(
+    "res7687",
+    "dst112",
+    "default",
+    {
+      destinationAccount: "dst112",
+      metrics: { enabled: true },
+      priorityReplication: { enabled: true },
+      rules: [
+        {
+          destinationContainer: "dcont139",
+          filters: { prefixMatch: ["blobA", "blobB"] },
+          sourceContainer: "scont139",
+        },
+      ],
+      sourceAccount: "src1122",
+      tagsReplication: { enabled: true },
+    },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update the object replication policy of the storage account.
+ * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
- * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
+ * @summary create or update the object replication policy of the storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountCreateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountCreateObjectReplicationPolicyOnSource(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "src1122";
-  const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
-  const properties: ObjectReplicationPolicy = {
-    destinationAccount: "dst112",
-    metrics: { enabled: true },
-    priorityReplication: { enabled: true },
-    rules: [
-      {
-        destinationContainer: "dcont139",
-        filters: {
-          minCreationTime: "2020-02-19T16:05:00Z",
-          prefixMatch: ["blobA", "blobB"],
-        },
-        ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
-        sourceContainer: "scont139",
-      },
-    ],
-    sourceAccount: "src1122",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result =
-    await client.objectReplicationPoliciesOperations.createOrUpdate(
-      resourceGroupName,
-      accountName,
-      objectReplicationPolicyId,
-      properties,
-    );
+  const result = await client.objectReplicationPolicies.createOrUpdate(
+    "res7687",
+    "src1122",
+    "2a20bb73-5717-4635-985a-5d4cf777438f",
+    {
+      destinationAccount: "dst112",
+      metrics: { enabled: true },
+      priorityReplication: { enabled: true },
+      rules: [
+        {
+          destinationContainer: "dcont139",
+          filters: { minCreationTime: "2020-02-19T16:05:00Z", prefixMatch: ["blobA", "blobB"] },
+          ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+          sourceContainer: "scont139",
+        },
+      ],
+      sourceAccount: "src1122",
+      tagsReplication: { enabled: true },
+    },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update the object replication policy of the storage account.
+ * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
- * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
+ * @summary create or update the object replication policy of the storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnDestination(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "dst112";
-  const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
-  const properties: ObjectReplicationPolicy = {
-    destinationAccount: "dst112",
-    metrics: { enabled: true },
-    priorityReplication: { enabled: true },
-    rules: [
-      {
-        destinationContainer: "dcont139",
-        filters: { prefixMatch: ["blobA", "blobB"] },
-        ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
-        sourceContainer: "scont139",
-      },
-      { destinationContainer: "dcont179", sourceContainer: "scont179" },
-    ],
-    sourceAccount: "src1122",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result =
-    await client.objectReplicationPoliciesOperations.createOrUpdate(
-      resourceGroupName,
-      accountName,
-      objectReplicationPolicyId,
-      properties,
-    );
+  const result = await client.objectReplicationPolicies.createOrUpdate(
+    "res7687",
+    "dst112",
+    "2a20bb73-5717-4635-985a-5d4cf777438f",
+    {
+      destinationAccount: "dst112",
+      metrics: { enabled: true },
+      priorityReplication: { enabled: true },
+      rules: [
+        {
+          destinationContainer: "dcont139",
+          filters: { prefixMatch: ["blobA", "blobB"] },
+          ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+          sourceContainer: "scont139",
+        },
+        { destinationContainer: "dcont179", sourceContainer: "scont179" },
+      ],
+      sourceAccount: "src1122",
+      tagsReplication: { enabled: true },
+    },
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or update the object replication policy of the storage account.
+ * This sample demonstrates how to create or update the object replication policy of the storage account.
  *
- * @summary Create or update the object replication policy of the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
+ * @summary create or update the object replication policy of the storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountUpdateObjectReplicationPolicyOnSource.json
  */
 async function storageAccountUpdateObjectReplicationPolicyOnSource(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "src1122";
-  const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
-  const properties: ObjectReplicationPolicy = {
-    destinationAccount: "dst112",
-    metrics: { enabled: true },
-    priorityReplication: { enabled: true },
-    rules: [
-      {
-        destinationContainer: "dcont139",
-        filters: { prefixMatch: ["blobA", "blobB"] },
-        ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
-        sourceContainer: "scont139",
-      },
-      {
-        destinationContainer: "dcont179",
-        ruleId: "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
-        sourceContainer: "scont179",
-      },
-    ],
-    sourceAccount: "src1122",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result =
-    await client.objectReplicationPoliciesOperations.createOrUpdate(
-      resourceGroupName,
-      accountName,
-      objectReplicationPolicyId,
-      properties,
-    );
+  const result = await client.objectReplicationPolicies.createOrUpdate(
+    "res7687",
+    "src1122",
+    "2a20bb73-5717-4635-985a-5d4cf777438f",
+    {
+      destinationAccount: "dst112",
+      metrics: { enabled: true },
+      priorityReplication: { enabled: true },
+      rules: [
+        {
+          destinationContainer: "dcont139",
+          filters: { prefixMatch: ["blobA", "blobB"] },
+          ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+          sourceContainer: "scont139",
+        },
+        {
+          destinationContainer: "dcont179",
+          ruleId: "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
+          sourceContainer: "scont179",
+        },
+      ],
+      sourceAccount: "src1122",
+      tagsReplication: { enabled: true },
+    },
+  );
   console.log(result);
 }
 

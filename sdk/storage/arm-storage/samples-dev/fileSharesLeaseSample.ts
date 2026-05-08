@@ -1,74 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  LeaseShareRequest,
-  FileSharesLeaseOptionalParams} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+ * This sample demonstrates how to the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
- * @summary The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesLease_Acquire.json
+ * @summary the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+ * x-ms-original-file: 2025-08-01/FileSharesLease_Acquire.json
  */
 async function acquireALeaseOnAShare(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const shareName = "share124";
-  const parameters: LeaseShareRequest = {
-    action: "Acquire",
-    breakPeriod: undefined,
-    leaseDuration: -1,
-    leaseId: undefined,
-    proposedLeaseId: undefined,
-  };
-  const options: FileSharesLeaseOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.fileShares.lease(
-    resourceGroupName,
-    accountName,
-    shareName,
-    options,
-  );
+  const result = await client.fileShares.lease("res3376", "sto328", "share124", {
+    parameters: { action: "Acquire", leaseDuration: -1 },
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+ * This sample demonstrates how to the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
- * @summary The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesLease_Break.json
+ * @summary the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+ * x-ms-original-file: 2025-08-01/FileSharesLease_Break.json
  */
 async function breakALeaseOnAShare(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const shareName = "share12";
-  const parameters: LeaseShareRequest = {
-    action: "Break",
-    breakPeriod: undefined,
-    leaseDuration: undefined,
-    leaseId: "8698f513-fa75-44a1-b8eb-30ba336af27d",
-    proposedLeaseId: undefined,
-  };
-  const options: FileSharesLeaseOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.fileShares.lease(
-    resourceGroupName,
-    accountName,
-    shareName,
-    options,
-  );
+  const result = await client.fileShares.lease("res3376", "sto328", "share12", {
+    parameters: { action: "Break", leaseId: "8698f513-fa75-44a1-b8eb-30ba336af27d" },
+  });
   console.log(result);
 }
 

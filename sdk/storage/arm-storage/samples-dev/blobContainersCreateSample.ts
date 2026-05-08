@@ -1,92 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobContainer} from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
- * @summary Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPutDefaultEncryptionScope.json
- */
-async function putContainerWithDefaultEncryptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const containerName = "container6185";
-  const blobContainer: BlobContainer = {
-    defaultEncryptionScope: "encryptionscope185",
-    denyEncryptionScopeOverride: true,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.blobContainers.create(
-    resourceGroupName,
-    accountName,
-    containerName,
-    blobContainer,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- *
- * @summary Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPutObjectLevelWorm.json
- */
-async function putContainerWithObjectLevelWorm(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const containerName = "container6185";
-  const blobContainer: BlobContainer = {
-    immutableStorageWithVersioning: { enabled: true },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.blobContainers.create(
-    resourceGroupName,
-    accountName,
-    containerName,
-    blobContainer,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- *
- * @summary Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPut.json
+ * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ * x-ms-original-file: 2025-08-01/BlobContainersPut.json
  */
 async function putContainers(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const containerName = "container6185";
-  const blobContainer: BlobContainer = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.blobContainers.create(
-    resourceGroupName,
-    accountName,
-    containerName,
-    blobContainer,
-  );
+  const result = await client.blobContainers.create("res3376", "sto328", "container6185", {});
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ *
+ * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ * x-ms-original-file: 2025-08-01/BlobContainersPutDefaultEncryptionScope.json
+ */
+async function putContainerWithDefaultEncryptionScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.blobContainers.create("res3376", "sto328", "container6185", {
+    containerProperties: {
+      defaultEncryptionScope: "encryptionscope185",
+      denyEncryptionScopeOverride: true,
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ *
+ * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
+ * x-ms-original-file: 2025-08-01/BlobContainersPutObjectLevelWorm.json
+ */
+async function putContainerWithObjectLevelWorm(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.blobContainers.create("res3376", "sto328", "container6185", {
+    containerProperties: { immutableStorageWithVersioning: { enabled: true } },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await putContainers();
   await putContainerWithDefaultEncryptionScope();
   await putContainerWithObjectLevelWorm();
-  await putContainers();
 }
 
 main().catch(console.error);

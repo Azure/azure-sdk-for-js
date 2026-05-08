@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  StorageTaskAssignmentUpdateParameters} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update storage task assignment properties
+ * This sample demonstrates how to update storage task assignment properties
  *
- * @summary Update storage task assignment properties
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
+ * @summary update storage task assignment properties
+ * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
  */
 async function patchStorageTaskAssignment(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] ||
-    "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
-  const accountName = "sto4445";
-  const storageTaskAssignmentName = "myassignment1";
-  const parameters: StorageTaskAssignmentUpdateParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.storageTaskAssignments.update("res4228", "sto4445", "myassignment1", {
     properties: {
       description: "My Storage task assignment",
       enabled: true,
@@ -35,15 +27,7 @@ async function patchStorageTaskAssignment(): Promise<void> {
       },
       report: { prefix: "container1" },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.storageTaskAssignments.beginUpdateAndWait(
-    resourceGroupName,
-    accountName,
-    storageTaskAssignmentName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

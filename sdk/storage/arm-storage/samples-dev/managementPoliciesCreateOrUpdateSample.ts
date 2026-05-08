@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementPolicy} from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicy.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy.json
  */
 async function storageAccountSetManagementPolicies(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -33,10 +29,7 @@ async function storageAccountSetManagementPolicies(): Promise<void> {
               },
               snapshot: { delete: { daysAfterCreationGreaterThan: 30 } },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer1"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer1"] },
           },
           enabled: true,
         },
@@ -64,31 +57,21 @@ async function storageAccountSetManagementPolicies(): Promise<void> {
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicyColdTierActions.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyColdTierActions.json
  */
 async function storageAccountSetManagementPolicyColdTierActions(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -111,40 +94,27 @@ async function storageAccountSetManagementPolicyColdTierActions(): Promise<void>
                 tierToCold: { daysAfterCreationGreaterThan: 30 },
               },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer1"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer1"] },
           },
           enabled: true,
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicyForBlockAndAppendBlobs.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyForBlockAndAppendBlobs.json
  */
 async function storageAccountSetManagementPolicyForBlockAndAppendBlobs(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -165,31 +135,21 @@ async function storageAccountSetManagementPolicyForBlockAndAppendBlobs(): Promis
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicyHotTierActions.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyHotTierActions.json
  */
 async function storageAccountSetManagementPolicyHotTierActions(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -201,40 +161,27 @@ async function storageAccountSetManagementPolicyHotTierActions(): Promise<void> 
               snapshot: { tierToHot: { daysAfterCreationGreaterThan: 30 } },
               version: { tierToHot: { daysAfterCreationGreaterThan: 30 } },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer1"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer1"] },
           },
           enabled: true,
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicyWithSnapshotAndVersion.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicyWithSnapshotAndVersion.json
  */
 async function storageAccountSetManagementPolicyWithSnapshotAndVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -258,40 +205,27 @@ async function storageAccountSetManagementPolicyWithSnapshotAndVersion(): Promis
                 tierToCool: { daysAfterCreationGreaterThan: 30 },
               },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer1"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer1"] },
           },
           enabled: true,
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicy_BaseBlobDaysAfterCreationActions.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy_BaseBlobDaysAfterCreationActions.json
  */
 async function storageAccountSetManagementPolicyBaseBlobDaysAfterCreationActions(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -305,40 +239,27 @@ async function storageAccountSetManagementPolicyBaseBlobDaysAfterCreationActions
                 tierToCool: { daysAfterCreationGreaterThan: 30 },
               },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer1"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer1"] },
           },
           enabled: true,
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicy_LastAccessTimeBasedBlobActions.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy_LastAccessTimeBasedBlobActions.json
  */
 async function storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -354,40 +275,27 @@ async function storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions()
               },
               snapshot: { delete: { daysAfterCreationGreaterThan: 30 } },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer"] },
           },
           enabled: true,
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Sets the managementpolicy to the specified storage account.
+ * This sample demonstrates how to sets the managementpolicy to the specified storage account.
  *
- * @summary Sets the managementpolicy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountSetManagementPolicy_LastTierChangeTimeActions.json
+ * @summary sets the managementpolicy to the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountSetManagementPolicy_LastTierChangeTimeActions.json
  */
 async function storageAccountSetManagementPolicyLastTierChangeTimeActions(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const managementPolicyName = "default";
-  const properties: ManagementPolicy = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.managementPolicies.createOrUpdate("res7687", "sto9699", "default", {
     policy: {
       rules: [
         {
@@ -416,24 +324,13 @@ async function storageAccountSetManagementPolicyLastTierChangeTimeActions(): Pro
                 },
               },
             },
-            filters: {
-              blobTypes: ["blockBlob"],
-              prefixMatch: ["olcmtestcontainer"],
-            },
+            filters: { blobTypes: ["blockBlob"], prefixMatch: ["olcmtestcontainer"] },
           },
           enabled: true,
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.managementPolicies.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    managementPolicyName,
-    properties,
-  );
+  });
   console.log(result);
 }
 

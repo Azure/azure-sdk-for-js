@@ -1,28 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  StorageTaskAssignment} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ * This sample demonstrates how to asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
- * @summary Asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsCrud/PutStorageTaskAssignment.json
+ * @summary asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PutStorageTaskAssignment.json
  */
 async function putStorageTaskAssignment(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] ||
-    "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
-  const accountName = "sto4445";
-  const storageTaskAssignmentName = "myassignment1";
-  const parameters: StorageTaskAssignment = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.storageTaskAssignments.create("res4228", "sto4445", "myassignment1", {
     properties: {
       description: "My Storage task assignment",
       enabled: true,
@@ -37,32 +29,50 @@ async function putStorageTaskAssignment(): Promise<void> {
       taskId:
         "/subscriptions/1f31ba14-ce16-4281-b9b4-3e78da6e1616/resourceGroups/res4228/providers/Microsoft.StorageActions/storageTasks/mytask1",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.storageTaskAssignments.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    storageTaskAssignmentName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ * This sample demonstrates how to asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
- * @summary Asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/storageTaskAssignmentsCrud/PutStorageTaskAssignmentRequiredProperties.json
+ * @summary asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PutStorageTaskAssignmentMockRun.json
+ */
+async function putStorageTaskAssignmentMockRun(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.storageTaskAssignments.create("res4228", "sto4445", "myassignment1", {
+    properties: {
+      taskId:
+        "/subscriptions/1f31ba14-ce16-4281-b9b4-3e78da6e1616/resourceGroups/res4228/providers/Microsoft.StorageActions/storageTasks/myStorageTask",
+      enabled: true,
+      description: "My Storage task assignment for testing",
+      executionContext: {
+        trigger: {
+          type: "MockRun",
+          parameters: { startOn: new Date("2023-01-01T00:00:00.1234567Z") },
+        },
+        target: { prefix: [], excludePrefix: [] },
+      },
+      report: { prefix: "reports" },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ *
+ * @summary asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+ * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PutStorageTaskAssignmentRequiredProperties.json
  */
 async function putStorageTaskAssignmentRequiredProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] ||
-    "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
-  const accountName = "sto4445";
-  const storageTaskAssignmentName = "myassignment1";
-  const parameters: StorageTaskAssignment = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.storageTaskAssignments.create("res4228", "sto4445", "myassignment1", {
     properties: {
       description: "My Storage task assignment",
       enabled: true,
@@ -76,20 +86,13 @@ async function putStorageTaskAssignmentRequiredProperties(): Promise<void> {
       taskId:
         "/subscriptions/1f31ba14-ce16-4281-b9b4-3e78da6e1616/resourceGroups/res4228/providers/Microsoft.StorageActions/storageTasks/mytask1",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.storageTaskAssignments.beginCreateAndWait(
-    resourceGroupName,
-    accountName,
-    storageTaskAssignmentName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await putStorageTaskAssignment();
+  await putStorageTaskAssignmentMockRun();
   await putStorageTaskAssignmentRequiredProperties();
 }
 

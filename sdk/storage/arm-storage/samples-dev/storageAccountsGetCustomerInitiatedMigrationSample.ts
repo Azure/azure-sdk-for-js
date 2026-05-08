@@ -3,50 +3,39 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
+ * This sample demonstrates how to gets the status of the ongoing migration for the specified storage account.
  *
- * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountGetMigrationFailed.json
+ * @summary gets the status of the ongoing migration for the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountGetMigrationFailed.json
  */
 async function storageAccountGetMigrationFailed(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
-  const accountName = "accountname";
-  const migrationName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.getCustomerInitiatedMigration(
-    resourceGroupName,
-    accountName,
-    migrationName,
+    "resource-group-name",
+    "accountname",
+    "default",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
+ * This sample demonstrates how to gets the status of the ongoing migration for the specified storage account.
  *
- * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountGetMigrationInProgress.json
+ * @summary gets the status of the ongoing migration for the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountGetMigrationInProgress.json
  */
 async function storageAccountGetMigrationInProgress(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
-  const accountName = "accountname";
-  const migrationName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.getCustomerInitiatedMigration(
-    resourceGroupName,
-    accountName,
-    migrationName,
+    "resource-group-name",
+    "accountname",
+    "default",
   );
   console.log(result);
 }

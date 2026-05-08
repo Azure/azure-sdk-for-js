@@ -3,31 +3,22 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Refreshes any information about the association.
+ * This sample demonstrates how to refreshes any information about the association.
  *
- * @summary Refreshes any information about the association.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/NetworkSecurityPerimeterConfigurationReconcile.json
+ * @summary refreshes any information about the association.
+ * x-ms-original-file: 2025-08-01/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationReconcile(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
-  const accountName = "sto8607";
-  const networkSecurityPerimeterConfigurationName =
-    "dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkSecurityPerimeterConfigurations.beginReconcileAndWait(
-      resourceGroupName,
-      accountName,
-      networkSecurityPerimeterConfigurationName,
-    );
-  console.log(result);
+  await client.networkSecurityPerimeterConfigurations.reconcile(
+    "res4410",
+    "sto8607",
+    "dbedb4e0-40e6-4145-81f3-f1314c150774.resourceAssociation1",
+  );
 }
 
 async function main(): Promise<void> {

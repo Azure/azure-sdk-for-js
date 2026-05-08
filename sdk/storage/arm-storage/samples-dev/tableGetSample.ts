@@ -3,27 +3,18 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the table with the specified table name, under the specified account if it exists.
+ * This sample demonstrates how to gets the table with the specified table name, under the specified account if it exists.
  *
- * @summary Gets the table with the specified table name, under the specified account if it exists.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableOperationGet.json
+ * @summary gets the table with the specified table name, under the specified account if it exists.
+ * x-ms-original-file: 2025-08-01/TableOperationGet.json
  */
 async function tableOperationGet(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const tableName = "table6185";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.tableOperations.get(
-    resourceGroupName,
-    accountName,
-    tableName,
-  );
+  const result = await client.table.get("res3376", "sto328", "table6185");
   console.log(result);
 }
 

@@ -1,39 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PrivateEndpointConnection} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update the state of specified private endpoint connection associated with the storage account.
+ * This sample demonstrates how to update the state of specified private endpoint connection associated with the storage account.
  *
- * @summary Update the state of specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountPutPrivateEndpointConnection.json
+ * @summary update the state of specified private endpoint connection associated with the storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountPutPrivateEndpointConnection.json
  */
 async function storageAccountPutPrivateEndpointConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
-  const accountName = "sto9699";
-  const privateEndpointConnectionName = "{privateEndpointConnectionName}";
-  const properties: PrivateEndpointConnection = {
-    privateLinkServiceConnectionState: {
-      description: "Auto-Approved",
-      status: "Approved",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.put(
-    resourceGroupName,
-    accountName,
-    privateEndpointConnectionName,
-    properties,
+    "res7687",
+    "sto9699",
+    "{privateEndpointConnectionName}",
+    { privateLinkServiceConnectionState: { description: "Auto-Approved", status: "Approved" } },
   );
   console.log(result);
 }

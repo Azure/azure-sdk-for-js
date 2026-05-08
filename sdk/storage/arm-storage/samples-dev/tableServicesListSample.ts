@@ -3,25 +3,18 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all table services for the storage account.
+ * This sample demonstrates how to list all table services for the storage account.
  *
- * @summary List all table services for the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableServicesList.json
+ * @summary list all table services for the storage account.
+ * x-ms-original-file: 2025-08-01/TableServicesList.json
  */
 async function tableServicesList(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
-  const accountName = "sto1590";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.tableServices.list(
-    resourceGroupName,
-    accountName,
-  );
+  const result = await client.tableServices.list("res9290", "sto1590");
   console.log(result);
 }
 
