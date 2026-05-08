@@ -1,12 +1,16 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/eventhub/event-hubs"
+  },
   "sideEffects": false,
   "keywords": [
     "azure",
@@ -122,6 +126,7 @@
     "node-forge": "^1.3.2",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
@@ -149,5 +154,10 @@
       }
     }
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

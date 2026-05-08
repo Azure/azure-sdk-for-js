@@ -47,9 +47,26 @@ catalogs:
     chai: ^6.2.2
     chai-as-promised: ^8.0.2
     chai-exclude: ^3.0.1
+    '@types/react': ^19.2.14
     dotenv: ^16.6.1
     nock: ^13.5.6
     playwright: ^1.58.2
+    react-native: ^0.84.1
     vitest: ^4.1.2
 
 linkWorkspacePackages: true
+
+# Ensure lockfile includes optional dependencies for all CI and development platforms
+# This prevents lockfile churn when running pnpm install on different OSes
+# Lists all OS/CPU combinations used in CI (Ubuntu, Windows, macOS) and dev machines
+supportedArchitectures:
+  os:
+    - linux
+    - darwin
+    - win32
+  cpu:
+    - x64
+    - arm64
+  libc:
+    - glibc
+    - musl

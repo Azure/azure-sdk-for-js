@@ -7,6 +7,17 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
+@@ -12,9 +12,9 @@
+ 
+ // @public
+ export function decompressResponsePolicy(): PipelinePolicy;
+ 
+-// @public
++// @public (undocumented)
+ export const decompressResponsePolicyName = "decompressResponsePolicy";
+ 
+ // @public
+ export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
 @@ -44,10 +44,10 @@
  
  // @public

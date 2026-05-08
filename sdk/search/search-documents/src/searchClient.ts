@@ -16,9 +16,9 @@ import type {
   IndexDocumentsResult,
   QueryAnswerType as BaseAnswers,
   QueryCaptionType as BaseCaptions,
-  QueryRewritesType as GeneratedQueryRewrites,
   SearchRequest as GeneratedSearchRequest,
   VectorQueryUnion as GeneratedVectorQuery,
+  SemanticSearchResultsType,
 } from "./models/azure/search/documents/index.js";
 import type { SearchClientOptionalParams } from "./search/searchClient.js";
 import { SearchClient as GeneratedClient } from "./search/searchClient.js";
@@ -36,21 +36,19 @@ import type {
   NarrowedModel,
   QueryAnswer,
   QueryCaption,
-  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchFieldArray,
   SearchIterator,
   SearchOptions,
   SearchResult,
-  SelectArray,
   SelectFields,
   SemanticErrorReason,
-  SemanticSearchResultsType,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
   VectorQuery,
+  VectorizableImageBinaryQuery,
 } from "./indexModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
@@ -240,8 +238,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       "SearchClient-getDocumentsCount",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getDocumentCount(updatedOptions);
-        return Number(response); // Service responds with `text/plain` content-type, which core will not deserialize as number
+        const count = await this.client.getDocumentCount(updatedOptions);
+        return Number(count);
       },
     );
   }
@@ -312,13 +310,10 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       orderBy,
       searchFields,
       select,
-      speller,
       highlightFields,
       vectorSearchOptions,
       semanticSearchOptions,
-      hybridSearch,
-      xMsQuerySourceAuthorization,
-      xMsEnableElevatedRead,
+      debug,
       ...restOptions
     } = options as typeof options & { queryType: "semantic" };
 
@@ -329,7 +324,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       answers,
       captions,
       debugMode,
-      queryRewrites,
       ...restSemanticOptions
     } = semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
@@ -341,8 +335,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
       select: this.convertSelect(select) || "*",
-      querySpeller: speller,
-      semanticFields,
       highlightFields: highlightFields?.split(","),
       orderBy: this.convertOrderBy(orderBy),
       includeTotalCount,
@@ -351,12 +343,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       captions: this.convertQueryCaptions(captions),
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
-      debug: debugMode,
-      queryRewrites: this.convertQueryRewrites(queryRewrites),
+      debug: debugMode ?? debug, // Use semanticSearchOptions.debugMode if set, otherwise use top-level debug
       vectorFilterMode: filterMode,
-      hybridSearch: hybridSearch,
-      querySourceAuthorization: xMsQuerySourceAuthorization,
-      enableElevatedRead: xMsEnableElevatedRead,
     };
 
     return tracingClient.withSpan(
@@ -390,7 +378,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           ...restResult,
           facets: utils.convertGeneratedFacetsToPublic(facets),
           answers: utils.convertGeneratedAnswersToPublic(resultAnswers),
-          debugInfo: restResult.debugInfo,
           results: modifiedResults,
           semanticErrorReason,
           semanticSearchResultsType,
@@ -795,38 +782,38 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   }
 
   private convertSelect<TFields extends SelectFields<TModel>>(
-    select?: SelectArray<TFields>,
+    select?: readonly TFields[],
   ): string | undefined {
     if (select) {
       return select.join(",");
     }
-    return select;
+    return undefined;
   }
 
   private convertVectorQueryFields(fields?: SearchFieldArray<TModel>): string | undefined {
     if (fields) {
       return fields.join(",");
     }
-    return fields;
+    return undefined;
   }
 
   private convertSearchFields(searchFields?: SearchFieldArray<TModel>): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }
-    return searchFields;
+    return undefined;
   }
 
   private convertOrderBy(orderBy?: string[]): string | undefined {
     if (orderBy) {
       return orderBy.join(",");
     }
-    return orderBy;
+    return undefined;
   }
 
   private convertQueryAnswers(answers?: QueryAnswer): BaseAnswers | undefined {
     if (!answers) {
-      return answers;
+      return undefined;
     }
 
     const config = [];
@@ -853,7 +840,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private convertQueryCaptions(captions?: QueryCaption): BaseCaptions | undefined {
     if (!captions) {
-      return captions;
+      return undefined;
     }
 
     const config = [];
@@ -877,41 +864,30 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
-        const { fields, queryRewrites, ...restFields } = vectorQuery;
+        const { fields, ...restFields } = vectorQuery;
         return {
           ...restFields,
           fields: this.convertVectorQueryFields(fields),
-          queryRewrites: this.convertQueryRewrites(queryRewrites),
         };
       }
       case "vector":
-      case "imageUrl":
-      case "imageBinary": {
+      case "imageUrl": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
+      }
+      case "imageBinary": {
+        // Map convenience layer's binaryImage to generated layer's base64Image
+        const { binaryImage, fields, ...rest } =
+          vectorQuery as VectorizableImageBinaryQuery<TModel>;
+        return {
+          ...rest,
+          base64Image: binaryImage,
+          fields: this.convertVectorQueryFields(fields),
+        };
       }
       default: {
         logger.warning("Unknown vector query kind; sending without serialization");
         return vectorQuery as any;
       }
-    }
-  }
-
-  private convertQueryRewrites(queryRewrites?: QueryRewrites): GeneratedQueryRewrites | undefined {
-    if (!queryRewrites) {
-      return queryRewrites;
-    }
-
-    const { rewritesType: baseOutput } = queryRewrites;
-    switch (baseOutput) {
-      case "generative": {
-        const { count } = queryRewrites;
-
-        const config = [...(count === undefined ? [] : [`count-${count}`])];
-        if (config.length) return baseOutput + `|${config.join(",")}`;
-        return baseOutput;
-      }
-      default:
-        return baseOutput;
     }
   }
 }

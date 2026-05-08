@@ -103,20 +103,45 @@ export interface AssemblyInfoPayload {
 export type AvailabilityType = string;
 
 // @public
+export interface ChangeRingRequest {
+    // (undocumented)
+    properties?: ChangeRingRequestProperties;
+}
+
+// @public
+export interface ChangeRingRequestProperties {
+    targetRing?: string;
+}
+
+// @public
+export interface CheckUpdatesRequest {
+    updateName?: string;
+}
+
+// @public
+export interface ClaimDeviceRequest {
+    claimedBy?: string;
+    devices: string[];
+}
+
+// @public
 export interface Cluster extends TrackedResource {
     aadApplicationObjectId?: string;
     aadClientId?: string;
     aadServicePrincipalObjectId?: string;
     aadTenantId?: string;
     readonly billingModel?: string;
+    readonly billingProperties?: ClusterBillingProperties;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
     readonly clusterPattern?: ClusterPattern;
+    readonly confidentialVmProperties?: ConfidentialVmProperties;
     readonly connectivityStatus?: ConnectivityStatus;
     desiredProperties?: ClusterDesiredProperties;
     readonly identityProvider?: IdentityProvider;
     readonly isManagementCluster?: boolean;
     readonly isolatedVmAttestationConfiguration?: IsolatedVmAttestationConfiguration;
+    kind?: string;
     readonly lastBillingTimestamp?: Date;
     readonly lastSyncTimestamp?: Date;
     localAvailabilityZones?: LocalAvailabilityZones[];
@@ -127,14 +152,22 @@ export interface Cluster extends TrackedResource {
     remoteSupportProperties?: RemoteSupportProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly resourceProviderObjectId?: string;
+    readonly ring?: string;
+    readonly sdnProperties?: ClusterSdnProperties;
     secretsLocations?: SecretsLocationDetails[];
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
     readonly status?: Status;
+    readonly storageType?: StorageType;
     readonly tenantId?: string;
     readonly trialDaysRemaining?: number;
     typeIdentityType?: ManagedServiceIdentityType;
     userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export interface ClusterBillingProperties {
+    nextBillingModel?: NextBillingModel;
 }
 
 // @public
@@ -166,6 +199,26 @@ export interface ClusterIdentityResponseProperties {
     // (undocumented)
     aadTenantId?: string;
 }
+
+// @public
+export interface ClusterJob extends ProxyResource {
+    properties?: ClusterJobPropertiesUnion;
+}
+
+// @public
+export interface ClusterJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly jobId?: string;
+    jobType: HciJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: JobReportedProperties;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type ClusterJobPropertiesUnion = HciConfigureSdnIntegrationJobProperties | HciConfigureCvmJobProperties | ClusterJobProperties;
 
 // @public
 export interface ClusterNode {
@@ -220,9 +273,11 @@ export interface ClusterProperties {
     aadServicePrincipalObjectId?: string;
     aadTenantId?: string;
     readonly billingModel?: string;
+    readonly billingProperties?: ClusterBillingProperties;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
     readonly clusterPattern?: ClusterPattern;
+    readonly confidentialVmProperties?: ConfidentialVmProperties;
     readonly connectivityStatus?: ConnectivityStatus;
     desiredProperties?: ClusterDesiredProperties;
     readonly identityProvider?: IdentityProvider;
@@ -237,10 +292,13 @@ export interface ClusterProperties {
     remoteSupportProperties?: RemoteSupportProperties;
     readonly reportedProperties?: ClusterReportedProperties;
     readonly resourceProviderObjectId?: string;
+    readonly ring?: string;
+    readonly sdnProperties?: ClusterSdnProperties;
     secretsLocations?: SecretsLocationDetails[];
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
     readonly status?: Status;
+    readonly storageType?: StorageType;
     readonly trialDaysRemaining?: number;
 }
 
@@ -262,13 +320,48 @@ export interface ClusterReportedProperties {
 }
 
 // @public
+export interface ClusterSdnProperties extends SdnProperties {
+    readonly sdnIntegrationIntent?: SdnIntegrationIntent;
+}
+
+// @public
 export type ComplianceAssignmentType = string;
 
 // @public
 export type ComplianceStatus = string;
 
 // @public
+export type ConfidentialVmIntent = string;
+
+// @public
+export interface ConfidentialVmProfile {
+    readonly igvmStatus?: IgvmStatus;
+    statusDetails?: IgvmStatusDetail[];
+}
+
+// @public
+export interface ConfidentialVmProperties {
+    readonly confidentialVmIntent?: ConfidentialVmIntent;
+    readonly confidentialVmStatus?: ConfidentialVmStatus;
+    readonly confidentialVmStatusSummary?: string;
+}
+
+// @public
+export type ConfidentialVmStatus = string;
+
+// @public
 export type ConnectivityStatus = string;
+
+// @public
+export interface ContentPayload {
+    fileName?: string;
+    group?: string;
+    hash?: string;
+    hashAlgorithm?: string;
+    identifier?: string;
+    packageSizeInBytes?: string;
+    url?: string;
+}
 
 // @public
 export type CreatedByType = string;
@@ -356,6 +449,7 @@ export interface DeploymentSettingAdapterPropertyOverrides {
 export interface DeploymentSettingHostNetwork {
     enableStorageAutoIp?: boolean;
     intents?: DeploymentSettingIntents[];
+    sanNetworks?: SanNetworks;
     storageConnectivitySwitchless?: boolean;
     storageNetworks?: DeploymentSettingStorageNetworks[];
 }
@@ -423,10 +517,39 @@ export interface DeviceConfiguration {
 }
 
 // @public
+export interface DeviceDetail {
+    readonly claimedBy?: string;
+    deviceResourceId?: string;
+}
+
+// @public
 export type DeviceKind = string;
 
 // @public
 export type DeviceLogCollectionStatus = string;
+
+// @public
+export interface DevicePool extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: DevicePoolProperties;
+}
+
+// @public
+export interface DevicePoolPatch {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DevicePoolProperties {
+    readonly cloudId?: string;
+    customLocationName?: string;
+    readonly customLocationResourceId?: string;
+    devices?: DeviceDetail[];
+    managedResourceGroup?: string;
+    readonly operationDetails?: OperationDetail[];
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export type DeviceState = string;
@@ -441,6 +564,30 @@ export type DnsServerConfig = string;
 export interface DnsZones {
     dnsForwarder?: string[];
     dnsZoneName?: string;
+}
+
+// @public
+export interface DownloadOsJobProperties extends EdgeMachineJobProperties {
+    downloadRequest: DownloadRequest;
+    jobType: "DownloadOs";
+    reportedProperties?: ProvisionOsReportedProperties;
+}
+
+// @public
+export interface DownloadOsProfile {
+    gpgPubKey?: string;
+    imageHash?: string;
+    osImageLocation?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
+    vsrVersion?: string;
+}
+
+// @public
+export interface DownloadRequest {
+    osProfile: DownloadOsProfile;
+    target: ProvisioningOsType;
 }
 
 // @public
@@ -471,6 +618,13 @@ export interface EdgeDevice extends ExtensionResource {
 }
 
 // @public
+export interface EdgeDeviceDisks {
+    readonly id: string;
+    readonly sizeInBytes?: string;
+    readonly type?: string;
+}
+
+// @public
 export interface EdgeDeviceJob extends ExtensionResource {
     kind: EdgeDeviceKind;
 }
@@ -489,6 +643,151 @@ export interface EdgeDeviceProperties {
 
 // @public
 export type EdgeDeviceUnion = HciEdgeDevice | EdgeDevice;
+
+// @public
+export interface EdgeMachine extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: EdgeMachineProperties;
+}
+
+// @public
+export interface EdgeMachineCollectLogJobProperties extends EdgeMachineJobProperties {
+    fromDate: Date;
+    jobType: "CollectLog";
+    readonly lastLogGenerated?: Date;
+    readonly reportedProperties?: EdgeMachineCollectLogJobReportedProperties;
+    toDate: Date;
+}
+
+// @public
+export interface EdgeMachineCollectLogJobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly logCollectionSessionDetails?: LogCollectionJobSession[];
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
+}
+
+// @public
+export type EdgeMachineConnectivityStatus = string;
+
+// @public
+export interface EdgeMachineJob extends ProxyResource {
+    properties?: EdgeMachineJobPropertiesUnion;
+}
+
+// @public
+export interface EdgeMachineJobProperties {
+    deploymentMode?: DeploymentMode;
+    readonly endTimeUtc?: Date;
+    readonly error?: ErrorDetail;
+    readonly jobId?: string;
+    jobType: EdgeMachineJobType;
+    readonly provisioningState?: ProvisioningState;
+    readonly startTimeUtc?: Date;
+    readonly status?: JobStatus;
+}
+
+// @public
+export type EdgeMachineJobPropertiesUnion = EdgeMachineRemoteSupportJobProperties | ProvisionOsJobProperties | DownloadOsJobProperties | EdgeMachineCollectLogJobProperties | EdgeMachineJobProperties;
+
+// @public
+export type EdgeMachineJobType = string;
+
+// @public
+export type EdgeMachineKind = string;
+
+// @public
+export interface EdgeMachineNetworkProfile {
+    readonly nicDetails?: EdgeMachineNicDetail[];
+    readonly switchDetails?: SwitchDetail[];
+}
+
+// @public
+export interface EdgeMachineNicDetail {
+    readonly adapterName?: string;
+    readonly componentId?: string;
+    readonly defaultGateway?: string;
+    readonly defaultIsolationId?: string;
+    readonly dnsServers?: string[];
+    readonly driverVersion?: string;
+    readonly interfaceDescription?: string;
+    readonly ip4Address?: string;
+    readonly macAddress?: string;
+    readonly nicStatus?: string;
+    readonly nicType?: string;
+    readonly rdmaCapability?: RdmaCapability;
+    readonly slot?: string;
+    readonly subnetMask?: string;
+    readonly switchName?: string;
+    readonly vlanId?: string;
+}
+
+// @public
+export interface EdgeMachinePatch {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface EdgeMachineProperties {
+    arcGatewayResourceId?: string;
+    arcMachineResourceGroupId?: string;
+    arcMachineResourceId?: string;
+    readonly claimedBy?: string;
+    readonly cloudId?: string;
+    readonly connectivityStatus?: EdgeMachineConnectivityStatus;
+    readonly devicePoolResourceId?: string;
+    edgeMachineKind?: EdgeMachineKind;
+    readonly lastSyncTimestamp?: Date;
+    readonly machineState?: EdgeMachineState;
+    readonly operationDetails?: OperationDetail[];
+    ownershipVoucherDetails?: OwnershipVoucherDetails;
+    provisioningDetails?: ProvisioningDetails;
+    readonly provisioningState?: ProvisioningState;
+    readonly reportedProperties?: EdgeMachineReportedProperties;
+    siteDetails?: SiteDetails;
+}
+
+// @public
+export interface EdgeMachineRemoteSupportJobProperties extends EdgeMachineJobProperties {
+    accessLevel: RemoteSupportAccessLevel;
+    expirationTimestamp: Date;
+    jobType: "RemoteSupport";
+    readonly reportedProperties?: EdgeMachineRemoteSupportJobReportedProperties;
+    type: RemoteSupportType;
+}
+
+// @public
+export interface EdgeMachineRemoteSupportJobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly nodeSettings?: EdgeMachineRemoteSupportNodeSettings;
+    readonly percentComplete?: number;
+    readonly sessionDetails?: RemoteSupportSession[];
+    readonly validationStatus?: EceActionStatus;
+}
+
+// @public
+export interface EdgeMachineRemoteSupportNodeSettings {
+    readonly connectionErrorMessage?: string;
+    readonly connectionStatus?: string;
+    readonly createdAt?: Date;
+    readonly state?: string;
+    readonly updatedAt?: Date;
+}
+
+// @public
+export interface EdgeMachineReportedProperties {
+    readonly extensionProfile?: ExtensionProfile;
+    readonly hardwareProfile?: HardwareProfile;
+    readonly lastUpdated?: Date;
+    readonly networkProfile?: EdgeMachineNetworkProfile;
+    readonly osProfile?: OsProfile;
+    readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
+    readonly storageProfile?: StorageProfile;
+}
+
+// @public
+export type EdgeMachineState = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -606,12 +905,36 @@ export interface ExtensionUpgradeParameters {
 export type HardwareClass = string;
 
 // @public
+export interface HardwareProfile {
+    readonly cpuCores?: number;
+    readonly cpuSockets?: number;
+    readonly manufacturer?: string;
+    readonly memoryCapacityInGb?: number;
+    readonly model?: string;
+    readonly processorType?: string;
+    readonly serialNumber?: string;
+}
+
+// @public
 export interface HciCollectLogJobProperties extends HciEdgeDeviceJobProperties {
     fromDate: Date;
     jobType: "CollectLog";
     readonly lastLogGenerated?: Date;
     readonly reportedProperties?: LogCollectionReportedProperties;
     toDate: Date;
+}
+
+// @public
+export interface HciConfigureCvmJobProperties extends ClusterJobProperties {
+    confidentialVmIntent: ConfidentialVmIntent;
+    jobType: "ConfigureCVM";
+}
+
+// @public
+export interface HciConfigureSdnIntegrationJobProperties extends ClusterJobProperties {
+    jobType: "ConfigureSdnIntegration";
+    sdnIntegrationIntent: SdnIntegrationIntent;
+    sdnPrefix?: string;
 }
 
 // @public
@@ -721,9 +1044,13 @@ export interface HciHardwareProfile {
 }
 
 // @public
+export type HciJobType = string;
+
+// @public
 export interface HciNetworkProfile {
     readonly hostNetwork?: HciEdgeDeviceHostNetwork;
     readonly nicDetails?: HciNicDetail[];
+    readonly sdnProperties?: SdnProperties;
     readonly switchDetails?: SwitchDetail[];
 }
 
@@ -773,6 +1100,7 @@ export interface HciReportedProperties extends ReportedProperties {
 
 // @public
 export interface HciStorageProfile {
+    readonly disks?: EdgeDeviceDisks[];
     readonly poolableDisksCount?: number;
 }
 
@@ -786,6 +1114,15 @@ export type HealthState = string;
 
 // @public
 export type IdentityProvider = string;
+
+// @public
+export type IgvmStatus = string;
+
+// @public
+export interface IgvmStatusDetail {
+    readonly code?: string;
+    readonly message?: string;
+}
 
 // @public
 export type ImdsAttestation = string;
@@ -802,6 +1139,15 @@ export interface InfrastructureNetwork {
 }
 
 // @public
+export interface IpAddressRange {
+    endIp: string;
+    startIp: string;
+}
+
+// @public
+export type IpAssignmentType = string;
+
+// @public
 export interface IpPools {
     endingAddress?: string;
     startingAddress?: string;
@@ -812,6 +1158,13 @@ export interface IsolatedVmAttestationConfiguration {
     readonly attestationResourceId?: string;
     readonly attestationServiceEndpoint?: string;
     readonly relyingPartyServiceEndpoint?: string;
+}
+
+// @public
+export interface JobReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
 }
 
 // @public
@@ -897,6 +1250,19 @@ export enum KnownComplianceStatus {
 }
 
 // @public
+export enum KnownConfidentialVmIntent {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
+export enum KnownConfidentialVmStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    PartiallyEnabled = "PartiallyEnabled"
+}
+
+// @public
 export enum KnownConnectivityStatus {
     Connected = "Connected",
     Disconnected = "Disconnected",
@@ -973,6 +1339,40 @@ export enum KnownEdgeDeviceKind {
 }
 
 // @public
+export enum KnownEdgeMachineConnectivityStatus {
+    Connected = "Connected",
+    Disconnected = "Disconnected",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
+export enum KnownEdgeMachineJobType {
+    CollectLog = "CollectLog",
+    DownloadOs = "DownloadOs",
+    ProvisionOs = "ProvisionOs",
+    RemoteSupport = "RemoteSupport"
+}
+
+// @public
+export enum KnownEdgeMachineKind {
+    Dedicated = "Dedicated",
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownEdgeMachineState {
+    Created = "Created",
+    Failed = "Failed",
+    Preparing = "Preparing",
+    Purposed = "Purposed",
+    Registering = "Registering",
+    Resetting = "Resetting",
+    Transitioning = "Transitioning",
+    Unpurposed = "Unpurposed",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownExtensionAggregateState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -1014,6 +1414,12 @@ export enum KnownHciEdgeDeviceJobType {
 }
 
 // @public
+export enum KnownHciJobType {
+    ConfigureCVM = "ConfigureCVM",
+    ConfigureSdnIntegration = "ConfigureSdnIntegration"
+}
+
+// @public
 export enum KnownHealthState {
     Error = "Error",
     Failure = "Failure",
@@ -1030,9 +1436,22 @@ export enum KnownIdentityProvider {
 }
 
 // @public
+export enum KnownIgvmStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownImdsAttestation {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownIpAssignmentType {
+    Automatic = "Automatic",
+    Manual = "Manual"
 }
 
 // @public
@@ -1123,6 +1542,11 @@ export enum KnownOemActivation {
 }
 
 // @public
+export enum KnownOnboardingResourceType {
+    HybridComputeMachine = "HybridComputeMachine"
+}
+
+// @public
 export enum KnownOperationType {
     ClusterProvisioning = "ClusterProvisioning",
     ClusterUpgrade = "ClusterUpgrade"
@@ -1133,6 +1557,37 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownOSOperationType {
+    Provision = "Provision",
+    ReImage = "ReImage",
+    Update = "Update"
+}
+
+// @public
+export enum KnownOverprovisioningRatio {
+    One = "1",
+    Two = "2",
+    Zero = "0"
+}
+
+// @public
+export enum KnownOwnerKeyType {
+    MicrosoftManaged = "MicrosoftManaged"
+}
+
+// @public
+export enum KnownOwnershipVoucherValidationStatus {
+    Invalid = "Invalid",
+    Valid = "Valid"
+}
+
+// @public
+export enum KnownProvisioningOsType {
+    AzureLinux = "AzureLinux",
+    HCI = "HCI"
 }
 
 // @public
@@ -1178,14 +1633,42 @@ export enum KnownRemoteSupportAccessLevel {
 }
 
 // @public
+export enum KnownRemoteSupportProvisioningState {
+    Failed = "Failed",
+    GrantInProgress = "GrantInProgress",
+    None = "None",
+    RevokeInProgress = "RevokeInProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRemoteSupportType {
     Enable = "Enable",
     Revoke = "Revoke"
 }
 
 // @public
+export enum KnownSdnIntegrationIntent {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
+export enum KnownSdnStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownSecretsType {
     BackupSecrets = "BackupSecrets"
+}
+
+// @public
+export enum KnownSecretType {
+    KeyVault = "KeyVault",
+    SshPubKey = "SshPubKey"
 }
 
 // @public
@@ -1219,6 +1702,7 @@ export enum KnownState {
     DownloadFailed = "DownloadFailed",
     Downloading = "Downloading",
     HasPrerequisite = "HasPrerequisite",
+    HealthCheckExpired = "HealthCheckExpired",
     HealthCheckFailed = "HealthCheckFailed",
     HealthChecking = "HealthChecking",
     InstallationFailed = "InstallationFailed",
@@ -1227,6 +1711,7 @@ export enum KnownState {
     Invalid = "Invalid",
     NotApplicableBecauseAnotherUpdateIsInProgress = "NotApplicableBecauseAnotherUpdateIsInProgress",
     Obsolete = "Obsolete",
+    PendingOEMValidation = "PendingOEMValidation",
     PreparationFailed = "PreparationFailed",
     Preparing = "Preparing",
     Ready = "Ready",
@@ -1260,6 +1745,13 @@ export enum KnownStatusLevelTypes {
 }
 
 // @public
+export enum KnownStorageType {
+    S2D = "S2D",
+    SAN = "SAN",
+    Sans2D = "SANS2D"
+}
+
+// @public
 export enum KnownUpdateRunPropertiesState {
     Failed = "Failed",
     InProgress = "InProgress",
@@ -1281,13 +1773,30 @@ export enum KnownUpdateSummariesPropertiesState {
 
 // @public
 export enum KnownVersions {
-    V20260201 = "2026-02-01"
+    V20260201 = "2026-02-01",
+    V20260401Preview = "2026-04-01-preview"
+}
+
+// @public
+export enum KnownVolumeType {
+    Fixed = "Fixed",
+    ThinProvisioned = "ThinProvisioned"
 }
 
 // @public
 export enum KnownWindowsServerSubscription {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export interface KubernetesVersion extends ProxyResource {
+    properties?: KubernetesVersionProperties;
+}
+
+// @public
+export interface KubernetesVersionProperties {
+    version: string;
 }
 
 // @public
@@ -1371,10 +1880,35 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface NetworkAdapter {
+    adapterName?: string;
+    dnsAddressArray?: string[];
+    gateway?: string;
+    ipAddress?: string;
+    ipAddressRange?: IpAddressRange;
+    ipAssignmentType: IpAssignmentType;
+    macAddress?: string;
+    subnetMask?: string;
+    vlanId?: string;
+}
+
+// @public
+export interface NetworkConfiguration {
+    networkAdapters?: NetworkAdapter[];
+}
+
+// @public
 export interface NetworkController {
     macAddressPoolStart?: string;
     macAddressPoolStop?: string;
     networkVirtualizationEnabled?: boolean;
+}
+
+// @public
+export interface NextBillingModel {
+    billingModel?: string;
+    capabilitiesEnabled?: string[];
+    trialDaysRemaining?: number;
 }
 
 // @public
@@ -1425,12 +1959,35 @@ export interface OfferProperties {
 }
 
 // @public
+export interface OnboardingConfiguration {
+    arcVirtualMachineId?: string;
+    location?: string;
+    resourceId?: string;
+    tenantId?: string;
+    type?: OnboardingResourceType;
+}
+
+// @public
+export type OnboardingResourceType = string;
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDetail {
+    readonly description?: string;
+    readonly error?: ErrorDetail;
+    readonly id?: string;
+    readonly name?: string;
+    readonly resourceId?: string;
+    readonly status?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1451,6 +2008,74 @@ export interface OptionalServices {
 
 // @public
 export type Origin = string;
+
+// @public
+export interface OsImage extends ProxyResource {
+    properties?: OsImageProperties;
+}
+
+// @public
+export interface OsImageProperties {
+    composedImageIsoHash?: string;
+    composedImageIsoUrl?: string;
+    composedImageVersion?: string;
+    validatedSolutionRecipeVersion?: string;
+}
+
+// @public
+export type OSOperationType = string;
+
+// @public
+export interface OsProfile {
+    readonly assemblyVersion?: string;
+    readonly baseImageVersion?: string;
+    readonly bootType?: string;
+    readonly buildNumber?: string;
+    readonly imageVersion?: string;
+    readonly osSku?: string;
+    readonly osType?: string;
+    readonly osVersion?: string;
+}
+
+// @public
+export interface OsProvisionProfile {
+    gpgPubKey?: string;
+    imageHash?: string;
+    operationType?: OSOperationType;
+    osImageLocation?: string;
+    osName?: string;
+    osType?: string;
+    osVersion?: string;
+    vsrVersion?: string;
+}
+
+// @public
+export type OverprovisioningRatio = string;
+
+// @public
+export type OwnerKeyType = string;
+
+// @public
+export interface OwnershipVoucherDetails {
+    ownerKeyType: OwnerKeyType;
+    ownershipVoucher: string;
+    readonly validationDetails?: OwnershipVoucherValidationDetails;
+}
+
+// @public
+export interface OwnershipVoucherValidationDetails {
+    azureMachineId?: string;
+    error?: ErrorDetail;
+    id?: string;
+    manufacturer?: string;
+    modelName?: string;
+    serialNumber?: string;
+    validationStatus?: OwnershipVoucherValidationStatus;
+    version?: string;
+}
+
+// @public
+export type OwnershipVoucherValidationStatus = string;
 
 // @public
 export interface PackageVersionInfo {
@@ -1487,6 +2112,7 @@ export interface PerNodeRemoteSupportSession {
     readonly nodeName?: string;
     readonly sessionEndTime?: Date;
     readonly sessionStartTime?: Date;
+    readonly transcriptLocation?: string;
 }
 
 // @public
@@ -1501,6 +2127,31 @@ export interface PerNodeState {
 export interface PhysicalNodes {
     ipv4Address?: string;
     name?: string;
+}
+
+// @public
+export interface PlatformPayload {
+    payloadHash?: string;
+    payloadIdentifier?: string;
+    payloadPackageSizeInBytes?: string;
+    payloadUrl?: string;
+}
+
+// @public
+export interface PlatformUpdate extends ProxyResource {
+    properties?: PlatformUpdateProperties;
+}
+
+// @public
+export interface PlatformUpdateDetails {
+    platformPayloads: PlatformPayload[];
+    platformVersion?: string;
+    validatedSolutionRecipeVersion?: string;
+}
+
+// @public
+export interface PlatformUpdateProperties {
+    platformUpdateDetails: PlatformUpdateDetails[];
 }
 
 // @public
@@ -1529,10 +2180,53 @@ export interface PrecheckResultTags {
 }
 
 // @public
+export interface ProvisioningDetails {
+    osProfile: OsProvisionProfile;
+    userDetails?: UserDetails[];
+}
+
+// @public
+export type ProvisioningOsType = string;
+
+// @public
+export interface ProvisioningRequest {
+    customConfiguration?: string;
+    deviceConfiguration?: TargetDeviceConfiguration;
+    onboardingConfiguration?: OnboardingConfiguration;
+    osProfile: OsProvisionProfile;
+    target: ProvisioningOsType;
+    userDetails?: UserDetails[];
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
+export interface ProvisionOsJobProperties extends EdgeMachineJobProperties {
+    jobType: "ProvisionOs";
+    provisioningRequest: ProvisioningRequest;
+    reportedProperties?: ProvisionOsReportedProperties;
+}
+
+// @public
+export interface ProvisionOsReportedProperties {
+    readonly deploymentStatus?: EceActionStatus;
+    readonly percentComplete?: number;
+    readonly validationStatus?: EceActionStatus;
+}
+
+// @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Publisher extends ProxyResource {
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface PublisherProperties {
+    readonly provisioningState?: string;
 }
 
 // @public
@@ -1563,6 +2257,11 @@ export interface ReconcileArcSettingsRequest {
 export interface ReconcileArcSettingsRequestProperties {
     // (undocumented)
     clusterNodes?: string[];
+}
+
+// @public
+export interface ReleaseDeviceRequest {
+    devices: string[];
 }
 
 // @public
@@ -1603,10 +2302,14 @@ export interface RemoteSupportProperties {
     readonly expirationTimeStamp?: Date;
     // (undocumented)
     readonly remoteSupportNodeSettings?: RemoteSupportNodeSettings[];
+    readonly remoteSupportProvisioningState?: RemoteSupportProvisioningState;
     // (undocumented)
     readonly remoteSupportSessionDetails?: PerNodeRemoteSupportSession[];
     readonly remoteSupportType?: RemoteSupportType;
 }
+
+// @public
+export type RemoteSupportProvisioningState = string;
 
 // @public
 export interface RemoteSupportRequest {
@@ -1634,8 +2337,10 @@ export type RemoteSupportType = string;
 
 // @public
 export interface ReportedProperties {
+    readonly confidentialVmProfile?: ConfidentialVmProfile;
     readonly deviceState?: DeviceState;
     readonly extensionProfile?: ExtensionProfile;
+    readonly lastSyncTimestamp?: Date;
 }
 
 // @public
@@ -1644,6 +2349,33 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface SanAdapterIPConfig {
+    addressPrefix?: string;
+    name?: string;
+    networkAdapterName?: string;
+    vlanId?: number;
+}
+
+// @public
+export interface SanAdapterProperties {
+    bandwidthPercentageSmb?: number;
+    jumboPacket?: number;
+    priorityValue8021ActionCluster?: number;
+    priorityValue8021ActionSmb?: number;
+}
+
+// @public
+export interface SanClusterNetworkConfig {
+    adapterIPConfig?: SanAdapterIPConfig[];
+    adapterProperties?: SanAdapterProperties;
+}
+
+// @public
+export interface SanNetworks {
+    clusterNetworkConfig?: SanClusterNetworkConfig;
 }
 
 // @public
@@ -1694,6 +2426,19 @@ export interface SdnIntegration {
 }
 
 // @public
+export type SdnIntegrationIntent = string;
+
+// @public
+export interface SdnProperties {
+    readonly sdnApiAddress?: string;
+    readonly sdnDomainName?: string;
+    readonly sdnStatus?: SdnStatus;
+}
+
+// @public
+export type SdnStatus = string;
+
+// @public
 export interface SecretsLocationDetails {
     secretsLocation: string;
     secretsType: SecretsType;
@@ -1706,6 +2451,9 @@ export interface SecretsLocationsChangeRequest {
 
 // @public
 export type SecretsType = string;
+
+// @public
+export type SecretType = string;
 
 // @public
 export interface SecurityComplianceStatus {
@@ -1745,6 +2493,12 @@ export type ServiceName = string;
 
 // @public
 export type Severity = string;
+
+// @public
+export interface SiteDetails {
+    deviceConfiguration?: TargetDeviceConfiguration;
+    siteResourceId: string;
+}
 
 // @public
 export interface Sku extends ProxyResource {
@@ -1822,7 +2576,35 @@ export interface Step {
 // @public
 export interface Storage {
     configurationMode?: string;
+    s2D?: StorageS2DConfig;
+    san?: StorageSanConfig;
+    storageType?: StorageType;
 }
+
+// @public
+export interface StorageConfiguration {
+    partitionSize?: string;
+}
+
+// @public
+export interface StorageProfile {
+    readonly poolableDisksCount?: number;
+}
+
+// @public
+export interface StorageS2DConfig {
+    overprovisioningRatio?: OverprovisioningRatio;
+    volumeType?: VolumeType;
+}
+
+// @public
+export interface StorageSanConfig {
+    infraPerfLunId?: string;
+    infraVolLunId?: string;
+}
+
+// @public
+export type StorageType = string;
 
 // @public
 export interface SwitchDetail {
@@ -1846,6 +2628,22 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TargetDeviceConfiguration {
+    hostName?: string;
+    network?: NetworkConfiguration;
+    storage?: StorageConfiguration;
+    time?: TimeConfiguration;
+    webProxy?: WebProxyConfiguration;
+}
+
+// @public
+export interface TimeConfiguration {
+    primaryTimeServer?: string;
+    secondaryTimeServer?: string;
+    timeZone?: string;
 }
 
 // @public
@@ -1878,6 +2676,16 @@ export interface Update extends ProxyResource {
     state?: State;
     updateStateProperties?: UpdateStateProperties;
     version?: string;
+}
+
+// @public
+export interface UpdateContent extends ProxyResource {
+    properties?: UpdateContentProperties;
+}
+
+// @public
+export interface UpdateContentProperties {
+    updatePayloads: ContentPayload[];
 }
 
 // @public
@@ -2002,6 +2810,14 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export interface UserDetails {
+    secretLocation?: string;
+    secretType: SecretType;
+    sshPubKey?: string[];
+    userName: string;
+}
+
+// @public
 export interface ValidatedSolutionRecipe extends ProxyResource {
     properties?: ValidatedSolutionRecipeProperties;
 }
@@ -2071,6 +2887,16 @@ export interface ValidatedSolutionRecipeProperties {
 }
 
 // @public
+export interface ValidateOwnershipVouchersRequest {
+    ownershipVoucherDetails: OwnershipVoucherDetails[];
+}
+
+// @public
+export interface ValidateOwnershipVouchersResponse {
+    ownershipVoucherValidationDetails: OwnershipVoucherValidationDetails[];
+}
+
+// @public
 export interface ValidateRequest {
     additionalInfo?: string;
     edgeDeviceIds: string[];
@@ -2079,6 +2905,16 @@ export interface ValidateRequest {
 // @public
 export interface ValidateResponse {
     readonly status?: string;
+}
+
+// @public
+export type VolumeType = string;
+
+// @public
+export interface WebProxyConfiguration {
+    bypassList?: string[];
+    connectionUri?: string;
+    port?: string;
 }
 
 // @public

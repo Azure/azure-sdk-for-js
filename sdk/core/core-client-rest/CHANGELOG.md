@@ -1,5 +1,17 @@
 # Release History
 
+## 2.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix `operationOptionsToRequestParameters` to correctly preserve `tracingOptions` in the returned `RequestParameters`. [PR #38285](https://github.com/Azure/azure-sdk-for-js/pull/38285)
+
+### Other Changes
+
 ## 2.6.0 (2026-04-07)
 
 ### Features Added

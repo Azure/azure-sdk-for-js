@@ -1,12 +1,18 @@
 # Release History
 
-## 4.14.0-beta.3 (Unreleased)
+## 4.14.0-beta.4 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text. [#38416](https://github.com/Azure/azure-sdk-for-js/pull/38416)
+
+### Other Changes
+
+## 4.14.0-beta.3 (2026-04-08)
 
 ### Other Changes
 

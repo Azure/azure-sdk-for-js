@@ -67,7 +67,7 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Windows, you could use `SET`:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}
+    pnpm build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-      pnpm build --filter=${PACKAGE_NAME}
+      pnpm build --filter=${PACKAGE_NAME}...
     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}
+    pnpm build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -124,7 +124,6 @@ You will need to add a sample configuration section in your `package.json` file 
 Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 
 ```shell
-npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
 npx dev-tool samples publish -f
 ```

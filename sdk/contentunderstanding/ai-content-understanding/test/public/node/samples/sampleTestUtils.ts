@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Shared utilities for sample tests.
+ * Shared utilities for sample tests.
  */
 
 import type { Recorder, TestInfo } from "@azure-tools/test-recorder";

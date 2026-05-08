@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary provides the details of the tiering related sizes and cost.
  * Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/TieringCost/FetchTieringCostForPolicy.json
+ * x-ms-original-file: 2026-01-31-preview/TieringCost/FetchTieringCostForPolicy.json
  */
 async function getTheTieringSavingsCostInfoForPolicy() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function getTheTieringSavingsCostInfoForPolicy() {
  *
  * @summary provides the details of the tiering related sizes and cost.
  * Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/TieringCost/FetchTieringCostForProtectedItem.json
+ * x-ms-original-file: 2026-01-31-preview/TieringCost/FetchTieringCostForProtectedItem.json
  */
 async function getTheTieringSavingsCostInfoForProtectedItem() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function getTheTieringSavingsCostInfoForProtectedItem() {
  *
  * @summary provides the details of the tiering related sizes and cost.
  * Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/TieringCost/FetchTieringCostForRehydrate.json
+ * x-ms-original-file: 2026-01-31-preview/TieringCost/FetchTieringCostForRehydrate.json
  */
 async function getTheRehydrationCostForRecoveryPoint() {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function getTheRehydrationCostForRecoveryPoint() {
  *
  * @summary provides the details of the tiering related sizes and cost.
  * Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/TieringCost/FetchTieringCostForVault.json
+ * x-ms-original-file: 2026-01-31-preview/TieringCost/FetchTieringCostForVault.json
  */
 async function getTheTieringSavingsCostInfoForVault() {
   const credential = new DefaultAzureCredential();

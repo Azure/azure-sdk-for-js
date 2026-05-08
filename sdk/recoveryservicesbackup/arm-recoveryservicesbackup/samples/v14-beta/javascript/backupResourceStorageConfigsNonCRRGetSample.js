@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches resource storage config.
  *
  * @summary fetches resource storage config.
- * x-ms-original-file: 2026-01-01-preview/Common/BackupStorageConfig_Get.json
+ * x-ms-original-file: 2026-01-31-preview/Common/BackupStorageConfig_Get.json
  */
 async function getVaultStorageConfiguration() {
   const credential = new DefaultAzureCredential();

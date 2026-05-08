@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-deviceregistry",
-  "version": "1.1.0",
+  "version": "1.2.0-beta.1",
   "description": "A generated SDK for DeviceRegistryManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -27,7 +27,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/deviceregistry/arm-deviceregistry"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -66,6 +70,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -260,6 +265,42 @@
         "default": "./dist/commonjs/api/namespaceAssets/index.js"
       }
     },
+    "./api/policies": {
+      "browser": {
+        "types": "./dist/browser/api/policies/index.d.ts",
+        "default": "./dist/browser/api/policies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/policies/index.d.ts",
+        "default": "./dist/react-native/api/policies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policies/index.d.ts",
+        "default": "./dist/esm/api/policies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policies/index.d.ts",
+        "default": "./dist/commonjs/api/policies/index.js"
+      }
+    },
+    "./api/credentials": {
+      "browser": {
+        "types": "./dist/browser/api/credentials/index.d.ts",
+        "default": "./dist/browser/api/credentials/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/credentials/index.d.ts",
+        "default": "./dist/react-native/api/credentials/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/credentials/index.d.ts",
+        "default": "./dist/esm/api/credentials/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/credentials/index.d.ts",
+        "default": "./dist/commonjs/api/credentials/index.js"
+      }
+    },
     "./api/namespaces": {
       "browser": {
         "types": "./dist/browser/api/namespaces/index.d.ts",
@@ -389,5 +430,12 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

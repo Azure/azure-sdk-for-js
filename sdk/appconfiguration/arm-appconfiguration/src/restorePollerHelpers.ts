@@ -8,6 +8,7 @@ import {
   _createDeserialize as _createDeserializeReplicas,
 } from "./api/replicas/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeKeyValues } from "./api/keyValues/operations.js";
+import { _reconcileDeserialize } from "./api/networkSecurityPerimeterConfigurations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
   _createOrUpdateDeserialize,
@@ -67,6 +68,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -77,6 +79,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
@@ -90,15 +93,17 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/snapshots/{snapshotName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204", "201"] },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}":
     { deserializer: _createDeserializeReplicas, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}":
-    { deserializer: _$deleteDeserializeKeyValues, expectedStatuses: ["200", "202", "204", "201"] },
+    { deserializer: _$deleteDeserializeKeyValues, expectedStatuses: ["200", "202", "204"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile":
+    { deserializer: _reconcileDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializePrivateEndpointConnections,
-      expectedStatuses: ["200", "202", "204", "201"],
+      expectedStatuses: ["200", "202", "204"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
@@ -107,7 +112,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}":
     {
       deserializer: _$deleteDeserializeConfigurationStores,
-      expectedStatuses: ["200", "202", "204", "201"],
+      expectedStatuses: ["200", "202", "204"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "201", "202"] },
@@ -186,4 +191,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

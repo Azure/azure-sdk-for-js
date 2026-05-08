@@ -3,43 +3,37 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra View
+ * This sample demonstrates how to create or update an Azure Cosmos DB Cassandra View
  *
- * @summary Create or update an Azure Cosmos DB Cassandra View
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBCassandraViewCreateUpdate.json
+ * @summary create or update an Azure Cosmos DB Cassandra View
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewCreateUpdate.json
  */
-async function cosmosDbCassandraViewCreateUpdate() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
-  const keyspaceName = "keyspacename";
-  const viewName = "viewname";
-  const createUpdateCassandraViewParameters = {
-    options: {},
-    resource: {
-      id: "viewname",
-      viewDefinition:
-        "SELECT columna, columnb, columnc FROM keyspacename.srctablename WHERE columna IS NOT NULL AND columnc IS NOT NULL PRIMARY (columnc, columna)",
-    },
-    tags: {},
-  };
+async function cosmosDBCassandraViewCreateUpdate() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginCreateUpdateCassandraViewAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName,
-    createUpdateCassandraViewParameters,
+  const result = await client.cassandraResources.createUpdateCassandraView(
+    "rg1",
+    "ddb1",
+    "keyspacename",
+    "viewname",
+    {
+      options: {},
+      resource: {
+        id: "viewname",
+        viewDefinition:
+          "SELECT columna, columnb, columnc FROM keyspacename.srctablename WHERE columna IS NOT NULL AND columnc IS NOT NULL PRIMARY (columnc, columna)",
+      },
+      tags: {},
+    },
   );
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbCassandraViewCreateUpdate();
+  await cosmosDBCassandraViewCreateUpdate();
 }
 
 main().catch(console.error);

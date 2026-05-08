@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches the result of any operation on the container.
  *
  * @summary fetches the result of any operation on the container.
- * x-ms-original-file: 2026-01-01-preview/AzureStorage/ProtectionContainers_Inquire_Result.json
+ * x-ms-original-file: 2026-01-31-preview/AzureStorage/ProtectionContainers_Inquire_Result.json
  */
 async function getAzureStorageProtectionContainerOperationResult() {
   const credential = new DefaultAzureCredential();

@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-broker",
-  "version": "1.3.1",
+  "version": "1.4.1",
   "sdk-type": "client",
   "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
   "main": "./dist/commonjs/index.js",
@@ -9,15 +9,15 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "rimraf --glob dist dist-esm types \"*.tgz\" \"*.log\"",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest -- --test-timeout 300000",
     "test:node:manual": "dev-tool run test:vitest -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'",
@@ -31,7 +31,11 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/identity/identity-broker"
+  },
   "keywords": [
     "azure",
     "cloud",
@@ -46,6 +50,12 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker/README.md",
   "sideEffects": false,
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
     "@azure/identity": "^4.7.0",

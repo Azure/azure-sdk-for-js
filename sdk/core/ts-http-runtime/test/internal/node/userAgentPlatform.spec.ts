@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach, beforeEach } from "vitest";
-import { setPlatformSpecificData } from "../../../src/util/userAgentPlatform.js";
+import { setPlatformSpecificData } from "../../../src/util/userAgent.js";
 import process from "node:process";
 import os from "node:os";
 
