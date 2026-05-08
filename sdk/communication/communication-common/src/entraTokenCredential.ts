@@ -15,7 +15,10 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 
-const TeamsExtensionScopePrefix = "https://auth.msft.communication.azure.com/";
+const TeamsExtensionScopePrefixes = [
+  "https://auth.msft.communication.azure.com/",
+  "https://auth.msft.communication.azure.us/",
+];
 const CommunicationClientsScopePrefix = "https://communication.azure.com/clients/";
 const TeamsExtensionEndpoint = "/access/teamsExtension/:exchangeAccessToken";
 const TeamsExtensionApiVersion = "2025-06-30";
@@ -175,7 +178,11 @@ export class EntraTokenCredential implements AcsTokenCredential {
       throw new Error(
         `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {CommunicationClientsScopePrefix}.`,
       );
-    } else if (this.options.scopes.every((scope) => scope.startsWith(TeamsExtensionScopePrefix))) {
+    } else if (
+      this.options.scopes.every((scope) =>
+        TeamsExtensionScopePrefixes.some((prefix) => scope.startsWith(prefix)),
+      )
+    ) {
       return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
     } else if (
       this.options.scopes.every((scope) => scope.startsWith(CommunicationClientsScopePrefix))
