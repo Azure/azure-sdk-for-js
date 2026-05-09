@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-05-06)
+## 2.0.0-beta.1 (2026-05-09)
 Compared with version 1.1.0
 
 ### Features Added
@@ -34,7 +34,6 @@ Compared with version 1.1.0
   - Added Interface BulkActionVMProperties
   - Added Interface BulkVMConfiguration
   - Added Interface CancelOccurrenceRequest
-  - Added Interface CancelOperationsContent
   - Added Interface CapacityReservationProfile
   - Added Interface CreateFlexResourceOperationResponse
   - Added Interface DataDisk
@@ -45,18 +44,11 @@ Compared with version 1.1.0
   - Added Interface DiskEncryptionSettings
   - Added Interface EncryptionIdentity
   - Added Interface EventGridAndResourceGraph
-  - Added Interface ExecuteCreateContent
-  - Added Interface ExecuteCreateFlexContent
-  - Added Interface ExecuteDeallocateContent
-  - Added Interface ExecuteDeleteContent
-  - Added Interface ExecuteHibernateContent
-  - Added Interface ExecuteStartContent
+  - Added Interface ExecuteCreateFlexRequest
   - Added Interface ExtendedLocation
   - Added Interface ExtensionResource
   - Added Interface FallbackOperationInfo
   - Added Interface FlexProperties
-  - Added Interface GetOperationErrorsContent
-  - Added Interface GetOperationStatusContent
   - Added Interface HardwareProfile
   - Added Interface HostEndpointSettings
   - Added Interface ImageReference
@@ -133,9 +125,6 @@ Compared with version 1.1.0
   - Added Interface SshConfiguration
   - Added Interface SshPublicKey
   - Added Interface StorageProfile
-  - Added Interface SubmitDeallocateContent
-  - Added Interface SubmitHibernateContent
-  - Added Interface SubmitStartContent
   - Added Interface SubResource
   - Added Interface SystemData
   - Added Interface TerminateNotificationProfile
@@ -168,6 +157,8 @@ Compared with version 1.1.0
   - Added Interface ZoneAllocationPolicy
   - Added Interface ZonePreference
   - Interface ComputeScheduleClientOptionalParams has a new optional parameter cloudSetting
+  - Interface ExecuteCreateRequest has a new optional parameter correlationId
+  - Interface ExecuteDeleteRequest has a new optional parameter correlationId
   - Interface ResourceOperationDetails has a new optional parameter fallbackOperationInfo
   - Interface ResourceProvisionPayload has a new optional parameter virtualMachineBaseProfile
   - Interface ResourceProvisionPayload has a new optional parameter virtualMachineOverrides
@@ -278,17 +269,8 @@ Compared with version 1.1.0
   - Enum KnownVersions has a new value Versions20260415Preview
 
 ### Breaking Changes
-  - Removed Interface CancelOperationsRequest
-  - Removed Interface ExecuteCreateRequest
-  - Removed Interface ExecuteDeallocateRequest
-  - Removed Interface ExecuteDeleteRequest
-  - Removed Interface ExecuteHibernateRequest
-  - Removed Interface ExecuteStartRequest
-  - Removed Interface GetOperationErrorsRequest
-  - Removed Interface GetOperationStatusRequest
-  - Removed Interface SubmitDeallocateRequest
-  - Removed Interface SubmitHibernateRequest
-  - Removed Interface SubmitStartRequest
+  - Interface ExecuteCreateRequest no longer has parameter correlationid
+  - Interface ExecuteDeleteRequest no longer has parameter correlationid
   - Interface ResourceProvisionPayload no longer has parameter baseProfile
   - Interface ResourceProvisionPayload no longer has parameter resourceOverrides
 

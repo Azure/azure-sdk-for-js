@@ -159,40 +159,40 @@ export function triggerManualOccurrence(context: ComputeScheduleContext, resourc
 export function update(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams): Promise<ScheduledAction>;
 
 // @public
-export function virtualMachinesCancelOperations(context: ComputeScheduleContext, locationparameter: string, requestBody: CancelOperationsContent, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams): Promise<CancelOperationsResponse>;
+export function virtualMachinesCancelOperations(context: ComputeScheduleContext, locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams): Promise<CancelOperationsResponse>;
 
 // @public
-export function virtualMachinesExecuteCreate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteCreateContent, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams): Promise<CreateResourceOperationResponse>;
+export function virtualMachinesExecuteCreate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams): Promise<CreateResourceOperationResponse>;
 
 // @public
-export function virtualMachinesExecuteCreateFlex(context: ComputeScheduleContext, locationparameter: string, body: ExecuteCreateFlexContent, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams): Promise<CreateFlexResourceOperationResponse>;
+export function virtualMachinesExecuteCreateFlex(context: ComputeScheduleContext, locationparameter: string, body: ExecuteCreateFlexRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams): Promise<CreateFlexResourceOperationResponse>;
 
 // @public
-export function virtualMachinesExecuteDeallocate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteDeallocateContent, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams): Promise<DeallocateResourceOperationResponse>;
+export function virtualMachinesExecuteDeallocate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams): Promise<DeallocateResourceOperationResponse>;
 
 // @public
-export function virtualMachinesExecuteDelete(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteDeleteContent, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams): Promise<DeleteResourceOperationResponse>;
+export function virtualMachinesExecuteDelete(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteDeleteRequest, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams): Promise<DeleteResourceOperationResponse>;
 
 // @public
-export function virtualMachinesExecuteHibernate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteHibernateContent, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams): Promise<HibernateResourceOperationResponse>;
+export function virtualMachinesExecuteHibernate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams): Promise<HibernateResourceOperationResponse>;
 
 // @public
-export function virtualMachinesExecuteStart(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteStartContent, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams): Promise<StartResourceOperationResponse>;
+export function virtualMachinesExecuteStart(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteStartRequest, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams): Promise<StartResourceOperationResponse>;
 
 // @public
-export function virtualMachinesGetOperationErrors(context: ComputeScheduleContext, locationparameter: string, requestBody: GetOperationErrorsContent, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams): Promise<GetOperationErrorsResponse>;
+export function virtualMachinesGetOperationErrors(context: ComputeScheduleContext, locationparameter: string, requestBody: GetOperationErrorsRequest, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams): Promise<GetOperationErrorsResponse>;
 
 // @public
-export function virtualMachinesGetOperationStatus(context: ComputeScheduleContext, locationparameter: string, requestBody: GetOperationStatusContent, options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams): Promise<GetOperationStatusResponse>;
+export function virtualMachinesGetOperationStatus(context: ComputeScheduleContext, locationparameter: string, requestBody: GetOperationStatusRequest, options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams): Promise<GetOperationStatusResponse>;
 
 // @public
-export function virtualMachinesSubmitDeallocate(context: ComputeScheduleContext, locationparameter: string, requestBody: SubmitDeallocateContent, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams): Promise<DeallocateResourceOperationResponse>;
+export function virtualMachinesSubmitDeallocate(context: ComputeScheduleContext, locationparameter: string, requestBody: SubmitDeallocateRequest, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams): Promise<DeallocateResourceOperationResponse>;
 
 // @public
-export function virtualMachinesSubmitHibernate(context: ComputeScheduleContext, locationparameter: string, requestBody: SubmitHibernateContent, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams): Promise<HibernateResourceOperationResponse>;
+export function virtualMachinesSubmitHibernate(context: ComputeScheduleContext, locationparameter: string, requestBody: SubmitHibernateRequest, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams): Promise<HibernateResourceOperationResponse>;
 
 // @public
-export function virtualMachinesSubmitStart(context: ComputeScheduleContext, locationparameter: string, requestBody: SubmitStartContent, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams): Promise<StartResourceOperationResponse>;
+export function virtualMachinesSubmitStart(context: ComputeScheduleContext, locationparameter: string, requestBody: SubmitStartRequest, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams): Promise<StartResourceOperationResponse>;
 
 // (No @packageDocumentation comment for this package)
 

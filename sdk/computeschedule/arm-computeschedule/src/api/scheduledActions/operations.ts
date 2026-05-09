@@ -3,26 +3,26 @@
 
 import type { ComputeScheduleContext as Client } from "../index.js";
 import type {
-  SubmitDeallocateContent,
+  SubmitDeallocateRequest,
   DeallocateResourceOperationResponse,
-  SubmitHibernateContent,
+  SubmitHibernateRequest,
   HibernateResourceOperationResponse,
-  SubmitStartContent,
+  SubmitStartRequest,
   StartResourceOperationResponse,
-  ExecuteDeallocateContent,
-  ExecuteHibernateContent,
-  ExecuteStartContent,
-  ExecuteCreateFlexContent,
+  ExecuteDeallocateRequest,
+  ExecuteHibernateRequest,
+  ExecuteStartRequest,
+  ExecuteCreateFlexRequest,
   CreateFlexResourceOperationResponse,
-  ExecuteCreateContent,
+  ExecuteCreateRequest,
   CreateResourceOperationResponse,
-  ExecuteDeleteContent,
+  ExecuteDeleteRequest,
   DeleteResourceOperationResponse,
-  GetOperationStatusContent,
+  GetOperationStatusRequest,
   GetOperationStatusResponse,
-  CancelOperationsContent,
+  CancelOperationsRequest,
   CancelOperationsResponse,
-  GetOperationErrorsContent,
+  GetOperationErrorsRequest,
   GetOperationErrorsResponse,
   ScheduledAction,
   ScheduledActionUpdate,
@@ -38,26 +38,26 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  submitDeallocateContentSerializer,
+  submitDeallocateRequestSerializer,
   deallocateResourceOperationResponseDeserializer,
-  submitHibernateContentSerializer,
+  submitHibernateRequestSerializer,
   hibernateResourceOperationResponseDeserializer,
-  submitStartContentSerializer,
+  submitStartRequestSerializer,
   startResourceOperationResponseDeserializer,
-  executeDeallocateContentSerializer,
-  executeHibernateContentSerializer,
-  executeStartContentSerializer,
-  executeCreateFlexContentSerializer,
+  executeDeallocateRequestSerializer,
+  executeHibernateRequestSerializer,
+  executeStartRequestSerializer,
+  executeCreateFlexRequestSerializer,
   createFlexResourceOperationResponseDeserializer,
-  executeCreateContentSerializer,
+  executeCreateRequestSerializer,
   createResourceOperationResponseDeserializer,
-  executeDeleteContentSerializer,
+  executeDeleteRequestSerializer,
   deleteResourceOperationResponseDeserializer,
-  getOperationStatusContentSerializer,
+  getOperationStatusRequestSerializer,
   getOperationStatusResponseDeserializer,
-  cancelOperationsContentSerializer,
+  cancelOperationsRequestSerializer,
   cancelOperationsResponseDeserializer,
-  getOperationErrorsContentSerializer,
+  getOperationErrorsRequestSerializer,
   getOperationErrorsResponseDeserializer,
   scheduledActionSerializer,
   scheduledActionDeserializer,
@@ -866,7 +866,7 @@ export async function get(
 export function _virtualMachinesGetOperationErrorsSend(
   context: Client,
   locationparameter: string,
-  requestBody: GetOperationErrorsContent,
+  requestBody: GetOperationErrorsRequest,
   options: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -884,7 +884,7 @@ export function _virtualMachinesGetOperationErrorsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: getOperationErrorsContentSerializer(requestBody),
+    body: getOperationErrorsRequestSerializer(requestBody),
   });
 }
 
@@ -906,7 +906,7 @@ export async function _virtualMachinesGetOperationErrorsDeserialize(
 export async function virtualMachinesGetOperationErrors(
   context: Client,
   locationparameter: string,
-  requestBody: GetOperationErrorsContent,
+  requestBody: GetOperationErrorsRequest,
   options: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams = { requestOptions: {} },
 ): Promise<GetOperationErrorsResponse> {
   const result = await _virtualMachinesGetOperationErrorsSend(
@@ -921,7 +921,7 @@ export async function virtualMachinesGetOperationErrors(
 export function _virtualMachinesCancelOperationsSend(
   context: Client,
   locationparameter: string,
-  requestBody: CancelOperationsContent,
+  requestBody: CancelOperationsRequest,
   options: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -939,7 +939,7 @@ export function _virtualMachinesCancelOperationsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: cancelOperationsContentSerializer(requestBody),
+    body: cancelOperationsRequestSerializer(requestBody),
   });
 }
 
@@ -961,7 +961,7 @@ export async function _virtualMachinesCancelOperationsDeserialize(
 export async function virtualMachinesCancelOperations(
   context: Client,
   locationparameter: string,
-  requestBody: CancelOperationsContent,
+  requestBody: CancelOperationsRequest,
   options: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams = { requestOptions: {} },
 ): Promise<CancelOperationsResponse> {
   const result = await _virtualMachinesCancelOperationsSend(
@@ -976,7 +976,7 @@ export async function virtualMachinesCancelOperations(
 export function _virtualMachinesGetOperationStatusSend(
   context: Client,
   locationparameter: string,
-  requestBody: GetOperationStatusContent,
+  requestBody: GetOperationStatusRequest,
   options: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -994,7 +994,7 @@ export function _virtualMachinesGetOperationStatusSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: getOperationStatusContentSerializer(requestBody),
+    body: getOperationStatusRequestSerializer(requestBody),
   });
 }
 
@@ -1016,7 +1016,7 @@ export async function _virtualMachinesGetOperationStatusDeserialize(
 export async function virtualMachinesGetOperationStatus(
   context: Client,
   locationparameter: string,
-  requestBody: GetOperationStatusContent,
+  requestBody: GetOperationStatusRequest,
   options: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams = { requestOptions: {} },
 ): Promise<GetOperationStatusResponse> {
   const result = await _virtualMachinesGetOperationStatusSend(
@@ -1031,7 +1031,7 @@ export async function virtualMachinesGetOperationStatus(
 export function _virtualMachinesExecuteDeleteSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteDeleteContent,
+  requestBody: ExecuteDeleteRequest,
   options: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1049,7 +1049,7 @@ export function _virtualMachinesExecuteDeleteSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeDeleteContentSerializer(requestBody),
+    body: executeDeleteRequestSerializer(requestBody),
   });
 }
 
@@ -1071,7 +1071,7 @@ export async function _virtualMachinesExecuteDeleteDeserialize(
 export async function virtualMachinesExecuteDelete(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteDeleteContent,
+  requestBody: ExecuteDeleteRequest,
   options: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteResourceOperationResponse> {
   const result = await _virtualMachinesExecuteDeleteSend(
@@ -1086,7 +1086,7 @@ export async function virtualMachinesExecuteDelete(
 export function _virtualMachinesExecuteCreateSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteCreateContent,
+  requestBody: ExecuteCreateRequest,
   options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1104,7 +1104,7 @@ export function _virtualMachinesExecuteCreateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeCreateContentSerializer(requestBody),
+    body: executeCreateRequestSerializer(requestBody),
   });
 }
 
@@ -1126,7 +1126,7 @@ export async function _virtualMachinesExecuteCreateDeserialize(
 export async function virtualMachinesExecuteCreate(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteCreateContent,
+  requestBody: ExecuteCreateRequest,
   options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = { requestOptions: {} },
 ): Promise<CreateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteCreateSend(
@@ -1141,7 +1141,7 @@ export async function virtualMachinesExecuteCreate(
 export function _virtualMachinesExecuteCreateFlexSend(
   context: Client,
   locationparameter: string,
-  body: ExecuteCreateFlexContent,
+  body: ExecuteCreateFlexRequest,
   options: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1159,7 +1159,7 @@ export function _virtualMachinesExecuteCreateFlexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeCreateFlexContentSerializer(body),
+    body: executeCreateFlexRequestSerializer(body),
   });
 }
 
@@ -1181,7 +1181,7 @@ export async function _virtualMachinesExecuteCreateFlexDeserialize(
 export async function virtualMachinesExecuteCreateFlex(
   context: Client,
   locationparameter: string,
-  body: ExecuteCreateFlexContent,
+  body: ExecuteCreateFlexRequest,
   options: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams = { requestOptions: {} },
 ): Promise<CreateFlexResourceOperationResponse> {
   const result = await _virtualMachinesExecuteCreateFlexSend(
@@ -1196,7 +1196,7 @@ export async function virtualMachinesExecuteCreateFlex(
 export function _virtualMachinesExecuteStartSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteStartContent,
+  requestBody: ExecuteStartRequest,
   options: ScheduledActionsVirtualMachinesExecuteStartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1214,7 +1214,7 @@ export function _virtualMachinesExecuteStartSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeStartContentSerializer(requestBody),
+    body: executeStartRequestSerializer(requestBody),
   });
 }
 
@@ -1236,7 +1236,7 @@ export async function _virtualMachinesExecuteStartDeserialize(
 export async function virtualMachinesExecuteStart(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteStartContent,
+  requestBody: ExecuteStartRequest,
   options: ScheduledActionsVirtualMachinesExecuteStartOptionalParams = { requestOptions: {} },
 ): Promise<StartResourceOperationResponse> {
   const result = await _virtualMachinesExecuteStartSend(
@@ -1251,7 +1251,7 @@ export async function virtualMachinesExecuteStart(
 export function _virtualMachinesExecuteHibernateSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteHibernateContent,
+  requestBody: ExecuteHibernateRequest,
   options: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1269,7 +1269,7 @@ export function _virtualMachinesExecuteHibernateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeHibernateContentSerializer(requestBody),
+    body: executeHibernateRequestSerializer(requestBody),
   });
 }
 
@@ -1291,7 +1291,7 @@ export async function _virtualMachinesExecuteHibernateDeserialize(
 export async function virtualMachinesExecuteHibernate(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteHibernateContent,
+  requestBody: ExecuteHibernateRequest,
   options: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams = { requestOptions: {} },
 ): Promise<HibernateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteHibernateSend(
@@ -1306,7 +1306,7 @@ export async function virtualMachinesExecuteHibernate(
 export function _virtualMachinesExecuteDeallocateSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteDeallocateContent,
+  requestBody: ExecuteDeallocateRequest,
   options: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1324,7 +1324,7 @@ export function _virtualMachinesExecuteDeallocateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeDeallocateContentSerializer(requestBody),
+    body: executeDeallocateRequestSerializer(requestBody),
   });
 }
 
@@ -1346,7 +1346,7 @@ export async function _virtualMachinesExecuteDeallocateDeserialize(
 export async function virtualMachinesExecuteDeallocate(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteDeallocateContent,
+  requestBody: ExecuteDeallocateRequest,
   options: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams = { requestOptions: {} },
 ): Promise<DeallocateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteDeallocateSend(
@@ -1361,7 +1361,7 @@ export async function virtualMachinesExecuteDeallocate(
 export function _virtualMachinesSubmitStartSend(
   context: Client,
   locationparameter: string,
-  requestBody: SubmitStartContent,
+  requestBody: SubmitStartRequest,
   options: ScheduledActionsVirtualMachinesSubmitStartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1379,7 +1379,7 @@ export function _virtualMachinesSubmitStartSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: submitStartContentSerializer(requestBody),
+    body: submitStartRequestSerializer(requestBody),
   });
 }
 
@@ -1401,7 +1401,7 @@ export async function _virtualMachinesSubmitStartDeserialize(
 export async function virtualMachinesSubmitStart(
   context: Client,
   locationparameter: string,
-  requestBody: SubmitStartContent,
+  requestBody: SubmitStartRequest,
   options: ScheduledActionsVirtualMachinesSubmitStartOptionalParams = { requestOptions: {} },
 ): Promise<StartResourceOperationResponse> {
   const result = await _virtualMachinesSubmitStartSend(
@@ -1416,7 +1416,7 @@ export async function virtualMachinesSubmitStart(
 export function _virtualMachinesSubmitHibernateSend(
   context: Client,
   locationparameter: string,
-  requestBody: SubmitHibernateContent,
+  requestBody: SubmitHibernateRequest,
   options: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1434,7 +1434,7 @@ export function _virtualMachinesSubmitHibernateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: submitHibernateContentSerializer(requestBody),
+    body: submitHibernateRequestSerializer(requestBody),
   });
 }
 
@@ -1456,7 +1456,7 @@ export async function _virtualMachinesSubmitHibernateDeserialize(
 export async function virtualMachinesSubmitHibernate(
   context: Client,
   locationparameter: string,
-  requestBody: SubmitHibernateContent,
+  requestBody: SubmitHibernateRequest,
   options: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams = { requestOptions: {} },
 ): Promise<HibernateResourceOperationResponse> {
   const result = await _virtualMachinesSubmitHibernateSend(
@@ -1471,7 +1471,7 @@ export async function virtualMachinesSubmitHibernate(
 export function _virtualMachinesSubmitDeallocateSend(
   context: Client,
   locationparameter: string,
-  requestBody: SubmitDeallocateContent,
+  requestBody: SubmitDeallocateRequest,
   options: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1489,7 +1489,7 @@ export function _virtualMachinesSubmitDeallocateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: submitDeallocateContentSerializer(requestBody),
+    body: submitDeallocateRequestSerializer(requestBody),
   });
 }
 
@@ -1511,7 +1511,7 @@ export async function _virtualMachinesSubmitDeallocateDeserialize(
 export async function virtualMachinesSubmitDeallocate(
   context: Client,
   locationparameter: string,
-  requestBody: SubmitDeallocateContent,
+  requestBody: SubmitDeallocateRequest,
   options: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams = { requestOptions: {} },
 ): Promise<DeallocateResourceOperationResponse> {
   const result = await _virtualMachinesSubmitDeallocateSend(

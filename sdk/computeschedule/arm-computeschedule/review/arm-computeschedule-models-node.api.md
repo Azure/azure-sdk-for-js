@@ -110,7 +110,7 @@ export interface CancelOccurrenceRequest {
 }
 
 // @public
-export interface CancelOperationsContent {
+export interface CancelOperationsRequest {
     correlationId: string;
     operationIds: string[];
 }
@@ -267,28 +267,28 @@ export interface EventGridAndResourceGraph {
 }
 
 // @public
-export interface ExecuteCreateContent {
-    correlationId?: string;
-    executionParameters: ExecutionParameters;
-    resourceConfigParameters: ResourceProvisionPayload;
-}
-
-// @public
-export interface ExecuteCreateFlexContent {
+export interface ExecuteCreateFlexRequest {
     correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionFlexPayload;
 }
 
 // @public
-export interface ExecuteDeallocateContent {
+export interface ExecuteCreateRequest {
+    correlationId?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionPayload;
+}
+
+// @public
+export interface ExecuteDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteDeleteContent {
+export interface ExecuteDeleteRequest {
     correlationId?: string;
     executionParameters: ExecutionParameters;
     forceDeletion?: boolean;
@@ -296,14 +296,14 @@ export interface ExecuteDeleteContent {
 }
 
 // @public
-export interface ExecuteHibernateContent {
+export interface ExecuteHibernateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteStartContent {
+export interface ExecuteStartRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -344,7 +344,7 @@ export interface FlexProperties {
 }
 
 // @public
-export interface GetOperationErrorsContent {
+export interface GetOperationErrorsRequest {
     operationIds: string[];
 }
 
@@ -354,7 +354,7 @@ export interface GetOperationErrorsResponse {
 }
 
 // @public
-export interface GetOperationStatusContent {
+export interface GetOperationStatusRequest {
     correlationId: string;
     operationIds: string[];
 }
@@ -1369,7 +1369,7 @@ export interface StorageProfile {
 }
 
 // @public
-export interface SubmitDeallocateContent {
+export interface SubmitDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -1377,7 +1377,7 @@ export interface SubmitDeallocateContent {
 }
 
 // @public
-export interface SubmitHibernateContent {
+export interface SubmitHibernateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -1385,7 +1385,7 @@ export interface SubmitHibernateContent {
 }
 
 // @public
-export interface SubmitStartContent {
+export interface SubmitStartRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;

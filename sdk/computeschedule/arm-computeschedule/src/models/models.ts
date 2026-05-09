@@ -177,7 +177,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** The deallocate request for resources */
-export interface SubmitDeallocateContent {
+export interface SubmitDeallocateRequest {
   /** The schedule for the request */
   schedule: Schedule;
   /** The execution parameters for the request */
@@ -188,7 +188,7 @@ export interface SubmitDeallocateContent {
   correlationId: string;
 }
 
-export function submitDeallocateContentSerializer(item: SubmitDeallocateContent): any {
+export function submitDeallocateRequestSerializer(item: SubmitDeallocateRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -540,7 +540,7 @@ export function fallbackOperationInfoDeserializer(item: any): FallbackOperationI
 }
 
 /** This is the request for hibernate */
-export interface SubmitHibernateContent {
+export interface SubmitHibernateRequest {
   /** The schedule for the request */
   schedule: Schedule;
   /** The execution parameters for the request */
@@ -551,7 +551,7 @@ export interface SubmitHibernateContent {
   correlationId: string;
 }
 
-export function submitHibernateContentSerializer(item: SubmitHibernateContent): any {
+export function submitHibernateRequestSerializer(item: SubmitHibernateRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -586,7 +586,7 @@ export function hibernateResourceOperationResponseDeserializer(
 }
 
 /** This is the request for start */
-export interface SubmitStartContent {
+export interface SubmitStartRequest {
   /** The schedule for the request */
   schedule: Schedule;
   /** The execution parameters for the request */
@@ -597,7 +597,7 @@ export interface SubmitStartContent {
   correlationId: string;
 }
 
-export function submitStartContentSerializer(item: SubmitStartContent): any {
+export function submitStartRequestSerializer(item: SubmitStartRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -632,7 +632,7 @@ export function startResourceOperationResponseDeserializer(
 }
 
 /** The ExecuteDeallocateRequest request for executeDeallocate operations */
-export interface ExecuteDeallocateContent {
+export interface ExecuteDeallocateRequest {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -641,7 +641,7 @@ export interface ExecuteDeallocateContent {
   correlationId: string;
 }
 
-export function executeDeallocateContentSerializer(item: ExecuteDeallocateContent): any {
+export function executeDeallocateRequestSerializer(item: ExecuteDeallocateRequest): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -650,7 +650,7 @@ export function executeDeallocateContentSerializer(item: ExecuteDeallocateConten
 }
 
 /** The ExecuteHibernateRequest request for executeHibernate operations */
-export interface ExecuteHibernateContent {
+export interface ExecuteHibernateRequest {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -659,7 +659,7 @@ export interface ExecuteHibernateContent {
   correlationId: string;
 }
 
-export function executeHibernateContentSerializer(item: ExecuteHibernateContent): any {
+export function executeHibernateRequestSerializer(item: ExecuteHibernateRequest): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -668,7 +668,7 @@ export function executeHibernateContentSerializer(item: ExecuteHibernateContent)
 }
 
 /** The ExecuteStartRequest request for executeStart operations */
-export interface ExecuteStartContent {
+export interface ExecuteStartRequest {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -677,7 +677,7 @@ export interface ExecuteStartContent {
   correlationId: string;
 }
 
-export function executeStartContentSerializer(item: ExecuteStartContent): any {
+export function executeStartRequestSerializer(item: ExecuteStartRequest): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -686,7 +686,7 @@ export function executeStartContentSerializer(item: ExecuteStartContent): any {
 }
 
 /** The ExecuteCreateFlexRequest request for executeCreateFlex operations */
-export interface ExecuteCreateFlexContent {
+export interface ExecuteCreateFlexRequest {
   /** Resource creation payload with flex properties */
   resourceConfigParameters: ResourceProvisionFlexPayload;
   /** The execution parameters for the request */
@@ -695,7 +695,7 @@ export interface ExecuteCreateFlexContent {
   correlationId?: string;
 }
 
-export function executeCreateFlexContentSerializer(item: ExecuteCreateFlexContent): any {
+export function executeCreateFlexRequestSerializer(item: ExecuteCreateFlexRequest): any {
   return {
     resourceConfigParameters: resourceProvisionFlexPayloadSerializer(
       item["resourceConfigParameters"],
@@ -3195,7 +3195,7 @@ export function createFlexResourceOperationResponseDeserializer(
 }
 
 /** The ExecuteCreateRequest request for create operations */
-export interface ExecuteCreateContent {
+export interface ExecuteCreateRequest {
   /** resource creation payload */
   resourceConfigParameters: ResourceProvisionPayload;
   /** The execution parameters for the request */
@@ -3204,7 +3204,7 @@ export interface ExecuteCreateContent {
   correlationId?: string;
 }
 
-export function executeCreateContentSerializer(item: ExecuteCreateContent): any {
+export function executeCreateRequestSerializer(item: ExecuteCreateRequest): any {
   return {
     resourceConfigParameters: resourceProvisionPayloadSerializer(item["resourceConfigParameters"]),
     executionParameters: executionParametersSerializer(item["executionParameters"]),
@@ -3263,7 +3263,7 @@ export function createResourceOperationResponseDeserializer(
 }
 
 /** The ExecuteDeleteRequest for delete VM operation */
-export interface ExecuteDeleteContent {
+export interface ExecuteDeleteRequest {
   /** The execution parameters for the request */
   executionParameters: ExecutionParameters;
   /** The resources for the request */
@@ -3274,7 +3274,7 @@ export interface ExecuteDeleteContent {
   forceDeletion?: boolean;
 }
 
-export function executeDeleteContentSerializer(item: ExecuteDeleteContent): any {
+export function executeDeleteRequestSerializer(item: ExecuteDeleteRequest): any {
   return {
     executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
@@ -3309,14 +3309,14 @@ export function deleteResourceOperationResponseDeserializer(
 }
 
 /** This is the request to get operation status using operationids */
-export interface GetOperationStatusContent {
+export interface GetOperationStatusRequest {
   /** The list of operation ids to get the status of */
   operationIds: string[];
   /** CorrelationId item */
   correlationId: string;
 }
 
-export function getOperationStatusContentSerializer(item: GetOperationStatusContent): any {
+export function getOperationStatusRequestSerializer(item: GetOperationStatusRequest): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -3338,14 +3338,14 @@ export function getOperationStatusResponseDeserializer(item: any): GetOperationS
 }
 
 /** This is the request to cancel running operations in scheduled actions using the operation ids */
-export interface CancelOperationsContent {
+export interface CancelOperationsRequest {
   /** The list of operation ids to cancel operations on */
   operationIds: string[];
   /** CorrelationId item */
   correlationId: string;
 }
 
-export function cancelOperationsContentSerializer(item: CancelOperationsContent): any {
+export function cancelOperationsRequestSerializer(item: CancelOperationsRequest): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -3367,12 +3367,12 @@ export function cancelOperationsResponseDeserializer(item: any): CancelOperation
 }
 
 /** This is the request to get errors per vm operations */
-export interface GetOperationErrorsContent {
+export interface GetOperationErrorsRequest {
   /** The list of operation ids to query errors of */
   operationIds: string[];
 }
 
-export function getOperationErrorsContentSerializer(item: GetOperationErrorsContent): any {
+export function getOperationErrorsRequestSerializer(item: GetOperationErrorsRequest): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;

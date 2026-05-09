@@ -128,7 +128,7 @@ export interface CancelOccurrenceRequest {
 }
 
 // @public
-export interface CancelOperationsContent {
+export interface CancelOperationsRequest {
     correlationId: string;
     operationIds: string[];
 }
@@ -308,28 +308,28 @@ export interface EventGridAndResourceGraph {
 }
 
 // @public
-export interface ExecuteCreateContent {
-    correlationId?: string;
-    executionParameters: ExecutionParameters;
-    resourceConfigParameters: ResourceProvisionPayload;
-}
-
-// @public
-export interface ExecuteCreateFlexContent {
+export interface ExecuteCreateFlexRequest {
     correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionFlexPayload;
 }
 
 // @public
-export interface ExecuteDeallocateContent {
+export interface ExecuteCreateRequest {
+    correlationId?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionPayload;
+}
+
+// @public
+export interface ExecuteDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteDeleteContent {
+export interface ExecuteDeleteRequest {
     correlationId?: string;
     executionParameters: ExecutionParameters;
     forceDeletion?: boolean;
@@ -337,14 +337,14 @@ export interface ExecuteDeleteContent {
 }
 
 // @public
-export interface ExecuteHibernateContent {
+export interface ExecuteHibernateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
 }
 
 // @public
-export interface ExecuteStartContent {
+export interface ExecuteStartRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -385,7 +385,7 @@ export interface FlexProperties {
 }
 
 // @public
-export interface GetOperationErrorsContent {
+export interface GetOperationErrorsRequest {
     operationIds: string[];
 }
 
@@ -395,7 +395,7 @@ export interface GetOperationErrorsResponse {
 }
 
 // @public
-export interface GetOperationStatusContent {
+export interface GetOperationStatusRequest {
     correlationId: string;
     operationIds: string[];
 }
@@ -1452,18 +1452,18 @@ export interface ScheduledActionsOperations {
     patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequestInput, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     triggerManualOccurrence: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams) => Promise<Occurrence>;
     update: (resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams) => Promise<ScheduledAction>;
-    virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsContent, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
-    virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateContent, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
-    virtualMachinesExecuteCreateFlex: (locationparameter: string, body: ExecuteCreateFlexContent, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams) => Promise<CreateFlexResourceOperationResponse>;
-    virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateContent, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
-    virtualMachinesExecuteDelete: (locationparameter: string, requestBody: ExecuteDeleteContent, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams) => Promise<DeleteResourceOperationResponse>;
-    virtualMachinesExecuteHibernate: (locationparameter: string, requestBody: ExecuteHibernateContent, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
-    virtualMachinesExecuteStart: (locationparameter: string, requestBody: ExecuteStartContent, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams) => Promise<StartResourceOperationResponse>;
-    virtualMachinesGetOperationErrors: (locationparameter: string, requestBody: GetOperationErrorsContent, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams) => Promise<GetOperationErrorsResponse>;
-    virtualMachinesGetOperationStatus: (locationparameter: string, requestBody: GetOperationStatusContent, options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams) => Promise<GetOperationStatusResponse>;
-    virtualMachinesSubmitDeallocate: (locationparameter: string, requestBody: SubmitDeallocateContent, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
-    virtualMachinesSubmitHibernate: (locationparameter: string, requestBody: SubmitHibernateContent, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
-    virtualMachinesSubmitStart: (locationparameter: string, requestBody: SubmitStartContent, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams) => Promise<StartResourceOperationResponse>;
+    virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
+    virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
+    virtualMachinesExecuteCreateFlex: (locationparameter: string, body: ExecuteCreateFlexRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams) => Promise<CreateFlexResourceOperationResponse>;
+    virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
+    virtualMachinesExecuteDelete: (locationparameter: string, requestBody: ExecuteDeleteRequest, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams) => Promise<DeleteResourceOperationResponse>;
+    virtualMachinesExecuteHibernate: (locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
+    virtualMachinesExecuteStart: (locationparameter: string, requestBody: ExecuteStartRequest, options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams) => Promise<StartResourceOperationResponse>;
+    virtualMachinesGetOperationErrors: (locationparameter: string, requestBody: GetOperationErrorsRequest, options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams) => Promise<GetOperationErrorsResponse>;
+    virtualMachinesGetOperationStatus: (locationparameter: string, requestBody: GetOperationStatusRequest, options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams) => Promise<GetOperationStatusResponse>;
+    virtualMachinesSubmitDeallocate: (locationparameter: string, requestBody: SubmitDeallocateRequest, options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
+    virtualMachinesSubmitHibernate: (locationparameter: string, requestBody: SubmitHibernateRequest, options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
+    virtualMachinesSubmitStart: (locationparameter: string, requestBody: SubmitStartRequest, options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams) => Promise<StartResourceOperationResponse>;
 }
 
 // @public
@@ -1625,7 +1625,7 @@ export interface StorageProfile {
 }
 
 // @public
-export interface SubmitDeallocateContent {
+export interface SubmitDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -1633,7 +1633,7 @@ export interface SubmitDeallocateContent {
 }
 
 // @public
-export interface SubmitHibernateContent {
+export interface SubmitHibernateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
@@ -1641,7 +1641,7 @@ export interface SubmitHibernateContent {
 }
 
 // @public
-export interface SubmitStartContent {
+export interface SubmitStartRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
     resources: Resources;
