@@ -202,6 +202,17 @@ function Invoke-Cu {
     try {
         $resp = Invoke-WebRequest -Uri $Url -Headers $headers -Method GET -UseBasicParsing -TimeoutSec 30 -ErrorAction Stop
         return @{ Code = [int]$resp.StatusCode; Body = $resp.Content; Time = [int]([DateTime]::Now - $start).TotalMilliseconds }
+    } catch [Microsoft.PowerShell.Commands.HttpResponseException] {
+        # PowerShell 7+ throws HttpResponseException for non-2xx responses
+        # (Windows PowerShell 5.1 throws WebException — handled below).
+        $code = if ($_.Exception.Response) { [int]$_.Exception.Response.StatusCode } else { 0 }
+        $body = ""
+        if ($_.ErrorDetails -and $_.ErrorDetails.Message) {
+            $body = $_.ErrorDetails.Message
+        } elseif ($_.Exception.Response -and $_.Exception.Response.Content) {
+            try { $body = $_.Exception.Response.Content.ReadAsStringAsync().GetAwaiter().GetResult() } catch { }
+        }
+        return @{ Code = $code; Body = $body; Time = [int]([DateTime]::Now - $start).TotalMilliseconds }
     } catch [System.Net.WebException] {
         $code = if ($_.Exception.Response) { [int]$_.Exception.Response.StatusCode } else { 0 }
         $body = ""
@@ -216,8 +227,7 @@ function Invoke-Cu {
 
 # ─── Phase 2: Collect ─────────────────────────────────────────────────────────
 $EndpointFinal      = ""
-$ApiKeyFinal        = ""
-$Gpt41              = ""
+$ApiKeyFinal        = ""$UseDac             = $false$Gpt41              = ""
 $Gpt41Mini          = ""
 $Embedding          = ""
 $SkipUpdateDefaults = $false
@@ -274,6 +284,7 @@ if (-not $VerifyOnly) {
             $ApiKeyFinal = Read-PromptDefault "API key (CONTENTUNDERSTANDING_KEY)" $existingKey
         } else {
             $ApiKeyFinal = ""
+            $UseDac = $true
             if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
                 Write-WarnMsg "Azure CLI ('az') not found. Install it before running samples that use DefaultAzureCredential."
             } else {
@@ -352,7 +363,16 @@ if (-not $VerifyOnly) {
 
     Write-Section "Step 6: Writing .env"
     Set-EnvValue "CONTENTUNDERSTANDING_ENDPOINT" $EndpointFinal
-    Set-EnvValue "CONTENTUNDERSTANDING_KEY"      $ApiKeyFinal
+    if ($UseDac) {
+        # User explicitly chose DefaultAzureCredential. Don't overwrite an
+        # existing CONTENTUNDERSTANDING_KEY in .env (which would silently
+        # discard the user's API key); leave any existing value untouched.
+        if ($existingKey) {
+            Write-Info "DefaultAzureCredential selected — preserving existing CONTENTUNDERSTANDING_KEY in .env."
+        }
+    } else {
+        Set-EnvValue "CONTENTUNDERSTANDING_KEY"      $ApiKeyFinal
+    }
     Set-EnvValue "GPT_4_1_DEPLOYMENT"            $Gpt41
     Set-EnvValue "GPT_4_1_MINI_DEPLOYMENT"       $Gpt41Mini
     Set-EnvValue "TEXT_EMBEDDING_3_LARGE_DEPLOYMENT" $Embedding

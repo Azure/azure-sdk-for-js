@@ -25,7 +25,7 @@ Key links:
 - [Getting started](#getting-started)
   - [Currently supported environments](#currently-supported-environments)
   - [Prerequisites](#prerequisites)
-  - [Install the `@azure/ai-content-understanding` package](#install-the-azureai-content-understanding-package)
+  - [Install the `@azure/ai-content-understanding` package](#install-the-azure-ai-content-understanding-package)
   - [Configure your Microsoft Foundry resource](#configure-your-microsoft-foundry-resource)
   - [Authenticate the client](#authenticate-the-client)
   - [JavaScript Bundle](#javascript-bundle)

@@ -47,7 +47,9 @@ Usage: $(basename "$0") [options]
 
 Options:
   --endpoint URL        Override endpoint (skip the endpoint prompt)
-  --api-key KEY         Override API key (skip the API key prompt)
+  --api-key KEY         Override API key (skip the API key prompt; warning:
+                          may expose credentials via shell history and process
+                          listings; prefer the interactive prompt or env vars)
   --verify-only         Skip install/config phase; only run the 5-check verification
   --non-interactive     Do not prompt; use existing .env / env vars / overrides
   --local               Force local build + tarball install (skip npm registry)
@@ -220,10 +222,23 @@ write_env_value() {
 }
 
 # ─── HTTP helper (curl + az token or API key) ─────────────────────────────────
+# Detect once whether `date +%N` produces real nanoseconds (GNU date) or a
+# literal "N" (BSD date on macOS). On BSD we fall back to second-precision
+# timing so reported elapsed durations are still accurate.
+if [[ "$(date +%N 2>/dev/null)" =~ ^[0-9]+$ ]]; then
+    DATE_HAS_NS=1
+else
+    DATE_HAS_NS=0
+fi
+
 http_get() {
     local url="$1" token="${2:-}" key="${3:-}" tmp http_code body t0 t1 elapsed
     tmp="$(mktemp)"
-    t0="$(date +%s%N 2>/dev/null || date +%s)"
+    if [ "$DATE_HAS_NS" -eq 1 ]; then
+        t0="$(date +%s%N)"
+    else
+        t0="$(date +%s)"
+    fi
     local args=(-sS -m 30 -o "$tmp" -w '%{http_code}' -H "Content-Type: application/json")
     if [ -n "$key" ]; then
         args+=(-H "Ocp-Apim-Subscription-Key: $key")
@@ -233,14 +248,20 @@ http_get() {
     http_code="$(curl "${args[@]}" "$url" 2>/dev/null || echo 000)"
     body="$(cat "$tmp" 2>/dev/null || echo "")"
     rm -f "$tmp"
-    t1="$(date +%s%N 2>/dev/null || date +%s)"
-    if [[ "$t0" == *N ]]; then elapsed=0; else elapsed=$(( (t1 - t0) / 1000000 )); fi
+    if [ "$DATE_HAS_NS" -eq 1 ]; then
+        t1="$(date +%s%N)"
+        elapsed=$(( (t1 - t0) / 1000000 ))
+    else
+        t1="$(date +%s)"
+        elapsed=$(( (t1 - t0) * 1000 ))
+    fi
     HTTP_CODE="$http_code"; HTTP_BODY="$body"; HTTP_TIME="$elapsed"
 }
 
 # ─── Phase 2: Detect existing state + collect values ──────────────────────────
 ENDPOINT=""
 APIKEY=""
+USE_DAC=0
 GPT41=""
 GPT41MINI=""
 EMBEDDING=""
@@ -300,6 +321,7 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
             prompt "API key (CONTENTUNDERSTANDING_KEY)" APIKEY "$EXISTING_KEY"
         else
             APIKEY=""
+            USE_DAC=1
             if ! command -v az >/dev/null 2>&1; then
                 warn "Azure CLI ('az') not found. Install it before running samples that use DefaultAzureCredential."
             elif ! az account show >/dev/null 2>&1; then
@@ -383,7 +405,16 @@ if [ "$VERIFY_ONLY" -eq 0 ]; then
 
     section "Step 6: Writing .env"
     write_env_value CONTENTUNDERSTANDING_ENDPOINT "$ENDPOINT"
-    write_env_value CONTENTUNDERSTANDING_KEY      "$APIKEY"
+    if [ "$USE_DAC" -eq 1 ]; then
+        # User explicitly chose DefaultAzureCredential. Don't overwrite an
+        # existing CONTENTUNDERSTANDING_KEY in .env (which would silently
+        # discard the user's API key); leave any existing value untouched.
+        if [ -n "$EXISTING_KEY" ]; then
+            info "DefaultAzureCredential selected — preserving existing CONTENTUNDERSTANDING_KEY in .env."
+        fi
+    else
+        write_env_value CONTENTUNDERSTANDING_KEY      "$APIKEY"
+    fi
     write_env_value GPT_4_1_DEPLOYMENT             "$GPT41"
     write_env_value GPT_4_1_MINI_DEPLOYMENT        "$GPT41MINI"
     write_env_value TEXT_EMBEDDING_3_LARGE_DEPLOYMENT "$EMBEDDING"
