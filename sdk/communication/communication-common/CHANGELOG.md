@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for the GCCH Teams Phone Extensibility Entra scope `https://auth.msft.communication.azure.us/TeamsExtension.ManageCalls`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
