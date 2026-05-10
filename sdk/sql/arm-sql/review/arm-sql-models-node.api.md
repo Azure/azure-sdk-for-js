@@ -302,6 +302,7 @@ export interface Database extends TrackedResource {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -513,6 +514,7 @@ export interface DatabaseProperties {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -646,6 +648,7 @@ export interface DatabaseUpdate {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -698,6 +701,7 @@ export interface DatabaseUpdateProperties {
     readonly pausedDate?: Date;
     performCutover?: boolean;
     preferredEnclaveType?: AlwaysEncryptedEnclaveType;
+    readonly provisioningState?: string;
     readScale?: DatabaseReadScale;
     recoverableDatabaseId?: string;
     recoveryServicesRecoveryPointId?: string;
@@ -779,7 +783,7 @@ export interface DatabaseVulnerabilityAssessmentScansExport extends ProxyResourc
 }
 
 // @public
-export type DataMaskingFunction = "Default" | "CCN" | "Email" | "Number" | "SSN" | "Text";
+export type DataMaskingFunction = string;
 
 // @public
 export interface DataMaskingPolicy extends ProxyResource {
@@ -837,10 +841,26 @@ export interface DataMaskingRuleProperties {
 }
 
 // @public
-export type DataMaskingRuleState = "Enabled" | "Disabled";
+export type DataMaskingRuleState = string;
 
 // @public
 export type DataMaskingState = "Enabled" | "Disabled";
+
+// @public
+export interface DataSyncParticipantIdentity {
+    tenantId?: string;
+    type: DataSyncParticipantIdentityType;
+    userAssignedIdentities?: Record<string, DataSyncParticipantUserAssignedIdentity>;
+}
+
+// @public
+export type DataSyncParticipantIdentityType = string;
+
+// @public
+export interface DataSyncParticipantUserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface DataWarehouseUserActivities extends ProxyResource {
@@ -969,6 +989,7 @@ export interface ElasticPool extends TrackedResource {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     readonly kind?: string;
     licenseType?: ElasticPoolLicenseType;
@@ -1080,6 +1101,7 @@ export interface ElasticPoolProperties {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
     readonly creationDate?: Date;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1098,6 +1120,7 @@ export type ElasticPoolState = string;
 export interface ElasticPoolUpdate {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -1114,6 +1137,7 @@ export interface ElasticPoolUpdate {
 export interface ElasticPoolUpdateProperties {
     autoPauseDelay?: number;
     availabilityZone?: AvailabilityZoneType;
+    readonly currentSku?: Sku;
     highAvailabilityReplicaCount?: number;
     licenseType?: ElasticPoolLicenseType;
     maintenanceConfigurationId?: string;
@@ -2089,8 +2113,32 @@ export enum KnownDatabaseStatus {
 }
 
 // @public
+export enum KnownDataMaskingFunction {
+    CCN = "CCN",
+    Default = "Default",
+    Email = "Email",
+    Number = "Number",
+    SSN = "SSN",
+    Text = "Text"
+}
+
+// @public
 export enum KnownDataMaskingPolicyName {
     Default = "Default"
+}
+
+// @public
+export enum KnownDataMaskingRuleState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDataSyncParticipantIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssignedUserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -2885,7 +2933,8 @@ export enum KnownUpsertManagedServerOperationStepWithEstimatesAndDurationStatus 
 
 // @public
 export enum KnownVersions {
-    V20250101 = "2025-01-01"
+    V20250101 = "2025-01-01",
+    V20250201Preview = "2025-02-01-preview"
 }
 
 // @public
@@ -3432,6 +3481,7 @@ export interface ManagedInstanceDtc extends ProxyResource {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
+    fqdnEnabled?: boolean;
     readonly provisioningState?: ProvisioningState;
     securitySettings?: ManagedInstanceDtcSecuritySettings;
 }
@@ -3441,6 +3491,7 @@ export interface ManagedInstanceDtcProperties {
     dtcEnabled?: boolean;
     readonly dtcHostNameDnsSuffix?: string;
     externalDnsSuffixSearchList?: string[];
+    fqdnEnabled?: boolean;
     readonly provisioningState?: ProvisioningState;
     securitySettings?: ManagedInstanceDtcSecuritySettings;
 }
@@ -5518,6 +5569,7 @@ export interface SyncGroup extends ProxyResource {
     enableConflictLogging?: boolean;
     hubDatabasePassword?: string;
     hubDatabaseUserName?: string;
+    identity?: DataSyncParticipantIdentity;
     interval?: number;
     readonly lastSyncTime?: Date;
     readonly privateEndpointName?: string;
@@ -5586,6 +5638,7 @@ export type SyncGroupsType = string;
 export interface SyncMember extends ProxyResource {
     databaseName?: string;
     databaseType?: SyncMemberDbType;
+    identity?: DataSyncParticipantIdentity;
     password?: string;
     readonly privateEndpointName?: string;
     serverName?: string;

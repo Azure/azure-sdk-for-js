@@ -47,7 +47,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,11 @@ export function listByDatabase(
       _listByDatabaseSend(context, resourceGroupName, managedInstanceName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -109,7 +113,7 @@ export function _$deleteSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +164,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<
     OperationState<ManagedInstanceLongTermRetentionPolicy>,
     ManagedInstanceLongTermRetentionPolicy
@@ -186,7 +190,7 @@ export function _createOrUpdateSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +247,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<
     OperationState<ManagedInstanceLongTermRetentionPolicy>,
     ManagedInstanceLongTermRetentionPolicy
@@ -266,7 +270,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

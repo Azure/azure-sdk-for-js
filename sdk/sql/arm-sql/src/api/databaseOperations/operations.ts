@@ -40,7 +40,7 @@ export function _cancelSend(
       serverName: serverName,
       databaseName: databaseName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,7 +95,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,6 +134,10 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }

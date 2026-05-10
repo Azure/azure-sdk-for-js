@@ -59,8 +59,10 @@ export interface DatabasesListByElasticPoolOptionalParams extends OperationOptio
 
 // @public
 export interface DatabasesListByServerOptionalParams extends OperationOptions {
-    // (undocumented)
-    skipToken?: string;
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    top?: number;
 }
 
 // @public

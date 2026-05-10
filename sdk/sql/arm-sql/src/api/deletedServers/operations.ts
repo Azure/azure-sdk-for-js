@@ -37,7 +37,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/deletedServers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -89,7 +93,7 @@ export function _recoverSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       deletedServerName: deletedServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +129,7 @@ export function recover(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _recoverSend(context, locationName, deletedServerName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<DeletedServer>, DeletedServer>;
 }
 
@@ -139,7 +143,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +180,11 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -192,7 +200,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       deletedServerName: deletedServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -42,7 +42,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +80,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -99,7 +103,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       connectionPolicyName: connectionPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +153,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<ServerConnectionPolicy>, ServerConnectionPolicy>;
 }
 
@@ -167,7 +171,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       connectionPolicyName: connectionPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

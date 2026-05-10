@@ -1061,6 +1061,8 @@ export interface Database extends TrackedResource {
   availabilityZone?: AvailabilityZoneType;
   /** The flag to enable or disable auto rotation of database encryption protector AKV key. */
   encryptionProtectorAutoRotation?: boolean;
+  /** Specifies the provisioning state for this resource */
+  readonly provisioningState?: string;
 }
 
 export function databaseSerializer(item: Database): any {
@@ -1284,6 +1286,8 @@ export interface DatabaseProperties {
   availabilityZone?: AvailabilityZoneType;
   /** The flag to enable or disable auto rotation of database encryption protector AKV key. */
   encryptionProtectorAutoRotation?: boolean;
+  /** Specifies the provisioning state for this resource */
+  readonly provisioningState?: string;
 }
 
 export function databasePropertiesSerializer(item: DatabaseProperties): any {
@@ -1385,6 +1389,7 @@ export function databasePropertiesDeserializer(item: any): DatabaseProperties {
     performCutover: item["performCutover"],
     availabilityZone: item["availabilityZone"],
     encryptionProtectorAutoRotation: item["encryptionProtectorAutoRotation"],
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -2088,6 +2093,8 @@ export interface DatabaseUpdate {
   performCutover?: boolean;
   /** The flag to enable or disable auto rotation of database encryption protector AKV key. */
   encryptionProtectorAutoRotation?: boolean;
+  /** Specifies the provisioning state for this resource */
+  readonly provisioningState?: string;
 }
 
 export function databaseUpdateSerializer(item: DatabaseUpdate): any {
@@ -2268,6 +2275,8 @@ export interface DatabaseUpdateProperties {
   performCutover?: boolean;
   /** The flag to enable or disable auto rotation of database encryption protector AKV key. */
   encryptionProtectorAutoRotation?: boolean;
+  /** Specifies the provisioning state for this resource */
+  readonly provisioningState?: string;
 }
 
 export function databaseUpdatePropertiesSerializer(item: DatabaseUpdateProperties): any {
@@ -9682,6 +9691,8 @@ export interface ElasticPool extends TrackedResource {
   preferredEnclaveType?: AlwaysEncryptedEnclaveType;
   /** Specifies the availability zone the pool's primary replica is pinned to. */
   availabilityZone?: AvailabilityZoneType;
+  /** The name and tier of the current SKU. */
+  readonly currentSku?: Sku;
 }
 
 export function elasticPoolSerializer(item: ElasticPool): any {
@@ -9752,6 +9763,8 @@ export interface ElasticPoolProperties {
   preferredEnclaveType?: AlwaysEncryptedEnclaveType;
   /** Specifies the availability zone the pool's primary replica is pinned to. */
   availabilityZone?: AvailabilityZoneType;
+  /** The name and tier of the current SKU. */
+  readonly currentSku?: Sku;
 }
 
 export function elasticPoolPropertiesSerializer(item: ElasticPoolProperties): any {
@@ -9787,6 +9800,7 @@ export function elasticPoolPropertiesDeserializer(item: any): ElasticPoolPropert
     autoPauseDelay: item["autoPauseDelay"],
     preferredEnclaveType: item["preferredEnclaveType"],
     availabilityZone: item["availabilityZone"],
+    currentSku: !item["currentSku"] ? item["currentSku"] : skuDeserializer(item["currentSku"]),
   };
 }
 
@@ -9885,6 +9899,8 @@ export interface ElasticPoolUpdate {
   preferredEnclaveType?: AlwaysEncryptedEnclaveType;
   /** Specifies the availability zone the pool's primary replica is pinned to. */
   availabilityZone?: AvailabilityZoneType;
+  /** The name and tier of the current SKU. */
+  readonly currentSku?: Sku;
 }
 
 export function elasticPoolUpdateSerializer(item: ElasticPoolUpdate): any {
@@ -9930,6 +9946,8 @@ export interface ElasticPoolUpdateProperties {
   preferredEnclaveType?: AlwaysEncryptedEnclaveType;
   /** Specifies the availability zone the pool's primary replica is pinned to. */
   availabilityZone?: AvailabilityZoneType;
+  /** The name and tier of the current SKU. */
+  readonly currentSku?: Sku;
 }
 
 export function elasticPoolUpdatePropertiesSerializer(item: ElasticPoolUpdateProperties): any {
@@ -13518,6 +13536,8 @@ export interface ManagedInstanceDtc extends ProxyResource {
   externalDnsSuffixSearchList?: string[];
   /** Host name dns suffix of managed instance DTC. */
   readonly dtcHostNameDnsSuffix?: string;
+  /** Status of FQDN of managed instance DTC. Toggling this setting might trigger a restart of the managed instance. */
+  fqdnEnabled?: boolean;
   /** Provisioning state of managed instance DTC. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -13528,6 +13548,7 @@ export function managedInstanceDtcSerializer(item: ManagedInstanceDtc): any {
       "dtcEnabled",
       "securitySettings",
       "externalDnsSuffixSearchList",
+      "fqdnEnabled",
     ])
       ? undefined
       : _managedInstanceDtcPropertiesSerializer(item),
@@ -13558,6 +13579,8 @@ export interface ManagedInstanceDtcProperties {
   externalDnsSuffixSearchList?: string[];
   /** Host name dns suffix of managed instance DTC. */
   readonly dtcHostNameDnsSuffix?: string;
+  /** Status of FQDN of managed instance DTC. Toggling this setting might trigger a restart of the managed instance. */
+  fqdnEnabled?: boolean;
   /** Provisioning state of managed instance DTC. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -13573,6 +13596,7 @@ export function managedInstanceDtcPropertiesSerializer(item: ManagedInstanceDtcP
       : item["externalDnsSuffixSearchList"].map((p: any) => {
           return p;
         }),
+    fqdnEnabled: item["fqdnEnabled"],
   };
 }
 
@@ -13588,6 +13612,7 @@ export function managedInstanceDtcPropertiesDeserializer(item: any): ManagedInst
           return p;
         }),
     dtcHostNameDnsSuffix: item["dtcHostNameDnsSuffix"],
+    fqdnEnabled: item["fqdnEnabled"],
     provisioningState: item["provisioningState"],
   };
 }
@@ -16946,6 +16971,8 @@ export type SyncMemberDbType = string;
 export interface SyncGroup extends ProxyResource {
   /** The name and capacity of the SKU. */
   sku?: Sku;
+  /** Sync group authentication information. */
+  identity?: DataSyncParticipantIdentity;
   /** Sync interval of the sync group. */
   interval?: number;
   /** Last sync time of the sync group. */
@@ -16988,6 +17015,9 @@ export function syncGroupSerializer(item: SyncGroup): any {
       ? undefined
       : _syncGroupPropertiesSerializer(item),
     sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : dataSyncParticipantIdentitySerializer(item["identity"]),
   };
 }
 
@@ -17003,6 +17033,9 @@ export function syncGroupDeserializer(item: any): SyncGroup {
       ? item["properties"]
       : _syncGroupPropertiesDeserializer(item["properties"])),
     sku: !item["sku"] ? item["sku"] : skuDeserializer(item["sku"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : dataSyncParticipantIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -17207,6 +17240,98 @@ export function syncGroupSchemaTableColumnDeserializer(item: any): SyncGroupSche
     quotedName: item["quotedName"],
     dataSize: item["dataSize"],
     dataType: item["dataType"],
+  };
+}
+
+/** Azure Active Directory identity configuration for a resource. */
+export interface DataSyncParticipantIdentity {
+  /** The Datasync identity type */
+  type: DataSyncParticipantIdentityType;
+  /** The DataSync participant identity tenant id */
+  tenantId?: string;
+  /** The resource ids of the user assigned identities to use */
+  userAssignedIdentities?: Record<string, DataSyncParticipantUserAssignedIdentity>;
+}
+
+export function dataSyncParticipantIdentitySerializer(item: DataSyncParticipantIdentity): any {
+  return {
+    type: item["type"],
+    tenantId: item["tenantId"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : dataSyncParticipantUserAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
+  };
+}
+
+export function dataSyncParticipantIdentityDeserializer(item: any): DataSyncParticipantIdentity {
+  return {
+    type: item["type"],
+    tenantId: item["tenantId"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : dataSyncParticipantUserAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
+  };
+}
+
+/** Known values of {@link DataSyncParticipantIdentityType} that the service accepts. */
+export enum KnownDataSyncParticipantIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssignedUserAssigned",
+}
+
+/** Type of DataSyncParticipantIdentityType */
+export type DataSyncParticipantIdentityType = string;
+
+export function dataSyncParticipantUserAssignedIdentityRecordSerializer(
+  item: Record<string, DataSyncParticipantUserAssignedIdentity>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key]
+      ? item[key]
+      : dataSyncParticipantUserAssignedIdentitySerializer(item[key]);
+  });
+  return result;
+}
+
+export function dataSyncParticipantUserAssignedIdentityRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, DataSyncParticipantUserAssignedIdentity> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key]
+      ? item[key]
+      : dataSyncParticipantUserAssignedIdentityDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Azure Active Directory identity configuration for a resource. */
+export interface DataSyncParticipantUserAssignedIdentity {
+  /** The Azure Active Directory principal id. */
+  readonly principalId?: string;
+  /** The Azure Active Directory client id. */
+  readonly clientId?: string;
+}
+
+export function dataSyncParticipantUserAssignedIdentitySerializer(
+  _item: DataSyncParticipantUserAssignedIdentity,
+): any {
+  return {};
+}
+
+export function dataSyncParticipantUserAssignedIdentityDeserializer(
+  item: any,
+): DataSyncParticipantUserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -17460,6 +17585,8 @@ export function syncDatabaseIdPropertiesDeserializer(item: any): SyncDatabaseIdP
 
 /** An Azure SQL Database sync member. */
 export interface SyncMember extends ProxyResource {
+  /** Sync member authentication information. */
+  identity?: DataSyncParticipantIdentity;
   /** Database type of the sync member. */
   databaseType?: SyncMemberDbType;
   /** ARM resource id of the sync agent in the sync member. */
@@ -17502,6 +17629,9 @@ export function syncMemberSerializer(item: SyncMember): any {
     ])
       ? undefined
       : _syncMemberPropertiesSerializer(item),
+    identity: !item["identity"]
+      ? item["identity"]
+      : dataSyncParticipantIdentitySerializer(item["identity"]),
   };
 }
 
@@ -17516,6 +17646,9 @@ export function syncMemberDeserializer(item: any): SyncMember {
     ...(!item["properties"]
       ? item["properties"]
       : _syncMemberPropertiesDeserializer(item["properties"])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : dataSyncParticipantIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -19503,9 +19636,52 @@ export function dataMaskingRulePropertiesDeserializer(item: any): DataMaskingRul
 }
 
 /** The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. */
-export type DataMaskingRuleState = "Enabled" | "Disabled";
+export enum KnownDataMaskingRuleState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. \
+ * {@link KnownDataMaskingRuleState} can be used interchangeably with DataMaskingRuleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enabled \
+ * **Disabled**: Disabled
+ */
+export type DataMaskingRuleState = string;
+
 /** The masking function that is used for the data masking rule. */
-export type DataMaskingFunction = "Default" | "CCN" | "Email" | "Number" | "SSN" | "Text";
+export enum KnownDataMaskingFunction {
+  /** Default */
+  Default = "Default",
+  /** CCN */
+  CCN = "CCN",
+  /** Email */
+  Email = "Email",
+  /** Number */
+  Number = "Number",
+  /** SSN */
+  SSN = "SSN",
+  /** Text */
+  Text = "Text",
+}
+
+/**
+ * The masking function that is used for the data masking rule. \
+ * {@link KnownDataMaskingFunction} can be used interchangeably with DataMaskingFunction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Default \
+ * **CCN**: CCN \
+ * **Email**: Email \
+ * **Number**: Number \
+ * **SSN**: SSN \
+ * **Text**: Text
+ */
+export type DataMaskingFunction = string;
 
 /** User activities of a data warehouse */
 export interface DataWarehouseUserActivities extends ProxyResource {
@@ -22785,6 +22961,8 @@ export type CapabilityGroup = string;
 export enum KnownVersions {
   /** The 2025-01-01 API version. */
   V20250101 = "2025-01-01",
+  /** The 2025-02-01-preview API version. */
+  V20250201Preview = "2025-02-01-preview",
 }
 
 export function advisorArraySerializer(result: Array<Advisor>): any[] {
@@ -22974,6 +23152,7 @@ export function _databasePropertiesDeserializer(item: any) {
     performCutover: item["performCutover"],
     availabilityZone: item["availabilityZone"],
     encryptionProtectorAutoRotation: item["encryptionProtectorAutoRotation"],
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -24078,6 +24257,7 @@ export function _elasticPoolPropertiesDeserializer(item: any) {
     autoPauseDelay: item["autoPauseDelay"],
     preferredEnclaveType: item["preferredEnclaveType"],
     availabilityZone: item["availabilityZone"],
+    currentSku: !item["currentSku"] ? item["currentSku"] : skuDeserializer(item["currentSku"]),
   };
 }
 
@@ -24604,6 +24784,7 @@ export function _managedInstanceDtcPropertiesSerializer(item: ManagedInstanceDtc
       : item["externalDnsSuffixSearchList"].map((p: any) => {
           return p;
         }),
+    fqdnEnabled: item["fqdnEnabled"],
   };
 }
 
@@ -24619,6 +24800,7 @@ export function _managedInstanceDtcPropertiesDeserializer(item: any) {
           return p;
         }),
     dtcHostNameDnsSuffix: item["dtcHostNameDnsSuffix"],
+    fqdnEnabled: item["fqdnEnabled"],
     provisioningState: item["provisioningState"],
   };
 }

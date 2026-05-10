@@ -26,7 +26,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       include: options?.include,
     },
     {

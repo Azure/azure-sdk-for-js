@@ -51,7 +51,7 @@ export function _listByResourceGroupInstanceSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -101,7 +101,11 @@ export function listByResourceGroupInstance(
       ),
     _listByResourceGroupInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -119,7 +123,7 @@ export function _listByResourceGroupLocationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
       "%24skip": options?.skip,
@@ -164,7 +168,11 @@ export function listByResourceGroupLocation(
     () => _listByResourceGroupLocationSend(context, resourceGroupName, locationName, options),
     _listByResourceGroupLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -182,7 +190,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -224,7 +232,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, locationName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -240,7 +252,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
       "%24skip": options?.skip,
@@ -284,7 +296,11 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -304,7 +320,7 @@ export function _listByDatabaseSend(
       locationName: locationName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -347,7 +363,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, locationName, managedInstanceName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -367,7 +387,7 @@ export function _$deleteSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -403,7 +423,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, locationName, managedInstanceName, databaseName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -423,7 +443,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -487,7 +507,7 @@ export function _listByResourceGroupDatabaseSend(
       locationName: locationName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -539,7 +559,11 @@ export function listByResourceGroupDatabase(
       ),
     _listByResourceGroupDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -563,7 +587,7 @@ export function _deleteByResourceGroupSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -612,7 +636,7 @@ export function deleteByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -636,7 +660,7 @@ export function _getByResourceGroupSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

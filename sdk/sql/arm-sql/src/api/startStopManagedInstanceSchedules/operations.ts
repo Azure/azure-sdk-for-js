@@ -41,7 +41,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,11 @@ export function listByInstance(
     () => _listByInstanceSend(context, resourceGroupName, managedInstanceName, options),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -97,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       startStopScheduleName: startStopScheduleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,7 +155,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       startStopScheduleName: startStopScheduleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +217,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       startStopScheduleName: startStopScheduleName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

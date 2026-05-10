@@ -42,7 +42,7 @@ export function _listByQuerySend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       queryId: queryId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       startTime: options?.startTime,
       endTime: options?.endTime,
       interval: options?.interval,
@@ -93,7 +93,11 @@ export function listByQuery(
       ),
     _listByQueryDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -113,7 +117,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
       queryId: queryId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

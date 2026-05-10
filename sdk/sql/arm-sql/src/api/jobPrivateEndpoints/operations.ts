@@ -44,7 +44,7 @@ export function _listByAgentSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       jobAgentName: jobAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,11 @@ export function listByAgent(
     () => _listByAgentSend(context, resourceGroupName, serverName, jobAgentName, options),
     _listByAgentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -103,7 +107,7 @@ export function _$deleteSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,7 +150,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -167,7 +171,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +223,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-02-01-preview",
   }) as PollerLike<OperationState<JobPrivateEndpoint>, JobPrivateEndpoint>;
 }
 
@@ -239,7 +243,7 @@ export function _getSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       privateEndpointName: privateEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
