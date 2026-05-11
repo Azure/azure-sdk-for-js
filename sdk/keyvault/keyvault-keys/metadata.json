@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "KeyVault": "2026-01-01-preview"
+    "KeyVault": "2025-07-01"
   },
   "emitterVersion": "0.52.3",
   "crossLanguageDefinitions": {
