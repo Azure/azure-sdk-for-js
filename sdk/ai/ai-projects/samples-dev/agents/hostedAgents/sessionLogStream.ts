@@ -36,6 +36,13 @@ interface SseFrame {
   data: string;
 }
 
+function closeReadableStream(stream: NodeJS.ReadableStream): void {
+  stream.pause();
+  if ("destroy" in stream && typeof stream.destroy === "function") {
+    stream.destroy();
+  }
+}
+
 function iterSseFrames(stream: NodeJS.ReadableStream, maxLogEvents: number): Promise<SseFrame[]> {
   return new Promise((resolve, reject) => {
     const frames: SseFrame[] = [];
@@ -63,7 +70,7 @@ function iterSseFrames(stream: NodeJS.ReadableStream, maxLogEvents: number): Pro
         if (dataLines.length > 0 || eventName) {
           frames.push({ event: eventName, data: dataLines.join("\n") });
           if (frames.length >= maxLogEvents) {
-            stream.destroy();
+            closeReadableStream(stream);
             resolve(frames);
             return;
           }
