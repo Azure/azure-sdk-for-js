@@ -1655,72 +1655,36 @@ export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
 export interface WorkIQPreviewTool extends Tool {
   /** The object type, which is always 'work_iq_preview'. */
   type: "work_iq_preview";
+  /** The ID of the WorkIQ project connection. */
+  project_connection_id: string;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
-  /** The WorkIQ tool parameters. */
-  work_iq_preview: WorkIQPreviewToolParameters;
 }
 
 export function workIQPreviewToolSerializer(item: WorkIQPreviewTool): any {
   return {
     type: item["type"],
+    project_connection_id: item["project_connection_id"],
     name: item["name"],
     description: item["description"],
-    work_iq_preview: workIQPreviewToolParametersSerializer(item["work_iq_preview"]),
   };
 }
 
 export function workIQPreviewToolDeserializer(item: any): WorkIQPreviewTool {
   return {
     type: item["type"],
+    project_connection_id: item["project_connection_id"],
     name: item["name"],
     description: item["description"],
-    work_iq_preview: workIQPreviewToolParametersDeserializer(item["work_iq_preview"]),
   };
 }
 
-/** The WorkIQ tool parameters. */
-export interface WorkIQPreviewToolParameters {
-  /** The ID of the WorkIQ project connection. */
-  project_connection_id: string;
-}
-
-export function workIQPreviewToolParametersSerializer(item: WorkIQPreviewToolParameters): any {
-  return { project_connection_id: item["project_connection_id"] };
-}
-
-export function workIQPreviewToolParametersDeserializer(item: any): WorkIQPreviewToolParameters {
-  return {
-    project_connection_id: item["project_connection_id"],
-  };
-}
-
-/** model interface FabricIQPreviewTool */
+/** A FabricIQ server-side tool. */
 export interface FabricIQPreviewTool extends Tool {
   /** The object type, which is always 'fabric_iq_preview'. */
   type: "fabric_iq_preview";
-  /** The FabricIQ tool parameters. */
-  fabric_iq_preview: FabricIQPreviewToolParameters;
-}
-
-export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
-  return {
-    type: item["type"],
-    fabric_iq_preview: fabricIQPreviewToolParametersSerializer(item["fabric_iq_preview"]),
-  };
-}
-
-export function fabricIQPreviewToolDeserializer(item: any): FabricIQPreviewTool {
-  return {
-    type: item["type"],
-    fabric_iq_preview: fabricIQPreviewToolParametersDeserializer(item["fabric_iq_preview"]),
-  };
-}
-
-/** model interface FabricIQPreviewToolParameters */
-export interface FabricIQPreviewToolParameters {
   /** The ID of the FabricIQ project connection. */
   project_connection_id: string;
   /** (Optional) The label of the FabricIQ MCP server to connect to. */
@@ -1729,44 +1693,52 @@ export interface FabricIQPreviewToolParameters {
   server_url?: string;
   /** (Optional) Whether the agent requires approval before executing actions. Default is always. */
   require_approval?: MCPToolRequireApproval | string;
+  /** Optional user-defined name for this tool or configuration. */
+  name?: string;
+  /** Optional user-defined description for this tool or configuration. */
+  description?: string;
 }
 
-export function fabricIQPreviewToolParametersSerializer(item: FabricIQPreviewToolParameters): any {
+export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
   return {
+    type: item["type"],
     project_connection_id: item["project_connection_id"],
     server_label: item["server_label"],
     server_url: item["server_url"],
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _fabricIQPreviewToolParametersRequireApprovalSerializer(item["require_approval"]),
+      : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+    name: item["name"],
+    description: item["description"],
   };
 }
 
-export function fabricIQPreviewToolParametersDeserializer(
-  item: any,
-): FabricIQPreviewToolParameters {
+export function fabricIQPreviewToolDeserializer(item: any): FabricIQPreviewTool {
   return {
+    type: item["type"],
     project_connection_id: item["project_connection_id"],
     server_label: item["server_label"],
     server_url: item["server_url"],
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _fabricIQPreviewToolParametersRequireApprovalDeserializer(item["require_approval"]),
+      : _fabricIQPreviewToolRequireApprovalDeserializer(item["require_approval"]),
+    name: item["name"],
+    description: item["description"],
   };
 }
 
-/** Alias for _FabricIQPreviewToolParametersRequireApproval */
-export type _FabricIQPreviewToolParametersRequireApproval = MCPToolRequireApproval | string;
+/** Alias for _FabricIQPreviewToolRequireApproval */
+export type _FabricIQPreviewToolRequireApproval = MCPToolRequireApproval | string;
 
-export function _fabricIQPreviewToolParametersRequireApprovalSerializer(
-  item: _FabricIQPreviewToolParametersRequireApproval,
+export function _fabricIQPreviewToolRequireApprovalSerializer(
+  item: _FabricIQPreviewToolRequireApproval,
 ): any {
   return item;
 }
 
-export function _fabricIQPreviewToolParametersRequireApprovalDeserializer(
+export function _fabricIQPreviewToolRequireApprovalDeserializer(
   item: any,
-): _FabricIQPreviewToolParametersRequireApproval {
+): _FabricIQPreviewToolRequireApproval {
   return item;
 }
 
@@ -5904,8 +5876,8 @@ export interface PendingUploadRequest {
   pendingUploadId?: string;
   /** Azure Storage Account connection name to use for generating temporary SAS token */
   connectionName?: string;
-  /** BlobReference is the only supported type. */
-  pendingUploadType: "BlobReference";
+  /** TemporaryBlobReference is the only supported type. */
+  pendingUploadType: "TemporaryBlobReference";
 }
 
 export function pendingUploadRequestSerializer(item: PendingUploadRequest): any {
@@ -5924,8 +5896,8 @@ export interface PendingUploadResponse {
   pendingUploadId: string;
   /** Version of asset to be created if user did not specify version when initially creating upload */
   version?: string;
-  /** BlobReference is the only supported type */
-  pendingUploadType: "BlobReference";
+  /** TemporaryBlobReference is the only supported type */
+  pendingUploadType: "TemporaryBlobReference";
 }
 
 export function pendingUploadResponseDeserializer(item: any): PendingUploadResponse {
@@ -6368,14 +6340,14 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
 /** Multipart request body for creating a new code-based agent (POST /agents). Inherits from CreateAgentVersionFromCodeContent for future extensibility. */
 export interface CreateAgentFromCodeContent {
   /** JSON metadata including description and hosted definition. */
-  metadata: CreateAgentVersionFromCodeRequest;
+  metadata: CreateAgentVersionFromCodeMetadata;
   /** The code zip file (max 250 MB). */
   code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }
 
 export function createAgentFromCodeContentSerializer(item: CreateAgentFromCodeContent): any {
   return [
-    { name: "metadata", body: createAgentVersionFromCodeRequestSerializer(item["metadata"]) },
+    { name: "metadata", body: createAgentVersionFromCodeMetadataSerializer(item["metadata"]) },
     createFilePartDescriptor("code", item["code"], "application/octet-stream"),
   ];
 }
@@ -6386,7 +6358,7 @@ export function createAgentFromCodeContentSerializer(item: CreateAgentFromCodeCo
  * so it is not included in this model.
  * The content hash (SHA-256 of the zip) is carried in the `x-ms-code-zip-sha256` header.
  */
-export interface CreateAgentVersionFromCodeRequest {
+export interface CreateAgentVersionFromCodeMetadata {
   /** A human-readable description of the agent. */
   description?: string;
   /**
@@ -6402,8 +6374,8 @@ export interface CreateAgentVersionFromCodeRequest {
   definition: HostedAgentDefinition;
 }
 
-export function createAgentVersionFromCodeRequestSerializer(
-  item: CreateAgentVersionFromCodeRequest,
+export function createAgentVersionFromCodeMetadataSerializer(
+  item: CreateAgentVersionFromCodeMetadata,
 ): any {
   return {
     description: item["description"],
@@ -6415,7 +6387,7 @@ export function createAgentVersionFromCodeRequestSerializer(
 /** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
 export interface CreateAgentVersionFromCodeContent {
   /** JSON metadata including description and hosted definition. */
-  metadata: CreateAgentVersionFromCodeRequest;
+  metadata: CreateAgentVersionFromCodeMetadata;
   /** The code zip file (max 250 MB). */
   code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }
@@ -6424,7 +6396,7 @@ export function createAgentVersionFromCodeContentSerializer(
   item: CreateAgentVersionFromCodeContent,
 ): any {
   return [
-    { name: "metadata", body: createAgentVersionFromCodeRequestSerializer(item["metadata"]) },
+    { name: "metadata", body: createAgentVersionFromCodeMetadataSerializer(item["metadata"]) },
     createFilePartDescriptor("code", item["code"], "application/octet-stream"),
   ];
 }
@@ -6753,7 +6725,7 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
   /** Input type of the evaluation taxonomy. */
   type: "agent";
   /** Target configuration for the agent. */
-  target: TargetUnion;
+  target: EvaluationTargetUnion;
   /** List of risk categories to evaluate against. */
   riskCategories: RiskCategory[];
 }
@@ -6761,7 +6733,7 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 export function agentTaxonomyInputSerializer(item: AgentTaxonomyInput): any {
   return {
     type: item["type"],
-    target: targetUnionSerializer(item["target"]),
+    target: evaluationTargetUnionSerializer(item["target"]),
     riskCategories: item["riskCategories"],
   };
 }
@@ -6769,32 +6741,32 @@ export function agentTaxonomyInputSerializer(item: AgentTaxonomyInput): any {
 export function agentTaxonomyInputDeserializer(item: any): AgentTaxonomyInput {
   return {
     type: item["type"],
-    target: targetUnionDeserializer(item["target"]),
+    target: evaluationTargetUnionDeserializer(item["target"]),
     riskCategories: item["riskCategories"],
   };
 }
 
 /** Base class for targets with discriminator support. */
-export interface Target {
+export interface EvaluationTarget {
   /** The type of target. */
   /** The discriminator possible values: azure_ai_model, azure_ai_agent */
   type: string;
 }
 
-export function targetSerializer(item: Target): any {
+export function evaluationTargetSerializer(item: EvaluationTarget): any {
   return { type: item["type"] };
 }
 
-export function targetDeserializer(item: any): Target {
+export function evaluationTargetDeserializer(item: any): EvaluationTarget {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for TargetUnion */
-export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
+/** Alias for EvaluationTargetUnion */
+export type EvaluationTargetUnion = AzureAIModelTarget | AzureAIAgentTarget | EvaluationTarget;
 
-export function targetUnionSerializer(item: TargetUnion): any {
+export function evaluationTargetUnionSerializer(item: EvaluationTargetUnion): any {
   switch (item.type) {
     case "azure_ai_model":
       return azureAIModelTargetSerializer(item as AzureAIModelTarget);
@@ -6803,11 +6775,11 @@ export function targetUnionSerializer(item: TargetUnion): any {
       return azureAIAgentTargetSerializer(item as AzureAIAgentTarget);
 
     default:
-      return targetSerializer(item);
+      return evaluationTargetSerializer(item);
   }
 }
 
-export function targetUnionDeserializer(item: any): TargetUnion {
+export function evaluationTargetUnionDeserializer(item: any): EvaluationTargetUnion {
   switch (item.type) {
     case "azure_ai_model":
       return azureAIModelTargetDeserializer(item as AzureAIModelTarget);
@@ -6816,12 +6788,12 @@ export function targetUnionDeserializer(item: any): TargetUnion {
       return azureAIAgentTargetDeserializer(item as AzureAIAgentTarget);
 
     default:
-      return targetDeserializer(item);
+      return evaluationTargetDeserializer(item);
   }
 }
 
 /** Represents a target specifying an Azure AI model for operations requiring model selection. */
-export interface AzureAIModelTarget extends Target {
+export interface AzureAIModelTarget extends EvaluationTarget {
   /** The type of target, always `azure_ai_model`. */
   type: "azure_ai_model";
   /** The unique identifier of the Azure AI model. */
@@ -6881,7 +6853,7 @@ export function modelSamplingParamsDeserializer(item: any): ModelSamplingParams 
 }
 
 /** Represents a target specifying an Azure AI agent. */
-export interface AzureAIAgentTarget extends Target {
+export interface AzureAIAgentTarget extends EvaluationTarget {
   /** The type of target, always `azure_ai_agent`. */
   type: "azure_ai_agent";
   /** The unique identifier of the Azure AI agent. */
@@ -9042,6 +9014,264 @@ export function memoryStoreDeleteScopeResponseDeserializer(
   };
 }
 
+/** Paged collection of ModelVersion items */
+export interface _PagedModelVersion {
+  /** The ModelVersion items on this page */
+  value: ModelVersion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedModelVersionDeserializer(item: any): _PagedModelVersion {
+  return {
+    value: modelVersionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function modelVersionArraySerializer(result: Array<ModelVersion>): any[] {
+  return result.map((item) => {
+    return modelVersionSerializer(item);
+  });
+}
+
+export function modelVersionArrayDeserializer(result: Array<ModelVersion>): any[] {
+  return result.map((item) => {
+    return modelVersionDeserializer(item);
+  });
+}
+
+/** Model Version Definition */
+export interface ModelVersion {
+  /** System related metadata */
+  readonly systemData?: SystemDataV3;
+  /** URI of the model artifact in blob storage */
+  blobUri: string;
+  /** The weight type of the model */
+  weightType?: FoundryModelWeightType;
+  /** Base model asset ID */
+  baseModel?: string;
+  /** The source of the model */
+  source?: ModelSourceData;
+  /** Adapter-specific configuration. Required when weight_type is lora; ignored otherwise. May be auto-populated from adapter_config.json when present in the uploaded files — user-provided values take precedence over auto-detected values. */
+  loraConfig?: LoraConfig;
+  /** The artifact profile of the model */
+  readonly artifactProfile?: ArtifactProfile;
+  /** Service-computed advisory warnings derived from the artifact profile. */
+  readonly warnings?: FoundryModelWarning[];
+  /** Asset ID, a unique identifier for the asset */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name: string;
+  /** The version of the resource */
+  readonly version: string;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function modelVersionSerializer(item: ModelVersion): any {
+  return {
+    blobUri: item["blobUri"],
+    weightType: item["weightType"],
+    baseModel: item["baseModel"],
+    source: !item["source"] ? item["source"] : modelSourceDataSerializer(item["source"]),
+    loraConfig: !item["loraConfig"] ? item["loraConfig"] : loraConfigSerializer(item["loraConfig"]),
+    description: item["description"],
+    tags: item["tags"],
+  };
+}
+
+export function modelVersionDeserializer(item: any): ModelVersion {
+  return {
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataV3Deserializer(item["systemData"]),
+    blobUri: item["blobUri"],
+    weightType: item["weightType"],
+    baseModel: item["baseModel"],
+    source: !item["source"] ? item["source"] : modelSourceDataDeserializer(item["source"]),
+    loraConfig: !item["loraConfig"]
+      ? item["loraConfig"]
+      : loraConfigDeserializer(item["loraConfig"]),
+    artifactProfile: !item["artifactProfile"]
+      ? item["artifactProfile"]
+      : artifactProfileDeserializer(item["artifactProfile"]),
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : foundryModelWarningArrayDeserializer(item["warnings"]),
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** System metadata for a resource */
+export interface SystemDataV3 {
+  /** Timestamp of resource creation */
+  createdAt?: Date;
+  /** Identity that created the resource */
+  createdBy?: string;
+  /** Type of identity that created the resource */
+  createdByType?: string;
+  /** Timestamp of last resource modification */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataV3Deserializer(item: any): SystemDataV3 {
+  return {
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"] * 1000),
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"] * 1000),
+  };
+}
+
+/** The weight type of the model. */
+export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
+
+/** Source information for the model */
+export interface ModelSourceData {
+  /** The source type of the model */
+  sourceType?: FoundryModelSourceType;
+  /** The job ID that produced this model */
+  jobId?: string;
+}
+
+export function modelSourceDataSerializer(item: ModelSourceData): any {
+  return { sourceType: item["sourceType"], jobId: item["jobId"] };
+}
+
+export function modelSourceDataDeserializer(item: any): ModelSourceData {
+  return {
+    sourceType: item["sourceType"],
+    jobId: item["jobId"],
+  };
+}
+
+/** The source type of the model. */
+export type FoundryModelSourceType = "LocalUpload" | "TrainingJob";
+
+/** Adapter-specific metadata for LoRA models. Drives serving engine configuration at deployment time. */
+export interface LoraConfig {
+  /** LoRA rank (r). Positive integer. Common values: 8, 16, 32, 64. */
+  rank?: number;
+  /** LoRA scaling factor (α). Positive integer; typically 2× the rank. */
+  alpha?: number;
+  /** Model layers modified by the adapter (e.g., q_proj, v_proj). Auto-detected from adapter_config.json if omitted. */
+  targetModules?: string[];
+  /** Dropout rate used during training. Informational — not used at serving time. */
+  dropout?: number;
+}
+
+export function loraConfigSerializer(item: LoraConfig): any {
+  return {
+    rank: item["rank"],
+    alpha: item["alpha"],
+    targetModules: !item["targetModules"]
+      ? item["targetModules"]
+      : item["targetModules"].map((p: any) => {
+          return p;
+        }),
+    dropout: item["dropout"],
+  };
+}
+
+export function loraConfigDeserializer(item: any): LoraConfig {
+  return {
+    rank: item["rank"],
+    alpha: item["alpha"],
+    targetModules: !item["targetModules"]
+      ? item["targetModules"]
+      : item["targetModules"].map((p: any) => {
+          return p;
+        }),
+    dropout: item["dropout"],
+  };
+}
+
+/** Artifact profile of the model */
+export interface ArtifactProfile {
+  /** The category of the artifact profile */
+  category: FoundryModelArtifactProfileCategory;
+  /** Signals detected in the model artifact */
+  signals?: FoundryModelArtifactProfileSignal[];
+}
+
+export function artifactProfileDeserializer(item: any): ArtifactProfile {
+  return {
+    category: item["category"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : item["signals"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The artifact profile category. */
+export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
+/** Signals detected in the model artifact. */
+export type FoundryModelArtifactProfileSignal =
+  | "PickleDeserialization"
+  | "CustomPythonCode"
+  | "DynamicOps"
+  | "NativeBinary"
+  | "UnknownFormat";
+
+export function foundryModelWarningArrayDeserializer(result: Array<FoundryModelWarning>): any[] {
+  return result.map((item) => {
+    return foundryModelWarningDeserializer(item);
+  });
+}
+
+/** A warning associated with a model. */
+export interface FoundryModelWarning {
+  /** The warning code. */
+  code?: FoundryModelWarningCode;
+  /** The warning message. */
+  message?: string;
+}
+
+export function foundryModelWarningDeserializer(item: any): FoundryModelWarning {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Warning code for model artifacts. */
+export type FoundryModelWarningCode = "RuntimeDependentArtifact" | "UnclassifiedArtifact";
+
+/** Request body for updating a model version. Only description and tags can be modified. */
+export interface UpdateModelVersionRequest {
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function updateModelVersionRequestSerializer(item: UpdateModelVersionRequest): any {
+  return { description: item["description"], tags: item["tags"] };
+}
+
+/** Request to fetch credentials for a model asset. */
+export interface ModelCredentialRequest {
+  /** Blob URI of the model asset to fetch credentials for. */
+  blobUri: string;
+}
+
+export function modelCredentialRequestSerializer(item: ModelCredentialRequest): any {
+  return { blobUri: item["blobUri"] };
+}
+
 /** Red team details. */
 export interface RedTeam {
   /** Identifier of the red team run. */
@@ -9065,7 +9295,7 @@ export interface RedTeam {
   /** Status of the red-team. It is set by service and is read-only. */
   readonly status?: string;
   /** Target configuration for the red-team run. */
-  target?: TargetConfigUnion;
+  target?: RedTeamTargetConfigUnion;
 }
 
 export function redTeamSerializer(item: RedTeam): any {
@@ -9078,7 +9308,7 @@ export function redTeamSerializer(item: RedTeam): any {
     applicationScenario: item["applicationScenario"],
     tags: item["tags"],
     properties: item["properties"],
-    target: item["target"] ? targetConfigUnionSerializer(item["target"]) : undefined,
+    target: item["target"] ? redTeamTargetConfigUnionSerializer(item["target"]) : undefined,
   };
 }
 
@@ -9094,7 +9324,7 @@ export function redTeamDeserializer(item: any): RedTeam {
     tags: item["tags"],
     properties: item["properties"],
     status: item["status"],
-    target: item["target"] ? targetConfigUnionDeserializer(item["target"]) : undefined,
+    target: item["target"] ? redTeamTargetConfigUnionDeserializer(item["target"]) : undefined,
   };
 }
 
@@ -9130,47 +9360,47 @@ export type AttackStrategy =
   | "crescendo";
 
 /** Abstract class for target configuration. */
-export interface TargetConfig {
+export interface RedTeamTargetConfig {
   /** Type of the model configuration. */
   /** The discriminator possible values: AzureOpenAIModel */
   type: string;
 }
 
-export function targetConfigSerializer(item: TargetConfig): any {
+export function redTeamTargetConfigSerializer(item: RedTeamTargetConfig): any {
   return { type: item["type"] };
 }
 
-export function targetConfigDeserializer(item: any): TargetConfig {
+export function redTeamTargetConfigDeserializer(item: any): RedTeamTargetConfig {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for TargetConfigUnion */
-export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
+/** Alias for RedTeamTargetConfigUnion */
+export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTargetConfig;
 
-export function targetConfigUnionSerializer(item: TargetConfigUnion): any {
+export function redTeamTargetConfigUnionSerializer(item: RedTeamTargetConfigUnion): any {
   switch (item.type) {
     case "AzureOpenAIModel":
       return azureOpenAIModelConfigurationSerializer(item as AzureOpenAIModelConfiguration);
 
     default:
-      return targetConfigSerializer(item);
+      return redTeamTargetConfigSerializer(item);
   }
 }
 
-export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
+export function redTeamTargetConfigUnionDeserializer(item: any): RedTeamTargetConfigUnion {
   switch (item.type) {
     case "AzureOpenAIModel":
       return azureOpenAIModelConfigurationDeserializer(item as AzureOpenAIModelConfiguration);
 
     default:
-      return targetConfigDeserializer(item);
+      return redTeamTargetConfigDeserializer(item);
   }
 }
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
-export interface AzureOpenAIModelConfiguration extends TargetConfig {
+export interface AzureOpenAIModelConfiguration extends RedTeamTargetConfig {
   /** The type discriminator, always 'AzureOpenAIModel'. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */

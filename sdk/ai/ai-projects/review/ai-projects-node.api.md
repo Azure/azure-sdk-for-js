@@ -7,7 +7,7 @@
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
@@ -261,7 +261,7 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 // @public
 export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
     riskCategories: RiskCategory[];
-    target: TargetUnion;
+    target: EvaluationTargetUnion;
     type: "agent";
 }
 
@@ -344,6 +344,12 @@ export interface ApproximateLocation {
 }
 
 // @public
+export interface ArtifactProfile {
+    category: FoundryModelArtifactProfileCategory;
+    signals?: FoundryModelArtifactProfileSignal[];
+}
+
+// @public
 export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansi_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline" | "indirect_jailbreak" | "tense" | "multi_turn" | "crescendo";
 
 // @public
@@ -361,7 +367,7 @@ export interface AzureAgentConfig {
 }
 
 // @public
-export interface AzureAIAgentTarget extends Target {
+export interface AzureAIAgentTarget extends EvaluationTarget {
     name: string;
     tool_descriptions?: ToolDescription[];
     type: "azure_ai_agent";
@@ -369,7 +375,7 @@ export interface AzureAIAgentTarget extends Target {
 }
 
 // @public
-export interface AzureAIModelTarget extends Target {
+export interface AzureAIModelTarget extends EvaluationTarget {
     model?: string;
     sampling_params?: ModelSamplingParams;
     type: "azure_ai_model";
@@ -429,7 +435,7 @@ export interface AzureFunctionTool extends Tool {
 }
 
 // @public
-export interface AzureOpenAIModelConfiguration extends TargetConfig {
+export interface AzureOpenAIModelConfiguration extends RedTeamTargetConfig {
     modelDeploymentName: string;
     type: "AzureOpenAIModel";
 }
@@ -534,8 +540,8 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaAgentsOperations {
-    createAgentFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentFromCodeContent, options?: BetaAgentsCreateAgentFromCodeOptionalParams) => Promise<Agent>;
-    createAgentVersionFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
+    createAgentFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentFromCodeContent, options?: BetaAgentsCreateAgentFromCodeOptionalParams) => Promise<Agent>;
+    createAgentVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
@@ -547,7 +553,7 @@ export interface BetaAgentsOperations {
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsGetSessionLogStreamResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
-    updateAgentFromCode: (agentName: string, codeZipSha256: string, body: CreateAgentVersionFromCodeContent, options?: BetaAgentsUpdateAgentFromCodeOptionalParams) => Promise<Agent>;
+    updateAgentFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsUpdateAgentFromCodeOptionalParams) => Promise<Agent>;
     uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
@@ -811,6 +817,50 @@ export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationO
 export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
+}
+
+// @public
+export interface BetaModelsCreateAsyncOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsGetCredentialsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsListVersionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsOperations {
+    createAsync: (name: string, version: string, body: ModelVersion, options?: BetaModelsCreateAsyncOptionalParams) => Promise<void>;
+    delete: (name: string, version: string, options?: BetaModelsDeleteOptionalParams) => Promise<void>;
+    get: (name: string, version: string, options?: BetaModelsGetOptionalParams) => Promise<ModelVersion>;
+    getCredentials: (name: string, version: string, body: ModelCredentialRequest, options?: BetaModelsGetCredentialsOptionalParams) => Promise<DatasetCredential>;
+    list: (options?: BetaModelsListOptionalParams) => PagedAsyncIterableIterator<ModelVersion>;
+    listVersions: (name: string, options?: BetaModelsListVersionsOptionalParams) => PagedAsyncIterableIterator<ModelVersion>;
+    pendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: BetaModelsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
+    update: (name: string, body: UpdateModelVersionRequest, version: string, options?: BetaModelsUpdateOptionalParams) => Promise<ModelVersion>;
+}
+
+// @public
+export interface BetaModelsPendingUploadOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaModelsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1305,7 +1355,7 @@ export interface CreateAgentFromCodeContent {
         contentType?: string;
         filename?: string;
     };
-    metadata: CreateAgentVersionFromCodeRequest;
+    metadata: CreateAgentVersionFromCodeMetadata;
 }
 
 // @public
@@ -1315,11 +1365,11 @@ export interface CreateAgentVersionFromCodeContent {
         contentType?: string;
         filename?: string;
     };
-    metadata: CreateAgentVersionFromCodeRequest;
+    metadata: CreateAgentVersionFromCodeMetadata;
 }
 
 // @public
-export interface CreateAgentVersionFromCodeRequest {
+export interface CreateAgentVersionFromCodeMetadata {
     definition: HostedAgentDefinition;
     description?: string;
     metadata?: Record<string, string>;
@@ -1795,6 +1845,14 @@ export interface EvaluationScheduleTask extends ScheduleTask {
 }
 
 // @public
+export interface EvaluationTarget {
+    type: string;
+}
+
+// @public
+export type EvaluationTargetUnion = AzureAIModelTarget | AzureAIAgentTarget | EvaluationTarget;
+
+// @public
 export interface EvaluationTaxonomy {
     description?: string;
     readonly id?: string;
@@ -1923,16 +1981,13 @@ export interface FabricDataAgentToolParameters {
 
 // @public
 export interface FabricIQPreviewTool extends Tool {
-    fabric_iq_preview: FabricIQPreviewToolParameters;
-    type: "fabric_iq_preview";
-}
-
-// @public
-export interface FabricIQPreviewToolParameters {
+    description?: string;
+    name?: string;
     project_connection_id: string;
     require_approval?: MCPToolRequireApproval | string;
     server_label?: string;
     server_url?: string;
+    type: "fabric_iq_preview";
 }
 
 // @public
@@ -1994,6 +2049,27 @@ export interface FolderDatasetVersion extends DatasetVersion {
 
 // @public
 export type FoundryFeaturesOptInKeys = "Skills=V1Preview" | "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Toolboxes=V1Preview" | "DataGenerationJobs=V1Preview";
+
+// @public
+export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
+
+// @public
+export type FoundryModelArtifactProfileSignal = "PickleDeserialization" | "CustomPythonCode" | "DynamicOps" | "NativeBinary" | "UnknownFormat";
+
+// @public
+export type FoundryModelSourceType = "LocalUpload" | "TrainingJob";
+
+// @public
+export interface FoundryModelWarning {
+    code?: FoundryModelWarningCode;
+    message?: string;
+}
+
+// @public
+export type FoundryModelWarningCode = "RuntimeDependentArtifact" | "UnclassifiedArtifact";
+
+// @public
+export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
@@ -2292,6 +2368,14 @@ export interface LocalSkillParam {
 }
 
 // @public
+export interface LoraConfig {
+    alpha?: number;
+    dropout?: number;
+    rank?: number;
+    targetModules?: string[];
+}
+
+// @public
 export interface ManagedAgentIdentityBlueprintReference extends AgentBlueprintReference {
     blueprint_id: string;
     // (undocumented)
@@ -2471,6 +2555,11 @@ export interface MicrosoftFabricPreviewTool extends Tool {
 }
 
 // @public
+export interface ModelCredentialRequest {
+    blobUri: string;
+}
+
+// @public
 export interface ModelDeployment extends Deployment {
     readonly capabilities: Record<string, string>;
     readonly connectionName?: string;
@@ -2496,6 +2585,29 @@ export interface ModelSamplingParams {
     seed?: number;
     temperature?: number;
     top_p?: number;
+}
+
+// @public
+export interface ModelSourceData {
+    jobId?: string;
+    sourceType?: FoundryModelSourceType;
+}
+
+// @public
+export interface ModelVersion {
+    readonly artifactProfile?: ArtifactProfile;
+    baseModel?: string;
+    blobUri: string;
+    description?: string;
+    readonly id?: string;
+    loraConfig?: LoraConfig;
+    readonly name: string;
+    source?: ModelSourceData;
+    readonly systemData?: SystemDataV3;
+    tags?: Record<string, string>;
+    readonly version: string;
+    readonly warnings?: FoundryModelWarning[];
+    weightType?: FoundryModelWeightType;
 }
 
 // @public
@@ -2608,14 +2720,14 @@ export { PageSettings }
 export interface PendingUploadRequest {
     connectionName?: string;
     pendingUploadId?: string;
-    pendingUploadType: "BlobReference";
+    pendingUploadType: "TemporaryBlobReference";
 }
 
 // @public
 export interface PendingUploadResponse {
     blobReference: BlobReference;
     pendingUploadId: string;
-    pendingUploadType: "BlobReference";
+    pendingUploadType: "TemporaryBlobReference";
     version?: string;
 }
 
@@ -2731,8 +2843,16 @@ export interface RedTeam {
     simulationOnly?: boolean;
     readonly status?: string;
     tags?: Record<string, string>;
-    target?: TargetConfigUnion;
+    target?: RedTeamTargetConfigUnion;
 }
+
+// @public
+export interface RedTeamTargetConfig {
+    type: string;
+}
+
+// @public
+export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTargetConfig;
 
 // @public
 export interface ResponseUsageInputTokensDetails {
@@ -2918,20 +3038,12 @@ export interface StructuredOutputDefinition {
 }
 
 // @public
-export interface Target {
-    type: string;
+export interface SystemDataV3 {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: string;
+    lastModifiedAt?: Date;
 }
-
-// @public
-export interface TargetConfig {
-    type: string;
-}
-
-// @public
-export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
-
-// @public
-export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
 
 // @public
 export interface TaxonomyCategory {
@@ -3242,6 +3354,12 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
 // @public
+export interface UpdateModelVersionRequest {
+    description?: string;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface UpdateToolboxRequest {
     default_version: string;
     name: string;
@@ -3345,13 +3463,8 @@ export interface WorkflowAgentDefinition extends AgentDefinition {
 export interface WorkIQPreviewTool extends Tool {
     description?: string;
     name?: string;
-    type: "work_iq_preview";
-    work_iq_preview: WorkIQPreviewToolParameters;
-}
-
-// @public
-export interface WorkIQPreviewToolParameters {
     project_connection_id: string;
+    type: "work_iq_preview";
 }
 
 // (No @packageDocumentation comment for this package)

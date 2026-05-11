@@ -55,10 +55,10 @@ export function _deleteScopeSend(
   options: BetaMemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}:delete_scope{?api-version}",
+    "/memory_stores/{name}:delete_scope{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,11 +112,11 @@ export function _getUpdateResultSend(
   options: BetaMemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/updates/{update_id}{?api-version}",
+    "/memory_stores/{name}/updates/{update_id}{?api%2Dversion}",
     {
       name: name,
       update_id: updateId,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,10 +168,10 @@ export function _updateMemoriesSend(
   options: BetaMemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}:update_memories{?api-version}",
+    "/memory_stores/{name}:update_memories{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,10 +247,10 @@ export function _searchMemoriesSend(
   options: BetaMemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}:search_memories{?api-version}",
+    "/memory_stores/{name}:search_memories{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -312,10 +312,10 @@ export function _$deleteSend(
   options: BetaMemoryStoresDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}{?api-version}",
+    "/memory_stores/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -369,13 +369,13 @@ export function _listSend(
   options: BetaMemoryStoresListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores{?limit,order,after,before,api-version}",
+    "/memory_stores{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,10 +429,10 @@ export function _getSend(
   options: BetaMemoryStoresGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}{?api-version}",
+    "/memory_stores/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -480,10 +480,10 @@ export function _updateSend(
   options: BetaMemoryStoresUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}{?api-version}",
+    "/memory_stores/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -534,9 +534,9 @@ export function _createSend(
   options: BetaMemoryStoresCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores{?api-version}",
+    "/memory_stores{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

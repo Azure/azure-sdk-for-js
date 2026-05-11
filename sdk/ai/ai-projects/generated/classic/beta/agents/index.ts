@@ -178,7 +178,7 @@ export interface BetaAgentsOperations {
   createAgentVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
-    body: CreateAgentVersionFromCodeContent,
+    content: CreateAgentVersionFromCodeContent,
     options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   ) => Promise<AgentVersion>;
   /** Updates an agent endpoint. */
@@ -195,7 +195,7 @@ export interface BetaAgentsOperations {
   updateAgentFromCode: (
     agentName: string,
     codeZipSha256: string,
-    body: CreateAgentVersionFromCodeContent,
+    content: CreateAgentVersionFromCodeContent,
     options?: BetaAgentsUpdateAgentFromCodeOptionalParams,
   ) => Promise<Agent>;
   /**
@@ -208,7 +208,7 @@ export interface BetaAgentsOperations {
   createAgentFromCode: (
     agentName: string,
     codeZipSha256: string,
-    body: CreateAgentFromCodeContent,
+    content: CreateAgentFromCodeContent,
     options?: BetaAgentsCreateAgentFromCodeOptionalParams,
   ) => Promise<Agent>;
 }
@@ -273,23 +273,23 @@ function _getBetaAgents(context: AIProjectContext) {
     createAgentVersionFromCode: (
       agentName: string,
       codeZipSha256: string,
-      body: CreateAgentVersionFromCodeContent,
+      content: CreateAgentVersionFromCodeContent,
       options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
-    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, body, options),
+    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, content, options),
     patchAgentObject: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
       patchAgentObject(context, agentName, options),
     updateAgentFromCode: (
       agentName: string,
       codeZipSha256: string,
-      body: CreateAgentVersionFromCodeContent,
+      content: CreateAgentVersionFromCodeContent,
       options?: BetaAgentsUpdateAgentFromCodeOptionalParams,
-    ) => updateAgentFromCode(context, agentName, codeZipSha256, body, options),
+    ) => updateAgentFromCode(context, agentName, codeZipSha256, content, options),
     createAgentFromCode: (
       agentName: string,
       codeZipSha256: string,
-      body: CreateAgentFromCodeContent,
+      content: CreateAgentFromCodeContent,
       options?: BetaAgentsCreateAgentFromCodeOptionalParams,
-    ) => createAgentFromCode(context, agentName, codeZipSha256, body, options),
+    ) => createAgentFromCode(context, agentName, codeZipSha256, content, options),
   };
 }
 

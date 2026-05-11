@@ -14,6 +14,7 @@ import {
   BetaMemoryStoresOperations,
   _getBetaMemoryStoresOperations,
 } from "./memoryStores/index.js";
+import { BetaModelsOperations, _getBetaModelsOperations } from "./models/index.js";
 import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
 import { BetaSkillsOperations, _getBetaSkillsOperations } from "./skills/index.js";
@@ -26,6 +27,7 @@ export interface BetaOperations {
   toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
   redTeams: BetaRedTeamsOperations;
+  models: BetaModelsOperations;
   memoryStores: BetaMemoryStoresOperations;
   insights: BetaInsightsOperations;
   evaluators: BetaEvaluatorsOperations;
@@ -40,6 +42,7 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),
     redTeams: _getBetaRedTeamsOperations(context),
+    models: _getBetaModelsOperations(context),
     memoryStores: _getBetaMemoryStoresOperations(context),
     insights: _getBetaInsightsOperations(context),
     evaluators: _getBetaEvaluatorsOperations(context),

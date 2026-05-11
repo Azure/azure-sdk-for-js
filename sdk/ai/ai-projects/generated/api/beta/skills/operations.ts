@@ -41,10 +41,10 @@ export function _$deleteSend(
   options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}{?api-version}",
+    "/skills/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,10 +99,10 @@ export function _updateSend(
   options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}{?api-version}",
+    "/skills/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,13 +155,13 @@ export function _listSend(
   options: BetaSkillsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills{?limit,order,after,before,api-version}",
+    "/skills{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,10 +215,10 @@ export function _downloadSend(
   options: BetaSkillsDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}:download{?api-version}",
+    "/skills/{name}:download{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,10 +269,10 @@ export function _getSend(
   options: BetaSkillsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills/{name}{?api-version}",
+    "/skills/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,14 +315,14 @@ export async function get(
 
 export function _createFromPackageSend(
   context: Client,
-  body: Uint8Array,
+  content: Uint8Array,
   foundryFeatures: "Skills=V1Preview",
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills:import{?api-version}",
+    "/skills:import{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,7 +338,7 @@ export function _createFromPackageSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: body,
+      body: content,
     });
 }
 
@@ -359,11 +359,11 @@ export async function _createFromPackageDeserialize(
 /** Creates a skill from a zip package. */
 export async function createFromPackage(
   context: Client,
-  body: Uint8Array,
+  content: Uint8Array,
   foundryFeatures: "Skills=V1Preview",
   options: CreateFromPackageOptionalParams = { requestOptions: {} },
 ): Promise<SkillObject> {
-  const result = await _createFromPackageSend(context, body, foundryFeatures, options);
+  const result = await _createFromPackageSend(context, content, foundryFeatures, options);
   return _createFromPackageDeserialize(result);
 }
 
@@ -374,9 +374,9 @@ export function _createSend(
   options: BetaSkillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skills{?api-version}",
+    "/skills{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -36,11 +36,11 @@ export function _createOrUpdateSend(
   options: IndexesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,11 +86,11 @@ export function _$deleteSend(
   options: IndexesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,11 +131,11 @@ export function _getSend(
   options: IndexesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions/{version}{?api-version}",
+    "/indexes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,9 +174,9 @@ export function _listSend(
   options: IndexesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api-version}",
+    "/indexes{?api%2Dversion}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,10 +219,10 @@ export function _listVersionsSend(
   options: IndexesListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions{?api-version}",
+    "/indexes/{name}/versions{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

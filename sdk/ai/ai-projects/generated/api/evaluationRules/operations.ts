@@ -32,9 +32,9 @@ export function _listSend(
   options: EvaluationRulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationrules{?api-version,actionType,agentName,enabled}",
+    "/evaluationrules{?api%2Dversion,actionType,agentName,enabled}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
       actionType: options?.actionType,
       agentName: options?.agentName,
       enabled: options?.enabled,
@@ -83,10 +83,10 @@ export function _createOrUpdateSend(
   options: EvaluationRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationrules/{id}{?api-version}",
+    "/evaluationrules/{id}{?api%2Dversion}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,10 +136,10 @@ export function _$deleteSend(
   options: EvaluationRulesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationrules/{id}{?api-version}",
+    "/evaluationrules/{id}{?api%2Dversion}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,10 +178,10 @@ export function _getSend(
   options: EvaluationRulesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluationrules/{id}{?api-version}",
+    "/evaluationrules/{id}{?api%2Dversion}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

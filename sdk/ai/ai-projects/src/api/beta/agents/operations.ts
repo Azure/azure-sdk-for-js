@@ -750,7 +750,7 @@ export function _createAgentVersionFromCodeSend(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  body: CreateAgentVersionFromCodeContent,
+  content: CreateAgentVersionFromCodeContent,
   options: BetaAgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -774,7 +774,7 @@ export function _createAgentVersionFromCodeSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: createAgentVersionFromCodeContentSerializer(body),
+    body: createAgentVersionFromCodeContentSerializer(content),
   });
 }
 
@@ -796,14 +796,14 @@ export async function createAgentVersionFromCode(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  body: CreateAgentVersionFromCodeContent,
+  content: CreateAgentVersionFromCodeContent,
   options: BetaAgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createAgentVersionFromCodeSend(
     context,
     agentName,
     codeZipSha256,
-    body,
+    content,
     options,
   );
   return _createAgentVersionFromCodeDeserialize(result);
@@ -870,7 +870,7 @@ export function _updateAgentFromCodeSend(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  body: CreateAgentVersionFromCodeContent,
+  content: CreateAgentVersionFromCodeContent,
   options: BetaAgentsUpdateAgentFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -894,7 +894,7 @@ export function _updateAgentFromCodeSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: createAgentVersionFromCodeContentSerializer(body),
+    body: createAgentVersionFromCodeContentSerializer(content),
   });
 }
 
@@ -922,10 +922,16 @@ export async function updateAgentFromCode(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  body: CreateAgentVersionFromCodeContent,
+  content: CreateAgentVersionFromCodeContent,
   options: BetaAgentsUpdateAgentFromCodeOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _updateAgentFromCodeSend(context, agentName, codeZipSha256, body, options);
+  const result = await _updateAgentFromCodeSend(
+    context,
+    agentName,
+    codeZipSha256,
+    content,
+    options,
+  );
   return _updateAgentFromCodeDeserialize(result);
 }
 
@@ -933,7 +939,7 @@ export function _createAgentFromCodeSend(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  body: CreateAgentFromCodeContent,
+  content: CreateAgentFromCodeContent,
   options: BetaAgentsCreateAgentFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -957,7 +963,7 @@ export function _createAgentFromCodeSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: createAgentFromCodeContentSerializer(body),
+    body: createAgentFromCodeContentSerializer(content),
   });
 }
 
@@ -986,9 +992,15 @@ export async function createAgentFromCode(
   context: Client,
   agentName: string,
   codeZipSha256: string,
-  body: CreateAgentFromCodeContent,
+  content: CreateAgentFromCodeContent,
   options: BetaAgentsCreateAgentFromCodeOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createAgentFromCodeSend(context, agentName, codeZipSha256, body, options);
+  const result = await _createAgentFromCodeSend(
+    context,
+    agentName,
+    codeZipSha256,
+    content,
+    options,
+  );
   return _createAgentFromCodeDeserialize(result);
 }

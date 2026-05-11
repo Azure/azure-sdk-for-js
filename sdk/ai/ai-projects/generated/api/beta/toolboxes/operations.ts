@@ -46,11 +46,11 @@ export function _deleteVersionSend(
   options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}/versions/{version}{?api-version}",
+    "/toolboxes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,10 +95,10 @@ export function _$deleteSend(
   options: BetaToolboxesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}{?api-version}",
+    "/toolboxes/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,10 +148,10 @@ export function _updateSend(
   options: BetaToolboxesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}{?api-version}",
+    "/toolboxes/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,11 +203,11 @@ export function _getVersionSend(
   options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}/versions/{version}{?api-version}",
+    "/toolboxes/{name}/versions/{version}{?api%2Dversion}",
     {
       name: name,
       version: version,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,14 +258,14 @@ export function _listVersionsSend(
   options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}/versions{?limit,order,after,before,api-version}",
+    "/toolboxes/{name}/versions{?limit,order,after,before,api%2Dversion}",
     {
       name: name,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,13 +319,13 @@ export function _listSend(
   options: BetaToolboxesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes{?limit,order,after,before,api-version}",
+    "/toolboxes{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,10 +379,10 @@ export function _getSend(
   options: BetaToolboxesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}{?api-version}",
+    "/toolboxes/{name}{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -431,10 +431,10 @@ export function _createVersionSend(
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/toolboxes/{name}/versions{?api-version}",
+    "/toolboxes/{name}/versions{?api%2Dversion}",
     {
       name: name,
-      "api-version": context.apiVersion ?? "v1",
+      "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

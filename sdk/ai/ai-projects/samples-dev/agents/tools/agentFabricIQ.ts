@@ -36,9 +36,7 @@ export async function main(): Promise<void> {
     tools: [
       {
         type: "fabric_iq_preview",
-        fabric_iq_preview: {
-          project_connection_id: fabricIqProjectConnectionId,
-        },
+        project_connection_id: fabricIqProjectConnectionId,
       },
     ],
   });

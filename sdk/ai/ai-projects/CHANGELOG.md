@@ -10,6 +10,11 @@
 - Removed `TaskDataGenerationJobOptions` and the `"task"` member from `DataGenerationJobType` / `DataGenerationJobOptionsUnion`.
 - Renamed `body` parameters to `job` for beta data generation jobs and evaluator generation jobs.
 - Renamed `body` parameters to `taxonomy` for beta evaluation taxonomy create/update operations.
+- Renamed `body` parameters to `content` for beta agent code upload operations.
+- Renamed `CreateAgentVersionFromCodeRequest` to `CreateAgentVersionFromCodeMetadata`.
+- Renamed evaluation target model types from `Target`, `TargetUnion`, `TargetConfig`, and `TargetConfigUnion` to `EvaluationTarget`, `EvaluationTargetUnion`, `RedTeamTargetConfig`, and `RedTeamTargetConfigUnion`.
+- Changed `FabricIQPreviewTool` and `WorkIQPreviewTool` configuration fields to live directly on the tool instead of nested parameter objects.
+- Changed `PendingUploadRequest.pendingUploadType` and `PendingUploadResponse.pendingUploadType` from `"BlobReference"` to `"TemporaryBlobReference"`.
 - Changed `DataGenerationTokenUsage` token count properties from optional to required.
 - Changed `Insight` response properties `insight_id`, `metadata`, and `state` from optional to required.
 - Changed `ModelSamplingParams` sampling properties from required to optional.
@@ -17,9 +22,10 @@
 
 ### Features Added
 
-- Added `FabricIQPreviewTool` (and `FabricIQPreviewToolParameters`) as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `FabricIQPreviewTool` as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 - Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`.
 - Added `createAgentFromCode`, `updateAgentFromCode`, `createAgentVersionFromCode`, `downloadAgentCode`, and `downloadAgentVersionCode` operations on `project.beta.agents` for code-based hosted agents, plus the `"CodeAgents=V1Preview"` opt-in value on `AgentDefinitionOptInKeys`.
+- Added `project.beta.models` route for listing, creating, updating, deleting, and retrieving credentials for model versions.
 - Added `CodeDependencyResolution` and `dependency_resolution` on `CodeConfiguration` for code-based hosted agent dependency resolution.
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added telemetry endpoint configuration support for hosted agents.
