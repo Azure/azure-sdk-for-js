@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
+import type { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
 import { list, get } from "../../api/unsupportedVmSizes/operations.js";
-import {
+import type {
   UnsupportedVmSizesListOptionalParams,
   UnsupportedVmSizesGetOptionalParams,
 } from "../../api/unsupportedVmSizes/options.js";
-import { VMSizeResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { VMSizeResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UnsupportedVmSizes operations. */
 export interface UnsupportedVmSizesOperations {

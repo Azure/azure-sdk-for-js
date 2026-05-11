@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
+import type { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/applicationTypeVersions/operations.js";
-import {
+import type {
   ApplicationTypeVersionsListOptionalParams,
   ApplicationTypeVersionsDeleteOptionalParams,
   ApplicationTypeVersionsCreateOrUpdateOptionalParams,
   ApplicationTypeVersionsGetOptionalParams,
 } from "../../api/applicationTypeVersions/options.js";
-import { ApplicationTypeVersionResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ApplicationTypeVersionResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike} from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApplicationTypeVersions operations. */
 export interface ApplicationTypeVersionsOperations {

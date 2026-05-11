@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
+import type { ServiceFabricManagementContext } from "../../api/serviceFabricManagementContext.js";
 import {
   listByEnvironment,
   list,
   getByEnvironment,
   get,
 } from "../../api/clusterVersions/operations.js";
-import {
+import type {
   ClusterVersionsListByEnvironmentOptionalParams,
   ClusterVersionsListOptionalParams,
   ClusterVersionsGetByEnvironmentOptionalParams,
   ClusterVersionsGetOptionalParams,
 } from "../../api/clusterVersions/options.js";
-import { ClusterCodeVersionsListResult, ClusterVersionsEnvironment } from "../../models/models.js";
+import type { ClusterCodeVersionsListResult, ClusterVersionsEnvironment } from "../../models/models.js";
 
 /** Interface representing a ClusterVersions operations. */
 export interface ClusterVersionsOperations {

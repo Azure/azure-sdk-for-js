@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagementContext as Client } from "../index.js";
+import type { ServiceFabricManagementContext as Client } from "../index.js";
+import type {
+  Cluster,
+  ClusterUpdateParameters,
+  _ClusterListResult,
+  UpgradableVersionPathResult} from "../../models/models.js";
 import {
   errorModelDeserializer,
-  Cluster,
   clusterSerializer,
   clusterDeserializer,
-  ClusterUpdateParameters,
   clusterUpdateParametersSerializer,
-  _ClusterListResult,
   _clusterListResultDeserializer,
   upgradableVersionsDescriptionSerializer,
-  UpgradableVersionPathResult,
   upgradableVersionPathResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ClustersListUpgradableVersionsOptionalParams,
   ClustersListOptionalParams,
   ClustersListByResourceGroupOptionalParams,
@@ -30,13 +32,14 @@ import {
   ClustersCreateOrUpdateOptionalParams,
   ClustersGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listUpgradableVersionsSend(
   context: Client,
