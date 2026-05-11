@@ -86,7 +86,7 @@ function isValidNpmVersionSpecifier(specifier: string) {
       specifier.startsWith("^") || specifier.startsWith("~") ? specifier.substring(1) : specifier,
     ) ||
     semver.validRange(specifier) ||
-    ["latest", "dev", "next"].includes(specifier)
+    ["latest", "dev", "beta"].includes(specifier)
   );
 }
 
@@ -160,8 +160,8 @@ export async function makeSampleGenerationInfo(
   );
 
   const defaultDependencies: Record<string, string> = {
-    // If we are a beta package, use "next", otherwise we will use "latest"
-    [projectInfo.name]: projectInfo.version.includes("beta") ? "next" : "latest",
+    // If we are a beta package, use "beta", otherwise we will use "latest"
+    [projectInfo.name]: projectInfo.version.includes("beta") ? "beta" : "latest",
     // We use this universally
     dotenv: "latest",
   };
@@ -367,12 +367,14 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
   delete tsconfig.compilerOptions.declarationMap;
   delete tsconfig.compilerOptions.inlineSources;
   delete tsconfig.compilerOptions.sourceMap;
+  delete tsconfig.compilerOptions.verbatimModuleSyntax;
   tsconfig.include = ["./src"];
   tsconfig.compilerOptions.outDir = "./dist";
+  tsconfig.compilerOptions.rootDir = "./src";
   tsconfig.compilerOptions.resolveJsonModule = true;
 
-  tsconfig.compilerOptions.moduleResolution = "node10"; // ts.ModuleResolutionKind.Node10
-  tsconfig.compilerOptions.module = "commonjs"; // ts.ModuleKind.CommonJS
+  tsconfig.compilerOptions.moduleResolution = "nodenext"; // ts.ModuleResolutionKind.NodeNext
+  tsconfig.compilerOptions.module = "nodenext"; // ts.ModuleKind.NodeNext
   return jsonify(tsconfig);
 }
 
