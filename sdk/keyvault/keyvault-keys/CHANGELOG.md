@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods to wrap a 256-bit AES key generated inside a Trusted Execution Environment (TEE) using a key encryption key stored in Managed HSM, and to unwrap that key back inside an attested TEE via the Microsoft Azure Attestation service (MAA).
+
 ### Breaking Changes
 
 ### Bugs Fixed

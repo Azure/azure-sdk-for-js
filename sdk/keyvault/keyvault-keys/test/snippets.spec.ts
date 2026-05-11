@@ -312,7 +312,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = `https://${vaultName}.managedhsm.azure.net`;
     // @ts-preserve-whitespace
     const client = new KeyClient(url, credential);
     // @ts-preserve-whitespace
@@ -324,7 +324,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`;
+    const url = `https://${vaultName}.managedhsm.azure.net`;
     // @ts-preserve-whitespace
     const client = new KeyClient(url, credential);
     // @ts-preserve-whitespace
