@@ -1,6 +1,7 @@
 # Release History
 
-## 2.0.0 (2026-05-11)
+## 2.0.0-beta.3 (2026-05-11)
+Compared with version 1.0.0
 
 ### Features Added
   - Added operation group GenerateAwsTemplateOperations
