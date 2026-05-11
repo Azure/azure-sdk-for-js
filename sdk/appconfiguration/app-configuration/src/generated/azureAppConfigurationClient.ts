@@ -55,7 +55,7 @@ import {
 import {
   Key,
   KeyValue,
-  Snapshot,
+  ConfigurationSnapshot,
   OperationDetails,
   SnapshotUpdateParameters,
   Label,
@@ -140,7 +140,7 @@ export class AzureAppConfigurationClient {
     name: string,
     entity: SnapshotUpdateParameters,
     options: UpdateSnapshotOptionalParams = { requestOptions: {} },
-  ): Promise<Snapshot> {
+  ): Promise<ConfigurationSnapshot> {
     return updateSnapshot(this._client, contentType, name, entity, options);
   }
 
@@ -148,9 +148,9 @@ export class AzureAppConfigurationClient {
   createSnapshot(
     contentType: "application/vnd.microsoft.appconfig.snapshot+json" | "application/json",
     name: string,
-    entity: Snapshot,
+    entity: ConfigurationSnapshot,
     options: CreateSnapshotOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<Snapshot>, Snapshot> {
+  ): PollerLike<OperationState<ConfigurationSnapshot>, ConfigurationSnapshot> {
     return createSnapshot(this._client, contentType, name, entity, options);
   }
 
@@ -166,7 +166,7 @@ export class AzureAppConfigurationClient {
   getSnapshot(
     name: string,
     options: GetSnapshotOptionalParams = { requestOptions: {} },
-  ): Promise<Snapshot> {
+  ): Promise<ConfigurationSnapshot> {
     return getSnapshot(this._client, name, options);
   }
 
@@ -178,7 +178,7 @@ export class AzureAppConfigurationClient {
   /** Gets a list of key-value snapshots. */
   getSnapshots(
     options: GetSnapshotsOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<Snapshot> {
+  ): PagedAsyncIterableIterator<ConfigurationSnapshot> {
     return getSnapshots(this._client, options);
   }
 

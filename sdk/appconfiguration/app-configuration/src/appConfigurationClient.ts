@@ -159,9 +159,9 @@ export class AppConfigurationClient {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
     let appConfigCredential: TokenCredential | KeyCredential;
     let appConfigEndpoint: string;
-    let appConfigAuthPolicy: PipelinePolicy | undefined;
-    let authPolicyName: string | undefined;
-    let tokenCredentialScopes: string[] | undefined;
+    let authPolicy: PipelinePolicy | undefined;
+    let authPolicyName: string;
+    let scope: [string] | undefined;
 
     if (isTokenCredential(tokenCredentialOrOptions)) {
       appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
@@ -169,16 +169,16 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
         ? connectionStringOrEndpoint.slice(0, -1)
         : connectionStringOrEndpoint;
+      scope = [getScope(appConfigEndpoint, appConfigOptions.audience)];
       authPolicyName = bearerTokenAuthenticationPolicyName;
-      tokenCredentialScopes = [getScope(appConfigEndpoint, appConfigOptions.audience)];
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigEndpoint = regexMatch[1];
+        authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
+        authPolicyName = authPolicy.name;
         appConfigCredential = { key: regexMatch[2] };
-        appConfigAuthPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
-        authPolicyName = appConfigAuthPolicy.name;
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
@@ -201,14 +201,13 @@ export class AppConfigurationClient {
         logger: logger.info,
       },
       apiVersion: options?.apiVersion ?? appConfigurationApiVersion,
+      credentials: {},
     };
 
-    if (tokenCredentialScopes) {
-      generatedClientOptions.credentials = {
-        ...(generatedClientOptions.credentials ?? {}),
-        scopes: tokenCredentialScopes,
-      };
-    }
+    generatedClientOptions.credentials = {
+      ...generatedClientOptions.credentials,
+      scopes: scope,
+    };
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AzureAppConfigurationClient(
@@ -216,18 +215,17 @@ export class AppConfigurationClient {
       appConfigCredential,
       generatedClientOptions,
     );
-    if (isTokenCredential(tokenCredentialOrOptions) && authPolicyName) {
-      this.client.pipeline.addPolicy(
-        audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
-        {
-          phase: "Sign",
-          beforePolicies: [authPolicyName],
-        },
-      );
+    this.client.pipeline.addPolicy(
+      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
+      {
+        phase: "Sign",
+        beforePolicies: [authPolicyName],
+      },
+    );
+    if (authPolicy) {
+      this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     }
-    if (appConfigAuthPolicy) {
-      this.client.pipeline.addPolicy(appConfigAuthPolicy, { phase: "Sign" });
-    }
+
     this.client.pipeline.addPolicy(queryParamPolicy());
     this.client.pipeline.addPolicy(emptyBodyPolicy());
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });

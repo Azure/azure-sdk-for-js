@@ -146,38 +146,40 @@ export function keyValueDeserializer(item: any): KeyValue {
 /** The result of a snapshot list request. */
 export interface _SnapshotListResult {
   /** The collection value. */
-  items?: Snapshot[];
+  items?: ConfigurationSnapshot[];
   /** The URI that can be used to request the next set of paged results. */
   nextLink?: string;
 }
 
 export function _snapshotListResultDeserializer(item: any): _SnapshotListResult {
   return {
-    items: !item["items"] ? item["items"] : snapshotArrayDeserializer(item["items"]),
+    items: !item["items"] ? item["items"] : configurationSnapshotArrayDeserializer(item["items"]),
     nextLink: item["@nextLink"],
   };
 }
 
-export function snapshotArraySerializer(result: Array<Snapshot>): any[] {
+export function configurationSnapshotArraySerializer(result: Array<ConfigurationSnapshot>): any[] {
   return result.map((item) => {
-    return snapshotSerializer(item);
+    return configurationSnapshotSerializer(item);
   });
 }
 
-export function snapshotArrayDeserializer(result: Array<Snapshot>): any[] {
+export function configurationSnapshotArrayDeserializer(
+  result: Array<ConfigurationSnapshot>,
+): any[] {
   return result.map((item) => {
-    return snapshotDeserializer(item);
+    return configurationSnapshotDeserializer(item);
   });
 }
 
 /** A snapshot is a named, immutable subset of an App Configuration store's key-values. */
-export interface Snapshot {
+export interface ConfigurationSnapshot {
   /** The name of the snapshot. */
   readonly name: string;
   /** The current status of the snapshot. */
   readonly status?: SnapshotStatus;
   /** A list of filters used to filter the key-values included in the snapshot. */
-  filters: KeyValueFilter[];
+  filters: ConfigurationSettingsFilter[];
   /**
    * The composition type describes how the key-values within the snapshot are
    * composed. The 'key' composition type ensures there are no two key-values
@@ -186,18 +188,18 @@ export interface Snapshot {
    */
   compositionType?: CompositionType;
   /** The time that the snapshot was created. */
-  readonly created?: string;
+  readonly createdOn?: string;
   /** The time that the snapshot will expire. */
-  readonly expires?: string;
+  readonly expiresOn?: string;
   /**
    * The amount of time, in seconds, that a snapshot will remain in the archived
    * state before expiring. This property is only writable during the creation of a
    * snapshot. If not specified, the default lifetime of key-value revisions will be
    * used.
    */
-  retentionPeriod?: number;
+  retentionPeriodInSeconds?: number;
   /** The size in bytes of the snapshot. */
-  readonly size?: number;
+  readonly sizeInBytes?: number;
   /** The amount of key-values in the snapshot. */
   readonly itemsCount?: number;
   /** The tags of the snapshot. */
@@ -206,25 +208,25 @@ export interface Snapshot {
   readonly etag?: string;
 }
 
-export function snapshotSerializer(item: Snapshot): any {
+export function configurationSnapshotSerializer(item: ConfigurationSnapshot): any {
   return {
-    filters: keyValueFilterArraySerializer(item["filters"]),
+    filters: configurationSettingsFilterArraySerializer(item["filters"]),
     composition_type: item["compositionType"],
-    retention_period: item["retentionPeriod"],
+    retention_period: item["retentionPeriodInSeconds"],
     tags: item["tags"],
   };
 }
 
-export function snapshotDeserializer(item: any): Snapshot {
+export function configurationSnapshotDeserializer(item: any): ConfigurationSnapshot {
   return {
     name: item["name"],
     status: item["status"],
-    filters: keyValueFilterArrayDeserializer(item["filters"]),
+    filters: configurationSettingsFilterArrayDeserializer(item["filters"]),
     compositionType: item["composition_type"],
-    created: item["created"],
-    expires: item["expires"],
-    retentionPeriod: item["retention_period"],
-    size: item["size"],
+    createdOn: item["created"],
+    expiresOn: item["expires"],
+    retentionPeriodInSeconds: item["retention_period"],
+    sizeInBytes: item["size"],
     itemsCount: item["items_count"],
     tags: !item["tags"]
       ? item["tags"]
@@ -236,15 +238,19 @@ export function snapshotDeserializer(item: any): Snapshot {
 /** Snapshot status. */
 export type SnapshotStatus = "provisioning" | "ready" | "archived" | "failed";
 
-export function keyValueFilterArraySerializer(result: Array<KeyValueFilter>): any[] {
+export function configurationSettingsFilterArraySerializer(
+  result: Array<ConfigurationSettingsFilter>,
+): any[] {
   return result.map((item) => {
-    return keyValueFilterSerializer(item);
+    return configurationSettingsFilterSerializer(item);
   });
 }
 
-export function keyValueFilterArrayDeserializer(result: Array<KeyValueFilter>): any[] {
+export function configurationSettingsFilterArrayDeserializer(
+  result: Array<ConfigurationSettingsFilter>,
+): any[] {
   return result.map((item) => {
-    return keyValueFilterDeserializer(item);
+    return configurationSettingsFilterDeserializer(item);
   });
 }
 
@@ -252,32 +258,32 @@ export function keyValueFilterArrayDeserializer(result: Array<KeyValueFilter>): 
  * Enables filtering of key-values. Syntax reference:
  * https://aka.ms/azconfig/docs/restapisnapshots
  */
-export interface KeyValueFilter {
+export interface ConfigurationSettingsFilter {
   /** Filters key-values by their key field. */
-  key: string;
+  keyFilter: string;
   /** Filters key-values by their label field. */
-  label?: string;
+  labelFilter?: string;
   /** Filters key-values by their tags field. */
-  tags?: string[];
+  tagsFilter?: string[];
 }
 
-export function keyValueFilterSerializer(item: KeyValueFilter): any {
+export function configurationSettingsFilterSerializer(item: ConfigurationSettingsFilter): any {
   return {
-    key: item["key"],
-    label: item["label"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : item["tags"].map((p: any) => {
+    key: item["keyFilter"],
+    label: item["labelFilter"],
+    tags: !item["tagsFilter"]
+      ? item["tagsFilter"]
+      : item["tagsFilter"].map((p: any) => {
           return p;
         }),
   };
 }
 
-export function keyValueFilterDeserializer(item: any): KeyValueFilter {
+export function configurationSettingsFilterDeserializer(item: any): ConfigurationSettingsFilter {
   return {
-    key: item["key"],
-    label: item["label"],
-    tags: !item["tags"]
+    keyFilter: item["key"],
+    labelFilter: item["label"],
+    tagsFilter: !item["tags"]
       ? item["tags"]
       : item["tags"].map((p: any) => {
           return p;

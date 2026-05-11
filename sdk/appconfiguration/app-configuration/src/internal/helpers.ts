@@ -27,9 +27,11 @@ import type {
 } from "../generated/api/options.js";
 import type {
   KeyValue,
-  Snapshot,
+  ConfigurationSnapshot as Snapshot,
   KeyValueFields,
   SnapshotFields,
+  CompositionType,
+  SnapshotStatus,
 } from "../generated/models/models.js";
 import type { SecretReferenceValue } from "../secretReference.js";
 import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
@@ -177,7 +179,7 @@ export function formatSnapshotFiltersAndSelect(
 ): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
   return {
     name: listSnapshotOptions.nameFilter,
-    status: listSnapshotOptions.statusFilter as any,
+    status: listSnapshotOptions.statusFilter as SnapshotStatus[] | undefined,
     select: listSnapshotOptions.fields as SnapshotFields[] | undefined,
   };
 }
@@ -416,21 +418,9 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
  */
 export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): SnapshotResponse {
   const configSnapshot: ConfigurationSnapshot = {
-    name: snapshot.name,
-    status: snapshot.status,
-    filters: (snapshot.filters ?? []).map((f) => ({
-      keyFilter: f.key,
-      labelFilter: f.label,
-      tagsFilter: f.tags,
-    })),
-    compositionType: snapshot.compositionType,
-    createdOn: snapshot.created ? new Date(snapshot.created) : undefined,
-    expiresOn: snapshot.expires ? new Date(snapshot.expires) : undefined,
-    retentionPeriodInSeconds: snapshot.retentionPeriod,
-    sizeInBytes: snapshot.size,
-    itemCount: snapshot.itemsCount,
-    tags: snapshot.tags,
-    etag: snapshot.etag,
+    ...snapshot,
+    createdOn: snapshot.createdOn ? new Date(snapshot.createdOn) : undefined,
+    expiresOn: snapshot.expiresOn ? new Date(snapshot.expiresOn) : undefined,
   };
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(configSnapshot, "_response", {
@@ -447,15 +437,8 @@ export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): Snap
  */
 export function snapshotInfoToGenerated(snapshot: SnapshotInfo): Snapshot {
   return {
-    name: snapshot.name,
-    filters: snapshot.filters.map((f) => ({
-      key: f.keyFilter,
-      label: f.labelFilter,
-      tags: f.tagsFilter,
-    })),
-    compositionType: snapshot.compositionType as any,
-    retentionPeriod: snapshot.retentionPeriodInSeconds,
-    tags: snapshot.tags,
+    ...snapshot,
+    compositionType: snapshot.compositionType as CompositionType,
   };
 }
 

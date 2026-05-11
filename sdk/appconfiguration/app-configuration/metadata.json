@@ -2,7 +2,7 @@
   "apiVersions": {
     "AzureAppConfiguration": "2024-09-01"
   },
-  "emitterVersion": "0.52.1",
+  "emitterVersion": "0.52.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AzureAppConfiguration",
     "CrossLanguageDefinitionId": {
@@ -12,8 +12,8 @@
       "@azure/azure-appconfiguration!KeyValueListResult:interface": "AzureAppConfiguration.KeyValueListResult",
       "@azure/azure-appconfiguration!KeyValue:interface": "AzureAppConfiguration.KeyValue",
       "@azure/azure-appconfiguration!SnapshotListResult:interface": "AzureAppConfiguration.SnapshotListResult",
-      "@azure/azure-appconfiguration!Snapshot:interface": "AzureAppConfiguration.Snapshot",
-      "@azure/azure-appconfiguration!KeyValueFilter:interface": "AzureAppConfiguration.KeyValueFilter",
+      "@azure/azure-appconfiguration!ConfigurationSnapshot:interface": "AzureAppConfiguration.Snapshot",
+      "@azure/azure-appconfiguration!ConfigurationSettingsFilter:interface": "AzureAppConfiguration.KeyValueFilter",
       "@azure/azure-appconfiguration!OperationDetails:interface": "AzureAppConfiguration.OperationDetails",
       "@azure/azure-appconfiguration!InnerError:interface": "Azure.Core.Foundations.InnerError",
       "@azure/azure-appconfiguration!SnapshotUpdateParameters:interface": "AzureAppConfiguration.SnapshotUpdateParameters",

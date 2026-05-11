@@ -14,9 +14,9 @@ import {
   keyValueDeserializer,
   _SnapshotListResult,
   _snapshotListResultDeserializer,
-  Snapshot,
-  snapshotSerializer,
-  snapshotDeserializer,
+  ConfigurationSnapshot,
+  configurationSnapshotSerializer,
+  configurationSnapshotDeserializer,
   OperationDetails,
   operationDetailsDeserializer,
   SnapshotUpdateParameters,
@@ -524,7 +524,9 @@ export function _updateSnapshotSend(
     });
 }
 
-export async function _updateSnapshotDeserialize(result: PathUncheckedResponse): Promise<Snapshot> {
+export async function _updateSnapshotDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConfigurationSnapshot> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -533,7 +535,7 @@ export async function _updateSnapshotDeserialize(result: PathUncheckedResponse):
     throw error;
   }
 
-  return snapshotDeserializer(result.body);
+  return configurationSnapshotDeserializer(result.body);
 }
 
 /** Updates the state of a key-value snapshot. */
@@ -543,7 +545,7 @@ export async function updateSnapshot(
   name: string,
   entity: SnapshotUpdateParameters,
   options: UpdateSnapshotOptionalParams = { requestOptions: {} },
-): Promise<Snapshot> {
+): Promise<ConfigurationSnapshot> {
   const result = await _updateSnapshotSend(context, contentType, name, entity, options);
   return _updateSnapshotDeserialize(result);
 }
@@ -552,7 +554,7 @@ export function _createSnapshotSend(
   context: Client,
   contentType: "application/vnd.microsoft.appconfig.snapshot+json" | "application/json",
   name: string,
-  entity: Snapshot,
+  entity: ConfigurationSnapshot,
   options: CreateSnapshotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -574,11 +576,13 @@ export function _createSnapshotSend(
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...options.requestOptions?.headers,
       },
-      body: snapshotSerializer(entity),
+      body: configurationSnapshotSerializer(entity),
     });
 }
 
-export async function _createSnapshotDeserialize(result: PathUncheckedResponse): Promise<Snapshot> {
+export async function _createSnapshotDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConfigurationSnapshot> {
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -587,7 +591,7 @@ export async function _createSnapshotDeserialize(result: PathUncheckedResponse):
     throw error;
   }
 
-  return snapshotDeserializer(result.body);
+  return configurationSnapshotDeserializer(result.body);
 }
 
 /** Creates a key-value snapshot. */
@@ -595,16 +599,16 @@ export function createSnapshot(
   context: Client,
   contentType: "application/vnd.microsoft.appconfig.snapshot+json" | "application/json",
   name: string,
-  entity: Snapshot,
+  entity: ConfigurationSnapshot,
   options: CreateSnapshotOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<Snapshot>, Snapshot> {
+): PollerLike<OperationState<ConfigurationSnapshot>, ConfigurationSnapshot> {
   return getLongRunningPoller(context, _createSnapshotDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSnapshotSend(context, contentType, name, entity, options),
     resourceLocationConfig: "original-uri",
     apiVersion: context.apiVersion ?? "2024-09-01",
-  }) as PollerLike<OperationState<Snapshot>, Snapshot>;
+  }) as PollerLike<OperationState<ConfigurationSnapshot>, ConfigurationSnapshot>;
 }
 
 export function _getOperationDetailsSend(
@@ -696,7 +700,9 @@ export function _getSnapshotSend(
     });
 }
 
-export async function _getSnapshotDeserialize(result: PathUncheckedResponse): Promise<Snapshot> {
+export async function _getSnapshotDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConfigurationSnapshot> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -705,7 +711,7 @@ export async function _getSnapshotDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return snapshotDeserializer(result.body);
+  return configurationSnapshotDeserializer(result.body);
 }
 
 /** Gets a single key-value snapshot. */
@@ -713,7 +719,7 @@ export async function getSnapshot(
   context: Client,
   name: string,
   options: GetSnapshotOptionalParams = { requestOptions: {} },
-): Promise<Snapshot> {
+): Promise<ConfigurationSnapshot> {
   const result = await _getSnapshotSend(context, name, options);
   return _getSnapshotDeserialize(result);
 }
@@ -821,7 +827,7 @@ export async function _getSnapshotsDeserialize(
 export function getSnapshots(
   context: Client,
   options: GetSnapshotsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<Snapshot> {
+): PagedAsyncIterableIterator<ConfigurationSnapshot> {
   return buildPagedAsyncIterator(
     context,
     () => _getSnapshotsSend(context, options),
