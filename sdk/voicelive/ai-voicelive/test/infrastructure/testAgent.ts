@@ -32,7 +32,7 @@ const DEFAULT_AGENT_INSTRUCTIONS =
 export interface CreateAgentOptions {
   /** Custom instructions for the agent. Defaults to math assistant instructions. */
   instructions?: string;
-  /** Model deployment name. Defaults to MODEL_DEPLOYMENT_NAME env var or "gpt-4o". */
+  /** Model deployment name. Defaults to MODEL_DEPLOYMENT_NAME env var or "gpt-4.1". */
   model?: string;
 }
 
@@ -69,7 +69,7 @@ export async function createTestAgent(
   const { DefaultAzureCredential } = await import("@azure/identity");
 
   const endpoint = getProjectEndpoint();
-  const modelName = options?.model ?? process.env.MODEL_DEPLOYMENT_NAME ?? "gpt-4o";
+  const modelName = options?.model ?? process.env.MODEL_DEPLOYMENT_NAME ?? "gpt-4.1";
 
   console.info(`Creating agent "${agentName}" with model: ${modelName} at endpoint: ${endpoint}`);
   const client = new AIProjectClient(endpoint, new DefaultAzureCredential());

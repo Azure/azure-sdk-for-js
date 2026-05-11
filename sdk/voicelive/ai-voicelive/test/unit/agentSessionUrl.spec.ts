@@ -61,14 +61,14 @@ describe("Agent Session URL Building", () => {
       const url = await handler.getWebSocketUrl(
         baseEndpoint,
         apiVersion,
-        "gpt-4o-realtime-preview",
+        "gpt-realtime",
       );
 
       const parsedUrl = new URL(url);
       expect(parsedUrl.protocol).toBe("wss:");
       expect(parsedUrl.pathname).toBe("/voice-live/realtime");
       expect(parsedUrl.searchParams.get("api-version")).toBe(apiVersion);
-      expect(parsedUrl.searchParams.get("model")).toBe("gpt-4o-realtime-preview");
+      expect(parsedUrl.searchParams.get("model")).toBe("gpt-realtime");
       expect(parsedUrl.searchParams.has("agent-name")).toBe(false);
       expect(parsedUrl.searchParams.has("agent-project-name")).toBe(false);
     });
@@ -80,11 +80,11 @@ describe("Agent Session URL Building", () => {
       const url = await handler.getWebSocketUrl(
         baseEndpoint,
         apiVersion,
-        "gpt-4o-realtime-preview",
+        "gpt-realtime",
       );
 
       const parsedUrl = new URL(url);
-      expect(parsedUrl.searchParams.get("model")).toBe("gpt-4o-realtime-preview");
+      expect(parsedUrl.searchParams.get("model")).toBe("gpt-realtime");
       expect(parsedUrl.searchParams.get("api-key")).toBe("my-api-key");
     });
   });

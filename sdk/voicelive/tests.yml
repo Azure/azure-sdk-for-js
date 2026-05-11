@@ -5,7 +5,11 @@ extends:
   parameters:
     PackageName: "@azure/ai-voicelive"
     ServiceDirectory: voicelive
+    MatrixFilters:
+      - DependencyVersion=^$
     EnvVars:
       VOICELIVE_ENDPOINT: $(AI_SERVICES_ENDPOINT)
       VOICELIVE_API_KEY: $(AI_SERVICES_KEY)
       MODEL_DEPLOYMENT_NAME: $(MODEL_DEPLOYMENT_NAME)
+      FOUNDRY_PROJECT_NAME: $(FOUNDRY_PROJECT_NAME)
+      FOUNDRY_PROJECT_ENDPOINT: $(FOUNDRY_PROJECT_ENDPOINT)
