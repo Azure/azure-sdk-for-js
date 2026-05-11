@@ -3630,7 +3630,7 @@ export function protocolVersionRecordArrayDeserializer(
 export interface ProtocolVersionRecord {
   /** The protocol type. */
   protocol: AgentProtocol;
-  /** The version string for the protocol, e.g. 'v0.1.1'. */
+  /** The version string for the protocol, e.g. '1.0.0'. */
   version: string;
 }
 

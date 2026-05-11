@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
       memory: "1Gi",
       image,
       container_protocol_versions: [
-        { protocol: "responses", version: "v1" } as ProtocolVersionRecord,
+        { protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord,
       ],
     } as HostedAgentDefinition,
     {
