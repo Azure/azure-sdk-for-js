@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-keys",
-  "version": "1.0.0-beta.1",
+  "version": "4.10.2",
   "description": "Azure Key Vault Keys",
   "engines": {
     "node": ">=20.0.0"
@@ -56,7 +56,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "C:\\repo\\azure-sdk-for-js\\sdk\\keyvault\\keyvault-keys\\generated/api/keyVaultContext.ts",
+        "path": "generated/api/keyVaultContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
