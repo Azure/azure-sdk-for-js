@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches the result of any operation on the backup item.
  *
  * @summary fetches the result of any operation on the backup item.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ProtectedItemOperationResults.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ProtectedItemOperationResults.json
  */
 async function getOperationResultsOfProtectedVm() {
   const credential = new DefaultAzureCredential();

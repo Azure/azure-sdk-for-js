@@ -8,11 +8,6 @@
 export type AllocationState = "steady" | "resizing" | "stopping";
 
 // @public
-export interface AuthenticationTokenSettings {
-    access?: BatchAccessScope[];
-}
-
-// @public
 export interface AutomaticOsUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOsUpgrade?: boolean;
@@ -64,9 +59,6 @@ export interface AzureFileShareConfiguration {
 }
 
 // @public
-export type BatchAccessScope = "job";
-
-// @public
 export interface BatchAffinityInfo {
     affinityId: string;
 }
@@ -93,6 +85,15 @@ export interface BatchAutoPoolSpecification {
     keepAlive?: boolean;
     pool?: BatchPoolSpecification;
     poolLifetimeOption: BatchPoolLifetimeOption;
+}
+
+// @public
+export interface BatchCifsMountConfiguration {
+    mountOptions?: string;
+    password: string;
+    relativeMountPath: string;
+    source: string;
+    username: string;
 }
 
 // @public
@@ -224,7 +225,6 @@ export interface BatchJobExecutionInfo {
 export interface BatchJobManagerTask {
     allowLowPriorityNode?: boolean;
     applicationPackageReferences?: BatchApplicationPackageReference[];
-    authenticationTokenSettings?: AuthenticationTokenSettings;
     commandLine: string;
     constraints?: BatchTaskConstraints;
     containerSettings?: BatchTaskContainerSettings;
@@ -514,7 +514,7 @@ export type BatchNodeDeallocateOption = "requeue" | "terminate" | "taskcompletio
 
 // @public
 export interface BatchNodeDeallocateOptions {
-    nodeDeallocateOption?: BatchNodeDeallocateOption;
+    nodeDeallocationOption?: BatchNodeDeallocateOption;
 }
 
 // @public
@@ -904,11 +904,11 @@ export type BatchSubtaskState = "preparing" | "running" | "completed";
 
 // @public
 export interface BatchSupportedImage {
-    batchSupportEndOfLife?: Date;
     capabilities?: string[];
     imageReference: BatchVmImageReference;
     nodeAgentSkuId: string;
     osType: OSType;
+    supportEndDate?: Date;
     verificationType: ImageVerificationType;
 }
 
@@ -916,7 +916,6 @@ export interface BatchSupportedImage {
 export interface BatchTask {
     readonly affinityInfo?: BatchAffinityInfo;
     readonly applicationPackageReferences?: BatchApplicationPackageReference[];
-    readonly authenticationTokenSettings?: AuthenticationTokenSettings;
     readonly commandLine: string;
     constraints?: BatchTaskConstraints;
     readonly containerSettings?: BatchTaskContainerSettings;
@@ -988,7 +987,6 @@ export interface BatchTaskCountsResult {
 export interface BatchTaskCreateOptions {
     affinityInfo?: BatchAffinityInfo;
     applicationPackageReferences?: BatchApplicationPackageReference[];
-    authenticationTokenSettings?: AuthenticationTokenSettings;
     commandLine: string;
     constraints?: BatchTaskConstraints;
     containerSettings?: BatchTaskContainerSettings;
@@ -1136,15 +1134,6 @@ export interface BatchVmImageReference {
 export type CachingType = "none" | "readonly" | "readwrite";
 
 // @public
-export interface CifsMountConfiguration {
-    mountOptions?: string;
-    password: string;
-    relativeMountPath: string;
-    source: string;
-    username: string;
-}
-
-// @public
 export interface ContainerHostBatchBindMountEntry {
     isReadOnly?: boolean;
     source?: ContainerHostDataPath;
@@ -1232,7 +1221,7 @@ export interface ExitCodeRangeMapping {
 
 // @public
 export interface ExitConditions {
-    default?: ExitOptions;
+    defaultOptions?: ExitOptions;
     exitCodeRanges?: ExitCodeRangeMapping[];
     exitCodes?: ExitCodeMapping[];
     fileUploadError?: ExitOptions;
@@ -1326,7 +1315,7 @@ export interface ManagedDisk {
 export interface MountConfiguration {
     azureBlobFileSystemConfiguration?: AzureBlobFileSystemConfiguration;
     azureFileShareConfiguration?: AzureFileShareConfiguration;
-    cifsMountConfiguration?: CifsMountConfiguration;
+    cifsMountConfiguration?: BatchCifsMountConfiguration;
     nfsMountConfiguration?: NfsMountConfiguration;
 }
 
@@ -1542,12 +1531,12 @@ export interface VirtualMachineInfo {
 export interface VMExtension {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
+    extensionType: string;
     name: string;
     protectedSettings?: Record<string, string>;
     provisionAfterExtensions?: string[];
     publisher: string;
     settings?: Record<string, string>;
-    type: string;
     typeHandlerVersion?: string;
 }
 

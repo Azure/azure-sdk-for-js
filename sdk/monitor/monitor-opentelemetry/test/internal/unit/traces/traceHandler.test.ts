@@ -360,7 +360,6 @@ describe("Library/TraceHandler", () => {
       _config.instrumentationOptions = {
         http: { enabled: false },
         azureSdk: { enabled: false },
-        azureFunctions: { enabled: false },
         mongoDb: { enabled: false },
         mySql: { enabled: false },
         postgreSql: { enabled: false },

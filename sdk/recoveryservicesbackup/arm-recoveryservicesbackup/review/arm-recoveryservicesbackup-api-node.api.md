@@ -12,7 +12,7 @@ import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function bmsPrepareDataMove(context: RecoveryServicesBackupContext, vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function bmsPrepareDataMove(context: RecoveryServicesBackupContext, vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface BMSPrepareDataMoveOptionalParams extends OperationOptions {
@@ -20,7 +20,7 @@ export interface BMSPrepareDataMoveOptionalParams extends OperationOptions {
 }
 
 // @public
-export function bmsTriggerDataMove(context: RecoveryServicesBackupContext, vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
+export function bmsTriggerDataMove(context: RecoveryServicesBackupContext, vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface BMSTriggerDataMoveOptionalParams extends OperationOptions {

@@ -7,7 +7,6 @@
  * @summary text to speech.
  */
 
-require("openai/shims/node");
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 const { writeFile } = require("node:fs/promises");
