@@ -72,7 +72,7 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
       }
       console.info(`[agentSessionMode] Using test agent: ${testAgentName}`);
     } catch (error) {
-      const message = error instanceof Error ? error.stack ?? error.message : String(error);
+      const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
       console.error(
         `[agentSessionMode] Failed to set up test agent (fallback name "${TEST_AGENT_NAME}" ` +
           `would NOT exist on the service): ${message}`,
