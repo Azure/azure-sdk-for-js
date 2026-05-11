@@ -3,41 +3,25 @@
 
 import type {
   ServiceFabricManagementContext,
-  ServiceFabricManagementClientOptionalParams} from "./api/index.js";
-import {
-  createServiceFabricManagement,
+  ServiceFabricManagementClientOptionalParams,
 } from "./api/index.js";
-import type {
-  ApplicationTypeVersionsOperations} from "./classic/applicationTypeVersions/index.js";
-import {
-  _getApplicationTypeVersionsOperations,
-} from "./classic/applicationTypeVersions/index.js";
-import type {
-  ApplicationTypesOperations} from "./classic/applicationTypes/index.js";
-import {
-  _getApplicationTypesOperations,
-} from "./classic/applicationTypes/index.js";
-import type {
-  ApplicationsOperations} from "./classic/applications/index.js";
-import {
-  _getApplicationsOperations,
-} from "./classic/applications/index.js";
-import type {
-  ClusterVersionsOperations} from "./classic/clusterVersions/index.js";
-import {
-  _getClusterVersionsOperations,
-} from "./classic/clusterVersions/index.js";
-import type { ClustersOperations} from "./classic/clusters/index.js";
+import { createServiceFabricManagement } from "./api/index.js";
+import type { ApplicationTypeVersionsOperations } from "./classic/applicationTypeVersions/index.js";
+import { _getApplicationTypeVersionsOperations } from "./classic/applicationTypeVersions/index.js";
+import type { ApplicationTypesOperations } from "./classic/applicationTypes/index.js";
+import { _getApplicationTypesOperations } from "./classic/applicationTypes/index.js";
+import type { ApplicationsOperations } from "./classic/applications/index.js";
+import { _getApplicationsOperations } from "./classic/applications/index.js";
+import type { ClusterVersionsOperations } from "./classic/clusterVersions/index.js";
+import { _getClusterVersionsOperations } from "./classic/clusterVersions/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
 import { _getClustersOperations } from "./classic/clusters/index.js";
-import type { OperationsOperations} from "./classic/operations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ServicesOperations} from "./classic/services/index.js";
+import type { ServicesOperations } from "./classic/services/index.js";
 import { _getServicesOperations } from "./classic/services/index.js";
-import type {
-  UnsupportedVmSizesOperations} from "./classic/unsupportedVmSizes/index.js";
-import {
-  _getUnsupportedVmSizesOperations,
-} from "./classic/unsupportedVmSizes/index.js";
+import type { UnsupportedVmSizesOperations } from "./classic/unsupportedVmSizes/index.js";
+import { _getUnsupportedVmSizesOperations } from "./classic/unsupportedVmSizes/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 

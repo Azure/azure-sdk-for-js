@@ -14,7 +14,10 @@ import type {
   ClusterVersionsGetByEnvironmentOptionalParams,
   ClusterVersionsGetOptionalParams,
 } from "../../api/clusterVersions/options.js";
-import type { ClusterCodeVersionsListResult, ClusterVersionsEnvironment } from "../../models/models.js";
+import type {
+  ClusterCodeVersionsListResult,
+  ClusterVersionsEnvironment,
+} from "../../models/models.js";
 
 /** Interface representing a ClusterVersions operations. */
 export interface ClusterVersionsOperations {

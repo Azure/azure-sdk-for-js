@@ -6,12 +6,11 @@ import type {
   OperationState,
   ResourceLocationConfig,
   RunningOperation,
-  OperationResponse} from "@azure/core-lro";
-import {
-  createHttpPoller
+  OperationResponse,
 } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 
-import type { Client, PathUncheckedResponse} from "@azure-rest/core-client";
+import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
