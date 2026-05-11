@@ -421,7 +421,7 @@
 # PRLabel: %Mgmt
 /sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
