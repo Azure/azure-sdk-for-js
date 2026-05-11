@@ -1,0 +1,4 @@
+directory: specification/management/resource-manager/Microsoft.Management/ManagementGroups
+commit: 79eb4778406a15a5d702d1132a7f193896bcb45d
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
