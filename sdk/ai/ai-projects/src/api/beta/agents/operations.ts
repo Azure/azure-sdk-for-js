@@ -307,6 +307,7 @@ export function _getSessionLogStreamSend(
   sessionId: string,
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api-version}",
     {
@@ -322,9 +323,7 @@ export function _getSessionLogStreamSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "text/event-stream",
       ...options.requestOptions?.headers,
     },
@@ -336,10 +335,7 @@ export async function _getSessionLogStreamDeserialize(
 ): Promise<BetaAgentsGetSessionLogStreamResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
+    throw createRestError(result);
   }
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
