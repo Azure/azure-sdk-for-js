@@ -48,15 +48,23 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
+  const downloadHost = process.env.PLAYWRIGHT_DOWNLOAD_HOST;
   const { result } = concurrently([
     {
-      command: "npx playwright install",
+      command: "npx playwright@1.59.1 install",
       name: "playwright install",
+      env : {
+        ...process.env,
+      },
     },
   ]);
 
   await result;
-  log.info("playwright browsers installed");
+  log.info(
+    downloadHost
+      ? `playwright browsers installed from ${downloadHost}`
+      : "playwright browsers installed from default CDN",
+  );
 }
 
 export default leafCommand(commandInfo, async (options) => {
