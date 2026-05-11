@@ -63,11 +63,6 @@ export interface BetaModelsOperations {
     options?: BetaModelsUpdateOptionalParams,
   ) => Promise<ModelVersion>;
   /** Delete the specific version of the ModelVersion. The service returns 204 No Content if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     name: string,
     version: string,
