@@ -8,7 +8,7 @@ import {
   recorderEnvSetup,
   configureStorageClient,
   SimpleTokenCredential,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { QueueServiceClient } from "../../src/index.js";
 import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src/index.js";

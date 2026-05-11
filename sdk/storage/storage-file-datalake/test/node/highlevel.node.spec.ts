@@ -12,7 +12,7 @@ import {
   getDataLakeServiceClient,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils/index.js";
+} from "#test-utils";
 import {
   MB,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,

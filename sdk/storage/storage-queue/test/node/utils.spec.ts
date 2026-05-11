@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.js";
+import { recorderEnvSetup } from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {

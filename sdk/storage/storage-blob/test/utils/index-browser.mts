@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 import { AnonymousCredential } from "../../src/index.js";
 import { BlobServiceClient } from "../../src/index.js";
-import { newPipeline, BlobClientOptions } from "../../src/index.js";
+import type { BlobClientOptions } from "../../src/index.js";
+import { newPipeline } from "../../src/index.js";
 import { SimpleTokenCredential, configureBlobStorageClient } from "./testutils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -126,7 +127,7 @@ export function getAlternateBSU(recorder: Recorder): BlobServiceClient {
  */
 export async function bodyToString(
   response: {
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: unknown;
     blobBody?: Promise<Blob>;
   },
   _length?: number,

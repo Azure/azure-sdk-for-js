@@ -12,7 +12,7 @@ import {
   createRandomLocalFileWithTotalSize,
   getUniqueName,
   customizeResponseBodyPolicy,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -26,7 +26,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { streamToBuffer, streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
   let containerName: string;

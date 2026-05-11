@@ -9,7 +9,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
 import { ShareServiceClient, newPipeline } from "../../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";

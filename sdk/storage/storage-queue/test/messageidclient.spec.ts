@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils/index.js";
-import { QueueClient } from "../src/QueueClient.js";
+import { getQSU, uriSanitizers } from "#test-utils";
+import type { QueueClient } from "../src/QueueClient.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { extractConnectionStringParts } from "../src/utils/utils.common.js";
-import { getUniqueName, recorderEnvSetup } from "./utils/index.js";
+import { getUniqueName, recorderEnvSetup } from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods", () => {
@@ -200,15 +199,6 @@ describe("QueueClient messageId methods", () => {
       error = err;
     }
     assert.isDefined(error);
-  });
-
-  it("verify messageID and queueName passed to the client", async () => {
-    const newClient = new QueueClient(
-      extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
-        "/" +
-        queueName,
-    );
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 
   it("update visibility timeout only preserve content", async () => {

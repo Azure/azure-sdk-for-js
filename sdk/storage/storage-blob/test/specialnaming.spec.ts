@@ -9,7 +9,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { appendToURLPath, EscapePath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient } from "../src/index.js";

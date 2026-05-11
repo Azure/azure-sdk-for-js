@@ -27,6 +27,13 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
+    }
+  },
   "files": [
     "dist/",
     "README.md",
@@ -35,17 +42,17 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Skipped.",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "docs": "echo Skipped.",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
@@ -92,11 +99,6 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
-    }
-  },
-  "imports": {
-    "#platform/*": {
-      "default": "./src/*.ts"
     }
   }
 }

@@ -10,10 +10,5 @@ export async function getBodyAsText(
   if (!blobBodyResponse) {
     return "";
   }
-  const blobString = await blobBodyResponse.text();
-  return blobString;
-}
-
-export function utf8ByteLength(str: string): number {
-  return new Blob([str]).size;
+  return blobBodyResponse.text();
 }

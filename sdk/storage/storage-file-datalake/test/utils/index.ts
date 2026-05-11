@@ -306,3 +306,5 @@ export function getSignatureFromSasUrl(sasUrl: string): string {
   const signature = url.searchParams.get("sig");
   return signature!;
 }
+
+export * from "./fakeTestSecrets.js";

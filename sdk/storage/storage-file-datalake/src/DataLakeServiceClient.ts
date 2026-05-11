@@ -3,8 +3,6 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 import type {
   BlobGetUserDelegationKeyParameters,
   ServiceGetPropertiesOptions,
@@ -15,7 +13,9 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { AnonymousCredential } from "@azure/storage-common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
+import { parseConnectionString } from "#platform/credentials";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient.js";
 import type {
   FileSystemItem,
@@ -83,25 +83,17 @@ export class DataLakeServiceClient extends StorageClient {
     options?: DataLakeClientOptions,
   ): DataLakeServiceClient {
     options = options || {};
-    const extractedCreds = extractConnectionStringParts(connectionString);
-    if (extractedCreds.kind === "AccountConnString") {
-      if (isNodeLike) {
-        const sharedKeyCredential = new StorageSharedKeyCredential(
-          extractedCreds.accountName!,
-          extractedCreds.accountKey,
-        );
-        if (!options.proxyOptions) {
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        }
-        const pipeline = newPipeline(sharedKeyCredential, options);
-        return new DataLakeServiceClient(toDfsEndpointUrl(extractedCreds.url), pipeline, options);
-      } else {
-        throw new Error("Account connection string is only supported in Node.js environment");
-      }
-    } else if (extractedCreds.kind === "SASConnString") {
+    const parsedConn = parseConnectionString(connectionString);
+    if (parsedConn.kind === "AccountConnString") {
+      options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+      const pipeline = newPipeline(parsedConn.credential, options);
+      return new DataLakeServiceClient(toDfsEndpointUrl(parsedConn.url), pipeline, options);
+    } else if (parsedConn.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
       return new DataLakeServiceClient(
-        toDfsEndpointUrl(extractedCreds.url) + "?" + extractedCreds.accountSas,
+        toDfsEndpointUrl(parsedConn.url) +
+          "?" +
+          extractConnectionStringParts(connectionString).accountSas,
         pipeline,
         options,
       );

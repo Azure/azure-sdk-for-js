@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeJSReadableStream } from "@azure/storage-common";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import fs from "node:fs";
 import stream, { Readable } from "node:stream";
 import util from "node:util";

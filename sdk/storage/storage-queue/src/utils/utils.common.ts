@@ -3,6 +3,7 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { stringToUint8Array } from "@azure/core-util";
 import {
   HeaderConstants,
   URLConstants,
@@ -24,7 +25,7 @@ export function appendToURLPath(url: string, name: string): string {
 
   let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.pathname = path;
+  (urlParsed as { pathname: string }).pathname = path;
 
   return urlParsed.toString();
 }
@@ -84,7 +85,7 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  */
 export function setURLHost(url: string, host: string): string {
   const urlParsed = new URL(url);
-  urlParsed.hostname = host;
+  (urlParsed as { hostname: string }).hostname = host;
   return urlParsed.toString();
 }
 
@@ -217,12 +218,14 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 
     let defaultEndpointsProtocol = "";
     let accountName = "";
-    let accountKey = Buffer.from("accountKey", "base64");
     let endpointSuffix = "";
 
     // Get account name and key
     accountName = getValueInConnString(connectionString, "AccountName");
-    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+    const accountKey = stringToUint8Array(
+      getValueInConnString(connectionString, "AccountKey"),
+      "base64",
+    );
 
     if (!queueEndpoint) {
       // QueueEndpoint is not present in the Account connection string

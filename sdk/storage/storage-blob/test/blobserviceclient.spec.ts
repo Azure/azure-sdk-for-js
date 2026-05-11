@@ -2,16 +2,14 @@
 // Licensed under the MIT License.
 import { BlobServiceClient } from "../src/index.js";
 import {
-  configureBlobStorageClient,
   getAlternateBSU,
   getBSU,
   getGenericBSU,
-  getSASConnectionStringFromEnvironment,
   getTokenBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type { Tags } from "../src/models.js";
@@ -440,18 +438,6 @@ describe("BlobServiceClient", () => {
     } catch (error: any) {
       assert.strictEqual(error.statusCode as number, 404);
     }
-  });
-
-  it("can be created from a sas connection string", async () => {
-    const newClient = BlobServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(recorder),
-    );
-    configureBlobStorageClient(recorder, newClient);
-
-    const result = await newClient.getProperties();
-
-    assert.isDefined(result.requestId);
-    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("getUserDelegationKey should work", async function (ctx) {

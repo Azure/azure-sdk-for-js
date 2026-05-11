@@ -7,23 +7,26 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,84 +12,32 @@
+@@ -10,86 +10,34 @@
+ import { AzureLogger } from '@azure/logger';
+ import { BaseRequestPolicy } from '@azure/storage-common';
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
- import { Credential as Credential_2 } from '@azure/storage-common';
+-import { Credential } from '@azure/storage-common';
++import { Credential as Credential_2 } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
 -import { CredentialPolicyCreator } from '@azure/storage-common';
--import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
--import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+-import type { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+-import type { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 -import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 +import type { HttpHeadersLike } from '@azure/core-http-compat';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import type { OperationTracingOptions } from '@azure/core-tracing';
  import type { PagedAsyncIterableIterator } from '@azure/core-paging';
  import type { ProxySettings } from '@azure/core-rest-pipeline';
- import { RequestPolicy } from '@azure/core-http-compat';
- import { RequestPolicyFactory } from '@azure/core-http-compat';
--import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+ import type { RequestPolicy } from '@azure/core-http-compat';
+ import type { RequestPolicyFactory } from '@azure/core-http-compat';
+-import type { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
  import { RestError } from '@azure/core-rest-pipeline';
  import { StorageBrowserPolicyFactory } from '@azure/storage-common';
 -import { StorageRetryOptions } from '@azure/storage-common';
@@ -36,7 +39,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TokenCredential } from '@azure/core-auth';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
  import { UserDelegationKey } from '@azure/storage-common';
--import { WebResourceLike as WebResource } from '@azure/core-http-compat';
+-import type { WebResourceLike as WebResource } from '@azure/core-http-compat';
 +import type { WebResourceLike } from '@azure/core-http-compat';
  
  // @public
@@ -95,8 +98,13 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -112,10 +60,8 @@
- export { Credential_2 as Credential }
+@@ -108,14 +56,12 @@
+     exposedHeaders: string;
+     maxAgeInSeconds: number;
+ }
+ 
+-export { Credential }
++export { Credential_2 as Credential }
  
  export { CredentialPolicy }
  

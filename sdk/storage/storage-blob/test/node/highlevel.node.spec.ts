@@ -11,7 +11,7 @@ import {
   getBSU,
   createRandomLocalFileWithTotalSize,
   getUniqueName,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {

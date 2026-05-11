@@ -9,18 +9,16 @@ import type {
   FileSystemItem,
   ServiceListFileSystemsSegmentResponse,
 } from "../src/index.js";
-import { DataLakeServiceClient } from "../src/index.js";
+import type { DataLakeServiceClient } from "../src/index.js";
 import {
   getDataLakeServiceClient,
-  getSASConnectionStringFromEnvironment,
   getTokenDataLakeServiceClient,
   recorderEnvSetup,
   getGenericDataLakeServiceClient,
   getEncryptionScope,
   getUniqueName,
-  configureStorageClient,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DataLakeServiceClient", () => {
@@ -523,22 +521,6 @@ describe("DataLakeServiceClient", () => {
     assert.notDeepEqual(response.signedService, undefined);
     assert.notDeepEqual(response.signedObjectId, undefined);
     assert.notDeepEqual(response.signedExpiresOn, undefined);
-  });
-
-  it("can be created from SASConnString", async () => {
-    const newClient = DataLakeServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(),
-      {
-        retryOptions: {
-          maxTries: 1,
-        },
-      },
-    );
-    configureStorageClient(recorder, newClient);
-
-    const listIter = newClient.listFileSystems();
-    await listIter.next();
-    assert.include(newClient.url, "dfs");
   });
 
   it("renameFileSystem should work", async (ctx) => {

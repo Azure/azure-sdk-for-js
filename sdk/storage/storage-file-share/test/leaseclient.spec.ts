@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  getBSU,
-  recorderEnvSetup,
-  bodyToString,
-  uriSanitizers,
-  getUniqueName,
-} from "./utils/index.js";
+import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "#test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import type {
   ShareClient,

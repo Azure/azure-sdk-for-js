@@ -3,7 +3,6 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNodeLike } from "@azure/core-util";
 import type {
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -39,6 +38,8 @@ import {
 } from "./utils/utils.common.js";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
+import { isStorageSharedKeyCredential, parseConnectionString } from "#platform/credentials";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { tracingClient } from "./utils/tracing.js";
 import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient.js";
 import { QueueClient } from "./QueueClient.js";
@@ -50,7 +51,6 @@ import {
 import { AccountSASServices } from "./AccountSASServices.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
-import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated/src/index.js";
 
 /**
@@ -234,24 +234,17 @@ export class QueueServiceClient extends StorageClient {
     options?: StoragePipelineOptions,
   ): QueueServiceClient {
     options = options || {};
-    const extractedCreds = extractConnectionStringParts(connectionString);
-    if (extractedCreds.kind === "AccountConnString") {
-      if (isNodeLike) {
-        const sharedKeyCredential = new StorageSharedKeyCredential(
-          extractedCreds.accountName!,
-          extractedCreds.accountKey,
-        );
-        if (!options.proxyOptions) {
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        }
-        const pipeline = newPipeline(sharedKeyCredential, options);
-        return new QueueServiceClient(extractedCreds.url, pipeline);
-      } else {
-        throw new Error("Account connection string is only supported in Node.js environment");
-      }
-    } else if (extractedCreds.kind === "SASConnString") {
+    const parsedConn = parseConnectionString(connectionString);
+    if (parsedConn.kind === "AccountConnString") {
+      options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+      const pipeline = newPipeline(parsedConn.credential, options);
+      return new QueueServiceClient(parsedConn.url, pipeline);
+    } else if (parsedConn.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+      return new QueueServiceClient(
+        parsedConn.url + "?" + extractConnectionStringParts(connectionString).accountSas,
+        pipeline,
+      );
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string",
@@ -345,7 +338,7 @@ export class QueueServiceClient extends StorageClient {
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNodeLike && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipeline) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {

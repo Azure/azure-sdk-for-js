@@ -13,23 +13,24 @@ import type { CancelOnProgress } from '@azure/core-lro';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { Credential as Credential_2 } from '@azure/storage-common';
+import { Credential } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
-import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
-import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+import type { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import type { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import type { Readable } from 'node:stream';
-import { RequestPolicy } from '@azure/core-http-compat';
-import { RequestPolicyFactory } from '@azure/core-http-compat';
-import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+import type { Readable } from '@azure/storage-common';
+import type { RequestPolicy } from '@azure/core-http-compat';
+import type { RequestPolicyFactory } from '@azure/core-http-compat';
+import type { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { StorageBrowserPolicy } from '@azure/storage-common';
 import { StorageBrowserPolicyFactory } from '@azure/storage-common';
@@ -43,7 +44,7 @@ import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
-import { WebResourceLike as WebResource } from '@azure/core-http-compat';
+import type { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -412,8 +413,8 @@ export class BlobClient extends StorageClient {
     deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteIfExistsResponse>;
     deleteImmutabilityPolicy(options?: BlobDeleteImmutabilityPolicyOptions): Promise<BlobDeleteImmutabilityPolicyResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
-    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
+    downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<NodeBuffer>;
+    downloadToBuffer(buffer: NodeBuffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<NodeBuffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     generateSasStringToSign(options: BlobGenerateSasUrlOptions): string;
@@ -1425,7 +1426,7 @@ export class BlockBlobClient extends BlobClient {
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
     // @deprecated
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
-    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadData(data: NodeBuffer | Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
@@ -1558,7 +1559,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    range?: Range_2;
+    range?: Range;
     sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -2181,7 +2182,7 @@ export interface CpkInfo {
     encryptionKeySha256?: string;
 }
 
-export { Credential_2 as Credential }
+export { Credential }
 
 export { CredentialPolicy }
 
@@ -2788,8 +2789,8 @@ export type PageBlobUploadPagesResponse = WithResponse<PageBlobUploadPagesHeader
 
 // @public
 export interface PageList {
-    clearRange?: Range_2[];
-    pageRange?: Range_2[];
+    clearRange?: Range[];
+    pageRange?: Range[];
 }
 
 // @public
@@ -2888,11 +2889,10 @@ export enum PremiumPageBlobTier {
 export type PublicAccessType = "container" | "blob";
 
 // @public
-interface Range_2 {
+export interface Range {
     count?: number;
     offset: number;
 }
-export { Range_2 as Range }
 
 // @public
 export type RehydratePriority = "High" | "Standard";

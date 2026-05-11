@@ -1,0 +1,4 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "include": ["../src/events.d.ts", "../test/**/*.spec.ts"]
+}

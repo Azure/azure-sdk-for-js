@@ -5,8 +5,6 @@ import type {
   KeepAliveOptions,
   ExtendedServiceClientOptions,
   HttpPipelineLogLevel,
-} from "@azure/core-http-compat";
-import {
   CompatResponse as HttpOperationResponse,
   RequestPolicy as IHttpClient,
   HttpHeadersLike as HttpHeaders,
@@ -14,9 +12,8 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
-  convertHttpClient,
-  createRequestPolicyFactoryPolicy,
 } from "@azure/core-http-compat";
+import { convertHttpClient, createRequestPolicyFactoryPolicy } from "@azure/core-http-compat";
 import type {
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,
@@ -35,12 +32,9 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import {
-  AnonymousCredential,
-  StorageRetryOptions,
-  StorageRetryPolicyFactory,
-} from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
+import type { StorageRetryOptions } from "@azure/storage-common";
+import { AnonymousCredential, StorageRetryPolicyFactory } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
   StorageDataLakeLoggingAllowedHeaderNames,
@@ -50,19 +44,14 @@ import {
 import {
   getCachedDefaultHttpClient,
   storageRequestFailureDetailsParserPolicy,
+  storageSharedKeyCredentialPolicy,
 } from "@azure/storage-common";
 import { storageBrowserPolicy } from "@azure/storage-common";
 import { StorageBrowserPolicyFactory } from "@azure/storage-common";
 import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
 import { storageRetryPolicy } from "@azure/storage-common";
-import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
-import {
-  ServiceClientOptions,
-  PipelineOptions,
-  PipelineLike,
-  isPipelineLike,
-  Pipeline,
-} from "@azure/storage-blob";
+import type { ServiceClientOptions, PipelineOptions, PipelineLike } from "@azure/storage-blob";
+import { isPipelineLike, Pipeline } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

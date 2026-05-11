@@ -38,8 +38,8 @@ import {
 import { Credential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
+import { parseConnectionString } from "#platform/credentials";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNodeLike } from "@azure/core-util";
 import { tracingClient } from "./utils/tracing.js";
 import type { ShareClientConfig, ShareClientOptions, ShareProtocols } from "./models.js";
 import { toShareProtocols } from "./models.js";
@@ -292,22 +292,14 @@ export class ShareServiceClient extends StorageClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
   ): ShareServiceClient {
-    const extractedCreds = extractConnectionStringParts(connectionString);
-    if (extractedCreds.kind === "AccountConnString") {
-      if (isNodeLike) {
-        const sharedKeyCredential = new StorageSharedKeyCredential(
-          extractedCreds.accountName!,
-          extractedCreds.accountKey,
-        );
-        const pipeline = newPipeline(sharedKeyCredential, options);
-        return new ShareServiceClient(extractedCreds.url, pipeline, options);
-      } else {
-        throw new Error("Account connection string is only supported in Node.js environment");
-      }
-    } else if (extractedCreds.kind === "SASConnString") {
+    const parsedConn = parseConnectionString(connectionString);
+    if (parsedConn.kind === "AccountConnString") {
+      const pipeline = newPipeline(parsedConn.credential, options);
+      return new ShareServiceClient(parsedConn.url, pipeline, options);
+    } else if (parsedConn.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
       return new ShareServiceClient(
-        extractedCreds.url + "?" + extractedCreds.accountSas,
+        parsedConn.url + "?" + extractConnectionStringParts(connectionString).accountSas,
         pipeline,
         options,
       );

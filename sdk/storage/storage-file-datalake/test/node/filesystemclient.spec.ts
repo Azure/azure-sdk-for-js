@@ -10,7 +10,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { DataLakeServiceClient } from "../../src/index.js";
 import {
   DataLakeFileSystemClient,

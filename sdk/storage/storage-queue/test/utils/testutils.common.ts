@@ -5,7 +5,7 @@ import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder"
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 
@@ -48,10 +48,8 @@ const sasParams = [
   "ske",
   "sks",
   "skv",
+  "_",
 ];
-if (!isNodeLike) {
-  sasParams.push("_");
-}
 
 export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
 export const recorderEnvSetup: RecorderStartOptions = {
@@ -79,11 +77,11 @@ export function getUniqueName(prefix: string): string {
 }
 
 export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
 }
 
 export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
 }
 
 /**

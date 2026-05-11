@@ -5,17 +5,18 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
 import type {
   LeaseAccessConditions,
-  ModifiedAccessConditions as ModifiedAccessConditionsModel,
+  MatchConditions,
+  ModificationConditions,
   UserDelegationKeyModel,
   BlobQueryArrowConfiguration,
   ServiceRenameContainerOptions,
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
-  NodeJSReadableStream,
 } from "@azure/storage-blob";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import type { DataLakePathClient } from "./clients.js";
-export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
+export type ModifiedAccessConditions = MatchConditions & ModificationConditions;
 
 /**
  * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.

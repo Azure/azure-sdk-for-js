@@ -6,7 +6,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

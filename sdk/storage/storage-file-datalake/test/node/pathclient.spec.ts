@@ -29,7 +29,7 @@ import {
   uriSanitizers,
   SimpleTokenCredential,
   configureStorageClient,
-} from "../utils/index.js";
+} from "#test-utils";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

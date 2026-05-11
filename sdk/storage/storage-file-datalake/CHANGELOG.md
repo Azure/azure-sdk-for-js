@@ -10,6 +10,16 @@
 
 ### Other Changes
 
+## 12.30.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 12.30.0-beta.1 (2026-03-05)
 
 ### Features Added

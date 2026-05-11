@@ -27,7 +27,7 @@ import {
   ShareServiceClient,
   StorageSharedKeyCredential as FileStorageSharedKeyCredential,
 } from "@azure/storage-file-share";
-import { BlobClientOptions } from "../../src/models.js";
+import type { BlobClientOptions } from "../../src/models.js";
 
 export * from "./testutils.common.js";
 config();

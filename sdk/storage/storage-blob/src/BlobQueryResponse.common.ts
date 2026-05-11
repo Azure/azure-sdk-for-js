@@ -12,7 +12,7 @@ import type {
   BlobQueryHeaders,
 } from "./generatedModels.js";
 import type { Metadata } from "./models.js";
-import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream.js";
+import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStreamOptions.js";
 import type { ResponseWithHeaders } from "./utils/utils.common.js";
 
 /**

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { OperationArguments, OperationSpec } from "@azure/core-client";
-import { isNodeLike } from "@azure/core-util";
 import { StorageClient } from "./generated/src/index.js";
 
 /**
@@ -14,27 +13,6 @@ export class StorageContextClient extends StorageClient {
     operationSpec: OperationSpec,
   ): Promise<T> {
     const operationSpecToSend = { ...operationSpec };
-
-    if (
-      !isNodeLike &&
-      !operationSpec.requestBody &&
-      operationSpec.headerParameters?.some(
-        (param) => param.mapper.serializedName === "Content-Length",
-      )
-    ) {
-      operationSpecToSend.mediaType = "text";
-      operationSpecToSend.requestBody = {
-        parameterPath: "body",
-        mapper: {
-          serializedName: "body",
-          isConstant: true,
-          defaultValue: "",
-          type: {
-            name: "String",
-          },
-        },
-      };
-    }
 
     if (
       operationSpecToSend.path === "/{filesystem}" ||

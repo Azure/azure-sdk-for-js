@@ -10,7 +10,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { ContainerClient, BlobClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 

@@ -3,7 +3,7 @@
 
 import type { ShareClient } from "../src/index.js";
 import { ShareDirectoryClient, ShareFileClient } from "../src/index.js";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "#test-utils";
 import { appendToURLPath } from "../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

@@ -2,28 +2,12 @@
 // Licensed under the MIT License.
 
 import { Readable } from "node:stream";
-import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
-import { AvroReadableFromStream, AvroReader } from "../internal-avro/index.js";
+import { AvroReadableFromStream, AvroReader } from "#platform/internal-avro/index";
 import type { BlobQueryError } from "../Clients.js";
+import type { BlobQuickQueryStreamOptions } from "./BlobQuickQueryStreamOptions.js";
 
-export interface BlobQuickQueryStreamOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-
-  /**
-   * Read progress event handler
-   */
-  onProgress?: (progress: TransferProgressEvent) => void;
-
-  /**
-   * Callback to receive error events during the query operaiton.
-   */
-  onError?: (error: BlobQueryError) => void;
-}
+export type { BlobQuickQueryStreamOptions } from "./BlobQuickQueryStreamOptions.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

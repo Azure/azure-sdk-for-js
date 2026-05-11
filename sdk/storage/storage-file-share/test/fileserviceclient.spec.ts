@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  configureStorageClient,
   getBSU,
   getGenericBSU,
-  getSASConnectionStringFromEnvironment,
   getSoftDeleteBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import type { ShareItem, ShareRootSquash } from "../src/index.js";
-import { ShareServiceClient } from "../src/index.js";
+import type { ShareServiceClient } from "../src/index.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -361,35 +359,6 @@ describe("FileServiceClient", () => {
     } catch (error: any) {
       assert.strictEqual(error.statusCode as number, 404);
     }
-  });
-
-  it("can be created from a sas connection string", async () => {
-    const newClient = ShareServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(recorder),
-    );
-    configureStorageClient(recorder, newClient);
-
-    const result = await newClient.getProperties();
-
-    assert.isDefined(result.requestId);
-    assert.isAbove(result.requestId!.length, 0);
-  });
-
-  it("can be created from a sas connection string and an option bag", async () => {
-    const newClient = ShareServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(recorder),
-      {
-        retryOptions: {
-          maxTries: 5,
-        },
-      },
-    );
-    configureStorageClient(recorder, newClient);
-
-    const result = await newClient.getProperties();
-
-    assert.isDefined(result.requestId);
-    assert.isAbove(result.requestId!.length, 0);
   });
 });
 

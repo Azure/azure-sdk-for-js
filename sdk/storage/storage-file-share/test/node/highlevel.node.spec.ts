@@ -10,7 +10,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.js";
+} from "#test-utils";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";

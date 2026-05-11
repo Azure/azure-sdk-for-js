@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import { isNodeLike } from "@azure/core-util";
 import {
   base64encode,
   bodyToString,
-  configureBlobStorageClient,
   getBSU,
-  getSASConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import type { ContainerClient, BlobClient } from "../src/index.js";
-import { BlockBlobClient } from "../src/index.js";
+import type { BlockBlobClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { BlockBlobTier } from "../src/index.js";
-import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlockBlobClient", () => {
@@ -272,50 +270,6 @@ describe("BlockBlobClient", () => {
 
     const result = await blockBlobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length * 2), "HelloWorldHelloWorld");
-  });
-
-  it("can be created with a sas connection string", async (ctx) => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const newClient = new BlockBlobClient(
-      getSASConnectionStringFromEnvironment(recorder),
-      containerName,
-      blobName,
-    );
-    configureBlobStorageClient(recorder, newClient);
-
-    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
-    await newClient.upload(body, body.length);
-    const result = await newClient.download(0);
-    assert.deepStrictEqual(await bodyToString(result, body.length), body);
-  });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      new BlockBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected.",
-      );
-    }
-  });
-
-  it("throws error if constructor blobName parameter is empty", async () => {
-    try {
-      // tslint:disable-next-line: no-unused-expression
-      new BlockBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected.",
-      );
-    }
   });
 
   it("upload and download with CPK", async () => {

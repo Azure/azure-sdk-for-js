@@ -36,11 +36,11 @@ import {
   uriSanitizers,
   getSignatureFromSasUrl,
   customizeRequestPolicy,
-} from "../utils/index.js";
+} from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

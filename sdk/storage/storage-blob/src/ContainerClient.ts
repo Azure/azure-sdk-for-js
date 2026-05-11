@@ -3,12 +3,12 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import { isStorageSharedKeyCredential, parseConnectionString } from "#platform/credentials";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
   BlobDeleteResponse,
@@ -685,7 +685,7 @@ export class ContainerClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      isStorageSharedKeyCredential(credentialOrPipelineOrContainerName) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -707,28 +707,16 @@ export class ContainerClient extends StorageClient {
       // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
 
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeLike) {
-          const sharedKeyCredential = new StorageSharedKeyCredential(
-            extractedCreds.accountName!,
-            extractedCreds.accountKey,
-          );
-          url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-
-          if (!options.proxyOptions) {
-            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          }
-
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
+      const parsedConn = parseConnectionString(urlOrConnectionString);
+      if (parsedConn.kind === "AccountConnString") {
+        url = appendToURLPath(parsedConn.url, encodeURIComponent(containerName));
+        options.proxyOptions ??= getDefaultProxySettings(parsedConn.proxyUri);
+        pipeline = newPipeline(parsedConn.credential, options);
+      } else if (parsedConn.kind === "SASConnString") {
         url =
-          appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
+          appendToURLPath(parsedConn.url, encodeURIComponent(containerName)) +
           "?" +
-          extractedCreds.accountSas;
+          extractConnectionStringParts(urlOrConnectionString).accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

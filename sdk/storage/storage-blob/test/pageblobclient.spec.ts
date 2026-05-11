@@ -2,16 +2,19 @@
 // Licensed under the MIT License.
 import {
   bodyToString,
-  configureBlobStorageClient,
   getBSU,
   getGenericBSU,
-  getSASConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
-import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
-import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
+} from "#test-utils";
+import type {
+  ContainerClient,
+  BlobClient,
+  BlobServiceClient,
+  PageBlobClient,
+} from "../src/index.js";
+import { PremiumPageBlobTier } from "../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -510,44 +513,5 @@ describe("PageBlobClient", () => {
     }
 
     assert.isDefined(exceptionCaught);
-  });
-
-  it("can be created with a sas connection string", async () => {
-    const newClient = new PageBlobClient(
-      getSASConnectionStringFromEnvironment(recorder),
-      containerName,
-      blobName,
-    );
-    configureBlobStorageClient(recorder, newClient);
-
-    await newClient.create(512);
-    const result = await newClient.download(0);
-    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
-  });
-
-  it("throws error if constructor containerName parameter is empty", async () => {
-    try {
-      new PageBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected.",
-      );
-    }
-  });
-
-  it("throws error if constructor blobName parameter is empty", async () => {
-    try {
-      new PageBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
-      assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error: any) {
-      assert.equal(
-        "Expecting non-empty strings for containerName and blobName parameters",
-        error.message,
-        "Error message is different than expected.",
-      );
-    }
   });
 });

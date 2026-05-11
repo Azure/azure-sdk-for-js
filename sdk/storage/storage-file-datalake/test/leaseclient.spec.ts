@@ -12,7 +12,7 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils/index.js";
+} from "#test-utils";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("LeaseClient from FileSystem", () => {

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { BlobClient } from "@azure/storage-blob";
-import type { LazyLoadingBlobStreamOptions } from "./LazyLoadingBlobStream.js";
-import { LazyLoadingBlobStream } from "./LazyLoadingBlobStream.js";
+import type { LazyLoadingBlobStreamOptions } from "#platform/LazyLoadingBlobStream";
+import { LazyLoadingBlobStream } from "#platform/LazyLoadingBlobStream";
 
 export class LazyLoadingBlobStreamFactory {
   public create(

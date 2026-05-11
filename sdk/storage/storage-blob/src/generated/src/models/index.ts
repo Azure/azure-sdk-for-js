@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import type { NodeJSReadableStream } from "@azure/storage-common";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** Storage Service Properties. */
@@ -3050,7 +3051,7 @@ export type ServiceSubmitBatchResponse = ServiceSubmitBatchHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 /** Optional parameters. */
@@ -3227,7 +3228,7 @@ export type ContainerSubmitBatchResponse = ContainerSubmitBatchHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 /** Optional parameters. */
@@ -3425,7 +3426,7 @@ export type BlobDownloadResponse = BlobDownloadHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 /** Optional parameters. */
@@ -3851,7 +3852,7 @@ export type BlobQueryResponse = BlobQueryHeaders & {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeJSReadableStream;
 };
 
 /** Optional parameters. */

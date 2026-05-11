@@ -7,7 +7,7 @@ import {
   BlockBlobClient,
   PageBlobClient,
 } from "../../src/index.js";
-import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils/index.js";
+import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "#test-utils";
 import { env } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

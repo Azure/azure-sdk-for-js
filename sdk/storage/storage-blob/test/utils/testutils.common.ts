@@ -16,7 +16,7 @@ import type {
 import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
 import type { TestContext } from "vitest";
 import type { ShareServiceClient } from "@azure/storage-file-share";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -59,10 +59,8 @@ const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
-const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid"];
-if (!isNodeLike) {
-  sasParams.push("_");
-}
+const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid", "_"];
+
 export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -225,11 +223,11 @@ export function getRecorderUniqueVariable(recorder: Recorder, name: string): str
 }
 
 export function base64encode(content: string): string {
-  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
+  return uint8ArrayToString(stringToUint8Array(content, "utf-8"), "base64");
 }
 
 export function base64decode(encodedString: string): string {
-  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return uint8ArrayToString(stringToUint8Array(encodedString, "base64"), "utf-8");
 }
 
 type BlobMetadata = { [propertyName: string]: string };
