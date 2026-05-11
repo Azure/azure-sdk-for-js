@@ -58,11 +58,7 @@ describe("Agent Session URL Building", () => {
       const credential = new MockTokenCredential();
       const handler = new CredentialHandler(credential);
 
-      const url = await handler.getWebSocketUrl(
-        baseEndpoint,
-        apiVersion,
-        "gpt-realtime",
-      );
+      const url = await handler.getWebSocketUrl(baseEndpoint, apiVersion, "gpt-realtime");
 
       const parsedUrl = new URL(url);
       expect(parsedUrl.protocol).toBe("wss:");
@@ -77,11 +73,7 @@ describe("Agent Session URL Building", () => {
       const credential = new MockKeyCredential("my-api-key");
       const handler = new CredentialHandler(credential);
 
-      const url = await handler.getWebSocketUrl(
-        baseEndpoint,
-        apiVersion,
-        "gpt-realtime",
-      );
+      const url = await handler.getWebSocketUrl(baseEndpoint, apiVersion, "gpt-realtime");
 
       const parsedUrl = new URL(url);
       expect(parsedUrl.searchParams.get("model")).toBe("gpt-realtime");

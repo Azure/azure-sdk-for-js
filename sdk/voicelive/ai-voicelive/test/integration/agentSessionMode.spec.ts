@@ -45,14 +45,41 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");
     }
 
-    // Get or create the shared test agent
+    // Diagnostic: log the project context so failures in the agent path are easy to triage.
+    // Two distinct env vars feed agent mode: getOrCreateTestAgent uses FOUNDRY_PROJECT_ENDPOINT
+    // (an HTTPS URL on the Foundry plane) while the WS request uses FOUNDRY_PROJECT_NAME
+    // (the project's short name on the Cognitive Services plane). A mismatch between them
+    // produces a silent timeout because the agent gets created in project A but looked up
+    // in project B.
+    console.info(
+      `[agentSessionMode] FOUNDRY_PROJECT_ENDPOINT = ${process.env.FOUNDRY_PROJECT_ENDPOINT ?? "<unset>"}`,
+    );
+    console.info(
+      `[agentSessionMode] FOUNDRY_PROJECT_NAME     = ${process.env.FOUNDRY_PROJECT_NAME ?? "<unset>"} (resolved: ${projectName})`,
+    );
+
+    // Get or create the shared test agent. Surface the underlying error and fail fast
+    // so the live pipeline reports the real cause (RBAC / missing env / SDK error)
+    // instead of timing out 30s later waiting for session.created.
     try {
       testAgentName = await getOrCreateTestAgent();
-      console.log(`Using test agent: ${testAgentName}`);
+      if (!testAgentName) {
+        throw new Error(
+          "getOrCreateTestAgent() returned an empty name. Check that the live test " +
+            "identity has the 'Cognitive Services User' (or equivalent) role on the " +
+            "Foundry project and that FOUNDRY_PROJECT_ENDPOINT points to that project.",
+        );
+      }
+      console.info(`[agentSessionMode] Using test agent: ${testAgentName}`);
     } catch (error) {
-      console.warn(`Could not setup test agent: ${error}`);
-      // Tests will use the constant name if agent creation fails
-      testAgentName = TEST_AGENT_NAME;
+      const message = error instanceof Error ? error.stack ?? error.message : String(error);
+      console.error(
+        `[agentSessionMode] Failed to set up test agent (fallback name "${TEST_AGENT_NAME}" ` +
+          `would NOT exist on the service): ${message}`,
+      );
+      // Re-throw so beforeAll fails the suite explicitly. This is preferable to silently
+      // continuing with a non-existent agent name and waiting 30s for session.created.
+      throw error instanceof Error ? error : new Error(String(error));
     }
   });
 
