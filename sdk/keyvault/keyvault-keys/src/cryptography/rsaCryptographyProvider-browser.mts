@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CryptographyProvider} from "./models.js";
+import type { CryptographyProvider } from "./models.js";
 import { LocalCryptographyUnsupportedError } from "./models.js";
 
 /**

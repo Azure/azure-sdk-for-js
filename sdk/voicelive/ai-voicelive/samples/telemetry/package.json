@@ -1,0 +1,27 @@
+{
+  "name": "voicelive-telemetry-node",
+  "version": "1.0.0",
+  "description": "Node.js telemetry sample for Azure Voice Live SDK — console and Azure Monitor tracing",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:monitor": "node dist/azure-monitor.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.0.0-beta.4.tgz",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/identity": "^4.0.0",
+    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.28",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^2.0.0",
+    "@opentelemetry/sdk-trace-node": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "~5.9.3"
+  }
+}

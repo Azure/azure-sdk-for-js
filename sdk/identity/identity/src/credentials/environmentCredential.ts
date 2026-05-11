@@ -5,10 +5,10 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
 import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging.js";
 
-import { ClientCertificateCredential } from "./clientCertificateCredential.js";
-import { ClientSecretCredential } from "./clientSecretCredential.js";
+import { ClientCertificateCredential } from "#platform/credentials/clientCertificateCredential";
+import { ClientSecretCredential } from "#platform/credentials/clientSecretCredential";
 import type { EnvironmentCredentialOptions } from "./environmentCredentialOptions.js";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential.js";
+import { UsernamePasswordCredential } from "#platform/credentials/usernamePasswordCredential";
 import { checkTenantId } from "../util/tenantIdUtils.js";
 import { tracingClient } from "../util/tracing.js";
 

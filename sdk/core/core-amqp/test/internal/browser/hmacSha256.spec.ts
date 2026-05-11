@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { signString } from "../../../src/util/hmacSha256.common.js";
+import { signString } from "../../../src/util/hmacSha256.js";
 
 describe("signString (browser - Web Crypto)", function () {
   it("produces a URL-encoded base64 HMAC-SHA256 signature", async function () {

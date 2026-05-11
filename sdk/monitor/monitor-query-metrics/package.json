@@ -66,7 +66,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.39",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.40",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/sdk-trace-base": "^1.30.1",
     "@opentelemetry/sdk-trace-node": "^1.30.1",
@@ -78,6 +78,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -116,5 +117,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

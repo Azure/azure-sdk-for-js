@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationState } from "@azure/core-lro";
-import { createBatchPoller } from "../src/static-helpers/batchPoller.js";
+import { createBatchPoller } from "../src/customization/static-helpers/batchPoller.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("createBatchPoller", () => {

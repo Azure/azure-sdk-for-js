@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -8,7 +8,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -19,8 +19,8 @@
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
     "test:node:preview": "cross-env TEST_PREVIEW=true dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
@@ -95,6 +95,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "type-plus": "^7.6.2",
     "typescript": "catalog:",
@@ -347,6 +348,13 @@
         "types": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts",
         "default": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
     }
   }
 }

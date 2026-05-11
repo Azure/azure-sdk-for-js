@@ -78,5 +78,10 @@
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

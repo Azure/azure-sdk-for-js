@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this is an async operation and the results should be tracked using location header or Azure-async-url.
  *
  * @summary this is an async operation and the results should be tracked using location header or Azure-async-url.
- * x-ms-original-file: 2026-01-01-preview/AzureStorage/ProtectionContainers_Inquire.json
+ * x-ms-original-file: 2026-01-31-preview/AzureStorage/ProtectionContainers_Inquire.json
  */
 async function inquireAzureStorageProtectionContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();

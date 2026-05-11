@@ -48,6 +48,7 @@ import type {
   SuggestOptions,
   UploadDocumentsOptions,
   VectorQuery,
+  VectorizableImageBinaryQuery,
 } from "./indexModels.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
@@ -312,6 +313,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       highlightFields,
       vectorSearchOptions,
       semanticSearchOptions,
+      debug,
       ...restOptions
     } = options as typeof options & { queryType: "semantic" };
 
@@ -341,7 +343,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       captions: this.convertQueryCaptions(captions),
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
-      debug: debugMode,
+      debug: debugMode ?? debug, // Use semanticSearchOptions.debugMode if set, otherwise use top-level debug
       vectorFilterMode: filterMode,
     };
 
@@ -785,33 +787,33 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     if (select) {
       return select.join(",");
     }
-    return select;
+    return undefined;
   }
 
   private convertVectorQueryFields(fields?: SearchFieldArray<TModel>): string | undefined {
     if (fields) {
       return fields.join(",");
     }
-    return fields;
+    return undefined;
   }
 
   private convertSearchFields(searchFields?: SearchFieldArray<TModel>): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }
-    return searchFields;
+    return undefined;
   }
 
   private convertOrderBy(orderBy?: string[]): string | undefined {
     if (orderBy) {
       return orderBy.join(",");
     }
-    return orderBy;
+    return undefined;
   }
 
   private convertQueryAnswers(answers?: QueryAnswer): BaseAnswers | undefined {
     if (!answers) {
-      return answers;
+      return undefined;
     }
 
     const config = [];
@@ -838,7 +840,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private convertQueryCaptions(captions?: QueryCaption): BaseCaptions | undefined {
     if (!captions) {
-      return captions;
+      return undefined;
     }
 
     const config = [];
@@ -869,9 +871,18 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         };
       }
       case "vector":
-      case "imageUrl":
-      case "imageBinary": {
+      case "imageUrl": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
+      }
+      case "imageBinary": {
+        // Map convenience layer's binaryImage to generated layer's base64Image
+        const { binaryImage, fields, ...rest } =
+          vectorQuery as VectorizableImageBinaryQuery<TModel>;
+        return {
+          ...rest,
+          base64Image: binaryImage,
+          fields: this.convertVectorQueryFields(fields),
+        };
       }
       default: {
         logger.warning("Unknown vector query kind; sending without serialization");
