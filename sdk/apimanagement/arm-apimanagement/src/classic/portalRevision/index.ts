@@ -18,6 +18,7 @@ import {
 } from "../../api/portalRevision/options.js";
 import { PortalRevisionContract } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PortalRevision operations. */
@@ -37,6 +38,24 @@ export interface PortalRevisionOperations {
     parameters: PortalRevisionContract,
     options?: PortalRevisionUpdateOptionalParams,
   ) => PollerLike<OperationState<PortalRevisionContract>, PortalRevisionContract>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    ifMatch: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<PortalRevisionContract>, PortalRevisionContract>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    ifMatch: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionUpdateOptionalParams,
+  ) => Promise<PortalRevisionContract>;
   /** Creates a new developer portal's revision by running the portal's publishing. The `isCurrent` property indicates if the revision is publicly accessible. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -45,6 +64,22 @@ export interface PortalRevisionOperations {
     parameters: PortalRevisionContract,
     options?: PortalRevisionCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<PortalRevisionContract>, PortalRevisionContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<PortalRevisionContract>, PortalRevisionContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
+  ) => Promise<PortalRevisionContract>;
   /** Gets the developer portal revision specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -85,6 +120,44 @@ function _getPortalRevision(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      portalRevisionId: string,
+      ifMatch: string,
+      parameters: PortalRevisionContract,
+      options?: PortalRevisionUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        serviceName,
+        portalRevisionId,
+        ifMatch,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      portalRevisionId: string,
+      ifMatch: string,
+      parameters: PortalRevisionContract,
+      options?: PortalRevisionUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        serviceName,
+        portalRevisionId,
+        ifMatch,
+        parameters,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       serviceName: string,
@@ -100,6 +173,40 @@ function _getPortalRevision(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      portalRevisionId: string,
+      parameters: PortalRevisionContract,
+      options?: PortalRevisionCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        portalRevisionId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      portalRevisionId: string,
+      parameters: PortalRevisionContract,
+      options?: PortalRevisionCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        portalRevisionId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

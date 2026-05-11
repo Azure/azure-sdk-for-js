@@ -29,6 +29,7 @@ import {
   NamedValueSecretContract,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspaceNamedValue operations. */
@@ -41,6 +42,22 @@ export interface WorkspaceNamedValueOperations {
     namedValueId: string,
     options?: WorkspaceNamedValueRefreshSecretOptionalParams,
   ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecret: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    namedValueId: string,
+    options?: WorkspaceNamedValueRefreshSecretOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecretAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    namedValueId: string,
+    options?: WorkspaceNamedValueRefreshSecretOptionalParams,
+  ) => Promise<NamedValueContract>;
   /** Gets the secret of the named value specified by its identifier. */
   listValue: (
     resourceGroupName: string,
@@ -75,6 +92,26 @@ export interface WorkspaceNamedValueOperations {
     parameters: NamedValueUpdateParameters,
     options?: WorkspaceNamedValueUpdateOptionalParams,
   ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: WorkspaceNamedValueUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: WorkspaceNamedValueUpdateOptionalParams,
+  ) => Promise<NamedValueContract>;
   /** Creates or updates named value. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -84,6 +121,24 @@ export interface WorkspaceNamedValueOperations {
     parameters: NamedValueCreateContract,
     options?: WorkspaceNamedValueCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: WorkspaceNamedValueCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: WorkspaceNamedValueCreateOrUpdateOptionalParams,
+  ) => Promise<NamedValueContract>;
   /** Gets the entity state (Etag) version of the named value specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -111,6 +166,40 @@ function _getWorkspaceNamedValue(context: ApiManagementContext) {
       namedValueId: string,
       options?: WorkspaceNamedValueRefreshSecretOptionalParams,
     ) => refreshSecret(context, resourceGroupName, serviceName, workspaceId, namedValueId, options),
+    beginRefreshSecret: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      namedValueId: string,
+      options?: WorkspaceNamedValueRefreshSecretOptionalParams,
+    ) => {
+      const poller = refreshSecret(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        namedValueId,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRefreshSecretAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      namedValueId: string,
+      options?: WorkspaceNamedValueRefreshSecretOptionalParams,
+    ) => {
+      return await refreshSecret(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        namedValueId,
+        options,
+      );
+    },
     listValue: (
       resourceGroupName: string,
       serviceName: string,
@@ -152,6 +241,48 @@ function _getWorkspaceNamedValue(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: WorkspaceNamedValueUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        namedValueId,
+        ifMatch,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: WorkspaceNamedValueUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        namedValueId,
+        ifMatch,
+        parameters,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       serviceName: string,
@@ -169,6 +300,44 @@ function _getWorkspaceNamedValue(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: WorkspaceNamedValueCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        namedValueId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: WorkspaceNamedValueCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        namedValueId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

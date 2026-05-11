@@ -27,6 +27,7 @@ import {
   TagResourceContract,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Api operations. */
@@ -51,6 +52,22 @@ export interface ApiOperations {
     ifMatch: string,
     options?: ApiDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    ifMatch: string,
+    options?: ApiDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    ifMatch: string,
+    options?: ApiDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the specified API of the API Management service instance. */
   update: (
     resourceGroupName: string,
@@ -68,6 +85,22 @@ export interface ApiOperations {
     parameters: ApiCreateOrUpdateParameter,
     options?: ApiCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ApiContract>, ApiContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    parameters: ApiCreateOrUpdateParameter,
+    options?: ApiCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ApiContract>, ApiContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    parameters: ApiCreateOrUpdateParameter,
+    options?: ApiCreateOrUpdateOptionalParams,
+  ) => Promise<ApiContract>;
   /** Gets the entity state (Etag) version of the API specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -103,6 +136,26 @@ function _getApi(context: ApiManagementContext) {
       ifMatch: string,
       options?: ApiDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, serviceName, apiId, ifMatch, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      serviceName: string,
+      apiId: string,
+      ifMatch: string,
+      options?: ApiDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, serviceName, apiId, ifMatch, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      apiId: string,
+      ifMatch: string,
+      options?: ApiDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, serviceName, apiId, ifMatch, options);
+    },
     update: (
       resourceGroupName: string,
       serviceName: string,
@@ -118,6 +171,40 @@ function _getApi(context: ApiManagementContext) {
       parameters: ApiCreateOrUpdateParameter,
       options?: ApiCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, serviceName, apiId, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      apiId: string,
+      parameters: ApiCreateOrUpdateParameter,
+      options?: ApiCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        apiId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      apiId: string,
+      parameters: ApiCreateOrUpdateParameter,
+      options?: ApiCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        apiId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

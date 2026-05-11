@@ -25,6 +25,7 @@ import {
   PrivateLinkResourceListResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnection operations. */
@@ -55,6 +56,20 @@ export interface PrivateEndpointConnectionOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates a new Private Endpoint Connection or updates an existing one. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -63,6 +78,24 @@ export interface PrivateEndpointConnectionOperations {
     privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
     options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+    options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+  ) => Promise<PrivateEndpointConnection>;
   /** Gets the details of the Private Endpoint Connection specified by its identifier. */
   getByName: (
     resourceGroupName: string,
@@ -103,6 +136,36 @@ function _getPrivateEndpointConnection(context: ApiManagementContext) {
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, serviceName, privateEndpointConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      serviceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        serviceName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        serviceName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       serviceName: string,
@@ -118,6 +181,40 @@ function _getPrivateEndpointConnection(context: ApiManagementContext) {
         privateEndpointConnectionRequest,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      privateEndpointConnectionName: string,
+      privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+      options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        privateEndpointConnectionName,
+        privateEndpointConnectionRequest,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      privateEndpointConnectionName: string,
+      privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
+      options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        privateEndpointConnectionName,
+        privateEndpointConnectionRequest,
+        options,
+      );
+    },
     getByName: (
       resourceGroupName: string,
       serviceName: string,

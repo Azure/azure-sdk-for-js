@@ -29,6 +29,7 @@ import {
   NamedValueSecretContract,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NamedValue operations. */
@@ -40,6 +41,20 @@ export interface NamedValueOperations {
     namedValueId: string,
     options?: NamedValueRefreshSecretOptionalParams,
   ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecret: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueRefreshSecretOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecretAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: NamedValueRefreshSecretOptionalParams,
+  ) => Promise<NamedValueContract>;
   /** Gets the secret of the named value specified by its identifier. */
   listValue: (
     resourceGroupName: string,
@@ -70,6 +85,24 @@ export interface NamedValueOperations {
     parameters: NamedValueUpdateParameters,
     options?: NamedValueUpdateOptionalParams,
   ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: NamedValueUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    parameters: NamedValueUpdateParameters,
+    options?: NamedValueUpdateOptionalParams,
+  ) => Promise<NamedValueContract>;
   /** Creates or updates named value. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -78,6 +111,22 @@ export interface NamedValueOperations {
     parameters: NamedValueCreateContract,
     options?: NamedValueCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NamedValueContract>, NamedValueContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: NamedValueCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<NamedValueContract>, NamedValueContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: NamedValueCreateContract,
+    options?: NamedValueCreateOrUpdateOptionalParams,
+  ) => Promise<NamedValueContract>;
   /** Gets the entity state (Etag) version of the named value specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -102,6 +151,24 @@ function _getNamedValue(context: ApiManagementContext) {
       namedValueId: string,
       options?: NamedValueRefreshSecretOptionalParams,
     ) => refreshSecret(context, resourceGroupName, serviceName, namedValueId, options),
+    beginRefreshSecret: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueRefreshSecretOptionalParams,
+    ) => {
+      const poller = refreshSecret(context, resourceGroupName, serviceName, namedValueId, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRefreshSecretAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      options?: NamedValueRefreshSecretOptionalParams,
+    ) => {
+      return await refreshSecret(context, resourceGroupName, serviceName, namedValueId, options);
+    },
     listValue: (
       resourceGroupName: string,
       serviceName: string,
@@ -129,6 +196,44 @@ function _getNamedValue(context: ApiManagementContext) {
       options?: NamedValueUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, serviceName, namedValueId, ifMatch, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: NamedValueUpdateOptionalParams,
+    ) => {
+      const poller = update(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        ifMatch,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      ifMatch: string,
+      parameters: NamedValueUpdateParameters,
+      options?: NamedValueUpdateOptionalParams,
+    ) => {
+      return await update(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        ifMatch,
+        parameters,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       serviceName: string,
@@ -136,6 +241,40 @@ function _getNamedValue(context: ApiManagementContext) {
       parameters: NamedValueCreateContract,
       options?: NamedValueCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, serviceName, namedValueId, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: NamedValueCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      namedValueId: string,
+      parameters: NamedValueCreateContract,
+      options?: NamedValueCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

@@ -10,6 +10,7 @@ import {
 } from "../../api/deletedServices/options.js";
 import { DeletedServiceContract } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeletedServices operations. */
@@ -24,6 +25,18 @@ export interface DeletedServicesOperations {
     serviceName: string,
     options?: DeletedServicesPurgeOptionalParams,
   ) => PollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>;
+  /** @deprecated use purge instead */
+  beginPurge: (
+    location: string,
+    serviceName: string,
+    options?: DeletedServicesPurgeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DeletedServiceContract>, DeletedServiceContract>>;
+  /** @deprecated use purge instead */
+  beginPurgeAndWait: (
+    location: string,
+    serviceName: string,
+    options?: DeletedServicesPurgeOptionalParams,
+  ) => Promise<DeletedServiceContract>;
   /** Get soft-deleted Api Management Service by name. */
   getByName: (
     location: string,
@@ -38,6 +51,22 @@ function _getDeletedServices(context: ApiManagementContext) {
       listBySubscription(context, options),
     purge: (location: string, serviceName: string, options?: DeletedServicesPurgeOptionalParams) =>
       purge(context, location, serviceName, options),
+    beginPurge: async (
+      location: string,
+      serviceName: string,
+      options?: DeletedServicesPurgeOptionalParams,
+    ) => {
+      const poller = purge(context, location, serviceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPurgeAndWait: async (
+      location: string,
+      serviceName: string,
+      options?: DeletedServicesPurgeOptionalParams,
+    ) => {
+      return await purge(context, location, serviceName, options);
+    },
     getByName: (
       location: string,
       serviceName: string,

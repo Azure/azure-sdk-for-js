@@ -20,6 +20,7 @@ import {
 } from "../../api/workspacePolicyFragment/options.js";
 import { PolicyFragmentContract, ResourceCollection } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspacePolicyFragment operations. */
@@ -57,6 +58,24 @@ export interface WorkspacePolicyFragmentOperations {
     parameters: PolicyFragmentContract,
     options?: WorkspacePolicyFragmentCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<PolicyFragmentContract>, PolicyFragmentContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    id: string,
+    parameters: PolicyFragmentContract,
+    options?: WorkspacePolicyFragmentCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<PolicyFragmentContract>, PolicyFragmentContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    id: string,
+    parameters: PolicyFragmentContract,
+    options?: WorkspacePolicyFragmentCreateOrUpdateOptionalParams,
+  ) => Promise<PolicyFragmentContract>;
   /** Gets the entity state (Etag) version of a policy fragment. */
   getEntityTag: (
     resourceGroupName: string,
@@ -107,6 +126,44 @@ function _getWorkspacePolicyFragment(context: ApiManagementContext) {
       options?: WorkspacePolicyFragmentCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, resourceGroupName, serviceName, workspaceId, id, parameters, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      id: string,
+      parameters: PolicyFragmentContract,
+      options?: WorkspacePolicyFragmentCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        id,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      id: string,
+      parameters: PolicyFragmentContract,
+      options?: WorkspacePolicyFragmentCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        id,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

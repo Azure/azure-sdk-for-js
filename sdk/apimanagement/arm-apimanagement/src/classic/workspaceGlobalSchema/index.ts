@@ -18,6 +18,7 @@ import {
 } from "../../api/workspaceGlobalSchema/options.js";
 import { GlobalSchemaContract } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspaceGlobalSchema operations. */
@@ -47,6 +48,24 @@ export interface WorkspaceGlobalSchemaOperations {
     parameters: GlobalSchemaContract,
     options?: WorkspaceGlobalSchemaCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<GlobalSchemaContract>, GlobalSchemaContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: WorkspaceGlobalSchemaCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<GlobalSchemaContract>, GlobalSchemaContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: WorkspaceGlobalSchemaCreateOrUpdateOptionalParams,
+  ) => Promise<GlobalSchemaContract>;
   /** Gets the entity state (Etag) version of the Schema specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -98,6 +117,44 @@ function _getWorkspaceGlobalSchema(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      schemaId: string,
+      parameters: GlobalSchemaContract,
+      options?: WorkspaceGlobalSchemaCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        schemaId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      schemaId: string,
+      parameters: GlobalSchemaContract,
+      options?: WorkspaceGlobalSchemaCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        schemaId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

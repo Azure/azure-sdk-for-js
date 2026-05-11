@@ -18,6 +18,7 @@ import {
 } from "../../api/apiGatewayHostnameBinding/options.js";
 import { GatewayHostnameBindingResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApiGatewayHostnameBinding operations. */
@@ -29,6 +30,20 @@ export interface ApiGatewayHostnameBindingOperations {
     hostnameBindingName: string,
     options?: ApiGatewayHostnameBindingRefreshSecretOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecret: (
+    resourceGroupName: string,
+    gatewayName: string,
+    hostnameBindingName: string,
+    options?: ApiGatewayHostnameBindingRefreshSecretOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use refreshSecret instead */
+  beginRefreshSecretAndWait: (
+    resourceGroupName: string,
+    gatewayName: string,
+    hostnameBindingName: string,
+    options?: ApiGatewayHostnameBindingRefreshSecretOptionalParams,
+  ) => Promise<void>;
   /** List all API Management gateway hostname bindings within a gateway. */
   listByGateway: (
     resourceGroupName: string,
@@ -43,6 +58,22 @@ export interface ApiGatewayHostnameBindingOperations {
     ifMatch: string,
     options?: ApiGatewayHostnameBindingDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    gatewayName: string,
+    hostnameBindingName: string,
+    ifMatch: string,
+    options?: ApiGatewayHostnameBindingDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    gatewayName: string,
+    hostnameBindingName: string,
+    ifMatch: string,
+    options?: ApiGatewayHostnameBindingDeleteOptionalParams,
+  ) => Promise<void>;
   /** Creates or updates an API Management gateway hostname binding. This is long running operation and could take several minutes to complete. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -51,6 +82,24 @@ export interface ApiGatewayHostnameBindingOperations {
     parameters: GatewayHostnameBindingResource,
     options?: ApiGatewayHostnameBindingCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<GatewayHostnameBindingResource>, GatewayHostnameBindingResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    gatewayName: string,
+    hostnameBindingName: string,
+    parameters: GatewayHostnameBindingResource,
+    options?: ApiGatewayHostnameBindingCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<GatewayHostnameBindingResource>, GatewayHostnameBindingResource>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    gatewayName: string,
+    hostnameBindingName: string,
+    parameters: GatewayHostnameBindingResource,
+    options?: ApiGatewayHostnameBindingCreateOrUpdateOptionalParams,
+  ) => Promise<GatewayHostnameBindingResource>;
   /** Gets an API Management gateway hostname binding resource description. */
   get: (
     resourceGroupName: string,
@@ -68,6 +117,36 @@ function _getApiGatewayHostnameBinding(context: ApiManagementContext) {
       hostnameBindingName: string,
       options?: ApiGatewayHostnameBindingRefreshSecretOptionalParams,
     ) => refreshSecret(context, resourceGroupName, gatewayName, hostnameBindingName, options),
+    beginRefreshSecret: async (
+      resourceGroupName: string,
+      gatewayName: string,
+      hostnameBindingName: string,
+      options?: ApiGatewayHostnameBindingRefreshSecretOptionalParams,
+    ) => {
+      const poller = refreshSecret(
+        context,
+        resourceGroupName,
+        gatewayName,
+        hostnameBindingName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRefreshSecretAndWait: async (
+      resourceGroupName: string,
+      gatewayName: string,
+      hostnameBindingName: string,
+      options?: ApiGatewayHostnameBindingRefreshSecretOptionalParams,
+    ) => {
+      return await refreshSecret(
+        context,
+        resourceGroupName,
+        gatewayName,
+        hostnameBindingName,
+        options,
+      );
+    },
     listByGateway: (
       resourceGroupName: string,
       gatewayName: string,
@@ -80,6 +159,40 @@ function _getApiGatewayHostnameBinding(context: ApiManagementContext) {
       ifMatch: string,
       options?: ApiGatewayHostnameBindingDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, gatewayName, hostnameBindingName, ifMatch, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      gatewayName: string,
+      hostnameBindingName: string,
+      ifMatch: string,
+      options?: ApiGatewayHostnameBindingDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        gatewayName,
+        hostnameBindingName,
+        ifMatch,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      gatewayName: string,
+      hostnameBindingName: string,
+      ifMatch: string,
+      options?: ApiGatewayHostnameBindingDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        gatewayName,
+        hostnameBindingName,
+        ifMatch,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       gatewayName: string,
@@ -95,6 +208,40 @@ function _getApiGatewayHostnameBinding(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      gatewayName: string,
+      hostnameBindingName: string,
+      parameters: GatewayHostnameBindingResource,
+      options?: ApiGatewayHostnameBindingCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        gatewayName,
+        hostnameBindingName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      gatewayName: string,
+      hostnameBindingName: string,
+      parameters: GatewayHostnameBindingResource,
+      options?: ApiGatewayHostnameBindingCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        gatewayName,
+        hostnameBindingName,
+        parameters,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       gatewayName: string,

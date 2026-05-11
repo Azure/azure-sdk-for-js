@@ -31,6 +31,7 @@ import {
   UserTokenResult,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a User operations. */
@@ -64,6 +65,22 @@ export interface UserOperations {
     ifMatch: string,
     options?: UserDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the details of the user specified by its identifier. */
   update: (
     resourceGroupName: string,
@@ -124,6 +141,26 @@ function _getUser(context: ApiManagementContext) {
       ifMatch: string,
       options?: UserDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, serviceName, userId, ifMatch, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      serviceName: string,
+      userId: string,
+      ifMatch: string,
+      options?: UserDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, serviceName, userId, ifMatch, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      userId: string,
+      ifMatch: string,
+      options?: UserDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, serviceName, userId, ifMatch, options);
+    },
     update: (
       resourceGroupName: string,
       serviceName: string,

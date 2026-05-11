@@ -18,6 +18,7 @@ import {
 } from "../../api/workspaceApiSchema/options.js";
 import { SchemaContract } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspaceApiSchema operations. */
@@ -50,6 +51,26 @@ export interface WorkspaceApiSchemaOperations {
     parameters: SchemaContract,
     options?: WorkspaceApiSchemaCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<SchemaContract>, SchemaContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    apiId: string,
+    schemaId: string,
+    parameters: SchemaContract,
+    options?: WorkspaceApiSchemaCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SchemaContract>, SchemaContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    apiId: string,
+    schemaId: string,
+    parameters: SchemaContract,
+    options?: WorkspaceApiSchemaCreateOrUpdateOptionalParams,
+  ) => Promise<SchemaContract>;
   /** Gets the entity state (Etag) version of the schema specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -117,6 +138,48 @@ function _getWorkspaceApiSchema(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      apiId: string,
+      schemaId: string,
+      parameters: SchemaContract,
+      options?: WorkspaceApiSchemaCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        apiId,
+        schemaId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      apiId: string,
+      schemaId: string,
+      parameters: SchemaContract,
+      options?: WorkspaceApiSchemaCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        apiId,
+        schemaId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

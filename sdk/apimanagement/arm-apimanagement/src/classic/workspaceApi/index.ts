@@ -20,6 +20,7 @@ import {
 } from "../../api/workspaceApi/options.js";
 import { ApiContract, ApiCreateOrUpdateParameter, ApiUpdateContract } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspaceApi operations. */
@@ -59,6 +60,24 @@ export interface WorkspaceApiOperations {
     parameters: ApiCreateOrUpdateParameter,
     options?: WorkspaceApiCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ApiContract>, ApiContract>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    apiId: string,
+    parameters: ApiCreateOrUpdateParameter,
+    options?: WorkspaceApiCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ApiContract>, ApiContract>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceId: string,
+    apiId: string,
+    parameters: ApiCreateOrUpdateParameter,
+    options?: WorkspaceApiCreateOrUpdateOptionalParams,
+  ) => Promise<ApiContract>;
   /** Gets the entity state (Etag) version of the API specified by its identifier. */
   getEntityTag: (
     resourceGroupName: string,
@@ -129,6 +148,44 @@ function _getWorkspaceApi(context: ApiManagementContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      apiId: string,
+      parameters: ApiCreateOrUpdateParameter,
+      options?: WorkspaceApiCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        apiId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      serviceName: string,
+      workspaceId: string,
+      apiId: string,
+      parameters: ApiCreateOrUpdateParameter,
+      options?: WorkspaceApiCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        serviceName,
+        workspaceId,
+        apiId,
+        parameters,
+        options,
+      );
+    },
     getEntityTag: (
       resourceGroupName: string,
       serviceName: string,

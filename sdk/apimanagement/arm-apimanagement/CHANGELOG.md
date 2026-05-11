@@ -20,6 +20,8 @@ Compared with version 10.0.0
   - Added operation ApiGatewayConfigConnectionOperations.delete
   - Added operation ApiManagementServiceOperations.applyNetworkConfigurationUpdates
   - Added operation ApiManagementServiceOperations.backup
+  - Added operation ApiManagementServiceOperations.beginRefreshHostnames
+  - Added operation ApiManagementServiceOperations.beginRefreshHostnamesAndWait
   - Added operation ApiManagementServiceOperations.createOrUpdate
   - Added operation ApiManagementServiceOperations.delete
   - Added operation ApiManagementServiceOperations.migrateToStv2
@@ -162,6 +164,7 @@ Compared with version 10.0.0
   - Added Interface SaveConfigurationParameterProperties
   - Added Interface SchemaContractProperties
   - Added Interface SchemaDocumentProperties
+  - Added Interface SimplePollerLike
   - Added Interface SubscriptionContractProperties
   - Added Interface SubscriptionCreateParameterProperties
   - Added Interface SubscriptionUpdateParameterProperties
@@ -349,85 +352,14 @@ Compared with version 10.0.0
   - Enum KnownSoapApiType has a new value MCP
 
 ### Breaking Changes
-  - Removed operation Api.beginCreateOrUpdate
-  - Removed operation Api.beginCreateOrUpdateAndWait
-  - Removed operation Api.beginDelete
-  - Removed operation Api.beginDeleteAndWait
-  - Removed operation ApiGateway.beginCreateOrUpdate
-  - Removed operation ApiGateway.beginCreateOrUpdateAndWait
-  - Removed operation ApiGateway.beginDelete
-  - Removed operation ApiGateway.beginDeleteAndWait
-  - Removed operation ApiGateway.beginUpdate
-  - Removed operation ApiGateway.beginUpdateAndWait
-  - Removed operation ApiGatewayConfigConnection.beginCreateOrUpdate
-  - Removed operation ApiGatewayConfigConnection.beginCreateOrUpdateAndWait
-  - Removed operation ApiGatewayConfigConnection.beginDelete
-  - Removed operation ApiGatewayConfigConnection.beginDeleteAndWait
-  - Removed operation ApiManagementService.beginApplyNetworkConfigurationUpdates
-  - Removed operation ApiManagementService.beginApplyNetworkConfigurationUpdatesAndWait
-  - Removed operation ApiManagementService.beginBackup
-  - Removed operation ApiManagementService.beginBackupAndWait
-  - Removed operation ApiManagementService.beginCreateOrUpdate
-  - Removed operation ApiManagementService.beginCreateOrUpdateAndWait
-  - Removed operation ApiManagementService.beginDelete
-  - Removed operation ApiManagementService.beginDeleteAndWait
-  - Removed operation ApiManagementService.beginMigrateToStv2
-  - Removed operation ApiManagementService.beginMigrateToStv2AndWait
-  - Removed operation ApiManagementService.beginRestore
-  - Removed operation ApiManagementService.beginRestoreAndWait
-  - Removed operation ApiManagementService.beginUpdate
-  - Removed operation ApiManagementService.beginUpdateAndWait
-  - Removed operation ApiSchema.beginCreateOrUpdate
-  - Removed operation ApiSchema.beginCreateOrUpdateAndWait
-  - Removed operation DeletedServices.beginPurge
-  - Removed operation DeletedServices.beginPurgeAndWait
-  - Removed operation GlobalSchema.beginCreateOrUpdate
-  - Removed operation GlobalSchema.beginCreateOrUpdateAndWait
-  - Removed operation NamedValue.beginCreateOrUpdate
-  - Removed operation NamedValue.beginCreateOrUpdateAndWait
-  - Removed operation NamedValue.beginRefreshSecret
-  - Removed operation NamedValue.beginRefreshSecretAndWait
-  - Removed operation NamedValue.beginUpdate
-  - Removed operation NamedValue.beginUpdateAndWait
-  - Removed operation PolicyFragment.beginCreateOrUpdate
-  - Removed operation PolicyFragment.beginCreateOrUpdateAndWait
-  - Removed operation PolicyRestrictionValidations.beginByService
-  - Removed operation PolicyRestrictionValidations.beginByServiceAndWait
-  - Removed operation PortalRevision.beginCreateOrUpdate
-  - Removed operation PortalRevision.beginCreateOrUpdateAndWait
-  - Removed operation PortalRevision.beginUpdate
-  - Removed operation PortalRevision.beginUpdateAndWait
-  - Removed operation PrivateEndpointConnection.beginCreateOrUpdate
-  - Removed operation PrivateEndpointConnection.beginCreateOrUpdateAndWait
-  - Removed operation PrivateEndpointConnection.beginDelete
-  - Removed operation PrivateEndpointConnection.beginDeleteAndWait
-  - Removed operation TenantConfiguration.beginDeploy
-  - Removed operation TenantConfiguration.beginDeployAndWait
-  - Removed operation TenantConfiguration.beginSave
-  - Removed operation TenantConfiguration.beginSaveAndWait
-  - Removed operation TenantConfiguration.beginValidate
-  - Removed operation TenantConfiguration.beginValidateAndWait
-  - Removed operation User.beginDelete
-  - Removed operation User.beginDeleteAndWait
-  - Removed operation WorkspaceApi.beginCreateOrUpdate
-  - Removed operation WorkspaceApi.beginCreateOrUpdateAndWait
-  - Removed operation WorkspaceApiSchema.beginCreateOrUpdate
-  - Removed operation WorkspaceApiSchema.beginCreateOrUpdateAndWait
-  - Removed operation WorkspaceGlobalSchema.beginCreateOrUpdate
-  - Removed operation WorkspaceGlobalSchema.beginCreateOrUpdateAndWait
-  - Removed operation WorkspaceNamedValue.beginCreateOrUpdate
-  - Removed operation WorkspaceNamedValue.beginCreateOrUpdateAndWait
-  - Removed operation WorkspaceNamedValue.beginRefreshSecret
-  - Removed operation WorkspaceNamedValue.beginRefreshSecretAndWait
-  - Removed operation WorkspaceNamedValue.beginUpdate
-  - Removed operation WorkspaceNamedValue.beginUpdateAndWait
-  - Removed operation WorkspacePolicyFragment.beginCreateOrUpdate
-  - Removed operation WorkspacePolicyFragment.beginCreateOrUpdateAndWait
+  - Operation Api.beginDeleteAndWait has a new signature
   - Operation Api.getEntityTag has a new signature
   - Operation ApiDiagnostic.getEntityTag has a new signature
+  - Operation ApiGatewayConfigConnection.beginDeleteAndWait has a new signature
   - Operation ApiIssue.getEntityTag has a new signature
   - Operation ApiIssueAttachment.getEntityTag has a new signature
   - Operation ApiIssueComment.getEntityTag has a new signature
+  - Operation ApiManagementService.beginDeleteAndWait has a new signature
   - Operation ApiOperation.getEntityTag has a new signature
   - Operation ApiOperationPolicy.getEntityTag has a new signature
   - Operation ApiPolicy.getEntityTag has a new signature
@@ -442,6 +374,7 @@ Compared with version 10.0.0
   - Operation Certificate.getEntityTag has a new signature
   - Operation ContentItem.getEntityTag has a new signature
   - Operation DelegationSettings.getEntityTag has a new signature
+  - Operation DeletedServices.beginPurgeAndWait has a new signature
   - Operation Diagnostic.getEntityTag has a new signature
   - Operation Documentation.getEntityTag has a new signature
   - Operation EmailTemplate.getEntityTag has a new signature
@@ -479,6 +412,7 @@ Compared with version 10.0.0
   - Operation Tag.getEntityStateByOperation has a new signature
   - Operation Tag.getEntityStateByProduct has a new signature
   - Operation TenantAccess.getEntityTag has a new signature
+  - Operation User.beginDeleteAndWait has a new signature
   - Operation User.getEntityTag has a new signature
   - Operation Workspace.getEntityTag has a new signature
   - Operation WorkspaceApi.getEntityTag has a new signature
