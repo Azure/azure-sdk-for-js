@@ -48,5 +48,10 @@
   "vitest.experimentalStaticAstCollect": true,
   "vitest.configSearchPatternExclude": "{**/node_modules/**,**/.*/**,**/*.d.ts,eng/**,samples/**}",
   "vitest.nodeEnv": {},
-  "azure-pipelines.1ESPipelineTemplatesSchemaFile": true
+  "azure-pipelines.1ESPipelineTemplatesSchemaFile": true,
+  "git.scanRepositories": [
+    ".assets"
+  ],
+  "git.repositoryScanMaxDepth": 2,
+  "devtool.managedScanMaxDepth": true
 }
