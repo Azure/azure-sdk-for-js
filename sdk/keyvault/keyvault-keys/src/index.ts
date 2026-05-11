@@ -1140,10 +1140,16 @@ export class KeyClient {
       async (updatedOptions): Promise<SecureKeyOperationResult> => {
         const { version, ...rest } = updatedOptions;
         const result = await this.client.secureWrapKey(name, version, { algorithm }, rest);
+        if (!result.kid) {
+          throw new Error("Secure wrap key response did not include a key identifier (kid).");
+        }
+        if (!result.result) {
+          throw new Error("Secure wrap key response did not include a wrapped key value.");
+        }
         return {
-          keyID: result.kid ?? "",
+          keyID: result.kid,
           algorithm: algorithm,
-          result: result.result ?? new Uint8Array(),
+          result: result.result,
         };
       },
     );
@@ -1204,10 +1210,16 @@ export class KeyClient {
           { algorithm, value, targetAttestationToken },
           rest,
         );
+        if (!result.kid) {
+          throw new Error("Secure unwrap key response did not include a key identifier (kid).");
+        }
+        if (!result.result) {
+          throw new Error("Secure unwrap key response did not include an unwrapped key value.");
+        }
         return {
-          keyID: result.kid ?? "",
+          keyID: result.kid,
           algorithm: algorithm,
-          result: result.result ?? new Uint8Array(),
+          result: result.result,
         };
       },
     );

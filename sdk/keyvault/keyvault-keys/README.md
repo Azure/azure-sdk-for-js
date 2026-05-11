@@ -510,7 +510,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = `https://${vaultName}.managedhsm.azure.net`;
 
 const client = new KeyClient(url, credential);
 
@@ -528,7 +528,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const url = `https://${vaultName}.managedhsm.azure.net`;
 
 const client = new KeyClient(url, credential);
 
