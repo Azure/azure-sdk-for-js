@@ -3202,6 +3202,20 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
+   * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentMD5?: Uint8Array;
+  /**
+   * A CRC64 hash of the content. This hash is used to verify the integrity of the content during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentCrc64?: Uint8Array;
+  /**
    * Optional. Indicates if a legal hold should be placed on the blob.
    * Note that is parameter is only applicable to a blob within a container that
    * has version level worm enabled.
