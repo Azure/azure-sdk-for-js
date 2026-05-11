@@ -34,7 +34,7 @@ Before starting the migration, ensure you have:
 Install the TypeSpec client generator CLI globally:
 
 ```bash
-npm install -g @azure-tools/typespec-client-generator-cli
+pnpm install -g @azure-tools/typespec-client-generator-cli
 ```
 
 For more information on tsp-client, see the [TypeSpec Client Generator CLI documentation](https://aka.ms/azsdk/tsp-client)
@@ -140,7 +140,7 @@ Run the TypeSpec client generation:
 
 ```bash
 cd sdk/your-service/your-package
-npm run generate:client
+pnpm run generate:client
 ```
 
 ### Step 7: Apply Customizations
@@ -237,7 +237,7 @@ Delete the following files that are no longer needed:
 1. **Generate and apply customizations:**
 
    ```bash
-   npm run generate:client
+   pnpm run generate:client
    ```
 
 2. **Build the package:**
@@ -268,7 +268,7 @@ Delete the following files that are no longer needed:
 After migration, your development workflow becomes:
 
 1. **Update TypeSpec definitions** in azure-rest-api-specs
-2. **Generate new code:** `npm run generate:client`
+2. **Generate new code:** `pnpm run generate:client`
 3. **Build and test:** `pnpm build && pnpm test`
 
 ### Version Management
