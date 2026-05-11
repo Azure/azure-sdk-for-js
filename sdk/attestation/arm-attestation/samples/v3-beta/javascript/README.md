@@ -1,4 +1,4 @@
-# @azure/arm-attestation client library samples for JavaScript
+# @azure/arm-attestation client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-attestation in some common scenarios.
 
@@ -57,20 +57,20 @@ node attestationProvidersCreateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[attestationproviderscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersCreateSample.js
-[attestationprovidersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersDeleteSample.js
-[attestationprovidersgetdefaultbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersGetDefaultByLocationSample.js
-[attestationprovidersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersGetSample.js
-[attestationproviderslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersListByResourceGroupSample.js
-[attestationproviderslistdefaultsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersListDefaultSample.js
-[attestationproviderslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersListSample.js
-[attestationprovidersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/attestationProvidersUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/operationsListSample.js
-[privateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/privateEndpointConnectionsCreateSample.js
-[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/privateEndpointConnectionsDeleteSample.js
-[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/privateEndpointConnectionsGetSample.js
-[privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/privateEndpointConnectionsListSample.js
-[privatelinkresourceslistbyprovidersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3/javascript/privateLinkResourcesListByProviderSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-attestation
+[attestationproviderscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersCreateSample.js
+[attestationprovidersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersDeleteSample.js
+[attestationprovidersgetdefaultbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersGetDefaultByLocationSample.js
+[attestationprovidersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersGetSample.js
+[attestationproviderslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersListByResourceGroupSample.js
+[attestationproviderslistdefaultsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersListDefaultSample.js
+[attestationproviderslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersListSample.js
+[attestationprovidersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/attestationProvidersUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/operationsListSample.js
+[privateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/privateEndpointConnectionsCreateSample.js
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/privateEndpointConnectionsDeleteSample.js
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/privateEndpointConnectionsGetSample.js
+[privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/privateEndpointConnectionsListSample.js
+[privatelinkresourceslistbyprovidersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/attestation/arm-attestation/samples/v3-beta/javascript/privateLinkResourcesListByProviderSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-attestation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/arm-attestation/README.md

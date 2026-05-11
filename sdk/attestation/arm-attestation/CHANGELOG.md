@@ -1,6 +1,7 @@
 # Release History
 
-## 3.0.0 (2026-05-11)
+## 3.0.0-beta.1 (2026-05-11)
+Compared with version 2.1.0
 
 ### Features Added
   - Added operation group PrivateLinkResourcesOperations
