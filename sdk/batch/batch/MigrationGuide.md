@@ -382,7 +382,7 @@ const poolParams: BatchPoolCreateOptions = {
   id: "<pool-name>",
   vmSize: "Standard_D1_v2",
   virtualMachineConfiguration: {
-    nodeAgentSKUId: "batch.node.windows amd64",
+    nodeAgentSkuId: "batch.node.windows amd64",
     imageReference: {
       publisher: "microsoftwindowsserver",
       offer: "windowsserver",

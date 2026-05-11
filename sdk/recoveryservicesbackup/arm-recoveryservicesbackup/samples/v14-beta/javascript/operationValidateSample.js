@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validate operation for specified backed up item. This is a synchronous operation.
  *
  * @summary validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ValidateOperation_RestoreDisk.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ValidateOperation_RestoreDisk.json
  */
 async function validateOperation() {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function validateOperation() {
  * This sample demonstrates how to validate operation for specified backed up item. This is a synchronous operation.
  *
  * @summary validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
  */
 async function validateOperationWithIdentityBasedRestoreDetails() {
   const credential = new DefaultAzureCredential();

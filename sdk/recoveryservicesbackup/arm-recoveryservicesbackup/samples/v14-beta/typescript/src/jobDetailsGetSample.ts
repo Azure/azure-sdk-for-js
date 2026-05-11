@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets extended information associated with the job.
  *
  * @summary gets extended information associated with the job.
- * x-ms-original-file: 2026-01-01-preview/Common/GetJobDetails.json
+ * x-ms-original-file: 2026-01-31-preview/Common/GetJobDetails.json
  */
 async function getJobDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
