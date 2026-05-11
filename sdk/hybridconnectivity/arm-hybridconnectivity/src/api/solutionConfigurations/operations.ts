@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
   OperationStatusResult,
-  operationStatusResultDeserializer,
   SolutionConfiguration,
-  solutionConfigurationSerializer,
-  solutionConfigurationDeserializer,
   SolutionConfigurationUpdate,
-  solutionConfigurationUpdateSerializer,
   _SolutionConfigurationListResult,
-  _solutionConfigurationListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  operationStatusResultDeserializer,
+  solutionConfigurationSerializer,
+  solutionConfigurationDeserializer,
+  solutionConfigurationUpdateSerializer,
+  _solutionConfigurationListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
   SolutionConfigurationsDeleteOptionalParams,
@@ -28,13 +28,9 @@ import {
   SolutionConfigurationsCreateOrUpdateOptionalParams,
   SolutionConfigurationsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _syncNowSend(
   context: Client,
@@ -47,7 +43,7 @@ export function _syncNowSend(
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,20 +51,18 @@ export function _syncNowSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _syncNowDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationStatusResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -82,11 +76,12 @@ export function syncNow(
   solutionConfiguration: string,
   options: SolutionConfigurationsSyncNowOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(context, _syncNowDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _syncNowDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _syncNowSend(context, resourceUri, solutionConfiguration, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-12-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -99,7 +94,7 @@ export function _listSend(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,10 +102,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -121,6 +113,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -138,7 +131,7 @@ export function list(
     () => _listSend(context, resourceUri, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-12-01" },
   );
 }
 
@@ -153,19 +146,13 @@ export function _$deleteSend(
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -173,6 +160,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -180,11 +168,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a SolutionConfiguration */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceUri: string,
@@ -207,7 +190,7 @@ export function _updateSend(
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,10 +199,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: solutionConfigurationUpdateSerializer(properties),
   });
 }
@@ -231,6 +211,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -260,16 +241,14 @@ export function _createOrUpdateSend(
   resourceUri: string,
   solutionConfiguration: string,
   resource: SolutionConfiguration,
-  options: SolutionConfigurationsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SolutionConfigurationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,10 +257,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: solutionConfigurationSerializer(resource),
   });
 }
@@ -293,6 +269,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -305,9 +282,7 @@ export async function createOrUpdate(
   resourceUri: string,
   solutionConfiguration: string,
   resource: SolutionConfiguration,
-  options: SolutionConfigurationsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SolutionConfigurationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SolutionConfiguration> {
   const result = await _createOrUpdateSend(
     context,
@@ -330,7 +305,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,10 +313,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -352,6 +324,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

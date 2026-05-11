@@ -631,7 +631,7 @@
 # PRLabel: %Mgmt
 /sdk/hybridcontainerservice/arm-hybridcontainerservice/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

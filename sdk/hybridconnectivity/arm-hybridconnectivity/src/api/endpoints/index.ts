@@ -11,13 +11,13 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type EndpointsListManagedProxyDetailsOptionalParams,
-  type EndpointsListIngressGatewayCredentialsOptionalParams,
-  type EndpointsListCredentialsOptionalParams,
-  type EndpointsListOptionalParams,
-  type EndpointsDeleteOptionalParams,
-  type EndpointsUpdateOptionalParams,
-  type EndpointsCreateOrUpdateOptionalParams,
-  type EndpointsGetOptionalParams,
+export type {
+  EndpointsListManagedProxyDetailsOptionalParams,
+  EndpointsListIngressGatewayCredentialsOptionalParams,
+  EndpointsListCredentialsOptionalParams,
+  EndpointsListOptionalParams,
+  EndpointsDeleteOptionalParams,
+  EndpointsUpdateOptionalParams,
+  EndpointsCreateOrUpdateOptionalParams,
+  EndpointsGetOptionalParams,
 } from "./options.js";
