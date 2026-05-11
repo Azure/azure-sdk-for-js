@@ -249,12 +249,20 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
 }
 
 function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
-  let measurements: Measurements = {};
+  const measurements: Measurements = {};
   const body = log.body;
   if (body && typeof body === "object" && !Array.isArray(body) && "measurements" in body) {
     const bodyMeasurements = (body as Record<string, unknown>).measurements;
-    if (bodyMeasurements && typeof bodyMeasurements === "object") {
-      measurements = { ...(bodyMeasurements as Measurements) };
+    if (
+      bodyMeasurements &&
+      typeof bodyMeasurements === "object" &&
+      !Array.isArray(bodyMeasurements)
+    ) {
+      for (const [key, value] of Object.entries(bodyMeasurements as Record<string, unknown>)) {
+        if (typeof value === "number" && Number.isFinite(value)) {
+          measurements[key] = value;
+        }
+      }
     }
   }
   return measurements;
