@@ -673,6 +673,36 @@ export function keyOperationsParametersSerializer(item: KeyOperationsParameters)
   };
 }
 
+/** The secure key wrap operation parameters. */
+export interface SecureKeyWrapParameters {
+  /** algorithm identifier */
+  algorithm: string;
+}
+
+export function secureKeyWrapParametersSerializer(item: SecureKeyWrapParameters): any {
+  return {
+    alg: item["algorithm"],
+  };
+}
+
+/** The secure key unwrap operation parameters. */
+export interface SecureKeyUnwrapParameters {
+  /** algorithm identifier */
+  algorithm: string;
+  /** The wrapped key to unwrap. */
+  value: Uint8Array;
+  /** The attestation assertion for the target of the key release. */
+  targetAttestationToken: string;
+}
+
+export function secureKeyUnwrapParametersSerializer(item: SecureKeyUnwrapParameters): any {
+  return {
+    alg: item["algorithm"],
+    value: uint8ArrayToString(item["value"], "base64url"),
+    target: item["targetAttestationToken"],
+  };
+}
+
 /** An algorithm used for encryption and decryption. */
 export enum KnownJsonWebKeyEncryptionAlgorithm {
   /** [Not recommended] RSAES using Optimal Asymmetric Encryption Padding (OAEP), as described in https://tools.ietf.org/html/rfc3447, with the default parameters specified by RFC 3447 in Section A.2.1. Those default parameters are using a hash function of SHA-1 and a mask generation function of MGF1 with SHA-1. Microsoft recommends using RSA_OAEP_256 or stronger algorithms for enhanced security. Microsoft does *not* recommend RSA_OAEP, which is included solely for backwards compatibility. RSA_OAEP utilizes SHA1, which has known collision problems. */
