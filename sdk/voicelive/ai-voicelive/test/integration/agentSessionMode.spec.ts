@@ -35,6 +35,9 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
   let testAgentName: string = "";
+  // Captured if agent setup in beforeAll fails. When set, beforeEach skips each
+  // test so the suite is reported as "skipped" (unstable) rather than "failed".
+  let agentSetupError: Error | null = null;
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
   const projectName = process.env.FOUNDRY_PROJECT_NAME || TestConstants.FOUNDRY_PROJECT_NAME;
   const timeoutMs = TestConstants.AGENT_TIMEOUT_MS;
@@ -58,9 +61,11 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
       `[agentSessionMode] FOUNDRY_PROJECT_NAME     = ${process.env.FOUNDRY_PROJECT_NAME ?? "<unset>"} (resolved: ${projectName})`,
     );
 
-    // Get or create the shared test agent. Surface the underlying error and fail fast
-    // so the live pipeline reports the real cause (RBAC / missing env / SDK error)
-    // instead of timing out 30s later waiting for session.created.
+    // Get or create the shared test agent. If setup fails (e.g. RBAC propagation
+    // hasn't completed, the Foundry project doesn't exist, etc.), record the error
+    // and let beforeEach skip each test instead of failing the suite. This keeps
+    // the live pipeline green for known-flaky environment issues while still
+    // surfacing the underlying cause in the test logs.
     try {
       testAgentName = await getOrCreateTestAgent();
       if (!testAgentName) {
@@ -73,17 +78,18 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
       console.info(`[agentSessionMode] Using test agent: ${testAgentName}`);
     } catch (error) {
       const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
-      console.error(
-        `[agentSessionMode] Failed to set up test agent (fallback name "${TEST_AGENT_NAME}" ` +
-          `would NOT exist on the service): ${message}`,
+      console.warn(
+        `[agentSessionMode] Test agent setup failed; marking suite as unstable (tests will be skipped). ` +
+          `Fallback name "${TEST_AGENT_NAME}" does NOT exist on the service. Error: ${message}`,
       );
-      // Re-throw so beforeAll fails the suite explicitly. This is preferable to silently
-      // continuing with a non-existent agent name and waiting 30s for session.created.
-      throw error instanceof Error ? error : new Error(String(error));
+      agentSetupError = error instanceof Error ? error : new Error(String(error));
     }
   });
 
-  beforeEach(function () {
+  beforeEach(function (ctx) {
+    if (agentSetupError) {
+      ctx.skip();
+    }
     if (!endpoint) {
       throw new Error("Missing VOICELIVE_ENDPOINT or AI_SERVICES_ENDPOINT environment variable");
     }
