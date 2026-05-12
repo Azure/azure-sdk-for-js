@@ -63,10 +63,6 @@
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "generated/api/keyVaultContext.ts",
-        "prefix": "userAgentInfo"
       }
     ]
   },
