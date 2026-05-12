@@ -1,12 +1,23 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
 exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./api/loadBalancers": "./src/api/loadBalancers/index.ts"
+  "./api/inboundRules": "./src/api/inboundRules/index.ts"
+  "./api/natGateways": "./src/api/natGateways/index.ts"
+  "./api/publicIPAddresses": "./src/api/publicIPAddresses/index.ts"
+  "./api/virtualNetworkSubnets": "./src/api/virtualNetworkSubnets/index.ts"
+  "./api/virtualNetworks": "./src/api/virtualNetworks/index.ts"
   "./api/guestAgents": "./src/api/guestAgents/index.ts"
   "./api/attestationStatuses": "./src/api/attestationStatuses/index.ts"
   "./api/hybridIdentityMetadata": "./src/api/hybridIdentityMetadata/index.ts"
   "./api/virtualMachineInstances": "./src/api/virtualMachineInstances/index.ts"
   "./api/virtualHardDisks": "./src/api/virtualHardDisks/index.ts"
   "./api/storageContainers": "./src/api/storageContainers/index.ts"
+  "./api/snapshots": "./src/api/snapshots/index.ts"
   "./api/securityRules": "./src/api/securityRules/index.ts"
   "./api/networkSecurityGroups": "./src/api/networkSecurityGroups/index.ts"
   "./api/networkInterfaces": "./src/api/networkInterfaces/index.ts"
@@ -14,3 +25,20 @@ exports:
   "./api/logicalNetworks": "./src/api/logicalNetworks/index.ts"
   "./api/galleryImages": "./src/api/galleryImages/index.ts"
   "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

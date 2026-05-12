@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/networkSecurityGroups/operations.js";
-import {
+import type {
   NetworkSecurityGroupsListAllOptionalParams,
   NetworkSecurityGroupsListByResourceGroupOptionalParams,
   NetworkSecurityGroupsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   NetworkSecurityGroupsCreateOrUpdateOptionalParams,
   NetworkSecurityGroupsGetOptionalParams,
 } from "../../api/networkSecurityGroups/options.js";
-import { NetworkSecurityGroup, NetworkSecurityGroupTagsUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { NetworkSecurityGroup, NetworkSecurityGroupTagsUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkSecurityGroups operations. */
 export interface NetworkSecurityGroupsOperations {
@@ -34,11 +34,6 @@ export interface NetworkSecurityGroupsOperations {
     options?: NetworkSecurityGroupsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NetworkSecurityGroup>;
   /** Deletes the specified network security group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     networkSecurityGroupName: string,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a storage container
  *
  * @summary gets a storage container
- * x-ms-original-file: 2025-06-01-preview/StorageContainers_Get.json
+ * x-ms-original-file: 2026-04-01-preview/StorageContainers_Get.json
  */
 async function getStorageContainer() {
   const credential = new DefaultAzureCredential();

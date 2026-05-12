@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The gallery images resource definition. */
 export interface GalleryImage extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -24,7 +32,9 @@ export function galleryImageSerializer(item: GalleryImage): any {
 
 export function galleryImageDeserializer(item: any): GalleryImage {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -53,8 +63,6 @@ export interface GalleryImageProperties {
   cloudInitDataSource?: CloudInitDataSource;
   /** The hypervisor generation of the Virtual Machine [V1, V2] */
   hyperVGeneration?: HyperVGeneration;
-  /** The credentials used to login to the image repository that has access to the specified image */
-  vmImageRepositoryCredentials?: VmImageRepositoryCredentials;
   /** This is the gallery image definition identifier. */
   identifier?: GalleryImageIdentifier;
   /** Specifies information about the gallery image version that you want to create or update. */
@@ -74,9 +82,6 @@ export function galleryImagePropertiesSerializer(item: GalleryImageProperties): 
     osType: item["osType"],
     cloudInitDataSource: item["cloudInitDataSource"],
     hyperVGeneration: item["hyperVGeneration"],
-    vmImageRepositoryCredentials: !item["vmImageRepositoryCredentials"]
-      ? item["vmImageRepositoryCredentials"]
-      : vmImageRepositoryCredentialsSerializer(item["vmImageRepositoryCredentials"]),
     identifier: !item["identifier"]
       ? item["identifier"]
       : galleryImageIdentifierSerializer(item["identifier"]),
@@ -92,9 +97,6 @@ export function galleryImagePropertiesDeserializer(item: any): GalleryImagePrope
     osType: item["osType"],
     cloudInitDataSource: item["cloudInitDataSource"],
     hyperVGeneration: item["hyperVGeneration"],
-    vmImageRepositoryCredentials: !item["vmImageRepositoryCredentials"]
-      ? item["vmImageRepositoryCredentials"]
-      : vmImageRepositoryCredentialsDeserializer(item["vmImageRepositoryCredentials"]),
     identifier: !item["identifier"]
       ? item["identifier"]
       : galleryImageIdentifierDeserializer(item["identifier"]),
@@ -147,6 +149,8 @@ export enum KnownHyperVGeneration {
   V1 = "V1",
   /** Generation 2 (V2) hypervisor */
   V2 = "V2",
+  /** Not applicable/determined by platform */
+  NA = "NA",
 }
 
 /**
@@ -155,28 +159,10 @@ export enum KnownHyperVGeneration {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **V1**: Generation 1 (V1) hypervisor \
- * **V2**: Generation 2 (V2) hypervisor
+ * **V2**: Generation 2 (V2) hypervisor \
+ * **NA**: Not applicable\/determined by platform
  */
 export type HyperVGeneration = string;
-
-/** The credentials used to login to the image repository that has access to the specified image */
-export interface VmImageRepositoryCredentials {
-  /** Username for accessing image repository */
-  username: string;
-  /** Password for accessing image repository */
-  password: string;
-}
-
-export function vmImageRepositoryCredentialsSerializer(item: VmImageRepositoryCredentials): any {
-  return { username: item["username"], password: item["password"] };
-}
-
-export function vmImageRepositoryCredentialsDeserializer(item: any): VmImageRepositoryCredentials {
-  return {
-    username: item["username"],
-    password: item["password"],
-  };
-}
 
 /** This is the gallery image definition identifier. */
 export interface GalleryImageIdentifier {
@@ -189,11 +175,7 @@ export interface GalleryImageIdentifier {
 }
 
 export function galleryImageIdentifierSerializer(item: GalleryImageIdentifier): any {
-  return {
-    publisher: item["publisher"],
-    offer: item["offer"],
-    sku: item["sku"],
-  };
+  return { publisher: item["publisher"], offer: item["offer"], sku: item["sku"] };
 }
 
 export function galleryImageIdentifierDeserializer(item: any): GalleryImageIdentifier {
@@ -208,25 +190,25 @@ export function galleryImageIdentifierDeserializer(item: any): GalleryImageIdent
 export interface GalleryImageVersion {
   /** This is the version of the gallery image. */
   name?: string;
-  /** Describes the properties of a gallery image version. */
-  properties?: GalleryImageVersionProperties;
+  /** This is the storage profile of a Gallery Image Version. */
+  storageProfile?: GalleryImageVersionStorageProfile;
 }
 
 export function galleryImageVersionSerializer(item: GalleryImageVersion): any {
   return {
     name: item["name"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : galleryImageVersionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["storageProfile"])
+      ? undefined
+      : _galleryImageVersionPropertiesSerializer(item),
   };
 }
 
 export function galleryImageVersionDeserializer(item: any): GalleryImageVersion {
   return {
     name: item["name"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : galleryImageVersionPropertiesDeserializer(item["properties"]),
+      : _galleryImageVersionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -237,9 +219,7 @@ export interface GalleryImageVersionProperties {
 }
 
 export function galleryImageVersionPropertiesSerializer(item: GalleryImageVersionProperties): any {
-  return {
-    storageProfile: galleryImageVersionStorageProfileSerializer(item["storageProfile"]),
-  };
+  return { storageProfile: galleryImageVersionStorageProfileSerializer(item["storageProfile"]) };
 }
 
 export function galleryImageVersionPropertiesDeserializer(
@@ -282,8 +262,8 @@ export interface GalleryOSDiskImage {
   readonly sizeInMB?: number;
 }
 
-export function galleryOSDiskImageSerializer(item: GalleryOSDiskImage): any {
-  return item;
+export function galleryOSDiskImageSerializer(_item: GalleryOSDiskImage): any {
+  return {};
 }
 
 export function galleryOSDiskImageDeserializer(item: any): GalleryOSDiskImage {
@@ -456,7 +436,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -473,8 +455,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -531,7 +513,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -666,7 +648,9 @@ export function logicalNetworkSerializer(item: LogicalNetwork): any {
 
 export function logicalNetworkDeserializer(item: any): LogicalNetwork {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -687,6 +671,8 @@ export function logicalNetworkDeserializer(item: any): LogicalNetwork {
 export interface LogicalNetworkProperties {
   /** DhcpOptions contains an array of DNS servers available to VMs deployed in the logical network. Standard DHCP option for a subnet overrides logical network DHCP options. */
   dhcpOptions?: LogicalNetworkPropertiesDhcpOptions;
+  /** Managed network fabric l2/l3 ISD for this logical network. If set empty, the logical network remains entirely local. */
+  fabricNetworkConfiguration?: ManagedNetworkFabricArmReference;
   /** Subnet - list of subnets under the logical network */
   subnets?: Subnet[];
   /** Provisioning state of the logical network. */
@@ -704,6 +690,9 @@ export function logicalNetworkPropertiesSerializer(item: LogicalNetworkPropertie
     dhcpOptions: !item["dhcpOptions"]
       ? item["dhcpOptions"]
       : logicalNetworkPropertiesDhcpOptionsSerializer(item["dhcpOptions"]),
+    fabricNetworkConfiguration: !item["fabricNetworkConfiguration"]
+      ? item["fabricNetworkConfiguration"]
+      : managedNetworkFabricArmReferenceSerializer(item["fabricNetworkConfiguration"]),
     subnets: !item["subnets"] ? item["subnets"] : subnetArraySerializer(item["subnets"]),
     vmSwitchName: item["vmSwitchName"],
   };
@@ -714,6 +703,9 @@ export function logicalNetworkPropertiesDeserializer(item: any): LogicalNetworkP
     dhcpOptions: !item["dhcpOptions"]
       ? item["dhcpOptions"]
       : logicalNetworkPropertiesDhcpOptionsDeserializer(item["dhcpOptions"]),
+    fabricNetworkConfiguration: !item["fabricNetworkConfiguration"]
+      ? item["fabricNetworkConfiguration"]
+      : managedNetworkFabricArmReferenceDeserializer(item["fabricNetworkConfiguration"]),
     subnets: !item["subnets"] ? item["subnets"] : subnetArrayDeserializer(item["subnets"]),
     provisioningState: item["provisioningState"],
     vmSwitchName: item["vmSwitchName"],
@@ -752,6 +744,26 @@ export function logicalNetworkPropertiesDhcpOptionsDeserializer(
   };
 }
 
+/** The Azure Resource ID for a Managed Network Fabric L2ISD or L3ISD internal network */
+export interface ManagedNetworkFabricArmReference {
+  /** The Azure Resource ID for a Managed Network Fabric L2ISD or L3ISD internal network */
+  resourceId?: string;
+}
+
+export function managedNetworkFabricArmReferenceSerializer(
+  item: ManagedNetworkFabricArmReference,
+): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function managedNetworkFabricArmReferenceDeserializer(
+  item: any,
+): ManagedNetworkFabricArmReference {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
 export function subnetArraySerializer(result: Array<Subnet>): any[] {
   return result.map((item) => {
     return subnetSerializer(item);
@@ -766,26 +778,51 @@ export function subnetArrayDeserializer(result: Array<Subnet>): any[] {
 
 /** Properties of the subnet. */
 export interface Subnet {
-  /** Properties of the subnet. */
-  properties?: SubnetProperties;
   /** Name - The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
+  /** The address prefix for the subnet: Cidr for this subnet - IPv4, IPv6. */
+  addressPrefix?: string;
+  /** List of address prefixes for the subnet. */
+  addressPrefixes?: string[];
+  /** IPAllocationMethod - The IP address allocation method. Possible values include: 'Static', 'Dynamic' */
+  ipAllocationMethod?: IpAllocationMethodEnum;
+  /** IPConfigurationReferences - list of IPConfigurationReferences */
+  ipConfigurationReferences?: SubnetIpConfigurationReference[];
+  /** NetworkSecurityGroup - Network Security Group attached to the logical network. */
+  networkSecurityGroup?: NetworkSecurityGroupArmReference;
+  /** Route table resource. */
+  routeTable?: RouteTable;
+  /** network associated pool of IP Addresses */
+  ipPools?: IPPool[];
+  /** Vlan to use for the subnet */
+  vlan?: number;
+  /** Provisioning state of the subnet resource. */
+  readonly provisioningState?: ProvisioningStateEnum;
 }
 
 export function subnetSerializer(item: Subnet): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : subnetPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "addressPrefix",
+      "addressPrefixes",
+      "ipAllocationMethod",
+      "ipConfigurationReferences",
+      "networkSecurityGroup",
+      "routeTable",
+      "ipPools",
+      "vlan",
+    ])
+      ? undefined
+      : _subnetPropertiesSerializer(item),
     name: item["name"],
   };
 }
 
 export function subnetDeserializer(item: any): Subnet {
   return {
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : subnetPropertiesDeserializer(item["properties"]),
+      : _subnetPropertiesDeserializer(item["properties"])),
     name: item["name"],
   };
 }
@@ -808,6 +845,8 @@ export interface SubnetProperties {
   ipPools?: IPPool[];
   /** Vlan to use for the subnet */
   vlan?: number;
+  /** Provisioning state of the subnet resource. */
+  readonly provisioningState?: ProvisioningStateEnum;
 }
 
 export function subnetPropertiesSerializer(item: SubnetProperties): any {
@@ -851,6 +890,7 @@ export function subnetPropertiesDeserializer(item: any): SubnetProperties {
       : routeTableDeserializer(item["routeTable"]),
     ipPools: !item["ipPools"] ? item["ipPools"] : ipPoolArrayDeserializer(item["ipPools"]),
     vlan: item["vlan"],
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -888,9 +928,9 @@ export function subnetIpConfigurationReferenceArrayDeserializer(
   });
 }
 
-/** The ARM ID for a Network Interface. */
+/** The Azure Resource ID for a Network Interface. */
 export interface SubnetIpConfigurationReference {
-  /** The ARM ID for a Network Interface. */
+  /** The Azure Resource ID for a Network Interface. */
   id?: string;
 }
 
@@ -908,9 +948,9 @@ export function subnetIpConfigurationReferenceDeserializer(
   };
 }
 
-/** The ARM ID for a Network Security Group. */
+/** The Azure Resource ID for a Network Security Group. */
 export interface NetworkSecurityGroupArmReference {
-  /** The ARM ID for a Network Security Group. */
+  /** The Azure Resource ID for a Network Security Group. */
   id?: string;
 }
 
@@ -936,15 +976,15 @@ export interface RouteTable {
   readonly name?: string;
   /** Resource type. */
   readonly type?: string;
-  /** Properties of the route table. */
-  properties?: RouteTableProperties;
+  /** Collection of routes contained within a route table. */
+  routes?: Route[];
 }
 
 export function routeTableSerializer(item: RouteTable): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : routeTablePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["routes"])
+      ? undefined
+      : _routeTablePropertiesSerializer(item),
   };
 }
 
@@ -953,9 +993,9 @@ export function routeTableDeserializer(item: any): RouteTable {
     etag: item["etag"],
     name: item["name"],
     type: item["type"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : routeTablePropertiesDeserializer(item["properties"]),
+      : _routeTablePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -966,9 +1006,7 @@ export interface RouteTableProperties {
 }
 
 export function routeTablePropertiesSerializer(item: RouteTableProperties): any {
-  return {
-    routes: !item["routes"] ? item["routes"] : routeArraySerializer(item["routes"]),
-  };
+  return { routes: !item["routes"] ? item["routes"] : routeArraySerializer(item["routes"]) };
 }
 
 export function routeTablePropertiesDeserializer(item: any): RouteTableProperties {
@@ -991,26 +1029,28 @@ export function routeArrayDeserializer(result: Array<Route>): any[] {
 
 /** Route - Route resource. */
 export interface Route {
-  /** Properties of the route. */
-  properties?: RouteProperties;
   /** Name - name of the subnet */
   name?: string;
+  /** The destination CIDR to which the route applies. */
+  addressPrefix?: string;
+  /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
+  nextHopIpAddress?: string;
 }
 
 export function routeSerializer(item: Route): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : routePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["addressPrefix", "nextHopIpAddress"])
+      ? undefined
+      : _routePropertiesSerializer(item),
     name: item["name"],
   };
 }
 
 export function routeDeserializer(item: any): Route {
   return {
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : routePropertiesDeserializer(item["properties"]),
+      : _routePropertiesDeserializer(item["properties"])),
     name: item["name"],
   };
 }
@@ -1024,10 +1064,7 @@ export interface RouteProperties {
 }
 
 export function routePropertiesSerializer(item: RouteProperties): any {
-  return {
-    addressPrefix: item["addressPrefix"],
-    nextHopIpAddress: item["nextHopIpAddress"],
-  };
+  return { addressPrefix: item["addressPrefix"], nextHopIpAddress: item["nextHopIpAddress"] };
 }
 
 export function routePropertiesDeserializer(item: any): RouteProperties {
@@ -1109,8 +1146,8 @@ export interface IPPoolInfo {
   readonly available?: string;
 }
 
-export function ipPoolInfoSerializer(item: IPPoolInfo): any {
-  return item;
+export function ipPoolInfoSerializer(_item: IPPoolInfo): any {
+  return {};
 }
 
 export function ipPoolInfoDeserializer(item: any): IPPoolInfo {
@@ -1128,6 +1165,8 @@ export interface LogicalNetworkStatus {
   errorMessage?: string;
   /** Logical network provisioning status */
   provisioningStatus?: LogicalNetworkStatusProvisioningStatus;
+  /** Enhanced fabric integration status with detailed health monitoring and connectivity state. */
+  fabricIntegration?: FabricIntegrationStatus;
 }
 
 export function logicalNetworkStatusDeserializer(item: any): LogicalNetworkStatus {
@@ -1137,6 +1176,9 @@ export function logicalNetworkStatusDeserializer(item: any): LogicalNetworkStatu
     provisioningStatus: !item["provisioningStatus"]
       ? item["provisioningStatus"]
       : logicalNetworkStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+    fabricIntegration: !item["fabricIntegration"]
+      ? item["fabricIntegration"]
+      : fabricIntegrationStatusDeserializer(item["fabricIntegration"]),
   };
 }
 
@@ -1154,6 +1196,129 @@ export function logicalNetworkStatusProvisioningStatusDeserializer(
   return {
     operationId: item["operationId"],
     status: item["status"],
+  };
+}
+
+/** Enhanced fabric integration status with detailed health monitoring and connectivity state. */
+export interface FabricIntegrationStatus {
+  /** Current fabric integration state. */
+  readonly state?: FabricIntegrationStateEnum;
+  /** Health status of the fabric connection. */
+  readonly health?: FabricConnectionHealthEnum;
+  /** Timestamp of the last fabric health check as ISO 8601 string */
+  readonly lastChecked?: Date;
+  /** Type of fabric resource referenced. */
+  readonly resourceType?: FabricResourceTypeEnum;
+  /** Issues raised by fabric */
+  readonly issues?: FabricIssue[];
+}
+
+export function fabricIntegrationStatusDeserializer(item: any): FabricIntegrationStatus {
+  return {
+    state: item["state"],
+    health: item["health"],
+    lastChecked: !item["lastChecked"] ? item["lastChecked"] : new Date(item["lastChecked"]),
+    resourceType: item["resourceType"],
+    issues: !item["issues"] ? item["issues"] : fabricIssueArrayDeserializer(item["issues"]),
+  };
+}
+
+/** Fabric integration state type */
+export enum KnownFabricIntegrationStateEnum {
+  /** Fabric integration state - connected type */
+  Connected = "Connected",
+  /** Fabric integration state - disconnected type */
+  Disconnected = "Disconnected",
+  /** Fabric integration state - misconfigured type */
+  Misconfigured = "Misconfigured",
+  /** Fabric integration state - notapplicable type */
+  NotApplicable = "NotApplicable",
+  /** Fabric integration state - connecting type */
+  Connecting = "Connecting",
+}
+
+/**
+ * Fabric integration state type \
+ * {@link KnownFabricIntegrationStateEnum} can be used interchangeably with FabricIntegrationStateEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connected**: Fabric integration state - connected type \
+ * **Disconnected**: Fabric integration state - disconnected type \
+ * **Misconfigured**: Fabric integration state - misconfigured type \
+ * **NotApplicable**: Fabric integration state - notapplicable type \
+ * **Connecting**: Fabric integration state - connecting type
+ */
+export type FabricIntegrationStateEnum = string;
+
+/** Fabric connection health state type */
+export enum KnownFabricConnectionHealthEnum {
+  /** Fabric connection health state - healthy type */
+  Healthy = "Healthy",
+  /** Fabric connection health state - warning type */
+  Warning = "Warning",
+  /** Fabric connection health state - error type */
+  Error = "Error",
+  /** Fabric connection health state - unknown type */
+  Unknown = "Unknown",
+}
+
+/**
+ * Fabric connection health state type \
+ * {@link KnownFabricConnectionHealthEnum} can be used interchangeably with FabricConnectionHealthEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy**: Fabric connection health state - healthy type \
+ * **Warning**: Fabric connection health state - warning type \
+ * **Error**: Fabric connection health state - error type \
+ * **Unknown**: Fabric connection health state - unknown type
+ */
+export type FabricConnectionHealthEnum = string;
+
+/** Fabric resource type */
+export enum KnownFabricResourceTypeEnum {
+  /** Fabric resource of L2IsolationDomain type */
+  L2IsolationDomain = "L2IsolationDomain",
+  /** Fabric resource of L3InternalNetwork type */
+  L3InternalNetwork = "L3InternalNetwork",
+}
+
+/**
+ * Fabric resource type \
+ * {@link KnownFabricResourceTypeEnum} can be used interchangeably with FabricResourceTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **L2IsolationDomain**: Fabric resource of L2IsolationDomain type \
+ * **L3InternalNetwork**: Fabric resource of L3InternalNetwork type
+ */
+export type FabricResourceTypeEnum = string;
+
+export function fabricIssueArrayDeserializer(result: Array<FabricIssue>): any[] {
+  return result.map((item) => {
+    return fabricIssueDeserializer(item);
+  });
+}
+
+/** Issues exposed by managed network fabric */
+export interface FabricIssue {
+  /** Specific error/warning code. */
+  readonly code?: string;
+  /** issue severity */
+  readonly severity?: string;
+  /** Description of the issue */
+  readonly message?: string;
+  /** specific property or resource that has the issue */
+  readonly target?: string;
+  /** Timestamp of the issue as ISO 8601 string */
+  readonly timestamp?: Date;
+}
+
+export function fabricIssueDeserializer(item: any): FabricIssue {
+  return {
+    code: item["code"],
+    severity: item["severity"],
+    message: item["message"],
+    target: item["target"],
+    timestamp: !item["timestamp"] ? item["timestamp"] : new Date(item["timestamp"]),
   };
 }
 
@@ -1235,7 +1400,9 @@ export function marketplaceGalleryImageSerializer(item: MarketplaceGalleryImage)
 
 export function marketplaceGalleryImageDeserializer(item: any): MarketplaceGalleryImage {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1435,7 +1602,9 @@ export function networkInterfaceSerializer(item: NetworkInterface): any {
 
 export function networkInterfaceDeserializer(item: any): NetworkInterface {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1468,6 +1637,8 @@ export interface NetworkInterfaceProperties {
   readonly status?: NetworkInterfaceStatus;
   /** NetworkSecurityGroup - Network Security Group attached to the network interface. */
   networkSecurityGroup?: NetworkSecurityGroupArmReference;
+  /** This setting is applicable only when SDN is supported and enabled in the environment. Indicates whether SDN policies should be bypassed for this network interface. By default, SDN is enabled. Set this value to true only if you want to disable SDN for the network interface. */
+  bypassSdnPolicies?: boolean;
 }
 
 export function networkInterfacePropertiesSerializer(item: NetworkInterfaceProperties): any {
@@ -1483,6 +1654,7 @@ export function networkInterfacePropertiesSerializer(item: NetworkInterfacePrope
     networkSecurityGroup: !item["networkSecurityGroup"]
       ? item["networkSecurityGroup"]
       : networkSecurityGroupArmReferenceSerializer(item["networkSecurityGroup"]),
+    bypassSdnPolicies: item["bypassSdnPolicies"],
   };
 }
 
@@ -1501,6 +1673,7 @@ export function networkInterfacePropertiesDeserializer(item: any): NetworkInterf
     networkSecurityGroup: !item["networkSecurityGroup"]
       ? item["networkSecurityGroup"]
       : networkSecurityGroupArmReferenceDeserializer(item["networkSecurityGroup"]),
+    bypassSdnPolicies: item["bypassSdnPolicies"],
   };
 }
 
@@ -1572,9 +1745,9 @@ export function ipConfigurationPropertiesDeserializer(item: any): IPConfiguratio
   };
 }
 
-/** The ARM ID for a Logical Network. */
+/** The Azure Resource ID for a Logical Network. */
 export interface LogicalNetworkArmReference {
-  /** The ARM ID for a Logical Network. */
+  /** The Azure Resource ID for a Logical Network. */
   id?: string;
 }
 
@@ -1676,6 +1849,8 @@ export interface NetworkInterfacesUpdateProperties {
   networkSecurityGroup?: NetworkSecurityGroupArmReference;
   /** DNS Settings for the interface */
   dnsSettings?: InterfaceDNSSettings;
+  /** This setting is applicable only when SDN is supported and enabled in the environment. Indicates whether SDN policies should be bypassed for this network interface. By default, SDN is enabled. Set this value to true only if you want to disable SDN for the network interface. */
+  bypassSdnPolicies?: boolean;
 }
 
 export function networkInterfacesUpdatePropertiesSerializer(
@@ -1688,6 +1863,7 @@ export function networkInterfacesUpdatePropertiesSerializer(
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
       : interfaceDNSSettingsSerializer(item["dnsSettings"]),
+    bypassSdnPolicies: item["bypassSdnPolicies"],
   };
 }
 
@@ -1743,7 +1919,9 @@ export function networkSecurityGroupSerializer(item: NetworkSecurityGroup): any 
 
 export function networkSecurityGroupDeserializer(item: any): NetworkSecurityGroup {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1774,9 +1952,9 @@ export interface NetworkSecurityGroupProperties {
 }
 
 export function networkSecurityGroupPropertiesSerializer(
-  item: NetworkSecurityGroupProperties,
+  _item: NetworkSecurityGroupProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function networkSecurityGroupPropertiesDeserializer(
@@ -1812,9 +1990,9 @@ export function networkInterfaceArmReferenceArrayDeserializer(
   });
 }
 
-/** The ARM ID for a Network Interface. */
+/** The Azure Resource ID for a Network Interface. */
 export interface NetworkInterfaceArmReference {
-  /** The ARM ID for a Network Interface. */
+  /** The Azure Resource ID for a Network Interface. */
   id?: string;
 }
 
@@ -2106,8 +2284,8 @@ export type SecurityRuleDirection = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -2148,6 +2326,199 @@ export function securityRuleArrayDeserializer(result: Array<SecurityRule>): any[
   });
 }
 
+/** The snapshot resource definition. */
+export interface Snapshot extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SnapshotProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function snapshotSerializer(item: Snapshot): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : snapshotPropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function snapshotDeserializer(item: any): Snapshot {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : snapshotPropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Properties under the snapshot resource */
+export interface SnapshotProperties {
+  /** Data used when creating a snapshot */
+  creationData?: CreationData;
+  /** The time when the snapshot was created. */
+  readonly timeCreated?: Date;
+  /** The size of the disk in bytes. */
+  readonly diskSizeBytes?: number;
+  /** Unique identifier for the snapshot. */
+  readonly uniqueId?: string;
+  /** Provisioning state of the snapshot. */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** The observed state of snapshots */
+  readonly status?: SnapshotStatus;
+}
+
+export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataSerializer(item["creationData"]),
+  };
+}
+
+export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
+  return {
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataDeserializer(item["creationData"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
+    diskSizeBytes: item["diskSizeBytes"],
+    uniqueId: item["uniqueId"],
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : snapshotStatusDeserializer(item["status"]),
+  };
+}
+
+/** Data used when creating a disk or snapshot */
+export interface CreationData {
+  /** This enumerates the possible sources of a disk's creation */
+  createOption: DiskCreateOption;
+  /** ARM ID of the source resource used for disk creation. Required when createOption is Copy */
+  sourceResourceId?: string;
+  /** Unique ID of the source resource used for disk creation. Read-only and not required for disk creation. */
+  readonly sourceUniqueId?: string;
+}
+
+export function creationDataSerializer(item: CreationData): any {
+  return { createOption: item["createOption"], sourceResourceId: item["sourceResourceId"] };
+}
+
+export function creationDataDeserializer(item: any): CreationData {
+  return {
+    createOption: item["createOption"],
+    sourceResourceId: item["sourceResourceId"],
+    sourceUniqueId: item["sourceUniqueId"],
+  };
+}
+
+/** Disk creation option values [Copy, Empty] */
+export enum KnownDiskCreateOption {
+  /** Create a disk by copying from a source resource */
+  Copy = "Copy",
+  /** Create an empty disk */
+  Empty = "Empty",
+}
+
+/**
+ * Disk creation option values [Copy, Empty] \
+ * {@link KnownDiskCreateOption} can be used interchangeably with DiskCreateOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Copy**: Create a disk by copying from a source resource \
+ * **Empty**: Create an empty disk
+ */
+export type DiskCreateOption = string;
+
+/** The observed state of snapshots */
+export interface SnapshotStatus {
+  /** Snapshot provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** Provisioning status of the snapshot */
+  provisioningStatus?: SnapshotStatusProvisioningStatus;
+}
+
+export function snapshotStatusDeserializer(item: any): SnapshotStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : snapshotStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Snapshot Status provisioning status */
+export interface SnapshotStatusProvisioningStatus {
+  /** The ID of the operation performed on the snapshot */
+  operationId?: string;
+  /** The status of the operation performed on the snapshot [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+export function snapshotStatusProvisioningStatusDeserializer(
+  item: any,
+): SnapshotStatusProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** The type used for updating tags in Snapshot resources. */
+export interface SnapshotTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function snapshotTagsUpdateSerializer(item: SnapshotTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a Snapshot list operation. */
+export interface _SnapshotListResult {
+  /** The Snapshot items on this page */
+  value: Snapshot[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _snapshotListResultDeserializer(item: any): _SnapshotListResult {
+  return {
+    value: snapshotArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function snapshotArraySerializer(result: Array<Snapshot>): any[] {
+  return result.map((item) => {
+    return snapshotSerializer(item);
+  });
+}
+
+export function snapshotArrayDeserializer(result: Array<Snapshot>): any[] {
+  return result.map((item) => {
+    return snapshotDeserializer(item);
+  });
+}
+
 /** The storage container resource definition. */
 export interface StorageContainer extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -2171,7 +2542,9 @@ export function storageContainerSerializer(item: StorageContainer): any {
 
 export function storageContainerDeserializer(item: any): StorageContainer {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2313,7 +2686,9 @@ export function virtualHardDiskSerializer(item: VirtualHardDisk): any {
 
 export function virtualHardDiskDeserializer(item: any): VirtualHardDisk {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2334,6 +2709,8 @@ export function virtualHardDiskDeserializer(item: any): VirtualHardDisk {
 export interface VirtualHardDiskProperties {
   /** Block size in bytes */
   blockSizeBytes?: number;
+  /** Data used when creating a virtual hard disk */
+  creationData?: CreationData;
   /** Size of the disk in GB */
   diskSizeGB?: number;
   /** Boolean for enabling dynamic sizing on the virtual hard disk */
@@ -2350,6 +2727,8 @@ export interface VirtualHardDiskProperties {
   diskFileFormat?: DiskFileFormat;
   /** Boolean indicating whether it is an existing local hard disk or if one should be created. */
   createFromLocal?: boolean;
+  /** Absolute path of the VHD. This is only applicable when createFromLocal is true. */
+  localVhdPath?: string;
   /** Provisioning state of the virtual hard disk. */
   readonly provisioningState?: ProvisioningStateEnum;
   /** Storage ContainerID of the storage container to be used for VHD */
@@ -2363,6 +2742,9 @@ export interface VirtualHardDiskProperties {
 export function virtualHardDiskPropertiesSerializer(item: VirtualHardDiskProperties): any {
   return {
     blockSizeBytes: item["blockSizeBytes"],
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataSerializer(item["creationData"]),
     diskSizeGB: item["diskSizeGB"],
     dynamic: item["dynamic"],
     logicalSectorBytes: item["logicalSectorBytes"],
@@ -2371,6 +2753,7 @@ export function virtualHardDiskPropertiesSerializer(item: VirtualHardDiskPropert
     hyperVGeneration: item["hyperVGeneration"],
     diskFileFormat: item["diskFileFormat"],
     createFromLocal: item["createFromLocal"],
+    localVhdPath: item["localVhdPath"],
     containerId: item["containerId"],
     maxShares: item["maxShares"],
   };
@@ -2379,6 +2762,9 @@ export function virtualHardDiskPropertiesSerializer(item: VirtualHardDiskPropert
 export function virtualHardDiskPropertiesDeserializer(item: any): VirtualHardDiskProperties {
   return {
     blockSizeBytes: item["blockSizeBytes"],
+    creationData: !item["creationData"]
+      ? item["creationData"]
+      : creationDataDeserializer(item["creationData"]),
     diskSizeGB: item["diskSizeGB"],
     dynamic: item["dynamic"],
     logicalSectorBytes: item["logicalSectorBytes"],
@@ -2387,6 +2773,7 @@ export function virtualHardDiskPropertiesDeserializer(item: any): VirtualHardDis
     hyperVGeneration: item["hyperVGeneration"],
     diskFileFormat: item["diskFileFormat"],
     createFromLocal: item["createFromLocal"],
+    localVhdPath: item["localVhdPath"],
     provisioningState: item["provisioningState"],
     containerId: item["containerId"],
     status: !item["status"] ? item["status"] : virtualHardDiskStatusDeserializer(item["status"]),
@@ -2424,7 +2811,7 @@ export interface VirtualHardDiskStatus {
   downloadStatus?: VirtualHardDiskDownloadStatus;
   /** The upload status of the virtual hard disk */
   uploadStatus?: VirtualHardDiskUploadStatus;
-  /** ARM IDs of the VMs that are consuming the VHD. */
+  /** Azure Resource IDs of the VMs that are consuming the VHD. */
   managedBy?: string[];
   /** Unique Guid identifying the resource. */
   uniqueId?: string;
@@ -2581,7 +2968,7 @@ export function virtualHardDiskUploadRequestSerializer(item: VirtualHardDiskUplo
 
 /** Response for uploading virtual hard disk. */
 export interface VirtualHardDiskUploadResponse {
-  /** The ARM ID for a Virtual Hard Disk. */
+  /** The Azure Resource ID for a Virtual Hard Disk. */
   virtualHardDiskId?: string;
   /** The upload status of the virtual hard disk */
   uploadStatus?: VirtualHardDiskUploadStatus;
@@ -2660,6 +3047,8 @@ export interface VirtualMachineInstanceProperties {
   httpProxyConfig?: HttpProxyConfiguration;
   /** Boolean indicating whether this is an existing local virtual machine or if one should be created. */
   createFromLocal?: boolean;
+  /** HyperV name of the VM. This is only applicable when createFromLocal is true. */
+  localVmName?: string;
   /** Provisioning state of the virtual machine instance. */
   readonly provisioningState?: ProvisioningStateEnum;
   /** The virtual machine instance view. */
@@ -2706,6 +3095,7 @@ export function virtualMachineInstancePropertiesSerializer(
       ? item["httpProxyConfig"]
       : httpProxyConfigurationSerializer(item["httpProxyConfig"]),
     createFromLocal: item["createFromLocal"],
+    localVmName: item["localVmName"],
     guestAgentInstallStatus: !item["guestAgentInstallStatus"]
       ? item["guestAgentInstallStatus"]
       : guestAgentInstallStatusSerializer(item["guestAgentInstallStatus"]),
@@ -2739,6 +3129,7 @@ export function virtualMachineInstancePropertiesDeserializer(
       ? item["httpProxyConfig"]
       : httpProxyConfigurationDeserializer(item["httpProxyConfig"]),
     createFromLocal: item["createFromLocal"],
+    localVmName: item["localVmName"],
     provisioningState: item["provisioningState"],
     instanceView: !item["instanceView"]
       ? item["instanceView"]
@@ -2997,10 +3388,7 @@ export interface VirtualMachineInstancePropertiesPlacementProfile {
 export function virtualMachineInstancePropertiesPlacementProfileSerializer(
   item: VirtualMachineInstancePropertiesPlacementProfile,
 ): any {
-  return {
-    zone: item["zone"],
-    strictPlacementPolicy: item["strictPlacementPolicy"],
-  };
+  return { zone: item["zone"], strictPlacementPolicy: item["strictPlacementPolicy"] };
 }
 
 export function virtualMachineInstancePropertiesPlacementProfileDeserializer(
@@ -3353,9 +3741,9 @@ export function virtualHardDiskArmReferenceArrayDeserializer(
   });
 }
 
-/** The ARM ID for a Virtual Hard Disk. */
+/** The Azure Resource ID for a Virtual Hard Disk. */
 export interface VirtualHardDiskArmReference {
-  /** The ARM ID for a Virtual Hard Disk. */
+  /** The Azure Resource ID for a Virtual Hard Disk. */
   id?: string;
 }
 
@@ -3369,9 +3757,9 @@ export function virtualHardDiskArmReferenceDeserializer(item: any): VirtualHardD
   };
 }
 
-/** The ARM ID for a Gallery Image. */
+/** The Azure Resource ID for a Gallery Image. */
 export interface ImageArmReference {
-  /** The ARM ID for an image resource used by the virtual machine instance. */
+  /** The Azure Resource ID for an image resource used by the virtual machine instance. */
   id?: string;
 }
 
@@ -3387,7 +3775,7 @@ export function imageArmReferenceDeserializer(item: any): ImageArmReference {
 
 /** VHD to attach as OS disk */
 export interface VirtualMachineInstancePropertiesStorageProfileOsDisk {
-  /** The ARM ID for a Virtual Hard Disk. */
+  /** The Azure Resource ID for a Virtual Hard Disk. */
   id?: string;
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Possible values are: Windows, Linux. */
   osType?: OperatingSystemTypes;
@@ -3691,8 +4079,8 @@ export interface GuestAgentInstallStatus {
   readonly errorDetails?: ErrorDetail[];
 }
 
-export function guestAgentInstallStatusSerializer(item: GuestAgentInstallStatus): any {
-  return item;
+export function guestAgentInstallStatusSerializer(_item: GuestAgentInstallStatus): any {
+  return {};
 }
 
 export function guestAgentInstallStatusDeserializer(item: any): GuestAgentInstallStatus {
@@ -3739,14 +4127,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -3754,7 +4139,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -3790,8 +4182,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -3804,8 +4196,8 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -4030,6 +4422,62 @@ export function virtualMachineInstanceArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return virtualMachineInstanceDeserializer(item);
+  });
+}
+
+/** The operation gracefully shuts down a virtual machine by requesting the operating system to shut down. The virtual machine can be restarted with the same provisioned resources. To force an immediate shut down, see the skipShutdown flag. */
+export interface PowerOffVirtualMachineOptions {
+  /** Indicates whether to perform an immediate shut down. When set to true, the VM is forcefully shut down. If not specified, the default value is false, and the operation attempts a graceful shut down of the VM. */
+  skipShutdown?: boolean;
+}
+
+export function powerOffVirtualMachineOptionsSerializer(item: PowerOffVirtualMachineOptions): any {
+  return { skipShutdown: item["skipShutdown"] };
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+}
+
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    percentComplete: item["percentComplete"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    operations: !item["operations"]
+      ? item["operations"]
+      : operationStatusResultArrayDeserializer(item["operations"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    resourceId: item["resourceId"],
+  };
+}
+
+export function operationStatusResultArrayDeserializer(
+  result: Array<OperationStatusResult>,
+): any[] {
+  return result.map((item) => {
+    return operationStatusResultDeserializer(item);
   });
 }
 
@@ -4410,6 +4858,1783 @@ export function guestAgentArrayDeserializer(result: Array<GuestAgent>): any[] {
   });
 }
 
+/** The virtual network resource definition. */
+export interface VirtualNetwork extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VirtualNetworkProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function virtualNetworkSerializer(item: VirtualNetwork): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkPropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function virtualNetworkDeserializer(item: any): VirtualNetwork {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkPropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Virtual network resource properties */
+export interface VirtualNetworkProperties {
+  /** Virtual Network address space. All subnets must be within the defined range. */
+  addressSpace: VirtualNetworkAddressSpace;
+  /** Virtual Network DHCP options. Inherited by all subnets and VMs. */
+  dhcpOptions: VirtualNetworkDhcpOptions;
+  /** The provisioning state of the virtual network resource. */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** The observed status of Virtual Network */
+  status?: VirtualNetworkStatus;
+}
+
+export function virtualNetworkPropertiesSerializer(item: VirtualNetworkProperties): any {
+  return {
+    addressSpace: virtualNetworkAddressSpaceSerializer(item["addressSpace"]),
+    dhcpOptions: virtualNetworkDhcpOptionsSerializer(item["dhcpOptions"]),
+    status: !item["status"] ? item["status"] : virtualNetworkStatusSerializer(item["status"]),
+  };
+}
+
+export function virtualNetworkPropertiesDeserializer(item: any): VirtualNetworkProperties {
+  return {
+    addressSpace: virtualNetworkAddressSpaceDeserializer(item["addressSpace"]),
+    dhcpOptions: virtualNetworkDhcpOptionsDeserializer(item["dhcpOptions"]),
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : virtualNetworkStatusDeserializer(item["status"]),
+  };
+}
+
+/** Address Space Information */
+export interface VirtualNetworkAddressSpace {
+  /** A list of one or more CIDR blocks that define the address space. */
+  addressPrefixes: string[];
+}
+
+export function virtualNetworkAddressSpaceSerializer(item: VirtualNetworkAddressSpace): any {
+  return {
+    addressPrefixes: item["addressPrefixes"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function virtualNetworkAddressSpaceDeserializer(item: any): VirtualNetworkAddressSpace {
+  return {
+    addressPrefixes: item["addressPrefixes"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** DHCP options for virtual networks */
+export interface VirtualNetworkDhcpOptions {
+  /** An array of DNS server IP addresses that VMs or wokloads in the vnet can inherit */
+  dnsServers?: string[];
+}
+
+export function virtualNetworkDhcpOptionsSerializer(item: VirtualNetworkDhcpOptions): any {
+  return {
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function virtualNetworkDhcpOptionsDeserializer(item: any): VirtualNetworkDhcpOptions {
+  return {
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The observed status of the virtual network */
+export interface VirtualNetworkStatus {
+  /** VirtualNetwork provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** virtual network provisioning status */
+  provisioningStatus?: VirtualNetworkStatusProvisioningStatus;
+}
+
+export function virtualNetworkStatusSerializer(item: VirtualNetworkStatus): any {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : virtualNetworkStatusProvisioningStatusSerializer(item["provisioningStatus"]),
+  };
+}
+
+export function virtualNetworkStatusDeserializer(item: any): VirtualNetworkStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : virtualNetworkStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Status of virtual network operations */
+export interface VirtualNetworkStatusProvisioningStatus {
+  /** The ID of the operation performed on the virtual network */
+  operationId?: string;
+  /** The status of the operation performed on the virtual network [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+export function virtualNetworkStatusProvisioningStatusSerializer(
+  item: VirtualNetworkStatusProvisioningStatus,
+): any {
+  return { operationId: item["operationId"], status: item["status"] };
+}
+
+export function virtualNetworkStatusProvisioningStatusDeserializer(
+  item: any,
+): VirtualNetworkStatusProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** The type used for updating tags in VirtualNetwork resources. */
+export interface VirtualNetworkTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function virtualNetworkTagsUpdateSerializer(item: VirtualNetworkTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a VirtualNetwork list operation. */
+export interface _VirtualNetworkListResult {
+  /** The VirtualNetwork items on this page */
+  value: VirtualNetwork[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _virtualNetworkListResultDeserializer(item: any): _VirtualNetworkListResult {
+  return {
+    value: virtualNetworkArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function virtualNetworkArraySerializer(result: Array<VirtualNetwork>): any[] {
+  return result.map((item) => {
+    return virtualNetworkSerializer(item);
+  });
+}
+
+export function virtualNetworkArrayDeserializer(result: Array<VirtualNetwork>): any[] {
+  return result.map((item) => {
+    return virtualNetworkDeserializer(item);
+  });
+}
+
+/** The virtual network resource definition. */
+export interface VirtualNetworkSubnet extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: VirtualNetworkSubnetProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function virtualNetworkSubnetSerializer(item: VirtualNetworkSubnet): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkSubnetPropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function virtualNetworkSubnetDeserializer(item: any): VirtualNetworkSubnet {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkSubnetPropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** VirtualNetwork subnet resource */
+export interface VirtualNetworkSubnetProperties {
+  /** Subnet CIDR */
+  addressPrefix: string;
+  /** Network Security Group attached to the subnet. */
+  networkSecurityGroup?: NetworkSecurityGroupArmReference;
+  /** Nat Gateway attached to the subnet for non-vnet traffic. */
+  natGateway?: NatGatewayArmReference;
+  /** RouteTable defining custom routes for the subnet. */
+  routeTable?: RouteTable;
+  /** List of ip configurations for the subnet */
+  readonly ipConfigurations?: VirtualNetworkSubnetIpConfigurationReference[];
+  /** The provisioning state of the virtual network subnet resource. */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** The observed status of the virtual network subnet resource. */
+  readonly status?: VirtualNetworkSubnetStatus;
+}
+
+export function virtualNetworkSubnetPropertiesSerializer(
+  item: VirtualNetworkSubnetProperties,
+): any {
+  return {
+    addressPrefix: item["addressPrefix"],
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : networkSecurityGroupArmReferenceSerializer(item["networkSecurityGroup"]),
+    natGateway: !item["natGateway"]
+      ? item["natGateway"]
+      : natGatewayArmReferenceSerializer(item["natGateway"]),
+    routeTable: !item["routeTable"] ? item["routeTable"] : routeTableSerializer(item["routeTable"]),
+  };
+}
+
+export function virtualNetworkSubnetPropertiesDeserializer(
+  item: any,
+): VirtualNetworkSubnetProperties {
+  return {
+    addressPrefix: item["addressPrefix"],
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : networkSecurityGroupArmReferenceDeserializer(item["networkSecurityGroup"]),
+    natGateway: !item["natGateway"]
+      ? item["natGateway"]
+      : natGatewayArmReferenceDeserializer(item["natGateway"]),
+    routeTable: !item["routeTable"]
+      ? item["routeTable"]
+      : routeTableDeserializer(item["routeTable"]),
+    ipConfigurations: !item["ipConfigurations"]
+      ? item["ipConfigurations"]
+      : virtualNetworkSubnetIpConfigurationReferenceArrayDeserializer(item["ipConfigurations"]),
+    provisioningState: item["provisioningState"],
+    status: !item["status"]
+      ? item["status"]
+      : virtualNetworkSubnetStatusDeserializer(item["status"]),
+  };
+}
+
+/** The ARM ID for a Network Security Group. */
+export interface NatGatewayArmReference {
+  /** The ARM ID for a Network Security Group. */
+  resourceId?: string;
+}
+
+export function natGatewayArmReferenceSerializer(item: NatGatewayArmReference): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function natGatewayArmReferenceDeserializer(item: any): NatGatewayArmReference {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+export function virtualNetworkSubnetIpConfigurationReferenceArrayDeserializer(
+  result: Array<VirtualNetworkSubnetIpConfigurationReference>,
+): any[] {
+  return result.map((item) => {
+    return virtualNetworkSubnetIpConfigurationReferenceDeserializer(item);
+  });
+}
+
+/** The Azure Resource ID for a resource consuming IP on a subnet */
+export interface VirtualNetworkSubnetIpConfigurationReference {
+  /** The Azure Resource ID for a Network Interface. */
+  id?: string;
+}
+
+export function virtualNetworkSubnetIpConfigurationReferenceDeserializer(
+  item: any,
+): VirtualNetworkSubnetIpConfigurationReference {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Status of virtual network subnet operations */
+export interface VirtualNetworkSubnetStatus {
+  /** VirtualNetworkSubnet provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** Public IP provisioning status */
+  provisioningStatus?: VirtualNetworkSubnetStatusProvisioningStatus;
+}
+
+export function virtualNetworkSubnetStatusDeserializer(item: any): VirtualNetworkSubnetStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : virtualNetworkSubnetStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Status of virtual network subnet operations */
+export interface VirtualNetworkSubnetStatusProvisioningStatus {
+  /** The ID of the operation performed on the virtual network subnet */
+  operationId?: string;
+  /** The status of the operation performed on the virtual network subnet [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+export function virtualNetworkSubnetStatusProvisioningStatusDeserializer(
+  item: any,
+): VirtualNetworkSubnetStatusProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** The virtual network subnet resource patch definition. */
+export interface VirtualNetworkSubnetUpdateRequest {
+  /** properties to update */
+  properties?: VirtualNetworkSubnetUpdateProperties;
+}
+
+export function virtualNetworkSubnetUpdateRequestSerializer(
+  item: VirtualNetworkSubnetUpdateRequest,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : virtualNetworkSubnetUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The virtual network subnet resource patch properties definition. */
+export interface VirtualNetworkSubnetUpdateProperties {
+  /** NetworkSecurityGroup - Network Security Group attached to the subnet. */
+  networkSecurityGroup?: NetworkSecurityGroupArmReference;
+  /** NatGateway - NatGateway attached to the subnet. */
+  natGateway?: NatGatewayArmReference;
+}
+
+export function virtualNetworkSubnetUpdatePropertiesSerializer(
+  item: VirtualNetworkSubnetUpdateProperties,
+): any {
+  return {
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : networkSecurityGroupArmReferenceSerializer(item["networkSecurityGroup"]),
+    natGateway: !item["natGateway"]
+      ? item["natGateway"]
+      : natGatewayArmReferenceSerializer(item["natGateway"]),
+  };
+}
+
+/** The response of a VirtualNetworkSubnet list operation. */
+export interface _VirtualNetworkSubnetListResult {
+  /** The VirtualNetworkSubnet items on this page */
+  value: VirtualNetworkSubnet[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _virtualNetworkSubnetListResultDeserializer(
+  item: any,
+): _VirtualNetworkSubnetListResult {
+  return {
+    value: virtualNetworkSubnetArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function virtualNetworkSubnetArraySerializer(result: Array<VirtualNetworkSubnet>): any[] {
+  return result.map((item) => {
+    return virtualNetworkSubnetSerializer(item);
+  });
+}
+
+export function virtualNetworkSubnetArrayDeserializer(result: Array<VirtualNetworkSubnet>): any[] {
+  return result.map((item) => {
+    return virtualNetworkSubnetDeserializer(item);
+  });
+}
+
+/** The publicIP resource definition. */
+export interface PublicIPAddress extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PublicIPAddressProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function publicIPAddressSerializer(item: PublicIPAddress): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : publicIPAddressPropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function publicIPAddressDeserializer(item: any): PublicIPAddress {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : publicIPAddressPropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Public IP Properties resource. */
+export interface PublicIPAddressProperties {
+  /** Whether the public IP is v4 or v6. Defaults to IPv4 */
+  publicIPAddressVersion?: PublicIPAddressType;
+  /** ipAllocationScope: Azure Reference to a particular IP Pool (ALM) or a LogicalNetwork (ALL) for allocating public IP */
+  ipAllocationScope?: string;
+  /** IP Address. This is static. If the user specifies, we allocate that otherwise allocate from logical network address space. */
+  ipAddress?: string;
+  /** network interface or LoadBalancer frontendIPconfiguration using this public IP */
+  readonly ipConfiguration?: IPConfigurationArmReference;
+  /** natGateway using this public IP */
+  readonly natGateway?: NatGatewayArmReference;
+  /** Provisioning state of the public IP */
+  readonly provisioningState?: ProvisioningStateEnum;
+}
+
+export function publicIPAddressPropertiesSerializer(item: PublicIPAddressProperties): any {
+  return {
+    publicIPAddressVersion: item["publicIPAddressVersion"],
+    ipAllocationScope: item["ipAllocationScope"],
+    ipAddress: item["ipAddress"],
+  };
+}
+
+export function publicIPAddressPropertiesDeserializer(item: any): PublicIPAddressProperties {
+  return {
+    publicIPAddressVersion: item["publicIPAddressVersion"],
+    ipAllocationScope: item["ipAllocationScope"],
+    ipAddress: item["ipAddress"],
+    ipConfiguration: !item["ipConfiguration"]
+      ? item["ipConfiguration"]
+      : ipConfigurationArmReferenceDeserializer(item["ipConfiguration"]),
+    natGateway: !item["natGateway"]
+      ? item["natGateway"]
+      : natGatewayArmReferenceDeserializer(item["natGateway"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Type of public IP addresses */
+export enum KnownPublicIPAddressType {
+  /** IPv4 IP Address */
+  IPv4 = "IPv4",
+  /** IPv6 IP Address */
+  IPv6 = "IPv6",
+}
+
+/**
+ * Type of public IP addresses \
+ * {@link KnownPublicIPAddressType} can be used interchangeably with PublicIPAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: IPv4 IP Address \
+ * **IPv6**: IPv6 IP Address
+ */
+export type PublicIPAddressType = string;
+
+/** The Azure Resource ID of an IPConfiguration resource */
+export interface IPConfigurationArmReference {
+  /** The Azure Resource ID of an IPConfiguration resource */
+  resourceId?: string;
+}
+
+export function ipConfigurationArmReferenceSerializer(item: IPConfigurationArmReference): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function ipConfigurationArmReferenceDeserializer(item: any): IPConfigurationArmReference {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+/** The type used for updating tags in PublicIPAddress resources. */
+export interface PublicIPAddressTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function publicIPAddressTagsUpdateSerializer(item: PublicIPAddressTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a PublicIPAddress list operation. */
+export interface _PublicIPAddressListResult {
+  /** The PublicIPAddress items on this page */
+  value: PublicIPAddress[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _publicIPAddressListResultDeserializer(item: any): _PublicIPAddressListResult {
+  return {
+    value: publicIPAddressArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function publicIPAddressArraySerializer(result: Array<PublicIPAddress>): any[] {
+  return result.map((item) => {
+    return publicIPAddressSerializer(item);
+  });
+}
+
+export function publicIPAddressArrayDeserializer(result: Array<PublicIPAddress>): any[] {
+  return result.map((item) => {
+    return publicIPAddressDeserializer(item);
+  });
+}
+
+/** The NatGateway resource definition. */
+export interface NatGateway extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NatGatewayProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function natGatewaySerializer(item: NatGateway): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : natGatewayPropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function natGatewayDeserializer(item: any): NatGateway {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : natGatewayPropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Nat Gateway resource properties */
+export interface NatGatewayProperties {
+  /** List of public ip addresses that the gateway can use for NAT. */
+  publicIPAddresses?: PublicIPAddressArmReference[];
+  /** List of subnets associated with the nat gateway. These can only be vnet subnets and must be from the same vnet */
+  readonly subnets?: VirtualNetworkSubnetArmReference[];
+  /** Provisioning state of the public IP */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** The observed state of Nat Gateway */
+  readonly status?: NatGatewayStatus;
+}
+
+export function natGatewayPropertiesSerializer(item: NatGatewayProperties): any {
+  return {
+    publicIPAddresses: !item["publicIPAddresses"]
+      ? item["publicIPAddresses"]
+      : publicIPAddressArmReferenceArraySerializer(item["publicIPAddresses"]),
+  };
+}
+
+export function natGatewayPropertiesDeserializer(item: any): NatGatewayProperties {
+  return {
+    publicIPAddresses: !item["publicIPAddresses"]
+      ? item["publicIPAddresses"]
+      : publicIPAddressArmReferenceArrayDeserializer(item["publicIPAddresses"]),
+    subnets: !item["subnets"]
+      ? item["subnets"]
+      : virtualNetworkSubnetArmReferenceArrayDeserializer(item["subnets"]),
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : natGatewayStatusDeserializer(item["status"]),
+  };
+}
+
+export function publicIPAddressArmReferenceArraySerializer(
+  result: Array<PublicIPAddressArmReference>,
+): any[] {
+  return result.map((item) => {
+    return publicIPAddressArmReferenceSerializer(item);
+  });
+}
+
+export function publicIPAddressArmReferenceArrayDeserializer(
+  result: Array<PublicIPAddressArmReference>,
+): any[] {
+  return result.map((item) => {
+    return publicIPAddressArmReferenceDeserializer(item);
+  });
+}
+
+/** The Azure Resource ID of a Public IP resource */
+export interface PublicIPAddressArmReference {
+  /** The Azure Resource ID of a Public IP resource */
+  resourceId?: string;
+}
+
+export function publicIPAddressArmReferenceSerializer(item: PublicIPAddressArmReference): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function publicIPAddressArmReferenceDeserializer(item: any): PublicIPAddressArmReference {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+export function virtualNetworkSubnetArmReferenceArraySerializer(
+  result: Array<VirtualNetworkSubnetArmReference>,
+): any[] {
+  return result.map((item) => {
+    return virtualNetworkSubnetArmReferenceSerializer(item);
+  });
+}
+
+export function virtualNetworkSubnetArmReferenceArrayDeserializer(
+  result: Array<VirtualNetworkSubnetArmReference>,
+): any[] {
+  return result.map((item) => {
+    return virtualNetworkSubnetArmReferenceDeserializer(item);
+  });
+}
+
+/** The Azure Resource ID for a Virtual Network subnet */
+export interface VirtualNetworkSubnetArmReference {
+  /** The Azure Resource ID for a Virtual Network subnet. */
+  resourceId?: string;
+}
+
+export function virtualNetworkSubnetArmReferenceSerializer(
+  item: VirtualNetworkSubnetArmReference,
+): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function virtualNetworkSubnetArmReferenceDeserializer(
+  item: any,
+): VirtualNetworkSubnetArmReference {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+/** Nat Gateway resource status */
+export interface NatGatewayStatus {
+  /** NatGateway provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** NatGateway provisioning status */
+  provisioningStatus?: NatGatewayStatusProvisioningStatus;
+}
+
+export function natGatewayStatusDeserializer(item: any): NatGatewayStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : natGatewayStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Provisioning status of Nat Gateway */
+export interface NatGatewayStatusProvisioningStatus {
+  /** The ID of the operation performed on the nat gateway */
+  operationId?: string;
+  /** The status of the operation performed on the nat gateway [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+export function natGatewayStatusProvisioningStatusDeserializer(
+  item: any,
+): NatGatewayStatusProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** The type used for updating tags in NatGateway resources. */
+export interface NatGatewayTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function natGatewayTagsUpdateSerializer(item: NatGatewayTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a NatGateway list operation. */
+export interface _NatGatewayListResult {
+  /** The NatGateway items on this page */
+  value: NatGateway[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _natGatewayListResultDeserializer(item: any): _NatGatewayListResult {
+  return {
+    value: natGatewayArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function natGatewayArraySerializer(result: Array<NatGateway>): any[] {
+  return result.map((item) => {
+    return natGatewaySerializer(item);
+  });
+}
+
+export function natGatewayArrayDeserializer(result: Array<NatGateway>): any[] {
+  return result.map((item) => {
+    return natGatewayDeserializer(item);
+  });
+}
+
+/** The inbound rule resource definition. */
+export interface InboundRule extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: InboundRuleProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function inboundRuleSerializer(item: InboundRule): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : inboundRulePropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function inboundRuleDeserializer(item: any): InboundRule {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : inboundRulePropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Inbound rule properties - extends InboundNATRuleProperties with additional status tracking */
+export interface InboundRuleProperties {
+  /** Protocol for the NAT rule */
+  protocol: InboundNATRuleProtocol;
+  /** Frontend Port for the inbound rule */
+  frontendPort: number;
+  /** backend Port for the inbound rule */
+  backendPort: number;
+  /** IP configuration for the target backend. */
+  backendIPConfiguration: IPConfigurationArmReference;
+  /** Public IP Address for this NAT rule */
+  publicIPAddress: PublicIPAddressArmReference;
+  /** Provisioning state of the inbound rule */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** The observed state of Inbound Rule */
+  readonly status?: InboundRuleStatus;
+}
+
+export function inboundRulePropertiesSerializer(item: InboundRuleProperties): any {
+  return {
+    protocol: item["protocol"],
+    frontendPort: item["frontendPort"],
+    backendPort: item["backendPort"],
+    backendIPConfiguration: ipConfigurationArmReferenceSerializer(item["backendIPConfiguration"]),
+    publicIPAddress: publicIPAddressArmReferenceSerializer(item["publicIPAddress"]),
+  };
+}
+
+export function inboundRulePropertiesDeserializer(item: any): InboundRuleProperties {
+  return {
+    protocol: item["protocol"],
+    frontendPort: item["frontendPort"],
+    backendPort: item["backendPort"],
+    backendIPConfiguration: ipConfigurationArmReferenceDeserializer(item["backendIPConfiguration"]),
+    publicIPAddress: publicIPAddressArmReferenceDeserializer(item["publicIPAddress"]),
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : inboundRuleStatusDeserializer(item["status"]),
+  };
+}
+
+/** Protocol for inbound NAT rules */
+export enum KnownInboundNATRuleProtocol {
+  /** TCP - load balance only tcp traffic */
+  TCP = "Tcp",
+  /** Udp - load balance only UDP traffic */
+  UDP = "Udp",
+}
+
+/**
+ * Protocol for inbound NAT rules \
+ * {@link KnownInboundNATRuleProtocol} can be used interchangeably with InboundNATRuleProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tcp**: TCP - load balance only tcp traffic \
+ * **Udp**: Udp - load balance only UDP traffic
+ */
+export type InboundNATRuleProtocol = string;
+
+/** The observed state of inbound rule */
+export interface InboundRuleStatus {
+  /** InboundRule provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** InboundRule provisioning status */
+  provisioningStatus?: InboundRuleStatusProvisioningStatus;
+}
+
+export function inboundRuleStatusDeserializer(item: any): InboundRuleStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : inboundRuleStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Provisioning status of Inbound Rule */
+export interface InboundRuleStatusProvisioningStatus {
+  /** The ID of the operation performed on the inbound rule */
+  operationId?: string;
+  /** The status of the operation performed on the inbound rule [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+export function inboundRuleStatusProvisioningStatusDeserializer(
+  item: any,
+): InboundRuleStatusProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** The response of a InboundRule list operation. */
+export interface _InboundRuleListResult {
+  /** The InboundRule items on this page */
+  value: InboundRule[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _inboundRuleListResultDeserializer(item: any): _InboundRuleListResult {
+  return {
+    value: inboundRuleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function inboundRuleArraySerializer(result: Array<InboundRule>): any[] {
+  return result.map((item) => {
+    return inboundRuleSerializer(item);
+  });
+}
+
+export function inboundRuleArrayDeserializer(result: Array<InboundRule>): any[] {
+  return result.map((item) => {
+    return inboundRuleDeserializer(item);
+  });
+}
+
+/** The LoadBalancer resource definition. */
+export interface LoadBalancer extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: LoadBalancerProperties;
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function loadBalancerSerializer(item: LoadBalancer): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : loadBalancerPropertiesSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function loadBalancerDeserializer(item: any): LoadBalancer {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : loadBalancerPropertiesDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Load Balancer resource properties */
+export interface LoadBalancerProperties {
+  /** Frontend IPs for the loadbalancer. */
+  frontendIPConfigurations: FrontendIPConfiguration[];
+  /** backendAddressPools for the loadbalancer */
+  backendAddressPools?: BackendAddressPool[];
+  /** load balancer rules */
+  loadBalancingRules?: LoadBalancerRule[];
+  /** load balancer health probes */
+  probes?: Probe[];
+  /** Provisioning state of the Load Balancer */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** observed state of the load balancer */
+  readonly status?: LoadBalancerStatus;
+}
+
+export function loadBalancerPropertiesSerializer(item: LoadBalancerProperties): any {
+  return {
+    frontendIPConfigurations: frontendIPConfigurationArraySerializer(
+      item["frontendIPConfigurations"],
+    ),
+    backendAddressPools: !item["backendAddressPools"]
+      ? item["backendAddressPools"]
+      : backendAddressPoolArraySerializer(item["backendAddressPools"]),
+    loadBalancingRules: !item["loadBalancingRules"]
+      ? item["loadBalancingRules"]
+      : loadBalancerRuleArraySerializer(item["loadBalancingRules"]),
+    probes: !item["probes"] ? item["probes"] : probeArraySerializer(item["probes"]),
+  };
+}
+
+export function loadBalancerPropertiesDeserializer(item: any): LoadBalancerProperties {
+  return {
+    frontendIPConfigurations: frontendIPConfigurationArrayDeserializer(
+      item["frontendIPConfigurations"],
+    ),
+    backendAddressPools: !item["backendAddressPools"]
+      ? item["backendAddressPools"]
+      : backendAddressPoolArrayDeserializer(item["backendAddressPools"]),
+    loadBalancingRules: !item["loadBalancingRules"]
+      ? item["loadBalancingRules"]
+      : loadBalancerRuleArrayDeserializer(item["loadBalancingRules"]),
+    probes: !item["probes"] ? item["probes"] : probeArrayDeserializer(item["probes"]),
+    provisioningState: item["provisioningState"],
+    status: !item["status"] ? item["status"] : loadBalancerStatusDeserializer(item["status"]),
+  };
+}
+
+export function frontendIPConfigurationArraySerializer(
+  result: Array<FrontendIPConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return frontendIPConfigurationSerializer(item);
+  });
+}
+
+export function frontendIPConfigurationArrayDeserializer(
+  result: Array<FrontendIPConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return frontendIPConfigurationDeserializer(item);
+  });
+}
+
+/** FrontendIP Configuration object for a load balancer. */
+export interface FrontendIPConfiguration {
+  /** name for the frontend IP configuration. */
+  name: string;
+  /** properties for this frontendIPConfiguration */
+  properties: FrontendIPConfigurationProperties;
+}
+
+export function frontendIPConfigurationSerializer(item: FrontendIPConfiguration): any {
+  return {
+    name: item["name"],
+    properties: frontendIPConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function frontendIPConfigurationDeserializer(item: any): FrontendIPConfiguration {
+  return {
+    name: item["name"],
+    properties: frontendIPConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** FrontendIP Configuration object for a load balancer. */
+export interface FrontendIPConfigurationProperties {
+  /** Private IP Address that was allocated (dynamic) or is to be allocated (static) from the subnet. */
+  privateIPAddress?: string;
+  /** privateIPAllocationMethod - set to Static for requesting a specific IP */
+  privateIPAllocationMethod?: IpAllocationMethodEnum;
+  /** subnet - the subnet from which to allocate the private IP */
+  subnet?: VirtualNetworkSubnetArmReference;
+  /** Public IP */
+  publicIPAddress?: PublicIPAddressArmReference;
+}
+
+export function frontendIPConfigurationPropertiesSerializer(
+  item: FrontendIPConfigurationProperties,
+): any {
+  return {
+    privateIPAddress: item["privateIPAddress"],
+    privateIPAllocationMethod: item["privateIPAllocationMethod"],
+    subnet: !item["subnet"]
+      ? item["subnet"]
+      : virtualNetworkSubnetArmReferenceSerializer(item["subnet"]),
+    publicIPAddress: !item["publicIPAddress"]
+      ? item["publicIPAddress"]
+      : publicIPAddressArmReferenceSerializer(item["publicIPAddress"]),
+  };
+}
+
+export function frontendIPConfigurationPropertiesDeserializer(
+  item: any,
+): FrontendIPConfigurationProperties {
+  return {
+    privateIPAddress: item["privateIPAddress"],
+    privateIPAllocationMethod: item["privateIPAllocationMethod"],
+    subnet: !item["subnet"]
+      ? item["subnet"]
+      : virtualNetworkSubnetArmReferenceDeserializer(item["subnet"]),
+    publicIPAddress: !item["publicIPAddress"]
+      ? item["publicIPAddress"]
+      : publicIPAddressArmReferenceDeserializer(item["publicIPAddress"]),
+  };
+}
+
+export function backendAddressPoolArraySerializer(result: Array<BackendAddressPool>): any[] {
+  return result.map((item) => {
+    return backendAddressPoolSerializer(item);
+  });
+}
+
+export function backendAddressPoolArrayDeserializer(result: Array<BackendAddressPool>): any[] {
+  return result.map((item) => {
+    return backendAddressPoolDeserializer(item);
+  });
+}
+
+/** Backend address pool for the load balancer. */
+export interface BackendAddressPool {
+  /** name of the backend pool. */
+  name: string;
+  /** properties for the backend pool */
+  properties: BackendAddressPoolProperties;
+}
+
+export function backendAddressPoolSerializer(item: BackendAddressPool): any {
+  return {
+    name: item["name"],
+    properties: backendAddressPoolPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function backendAddressPoolDeserializer(item: any): BackendAddressPool {
+  return {
+    name: item["name"],
+    properties: backendAddressPoolPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Backend address pool for the load balancer. */
+export interface BackendAddressPoolProperties {
+  /** List of backend addresses for the backend pool */
+  loadBalancerBackendAddresses?: LoadBalancerBackendAddress[];
+  /** Reference to the virtual network for this backend pool. Mutually exclusive with logicalNetwork */
+  virtualNetwork?: VirtualNetworkArmReference;
+  /** Reference to the logical network for this backend pool. Mutually exclusive with virtualNetwork */
+  logicalNetwork?: LogicalNetworkArmReference;
+}
+
+export function backendAddressPoolPropertiesSerializer(item: BackendAddressPoolProperties): any {
+  return {
+    loadBalancerBackendAddresses: !item["loadBalancerBackendAddresses"]
+      ? item["loadBalancerBackendAddresses"]
+      : loadBalancerBackendAddressArraySerializer(item["loadBalancerBackendAddresses"]),
+    virtualNetwork: !item["virtualNetwork"]
+      ? item["virtualNetwork"]
+      : virtualNetworkArmReferenceSerializer(item["virtualNetwork"]),
+    logicalNetwork: !item["logicalNetwork"]
+      ? item["logicalNetwork"]
+      : logicalNetworkArmReferenceSerializer(item["logicalNetwork"]),
+  };
+}
+
+export function backendAddressPoolPropertiesDeserializer(item: any): BackendAddressPoolProperties {
+  return {
+    loadBalancerBackendAddresses: !item["loadBalancerBackendAddresses"]
+      ? item["loadBalancerBackendAddresses"]
+      : loadBalancerBackendAddressArrayDeserializer(item["loadBalancerBackendAddresses"]),
+    virtualNetwork: !item["virtualNetwork"]
+      ? item["virtualNetwork"]
+      : virtualNetworkArmReferenceDeserializer(item["virtualNetwork"]),
+    logicalNetwork: !item["logicalNetwork"]
+      ? item["logicalNetwork"]
+      : logicalNetworkArmReferenceDeserializer(item["logicalNetwork"]),
+  };
+}
+
+export function loadBalancerBackendAddressArraySerializer(
+  result: Array<LoadBalancerBackendAddress>,
+): any[] {
+  return result.map((item) => {
+    return loadBalancerBackendAddressSerializer(item);
+  });
+}
+
+export function loadBalancerBackendAddressArrayDeserializer(
+  result: Array<LoadBalancerBackendAddress>,
+): any[] {
+  return result.map((item) => {
+    return loadBalancerBackendAddressDeserializer(item);
+  });
+}
+
+/** LoadBalancer Backend Address */
+export interface LoadBalancerBackendAddress {
+  /** name of the backend address */
+  name: string;
+  /** backend address properties */
+  properties: LoadBalancerBackendAddressProperties;
+}
+
+export function loadBalancerBackendAddressSerializer(item: LoadBalancerBackendAddress): any {
+  return {
+    name: item["name"],
+    properties: loadBalancerBackendAddressPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function loadBalancerBackendAddressDeserializer(item: any): LoadBalancerBackendAddress {
+  return {
+    name: item["name"],
+    properties: loadBalancerBackendAddressPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** LoadBalancer Backend Address properties */
+export interface LoadBalancerBackendAddressProperties {
+  /** admin state - if set to false, the address is removed from the pool */
+  adminState?: LoadBalancerBackendAddressAdminState;
+  /** IP address of the backend target. Populated automatically from the referenced IP configuration. */
+  readonly ipAddress?: string;
+  /** Reference to the subnet containing the backend address. Populated automatically from the referenced IP configuration. Mutually exclusive with logicalNetwork. */
+  readonly subnet?: VirtualNetworkSubnetArmReference;
+  /** Reference to the virtual network containing the backend address. Populated automatically from the referenced IP configuration. Mutually exclusive with logicalNetwork. */
+  readonly virtualNetwork?: VirtualNetworkArmReference;
+  /** Reference to the logical network containing this backend address. Populated automatically from the referenced IP configuration. Mutually exclusive with subnet and virtualNetwork. */
+  readonly logicalNetwork?: LogicalNetworkArmReference;
+  /** Nic Based backend-ip association */
+  networkInterfaceIPConfiguration?: IPConfigurationArmReference;
+}
+
+export function loadBalancerBackendAddressPropertiesSerializer(
+  item: LoadBalancerBackendAddressProperties,
+): any {
+  return {
+    adminState: item["adminState"],
+    networkInterfaceIPConfiguration: !item["networkInterfaceIPConfiguration"]
+      ? item["networkInterfaceIPConfiguration"]
+      : ipConfigurationArmReferenceSerializer(item["networkInterfaceIPConfiguration"]),
+  };
+}
+
+export function loadBalancerBackendAddressPropertiesDeserializer(
+  item: any,
+): LoadBalancerBackendAddressProperties {
+  return {
+    adminState: item["adminState"],
+    ipAddress: item["ipAddress"],
+    subnet: !item["subnet"]
+      ? item["subnet"]
+      : virtualNetworkSubnetArmReferenceDeserializer(item["subnet"]),
+    virtualNetwork: !item["virtualNetwork"]
+      ? item["virtualNetwork"]
+      : virtualNetworkArmReferenceDeserializer(item["virtualNetwork"]),
+    logicalNetwork: !item["logicalNetwork"]
+      ? item["logicalNetwork"]
+      : logicalNetworkArmReferenceDeserializer(item["logicalNetwork"]),
+    networkInterfaceIPConfiguration: !item["networkInterfaceIPConfiguration"]
+      ? item["networkInterfaceIPConfiguration"]
+      : ipConfigurationArmReferenceDeserializer(item["networkInterfaceIPConfiguration"]),
+  };
+}
+
+/** Backend Address Admin states */
+export enum KnownLoadBalancerBackendAddressAdminState {
+  /** Up - forced admin state up */
+  Up = "Up",
+  /** Down - forced admin state down */
+  Down = "Down",
+}
+
+/**
+ * Backend Address Admin states \
+ * {@link KnownLoadBalancerBackendAddressAdminState} can be used interchangeably with LoadBalancerBackendAddressAdminState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Up**: Up - forced admin state up \
+ * **Down**: Down - forced admin state down
+ */
+export type LoadBalancerBackendAddressAdminState = string;
+
+/** The Azure Resource ID for a Virtual Network */
+export interface VirtualNetworkArmReference {
+  /** The Azure Resource ID for a Virtual Network. */
+  resourceId?: string;
+}
+
+export function virtualNetworkArmReferenceSerializer(item: VirtualNetworkArmReference): any {
+  return { resourceId: item["resourceId"] };
+}
+
+export function virtualNetworkArmReferenceDeserializer(item: any): VirtualNetworkArmReference {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+export function loadBalancerRuleArraySerializer(result: Array<LoadBalancerRule>): any[] {
+  return result.map((item) => {
+    return loadBalancerRuleSerializer(item);
+  });
+}
+
+export function loadBalancerRuleArrayDeserializer(result: Array<LoadBalancerRule>): any[] {
+  return result.map((item) => {
+    return loadBalancerRuleDeserializer(item);
+  });
+}
+
+/** LoadBalancer Rules */
+export interface LoadBalancerRule {
+  /** name of the load balancer rule */
+  name: string;
+  /** load balancer rule properties */
+  properties: LoadBalancerRuleProperties;
+}
+
+export function loadBalancerRuleSerializer(item: LoadBalancerRule): any {
+  return {
+    name: item["name"],
+    properties: loadBalancerRulePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function loadBalancerRuleDeserializer(item: any): LoadBalancerRule {
+  return {
+    name: item["name"],
+    properties: loadBalancerRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties for LoadBalancerRules */
+export interface LoadBalancerRuleProperties {
+  /** arm reference to frontend IP being used by this LB */
+  frontendIPConfiguration: LoadBalancerFrontendIPConfigurationReference;
+  /** arm reference to backend pool being used by ths pool */
+  backendAddressPool: LoadBalancerBackendAddressPoolReference;
+  /** Frontend port to accept connections */
+  frontendPort: number;
+  /** backendPort to forward connections */
+  backendPort: number;
+  /** IP Protocol that the rule must load-balance */
+  protocol: LoadBalancerRuleTransportProtocol;
+  /** Reference for the health probe for this connection */
+  probe?: LoadBalancerProbeReference;
+  /** SessionPersistence: Default (5-tuple), SourceIP(2-tuple), sourceIPProtocol(3-tuple) */
+  loadDistribution?: LoadBalancerRuleSessionPersistenceType;
+  /** Time for which connections are preserved before being torn down. */
+  idleTimeoutInMinutes?: number;
+}
+
+export function loadBalancerRulePropertiesSerializer(item: LoadBalancerRuleProperties): any {
+  return {
+    frontendIPConfiguration: loadBalancerFrontendIPConfigurationReferenceSerializer(
+      item["frontendIPConfiguration"],
+    ),
+    backendAddressPool: loadBalancerBackendAddressPoolReferenceSerializer(
+      item["backendAddressPool"],
+    ),
+    frontendPort: item["frontendPort"],
+    backendPort: item["backendPort"],
+    protocol: item["protocol"],
+    probe: !item["probe"] ? item["probe"] : loadBalancerProbeReferenceSerializer(item["probe"]),
+    loadDistribution: item["loadDistribution"],
+    idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
+  };
+}
+
+export function loadBalancerRulePropertiesDeserializer(item: any): LoadBalancerRuleProperties {
+  return {
+    frontendIPConfiguration: loadBalancerFrontendIPConfigurationReferenceDeserializer(
+      item["frontendIPConfiguration"],
+    ),
+    backendAddressPool: loadBalancerBackendAddressPoolReferenceDeserializer(
+      item["backendAddressPool"],
+    ),
+    frontendPort: item["frontendPort"],
+    backendPort: item["backendPort"],
+    protocol: item["protocol"],
+    probe: !item["probe"] ? item["probe"] : loadBalancerProbeReferenceDeserializer(item["probe"]),
+    loadDistribution: item["loadDistribution"],
+    idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
+  };
+}
+
+/** Reference to a LoadBalancer Frontend IPConfiguration */
+export interface LoadBalancerFrontendIPConfigurationReference {
+  /** name of the frontnedIPConfiguration */
+  name: string;
+}
+
+export function loadBalancerFrontendIPConfigurationReferenceSerializer(
+  item: LoadBalancerFrontendIPConfigurationReference,
+): any {
+  return { name: item["name"] };
+}
+
+export function loadBalancerFrontendIPConfigurationReferenceDeserializer(
+  item: any,
+): LoadBalancerFrontendIPConfigurationReference {
+  return {
+    name: item["name"],
+  };
+}
+
+/** Reference to a LoadBalancer backend address pool reference */
+export interface LoadBalancerBackendAddressPoolReference {
+  /** name of the backend address pool */
+  name: string;
+}
+
+export function loadBalancerBackendAddressPoolReferenceSerializer(
+  item: LoadBalancerBackendAddressPoolReference,
+): any {
+  return { name: item["name"] };
+}
+
+export function loadBalancerBackendAddressPoolReferenceDeserializer(
+  item: any,
+): LoadBalancerBackendAddressPoolReference {
+  return {
+    name: item["name"],
+  };
+}
+
+/** Protocol for load balancing rules */
+export enum KnownLoadBalancerRuleTransportProtocol {
+  /** TCP - load balance only tcp traffic */
+  TCP = "Tcp",
+  /** Udp - load balance only UDP traffic */
+  UDP = "Udp",
+  /** All - load balance all UDP and TCP traffic */
+  All = "All",
+}
+
+/**
+ * Protocol for load balancing rules \
+ * {@link KnownLoadBalancerRuleTransportProtocol} can be used interchangeably with LoadBalancerRuleTransportProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tcp**: TCP - load balance only tcp traffic \
+ * **Udp**: Udp - load balance only UDP traffic \
+ * **All**: All - load balance all UDP and TCP traffic
+ */
+export type LoadBalancerRuleTransportProtocol = string;
+
+/** Reference to a LoadBalancer health probe */
+export interface LoadBalancerProbeReference {
+  /** name of the health probe */
+  name: string;
+}
+
+export function loadBalancerProbeReferenceSerializer(item: LoadBalancerProbeReference): any {
+  return { name: item["name"] };
+}
+
+export function loadBalancerProbeReferenceDeserializer(item: any): LoadBalancerProbeReference {
+  return {
+    name: item["name"],
+  };
+}
+
+/** Type of session persistence [Default, SourceIP, SourceIPProtocol] */
+export enum KnownLoadBalancerRuleSessionPersistenceType {
+  /** Default - 5-tuple hashing */
+  Default = "Default",
+  /** Source IP - 2-tuple hashing looking at src-dst ip */
+  SourceIP = "SourceIP",
+  /** SourceIPProtocol - 3-tuple hashing looking at src-dst ip and ip protocol */
+  SourceIPProtocol = "SourceIPProtocol",
+}
+
+/**
+ * Type of session persistence [Default, SourceIP, SourceIPProtocol] \
+ * {@link KnownLoadBalancerRuleSessionPersistenceType} can be used interchangeably with LoadBalancerRuleSessionPersistenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Default - 5-tuple hashing \
+ * **SourceIP**: Source IP - 2-tuple hashing looking at src-dst ip \
+ * **SourceIPProtocol**: SourceIPProtocol - 3-tuple hashing looking at src-dst ip and ip protocol
+ */
+export type LoadBalancerRuleSessionPersistenceType = string;
+
+export function probeArraySerializer(result: Array<Probe>): any[] {
+  return result.map((item) => {
+    return probeSerializer(item);
+  });
+}
+
+export function probeArrayDeserializer(result: Array<Probe>): any[] {
+  return result.map((item) => {
+    return probeDeserializer(item);
+  });
+}
+
+/** Load balancer health probes */
+export interface Probe {
+  /** name of the load balancer health probe */
+  name: string;
+  /** load balancer rule properties */
+  properties: ProbeProperties;
+}
+
+export function probeSerializer(item: Probe): any {
+  return { name: item["name"], properties: probePropertiesSerializer(item["properties"]) };
+}
+
+export function probeDeserializer(item: any): Probe {
+  return {
+    name: item["name"],
+    properties: probePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** properties for LoadBalancer health probes */
+export interface ProbeProperties {
+  /** Protocol for this probe: Can be Tcp or Http - Diverges from Azure where Https is also an option */
+  protocol: LoadBalancerProbeProtocol;
+  /** Port on the backend address to probe */
+  port: number;
+  /** For http probes, specify the request path e.g. /health */
+  requestPath?: string;
+  /** Probe interval in seconds (5-300) default 15 */
+  intervalInSeconds?: number;
+  /** number of consecutive probe failures before marking unhealthy (1-20) default 2 */
+  numberOfProbes?: number;
+}
+
+export function probePropertiesSerializer(item: ProbeProperties): any {
+  return {
+    protocol: item["protocol"],
+    port: item["port"],
+    requestPath: item["requestPath"],
+    intervalInSeconds: item["intervalInSeconds"],
+    numberOfProbes: item["numberOfProbes"],
+  };
+}
+
+export function probePropertiesDeserializer(item: any): ProbeProperties {
+  return {
+    protocol: item["protocol"],
+    port: item["port"],
+    requestPath: item["requestPath"],
+    intervalInSeconds: item["intervalInSeconds"],
+    numberOfProbes: item["numberOfProbes"],
+  };
+}
+
+/** Protocol for health probes */
+export enum KnownLoadBalancerProbeProtocol {
+  /** TCP - TCP port checking */
+  TCP = "Tcp",
+  /** HTTP - HTTP request */
+  Http = "Http",
+}
+
+/**
+ * Protocol for health probes \
+ * {@link KnownLoadBalancerProbeProtocol} can be used interchangeably with LoadBalancerProbeProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tcp**: TCP - TCP port checking \
+ * **Http**: HTTP - HTTP request
+ */
+export type LoadBalancerProbeProtocol = string;
+
+/** The observed status of the virtual network */
+export interface LoadBalancerStatus {
+  /** LoadBalancer provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** virtual network provisioning status */
+  provisioningStatus?: LoadBalancerStatusProvisioningStatus;
+}
+
+export function loadBalancerStatusDeserializer(item: any): LoadBalancerStatus {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    provisioningStatus: !item["provisioningStatus"]
+      ? item["provisioningStatus"]
+      : loadBalancerStatusProvisioningStatusDeserializer(item["provisioningStatus"]),
+  };
+}
+
+/** Status of load balancer operations */
+export interface LoadBalancerStatusProvisioningStatus {
+  /** The ID of the operation performed on the load balancer */
+  operationId?: string;
+  /** The status of the operation performed on the loadbalancer [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+export function loadBalancerStatusProvisioningStatusDeserializer(
+  item: any,
+): LoadBalancerStatusProvisioningStatus {
+  return {
+    operationId: item["operationId"],
+    status: item["status"],
+  };
+}
+
+/** The type used for updating tags in LoadBalancer resources. */
+export interface LoadBalancerTagsUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function loadBalancerTagsUpdateSerializer(item: LoadBalancerTagsUpdate): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a LoadBalancer list operation. */
+export interface _LoadBalancerListResult {
+  /** The LoadBalancer items on this page */
+  value: LoadBalancer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _loadBalancerListResultDeserializer(item: any): _LoadBalancerListResult {
+  return {
+    value: loadBalancerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function loadBalancerArraySerializer(result: Array<LoadBalancer>): any[] {
+  return result.map((item) => {
+    return loadBalancerSerializer(item);
+  });
+}
+
+export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[] {
+  return result.map((item) => {
+    return loadBalancerDeserializer(item);
+  });
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationListResultDeserializer(item: any): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for an operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2024-02-01-preview API version. */
@@ -4426,4 +6651,92 @@ export enum KnownVersions {
   V20250401Preview = "2025-04-01-preview",
   /** The 2025-06-01-preview API version. */
   V20250601Preview = "2025-06-01-preview",
+  /** The 2025-09-01-preview API version. */
+  V20250901Preview = "2025-09-01-preview",
+  /** The 2026-02-01-preview API version. */
+  V20260201Preview = "2026-02-01-preview",
+  /** The 2026-04-01-preview API version. */
+  V20260401Preview = "2026-04-01-preview",
+}
+
+export function _galleryImageVersionPropertiesSerializer(item: GalleryImageVersion): any {
+  return {
+    storageProfile: !item["storageProfile"]
+      ? item["storageProfile"]
+      : galleryImageVersionStorageProfileSerializer(item["storageProfile"]),
+  };
+}
+
+export function _galleryImageVersionPropertiesDeserializer(item: any) {
+  return {
+    storageProfile: !item["storageProfile"]
+      ? item["storageProfile"]
+      : galleryImageVersionStorageProfileDeserializer(item["storageProfile"]),
+  };
+}
+
+export function _routePropertiesSerializer(item: Route): any {
+  return { addressPrefix: item["addressPrefix"], nextHopIpAddress: item["nextHopIpAddress"] };
+}
+
+export function _routePropertiesDeserializer(item: any) {
+  return {
+    addressPrefix: item["addressPrefix"],
+    nextHopIpAddress: item["nextHopIpAddress"],
+  };
+}
+
+export function _routeTablePropertiesSerializer(item: RouteTable): any {
+  return { routes: !item["routes"] ? item["routes"] : routeArraySerializer(item["routes"]) };
+}
+
+export function _routeTablePropertiesDeserializer(item: any) {
+  return {
+    routes: !item["routes"] ? item["routes"] : routeArrayDeserializer(item["routes"]),
+  };
+}
+
+export function _subnetPropertiesSerializer(item: Subnet): any {
+  return {
+    addressPrefix: item["addressPrefix"],
+    addressPrefixes: !item["addressPrefixes"]
+      ? item["addressPrefixes"]
+      : item["addressPrefixes"].map((p: any) => {
+          return p;
+        }),
+    ipAllocationMethod: item["ipAllocationMethod"],
+    ipConfigurationReferences: !item["ipConfigurationReferences"]
+      ? item["ipConfigurationReferences"]
+      : subnetIpConfigurationReferenceArraySerializer(item["ipConfigurationReferences"]),
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : networkSecurityGroupArmReferenceSerializer(item["networkSecurityGroup"]),
+    routeTable: !item["routeTable"] ? item["routeTable"] : routeTableSerializer(item["routeTable"]),
+    ipPools: !item["ipPools"] ? item["ipPools"] : ipPoolArraySerializer(item["ipPools"]),
+    vlan: item["vlan"],
+  };
+}
+
+export function _subnetPropertiesDeserializer(item: any) {
+  return {
+    addressPrefix: item["addressPrefix"],
+    addressPrefixes: !item["addressPrefixes"]
+      ? item["addressPrefixes"]
+      : item["addressPrefixes"].map((p: any) => {
+          return p;
+        }),
+    ipAllocationMethod: item["ipAllocationMethod"],
+    ipConfigurationReferences: !item["ipConfigurationReferences"]
+      ? item["ipConfigurationReferences"]
+      : subnetIpConfigurationReferenceArrayDeserializer(item["ipConfigurationReferences"]),
+    networkSecurityGroup: !item["networkSecurityGroup"]
+      ? item["networkSecurityGroup"]
+      : networkSecurityGroupArmReferenceDeserializer(item["networkSecurityGroup"]),
+    routeTable: !item["routeTable"]
+      ? item["routeTable"]
+      : routeTableDeserializer(item["routeTable"]),
+    ipPools: !item["ipPools"] ? item["ipPools"] : ipPoolArrayDeserializer(item["ipPools"]),
+    vlan: item["vlan"],
+    provisioningState: item["provisioningState"],
+  };
 }

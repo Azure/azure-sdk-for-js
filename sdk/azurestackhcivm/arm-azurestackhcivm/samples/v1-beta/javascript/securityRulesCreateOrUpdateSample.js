@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a security rule in the specified resource group.
  *
  * @summary creates or updates a security rule in the specified resource group.
- * x-ms-original-file: 2025-06-01-preview/SecurityRules_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/SecurityRules_CreateOrUpdate.json
  */
 async function securityRulesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

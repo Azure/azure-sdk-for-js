@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a network security group tags.
  *
  * @summary updates a network security group tags.
- * x-ms-original-file: 2025-06-01-preview/NetworkSecurityGroups_UpdateTags.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityGroups_UpdateTags.json
  */
 async function updateNetworkSecurityGroupTags() {
   const credential = new DefaultAzureCredential();

@@ -1,42 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { SecurityRule, _SecurityRuleListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  SecurityRule,
   securityRuleSerializer,
   securityRuleDeserializer,
-  _SecurityRuleListResult,
   _securityRuleListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SecurityRulesListByNetworkSecurityGroupOptionalParams,
   SecurityRulesDeleteOptionalParams,
   SecurityRulesCreateOrUpdateOptionalParams,
   SecurityRulesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByNetworkSecurityGroupSend(
   context: Client,
   resourceGroupName: string,
   networkSecurityGroupName: string,
-  options: SecurityRulesListByNetworkSecurityGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityRulesListByNetworkSecurityGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkSecurityGroups/{networkSecurityGroupName}/securityRules{?api%2Dversion}",
@@ -44,7 +35,7 @@ export function _listByNetworkSecurityGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,10 +43,7 @@ export function _listByNetworkSecurityGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -66,6 +54,7 @@ export async function _listByNetworkSecurityGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -77,9 +66,7 @@ export function listByNetworkSecurityGroup(
   context: Client,
   resourceGroupName: string,
   networkSecurityGroupName: string,
-  options: SecurityRulesListByNetworkSecurityGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SecurityRulesListByNetworkSecurityGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SecurityRule> {
   return buildPagedAsyncIterator(
     context,
@@ -92,7 +79,11 @@ export function listByNetworkSecurityGroup(
       ),
     _listByNetworkSecurityGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -110,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
       securityRuleName: securityRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,6 +115,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -131,11 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified security rule. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -149,6 +136,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkSecurityGroupName, securityRuleName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -167,7 +155,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
       securityRuleName: securityRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,10 +164,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: securityRuleSerializer(resource),
   });
 }
@@ -191,6 +176,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -219,6 +205,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<SecurityRule>, SecurityRule>;
 }
 
@@ -236,7 +223,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
       securityRuleName: securityRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,10 +231,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -256,6 +240,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

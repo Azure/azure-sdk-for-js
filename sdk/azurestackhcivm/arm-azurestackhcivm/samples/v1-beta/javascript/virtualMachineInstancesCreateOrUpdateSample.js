@@ -8,12 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Gallery_Image.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Gallery_Image.json
  */
 async function putVirtualMachineInstanceWithGalleryImage() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -35,10 +34,7 @@ async function putVirtualMachineInstanceWithGalleryImage() {
           adminUsername: "localadmin",
           computerName: "luamaster",
         },
-        securityProfile: {
-          enableTPM: true,
-          uefiSettings: { secureBootEnabled: true },
-        },
+        securityProfile: { enableTPM: true, uefiSettings: { secureBootEnabled: true } },
         storageProfile: {
           imageReference: {
             id: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/galleryImages/test-gallery-image",
@@ -56,12 +52,11 @@ async function putVirtualMachineInstanceWithGalleryImage() {
  * This sample demonstrates how to the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Gpu.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Gpu.json
  */
 async function putVirtualMachineInstanceWithGpu() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -86,10 +81,7 @@ async function putVirtualMachineInstanceWithGpu() {
           adminUsername: "localadmin",
           computerName: "luamaster",
         },
-        securityProfile: {
-          enableTPM: true,
-          uefiSettings: { secureBootEnabled: true },
-        },
+        securityProfile: { enableTPM: true, uefiSettings: { secureBootEnabled: true } },
         storageProfile: {
           imageReference: {
             id: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/galleryImages/test-gallery-image",
@@ -107,12 +99,11 @@ async function putVirtualMachineInstanceWithGpu() {
  * This sample demonstrates how to the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Marketplace_Gallery_Image.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Marketplace_Gallery_Image.json
  */
 async function putVirtualMachineInstanceWithMarketplaceGalleryImage() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -134,10 +125,7 @@ async function putVirtualMachineInstanceWithMarketplaceGalleryImage() {
           adminUsername: "localadmin",
           computerName: "luamaster",
         },
-        securityProfile: {
-          enableTPM: true,
-          uefiSettings: { secureBootEnabled: true },
-        },
+        securityProfile: { enableTPM: true, uefiSettings: { secureBootEnabled: true } },
         storageProfile: {
           imageReference: {
             id: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/test-marketplace-gallery-image",
@@ -155,12 +143,11 @@ async function putVirtualMachineInstanceWithMarketplaceGalleryImage() {
  * This sample demonstrates how to the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Os_Disk.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Os_Disk.json
  */
 async function putVirtualMachineInstanceWithOsDisk() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -177,10 +164,7 @@ async function putVirtualMachineInstanceWithOsDisk() {
             },
           ],
         },
-        securityProfile: {
-          enableTPM: true,
-          uefiSettings: { secureBootEnabled: true },
-        },
+        securityProfile: { enableTPM: true, uefiSettings: { secureBootEnabled: true } },
         storageProfile: {
           osDisk: {
             id: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/virtualHardDisks/test-vhd",
@@ -198,12 +182,11 @@ async function putVirtualMachineInstanceWithOsDisk() {
  * This sample demonstrates how to the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Vm_Config_Agent.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualMachineInstances_CreateOrUpdate_Put_Virtual_Machine_Instance_With_Vm_Config_Agent.json
  */
 async function putVirtualMachineInstanceWithVMConfigAgent() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -226,10 +209,7 @@ async function putVirtualMachineInstanceWithVMConfigAgent() {
           computerName: "luamaster",
           windowsConfiguration: { provisionVMConfigAgent: true },
         },
-        securityProfile: {
-          enableTPM: true,
-          uefiSettings: { secureBootEnabled: true },
-        },
+        securityProfile: { enableTPM: true, uefiSettings: { secureBootEnabled: true } },
         storageProfile: {
           imageReference: {
             id: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/galleryImages/test-gallery-image",
@@ -247,12 +227,11 @@ async function putVirtualMachineInstanceWithVMConfigAgent() {
  * This sample demonstrates how to the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary the operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances__CreateOrUpdate_CreateFromLocal.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualMachineInstances__CreateOrUpdate_CreateFromLocal.json
  */
 async function createVirtualMachineInstanceFromLocal() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -276,6 +255,7 @@ async function createVirtualMachineInstanceFromLocal() {
           ],
         },
         createFromLocal: true,
+        localVmName: "DemoVM_restored",
       },
     },
   );

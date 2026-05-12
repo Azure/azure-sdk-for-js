@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a gallery image.
  *
  * @summary the operation to update a gallery image.
- * x-ms-original-file: 2025-06-01-preview/GalleryImages_Update.json
+ * x-ms-original-file: 2026-04-01-preview/GalleryImages_Update.json
  */
 async function updateGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();

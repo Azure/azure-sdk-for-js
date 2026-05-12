@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to upload a virtual hard disk.
  *
  * @summary the operation to upload a virtual hard disk.
- * x-ms-original-file: 2025-06-01-preview/VirtualHardDisks_Upload.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualHardDisks_Upload.json
  */
 async function uploadVirtualHardDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();

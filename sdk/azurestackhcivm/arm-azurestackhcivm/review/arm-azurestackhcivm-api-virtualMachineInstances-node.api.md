@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -23,6 +23,9 @@ export function list(context: AzureStackHCIVMManagementContext, resourceUri: str
 
 // @public
 export function pause(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesPauseOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
+export function powerOff(context: AzureStackHCIVMManagementContext, resourceUri: string, body: PowerOffVirtualMachineOptions, options?: VirtualMachineInstancesPowerOffOptionalParams): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 
 // @public
 export function restart(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams): PollerLike<OperationState<void>, void>;
@@ -59,6 +62,11 @@ export interface VirtualMachineInstancesListOptionalParams extends OperationOpti
 
 // @public
 export interface VirtualMachineInstancesPauseOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineInstancesPowerOffOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

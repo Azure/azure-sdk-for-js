@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a marketplace gallery image. Please note some properties can be set only during marketplace gallery image creation.
  *
  * @summary the operation to create or update a marketplace gallery image. Please note some properties can be set only during marketplace gallery image creation.
- * x-ms-original-file: 2025-06-01-preview/MarketplaceGalleryImages_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/MarketplaceGalleryImages_CreateOrUpdate.json
  */
 async function putMarketplaceGalleryImage() {
   const credential = new DefaultAzureCredential();
@@ -28,11 +28,7 @@ async function putMarketplaceGalleryImage() {
         containerId:
           "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/storageContainers/test-storage-container",
         hyperVGeneration: "V1",
-        identifier: {
-          offer: "myOfferName",
-          publisher: "myPublisherName",
-          sku: "mySkuName",
-        },
+        identifier: { offer: "myOfferName", publisher: "myPublisherName", sku: "mySkuName" },
         osType: "Windows",
         version: { name: "1.0.0" },
       },

@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
-  AttestationStatus,
-  attestationStatusDeserializer,
-} from "../../models/models.js";
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { AttestationStatus } from "../../models/models.js";
+import { errorResponseDeserializer, attestationStatusDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { AttestationStatusesGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { AttestationStatusesGetOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -25,7 +18,7 @@ export function _getSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/attestationStatus/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -33,10 +26,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -45,6 +35,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<At
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

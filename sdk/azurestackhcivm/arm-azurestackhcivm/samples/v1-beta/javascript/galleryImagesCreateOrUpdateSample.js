@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a gallery image. Please note some properties can be set only during gallery image creation.
  *
  * @summary the operation to create or update a gallery image. Please note some properties can be set only during gallery image creation.
- * x-ms-original-file: 2025-06-01-preview/GalleryImages_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/GalleryImages_CreateOrUpdate.json
  */
 async function putGalleryImage() {
   const credential = new DefaultAzureCredential();

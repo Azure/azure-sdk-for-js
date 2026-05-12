@@ -1,0 +1,27 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to updates a virtual network tags.
+ *
+ * @summary updates a virtual network tags.
+ * x-ms-original-file: 2026-04-01-preview/VirtualNetworks_UpdateTags.json
+ */
+async function updateVirtualNetworkTags(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
+  const result = await client.virtualNetworks.updateTags("testrg", "testvnet", {
+    tags: { tag1: "value1", tag2: "value2" },
+  });
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await updateVirtualNetworkTags();
+}
+
+main().catch(console.error);

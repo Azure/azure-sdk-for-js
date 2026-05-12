@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the marketplace gallery images in the specified resource group. Use the nextLink property in the response to get the next page of marketplace gallery images.
  *
  * @summary lists all of the marketplace gallery images in the specified resource group. Use the nextLink property in the response to get the next page of marketplace gallery images.
- * x-ms-original-file: 2025-06-01-preview/MarketplaceGalleryImages_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/MarketplaceGalleryImages_ListByResourceGroup.json
  */
 async function listMarketplaceGalleryImageByResourceGroup() {
   const credential = new DefaultAzureCredential();

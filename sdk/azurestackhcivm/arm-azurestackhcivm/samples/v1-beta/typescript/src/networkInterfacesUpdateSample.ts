@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a network interface.
  *
  * @summary the operation to update a network interface.
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces_Update.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces_Update.json
  */
 async function updateNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();

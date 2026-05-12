@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified network security group.
  *
  * @summary deletes the specified network security group.
- * x-ms-original-file: 2025-06-01-preview/NetworkSecurityGroups_Delete.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityGroups_Delete.json
  */
 async function deleteNetworkSecurityGroup() {
   const credential = new DefaultAzureCredential();

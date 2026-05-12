@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-azurestackhcivm",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for AzureStackHCIVMManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -138,6 +138,132 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/loadBalancers": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancers/index.d.ts",
+        "default": "./dist/browser/api/loadBalancers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/loadBalancers/index.d.ts",
+        "default": "./dist/react-native/api/loadBalancers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancers/index.d.ts",
+        "default": "./dist/esm/api/loadBalancers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancers/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancers/index.js"
+      }
+    },
+    "./api/inboundRules": {
+      "browser": {
+        "types": "./dist/browser/api/inboundRules/index.d.ts",
+        "default": "./dist/browser/api/inboundRules/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/inboundRules/index.d.ts",
+        "default": "./dist/react-native/api/inboundRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/inboundRules/index.d.ts",
+        "default": "./dist/esm/api/inboundRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/inboundRules/index.d.ts",
+        "default": "./dist/commonjs/api/inboundRules/index.js"
+      }
+    },
+    "./api/natGateways": {
+      "browser": {
+        "types": "./dist/browser/api/natGateways/index.d.ts",
+        "default": "./dist/browser/api/natGateways/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/natGateways/index.d.ts",
+        "default": "./dist/react-native/api/natGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/natGateways/index.d.ts",
+        "default": "./dist/esm/api/natGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/natGateways/index.d.ts",
+        "default": "./dist/commonjs/api/natGateways/index.js"
+      }
+    },
+    "./api/publicIPAddresses": {
+      "browser": {
+        "types": "./dist/browser/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/browser/api/publicIPAddresses/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/react-native/api/publicIPAddresses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/esm/api/publicIPAddresses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/commonjs/api/publicIPAddresses/index.js"
+      }
+    },
+    "./api/virtualNetworkSubnets": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkSubnets/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/react-native/api/virtualNetworkSubnets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkSubnets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkSubnets/index.js"
+      }
+    },
+    "./api/virtualNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworks/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualNetworks/index.d.ts",
+        "default": "./dist/react-native/api/virtualNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworks/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworks/index.js"
+      }
+    },
     "./api/guestAgents": {
       "browser": {
         "types": "./dist/browser/api/guestAgents/index.d.ts",
@@ -244,6 +370,24 @@
       "require": {
         "types": "./dist/commonjs/api/storageContainers/index.d.ts",
         "default": "./dist/commonjs/api/storageContainers/index.js"
+      }
+    },
+    "./api/snapshots": {
+      "browser": {
+        "types": "./dist/browser/api/snapshots/index.d.ts",
+        "default": "./dist/browser/api/snapshots/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/snapshots/index.d.ts",
+        "default": "./dist/react-native/api/snapshots/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/snapshots/index.d.ts",
+        "default": "./dist/esm/api/snapshots/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/snapshots/index.d.ts",
+        "default": "./dist/commonjs/api/snapshots/index.js"
       }
     },
     "./api/securityRules": {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the network interfaces in the specified subscription. Use the nextLink property in the response to get the next page of network interfaces.
  *
  * @summary lists all of the network interfaces in the specified subscription. Use the nextLink property in the response to get the next page of network interfaces.
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces_ListAll.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces_ListAll.json
  */
 async function listNetworkInterfaceBySubscription() {
   const credential = new DefaultAzureCredential();

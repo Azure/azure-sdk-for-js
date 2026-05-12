@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a network interface
  *
  * @summary gets a network interface
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces_Get.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces_Get.json
  */
 async function getNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();

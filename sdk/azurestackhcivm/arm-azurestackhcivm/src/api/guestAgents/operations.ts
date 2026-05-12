@@ -1,47 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { GuestAgent, _GuestAgentListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  GuestAgent,
   guestAgentSerializer,
   guestAgentDeserializer,
-  _GuestAgentListResult,
   _guestAgentListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   GuestAgentsListByVirtualMachineInstanceOptionalParams,
   GuestAgentsDeleteOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByVirtualMachineInstanceSend(
   context: Client,
   resourceUri: string,
-  options: GuestAgentsListByVirtualMachineInstanceOptionalParams = {
-    requestOptions: {},
-  },
+  options: GuestAgentsListByVirtualMachineInstanceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -49,10 +40,7 @@ export function _listByVirtualMachineInstanceSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -63,6 +51,7 @@ export async function _listByVirtualMachineInstanceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -73,16 +62,18 @@ export async function _listByVirtualMachineInstanceDeserialize(
 export function listByVirtualMachineInstance(
   context: Client,
   resourceUri: string,
-  options: GuestAgentsListByVirtualMachineInstanceOptionalParams = {
-    requestOptions: {},
-  },
+  options: GuestAgentsListByVirtualMachineInstanceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<GuestAgent> {
   return buildPagedAsyncIterator(
     context,
     () => _listByVirtualMachineInstanceSend(context, resourceUri, options),
     _listByVirtualMachineInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -95,7 +86,7 @@ export function _$deleteSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,6 +100,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -116,11 +108,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Implements GuestAgent DELETE method. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceUri: string,
@@ -131,6 +118,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -144,7 +132,7 @@ export function _createSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,10 +141,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: guestAgentSerializer(resource),
   });
 }
@@ -166,6 +151,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -184,6 +170,7 @@ export function create(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceUri, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<GuestAgent>, GuestAgent>;
 }
 
@@ -196,7 +183,7 @@ export function _getSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,10 +191,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -216,6 +200,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gu
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

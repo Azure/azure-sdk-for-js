@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
  *
  * @summary the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces_CreateOrUpdate.json
  */
 async function putNetworkInterface() {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function putNetworkInterface() {
  * This sample demonstrates how to the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
  *
  * @summary the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces__CreateOrUpdate_CreateFromLocal.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces__CreateOrUpdate_CreateFromLocal.json
  */
 async function createNetworkInterfaceFromLocal() {
   const credential = new DefaultAzureCredential();

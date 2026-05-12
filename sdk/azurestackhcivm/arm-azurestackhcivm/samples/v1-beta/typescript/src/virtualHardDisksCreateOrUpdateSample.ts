@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a virtual hard disk. Please note some properties can be set only during virtual hard disk creation.
  *
  * @summary the operation to create or update a virtual hard disk. Please note some properties can be set only during virtual hard disk creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualHardDisks_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualHardDisks_CreateOrUpdate.json
  */
 async function putVirtualHardDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,13 +29,13 @@ async function putVirtualHardDisk(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a virtual hard disk. Please note some properties can be set only during virtual hard disk creation.
  *
  * @summary the operation to create or update a virtual hard disk. Please note some properties can be set only during virtual hard disk creation.
- * x-ms-original-file: 2025-06-01-preview/VirtualHardDisks__CreateOrUpdate_CreateFromLocal.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualHardDisks__CreateOrUpdate_CreateFromLocal.json
  */
 async function createVirtualHardDiskFromLocal(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
   const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
-  const result = await client.virtualHardDisks.createOrUpdate("test-rg", "test-vhd", {
+  const result = await client.virtualHardDisks.createOrUpdate("test-rg", "rehome-datadisk-1", {
     extendedLocation: {
       name: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",
       type: "CustomLocation",
@@ -43,8 +43,8 @@ async function createVirtualHardDiskFromLocal(): Promise<void> {
     location: "West US2",
     properties: {
       createFromLocal: true,
-      containerId:
-        "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.AzureStackHCI/storageContainers/test-storage-container",
+      localVhdPath:
+        "C:\\ClusterStorage\\UserStorage_2\\e35803d0bd82d61\\rehome555-dd1-a95612cb-f1fa-4daa-a4fd-272844fa512c-dogfoodarc.vhdx",
     },
   });
   console.log(result);

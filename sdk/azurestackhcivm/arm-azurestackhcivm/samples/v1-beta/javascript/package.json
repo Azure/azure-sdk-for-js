@@ -26,8 +26,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestackhcivm/arm-azurestackhcivm",
   "dependencies": {
-    "@azure/arm-azurestackhcivm": "next",
+    "@azure/arm-azurestackhcivm": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

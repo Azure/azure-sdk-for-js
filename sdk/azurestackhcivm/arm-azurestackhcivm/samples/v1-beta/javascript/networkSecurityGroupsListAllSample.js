@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all network security groups in a subscription.
  *
  * @summary gets all network security groups in a subscription.
- * x-ms-original-file: 2025-06-01-preview/NetworkSecurityGroups_ListAll.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityGroups_ListAll.json
  */
 async function listAllNetworkSecurityGroups() {
   const credential = new DefaultAzureCredential();
