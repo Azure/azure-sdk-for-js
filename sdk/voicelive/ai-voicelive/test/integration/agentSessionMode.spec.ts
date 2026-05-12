@@ -31,6 +31,12 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { SessionEventRecorder } from "../infrastructure/sessionEventRecorder.js";
 import { TestConstants, TEST_AGENT_NAME, getOrCreateTestAgent } from "../infrastructure/index.js";
 
+// Agent-mode tests need DefaultAzureCredential to find/create the shared Foundry
+// agent up-front. That only works in Node; in the browser the helper returns the
+// name without verifying, so the WS connect just times out 30s later. Gate the
+// agent-mode describe blocks on a Node environment to avoid that false failure.
+const isNodeEnvironment = typeof self === "undefined";
+
 describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
@@ -160,7 +166,7 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
     );
   });
 
-  describe("SessionTarget API - Agent Mode", () => {
+  describe.runIf(isNodeEnvironment)("SessionTarget API - Agent Mode", () => {
     it(
       "should connect using SessionTarget with agent",
       async () => {
@@ -214,7 +220,7 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
     );
   });
 
-  describe("Error Handling - Agent Mode", () => {
+  describe.runIf(isNodeEnvironment)("Error Handling - Agent Mode", () => {
     it(
       "should handle invalid agent name gracefully",
       async () => {
