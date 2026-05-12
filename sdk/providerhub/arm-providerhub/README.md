@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/providerhub/arm-providerhub)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-providerhub)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-providerhub)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-providerhub?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/providerhub/arm-providerhub/samples)
 
 ## Getting started
