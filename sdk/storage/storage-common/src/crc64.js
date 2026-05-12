@@ -5,8 +5,13 @@
 // In ESM under Node, `require`, `__filename`, and `__dirname` are not defined.
 // Synthesize them from `import.meta.url` so the Emscripten Node branch below works as-is.
 // Specifiers are held in variables to prevent web bundlers from statically resolving `node:*`.
+// The detection check below MUST stay byte-for-byte identical to the Emscripten-generated
+// `ENVIRONMENT_IS_NODE` check later in this file; otherwise the polyfill and the Node branch
+// can disagree and the ESM `ReferenceError: require is not defined` bug returns.
 const __isNode__ =
-  typeof process !== "undefined" && process.versions != null && process.versions.node != null;
+  typeof process === "object" &&
+  typeof process.versions === "object" &&
+  typeof process.versions.node === "string";
 let require;
 let __filename;
 let __dirname;
