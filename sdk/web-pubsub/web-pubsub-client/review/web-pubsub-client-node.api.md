@@ -106,6 +106,12 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export interface GroupStream {
+    readonly group: string;
+    readonly streamId: string;
+}
+
+// @public
 export interface GroupStreamHandler {
     onComplete?: (args: OnGroupStreamEndArgs) => void;
     onError?: (args: OnGroupStreamEndArgs) => void;
@@ -113,8 +119,9 @@ export interface GroupStreamHandler {
 }
 
 // @public
-export interface GroupStreamSubscription {
-    close(): void;
+export interface GroupStreamOptions {
+    handleFromStart?: boolean;
+    ttlInMs?: number;
 }
 
 // @public
@@ -230,12 +237,6 @@ export interface OnGroupStreamEndArgs {
     error?: StreamDataError;
     group: string;
     streamId: string;
-}
-
-// @public
-export interface OnGroupStreamOptions {
-    handleFromStart?: boolean;
-    ttlInMs?: number;
 }
 
 // @public
@@ -485,14 +486,15 @@ export class WebPubSubClient {
     off(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     off(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     off(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
+    off(event: "group-stream", factory: (stream: GroupStream) => GroupStreamHandler): void;
     off(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
     on(event: "connected", listener: (e: OnConnectedArgs) => void): void;
     on(event: "disconnected", listener: (e: OnDisconnectedArgs) => void): void;
     on(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
+    on(event: "group-stream", factory: (stream: GroupStream) => GroupStreamHandler): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onGroupStream(groupName: string, handlerFactory: (streamId: string) => GroupStreamHandler, options?: OnGroupStreamOptions): GroupStreamSubscription;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
@@ -509,6 +511,7 @@ export interface WebPubSubClientCredential {
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
     autoRejoinGroups?: boolean;
+    groupStreamOptions?: GroupStreamOptions;
     keepAliveIntervalInMs?: number;
     keepAliveTimeoutInMs?: number;
     messageRetryOptions?: WebPubSubRetryOptions;
