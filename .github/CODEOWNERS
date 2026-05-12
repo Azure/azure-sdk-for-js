@@ -823,7 +823,7 @@
 # PRLabel: %Mgmt
 /sdk/onlineexperimentation/arm-onlineexperimentation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/peering/arm-peering/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1682,6 +1682,9 @@ sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @Ji
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
 sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
