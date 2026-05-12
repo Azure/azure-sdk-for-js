@@ -3,29 +3,22 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Live Migration of storage account to enable Hns
+ * This sample demonstrates how to live Migration of storage account to enable Hns
  *
- * @summary Live Migration of storage account to enable Hns
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountHierarchicalNamespaceMigration.json
+ * @summary live Migration of storage account to enable Hns
+ * x-ms-original-file: 2025-08-01/StorageAccountHierarchicalNamespaceMigration.json
  */
 async function storageAccountHierarchicalNamespaceMigration(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
-  const accountName = "sto2434";
-  const requestType = "HnsOnValidationRequest";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result =
-    await client.storageAccounts.beginHierarchicalNamespaceMigrationAndWait(
-      resourceGroupName,
-      accountName,
-      requestType,
-    );
-  console.log(result);
+  await client.storageAccounts.hierarchicalNamespaceMigration(
+    "res4228",
+    "sto2434",
+    "HnsOnValidationRequest",
+  );
 }
 
 async function main(): Promise<void> {

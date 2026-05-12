@@ -3,25 +3,18 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
+ * This sample demonstrates how to lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
  *
- * @summary Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountListKeys.json
+ * @summary lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
+ * x-ms-original-file: 2025-08-01/StorageAccountListKeys.json
  */
 async function storageAccountListKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res418";
-  const accountName = "sto2220";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.storageAccounts.listKeys(
-    resourceGroupName,
-    accountName,
-  );
+  const result = await client.storageAccounts.listKeys("res418", "sto2220");
   console.log(result);
 }
 

@@ -1,69 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ImmutabilityPolicy,
-  BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
+ * This sample demonstrates how to creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
  *
- * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPutImmutabilityPolicy.json
+ * @summary creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
+ * x-ms-original-file: 2025-08-01/BlobContainersPutImmutabilityPolicy.json
  */
 async function createOrUpdateImmutabilityPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res1782";
-  const accountName = "sto7069";
-  const containerName = "container6397";
-  const parameters: ImmutabilityPolicy = {
-    allowProtectedAppendWrites: true,
-    immutabilityPeriodSinceCreationInDays: 3,
-  };
-  const options: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams =
-    { parameters };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.blobContainers.createOrUpdateImmutabilityPolicy(
-    resourceGroupName,
-    accountName,
-    containerName,
-    options,
+    "res1782",
+    "sto7069",
+    "container6397",
+    { parameters: { allowProtectedAppendWrites: true, immutabilityPeriodSinceCreationInDays: 3 } },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
+ * This sample demonstrates how to creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
  *
- * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersPutImmutabilityPolicyAllowProtectedAppendWritesAll.json
+ * @summary creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
+ * x-ms-original-file: 2025-08-01/BlobContainersPutImmutabilityPolicyAllowProtectedAppendWritesAll.json
  */
 async function createOrUpdateImmutabilityPolicyWithAllowProtectedAppendWritesAll(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res1782";
-  const accountName = "sto7069";
-  const containerName = "container6397";
-  const parameters: ImmutabilityPolicy = {
-    allowProtectedAppendWritesAll: true,
-    immutabilityPeriodSinceCreationInDays: 3,
-  };
-  const options: BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams =
-    { parameters };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.blobContainers.createOrUpdateImmutabilityPolicy(
-    resourceGroupName,
-    accountName,
-    containerName,
-    options,
+    "res1782",
+    "sto7069",
+    "container6397",
+    {
+      parameters: { allowProtectedAppendWritesAll: true, immutabilityPeriodSinceCreationInDays: 3 },
+    },
   );
   console.log(result);
 }

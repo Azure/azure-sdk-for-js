@@ -1,38 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionScope} from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
+ * This sample demonstrates how to update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
  *
- * @summary Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountPatchEncryptionScope.json
+ * @summary update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
+ * x-ms-original-file: 2025-08-01/StorageAccountPatchEncryptionScope.json
  */
 async function storageAccountPatchEncryptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
-  const accountName = "accountname";
-  const encryptionScopeName = "{encryption-scope-name}";
-  const encryptionScope: EncryptionScope = {
-    keyVaultProperties: {
-      keyUri:
-        "https://testvault.vault.core.windows.net/keys/key1/863425f1358359c",
-    },
-    source: "Microsoft.KeyVault",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.encryptionScopes.patch(
-    resourceGroupName,
-    accountName,
-    encryptionScopeName,
-    encryptionScope,
+    "resource-group-name",
+    "accountname",
+    "{encryption-scope-name}",
+    {
+      encryptionScopeProperties: {
+        keyVaultProperties: {
+          keyUri: "https://testvault.vault.core.windows.net/keys/key1/863425f1358359c",
+        },
+        source: "Microsoft.KeyVault",
+      },
+    },
   );
   console.log(result);
 }

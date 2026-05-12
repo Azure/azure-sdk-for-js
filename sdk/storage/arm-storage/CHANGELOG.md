@@ -1,5 +1,187 @@
 # Release History
 
+## 20.0.0 (2026-05-08)
+
+### Features Added
+  - Added operation group ConnectorsOperations
+  - Added operation group DataSharesOperations
+  - Added operation BlobContainersOperations.objectLevelWorm
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
+  - Added operation StorageAccountsOperations.abortHierarchicalNamespaceMigration
+  - Added operation StorageAccountsOperations.create
+  - Added operation StorageAccountsOperations.customerInitiatedMigration
+  - Added operation StorageAccountsOperations.failover
+  - Added operation StorageAccountsOperations.hierarchicalNamespaceMigration
+  - Added operation StorageAccountsOperations.restoreBlobRanges
+  - Added operation StorageTaskAssignmentsOperations.create
+  - Added operation StorageTaskAssignmentsOperations.delete
+  - Added operation StorageTaskAssignmentsOperations.stopAssignment
+  - Added operation StorageTaskAssignmentsOperations.update
+  - Added Interface BlobInventoryPolicyProperties
+  - Added Interface BlobServicePropertiesProperties
+  - Added Interface Connector
+  - Added Interface ConnectorsCreateOptionalParams
+  - Added Interface ConnectorsDeleteOptionalParams
+  - Added Interface ConnectorsGetOptionalParams
+  - Added Interface ConnectorsListByStorageAccountOptionalParams
+  - Added Interface ConnectorsTestExistingConnectionOptionalParams
+  - Added Interface ConnectorsUpdateOptionalParams
+  - Added Interface ContainerProperties
+  - Added Interface DataShare
+  - Added Interface DataShareConnection
+  - Added Interface DataSharesCreateOptionalParams
+  - Added Interface DataSharesDeleteOptionalParams
+  - Added Interface DataSharesGetOptionalParams
+  - Added Interface DataSharesListByStorageAccountOptionalParams
+  - Added Interface DataShareSource
+  - Added Interface DataSharesUpdateOptionalParams
+  - Added Interface DeletedAccountProperties
+  - Added Interface EncryptionScopeProperties
+  - Added Interface ErrorResponse_1
+  - Added Interface FileServicePropertiesProperties
+  - Added Interface FileShareProperties
+  - Added Interface ImmutabilityPolicyProperty
+  - Added Interface ListQueueProperties
+  - Added Interface LocalUserProperties
+  - Added Interface ManagedIdentityAuthProperties
+  - Added Interface ManagementPolicyProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface ObjectReplicationPolicyProperties
+  - Added Interface ObjectReplicationPolicyPropertiesTagsReplication
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface QueueProperties
+  - Added Interface QueueServicePropertiesProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceSharedKeyAccessProperties
+  - Added Interface StaticWebsite
+  - Added Interface StorageAccountMigrationProperties
+  - Added Interface StorageAccountProperties
+  - Added Interface StorageAccountPropertiesCreateParameters
+  - Added Interface StorageAccountPropertiesUpdateParameters
+  - Added Interface StorageAccountSharedKeyAccessProperties
+  - Added Interface StorageConnectorAuthProperties
+  - Added Interface StorageConnectorConnection
+  - Added Interface StorageConnectorProperties
+  - Added Interface StorageConnectorSource
+  - Added Interface StorageDataCollaborationPolicyProperties
+  - Added Interface StorageDataShareAccessPolicy
+  - Added Interface StorageDataShareAsset
+  - Added Interface StorageDataShareProperties
+  - Added Interface StorageTaskAssignmentsStopAssignmentOptionalParams
+  - Added Interface TableProperties
+  - Added Interface TableServicePropertiesProperties
+  - Added Interface TestConnectionResponse
+  - Added Interface TestExistingConnectionRequest
+  - Interface AzureEntityResource has a new optional parameter systemData
+  - Interface BlobContainer has a new optional parameter systemData
+  - Interface BlobServiceProperties has a new optional parameter staticWebsite
+  - Interface BlobServiceProperties has a new optional parameter systemData
+  - Interface DeletedAccount has a new optional parameter systemData
+  - Interface EncryptionScope has a new optional parameter systemData
+  - Interface FileServiceProperties has a new optional parameter systemData
+  - Interface FileServiceUsage has a new optional parameter systemData
+  - Interface FileShare has a new optional parameter systemData
+  - Interface FileShareItem has a new optional parameter systemData
+  - Interface ImmutabilityPolicy has a new optional parameter systemData
+  - Interface ListContainerItem has a new optional parameter systemData
+  - Interface ListQueue has a new optional parameter systemData
+  - Interface ManagementPolicy has a new optional parameter systemData
+  - Interface ObjectReplicationPolicy has a new optional parameter tagsReplication
+  - Interface ObjectReplicationPolicy has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface QueueServiceProperties has a new optional parameter systemData
+  - Interface StorageAccount has a new optional parameter allowSharedKeyAccessForServices
+  - Interface StorageAccount has a new optional parameter dataCollaborationPolicyProperties
+  - Interface StorageAccount has a new optional parameter systemData
+  - Interface StorageAccountCreateParameters has a new optional parameter allowSharedKeyAccessForServices
+  - Interface StorageAccountCreateParameters has a new optional parameter dataCollaborationPolicyProperties
+  - Interface StorageAccountMigration has a new optional parameter systemData
+  - Interface StorageAccountsListKeysOptionalParams has a new optional parameter expand
+  - Interface StorageAccountUpdateParameters has a new optional parameter allowSharedKeyAccessForServices
+  - Interface StorageAccountUpdateParameters has a new optional parameter dataCollaborationPolicyProperties
+  - Interface StorageQueue has a new optional parameter systemData
+  - Interface StorageTaskAssignment has a new optional parameter systemData
+  - Interface StorageTaskReportInstance has a new optional parameter systemData
+  - Interface Table has a new optional parameter systemData
+  - Interface TableServiceProperties has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias NativeDataSharingProvisioningState
+  - Added Type Alias StorageConnectorAuthPropertiesUnion
+  - Added Type Alias StorageConnectorAuthType
+  - Added Type Alias StorageConnectorConnectionType
+  - Added Type Alias StorageConnectorConnectionUnion
+  - Added Type Alias StorageConnectorDataSourceType
+  - Added Type Alias StorageConnectorSourceType
+  - Added Type Alias StorageConnectorSourceUnion
+  - Added Type Alias StorageConnectorState
+  - Added Type Alias StorageDataShareAccessPolicyPermission
+  - Added Type Alias StorageTaskAssignmentProvisioningState
+  - Added Enum AzureClouds
+  - Added Enum KnownNativeDataSharingProvisioningState
+  - Added Enum KnownStorageConnectorAuthType
+  - Added Enum KnownStorageConnectorConnectionType
+  - Added Enum KnownStorageConnectorDataSourceType
+  - Added Enum KnownStorageConnectorSourceType
+  - Added Enum KnownStorageConnectorState
+  - Added Enum KnownStorageDataShareAccessPolicyPermission
+  - Added Enum KnownStorageTaskAssignmentProvisioningState
+  - Added Enum KnownVersions
+  - Enum KnownAllowedCopyScope has a new value All
+  - Enum KnownTriggerType has a new value MockRun
+
+### Breaking Changes
+  - Removed operation BlobContainers.beginObjectLevelWorm
+  - Removed operation BlobContainers.beginObjectLevelWormAndWait
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcile
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcileAndWait
+  - Removed operation StorageAccounts.beginAbortHierarchicalNamespaceMigration
+  - Removed operation StorageAccounts.beginAbortHierarchicalNamespaceMigrationAndWait
+  - Removed operation StorageAccounts.beginCreate
+  - Removed operation StorageAccounts.beginCreateAndWait
+  - Removed operation StorageAccounts.beginCustomerInitiatedMigration
+  - Removed operation StorageAccounts.beginCustomerInitiatedMigrationAndWait
+  - Removed operation StorageAccounts.beginFailover
+  - Removed operation StorageAccounts.beginFailoverAndWait
+  - Removed operation StorageAccounts.beginHierarchicalNamespaceMigration
+  - Removed operation StorageAccounts.beginHierarchicalNamespaceMigrationAndWait
+  - Removed operation StorageAccounts.beginRestoreBlobRanges
+  - Removed operation StorageAccounts.beginRestoreBlobRangesAndWait
+  - Removed operation StorageTaskAssignments.beginCreate
+  - Removed operation StorageTaskAssignments.beginCreateAndWait
+  - Removed operation StorageTaskAssignments.beginDelete
+  - Removed operation StorageTaskAssignments.beginDeleteAndWait
+  - Removed operation StorageTaskAssignments.beginUpdate
+  - Removed operation StorageTaskAssignments.beginUpdateAndWait
+  - Operation StorageAccounts.getProperties has a new signature
+  - Operation StorageAccounts.update has a new signature
+  - Operation StorageTaskAssignments.get has a new signature
+  - Removed Interface BlobServiceItems
+  - Removed Interface ErrorResponseAutoGenerated
+  - Removed Interface FileServiceUsages
+  - Removed Interface FileShareItems
+  - Removed Interface ListBlobInventoryPolicy
+  - Removed Interface ListContainerItems
+  - Removed Interface ListQueueResource
+  - Removed Interface ListTableResource
+  - Removed Interface LocalUsers
+  - Removed Interface NetworkSecurityPerimeterConfigurationList
+  - Removed Interface ObjectReplicationPolicies
+  - Removed Interface ProxyResource
+  - Removed Interface Resource
+  - Removed Interface StorageTaskAssignmentsList
+  - Removed Interface StorageTaskReportSummary
+  - Type of parameter provisioningState of interface StorageTaskAssignmentProperties is changed from ProvisioningState to StorageTaskAssignmentProvisioningState
+  - Type of parameter provisioningState of interface StorageTaskAssignmentUpdateProperties is changed from ProvisioningState to StorageTaskAssignmentProvisioningState
+  - Parameter properties of interface StorageTaskAssignment is now optional
+  - Type alias "AccessTier" has been changed
+  - Type alias "ProvisioningState" has been changed
+
 ## 19.1.0 (2025-10-17)
 
 ### Features Added

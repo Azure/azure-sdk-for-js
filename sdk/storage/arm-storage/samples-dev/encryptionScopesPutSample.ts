@@ -1,59 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionScope} from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
+ * This sample demonstrates how to synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
- * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountPutEncryptionScope.json
+ * @summary synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
+ * x-ms-original-file: 2025-08-01/StorageAccountPutEncryptionScope.json
  */
 async function storageAccountPutEncryptionScope(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
-  const accountName = "accountname";
-  const encryptionScopeName = "{encryption-scope-name}";
-  const encryptionScope: EncryptionScope = {};
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.encryptionScopes.put(
-    resourceGroupName,
-    accountName,
-    encryptionScopeName,
-    encryptionScope,
+    "resource-group-name",
+    "accountname",
+    "{encryption-scope-name}",
+    {},
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
+ * This sample demonstrates how to synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
- * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
+ * @summary synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
+ * x-ms-original-file: 2025-08-01/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
  */
 async function storageAccountPutEncryptionScopeWithInfrastructureEncryption(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
-  const accountName = "accountname";
-  const encryptionScopeName = "{encryption-scope-name}";
-  const encryptionScope: EncryptionScope = {
-    requireInfrastructureEncryption: true,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.encryptionScopes.put(
-    resourceGroupName,
-    accountName,
-    encryptionScopeName,
-    encryptionScope,
+    "resource-group-name",
+    "accountname",
+    "{encryption-scope-name}",
+    { encryptionScopeProperties: { requireInfrastructureEncryption: true } },
   );
   console.log(result);
 }

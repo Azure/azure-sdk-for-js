@@ -1,42 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ImmutabilityPolicy,
-  BlobContainersExtendImmutabilityPolicyOptionalParams} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
+ * This sample demonstrates how to extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
  *
- * @summary Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/BlobContainersExtendImmutabilityPolicy.json
+ * @summary extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
+ * x-ms-original-file: 2025-08-01/BlobContainersExtendImmutabilityPolicy.json
  */
 async function extendImmutabilityPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6238";
-  const accountName = "sto232";
-  const containerName = "container5023";
-  const ifMatch = "8d59f830d0c3bf9";
-  const parameters: ImmutabilityPolicy = {
-    immutabilityPeriodSinceCreationInDays: 100,
-  };
-  const options: BlobContainersExtendImmutabilityPolicyOptionalParams = {
-    parameters,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.blobContainers.extendImmutabilityPolicy(
-    resourceGroupName,
-    accountName,
-    containerName,
-    ifMatch,
-    options,
+    "res6238",
+    "sto232",
+    "container5023",
+    "8d59f830d0c3bf9",
+    { parameters: { immutabilityPeriodSinceCreationInDays: 100 } },
   );
   console.log(result);
 }

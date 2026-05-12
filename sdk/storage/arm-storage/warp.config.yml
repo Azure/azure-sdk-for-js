@@ -1,1 +1,50 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/storageTaskAssignmentInstancesReport": "./src/api/storageTaskAssignmentInstancesReport/index.ts"
+  "./api/table": "./src/api/table/index.ts"
+  "./api/localUsers": "./src/api/localUsers/index.ts"
+  "./api/objectReplicationPolicies": "./src/api/objectReplicationPolicies/index.ts"
+  "./api/queue": "./src/api/queue/index.ts"
+  "./api/storageTaskAssignmentsInstancesReport": "./src/api/storageTaskAssignmentsInstancesReport/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/dataShares": "./src/api/dataShares/index.ts"
+  "./api/connectors": "./src/api/connectors/index.ts"
+  "./api/storageTaskAssignments": "./src/api/storageTaskAssignments/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
+  "./api/tableServices": "./src/api/tableServices/index.ts"
+  "./api/encryptionScopes": "./src/api/encryptionScopes/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/blobInventoryPolicies": "./src/api/blobInventoryPolicies/index.ts"
+  "./api/managementPolicies": "./src/api/managementPolicies/index.ts"
+  "./api/deletedAccounts": "./src/api/deletedAccounts/index.ts"
+  "./api/queueServices": "./src/api/queueServices/index.ts"
+  "./api/fileServices": "./src/api/fileServices/index.ts"
+  "./api/fileShares": "./src/api/fileShares/index.ts"
+  "./api/storageAccounts": "./src/api/storageAccounts/index.ts"
+  "./api/blobServices": "./src/api/blobServices/index.ts"
+  "./api/blobContainers": "./src/api/blobContainers/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

@@ -3,28 +3,18 @@
 
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the table with the specified table name, under the specified account if it exists.
+ * This sample demonstrates how to deletes the table with the specified table name, under the specified account if it exists.
  *
- * @summary Deletes the table with the specified table name, under the specified account if it exists.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/TableOperationDelete.json
+ * @summary deletes the table with the specified table name, under the specified account if it exists.
+ * x-ms-original-file: 2025-08-01/TableOperationDelete.json
  */
 async function tableOperationDelete(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
-  const accountName = "sto328";
-  const tableName = "table6185";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.tableOperations.delete(
-    resourceGroupName,
-    accountName,
-    tableName,
-  );
-  console.log(result);
+  await client.table.delete("res3376", "sto328", "table6185");
 }
 
 async function main(): Promise<void> {

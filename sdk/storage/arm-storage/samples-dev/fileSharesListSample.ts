@@ -1,132 +1,96 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FileSharesListOptionalParams} from "@azure/arm-storage";
-import {
-  StorageManagementClient,
-} from "@azure/arm-storage";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all shares.
+ * This sample demonstrates how to lists all shares.
  *
- * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/DeletedFileSharesList.json
+ * @summary lists all shares.
+ * x-ms-original-file: 2025-08-01/DeletedFileSharesList.json
  */
 async function listDeletedShares(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
-  const accountName = "sto1590";
-  const expand = "deleted";
-  const options: FileSharesListOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fileShares.list(
-    resourceGroupName,
-    accountName,
-    options,
-  )) {
+  for await (const item of client.fileShares.list("res9290", "sto1590", { expand: "deleted" })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all shares.
+ * This sample demonstrates how to lists all shares.
  *
- * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileShareSnapshotsList.json
+ * @summary lists all shares.
+ * x-ms-original-file: 2025-08-01/FileShareSnapshotsList.json
  */
 async function listShareSnapshots(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
-  const accountName = "sto1590";
-  const expand = "snapshots";
-  const options: FileSharesListOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fileShares.list(
-    resourceGroupName,
-    accountName,
-    options,
-  )) {
+  for await (const item of client.fileShares.list("res9290", "sto1590", { expand: "snapshots" })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all shares.
+ * This sample demonstrates how to lists all shares.
  *
- * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesList.json
+ * @summary lists all shares.
+ * x-ms-original-file: 2025-08-01/FileSharesList.json
  */
 async function listShares(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
-  const accountName = "sto1590";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fileShares.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.fileShares.list("res9290", "sto1590")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all shares.
+ * This sample demonstrates how to lists all shares.
  *
- * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesList_PaidBursting.json
+ * @summary lists all shares.
+ * x-ms-original-file: 2025-08-01/FileSharesList_PaidBursting.json
  */
 async function listSharesPaidBursting(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
-  const accountName = "sto1590";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fileShares.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.fileShares.list("res9290", "sto1590")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all shares.
+ * This sample demonstrates how to lists all shares.
  *
- * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesList_ProvisionedV2.json
+ * @summary lists all shares.
+ * x-ms-original-file: 2025-08-01/FileSharesList_ProvisionedV2.json
  */
 async function listSharesProvisionedV2(): Promise<void> {
-  const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
-  const accountName = "sto1590";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.fileShares.list(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.fileShares.list("res9290", "sto1590")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
