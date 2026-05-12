@@ -14,6 +14,8 @@
 
 ### Other Changes
 
+- Key Vault API version `2025-07-01` is now the default
+
 ## 4.10.0 (2025-06-10)
 
 ### Features Added
