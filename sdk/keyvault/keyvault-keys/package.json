@@ -1,7 +1,7 @@
 {
   "name": "@azure/keyvault-keys",
   "version": "4.10.2",
-  "description": "Azure Key Vault Keys",
+  "description": "Isomorphic client library for Azure KeyVault's keys.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -36,7 +36,8 @@
     "cloud",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "keyvault"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -47,7 +48,11 @@
     "LICENSE"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/keyvault/keyvault-keys"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -55,6 +60,10 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
       {
         "path": "generated/api/keyVaultContext.ts",
         "prefix": "userAgentInfo"
