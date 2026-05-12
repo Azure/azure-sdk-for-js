@@ -17,8 +17,9 @@ param identity object = {
 }
 
 // Built-in role definition IDs
-// "Azure AI User" - read/write on Foundry agents and projects
-var azureAiUserRoleDefinitionId = '53ca6127-db72-4b80-b1b0-d745d6d5456d'
+// "Azure AI Developer" - read/write on Foundry projects, agents, threads, runs.
+// (The narrower "Azure AI User" role only covers inference, not agents data plane.)
+var azureAiDeveloperRoleDefinitionId = '64702f94-c441-49e6-a78b-ef80e0188fee'
 
 @description('The name of the OpenAI model you want to deploy')
 param modelName string = 'gpt-4.1'
@@ -99,14 +100,14 @@ resource modelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-
   }
 }
 
-// Grant the test application identity "Azure AI User" on the AI Services account so
+// Grant the test application identity "Azure AI Developer" on the AI Services account so
 // integration tests can list/create Foundry agents (e.g. AIProjectClient.agents.list()).
 // Skipped when no test principal is supplied (local-only deploys).
 resource agentRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(testApplicationOid)) {
   scope: aiServices
-  name: guid(aiServices.id, testApplicationOid, azureAiUserRoleDefinitionId)
+  name: guid(aiServices.id, testApplicationOid, azureAiDeveloperRoleDefinitionId)
   properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', azureAiUserRoleDefinitionId)
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', azureAiDeveloperRoleDefinitionId)
     principalId: testApplicationOid
     principalType: 'ServicePrincipal'
   }
