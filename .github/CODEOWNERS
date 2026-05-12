@@ -613,7 +613,7 @@
 # PRLabel: %Mgmt
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
