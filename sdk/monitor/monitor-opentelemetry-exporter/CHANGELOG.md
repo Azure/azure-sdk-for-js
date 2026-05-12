@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.41 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a `TypeError: Cannot use 'in' operator to search for 'measurements'` crash that occurred when a log record's `body` was a non-object value (such as a string) on the custom event / legacy Application Insights export path.
+
+### Other Changes
+
 ## 1.0.0-beta.40 (2026-05-07)
 
 ### Breaking Changes
