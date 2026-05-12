@@ -823,7 +823,7 @@
 # PRLabel: %Mgmt
 /sdk/onlineexperimentation/arm-onlineexperimentation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/peering/arm-peering/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
