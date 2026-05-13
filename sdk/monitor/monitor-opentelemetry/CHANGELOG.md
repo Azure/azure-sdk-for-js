@@ -1,5 +1,11 @@
 # Release History
 
+## Unreleased
+
+### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.217.0` to `^0.218.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`). The `otlp-transformer` in this release replaces its `protobufjs` dependency with a custom serializer, resolving related `npm audit` advisories.
+
 ## 1.18.0 (2026-05-12)
 
 ### Other Changes
