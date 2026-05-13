@@ -291,9 +291,9 @@
 # ServiceOwners: @axisc @hmlam @sjkwak
 
 # PRLabel: %Search
-/sdk/search/    @Azure/azsdk-search @Azure/azure-sdk-write-search
+/sdk/search/    @Azure/azure-sdk-write-search
 
-# AzureSdkOwners: @dgetu
+# AzureSdkOwners: @srbalakr @efrainretana
 # ServiceLabel: %Search
 
 # PRLabel: %Service Bus

@@ -80,6 +80,12 @@ safe-outputs:
     max: 1
     footer: "if-body"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  add-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  remove-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
     run-started: "⚡ [{workflow_name}]({run_url}) is profiling this PR for guidance and review..."

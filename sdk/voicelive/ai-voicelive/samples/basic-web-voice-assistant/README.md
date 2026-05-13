@@ -47,11 +47,11 @@ Opens at: **http://localhost:3000**
 const client = new VoiceLiveClient(endpoint, credential);
 
 // Client creates sessions with model specification
-const session = await client.startSession('gpt-4o-realtime-preview', sessionOptions);
+const session = await client.startSession('gpt-realtime', sessionOptions);
 
 // Or with full session configuration
 const sessionConfig = {
-  model: 'gpt-4o-realtime-preview',
+  model: 'gpt-realtime',
   instructions: 'You are a helpful assistant',
   modalities: ['audio', 'text'],
   voice: {
@@ -199,7 +199,7 @@ events.on('erorr', handler); // Whoops! Typo not caught
 // ❌ No autoReconnect flag
 
 // ✅ Fail fast and be honest about session death
-const session = await client.startSession('gpt-4o-realtime-preview', {
+const session = await client.startSession('gpt-realtime', {
   connectionTimeoutMs: 30000 // Only configure initial connection
 });
 

@@ -1,5 +1,12 @@
 # Release History
 
+## 1.18.0 (2026-05-12)
+
+### Other Changes
+
+- Updated OpenTelemetry dependencies to the `0.217.0` / `2.7.1` release line, including `@opentelemetry/sdk-node`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, the stable `@opentelemetry/core` / `@opentelemetry/resources` / `@opentelemetry/sdk-metrics` / `@opentelemetry/sdk-trace-base` / `@opentelemetry/sdk-trace-node` packages, `@opentelemetry/semantic-conventions`, and the contrib instrumentations (`bunyan`, `mongodb`, `mysql`, `pg`, `redis`, `winston`, `resource-detector-azure`, `winston-transport`).
+- Updated to using exporter version 1.0.0-beta.41.
+
 ## 1.17.0 (2026-05-07)
 
 ### Other Changes
