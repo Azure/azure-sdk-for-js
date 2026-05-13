@@ -488,6 +488,7 @@ export type BetaAgentsDownloadAgentCodeResponse = {
 
 // @public
 export interface BetaAgentsDownloadAgentVersionCodeOptionalParams extends OperationOptions {
+    agentVersion?: string;
     foundryFeatures?: "CodeAgents=V1Preview";
 }
 
@@ -509,11 +510,6 @@ export type BetaAgentsDownloadSessionFileResponse = {
 };
 
 // @public
-export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
-    foundryFeatures?: "HostedAgents=V1Preview";
-}
-
-// @public
 export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
 }
@@ -527,6 +523,11 @@ export type BetaAgentsGetSessionLogStreamResponse = {
 // @public
 export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
 }
 
 // @public
@@ -545,8 +546,7 @@ export interface BetaAgentsOperations {
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
-    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) => Promise<BetaAgentsDownloadAgentCodeResponse>;
-    downloadAgentVersionCode: (agentName: string, agentVersion: string, options?: BetaAgentsDownloadAgentVersionCodeOptionalParams) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>;
+    downloadAgentCode: ((agentName: string, options: BetaAgentsDownloadAgentVersionCodeOptionalParams) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>) & ((agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) => Promise<BetaAgentsDownloadAgentCodeResponse>);
     downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;

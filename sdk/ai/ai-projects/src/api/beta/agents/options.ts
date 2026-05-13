@@ -99,6 +99,8 @@ export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOpti
 export interface BetaAgentsDownloadAgentVersionCodeOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "CodeAgents=V1Preview";
+  /** The version of the agent whose code to download. When provided, downloads code for that specific version. */
+  agentVersion?: string;
 }
 
 /** Optional parameters. */
