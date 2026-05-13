@@ -3,16 +3,17 @@
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { formatInputMessages, formatOutputMessages } from "../../../src/tracing/formatters.js";
+import { enableGenAITracing } from "../../../src/tracing/configuration.js";
 
 // Save and restore env vars around each test
 let savedContentEnv: string | undefined;
 
 function enableContentRecording(): void {
-  process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = "true";
+  enableGenAITracing({ experimental: true, contentRecording: true });
 }
 
 function disableContentRecording(): void {
-  process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = "false";
+  enableGenAITracing({ experimental: true, contentRecording: false });
 }
 
 describe("formatInputMessages", () => {
@@ -489,5 +490,573 @@ describe("formatOutputMessages", () => {
     const parsed = JSON.parse(result!);
     assert.lengthOf(parsed, 1);
     assert.equal(parsed[0].parts[0].content, "Hi");
+  });
+
+  // --- Content-OFF privacy tests for all non-function tool call types ---
+
+  it("code_interpreter_call: strips code/outputs/status when content OFF", () => {
+    disableContentRecording();
+    const result = formatOutputMessages({
+      output: [
+        {
+          type: "code_interpreter_call",
+          call_id: "ci_456",
+          code: "print(42)",
+          outputs: [{ type: "logs", data: "42" }],
+          status: "completed",
+        },
+      ],
+    });
+    const parsed = JSON.parse(result!);
+    assert.equal(parsed[0].parts[0].type, "tool_call");
+    assert.equal(parsed[0].parts[0].content.type, "code_interpreter_call");
+    assert.equal(parsed[0].parts[0].content.id, "ci_456");
+    assert.notProperty(parsed[0].parts[0].content, "code", "code is user-specific content");
+    assert.notProperty(parsed[0].parts[0].content, "outputs", "outputs are user-specific content");
+    assert.notProperty(parsed[0].parts[0].content, "status");
+  });
+
+  it("file_search_call: strips queries/results/status when content OFF", () => {
+    disableContentRecording();
+    const result = formatOutputMessages({
+      output: [
+        {
+          type: "file_search_call",
+          call_id: "fs_789",
+          queries: ["What is the price?"],
+          results: [{ file_id: "file_1", text: "The price is $10" }],
+          status: "completed",
+        },
+      ],
+    });
+    const parsed = JSON.parse(result!);
+    assert.equal(parsed[0].parts[0].content.type, "file_search_call");
+    assert.equal(parsed[0].parts[0].content.id, "fs_789");
+    assert.notProperty(parsed[0].parts[0].content, "queries", "queries are user-specific content");
+    assert.notProperty(parsed[0].parts[0].content, "results", "results are user-specific content");
+    assert.notProperty(parsed[0].parts[0].content, "status");
+  });
+
+  it("mcp_call: strips name/arguments/server_label/status when content OFF", () => {
+    disableContentRecording();
+    const result = formatOutputMessages({
+      output: [
+        {
+          type: "mcp_call",
+          call_id: "mcp_1",
+          name: "list_tools",
+          arguments: '{"filter":"all"}',
+          server_label: "api-specs",
+          status: "completed",
+        },
+      ],
+    });
+    const parsed = JSON.parse(result!);
+    assert.equal(parsed[0].parts[0].content.type, "mcp_call");
+    assert.equal(parsed[0].parts[0].content.id, "mcp_1");
+    assert.notProperty(parsed[0].parts[0].content, "name", "tool name is content-gated");
+    assert.notProperty(parsed[0].parts[0].content, "arguments", "arguments are user-specific");
+    assert.notProperty(parsed[0].parts[0].content, "server_label");
+    assert.notProperty(parsed[0].parts[0].content, "status");
+  });
+
+  it("image_generation_call: includes prompt/quality/size/style/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "image_generation_call",
+          call_id: "ig_1",
+          prompt: "A sunset over mountains",
+          quality: "hd",
+          size: "1024x1024",
+          style: "vivid",
+          result: "data:image/png;base64,ABC",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.prompt, "A sunset over mountains");
+    assert.equal(parsedOn[0].parts[0].content.quality, "hd");
+    assert.equal(parsedOn[0].parts[0].content.size, "1024x1024");
+    assert.equal(parsedOn[0].parts[0].content.style, "vivid");
+    assert.notProperty(parsedOn[0].parts[0].content, "result", "binary result excluded even when ON");
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "image_generation_call",
+          call_id: "ig_1",
+          prompt: "A sunset over mountains",
+          quality: "hd",
+          size: "1024x1024",
+          style: "vivid",
+          result: "data:image/png;base64,ABC",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "image_generation_call");
+    assert.equal(parsedOff[0].parts[0].content.id, "ig_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "prompt");
+    assert.notProperty(parsedOff[0].parts[0].content, "quality");
+    assert.notProperty(parsedOff[0].parts[0].content, "size");
+    assert.notProperty(parsedOff[0].parts[0].content, "style");
+  });
+
+  it("azure_ai_search_call: includes input/results/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "azure_ai_search_call",
+          call_id: "ais_1",
+          input: "enterprise data query",
+          results: [{ score: 0.95, content: "doc text" }],
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.input, "enterprise data query");
+    assert.deepEqual(parsedOn[0].parts[0].content.results, [{ score: 0.95, content: "doc text" }]);
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "azure_ai_search_call",
+          call_id: "ais_1",
+          input: "enterprise data query",
+          results: [{ score: 0.95, content: "doc text" }],
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "azure_ai_search_call");
+    assert.notProperty(parsedOff[0].parts[0].content, "input");
+    assert.notProperty(parsedOff[0].parts[0].content, "results");
+  });
+
+  it("shell_call: includes command/output/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "shell_call",
+          call_id: "sh_1",
+          command: "ls -la /home/user",
+          output: "total 42\ndrwxr-xr-x ...",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.command, "ls -la /home/user");
+    assert.equal(parsedOn[0].parts[0].content.output, "total 42\ndrwxr-xr-x ...");
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "shell_call",
+          call_id: "sh_1",
+          command: "ls -la /home/user",
+          output: "total 42\ndrwxr-xr-x ...",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "shell_call");
+    assert.notProperty(parsedOff[0].parts[0].content, "command");
+    assert.notProperty(parsedOff[0].parts[0].content, "output");
+  });
+
+  it("apply_patch_call: includes patch/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "apply_patch_call",
+          call_id: "ap_1",
+          patch: "--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.include(parsedOn[0].parts[0].content.patch, "--- a/file.txt");
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "apply_patch_call",
+          call_id: "ap_1",
+          patch: "--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "apply_patch_call");
+    assert.notProperty(parsedOff[0].parts[0].content, "patch");
+  });
+
+  it("custom_tool_call: includes name/arguments/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "custom_tool_call",
+          call_id: "ct_1",
+          name: "my_tool",
+          arguments: '{"key":"value"}',
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.name, "my_tool");
+    assert.equal(parsedOn[0].parts[0].content.arguments, '{"key":"value"}');
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "custom_tool_call",
+          call_id: "ct_1",
+          name: "my_tool",
+          arguments: '{"key":"value"}',
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.notProperty(parsedOff[0].parts[0].content, "name");
+    assert.notProperty(parsedOff[0].parts[0].content, "arguments");
+  });
+
+  it("local_shell_call: includes command/output/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "local_shell_call",
+          call_id: "lsh_1",
+          command: "cat /etc/passwd",
+          output: "root:x:0:0:...",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.type, "local_shell_call");
+    assert.equal(parsedOn[0].parts[0].content.command, "cat /etc/passwd");
+    assert.equal(parsedOn[0].parts[0].content.output, "root:x:0:0:...");
+    assert.equal(parsedOn[0].parts[0].content.status, "completed");
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "local_shell_call",
+          call_id: "lsh_1",
+          command: "cat /etc/passwd",
+          output: "root:x:0:0:...",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "local_shell_call");
+    assert.equal(parsedOff[0].parts[0].content.id, "lsh_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "command");
+    assert.notProperty(parsedOff[0].parts[0].content, "output");
+    assert.notProperty(parsedOff[0].parts[0].content, "status");
+  });
+
+  it("computer_call: includes action/status when ON, strips when OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "computer_call",
+          call_id: "comp_1",
+          action: "click",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.type, "computer_call");
+    assert.equal(parsedOn[0].parts[0].content.action, "click");
+    assert.equal(parsedOn[0].parts[0].content.status, "completed");
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "computer_call",
+          call_id: "comp_1",
+          action: "click",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "computer_call");
+    assert.equal(parsedOff[0].parts[0].content.id, "comp_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "action");
+    assert.notProperty(parsedOff[0].parts[0].content, "status");
+  });
+
+  it("unknown_new_call type: uses default props, strips when content OFF", () => {
+    enableContentRecording();
+    const resultOn = formatOutputMessages({
+      output: [
+        {
+          type: "future_fancy_call",
+          call_id: "ff_1",
+          name: "fancy_op",
+          arguments: "{}",
+          input: "query",
+          output: "result",
+          query: "search term",
+          server_label: "my-server",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.type, "future_fancy_call");
+    assert.equal(parsedOn[0].parts[0].content.name, "fancy_op");
+    assert.equal(parsedOn[0].parts[0].content.status, "completed");
+
+    disableContentRecording();
+    const resultOff = formatOutputMessages({
+      output: [
+        {
+          type: "future_fancy_call",
+          call_id: "ff_1",
+          name: "fancy_op",
+          arguments: "{}",
+          input: "query",
+          output: "result",
+          query: "search term",
+          server_label: "my-server",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "future_fancy_call");
+    assert.equal(parsedOff[0].parts[0].content.id, "ff_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "name");
+    assert.notProperty(parsedOff[0].parts[0].content, "arguments");
+    assert.notProperty(parsedOff[0].parts[0].content, "input");
+    assert.notProperty(parsedOff[0].parts[0].content, "output");
+    assert.notProperty(parsedOff[0].parts[0].content, "query");
+    assert.notProperty(parsedOff[0].parts[0].content, "server_label");
+    assert.notProperty(parsedOff[0].parts[0].content, "status");
+  });
+});
+
+// ---- Input tool output privacy tests ----
+
+describe("formatInputMessages - tool output privacy", () => {
+  beforeEach(() => {
+    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
+  });
+
+  afterEach(() => {
+    if (savedContentEnv === undefined) {
+      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
+    } else {
+      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
+    }
+  });
+
+  it("computer_call_output: always strips image_url even when content ON", () => {
+    enableContentRecording();
+    const result = formatInputMessages({
+      input: [
+        {
+          type: "computer_call_output",
+          call_id: "comp_1",
+          output: { type: "screenshot", image_url: "data:image/png;base64,HUGE", status: "done" },
+          status: "completed",
+        },
+      ],
+    });
+    const parsed = JSON.parse(result!);
+    assert.equal(parsed[0].parts[0].content.type, "computer_call_output");
+    assert.notProperty(parsed[0].parts[0].content.output, "image_url",
+      "binary image data must never be included");
+    assert.equal(parsed[0].parts[0].content.output.status, "done");
+  });
+
+  it("shell_call_output: strips output/status when content OFF", () => {
+    enableContentRecording();
+    const resultOn = formatInputMessages({
+      input: [
+        {
+          type: "shell_call_output",
+          call_id: "sh_out_1",
+          output: "command output text",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.output, "command output text");
+
+    disableContentRecording();
+    const resultOff = formatInputMessages({
+      input: [
+        {
+          type: "shell_call_output",
+          call_id: "sh_out_1",
+          output: "command output text",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "shell_call_output");
+    assert.equal(parsedOff[0].parts[0].content.id, "sh_out_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "output", "output must not leak");
+    assert.notProperty(parsedOff[0].parts[0].content, "status");
+  });
+
+  it("local_shell_call_output: strips output/status when content OFF", () => {
+    enableContentRecording();
+    const resultOn = formatInputMessages({
+      input: [
+        {
+          type: "local_shell_call_output",
+          call_id: "lsh_out_1",
+          output: "local command output",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.output, "local command output");
+    assert.equal(parsedOn[0].parts[0].content.status, "completed");
+
+    disableContentRecording();
+    const resultOff = formatInputMessages({
+      input: [
+        {
+          type: "local_shell_call_output",
+          call_id: "lsh_out_1",
+          output: "local command output",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "local_shell_call_output");
+    assert.equal(parsedOff[0].parts[0].content.id, "lsh_out_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "output", "output must not leak");
+    assert.notProperty(parsedOff[0].parts[0].content, "status");
+  });
+
+  it("apply_patch_call_output: strips output/status when content OFF", () => {
+    enableContentRecording();
+    const resultOn = formatInputMessages({
+      input: [
+        {
+          type: "apply_patch_call_output",
+          call_id: "ap_out_1",
+          output: "patch applied successfully",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOn = JSON.parse(resultOn!);
+    assert.equal(parsedOn[0].parts[0].content.output, "patch applied successfully");
+
+    disableContentRecording();
+    const resultOff = formatInputMessages({
+      input: [
+        {
+          type: "apply_patch_call_output",
+          call_id: "ap_out_1",
+          output: "patch applied successfully",
+          status: "completed",
+        },
+      ],
+    });
+    const parsedOff = JSON.parse(resultOff!);
+    assert.equal(parsedOff[0].parts[0].content.type, "apply_patch_call_output");
+    assert.equal(parsedOff[0].parts[0].content.id, "ap_out_1");
+    assert.notProperty(parsedOff[0].parts[0].content, "output", "output must not leak");
+    assert.notProperty(parsedOff[0].parts[0].content, "status");
+  });
+
+  it("generic *_output type: strips output/result when content OFF", () => {
+    disableContentRecording();
+    const result = formatInputMessages({
+      input: [
+        {
+          type: "custom_tool_call_output",
+          call_id: "cto_1",
+          output: "sensitive result data",
+          result: "more sensitive data",
+          status: "completed",
+        },
+      ],
+    });
+    const parsed = JSON.parse(result!);
+    assert.equal(parsed[0].parts[0].content.type, "custom_tool_call_output");
+    assert.equal(parsed[0].parts[0].content.id, "cto_1");
+    assert.notProperty(parsed[0].parts[0].content, "output");
+    assert.notProperty(parsed[0].parts[0].content, "result");
+    assert.notProperty(parsed[0].parts[0].content, "status");
+  });
+
+  it("unknown *_output type: only type and id visible when content OFF", () => {
+    disableContentRecording();
+    const result = formatInputMessages({
+      input: [
+        {
+          type: "unsupported_test_call_output",
+          call_id: "uto_1",
+          output: "secret tool state",
+          result: "private bits",
+          data: "extra sensitive field",
+          status: "completed",
+        },
+      ],
+    });
+    const parsed = JSON.parse(result!);
+    assert.equal(parsed[0].parts[0].content.type, "unsupported_test_call_output");
+    assert.equal(parsed[0].parts[0].content.id, "uto_1");
+    assert.notProperty(parsed[0].parts[0].content, "output");
+    assert.notProperty(parsed[0].parts[0].content, "result");
+    assert.notProperty(parsed[0].parts[0].content, "data");
+    assert.notProperty(parsed[0].parts[0].content, "status");
+  });
+
+  it("output type without _call suffix is silently dropped", () => {
+    enableContentRecording();
+    const result = formatOutputMessages({
+      output: [
+        {
+          type: "mystery_widget",
+          id: "mw_1",
+          data: "should not appear",
+        },
+      ],
+    });
+    // mystery_widget doesn't match function_call, message, or *_call pattern
+    assert.isUndefined(result, "items without _call suffix should be silently dropped");
   });
 });

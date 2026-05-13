@@ -197,7 +197,7 @@ export class AIProjectClient {
     };
 
     const openaiClient = new OpenAI(openAIOptions);
-    return overwriteOpenAIClient(openaiClient);
+    return overwriteOpenAIClient(openaiClient, this._endpoint);
   }
   /**
    * gets the endpoint of the client

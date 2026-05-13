@@ -64,6 +64,11 @@ export const AZ_NAMESPACE = "az.namespace";
 // Error
 export const ERROR_TYPE = "error.type";
 
+// Events
+export const GEN_AI_EVENT_CONTENT = "gen_ai.event.content";
+export const GEN_AI_WORKFLOW_ACTION_EVENT = "gen_ai.workflow.action";
+export const GEN_AI_AGENT_WORKFLOW_EVENT = "gen_ai.agent.workflow";
+
 // --- Constant Values ---
 
 export const AZ_AI_AGENT_SYSTEM = "az.ai.agents";
@@ -76,6 +81,7 @@ export const OperationName = {
   CREATE_AGENT: "create_agent",
   INVOKE_AGENT: "invoke_agent",
   CHAT: "chat",
+  CREATE_CONVERSATION: "create_conversation",
 } as const;
 
 // --- Metric Names ---

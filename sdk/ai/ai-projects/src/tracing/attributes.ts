@@ -3,12 +3,14 @@
 
 import type { TracingSpan } from "@azure/core-tracing";
 import { isContentRecordingEnabled } from "./configuration.js";
+import { formatInputMessages, formatOutputMessages } from "./formatters.js";
+import type { Response as OAIResponse } from "openai/resources/responses/responses";
 
 /**
  * Subset of TracingSpan used by attribute helpers.
  * Compatible with both TracingSpan and Omit<TracingSpan, "end"> from withSpan callbacks.
  */
-type SpanLike = Pick<TracingSpan, "setAttribute" | "setStatus">;
+export type SpanLike = Pick<TracingSpan, "setAttribute" | "setStatus">;
 import {
   GEN_AI_AGENT_ID,
   GEN_AI_AGENT_NAME,
@@ -18,6 +20,8 @@ import {
   GEN_AI_AGENT_HOSTED_CPU,
   GEN_AI_AGENT_HOSTED_MEMORY,
   GEN_AI_AGENT_HOSTED_IMAGE,
+  GEN_AI_AGENT_HOSTED_PROTOCOL,
+  GEN_AI_AGENT_HOSTED_PROTOCOL_VERSION,
   GEN_AI_REQUEST_MODEL,
   GEN_AI_REQUEST_TEMPERATURE,
   GEN_AI_REQUEST_TOP_P,
@@ -29,14 +33,26 @@ import {
   GEN_AI_USAGE_OUTPUT_TOKENS,
   GEN_AI_OPERATION_NAME,
   GEN_AI_PROVIDER_NAME,
+  GEN_AI_INPUT_MESSAGES,
+  GEN_AI_OUTPUT_MESSAGES,
+  GEN_AI_CONVERSATION_ID,
   AZ_NAMESPACE,
   SERVER_ADDRESS,
   SERVER_PORT,
   ERROR_TYPE,
   AZ_NAMESPACE_VALUE,
   AGENTS_PROVIDER,
+  GEN_AI_EVENT_CONTENT,
+  GEN_AI_AGENT_WORKFLOW_EVENT,
 } from "./constants.js";
-import type { Agent, AgentVersion, AgentDefinitionUnion } from "../models/models.js";
+import type {
+  Agent,
+  AgentVersion,
+  AgentDefinitionUnion,
+  PromptAgentDefinition,
+  HostedAgentDefinition,
+  WorkflowAgentDefinition,
+} from "../models/models.js";
 
 /**
  * Sets common span attributes for all traced operations.
@@ -87,15 +103,16 @@ export function setAgentAttributes(span: SpanLike, agent: Agent): void {
  * Sets agent version attributes on the span.
  */
 export function setAgentVersionAttributes(span: SpanLike, version: AgentVersion): void {
+  const agentId = version.version ? `${version.name}:${version.version}` : version.name;
+  span.setAttribute(GEN_AI_AGENT_ID, agentId);
+  span.setAttribute(GEN_AI_AGENT_NAME, version.name);
   span.setAttribute(GEN_AI_AGENT_VERSION, version.version);
   span.setAttribute(GEN_AI_AGENT_TYPE, version.definition?.kind ?? "unknown");
 
-  if (isContentRecordingEnabled()) {
-    if (version.description) {
-      span.setAttribute(GEN_AI_AGENT_DESCRIPTION, version.description);
-    }
-    setDefinitionAttributes(span, version.definition);
+  if (isContentRecordingEnabled() && version.description) {
+    span.setAttribute(GEN_AI_AGENT_DESCRIPTION, version.description);
   }
+  setDefinitionAttributes(span, version.definition);
 }
 
 /**
@@ -111,41 +128,61 @@ export function setDefinitionAttributes(
   span.setAttribute(GEN_AI_AGENT_TYPE, definition.kind ?? "unknown");
 
   if (definition.kind === "prompt") {
+    const promptDef = definition as PromptAgentDefinition;
     // Always set instructions attribute; structured as [{"type":"text","content":"..."}]
     // When content recording is off, omit the content field
-    if (isContentRecordingEnabled() && definition.instructions) {
+    if (isContentRecordingEnabled() && promptDef.instructions) {
       span.setAttribute(
         GEN_AI_SYSTEM_MESSAGE,
-        JSON.stringify([{ type: "text", content: definition.instructions }]),
+        JSON.stringify([{ type: "text", content: promptDef.instructions }]),
       );
     } else {
       span.setAttribute(GEN_AI_SYSTEM_MESSAGE, JSON.stringify([{ type: "text" }]));
     }
     // Model is always set regardless of content recording
-    span.setAttribute(GEN_AI_REQUEST_MODEL, definition.model);
-  }
+    span.setAttribute(GEN_AI_REQUEST_MODEL, promptDef.model);
 
-  if (!isContentRecordingEnabled()) return;
-
-  if (definition.kind === "prompt") {
-    if (definition.temperature !== undefined) {
-      span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(definition.temperature));
-    }
-    if (definition.top_p !== undefined) {
-      span.setAttribute(GEN_AI_REQUEST_TOP_P, String(definition.top_p));
-    }
-    if (definition.reasoning?.effort) {
-      span.setAttribute(GEN_AI_REQUEST_REASONING_EFFORT, definition.reasoning.effort);
+    if (isContentRecordingEnabled()) {
+      if (promptDef.temperature !== undefined) {
+        span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(promptDef.temperature));
+      }
+      if (promptDef.top_p !== undefined) {
+        span.setAttribute(GEN_AI_REQUEST_TOP_P, String(promptDef.top_p));
+      }
+      if (promptDef.reasoning?.effort) {
+        span.setAttribute(GEN_AI_REQUEST_REASONING_EFFORT, promptDef.reasoning.effort);
+      }
     }
   } else if (definition.kind === "hosted") {
-    if (definition.cpu) {
-      span.setAttribute(GEN_AI_AGENT_HOSTED_CPU, definition.cpu);
+    const hostedDef = definition as HostedAgentDefinition;
+    if (hostedDef.cpu) {
+      span.setAttribute(GEN_AI_AGENT_HOSTED_CPU, hostedDef.cpu);
     }
-    if (definition.memory) {
-      span.setAttribute(GEN_AI_AGENT_HOSTED_MEMORY, definition.memory);
+    if (hostedDef.memory) {
+      span.setAttribute(GEN_AI_AGENT_HOSTED_MEMORY, hostedDef.memory);
     }
-    if (definition.image) {
-      span.setAttribute(GEN_AI_AGENT_HOSTED_IMAGE, definition.image);
+    if (hostedDef.image) {
+      span.setAttribute(GEN_AI_AGENT_HOSTED_IMAGE, hostedDef.image);
+    }
+    // Use container_protocol_versions or protocol_versions (first entry)
+    const protocols = hostedDef.container_protocol_versions ?? hostedDef.protocol_versions;
+    if (protocols && protocols.length > 0) {
+      span.setAttribute(GEN_AI_AGENT_HOSTED_PROTOCOL, protocols[0]!.protocol);
+      span.setAttribute(GEN_AI_AGENT_HOSTED_PROTOCOL_VERSION, protocols[0]!.version);
+    }
+  } else if (definition.kind === "workflow") {
+    const workflowDef = definition as WorkflowAgentDefinition;
+    const fullSpan = span as TracingSpan;
+    if (fullSpan.addEvent) {
+      const contentArray = isContentRecordingEnabled() && workflowDef.workflow
+        ? [{ type: "workflow", content: workflowDef.workflow }]
+        : [];
+      fullSpan.addEvent(GEN_AI_AGENT_WORKFLOW_EVENT, {
+        attributes: {
+          [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,
+          [GEN_AI_EVENT_CONTENT]: JSON.stringify(contentArray),
+        },
+      });
     }
   }
 }
@@ -186,5 +223,106 @@ export function setErrorAttributes(span: SpanLike, error: unknown): void {
     span.setAttribute(ERROR_TYPE, error.name || error.constructor?.name || "Error");
   } else {
     span.setAttribute(ERROR_TYPE, "Error");
+  }
+}
+
+/**
+ * Parses an endpoint URL into server address and port.
+ */
+export function parseEndpoint(endpoint: string): { serverAddress?: string; serverPort?: number } {
+  try {
+    const url = new URL(endpoint);
+    const port = url.port ? parseInt(url.port, 10) : undefined;
+    return { serverAddress: url.hostname, serverPort: port };
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Sets common span attributes for OpenAI response tracing.
+ */
+export function setCommonSpanAttributes(
+  span: SpanLike,
+  operationName: string,
+  serverAddress: string | undefined,
+  serverPort: number | undefined,
+  body: Record<string, unknown>,
+  agentName?: string,
+): void {
+  span.setAttribute(GEN_AI_OPERATION_NAME, operationName);
+  span.setAttribute(AZ_NAMESPACE, AZ_NAMESPACE_VALUE);
+  span.setAttribute(GEN_AI_PROVIDER_NAME, AGENTS_PROVIDER);
+
+  // Server attributes
+  if (serverAddress) {
+    span.setAttribute(SERVER_ADDRESS, serverAddress);
+  }
+  if (serverPort && serverPort !== 443) {
+    span.setAttribute(SERVER_PORT, serverPort);
+  }
+
+  // Agent name for invoke_agent operations
+  if (agentName) {
+    span.setAttribute(GEN_AI_AGENT_NAME, agentName);
+  }
+
+  // Conversation ID
+  const conversationId = body.conversation;
+  if (typeof conversationId === "string" && conversationId) {
+    span.setAttribute(GEN_AI_CONVERSATION_ID, conversationId);
+  }
+
+  // Input messages are always set (content is stripped when recording is off)
+  const inputMessages = formatInputMessages(body);
+  if (inputMessages) {
+    span.setAttribute(GEN_AI_INPUT_MESSAGES, inputMessages);
+  }
+
+  // Request attributes (content-recording gated)
+  if (isContentRecordingEnabled()) {
+    if (body.model) {
+      span.setAttribute(GEN_AI_REQUEST_MODEL, String(body.model));
+    }
+    if (body.temperature !== undefined) {
+      span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(body.temperature));
+    }
+    if (body.top_p !== undefined) {
+      span.setAttribute(GEN_AI_REQUEST_TOP_P, String(body.top_p));
+    }
+    // system_instructions only for non-agent (chat) operations
+    if (!agentName) {
+      if (body.instructions) {
+        span.setAttribute(
+          GEN_AI_SYSTEM_MESSAGE,
+          JSON.stringify([{ type: "text", content: String(body.instructions) }]),
+        );
+      } else {
+        span.setAttribute(GEN_AI_SYSTEM_MESSAGE, JSON.stringify([{ type: "text" }]));
+      }
+    }
+  }
+}
+
+/**
+ * Sets response span attributes from an OpenAI Response object.
+ */
+export function setResponseSpanAttributes(span: SpanLike, response: OAIResponse): void {
+  setResponseAttributes(span, {
+    id: response.id,
+    model: typeof response.model === "string" ? response.model : undefined,
+    usage: response.usage
+      ? {
+          input_tokens: response.usage.input_tokens,
+          output_tokens: response.usage.output_tokens,
+        }
+      : undefined,
+    status: response.status ?? undefined,
+  });
+
+  // Output messages are always set (content is stripped when recording is off)
+  const outputMessages = formatOutputMessages(response as unknown as Record<string, unknown>);
+  if (outputMessages) {
+    span.setAttribute(GEN_AI_OUTPUT_MESSAGES, outputMessages);
   }
 }
