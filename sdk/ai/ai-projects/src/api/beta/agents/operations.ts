@@ -160,7 +160,7 @@ export async function _getSessionFilesDeserialize(
  * List files and directories at a given path in the session sandbox.
  * Returns only the immediate children of the specified directory (non-recursive).
  */
-export async function getSessionFiles(
+export async function listSessionFiles(
   context: Client,
   agentName: string,
   sessionId: string,

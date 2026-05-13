@@ -3,7 +3,7 @@
 
 export {
   deleteSessionFile,
-  getSessionFiles,
+  listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
   getSessionLogStream,

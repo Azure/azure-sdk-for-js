@@ -4,7 +4,6 @@
 
 ### Breaking Changes
 
-- Renamed `project.beta.agents.listSessionFiles` to `project.beta.agents.getSessionFiles`.
 - Removed the `isolationKey` positional parameter from `project.beta.agents.createSession` and `project.beta.agents.deleteSession`.
 - Removed `IsolationKeySource`, `IsolationKeySourceUnion`, `IsolationKeySourceKind`, `EntraIsolationKeySource`, and `HeaderIsolationKeySource` from the public API surface.
 - Removed `TaskDataGenerationJobOptions` and the `"task"` member from `DataGenerationJobType` / `DataGenerationJobOptionsUnion`.

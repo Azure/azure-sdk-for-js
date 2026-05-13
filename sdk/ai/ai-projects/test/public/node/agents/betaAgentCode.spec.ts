@@ -274,7 +274,7 @@ describe("beta agents - code-based operations", () => {
     });
 
     const latest = await betaAgents.downloadAgentCode(agentName);
-    const specific = await betaAgents.downloadAgentVersionCode(agentName, "2");
+    const specific = await betaAgents.downloadAgentCode(agentName, { agentVersion: "2" });
 
     expect(new Uint8Array(await buffer(latest.readableStreamBody!))).toEqual(
       new Uint8Array(payload),

@@ -108,7 +108,7 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isTrue(uploadResult.bytes_written > 0);
 
     // List files in the session sandbox
-    const listing = await betaAgents.getSessionFiles(
+    const listing = await betaAgents.listSessionFiles(
       agentName,
       session.agent_session_id,
       "/sandbox",

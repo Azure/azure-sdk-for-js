@@ -4,7 +4,7 @@
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   deleteSessionFile,
-  getSessionFiles,
+  listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
   getSessionLogStream,
@@ -68,7 +68,7 @@ export interface BetaAgentsOperations {
    * List files and directories at a given path in the session sandbox.
    * Returns only the immediate children of the specified directory (non-recursive).
    */
-  getSessionFiles: (
+  listSessionFiles: (
     agentName: string,
     sessionId: string,
     path: string,
@@ -222,12 +222,12 @@ function _getBetaAgents(context: AIProjectContext) {
       path: string,
       options?: BetaAgentsDeleteSessionFileOptionalParams,
     ) => deleteSessionFile(context, agentName, sessionId, path, options),
-    getSessionFiles: (
+    listSessionFiles: (
       agentName: string,
       sessionId: string,
       path: string,
       options?: BetaAgentsListSessionFilesOptionalParams,
-    ) => getSessionFiles(context, agentName, sessionId, path, options),
+    ) => listSessionFiles(context, agentName, sessionId, path, options),
     downloadSessionFile: (
       agentName: string,
       sessionId: string,
