@@ -42,6 +42,7 @@ describe("TrafficManager test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
+    await recorder.setMatcher("HeaderlessMatcher");
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
