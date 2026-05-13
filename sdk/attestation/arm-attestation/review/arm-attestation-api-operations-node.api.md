@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function list(context: AttestationManagementContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationsDefinition>;
+export function list(context: AttestationManagementContext, options?: OperationsListOptionalParams): Promise<OperationList>;
 
 // @public
 export interface OperationsListOptionalParams extends OperationOptions {

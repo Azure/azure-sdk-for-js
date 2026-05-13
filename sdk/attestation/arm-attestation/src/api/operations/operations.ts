@@ -3,15 +3,10 @@
 
 import { AttestationManagementContext as Client } from "../index.js";
 import {
-  _OperationList,
-  _operationListDeserializer,
-  OperationsDefinition,
+  OperationList,
+  operationListDeserializer,
   cloudErrorDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { OperationsListOptionalParams } from "./options.js";
 import {
@@ -40,7 +35,7 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_OperationList> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<OperationList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -49,19 +44,14 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
     throw error;
   }
 
-  return _operationListDeserializer(result.body);
+  return operationListDeserializer(result.body);
 }
 
 /** List the operations for the provider */
-export function list(
+export async function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<OperationsDefinition> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, options),
-    _listDeserialize,
-    ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2021-06-01" },
-  );
+): Promise<OperationList> {
+  const result = await _listSend(context, options);
+  return _listDeserialize(result);
 }

@@ -143,6 +143,12 @@ export interface LogSpecification {
 }
 
 // @public
+export interface OperationList {
+    readonly systemData?: SystemData;
+    value?: OperationsDefinition[];
+}
+
+// @public
 export interface OperationProperties {
     serviceSpecification?: ServiceSpecification;
 }

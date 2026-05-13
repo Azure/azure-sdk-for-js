@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-05-11)
+## 3.0.0-beta.1 (2026-05-13)
 Compared with version 2.1.0
 
 ### Features Added
@@ -36,9 +36,7 @@ Compared with version 2.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Operation Operations.list has a new signature
   - Removed Interface JsonWebKey_2
-  - Removed Interface OperationList
 
     
 ## 2.1.0 (2022-11-16)

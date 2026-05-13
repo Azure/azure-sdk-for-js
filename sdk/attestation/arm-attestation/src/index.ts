@@ -10,6 +10,7 @@ import {
 
 export { AttestationManagementClient } from "./attestationManagementClient.js";
 export type {
+  OperationList,
   SystemData,
   CreatedByType,
   OperationsDefinition,

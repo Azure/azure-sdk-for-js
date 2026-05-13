@@ -54,7 +54,7 @@
       "@azure/arm-attestation!AttestationProvidersOperations#update:member": "Microsoft.Attestation.AttestationProviders.update",
       "@azure/arm-attestation!AttestationProvidersOperations#create:member": "Microsoft.Attestation.AttestationProviders.create",
       "@azure/arm-attestation!AttestationProvidersOperations#get:member": "Microsoft.Attestation.AttestationProviders.get",
-      "@azure/arm-attestation!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
+      "@azure/arm-attestation!OperationsOperations#list:member": "Microsoft.Attestation.Operations.list"
     }
   }
 }

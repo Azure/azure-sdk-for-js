@@ -10,14 +10,14 @@ import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** List of supported operations. */
-export interface _OperationList {
+export interface OperationList {
   /** The system metadata relating to this resource */
   readonly systemData?: SystemData;
   /** List of supported operations. */
   value?: OperationsDefinition[];
 }
 
-export function _operationListDeserializer(item: any): _OperationList {
+export function operationListDeserializer(item: any): OperationList {
   return {
     systemData: !item["systemData"]
       ? item["systemData"]

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
+  OperationList,
   SystemData,
   CreatedByType,
   OperationsDefinition,

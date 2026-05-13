@@ -13,12 +13,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function operationsList() {
   const credential = new DefaultAzureCredential();
   const client = new AttestationManagementClient(credential);
-  const resArray = new Array();
-  for await (const item of client.operations.list()) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  const result = await client.operations.list();
+  console.log(result);
 }
 
 async function main() {

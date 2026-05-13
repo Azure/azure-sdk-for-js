@@ -224,6 +224,12 @@ export interface LogSpecification {
 }
 
 // @public
+export interface OperationList {
+    readonly systemData?: SystemData;
+    value?: OperationsDefinition[];
+}
+
+// @public
 export interface OperationProperties {
     serviceSpecification?: ServiceSpecification;
 }
@@ -249,7 +255,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationsDefinition>;
+    list: (options?: OperationsListOptionalParams) => Promise<OperationList>;
 }
 
 // @public
