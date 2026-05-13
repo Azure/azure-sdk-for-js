@@ -103,3 +103,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-prometheusrulegroups?view=
 https://www.npmjs.com/package/@azure/arm-prometheusrulegroups
 https://www.npmjs.com/package/@azure/arm-fileshares
 https://learn.microsoft.com/javascript/api/@azure/arm-fileshares
+https://learn.microsoft.com/javascript/api/@azure/arm-providerhub?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-providerhub
