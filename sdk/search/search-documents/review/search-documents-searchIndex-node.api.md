@@ -193,13 +193,28 @@ export interface ListAliasesOptionalParams extends OperationOptions {
 export interface ListIndexesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    count?: boolean;
+    skip?: number;
+    top?: number;
 }
 
 // @public
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    count?: boolean;
     select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    count?: boolean;
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -245,6 +260,7 @@ export class SearchIndexClient {
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;
+    listIndexStatsSummary(options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
     listKnowledgeBases(options?: ListKnowledgeBasesOptionalParams): PagedAsyncIterableIterator<KnowledgeBase>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
     readonly pipeline: Pipeline;

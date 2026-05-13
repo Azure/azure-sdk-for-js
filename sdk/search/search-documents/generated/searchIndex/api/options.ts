@@ -4,6 +4,20 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+  /** The number of items to retrieve. Default is 50, maximum is 1000. */
+  top?: number;
+  /** The number of items to skip. */
+  skip?: number;
+  /** A value that specifies whether to fetch the total count of items. Default is false. */
+  count?: boolean;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
 export interface GetServiceStatisticsOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
@@ -193,6 +207,12 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** The number of items to retrieve. Default is 50, maximum is 1000. */
+  top?: number;
+  /** The number of items to skip. */
+  skip?: number;
+  /** A value that specifies whether to fetch the total count of items. Default is false. */
+  count?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
@@ -201,6 +221,12 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
 export interface ListIndexesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** The number of items to retrieve. Default is 50, maximum is 1000. */
+  top?: number;
+  /** The number of items to skip. */
+  skip?: number;
+  /** A value that specifies whether to fetch the total count of items. Default is false. */
+  count?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }

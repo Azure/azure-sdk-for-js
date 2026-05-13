@@ -44,6 +44,7 @@ import type {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
+  IndexerResyncOption,
   IndexingSchedule,
   IndexProjectionMode,
   KeepTokenFilter,
@@ -251,6 +252,43 @@ export type ResetIndexerOptions = OperationOptions;
  * Options for run indexer operation.
  */
 export type RunIndexerOptions = OperationOptions;
+
+/**
+ * Options for reset skills operation.
+ */
+export type ResetSkillsOptions = OperationOptions;
+
+/**
+ * Options for reset documents operation.
+ */
+export interface ResetDocumentsOptions extends OperationOptions {
+  /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
+  overwrite?: boolean;
+  /** Document keys to be reset. */
+  documentKeys?: string[];
+  /** Datasource document identifiers to be reset. */
+  dataSourceDocumentIds?: string[];
+}
+
+/**
+ * Options for resync indexer operation.
+ */
+export interface ResyncIndexerOptions extends OperationOptions {
+  /** Re-sync options that have been pre-defined from the data source. */
+  resyncOptions?: IndexerResyncOption[];
+}
+
+/**
+ * Options for list index stats summary operation.
+ */
+export interface ListIndexStatsSummaryOptions extends OperationOptions {
+  /** The number of items to retrieve. Default is 50, maximum is 1000. */
+  top?: number;
+  /** The number of items to skip. */
+  skip?: number;
+  /** A value that specifies whether to fetch the total count of items. Default is false. */
+  count?: boolean;
+}
 
 /**
  * Options for create index operation.

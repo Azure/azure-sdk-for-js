@@ -1,10 +1,28 @@
 # Release History
 
-## 13.0.1 (Unreleased)
+## 13.0.1-beta.0 (Unreleased)
 
 ### Features Added
 
+- Regenerated from the `2026-05-01-preview` Search service API.
+- Added `resetSkills` method to `SearchIndexerClient` to selectively re-execute specified skills in a skillset.
+- Added `resetDocuments` method to `SearchIndexerClient` to selectively re-ingest specific documents in the data source.
+- Added `resyncIndexer` method to `SearchIndexerClient` to re-sync pre-defined options (e.g., permissions) from the data source.
+- Added `listIndexStatsSummary` method to `SearchIndexClient` to retrieve paged statistics summaries for all indexes in the service.
+- Added new knowledge source kinds: `IndexedSharePoint`, `RemoteSharePoint`, `WorkIQ`, `FabricDataAgent`, and `FabricOntology`, along with corresponding `KnowledgeBaseReference` types.
+- Added `KnowledgeBaseModelQueryPlanningActivityRecord` and `KnowledgeBaseModelAnswerSynthesisActivityRecord` activity record types.
+- Added `KnowledgeRetrievalLowReasoningEffort` and `KnowledgeRetrievalMediumReasoningEffort` reasoning effort variants for knowledge retrieval, along with `KnowledgeRetrievalOutputMode`.
+- Added `PurviewSensitivityLabelInfo` on knowledge base reference and response types for Purview sensitivity labeling.
+- Added `messages`, `maxOutputDocuments`, `maxOutputSize`, `outputMode`, and `retrievalReasoningEffort` properties to `KnowledgeBaseRetrievalRequest`.
+- Added `alwaysQuerySource`, `enableImageServing`, `failOnError`, and `maxOutputDocuments` properties to `BaseKnowledgeSourceParams`.
+- Added `ContentUnderstandingSkillChunkingMethod` and corresponding `method` property on `ContentUnderstandingSkillChunkingProperties`.
+- Added `mode` (`IndexingMode`), `statusDetail` (`IndexerExecutionStatusDetail`), `IndexerCurrentState`, and `IndexerRuntime` properties surfaced on indexer execution results.
+- Added `warning` to `BaseKnowledgeBaseActivityRecord`.
+
 ### Breaking Changes
+
+- Spec-driven rename on `BaseKnowledgeBaseActivityRecord`: `elapsedInMs` is now `elapsedMs`.
+- `queryRewrites` on `SemanticSearchOptions` is now serialized to the new wire string format (e.g., `generative|count-3`); the public `GenerativeQueryRewrites` shape is unchanged but consumers reading raw request bodies should expect the new format.
 
 ### Bugs Fixed
 

@@ -10,7 +10,10 @@ import {
   bearerTokenAuthenticationPolicy,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult } from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AnalyzeResult,
+  IndexStatisticsSummary,
+} from "./models/azure/search/documents/indexes/index.js";
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
@@ -55,6 +58,7 @@ import type {
   KnowledgeSourceIterator,
   ListAliasesOptions,
   ListIndexesOptions,
+  ListIndexStatsSummaryOptions,
   ListKnowledgeBasesOptions,
   ListKnowledgeSourcesOptions,
   ListSynonymMapsOptions,
@@ -67,6 +71,7 @@ import type {
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceStatus } from "./models/azure/search/documents/knowledgeBases/index.js";
 
 /**
@@ -209,6 +214,16 @@ export class SearchIndexClient {
       this.client.listIndexes(options),
       utils.generatedIndexToPublicIndex,
     );
+  }
+
+  /**
+   * Retrieves a summary of statistics for all indexes in the search service.
+   * @param options - Options to the list index stats summary operation.
+   */
+  public listIndexStatsSummary(
+    options: ListIndexStatsSummaryOptions = {},
+  ): PagedAsyncIterableIterator<IndexStatisticsSummary> {
+    return this.client.listIndexStatsSummary(options);
   }
 
   /**
