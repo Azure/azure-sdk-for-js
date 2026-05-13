@@ -37,7 +37,7 @@ export interface Operation {
   /** Localized display information for this particular operation. */
   display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
+  readonly origin?: ArmOrigin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
   readonly actionType?: ActionType;
 }
@@ -74,7 +74,7 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 }
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
+export enum KnownArmOrigin {
   /** Indicates the operation is initiated by a user. */
   User = "user",
   /** Indicates the operation is initiated by a system. */
@@ -85,14 +85,14 @@ export enum KnownOrigin {
 
 /**
  * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
+ * {@link KnownArmOrigin} can be used interchangeably with ArmOrigin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **user**: Indicates the operation is initiated by a user. \
  * **system**: Indicates the operation is initiated by a system. \
  * **user,system**: Indicates the operation is initiated by a user or system.
  */
-export type Origin = string;
+export type ArmOrigin = string;
 
 /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export enum KnownActionType {
@@ -1215,7 +1215,7 @@ export interface InvestigationResult {
   /** The identifier of the investigation */
   id: string;
   /** The origin of the investigation */
-  origin?: Origin_1;
+  origin?: Origin;
   /** The creation time of the investigation (in UTC) */
   createdAt?: Date;
   /** The last update time of the investigation (in UTC) */
@@ -1249,18 +1249,18 @@ export function investigationResultDeserializer(item: any): InvestigationResult 
 }
 
 /** Details about the origin of the entity - the source that added it to the issue */
-export interface Origin_1 {
+export interface Origin {
   /** The ID of the origin - for example, in case of 'Manual', the user ID/app ID, and in case of 'Automatic', the name of the automatic system */
   addedBy: string;
   /** The source of the origin - Manual or Automatic */
   addedByType: AddedByType;
 }
 
-export function originSerializer(item: Origin_1): any {
+export function originSerializer(item: Origin): any {
   return { addedBy: item["addedBy"], addedByType: item["addedByType"] };
 }
 
-export function originDeserializer(item: any): Origin_1 {
+export function originDeserializer(item: any): Origin {
   return {
     addedBy: item["addedBy"],
     addedByType: item["addedByType"],
@@ -1335,7 +1335,7 @@ export interface RelatedAlert {
   /** The alerts's relevance status */
   relevance: Relevance;
   /** The source that related the alert to the issue */
-  readonly origin: Origin_1;
+  readonly origin: Origin;
   /** The time this relation was added to the issue (in UTC) */
   readonly addedAt: Date;
   /** The last update time of this relation (in UTC) */
@@ -1441,7 +1441,7 @@ export interface RelatedResource {
   /** The resource's relevance status */
   relevance: Relevance;
   /** The source that related the resource to the issue */
-  readonly origin: Origin_1;
+  readonly origin: Origin;
   /** The time this relation was added to the issue (in UTC) */
   readonly addedAt: Date;
   /** The last update time of this relation (in UTC) */
@@ -1503,7 +1503,7 @@ export interface BackgroundVisualization {
   /** The background visualization content, in Adaptive Card format */
   visualization: string;
   /** The background visualization origin */
-  readonly origin: Origin_1;
+  readonly origin: Origin;
 }
 
 export function backgroundVisualizationDeserializer(item: any): BackgroundVisualization {

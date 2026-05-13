@@ -64,7 +64,7 @@
       "@azure/arm-monitoraccounts!MetricsContainerResource:interface": "Microsoft.Monitor.MetricsContainerResource",
       "@azure/arm-monitoraccounts!MetricsContainer:interface": "Microsoft.Monitor.MetricsContainer",
       "@azure/arm-monitoraccounts!MetricsContainerResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-monitoraccounts!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-monitoraccounts!KnownArmOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-monitoraccounts!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-monitoraccounts!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-monitoraccounts!KnownPrivateEndpointServiceConnectionStatus:enum": "Azure.ResourceManager.CommonTypes.PrivateEndpointServiceConnectionStatus",

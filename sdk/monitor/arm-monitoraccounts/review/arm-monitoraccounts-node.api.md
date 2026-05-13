@@ -20,6 +20,9 @@ export type ActionType = string;
 export type AddedByType = string;
 
 // @public
+export type ArmOrigin = string;
+
+// @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
@@ -117,7 +120,7 @@ export interface BackgroundDetails {
 
 // @public
 export interface BackgroundVisualization {
-    readonly origin: Origin_1;
+    readonly origin: Origin;
     visualization: string;
 }
 
@@ -175,7 +178,7 @@ export interface InvestigationResult {
     createdAt?: Date;
     id: string;
     lastModifiedAt?: Date;
-    origin?: Origin_1;
+    origin?: Origin;
     result: string;
 }
 
@@ -321,6 +324,13 @@ export enum KnownAddedByType {
 }
 
 // @public
+export enum KnownArmOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -334,13 +344,6 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -479,7 +482,7 @@ export interface Operation {
     display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly origin?: Origin;
+    readonly origin?: ArmOrigin;
 }
 
 // @public
@@ -500,10 +503,7 @@ export interface OperationsOperations {
 }
 
 // @public
-export type Origin = string;
-
-// @public
-export interface Origin_1 {
+export interface Origin {
     addedBy: string;
     addedByType: AddedByType;
 }
@@ -575,7 +575,7 @@ export interface RelatedAlert {
     readonly addedAt: Date;
     id: string;
     readonly lastModifiedAt: Date;
-    readonly origin: Origin_1;
+    readonly origin: Origin;
     relevance: Relevance;
 }
 
@@ -600,7 +600,7 @@ export interface RelatedResource {
     readonly addedAt: Date;
     id: string;
     readonly lastModifiedAt: Date;
-    readonly origin: Origin_1;
+    readonly origin: Origin;
     relevance: Relevance;
 }
 

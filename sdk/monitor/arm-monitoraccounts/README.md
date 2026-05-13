@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitoraccounts)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-monitoraccounts)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-monitoraccounts?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-monitoraccounts)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitoraccounts/samples)
 
 ## Getting started

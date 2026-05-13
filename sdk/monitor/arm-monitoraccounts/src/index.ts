@@ -14,7 +14,7 @@ export { restorePoller } from "./restorePollerHelpers.js";
 export type {
   Operation,
   OperationDisplay,
-  Origin,
+  ArmOrigin,
   ActionType,
   ErrorResponse,
   ErrorDetail,
@@ -59,7 +59,7 @@ export type {
   IssueResourceUpdate,
   IssuePropertiesUpdate,
   InvestigationResult,
-  Origin_1,
+  Origin,
   AddedByType,
   FetchInvestigationResultParameters,
   ListParameter,
@@ -80,7 +80,7 @@ export type {
   MetricsContainer,
 } from "./models/index.js";
 export {
-  KnownOrigin,
+  KnownArmOrigin,
   KnownActionType,
   KnownResourceProvisioningState,
   KnownPrivateEndpointServiceConnectionStatus,
