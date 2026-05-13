@@ -1,5 +1,5 @@
-# eng/pipelines/typespec-regression-integrated.yml
-# JS SDK Regeneration Pipeline (ARM Only) — Fully Integrated Version
+# eng/pipelines/typespec-break-check-integrated.yml
+# JS SDK TypeSpec Breaking Change Check Pipeline (ARM Only) — Fully Integrated Version
 # All logic from typespec-regression-runner.js is inlined as bash scripts.
 #
 # Purpose: Validate that the latest emitter (@azure-tools/typespec-ts) doesn't break existing ARM SDK packages
@@ -18,7 +18,7 @@ trigger:
       - eng/emitter-package.json
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
-      - eng/pipelines/typespec-regression-integrated.yml
+      - eng/pipelines/typespec-break-check-integrated.yml
 
 pr:
   branches:
@@ -31,11 +31,11 @@ pr:
       - eng/emitter-package.json
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
-      - eng/pipelines/typespec-regression-integrated.yml
+      - eng/pipelines/typespec-break-check-integrated.yml
 
 schedules:
   - cron: "0 2 * * 1"
-    displayName: Weekly SDK regeneration (Monday 2AM UTC)
+    displayName: Weekly TypeSpec break check (Monday 2AM UTC)
     branches:
       include:
         - main
