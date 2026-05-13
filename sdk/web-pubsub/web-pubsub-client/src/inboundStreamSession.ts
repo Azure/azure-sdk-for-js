@@ -3,7 +3,7 @@
 
 import { logger } from "./logger.js";
 import type {
-  GroupStream,
+  OnGroupStreamArgs,
   GroupStreamHandler,
   GroupStreamOptions,
   OnGroupStreamDataArgs,
@@ -18,7 +18,7 @@ const DEFAULT_HANDLE_FROM_START = false;
  * Factory invoked once for every newly observed inbound stream. The returned
  * `GroupStreamHandler` is bound to that single stream's lifecycle.
  */
-export type GroupStreamFactory = (stream: GroupStream) => GroupStreamHandler;
+export type GroupStreamFactory = (args: OnGroupStreamArgs) => GroupStreamHandler;
 
 /**
  * Provides the current set of registered factories. Read at message-processing
@@ -87,7 +87,7 @@ export class InboundStreamSession {
         return;
       }
 
-      const streamView: GroupStream = {
+      const streamView: OnGroupStreamArgs = {
         group: message.group,
         streamId: stream.streamId,
       };
@@ -135,7 +135,7 @@ export class InboundStreamSession {
 
   private _invokeFactories(
     factories: readonly GroupStreamFactory[],
-    streamView: GroupStream,
+    streamView: OnGroupStreamArgs,
   ): GroupStreamHandler[] {
     const handlers: GroupStreamHandler[] = [];
     for (const factory of factories) {

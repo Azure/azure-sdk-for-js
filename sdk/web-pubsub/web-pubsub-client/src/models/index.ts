@@ -55,7 +55,7 @@ export interface WebPubSubClientOptions {
   keepAliveIntervalInMs?: number;
   /**
    * Options that control how inbound group streams are tracked and dispatched
-   * to `"group-stream"` listeners.
+   * to factories registered via `client.onGroupStream(...)`.
    */
   groupStreamOptions?: GroupStreamOptions;
 }
@@ -384,11 +384,11 @@ export interface OnGroupStreamEndArgs {
 }
 
 /**
- * Per-stream value object passed to a `"group-stream"` factory. Each unique
- * `(group, streamId)` produces exactly one `GroupStream` instance. The factory
- * returns a `GroupStreamHandler` whose callbacks consume that single stream.
+ * Per-stream value object passed to a factory registered via
+ * `client.onGroupStream(...)`. * `GroupStream` instance is created per observed stream lifecycle. The factory returns a `GroupStreamHandler`
+ * whose callbacks consume that single stream.
  */
-export interface GroupStream {
+export interface OnGroupStreamArgs {
   /**
    * The group this stream belongs to.
    */
@@ -401,7 +401,7 @@ export interface GroupStream {
 
 /**
  * Callbacks attached to a single inbound group stream. Returned by the factory
- * registered via `client.on("group-stream", factory)`. All callbacks are optional.
+ * registered via `client.onGroupStream(factory)`. All callbacks are optional.
  */
 export interface GroupStreamHandler {
   /**
@@ -420,7 +420,7 @@ export interface GroupStreamHandler {
 
 /**
  * Client-wide options controlling how inbound group streams are tracked and
- * dispatched to `"group-stream"` listeners.
+ * dispatched to factories registered via `client.onGroupStream(...)`.
  */
 export interface GroupStreamOptions {
   /**

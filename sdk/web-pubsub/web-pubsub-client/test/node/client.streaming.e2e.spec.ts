@@ -6,7 +6,7 @@ import type { AddressInfo } from "node:net";
 import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
-import type { GroupStream, GroupStreamHandler } from "../../src/models/index.js";
+import type { OnGroupStreamArgs, GroupStreamHandler } from "../../src/models/index.js";
 import { createDeferred, withTimeout } from "../testUtils.js";
 
 async function waitForSocketConnection(wss: WebSocketServer): Promise<WebSocket> {
@@ -271,8 +271,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const streamErrorViaGroupStream = withTimeout(
       new Promise<{ streamId: string; group: string; error: any }>((resolve) => {
-        client!.on(
-          "group-stream",
+        client!.onGroupStream(
           (_stream): GroupStreamHandler => ({
             onError: (args) => {
               resolve({ streamId: args.streamId, group: args.group, error: args.error });
@@ -417,7 +416,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const streamDone = withTimeout(
       new Promise<{ result: string; error?: any }>((resolve) => {
-        client!.on("group-stream", (_stream): GroupStreamHandler => {
+        client!.onGroupStream((_stream): GroupStreamHandler => {
           const chunks: string[] = [];
           return {
             onMessage: (args) => {
@@ -463,8 +462,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const socket = await startClientAndConnect(client, wss);
 
     let called = false;
-    client.on(
-      "group-stream",
+    client.onGroupStream(
       (_stream): GroupStreamHandler => ({
         onMessage: () => {
           called = true;
@@ -495,7 +493,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const timeoutResult = withTimeout(
       new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
-        client!.on("group-stream", (_stream): GroupStreamHandler => {
+        client!.onGroupStream((_stream): GroupStreamHandler => {
           let messageCount = 0;
           return {
             onMessage: () => {
@@ -535,7 +533,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const sequence = withTimeout(
       new Promise<string[]>((resolve) => {
-        client!.on("group-stream", (_stream): GroupStreamHandler => {
+        client!.onGroupStream((_stream): GroupStreamHandler => {
           const order: string[] = [];
           return {
             onMessage: (args) => {
@@ -574,7 +572,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const result = withTimeout(
       new Promise<{ messageCount: number; completed: boolean }>((resolve) => {
-        client!.on("group-stream", (_stream): GroupStreamHandler => {
+        client!.onGroupStream((_stream): GroupStreamHandler => {
           let messageCount = 0;
           return {
             onMessage: () => {
@@ -612,7 +610,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
-        client!.on("group-stream", (_stream): GroupStreamHandler => {
+        client!.onGroupStream((_stream): GroupStreamHandler => {
           const chunks: string[] = [];
           return {
             onMessage: (args) => chunks.push(args.data as string),
@@ -667,7 +665,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
-        client!.on("group-stream", (_stream): GroupStreamHandler => {
+        client!.onGroupStream((_stream): GroupStreamHandler => {
           const chunks: string[] = [];
           return {
             onMessage: (args) => chunks.push(args.data as string),
@@ -753,7 +751,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     client.on("group-message", onGroupMessage);
 
     let invoked = false;
-    const groupStreamFactory = (_stream: GroupStream): GroupStreamHandler => ({
+    const groupStreamFactory = (_stream: OnGroupStreamArgs): GroupStreamHandler => ({
       onMessage: () => {
         invoked = true;
       },
@@ -764,8 +762,8 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
         invoked = true;
       },
     });
-    client.on("group-stream", groupStreamFactory);
-    client.off("group-stream", groupStreamFactory);
+    client.onGroupStream(groupStreamFactory);
+    client.offGroupStream(groupStreamFactory);
 
     sendGroupStreamMessage(socket, {
       streamId: "disposed-stream",

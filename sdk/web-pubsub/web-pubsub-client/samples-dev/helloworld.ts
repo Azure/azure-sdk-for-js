@@ -9,7 +9,7 @@ import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
   WebPubSubClientOptions,
-  GroupStream,
+  OnGroupStreamArgs,
   GroupStreamHandler,
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
@@ -60,7 +60,7 @@ async function main(): Promise<void> {
     console.log(`Received message from ${e.message.group} ${formatPayload(e.message.data)}`);
   });
 
-  const groupStreamFactory = (stream: GroupStream): GroupStreamHandler => ({
+  const groupStreamFactory = (stream: OnGroupStreamArgs): GroupStreamHandler => ({
     onMessage: (args) => {
       console.log(
         `[stream:${stream.group}/${stream.streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
@@ -75,7 +75,7 @@ async function main(): Promise<void> {
       );
     },
   });
-  client.on("group-stream", groupStreamFactory);
+  client.onGroupStream(groupStreamFactory);
 
   await client.start();
 
@@ -107,7 +107,7 @@ async function main(): Promise<void> {
   await stream.complete();
 
   await delay(200);
-  client.off("group-stream", groupStreamFactory);
+  client.offGroupStream(groupStreamFactory);
   client.stop();
   console.log("Client stopped");
 }

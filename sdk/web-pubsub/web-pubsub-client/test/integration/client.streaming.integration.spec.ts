@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
 import type {
-  GroupStream,
+  OnGroupStreamArgs,
   GroupStreamHandler,
   WebPubSubClientOptions,
 } from "../../src/models/index.js";
@@ -109,7 +109,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<{ streamId: string; text: string }>();
-    receiver.on("group-stream", (stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
       const chunks: string[] = [];
       return {
         onMessage: (args) => {
@@ -144,7 +144,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<{ streamId: string; messageCount: number }>();
-    receiver.on("group-stream", (stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
       let messageCount = 0;
       return {
         onMessage: () => {
@@ -177,7 +177,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<Array<{ index: number; payload: string }>>();
-    receiver.on("group-stream", (stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
       const records: Array<{ index: number; payload: string }> = [];
       return {
         onMessage: (args) => {
@@ -222,7 +222,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<Uint8Array>();
-    receiver.on("group-stream", (_stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((_stream: OnGroupStreamArgs): GroupStreamHandler => {
       let latest = new Uint8Array();
       return {
         onMessage: (args) => {
@@ -257,7 +257,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     const allDone = createDeferred<Record<string, string>>();
     const result: Record<string, string> = {};
-    receiver.on("group-stream", (stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
       const chunks: string[] = [];
       return {
         onMessage: (args) => {
@@ -339,7 +339,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const secondCompleted = createDeferred<{ generation: number; chunks: string[] }>();
     let generation = 0;
 
-    receiver.on("group-stream", (_stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((_stream: OnGroupStreamArgs): GroupStreamHandler => {
       generation++;
       const currentGeneration = generation;
       const chunks: string[] = [];
@@ -404,7 +404,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const freshCompleted = createDeferred<{ generation: number; chunks: string[] }>();
     let generation = 0;
 
-    receiver.on("group-stream", (_stream: GroupStream): GroupStreamHandler => {
+    receiver.onGroupStream((_stream: OnGroupStreamArgs): GroupStreamHandler => {
       generation++;
       const currentGeneration = generation;
       const chunks: string[] = [];
@@ -472,9 +472,8 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const errored = createDeferred<{ name: string; message?: string; userErrorCode?: string }>();
-    receiver.on(
-      "group-stream",
-      (_stream: GroupStream): GroupStreamHandler => ({
+    receiver.onGroupStream(
+      (_stream: OnGroupStreamArgs): GroupStreamHandler => ({
         onError: (args) => {
           if (args.error != null) {
             errored.resolve({
