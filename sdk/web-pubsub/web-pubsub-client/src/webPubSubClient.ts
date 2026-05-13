@@ -29,10 +29,9 @@ import type {
   SendStreamDataOptions,
   SendStreamKeepaliveOptions,
   EndStreamOptions,
+  OnGroupStreamArgs,
   GroupStreamHandler,
-  OnGroupStreamOptions,
   StreamPublisher,
-  GroupStreamSubscription as GroupStreamSubscriptionHandle,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -108,6 +107,8 @@ export class WebPubSubClient {
   private readonly _keepAliveIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
+  private readonly _groupStreamFactories: Array<(args: OnGroupStreamArgs) => GroupStreamHandler> =
+    [];
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _pingKeepaliveTask: AbortableTask | undefined;
@@ -153,7 +154,10 @@ export class WebPubSubClient {
 
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
-    this._inboundStreams = new InboundStreamSession();
+    this._inboundStreams = new InboundStreamSession(
+      () => this._groupStreamFactories,
+      this._options.groupStreamOptions,
+    );
     this._outboundStreams = new Map<string, OutboundStreamSession>();
     this._ackManager = new AckManager();
     this._invocationManager = new InvocationManager();
@@ -318,9 +322,21 @@ export class WebPubSubClient {
       | "server-message"
       | "group-message"
       | "rejoin-group-failed",
-    listener: (e: any) => void,
+    listener: (arg: any) => any,
   ): void {
     this._emitter.on(event, listener);
+  }
+
+  /**
+   * Register a factory invoked once for each newly observed inbound group stream
+   * (across all groups). The factory receives a per-stream `OnGroupStreamArgs`
+   * value (`{ group, streamId }`) and must return a `GroupStreamHandler` whose
+   * callbacks consume that single stream. Returning a fresh closure per call
+   * gives every stream its own independent state.
+   * @param factory - Per-stream factory returning a `GroupStreamHandler`.
+   */
+  public onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
+    this._groupStreamFactories.push(factory);
   }
 
   /**
@@ -367,24 +383,21 @@ export class WebPubSubClient {
       | "server-message"
       | "group-message"
       | "rejoin-group-failed",
-    listener: (e: any) => void,
+    listener: (arg: any) => any,
   ): void {
     this._emitter.removeListener(event, listener);
   }
 
   /**
-   * Register a stream handler factory for a group.
-   * @param groupName - The target group name.
-   * @param handlerFactory - Creates one handler per stream id.
-   * @param options - Stream receive options.
-   * @returns A stream subscription object. Call `close()` to unregister this stream subscription.
+   * Remove a previously registered group stream factory. Pass the same factory
+   * reference that was supplied to {@link onGroupStream}.
+   * @param factory - The factory reference originally registered via {@link onGroupStream}.
    */
-  public onGroupStream(
-    groupName: string,
-    handlerFactory: (streamId: string) => GroupStreamHandler,
-    options?: OnGroupStreamOptions,
-  ): GroupStreamSubscriptionHandle {
-    return this._inboundStreams.subscribe(groupName, handlerFactory, options);
+  public offGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
+    const index = this._groupStreamFactories.indexOf(factory);
+    if (index >= 0) {
+      this._groupStreamFactories.splice(index, 1);
+    }
   }
 
   private _emitEvent(event: "connected", args: OnConnectedArgs): void;
