@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { createTranscription } from "./api/index.js";
-import type { TranscriptionContext, TranscriptionClientOptionalParams } from "./api/index.js";
+import type { TranscriptionContext, TranscriptionClientOptions } from "./api/index.js";
 import { transcribe as transcribeOperation } from "./api/operations.js";
-import type { TranscribeOptionalParams } from "./api/options.js";
+import type { TranscribeOptions } from "./api/options.js";
 import type {
   TranscriptionContent,
   TranscriptionOptions,
@@ -13,7 +13,7 @@ import type {
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { TranscriptionClientOptionalParams } from "./api/transcriptionContext.js";
+export type { TranscriptionClientOptions } from "./api/transcriptionContext.js";
 
 export class TranscriptionClient {
   private _client: TranscriptionContext;
@@ -23,7 +23,7 @@ export class TranscriptionClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: TranscriptionClientOptionalParams = {},
+    options: TranscriptionClientOptions = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
@@ -40,18 +40,18 @@ export class TranscriptionClient {
   transcribe(
     audioUrl: string,
     options?: Omit<TranscriptionOptions, "audioUrl">,
-    operationOptions?: TranscribeOptionalParams,
+    operationOptions?: TranscribeOptions,
   ): Promise<TranscriptionResult>;
   /** Transcribes audio from a binary source (buffer, stream, or blob). */
   transcribe(
     audio: Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob,
     options?: Omit<TranscriptionOptions, "audioUrl">,
-    operationOptions?: TranscribeOptionalParams,
+    operationOptions?: TranscribeOptions,
   ): Promise<TranscriptionResult>;
   transcribe(
     source: string | Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob,
     options: Omit<TranscriptionOptions, "audioUrl"> = {},
-    operationOptions: TranscribeOptionalParams = { requestOptions: {} },
+    operationOptions: TranscribeOptions = { requestOptions: {} },
   ): Promise<TranscriptionResult> {
     let body: TranscriptionContent;
     if (typeof source === "string") {
