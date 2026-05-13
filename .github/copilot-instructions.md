@@ -124,4 +124,4 @@ Ask the user for clarification if repository path or configuration file is ambig
 
 ## SDK release
 
-For detailed workflow instructions, see [SDK Release](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/instructions/copilot/sdk-release.instructions.md).
+For detailed workflow instructions, see [SDK Release Skill](https://github.com/Azure/azure-sdk-tools/blob/main/.github/skills/azsdk-common-sdk-release/SKILL.md).
