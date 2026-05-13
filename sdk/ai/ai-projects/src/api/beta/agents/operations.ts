@@ -37,7 +37,7 @@ import { getBinaryStreamResponse } from "../../../static-helpers/serialization/g
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
@@ -117,7 +117,7 @@ export function _getSessionFilesSend(
   agentName: string,
   sessionId: string,
   path: string,
-  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview";
   const path_1 = expandUrlTemplate(
@@ -165,7 +165,7 @@ export async function getSessionFiles(
   agentName: string,
   sessionId: string,
   path: string,
-  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
   const result = await _getSessionFilesSend(context, agentName, sessionId, path, options);
   return _getSessionFilesDeserialize(result);

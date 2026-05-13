@@ -460,8 +460,8 @@ export interface BetaAgentsCreateAgentVersionFromCodeOptionalParams extends Oper
 
 // @public
 export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions {
-    agentSessionId?: string;
     foundryFeatures?: "AgentEndpoints=V1Preview";
+    sessionId?: string;
 }
 
 // @public
@@ -509,7 +509,7 @@ export type BetaAgentsDownloadSessionFileResponse = {
 };
 
 // @public
-export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
     foundryFeatures?: "HostedAgents=V1Preview";
 }
 
@@ -544,17 +544,17 @@ export interface BetaAgentsOperations {
     createAgentVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
     deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
-    deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
+    deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
     downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) => Promise<BetaAgentsDownloadAgentCodeResponse>;
     downloadAgentVersionCode: (agentName: string, agentVersion: string, options?: BetaAgentsDownloadAgentVersionCodeOptionalParams) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>;
-    downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
+    downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
-    getSessionFiles: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsGetSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
+    getSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsGetSessionLogStreamResponse>;
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     updateAgentFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsUpdateAgentFromCodeOptionalParams) => Promise<Agent>;
-    uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
+    uploadSessionFile: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
 // @public

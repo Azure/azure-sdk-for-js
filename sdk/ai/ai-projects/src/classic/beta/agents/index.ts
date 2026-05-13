@@ -21,7 +21,7 @@ import {
 } from "../../../api/beta/agents/operations.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
@@ -72,7 +72,7 @@ export interface BetaAgentsOperations {
     agentName: string,
     sessionId: string,
     path: string,
-    options?: BetaAgentsGetSessionFilesOptionalParams,
+    options?: BetaAgentsListSessionFilesOptionalParams,
   ) => Promise<SessionDirectoryListResponse>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
@@ -231,7 +231,7 @@ function _getBetaAgents(context: AIProjectContext) {
       agentName: string,
       sessionId: string,
       path: string,
-      options?: BetaAgentsGetSessionFilesOptionalParams,
+      options?: BetaAgentsListSessionFilesOptionalParams,
     ) => getSessionFiles(context, agentName, sessionId, path, options),
     downloadSessionFile: (
       agentName: string,

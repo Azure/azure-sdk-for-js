@@ -18,7 +18,7 @@ export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
 }

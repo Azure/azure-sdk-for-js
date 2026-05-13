@@ -20,7 +20,7 @@ export {
 } from "./operations.js";
 export type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,

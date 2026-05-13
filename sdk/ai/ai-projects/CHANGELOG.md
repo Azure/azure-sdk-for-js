@@ -38,7 +38,7 @@
 
 ### Bugs Fixed
 
-- Fixed missing `BetaAgentsGetSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
+- Fixed missing `BetaAgentsListSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
 - Fixed samples and beta agent tests to use the regenerated beta agents session signatures.
 
 ## 2.1.1 (2026-05-04)

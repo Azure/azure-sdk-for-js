@@ -476,7 +476,7 @@ export type {
 } from "./api/indexes/index.js";
 export type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
