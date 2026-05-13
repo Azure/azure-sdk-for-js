@@ -194,6 +194,16 @@ stages:
                 --emitterVersion "$(emitterVersion)"
             displayName: 'Regenerate & build ARM packages (spec-index)'
 
+          # Step 6: Breaking Change Detection
+          - script: |
+              cd $(sdkRoot)
+              node eng/pipelines/scripts/breaking-change-detector.js \
+                --baseline "HEAD" \
+                --no-fail \
+                --verbose
+            displayName: 'Step 6: Detect breaking changes'
+            condition: succeededOrFailed()
+
           - script: |
               cd $(sdkRoot)
               git diff --stat
