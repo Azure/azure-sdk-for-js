@@ -3837,6 +3837,216 @@ export function acsMessageInteractiveListReplyContentDeserializer(
   };
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Compute.VirtualMachineScaleSets.LifecycleHookEvents preview event. */
+export interface LifecycleHookEventsEventData {
+  /** The name of the Lifecycle Hook event. This is a unique identifier for the Lifecycle Hook event. */
+  name: string;
+  /** The ARM resource ID of the Lifecycle Hook event entity created by the platform for this event. Customers can use this ARM resource ID to query more details about the event through Azure Resource Manager APIs. */
+  id: string;
+  /** The properties of the Virtual Machine Scale Set Lifecycle Hook event. */
+  properties: VirtualMachineScaleSetLifecycleHookEventProperties;
+  /** Operational information related to the Lifecycle Hook event. */
+  operationalInfo: OperationalInfo;
+}
+
+export function lifecycleHookEventsEventDataDeserializer(item: any): LifecycleHookEventsEventData {
+  return {
+    name: item["name"],
+    id: item["id"],
+    properties: virtualMachineScaleSetLifecycleHookEventPropertiesDeserializer(item["properties"]),
+    operationalInfo: operationalInfoDeserializer(item["operationalInfo"]),
+  };
+}
+
+/** Defines the Virtual Machine Scale Set Lifecycle Hook event properties. */
+export interface VirtualMachineScaleSetLifecycleHookEventProperties {
+  /** Defines the type or scenario for sending a Virtual Machine Scale Set Lifecycle Hook event to the customer. */
+  type: VirtualMachineScaleSetLifecycleHookEventType;
+  /** Specifies the exact UTC timestamp in ISO 8601 format till which the event would remain in the current lifecycle state waiting for an action from the customer. Beyond this timestamp, the platform will apply the defaultAction for the event. */
+  waitUntil: string;
+  /** Specifies the exact UTC timestamp in ISO 8601 format till when the customer can delay the Lifecycle Hook event. The customer will not be allowed to delay the event to a timestamp beyond this. */
+  maxWaitUntil: string;
+  /** The UTC timestamp in ISO 8601 format at which the platform creates the Virtual Machine Scale Set Lifecycle Hook event entity. */
+  timeCreated: string;
+  /** Specify the action that will be applied on the a target resource in the Virtual Machine Scale Set Lifecycle Hook event if the platform does not get a response from the customer for the target resource before waitUntil. */
+  defaultAction: LifecycleHookAction;
+  /** List of target resources which are getting processed in the Virtual Machine Scale Set Lifecycle Hook event. */
+  readonly targetResources: VirtualMachineScaleSetLifecycleHookEventTargetResource[];
+  /**
+   * Additional key-value pairs set on the Lifecycle Hook event that gives customer some useful context/data.
+   * The keys in this dictionary are specific to the Lifecycle Hook type. Different Lifecycle Hook events can have different sets of keys in the additional context depending on the Lifecycle Hook type.
+   * For example, for a Lifecycle Hook event with UpgradeAutoOSScheduling type,
+   * the additional context can contain the key "priority" that helps customer identify the priority of the Auto OS Upgrade operation triggered on the Virtual Machine Scale Set.
+   */
+  additionalContext?: VirtualMachineScaleSetLifecycleHookEventAdditionalContext;
+  /** Specifies the state of the Virtual Machine Scale Set Lifecycle Hook event. */
+  state: VirtualMachineScaleSetLifecycleHookEventState;
+}
+
+export function virtualMachineScaleSetLifecycleHookEventPropertiesDeserializer(
+  item: any,
+): VirtualMachineScaleSetLifecycleHookEventProperties {
+  return {
+    type: item["type"],
+    waitUntil: item["waitUntil"],
+    maxWaitUntil: item["maxWaitUntil"],
+    timeCreated: item["timeCreated"],
+    defaultAction: item["defaultAction"],
+    targetResources: virtualMachineScaleSetLifecycleHookEventTargetResourceArrayDeserializer(
+      item["targetResources"],
+    ),
+    additionalContext: !item["additionalContext"]
+      ? item["additionalContext"]
+      : virtualMachineScaleSetLifecycleHookEventAdditionalContextDeserializer(
+          item["additionalContext"],
+        ),
+    state: item["state"],
+  };
+}
+
+/** Specifies the scenario for which the customer is interested in receiving Virtual Machine Scale Set Lifecycle Hook events. */
+export enum KnownVirtualMachineScaleSetLifecycleHookEventType {
+  /** Lifecycle Hook event sent to the customer before an Auto OS Upgrade operation starts on the Virtual Machine Scale Set. */
+  UpgradeAutoOSScheduling = "UpgradeAutoOSScheduling",
+  /** Lifecycle Hook event sent to the customer before upgrade starts on a batch of virtual machines belonging to a Virtual Machine Scale Set during an Auto OS Upgrade operation. */
+  UpgradeAutoOSRollingBatchStarting = "UpgradeAutoOSRollingBatchStarting",
+}
+
+/**
+ * Specifies the scenario for which the customer is interested in receiving Virtual Machine Scale Set Lifecycle Hook events. \
+ * {@link KnownVirtualMachineScaleSetLifecycleHookEventType} can be used interchangeably with VirtualMachineScaleSetLifecycleHookEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UpgradeAutoOSScheduling**: Lifecycle Hook event sent to the customer before an Auto OS Upgrade operation starts on the Virtual Machine Scale Set. \
+ * **UpgradeAutoOSRollingBatchStarting**: Lifecycle Hook event sent to the customer before upgrade starts on a batch of virtual machines belonging to a Virtual Machine Scale Set during an Auto OS Upgrade operation.
+ */
+export type VirtualMachineScaleSetLifecycleHookEventType = string;
+
+/** The action that will be applied to a target resource in the Virtual Machine Scale Set Lifecycle Hook event if the platform does not receive a response from the customer for the target resource before waitUntil. */
+export enum KnownLifecycleHookAction {
+  /** The Lifecycle Hook of a target resource in a Lifecycle Hook event will be approved. */
+  Approve = "Approve",
+  /** The Lifecycle Hook of a target resource in a Lifecycle Hook event will be rejected. */
+  Reject = "Reject",
+}
+
+/**
+ * The action that will be applied to a target resource in the Virtual Machine Scale Set Lifecycle Hook event if the platform does not receive a response from the customer for the target resource before waitUntil. \
+ * {@link KnownLifecycleHookAction} can be used interchangeably with LifecycleHookAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approve**: The Lifecycle Hook of a target resource in a Lifecycle Hook event will be approved. \
+ * **Reject**: The Lifecycle Hook of a target resource in a Lifecycle Hook event will be rejected.
+ */
+export type LifecycleHookAction = string;
+
+export function virtualMachineScaleSetLifecycleHookEventTargetResourceArrayDeserializer(
+  result: Array<VirtualMachineScaleSetLifecycleHookEventTargetResource>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineScaleSetLifecycleHookEventTargetResourceDeserializer(item);
+  });
+}
+
+/** Define a single target ARM resource in a Virtual Machine Scale Set Lifecycle Hook event. Currently, this can be a Virtual Machine Scale Set resource or an individual virtual machine resource within a VirtualMachineScaleSet. */
+export interface VirtualMachineScaleSetLifecycleHookEventTargetResource {
+  /** Specifies the target ARM resource. Currently, this can be a Virtual Machine Scale Set resource or an individual virtual machine resource within a VirtualMachineScaleSet. */
+  resource: ApiEntityReference;
+  /** State of the Lifecycle Hook for the target resource. The customer can patch this property to move the Lifecycle Hook to a terminal state. */
+  actionState: LifecycleHookActionState;
+}
+
+export function virtualMachineScaleSetLifecycleHookEventTargetResourceDeserializer(
+  item: any,
+): VirtualMachineScaleSetLifecycleHookEventTargetResource {
+  return {
+    resource: apiEntityReferenceDeserializer(item["resource"]),
+    actionState: item["actionState"],
+  };
+}
+
+/** The API entity reference. */
+export interface ApiEntityReference {
+  /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
+  id: string;
+}
+
+export function apiEntityReferenceDeserializer(item: any): ApiEntityReference {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Approval status of a target resource in a Virtual Machine Scale Set Lifecycle Hook event. */
+export enum KnownLifecycleHookActionState {
+  /** The Lifecycle Hook for the target resource is waiting for approval. */
+  Waiting = "Waiting",
+  /** The Lifecycle Hook for the target resource is approved. */
+  Approved = "Approved",
+  /** The Lifecycle Hook for the target resource is rejected. */
+  Rejected = "Rejected",
+}
+
+/**
+ * Approval status of a target resource in a Virtual Machine Scale Set Lifecycle Hook event. \
+ * {@link KnownLifecycleHookActionState} can be used interchangeably with LifecycleHookActionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Waiting**: The Lifecycle Hook for the target resource is waiting for approval. \
+ * **Approved**: The Lifecycle Hook for the target resource is approved. \
+ * **Rejected**: The Lifecycle Hook for the target resource is rejected.
+ */
+export type LifecycleHookActionState = string;
+
+/**
+ * Additional key-value pairs set on the Lifecycle Hook event that gives customer some useful context/data.
+ * The keys in this dictionary are specific to the Lifecycle Hook type. Different Lifecycle Hook events can have different sets of keys in the additional context depending on the Lifecycle Hook type.
+ * For example, for a Lifecycle Hook event with UpgradeAutoOSScheduling type,
+ * the additional context can contain the key "priority" that helps customer identify the priority of the Auto OS Upgrade operation triggered on the Virtual Machine Scale Set.
+ */
+export interface VirtualMachineScaleSetLifecycleHookEventAdditionalContext {
+  /** Can only be present for a Lifecycle Hook event of type "UpgradeAutoOSScheduling". Denotes the priority of the Virtual Machine Scale Set Lifecycle Hook event for the Auto OS Upgrade scheduled on the Virtual Machine Scale Set. */
+  priority?: string;
+}
+
+export function virtualMachineScaleSetLifecycleHookEventAdditionalContextDeserializer(
+  item: any,
+): VirtualMachineScaleSetLifecycleHookEventAdditionalContext {
+  return {
+    priority: item["priority"],
+  };
+}
+
+/** The states that a Virtual Machine Scale Set Lifecycle Hook event can be in. This is not settable by the customer. It is set only by the platform. */
+export enum KnownVirtualMachineScaleSetLifecycleHookEventState {
+  /** The Lifecycle Hook event is active. E.g., waiting on a response from the customer. */
+  Active = "Active",
+  /** The Lifecycle Hook event is completed. i.e., all the target resources in the event have moved to a terminal state. */
+  Completed = "Completed",
+}
+
+/**
+ * The states that a Virtual Machine Scale Set Lifecycle Hook event can be in. This is not settable by the customer. It is set only by the platform. \
+ * {@link KnownVirtualMachineScaleSetLifecycleHookEventState} can be used interchangeably with VirtualMachineScaleSetLifecycleHookEventState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: The Lifecycle Hook event is active. E.g., waiting on a response from the customer. \
+ * **Completed**: The Lifecycle Hook event is completed. i.e., all the target resources in the event have moved to a terminal state.
+ */
+export type VirtualMachineScaleSetLifecycleHookEventState = string;
+
+/** Operational information for a Virtual Machine Scale Set Lifecycle Hook event. */
+export interface OperationalInfo {
+  /** The activity ID associated with the operation generating the Lifecycle Hook event. */
+  activityId: string;
+}
+
+export function operationalInfoDeserializer(item: any): OperationalInfo {
+  return {
+    activityId: item["activityId"],
+  };
+}
+
 /** The content of the event request message. */
 export interface ContainerRegistryEventData {
   /** The event ID. */
