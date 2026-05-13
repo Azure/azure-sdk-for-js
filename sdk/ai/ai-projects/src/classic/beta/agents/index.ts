@@ -60,7 +60,7 @@ export interface BetaAgentsOperations {
    */
   deleteSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: BetaAgentsDeleteSessionFileOptionalParams,
   ) => Promise<void>;
@@ -70,14 +70,14 @@ export interface BetaAgentsOperations {
    */
   getSessionFiles: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: BetaAgentsGetSessionFilesOptionalParams,
   ) => Promise<SessionDirectoryListResponse>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: BetaAgentsDownloadSessionFileOptionalParams,
   ) => Promise<BetaAgentsDownloadSessionFileResponse>;
@@ -87,7 +87,7 @@ export interface BetaAgentsOperations {
    */
   uploadSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     content: Uint8Array,
     options?: BetaAgentsUploadSessionFileOptionalParams,
@@ -223,29 +223,29 @@ function _getBetaAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: BetaAgentsDeleteSessionFileOptionalParams,
-    ) => deleteSessionFile(context, agentName, agentSessionId, path, options),
+    ) => deleteSessionFile(context, agentName, sessionId, path, options),
     getSessionFiles: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: BetaAgentsGetSessionFilesOptionalParams,
-    ) => getSessionFiles(context, agentName, agentSessionId, path, options),
+    ) => getSessionFiles(context, agentName, sessionId, path, options),
     downloadSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: BetaAgentsDownloadSessionFileOptionalParams,
-    ) => downloadSessionFile(context, agentName, agentSessionId, path, options),
+    ) => downloadSessionFile(context, agentName, sessionId, path, options),
     uploadSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       content: Uint8Array,
       options?: BetaAgentsUploadSessionFileOptionalParams,
-    ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,

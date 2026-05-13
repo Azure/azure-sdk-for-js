@@ -86,7 +86,7 @@ export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions 
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentEndpoints=V1Preview";
   /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
-  agentSessionId?: string;
+  sessionId?: string;
 }
 
 /** Optional parameters. */

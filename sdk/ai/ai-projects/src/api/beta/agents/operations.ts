@@ -592,7 +592,7 @@ export function _createSessionSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      agent_session_id: options?.agentSessionId,
+      agent_session_id: options?.sessionId,
       version_indicator: versionIndicatorUnionSerializer(versionIndicator),
     },
   });
