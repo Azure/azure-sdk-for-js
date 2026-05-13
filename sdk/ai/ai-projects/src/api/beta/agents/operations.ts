@@ -853,7 +853,7 @@ export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse
 }
 
 /** Updates an agent endpoint. */
-export async function patchAgentObject(
+export async function updateAgentObject(
   context: Client,
   agentName: string,
   options: BetaAgentsPatchAgentObjectOptionalParams = { requestOptions: {} },

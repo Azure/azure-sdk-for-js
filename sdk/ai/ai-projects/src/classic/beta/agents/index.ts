@@ -15,7 +15,7 @@ import {
   downloadAgentCode,
   downloadAgentVersionCode,
   createAgentVersionFromCode,
-  patchAgentObject,
+  updateAgentObject,
   updateAgentFromCode,
   createAgentFromCode,
 } from "../../../api/beta/agents/operations.js";
@@ -183,7 +183,7 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   ) => Promise<AgentVersion>;
   /** Updates an agent endpoint. */
-  patchAgent: (
+  updateAgent: (
     agentName: string,
     options?: BetaAgentsPatchAgentObjectOptionalParams,
   ) => Promise<Agent>;
@@ -282,8 +282,8 @@ function _getBetaAgents(context: AIProjectContext) {
       content: CreateAgentVersionFromCodeContent,
       options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
     ) => createAgentVersionFromCode(context, agentName, codeZipSha256, content, options),
-    patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
-      patchAgentObject(context, agentName, options),
+    updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
+      updateAgentObject(context, agentName, options),
     updateAgentFromCode: (
       agentName: string,
       codeZipSha256: string,

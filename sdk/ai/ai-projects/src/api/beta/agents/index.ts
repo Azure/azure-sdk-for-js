@@ -14,7 +14,7 @@ export {
   downloadAgentCode,
   downloadAgentVersionCode,
   createAgentVersionFromCode,
-  patchAgentObject,
+  updateAgentObject,
   updateAgentFromCode,
   createAgentFromCode,
 } from "./operations.js";

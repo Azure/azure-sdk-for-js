@@ -144,7 +144,7 @@ export async function main(): Promise<void> {
       protocols: ["responses"],
     };
 
-    await project.beta.agents.patchAgent(agentName, {
+    await project.beta.agents.updateAgent(agentName, {
       agentEndpoint: endpointConfig,
     });
     console.log(`Agent endpoint configured for agent: ${agentName}`);
