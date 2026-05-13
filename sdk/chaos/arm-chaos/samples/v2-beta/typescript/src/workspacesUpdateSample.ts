@@ -5,9 +5,9 @@ import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to the operation to update a Workspace.
+ * This sample demonstrates how to update a Workspace.
  *
- * @summary the operation to update a Workspace.
+ * @summary Update a Workspace.
  * x-ms-original-file: 2026-05-01-preview/Workspaces_Update.json
  */
 async function updateAWorkspaceInAResourceGroup(): Promise<void> {

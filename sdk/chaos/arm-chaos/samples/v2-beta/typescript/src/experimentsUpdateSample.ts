@@ -5,9 +5,9 @@ import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to the operation to update an experiment.
+ * This sample demonstrates how to update an experiment.
  *
- * @summary the operation to update an experiment.
+ * @summary Update an experiment.
  * x-ms-original-file: 2026-05-01-preview/Experiments_Update.json
  */
 async function updateAnExperimentInAResourceGroup(): Promise<void> {
