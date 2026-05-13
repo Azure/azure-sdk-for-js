@@ -1,0 +1,4 @@
+directory: specification/attestation/resource-manager/Microsoft.Attestation/Attestation
+commit: 61c20a58116e065fcfc528eff279d77bee7eaab4
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
