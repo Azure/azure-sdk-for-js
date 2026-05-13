@@ -98,6 +98,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -131,5 +132,10 @@
       "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
     }
   },
-  "sdk-type": "client"
+  "sdk-type": "client",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

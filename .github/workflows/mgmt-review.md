@@ -12,20 +12,32 @@ on:
   permissions:
     pull-requests: write
   steps:
-    - name: Remove trigger label
-      id: remove_label
+    - name: Swap trigger label to in-progress
+      id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'mgmt-review-needed'
       uses: actions/github-script@v8
       with:
         script: |
+          const pr = context.payload.pull_request.number;
+          // Remove trigger label
           try {
             await github.rest.issues.removeLabel({
               ...context.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: pr,
               name: 'mgmt-review-needed'
             });
           } catch (e) {
-            core.warning(`Could not remove label: ${e.message}`);
+            core.warning(`Could not remove trigger label: ${e.message}`);
+          }
+          // Add in-progress label
+          try {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr,
+              labels: ['mgmt-review-in-progress']
+            });
+          } catch (e) {
+            core.warning(`Could not add in-progress label: ${e.message}`);
           }
 labels: [mgmt-review-needed]
 if: github.event.label.name == 'mgmt-review-needed' || github.event_name == 'workflow_dispatch'
@@ -67,6 +79,12 @@ safe-outputs:
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  add-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  remove-labels:
+    max: 1
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
@@ -274,3 +292,12 @@ Only failed checks and required actions are listed below.
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to fix this issue.
 - ⏳ <pending check name>: still running.
 ```
+
+## Final Step — Update Labels
+
+After completing all review steps, update the PR labels to indicate completion:
+
+1. Remove the `mgmt-review-in-progress` label
+2. Add the `mgmt-review-added` label
+
+Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.

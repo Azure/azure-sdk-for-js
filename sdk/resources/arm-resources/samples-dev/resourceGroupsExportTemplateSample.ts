@@ -9,7 +9,7 @@
  */
 
 import {
-  ExportTemplateRequest,
+  type ExportTemplateRequest,
   ResourceManagementClient,
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";

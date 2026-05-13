@@ -8,7 +8,7 @@
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/CreateResourceGroup.json
  */
 
-import { ResourceGroup, ResourceManagementClient } from "@azure/arm-resources";
+import { type ResourceGroup, ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

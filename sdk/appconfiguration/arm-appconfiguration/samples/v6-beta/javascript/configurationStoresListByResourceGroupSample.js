@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the configuration stores for a given resource group.
  *
  * @summary lists the configuration stores for a given resource group.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresListByResourceGroup.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresListByResourceGroup.json
  */
 async function configurationStoresListByResourceGroup() {
   const credential = new DefaultAzureCredential();

@@ -95,7 +95,7 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    _20260415 = "2026-04-15"
+    V20260415 = "2026-04-15"
 }
 
 // @public

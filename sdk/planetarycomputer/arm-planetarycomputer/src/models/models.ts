@@ -455,5 +455,5 @@ export function geoCatalogArrayDeserializer(result: Array<GeoCatalog>): any[] {
 /** Known values of {@link Versions} that the service accepts. */
 export enum KnownVersions {
   /** 2026-04-15 */
-  _20260415 = "2026-04-15",
+  V20260415 = "2026-04-15",
 }

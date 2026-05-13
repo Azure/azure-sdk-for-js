@@ -30,22 +30,23 @@
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
   "devDependencies": {
-    "typescript": "catalog:",
-    "rimraf": "catalog:",
-    "dotenv": "catalog:testing",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
-    "cross-env": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
     "@azure/identity": "catalog:internal",
     "@azure/logger": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "react-native": "catalog:testing",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "repository": {
@@ -118,5 +119,10 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagecache?view=azure-node-preview"
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

@@ -768,6 +768,10 @@
         "multipleNumbersJustification": {
           "type": "string"
         },
+        "dba": {
+          "description": "Doing Business As (DBA). Must be filled if the company name used to contact customers differs from the legal entity name.",
+          "type": "string"
+        },
         "privacyPolicyUrl": {
           "description": "URL to the privacy policy for the campaign.",
           "type": "string"

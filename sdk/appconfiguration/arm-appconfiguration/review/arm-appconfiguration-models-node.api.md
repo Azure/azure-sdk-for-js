@@ -5,6 +5,30 @@
 ```ts
 
 // @public
+export interface AccessRule {
+    name?: string;
+    // (undocumented)
+    properties?: AccessRuleProperties;
+}
+
+// @public
+export type AccessRuleDirection = string;
+
+// @public
+export interface AccessRuleProperties {
+    addressPrefixes?: string[];
+    // (undocumented)
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    subscriptions?: {
+        id?: string;
+    }[];
+}
+
+// @public
 export type ActionsRequired = string;
 
 // @public
@@ -168,6 +192,9 @@ export interface ErrorResponse {
 export type IdentityType = string;
 
 // @public
+export type IssueType = string;
+
+// @public
 export interface KeyValue extends ProxyResource {
     contentType?: string;
     readonly eTag?: string;
@@ -201,6 +228,12 @@ export interface KeyValueProperties {
 export interface KeyVaultProperties {
     identityClientId?: string;
     keyIdentifier?: string;
+}
+
+// @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -251,6 +284,25 @@ export enum KnownIdentityType {
 }
 
 // @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPrivateLinkDelegation {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -269,7 +321,8 @@ export enum KnownProvisioningState {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -279,6 +332,19 @@ export enum KnownReplicaProvisioningState {
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -292,7 +358,8 @@ export enum KnownSnapshotStatus {
 // @public
 export enum KnownVersions {
     V20250201Preview = "2025-02-01-preview",
-    V20250601Preview = "2025-06-01-preview"
+    V20250601Preview = "2025-06-01-preview",
+    V20250801Preview = "2025-08-01-preview"
 }
 
 // @public
@@ -336,6 +403,44 @@ export interface NameAvailabilityStatus {
     readonly message?: string;
     readonly nameAvailable?: boolean;
     readonly reason?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    // (undocumented)
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    // (undocumented)
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    // (undocumented)
+    profile?: NetworkSecurityProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    // (undocumented)
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    // (undocumented)
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityProfile {
+    accessRules?: AccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
 }
 
 // @public
@@ -414,6 +519,22 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface ProvisioningIssue {
+    readonly name?: string;
+    // (undocumented)
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    readonly description?: string;
+    readonly issueType?: IssueType;
+    readonly severity?: Severity;
+    readonly suggestedAccessRules?: AccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -453,6 +574,16 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceAssociation {
+    // (undocumented)
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
 export interface ResourceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -467,6 +598,9 @@ export interface ServiceSpecification {
 }
 
 // @public
+export type Severity = string;
+
+// @public
 export interface Sku {
     name: string;
 }
@@ -477,7 +611,7 @@ export interface Snapshot extends ProxyResource {
     readonly created?: Date;
     readonly etag?: string;
     readonly expires?: Date;
-    filters?: KeyValueFilter[];
+    filters: KeyValueFilter[];
     readonly itemsCount?: number;
     readonly provisioningState?: ProvisioningState;
     retentionPeriod?: number;
