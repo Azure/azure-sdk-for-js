@@ -1686,6 +1686,9 @@ sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuan
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/monitor/arm-monitoraccounts/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
