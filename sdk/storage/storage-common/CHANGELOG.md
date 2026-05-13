@@ -2,7 +2,15 @@
 
 ## 12.5.0-beta.1 (Unreleased)
 
+### Features Added
+
 - add `storageRedirectRangeHeaderPolicy`
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 
 ## 12.4.0-beta.1 (2026-03-05)
 

@@ -189,7 +189,14 @@ export class SecretClient {
     value: string,
     options: SetSecretOptions = {},
   ): Promise<KeyVaultSecret> {
-    const { enabled, notBefore, expiresOn: expires, tags, ...remainingOptions } = options;
+    const {
+      contentType,
+      enabled,
+      notBefore,
+      expiresOn: expires,
+      tags,
+      ...remainingOptions
+    } = options;
 
     return tracingClient.withSpan(
       "SecretClient.setSecret",
@@ -197,7 +204,7 @@ export class SecretClient {
       async (updatedOptions) => {
         const response = await this.client.setSecret(
           secretName,
-          { value, secretAttributes: { enabled, notBefore, expires }, tags },
+          { value, contentType, secretAttributes: { enabled, notBefore, expires }, tags },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response);
@@ -278,7 +285,14 @@ export class SecretClient {
     secretVersion: string,
     options: UpdateSecretPropertiesOptions = {},
   ): Promise<SecretProperties> {
-    const { enabled, notBefore, expiresOn: expires, tags, ...remainingOptions } = options;
+    const {
+      contentType,
+      enabled,
+      notBefore,
+      expiresOn: expires,
+      tags,
+      ...remainingOptions
+    } = options;
 
     return tracingClient.withSpan(
       "SecretClient.updateSecretProperties",
@@ -287,7 +301,7 @@ export class SecretClient {
         const response = await this.client.updateSecret(
           secretName,
           secretVersion,
-          { secretAttributes: { enabled, notBefore, expires }, tags },
+          { contentType, secretAttributes: { enabled, notBefore, expires }, tags },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response).properties;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a private link resource that need to be created for a configuration store.
  *
  * @summary gets a private link resource that need to be created for a configuration store.
- * x-ms-original-file: 2025-06-01-preview/PrivateLinkResourceGet.json
+ * x-ms-original-file: 2025-08-01-preview/PrivateLinkResourceGet.json
  */
 async function privateLinkResourcesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

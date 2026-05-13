@@ -20,7 +20,7 @@ export const vsCodeCredentialControl = {
 
 /**
  * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
- * 
+ *
  * @deprecated This credential is deprecated because the VS Code Azure Account extension on which this credential
  * relies has been deprecated. Users should use other dev-time credentials, such as {@link AzureCliCredential},
  * {@link AzureDeveloperCliCredential}, or {@link AzurePowerShellCredential} for their
@@ -35,7 +35,10 @@ export class VisualStudioCodeCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
+  public getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions,
+  ): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

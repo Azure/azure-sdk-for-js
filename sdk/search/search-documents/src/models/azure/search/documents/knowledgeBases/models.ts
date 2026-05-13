@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
+  searchIndexerDataIdentityUnionSerializer,
+  searchIndexerDataIdentityUnionDeserializer,
   SearchIndexerDataIdentityUnion,
   VectorSearchVectorizerKind,
   AzureOpenAIVectorizerParameters,
   KnowledgeBaseModelUnion,
   KnowledgeSourceKind,
   IndexingSchedule,
-  KnowledgeSourceIngestionPermissionOption,
   KnowledgeSourceContentExtractionMode,
   KnowledgeSourceSynchronizationStatus,
-} from "../indexes/models.js";
-import {
-  searchIndexerDataIdentityUnionSerializer,
-  searchIndexerDataIdentityUnionDeserializer,
   azureOpenAIVectorizerParametersSerializer,
   azureOpenAIVectorizerParametersDeserializer,
   knowledgeBaseModelUnionSerializer,
@@ -40,8 +37,6 @@ export interface KnowledgeSourceIngestionParameters {
   disableImageVerbalization?: boolean;
   /** Optional schedule for data ingestion. */
   ingestionSchedule?: IndexingSchedule;
-  /** Optional list of permission types to ingest together with document content. If specified, it will set the indexer permission options for the data source. */
-  ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
   /** Optional content extraction mode. Default is 'minimal'. */
   contentExtractionMode?: KnowledgeSourceContentExtractionMode;
   /** Optional AI Services configuration for content processing. */
@@ -65,11 +60,6 @@ export function knowledgeSourceIngestionParametersSerializer(
     ingestionSchedule: !item["ingestionSchedule"]
       ? item["ingestionSchedule"]
       : indexingScheduleSerializer(item["ingestionSchedule"]),
-    ingestionPermissionOptions: !item["ingestionPermissionOptions"]
-      ? item["ingestionPermissionOptions"]
-      : item["ingestionPermissionOptions"].map((p: any) => {
-          return p;
-        }),
     contentExtractionMode: item["contentExtractionMode"],
     aiServices: !item["aiServices"] ? item["aiServices"] : aiServicesSerializer(item["aiServices"]),
   };
@@ -92,11 +82,6 @@ export function knowledgeSourceIngestionParametersDeserializer(
     ingestionSchedule: !item["ingestionSchedule"]
       ? item["ingestionSchedule"]
       : indexingScheduleDeserializer(item["ingestionSchedule"]),
-    ingestionPermissionOptions: !item["ingestionPermissionOptions"]
-      ? item["ingestionPermissionOptions"]
-      : item["ingestionPermissionOptions"].map((p1: any) => {
-          return p1;
-        }),
     contentExtractionMode: item["contentExtractionMode"],
     aiServices: !item["aiServices"]
       ? item["aiServices"]
@@ -815,7 +800,7 @@ export interface KnowledgeBaseActivityRecord {
   /** The ID of the activity record. */
   id: number;
   /** The type of the activity record. */
-  /** The discriminator possible values: agenticReasoning */
+  /** The discriminator possible values: modelWebSummarization, agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
   /** The elapsed time in milliseconds for the retrieval activity. */
   elapsedInMs?: number;
@@ -827,13 +812,14 @@ export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBas
   return {
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedInMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
   };
 }
 
 /** Alias for KnowledgeBaseActivityRecordUnion */
 export type KnowledgeBaseActivityRecordUnion =
+  | KnowledgeBaseModelWebSummarizationActivityRecord
   | KnowledgeBaseAgenticReasoningActivityRecord
   | KnowledgeBaseActivityRecord;
 
@@ -841,6 +827,11 @@ export function knowledgeBaseActivityRecordUnionDeserializer(
   item: any,
 ): KnowledgeBaseActivityRecordUnion {
   switch (item["type"]) {
+    case "modelWebSummarization":
+      return knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
+        item as KnowledgeBaseModelWebSummarizationActivityRecord,
+      );
+
     case "agenticReasoning":
       return knowledgeBaseAgenticReasoningActivityRecordDeserializer(
         item as KnowledgeBaseAgenticReasoningActivityRecord,
@@ -861,6 +852,8 @@ export enum KnownKnowledgeBaseActivityRecordType {
   IndexedOneLake = "indexedOneLake",
   /** Web retrieval activity. */
   Web = "web",
+  /** LLM web summarization activity. */
+  ModelWebSummarization = "modelWebSummarization",
   /** Agentic reasoning activity. */
   AgenticReasoning = "agenticReasoning",
 }
@@ -874,6 +867,7 @@ export enum KnownKnowledgeBaseActivityRecordType {
  * **azureBlob**: Azure Blob retrieval activity. \
  * **indexedOneLake**: Indexed OneLake retrieval activity. \
  * **web**: Web retrieval activity. \
+ * **modelWebSummarization**: LLM web summarization activity. \
  * **agenticReasoning**: Agentic reasoning activity.
  */
 export type KnowledgeBaseActivityRecordType = string;
@@ -941,6 +935,29 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
   };
 }
 
+/** Represents an LLM web summarization activity record. */
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The discriminator value. */
+  type: "modelWebSummarization";
+  /** The number of input tokens for the LLM web summarization activity. */
+  inputTokensCount?: number;
+  /** The number of output tokens for the LLM web summarization activity. */
+  outputTokensCount?: number;
+}
+
+export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseModelWebSummarizationActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedInMs: item["elapsedInMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    inputTokensCount: item["inputTokens"],
+    outputTokensCount: item["outputTokens"],
+  };
+}
+
 /** Represents an agentic reasoning activity record. */
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
   /** The discriminator value. */
@@ -957,7 +974,7 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedInMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     reasoningTokens: item["reasoningTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]

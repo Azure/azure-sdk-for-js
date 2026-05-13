@@ -292,6 +292,7 @@ export interface BaseSearchIndexerSkill {
 
 // @public
 export interface BaseSearchRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
+    debug?: QueryDebugMode;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -331,6 +332,7 @@ export interface BaseVectorQuery<TModel extends object> {
     filterOverride?: string;
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
+    oversampling?: number;
     perDocumentVectorLimit?: number;
     weight?: number;
 }
@@ -1222,7 +1224,7 @@ export interface KnowledgeBase {
 }
 
 // @public
-export type KnowledgeBaseActivityRecord = KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecord = KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
 // @public
 export type KnowledgeBaseActivityRecordType = string;
@@ -1304,6 +1306,13 @@ export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 // @public
 export type KnowledgeBaseModelKind = string;
+
+// @public
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    inputTokensCount?: number;
+    outputTokensCount?: number;
+    type: "modelWebSummarization";
+}
 
 // @public
 export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | BaseKnowledgeBaseReference;
@@ -1402,12 +1411,8 @@ export interface KnowledgeSourceIngestionParameters {
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizer;
     identity?: SearchIndexerDataIdentity;
-    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
-
-// @public
-export type KnowledgeSourceIngestionPermissionOption = string;
 
 // @public
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource, KnowledgeSource[], {}>;

@@ -1,31 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentEndpoint, AgentCard, PageOrder } from "../../../models/models.js";
+import { AgentEndpointConfig, AgentCard, PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
-
-/** Optional parameters. */
-export interface ListManagedIdentityBlueprintsOptionalParams extends OperationOptions {
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
-   * for descending order.
-   */
-  order?: PageOrder;
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
-   * default is 20.
-   */
-  limit?: number;
-}
-
-/** Optional parameters. */
-export interface DeleteManagedIdentityBlueprintOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface GetManagedIdentityBlueprintOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CreateOrUpdateManagedIdentityBlueprintOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
@@ -36,7 +13,7 @@ export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
 }
@@ -49,6 +26,12 @@ export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface BetaAgentsUploadSessionFileOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+/** Optional parameters. */
+export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
 }
@@ -106,7 +89,7 @@ export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptio
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentEndpoints=V1Preview";
   /** The endpoint configuration for the agent */
-  agentEndpoint?: AgentEndpoint;
+  agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }

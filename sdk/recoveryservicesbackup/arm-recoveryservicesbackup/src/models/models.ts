@@ -124,13 +124,6 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** The request has succeeded. */
-export interface OkResponse {}
-
-export function okResponseDeserializer(item: any): OkResponse {
-  return item;
-}
-
 /** Trigger DataMove Request */
 export interface TriggerDataMoveRequest {
   /** ARM Id of source vault */
@@ -450,8 +443,8 @@ export interface ErrorDetail {
   readonly recommendations?: string[];
 }
 
-export function errorDetailSerializer(item: ErrorDetail): any {
-  return item;
+export function errorDetailSerializer(_item: ErrorDetail): any {
+  return {};
 }
 
 export function errorDetailDeserializer(item: any): ErrorDetail {
@@ -619,7 +612,7 @@ export function clientDiscoveryForLogSpecificationDeserializer(
 }
 
 /** The resource storage details. */
-export interface BackupResourceConfigResource extends Resource {
+export interface BackupResourceConfigResource extends ProxyResource {
   /** BackupResourceConfigResource properties */
   properties?: BackupResourceConfig;
   /** Resource tags. */
@@ -788,6 +781,24 @@ export enum KnownXcoolState {
  */
 export type XcoolState = string;
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -800,8 +811,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -923,7 +934,7 @@ export function prepareDataMoveResponseDeserializer(item: any): PrepareDataMoveR
 }
 
 /** Backup resource vault config details. */
-export interface BackupResourceVaultConfigResource extends Resource {
+export interface BackupResourceVaultConfigResource extends ProxyResource {
   /** BackupResourceVaultConfigResource properties */
   properties?: BackupResourceVaultConfig;
   /** Resource tags. */
@@ -1068,8 +1079,8 @@ export enum KnownSoftDeleteFeatureState {
 export type SoftDeleteFeatureState = string;
 
 /** */
-export interface BackupResourceEncryptionConfigExtendedResource extends Resource {
-  /** BackupResourceEncryptionConfigExtendedResource properties */
+export interface BackupResourceEncryptionConfigExtendedResource extends ProxyResource {
+  /** The properties of the backup resource encryption config extended resource */
   properties?: BackupResourceEncryptionConfigExtended;
   /** Resource tags. */
   tags?: Record<string, string>;
@@ -1217,7 +1228,7 @@ export type InfrastructureEncryptionState = string;
 
 /** */
 export interface BackupResourceEncryptionConfigResource extends Resource {
-  /** BackupResourceEncryptionConfigResource properties */
+  /** The properties of the backup resource encryption config */
   properties?: BackupResourceEncryptionConfig;
   /** Resource tags. */
   tags?: Record<string, string>;
@@ -1241,7 +1252,7 @@ export function backupResourceEncryptionConfigResourceSerializer(
 }
 
 /** Base class for backup items. */
-export interface ProtectedItemResource extends Resource {
+export interface ProtectedItemResource extends ProxyResource {
   /** ProtectedItemResource properties */
   properties?: ProtectedItemUnion;
   /** Resource tags. */
@@ -1621,11 +1632,11 @@ export function sourceSideScanInfoDeserializer(item: any): SourceSideScanInfo {
 
 /** Threat status of the container */
 export enum KnownSourceSideScanStatus {
-  /** Configured */
+  /** Source side scan is configured */
   Configured = "Configured",
-  /** NotConfigured */
+  /** Source side scan is not configured */
   NotConfigured = "NotConfigured",
-  /** NotApplicable */
+  /** Source side scan is not applicable */
   NotApplicable = "NotApplicable",
 }
 
@@ -1634,21 +1645,21 @@ export enum KnownSourceSideScanStatus {
  * {@link KnownSourceSideScanStatus} can be used interchangeably with SourceSideScanStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Configured** \
- * **NotConfigured** \
- * **NotApplicable**
+ * **Configured**: Source side scan is configured \
+ * **NotConfigured**: Source side scan is not configured \
+ * **NotApplicable**: Source side scan is not applicable
  */
 export type SourceSideScanStatus = string;
 
 /** Threat summary for the container */
 export enum KnownSourceSideScanSummary {
-  /** Unknown */
+  /** Scan summary is unknown */
   Unknown = "Unknown",
-  /** NotApplicable */
+  /** Scan summary is not applicable */
   NotApplicable = "NotApplicable",
-  /** Suspicious */
+  /** Scan summary is suspicious */
   Suspicious = "Suspicious",
-  /** Healthy */
+  /** Scan summary indicates healthy state */
   Healthy = "Healthy",
 }
 
@@ -1657,10 +1668,10 @@ export enum KnownSourceSideScanSummary {
  * {@link KnownSourceSideScanSummary} can be used interchangeably with SourceSideScanSummary,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **NotApplicable** \
- * **Suspicious** \
- * **Healthy**
+ * **Unknown**: Scan summary is unknown \
+ * **NotApplicable**: Scan summary is not applicable \
+ * **Suspicious**: Scan summary is suspicious \
+ * **Healthy**: Scan summary indicates healthy state
  */
 export type SourceSideScanSummary = string;
 
@@ -1912,8 +1923,8 @@ export interface ResourceHealthDetails {
   readonly recommendations?: string[];
 }
 
-export function resourceHealthDetailsSerializer(item: ResourceHealthDetails): any {
-  return item;
+export function resourceHealthDetailsSerializer(_item: ResourceHealthDetails): any {
+  return {};
 }
 
 export function resourceHealthDetailsDeserializer(item: any): ResourceHealthDetails {
@@ -2308,8 +2319,8 @@ export function azureIaaSVMHealthDetailsArrayDeserializer(
 /** Azure IaaS VM workload-specific Health Details. */
 export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {}
 
-export function azureIaaSVMHealthDetailsSerializer(item: AzureIaaSVMHealthDetails): any {
-  return item;
+export function azureIaaSVMHealthDetailsSerializer(_item: AzureIaaSVMHealthDetails): any {
+  return {};
 }
 
 export function azureIaaSVMHealthDetailsDeserializer(item: any): AzureIaaSVMHealthDetails {
@@ -3476,7 +3487,7 @@ export function azureVmWorkloadSAPHanaDBInstanceProtectedItemDeserializer(
 export interface AzureVmWorkloadSQLDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   protectedItemType: "AzureVmWorkloadSQLDatabase";
-  /** Parent Protected item in case protected as part of a parent. */
+  /** Name of the parent protected item (e.g., SQL Instance name) when this database is protected as part of a parent. */
   parentProtectedItem?: string;
   /** Protection type in case protected as part of a parent. */
   protectionLevel?: ProtectionLevel;
@@ -3605,9 +3616,9 @@ export function azureVmWorkloadSQLDatabaseProtectedItemDeserializer(
 
 /** Protection type in case protected as part of a parent. */
 export enum KnownProtectionLevel {
-  /** Database */
+  /** Protected at database level */
   Database = "Database",
-  /** DatabaseUnderInstance */
+  /** Database protected under an instance */
   DatabaseUnderInstance = "DatabaseUnderInstance",
 }
 
@@ -3616,8 +3627,8 @@ export enum KnownProtectionLevel {
  * {@link KnownProtectionLevel} can be used interchangeably with ProtectionLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Database** \
- * **DatabaseUnderInstance**
+ * **Database**: Protected at database level \
+ * **DatabaseUnderInstance**: Database protected under an instance
  */
 export type ProtectionLevel = string;
 
@@ -3762,15 +3773,15 @@ export function azureVmWorkloadSQLInstanceProtectedItemDeserializer(
 
 /** The state of instance protection. */
 export enum KnownInstanceProtectionReadiness {
-  /** Unknown */
+  /** Instance protection readiness is unknown */
   Unknown = "Unknown",
-  /** Ready */
+  /** Instance is ready for protection */
   Ready = "Ready",
-  /** ScheduleDisabled */
+  /** Backup schedule is disabled for this instance */
   ScheduleDisabled = "ScheduleDisabled",
-  /** PartialProtection */
+  /** Instance is partially protected */
   PartialProtection = "PartialProtection",
-  /** ProtectionError */
+  /** Instance protection encountered an error */
   ProtectionError = "ProtectionError",
 }
 
@@ -3779,11 +3790,11 @@ export enum KnownInstanceProtectionReadiness {
  * {@link KnownInstanceProtectionReadiness} can be used interchangeably with InstanceProtectionReadiness,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Ready** \
- * **ScheduleDisabled** \
- * **PartialProtection** \
- * **ProtectionError**
+ * **Unknown**: Instance protection readiness is unknown \
+ * **Ready**: Instance is ready for protection \
+ * **ScheduleDisabled**: Backup schedule is disabled for this instance \
+ * **PartialProtection**: Instance is partially protected \
+ * **ProtectionError**: Instance protection encountered an error
  */
 export type InstanceProtectionReadiness = string;
 
@@ -4411,7 +4422,7 @@ export function recoveryPointResourceArrayDeserializer(
 }
 
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
-export interface RecoveryPointResource extends Resource {
+export interface RecoveryPointResource extends ProxyResource {
   /** RecoveryPointResource properties */
   properties?: RecoveryPointUnion;
   /** Resource tags. */
@@ -4498,15 +4509,15 @@ export function recoveryPointUnionDeserializer(item: any): RecoveryPointUnion {
 
 /** Threat status of the recovery point */
 export enum KnownThreatStatus {
-  /** Unknown */
+  /** Threat status is unknown */
   Unknown = "Unknown",
-  /** Healthy */
+  /** Recovery point is healthy */
   Healthy = "Healthy",
-  /** UnHealthy */
+  /** Recovery point is unhealthy */
   UnHealthy = "UnHealthy",
-  /** Warning */
+  /** Recovery point has warning-level threats */
   Warning = "Warning",
-  /** NotAvailable */
+  /** Threat status is not available */
   NotAvailable = "NotAvailable",
 }
 
@@ -4515,11 +4526,11 @@ export enum KnownThreatStatus {
  * {@link KnownThreatStatus} can be used interchangeably with ThreatStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown** \
- * **Healthy** \
- * **UnHealthy** \
- * **Warning** \
- * **NotAvailable**
+ * **Unknown**: Threat status is unknown \
+ * **Healthy**: Recovery point is healthy \
+ * **UnHealthy**: Recovery point is unhealthy \
+ * **Warning**: Recovery point has warning-level threats \
+ * **NotAvailable**: Threat status is not available
  */
 export type ThreatStatus = string;
 
@@ -4568,13 +4579,13 @@ export function threatInfoDeserializer(item: any): ThreatInfo {
 
 /** Threat Status Types */
 export enum KnownThreatState {
-  /** Active */
+  /** Threat is active */
   Active = "Active",
-  /** InProgress */
+  /** Threat remediation is in progress */
   InProgress = "InProgress",
-  /** Ignored */
+  /** Threat has been ignored */
   Ignored = "Ignored",
-  /** Resolved */
+  /** Threat has been resolved */
   Resolved = "Resolved",
 }
 
@@ -4583,22 +4594,22 @@ export enum KnownThreatState {
  * {@link KnownThreatState} can be used interchangeably with ThreatState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **InProgress** \
- * **Ignored** \
- * **Resolved**
+ * **Active**: Threat is active \
+ * **InProgress**: Threat remediation is in progress \
+ * **Ignored**: Threat has been ignored \
+ * **Resolved**: Threat has been resolved
  */
 export type ThreatState = string;
 
 /** Threat Severity Types */
 export enum KnownThreatSeverity {
-  /** Critical */
+  /** Critical severity level */
   Critical = "Critical",
-  /** High */
+  /** High severity level */
   High = "High",
-  /** Warning */
+  /** Warning severity level */
   Warning = "Warning",
-  /** Informational */
+  /** Informational severity level */
   Informational = "Informational",
 }
 
@@ -4607,10 +4618,10 @@ export enum KnownThreatSeverity {
  * {@link KnownThreatSeverity} can be used interchangeably with ThreatSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Critical** \
- * **High** \
- * **Warning** \
- * **Informational**
+ * **Critical**: Critical severity level \
+ * **High**: High severity level \
+ * **Warning**: Warning severity level \
+ * **Informational**: Informational severity level
  */
 export type ThreatSeverity = string;
 
@@ -5583,7 +5594,7 @@ export function resourceListDeserializer(item: any): ResourceList {
 }
 
 /** Base class for container with backup items. Containers with specific workloads are derived from this class. */
-export interface ProtectionContainerResource extends Resource {
+export interface ProtectionContainerResource extends ProxyResource {
   /** ProtectionContainerResource properties */
   properties?: ProtectionContainerUnion;
   /** Resource tags. */
@@ -8918,7 +8929,7 @@ export function iaasVmilrRegistrationRequestSerializer(item: IaasVmilrRegistrati
 }
 
 /** Base class for backup policy. Workload-specific backup policies are derived from this class. */
-export interface ProtectionPolicyResource extends Resource {
+export interface ProtectionPolicyResource extends ProxyResource {
   /** ProtectionPolicyResource properties */
   properties?: ProtectionPolicyUnion;
   /** Resource tags. */
@@ -9114,13 +9125,13 @@ export function azureVmWorkloadProtectionPolicyDeserializer(
 
 /** Type of the protection policy */
 export enum KnownVMWorkloadPolicyType {
-  /** Invalid */
+  /** Invalid policy type */
   Invalid = "Invalid",
-  /** SnapshotV1 */
+  /** Snapshot V1 policy type */
   SnapshotV1 = "SnapshotV1",
-  /** SnapshotV2 */
+  /** Snapshot V2 policy type */
   SnapshotV2 = "SnapshotV2",
-  /** Streaming */
+  /** Streaming policy type */
   Streaming = "Streaming",
 }
 
@@ -9129,10 +9140,10 @@ export enum KnownVMWorkloadPolicyType {
  * {@link KnownVMWorkloadPolicyType} can be used interchangeably with VMWorkloadPolicyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid** \
- * **SnapshotV1** \
- * **SnapshotV2** \
- * **Streaming**
+ * **Invalid**: Invalid policy type \
+ * **SnapshotV1**: Snapshot V1 policy type \
+ * **SnapshotV2**: Snapshot V2 policy type \
+ * **Streaming**: Streaming policy type
  */
 export type VMWorkloadPolicyType = string;
 
@@ -10602,7 +10613,7 @@ export function protectionPolicyResourceArrayDeserializer(
 }
 
 /** Defines workload agnostic properties for a job. */
-export interface JobResource extends Resource {
+export interface JobResource extends ProxyResource {
   /** JobResource properties */
   properties?: JobUnion;
   /** Resource tags. */
@@ -11756,7 +11767,7 @@ export type HttpStatusCode =
   | "HttpVersionNotSupported";
 
 /** The base backup engine class. All workload specific backup engines derive from this class. */
-export interface BackupEngineBaseResource extends Resource {
+export interface BackupEngineBaseResource extends ProxyResource {
   /** BackupEngineBaseResource properties */
   properties?: BackupEngineBaseUnion;
   /** Resource tags. */
@@ -11985,7 +11996,7 @@ export function backupEngineBaseResourceArrayDeserializer(
 }
 
 /** */
-export interface ResourceGuardProxyBaseResource extends Resource {
+export interface ResourceGuardProxyBaseResource extends ProxyResource {
   /** ResourceGuardProxyBaseResource properties */
   properties?: ResourceGuardProxyBase;
   /** Resource tags. */
@@ -12373,7 +12384,7 @@ export function protectionIntentResourceArrayDeserializer(
 }
 
 /** Base class for backup ProtectionIntent. */
-export interface ProtectionIntentResource extends Resource {
+export interface ProtectionIntentResource extends ProxyResource {
   /** ProtectionIntentResource properties */
   properties?: ProtectionIntentUnion;
   /** Resource tags. */
@@ -14294,7 +14305,7 @@ export enum KnownValidationStatus {
 export type ValidationStatus = string;
 
 /** Private Endpoint Connection Response Properties */
-export interface PrivateEndpointConnectionResource extends Resource {
+export interface PrivateEndpointConnectionResource extends ProxyResource {
   /** PrivateEndpointConnectionResource properties */
   properties?: PrivateEndpointConnection;
   /** Resource tags. */
@@ -14506,6 +14517,8 @@ export enum KnownVersions {
   V20250201 = "2025-02-01",
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
-  /** The 2026-01-01-preview API version. */
-  V20260101Preview = "2026-01-01-preview",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
+  /** The 2026-01-31-preview API version. */
+  V20260131Preview = "2026-01-31-preview",
 }

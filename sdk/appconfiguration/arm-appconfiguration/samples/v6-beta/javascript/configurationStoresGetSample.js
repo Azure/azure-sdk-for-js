@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the specified configuration store.
  *
  * @summary gets the properties of the specified configuration store.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresGet.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresGet.json
  */
 async function configurationStoresGet() {
   const credential = new DefaultAzureCredential();

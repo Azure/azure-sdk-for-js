@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { enableRecordingsPanel } from "../../util/vscodeSettings";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { enableRecordingsPanel } from "../../util/vscodeSettings.ts";
 
 export const commandInfo = makeCommandInfo(
   "show",
