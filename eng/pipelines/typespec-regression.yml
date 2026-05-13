@@ -1,0 +1,201 @@
+# eng/pipelines/typespec-regression.yml
+# JS SDK Regeneration Pipeline (ARM Only)
+# Purpose: Validate that the latest emitter (@azure-tools/typespec-ts) doesn't break existing ARM SDK packages
+# Flow: Fetch latest emitter version → update emitter-package.json → regenerate lock file
+#       → clone latest azure-rest-api-specs (local spec source) → build spec index from tspconfig.yaml
+#       → classify SDK packages (spec-index preferred, tsp-location fallback)
+#       → tsp-client init --update-if-exists -c <local-tspconfig.yaml> --local-spec-repo (concurrent)
+#       → pnpm build (concurrent)
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - eng/emitter-package.json
+      - eng/common/scripts/TypeSpec-*
+      - eng/common/tsp-client/
+      - eng/pipelines/typespec-regression.yml
+      - eng/pipelines/scripts/typespec-regression-runner.js
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/emitter-package.json
+      - eng/common/scripts/TypeSpec-*
+      - eng/common/tsp-client/
+      - eng/pipelines/typespec-regression.yml
+      - eng/pipelines/scripts/typespec-regression-runner.js
+
+schedules:
+  - cron: "0 2 * * 1"
+    displayName: Weekly SDK regeneration (Monday 2AM UTC)
+    branches:
+      include:
+        - main
+
+parameters:
+  - name: EmitterVersion
+    displayName: "Emitter version to test (empty = latest from npm dev tag)"
+    type: string
+    default: ''
+  - name: MaxPackages
+    displayName: "Max ARM packages to process (0 = all)"
+    type: number
+    default: 0
+  - name: MaxWorkers
+    displayName: "Concurrent workers"
+    type: number
+    default: 4
+  - name: SkipBuild
+    displayName: "Skip build verification"
+    type: boolean
+    default: false
+  - name: SpecRepoBranch
+    displayName: "azure-rest-api-specs branch to clone"
+    type: string
+    default: 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  sdkRoot: $(Build.SourcesDirectory)
+  specRepoRoot: $(Agent.BuildDirectory)/azure-rest-api-specs
+  nodeVersion: '18.x'
+
+stages:
+  - stage: Regenerate
+    displayName: 'Regenerate & Build SDK packages'
+    jobs:
+      - job: Setup
+        displayName: 'Resolve emitter version & prepare'
+        steps:
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: $(nodeVersion)
+
+          - script: npm install -g @azure-tools/typespec-client-generator-cli
+            displayName: 'Install tsp-client'
+
+          # Step 1: Resolve emitter version
+          - script: |
+              if [ -z "${{ parameters.EmitterVersion }}" ]; then
+                EMITTER_VERSION=$(npm view @azure-tools/typespec-ts dist-tags.dev)
+                echo "Resolved from npm dev tag: $EMITTER_VERSION"
+              else
+                EMITTER_VERSION="${{ parameters.EmitterVersion }}"
+                echo "Using specified version: $EMITTER_VERSION"
+              fi
+              echo "##vso[task.setvariable variable=emitterVersion;isOutput=true]$EMITTER_VERSION"
+            displayName: 'Step 1: Resolve emitter version'
+            name: resolveVersion
+
+          # Step 2: Update emitter-package.json + regenerate lock file
+          - script: |
+              cd $(sdkRoot)
+              EMITTER_VERSION=$(resolveVersion.emitterVersion)
+
+              # Update emitter-package.json
+              node -e "
+                const fs = require('fs');
+                const pkg = JSON.parse(fs.readFileSync('eng/emitter-package.json', 'utf8'));
+                const oldVer = pkg.dependencies['@azure-tools/typespec-ts'];
+                pkg.dependencies['@azure-tools/typespec-ts'] = '$EMITTER_VERSION';
+                fs.writeFileSync('eng/emitter-package.json', JSON.stringify(pkg, null, 2) + '\n');
+                console.log('Updated: ' + oldVer + ' -> $EMITTER_VERSION');
+              "
+
+              # Regenerate lock file to prevent npm ci mismatch
+              cd eng
+              cp emitter-package.json package.json
+              npm install --package-lock-only --ignore-scripts 2>/dev/null
+              if [ -f package-lock.json ]; then
+                cp package-lock.json emitter-package-lock.json
+                rm -f package.json package-lock.json
+                rm -rf node_modules
+                echo "Lock file regenerated ✅"
+              else
+                echo "Warning: Failed to regenerate lock file"
+              fi
+            displayName: 'Step 2: Update emitter + regenerate lock file'
+
+      - job: RegenerateAndBuild
+        displayName: 'Regenerate & build packages'
+        dependsOn: Setup
+        timeoutInMinutes: 180
+        variables:
+          emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+        steps:
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: $(nodeVersion)
+
+          - script: |
+              npm install -g @azure-tools/typespec-client-generator-cli
+              npm install -g pnpm
+            displayName: 'Install tsp-client and pnpm'
+
+          # Clone azure-rest-api-specs (latest main) as a sibling directory.
+          # The runner scans this local spec repo for tspconfig.yaml files,
+          # builds a spec-index, and prefers those current spec paths over
+          # stale tsp-location.yaml data in the SDK repo.
+          - script: |
+              if [ -d "$(specRepoRoot)" ]; then
+                echo "Spec repo already exists at $(specRepoRoot), pulling latest..."
+                cd $(specRepoRoot)
+                git fetch origin ${{ parameters.SpecRepoBranch }}
+                git checkout ${{ parameters.SpecRepoBranch }}
+                git pull --ff-only
+              else
+                echo "Cloning azure-rest-api-specs (branch ${{ parameters.SpecRepoBranch }})..."
+                git clone --depth 1 --branch ${{ parameters.SpecRepoBranch }} \
+                  https://github.com/Azure/azure-rest-api-specs.git $(specRepoRoot)
+              fi
+              echo "Spec repo ready at $(specRepoRoot)"
+              cd $(specRepoRoot) && git log -1 --oneline
+            displayName: 'Clone azure-rest-api-specs (local spec source)'
+
+          # Step 2 (on this VM): Update emitter-package.json + lock file again
+          - script: |
+              cd $(sdkRoot)
+              node -e "
+                const fs = require('fs');
+                const pkg = JSON.parse(fs.readFileSync('eng/emitter-package.json', 'utf8'));
+                pkg.dependencies['@azure-tools/typespec-ts'] = '$(emitterVersion)';
+                fs.writeFileSync('eng/emitter-package.json', JSON.stringify(pkg, null, 2) + '\n');
+              "
+              cd eng
+              cp emitter-package.json package.json
+              npm install --package-lock-only --ignore-scripts 2>/dev/null
+              if [ -f package-lock.json ]; then
+                cp package-lock.json emitter-package-lock.json
+                rm -f package.json package-lock.json
+                rm -rf node_modules
+              fi
+            displayName: 'Update emitter + lock file'
+
+          # Step 3-5: Build spec index → classify packages → regenerate → build
+          - script: |
+              cd $(sdkRoot)
+              node eng/pipelines/scripts/typespec-regression-runner.js \
+                --specRepoRoot "$(specRepoRoot)" \
+                --maxWorkers "${{ parameters.MaxWorkers }}" \
+                --maxPackages "${{ parameters.MaxPackages }}" \
+                --skipBuild "${{ parameters.SkipBuild }}" \
+                --emitterVersion "$(emitterVersion)"
+            displayName: 'Regenerate & build ARM packages (spec-index)'
+
+          - script: |
+              cd $(sdkRoot)
+              git diff --stat
+            displayName: 'Show generated changes'
+            condition: always()
