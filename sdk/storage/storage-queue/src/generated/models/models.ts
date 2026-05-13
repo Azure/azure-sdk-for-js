@@ -459,7 +459,7 @@ export function corsRuleArrayDeserializer(result: Array<CorsRule>): any[] {
   });
 }
 
-/** CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as same-origin policy that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain */
+/** The CORS rules. */
 export interface CorsRule {
   /** The allowed origins. */
   allowedOrigins: string;
@@ -683,7 +683,7 @@ export type StorageErrorCode =
   | "AuthorizationResourceTypeMismatch"
   | "FeatureVersionMismatch";
 
-/** Stats for the storage service. */
+/** Statistics for the storage queue service. */
 export interface QueueServiceStats {
   /** The geo replication stats. */
   geoReplication?: GeoReplication;
@@ -709,11 +709,15 @@ export function queueServiceStatsXmlDeserializer(xmlString: string): QueueServic
   return deserializeFromXml<QueueServiceStats>(xmlString, properties, "QueueServiceStats");
 }
 
-/** Geo-Replication information for the Secondary Storage Service */
+/** Geo replication information for the secondary storage location. */
 export interface GeoReplication {
-  /** The status of the secondary location */
+  /** The status of the secondary location. */
   status: GeoReplicationStatus;
-  /** A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads. */
+  /**
+   * A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available
+   * for read operations at the secondary. Primary writes after this point in time may or may not be available
+   * for reads.
+   */
   lastSyncOn: Date;
 }
 
@@ -765,13 +769,13 @@ export function geoReplicationXmlObjectDeserializer(
 /** The geo replication status. */
 export type GeoReplicationStatus = "live" | "bootstrap" | "unavailable";
 
-/** Key information for user delegation key */
+/** Key information for user delegation key. */
 export interface KeyInfo {
-  /** The date-time the key is active in ISO 8601 UTC time */
+  /** The date-time the key is active in ISO 8601 UTC time. */
   startsOn?: string;
-  /** The date-time the key expires in ISO 8601 UTC time */
+  /** The date-time the key expires in ISO 8601 UTC time. */
   expiresOn: string;
-  /** The delegated user tenant id in Azure AD */
+  /** The delegated user tenant ID in Entra ID. */
   delegatedUserTid?: string;
 }
 
@@ -796,23 +800,23 @@ export function keyInfoXmlSerializer(item: KeyInfo): string {
   return serializeToXml(item, properties, "KeyInfo");
 }
 
-/** A user delegation key */
+/** A user delegation key. */
 export interface UserDelegationKey {
-  /** The Azure Active Directory object ID in GUID format. */
+  /** The Entra ID object ID in GUID format. */
   signedObjectId: string;
-  /** The Azure Active Directory tenant ID in GUID format */
+  /** The Entra ID tenant ID in GUID format. */
   signedTenantId: string;
-  /** The date-time the key is active */
+  /** The date-time the key is active. */
   signedStartsOn: string;
-  /** The date-time the key expires */
+  /** The date-time the key expires. */
   signedExpiresOn: string;
-  /** The service that created the key */
+  /** The service that created the key. */
   signedService: string;
-  /** The version of the service that created the key */
+  /** The service version used when creating the key. */
   signedVersion: string;
-  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  /** The delegated user tenant ID in Entra ID. Return if DelegatedUserTid is specified. */
   signedDelegatedUserTid?: string;
-  /** The key as a base64 string */
+  /** The key as a base64 string. */
   value: string;
 }
 
@@ -883,19 +887,19 @@ export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegat
   return deserializeFromXml<UserDelegationKey>(xmlString, properties, "UserDelegationKey");
 }
 
-/** The list queue segment response */
+/** The list queues response. */
 export interface ListQueuesResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The prefix of the queues. */
   prefix: string;
-  /** The marker of the queues. */
+  /** Identifies the current position in the list queues operation. */
   marker?: string;
-  /** The max results of the queues. */
+  /** The max results. */
   maxPageSize: number;
-  /** The queue segment. */
+  /** The list of queues. */
   queueItems?: QueueItem[];
-  /** The next marker of the queues. */
+  /** Identifies the portion of the list of queues to be returned with the next listing operation. */
   continuationToken: string;
 }
 
@@ -964,7 +968,7 @@ export function queueItemArrayDeserializer(result: Array<QueueItem>): any[] {
 export interface QueueItem {
   /** The name of the queue. */
   name: string;
-  /** The metadata of the container. */
+  /** The metadata of the queue. */
   metadata?: Record<string, string>;
 }
 
@@ -1003,7 +1007,7 @@ export function queueItemXmlObjectDeserializer(xmlObject: Record<string, unknown
   return deserializeXmlObject<QueueItem>(xmlObject, properties);
 }
 
-/** Represents an array of signed identifiers */
+/** An array of signed identifiers. */
 export interface SignedIdentifiers {
   /** The list of signed identifiers. */
   items: SignedIdentifier[];
@@ -1135,13 +1139,13 @@ export function signedIdentifierXmlObjectDeserializer(
   return deserializeXmlObject<SignedIdentifier>(xmlObject, properties);
 }
 
-/** Represents an access policy. */
+/** The access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
   startsOn?: string;
   /** The date-time the policy expires. */
   expiresOn?: string;
-  /** The permissions for acl the policy. */
+  /** The permissions for the policy. */
   permissions?: string;
 }
 
@@ -1224,9 +1228,9 @@ export function accessPolicyXmlObjectDeserializer(
   return deserializeXmlObject<AccessPolicy>(xmlObject, properties);
 }
 
-/** List wrapper for DequeuedMessageItem array */
+/** The response of receive messages. */
 export interface ReceivedMessages {
-  /** The list of dequeued messages. */
+  /** The list of received messages. */
   items: ReceivedMessage[];
 }
 
@@ -1254,27 +1258,24 @@ export function receivedMessageArrayDeserializer(result: Array<ReceivedMessage>)
   });
 }
 
-/**
- * The object returned in the QueueMessageList array when calling Get Messages on
- * a Queue.
- */
+/** The received queue message. */
 export interface ReceivedMessage {
-  /** The Id of the Message. */
+  /** The ID of the message. */
   messageId: string;
-  /** The time the Message was inserted into the Queue. */
+  /** The time the message was inserted into the queue. */
   insertedOn: Date;
-  /** The time that the Message will expire and be automatically deleted. */
+  /** The time that the message will expire and be automatically deleted. */
   expiresOn: Date;
   /**
-   * This value is required to delete the Message. If deletion fails using this
+   * An opaque value required to delete the message. If deletion fails using this
    * PopReceipt then the message has been dequeued by another client.
    */
   popReceipt: string;
-  /** The time that the message will again become visible in the Queue. */
+  /** The time that the message will again become visible in the queue. */
   nextVisibleOn: Date;
   /** The number of times the message has been dequeued. */
   dequeueCount: number;
-  /** The content of the message */
+  /** The content of the message. */
   messageText: string;
 }
 
@@ -1388,9 +1389,9 @@ export function receivedMessageXmlObjectDeserializer(
   return deserializeXmlObject<ReceivedMessage>(xmlObject, properties);
 }
 
-/** A Message object which can be stored in a Queue */
+/** The queue message. */
 export interface QueueMessage {
-  /** The content of the message */
+  /** The content of the message. */
   messageText: string;
 }
 
@@ -1405,9 +1406,9 @@ export function queueMessageXmlSerializer(item: QueueMessage): string {
   return serializeToXml(item, properties, "QueueMessage");
 }
 
-/** List wrapper for EnqueuedMessage array */
+/** The response of send message. */
 export interface ListOfSentMessage {
-  /** The list of enqueued messages. */
+  /** The list of sent messages. */
   items: SentMessage[];
 }
 
@@ -1435,23 +1436,20 @@ export function sentMessageArrayDeserializer(result: Array<SentMessage>): any[] 
   });
 }
 
-/**
- * The object returned in the QueueMessageList array when calling Put Message on a
- * Queue
- */
+/** The sent queue message. */
 export interface SentMessage {
-  /** The Id of the Message. */
+  /** The ID of the message. */
   messageId: string;
-  /** The time the Message was inserted into the Queue. */
+  /** The time the message was inserted into the queue. */
   insertedOn: Date;
-  /** The time that the Message will expire and be automatically deleted. */
+  /** The time that the message will expire and be automatically deleted. */
   expiresOn: Date;
   /**
-   * This value is required to delete the Message. If deletion fails using this
+   * An opaque value required to delete the message. If deletion fails using this
    * PopReceipt then the message has been dequeued by another client.
    */
   popReceipt: string;
-  /** The time that the message will again become visible in the Queue. */
+  /** The time that the message will again become visible in the queue. */
   nextVisibleOn: Date;
 }
 
@@ -1537,7 +1535,7 @@ export function sentMessageXmlObjectDeserializer(xmlObject: Record<string, unkno
   return deserializeXmlObject<SentMessage>(xmlObject, properties);
 }
 
-/** List wrapper for PeekedMessageItem array */
+/** The response of peek messages. */
 export interface PeekedMessages {
   /** The list of peeked messages. */
   items: PeekedMessage[];
@@ -1567,20 +1565,17 @@ export function peekedMessageArrayDeserializer(result: Array<PeekedMessage>): an
   });
 }
 
-/**
- * The object returned in the QueueMessageList array when calling Peek Messages on
- * a Queue
- */
+/** The peeked queue message. */
 export interface PeekedMessage {
-  /** The Id of the Message. */
+  /** The ID of the message. */
   messageId: string;
-  /** The time the Message was inserted into the Queue. */
+  /** The time the message was inserted into the queue. */
   insertedOn: Date;
-  /** The time that the Message will expire and be automatically deleted. */
+  /** The time that the message will expire and be automatically deleted. */
   expiresOn: Date;
   /** The number of times the message has been dequeued. */
   dequeueCount: number;
-  /** The content of the Message. */
+  /** The content of the message. */
   messageText: string;
 }
 
@@ -1668,7 +1663,7 @@ export function peekedMessageXmlObjectDeserializer(
   return deserializeXmlObject<PeekedMessage>(xmlObject, properties);
 }
 
-/** Include this parameter to specify that the queue's metadata be returned as part of the response body. */
+/** Specify to include additional, optional information. */
 export type ListQueuesIncludeType = "metadata";
 
 /** The Azure.Storage.Queue service versions. */

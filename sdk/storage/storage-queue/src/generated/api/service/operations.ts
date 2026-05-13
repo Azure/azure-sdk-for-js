@@ -125,7 +125,7 @@ export function _getQueuesDeserializeExceptionHeaders(result: PathUncheckedRespo
   };
 }
 
-/** returns a list of the queues under the specified account */
+/** Returns a list of queues. */
 export async function getQueues(
   context: Client,
   options: ServiceGetQueuesOptionalParams = { requestOptions: {} },
@@ -245,7 +245,10 @@ export function _getUserDelegationKeyDeserializeExceptionHeaders(result: PathUnc
   };
 }
 
-/** Retrieves a user delegation key for the Queue service. This is only a valid operation when using bearer token authentication. */
+/**
+ * Retrieves a user delegation key for the Queue service. This is only a valid operation when using bearer
+ * token authentication.
+ */
 export async function getUserDelegationKey(
   context: Client,
   keyInfo: KeyInfo,
@@ -363,7 +366,10 @@ export function _getStatisticsDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** Retrieves statistics related to replication for the Queue service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
+/**
+ * Retrieves statistics related to replication for the Queue service. It is only available on the secondary
+ * location endpoint when read-access geo-redundant replication is enabled for the storage account.
+ */
 export async function getStatistics(
   context: Client,
   options: ServiceGetStatisticsOptionalParams = { requestOptions: {} },
@@ -480,7 +486,10 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** Retrieves properties of a storage account's Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
+/**
+ * Retrieves properties of a storage account's Queue service, including properties for Storage Analytics and
+ * CORS (Cross-Origin Resource Sharing) rules.
+ */
 export async function getProperties(
   context: Client,
   options: ServiceGetPropertiesOptionalParams = { requestOptions: {} },
@@ -595,7 +604,10 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** Sets properties for a storage account's Queue service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
+/**
+ * Sets properties for a storage account's Queue service endpoint, including properties for Storage Analytics
+ * and CORS (Cross-Origin Resource Sharing) rules.
+ */
 export async function setProperties(
   context: Client,
   queueServiceProperties: QueueServiceProperties,

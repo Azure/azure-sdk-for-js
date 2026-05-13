@@ -41,7 +41,7 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a Queue operations. */
 export interface QueueOperations {
-  /** The Delete operation deletes the specified message. */
+  /** Deletes the specified message. */
   deleteMessage: (
     messageId: string,
     popReceipt: string,
@@ -57,13 +57,7 @@ export interface QueueOperations {
       { version: string; requestId?: string; clientRequestId?: string; date: Date }
     >
   >;
-  /**
-   * The Update operation was introduced with version 2011-08-18 of the Queue
-   * service API. The Update Message operation updates the visibility timeout of a
-   * message. You can also use this operation to update the contents of a message. A
-   * message must be in a format that can be included in an XML request with UTF-8
-   * encoding, and the encoded message can be up to 64KB in size.
-   */
+  /** Updates the visibility timeout of a message. This operation can also be used to update the contents of a message. */
   updateMessage: (
     messageId: string,
     popReceipt: string,
@@ -89,10 +83,7 @@ export interface QueueOperations {
       }
     >
   >;
-  /**
-   * The Peek operation retrieves one or more messages from the front of the queue,
-   * but does not alter the visibility of the message.
-   */
+  /** Retrieves one or more messages from the front of the queue, but does not alter the visibility of the message. */
   peekMessages: (
     options?: QueuePeekMessagesOptionalParams,
   ) => Promise<
@@ -115,12 +106,9 @@ export interface QueueOperations {
       >
   >;
   /**
-   * The Enqueue operation adds a new message to the back of the message queue. A
-   * visibility timeout can also be specified to make the message invisible until
-   * the visibility timeout expires. A message must be in a format that can be
-   * included in an XML request with UTF-8 encoding. The encoded message can be up
-   * to 64 KB in size for versions 2011-08-18 and newer, or 8 KB in size for
-   * previous versions.
+   * Adds a new message to the back of the message queue. A visibility timeout
+   * can also be specified to make the message invisible until the visibility timeout
+   * expires.
    */
   sendMessage: (
     queueMessage: QueueMessage,
@@ -144,7 +132,7 @@ export interface QueueOperations {
         }
       >
   >;
-  /** The Clear operation deletes all messages from the specified queue. */
+  /** Deletes all messages from the specified queue. */
   clear: (
     options?: QueueClearOptionalParams,
   ) => Promise<
@@ -158,10 +146,7 @@ export interface QueueOperations {
       { version: string; requestId?: string; clientRequestId?: string; date: Date }
     >
   >;
-  /**
-   * The Dequeue operation retrieves one or more messages from the front of the
-   * queue.
-   */
+  /** Retrieves one or more messages from the front of the queue. */
   receiveMessages: (
     options?: QueueReceiveMessagesOptionalParams,
   ) => Promise<
@@ -183,7 +168,7 @@ export interface QueueOperations {
         }
       >
   >;
-  /** sets the permissions for the specified queue. */
+  /** Sets the permissions for the specified queue. */
   setAccessPolicy: (
     options?: QueueSetAccessPolicyOptionalParams,
   ) => Promise<
@@ -197,7 +182,7 @@ export interface QueueOperations {
       { version: string; requestId?: string; clientRequestId?: string; date: Date }
     >
   >;
-  /** gets the permissions for the specified queue. The permissions indicate whether queue data may be accessed publicly. */
+  /** Gets the access policy for the specified queue. */
   getAccessPolicy: (
     options?: QueueGetAccessPolicyOptionalParams,
   ) => Promise<
@@ -219,7 +204,7 @@ export interface QueueOperations {
         }
       >
   >;
-  /** operation sets one or more user-defined name-value pairs for the specified queue. */
+  /** Sets user-defined metadata for the specified queue. */
   setMetadata: (
     options?: QueueSetMetadataOptionalParams,
   ) => Promise<
@@ -233,7 +218,7 @@ export interface QueueOperations {
       { version: string; requestId?: string; clientRequestId?: string; date: Date }
     >
   >;
-  /** operation permanently deletes the specified queue */
+  /** Permanently deletes the specified queue. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -252,7 +237,7 @@ export interface QueueOperations {
       { version: string; requestId?: string; clientRequestId?: string; date: Date }
     >
   >;
-  /** returns all user-defined metadata and system properties for the specified queue. */
+  /** Returns all user-defined metadata and system properties for the specified queue. */
   getProperties: (
     options?: QueueGetPropertiesOptionalParams,
   ) => Promise<
@@ -273,7 +258,10 @@ export interface QueueOperations {
       }
     >
   >;
-  /** Creates a new queue under the specified account. If a queue with the same name already exists, the operation succeeds when the metadata is identical and returns 204; if the metadata differs, the operation returns 409. */
+  /**
+   * Creates a new queue. If a queue with the same name already exists, the operation succeeds when the metadata
+   * is identical. If the metadata differs, the operation fails.
+   */
   create: (
     options?: QueueCreateOptionalParams,
   ) => Promise<

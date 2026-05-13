@@ -27,7 +27,7 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {
-  /** returns a list of the queues under the specified account */
+  /** Returns a list of queues. */
   getQueues: (
     options?: ServiceGetQueuesOptionalParams,
   ) => Promise<
@@ -49,7 +49,10 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** Retrieves a user delegation key for the Queue service. This is only a valid operation when using bearer token authentication. */
+  /**
+   * Retrieves a user delegation key for the Queue service. This is only a valid operation when using bearer
+   * token authentication.
+   */
   getUserDelegationKey: (
     keyInfo: KeyInfo,
     options?: ServiceGetUserDelegationKeyOptionalParams,
@@ -72,7 +75,10 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** Retrieves statistics related to replication for the Queue service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
+  /**
+   * Retrieves statistics related to replication for the Queue service. It is only available on the secondary
+   * location endpoint when read-access geo-redundant replication is enabled for the storage account.
+   */
   getStatistics: (
     options?: ServiceGetStatisticsOptionalParams,
   ) => Promise<
@@ -94,7 +100,10 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** Retrieves properties of a storage account's Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
+  /**
+   * Retrieves properties of a storage account's Queue service, including properties for Storage Analytics and
+   * CORS (Cross-Origin Resource Sharing) rules.
+   */
   getProperties: (
     options?: ServiceGetPropertiesOptionalParams,
   ) => Promise<
@@ -116,7 +125,10 @@ export interface ServiceOperations {
         }
       >
   >;
-  /** Sets properties for a storage account's Queue service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
+  /**
+   * Sets properties for a storage account's Queue service endpoint, including properties for Storage Analytics
+   * and CORS (Cross-Origin Resource Sharing) rules.
+   */
   setProperties: (
     queueServiceProperties: QueueServiceProperties,
     options?: ServiceSetPropertiesOptionalParams,
