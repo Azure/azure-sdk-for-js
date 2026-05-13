@@ -721,7 +721,6 @@ export interface FileOperations {
       fileMode?: string;
       owner?: string;
       group?: string;
-      nfsFileType?: NfsFileType;
       linkCount?: number;
       version: string;
       requestId: string;
@@ -765,7 +764,6 @@ export interface FileOperations {
           fileMode?: string;
           owner?: string;
           group?: string;
-          nfsFileType?: NfsFileType;
           linkCount?: number;
           version: string;
           requestId: string;

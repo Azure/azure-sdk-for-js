@@ -3538,7 +3538,6 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   fileMode?: string;
   owner?: string;
   group?: string;
-  nfsFileType?: NfsFileType;
   linkCount?: number;
   version: string;
   requestId: string;
@@ -3694,7 +3693,6 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-group"] === undefined || result.headers["x-ms-group"] === null
         ? result.headers["x-ms-group"]
         : result.headers["x-ms-group"],
-    nfsFileType: result.headers["x-ms-file-file-type"] as any,
     linkCount:
       result.headers["x-ms-link-count"] === undefined || result.headers["x-ms-link-count"] === null
         ? result.headers["x-ms-link-count"]
@@ -3773,7 +3771,6 @@ export async function download(
     fileMode?: string;
     owner?: string;
     group?: string;
-    nfsFileType?: NfsFileType;
     linkCount?: number;
     version: string;
     requestId: string;
@@ -3817,7 +3814,6 @@ export async function download(
         fileMode?: string;
         owner?: string;
         group?: string;
-        nfsFileType?: NfsFileType;
         linkCount?: number;
         version: string;
         requestId: string;
