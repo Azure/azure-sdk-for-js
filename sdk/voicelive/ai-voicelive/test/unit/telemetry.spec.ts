@@ -61,7 +61,7 @@ describe("SessionTelemetryTracker", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
         serverPort: 443,
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
         agentName: "test-agent",
         agentProjectName: "test-project",
         enableContentRecording: true,
@@ -77,7 +77,7 @@ describe("SessionTelemetryTracker", () => {
       tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
         serverPort: 443,
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
     });
 
@@ -92,7 +92,7 @@ describe("SessionTelemetryTracker", () => {
       // Without starting a connect span, traceSend should be no-op
       tracker.traceSend({
         type: KnownClientEventType.SessionUpdate,
-        session: { model: "gpt-4o-realtime-preview" },
+        session: { model: "gpt-realtime" },
       });
       // Should not throw
     });
@@ -127,7 +127,7 @@ describe("SessionTelemetryTracker", () => {
     beforeEach(() => {
       tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
       tracker.startConnectSpan();
     });
@@ -136,7 +136,7 @@ describe("SessionTelemetryTracker", () => {
       tracker.traceSend({
         type: KnownClientEventType.SessionUpdate,
         session: {
-          model: "gpt-4o-realtime-preview",
+          model: "gpt-realtime",
           instructions: "You are a helpful assistant",
           input_audio_format: "pcm16",
           output_audio_format: "pcm16",
@@ -181,7 +181,7 @@ describe("SessionTelemetryTracker", () => {
     beforeEach(() => {
       tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
       tracker.startConnectSpan();
     });
@@ -191,7 +191,7 @@ describe("SessionTelemetryTracker", () => {
         type: KnownServerEventType.SessionCreated,
         session: {
           id: "test-session-123",
-          model: "gpt-4o-realtime-preview",
+          model: "gpt-realtime",
           input_audio_format: "pcm16",
           output_audio_format: "pcm16",
         },
@@ -203,7 +203,7 @@ describe("SessionTelemetryTracker", () => {
         type: KnownServerEventType.SessionUpdated,
         session: {
           id: "test-session-456",
-          model: "gpt-4o-realtime-preview",
+          model: "gpt-realtime",
         },
       });
     });
@@ -277,7 +277,7 @@ describe("SessionTelemetryTracker", () => {
     it("should not throw when closing with no error", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
       tracker.startConnectSpan();
       tracker.traceClose();
@@ -286,7 +286,7 @@ describe("SessionTelemetryTracker", () => {
     it("should not throw when closing with an error", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
       tracker.startConnectSpan();
       tracker.traceClose(new Error("Connection lost"));
@@ -298,7 +298,7 @@ describe("SessionTelemetryTracker", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
         serverPort: 443,
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
 
       // 1. Connect
@@ -308,7 +308,7 @@ describe("SessionTelemetryTracker", () => {
       // 2. Receive session.created
       tracker.traceRecv({
         type: KnownServerEventType.SessionCreated,
-        session: { id: "sess_abc", model: "gpt-4o-realtime-preview" },
+        session: { id: "sess_abc", model: "gpt-realtime" },
       });
 
       // 3. Send session.update
@@ -356,7 +356,7 @@ describe("SessionTelemetryTracker", () => {
     it("should trace a session with interruption", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
 
       tracker.startConnectSpan();
@@ -387,7 +387,7 @@ describe("SessionTelemetryTracker", () => {
     it("should trace a session with connection error", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
 
       tracker.startConnectSpan();
@@ -398,7 +398,7 @@ describe("SessionTelemetryTracker", () => {
     it("should trace a session with server error event", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
 
       tracker.startConnectSpan();
@@ -427,7 +427,7 @@ describe("SessionTelemetryTracker", () => {
     it("should create tracker with content recording disabled by default", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
       // Content recording disabled should still work without errors
       tracker.startConnectSpan();
@@ -441,7 +441,7 @@ describe("SessionTelemetryTracker", () => {
     it("should create tracker with content recording enabled", () => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "example.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
         enableContentRecording: true,
       });
       tracker.startConnectSpan();
@@ -515,7 +515,7 @@ describe("Telemetry - span graph structure", () => {
     const spans = captureSpans(() => {
       const tracker = new SessionTelemetryTracker({
         serverAddress: "test.cognitiveservices.azure.com",
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       });
       tracker.startConnectSpan();
       tracker.traceSend({ type: KnownClientEventType.SessionUpdate });
@@ -551,7 +551,7 @@ describe("Telemetry - span graph structure", () => {
 
   it("does not create spans for high-frequency delta recv events", () => {
     const spans = captureSpans(() => {
-      const tracker = new SessionTelemetryTracker({ model: "gpt-4o-realtime-preview" });
+      const tracker = new SessionTelemetryTracker({ model: "gpt-realtime" });
       tracker.startConnectSpan();
       // These deltas are filtered out and must not produce spans.
       tracker.traceRecv({ type: KnownServerEventType.ResponseAudioDelta, delta: "AAA=" });
@@ -564,7 +564,7 @@ describe("Telemetry - span graph structure", () => {
 
   it("creates a close span even when traceClose is called with an error", () => {
     const spans = captureSpans(() => {
-      const tracker = new SessionTelemetryTracker({ model: "gpt-4o-realtime-preview" });
+      const tracker = new SessionTelemetryTracker({ model: "gpt-realtime" });
       tracker.startConnectSpan();
       tracker.traceSend({ type: KnownClientEventType.SessionUpdate });
       tracker.traceClose(new Error("connection lost"));
