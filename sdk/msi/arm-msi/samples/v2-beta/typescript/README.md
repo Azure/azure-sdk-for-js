@@ -67,18 +67,18 @@ node dist/federatedIdentityCredentialsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[federatedidentitycredentialscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/federatedIdentityCredentialsCreateOrUpdateSample.ts
-[federatedidentitycredentialsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/federatedIdentityCredentialsDeleteSample.ts
-[federatedidentitycredentialsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/federatedIdentityCredentialsGetSample.ts
-[federatedidentitycredentialslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/federatedIdentityCredentialsListSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/operationsListSample.ts
-[systemassignedidentitiesgetbyscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/systemAssignedIdentitiesGetByScopeSample.ts
-[userassignedidentitiescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/userAssignedIdentitiesCreateOrUpdateSample.ts
-[userassignedidentitiesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/userAssignedIdentitiesDeleteSample.ts
-[userassignedidentitiesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/userAssignedIdentitiesGetSample.ts
-[userassignedidentitieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/userAssignedIdentitiesListByResourceGroupSample.ts
-[userassignedidentitieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/userAssignedIdentitiesListBySubscriptionSample.ts
-[userassignedidentitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v3-beta/typescript/src/userAssignedIdentitiesUpdateSample.ts
+[federatedidentitycredentialscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsCreateOrUpdateSample.ts
+[federatedidentitycredentialsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsDeleteSample.ts
+[federatedidentitycredentialsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsGetSample.ts
+[federatedidentitycredentialslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/federatedIdentityCredentialsListSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/operationsListSample.ts
+[systemassignedidentitiesgetbyscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/systemAssignedIdentitiesGetByScopeSample.ts
+[userassignedidentitiescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesCreateOrUpdateSample.ts
+[userassignedidentitiesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesDeleteSample.ts
+[userassignedidentitiesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesGetSample.ts
+[userassignedidentitieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesListByResourceGroupSample.ts
+[userassignedidentitieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesListBySubscriptionSample.ts
+[userassignedidentitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2-beta/typescript/src/userAssignedIdentitiesUpdateSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-msi?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/msi/arm-msi/README.md

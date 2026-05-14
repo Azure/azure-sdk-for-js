@@ -53,7 +53,11 @@ export interface FederatedIdentityCredentialProperties {
 
 // @public
 export interface Identity extends TrackedResource {
-    properties?: UserAssignedIdentityProperties;
+    assignmentRestrictions?: AssignmentRestrictions;
+    readonly clientId?: string;
+    isolationScope?: IsolationScope;
+    readonly principalId?: string;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -118,11 +122,14 @@ export interface Resource {
 
 // @public
 export interface SystemAssignedIdentity extends ExtensionResource {
+    readonly clientId?: string;
+    readonly clientSecretUrl?: string;
     // (undocumented)
     location: string;
-    readonly properties?: SystemAssignedIdentityProperties;
+    readonly principalId?: string;
     // (undocumented)
     tags?: Record<string, string>;
+    readonly tenantId?: string;
 }
 
 // @public

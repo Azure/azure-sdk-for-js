@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-05-13)
+## 2.3.0-beta.1 (2026-05-14)
 Compared with version 2.2.0
 
 ### Features Added
@@ -13,22 +13,11 @@ Compared with version 2.2.0
   - Added Interface SystemAssignedIdentityProperties
   - Added Interface UserAssignedIdentityProperties
   - Interface FederatedIdentityCredential has a new optional parameter claimsMatchingExpression
-  - Interface Identity has a new optional parameter properties
+  - Interface Identity has a new optional parameter assignmentRestrictions
   - Interface IdentityUpdate has a new optional parameter assignmentRestrictions
-  - Interface SystemAssignedIdentity has a new optional parameter properties
   - Added Type Alias AzureSupportedClouds
   - Added Enum AzureClouds
   - Added Enum KnownVersions
-
-### Breaking Changes
-  - Interface Identity no longer has parameter clientId
-  - Interface Identity no longer has parameter isolationScope
-  - Interface Identity no longer has parameter principalId
-  - Interface Identity no longer has parameter tenantId
-  - Interface SystemAssignedIdentity no longer has parameter clientId
-  - Interface SystemAssignedIdentity no longer has parameter clientSecretUrl
-  - Interface SystemAssignedIdentity no longer has parameter principalId
-  - Interface SystemAssignedIdentity no longer has parameter tenantId
 
     
 ## 2.2.0 (2025-07-09)

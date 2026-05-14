@@ -107,10 +107,16 @@ export function cloudErrorBodyArrayDeserializer(result: Array<CloudErrorBody>): 
 
 /** Describes a system assigned identity resource. */
 export interface SystemAssignedIdentity extends ExtensionResource {
-  /** The properties associated with the identity. */
-  readonly properties?: SystemAssignedIdentityProperties;
   location: string;
   tags?: Record<string, string>;
+  /** The id of the tenant which the identity belongs to. */
+  readonly tenantId?: string;
+  /** The id of the service principal object associated with the created identity. */
+  readonly principalId?: string;
+  /** The id of the app associated with the identity. This is a random generated UUID by MSI. */
+  readonly clientId?: string;
+  /** The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials. */
+  readonly clientSecretUrl?: string;
 }
 
 export function systemAssignedIdentityDeserializer(item: any): SystemAssignedIdentity {
@@ -121,9 +127,9 @@ export function systemAssignedIdentityDeserializer(item: any): SystemAssignedIde
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : systemAssignedIdentityPropertiesDeserializer(item["properties"]),
+      : _systemAssignedIdentityPropertiesDeserializer(item["properties"])),
     location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
@@ -401,17 +407,25 @@ export function federatedIdentityCredentialArrayDeserializer(
 
 /** Describes an identity resource. */
 export interface Identity extends TrackedResource {
-  /** The properties associated with the identity. */
-  properties?: UserAssignedIdentityProperties;
+  /** The id of the tenant which the identity belongs to. */
+  readonly tenantId?: string;
+  /** The id of the service principal object associated with the created identity. */
+  readonly principalId?: string;
+  /** The id of the app associated with the identity. This is a random generated UUID by MSI. */
+  readonly clientId?: string;
+  /** Enum to configure regional restrictions on identity assignment, as necessary. */
+  isolationScope?: IsolationScope;
+  /** Restrictions on which resource providers this identity can be assigned to. */
+  assignmentRestrictions?: AssignmentRestrictions;
 }
 
 export function identitySerializer(item: Identity): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : userAssignedIdentityPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["isolationScope", "assignmentRestrictions"])
+      ? undefined
+      : _identityPropertiesSerializer(item),
   };
 }
 
@@ -427,9 +441,9 @@ export function identityDeserializer(item: any): Identity {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : userAssignedIdentityPropertiesDeserializer(item["properties"]),
+      : _identityPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -608,6 +622,15 @@ export enum KnownVersions {
   V20250531Preview = "2025-05-31-preview",
 }
 
+export function _systemAssignedIdentityPropertiesDeserializer(item: any) {
+  return {
+    tenantId: item["tenantId"],
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+    clientSecretUrl: item["clientSecretUrl"],
+  };
+}
+
 export function _federatedIdentityCredentialPropertiesSerializer(
   item: FederatedIdentityCredential,
 ): any {
@@ -637,6 +660,27 @@ export function _federatedIdentityCredentialPropertiesDeserializer(item: any) {
     claimsMatchingExpression: !item["claimsMatchingExpression"]
       ? item["claimsMatchingExpression"]
       : claimsMatchingExpressionDeserializer(item["claimsMatchingExpression"]),
+  };
+}
+
+export function _identityPropertiesSerializer(item: Identity): any {
+  return {
+    isolationScope: item["isolationScope"],
+    assignmentRestrictions: !item["assignmentRestrictions"]
+      ? item["assignmentRestrictions"]
+      : assignmentRestrictionsSerializer(item["assignmentRestrictions"]),
+  };
+}
+
+export function _identityPropertiesDeserializer(item: any) {
+  return {
+    tenantId: item["tenantId"],
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+    isolationScope: item["isolationScope"],
+    assignmentRestrictions: !item["assignmentRestrictions"]
+      ? item["assignmentRestrictions"]
+      : assignmentRestrictionsDeserializer(item["assignmentRestrictions"]),
   };
 }
 
