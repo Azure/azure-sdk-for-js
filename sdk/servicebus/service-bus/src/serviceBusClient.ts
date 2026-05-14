@@ -10,6 +10,7 @@ import {
 } from "./constructorHelpers.js";
 import { ConnectionContext } from "./connectionContext.js";
 import type {
+  ListMessageSessionsOptions,
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
   ReceiveMode,
@@ -469,6 +470,88 @@ export class ServiceBusClient {
     );
 
     return sessionReceiver;
+  }
+
+  /**
+   * Lists the IDs of sessions in a session-enabled queue.
+   *
+   * By default, returns sessions with active messages in the entity.
+   * If {@link ListMessageSessionsOptions.updatedAfter} is specified, returns sessions
+   * whose session state was updated after that time instead.
+   *
+   * @param queueName - Name of the session-enabled queue.
+   * @param options - Options for listing sessions.
+   * @returns An array of session IDs.
+   */
+  listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): Promise<string[]>;
+  /**
+   * Lists the IDs of sessions in a session-enabled subscription.
+   *
+   * By default, returns sessions with active messages in the entity.
+   * If {@link ListMessageSessionsOptions.updatedAfter} is specified, returns sessions
+   * whose session state was updated after that time instead.
+   *
+   * @param topicName - Name of the topic.
+   * @param subscriptionName - Name of the subscription.
+   * @param options - Options for listing sessions.
+   * @returns An array of session IDs.
+   */
+  listMessageSessions(
+    topicName: string,
+    subscriptionName: string,
+    options?: ListMessageSessionsOptions,
+  ): Promise<string[]>;
+  async listMessageSessions(
+    queueOrTopicName1: string,
+    optionsOrSubscriptionName2?: ListMessageSessionsOptions | string,
+    options3?: ListMessageSessionsOptions,
+  ): Promise<string[]> {
+    let entityPath: string;
+    let options: ListMessageSessionsOptions | undefined;
+    if (typeof optionsOrSubscriptionName2 === "string") {
+      entityPath = `${queueOrTopicName1}/Subscriptions/${optionsOrSubscriptionName2}`;
+      options = options3;
+    } else {
+      entityPath = queueOrTopicName1;
+      options = optionsOrSubscriptionName2;
+    }
+
+    validateEntityPath(this._connectionContext.config, queueOrTopicName1);
+
+    const managementClient = this._connectionContext.getManagementClient(entityPath);
+    const pageSize = 100;
+    const allSessionIds: string[] = [];
+    let skip = 0;
+
+    // The service checks for DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) to switch
+    // between "active messages" mode and "updated since" mode. On the AMQP wire, timestamps
+    // have millisecond precision, so DateTime.MaxValue becomes 253402300799999 ms from epoch.
+    const lastUpdatedTime = options?.updatedAfter ?? new Date(253402300799999);
+
+    for (;;) {
+      let page: string[];
+      try {
+        page = await managementClient.listMessageSessions(skip, pageSize, lastUpdatedTime, options);
+      } catch (err: any) {
+        // Treat only the 404 + SessionCannotBeLocked response from the
+        // get-message-sessions management operation as "no sessions exist".
+        // Don't catch other 404s (e.g., MessagingEntityNotFound for a missing entity).
+        if (err.statusCode === 404 && err.code === "SessionCannotBeLocked") {
+          break;
+        }
+        throw err;
+      }
+      if (!page || page.length === 0) {
+        break;
+      }
+      allSessionIds.push(...page);
+      if (page.length < pageSize) {
+        break;
+      }
+      skip += page.length;
+    }
+
+    return allSessionIds;
   }
 
   /**
