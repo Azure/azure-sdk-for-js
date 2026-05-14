@@ -70,7 +70,7 @@ pool:
 variables:
   sdkRoot: $(Build.SourcesDirectory)
   specRepoRoot: $(Agent.BuildDirectory)/azure-rest-api-specs
-  nodeVersion: '18.x'
+  nodeVersion: '22.x'
 
 stages:
   - stage: Regenerate
