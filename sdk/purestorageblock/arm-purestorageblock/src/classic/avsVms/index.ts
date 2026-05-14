@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import { AvsVmUpdate, AvsVm } from "../../models/models.js";
-import {
+import type { BlockContext } from "../../api/blockContext.js";
+import { listByStoragePool, $delete, get, update } from "../../api/avsVms/operations.js";
+import type {
   AvsVmsListByStoragePoolOptionalParams,
   AvsVmsDeleteOptionalParams,
   AvsVmsGetOptionalParams,
   AvsVmsUpdateOptionalParams,
 } from "../../api/avsVms/options.js";
-import { listByStoragePool, $delete, get, update } from "../../api/avsVms/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AvsVmUpdate, AvsVm } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AvsVms operations. */
 export interface AvsVmsOperations {
@@ -22,11 +22,6 @@ export interface AvsVmsOperations {
     options?: AvsVmsListByStoragePoolOptionalParams,
   ) => PagedAsyncIterableIterator<AvsVm>;
   /** Delete an AVS VM */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

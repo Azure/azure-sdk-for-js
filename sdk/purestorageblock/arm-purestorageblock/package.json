@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-purestorageblock",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.1",
   "description": "A generated SDK for BlockClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -51,7 +51,7 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.0.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
@@ -138,6 +138,42 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/volumes": {
+      "browser": {
+        "types": "./dist/browser/api/volumes/index.d.ts",
+        "default": "./dist/browser/api/volumes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/volumes/index.d.ts",
+        "default": "./dist/react-native/api/volumes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/volumes/index.d.ts",
+        "default": "./dist/esm/api/volumes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/volumes/index.d.ts",
+        "default": "./dist/commonjs/api/volumes/index.js"
+      }
+    },
+    "./api/volumeGroups": {
+      "browser": {
+        "types": "./dist/browser/api/volumeGroups/index.d.ts",
+        "default": "./dist/browser/api/volumeGroups/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/volumeGroups/index.d.ts",
+        "default": "./dist/react-native/api/volumeGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/volumeGroups/index.d.ts",
+        "default": "./dist/esm/api/volumeGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/volumeGroups/index.d.ts",
+        "default": "./dist/commonjs/api/volumeGroups/index.js"
       }
     },
     "./api/avsVmVolumes": {
