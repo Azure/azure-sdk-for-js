@@ -17,7 +17,7 @@ trigger:
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
       - eng/pipelines/typespec-break-check.yml
-      - eng/pipelines/scripts/typespec-regression-runner.js
+      - eng/pipelines/scripts/regenerate-runner.js
       - eng/pipelines/scripts/breaking-change-detector.js
 
 pr:
@@ -32,7 +32,7 @@ pr:
       - eng/common/scripts/TypeSpec-*
       - eng/common/tsp-client/
       - eng/pipelines/typespec-break-check.yml
-      - eng/pipelines/scripts/typespec-regression-runner.js
+      - eng/pipelines/scripts/regenerate-runner.js
       - eng/pipelines/scripts/breaking-change-detector.js
 
 schedules:
@@ -188,7 +188,7 @@ stages:
           # Step 3-5: Build spec index → classify packages → regenerate → build
           - script: |
               cd $(sdkRoot)
-              node eng/pipelines/scripts/typespec-regression-runner.js \
+              node eng/pipelines/scripts/regenerate-runner.js \
                 --specRepoRoot "$(specRepoRoot)" \
                 --maxWorkers "${{ parameters.MaxWorkers }}" \
                 --maxPackages "${{ parameters.MaxPackages }}" \

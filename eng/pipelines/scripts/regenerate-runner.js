@@ -243,6 +243,155 @@ function isRetryableGitError(output) {
   );
 }
 
+// ============ Pre-build workaround helpers ============
+// These work around bugs in the dev emitter where generated packages are missing
+// config files or dependencies needed for the new warp build system.
+
+function cleanupTempTypeSpecFiles(root) {
+  // TempTypeSpecFiles contain package.json with name "typescript-emitter-package"
+  // which causes turbo "duplicate workspace" errors
+  const sdkDir = path.join(root, "sdk");
+  let removed = 0;
+  function scan(dir, depth) {
+    if (depth > 4) return;
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      if (!e.isDirectory() || e.name === "node_modules" || e.name === ".git") continue;
+      const full = path.join(dir, e.name);
+      if (e.name === "TempTypeSpecFiles") {
+        fs.rmSync(full, { recursive: true, force: true });
+        removed++;
+      } else {
+        scan(full, depth + 1);
+      }
+    }
+  }
+  scan(sdkDir, 0);
+  if (removed > 0) console.log(`  Removed ${removed} TempTypeSpecFiles directories`);
+}
+
+function scaffoldWarpConfigs(root) {
+  // The dev emitter generates warp.config.yml referencing config/tsconfig.src.*.json
+  // but doesn't create those files. We scaffold them here.
+  const sdkDir = path.join(root, "sdk");
+  let count = 0;
+  function scan(dir, depth) {
+    if (depth > 3) return;
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      if (!e.isDirectory() || e.name === "node_modules" || e.name === ".git") continue;
+      const full = path.join(dir, e.name);
+      const warpPath = path.join(full, "warp.config.yml");
+      if (fs.existsSync(warpPath)) {
+        const configDir = path.join(full, "config");
+        // Calculate relative path depth to eng/tsconfigs
+        const rel = path.relative(configDir, path.join(root, "eng", "tsconfigs")).replace(/\\/g, "/");
+        const targets = {
+          "tsconfig.src.browser.json": `${rel}/src.browser.json`,
+          "tsconfig.src.cjs.json": `${rel}/src.cjs.json`,
+          "tsconfig.src.esm.json": `${rel}/src.esm.json`,
+          "tsconfig.src.react-native.json": `${rel}/src.react-native.json`,
+        };
+        let needed = false;
+        for (const file of Object.keys(targets)) {
+          if (!fs.existsSync(path.join(configDir, file))) { needed = true; break; }
+        }
+        if (needed) {
+          fs.mkdirSync(configDir, { recursive: true });
+          for (const [file, ext] of Object.entries(targets)) {
+            const fp = path.join(configDir, file);
+            if (!fs.existsSync(fp)) {
+              fs.writeFileSync(fp, JSON.stringify({ extends: ext, include: ["../src/index.ts"] }, null, 2) + "\n");
+            }
+          }
+          count++;
+        }
+      } else if (depth < 2) {
+        scan(full, depth + 1);
+      }
+    }
+  }
+  scan(sdkDir, 0);
+  if (count > 0) console.log(`  Scaffolded config/ for ${count} packages`);
+}
+
+function patchMissingDependencies(root, successPkgs) {
+  // The dev emitter sometimes generates code importing @azure/logger etc.
+  // without adding them to package.json dependencies. Also patches missing
+  // devDependencies for warp build targets (e.g., react-native).
+  const knownVersions = {
+    "@azure/logger": "^1.2.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-paging": "^1.6.2",
+    "@azure/abort-controller": "^2.1.2",
+  };
+  const knownDevDeps = {
+    "react-native": "catalog:testing",
+  };
+  let count = 0;
+
+  for (const pkg of successPkgs) {
+    const pkgDir = path.join(root, pkg.pkg);
+    const pkgJsonPath = path.join(pkgDir, "package.json");
+    if (!fs.existsSync(pkgJsonPath)) continue;
+
+    // Scan .ts files for @azure/* imports
+    const srcDir = path.join(pkgDir, "src");
+    const imports = new Set();
+    function scanTs(dir) {
+      let entries;
+      try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+      for (const e of entries) {
+        const full = path.join(dir, e.name);
+        if (e.isDirectory()) { scanTs(full); continue; }
+        if (!e.name.endsWith(".ts")) continue;
+        try {
+          const content = fs.readFileSync(full, "utf8");
+          const matches = content.matchAll(/from\s+"(@azure[^"]+)"/g);
+          for (const m of matches) imports.add(m[1]);
+        } catch {}
+      }
+    }
+    scanTs(srcDir);
+
+    const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
+    let patched = false;
+
+    // Patch missing runtime dependencies
+    const deps = pkgJson.dependencies || {};
+    for (const imp of imports) {
+      if (!deps[imp] && knownVersions[imp]) {
+        deps[imp] = knownVersions[imp];
+        patched = true;
+      }
+    }
+    pkgJson.dependencies = deps;
+
+    // Patch missing devDependencies for warp targets
+    const warpPath = path.join(pkgDir, "warp.config.yml");
+    if (fs.existsSync(warpPath)) {
+      const warpContent = fs.readFileSync(warpPath, "utf8");
+      const devDeps = pkgJson.devDependencies || {};
+      for (const [dep, ver] of Object.entries(knownDevDeps)) {
+        if (warpContent.includes(dep) && !devDeps[dep]) {
+          devDeps[dep] = ver;
+          patched = true;
+        }
+      }
+      pkgJson.devDependencies = devDeps;
+    }
+
+    if (patched) {
+      fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2) + "\n");
+      count++;
+    }
+  }
+  if (count > 0) console.log(`  Patched dependencies in ${count} packages`);
+}
+
 function detectNestedDuplicateWorkspaces() {
   const packageJsonPaths = execSync(
     'find sdk -path "*/node_modules/*" -prune -o -path "sdk/*/*/sdk/*/*/package.json" -print',
@@ -438,6 +587,18 @@ async function buildAll(regenResults) {
   console.log(`Building ${successPkgs.length} packages with ${maxWorkers} workers`);
   console.log("");
 
+  // Pre-build fix 1: Clean up TempTypeSpecFiles to avoid turbo "duplicate workspace" errors
+  console.log("Cleaning up TempTypeSpecFiles directories...");
+  cleanupTempTypeSpecFiles(sdkRoot);
+
+  // Pre-build fix 2: Scaffold missing config/tsconfig files for warp-enabled packages
+  console.log("Scaffolding missing config/tsconfig files...");
+  scaffoldWarpConfigs(sdkRoot);
+
+  // Pre-build fix 3: Patch missing dependencies in package.json
+  console.log("Checking for missing dependencies in generated packages...");
+  patchMissingDependencies(sdkRoot, successPkgs);
+
   console.log("Running pnpm install at repo root...");
   const pnpmInstall = await runCommand("pnpm", ["install", "--no-frozen-lockfile"], sdkRoot, 600000);
   if (pnpmInstall.code !== 0) {
@@ -446,6 +607,21 @@ async function buildAll(regenResults) {
     return { buildResults: [], skipped: true };
   }
   console.log("pnpm install completed");
+
+  // Pre-build fix 4: Build core dependencies first
+  console.log("Pre-building core dependencies...");
+  const coreFilters = [
+    "@azure/core-rest-pipeline", "@azure/core-client", "@azure/core-auth",
+    "@azure/core-lro", "@azure/logger", "@azure/core-paging"
+  ];
+  const coreArgs = ["build"];
+  for (const f of coreFilters) { coreArgs.push("--filter", f); }
+  const coreBuild = await runCommand("pnpm", coreArgs, sdkRoot, 300000);
+  if (coreBuild.code !== 0) {
+    console.log("WARNING: Core dependencies build had issues");
+  } else {
+    console.log("Core dependencies built");
+  }
 
   const buildResults = [];
   let buildCompleted = 0;
