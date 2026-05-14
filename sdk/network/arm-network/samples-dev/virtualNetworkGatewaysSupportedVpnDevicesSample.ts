@@ -3,29 +3,23 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a xml format representation for supported vpn devices.
+ * This sample demonstrates how to gets a xml format representation for supported vpn devices.
  *
- * @summary Gets a xml format representation for supported vpn devices.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
+ * @summary gets a xml format representation for supported vpn devices.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGatewaySupportedVpnDevice.json
  */
-async function listVirtualNetworkGatewaySupportedVpnDevices(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayName = "vpngw";
+async function listVirtualNetworkGatewaySupportedVPNDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkGateways.supportedVpnDevices(
-    resourceGroupName,
-    virtualNetworkGatewayName,
-  );
+  const result = await client.virtualNetworkGateways.supportedVpnDevices("rg1", "vpngw");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await listVirtualNetworkGatewaySupportedVpnDevices();
+  await listVirtualNetworkGatewaySupportedVPNDevices();
 }
 
 main().catch(console.error);

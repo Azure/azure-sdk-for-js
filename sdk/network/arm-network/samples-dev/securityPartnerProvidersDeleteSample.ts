@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified Security Partner Provider.
+ * This sample demonstrates how to deletes the specified Security Partner Provider.
  *
- * @summary Deletes the specified Security Partner Provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/SecurityPartnerProviderDelete.json
+ * @summary deletes the specified Security Partner Provider.
+ * x-ms-original-file: 2025-07-01/SecurityPartnerProviderDelete.json
  */
 async function deleteSecurityPartnerProvider(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const securityPartnerProviderName = "securityPartnerProvider";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.securityPartnerProviders.beginDeleteAndWait(
-    resourceGroupName,
-    securityPartnerProviderName,
-  );
-  console.log(result);
+  await client.securityPartnerProviders.delete("rg1", "securityPartnerProvider");
 }
 
 async function main(): Promise<void> {

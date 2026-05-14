@@ -3,24 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified Security Partner Provider.
+ * This sample demonstrates how to gets the specified Security Partner Provider.
  *
- * @summary Gets the specified Security Partner Provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/SecurityPartnerProviderGet.json
+ * @summary gets the specified Security Partner Provider.
+ * x-ms-original-file: 2025-07-01/SecurityPartnerProviderGet.json
  */
 async function getSecurityPartnerProvider(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const securityPartnerProviderName = "securityPartnerProvider";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.securityPartnerProviders.get(
-    resourceGroupName,
-    securityPartnerProviderName,
-  );
+  const result = await client.securityPartnerProviders.get("rg1", "securityPartnerProvider");
   console.log(result);
 }
 

@@ -1,33 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VpnGateway} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
+ * This sample demonstrates how to creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
  *
- * @summary Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VpnGatewayPut.json
+ * @summary creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
+ * x-ms-original-file: 2025-07-01/VpnGatewayPut.json
  */
 async function vpnGatewayPut(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const gatewayName = "gateway1";
-  const vpnGatewayParameters: VpnGateway = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.vpnGateways.createOrUpdate("rg1", "gateway1", {
+    location: "westcentralus",
     bgpSettings: {
       asn: 65515,
       bgpPeeringAddresses: [
-        {
-          customBgpIpAddresses: ["169.254.21.5"],
-          ipconfigurationId: "Instance0",
-        },
-        {
-          customBgpIpAddresses: ["169.254.21.10"],
-          ipconfigurationId: "Instance1",
-        },
+        { customBgpIpAddresses: ["169.254.21.5"], ipconfigurationId: "Instance0" },
+        { customBgpIpAddresses: ["169.254.21.10"], ipconfigurationId: "Instance1" },
       ],
       peerWeight: 0,
     },
@@ -35,21 +28,20 @@ async function vpnGatewayPut(): Promise<void> {
       {
         name: "vpnConnection1",
         remoteVpnSite: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
         },
         vpnLinkConnections: [
           {
-            name: "Connection-Link1",
             connectionBandwidth: 200,
             egressNatRules: [
               {
-                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
+                id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
               },
             ],
             sharedKey: "key",
             vpnConnectionProtocolType: "IKEv2",
             vpnSiteLink: {
-              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1",
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1",
             },
           },
         ],
@@ -57,10 +49,8 @@ async function vpnGatewayPut(): Promise<void> {
     ],
     enableBgpRouteTranslationForNat: false,
     isRoutingPreferenceInternet: false,
-    location: "westcentralus",
     natRules: [
       {
-        name: "nat03",
         typePropertiesType: "Static",
         externalMappings: [{ addressSpace: "192.168.0.0/26" }],
         internalMappings: [{ addressSpace: "0.0.0.0/26" }],
@@ -68,18 +58,11 @@ async function vpnGatewayPut(): Promise<void> {
         mode: "EgressSnat",
       },
     ],
-    tags: { key1: "value1" },
     virtualHub: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.vpnGateways.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    gatewayName,
-    vpnGatewayParameters,
-  );
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 

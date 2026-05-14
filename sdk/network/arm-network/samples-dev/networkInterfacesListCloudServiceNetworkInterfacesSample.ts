@@ -3,27 +3,25 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all network interfaces in a cloud service.
+ * This sample demonstrates how to gets all network interfaces in a cloud service.
  *
- * @summary Gets all network interfaces in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/CloudServiceNetworkInterfaceList.json
+ * @summary gets all network interfaces in a cloud service.
+ * x-ms-original-file: 2025-07-01/CloudServiceNetworkInterfaceList.json
  */
 async function listCloudServiceNetworkInterfaces(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const cloudServiceName = "cs1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.networkInterfaces.listCloudServiceNetworkInterfaces(
-    resourceGroupName,
-    cloudServiceName,
+    "rg1",
+    "cs1",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

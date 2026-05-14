@@ -1,65 +1,87 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RouteTable} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or updates a route table in a specified resource group.
+ * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
- * @summary Create or updates a route table in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteTableCreate.json
+ * @summary create or updates a route table in a specified resource group.
+ * x-ms-original-file: 2025-07-01/RouteTableCreate.json
  */
 async function createRouteTable(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const routeTableName = "testrt";
-  const parameters: RouteTable = { location: "westus" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routeTables.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    routeTableName,
-    parameters,
-  );
+  const result = await client.routeTables.createOrUpdate("rg1", "testrt", { location: "westus" });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create or updates a route table in a specified resource group.
+ * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
- * @summary Create or updates a route table in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteTableCreateWithRoute.json
+ * @summary create or updates a route table in a specified resource group.
+ * x-ms-original-file: 2025-07-01/RouteTableCreateWithDisablePeeringRoute.json
  */
-async function createRouteTableWithRoute(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const routeTableName = "testrt";
-  const parameters: RouteTable = {
-    disableBgpRoutePropagation: true,
+async function createRouteTableWithDisablePeeringRoute(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.routeTables.createOrUpdate("rg1", "testrt", {
     location: "westus",
+    disableBgpRoutePropagation: true,
+    disablePeeringRoute: "All",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or updates a route table in a specified resource group.
+ *
+ * @summary create or updates a route table in a specified resource group.
+ * x-ms-original-file: 2025-07-01/RouteTableCreateWithEcmpRoute.json
+ */
+async function createRouteTableWithEcmpRoute(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.routeTables.createOrUpdate("rg1", "testrt-ecmp", {
+    location: "westus",
+    disableBgpRoutePropagation: false,
     routes: [
       {
-        name: "route1",
-        addressPrefix: "10.0.3.0/24",
-        nextHopType: "VirtualNetworkGateway",
+        addressPrefix: "10.1.0.0/16",
+        nextHopType: "VirtualApplianceEcmp",
+        nextHop: { nextHopIpAddresses: ["10.0.0.4", "10.0.0.5", "10.0.0.6"] },
       },
     ],
-  };
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or updates a route table in a specified resource group.
+ *
+ * @summary create or updates a route table in a specified resource group.
+ * x-ms-original-file: 2025-07-01/RouteTableCreateWithRoute.json
+ */
+async function createRouteTableWithRoute(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routeTables.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    routeTableName,
-    parameters,
-  );
+  const result = await client.routeTables.createOrUpdate("rg1", "testrt", {
+    location: "westus",
+    disableBgpRoutePropagation: true,
+    routes: [{ addressPrefix: "10.0.3.0/24", nextHopType: "VirtualNetworkGateway" }],
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await createRouteTable();
+  await createRouteTableWithDisablePeeringRoute();
+  await createRouteTableWithEcmpRoute();
   await createRouteTableWithRoute();
 }
 

@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a route table tags.
+ * This sample demonstrates how to updates a route table tags.
  *
- * @summary Updates a route table tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteTableUpdateTags.json
+ * @summary updates a route table tags.
+ * x-ms-original-file: 2025-07-01/RouteTableUpdateTags.json
  */
 async function updateRouteTableTags(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const routeTableName = "testrt";
-  const parameters: TagsObject = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routeTables.updateTags(
-    resourceGroupName,
-    routeTableName,
-    parameters,
-  );
+  const result = await client.routeTables.updateTags("rg1", "testrt", {
+    tags: { tag1: "value1", tag2: "value2" },
+  });
   console.log(result);
 }
 

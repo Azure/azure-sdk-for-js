@@ -3,49 +3,53 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified load balancer.
+ * This sample demonstrates how to gets the specified load balancer.
  *
- * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerGet.json
+ * @summary gets the specified load balancer.
+ * x-ms-original-file: 2025-07-01/LoadBalancerGet.json
  */
 async function getLoadBalancer(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancers.get(
-    resourceGroupName,
-    loadBalancerName,
-  );
+  const result = await client.loadBalancers.get("rg1", "lb");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the specified load balancer.
+ * This sample demonstrates how to gets the specified load balancer.
  *
- * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
+ * @summary gets the specified load balancer.
+ * x-ms-original-file: 2025-07-01/LoadBalancerGetInboundNatRulePortMapping.json
  */
-async function getLoadBalancerWithInboundNatRulePortMapping(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const loadBalancerName = "lb";
+async function getLoadBalancerWithInboundNATRulePortMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancers.get(
-    resourceGroupName,
-    loadBalancerName,
-  );
+  const result = await client.loadBalancers.get("rg1", "lb");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the specified load balancer.
+ *
+ * @summary gets the specified load balancer.
+ * x-ms-original-file: 2025-07-01/LoadBalancerGetReduced.json
+ */
+async function getLoadBalancerReduced(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.loadBalancers.get("rg-name", "lb-name", { detailLevel: "Reduced" });
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getLoadBalancer();
-  await getLoadBalancerWithInboundNatRulePortMapping();
+  await getLoadBalancerWithInboundNATRulePortMapping();
+  await getLoadBalancerReduced();
 }
 
 main().catch(console.error);

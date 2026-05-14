@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CheckPrivateLinkServiceVisibilityRequest} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Checks whether the subscription is visible to private link service in the specified resource group.
+ * This sample demonstrates how to checks whether the subscription is visible to private link service in the specified resource group.
  *
- * @summary Checks whether the subscription is visible to private link service in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/CheckPrivateLinkServiceVisibilityByResourceGroup.json
+ * @summary checks whether the subscription is visible to private link service in the specified resource group.
+ * x-ms-original-file: 2025-07-01/CheckPrivateLinkServiceVisibilityByResourceGroup.json
  */
 async function checkPrivateLinkServiceVisibility(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westus";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const parameters: CheckPrivateLinkServiceVisibilityRequest = {
-    privateLinkServiceAlias:
-      "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.privateLinkServices.beginCheckPrivateLinkServiceVisibilityByResourceGroupAndWait(
-      location,
-      resourceGroupName,
-      parameters,
-    );
+  const result = await client.privateLinkServices.checkPrivateLinkServiceVisibilityByResourceGroup(
+    "rg1",
+    "westus",
+    {
+      privateLinkServiceAlias:
+        "mypls.00000000-0000-0000-0000-000000000000.azure.privatelinkservice",
+    },
+  );
   console.log(result);
 }
 

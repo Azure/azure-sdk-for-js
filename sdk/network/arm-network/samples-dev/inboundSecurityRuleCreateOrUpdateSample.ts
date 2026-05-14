@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  InboundSecurityRule} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  *
- * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/InboundSecurityRulePut.json
+ * @summary creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ * x-ms-original-file: 2025-07-01/InboundSecurityRulePut.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const ruleCollectionName = "rule1";
-  const parameters: InboundSecurityRule = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.inboundSecurityRule.createOrUpdate("rg1", "nva", "rule1", {
     ruleType: "Permanent",
     rules: [
       {
@@ -32,16 +26,7 @@ async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void
         protocol: "TCP",
       },
     ],
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.inboundSecurityRuleOperations.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      ruleCollectionName,
-      parameters,
-    );
+  });
   console.log(result);
 }
 

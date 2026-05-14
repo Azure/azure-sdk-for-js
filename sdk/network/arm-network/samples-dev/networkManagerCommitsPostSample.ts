@@ -1,40 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  NetworkManagerCommit} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Post a Network Manager Commit.
+ * This sample demonstrates how to post a Network Manager Commit.
  *
- * @summary Post a Network Manager Commit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerCommitPost.json
+ * @summary post a Network Manager Commit.
+ * x-ms-original-file: 2025-07-01/NetworkManagerCommitPost.json
  */
 async function networkManageCommitPost(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NETWORK_RESOURCE_GROUP"] || "resoureGroupSample";
-  const networkManagerName = "testNetworkManager";
-  const parameters: NetworkManagerCommit = {
-    commitType: "SecurityAdmin",
-    configurationIds: [
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig",
-    ],
-    targetLocations: ["useast"],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkManagerCommits.beginPostAndWait(
-    resourceGroupName,
-    networkManagerName,
-    parameters,
+  const result = await client.networkManagerCommits.post(
+    "resoureGroupSample",
+    "testNetworkManager",
+    {
+      commitType: "SecurityAdmin",
+      configurationIds: [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig",
+      ],
+      targetLocations: ["useast"],
+    },
   );
   console.log(result);
 }

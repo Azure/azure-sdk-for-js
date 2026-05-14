@@ -3,28 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a NVA connection.
+ * This sample demonstrates how to deletes a NVA connection.
  *
- * @summary Deletes a NVA connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceConnectionDelete.json
+ * @summary deletes a NVA connection.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceConnectionDelete.json
  */
 async function networkVirtualApplianceConnectionDelete(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva1";
-  const connectionName = "connection1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkVirtualApplianceConnections.beginDeleteAndWait(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      connectionName,
-    );
-  console.log(result);
+  await client.networkVirtualApplianceConnections.delete("rg1", "nva1", "connection1");
 }
 
 async function main(): Promise<void> {

@@ -3,22 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all available response headers.
+ * This sample demonstrates how to lists all available response headers.
  *
- * @summary Lists all available response headers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ApplicationGatewayAvailableResponseHeadersGet.json
+ * @summary lists all available response headers.
+ * x-ms-original-file: 2025-07-01/ApplicationGatewayAvailableResponseHeadersGet.json
  */
 async function getAvailableResponseHeaders(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "72f988bf-86f1-41af-91ab-2d7cd0dddd4";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.applicationGateways.listAvailableResponseHeaders();
+  const result = await client.applicationGateways.listAvailableResponseHeaders();
   console.log(result);
 }
 

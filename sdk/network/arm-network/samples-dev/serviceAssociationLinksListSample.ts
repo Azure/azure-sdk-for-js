@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of service association links for a subnet.
+ * This sample demonstrates how to gets a list of service association links for a subnet.
  *
- * @summary Gets a list of service association links for a subnet.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGetServiceAssociationLinks.json
+ * @summary gets a list of service association links for a subnet.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGetServiceAssociationLinks.json
  */
 async function getServiceAssociationLinks(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkName = "vnet";
-  const subnetName = "subnet";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.serviceAssociationLinks.list(
-    resourceGroupName,
-    virtualNetworkName,
-    subnetName,
-  );
+  const result = await client.serviceAssociationLinks.list("rg1", "vnet", "subnet");
   console.log(result);
 }
 

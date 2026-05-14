@@ -1,0 +1,140 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { NetworkManagementContext } from "../../api/networkManagementContext.js";
+import { list, $delete, create, get } from "../../api/staticCidrs/operations.js";
+import {
+  StaticCidrsListOptionalParams,
+  StaticCidrsDeleteOptionalParams,
+  StaticCidrsCreateOptionalParams,
+  StaticCidrsGetOptionalParams,
+} from "../../api/staticCidrs/options.js";
+import { StaticCidr } from "../../models/microsoft/network/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+/** Interface representing a StaticCidrs operations. */
+export interface StaticCidrsOperations {
+  /** Gets list of Static CIDR resources at Network Manager level. */
+  list: (
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ) => PagedAsyncIterableIterator<StaticCidr>;
+  /** Delete the Static CIDR resource. */
+  delete: (
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ) => Promise<void>;
+  /** Creates/Updates the Static CIDR resource. */
+  create: (
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsCreateOptionalParams,
+  ) => Promise<StaticCidr>;
+  /** Gets the specific Static CIDR resource. */
+  get: (
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsGetOptionalParams,
+  ) => Promise<StaticCidr>;
+}
+
+function _getStaticCidrs(context: NetworkManagementContext) {
+  return {
+    list: (
+      resourceGroupName: string,
+      networkManagerName: string,
+      poolName: string,
+      options?: StaticCidrsListOptionalParams,
+    ) => list(context, resourceGroupName, networkManagerName, poolName, options),
+    delete: (
+      resourceGroupName: string,
+      networkManagerName: string,
+      poolName: string,
+      staticCidrName: string,
+      options?: StaticCidrsDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, networkManagerName, poolName, staticCidrName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      networkManagerName: string,
+      poolName: string,
+      staticCidrName: string,
+      options?: StaticCidrsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      networkManagerName: string,
+      poolName: string,
+      staticCidrName: string,
+      options?: StaticCidrsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      );
+    },
+    create: (
+      resourceGroupName: string,
+      networkManagerName: string,
+      poolName: string,
+      staticCidrName: string,
+      options?: StaticCidrsCreateOptionalParams,
+    ) => create(context, resourceGroupName, networkManagerName, poolName, staticCidrName, options),
+    get: (
+      resourceGroupName: string,
+      networkManagerName: string,
+      poolName: string,
+      staticCidrName: string,
+      options?: StaticCidrsGetOptionalParams,
+    ) => get(context, resourceGroupName, networkManagerName, poolName, staticCidrName, options),
+  };
+}
+
+export function _getStaticCidrsOperations(
+  context: NetworkManagementContext,
+): StaticCidrsOperations {
+  return {
+    ..._getStaticCidrs(context),
+  };
+}

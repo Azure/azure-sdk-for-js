@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VirtualNetworkGatewayConnection} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a virtual network gateway connection in the specified resource group.
+ * This sample demonstrates how to creates or updates a virtual network gateway connection in the specified resource group.
  *
- * @summary Creates or updates a virtual network gateway connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayConnectionCreate.json
+ * @summary creates or updates a virtual network gateway connection in the specified resource group.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGatewayConnectionCreate.json
  */
 async function createVirtualNetworkGatewayConnectionS2S(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayConnectionName = "connS2S";
-  const parameters: VirtualNetworkGatewayConnection = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.virtualNetworkGatewayConnections.createOrUpdate("rg1", "connS2S", {
+    location: "centralus",
     authenticationType: "Certificate",
     certificateAuthentication: {
       inboundAuthCertificateChain: [
@@ -36,7 +32,7 @@ async function createVirtualNetworkGatewayConnectionS2S(): Promise<void> {
     dpdTimeoutSeconds: 30,
     egressNatRules: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
       },
     ],
     enableBgp: false,
@@ -44,30 +40,37 @@ async function createVirtualNetworkGatewayConnectionS2S(): Promise<void> {
       {
         customBgpIpAddress: "169.254.21.1",
         ipConfigurationId:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default",
       },
       {
         customBgpIpAddress: "169.254.21.3",
         ipConfigurationId:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive",
       },
     ],
     ingressNatRules: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
       },
     ],
     ipsecPolicies: [],
     localNetworkGateway2: {
-      gatewayIpAddress: "x.x.x.x",
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
-      localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] },
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
       location: "centralus",
+      gatewayIpAddress: "x.x.x.x",
+      localNetworkAddressSpace: { addressPrefixes: ["10.1.0.0/16"] },
       tags: {},
     },
-    location: "centralus",
     routingWeight: 0,
     sharedKey: "Abc123",
+    routingConfiguration: {
+      inboundRouteMap: {
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1",
+      },
+      outboundRouteMap: {
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2",
+      },
+    },
     trafficSelectorPolicies: [],
     tunnelProperties: [
       { bgpPeeringAddress: "10.78.1.17", tunnelIpAddress: "10.78.1.5" },
@@ -75,42 +78,30 @@ async function createVirtualNetworkGatewayConnectionS2S(): Promise<void> {
     ],
     usePolicyBasedTrafficSelectors: false,
     virtualNetworkGateway1: {
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
+      location: "centralus",
       active: false,
-      bgpSettings: {
-        asn: 65514,
-        bgpPeeringAddress: "10.0.1.30",
-        peerWeight: 0,
-      },
+      bgpSettings: { asn: 65514, bgpPeeringAddress: "10.0.1.30", peerWeight: 0 },
       enableBgp: false,
       gatewayType: "Vpn",
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
       ipConfigurations: [
         {
           name: "gwipconfig1",
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1",
           privateIPAllocationMethod: "Dynamic",
           publicIPAddress: {
-            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
+            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
           },
           subnet: {
-            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
           },
         },
       ],
-      location: "centralus",
       sku: { name: "VpnGw1", tier: "VpnGw1" },
-      tags: {},
       vpnType: "RouteBased",
+      tags: {},
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGatewayConnections.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayConnectionName,
-      parameters,
-    );
+  });
   console.log(result);
 }
 

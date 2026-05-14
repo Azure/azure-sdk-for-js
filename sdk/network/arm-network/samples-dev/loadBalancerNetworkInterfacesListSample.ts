@@ -3,49 +3,40 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets associated load balancer network interfaces.
+ * This sample demonstrates how to gets associated load balancer network interfaces.
  *
- * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerNetworkInterfaceListSimple.json
+ * @summary gets associated load balancer network interfaces.
+ * x-ms-original-file: 2025-07-01/LoadBalancerNetworkInterfaceListSimple.json
  */
 async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.loadBalancerNetworkInterfaces.list(
-    resourceGroupName,
-    loadBalancerName,
-  )) {
+  for await (const item of client.loadBalancerNetworkInterfaces.list("testrg", "lb")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets associated load balancer network interfaces.
+ * This sample demonstrates how to gets associated load balancer network interfaces.
  *
- * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerNetworkInterfaceListVmss.json
+ * @summary gets associated load balancer network interfaces.
+ * x-ms-original-file: 2025-07-01/LoadBalancerNetworkInterfaceListVmss.json
  */
 async function loadBalancerNetworkInterfaceListVmss(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.loadBalancerNetworkInterfaces.list(
-    resourceGroupName,
-    loadBalancerName,
-  )) {
+  for await (const item of client.loadBalancerNetworkInterfaces.list("testrg", "lb")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
