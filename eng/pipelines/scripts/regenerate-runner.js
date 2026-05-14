@@ -236,6 +236,10 @@ function extractError(output) {
   const generalErrs = lines.filter((l) => /Failed to generate|Error:/.test(l) && !/tsp-client-config\.yaml/.test(l)).slice(0, 2);
   if (generalErrs.length > 0) return generalErrs.map((l) => l.trim()).join(" | ");
 
+  // Fallback: show last meaningful lines
+  const lastLines = lines.filter((l) => l.trim().length > 0).slice(-3);
+  if (lastLines.length > 0) return lastLines.map((l) => l.trim()).join(" | ");
+
   return "Unknown error";
 }
 
@@ -728,7 +732,8 @@ async function buildAll(regenResults) {
   for (const f of coreFilters) { coreArgs.push("--filter", f); }
   const coreBuild = await runCommand("pnpm", coreArgs, sdkRoot, 300000);
   if (coreBuild.code !== 0) {
-    console.log("WARNING: Core dependencies build had issues");
+    console.log("WARNING: Core dependencies build had issues:");
+    console.log(coreBuild.output.slice(-2000));
   } else {
     console.log("Core dependencies built");
   }
