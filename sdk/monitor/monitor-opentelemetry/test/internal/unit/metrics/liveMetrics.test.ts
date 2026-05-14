@@ -603,8 +603,8 @@ describe("#LiveMetrics", () => {
       testAuto["pingSender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
-    assert.deepEqual(testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"], [
+    assert.equal(testAuto["pingSender"]["credential"], testCredential);
+    assert.deepEqual(testAuto["pingSender"]["credentialScopes"], [
       "testScope",
     ]);
     assert.equal(
@@ -616,11 +616,11 @@ describe("#LiveMetrics", () => {
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
     assert.equal(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credential"],
+      testAuto["quickpulseExporter"]["sender"]["credential"],
       testCredential,
     );
     assert.deepEqual(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
+      testAuto["quickpulseExporter"]["sender"]["credentialScopes"],
       ["testScope"],
     );
   });
@@ -647,8 +647,8 @@ describe("#LiveMetrics", () => {
       testAuto["pingSender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
-    assert.deepEqual(testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"], [
+    assert.equal(testAuto["pingSender"]["credential"], testCredential);
+    assert.deepEqual(testAuto["pingSender"]["credentialScopes"], [
       "testScope1",
     ]);
     assert.equal(
@@ -660,11 +660,11 @@ describe("#LiveMetrics", () => {
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
     assert.equal(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credential"],
+      testAuto["quickpulseExporter"]["sender"]["credential"],
       testCredential,
     );
     assert.deepEqual(
-      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
+      testAuto["quickpulseExporter"]["sender"]["credentialScopes"],
       ["testScope1"],
     );
   });
