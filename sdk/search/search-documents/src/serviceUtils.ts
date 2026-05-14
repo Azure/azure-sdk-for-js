@@ -12,6 +12,7 @@ import type {
 } from "./models/azure/search/documents/index.js";
 import type {
   SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreParameters as GeneratedKnowledgeStoreParameters,
   BM25Similarity,
   ClassicSimilarity,
   CognitiveServicesAccountUnion,
@@ -111,6 +112,7 @@ import type {
   SearchIndexerDataSourceType,
   SearchIndexerIndexProjection,
   SearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreParameters,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
@@ -414,6 +416,7 @@ function convertEncryptionKeyToPublic(
     keyVersion: encryptionKey.keyVersion,
     vaultUrl: encryptionKey.vaultUri,
     identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity),
+    isServiceLevelKey: encryptionKey.isServiceLevelKey,
     applicationId: encryptionKey.applicationId,
     applicationSecret: encryptionKey.applicationSecret,
   };
@@ -433,6 +436,7 @@ function convertEncryptionKeyToGenerated(
     keyVersion: encryptionKey.keyVersion,
     vaultUri: encryptionKey.vaultUrl,
     identity: encryptionKey.identity,
+    isServiceLevelKey: encryptionKey.isServiceLevelKey,
     applicationId: encryptionKey.applicationId,
     applicationSecret: encryptionKey.applicationSecret,
   };
@@ -831,6 +835,7 @@ export function publicDataSourceToGeneratedDataSource(
     connectionString: dataSource.connectionString,
     container: dataSource.container,
     identity: dataSource.identity,
+    indexerPermissionOptions: dataSource.indexerPermissionOptions,
     eTag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -848,6 +853,7 @@ export function generatedDataSourceToPublicDataSource(
     connectionString: dataSource.connectionString,
     container: dataSource.container,
     identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
+    indexerPermissionOptions: dataSource.indexerPermissionOptions,
     etag: dataSource.eTag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy,
@@ -910,6 +916,20 @@ function convertKnowledgeStoreToPublic(
   return {
     ...knowledgeStore,
     identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
+    parameters: convertKnowledgeStoreParametersToPublic(knowledgeStore.parameters),
+  };
+}
+
+function convertKnowledgeStoreParametersToPublic(
+  parameters?: GeneratedKnowledgeStoreParameters,
+): SearchIndexerKnowledgeStoreParameters | undefined {
+  if (!parameters) {
+    return undefined;
+  }
+  const { additionalProperties, synthesizeGeneratedKeyName } = parameters;
+  return {
+    ...(additionalProperties ?? {}),
+    synthesizeGeneratedKeyName,
   };
 }
 

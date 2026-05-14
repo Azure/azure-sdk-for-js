@@ -71,6 +71,12 @@ export interface AsciiFoldingTokenFilter extends BaseTokenFilter {
 }
 
 // @public
+export interface AssetStore {
+    connectionString: string;
+    containerName: string;
+}
+
+// @public
 export interface AutocompleteItem {
     readonly queryPlusText: string;
     readonly text: string;
@@ -121,6 +127,7 @@ export interface AzureBlobKnowledgeSourceParameters {
     };
     folderPath?: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters;
+    isAdlsGen2?: boolean;
 }
 
 // @public
@@ -155,6 +162,12 @@ export interface AzureOpenAIParameters {
     deploymentId?: string;
     modelName?: AzureOpenAIModelName;
     resourceUrl?: string;
+}
+
+// @public
+export interface AzureOpenAITokenizerParameters {
+    allowedSpecialTokens?: string[];
+    encoderModelName?: SplitSkillEncoderModelName;
 }
 
 // @public
@@ -963,6 +976,11 @@ export interface FieldMappingFunction {
 }
 
 // @public
+export interface FreshnessPolicy {
+    boostingDuration?: string;
+}
+
+// @public
 export interface FreshnessScoringFunction extends BaseScoringFunction {
     parameters: FreshnessScoringParameters;
     type: "freshness";
@@ -1207,6 +1225,9 @@ export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgres
 export type IndexerExecutionStatusDetail = string;
 
 // @public
+export type IndexerPermissionOption = string;
+
+// @public
 export type IndexerResyncOption = string;
 
 // @public
@@ -1327,6 +1348,7 @@ export interface KeywordMarkerTokenFilter extends BaseTokenFilter {
 
 // @public
 export interface KeywordTokenizer {
+    bufferSize?: number;
     maxTokenLength?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
@@ -1603,13 +1625,19 @@ export type KnowledgeSourceContentExtractionMode = string;
 // @public
 export interface KnowledgeSourceIngestionParameters {
     aiServices?: AIServices;
+    assetStore?: AssetStore;
     chatCompletionModel?: KnowledgeBaseModel;
     contentExtractionMode?: KnowledgeSourceContentExtractionMode;
     disableImageVerbalization?: boolean;
     embeddingModel?: KnowledgeSourceVectorizer;
+    freshnessPolicy?: FreshnessPolicy;
     identity?: SearchIndexerDataIdentity;
+    ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
 }
+
+// @public
+export type KnowledgeSourceIngestionPermissionOption = string;
 
 // @public
 export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource, KnowledgeSource[], {}>;
@@ -2015,6 +2043,13 @@ export enum KnownIndexerExecutionEnvironment {
 }
 
 // @public
+export enum KnownIndexerPermissionOption {
+    GroupIds = "groupIds",
+    RbacScope = "rbacScope",
+    UserIds = "userIds"
+}
+
+// @public
 export enum KnownIndexerResyncOption {
     Permissions = "permissions"
 }
@@ -2061,6 +2096,14 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
     Low = "low",
     Medium = "medium",
     Minimal = "minimal"
+}
+
+// @public
+export enum KnownKnowledgeSourceIngestionPermissionOption {
+    GroupIds = "groupIds",
+    RbacScope = "rbacScope",
+    SensitivityLabels = "sensitivityLabels",
+    UserIds = "userIds"
 }
 
 // @public
@@ -2456,6 +2499,12 @@ export enum KnownSearchIndexerDataSourceType {
 }
 
 // @public
+export enum KnownSearchIndexPermissionFilterOption {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownSemanticErrorMode {
     Fail = "fail",
     Partial = "partial"
@@ -2494,6 +2543,14 @@ export enum KnownSentimentSkillLanguage {
 }
 
 // @public
+export enum KnownSplitSkillEncoderModelName {
+    CL100KBase = "cl100k_base",
+    P50KBase = "p50k_base",
+    P50KEdit = "p50k_edit",
+    R50KBase = "r50k_base"
+}
+
+// @public
 export enum KnownSplitSkillLanguage {
     Am = "am",
     Bs = "bs",
@@ -2528,6 +2585,12 @@ export enum KnownSplitSkillLanguage {
     Tr = "tr",
     Ur = "ur",
     Zh = "zh"
+}
+
+// @public
+export enum KnownSplitSkillUnit {
+    AzureOpenAITokens = "azureOpenAITokens",
+    Characters = "characters"
 }
 
 // @public
@@ -3261,9 +3324,11 @@ export interface SearchIndex {
     fields: SearchField[];
     name: string;
     normalizers?: LexicalNormalizer[];
+    permissionFilterOption?: SearchIndexPermissionFilterOption;
     purviewEnabled?: boolean;
     scoringProfiles?: ScoringProfile[];
     semanticSearch?: SemanticSearch;
+    sharePointConnectorAppRegistration?: SharePointConnectorAppRegistration;
     similarity?: SimilarityAlgorithm;
     suggesters?: Suggester[];
     tokenFilters?: TokenFilter[];
@@ -3333,6 +3398,7 @@ export interface SearchIndexClientOptions extends ClientOptions {
 
 // @public
 export interface SearchIndexer {
+    cache?: SearchIndexerCache;
     dataSourceName: string;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
@@ -3345,6 +3411,14 @@ export interface SearchIndexer {
     schedule?: IndexingSchedule;
     skillsetName?: string;
     targetIndexName: string;
+}
+
+// @public
+export interface SearchIndexerCache {
+    enableReprocessing?: boolean;
+    id?: string;
+    identity?: SearchIndexerDataIdentityUnion;
+    storageConnectionString?: string;
 }
 
 // @public
@@ -3399,6 +3473,9 @@ export interface SearchIndexerDataContainer {
 export type SearchIndexerDataIdentity = SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity;
 
 // @public
+export type SearchIndexerDataIdentityUnion = SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity | BaseSearchIndexerDataIdentity;
+
+// @public
 export interface SearchIndexerDataNoneIdentity extends BaseSearchIndexerDataIdentity {
     odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 }
@@ -3413,6 +3490,7 @@ export interface SearchIndexerDataSourceConnection {
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     identity?: SearchIndexerDataIdentity;
+    indexerPermissionOptions?: IndexerPermissionOption[];
     name: string;
     readonly subType?: string;
     type: SearchIndexerDataSourceType;
@@ -3461,6 +3539,7 @@ export interface SearchIndexerIndexProjectionSelector {
 // @public
 export interface SearchIndexerKnowledgeStore {
     identity?: SearchIndexerDataIdentity;
+    parameters?: SearchIndexerKnowledgeStoreParameters;
     projections: SearchIndexerKnowledgeStoreProjection[];
     storageConnectionString: string;
 }
@@ -3625,6 +3704,9 @@ export interface SearchIndexKnowledgeSourceParams extends BaseKnowledgeSourcePar
 }
 
 // @public
+export type SearchIndexPermissionFilterOption = string;
+
+// @public
 export interface SearchIndexStatistics {
     readonly documentCount: number;
     readonly storageSize: number;
@@ -3664,6 +3746,7 @@ export interface SearchResourceEncryptionKey {
     applicationId?: string;
     applicationSecret?: string;
     identity?: SearchIndexerDataIdentity;
+    isServiceLevelKey?: boolean;
     keyName: string;
     keyVersion?: string;
     vaultUrl: string;
@@ -3685,6 +3768,7 @@ export type SearchResult<TModel extends object, TFields extends SelectFields<TMo
 // @public
 export interface SearchServiceStatistics {
     counters: ServiceCounters;
+    indexersRuntime: ServiceIndexersRuntime;
     limits: ServiceLimits;
 }
 
@@ -3781,6 +3865,14 @@ export interface ServiceCounters {
 }
 
 // @public
+export interface ServiceIndexersRuntime {
+    beginningTime: Date;
+    endingTime: Date;
+    remainingSeconds?: number;
+    usedSeconds: number;
+}
+
+// @public
 export interface ServiceLimits {
     maxComplexCollectionFieldsPerIndex?: number;
     maxComplexObjectsInCollectionsPerDocument?: number;
@@ -3793,6 +3885,13 @@ export interface ServiceLimits {
 // @public
 export interface ShaperSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Util.ShaperSkill";
+}
+
+// @public
+export interface SharePointConnectorAppRegistration {
+    applicationId: string;
+    federatedCredentialId: string;
+    tenantId?: string;
 }
 
 // @public
@@ -3858,16 +3957,24 @@ export interface SoftDeleteColumnDeletionDetectionPolicy extends BaseDataDeletio
 
 // @public
 export interface SplitSkill extends BaseSearchIndexerSkill {
+    azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
     defaultLanguageCode?: SplitSkillLanguage;
     maximumPagesToTake?: number;
     maxPageLength?: number;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     pageOverlapLength?: number;
     textSplitMode?: TextSplitMode;
+    unit?: SplitSkillUnit;
 }
+
+// @public
+export type SplitSkillEncoderModelName = string;
 
 // @public (undocumented)
 export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
+
+// @public
+export type SplitSkillUnit = string;
 
 // @public
 export interface SqlIntegratedChangeTrackingPolicy extends BaseDataChangeDetectionPolicy {

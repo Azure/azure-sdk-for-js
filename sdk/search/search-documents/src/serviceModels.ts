@@ -8,6 +8,7 @@ import type {
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureOpenAIModelName,
+  AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
   SearchIndexerSkill as BaseSearchIndexerSkill,
@@ -44,6 +45,7 @@ import type {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
+  IndexerPermissionOption,
   IndexerResyncOption,
   IndexedSharePointContainerName,
   IndexingSchedule,
@@ -103,21 +105,25 @@ import type {
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
+  SearchIndexerCache,
   SearchIndexerDataContainer,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
   SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
+  SearchIndexPermissionFilterOption,
   SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
+  ServiceIndexersRuntime,
   ServiceLimits,
   ShaperSkill,
   ShingleTokenFilter,
   SnowballTokenFilter,
   SoftDeleteColumnDeletionDetectionPolicy,
+  SplitSkillUnit,
   SqlIntegratedChangeTrackingPolicy,
   StemmerOverrideTokenFilter,
   StemmerTokenFilter,
@@ -135,8 +141,12 @@ import type {
   VectorSearchVectorizerKind,
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
+  KnowledgeSourceIngestionPermissionOption,
 } from "./models/azure/search/documents/indexes/index.js";
+import type { SharePointConnectorAppRegistration } from "./models/index.js";
 import type {
+  AssetStore,
+  FreshnessPolicy,
   AIServices,
   KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
@@ -232,6 +242,10 @@ export interface SearchServiceStatistics {
    * Service level general limits.
    */
   limits: ServiceLimits;
+  /**
+   * Service level information related to indexer runtime.
+   */
+  indexersRuntime: ServiceIndexersRuntime;
 }
 
 /**
@@ -893,6 +907,10 @@ export interface KeywordTokenizer {
    */
   name: string;
   /**
+   * The read buffer size, in bytes. Default is 256.
+   */
+  bufferSize?: number;
+  /**
    * The maximum token length. Default is 256. Tokens longer than the maximum length are split. The
    * maximum token length that can be used is 300 characters. Default value: 256.
    */
@@ -934,6 +952,10 @@ export interface SearchIndexerKnowledgeStore {
    * this property is cleared.
    */
   identity?: SearchIndexerDataIdentity;
+  /**
+   * Additional parameters that govern the behavior of the knowledge store.
+   */
+  parameters?: SearchIndexerKnowledgeStoreParameters;
 }
 
 /**
@@ -1334,6 +1356,10 @@ export interface SearchIndex {
   etag?: string;
   /** A value indicating whether the index is leveraging Purview-specific features. This property defaults to false and cannot be changed after index creation. */
   purviewEnabled?: boolean;
+  /** A value indicating whether permission filtering is enabled for the index. */
+  permissionFilterOption?: SearchIndexPermissionFilterOption;
+  /** A description of the SharePoint connector App Registration used to authenticate when fetching tenant-level data on behalf of the search service. */
+  sharePointConnectorAppRegistration?: SharePointConnectorAppRegistration;
 }
 
 /**
@@ -1397,6 +1423,11 @@ export interface SearchIndexer {
    * paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
+  /**
+   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
+   * having to rebuild the index every time.
+   */
+  cache?: SearchIndexerCache;
 }
 
 /**
@@ -1436,6 +1467,10 @@ export interface SearchResourceEncryptionKey {
    * the value of this property is cleared.
    */
   identity?: SearchIndexerDataIdentity;
+  /**
+   * An optional value indicating whether this key is a service-level key. Default is false.
+   */
+  isServiceLevelKey?: boolean;
 }
 
 /**
@@ -2213,6 +2248,10 @@ export interface SearchIndexerDataSourceConnection {
    */
   identity?: SearchIndexerDataIdentity;
   /**
+   * Ingestion options with various types of permission data.
+   */
+  indexerPermissionOptions?: IndexerPermissionOption[];
+  /**
    * The data change detection policy for the datasource.
    */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
@@ -2986,6 +3025,17 @@ export interface SplitSkill extends BaseSearchIndexerSkill {
    * improve performance when only a few initial pages are needed from each document.
    */
   maximumPagesToTake?: number;
+  /**
+   * Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will
+   * choose between characters and tokens as the unit for the maxPageLength and pageOverlapLength.
+   * Default is 'characters'.
+   */
+  unit?: SplitSkillUnit;
+  /**
+   * Only applicable when unit is set to 'azureOpenAITokens'. If specified, the SplitSkill will
+   * use these settings to control how tokens are counted when splitting text.
+   */
+  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /**
@@ -3128,6 +3178,10 @@ export interface AzureBlobKnowledgeSourceParameters {
    * Optional folder path within the container.
    */
   folderPath?: string;
+  /**
+   * Indicates whether the connection is to Azure Data Lake Storage Gen2.
+   */
+  isAdlsGen2?: boolean;
   /**
    * Resources created by the knowledge source.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3311,10 +3365,16 @@ export interface KnowledgeSourceIngestionParameters {
   disableImageVerbalization?: boolean;
   /** Optional schedule for data ingestion. */
   ingestionSchedule?: IndexingSchedule;
+  /** Optional list of permission types to ingest together with document content. If specified, it will set the indexer permission options for the data source. */
+  ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
   /** Optional content extraction mode. Default is 'minimal'. */
   contentExtractionMode?: KnowledgeSourceContentExtractionMode;
   /** Optional AI Services configuration for content processing. */
   aiServices?: AIServices;
+  /** Optional asset store configuration for storing extracted assets such as images. */
+  assetStore?: AssetStore;
+  /** Optional freshness policy for biasing retrieval toward newer documents. */
+  freshnessPolicy?: FreshnessPolicy;
 }
 
 export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
