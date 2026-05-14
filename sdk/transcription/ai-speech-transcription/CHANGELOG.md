@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0 (2026-05-14)
+
+### Features Added
+
+This is the first stable (GA) release of the `@azure/ai-speech-transcription` client library. It targets the `2025-10-15` Azure AI Speech Transcription service API version.
+
 ## 1.0.0-beta.2 (2026-05-13)
 
 ### Breaking Changes
