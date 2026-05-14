@@ -12,7 +12,7 @@ export interface TranscriptionContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface TranscriptionClientOptionalParams extends ClientOptions {
+export interface TranscriptionClientOptions extends ClientOptions {
   /** The API version to use for this operation. */
   serviceVersion?: string;
 }
@@ -20,7 +20,7 @@ export interface TranscriptionClientOptionalParams extends ClientOptions {
 export function createTranscription(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: TranscriptionClientOptionalParams = {},
+  options: TranscriptionClientOptions = {},
 ): TranscriptionContext {
   const endpointUrl = options.endpoint ?? `${endpoint}/speechtotext`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;

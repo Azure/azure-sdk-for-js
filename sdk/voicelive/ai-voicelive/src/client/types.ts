@@ -47,7 +47,7 @@ export interface AgentSessionConfig {
  * const endpoint = "https://your-resource.cognitiveservices.azure.com";
  * const client = new VoiceLiveClient(endpoint, credential);
  *
- * const session = client.createSession({ model: "gpt-4o-realtime-preview" });
+ * const session = client.createSession({ model: "gpt-realtime" });
  * ```
  *
  * @example Agent-centric session

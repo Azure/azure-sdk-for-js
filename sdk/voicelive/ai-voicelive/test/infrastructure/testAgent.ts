@@ -32,7 +32,7 @@ const DEFAULT_AGENT_INSTRUCTIONS =
 export interface CreateAgentOptions {
   /** Custom instructions for the agent. Defaults to math assistant instructions. */
   instructions?: string;
-  /** Model deployment name. Defaults to MODEL_DEPLOYMENT_NAME env var or "gpt-4o". */
+  /** Model deployment name. Defaults to MODEL_DEPLOYMENT_NAME env var or "gpt-4.1". */
   model?: string;
 }
 
@@ -69,7 +69,7 @@ export async function createTestAgent(
   const { DefaultAzureCredential } = await import("@azure/identity");
 
   const endpoint = getProjectEndpoint();
-  const modelName = options?.model ?? process.env.MODEL_DEPLOYMENT_NAME ?? "gpt-4o";
+  const modelName = options?.model ?? process.env.MODEL_DEPLOYMENT_NAME ?? "gpt-4.1";
 
   console.info(`Creating agent "${agentName}" with model: ${modelName} at endpoint: ${endpoint}`);
   const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
@@ -121,9 +121,44 @@ export async function findTestAgent(agentName: string = TEST_AGENT_NAME): Promis
 }
 
 /**
+ * Retries a function while it fails with HTTP 403, up to the given deadline.
+ * Used to absorb Azure RBAC propagation delay (typically 30-120s) after a
+ * fresh role assignment in a CI deployment.
+ */
+async function withRbacRetry<T>(
+  fn: () => Promise<T>,
+  label: string,
+  timeoutMs = 180_000,
+): Promise<T> {
+  const deadline = Date.now() + timeoutMs;
+  let delay = 5_000;
+  for (;;) {
+    try {
+      return await fn();
+    } catch (err) {
+      const status =
+        (err as { statusCode?: number; response?: { status?: number } })?.statusCode ??
+        (err as { response?: { status?: number } })?.response?.status;
+      if (status !== 403 || Date.now() >= deadline) {
+        throw err;
+      }
+      console.warn(
+        `[${label}] 403 (likely RBAC propagation), retrying in ${Math.round(delay / 1000)}s...`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      delay = Math.min(Math.round(delay * 1.5), 20_000);
+    }
+  }
+}
+
+/**
  * Gets or creates a Foundry agent by name.
  * First attempts to find an existing agent, creates one if not found.
  * In browser environments, assumes the agent already exists and returns the name.
+ *
+ * Wraps the data-plane calls in an RBAC-propagation retry so that fresh
+ * deployments (where the test SPN was just granted "Azure AI User") don't
+ * fail with 403 during the first ~minute of role propagation.
  *
  * @param agentName - Name of the agent (defaults to TEST_AGENT_NAME)
  * @param options - Optional configuration used when creating a new agent
@@ -139,10 +174,10 @@ export async function getOrCreateTestAgent(
     return agentName;
   }
 
-  const existingAgent = await findTestAgent(agentName);
+  const existingAgent = await withRbacRetry(() => findTestAgent(agentName), "findTestAgent");
   if (existingAgent) {
     return existingAgent;
   }
 
-  return createTestAgent(agentName, options);
+  return withRbacRetry(() => createTestAgent(agentName, options), "createTestAgent");
 }

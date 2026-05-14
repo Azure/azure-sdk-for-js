@@ -212,13 +212,13 @@ describe("Interim Response Models - Serialization & Validation", () => {
     it("should serialize with custom model", () => {
       const config: LlmInterimResponseConfig = {
         type: KnownInterimResponseConfigType.LlmInterimResponse,
-        model: "gpt-4o",
+        model: "gpt-4.1",
       };
 
       const serialized = llmInterimResponseConfigSerializer(config);
 
       expect(serialized.type).toBe(KnownInterimResponseConfigType.LlmInterimResponse);
-      expect(serialized.model).toBe("gpt-4o");
+      expect(serialized.model).toBe("gpt-4.1");
     });
 
     it("should serialize with custom instructions only", () => {
@@ -388,14 +388,14 @@ describe("Interim Response Models - Serialization & Validation", () => {
     it("should deserialize llm_interim_response type correctly via union deserializer", () => {
       const wireFormat = {
         type: KnownInterimResponseConfigType.LlmInterimResponse,
-        model: "gpt-4o",
+        model: "gpt-4.1",
         max_completion_tokens: 75,
       };
 
       const deserialized = interimResponseConfigBaseUnionDeserializer(wireFormat);
 
       expect(deserialized.type).toBe(KnownInterimResponseConfigType.LlmInterimResponse);
-      expect((deserialized as LlmInterimResponseConfig).model).toBe("gpt-4o");
+      expect((deserialized as LlmInterimResponseConfig).model).toBe("gpt-4.1");
       expect((deserialized as LlmInterimResponseConfig).maxCompletionTokens).toBe(75);
     });
 
@@ -417,7 +417,7 @@ describe("Interim Response Models - Serialization & Validation", () => {
   describe("RequestSession with interimResponse", () => {
     it("should serialize RequestSession with StaticInterimResponseConfig", () => {
       const session: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         interimResponse: {
           type: KnownInterimResponseConfigType.StaticInterimResponse,
           triggers: [KnownInterimResponseTrigger.Latency],
@@ -428,7 +428,7 @@ describe("Interim Response Models - Serialization & Validation", () => {
 
       const serialized = requestSessionSerializer(session);
 
-      expect(serialized.model).toBe("gpt-4o");
+      expect(serialized.model).toBe("gpt-4.1");
       expect(serialized.interim_response).toBeDefined();
       expect(serialized.interim_response.type).toBe(
         KnownInterimResponseConfigType.StaticInterimResponse,
@@ -463,12 +463,12 @@ describe("Interim Response Models - Serialization & Validation", () => {
 
     it("should serialize RequestSession without interimResponse", () => {
       const session: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
       };
 
       const serialized = requestSessionSerializer(session);
 
-      expect(serialized.model).toBe("gpt-4o");
+      expect(serialized.model).toBe("gpt-4.1");
       expect(serialized.interim_response).toBeUndefined();
     });
 

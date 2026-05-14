@@ -14,7 +14,8 @@
  * @summary control profanity handling in transcription results
  */
 
-import { TranscriptionClient, ProfanityFilterMode } from "@azure/ai-speech-transcription";
+import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import type { ProfanityFilterMode } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 
