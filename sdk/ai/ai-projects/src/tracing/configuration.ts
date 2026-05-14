@@ -11,7 +11,9 @@ let _traceContextPropagationEnabled = true;
  * and response generation.
  *
  * This is a process-wide setting that affects all AIProjectClient instances
- * in the current process.
+ * in the current process. Each call resets **all** options: any option not
+ * explicitly provided is resolved from its environment variable, or falls
+ * back to its default value. Previously set values are not preserved.
  *
  * @param options - Optional configuration.
  * @param options.contentRecording - Whether to capture message content in traces.

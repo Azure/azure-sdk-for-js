@@ -123,16 +123,18 @@ describe("tracingFetch - trace context propagation", () => {
 
   it("propagation disabled via env var prevents header injection", async () => {
     process.env.AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION = "false";
-    enableGenAITracing({ experimental: true });
-    const fetch = getTracingFetch(mockFetch as any);
-    await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
+    try {
+      enableGenAITracing({ experimental: true });
+      const fetch = getTracingFetch(mockFetch as any);
+      await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
-    assert.equal(capturedRequests.length, 1);
-    const req = capturedRequests[0]!;
-    assert.isNull(req.headers.get("traceparent"));
-    assert.isNull(req.headers.get("tracestate"));
-
-    delete process.env.AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION;
+      assert.equal(capturedRequests.length, 1);
+      const req = capturedRequests[0]!;
+      assert.isNull(req.headers.get("traceparent"));
+      assert.isNull(req.headers.get("tracestate"));
+    } finally {
+      delete process.env.AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION;
+    }
   });
 
   it("preserves existing headers from the original request", async () => {

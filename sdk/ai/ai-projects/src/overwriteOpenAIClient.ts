@@ -6,7 +6,7 @@ import { isGenAITracingApplied } from "./tracing/configuration.js";
 import { OperationName } from "./tracing/constants.js";
 import { traceNonStreamingResponse, traceStreamingResponse, traceConversationCreate } from "./tracing/responseTracing.js";
 
-export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string): OpenAI {
+export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = ""): OpenAI {
   const responsesCreate = openaiClient.responses.create.bind(openaiClient.responses);
   openaiClient.responses.create = ((...args: Parameters<typeof responsesCreate>) => {
     const [body, options = {}] = args;

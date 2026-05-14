@@ -23,20 +23,18 @@ interface Histogram {
 
 let operationDurationHistogram: Histogram | undefined;
 let tokenUsageHistogram: Histogram | undefined;
-let metricsInitialized = false;
 
 /**
- * Attempts to initialize metrics using @opentelemetry/api if available.
+ * Eagerly attempts to initialize metrics using @opentelemetry/api if available.
+ * Uses dynamic import() so it works in both ESM and CJS.
  * If the package is not installed, metrics are silently disabled (no-op).
+ * The returned promise is intentionally not awaited — metrics will be available
+ * by the time the first recording call happens (after client setup and an API call).
  */
-function initializeMetrics(): void {
-  if (metricsInitialized) return;
-  metricsInitialized = true;
-
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+void (async () => {
   try {
-    // Dynamic import to avoid hard dependency on @opentelemetry/api
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const otelApi = require("@opentelemetry/api");
+    const otelApi = await import("@opentelemetry/api");
     const meter = otelApi.metrics.getMeter("@azure/ai-projects");
 
     operationDurationHistogram = meter.createHistogram(GEN_AI_CLIENT_OPERATION_DURATION, {
@@ -50,10 +48,8 @@ function initializeMetrics(): void {
     });
   } catch {
     // @opentelemetry/api not available — metrics disabled
-    operationDurationHistogram = undefined;
-    tokenUsageHistogram = undefined;
   }
-}
+})();
 
 interface MetricDimensions {
   operationName: string;
@@ -94,7 +90,6 @@ export function recordOperationDuration(
   durationSeconds: number,
   dimensions: MetricDimensions,
 ): void {
-  initializeMetrics();
   if (!operationDurationHistogram) return;
   operationDurationHistogram.record(durationSeconds, buildCommonAttributes(dimensions));
 }
@@ -110,7 +105,6 @@ export function recordTokenUsage(
   outputTokens: number | undefined,
   dimensions: MetricDimensions,
 ): void {
-  initializeMetrics();
   if (!tokenUsageHistogram) return;
 
   const baseAttrs = buildCommonAttributes(dimensions);

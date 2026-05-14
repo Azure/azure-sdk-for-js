@@ -1315,35 +1315,32 @@ When an option is passed explicitly, it takes precedence over the corresponding 
 
 Here is a code sample that shows how to enable Azure Monitor tracing:
 
-```typescript
+```ts snippet:tracing_azure_monitor
 import { AIProjectClient, enableGenAITracing } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import { context, trace } from "@opentelemetry/api";
 
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-
 // Get Application Insights connection string from the project
 const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
-
 // Configure Azure Monitor tracing
 useAzureMonitor({ azureMonitorExporterOptions: { connectionString } });
-
 // Enable GenAI tracing (experimental)
 enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
 ```
 
 You may also want to create a span for your scenario:
 
-```typescript
+```ts snippet:tracing_create_span
+import { trace, context } from "@opentelemetry/api";
+
 const tracer = trace.getTracer("MyScenario");
 const span = tracer.startSpan("myOperation");
 const ctx = trace.setSpan(context.active(), span);
-
 await context.with(ctx, async () => {
   // Your agent operations here
 });
-
 span.end();
 ```
 
@@ -1353,22 +1350,23 @@ See the full sample code in [agentBasicWithAzureMonitorTracing.ts](https://githu
 
 For local development, you can print traces to the console:
 
-```typescript
-import { AIProjectClient, enableGenAITracing } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
-import { NodeTracerProvider, ConsoleSpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+```ts snippet:tracing_console
+import {
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+  ConsoleSpanExporter,
+} from "@opentelemetry/sdk-trace-node";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+import { enableGenAITracing } from "@azure/ai-projects";
 
 // Set up OpenTelemetry with a console exporter
 const provider = new NodeTracerProvider({
   spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
 });
 provider.register();
-
 // Bridge @azure/core-tracing to OpenTelemetry
 registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
-
 // Enable GenAI tracing (experimental)
 enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
 ```

@@ -30,6 +30,6 @@ export function getTracingFetch(innerFetch?: FetchFn): FetchFn {
     for (const [key, value] of Object.entries(tracingHeaders)) {
       fetchRequest.headers.set(key, value);
     }
-    return baseFetch(fetchRequest, options);
+    return baseFetch(fetchRequest);
   };
 }

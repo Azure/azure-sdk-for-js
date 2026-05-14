@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to run basic Prompt Agent operations
- * with GenAI tracing enabled using a console exporter for local development.
+ * with GenAI tracing enabled using a console exporter.
  *
  * Set the following environment variables before running:
  *   FOUNDRY_PROJECT_ENDPOINT - Your Microsoft Foundry project endpoint URL

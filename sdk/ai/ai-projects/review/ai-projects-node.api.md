@@ -1353,6 +1353,8 @@ export interface EmptyModelParam {
 
 // @public
 export function enableGenAITracing(options?: {
+    contentRecording?: boolean;
+    traceContextPropagation?: boolean;
     experimental?: boolean;
 }): void;
 
