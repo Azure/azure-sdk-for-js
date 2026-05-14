@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the operation status for a private endpoint connection.
  *
  * @summary gets the operation status for a private endpoint connection.
- * x-ms-original-file: 2026-01-01-preview/PrivateEndpointConnection/GetPrivateEndpointConnectionOperationStatus.json
+ * x-ms-original-file: 2026-01-31-preview/PrivateEndpointConnection/GetPrivateEndpointConnectionOperationStatus.json
  */
 async function getOperationStatus() {
   const credential = new DefaultAzureCredential();

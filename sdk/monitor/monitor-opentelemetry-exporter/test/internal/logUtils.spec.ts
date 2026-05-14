@@ -724,6 +724,40 @@ describe("logUtils.ts", () => {
         expectedServiceTagsBase,
       );
     });
+
+    it("should create a Custom Event Envelope when the log body is a string", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        "extra.attribute": "foo",
+        [ATTR_CLIENT_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "MyEventName";
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: TelemetryEventData = {
+        name: "testing name",
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      } as any;
+
+      // Should not throw a TypeError when the body is a string (regression for #38497).
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Event",
+        100,
+        "EventData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+    });
   });
 
   it("should parse objects if passed as the message field of a legacy ApplicationInsights log", () => {

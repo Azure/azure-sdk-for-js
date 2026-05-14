@@ -9,7 +9,7 @@
  */
 
 import {
-  ProvidersGetAtTenantScopeOptionalParams,
+  type ProvidersGetAtTenantScopeOptionalParams,
   ResourceManagementClient,
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -37,7 +37,7 @@ export function _$deleteSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,11 +61,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 /**
  * Used to disable backup of an item within a container. This is an asynchronous operation. To know the status of the
  * request, call the GetItemOperationResult API.
- */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
  */
 export async function $delete(
   context: Client,
@@ -107,7 +102,7 @@ export function _createOrUpdateSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,7 +165,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
   }) as PollerLike<OperationState<ProtectedItemResource>, ProtectedItemResource>;
 }
 
@@ -192,7 +187,7 @@ export function _getSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
       "%24filter": options?.filter,
     },
     {

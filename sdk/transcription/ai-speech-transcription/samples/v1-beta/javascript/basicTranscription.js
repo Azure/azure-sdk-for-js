@@ -36,7 +36,7 @@ async function main() {
   console.log("\n=== Detailed Phrases ===");
   for (const phrase of result.phrases) {
     console.log(
-      `[${phrase.offsetMilliseconds}ms - ${phrase.offsetMilliseconds + phrase.durationMilliseconds}ms] ${phrase.text}`,
+      `[${phrase.offsetInMs}ms - ${phrase.offsetInMs + phrase.durationInMs}ms] ${phrase.text}`,
     );
     console.log(`  Confidence: ${phrase.confidence.toFixed(2)}`);
   }

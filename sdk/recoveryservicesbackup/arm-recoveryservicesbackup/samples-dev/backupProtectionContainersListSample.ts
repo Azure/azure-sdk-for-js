@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the containers registered to Recovery Services Vault.
  *
  * @summary lists the containers registered to Recovery Services Vault.
- * x-ms-original-file: 2026-01-01-preview/AzureStorage/ProtectionContainers_List.json
+ * x-ms-original-file: 2026-01-31-preview/AzureStorage/ProtectionContainers_List.json
  */
 async function listBackupProtectionContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
