@@ -51,9 +51,7 @@ import {
   setAgentVersionAttributes,
   setCommonAttributes,
 } from "../../tracing/attributes.js";
-import {
-  OperationName,
-} from "../../tracing/constants.js";
+import { OperationName } from "../../tracing/constants.js";
 
 export function _listVersionsSend(
   context: Client,

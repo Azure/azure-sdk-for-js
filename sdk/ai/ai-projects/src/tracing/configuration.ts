@@ -35,7 +35,11 @@ let _traceContextPropagationEnabled = true;
  *   When omitted, the environment variable must also be set to `"true"` (case-insensitive) or `"1"`
  *   to enable experimental GenAI tracing features currently in preview.
  */
-export function enableGenAITracing(options?: { contentRecording?: boolean; traceContextPropagation?: boolean; experimental?: boolean }): void {
+export function enableGenAITracing(options?: {
+  contentRecording?: boolean;
+  traceContextPropagation?: boolean;
+  experimental?: boolean;
+}): void {
   _genAITracingEnabled = true;
   _experimentalAcknowledged = false;
   _contentRecordingEnabled = false;

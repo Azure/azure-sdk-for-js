@@ -21,7 +21,11 @@ import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
 import { context, trace } from "@opentelemetry/api";
-import { NodeTracerProvider, ConsoleSpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import {
+  NodeTracerProvider,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 
@@ -1032,7 +1036,11 @@ Be direct and efficient. When you reach the search results page, read and descri
     useAzureMonitor({ azureMonitorExporterOptions: { connectionString } });
 
     // Enable GenAI tracing (experimental)
-    enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
+    enableGenAITracing({
+      contentRecording: false,
+      traceContextPropagation: true,
+      experimental: true,
+    });
   });
 
   it("tracing_create_span", async function () {
@@ -1058,7 +1066,11 @@ Be direct and efficient. When you reach the search results page, read and descri
     registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
 
     // Enable GenAI tracing (experimental)
-    enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
+    enableGenAITracing({
+      contentRecording: false,
+      traceContextPropagation: true,
+      experimental: true,
+    });
   });
 
   it("datasetUpload", async function () {

@@ -43,53 +43,46 @@ export async function traceNonStreamingResponse(
   let errorType: string | undefined;
   let responseModel: string | undefined;
 
-  return tracingClient.withSpan(
-    spanName,
-    { tracingOptions: {} },
-    async (_updatedOptions, span) => {
-      try {
-        setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
-        const response = (await responsesCreate(body, options)) as OAIResponse;
-        setResponseSpanAttributes(span, response);
-        addWorkflowActionEvents(span, response);
-        responseModel =
-          typeof response.model === "string" ? response.model : undefined;
+  return tracingClient.withSpan(spanName, { tracingOptions: {} }, async (_updatedOptions, span) => {
+    try {
+      setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
+      const response = (await responsesCreate(body, options)) as OAIResponse;
+      setResponseSpanAttributes(span, response);
+      addWorkflowActionEvents(span, response);
+      responseModel = typeof response.model === "string" ? response.model : undefined;
 
-        // Record metrics
-        const durationSeconds = (performance.now() - startTime) / 1000;
-        recordOperationDuration(durationSeconds, {
+      // Record metrics
+      const durationSeconds = (performance.now() - startTime) / 1000;
+      recordOperationDuration(durationSeconds, {
+        operationName,
+        serverAddress,
+        serverPort,
+        responseModel,
+      });
+      if (response.usage) {
+        recordTokenUsage(response.usage.input_tokens, response.usage.output_tokens, {
           operationName,
           serverAddress,
           serverPort,
           responseModel,
         });
-        if (response.usage) {
-          recordTokenUsage(response.usage.input_tokens, response.usage.output_tokens, {
-            operationName,
-            serverAddress,
-            serverPort,
-            responseModel,
-          });
-        }
-
-        return response;
-      } catch (error) {
-        setErrorAttributes(span, error);
-        errorType =
-          error instanceof Error
-            ? error.name || error.constructor?.name || "Error"
-            : "Error";
-        const durationSeconds = (performance.now() - startTime) / 1000;
-        recordOperationDuration(durationSeconds, {
-          operationName,
-          serverAddress,
-          serverPort,
-          errorType,
-        });
-        throw error;
       }
-    },
-  );
+
+      return response;
+    } catch (error) {
+      setErrorAttributes(span, error);
+      errorType =
+        error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
+      const durationSeconds = (performance.now() - startTime) / 1000;
+      recordOperationDuration(durationSeconds, {
+        operationName,
+        serverAddress,
+        serverPort,
+        errorType,
+      });
+      throw error;
+    }
+  });
 }
 
 export async function traceStreamingResponse(
@@ -119,9 +112,7 @@ export async function traceStreamingResponse(
     span.setStatus({ status: "error", error: error instanceof Error ? error : undefined });
     span.end();
     const errorType =
-      error instanceof Error
-        ? error.name || error.constructor?.name || "Error"
-        : "Error";
+      error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
     const durationSeconds = (performance.now() - startTime) / 1000;
     recordOperationDuration(durationSeconds, {
       operationName,
@@ -196,9 +187,7 @@ function wrapStream(
         span.setStatus({ status: "error", error: error instanceof Error ? error : undefined });
         span.end();
         const errType =
-          error instanceof Error
-            ? error.name || error.constructor?.name || "Error"
-            : "Error";
+          error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
         recordStreamMetrics(errType);
         throw error;
       }
@@ -217,9 +206,7 @@ function wrapStream(
       span.setStatus({ status: "error", error: error instanceof Error ? error : undefined });
       span.end();
       const errType =
-        error instanceof Error
-          ? error.name || error.constructor?.name || "Error"
-          : "Error";
+        error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
       recordStreamMetrics(errType);
       if (iterator.throw) {
         return iterator.throw(error);
@@ -281,7 +268,11 @@ function addWorkflowActionEvents(
   const output = (response as unknown as Record<string, unknown>).output;
   if (!Array.isArray(output)) return;
   for (const item of output) {
-    if (item && typeof item === "object" && (item as Record<string, unknown>).type === "workflow_action") {
+    if (
+      item &&
+      typeof item === "object" &&
+      (item as Record<string, unknown>).type === "workflow_action"
+    ) {
       addSingleWorkflowActionEvent(span, item as Record<string, unknown>);
     }
   }

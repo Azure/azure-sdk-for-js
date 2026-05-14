@@ -581,7 +581,11 @@ describe("formatOutputMessages", () => {
     assert.equal(parsedOn[0].parts[0].content.quality, "hd");
     assert.equal(parsedOn[0].parts[0].content.size, "1024x1024");
     assert.equal(parsedOn[0].parts[0].content.style, "vivid");
-    assert.notProperty(parsedOn[0].parts[0].content, "result", "binary result excluded even when ON");
+    assert.notProperty(
+      parsedOn[0].parts[0].content,
+      "result",
+      "binary result excluded even when ON",
+    );
 
     disableContentRecording();
     const resultOff = formatOutputMessages({
@@ -896,8 +900,11 @@ describe("formatInputMessages - tool output privacy", () => {
     });
     const parsed = JSON.parse(result!);
     assert.equal(parsed[0].parts[0].content.type, "computer_call_output");
-    assert.notProperty(parsed[0].parts[0].content.output, "image_url",
-      "binary image data must never be included");
+    assert.notProperty(
+      parsed[0].parts[0].content.output,
+      "image_url",
+      "binary image data must never be included",
+    );
     assert.equal(parsed[0].parts[0].content.output.status, "done");
   });
 

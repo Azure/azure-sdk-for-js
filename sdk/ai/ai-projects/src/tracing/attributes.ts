@@ -57,11 +57,7 @@ import type {
 /**
  * Sets common span attributes for all traced operations.
  */
-export function setCommonAttributes(
-  span: SpanLike,
-  operationName: string,
-  endpoint: string,
-): void {
+export function setCommonAttributes(span: SpanLike, operationName: string, endpoint: string): void {
   span.setAttribute(GEN_AI_OPERATION_NAME, operationName);
   span.setAttribute(AZ_NAMESPACE, AZ_NAMESPACE_VALUE);
   span.setAttribute(GEN_AI_PROVIDER_NAME, AGENTS_PROVIDER);
@@ -119,10 +115,7 @@ export function setAgentVersionAttributes(span: SpanLike, version: AgentVersion)
  * Sets attributes from the agent definition.
  * Only sets content-sensitive attributes when content recording is enabled.
  */
-export function setDefinitionAttributes(
-  span: SpanLike,
-  definition: AgentDefinitionUnion,
-): void {
+export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinitionUnion): void {
   if (!definition) return;
 
   span.setAttribute(GEN_AI_AGENT_TYPE, definition.kind ?? "unknown");
@@ -174,9 +167,10 @@ export function setDefinitionAttributes(
     const workflowDef = definition as WorkflowAgentDefinition;
     const fullSpan = span as TracingSpan;
     if (fullSpan.addEvent) {
-      const contentArray = isContentRecordingEnabled() && workflowDef.workflow
-        ? [{ type: "workflow", content: workflowDef.workflow }]
-        : [];
+      const contentArray =
+        isContentRecordingEnabled() && workflowDef.workflow
+          ? [{ type: "workflow", content: workflowDef.workflow }]
+          : [];
       fullSpan.addEvent(GEN_AI_AGENT_WORKFLOW_EVENT, {
         attributes: {
           [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,

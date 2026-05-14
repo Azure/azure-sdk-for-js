@@ -78,11 +78,7 @@ let recordedSpans: RecordedSpan[] = [];
 
 vi.mock("../../../src/tracing/tracingClient.js", () => ({
   tracingClient: {
-    withSpan: async (
-      name: string,
-      options: unknown,
-      callback: (...args: any[]) => any,
-    ) => {
+    withSpan: async (name: string, options: unknown, callback: (...args: any[]) => any) => {
       const span = createMockSpan(name);
       recordedSpans.push(span);
       try {
@@ -102,11 +98,13 @@ vi.mock("../../../src/tracing/tracingClient.js", () => ({
       return { span, tracingContext: {} };
     },
   },
-}))
+}));
 
 // ---- Mock OpenAI client factory ----
 
-function createMockNonStreamingResponse(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+function createMockNonStreamingResponse(
+  overrides: Record<string, unknown> = {},
+): Record<string, unknown> {
   return {
     id: "resp_test123",
     model: "gpt-4.1",
@@ -585,7 +583,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     };
     overwriteOpenAIClient(mockClient, "https://test.azure.com");
 
-    const result = await (mockClient as any).conversations.create({}) as Record<string, unknown>;
+    const result = (await (mockClient as any).conversations.create({})) as Record<string, unknown>;
 
     assert.equal(result.id, "conv_abc123");
     const span = getSpanByName(OperationName.CREATE_CONVERSATION);
@@ -829,17 +827,26 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     // Input messages: structure only, no content
     const inputMsg = JSON.parse(span.attributes[GEN_AI_INPUT_MESSAGES] as string);
     assert.equal(inputMsg[0].role, "user");
-    assert.notProperty(inputMsg[0].parts[0], "content",
-      "user input must not leak in streaming when content OFF");
+    assert.notProperty(
+      inputMsg[0].parts[0],
+      "content",
+      "user input must not leak in streaming when content OFF",
+    );
 
     // Output messages: structure only, no content
     const outputMsg = JSON.parse(span.attributes[GEN_AI_OUTPUT_MESSAGES] as string);
-    assert.notProperty(outputMsg[0].parts[0], "content",
-      "assistant output must not leak in streaming when content OFF");
+    assert.notProperty(
+      outputMsg[0].parts[0],
+      "content",
+      "assistant output must not leak in streaming when content OFF",
+    );
 
     // No system instructions
-    assert.notProperty(span.attributes, GEN_AI_SYSTEM_MESSAGE,
-      "system instructions must not appear when content OFF");
+    assert.notProperty(
+      span.attributes,
+      GEN_AI_SYSTEM_MESSAGE,
+      "system instructions must not appear when content OFF",
+    );
 
     // No model parameters
     assert.notProperty(span.attributes, GEN_AI_REQUEST_MODEL);
@@ -869,10 +876,16 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const outputMsg = JSON.parse(span.attributes[GEN_AI_OUTPUT_MESSAGES] as string);
     assert.equal(outputMsg[0].parts[0].type, "tool_call");
     assert.equal(outputMsg[0].parts[0].id, "call_abc");
-    assert.notProperty(outputMsg[0].parts[0], "name",
-      "function name must not leak when content OFF");
-    assert.notProperty(outputMsg[0].parts[0], "arguments",
-      "function arguments must not leak when content OFF");
+    assert.notProperty(
+      outputMsg[0].parts[0],
+      "name",
+      "function name must not leak when content OFF",
+    );
+    assert.notProperty(
+      outputMsg[0].parts[0],
+      "arguments",
+      "function arguments must not leak when content OFF",
+    );
   });
 
   it("function_call_output input: only id visible when content OFF", async () => {
@@ -896,8 +909,11 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const inputMsg = JSON.parse(span.attributes[GEN_AI_INPUT_MESSAGES] as string);
     assert.equal(inputMsg[0].parts[0].type, "tool_call_response");
     assert.equal(inputMsg[0].parts[0].id, "call_abc");
-    assert.notProperty(inputMsg[0].parts[0], "result",
-      "function output result must not leak when content OFF");
+    assert.notProperty(
+      inputMsg[0].parts[0],
+      "result",
+      "function output result must not leak when content OFF",
+    );
   });
 
   // ---- Non-function tool call with content OFF (privacy) ----
@@ -938,13 +954,19 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     assert.equal(outputMsg[0].parts[0].type, "tool_call");
     assert.equal(outputMsg[0].parts[0].content.type, "web_search_call");
     assert.equal(outputMsg[0].parts[0].content.id, "ws_123");
-    assert.notProperty(outputMsg[0].parts[0].content, "action",
-      "web search action must not leak when content OFF");
+    assert.notProperty(
+      outputMsg[0].parts[0].content,
+      "action",
+      "web search action must not leak when content OFF",
+    );
     assert.notProperty(outputMsg[0].parts[0].content, "status");
 
     // Message: no text content
-    assert.notProperty(outputMsg[1].parts[0], "content",
-      "assistant text must not leak when content OFF");
+    assert.notProperty(
+      outputMsg[1].parts[0],
+      "content",
+      "assistant text must not leak when content OFF",
+    );
   });
 
   // ---- Non-streaming with multiple tool types + content OFF (comprehensive privacy) ----
@@ -956,9 +978,25 @@ describe("overwriteOpenAIClient - tracing integration", () => {
       model: "gpt-4.1",
       status: "completed",
       output: [
-        { type: "function_call", call_id: "fc_1", name: "secret_fn", arguments: '{"secret":"data"}' },
-        { type: "code_interpreter_call", call_id: "ci_1", code: "import os; os.environ", status: "completed" },
-        { type: "file_search_call", call_id: "fs_1", queries: ["password"], results: [{ text: "hunter2" }], status: "completed" },
+        {
+          type: "function_call",
+          call_id: "fc_1",
+          name: "secret_fn",
+          arguments: '{"secret":"data"}',
+        },
+        {
+          type: "code_interpreter_call",
+          call_id: "ci_1",
+          code: "import os; os.environ",
+          status: "completed",
+        },
+        {
+          type: "file_search_call",
+          call_id: "fs_1",
+          queries: ["password"],
+          results: [{ text: "hunter2" }],
+          status: "completed",
+        },
         {
           type: "message",
           role: "assistant",
@@ -1116,7 +1154,9 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     assert.isDefined(span, "Expected a span for streaming tool call with content OFF");
 
     // Serialize all attributes for a sweep check
-    const allValues = Object.values(span.attributes).map((v) => String(v)).join(" ");
+    const allValues = Object.values(span.attributes)
+      .map((v) => String(v))
+      .join(" ");
     assert.notInclude(allValues, "secret_function", "function name leaked in stream");
     assert.notInclude(allValues, "secret", "function arguments leaked in stream");
     assert.notInclude(allValues, "import secrets", "code interpreter code leaked in stream");
@@ -1170,8 +1210,11 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const inputMsg = JSON.parse(span.attributes[GEN_AI_INPUT_MESSAGES] as string);
     assert.equal(inputMsg[0].parts[0].type, "tool_call_response");
     assert.equal(inputMsg[0].parts[0].id, "call_s1");
-    assert.notProperty(inputMsg[0].parts[0], "result",
-      "function output must not leak in streaming when content OFF");
+    assert.notProperty(
+      inputMsg[0].parts[0],
+      "result",
+      "function output must not leak in streaming when content OFF",
+    );
   });
 
   // ---- Error handling with content OFF ----
@@ -1202,7 +1245,9 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     assert.equal(span!.attributes[ERROR_TYPE], "RangeError");
 
     // No user content should leak even on error
-    const allValues = Object.values(span!.attributes).map((v) => String(v)).join(" ");
+    const allValues = Object.values(span!.attributes)
+      .map((v) => String(v))
+      .join(" ");
     assert.notInclude(allValues, "Secret question", "user input leaked on error");
     assert.notInclude(allValues, "Secret system prompt", "instructions leaked on error");
   });
@@ -1225,8 +1270,11 @@ describe("overwriteOpenAIClient - tracing integration", () => {
 
     // But no message content
     const inputMsg = JSON.parse(span.attributes[GEN_AI_INPUT_MESSAGES] as string);
-    assert.notProperty(inputMsg[0].parts[0], "content",
-      "input content must not leak when content OFF");
+    assert.notProperty(
+      inputMsg[0].parts[0],
+      "content",
+      "input content must not leak when content OFF",
+    );
   });
 
   // ---- Streaming with mixed tool types + comprehensive privacy ----
@@ -1241,10 +1289,35 @@ describe("overwriteOpenAIClient - tracing integration", () => {
           model: "gpt-4.1",
           status: "completed",
           output: [
-            { type: "function_call", call_id: "fc_m1", name: "private_fn", arguments: '{"api_key":"sk-123"}' },
-            { type: "mcp_call", call_id: "mcp_m1", name: "db_query", arguments: '{"sql":"SELECT * FROM users"}', server_label: "prod-db", status: "completed" },
-            { type: "file_search_call", call_id: "fs_m1", queries: ["SSN"], results: [{ text: "123-45-6789" }], status: "completed" },
-            { type: "image_generation_call", call_id: "ig_m1", prompt: "user's face photo", quality: "hd", result: "base64data", status: "completed" },
+            {
+              type: "function_call",
+              call_id: "fc_m1",
+              name: "private_fn",
+              arguments: '{"api_key":"sk-123"}',
+            },
+            {
+              type: "mcp_call",
+              call_id: "mcp_m1",
+              name: "db_query",
+              arguments: '{"sql":"SELECT * FROM users"}',
+              server_label: "prod-db",
+              status: "completed",
+            },
+            {
+              type: "file_search_call",
+              call_id: "fs_m1",
+              queries: ["SSN"],
+              results: [{ text: "123-45-6789" }],
+              status: "completed",
+            },
+            {
+              type: "image_generation_call",
+              call_id: "ig_m1",
+              prompt: "user's face photo",
+              quality: "hd",
+              result: "base64data",
+              status: "completed",
+            },
             {
               type: "message",
               role: "assistant",
@@ -1273,7 +1346,9 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const span = getSpanByName("chat gpt-4.1")!;
     assert.isDefined(span);
 
-    const allValues = Object.values(span.attributes).map((v) => String(v)).join(" ");
+    const allValues = Object.values(span.attributes)
+      .map((v) => String(v))
+      .join(" ");
 
     // No user-specific content should appear
     assert.notInclude(allValues, "private_fn", "function name leaked");
@@ -1341,7 +1416,9 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const span = getSpanByName("chat gpt-4.1")!;
     assert.isDefined(span);
 
-    const allValues = Object.values(span.attributes).map((v) => String(v)).join(" ");
+    const allValues = Object.values(span.attributes)
+      .map((v) => String(v))
+      .join(" ");
 
     // Output side: no sensitive details from unknown tool
     assert.notInclude(allValues, "unsupported_op", "unknown tool name leaked in output");

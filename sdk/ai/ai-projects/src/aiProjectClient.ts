@@ -141,7 +141,7 @@ export class AIProjectClient {
     ) {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
-  
+
     // Wrap fetch with tracing to inject traceparent/tracestate headers
     customFetch = getTracingFetch(customFetch);
 

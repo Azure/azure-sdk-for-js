@@ -1327,7 +1327,11 @@ const connectionString = await project.telemetry.getApplicationInsightsConnectio
 // Configure Azure Monitor tracing
 useAzureMonitor({ azureMonitorExporterOptions: { connectionString } });
 // Enable GenAI tracing (experimental)
-enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
+enableGenAITracing({
+  contentRecording: false,
+  traceContextPropagation: true,
+  experimental: true,
+});
 ```
 
 You may also want to create a span for your scenario:
@@ -1368,7 +1372,11 @@ provider.register();
 // Bridge @azure/core-tracing to OpenTelemetry
 registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
 // Enable GenAI tracing (experimental)
-enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
+enableGenAITracing({
+  contentRecording: false,
+  traceContextPropagation: true,
+  experimental: true,
+});
 ```
 
 See the full sample code in [agentBasicWithConsoleTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithConsoleTracing.ts).

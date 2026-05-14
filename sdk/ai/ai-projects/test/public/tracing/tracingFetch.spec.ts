@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
-import {
-  enableGenAITracing,
-  disableGenAITracing,
-} from "../../../src/tracing/configuration.js";
+import { enableGenAITracing, disableGenAITracing } from "../../../src/tracing/configuration.js";
 import { getTracingFetch } from "../../../src/tracing/tracingFetch.js";
 
 // Mock tracingClient so we can control createRequestHeaders
@@ -25,7 +22,10 @@ describe("tracingFetch - trace context propagation", () => {
 
   beforeEach(() => {
     capturedRequests = [];
-    mockFetch = async (resource: string | Request | URL, options?: RequestInit): Promise<Response> => {
+    mockFetch = async (
+      resource: string | Request | URL,
+      options?: RequestInit,
+    ): Promise<Response> => {
       // Capture the actual Request so we can inspect headers
       const req = resource instanceof Request ? resource : new Request(resource, options);
       capturedRequests.push(req);
@@ -49,7 +49,10 @@ describe("tracingFetch - trace context propagation", () => {
 
     assert.equal(capturedRequests.length, 1);
     const req = capturedRequests[0]!;
-    assert.equal(req.headers.get("traceparent"), "00-abcdef1234567890abcdef1234567890-1234567890abcdef-01");
+    assert.equal(
+      req.headers.get("traceparent"),
+      "00-abcdef1234567890abcdef1234567890-1234567890abcdef-01",
+    );
     assert.equal(req.headers.get("tracestate"), "azure=test");
   });
 
@@ -117,7 +120,10 @@ describe("tracingFetch - trace context propagation", () => {
 
     assert.equal(capturedRequests.length, 1);
     const req = capturedRequests[0]!;
-    assert.equal(req.headers.get("traceparent"), "00-abcdef1234567890abcdef1234567890-1234567890abcdef-01");
+    assert.equal(
+      req.headers.get("traceparent"),
+      "00-abcdef1234567890abcdef1234567890-1234567890abcdef-01",
+    );
     assert.equal(req.headers.get("tracestate"), "azure=test");
   });
 
@@ -142,13 +148,16 @@ describe("tracingFetch - trace context propagation", () => {
     const fetch = getTracingFetch(mockFetch as any);
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
-      headers: { "Authorization": "Bearer test-key", "Content-Type": "application/json" },
+      headers: { Authorization: "Bearer test-key", "Content-Type": "application/json" },
     });
 
     assert.equal(capturedRequests.length, 1);
     const req = capturedRequests[0]!;
     // Tracing headers injected
-    assert.equal(req.headers.get("traceparent"), "00-abcdef1234567890abcdef1234567890-1234567890abcdef-01");
+    assert.equal(
+      req.headers.get("traceparent"),
+      "00-abcdef1234567890abcdef1234567890-1234567890abcdef-01",
+    );
     // Original headers preserved
     assert.equal(req.headers.get("Authorization"), "Bearer test-key");
     assert.equal(req.headers.get("Content-Type"), "application/json");

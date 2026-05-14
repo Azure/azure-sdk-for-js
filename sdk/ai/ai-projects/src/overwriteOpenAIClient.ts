@@ -4,13 +4,20 @@
 import type OpenAI from "openai";
 import { isGenAITracingApplied } from "./tracing/configuration.js";
 import { OperationName } from "./tracing/constants.js";
-import { traceNonStreamingResponse, traceStreamingResponse, traceConversationCreate } from "./tracing/responseTracing.js";
+import {
+  traceNonStreamingResponse,
+  traceStreamingResponse,
+  traceConversationCreate,
+} from "./tracing/responseTracing.js";
 
 export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = ""): OpenAI {
   const responsesCreate = openaiClient.responses.create.bind(openaiClient.responses);
   openaiClient.responses.create = ((...args: Parameters<typeof responsesCreate>) => {
     const [body, options = {}] = args;
-    const nextBody = { ...(body as Record<string, unknown>), ...(((options as Record<string, unknown>).body as Record<string, unknown>) || {}) } as Record<string, unknown>;
+    const nextBody = {
+      ...(body as Record<string, unknown>),
+      ...(((options as Record<string, unknown>).body as Record<string, unknown>) || {}),
+    } as Record<string, unknown>;
     const { body: _, ...nextOptions } = options as Record<string, unknown>;
 
     if (!isGenAITracingApplied()) {
@@ -18,15 +25,18 @@ export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = "
     }
 
     // Determine operation and span name (matching C# pattern)
-    const rawAgent = (nextBody as Record<string, unknown>).agent_name ??
+    const rawAgent =
+      (nextBody as Record<string, unknown>).agent_name ??
       (nextBody as Record<string, unknown>).agent ??
       (nextBody as Record<string, unknown>).agent_reference;
     // agent can be a string name or an object like { name: "...", type: "agent_reference" }
     const agentName: string | undefined =
       typeof rawAgent === "string"
         ? rawAgent
-        : rawAgent && typeof rawAgent === "object" && typeof (rawAgent as Record<string, unknown>).name === "string"
-          ? (rawAgent as Record<string, unknown>).name as string
+        : rawAgent &&
+            typeof rawAgent === "object" &&
+            typeof (rawAgent as Record<string, unknown>).name === "string"
+          ? ((rawAgent as Record<string, unknown>).name as string)
           : undefined;
     let operationName: string;
     let spanName: string;

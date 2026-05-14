@@ -58,9 +58,7 @@ interface MetricDimensions {
   errorType?: string;
 }
 
-function buildCommonAttributes(
-  dimensions: MetricDimensions,
-): Record<string, string | number> {
+function buildCommonAttributes(dimensions: MetricDimensions): Record<string, string | number> {
   const attrs: Record<string, string | number> = {
     [GEN_AI_OPERATION_NAME]: dimensions.operationName,
     [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,

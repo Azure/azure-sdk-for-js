@@ -129,7 +129,9 @@ describe("setAgentAttributes", () => {
     const span = createMockSpan();
     setAgentAttributes(span, {
       name: "MyAgent",
-      versions: { latest: { name: "MyAgent", version: "3", definition: { kind: "prompt", model: "gpt-4" } } },
+      versions: {
+        latest: { name: "MyAgent", version: "3", definition: { kind: "prompt", model: "gpt-4" } },
+      },
     } as any);
 
     assert.equal(span.attributes[GEN_AI_AGENT_ID], "MyAgent:3");
@@ -385,7 +387,8 @@ describe("setDefinitionAttributes - workflow agent", () => {
     }
   });
 
-  const sampleWorkflow = "triggers:\n  - type: OnConversationStart\nactions:\n  - type: InvokeAzureAgent";
+  const sampleWorkflow =
+    "triggers:\n  - type: OnConversationStart\nactions:\n  - type: InvokeAzureAgent";
 
   it("emits gen_ai.agent.workflow event with CSDL when content recording ON", () => {
     enableContentRecording();
@@ -433,10 +436,7 @@ describe("setDefinitionAttributes - workflow agent", () => {
       workflow: sampleWorkflow,
     } as any);
 
-    assert.equal(
-      span.events[0]!.options!.attributes![GEN_AI_PROVIDER_NAME],
-      AGENTS_PROVIDER,
-    );
+    assert.equal(span.events[0]!.options!.attributes![GEN_AI_PROVIDER_NAME], AGENTS_PROVIDER);
   });
 });
 
@@ -492,8 +492,11 @@ describe("setAgentVersionAttributes", () => {
       definition: { kind: "prompt", model: "gpt-4.1" },
     } as any);
 
-    assert.notProperty(span.attributes, GEN_AI_AGENT_DESCRIPTION,
-      "agent description must not leak when content recording is off");
+    assert.notProperty(
+      span.attributes,
+      GEN_AI_AGENT_DESCRIPTION,
+      "agent description must not leak when content recording is off",
+    );
   });
 
   it("sets reasoning effort only when content recording is ON", () => {
