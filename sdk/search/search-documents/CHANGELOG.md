@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.1-beta.0 (Unreleased)
+## 13.0.1-beta.1 (Unreleased)
 
 ### Features Added
 
