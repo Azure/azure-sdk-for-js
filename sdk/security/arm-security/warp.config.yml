@@ -1,1 +1,57 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/alertsAPI": "./src/models/alertsAPI/index.ts"
+  "./models/alertsSuppressionRulesAPI": "./src/models/alertsSuppressionRulesAPI/index.ts"
+  "./models/apiCollectionsAPI": "./src/models/apiCollectionsAPI/index.ts"
+  "./models/applicationsAPI": "./src/models/applicationsAPI/index.ts"
+  "./models/assessmentAPI": "./src/models/assessmentAPI/index.ts"
+  "./models/atpSettingsAPI": "./src/models/atpSettingsAPI/index.ts"
+  "./models/automationsAPI": "./src/models/automationsAPI/index.ts"
+  "./models/common": "./src/models/common/index.ts"
+  "./models/complianceResultsAPI": "./src/models/complianceResultsAPI/index.ts"
+  "./models/defenderForStorageAPI": "./src/models/defenderForStorageAPI/index.ts"
+  "./models/governanceAPI": "./src/models/governanceAPI/index.ts"
+  "./models/healthReportsAPI": "./src/models/healthReportsAPI/index.ts"
+  "./models/ioTSecurityAPI": "./src/models/ioTSecurityAPI/index.ts"
+  "./models/legacySettingsAPI": "./src/models/legacySettingsAPI/index.ts"
+  "./models/locationsAPI": "./src/models/locationsAPI/index.ts"
+  "./models/mdeOnboardingAPI": "./src/models/mdeOnboardingAPI/index.ts"
+  "./models/pricingsAPI": "./src/models/pricingsAPI/index.ts"
+  "./models/privateLinksAPI": "./src/models/privateLinksAPI/index.ts"
+  "./models/regulatoryComplianceAPI": "./src/models/regulatoryComplianceAPI/index.ts"
+  "./models/secureScoreAPI": "./src/models/secureScoreAPI/index.ts"
+  "./models/securityConnectorsAPI": "./src/models/securityConnectorsAPI/index.ts"
+  "./models/securityConnectorsDevOpsAPI": "./src/models/securityConnectorsDevOpsAPI/index.ts"
+  "./models/securityManagementClient": "./src/models/securityManagementClient/index.ts"
+  "./models/securityOperatorsAPI": "./src/models/securityOperatorsAPI/index.ts"
+  "./models/securitySolutionsAPI": "./src/models/securitySolutionsAPI/index.ts"
+  "./models/securityStandardsAPI": "./src/models/securityStandardsAPI/index.ts"
+  "./models/sensitivitySettingsAPI": "./src/models/sensitivitySettingsAPI/index.ts"
+  "./models/serverVulnerabilityAssessmentsSettingsAPI": "./src/models/serverVulnerabilityAssessmentsSettingsAPI/index.ts"
+  "./models/settingsAPI": "./src/models/settingsAPI/index.ts"
+  "./models/sqlVulnerabilityAssessmentsAPI": "./src/models/sqlVulnerabilityAssessmentsAPI/index.ts"
+  "./models/standardsAPI": "./src/models/standardsAPI/index.ts"
+  "./models/subAssessmentsAPI": "./src/models/subAssessmentsAPI/index.ts"
+  "./models/tasksAPI": "./src/models/tasksAPI/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"
