@@ -14,6 +14,7 @@ trigger:
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
       - sdk/monitor/arm-monitor
       - sdk/monitor/arm-monitorslis
+      - sdk/monitor/arm-monitoraccounts
 pr:
   branches:
     include:
@@ -29,6 +30,7 @@ pr:
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
       - sdk/monitor/arm-monitor
       - sdk/monitor/arm-monitorslis
+      - sdk/monitor/arm-monitoraccounts
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -41,3 +43,5 @@ extends:
         safeName: azurearmmonitorprofile20200901hybrid
       - name: azure-arm-monitorslis
         safeName: azurearmmonitorslis
+      - name: azure-arm-monitoraccounts
+        safeName: azurearmmonitoraccounts
