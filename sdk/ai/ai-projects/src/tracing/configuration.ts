@@ -16,18 +16,19 @@ let _traceContextPropagationEnabled = true;
  * back to its default value. Previously set values are not preserved.
  *
  * @param options - Optional configuration.
- * @param options.contentRecording - Whether to capture message content in traces.
+ * Options include:
+ * - `contentRecording` - Whether to capture message content in traces.
  *   Content includes chat messages, function call names, arguments, and return values.
  *   When set to `true` or `false`, that value is used directly.
  *   When omitted, the `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` environment
  *   variable is checked (accepts `"true"` case-insensitive or `"1"`). Defaults to `false`.
  *   This value is only evaluated when enableGenAITracing() is called.
- * @param options.traceContextPropagation - Whether to inject W3C trace context headers
+ * - `traceContextPropagation` - Whether to inject W3C trace context headers
  *   (`traceparent`, `tracestate`) into outgoing OpenAI requests.
  *   When set to `true` or `false`, that value is used directly.
  *   When omitted, the `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` environment
  *   variable is checked (accepts `"true"` case-insensitive or `"1"`). Defaults to `true`.
- * @param options.experimental - Enable experimental GenAI tracing features that are
+ * - `experimental` - Enable experimental GenAI tracing features that are
  *   in preview and may change or be removed in future releases without notice.
  *   When set to `true`, tracing is enabled regardless of the value of the
  *   `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` environment variable.

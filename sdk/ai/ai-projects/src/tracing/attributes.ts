@@ -8,7 +8,7 @@ import type { Response as OAIResponse } from "openai/resources/responses/respons
 
 /**
  * Subset of TracingSpan used by attribute helpers.
- * Compatible with both TracingSpan and Omit<TracingSpan, "end"> from withSpan callbacks.
+ * Compatible with both TracingSpan and `Omit<TracingSpan, "end">` from withSpan callbacks.
  */
 export type SpanLike = Pick<TracingSpan, "setAttribute" | "setStatus">;
 import {

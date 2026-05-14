@@ -15,7 +15,7 @@ import {
 
 /**
  * Minimal subset of the OpenTelemetry Histogram interface we need.
- * Avoids a hard dependency on @opentelemetry/api.
+ * Avoids a hard dependency on `@opentelemetry/api`.
  */
 interface Histogram {
   record(value: number, attributes?: Record<string, string | number>): void;
@@ -25,13 +25,12 @@ let operationDurationHistogram: Histogram | undefined;
 let tokenUsageHistogram: Histogram | undefined;
 
 /**
- * Eagerly attempts to initialize metrics using @opentelemetry/api if available.
+ * Eagerly attempts to initialize metrics using `@opentelemetry/api` if available.
  * Uses dynamic import() so it works in both ESM and CJS.
  * If the package is not installed, metrics are silently disabled (no-op).
  * The returned promise is intentionally not awaited — metrics will be available
  * by the time the first recording call happens (after client setup and an API call).
  */
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 void (async () => {
   try {
     const otelApi = await import("@opentelemetry/api");

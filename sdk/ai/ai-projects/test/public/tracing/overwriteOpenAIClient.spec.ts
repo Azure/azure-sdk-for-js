@@ -81,7 +81,7 @@ vi.mock("../../../src/tracing/tracingClient.js", () => ({
     withSpan: async (
       name: string,
       options: unknown,
-      callback: Function,
+      callback: (...args: any[]) => any,
     ) => {
       const span = createMockSpan(name);
       recordedSpans.push(span);
@@ -518,7 +518,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     enableContentRecording();
     const mockClient = {
       responses: {
-        create: async () => {
+        create: async (_body?: any) => {
           throw new TypeError("API failure");
         },
       },
@@ -1180,7 +1180,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     disableContentRecording();
     const mockClient = {
       responses: {
-        create: async () => {
+        create: async (_body?: any) => {
           throw new RangeError("API rate limit exceeded");
         },
       },

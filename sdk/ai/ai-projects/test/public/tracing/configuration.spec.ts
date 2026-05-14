@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, afterEach } from "vitest";
 import {
   enableGenAITracing,
   disableGenAITracing,

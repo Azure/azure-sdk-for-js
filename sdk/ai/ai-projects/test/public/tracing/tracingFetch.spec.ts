@@ -21,11 +21,11 @@ vi.mock("../../../src/tracing/tracingClient.js", () => ({
 
 describe("tracingFetch - trace context propagation", () => {
   let capturedRequests: Request[];
-  let mockFetch: (resource: RequestInfo | URL, options?: RequestInit) => Promise<Response>;
+  let mockFetch: (resource: string | Request | URL, options?: RequestInit) => Promise<Response>;
 
   beforeEach(() => {
     capturedRequests = [];
-    mockFetch = async (resource: RequestInfo | URL, options?: RequestInit): Promise<Response> => {
+    mockFetch = async (resource: string | Request | URL, options?: RequestInit): Promise<Response> => {
       // Capture the actual Request so we can inspect headers
       const req = resource instanceof Request ? resource : new Request(resource, options);
       capturedRequests.push(req);
