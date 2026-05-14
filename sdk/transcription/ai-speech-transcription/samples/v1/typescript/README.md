@@ -4,10 +4,10 @@ languages:
   - typescript
 products:
   - azure
-urlFragment: ai-speech-transcription-typescript-beta
+urlFragment: ai-speech-transcription-typescript
 ---
 
-# Azure AI Speech Transcription client library samples for TypeScript (Beta)
+# Azure AI Speech Transcription client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Speech Transcription in some common scenarios.
 
@@ -73,15 +73,16 @@ npx cross-env TRANSCRIPTION_ENDPOINT="<transcription endpoint>" TRANSCRIPTION_AP
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basictranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/basicTranscription.ts
-[transcriptionoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/transcriptionOptions.ts
-[transcriptionfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/transcriptionFromUrl.ts
-[enhancedmode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/enhancedMode.ts
-[speakerdiarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/speakerDiarization.ts
-[phraselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/phraseList.ts
-[profanityfiltering]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/profanityFiltering.ts
-[transcriptionwithlocale]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/transcriptionWithLocale.ts
-[multilingualtranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1-beta/typescript/src/multilingualTranscription.ts
+[basictranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/basicTranscription.ts
+[transcriptionoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/transcriptionOptions.ts
+[transcriptionfromurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/transcriptionFromUrl.ts
+[enhancedmode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/enhancedMode.ts
+[speakerdiarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/speakerDiarization.ts
+[phraselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/phraseList.ts
+[profanityfiltering]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/profanityFiltering.ts
+[transcriptionwithlocale]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/transcriptionWithLocale.ts
+[multilingualtranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/transcription/ai-speech-transcription/samples/v1/typescript/src/multilingualTranscription.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/transcription/ai-speech-transcription/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
