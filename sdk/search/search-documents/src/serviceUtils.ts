@@ -132,7 +132,7 @@ import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2026-04-01";
+export const defaultServiceVersion = "2026-05-01-preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -326,6 +326,7 @@ export function convertFieldsToPublic(fields?: GeneratedSearchField[]): SearchFi
 
       const result: SimpleField = {
         ...restField,
+        hasSensitivityLabel: field.sensitivityLabelId,
         type,
         hidden,
         synonymMapNames,
@@ -361,6 +362,7 @@ export function convertFieldsToGenerated(
         indexAnalyzerName: field.indexAnalyzerName,
         synonymMapNames: field.synonymMapNames,
         normalizerName: field.normalizerName,
+        sensitivityLabelId: field.hasSensitivityLabel,
       };
     }
   });

@@ -101,6 +101,7 @@ import type {
   PatternCaptureTokenFilter,
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
+  PermissionFilter,
   PhoneticTokenFilter,
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
@@ -1177,6 +1178,14 @@ export interface SimpleField {
   vectorEncodingFormat?: VectorEncodingFormat;
   /** A value indicating whether the field should be used for sensitivity label filtering. This enables document-level filtering based on Microsoft Purview sensitivity labels. */
   hasSensitivityLabel?: boolean;
+  /** A value indicating whether the field stores the sensitivity label name associated with each document for Microsoft Purview. */
+  sensitivityLabelName?: boolean;
+  /** A value indicating whether the field stores the source document ID used by Microsoft Purview to reference the underlying document. */
+  sourceDocumentId?: boolean;
+  /** A value indicating whether the field stores the SharePoint site URL used by Microsoft Purview. */
+  sharepointSiteUrl?: boolean;
+  /** A value indicating which permission filter applies when querying this field. Used together with index-level permission filtering. */
+  permissionFilter?: PermissionFilter;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {

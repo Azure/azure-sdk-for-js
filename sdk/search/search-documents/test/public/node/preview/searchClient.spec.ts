@@ -100,7 +100,7 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
           key: true,
         },
         {
-          name: "sensitivityLabel",
+          name: "sensitivityLabelId",
           type: "Edm.String",
           filterable: false,
           sortable: false,
@@ -120,13 +120,13 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
 
   it("verify content security indexes", async () => {
     const documents = [
-      { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
-      { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
-      { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
-      { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
+      { id: "1", sensitivityLabelId: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
+      { id: "2", sensitivityLabelId: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
+      { id: "3", sensitivityLabelId: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
+      { id: "4", sensitivityLabelId: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
     ];
 
-    const searchClient = new SearchClient<{ id: string; sensitivityLabel: string }>(
+    const searchClient = new SearchClient<{ id: string; sensitivityLabelId: string }>(
       indexClient.endpoint,
       index.name,
       createTestCredential(),
