@@ -232,7 +232,7 @@ export interface BaseKnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
+    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "web" | "remoteSharePoint" | "workIQ" | "fabricDataAgent" | "fabricOntology";
     name: string;
 }
 
@@ -902,8 +902,32 @@ export interface ExtractiveQueryCaption {
 }
 
 // @public
+export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
+    fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
+    kind: "fabricDataAgent";
+}
+
+// @public
+export interface FabricDataAgentKnowledgeSourceParameters {
+    dataAgentId: string;
+    workspaceId: string;
+}
+
+// @public
 export interface FabricDataAgentKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "fabricDataAgent";
+}
+
+// @public
+export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
+    fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
+    kind: "fabricOntology";
+}
+
+// @public
+export interface FabricOntologyKnowledgeSourceParameters {
+    ontologyId: string;
+    workspaceId: string;
 }
 
 // @public
@@ -1120,6 +1144,26 @@ export interface IndexedOneLakeKnowledgeSourceParams extends BaseKnowledgeSource
 }
 
 // @public
+export type IndexedSharePointContainerName = string;
+
+// @public
+export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
+    indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
+    kind: "indexedSharePoint";
+}
+
+// @public
+export interface IndexedSharePointKnowledgeSourceParameters {
+    connectionString: string;
+    containerName: IndexedSharePointContainerName;
+    readonly createdResources?: {
+        [propertyName: string]: string;
+    };
+    ingestionParameters?: KnowledgeSourceIngestionParameters;
+    query?: string;
+}
+
+// @public
 export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "indexedSharePoint";
 }
@@ -1290,12 +1334,17 @@ export interface KeywordTokenizer {
 
 // @public (undocumented)
 export interface KnowledgeBase {
+    answerInstructions?: string;
+    corsOptions?: CorsOptions;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     knowledgeSources: KnowledgeSourceReference[];
     models?: KnowledgeBaseModel[];
     name: string;
+    outputMode?: KnowledgeRetrievalOutputMode;
+    retrievalInstructions?: string;
+    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
@@ -1540,7 +1589,7 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 }
 
 // @public (undocumented)
-export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource;
+export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource | WorkIQKnowledgeSource | FabricDataAgentKnowledgeSource | FabricOntologyKnowledgeSource;
 
 // @public
 export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
@@ -1953,6 +2002,13 @@ export enum KnownImageDetail {
 }
 
 // @public
+export enum KnownIndexedSharePointContainerName {
+    AllSiteLibraries = "allSiteLibraries",
+    DefaultSiteLibrary = "defaultSiteLibrary",
+    UseQuery = "useQuery"
+}
+
+// @public
 export enum KnownIndexerExecutionEnvironment {
     Private = "private",
     Standard = "standard"
@@ -1992,6 +2048,19 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
 // @public
 export enum KnownKnowledgeBaseModelKind {
     AzureOpenAI = "azureOpenAI"
+}
+
+// @public
+export enum KnownKnowledgeRetrievalOutputMode {
+    AnswerSynthesis = "answerSynthesis",
+    ExtractiveData = "extractiveData"
+}
+
+// @public
+export enum KnownKnowledgeRetrievalReasoningEffortKind {
+    Low = "low",
+    Medium = "medium",
+    Minimal = "minimal"
 }
 
 // @public
@@ -3021,6 +3090,19 @@ export type RankingOrder = string;
 
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
+
+// @public
+export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
+    kind: "remoteSharePoint";
+    remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
+}
+
+// @public
+export interface RemoteSharePointKnowledgeSourceParameters {
+    containerTypeId?: string;
+    filterExpression?: string;
+    resourceMetadata?: string[];
+}
 
 // @public
 export interface RemoteSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
@@ -4147,6 +4229,11 @@ export interface WordDelimiterTokenFilter extends BaseTokenFilter {
 // @public
 export interface WorkIQAttribution {
     seeMoreWebUrl?: string;
+}
+
+// @public
+export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
+    kind: "workIQ";
 }
 
 // @public

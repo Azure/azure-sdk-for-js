@@ -45,6 +45,7 @@ import type {
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
   IndexerResyncOption,
+  IndexedSharePointContainerName,
   IndexingSchedule,
   IndexProjectionMode,
   KeepTokenFilter,
@@ -3040,8 +3041,13 @@ export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
   | AzureBlobKnowledgeSource
+  | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
-  | WebKnowledgeSource;
+  | WebKnowledgeSource
+  | RemoteSharePointKnowledgeSource
+  | WorkIQKnowledgeSource
+  | FabricDataAgentKnowledgeSource
+  | FabricOntologyKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3050,7 +3056,16 @@ export interface BaseKnowledgeSource {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
+  kind:
+    | "searchIndex"
+    | "azureBlob"
+    | "indexedSharePoint"
+    | "indexedOneLake"
+    | "web"
+    | "remoteSharePoint"
+    | "workIQ"
+    | "fabricDataAgent"
+    | "fabricOntology";
   /**
    * The name of the knowledge source.
    */
@@ -3165,6 +3180,123 @@ export interface WebKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the web knowledge source.
    */
   webParameters?: WebKnowledgeSourceParameters;
+}
+
+/**
+ * Configuration for SharePoint knowledge source (indexed SharePoint content).
+ */
+export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "indexedSharePoint";
+  /**
+   * The parameters for the knowledge source.
+   */
+  indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
+}
+
+/**
+ * Parameters for SharePoint knowledge source.
+ */
+export interface IndexedSharePointKnowledgeSourceParameters {
+  /** SharePoint connection string. */
+  connectionString: string;
+  /** Specifies which SharePoint libraries to access. */
+  containerName: IndexedSharePointContainerName;
+  /** Optional query to filter SharePoint content. */
+  query?: string;
+  /** Consolidates all general ingestion settings. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /**
+   * Resources created by the knowledge source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdResources?: { [propertyName: string]: string };
+}
+
+/**
+ * Configuration for a knowledge source backed by a remote (live-queried) SharePoint site.
+ */
+export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "remoteSharePoint";
+  /**
+   * The parameters for the remote SharePoint knowledge source.
+   */
+  remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
+}
+
+/**
+ * Parameters for remote SharePoint knowledge source.
+ */
+export interface RemoteSharePointKnowledgeSourceParameters {
+  /** Keyword Query Language (KQL) expression with queryable SharePoint properties and attributes to scope the retrieval before the query runs. */
+  filterExpression?: string;
+  /** A list of metadata fields to be returned for each item in the response. Only retrievable metadata properties can be included in this list. By default, no metadata is returned. */
+  resourceMetadata?: string[];
+  /** Container ID for SharePoint Embedded connection. When this is null, it will use SharePoint Online. */
+  containerTypeId?: string;
+}
+
+/**
+ * Configuration for a knowledge source backed by WorkIQ.
+ */
+export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "workIQ";
+}
+
+/**
+ * Configuration for a knowledge source backed by a Microsoft Fabric Data Agent.
+ */
+export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "fabricDataAgent";
+  /**
+   * The parameters for the Fabric Data Agent knowledge source.
+   */
+  fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
+}
+
+/**
+ * Parameters for Fabric Data Agent knowledge source.
+ */
+export interface FabricDataAgentKnowledgeSourceParameters {
+  /** Fabric workspace ID. */
+  workspaceId: string;
+  /** Specifies which Fabric Data Agent to access. */
+  dataAgentId: string;
+}
+
+/**
+ * Configuration for a knowledge source backed by a Microsoft Fabric Ontology.
+ */
+export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "fabricOntology";
+  /**
+   * The parameters for the Fabric Ontology knowledge source.
+   */
+  fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
+}
+
+/**
+ * Parameters for Fabric Ontology knowledge source.
+ */
+export interface FabricOntologyKnowledgeSourceParameters {
+  /** The Fabric workspace ID containing the ontology. */
+  workspaceId: string;
+  /** The ID of the ontology to use from the Fabric workspace. */
+  ontologyId: string;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */

@@ -82,7 +82,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
     await indexClient.createKnowledgeBase({
       name: TEST_BASE_NAME,
       knowledgeSources: [{ name: TEST_KS_NAME }],
-    } as any);
+    });
 
     await delay(WAIT_TIME);
     await populateIndex(searchClient);
@@ -151,7 +151,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
         createTestCredential(),
       );
 
-      const result = await webKnowledgeRetrievalClient.retrieveKnowledge({
+      const result = await webKnowledgeRetrievalClient.retrieve({
         messages: [
           {
             role: "user",
@@ -179,10 +179,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
         remoteSharePointParameters: {},
       };
 
-      await indexClient.createOrUpdateKnowledgeSource(
-        remoteSharePointKnowledgeSource.name,
-        remoteSharePointKnowledgeSource,
-      );
+      await indexClient.createOrUpdateKnowledgeSource(remoteSharePointKnowledgeSource);
 
       await indexClient.createKnowledgeBase({
         name: `${TEST_BASE_NAME}-remotesharepoint`,

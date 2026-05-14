@@ -21,6 +21,9 @@
 - Added `hybridSearch` option on `BaseSearchRequestOptions` to configure hybrid search behaviors.
 - Added `querySourceAuthorization` and `enableElevatedRead` options on `BaseSearchRequestOptions` and `GetDocumentOptions` to issue queries with a query-source token and to bypass document-level permission checks.
 - Added `querySourceAuthorization` option on `RetrieveOptions` for knowledge base retrieval.
+- Added preview-only configuration properties on `KnowledgeBase`: `outputMode`, `retrievalReasoningEffort`, `retrievalInstructions`, `answerInstructions`, and `corsOptions`.
+- Added new public knowledge source kinds: `IndexedSharePointKnowledgeSource`, `RemoteSharePointKnowledgeSource`, `WorkIQKnowledgeSource`, `FabricDataAgentKnowledgeSource`, and `FabricOntologyKnowledgeSource` (and their `*Parameters` companions).
+- Exported `KnownKnowledgeRetrievalOutputMode`, `KnownKnowledgeRetrievalReasoningEffortKind`, `KnownIndexedSharePointContainerName`, and `IndexedSharePointContainerName` enums.
 
 ### Breaking Changes
 

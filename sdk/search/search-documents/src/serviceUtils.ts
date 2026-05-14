@@ -993,6 +993,17 @@ export function convertKnowledgeSourceToPublic(
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
     }
+    case "indexedSharePoint":
+    case "remoteSharePoint":
+    case "workIQ":
+    case "fabricDataAgent":
+    case "fabricOntology": {
+      const { encryptionKey } = knowledgeSource;
+      return {
+        ...knowledgeSource,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+      } as KnowledgeSource;
+    }
     default: {
       logger.warning(`Unknown knowledge source kind ${knowledgeSource.kind}`);
       return undefined;
