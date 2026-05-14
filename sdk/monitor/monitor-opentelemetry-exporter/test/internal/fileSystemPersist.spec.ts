@@ -338,7 +338,7 @@ describe("FileSystemPersist", () => {
 
       // Push new batches close together so they won't expire
       await persister.push(newBatch1);
-      await sleep(50);
+      await sleep(250);
       await persister.push(newBatch2);
 
       // Set retention so only the old file (1s+ ago) is expired, not the new ones (<200ms ago)
