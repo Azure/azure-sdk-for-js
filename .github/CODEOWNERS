@@ -1093,7 +1093,7 @@
 # PRLabel: %Mgmt
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/chaos/arm-chaos/ @qiaozha @MaryGao @JialinHuang803
 
 # ServiceLabel: %AAD %Service Attention
