@@ -997,7 +997,7 @@
 # PRLabel: %Mgmt
 /sdk/streamanalytics/arm-streamanalytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/subscription/arm-subscriptions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
