@@ -5,6 +5,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
+  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
@@ -94,6 +95,16 @@ export interface GetDocumentOptions<
    * the returned document.
    */
   selectedFields?: readonly TFields[];
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+  /**
+   * A value that enables elevated read that bypass document level permission checks for the
+   * query operation.
+   */
+  enableElevatedRead?: boolean;
 }
 
 /**
@@ -415,9 +426,23 @@ export interface BaseSearchRequestOptions<
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
   /**
+   * The query parameters to configure hybrid search behaviors.
+   */
+  hybridSearch?: HybridSearch;
+  /**
    * Enables a debugging tool that can be used to further explore your search results.
    */
   debug?: QueryDebugMode;
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+  /**
+   * A value that enables elevated read that bypass document level permission checks for the
+   * query operation.
+   */
+  enableElevatedRead?: boolean;
 }
 
 /**

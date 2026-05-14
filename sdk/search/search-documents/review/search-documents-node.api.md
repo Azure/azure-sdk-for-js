@@ -298,14 +298,17 @@ export interface BaseSearchIndexerSkill {
 // @public
 export interface BaseSearchRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> {
     debug?: QueryDebugMode;
+    enableElevatedRead?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
+    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
+    querySourceAuthorization?: string;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -971,6 +974,8 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> extends OperationOptions {
+    enableElevatedRead?: boolean;
+    querySourceAuthorization?: string;
     selectedFields?: readonly TFields[];
 }
 
@@ -1025,6 +1030,15 @@ export interface HnswParameters {
     efSearch?: number;
     m?: number;
     metric?: VectorSearchAlgorithmMetric;
+}
+
+// @public
+export type HybridCountAndFacetMode = string;
+
+// @public
+export interface HybridSearch {
+    countAndFacetMode?: HybridCountAndFacetMode;
+    maxTextRecallSize?: number;
 }
 
 // @public
@@ -1868,6 +1882,12 @@ export enum KnownEntityRecognitionSkillLanguage {
     Tr = "tr",
     ZhHans = "zh-Hans",
     ZhHant = "zh-Hant"
+}
+
+// @public
+export enum KnownHybridCountAndFacetMode {
+    CountAllResults = "countAllResults",
+    CountRetrievableResults = "countRetrievableResults"
 }
 
 // @public
@@ -3041,6 +3061,7 @@ export interface ResyncIndexerOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface RetrieveOptions extends OperationOptions {
+    querySourceAuthorization?: string;
 }
 
 // @public

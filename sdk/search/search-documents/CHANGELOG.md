@@ -18,6 +18,9 @@
 - Added `ContentUnderstandingSkillChunkingMethod` and corresponding `method` property on `ContentUnderstandingSkillChunkingProperties`.
 - Added `mode` (`IndexingMode`), `statusDetail` (`IndexerExecutionStatusDetail`), `IndexerCurrentState`, and `IndexerRuntime` properties surfaced on indexer execution results.
 - Added `warning` to `BaseKnowledgeBaseActivityRecord`.
+- Added `hybridSearch` option on `BaseSearchRequestOptions` to configure hybrid search behaviors.
+- Added `querySourceAuthorization` and `enableElevatedRead` options on `BaseSearchRequestOptions` and `GetDocumentOptions` to issue queries with a query-source token and to bypass document-level permission checks.
+- Added `querySourceAuthorization` option on `RetrieveOptions` for knowledge base retrieval.
 
 ### Breaking Changes
 

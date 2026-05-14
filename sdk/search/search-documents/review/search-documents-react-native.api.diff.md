@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -612,9 +612,9 @@
+@@ -615,9 +615,9 @@
  // @public
  export type CreateSkillsetOptions = OperationOptions;
  
