@@ -52,7 +52,7 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
     describe("#indexes", () => {
       it("gets index statistics summary", async () => {
         let stats;
-        for await (const elem of indexClient.getIndexStatsSummary()) {
+        for await (const elem of indexClient.listIndexStatsSummary()) {
           if (elem.name === TEST_INDEX_NAME) {
             stats = elem;
           }

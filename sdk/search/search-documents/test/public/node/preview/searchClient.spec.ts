@@ -6,7 +6,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { SearchIndex, SearchIndexClient } from "../../../../src/index.js";
-import { KnownQueryLanguage, KnownQuerySpeller, SearchClient } from "../../../../src/index.js";
+import { SearchClient } from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
@@ -40,7 +40,6 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
 
   const baseSemanticOptions = () =>
     ({
-      queryLanguage: KnownQueryLanguage.EnUs,
       queryType: "semantic",
       semanticSearchOptions: {
         configurationName:
@@ -48,17 +47,6 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
           assert.fail("No semantic configuration in index."),
       },
     }) as const;
-
-  it("search with speller (preview)", async () => {
-    const searchResults = await searchClient.search("budjet", {
-      skip: 0,
-      top: 5,
-      includeTotalCount: true,
-      queryLanguage: KnownQueryLanguage.EnUs,
-      speller: KnownQuerySpeller.Lexicon,
-    });
-    assert.equal(searchResults.count, 6);
-  });
 
   it("search with document debug info", async () => {
     const baseOptions = baseSemanticOptions();
@@ -77,24 +65,15 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
           contentFields: [
             {
               name: "description",
-              state: "used",
             },
           ],
           keywordFields: [
             {
               name: "tags",
-              state: "used",
             },
           ],
-          rerankerInput: {
-            content:
-              "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-            keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-            title: "Fancy Stay",
-          },
           titleField: {
             name: "hotelName",
-            state: "used",
           },
         },
         result.documentDebugInfo?.semantic,
@@ -126,7 +105,7 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
           filterable: false,
           sortable: false,
           facetable: true,
-          sensitivityLabel: true,
+          hasSensitivityLabel: true,
         },
       ],
     };
@@ -161,8 +140,8 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
     let errorThrown = false;
     try {
       await searchClient.search("*", {
-        xMsQuerySourceAuthorization: "Invalid token",
-        xMsEnableElevatedRead: true,
+        querySourceAuthorization: "Invalid token",
+        enableElevatedRead: true,
       });
     } catch (ex: any) {
       errorThrown = true;
