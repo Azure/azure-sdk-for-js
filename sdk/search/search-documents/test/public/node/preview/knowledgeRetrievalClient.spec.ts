@@ -9,11 +9,11 @@ import type {
   SearchIndexClient,
   WebKnowledgeSource,
   RemoteSharePointKnowledgeSource,
-} from "@azure/search-documents";
+} from "../../../../src/index.js";
 import {
   KnowledgeRetrievalClient,
   KnownKnowledgeRetrievalOutputMode,
-} from "@azure/search-documents";
+} from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../../utils/interfaces.js";

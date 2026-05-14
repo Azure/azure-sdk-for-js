@@ -4,8 +4,8 @@
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
-import type { SearchClient, SearchIndexClient } from "@azure/search-documents";
-import { KnowledgeRetrievalClient } from "@azure/search-documents";
+import type { SearchClient, SearchIndexClient } from "../../../src/index.js";
+import { KnowledgeRetrievalClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { Hotel } from "../utils/interfaces.js";
