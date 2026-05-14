@@ -144,12 +144,10 @@ stages:
           - script: |
               npm install -g @azure-tools/typespec-client-generator-cli
               npm install -g pnpm
+              npm config set legacy-peer-deps true
             displayName: 'Install tsp-client and pnpm'
 
           # Clone azure-rest-api-specs (latest main) as a sibling directory.
-          # The runner scans this local spec repo for tspconfig.yaml files,
-          # builds a spec-index, and prefers those current spec paths over
-          # stale tsp-location.yaml data in the SDK repo.
           - script: |
               if [ -d "$(specRepoRoot)" ]; then
                 echo "Spec repo already exists at $(specRepoRoot), pulling latest..."
@@ -166,7 +164,7 @@ stages:
               cd $(specRepoRoot) && git log -1 --oneline
             displayName: 'Clone azure-rest-api-specs (local spec source)'
 
-          # Step 2 (on this VM): Update emitter-package.json + lock file again
+          # Update emitter-package.json + lock file
           - script: |
               cd $(sdkRoot)
               node -e "
@@ -194,7 +192,7 @@ stages:
                 --maxPackages "${{ parameters.MaxPackages }}" \
                 --skipBuild "${{ parameters.SkipBuild }}" \
                 --emitterVersion "$(emitterVersion)"
-            displayName: 'Regenerate & build ARM packages (spec-index)'
+            displayName: 'Regenerate & build ARM packages'
 
           # Step 6: Breaking Change Detection
           - script: |

@@ -16,6 +16,8 @@ const maxWorkers = Number(getArg("--maxWorkers", "4"));
 const maxPackages = Number(getArg("--maxPackages", "0"));
 const skipBuild = getArg("--skipBuild", "false").toLowerCase() === "true";
 const emitterVersion = getArg("--emitterVersion", "");
+const directoryListFile = getArg("--directoryList", "");
+const resultOutputDir = getArg("--resultOutputDir", "");
 
 if (!specRepoRoot || !fs.existsSync(specRepoRoot)) {
   console.error(`ERROR: spec repo root not found: ${specRepoRoot}`);
@@ -393,13 +395,24 @@ function patchMissingDependencies(root, successPkgs) {
 }
 
 function detectNestedDuplicateWorkspaces() {
-  const packageJsonPaths = execSync(
-    'find sdk -path "*/node_modules/*" -prune -o -path "sdk/*/*/sdk/*/*/package.json" -print',
-    { encoding: "utf8" },
-  )
-    .trim()
-    .split("\n")
-    .filter(Boolean);
+  // Find package.json files at nested paths like sdk/a/b/sdk/c/d/package.json
+  const nestedPattern = /^sdk[/\\][^/\\]+[/\\][^/\\]+[/\\]sdk[/\\]/;
+  function findNested(dir, results) {
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return results; }
+    for (const entry of entries) {
+      if (entry.name === "node_modules" || entry.name === ".git") continue;
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        findNested(full, results);
+      } else if (entry.name === "package.json") {
+        const rel = normalizePath(path.relative(sdkRoot, full));
+        if (nestedPattern.test(rel)) results.push(rel);
+      }
+    }
+    return results;
+  }
+  const packageJsonPaths = findNested(path.join(sdkRoot, "sdk"), []);
 
   if (packageJsonPaths.length === 0) {
     console.log("Pre-flight: no nested duplicate workspaces found.");
@@ -414,13 +427,24 @@ function detectNestedDuplicateWorkspaces() {
 }
 
 function classifyPackages(specIndex) {
-  const allArmDirs = execSync('find sdk -path "*/node_modules/*" -prune -o -type d -name "arm-*" -print', {
-    encoding: "utf8",
-  })
-    .trim()
-    .split("\n")
-    .filter(Boolean)
-    .sort();
+  // Find all arm-* directories under sdk/
+  function findArmDirs(dir, results) {
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return results; }
+    for (const entry of entries) {
+      if (entry.name === "node_modules" || entry.name === ".git") continue;
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (entry.name.startsWith("arm-")) {
+          results.push(normalizePath(path.relative(sdkRoot, full)));
+        } else {
+          findArmDirs(full, results);
+        }
+      }
+    }
+    return results;
+  }
+  const allArmDirs = findArmDirs(path.join(sdkRoot, "sdk"), []).sort();
 
   const existingSdkDirs = new Set(allArmDirs.map((dir) => normalizePath(dir)));
   const packages = [];
@@ -511,8 +535,94 @@ function classifyPackages(specIndex) {
   return packages;
 }
 
+// When --directoryList is provided, read the JSON file and resolve packages
+// using spec-index (preferred) or tsp-location.yaml (fallback).
+// directoryList entries are "serviceArea/packageName" (e.g. "advisor/arm-advisor").
+function classifyFromDirectoryList(directoryListPath, specIndex) {
+  console.log(`Reading directory list from: ${directoryListPath}`);
+  const entries = JSON.parse(fs.readFileSync(directoryListPath, "utf8"));
+  if (!Array.isArray(entries) || entries.length === 0) {
+    console.error("ERROR: directoryList is empty or not an array");
+    process.exit(1);
+  }
+  console.log(`  Directory list contains ${entries.length} packages`);
+
+  const packages = [];
+  const skipped = [];
+
+  for (const entry of entries) {
+    // entry is "serviceArea/packageName", e.g. "advisor/arm-advisor"
+    if (entry.includes("..") || path.isAbsolute(entry)) {
+      console.error(`ERROR: invalid directory list entry (must be relative): ${entry}`);
+      process.exit(1);
+    }
+
+    const dir = normalizePath(path.join("sdk", entry));
+    const pkgDir = path.join(sdkRoot, "sdk", entry);
+
+    if (!fs.existsSync(pkgDir)) {
+      skipped.push({ name: dir, reason: "directory does not exist" });
+      continue;
+    }
+
+    const specEntry = specIndex.get(dir);
+    if (specEntry) {
+      packages.push({
+        pkg: dir,
+        pkgDir,
+        tspConfigPath: specEntry.tspConfigPath,
+        localSpecPath: specEntry.localSpecPath,
+        source: "spec-index",
+      });
+      continue;
+    }
+
+    // Fallback: use tsp-location.yaml
+    const tspLocationPath = path.join(pkgDir, "tsp-location.yaml");
+    if (fs.existsSync(tspLocationPath)) {
+      const content = fs.readFileSync(tspLocationPath, "utf8");
+      const directoryMatch = content.match(/^\s*directory\s*:\s*(.+?)\s*$/m);
+      if (directoryMatch) {
+        const directory = directoryMatch[1].trim();
+        const localSpecPath = normalizePath(path.join(specRepoRoot, directory));
+        const tspConfigPath = path.join(localSpecPath, "tspconfig.yaml");
+        if (fs.existsSync(tspConfigPath)) {
+          packages.push({
+            pkg: dir,
+            pkgDir,
+            tspConfigPath,
+            localSpecPath,
+            source: "tsp-location",
+          });
+          continue;
+        }
+      }
+    }
+
+    skipped.push({ name: dir, reason: "not in spec-index and no valid tsp-location.yaml" });
+  }
+
+  console.log(`  ✅ Will run: ${packages.length} packages`);
+  if (skipped.length > 0) {
+    console.log(`  ❌ Skipped: ${skipped.length} packages`);
+    for (const item of skipped) console.log(`       [SKIP] ${item.name} — ${item.reason}`);
+  }
+  console.log("");
+
+  return packages;
+}
+
 async function regenerateAll(packages) {
   console.log("===== Step 4: Regeneration (tsp-client init --update-if-exists) =====");
+
+  // Set npm config to avoid ERESOLVE errors during tsp-client's internal npm install
+  try {
+    execSync("npm config set legacy-peer-deps true", { encoding: "utf8" });
+    console.log("Set npm legacy-peer-deps=true to avoid ERESOLVE conflicts");
+  } catch (e) {
+    console.log("Warning: failed to set npm config:", e.message);
+  }
+
   const results = [];
   let completed = 0;
   let activePromises = [];
@@ -667,11 +777,19 @@ async function main() {
 
   console.log("===== Step 3: Find & filter ARM packages =====");
   const specIndex = buildSpecIndex();
-  let packages = classifyPackages(specIndex);
+  let packages;
 
-  if (maxPackages > 0) {
-    packages = packages.slice(0, maxPackages);
-    console.log(`Limited to first ${maxPackages} packages`);
+  if (directoryListFile) {
+    // Matrix mode: package list provided by GenerateMatrix job
+    console.log("(Matrix mode: using --directoryList)");
+    packages = classifyFromDirectoryList(directoryListFile, specIndex);
+  } else {
+    // Single-job mode: scan all ARM packages
+    packages = classifyPackages(specIndex);
+    if (maxPackages > 0) {
+      packages = packages.slice(0, maxPackages);
+      console.log(`Limited to first ${maxPackages} packages`);
+    }
   }
 
   console.log(`Processing ${packages.length} packages with ${maxWorkers} workers`);
@@ -715,6 +833,41 @@ async function main() {
     }
   }
   console.log("=============================");
+
+  // Write result summary as JSON for artifact collection in matrix mode
+  if (resultOutputDir) {
+    const resultSummary = {
+      emitterVersion,
+      directoryList: directoryListFile || null,
+      packages: packages.map((p) => p.pkg),
+      regeneration: {
+        total: packages.length,
+        success: regenSuccess,
+        failed: regenFail,
+        failures: regenResults.filter((r) => !r.success).map((r) => ({
+          pkg: r.pkg,
+          error: extractError(r.output),
+        })),
+      },
+      build: buildSkipped ? null : {
+        total: regenSuccess,
+        success: buildOk,
+        failed: buildFail,
+        failures: buildResults.filter((r) => !r.success).map((r) => ({
+          pkg: r.pkg,
+          phase: r.phase,
+          error: extractError(r.output),
+        })),
+      },
+    };
+
+    if (!fs.existsSync(resultOutputDir)) {
+      fs.mkdirSync(resultOutputDir, { recursive: true });
+    }
+    const resultFile = path.join(resultOutputDir, "result.json");
+    fs.writeFileSync(resultFile, JSON.stringify(resultSummary, null, 2));
+    console.log(`Result summary written to: ${resultFile}`);
+  }
 
   if (regenFail > 0 || buildFail > 0) process.exit(1);
 }
