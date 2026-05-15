@@ -1,39 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- *
- * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/PostDeploymentValidateOnManagementGroup.json
- */
-
-import {
-  ScopedDeployment,
-  DeploymentsClient,
-} from "@azure/arm-resourcesdeployments";
+import { ResourcesClient } from "@azure/arm-resourcesdeployments";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+ *
+ * @summary validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+ * x-ms-original-file: 2025-04-01/PostDeploymentValidateOnManagementGroup.json
+ */
 async function validatesATemplateAtManagementGroupScope(): Promise<void> {
-  const groupId = "my-management-group-id";
-  const deploymentName = "my-deployment";
-  const parameters: ScopedDeployment = {
-    location: "eastus",
-    properties: {
-      mode: "Incremental",
-      parameters: {},
-      templateLink: { uri: "https://example.com/exampleTemplate.json" },
-    },
-  };
   const credential = new DefaultAzureCredential();
-  const client = new DeploymentsClient(credential);
-  const result =
-    await client.deployments.beginValidateAtManagementGroupScopeAndWait(
-      groupId,
-      deploymentName,
-      parameters,
-    );
+  const client = new ResourcesClient(credential);
+  const result = await client.deployments.validateAtManagementGroupScope(
+    "my-management-group-id",
+    "my-deployment",
+    {
+      location: "eastus",
+      properties: {
+        mode: "Incremental",
+        parameters: {},
+        templateLink: { uri: "https://example.com/exampleTemplate.json" },
+      },
+    },
+  );
   console.log(result);
 }
 
