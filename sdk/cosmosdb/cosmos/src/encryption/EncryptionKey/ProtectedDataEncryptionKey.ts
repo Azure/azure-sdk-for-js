@@ -12,18 +12,28 @@ import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
  */
 export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   public keyEncryptionKey: KeyEncryptionKey;
+  public encryptedValue: Uint8Array;
 
-  public encryptedValue: Buffer;
-
-  public constructor(
+  private constructor(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
-    rawKey: Buffer,
-    encryptedKey: Buffer,
+    rawKey: Uint8Array<ArrayBuffer>,
+    encryptedKey: Uint8Array,
   ) {
     super(rawKey, name);
-    this.name = name;
     this.keyEncryptionKey = keyEncryptionKey;
     this.encryptedValue = encryptedKey;
+  }
+
+  public static async create(
+    name: string,
+    keyEncryptionKey: KeyEncryptionKey,
+    rawKey: Uint8Array,
+    encryptedKey: Uint8Array,
+  ): Promise<ProtectedDataEncryptionKey> {
+    const typedRawKey = rawKey as Uint8Array<ArrayBuffer>;
+    const key = new ProtectedDataEncryptionKey(name, keyEncryptionKey, typedRawKey, encryptedKey);
+    await key.deriveKeys(typedRawKey);
+    return key;
   }
 }

@@ -8,7 +8,8 @@ export default azsdkEslint.config([
   {
     languageOptions: {
       parserOptions: {
-        createDefaultProgram: true,
+        projectService: false,
+        project: "./config/tsconfig.lint.json",
       },
     },
     rules: {

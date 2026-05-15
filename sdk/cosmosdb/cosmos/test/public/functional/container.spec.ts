@@ -24,9 +24,9 @@ import {
 import { SpatialType } from "../../../src/index.js";
 import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
-import { skipTestForSignOff } from "../common/_testConfig.js";
+import { skipTestForSignOff, emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Containers", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Containers", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -564,7 +564,7 @@ describe("Containers", { timeout: 10000 }, () => {
   });
 });
 
-describe("createIfNotExists", () => {
+describe.skipIf(emulatorUnavailable)("createIfNotExists", () => {
   let database: Database;
 
   beforeAll(async () => {
@@ -619,7 +619,7 @@ describe("createIfNotExists", () => {
   });
 });
 
-describe("container.readOffer", () => {
+describe.skipIf(emulatorUnavailable)("container.readOffer", () => {
   let containerWithOffer: Container;
   let containerWithoutOffer: Container;
   let container2WithOffer: Container;
@@ -676,7 +676,7 @@ describe("container.readOffer", () => {
   });
 });
 
-describe("container.create", () => {
+describe.skipIf(emulatorUnavailable)("container.create", () => {
   let database: Database;
 
   beforeAll(async () => {
@@ -705,7 +705,7 @@ describe("container.create", () => {
   });
 });
 
-describe("Reading items using container", () => {
+describe.skipIf(emulatorUnavailable)("Reading items using container", () => {
   it("should be able to read item based on partition key value", async () => {
     const container = await getTestContainer("container", undefined, {
       partitionKey: { paths: ["/key1", "/key2"], kind: PartitionKeyKind.MultiHash, version: 2 },
@@ -752,43 +752,46 @@ describe("Reading items using container", () => {
   });
 });
 
-describe.skipIf(skipTestForSignOff)("container.deleteAllItemsForPartitionKey", () => {
-  it("should delete all items for partition key value", async () => {
-    const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
-    await testDeleteAllItemsForPartitionKey(container);
-  });
+describe.skipIf(skipTestForSignOff || emulatorUnavailable)(
+  "container.deleteAllItemsForPartitionKey",
+  () => {
+    it("should delete all items for partition key value", async () => {
+      const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
+      await testDeleteAllItemsForPartitionKey(container);
+    });
 
-  it("should delete all items for partition key value in multi partition container", async () => {
-    //  multi partition container
-    const container = await getTestContainer("container", undefined, {
-      partitionKey: {
-        paths: ["/pk"],
-        version: 2,
-      },
-      throughput: 10500,
+    it("should delete all items for partition key value in multi partition container", async () => {
+      //  multi partition container
+      const container = await getTestContainer("container", undefined, {
+        partitionKey: {
+          paths: ["/pk"],
+          version: 2,
+        },
+        throughput: 10500,
+      });
+      await testDeleteAllItemsForPartitionKey(container);
     });
-    await testDeleteAllItemsForPartitionKey(container);
-  });
 
-  async function testDeleteAllItemsForPartitionKey(container: Container): Promise<void> {
-    const { resource: create1 } = await container.items.create({
-      id: "1",
-      key: "value",
-      pk: "pk",
-    });
-    const { resource: create2 } = await container.items.create({
-      id: "2",
-      key: "value",
-      pk: "pk",
-    });
-    const { resource: create3 } = await container.items.create({
-      id: "3",
-      key: "value",
-      pk: "rk",
-    });
-    await container.deleteAllItemsForPartitionKey("pk");
-    assert((await container.item(create1.id).read()).statusCode === StatusCodes.NotFound);
-    assert((await container.item(create2.id).read()).statusCode === StatusCodes.NotFound);
-    assert((await container.item(create3.id).read()).item.id === create3.id);
-  }
-});
+    async function testDeleteAllItemsForPartitionKey(container: Container): Promise<void> {
+      const { resource: create1 } = await container.items.create({
+        id: "1",
+        key: "value",
+        pk: "pk",
+      });
+      const { resource: create2 } = await container.items.create({
+        id: "2",
+        key: "value",
+        pk: "pk",
+      });
+      const { resource: create3 } = await container.items.create({
+        id: "3",
+        key: "value",
+        pk: "rk",
+      });
+      await container.deleteAllItemsForPartitionKey("pk");
+      assert((await container.item(create1.id).read()).statusCode === StatusCodes.NotFound);
+      assert((await container.item(create2.id).read()).statusCode === StatusCodes.NotFound);
+      assert((await container.item(create3.id).read()).item.id === create3.id);
+    }
+  },
+);

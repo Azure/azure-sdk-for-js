@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Container, CosmosClient } from "../../../../src/index.js";
-import { skipTestForSignOff } from "../../common/_testConfig.js";
+import { skipTestForSignOff, emulatorUnavailable } from "../../common/_testConfig.js";
 import {
   getTestContainer,
   removeAllDatabases,
@@ -120,7 +120,7 @@ const executeTestCaseOnComputeGateway = async function (scenario: TestScenario):
   return executeTestCase(scenario, true);
 };
 
-describe("Id encoding", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Id encoding", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

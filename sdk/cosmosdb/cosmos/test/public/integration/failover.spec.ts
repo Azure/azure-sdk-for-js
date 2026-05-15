@@ -6,6 +6,7 @@ import { CosmosClient, PluginOn } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -139,7 +140,7 @@ const WriteForbiddenResponse = {
   headers: {},
 };
 
-describe("Region Failover", () => {
+describe.skipIf(emulatorUnavailable)("Region Failover", () => {
   let responses: any[];
 
   it("region write no longer allowed", async () => {

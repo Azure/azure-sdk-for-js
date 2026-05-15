@@ -47,7 +47,7 @@ export class BulkHelper {
   private isCancelled: boolean;
   private processedOperationCountRef: { count: number } = { count: 0 };
   private operationPromisesList: Promise<BulkOperationResult>[] = [];
-  private congestionControlTimer: NodeJS.Timeout;
+  private congestionControlTimer: ReturnType<typeof setTimeout>;
   private readonly congestionControlDelayInMs: number = 1000;
   private staleRidError: ErrorResponse | undefined;
   private readonly operationsPerSleep: number = 100; // Number of operations to add per sleep

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Agent } from "node:http";
+import type { Agent } from "@azure/core-rest-pipeline";
 import https from "node:https";
 import http from "node:http";
 

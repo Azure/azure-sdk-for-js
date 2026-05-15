@@ -19,6 +19,7 @@ import {
   createSerializer,
   extractPath,
 } from "../common/index.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import type { RequestOptions } from "../request/index.js";
 import { ErrorResponse } from "../request/index.js";
 import { withDiagnostics } from "../utils/diagnostics.js";
@@ -193,19 +194,17 @@ export class EncryptionProcessor {
     const [typeMarker, serializer] = createSerializer(valueToEncrypt, type);
     const plainText = serializer.serialize(valueToEncrypt);
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
-    const cipherText = encryptionAlgorithm.encrypt(plainText);
+    const cipherText = await encryptionAlgorithm.encrypt(plainText);
     if (isValueId) {
       if (typeof valueToEncrypt !== "string") {
         throw new ErrorResponse("The id should be of string type.");
       }
     }
 
-    const cipherTextWithTypeMarker = Buffer.alloc(cipherText.length + 1);
+    const cipherTextWithTypeMarker = new Uint8Array(cipherText.length + 1);
     cipherTextWithTypeMarker[0] = typeMarker;
-    cipherText.forEach((value, index) => {
-      cipherTextWithTypeMarker[index + 1] = value;
-    });
-    let encryptedValue = Buffer.from(cipherTextWithTypeMarker).toString("base64");
+    cipherTextWithTypeMarker.set(cipherText, 1);
+    let encryptedValue = uint8ArrayToString(cipherTextWithTypeMarker, "base64");
     if (isValueId) {
       encryptedValue = encryptedValue.replace(/\//g, "_").replace(/\+/g, "-");
     }
@@ -278,16 +277,15 @@ export class EncryptionProcessor {
     if (isValueId) {
       valueToDecrypt = valueToDecrypt.replace(/_/g, "/").replace(/-/g, "+");
     }
-    const cipherTextWithTypeMarker = Buffer.from(valueToDecrypt, "base64");
+    const cipherTextWithTypeMarker = stringToUint8Array(valueToDecrypt, "base64");
     if (cipherTextWithTypeMarker === null) {
       return null;
     }
 
-    let cipherText = Buffer.alloc(cipherTextWithTypeMarker.length - 1);
-    cipherText = Buffer.from(cipherTextWithTypeMarker.slice(1));
+    const cipherText = cipherTextWithTypeMarker.slice(1);
 
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
-    const plainText = encryptionAlgorithm.decrypt(cipherText);
+    const plainText = await encryptionAlgorithm.decrypt(cipherText);
     if (plainText === null) {
       throw new ErrorResponse("returned null plain text");
     }
@@ -410,8 +408,9 @@ export class EncryptionProcessor {
       const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
-        wrappedDataEncryptionKey: new Uint8Array(
-          Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        wrappedDataEncryptionKey: stringToUint8Array(
+          response.result.wrappedDataEncryptionKey,
+          "base64",
         ),
         encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
         etag: response.result._etag,

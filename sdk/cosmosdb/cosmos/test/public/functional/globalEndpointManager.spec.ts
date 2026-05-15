@@ -8,6 +8,7 @@ import { OperationType, ResourceType } from "../../../src/index.js";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {
@@ -42,7 +43,7 @@ const databaseAccountBody: any = {
   ConsistencyPolicy: "Session",
 };
 
-describe("GlobalEndpointManager", () => {
+describe.skipIf(emulatorUnavailable)("GlobalEndpointManager", () => {
   describe("#resolveServiceEndpoint", () => {
     let gem = new GlobalEndpointManager(
       {

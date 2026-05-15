@@ -3,7 +3,7 @@
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { PartitionKeyDefinition } from "../documents/index.js";
 import type { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
-import type { Serializer } from "../encryption/Serializers/index.js";
+import type { Serializer } from "../encryption/Serializers/Serializer.js";
 import {
   NumberSerializer,
   FloatSerializer,

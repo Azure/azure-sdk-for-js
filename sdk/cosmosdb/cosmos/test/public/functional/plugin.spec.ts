@@ -8,8 +8,9 @@ import type { Plugin, Next, PluginConfig } from "../../../src/index.js";
 import type { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Plugin", () => {
+describe.skipIf(emulatorUnavailable)("Plugin", () => {
   it("should handle all requests", async () => {
     const successResponse = {
       headers: {},

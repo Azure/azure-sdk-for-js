@@ -27,15 +27,9 @@ interface Resource {
   [key: string]: any;
 }
 
-vi.mock("../../../../src/index.js", async (importActual) => {
-  const ContainerMock = vi.fn();
-
-  const actual = await importActual<typeof import("../../../../src/index.js")>();
-  return {
-    ...actual,
-    Container: ContainerMock,
-  };
-});
+vi.mock("../../../../src/client/Container/Container.js", () => ({
+  Container: vi.fn(),
+}));
 
 class MockClientContext extends MockedClientContext {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor

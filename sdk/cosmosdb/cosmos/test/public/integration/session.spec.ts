@@ -17,8 +17,9 @@ import {
 import type { RequestContext } from "../../../src/index.js";
 import type { Response } from "../../../src/request/Response.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("New session token", () => {
+describe.skipIf(emulatorUnavailable)("New session token", () => {
   it("preserves tokens", async () => {
     let response: Response<any>;
     let rqContext: RequestContext;
@@ -75,7 +76,7 @@ describe("New session token", () => {
   });
 });
 
-describe.skip("Integrated Cache Staleness", async () => {
+describe.skip("Integrated Cache Staleness", () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -142,11 +143,15 @@ describe.skip("Integrated Cache Staleness", async () => {
     maxIntegratedCacheStalenessInMs: dedicatedGatewayMaxAge,
     bypassIntegratedCache: true,
   };
-  const { database } = await client.databases.createIfNotExists({
-    id: dbId,
-  });
-  const { container } = await database.containers.createIfNotExists({
-    id: containerId,
+  let database: any;
+  let container: any;
+  beforeEach(async () => {
+    ({ database } = await client.databases.createIfNotExists({
+      id: dbId,
+    }));
+    ({ container } = await database.containers.createIfNotExists({
+      id: containerId,
+    }));
   });
 
   it("Should pass with maxIntegratedCacheStalenessInMs and consistency level set.", async () => {

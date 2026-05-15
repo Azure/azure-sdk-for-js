@@ -11,8 +11,9 @@ import {
   removeAllDatabases,
 } from "../../public/common/TestHelpers.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("Correlated Activity Id", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Correlated Activity Id", { timeout: 30000 }, () => {
   let container: Container;
   let capturedCorrelatedActivityIds: any[];
   const client = new CosmosClient({

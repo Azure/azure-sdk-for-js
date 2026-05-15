@@ -2,14 +2,12 @@
 // Licensed under the MIT License.
 
 import type { ContainerDefinition, Container, SqlQuerySpec } from "../../../src/index.js";
-import {
-  getTestContainer,
-  removeAllDatabases,
-  readAndParseJSONFile,
-} from "../common/TestHelpers.js";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";
+import testDocuments from "../common/text-3properties-1536dimensions-100documents.json" with { type: "json" };
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
-describe("FTSQuery", { timeout: 20000 }, () => {
+describe.skipIf(emulatorUnavailable)("FTSQuery", { timeout: 20000 }, () => {
   const partitionKey = "id";
   let container: Container;
   const containerDefinition: ContainerDefinition = {
@@ -360,9 +358,7 @@ describe("FTSQuery", { timeout: 20000 }, () => {
       containerOptions,
     );
 
-    // Read and Parse JSON file
-    const fileName = "text-3properties-1536dimensions-100documents.json";
-    const items = readAndParseJSONFile(fileName);
+    const items = testDocuments;
 
     try {
       for (const item of items) {

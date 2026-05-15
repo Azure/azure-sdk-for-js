@@ -176,7 +176,7 @@ describe("OrderByQueryExecutionContext", () => {
       correlatedActivityId,
     );
 
-    context["options"] = options;
+    (context as any)["options"] = options;
     const result = [];
     let count = 0;
     while (context.hasMoreResults()) {
@@ -283,7 +283,7 @@ describe("OrderByQueryExecutionContext", () => {
       correlatedActivityId,
     );
 
-    context["options"] = options;
+    (context as any)["options"] = options;
 
     const responses = [];
     for (let j = 0; j < 5; j++) {

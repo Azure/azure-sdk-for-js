@@ -5,6 +5,7 @@ import type { Container, ContainerDefinition, Database } from "../../../src/inde
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { StatusCodes } from "../../../src/index.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
@@ -12,7 +13,7 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", { timeout: 600000 }, () => {
+describe.skipIf(emulatorUnavailable)("Container TTL", { timeout: 600000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

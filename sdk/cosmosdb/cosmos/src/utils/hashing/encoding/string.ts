@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 import { BytePrefix } from "./prefix.js";
-import { hexStringToUint8Array, concatUint8Arrays } from "../../uint8.js";
+import { concatUint8Arrays } from "../../uint8.js";
+import { stringToUint8Array } from "@azure/core-util";
 
 export function writeStringForBinaryEncoding(payload: string): Uint8Array {
   // Convert the BytePrefix.String hex into a Uint8Array.
-  const outputStream = hexStringToUint8Array(BytePrefix.String);
+  const outputStream = stringToUint8Array(BytePrefix.String, "hex");
   const MAX_STRING_BYTES_TO_APPEND = 100;
-  // Use TextEncoder to get a UTF-8 byte array from the payload.
-  const byteArray = new TextEncoder().encode(payload);
+  // Get a UTF-8 byte array from the payload.
+  const byteArray = stringToUint8Array(payload, "utf-8");
 
   const isShortString = payload.length <= MAX_STRING_BYTES_TO_APPEND;
 
@@ -25,11 +26,11 @@ export function writeStringForBinaryEncoding(payload: string): Uint8Array {
     }
     // Convert the byte value to a 2-digit hex string.
     const hexRep = charByte.toString(16).padStart(2, "0");
-    finalStream = concatUint8Arrays([finalStream, hexStringToUint8Array(hexRep)]);
+    finalStream = concatUint8Arrays([finalStream, stringToUint8Array(hexRep, "hex")]);
   }
 
   if (isShortString) {
-    finalStream = concatUint8Arrays([finalStream, hexStringToUint8Array(BytePrefix.Undefined)]);
+    finalStream = concatUint8Arrays([finalStream, stringToUint8Array(BytePrefix.Undefined, "hex")]);
   }
   return finalStream;
 }

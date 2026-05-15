@@ -1,4 +1,17 @@
 # Release History
+## 4.10.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed SAS token generation encoding partition key value ranges as byte arrays instead of plain strings.
+- Fixed authentication tag validation in client-side encryption to use constant-time comparison, preventing timing side-channel attacks.
+
+### Other Changes
+
 ## 4.9.3 (2026-04-20)
 
 ### Bugs Fixed

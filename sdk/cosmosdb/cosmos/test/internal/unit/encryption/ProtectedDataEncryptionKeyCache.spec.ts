@@ -11,6 +11,7 @@ import {
 import { ProtectedDataEncryptionKeyCache } from "../../../../src/encryption/Cache/ProtectedDataEncryptionKeyCache.js";
 import { ErrorResponse, StatusCodes } from "../../../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { uint8ArrayToString } from "@azure/core-util";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   encryptionKeyResolverName = EncryptionKeyResolverName.AzureKeyVault;
@@ -28,7 +29,11 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   constructor() {
     this.revokeAccessSet = false;
   }
-  async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
+  async unwrapKey(
+    encryptionKeyId: string,
+    algorithm: string,
+    key: Uint8Array,
+  ): Promise<Uint8Array> {
     algorithm;
     if (encryptionKeyId === "revokedcmkpath" && this.revokeAccessSet) {
       const errorResponse = new ErrorResponse("Forbidden");
@@ -36,17 +41,21 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
       throw errorResponse;
     }
     const moveBy = this.keyInfo[encryptionKeyId];
-    const plainKey = Buffer.alloc(key.length);
+    const plainKey = new Uint8Array(key.length);
     for (let i = 0; i < key.length; i++) {
       plainKey[i] = key[i] - moveBy;
     }
     return plainKey;
   }
 
-  async wrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer> {
+  async wrapKey(
+    encryptionKeyId: string,
+    algorithm: string,
+    wrappedKey: Uint8Array,
+  ): Promise<Uint8Array> {
     algorithm;
     const moveBy = this.keyInfo[encryptionKeyId];
-    const encryptedKey = Buffer.alloc(wrappedKey.length);
+    const encryptedKey = new Uint8Array(wrappedKey.length);
     for (let i = 0; i < wrappedKey.length; i++) {
       encryptedKey[i] = wrappedKey[i] + moveBy;
     }
@@ -67,12 +76,12 @@ describe("ProtectedDataEncryptionKeyCache", () => {
     keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
     const cacheTTL = 5000;
     protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
-    const encryptedKey = Buffer.alloc(32);
+    const encryptedKey = new Uint8Array(32);
     key = JSON.stringify([
       "encryptionKeyId",
       keyEncryptionKey.name,
       keyEncryptionKey.path,
-      encryptedKey.toString("hex"),
+      uint8ArrayToString(encryptedKey, "hex"),
     ]);
     protectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
       "encryptionKeyId",
@@ -84,12 +93,12 @@ describe("ProtectedDataEncryptionKeyCache", () => {
   it("should create and cache a protected data encryption key", async () => {
     const result = protectedDataEncryptionKeyCache.get(key);
     assert.equal(result, protectedDataEncryptionKey, "Key should be in cache");
-    const newEncryptedKey = Buffer.alloc(32);
+    const newEncryptedKey = new Uint8Array(32);
     const newKey = JSON.stringify([
       "newEncryptionKeyId",
       keyEncryptionKey.name,
       keyEncryptionKey.path,
-      newEncryptedKey.toString("hex"),
+      uint8ArrayToString(newEncryptedKey, "hex"),
     ]);
     assert.equal(
       protectedDataEncryptionKeyCache.get(newKey),
@@ -107,12 +116,12 @@ describe("ProtectedDataEncryptionKeyCache", () => {
 
   it("should not store keys in cache when ttl is 0", async () => {
     const cacheWithZeroTTL = new ProtectedDataEncryptionKeyCache(0);
-    const newEncryptedKey = Buffer.alloc(32);
+    const newEncryptedKey = new Uint8Array(32);
     const newKey = JSON.stringify([
       "newEncryptionKeyId",
       keyEncryptionKey.name,
       keyEncryptionKey.path,
-      newEncryptedKey.toString("hex"),
+      uint8ArrayToString(newEncryptedKey, "hex"),
     ]);
     await cacheWithZeroTTL.getOrCreate("newEncryptionKeyId", keyEncryptionKey, newEncryptedKey);
     assert.equal(
@@ -120,11 +129,11 @@ describe("ProtectedDataEncryptionKeyCache", () => {
       undefined,
       "The key should not get stored in cache as ttl is 0",
     );
-    clearTimeout(cacheWithZeroTTL.cacheRefresher);
+    cacheWithZeroTTL.cacheRefresher?.();
   });
 
   afterEach(async () => {
-    clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
-    clearTimeout(keyStoreProvider.cacheRefresher);
+    protectedDataEncryptionKeyCache.cacheRefresher?.();
+    keyStoreProvider.cacheRefresher?.();
   });
 });

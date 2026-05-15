@@ -24,7 +24,7 @@ import {
   getTestContainer,
   testForDiagnostics,
 } from "../../common/TestHelpers.js";
-import { endpoint } from "../../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents/index.js";
 import {
@@ -192,7 +192,7 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
   // update document
 }
 
-describe("Item CRUD hierarchical partition", () => {
+describe.skipIf(emulatorUnavailable)("Item CRUD hierarchical partition", () => {
   it("hierarchycal partitions", async () => {
     const dbName = "hierarchical partition db";
     const database = await getTestDatabase(dbName);
@@ -241,7 +241,7 @@ describe("Item CRUD hierarchical partition", () => {
   });
 });
 
-describe(
+describe.skipIf(emulatorUnavailable)(
   "Create, Upsert, Read, Update, Replace, Delete Operations on Item",
   { timeout: 10000 },
   () => {
@@ -690,7 +690,7 @@ describe(
 );
 
 // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
-describe("item read retries", async () => {
+describe.skipIf(emulatorUnavailable)("item read retries", async () => {
   it("retries on 429", async () => {
     const client = new CosmosClient({ key: masterKey, endpoint });
     const { resource: db } = await client.databases.create({
@@ -711,7 +711,7 @@ describe("item read retries", async () => {
   });
 });
 
-describe("patch operations", () => {
+describe.skipIf(emulatorUnavailable)("patch operations", () => {
   describe("various mixed operations", () => {
     let container: Container;
     let addItemId: string;
@@ -949,7 +949,7 @@ describe("patch operations", () => {
   });
 });
 
-describe("Item CRUD with priority", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("Item CRUD with priority", { timeout: 10000 }, () => {
   let database: Database;
   beforeEach(async () => {
     if (database) {

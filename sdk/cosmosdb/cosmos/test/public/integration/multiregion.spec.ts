@@ -7,6 +7,7 @@ import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
+import { emulatorUnavailable } from "../common/_testConfig.js";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -111,7 +112,7 @@ const collectionResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Multi-region tests", { timeout: 30000 }, () => {
+describe.skipIf(emulatorUnavailable)("Multi-region tests", { timeout: 30000 }, () => {
   it("Preferred locations should be honored for readEndpoint", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";

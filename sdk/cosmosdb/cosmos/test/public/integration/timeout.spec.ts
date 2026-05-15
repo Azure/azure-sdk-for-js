@@ -4,11 +4,11 @@
 import type { Container } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
-describe("Timeout", () => {
+describe.skipIf(emulatorUnavailable)("Timeout", () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });

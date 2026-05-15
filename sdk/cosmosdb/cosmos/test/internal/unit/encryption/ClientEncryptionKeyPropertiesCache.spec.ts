@@ -8,6 +8,7 @@ import type {
 } from "../../../../src/index.js";
 import { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "../../../../src/index.js";
 import { describe, it, assert } from "vitest";
+import { stringToUint8Array } from "@azure/core-util";
 
 describe("ClientEncryptionKeyPropertiesCache", () => {
   it("should create an instance of ClientEncryptionKeyPropertiesCache", () => {
@@ -19,7 +20,7 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
     const id = "testId";
     const encryptionAlgorithm = "testEncryptionAlgorithm";
     const etag = "testEtag";
-    const wrappedDataEncryptionKey = Buffer.from("testWrappedDataEncryptionKey");
+    const wrappedDataEncryptionKey = stringToUint8Array("testWrappedDataEncryptionKey", "utf-8");
     const encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata = {
       type: EncryptionKeyResolverName.AzureKeyVault,
       name: "testName",

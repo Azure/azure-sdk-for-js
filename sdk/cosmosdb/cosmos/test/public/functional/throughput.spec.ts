@@ -9,7 +9,7 @@ import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
 } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { PriorityLevel } from "../../../src/documents/PriorityLevel.js";
 import { BulkOperationType } from "../../../src/index.js";
@@ -32,7 +32,7 @@ interface TestItem {
   prop?: number;
 }
 
-describe("ItemCRUDWithThorughputBucket", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("ItemCRUDWithThorughputBucket", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -123,7 +123,7 @@ describe("ItemCRUDWithThorughputBucket", { timeout: 10000 }, () => {
   });
 });
 
-describe("testThroughputBucketForBulk", async () => {
+describe.skipIf(emulatorUnavailable)("testThroughputBucketForBulk", async () => {
   let container: Container;
   let readItemId: string;
   let replaceItemId: string;
@@ -230,7 +230,7 @@ describe("testThroughputBucketForBulk", async () => {
   });
 });
 
-describe("testThroughputBucketForChangeFeed", async () => {
+describe.skipIf(emulatorUnavailable)("testThroughputBucketForChangeFeed", async () => {
   let container: Container;
   beforeAll(async () => {
     const dbId = addEntropy("throughputBucketDb");

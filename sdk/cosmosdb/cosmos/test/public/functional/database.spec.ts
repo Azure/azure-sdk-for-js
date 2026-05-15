@@ -3,7 +3,7 @@
 
 import type { DatabaseDefinition, Database } from "../../../src/index.js";
 import { CosmosClient } from "../../../src/index.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, emulatorUnavailable } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
   addEntropy,
@@ -21,7 +21,7 @@ const client = new CosmosClient({
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe.skipIf(emulatorUnavailable)("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
@@ -200,7 +200,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   });
 });
 
-describe("database.readOffer", () => {
+describe.skipIf(emulatorUnavailable)("database.readOffer", () => {
   describe("without offer", async () => {
     let offerlessDatabase: Database;
 
@@ -227,7 +227,7 @@ describe("database.readOffer", () => {
   });
 });
 
-describe("database.create", () => {
+describe.skipIf(emulatorUnavailable)("database.create", () => {
   it("uses autoscale", async () => {
     const maxThroughput = 50000;
     const databaseRequest: DatabaseRequest = {

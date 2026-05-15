@@ -7,7 +7,94 @@ import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets
 import { SasTokenPermissionKind } from "../../../src/common/index.js";
 import { createAuthorizationSasToken } from "../../../src/utils/SasToken.js";
 import type { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties.js";
-import { describe, it, assert } from "vitest";
+import { CosmosKeyType } from "../../../src/common/index.js";
+import { CosmosContainerChildResourceKind } from "../../../src/common/constants.js";
+import { describe, it, assert, expect } from "vitest";
+
+describe("SAS Token Payload", () => {
+  it("encodes partitionKeyValueRanges as plain strings, not byte arrays", async () => {
+    const sasTokenProperties: SasTokenProperties = {
+      user: "user1",
+      userTag: "tag1",
+      databaseName: "db1",
+      containerName: "coll1",
+      resourcePath: "",
+      resourceName: "item1",
+      resourceKind: CosmosContainerChildResourceKind.Item,
+      partitionKeyValueRanges: ["rangeA", "rangeB"],
+      startTime: new Date("2024-01-01T00:00:00Z"),
+      expiryTime: new Date("2024-01-02T00:00:00Z"),
+      keyType: CosmosKeyType.PrimaryMaster,
+      controlPlaneReaderScope: SasTokenPermissionKind.ContainerReadAny,
+      controlPlaneWriterScope: 0,
+      dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
+      dataPlaneWriterScope: 0,
+    };
+
+    const token = await createAuthorizationSasToken(masterKey, sasTokenProperties);
+
+    // Extract payload from token: "type=sas&ver=1.0&sig=<sig>;<payloadBase64>"
+    const payloadBase64 = token.split(";").slice(1).join(";");
+    const payload = atob(payloadBase64);
+
+    // The partition ranges line should contain the plain string values, not byte arrays
+    const lines = payload.split("\n");
+    // partitionRanges is the 4th field (index 3) in the payload
+    const partitionRangesLine = lines[3];
+    expect(partitionRangesLine).toBe("rangeA,rangeB,");
+    // Verify it does NOT contain numeric byte representations
+    expect(partitionRangesLine).not.toMatch(/^\d+(,\d+)*/);
+  });
+
+  it("produces empty partition ranges when array is empty", async () => {
+    const sasTokenProperties: SasTokenProperties = {
+      user: "user1",
+      userTag: "tag1",
+      databaseName: "db1",
+      containerName: "coll1",
+      resourcePath: "",
+      resourceName: "",
+      resourceKind: CosmosContainerChildResourceKind.Item,
+      partitionKeyValueRanges: [],
+      startTime: new Date("2024-01-01T00:00:00Z"),
+      expiryTime: new Date("2024-01-02T00:00:00Z"),
+      keyType: CosmosKeyType.PrimaryMaster,
+      controlPlaneReaderScope: SasTokenPermissionKind.ContainerReadAny,
+      controlPlaneWriterScope: 0,
+      dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
+      dataPlaneWriterScope: 0,
+    };
+
+    const token = await createAuthorizationSasToken(masterKey, sasTokenProperties);
+    const payloadBase64 = token.split(";").slice(1).join(";");
+    const payload = atob(payloadBase64);
+    const lines = payload.split("\n");
+    expect(lines[3]).toBe("");
+  });
+
+  it("returns a token with correct prefix format", async () => {
+    const sasTokenProperties: SasTokenProperties = {
+      user: "user1",
+      userTag: "",
+      databaseName: "db1",
+      containerName: "coll1",
+      resourcePath: "",
+      resourceName: "",
+      resourceKind: CosmosContainerChildResourceKind.Item,
+      partitionKeyValueRanges: [],
+      startTime: new Date("2024-01-01T00:00:00Z"),
+      expiryTime: new Date("2024-01-02T00:00:00Z"),
+      keyType: CosmosKeyType.PrimaryMaster,
+      controlPlaneReaderScope: SasTokenPermissionKind.ContainerReadAny,
+      controlPlaneWriterScope: 0,
+      dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
+      dataPlaneWriterScope: 0,
+    };
+
+    const token = await createAuthorizationSasToken(masterKey, sasTokenProperties);
+    expect(token).toMatch(/^type=sas&ver=1\.0&sig=.+;.+$/);
+  });
+});
 
 describe.skip("SAS Token Authorization", () => {
   const sasTokenProperties = <SasTokenProperties>{

@@ -29,7 +29,7 @@ function javaScriptFriendlyJSONStringify(s: unknown): string {
 }
 
 /** @hidden */
-export function bodyFromData(data: Buffer | string | Record<string, unknown>): string {
+export function bodyFromData(data: Uint8Array | string | Record<string, unknown>): string {
   if (typeof data === "object") {
     return javaScriptFriendlyJSONStringify(data);
   }
