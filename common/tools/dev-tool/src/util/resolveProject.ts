@@ -41,6 +41,7 @@ declare global {
         [extraTypes: `types@${string}`]: string;
       };
     };
+    imports?: Record<string, unknown>;
     typesVersions?: {
       [k: string]: {
         [k: string]: string[];
@@ -48,6 +49,7 @@ declare global {
     };
     type?: string;
     module?: string;
+    "react-native"?: string;
     bin?: Record<string, string>;
     files: string[];
     scripts: Record<string, string>;
@@ -131,6 +133,8 @@ async function isAzureSDKPackage(packageObject: unknown): Promise<boolean> {
   } else if (/^@azure(-[a-z]+)?\//.test(packageObject.name)) {
     return true;
   } else if (packageObject.name.startsWith("@typespec")) {
+    return true;
+  } else if (packageObject.name === "@microsoft/warp") {
     return true;
   } else {
     return false;
