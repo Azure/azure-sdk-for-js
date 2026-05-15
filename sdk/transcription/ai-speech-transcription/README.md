@@ -16,7 +16,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/transcription/ai-speech-transcription/src)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-speech-transcription)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-latest)
 - [Product documentation](https://learn.microsoft.com/azure/ai-services/speech-service/overview)
 
 ## Getting started

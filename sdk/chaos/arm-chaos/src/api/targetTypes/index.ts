@@ -2,7 +2,4 @@
 // Licensed under the MIT License.
 
 export { list, get } from "./operations.js";
-export {
-  type TargetTypesListOptionalParams,
-  type TargetTypesGetOptionalParams,
-} from "./options.js";
+export type { TargetTypesListOptionalParams, TargetTypesGetOptionalParams } from "./options.js";

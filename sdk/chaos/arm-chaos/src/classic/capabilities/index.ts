@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import { Capability } from "../../models/models.js";
-import {
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { list, $delete, createOrUpdate, get } from "../../api/capabilities/operations.js";
+import type {
   CapabilitiesListOptionalParams,
   CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesGetOptionalParams,
 } from "../../api/capabilities/options.js";
-import { list, $delete, createOrUpdate, get } from "../../api/capabilities/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Capability } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Capabilities operations. */
 export interface CapabilitiesOperations {
@@ -24,11 +24,6 @@ export interface CapabilitiesOperations {
     options?: CapabilitiesListOptionalParams,
   ) => PagedAsyncIterableIterator<Capability>;
   /** Delete a Capability that extends a Target resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     parentProviderNamespace: string,
