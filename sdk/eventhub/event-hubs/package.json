@@ -157,6 +157,8 @@
   "type": "module",
   "imports": {
     "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }
