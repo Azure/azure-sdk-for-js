@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
@@ -52,6 +53,14 @@ export interface AccessPolicyAssignmentListOptionalParams extends OperationOptio
 
 // @public
 export interface AccessPolicyAssignmentOperations {
+    // @deprecated (undocumented)
+    beginCreateUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>>;
+    // @deprecated (undocumented)
+    beginCreateUpdateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => Promise<AccessPolicyAssignment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => Promise<void>;
     createUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateUpdateOptionalParams) => PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
     delete: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentGetOptionalParams) => Promise<AccessPolicyAssignment>;
@@ -97,7 +106,7 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface Cluster extends TrackedResource {
-    encryption?: ClusterPropertiesEncryption;
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentityV4;
@@ -116,16 +125,8 @@ export interface Cluster extends TrackedResource {
 }
 
 // @public
-export interface ClusterCreateProperties extends ClusterProperties {
-    publicNetworkAccess: PublicNetworkAccess | null;
-}
-
-// @public
-export type ClusteringPolicy = string;
-
-// @public
-export interface ClusterProperties {
-    encryption?: ClusterPropertiesEncryption;
+export interface ClusterCommonProperties {
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     maintenanceConfiguration?: MaintenanceConfiguration;
@@ -139,25 +140,33 @@ export interface ClusterProperties {
 }
 
 // @public
-export interface ClusterPropertiesEncryption {
-    customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+export interface ClusterCommonPropertiesEncryption {
+    customerManagedKeyEncryption?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption;
 }
 
 // @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
-    keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
     keyEncryptionKeyUrl?: string;
 }
 
 // @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
     identityType?: CmkIdentityType;
     userAssignedIdentityResourceId?: string;
 }
 
 // @public
+export interface ClusterCreateProperties extends ClusterCommonProperties {
+    publicNetworkAccess: PublicNetworkAccess | null;
+}
+
+// @public
+export type ClusteringPolicy = string;
+
+// @public
 export interface ClusterUpdate {
-    encryption?: ClusterPropertiesEncryption;
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentityV4;
@@ -175,7 +184,7 @@ export interface ClusterUpdate {
 }
 
 // @public
-export interface ClusterUpdateProperties extends ClusterProperties {
+export interface ClusterUpdateProperties extends ClusterCommonProperties {
     publicNetworkAccess?: PublicNetworkAccess;
 }
 
@@ -197,7 +206,7 @@ export interface Database extends ProxyResource {
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     notifyKeyspaceEvents?: string;
     persistence?: Persistence;
@@ -208,18 +217,13 @@ export interface Database extends ProxyResource {
 }
 
 // @public
-export interface DatabaseCreateProperties extends DatabaseProperties {
-    accessKeysAuthentication?: AccessKeysAuthentication;
-}
-
-// @public
-export interface DatabaseProperties {
+export interface DatabaseCommonProperties {
     accessKeysAuthentication?: AccessKeysAuthentication;
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     notifyKeyspaceEvents?: string;
     persistence?: Persistence;
@@ -230,9 +234,14 @@ export interface DatabaseProperties {
 }
 
 // @public
-export interface DatabasePropertiesGeoReplication {
+export interface DatabaseCommonPropertiesGeoReplication {
     groupNickname?: string;
     linkedDatabases?: LinkedDatabase[];
+}
+
+// @public
+export interface DatabaseCreateProperties extends DatabaseCommonProperties {
+    accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
 // @public
@@ -285,6 +294,46 @@ export interface DatabasesListKeysOptionalParams extends OperationOptions {
 
 // @public
 export interface DatabasesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Database>, Database>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams) => Promise<Database>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginExport: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginExportAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginFlush: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesFlushOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginFlushAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesFlushOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginForceLinkToReplicationGroup: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceLinkParameters, options?: DatabasesForceLinkToReplicationGroupOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginForceLinkToReplicationGroupAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceLinkParameters, options?: DatabasesForceLinkToReplicationGroupOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginForceUnlink: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginForceUnlinkAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ForceUnlinkParameters, options?: DatabasesForceUnlinkOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginImport: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginImportAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ImportClusterParameters, options?: DatabasesImportOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRegenerateKey: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams) => Promise<SimplePollerLike<OperationState<AccessKeys>, AccessKeys>>;
+    // @deprecated (undocumented)
+    beginRegenerateKeyAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams) => Promise<AccessKeys>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Database>, Database>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams) => Promise<Database>;
+    // @deprecated (undocumented)
+    beginUpgradeDBRedisVersion: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesUpgradeDBRedisVersionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpgradeDBRedisVersionAndWait: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesUpgradeDBRedisVersionOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: Database, options?: DatabasesCreateOptionalParams) => PollerLike<OperationState<Database>, Database>;
     delete: (resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     export: (resourceGroupName: string, clusterName: string, databaseName: string, parameters: ExportClusterParameters, options?: DatabasesExportOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -322,7 +371,7 @@ export interface DatabaseUpdate {
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     notifyKeyspaceEvents?: string;
     persistence?: Persistence;
@@ -333,7 +382,7 @@ export interface DatabaseUpdate {
 }
 
 // @public
-export interface DatabaseUpdateProperties extends DatabaseProperties {
+export interface DatabaseUpdateProperties extends DatabaseCommonProperties {
     accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
@@ -496,8 +545,8 @@ export enum KnownMaintenanceWindowType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
-    SystemAndUserAssigned = "SystemAssigned, UserAssigned",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -731,6 +780,14 @@ export interface MigrationListOptionalParams extends OperationOptions {
 
 // @public
 export interface MigrationOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, clusterName: string, options?: MigrationCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, clusterName: string, options?: MigrationCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationStartOptionalParams) => Promise<SimplePollerLike<OperationState<Migration>, Migration>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, clusterName: string, parameters: Migration, options?: MigrationStartOptionalParams) => Promise<Migration>;
     cancel: (resourceGroupName: string, clusterName: string, options?: MigrationCancelOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, options?: MigrationGetOptionalParams) => Promise<Migration>;
     list: (resourceGroupName: string, clusterName: string, options?: MigrationListOptionalParams) => PagedAsyncIterableIterator<Migration>;
@@ -911,6 +968,14 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 
 // @public
 export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPut: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginPutAndWait: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     list: (resourceGroupName: string, clusterName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -927,7 +992,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -1018,6 +1085,18 @@ export interface RedisEnterpriseManagementClientOptionalParams extends ClientOpt
 
 // @public
 export interface RedisEnterpriseOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams) => Promise<Cluster>;
     create: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: RedisEnterpriseCreateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
     delete: (resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, options?: RedisEnterpriseGetOptionalParams) => Promise<Cluster>;
@@ -1059,6 +1138,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

@@ -11,6 +11,7 @@ import {
 } from "../../api/privateEndpointConnections/options.js";
 import { PrivateEndpointConnection } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
@@ -28,6 +29,20 @@ export interface PrivateEndpointConnectionsOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster. */
   put: (
     resourceGroupName: string,
@@ -36,6 +51,24 @@ export interface PrivateEndpointConnectionsOperations {
     properties: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsPutOptionalParams,
   ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  /** @deprecated use put instead */
+  beginPut: (
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    properties: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsPutOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>
+  >;
+  /** @deprecated use put instead */
+  beginPutAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    properties: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsPutOptionalParams,
+  ) => Promise<PrivateEndpointConnection>;
   /** Gets the specified private endpoint connection associated with the Redis Enterprise cluster. */
   get: (
     resourceGroupName: string,
@@ -58,6 +91,36 @@ function _getPrivateEndpointConnections(context: RedisEnterpriseManagementContex
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, clusterName, privateEndpointConnectionName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      clusterName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     put: (
       resourceGroupName: string,
       clusterName: string,
@@ -73,6 +136,40 @@ function _getPrivateEndpointConnections(context: RedisEnterpriseManagementContex
         properties,
         options,
       ),
+    beginPut: async (
+      resourceGroupName: string,
+      clusterName: string,
+      privateEndpointConnectionName: string,
+      properties: PrivateEndpointConnection,
+      options?: PrivateEndpointConnectionsPutOptionalParams,
+    ) => {
+      const poller = put(
+        context,
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        properties,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPutAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      privateEndpointConnectionName: string,
+      properties: PrivateEndpointConnection,
+      options?: PrivateEndpointConnectionsPutOptionalParams,
+    ) => {
+      return await put(
+        context,
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        properties,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       clusterName: string,

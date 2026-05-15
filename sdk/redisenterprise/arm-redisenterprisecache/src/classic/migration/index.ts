@@ -11,6 +11,7 @@ import {
 } from "../../api/migration/options.js";
 import { Migration } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Migration operations. */
@@ -21,6 +22,18 @@ export interface MigrationOperations {
     clusterName: string,
     options?: MigrationCancelOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use cancel instead */
+  beginCancel: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: MigrationCancelOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use cancel instead */
+  beginCancelAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: MigrationCancelOptionalParams,
+  ) => Promise<void>;
   /** Gets information about all migrations attempts in a Redis Enterprise cluster. */
   list: (
     resourceGroupName: string,
@@ -34,6 +47,20 @@ export interface MigrationOperations {
     parameters: Migration,
     options?: MigrationStartOptionalParams,
   ) => PollerLike<OperationState<Migration>, Migration>;
+  /** @deprecated use start instead */
+  beginStart: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Migration,
+    options?: MigrationStartOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Migration>, Migration>>;
+  /** @deprecated use start instead */
+  beginStartAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Migration,
+    options?: MigrationStartOptionalParams,
+  ) => Promise<Migration>;
   /** Gets information about a migration in a Redis Enterprise cluster. */
   get: (
     resourceGroupName: string,
@@ -49,6 +76,22 @@ function _getMigration(context: RedisEnterpriseManagementContext) {
       clusterName: string,
       options?: MigrationCancelOptionalParams,
     ) => cancel(context, resourceGroupName, clusterName, options),
+    beginCancel: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: MigrationCancelOptionalParams,
+    ) => {
+      const poller = cancel(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCancelAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: MigrationCancelOptionalParams,
+    ) => {
+      return await cancel(context, resourceGroupName, clusterName, options);
+    },
     list: (resourceGroupName: string, clusterName: string, options?: MigrationListOptionalParams) =>
       list(context, resourceGroupName, clusterName, options),
     start: (
@@ -57,6 +100,24 @@ function _getMigration(context: RedisEnterpriseManagementContext) {
       parameters: Migration,
       options?: MigrationStartOptionalParams,
     ) => start(context, resourceGroupName, clusterName, parameters, options),
+    beginStart: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Migration,
+      options?: MigrationStartOptionalParams,
+    ) => {
+      const poller = start(context, resourceGroupName, clusterName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Migration,
+      options?: MigrationStartOptionalParams,
+    ) => {
+      return await start(context, resourceGroupName, clusterName, parameters, options);
+    },
     get: (resourceGroupName: string, clusterName: string, options?: MigrationGetOptionalParams) =>
       get(context, resourceGroupName, clusterName, options),
   };

@@ -25,12 +25,6 @@ Compared with version 4.0.0
   - Added operation RedisEnterpriseOperations.update
   - Added Interface AccessPolicyAssignmentProperties
   - Added Interface AzureCacheForRedisMigrationProperties
-  - Added Interface ClusterProperties
-  - Added Interface ClusterPropertiesEncryption
-  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
-  - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
-  - Added Interface DatabaseProperties
-  - Added Interface DatabasePropertiesGeoReplication
   - Added Interface MaintenanceConfiguration
   - Added Interface MaintenanceWindow
   - Added Interface MaintenanceWindowSchedule
@@ -52,10 +46,13 @@ Compared with version 4.0.0
   - Added Interface PrivateEndpointConnectionProperties
   - Added Interface PrivateLinkResourceProperties
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Interface AccessPolicyAssignment has a new optional parameter systemData
   - Interface Cluster has a new optional parameter maintenanceConfiguration
   - Interface Cluster has a new optional parameter migratedEndpoint
   - Interface Cluster has a new optional parameter systemData
+  - Interface ClusterCommonProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterCommonProperties has a new optional parameter migratedEndpoint
   - Interface ClusterCreateProperties has a new optional parameter maintenanceConfiguration
   - Interface ClusterCreateProperties has a new optional parameter migratedEndpoint
   - Interface ClusterUpdate has a new optional parameter maintenanceConfiguration
@@ -63,12 +60,12 @@ Compared with version 4.0.0
   - Interface ClusterUpdateProperties has a new optional parameter maintenanceConfiguration
   - Interface ClusterUpdateProperties has a new optional parameter migratedEndpoint
   - Interface Database has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseCommonProperties has a new optional parameter notifyKeyspaceEvents
   - Interface DatabaseCreateProperties has a new optional parameter notifyKeyspaceEvents
   - Interface DatabaseUpdate has a new optional parameter notifyKeyspaceEvents
   - Interface DatabaseUpdateProperties has a new optional parameter notifyKeyspaceEvents
   - Interface PrivateEndpointConnection has a new optional parameter groupIds
   - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter properties
   - Interface PrivateLinkResource has a new optional parameter systemData
   - Interface Resource has a new optional parameter systemData
   - Interface TrackedResource has a new optional parameter systemData
@@ -84,61 +81,19 @@ Compared with version 4.0.0
   - Added Enum KnownMigrationProvisioningState
   - Added Enum KnownSourceType
   - Added Enum KnownVersions
-  - Enum KnownManagedServiceIdentityType has a new value SystemAndUserAssigned
 
 ### Breaking Changes
-  - Removed operation AccessPolicyAssignment.beginCreateUpdate
-  - Removed operation AccessPolicyAssignment.beginCreateUpdateAndWait
-  - Removed operation AccessPolicyAssignment.beginDelete
-  - Removed operation AccessPolicyAssignment.beginDeleteAndWait
-  - Removed operation Databases.beginCreate
-  - Removed operation Databases.beginCreateAndWait
-  - Removed operation Databases.beginDelete
-  - Removed operation Databases.beginDeleteAndWait
-  - Removed operation Databases.beginExport
-  - Removed operation Databases.beginExportAndWait
-  - Removed operation Databases.beginFlush
-  - Removed operation Databases.beginFlushAndWait
-  - Removed operation Databases.beginForceLinkToReplicationGroup
-  - Removed operation Databases.beginForceLinkToReplicationGroupAndWait
-  - Removed operation Databases.beginForceUnlink
-  - Removed operation Databases.beginForceUnlinkAndWait
-  - Removed operation Databases.beginImport
-  - Removed operation Databases.beginImportAndWait
-  - Removed operation Databases.beginRegenerateKey
-  - Removed operation Databases.beginRegenerateKeyAndWait
-  - Removed operation Databases.beginUpdate
-  - Removed operation Databases.beginUpdateAndWait
-  - Removed operation Databases.beginUpgradeDBRedisVersion
-  - Removed operation Databases.beginUpgradeDBRedisVersionAndWait
-  - Removed operation PrivateEndpointConnections.beginDelete
-  - Removed operation PrivateEndpointConnections.beginDeleteAndWait
-  - Removed operation PrivateEndpointConnections.beginPut
-  - Removed operation PrivateEndpointConnections.beginPutAndWait
-  - Removed operation RedisEnterprise.beginCreate
-  - Removed operation RedisEnterprise.beginCreateAndWait
-  - Removed operation RedisEnterprise.beginDelete
-  - Removed operation RedisEnterprise.beginDeleteAndWait
-  - Removed operation RedisEnterprise.beginUpdate
-  - Removed operation RedisEnterprise.beginUpdateAndWait
+  - Operation AccessPolicyAssignment.beginDeleteAndWait has a new signature
+  - Operation Databases.beginForceLinkToReplicationGroupAndWait has a new signature
+  - Operation Databases.beginUpgradeDBRedisVersionAndWait has a new signature
   - Removed Interface AccessPolicyAssignmentList
-  - Removed Interface ClusterCommonProperties
-  - Removed Interface ClusterCommonPropertiesEncryption
-  - Removed Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption
-  - Removed Interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
   - Removed Interface ClusterList
-  - Removed Interface DatabaseCommonProperties
-  - Removed Interface DatabaseCommonPropertiesGeoReplication
   - Removed Interface DatabaseList
   - Removed Interface ErrorDetailAutoGenerated
   - Removed Interface ErrorResponseAutoGenerated
   - Removed Interface ManagedServiceIdentity
   - Removed Interface ProxyResourceAutoGenerated
   - Removed Interface ResourceAutoGenerated
-  - Interface PrivateLinkResource no longer has parameter groupId
-  - Interface PrivateLinkResource no longer has parameter requiredMembers
-  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
-  - Enum KnownManagedServiceIdentityType no longer has value SystemAssignedUserAssigned
 
 ## 4.0.0 (2025-10-22)
 

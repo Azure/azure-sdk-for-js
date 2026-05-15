@@ -22,6 +22,7 @@ import {
 } from "../../api/redisEnterprise/options.js";
 import { Cluster, ClusterUpdate, SkuDetailsList } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RedisEnterprise operations. */
@@ -45,6 +46,18 @@ export interface RedisEnterpriseOperations {
     clusterName: string,
     options?: RedisEnterpriseDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: RedisEnterpriseDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    options?: RedisEnterpriseDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates an existing Redis Enterprise cluster */
   update: (
     resourceGroupName: string,
@@ -52,6 +65,20 @@ export interface RedisEnterpriseOperations {
     parameters: ClusterUpdate,
     options?: RedisEnterpriseUpdateOptionalParams,
   ) => PollerLike<OperationState<Cluster>, Cluster>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: ClusterUpdate,
+    options?: RedisEnterpriseUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: ClusterUpdate,
+    options?: RedisEnterpriseUpdateOptionalParams,
+  ) => Promise<Cluster>;
   /** Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster */
   create: (
     resourceGroupName: string,
@@ -59,6 +86,20 @@ export interface RedisEnterpriseOperations {
     parameters: Cluster,
     options?: RedisEnterpriseCreateOptionalParams,
   ) => PollerLike<OperationState<Cluster>, Cluster>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Cluster,
+    options?: RedisEnterpriseCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Cluster,
+    options?: RedisEnterpriseCreateOptionalParams,
+  ) => Promise<Cluster>;
   /** Gets information about a Redis Enterprise cluster */
   get: (
     resourceGroupName: string,
@@ -84,18 +125,70 @@ function _getRedisEnterprise(context: RedisEnterpriseManagementContext) {
       clusterName: string,
       options?: RedisEnterpriseDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, clusterName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: RedisEnterpriseDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, clusterName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      options?: RedisEnterpriseDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, clusterName, options);
+    },
     update: (
       resourceGroupName: string,
       clusterName: string,
       parameters: ClusterUpdate,
       options?: RedisEnterpriseUpdateOptionalParams,
     ) => update(context, resourceGroupName, clusterName, parameters, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: ClusterUpdate,
+      options?: RedisEnterpriseUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, clusterName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: ClusterUpdate,
+      options?: RedisEnterpriseUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, clusterName, parameters, options);
+    },
     create: (
       resourceGroupName: string,
       clusterName: string,
       parameters: Cluster,
       options?: RedisEnterpriseCreateOptionalParams,
     ) => create(context, resourceGroupName, clusterName, parameters, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Cluster,
+      options?: RedisEnterpriseCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, clusterName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      clusterName: string,
+      parameters: Cluster,
+      options?: RedisEnterpriseCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, clusterName, parameters, options);
+    },
     get: (
       resourceGroupName: string,
       clusterName: string,

@@ -52,7 +52,7 @@ export interface AzureCacheForRedisMigrationProperties extends MigrationProperti
 
 // @public
 export interface Cluster extends TrackedResource {
-    encryption?: ClusterPropertiesEncryption;
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentityV4;
@@ -71,16 +71,8 @@ export interface Cluster extends TrackedResource {
 }
 
 // @public
-export interface ClusterCreateProperties extends ClusterProperties {
-    publicNetworkAccess: PublicNetworkAccess | null;
-}
-
-// @public
-export type ClusteringPolicy = string;
-
-// @public
-export interface ClusterProperties {
-    encryption?: ClusterPropertiesEncryption;
+export interface ClusterCommonProperties {
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     maintenanceConfiguration?: MaintenanceConfiguration;
@@ -94,25 +86,33 @@ export interface ClusterProperties {
 }
 
 // @public
-export interface ClusterPropertiesEncryption {
-    customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+export interface ClusterCommonPropertiesEncryption {
+    customerManagedKeyEncryption?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption;
 }
 
 // @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
-    keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
     keyEncryptionKeyUrl?: string;
 }
 
 // @public
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
     identityType?: CmkIdentityType;
     userAssignedIdentityResourceId?: string;
 }
 
 // @public
+export interface ClusterCreateProperties extends ClusterCommonProperties {
+    publicNetworkAccess: PublicNetworkAccess | null;
+}
+
+// @public
+export type ClusteringPolicy = string;
+
+// @public
 export interface ClusterUpdate {
-    encryption?: ClusterPropertiesEncryption;
+    encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentityV4;
@@ -130,7 +130,7 @@ export interface ClusterUpdate {
 }
 
 // @public
-export interface ClusterUpdateProperties extends ClusterProperties {
+export interface ClusterUpdateProperties extends ClusterCommonProperties {
     publicNetworkAccess?: PublicNetworkAccess;
 }
 
@@ -147,7 +147,7 @@ export interface Database extends ProxyResource {
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     notifyKeyspaceEvents?: string;
     persistence?: Persistence;
@@ -158,18 +158,13 @@ export interface Database extends ProxyResource {
 }
 
 // @public
-export interface DatabaseCreateProperties extends DatabaseProperties {
-    accessKeysAuthentication?: AccessKeysAuthentication;
-}
-
-// @public
-export interface DatabaseProperties {
+export interface DatabaseCommonProperties {
     accessKeysAuthentication?: AccessKeysAuthentication;
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     notifyKeyspaceEvents?: string;
     persistence?: Persistence;
@@ -180,9 +175,14 @@ export interface DatabaseProperties {
 }
 
 // @public
-export interface DatabasePropertiesGeoReplication {
+export interface DatabaseCommonPropertiesGeoReplication {
     groupNickname?: string;
     linkedDatabases?: LinkedDatabase[];
+}
+
+// @public
+export interface DatabaseCreateProperties extends DatabaseCommonProperties {
+    accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
 // @public
@@ -192,7 +192,7 @@ export interface DatabaseUpdate {
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
-    geoReplication?: DatabasePropertiesGeoReplication;
+    geoReplication?: DatabaseCommonPropertiesGeoReplication;
     modules?: Module[];
     notifyKeyspaceEvents?: string;
     persistence?: Persistence;
@@ -203,7 +203,7 @@ export interface DatabaseUpdate {
 }
 
 // @public
-export interface DatabaseUpdateProperties extends DatabaseProperties {
+export interface DatabaseUpdateProperties extends DatabaseCommonProperties {
     accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
@@ -366,8 +366,8 @@ export enum KnownMaintenanceWindowType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
-    SystemAndUserAssigned = "SystemAssigned, UserAssigned",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -706,7 +706,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public

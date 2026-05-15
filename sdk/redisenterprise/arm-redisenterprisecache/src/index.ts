@@ -9,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { RedisEnterpriseManagementClient } from "./redisEnterpriseManagementClient.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -22,7 +23,7 @@ export type {
   Database,
   DatabaseCreateProperties,
   AccessKeysAuthentication,
-  DatabaseProperties,
+  DatabaseCommonProperties,
   Protocol,
   ProvisioningState,
   ResourceState,
@@ -32,7 +33,7 @@ export type {
   AofFrequency,
   RdbFrequency,
   Module,
-  DatabasePropertiesGeoReplication,
+  DatabaseCommonPropertiesGeoReplication,
   LinkedDatabase,
   LinkState,
   DeferUpgradeSetting,
@@ -71,12 +72,12 @@ export type {
   ManagedServiceIdentityV4,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
-  ClusterProperties,
+  ClusterCommonProperties,
   HighAvailability,
   TlsVersion,
-  ClusterPropertiesEncryption,
-  ClusterPropertiesEncryptionCustomerManagedKeyEncryption,
-  ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity,
+  ClusterCommonPropertiesEncryption,
+  ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption,
+  ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity,
   CmkIdentityType,
   MaintenanceConfiguration,
   MaintenanceWindow,

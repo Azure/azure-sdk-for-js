@@ -195,7 +195,7 @@ export interface Database extends ProxyResource {
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabasePropertiesGeoReplication;
+  geoReplication?: DatabaseCommonPropertiesGeoReplication;
   /** Version of Redis the database is running on, e.g. '6.0' */
   readonly redisVersion?: string;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
@@ -240,7 +240,7 @@ export function databaseDeserializer(item: any): Database {
 }
 
 /** Properties for creating Redis Enterprise databases */
-export interface DatabaseCreateProperties extends DatabaseProperties {
+export interface DatabaseCreateProperties extends DatabaseCommonProperties {
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. Default is Disabled. */
   accessKeysAuthentication?: AccessKeysAuthentication;
 }
@@ -257,7 +257,7 @@ export function databaseCreatePropertiesSerializer(item: DatabaseCreatePropertie
     modules: !item["modules"] ? item["modules"] : moduleArraySerializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationSerializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationSerializer(item["geoReplication"]),
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
     notifyKeyspaceEvents: item["notifyKeyspaceEvents"],
@@ -278,7 +278,7 @@ export function databaseCreatePropertiesDeserializer(item: any): DatabaseCreateP
     modules: !item["modules"] ? item["modules"] : moduleArrayDeserializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationDeserializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationDeserializer(item["geoReplication"]),
     redisVersion: item["redisVersion"],
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
@@ -305,7 +305,7 @@ export enum KnownAccessKeysAuthentication {
 export type AccessKeysAuthentication = string;
 
 /** Properties of Redis Enterprise databases, as opposed to general resource properties like location, tags */
-export interface DatabaseProperties {
+export interface DatabaseCommonProperties {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
   clientProtocol?: Protocol;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
@@ -323,7 +323,7 @@ export interface DatabaseProperties {
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabasePropertiesGeoReplication;
+  geoReplication?: DatabaseCommonPropertiesGeoReplication;
   /** Version of Redis the database is running on, e.g. '6.0' */
   readonly redisVersion?: string;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
@@ -334,7 +334,7 @@ export interface DatabaseProperties {
   notifyKeyspaceEvents?: string;
 }
 
-export function databasePropertiesSerializer(item: DatabaseProperties): any {
+export function databaseCommonPropertiesSerializer(item: DatabaseCommonProperties): any {
   return {
     clientProtocol: item["clientProtocol"],
     port: item["port"],
@@ -346,14 +346,14 @@ export function databasePropertiesSerializer(item: DatabaseProperties): any {
     modules: !item["modules"] ? item["modules"] : moduleArraySerializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationSerializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationSerializer(item["geoReplication"]),
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
     notifyKeyspaceEvents: item["notifyKeyspaceEvents"],
   };
 }
 
-export function databasePropertiesDeserializer(item: any): DatabaseProperties {
+export function databaseCommonPropertiesDeserializer(item: any): DatabaseCommonProperties {
   return {
     clientProtocol: item["clientProtocol"],
     port: item["port"],
@@ -367,7 +367,7 @@ export function databasePropertiesDeserializer(item: any): DatabaseProperties {
     modules: !item["modules"] ? item["modules"] : moduleArrayDeserializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationDeserializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationDeserializer(item["geoReplication"]),
     redisVersion: item["redisVersion"],
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
@@ -641,15 +641,15 @@ export function moduleDeserializer(item: any): Module {
 }
 
 /** Optional set of properties to configure geo replication for this database. */
-export interface DatabasePropertiesGeoReplication {
+export interface DatabaseCommonPropertiesGeoReplication {
   /** Name for the group of linked database resources */
   groupNickname?: string;
   /** List of database resources to link with this database */
   linkedDatabases?: LinkedDatabase[];
 }
 
-export function databasePropertiesGeoReplicationSerializer(
-  item: DatabasePropertiesGeoReplication,
+export function databaseCommonPropertiesGeoReplicationSerializer(
+  item: DatabaseCommonPropertiesGeoReplication,
 ): any {
   return {
     groupNickname: item["groupNickname"],
@@ -659,9 +659,9 @@ export function databasePropertiesGeoReplicationSerializer(
   };
 }
 
-export function databasePropertiesGeoReplicationDeserializer(
+export function databaseCommonPropertiesGeoReplicationDeserializer(
   item: any,
-): DatabasePropertiesGeoReplication {
+): DatabaseCommonPropertiesGeoReplication {
   return {
     groupNickname: item["groupNickname"],
     linkedDatabases: !item["linkedDatabases"]
@@ -863,7 +863,7 @@ export interface DatabaseUpdate {
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabasePropertiesGeoReplication;
+  geoReplication?: DatabaseCommonPropertiesGeoReplication;
   /** Version of Redis the database is running on, e.g. '6.0' */
   readonly redisVersion?: string;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
@@ -894,7 +894,7 @@ export function databaseUpdateSerializer(item: DatabaseUpdate): any {
 }
 
 /** Properties for updating Redis Enterprise databases */
-export interface DatabaseUpdateProperties extends DatabaseProperties {
+export interface DatabaseUpdateProperties extends DatabaseCommonProperties {
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. Default is Disabled. */
   accessKeysAuthentication?: AccessKeysAuthentication;
 }
@@ -911,7 +911,7 @@ export function databaseUpdatePropertiesSerializer(item: DatabaseUpdatePropertie
     modules: !item["modules"] ? item["modules"] : moduleArraySerializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationSerializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationSerializer(item["geoReplication"]),
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
     notifyKeyspaceEvents: item["notifyKeyspaceEvents"],
@@ -1376,7 +1376,7 @@ export interface Cluster extends TrackedResource {
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
   minimumTlsVersion?: TlsVersion;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterPropertiesEncryption;
+  encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
   /** DNS name of the cluster endpoint */
@@ -1451,7 +1451,7 @@ export function clusterDeserializer(item: any): Cluster {
 }
 
 /** Properties of Redis Enterprise clusters for create operations */
-export interface ClusterCreateProperties extends ClusterProperties {
+export interface ClusterCreateProperties extends ClusterCommonProperties {
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
   publicNetworkAccess: PublicNetworkAccess | null;
 }
@@ -1462,7 +1462,7 @@ export function clusterCreatePropertiesSerializer(item: ClusterCreateProperties)
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionSerializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionSerializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
@@ -1476,7 +1476,7 @@ export function clusterCreatePropertiesDeserializer(item: any): ClusterCreatePro
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionDeserializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionDeserializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationDeserializer(item["maintenanceConfiguration"]),
@@ -1766,7 +1766,7 @@ export enum KnownManagedServiceIdentityType {
   /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
   /** System and user assigned managed identity. */
-  SystemAndUserAssigned = "SystemAssigned, UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -1821,13 +1821,13 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
 }
 
 /** Properties of Redis Enterprise clusters, as opposed to general resource properties like location, tags */
-export interface ClusterProperties {
+export interface ClusterCommonProperties {
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
   highAvailability?: HighAvailability;
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
   minimumTlsVersion?: TlsVersion;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterPropertiesEncryption;
+  encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
   /** DNS name of the cluster endpoint */
@@ -1846,26 +1846,26 @@ export interface ClusterProperties {
   readonly migratedEndpoint?: string;
 }
 
-export function clusterPropertiesSerializer(item: ClusterProperties): any {
+export function clusterCommonPropertiesSerializer(item: ClusterCommonProperties): any {
   return {
     highAvailability: item["highAvailability"],
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionSerializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionSerializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
   };
 }
 
-export function clusterPropertiesDeserializer(item: any): ClusterProperties {
+export function clusterCommonPropertiesDeserializer(item: any): ClusterCommonProperties {
   return {
     highAvailability: item["highAvailability"],
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionDeserializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionDeserializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationDeserializer(item["maintenanceConfiguration"]),
@@ -1921,59 +1921,63 @@ export enum KnownTlsVersion {
 export type TlsVersion = string;
 
 /** Encryption-at-rest configuration for the cluster. */
-export interface ClusterPropertiesEncryption {
+export interface ClusterCommonPropertiesEncryption {
   /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption;
 }
 
-export function clusterPropertiesEncryptionSerializer(item: ClusterPropertiesEncryption): any {
+export function clusterCommonPropertiesEncryptionSerializer(
+  item: ClusterCommonPropertiesEncryption,
+): any {
   return {
     customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
       ? item["customerManagedKeyEncryption"]
-      : clusterPropertiesEncryptionCustomerManagedKeyEncryptionSerializer(
+      : clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionSerializer(
           item["customerManagedKeyEncryption"],
         ),
   };
 }
 
-export function clusterPropertiesEncryptionDeserializer(item: any): ClusterPropertiesEncryption {
+export function clusterCommonPropertiesEncryptionDeserializer(
+  item: any,
+): ClusterCommonPropertiesEncryption {
   return {
     customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
       ? item["customerManagedKeyEncryption"]
-      : clusterPropertiesEncryptionCustomerManagedKeyEncryptionDeserializer(
+      : clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionDeserializer(
           item["customerManagedKeyEncryption"],
         ),
   };
 }
 
 /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
   /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
   keyEncryptionKeyUrl?: string;
 }
 
-export function clusterPropertiesEncryptionCustomerManagedKeyEncryptionSerializer(
-  item: ClusterPropertiesEncryptionCustomerManagedKeyEncryption,
+export function clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionSerializer(
+  item: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption,
 ): any {
   return {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
-      : clusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentitySerializer(
+      : clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentitySerializer(
           item["keyEncryptionKeyIdentity"],
         ),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
   };
 }
 
-export function clusterPropertiesEncryptionCustomerManagedKeyEncryptionDeserializer(
+export function clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionDeserializer(
   item: any,
-): ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
+): ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryption {
   return {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
-      : clusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentityDeserializer(
+      : clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentityDeserializer(
           item["keyEncryptionKeyIdentity"],
         ),
     keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
@@ -1981,15 +1985,15 @@ export function clusterPropertiesEncryptionCustomerManagedKeyEncryptionDeseriali
 }
 
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+export interface ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
   /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
   userAssignedIdentityResourceId?: string;
   /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
   identityType?: CmkIdentityType;
 }
 
-export function clusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentitySerializer(
-  item: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity,
+export function clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentitySerializer(
+  item: ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity,
 ): any {
   return {
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
@@ -1997,9 +2001,9 @@ export function clusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdenti
   };
 }
 
-export function clusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentityDeserializer(
+export function clusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentityDeserializer(
   item: any,
-): ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+): ClusterCommonPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
   return {
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
     identityType: item["identityType"],
@@ -2213,7 +2217,7 @@ export interface ClusterUpdate {
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
   minimumTlsVersion?: TlsVersion;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterPropertiesEncryption;
+  encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
   /** DNS name of the cluster endpoint */
@@ -2254,7 +2258,7 @@ export function clusterUpdateSerializer(item: ClusterUpdate): any {
 }
 
 /** Properties of Redis Enterprise clusters for update operations */
-export interface ClusterUpdateProperties extends ClusterProperties {
+export interface ClusterUpdateProperties extends ClusterCommonProperties {
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
   publicNetworkAccess?: PublicNetworkAccess;
 }
@@ -2265,7 +2269,7 @@ export function clusterUpdatePropertiesSerializer(item: ClusterUpdateProperties)
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionSerializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionSerializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
@@ -2358,8 +2362,12 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 
 /** A private link resource. */
 export interface PrivateLinkResource extends Resource {
-  /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
@@ -2370,9 +2378,9 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -2775,7 +2783,7 @@ export function _databasePropertiesSerializer(item: Database): any {
     modules: !item["modules"] ? item["modules"] : moduleArraySerializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationSerializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationSerializer(item["geoReplication"]),
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
     notifyKeyspaceEvents: item["notifyKeyspaceEvents"],
@@ -2796,7 +2804,7 @@ export function _databasePropertiesDeserializer(item: any) {
     modules: !item["modules"] ? item["modules"] : moduleArrayDeserializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationDeserializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationDeserializer(item["geoReplication"]),
     redisVersion: item["redisVersion"],
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
@@ -2816,7 +2824,7 @@ export function _databaseUpdatePropertiesSerializer(item: DatabaseUpdate): any {
     modules: !item["modules"] ? item["modules"] : moduleArraySerializer(item["modules"]),
     geoReplication: !item["geoReplication"]
       ? item["geoReplication"]
-      : databasePropertiesGeoReplicationSerializer(item["geoReplication"]),
+      : databaseCommonPropertiesGeoReplicationSerializer(item["geoReplication"]),
     deferUpgrade: item["deferUpgrade"],
     accessKeysAuthentication: item["accessKeysAuthentication"],
     notifyKeyspaceEvents: item["notifyKeyspaceEvents"],
@@ -2859,7 +2867,7 @@ export function _clusterPropertiesSerializer(item: Cluster): any {
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionSerializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionSerializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
@@ -2873,7 +2881,7 @@ export function _clusterPropertiesDeserializer(item: any) {
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionDeserializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionDeserializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationDeserializer(item["maintenanceConfiguration"]),
@@ -2896,11 +2904,27 @@ export function _clusterUpdatePropertiesSerializer(item: ClusterUpdate): any {
     minimumTlsVersion: item["minimumTlsVersion"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : clusterPropertiesEncryptionSerializer(item["encryption"]),
+      : clusterCommonPropertiesEncryptionSerializer(item["encryption"]),
     maintenanceConfiguration: !item["maintenanceConfiguration"]
       ? item["maintenanceConfiguration"]
       : maintenanceConfigurationSerializer(item["maintenanceConfiguration"]),
     publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+export function _privateLinkResourcePropertiesDeserializer(item: any) {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+          return p;
+        }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
