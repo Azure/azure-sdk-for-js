@@ -3,6 +3,7 @@
 
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -39,8 +40,8 @@ export function transcriptionContentSerializer(item: TranscriptionContent): any 
   ];
 }
 
-/** Metadata for a transcription request. */
-export interface TranscriptionOptions {
+/** Metadata for a transcription request. Also serves as the optional parameters bag for {@link TranscriptionClient.transcribe}, so it supports standard operation options such as `abortSignal`, `requestOptions`, and `tracingOptions`. */
+export interface TranscriptionOptions extends OperationOptions {
   /** The URL of the audio to be transcribed. The audio must be shorter than 2 hours in audio duration and smaller than 250 MB in size. If both Audio and AudioUrl are provided, Audio is used. */
   audioUrl?: string;
   /** A list of possible locales for the transcription. If not specified, the locale of the speech in the audio is detected automatically from all supported locales. */
