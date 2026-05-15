@@ -110,7 +110,6 @@ describe("Resources test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-
   it("tagsOperations update test", async () => {
     const res = await client.tagsOperations.beginUpdateAtScopeAndWait(scope, {
       operation: "Delete",
