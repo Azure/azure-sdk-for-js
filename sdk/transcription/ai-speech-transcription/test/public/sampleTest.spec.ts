@@ -311,8 +311,8 @@ describe("TranscriptionClient", () => {
         assert.isNotNull(phrase);
         assert.isNotEmpty(phrase.text);
         assert.isNumber(phrase.confidence);
-        assert.isNumber(phrase.offsetMilliseconds);
-        assert.isNumber(phrase.durationMilliseconds);
+        assert.isNumber(phrase.offsetInMs);
+        assert.isNumber(phrase.durationInMs);
       }
     });
   });

@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-speech-transcription",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for TranscriptionClient.",
   "engines": {
     "node": ">=20.0.0"

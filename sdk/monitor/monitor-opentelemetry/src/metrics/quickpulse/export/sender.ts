@@ -40,11 +40,6 @@ export class QuickpulseSender {
   private endpointUrl: string;
   private credential: TokenCredential;
   private credentialScopes: string[];
-  // @ts-expect-error - assigned in constructor, accessed by tests via bracket notation
-  private quickpulseClientOptions: {
-    credential?: TokenCredential;
-    credentialScopes?: string[];
-  };
 
   constructor(options: {
     endpointUrl: string;
@@ -72,12 +67,6 @@ export class QuickpulseSender {
     if (options.credential) {
       clientOptions.credentials = { scopes: this.credentialScopes };
     }
-
-    // Store credential info for testability
-    this.quickpulseClientOptions = {
-      credential: options.credential,
-      credentialScopes: this.credentialScopes,
-    };
 
     this.quickpulseClient = this.createQuickpulseClient(clientOptions);
   }

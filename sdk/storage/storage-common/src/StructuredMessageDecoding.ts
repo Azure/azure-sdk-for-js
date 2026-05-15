@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { StorageCRC64Calculator } from "./StorageCRC64Calculator.js";
-import { isNodeLike } from "@azure/core-util";
 
 const MESSAGE_VERSION: number = 1;
 const MESSAGE_HEADER_LENGTH: number = 13;
@@ -75,7 +74,7 @@ export class StructuredMessageDecoding {
     this.messageCrc64 = new StorageCRC64Calculator();
   }
 
-  public sourceDataHandler = (data: Buffer): void => {
+  public sourceDataHandler = (data: Uint8Array): void => {
     this.currentDataOffset = 0;
 
     if (this.state === SMRegion.StreamHeader) {
@@ -100,7 +99,7 @@ export class StructuredMessageDecoding {
     }
   };
 
-  private parseMessageHeader(data: Buffer) {
+  private parseMessageHeader(data: Uint8Array) {
     const length = Math.min(
       MESSAGE_HEADER_LENGTH - this.messageHeaderOffset,
       data.length - this.currentDataOffset,
@@ -131,7 +130,7 @@ export class StructuredMessageDecoding {
     }
   }
 
-  private parseSegmentHeader(data: Buffer) {
+  private parseSegmentHeader(data: Uint8Array) {
     const length = Math.min(
       SEGMENT_HEADER_LENGTH - this.segmentHeaderOffset,
       data.length - this.currentDataOffset,
@@ -164,7 +163,7 @@ export class StructuredMessageDecoding {
     }
   }
 
-  private parseSegmentContent(data: Buffer) {
+  private parseSegmentContent(data: Uint8Array) {
     const length = Math.min(
       this.segmentContentLength - this.segmentContentOffset,
       data.length - this.currentDataOffset,
@@ -188,7 +187,7 @@ export class StructuredMessageDecoding {
     }
   }
 
-  private parseSegmentFooter(data: Buffer) {
+  private parseSegmentFooter(data: Uint8Array) {
     const length = Math.min(
       FOOTER_LENGTH - this.segmentFooterOffset,
       data.length - this.currentDataOffset,
@@ -225,7 +224,7 @@ export class StructuredMessageDecoding {
     }
   }
 
-  private parseMessageFooter(data: Buffer) {
+  private parseMessageFooter(data: Uint8Array) {
     const length = Math.min(
       FOOTER_LENGTH - this.messageFooterOffset,
       data.length - this.currentDataOffset,
@@ -257,17 +256,8 @@ export class StructuredMessageDecoding {
       throw new Error("CRC64 buffer error, something wrong with crc64 calculator");
     }
 
-    if (isNodeLike) {
-      const internalBuffer = Buffer.alloc(8);
-      for (let index = 0; index < 6; ++index) {
-        internalBuffer[index] = input[offset + index];
-      }
-
-      return Number(internalBuffer.readBigInt64LE());
-    } else {
-      const view = new DataView(input.buffer, offset, 8);
-      return Number(view.getBigUint64(0, true));
-    }
+    const view = new DataView(input.buffer, input.byteOffset + offset, 8);
+    return Number(view.getBigUint64(0, true));
   }
 
   private toInt16(input: Uint8Array): number {
@@ -275,16 +265,7 @@ export class StructuredMessageDecoding {
       throw new Error("CRC64 buffer error, something wrong with crc64 calculator");
     }
 
-    if (isNodeLike) {
-      const internalBuffer = Buffer.alloc(2);
-      for (let index = 0; index < 2; ++index) {
-        internalBuffer[index] = input[index];
-      }
-
-      return Number(internalBuffer.readInt16LE());
-    } else {
-      return input[0] + input[1] * 256;
-    }
+    return input[0] + input[1] * 256;
   }
 
   private checkCrc64CheckSum(first: Uint8Array, second: Uint8Array): boolean {
