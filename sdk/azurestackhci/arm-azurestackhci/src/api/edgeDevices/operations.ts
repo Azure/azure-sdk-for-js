@@ -43,7 +43,7 @@ export function _validateSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export function validate(
     getInitialResponse: () =>
       _validateSend(context, resourceUri, edgeDeviceName, validateRequest, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<ValidateResponse>, ValidateResponse>;
 }
 
@@ -98,7 +98,7 @@ export function _listSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,11 +135,7 @@ export function list(
     () => _listSend(context, resourceUri, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
   );
 }
 
@@ -154,7 +150,7 @@ export function _$deleteSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,11 +172,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a EdgeDevice */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceUri: string,
@@ -192,7 +183,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, edgeDeviceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -208,7 +199,7 @@ export function _createOrUpdateSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +241,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceUri, edgeDeviceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<EdgeDeviceUnion>, EdgeDeviceUnion>;
 }
 
@@ -265,7 +256,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
