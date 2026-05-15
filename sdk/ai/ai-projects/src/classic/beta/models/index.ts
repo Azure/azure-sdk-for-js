@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
@@ -12,7 +12,7 @@ import {
   list,
   listVersions,
 } from "../../../api/beta/models/operations.js";
-import {
+import type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
   BetaModelsCreateAsyncOptionalParams,
@@ -22,12 +22,12 @@ import {
   BetaModelsListOptionalParams,
   BetaModelsListVersionsOptionalParams,
 } from "../../../api/beta/models/options.js";
-import {
-  PendingUploadRequest,
-  PendingUploadResponse,
+import type {
   DatasetCredential,
   ModelVersion,
   UpdateModelVersionRequest,
+  ModelPendingUploadRequest,
+  ModelPendingUploadResponse,
   ModelCredentialRequest,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -45,16 +45,19 @@ export interface BetaModelsOperations {
   pendingUpload: (
     name: string,
     version: string,
-    body: PendingUploadRequest,
+    body: ModelPendingUploadRequest,
     options?: BetaModelsPendingUploadOptionalParams,
-  ) => Promise<PendingUploadResponse>;
+  ) => Promise<ModelPendingUploadResponse>;
   /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
   createAsync: (
     name: string,
     version: string,
     body: ModelVersion,
     options?: BetaModelsCreateAsyncOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<{
+    location?: string;
+    operationResult?: string | null;
+  }>;
   /** Update an existing ModelVersion with the given version id */
   update: (
     name: string,
@@ -94,7 +97,7 @@ function _getBetaModels(context: AIProjectContext) {
     pendingUpload: (
       name: string,
       version: string,
-      body: PendingUploadRequest,
+      body: ModelPendingUploadRequest,
       options?: BetaModelsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, body, options),
     createAsync: (

@@ -13,7 +13,6 @@ import {
   getSession,
   createSession,
   downloadAgentCode,
-  downloadAgentVersionCode,
   createAgentVersionFromCode,
   updateAgentObject,
   updateAgentFromCode,
@@ -30,7 +29,6 @@ import type {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsDownloadAgentVersionCodeOptionalParams,
   BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
   BetaAgentsUpdateAgentFromCodeOptionalParams,
@@ -48,7 +46,6 @@ import type {
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
-  BetaAgentsDownloadAgentVersionCodeResponse,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -161,14 +158,10 @@ export interface BetaAgentsOperations {
    * otherwise downloads code for the latest version.
    * Returns the previously-uploaded zip (`application/zip`).
    */
-  downloadAgentCode: ((
+  downloadAgentCode: (
     agentName: string,
-    options: BetaAgentsDownloadAgentVersionCodeOptionalParams,
-  ) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>) &
-    ((
-      agentName: string,
-      options?: BetaAgentsDownloadAgentCodeOptionalParams,
-    ) => Promise<BetaAgentsDownloadAgentCodeResponse>);
+    options?: BetaAgentsDownloadAgentCodeOptionalParams,
+  ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
   /**
    * Creates a new version for an existing code-based hosted agent.
    * @param agentName - The name of the agent to version.
@@ -264,18 +257,8 @@ function _getBetaAgents(context: AIProjectContext) {
       versionIndicator: VersionIndicatorUnion,
       options?: BetaAgentsCreateSessionOptionalParams,
     ) => createSession(context, agentName, versionIndicator, options),
-    downloadAgentCode: (
-      agentName: string,
-      options?:
-        | BetaAgentsDownloadAgentCodeOptionalParams
-        | BetaAgentsDownloadAgentVersionCodeOptionalParams,
-    ) => {
-      const agentVersion = (options as BetaAgentsDownloadAgentVersionCodeOptionalParams)
-        ?.agentVersion;
-      return agentVersion
-        ? downloadAgentVersionCode(context, agentName, agentVersion, options)
-        : downloadAgentCode(context, agentName, options);
-    },
+    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
+      downloadAgentCode(context, agentName, options),
     createAgentVersionFromCode: (
       agentName: string,
       codeZipSha256: string,

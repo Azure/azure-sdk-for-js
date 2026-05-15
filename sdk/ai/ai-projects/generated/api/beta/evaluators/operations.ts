@@ -4,6 +4,9 @@
 import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
+  EvaluationSuiteVersion,
+  evaluationSuiteVersionSerializer,
+  evaluationSuiteVersionDeserializer,
   _PagedEvaluatorVersion,
   _pagedEvaluatorVersionDeserializer,
   EvaluatorVersion,
@@ -14,6 +17,15 @@ import {
   evaluatorGenerationJobDeserializer,
   _AgentsPagedResultEvaluatorGenerationJob,
   _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  EvaluationSuiteRunRequest,
+  evaluationSuiteRunRequestSerializer,
+  EvaluationSuiteRunResponse,
+  evaluationSuiteRunResponseDeserializer,
+  EvaluationSuiteGenerationJob,
+  evaluationSuiteGenerationJobSerializer,
+  evaluationSuiteGenerationJobDeserializer,
+  _AgentsPagedResultEvaluationSuiteGenerationJob,
+  _agentsPagedResultEvaluationSuiteGenerationJobDeserializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -21,6 +33,13 @@ import {
 } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
+  BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsCancelGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsListGenerationSuiteJobsOptionalParams,
+  BetaEvaluatorsGetGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsCreateGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsRunEvaluationSuiteOptionalParams,
+  BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams,
   BetaEvaluatorsDeleteGenerationJobOptionalParams,
   BetaEvaluatorsCancelGenerationJobOptionalParams,
   BetaEvaluatorsListGenerationJobsOptionalParams,
@@ -39,6 +58,397 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+
+export function _deleteGenerationSuiteJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suite_generation_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteGenerationSuiteJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Delete a job (preview). Returns 204 No Content. */
+export async function deleteGenerationSuiteJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteGenerationSuiteJobSend(context, jobId, options);
+  return _deleteGenerationSuiteJobDeserialize(result);
+}
+
+export function _cancelGenerationSuiteJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsCancelGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suite_generation_jobs/{jobId}:cancel{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _cancelGenerationSuiteJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluationSuiteGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluationSuiteGenerationJobDeserializer(result.body);
+}
+
+/** Cancel a running job (preview). Returns 200 with the updated job. */
+export async function cancelGenerationSuiteJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsCancelGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluationSuiteGenerationJob> {
+  const result = await _cancelGenerationSuiteJobSend(context, jobId, options);
+  return _cancelGenerationSuiteJobDeserialize(result);
+}
+
+export function _listGenerationSuiteJobsSend(
+  context: Client,
+  options: BetaEvaluatorsListGenerationSuiteJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suite_generation_jobs{?limit,order,after,before,api%2Dversion}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listGenerationSuiteJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultEvaluationSuiteGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _agentsPagedResultEvaluationSuiteGenerationJobDeserializer(result.body);
+}
+
+/** List jobs with cursor-based pagination (preview). Includes optional Foundry-Features header. */
+export function listGenerationSuiteJobs(
+  context: Client,
+  options: BetaEvaluatorsListGenerationSuiteJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<EvaluationSuiteGenerationJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listGenerationSuiteJobsSend(context, options),
+    _listGenerationSuiteJobsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _getGenerationSuiteJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsGetGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suite_generation_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getGenerationSuiteJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluationSuiteGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluationSuiteGenerationJobDeserializer(result.body);
+}
+
+/** Get a job by ID (preview). Includes optional Foundry-Features header. */
+export async function getGenerationSuiteJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsGetGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluationSuiteGenerationJob> {
+  const result = await _getGenerationSuiteJobSend(context, jobId, options);
+  return _getGenerationSuiteJobDeserialize(result);
+}
+
+export function _createGenerationSuiteJobSend(
+  context: Client,
+  job: EvaluationSuiteGenerationJob,
+  options: BetaEvaluatorsCreateGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suite_generation_jobs{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluationSuiteGenerationJobSerializer(job),
+    });
+}
+
+export async function _createGenerationSuiteJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluationSuiteGenerationJob> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluationSuiteGenerationJobDeserializer(result.body);
+}
+
+/** Create a new job (preview). Includes optional Foundry-Features header and Operation-Id for idempotent retries. */
+export async function createGenerationSuiteJob(
+  context: Client,
+  job: EvaluationSuiteGenerationJob,
+  options: BetaEvaluatorsCreateGenerationSuiteJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluationSuiteGenerationJob> {
+  const result = await _createGenerationSuiteJobSend(context, job, options);
+  return _createGenerationSuiteJobDeserialize(result);
+}
+
+export function _runEvaluationSuiteSend(
+  context: Client,
+  name: string,
+  body: EvaluationSuiteRunRequest,
+  options: BetaEvaluatorsRunEvaluationSuiteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suites/{name}:run{?api%2Dversion}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluationSuiteRunRequestSerializer(body),
+    });
+}
+
+export async function _runEvaluationSuiteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluationSuiteRunResponse> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluationSuiteRunResponseDeserializer(result.body);
+}
+
+/** Run an evaluation using the suite's testing criteria and dataset. */
+export async function runEvaluationSuite(
+  context: Client,
+  name: string,
+  body: EvaluationSuiteRunRequest,
+  options: BetaEvaluatorsRunEvaluationSuiteOptionalParams = { requestOptions: {} },
+): Promise<EvaluationSuiteRunResponse> {
+  const result = await _runEvaluationSuiteSend(context, name, body, options);
+  return _runEvaluationSuiteDeserialize(result);
+}
+
+export function _createEvaluationSuiteVersionSend(
+  context: Client,
+  name: string,
+  evaluationSuiteVersion: EvaluationSuiteVersion,
+  options: BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluation_suites/{name}/versions{?api%2Dversion}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: evaluationSuiteVersionSerializer(evaluationSuiteVersion),
+    });
+}
+
+export async function _createEvaluationSuiteVersionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluationSuiteVersion> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluationSuiteVersionDeserializer(result.body);
+}
+
+/** Create a new EvaluationSuiteVersion with auto incremented version id */
+export async function createEvaluationSuiteVersion(
+  context: Client,
+  name: string,
+  evaluationSuiteVersion: EvaluationSuiteVersion,
+  options: BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams = { requestOptions: {} },
+): Promise<EvaluationSuiteVersion> {
+  const result = await _createEvaluationSuiteVersionSend(
+    context,
+    name,
+    evaluationSuiteVersion,
+    options,
+  );
+  return _createEvaluationSuiteVersionDeserialize(result);
+}
 
 export function _deleteGenerationJobSend(
   context: Client,

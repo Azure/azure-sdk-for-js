@@ -3,10 +3,6 @@
 
 import { AIProjectContext as Client } from "../../index.js";
 import {
-  PendingUploadRequest,
-  pendingUploadRequestSerializer,
-  PendingUploadResponse,
-  pendingUploadResponseDeserializer,
   DatasetCredential,
   datasetCredentialDeserializer,
   _PagedModelVersion,
@@ -16,6 +12,11 @@ import {
   modelVersionDeserializer,
   UpdateModelVersionRequest,
   updateModelVersionRequestSerializer,
+  _createAsyncResponseDeserializer,
+  ModelPendingUploadRequest,
+  modelPendingUploadRequestSerializer,
+  ModelPendingUploadResponse,
+  modelPendingUploadResponseDeserializer,
   ModelCredentialRequest,
   modelCredentialRequestSerializer,
 } from "../../../models/models.js";
@@ -43,6 +44,7 @@ import {
 
 export function _getCredentialsSend(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
   body: ModelCredentialRequest,
@@ -64,7 +66,11 @@ export function _getCredentialsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: modelCredentialRequestSerializer(body),
     });
 }
@@ -83,20 +89,22 @@ export async function _getCredentialsDeserialize(
 /** Get credentials for a model version asset. */
 export async function getCredentials(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
   body: ModelCredentialRequest,
   options: BetaModelsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<DatasetCredential> {
-  const result = await _getCredentialsSend(context, name, version, body, options);
+  const result = await _getCredentialsSend(context, foundryFeatures, name, version, body, options);
   return _getCredentialsDeserialize(result);
 }
 
 export function _pendingUploadSend(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
-  body: PendingUploadRequest,
+  body: ModelPendingUploadRequest,
   options: BetaModelsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -115,36 +123,42 @@ export function _pendingUploadSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: pendingUploadRequestSerializer(body),
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: modelPendingUploadRequestSerializer(body),
     });
 }
 
 export async function _pendingUploadDeserialize(
   result: PathUncheckedResponse,
-): Promise<PendingUploadResponse> {
+): Promise<ModelPendingUploadResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return pendingUploadResponseDeserializer(result.body);
+  return modelPendingUploadResponseDeserializer(result.body);
 }
 
 /** Start or retrieve a pending upload for a model version. */
 export async function pendingUpload(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
-  body: PendingUploadRequest,
+  body: ModelPendingUploadRequest,
   options: BetaModelsPendingUploadOptionalParams = { requestOptions: {} },
-): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, version, body, options);
+): Promise<ModelPendingUploadResponse> {
+  const result = await _pendingUploadSend(context, foundryFeatures, name, version, body, options);
   return _pendingUploadDeserialize(result);
 }
 
 export function _createAsyncSend(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
   body: ModelVersion,
@@ -166,28 +180,40 @@ export function _createAsyncSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: modelVersionSerializer(body),
     });
 }
 
-export async function _createAsyncDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _createAsyncDeserialize(result: PathUncheckedResponse): Promise<{
+  location?: string;
+  operationResult?: string | null;
+}> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return _createAsyncResponseDeserializer(result.body);
 }
 
 /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
 export async function createAsync(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   name: string,
   version: string,
   body: ModelVersion,
   options: BetaModelsCreateAsyncOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _createAsyncSend(context, name, version, body, options);
+): Promise<{
+  location?: string;
+  operationResult?: string | null;
+}> {
+  const result = await _createAsyncSend(context, foundryFeatures, name, version, body, options);
   return _createAsyncDeserialize(result);
 }
 
@@ -196,6 +222,7 @@ export function _updateSend(
   name: string,
   body: UpdateModelVersionRequest,
   version: string,
+  foundryFeatures: "Models=V1Preview",
   options: BetaModelsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -214,7 +241,11 @@ export function _updateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/merge-patch+json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
       body: updateModelVersionRequestSerializer(body),
     });
 }
@@ -234,15 +265,17 @@ export async function update(
   name: string,
   body: UpdateModelVersionRequest,
   version: string,
+  foundryFeatures: "Models=V1Preview",
   options: BetaModelsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ModelVersion> {
-  const result = await _updateSend(context, name, body, version, options);
+  const result = await _updateSend(context, name, body, version, foundryFeatures, options);
   return _updateDeserialize(result);
 }
 
 export function _$deleteSend(
   context: Client,
   name: string,
+  foundryFeatures: "Models=V1Preview",
   version: string,
   options: BetaModelsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -257,11 +290,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -269,7 +307,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete the specific version of the ModelVersion. The service returns 204 No Content if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
+/** Delete the specific version of the ModelVersion. The service returns 200 OK if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -278,16 +316,18 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 export async function $delete(
   context: Client,
   name: string,
+  foundryFeatures: "Models=V1Preview",
   version: string,
   options: BetaModelsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, name, version, options);
+  const result = await _$deleteSend(context, name, foundryFeatures, version, options);
   return _$deleteDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
   name: string,
+  foundryFeatures: "Models=V1Preview",
   version: string,
   options: BetaModelsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -306,7 +346,11 @@ export function _getSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
     });
 }
 
@@ -323,15 +367,17 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
 export async function get(
   context: Client,
   name: string,
+  foundryFeatures: "Models=V1Preview",
   version: string,
   options: BetaModelsGetOptionalParams = { requestOptions: {} },
 ): Promise<ModelVersion> {
-  const result = await _getSend(context, name, version, options);
+  const result = await _getSend(context, name, foundryFeatures, version, options);
   return _getDeserialize(result);
 }
 
 export function _listSend(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   options: BetaModelsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -347,7 +393,11 @@ export function _listSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
     });
 }
 
@@ -363,11 +413,12 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** List the latest version of each ModelVersion */
 export function list(
   context: Client,
+  foundryFeatures: "Models=V1Preview",
   options: BetaModelsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ModelVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
+    () => _listSend(context, foundryFeatures, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
@@ -377,6 +428,7 @@ export function list(
 export function _listVersionsSend(
   context: Client,
   name: string,
+  foundryFeatures: "Models=V1Preview",
   options: BetaModelsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -393,7 +445,11 @@ export function _listVersionsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
     });
 }
 
@@ -412,11 +468,12 @@ export async function _listVersionsDeserialize(
 export function listVersions(
   context: Client,
   name: string,
+  foundryFeatures: "Models=V1Preview",
   options: BetaModelsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ModelVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVersionsSend(context, name, options),
+    () => _listVersionsSend(context, name, foundryFeatures, options),
     _listVersionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },

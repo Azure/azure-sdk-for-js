@@ -93,12 +93,11 @@ export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions 
 export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "CodeAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsDownloadAgentVersionCodeOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "CodeAgents=V1Preview";
+  /**
+   * The version of the agent whose code zip should be downloaded.
+   * If omitted, the latest version's code zip is returned.
+   */
+  agentVersion?: string;
 }
 
 /** Optional parameters. */

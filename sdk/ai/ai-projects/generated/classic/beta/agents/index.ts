@@ -13,7 +13,6 @@ import {
   getSession,
   createSession,
   downloadAgentCode,
-  downloadAgentVersionCode,
   createAgentVersionFromCode,
   patchAgentObject,
   updateAgentFromCode,
@@ -30,7 +29,6 @@ import {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsDownloadAgentVersionCodeOptionalParams,
   BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
   BetaAgentsUpdateAgentFromCodeOptionalParams,
@@ -48,7 +46,6 @@ import {
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
-  BetaAgentsDownloadAgentVersionCodeResponse,
 } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
@@ -157,24 +154,19 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
   /**
-   * Download the code zip for the latest version of a code-based hosted agent.
+   * Download the code zip for a code-based hosted agent.
    * Returns the previously-uploaded zip (`application/zip`).
-   * The SHA-256 digest of the returned bytes matches the `content_hash` on the latest version's `code_configuration`.
+   *
+   * If `agent_version` is supplied, returns that version's code zip; otherwise
+   * returns the latest version's code zip.
+   *
+   * The SHA-256 digest of the returned bytes matches the `content_hash` on the
+   * resolved version's `code_configuration`.
    */
   downloadAgentCode: (
     agentName: string,
     options?: BetaAgentsDownloadAgentCodeOptionalParams,
   ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
-  /**
-   * Download the code zip for a specific version of a code-based hosted agent.
-   * Returns the previously-uploaded zip (`application/zip`).
-   * The SHA-256 digest of the returned bytes matches the `content_hash` on the agent version's `code_configuration`.
-   */
-  downloadAgentVersionCode: (
-    agentName: string,
-    agentVersion: string,
-    options?: BetaAgentsDownloadAgentVersionCodeOptionalParams,
-  ) => Promise<BetaAgentsDownloadAgentVersionCodeResponse>;
   createAgentVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
@@ -265,11 +257,6 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => createSession(context, agentName, versionIndicator, options),
     downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
       downloadAgentCode(context, agentName, options),
-    downloadAgentVersionCode: (
-      agentName: string,
-      agentVersion: string,
-      options?: BetaAgentsDownloadAgentVersionCodeOptionalParams,
-    ) => downloadAgentVersionCode(context, agentName, agentVersion, options),
     createAgentVersionFromCode: (
       agentName: string,
       codeZipSha256: string,

@@ -18,19 +18,30 @@
 - Changed `Insight` response properties `insight_id`, `metadata`, and `state` from optional to required.
 - Changed `ModelSamplingParams` sampling properties from required to optional.
 - Renamed `UpdateToolboxRequest.toolbox_name` to `name`.
+- Changed `project.beta.agents.downloadAgentCode` to use the `agentVersion` option instead of the version-specific overload and `BetaAgentsDownloadAgentVersionCode*` types.
+- Changed `project.beta.models.createAsync` to return the create response body.
+- Changed `project.beta.models.pendingUpload` to use `ModelPendingUploadRequest` and `ModelPendingUploadResponse`.
+- Renamed `body` parameter to `packageData` for `project.beta.skills.createFromPackage`.
 
 ### Features Added
 
 - Added `FabricIQPreviewTool` as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
-- Added `getSessionLogStream` and `getSessionFiles` operations on `project.beta.agents`.
+- Added `WorkIQPreviewTool` as a new agent tool kind (`"work_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `getSessionLogStream` and `listSessionFiles` operations on `project.beta.agents`.
 - Added `createAgentFromCode`, `updateAgentFromCode`, `createAgentVersionFromCode`, and `downloadAgentCode` operations on `project.beta.agents` for code-based hosted agents, plus the `"CodeAgents=V1Preview"` opt-in value on `AgentDefinitionOptInKeys`.
 - Added `project.beta.models` route for listing, creating, updating, deleting, and retrieving credentials for model versions.
+- Added async model version creation and pending upload support on `project.beta.models`.
 - Added `CodeDependencyResolution` and `dependency_resolution` on `CodeConfiguration` for code-based hosted agent dependency resolution.
 - Added `AgentVersionStatus` type alias and surfaced `status?: AgentVersionStatus` on `AgentVersion`.
 - Added telemetry endpoint configuration support for hosted agents.
 - Added `foundryFeatures` opt-in flag (`"Insights=V1Preview"`) on `project.beta.insights` list operations.
 - Added evaluator generation support on `project.beta.evaluators`.
+- Added evaluation suite version, run, and generation suite job operations on `project.beta.evaluators`.
 - Added `createGenerationJob`, `getGenerationJob`, `listGenerationJobs`, `cancelGenerationJob`, and `deleteGenerationJob` operations on `project.beta.datasets`.
+- Added memory item CRUD operations on `project.beta.memoryStores`.
+- Added `createFromPackage` operation on `project.beta.skills`.
+- Added agent optimization job and candidate model types for beta agent optimization scenarios.
+- Added tool call status and output item models for agent tool responses.
 - Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
 - Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
 - Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
@@ -39,6 +50,10 @@
 
 - Fixed missing `BetaAgentsListSessionFilesOptionalParams`, `BetaAgentsGetSessionLogStreamOptionalParams`, and `BetaAgentsGetSessionOptionalParams` shapes for beta agents session operations.
 - Fixed samples and beta agent tests to use the regenerated beta agents session signatures.
+- Fixed beta model operations to emit the `api-version` query parameter instead of `api%2Dversion`.
+- Removed redundant positional `foundryFeatures` parameters from beta memory store and model operations.
+- Fixed generated evaluation and optimization job errors to use `ErrorModel` instead of a standalone `ApiError`.
+- Restored the `RubricCriterion` root export for `RubricBasedEvaluatorDefinition`.
 
 ## 2.1.1 (2026-05-04)
 

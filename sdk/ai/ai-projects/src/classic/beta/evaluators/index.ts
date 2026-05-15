@@ -3,6 +3,13 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  deleteGenerationSuiteJob,
+  cancelGenerationSuiteJob,
+  listGenerationSuiteJobs,
+  getGenerationSuiteJob,
+  createGenerationSuiteJob,
+  runEvaluationSuite,
+  createEvaluationSuiteVersion,
   deleteGenerationJob,
   cancelGenerationJob,
   listGenerationJobs,
@@ -16,6 +23,13 @@ import {
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
 import type {
+  BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsCancelGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsListGenerationSuiteJobsOptionalParams,
+  BetaEvaluatorsGetGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsCreateGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsRunEvaluationSuiteOptionalParams,
+  BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -28,11 +42,54 @@ import type {
   BetaEvaluatorsGetGenerationJobOptionalParams,
   BetaEvaluatorsCreateGenerationJobOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import type { EvaluatorVersion, EvaluatorGenerationJob } from "../../../models/models.js";
+import type {
+  EvaluationSuiteVersion,
+  EvaluationSuiteRunRequest,
+  EvaluationSuiteRunResponse,
+  EvaluationSuiteGenerationJob,
+  EvaluatorVersion,
+  EvaluatorGenerationJob,
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
+  /** Delete a job (preview). Returns 204 No Content. */
+  deleteGenerationSuiteJob: (
+    jobId: string,
+    options?: BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancel a running job (preview). Returns 200 with the updated job. */
+  cancelGenerationSuiteJob: (
+    jobId: string,
+    options?: BetaEvaluatorsCancelGenerationSuiteJobOptionalParams,
+  ) => Promise<EvaluationSuiteGenerationJob>;
+  /** List jobs with cursor-based pagination (preview). Includes optional Foundry-Features header. */
+  listGenerationSuiteJobs: (
+    options?: BetaEvaluatorsListGenerationSuiteJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluationSuiteGenerationJob>;
+  /** Get a job by ID (preview). Includes optional Foundry-Features header. */
+  getGenerationSuiteJob: (
+    jobId: string,
+    options?: BetaEvaluatorsGetGenerationSuiteJobOptionalParams,
+  ) => Promise<EvaluationSuiteGenerationJob>;
+  /** Create a new job (preview). Includes optional Foundry-Features header and Operation-Id for idempotent retries. */
+  createGenerationSuiteJob: (
+    job: EvaluationSuiteGenerationJob,
+    options?: BetaEvaluatorsCreateGenerationSuiteJobOptionalParams,
+  ) => Promise<EvaluationSuiteGenerationJob>;
+  /** Run an evaluation using the suite's testing criteria and dataset. */
+  runEvaluationSuite: (
+    name: string,
+    body: EvaluationSuiteRunRequest,
+    options?: BetaEvaluatorsRunEvaluationSuiteOptionalParams,
+  ) => Promise<EvaluationSuiteRunResponse>;
+  /** Create a new EvaluationSuiteVersion with auto incremented version id */
+  createEvaluationSuiteVersion: (
+    name: string,
+    evaluationSuiteVersion: EvaluationSuiteVersion,
+    options?: BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams,
+  ) => Promise<EvaluationSuiteVersion>;
   /**
    * Deletes an evaluator generation job by its ID. Deletes the job record only;
    * the generated evaluator (if any) is preserved.
@@ -101,6 +158,34 @@ export interface BetaEvaluatorsOperations {
 
 function _getBetaEvaluators(context: AIProjectContext) {
   return {
+    deleteGenerationSuiteJob: (
+      jobId: string,
+      options?: BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams,
+    ) => deleteGenerationSuiteJob(context, jobId, options),
+    cancelGenerationSuiteJob: (
+      jobId: string,
+      options?: BetaEvaluatorsCancelGenerationSuiteJobOptionalParams,
+    ) => cancelGenerationSuiteJob(context, jobId, options),
+    listGenerationSuiteJobs: (options?: BetaEvaluatorsListGenerationSuiteJobsOptionalParams) =>
+      listGenerationSuiteJobs(context, options),
+    getGenerationSuiteJob: (
+      jobId: string,
+      options?: BetaEvaluatorsGetGenerationSuiteJobOptionalParams,
+    ) => getGenerationSuiteJob(context, jobId, options),
+    createGenerationSuiteJob: (
+      job: EvaluationSuiteGenerationJob,
+      options?: BetaEvaluatorsCreateGenerationSuiteJobOptionalParams,
+    ) => createGenerationSuiteJob(context, job, options),
+    runEvaluationSuite: (
+      name: string,
+      body: EvaluationSuiteRunRequest,
+      options?: BetaEvaluatorsRunEvaluationSuiteOptionalParams,
+    ) => runEvaluationSuite(context, name, body, options),
+    createEvaluationSuiteVersion: (
+      name: string,
+      evaluationSuiteVersion: EvaluationSuiteVersion,
+      options?: BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams,
+    ) => createEvaluationSuiteVersion(context, name, evaluationSuiteVersion, options),
     deleteGenerationJob: (
       jobId: string,
       options?: BetaEvaluatorsDeleteGenerationJobOptionalParams,

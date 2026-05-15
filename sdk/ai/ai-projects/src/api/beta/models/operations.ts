@@ -1,28 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
-import {
-  PendingUploadRequest,
-  pendingUploadRequestSerializer,
-  PendingUploadResponse,
-  pendingUploadResponseDeserializer,
+import type { AIProjectContext as Client } from "../../index.js";
+import type {
   DatasetCredential,
-  datasetCredentialDeserializer,
   _PagedModelVersion,
-  _pagedModelVersionDeserializer,
   ModelVersion,
+  UpdateModelVersionRequest,
+  ModelPendingUploadRequest,
+  ModelPendingUploadResponse,
+  ModelCredentialRequest,
+} from "../../../models/models.js";
+import {
+  datasetCredentialDeserializer,
+  _pagedModelVersionDeserializer,
   modelVersionSerializer,
   modelVersionDeserializer,
-  UpdateModelVersionRequest,
   updateModelVersionRequestSerializer,
-  ModelCredentialRequest,
+  _createAsyncResponseDeserializer,
+  modelPendingUploadRequestSerializer,
+  modelPendingUploadResponseDeserializer,
   modelCredentialRequestSerializer,
 } from "../../../models/models.js";
-import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
   BetaModelsCreateAsyncOptionalParams,
@@ -32,12 +35,8 @@ import {
   BetaModelsListOptionalParams,
   BetaModelsListVersionsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getCredentialsSend(
   context: Client,
@@ -46,6 +45,7 @@ export function _getCredentialsSend(
   body: ModelCredentialRequest,
   options: BetaModelsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions/{version}/credentials{?api-version}",
     {
@@ -60,7 +60,11 @@ export function _getCredentialsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: modelCredentialRequestSerializer(body),
   });
 }
@@ -92,9 +96,10 @@ export function _pendingUploadSend(
   context: Client,
   name: string,
   version: string,
-  body: PendingUploadRequest,
+  body: ModelPendingUploadRequest,
   options: BetaModelsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions/{version}/startPendingUpload{?api-version}",
     {
@@ -109,20 +114,24 @@ export function _pendingUploadSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: pendingUploadRequestSerializer(body),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: modelPendingUploadRequestSerializer(body),
   });
 }
 
 export async function _pendingUploadDeserialize(
   result: PathUncheckedResponse,
-): Promise<PendingUploadResponse> {
+): Promise<ModelPendingUploadResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return pendingUploadResponseDeserializer(result.body);
+  return modelPendingUploadResponseDeserializer(result.body);
 }
 
 /** Start or retrieve a pending upload for a model version. */
@@ -130,9 +139,9 @@ export async function pendingUpload(
   context: Client,
   name: string,
   version: string,
-  body: PendingUploadRequest,
+  body: ModelPendingUploadRequest,
   options: BetaModelsPendingUploadOptionalParams = { requestOptions: {} },
-): Promise<PendingUploadResponse> {
+): Promise<ModelPendingUploadResponse> {
   const result = await _pendingUploadSend(context, name, version, body, options);
   return _pendingUploadDeserialize(result);
 }
@@ -144,6 +153,7 @@ export function _createAsyncSend(
   body: ModelVersion,
   options: BetaModelsCreateAsyncOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions/{version}/createAsync{?api-version}",
     {
@@ -158,17 +168,25 @@ export function _createAsyncSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: modelVersionSerializer(body),
   });
 }
 
-export async function _createAsyncDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _createAsyncDeserialize(result: PathUncheckedResponse): Promise<{
+  location?: string;
+  operationResult?: string | null;
+}> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return _createAsyncResponseDeserializer(result.body);
 }
 
 /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
@@ -178,7 +196,10 @@ export async function createAsync(
   version: string,
   body: ModelVersion,
   options: BetaModelsCreateAsyncOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  location?: string;
+  operationResult?: string | null;
+}> {
   const result = await _createAsyncSend(context, name, version, body, options);
   return _createAsyncDeserialize(result);
 }
@@ -190,6 +211,7 @@ export function _updateSend(
   version: string,
   options: BetaModelsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions/{version}{?api-version}",
     {
@@ -204,7 +226,11 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: updateModelVersionRequestSerializer(body),
   });
 }
@@ -236,6 +262,7 @@ export function _$deleteSend(
   version: string,
   options: BetaModelsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions/{version}{?api-version}",
     {
@@ -247,11 +274,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+  });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -259,7 +289,12 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete the specific version of the ModelVersion. The service returns 204 No Content if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
+/** Delete the specific version of the ModelVersion. The service returns 200 OK if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
   context: Client,
   name: string,
@@ -276,6 +311,7 @@ export function _getSend(
   version: string,
   options: BetaModelsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions/{version}{?api-version}",
     {
@@ -289,7 +325,11 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -317,6 +357,7 @@ export function _listSend(
   context: Client,
   options: BetaModelsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models{?api-version}",
     {
@@ -328,7 +369,11 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 
@@ -360,6 +405,7 @@ export function _listVersionsSend(
   name: string,
   options: BetaModelsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
     "/models/{name}/versions{?api-version}",
     {
@@ -372,7 +418,11 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
   });
 }
 

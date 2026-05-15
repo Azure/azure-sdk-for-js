@@ -28,7 +28,6 @@ import {
   sessionDirectoryListResponseDeserializer,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
-  BetaAgentsDownloadAgentVersionCodeResponse,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -47,7 +46,6 @@ import {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsDownloadAgentVersionCodeOptionalParams,
   BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
   BetaAgentsUpdateAgentFromCodeOptionalParams,
@@ -650,9 +648,10 @@ export function _downloadAgentCodeSend(
   options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/code:download{?api%2Dversion}",
+    "/agents/{agent_name}/code:download{?agent_version,api%2Dversion}",
     {
       agent_name: agentName,
+      agent_version: options?.agentVersion,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -688,9 +687,14 @@ export async function _downloadAgentCodeDeserialize(
 }
 
 /**
- * Download the code zip for the latest version of a code-based hosted agent.
+ * Download the code zip for a code-based hosted agent.
  * Returns the previously-uploaded zip (`application/zip`).
- * The SHA-256 digest of the returned bytes matches the `content_hash` on the latest version's `code_configuration`.
+ *
+ * If `agent_version` is supplied, returns that version's code zip; otherwise
+ * returns the latest version's code zip.
+ *
+ * The SHA-256 digest of the returned bytes matches the `content_hash` on the
+ * resolved version's `code_configuration`.
  */
 export async function downloadAgentCode(
   context: Client,
@@ -700,67 +704,6 @@ export async function downloadAgentCode(
   const streamableMethod = _downloadAgentCodeSend(context, agentName, options);
   const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadAgentCodeDeserialize(result);
-}
-
-export function _downloadAgentVersionCodeSend(
-  context: Client,
-  agentName: string,
-  agentVersion: string,
-  options: BetaAgentsDownloadAgentVersionCodeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/code:download{?api%2Dversion}",
-    {
-      agent_name: agentName,
-      agent_version: agentVersion,
-      "api%2Dversion": context.apiVersion ?? "v1",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/zip",
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _downloadAgentVersionCodeDeserialize(
-  result: PathUncheckedResponse & BetaAgentsDownloadAgentVersionCodeResponse,
-): Promise<BetaAgentsDownloadAgentVersionCodeResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
-}
-
-/**
- * Download the code zip for a specific version of a code-based hosted agent.
- * Returns the previously-uploaded zip (`application/zip`).
- * The SHA-256 digest of the returned bytes matches the `content_hash` on the agent version's `code_configuration`.
- */
-export async function downloadAgentVersionCode(
-  context: Client,
-  agentName: string,
-  agentVersion: string,
-  options: BetaAgentsDownloadAgentVersionCodeOptionalParams = { requestOptions: {} },
-): Promise<BetaAgentsDownloadAgentVersionCodeResponse> {
-  const streamableMethod = _downloadAgentVersionCodeSend(context, agentName, agentVersion, options);
-  const result = await getBinaryStreamResponse(streamableMethod);
-  return _downloadAgentVersionCodeDeserialize(result);
 }
 
 export function _createAgentVersionFromCodeSend(

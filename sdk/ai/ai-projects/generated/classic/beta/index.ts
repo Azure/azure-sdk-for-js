@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
+import {
+  BetaAgentOptimizationJobsOperations,
+  _getBetaAgentOptimizationJobsOperations,
+} from "./agentOptimizationJobs/index.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
 import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
@@ -22,6 +26,7 @@ import { BetaToolboxesOperations, _getBetaToolboxesOperations } from "./toolboxe
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
+  agentOptimizationJobs: BetaAgentOptimizationJobsOperations;
   datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
   toolboxes: BetaToolboxesOperations;
@@ -37,6 +42,7 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
+    agentOptimizationJobs: _getBetaAgentOptimizationJobsOperations(context),
     datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
     toolboxes: _getBetaToolboxesOperations(context),
