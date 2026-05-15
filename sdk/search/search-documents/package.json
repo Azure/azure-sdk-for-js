@@ -22,7 +22,6 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
-    "test:node:preview": "cross-env TEST_PREVIEW=true dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
