@@ -67,16 +67,12 @@ export interface TranscribedWord {
     text: string;
 }
 
-// @public
-export interface TranscribeOptions extends OperationOptions {
-}
-
 // @public (undocumented)
 export class TranscriptionClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptions);
     readonly pipeline: Pipeline;
-    transcribe(audioUrl: string, options?: Omit<TranscriptionOptions, "audioUrl">, operationOptions?: TranscribeOptions): Promise<TranscriptionResult>;
-    transcribe(audio: Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob, options?: Omit<TranscriptionOptions, "audioUrl">, operationOptions?: TranscribeOptions): Promise<TranscriptionResult>;
+    transcribe(audioUrl: string, options?: Omit<TranscriptionOptions, "audioUrl">): Promise<TranscriptionResult>;
+    transcribe(audio: Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob, options?: Omit<TranscriptionOptions, "audioUrl">): Promise<TranscriptionResult>;
 }
 
 // @public
@@ -91,7 +87,7 @@ export interface TranscriptionDiarizationOptions {
 }
 
 // @public
-export interface TranscriptionOptions {
+export interface TranscriptionOptions extends OperationOptions {
     activeChannels?: number[];
     audioUrl?: string;
     diarizationOptions?: TranscriptionDiarizationOptions;
