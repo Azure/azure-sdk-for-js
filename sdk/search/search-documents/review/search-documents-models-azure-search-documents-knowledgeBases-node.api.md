@@ -57,7 +57,7 @@ export interface IndexedSharePointKnowledgeSourceParams extends KnowledgeSourceP
 
 // @public
 export interface KnowledgeBaseActivityRecord {
-    elapsedMs?: number;
+    elapsedInMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;

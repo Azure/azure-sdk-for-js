@@ -27,7 +27,6 @@
 
 ### Breaking Changes
 
-- Spec-driven rename on `BaseKnowledgeBaseActivityRecord`: `elapsedInMs` is now `elapsedMs`.
 - `queryRewrites` on `SemanticSearchOptions` is now serialized to the new wire string format (e.g., `generative|count-3`); the public `GenerativeQueryRewrites` shape is unchanged but consumers reading raw request bodies should expect the new format.
 
 ### Bugs Fixed

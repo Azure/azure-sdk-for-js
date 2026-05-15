@@ -1289,7 +1289,7 @@ export interface KnowledgeBaseActivityRecord {
   /** The discriminator possible values: modelQueryPlanning, modelAnswerSynthesis, modelWebSummarization, agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
   /** The elapsed time in milliseconds for the retrieval activity. */
-  elapsedMs?: number;
+  elapsedInMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
   error?: KnowledgeBaseErrorDetail;
   /** A warning message surfacing potential configuration issues observed during the activity, such as documents dropped due to score thresholding, token limit truncation, or timeout conditions. */
@@ -1300,7 +1300,7 @@ export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBas
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
   };
@@ -1475,7 +1475,7 @@ export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     inputTokens: item["inputTokens"],
@@ -1502,7 +1502,7 @@ export function knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     inputTokens: item["inputTokens"],
@@ -1529,7 +1529,7 @@ export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     inputTokensCount: item["inputTokens"],
@@ -1554,7 +1554,7 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedMs: item["elapsedMs"],
+    elapsedInMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
     reasoningTokens: item["reasoningTokens"],
