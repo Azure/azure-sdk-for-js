@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Resets the VPN client shared key of the virtual network gateway in the specified resource group.
+ * This sample demonstrates how to resets the VPN client shared key of the virtual network gateway in the specified resource group.
  *
- * @summary Resets the VPN client shared key of the virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayResetVpnClientSharedKey.json
+ * @summary resets the VPN client shared key of the virtual network gateway in the specified resource group.
+ * x-ms-original-file: 2025-05-01/VirtualNetworkGatewayResetVpnClientSharedKey.json
  */
 async function resetVpnClientSharedKey(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayName = "vpngw";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGateways.beginResetVpnClientSharedKeyAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-    );
-  console.log(result);
+  await client.virtualNetworkGateways.resetVpnClientSharedKey("rg1", "vpngw");
 }
 
 async function main(): Promise<void> {

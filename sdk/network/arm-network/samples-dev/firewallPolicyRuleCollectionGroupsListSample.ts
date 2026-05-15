@@ -3,80 +3,74 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
+ * This sample demonstrates how to lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
- * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
- */
-async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "e747cc13-97d4-4a79-b463-42d7f4e558f2";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.firewallPolicyRuleCollectionGroups.list(
-    resourceGroupName,
-    firewallPolicyName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
-}
-
-/**
- * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- *
- * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyRuleCollectionGroupList.json
+ * @summary lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
+ * x-ms-original-file: 2025-05-01/FirewallPolicyRuleCollectionGroupList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.firewallPolicyRuleCollectionGroups.list(
-    resourceGroupName,
-    firewallPolicyName,
+    "rg1",
+    "firewallPolicy",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
+ * This sample demonstrates how to lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
- * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
+ * @summary lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
+ * x-ms-original-file: 2025-05-01/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
  */
-async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
+async function listAllFirewallPolicyRuleCollectionGroupsWithIpGroupsForAGivenFirewallPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.firewallPolicyRuleCollectionGroups.list(
-    resourceGroupName,
-    firewallPolicyName,
+    "rg1",
+    "firewallPolicy",
   )) {
     resArray.push(item);
   }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
+ *
+ * @summary lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
+ * x-ms-original-file: 2025-05-01/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
+ */
+async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.firewallPolicyRuleCollectionGroups.list(
+    "rg1",
+    "firewallPolicy",
+  )) {
+    resArray.push(item);
+  }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listAllFirewallPolicyRuleCollectionGroupWithWebCategories();
   await listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy();
-  await listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy();
+  await listAllFirewallPolicyRuleCollectionGroupsWithIpGroupsForAGivenFirewallPolicy();
+  await listAllFirewallPolicyRuleCollectionGroupWithWebCategories();
 }
 
 main().catch(console.error);

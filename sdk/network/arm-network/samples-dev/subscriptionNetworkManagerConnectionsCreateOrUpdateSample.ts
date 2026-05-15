@@ -1,36 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  NetworkManagerConnection} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create a network manager connection on this subscription.
+ * This sample demonstrates how to create a network manager connection on this subscription.
  *
- * @summary Create a network manager connection on this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerConnectionSubscriptionPut.json
+ * @summary create a network manager connection on this subscription.
+ * x-ms-original-file: 2025-05-01/NetworkManagerConnectionSubscriptionPut.json
  */
 async function createOrUpdateSubscriptionNetworkManagerConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const networkManagerConnectionName = "TestNMConnection";
-  const parameters: NetworkManagerConnection = {
-    networkManagerId:
-      "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.subscriptionNetworkManagerConnections.createOrUpdate(
-      networkManagerConnectionName,
-      parameters,
-    );
+  const result = await client.subscriptionNetworkManagerConnections.createOrUpdate(
+    "TestNMConnection",
+    {
+      networkManagerId:
+        "/subscriptions/22222222-2222-2222-2222-222222222222/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
+    },
+  );
   console.log(result);
 }
 

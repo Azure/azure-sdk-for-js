@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified application security group.
+ * This sample demonstrates how to deletes the specified application security group.
  *
- * @summary Deletes the specified application security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ApplicationSecurityGroupDelete.json
+ * @summary deletes the specified application security group.
+ * x-ms-original-file: 2025-05-01/ApplicationSecurityGroupDelete.json
  */
 async function deleteApplicationSecurityGroup(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const applicationSecurityGroupName = "test-asg";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.applicationSecurityGroups.beginDeleteAndWait(
-    resourceGroupName,
-    applicationSecurityGroupName,
-  );
-  console.log(result);
+  await client.applicationSecurityGroups.delete("rg1", "test-asg");
 }
 
 async function main(): Promise<void> {

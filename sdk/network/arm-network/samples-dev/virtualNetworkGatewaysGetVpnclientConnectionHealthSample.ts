@@ -3,26 +3,21 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
+ * This sample demonstrates how to get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
  *
- * @summary Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayGetVpnclientConnectionHealth.json
+ * @summary get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
+ * x-ms-original-file: 2025-05-01/VirtualNetworkGatewayGetVpnclientConnectionHealth.json
  */
 async function getVirtualNetworkGatewayVpnclientConnectionHealth(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["NETWORK_RESOURCE_GROUP"] || "p2s-vnet-test";
-  const virtualNetworkGatewayName = "vpnp2sgw";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGateways.beginGetVpnclientConnectionHealthAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-    );
+  const result = await client.virtualNetworkGateways.getVpnclientConnectionHealth(
+    "p2s-vnet-test",
+    "vpnp2sgw",
+  );
   console.log(result);
 }
 

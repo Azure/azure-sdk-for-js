@@ -1,48 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FlowLog} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a flow log for the specified network security group.
+ * This sample demonstrates how to create or update a flow log for the specified network security group.
  *
- * @summary Create or update a flow log for the specified network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherFlowLogCreate.json
+ * @summary create or update a flow log for the specified network security group.
+ * x-ms-original-file: 2025-05-01/NetworkWatcherFlowLogCreate.json
  */
 async function createOrUpdateFlowLog(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const flowLogName = "fl";
-  const parameters: FlowLog = {
-    format: { type: "JSON", version: 1 },
-    enabled: true,
-    enabledFilteringCriteria: "srcIP=158.255.7.8 || dstPort=56891",
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.flowLogs.createOrUpdate("rg1", "nw1", "fl", {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid/resourceGroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
           {},
       },
     },
     location: "centraluseuap",
+    format: { type: "JSON", version: 1 },
+    enabled: true,
+    enabledFilteringCriteria: "srcIP=158.255.7.8 || dstPort=56891",
     recordTypes: "B,E",
     storageId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/nwtest1mgvbfmqsigdxe",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/nwtest1mgvbfmqsigdxe",
     targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/desmondcentral-nsg",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.flowLogs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    flowLogName,
-    parameters,
-  );
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/desmondcentral-nsg",
+  });
   console.log(result);
 }
 

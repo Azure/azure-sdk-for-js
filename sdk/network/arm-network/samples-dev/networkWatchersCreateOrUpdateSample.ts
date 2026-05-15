@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkWatcher} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a network watcher in the specified resource group.
+ * This sample demonstrates how to creates or updates a network watcher in the specified resource group.
  *
- * @summary Creates or updates a network watcher in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherCreate.json
+ * @summary creates or updates a network watcher in the specified resource group.
+ * x-ms-original-file: 2025-05-01/NetworkWatcherCreate.json
  */
 async function createNetworkWatcher(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const parameters: NetworkWatcher = { location: "eastus" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkWatchers.createOrUpdate(
-    resourceGroupName,
-    networkWatcherName,
-    parameters,
-  );
+  const result = await client.networkWatchers.createOrUpdate("rg1", "nw1", { location: "eastus" });
   console.log(result);
 }
 

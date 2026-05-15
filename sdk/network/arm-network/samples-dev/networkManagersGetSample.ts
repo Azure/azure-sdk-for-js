@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified Network Manager.
+ * This sample demonstrates how to gets the specified Network Manager.
  *
- * @summary Gets the specified Network Manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerGet.json
+ * @summary gets the specified Network Manager.
+ * x-ms-original-file: 2025-05-01/NetworkManagerGet.json
  */
 async function networkManagersGet(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkManagers.get(
-    resourceGroupName,
-    networkManagerName,
-  );
+  const result = await client.networkManagers.get("rg1", "testNetworkManager");
   console.log(result);
 }
 

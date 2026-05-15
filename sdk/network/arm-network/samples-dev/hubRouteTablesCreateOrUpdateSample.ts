@@ -1,42 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HubRouteTable} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
+ * This sample demonstrates how to creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
  *
- * @summary Creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/HubRouteTablePut.json
+ * @summary creates a RouteTable resource if it doesn't exist else updates the existing RouteTable.
+ * x-ms-original-file: 2025-05-01/HubRouteTablePut.json
  */
 async function routeTablePut(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualHubName = "virtualHub1";
-  const routeTableName = "hubRouteTable1";
-  const routeTableParameters: HubRouteTable = {
-    labels: ["label1", "label2"],
-    routes: [
-      {
-        name: "route1",
-        destinationType: "CIDR",
-        destinations: ["10.0.0.0/8", "20.0.0.0/8", "30.0.0.0/8"],
-        nextHop:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azureFirewall1",
-        nextHopType: "ResourceId",
-      },
-    ],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.hubRouteTables.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    virtualHubName,
-    routeTableName,
-    routeTableParameters,
+  const result = await client.hubRouteTables.createOrUpdate(
+    "rg1",
+    "virtualHub1",
+    "hubRouteTable1",
+    {
+      labels: ["label1", "label2"],
+      routes: [
+        {
+          name: "route1",
+          destinationType: "CIDR",
+          destinations: ["10.0.0.0/8", "20.0.0.0/8", "30.0.0.0/8"],
+          nextHop:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azureFirewall1",
+          nextHopType: "ResourceId",
+        },
+      ],
+    },
   );
   console.log(result);
 }

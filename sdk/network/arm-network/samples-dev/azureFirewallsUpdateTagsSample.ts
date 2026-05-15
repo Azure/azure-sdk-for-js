@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates tags of an Azure Firewall resource.
+ * This sample demonstrates how to updates tags of an Azure Firewall resource.
  *
- * @summary Updates tags of an Azure Firewall resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/AzureFirewallUpdateTags.json
+ * @summary updates tags of an Azure Firewall resource.
+ * x-ms-original-file: 2025-05-01/AzureFirewallUpdateTags.json
  */
 async function updateAzureFirewallTags(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "azfwtest";
-  const azureFirewallName = "fw1";
-  const parameters: TagsObject = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.azureFirewalls.beginUpdateTagsAndWait(
-    resourceGroupName,
-    azureFirewallName,
-    parameters,
-  );
+  const result = await client.azureFirewalls.updateTags("azfwtest", "fw1", {
+    tags: { tag1: "value1", tag2: "value2" },
+  });
   console.log(result);
 }
 

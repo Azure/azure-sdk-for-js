@@ -3,27 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves all nat rules for a particular virtual wan vpn gateway.
+ * This sample demonstrates how to retrieves all nat rules for a particular virtual wan vpn gateway.
  *
- * @summary Retrieves all nat rules for a particular virtual wan vpn gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatRuleList.json
+ * @summary retrieves all nat rules for a particular virtual wan vpn gateway.
+ * x-ms-original-file: 2025-05-01/NatRuleList.json
  */
 async function natRuleList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const gatewayName = "gateway1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.natRules.listByVpnGateway(
-    resourceGroupName,
-    gatewayName,
-  )) {
+  for await (const item of client.natRules.listByVpnGateway("rg1", "gateway1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,40 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ExpressRouteCircuitPeering} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a peering in the specified express route circuits.
+ * This sample demonstrates how to creates or updates a peering in the specified express route circuits.
  *
- * @summary Creates or updates a peering in the specified express route circuits.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitPeeringCreate.json
+ * @summary creates or updates a peering in the specified express route circuits.
+ * x-ms-original-file: 2025-05-01/ExpressRouteCircuitPeeringCreate.json
  */
 async function createExpressRouteCircuitPeerings(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const circuitName = "circuitName";
-  const peeringName = "AzurePrivatePeering";
-  const peeringParameters: ExpressRouteCircuitPeering = {
-    peerASN: 200,
-    primaryPeerAddressPrefix: "192.168.16.252/30",
-    secondaryPeerAddressPrefix: "192.168.18.252/30",
-    vlanId: 200,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.expressRouteCircuitPeerings.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      circuitName,
-      peeringName,
-      peeringParameters,
-    );
+  const result = await client.expressRouteCircuitPeerings.createOrUpdate(
+    "rg1",
+    "circuitName",
+    "AzurePrivatePeering",
+    {
+      peerASN: 200,
+      primaryPeerAddressPrefix: "192.168.16.252/30",
+      secondaryPeerAddressPrefix: "192.168.18.252/30",
+      vlanId: 200,
+    },
+  );
   console.log(result);
 }
 

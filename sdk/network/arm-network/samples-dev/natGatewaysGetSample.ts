@@ -3,62 +3,46 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified nat gateway in a specified resource group.
+ * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
- * @summary Gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatGatewayGet.json
+ * @summary gets the specified nat gateway in a specified resource group.
+ * x-ms-original-file: 2025-05-01/NatGatewayGet.json
  */
 async function getNatGateway(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const natGatewayName = "test-natGateway";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.natGateways.get(
-    resourceGroupName,
-    natGatewayName,
-  );
+  const result = await client.natGateways.get("rg1", "test-natGateway");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the specified nat gateway in a specified resource group.
+ * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
- * @summary Gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatGatewayGetStandardV2Sku.json
+ * @summary gets the specified nat gateway in a specified resource group.
+ * x-ms-original-file: 2025-05-01/NatGatewayGetStandardV2Sku.json
  */
 async function getNatGatewayWithStandardV2Sku(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const natGatewayName = "test-natGateway";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.natGateways.get(
-    resourceGroupName,
-    natGatewayName,
-  );
+  const result = await client.natGateways.get("rg1", "test-natGateway");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the specified nat gateway in a specified resource group.
+ * This sample demonstrates how to gets the specified nat gateway in a specified resource group.
  *
- * @summary Gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatGatewayWithServiceGatewayGet.json
+ * @summary gets the specified nat gateway in a specified resource group.
+ * x-ms-original-file: 2025-05-01/NatGatewayWithServiceGatewayGet.json
  */
 async function getNatGatewayWithServiceGateway(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const natGatewayName = "test-natGateway";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.natGateways.get(
-    resourceGroupName,
-    natGatewayName,
-  );
+  const result = await client.natGateways.get("rg1", "test-natGateway");
   console.log(result);
 }
 

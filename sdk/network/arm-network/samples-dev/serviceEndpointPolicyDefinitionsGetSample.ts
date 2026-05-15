@@ -3,25 +3,21 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the specified service endpoint policy definitions from service endpoint policy.
+ * This sample demonstrates how to get a ServiceEndpointPolicyDefinition
  *
- * @summary Get the specified service endpoint policy definitions from service endpoint policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ServiceEndpointPolicyDefinitionGet.json
+ * @summary get a ServiceEndpointPolicyDefinition
+ * x-ms-original-file: 2025-05-01/ServiceEndpointPolicyDefinitionGet.json
  */
 async function getServiceEndpointDefinitionInServiceEndpointPolicy(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const serviceEndpointPolicyName = "testPolicy";
-  const serviceEndpointPolicyDefinitionName = "testDefinition";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.serviceEndpointPolicyDefinitions.get(
-    resourceGroupName,
-    serviceEndpointPolicyName,
-    serviceEndpointPolicyDefinitionName,
+    "rg1",
+    "testPolicy",
+    "testDefinition",
   );
   console.log(result);
 }

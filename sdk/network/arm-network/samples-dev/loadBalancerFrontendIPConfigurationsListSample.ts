@@ -3,27 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all the load balancer frontend IP configurations.
+ * This sample demonstrates how to gets all the load balancer frontend IP configurations.
  *
- * @summary Gets all the load balancer frontend IP configurations.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerFrontendIPConfigurationList.json
+ * @summary gets all the load balancer frontend IP configurations.
+ * x-ms-original-file: 2025-05-01/LoadBalancerFrontendIPConfigurationList.json
  */
 async function loadBalancerFrontendIPConfigurationList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.loadBalancerFrontendIPConfigurations.list(
-    resourceGroupName,
-    loadBalancerName,
-  )) {
+  for await (const item of client.loadBalancerFrontendIPConfigurations.list("testrg", "lb")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

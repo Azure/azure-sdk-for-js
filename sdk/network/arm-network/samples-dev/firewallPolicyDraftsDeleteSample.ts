@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete a draft policy.
+ * This sample demonstrates how to delete a draft policy.
  *
- * @summary Delete a draft policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyDraftDelete.json
+ * @summary delete a draft policy.
+ * x-ms-original-file: 2025-05-01/FirewallPolicyDraftDelete.json
  */
 async function deleteFirewallPolicyDraft(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyDrafts.delete(
-    resourceGroupName,
-    firewallPolicyName,
-  );
-  console.log(result);
+  await client.firewallPolicyDrafts.delete("rg1", "firewallPolicy");
 }
 
 async function main(): Promise<void> {

@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Query the status of a running packet capture session.
+ * This sample demonstrates how to query the status of a running packet capture session.
  *
- * @summary Query the status of a running packet capture session.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherPacketCaptureQueryStatus.json
+ * @summary query the status of a running packet capture session.
+ * x-ms-original-file: 2025-05-01/NetworkWatcherPacketCaptureQueryStatus.json
  */
 async function queryPacketCaptureStatus(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const packetCaptureName = "pc1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.packetCaptures.beginGetStatusAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    packetCaptureName,
-  );
+  const result = await client.packetCaptures.getStatus("rg1", "nw1", "pc1");
   console.log(result);
 }
 

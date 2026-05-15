@@ -1,44 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ApplicationGatewayOnDemandProbe} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+ * This sample demonstrates how to gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
  *
- * @summary Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ApplicationGatewayBackendHealthTest.json
+ * @summary gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+ * x-ms-original-file: 2025-05-01/ApplicationGatewayBackendHealthTest.json
  */
 async function testBackendHealth(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const applicationGatewayName = "appgw";
-  const probeRequest: ApplicationGatewayOnDemandProbe = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.applicationGateways.backendHealthOnDemand("rg1", "appgw", {
     path: "/",
     backendAddressPool: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool",
     },
     backendHttpSettings: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings",
     },
     pickHostNameFromBackendHttpSettings: true,
     timeout: 30,
     protocol: "Http",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.applicationGateways.beginBackendHealthOnDemandAndWait(
-      resourceGroupName,
-      applicationGatewayName,
-      probeRequest,
-    );
+  });
   console.log(result);
 }
 

@@ -1,42 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SecurityUserRulesDeleteOptionalParams} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a security user rule.
+ * This sample demonstrates how to deletes a security user rule.
  *
- * @summary Deletes a security user rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerSecurityUserRuleDelete.json
+ * @summary deletes a security user rule.
+ * x-ms-original-file: 2025-05-01/NetworkManagerSecurityUserRuleDelete.json
  */
 async function deleteASecurityUserRule(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
-  const configurationName = "myTestSecurityConfig";
-  const ruleCollectionName = "testRuleCollection";
-  const ruleName = "SampleUserRule";
-  const force = false;
-  const options: SecurityUserRulesDeleteOptionalParams = { force };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.securityUserRules.beginDeleteAndWait(
-    resourceGroupName,
-    networkManagerName,
-    configurationName,
-    ruleCollectionName,
-    ruleName,
-    options,
+  await client.securityUserRules.delete(
+    "rg1",
+    "testNetworkManager",
+    "myTestSecurityConfig",
+    "testRuleCollection",
+    "SampleUserRule",
+    { force: false },
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

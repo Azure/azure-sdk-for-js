@@ -3,25 +3,21 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified peering for the express route circuit.
+ * This sample demonstrates how to gets the specified peering for the express route circuit.
  *
- * @summary Gets the specified peering for the express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitPeeringGet.json
+ * @summary gets the specified peering for the express route circuit.
+ * x-ms-original-file: 2025-05-01/ExpressRouteCircuitPeeringGet.json
  */
 async function getExpressRouteCircuitPeering(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const circuitName = "circuitName";
-  const peeringName = "MicrosoftPeering";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.expressRouteCircuitPeerings.get(
-    resourceGroupName,
-    circuitName,
-    peeringName,
+    "rg1",
+    "circuitName",
+    "MicrosoftPeering",
   );
   console.log(result);
 }

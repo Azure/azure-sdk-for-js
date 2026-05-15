@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all network security groups applied to a network interface.
+ * This sample demonstrates how to gets all network security groups applied to a network interface.
  *
- * @summary Gets all network security groups applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceEffectiveNSGList.json
+ * @summary gets all network security groups applied to a network interface.
+ * x-ms-original-file: 2025-05-01/NetworkInterfaceEffectiveNSGList.json
  */
 async function listNetworkInterfaceEffectiveNetworkSecurityGroups(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkInterfaceName = "nic1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkInterfaces.beginListEffectiveNetworkSecurityGroupsAndWait(
-      resourceGroupName,
-      networkInterfaceName,
-    );
+  const result = await client.networkInterfaces.listEffectiveNetworkSecurityGroups("rg1", "nic1");
   console.log(result);
 }
 

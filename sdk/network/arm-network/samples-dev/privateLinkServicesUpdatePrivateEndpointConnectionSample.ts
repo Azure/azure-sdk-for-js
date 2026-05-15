@@ -1,44 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PrivateEndpointConnection} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.
+ * This sample demonstrates how to approve or reject private end point connection for a private link service in a subscription.
  *
- * @summary Approve or reject private end point connection for a private link service in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+ * @summary approve or reject private end point connection for a private link service in a subscription.
+ * x-ms-original-file: 2025-05-01/PrivateLinkServiceUpdatePrivateEndpointConnection.json
  */
 async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "testPls";
-  const peConnectionName = "testPlePeConnection";
-  const parameters: PrivateEndpointConnection = {
-    name: "testPlePeConnection",
-    privateEndpoint: {
-      id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-    },
-    privateLinkServiceConnectionState: {
-      description: "approved it for some reason.",
-      status: "Approved",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.privateLinkServices.updatePrivateEndpointConnection(
-      resourceGroupName,
-      serviceName,
-      peConnectionName,
-      parameters,
-    );
+  const result = await client.privateLinkServices.updatePrivateEndpointConnection(
+    "rg1",
+    "testPls",
+    "testPlePeConnection",
+    {
+      privateLinkServiceConnectionState: {
+        description: "approved it for some reason.",
+        status: "Approved",
+      },
+    },
+  );
   console.log(result);
 }
 

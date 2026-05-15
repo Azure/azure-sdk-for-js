@@ -1,48 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ExpressRouteCircuitConnection} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a Express Route Circuit Connection in the specified express route circuits.
+ * This sample demonstrates how to creates or updates a Express Route Circuit Connection in the specified express route circuits.
  *
- * @summary Creates or updates a Express Route Circuit Connection in the specified express route circuits.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitConnectionCreate.json
+ * @summary creates or updates a Express Route Circuit Connection in the specified express route circuits.
+ * x-ms-original-file: 2025-05-01/ExpressRouteCircuitConnectionCreate.json
  */
 async function expressRouteCircuitConnectionCreate(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid1";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const circuitName = "ExpressRouteARMCircuitA";
-  const peeringName = "AzurePrivatePeering";
-  const connectionName = "circuitConnectionUSAUS";
-  const expressRouteCircuitConnectionParameters: ExpressRouteCircuitConnection =
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.expressRouteCircuitConnections.createOrUpdate(
+    "rg1",
+    "ExpressRouteARMCircuitA",
+    "AzurePrivatePeering",
+    "circuitConnectionUSAUS",
     {
       addressPrefix: "10.0.0.0/29",
       authorizationKey: "946a1918-b7a2-4917-b43c-8c4cdaee006a",
       expressRouteCircuitPeering: {
-        id: "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering",
       },
       ipv6CircuitConnectionConfig: { addressPrefix: "aa:bb::/125" },
       peerExpressRouteCircuitPeering: {
-        id: "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering",
+        id: "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering",
       },
-    };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.expressRouteCircuitConnections.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      circuitName,
-      peeringName,
-      connectionName,
-      expressRouteCircuitConnectionParameters,
-    );
+    },
+  );
   console.log(result);
 }
 

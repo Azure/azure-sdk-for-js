@@ -3,41 +3,40 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List network usages for a subscription.
+ * This sample demonstrates how to list network usages for a subscription.
  *
- * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/UsageList.json
+ * @summary list network usages for a subscription.
+ * x-ms-original-file: 2025-05-01/UsageList.json
  */
 async function listUsages(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westus";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usages.list(location)) {
+  for await (const item of client.usages.list("westus")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to List network usages for a subscription.
+ * This sample demonstrates how to list network usages for a subscription.
  *
- * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/UsageListSpacedLocation.json
+ * @summary list network usages for a subscription.
+ * x-ms-original-file: 2025-05-01/UsageListSpacedLocation.json
  */
 async function listUsagesSpacedLocation(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "West US";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.usages.list(location)) {
+  for await (const item of client.usages.list("West US")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,113 +1,90 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NatGateway} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a nat gateway.
+ * This sample demonstrates how to creates or updates a nat gateway.
  *
- * @summary Creates or updates a nat gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatGatewayCreateOrUpdate.json
+ * @summary creates or updates a nat gateway.
+ * x-ms-original-file: 2025-05-01/NatGatewayCreateOrUpdate.json
  */
 async function createNatGateway(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const natGatewayName = "test-natgateway";
-  const parameters: NatGateway = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.natGateways.createOrUpdate("rg1", "test-natgateway", {
     location: "westus",
     publicIpAddresses: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1",
       },
     ],
     publicIpPrefixes: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1",
       },
     ],
     sku: { name: "Standard" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.natGateways.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    natGatewayName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a nat gateway.
+ * This sample demonstrates how to creates or updates a nat gateway.
  *
- * @summary Creates or updates a nat gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatGatewayCreateOrUpdateStandardV2Sku.json
+ * @summary creates or updates a nat gateway.
+ * x-ms-original-file: 2025-05-01/NatGatewayCreateOrUpdateStandardV2Sku.json
  */
 async function createNatGatewayWithStandardV2Sku(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const natGatewayName = "test-natgateway";
-  const parameters: NatGateway = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.natGateways.createOrUpdate("rg1", "test-natgateway", {
     location: "westus",
     publicIpAddresses: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1",
       },
     ],
     publicIpPrefixes: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1",
       },
     ],
     sku: { name: "StandardV2" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.natGateways.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    natGatewayName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a nat gateway.
+ * This sample demonstrates how to creates or updates a nat gateway.
  *
- * @summary Creates or updates a nat gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NatGatewayWithServiceGatewayCreateOrUpdate.json
+ * @summary creates or updates a nat gateway.
+ * x-ms-original-file: 2025-05-01/NatGatewayWithServiceGatewayCreateOrUpdate.json
  */
 async function createNatGatewayWithServiceGateway(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const natGatewayName = "test-natgateway";
-  const parameters: NatGateway = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.natGateways.createOrUpdate("rg1", "test-natgateway", {
     location: "westus",
     publicIpAddresses: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/PublicIpAddress1",
       },
     ],
     publicIpPrefixes: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/PublicIpPrefix1",
       },
     ],
     serviceGateway: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceGateways/SG1",
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/serviceGateways/SG1",
     },
     sku: { name: "Standard" },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.natGateways.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    natGatewayName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

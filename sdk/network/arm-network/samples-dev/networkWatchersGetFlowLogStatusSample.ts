@@ -1,35 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FlowLogStatusParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Queries status of flow log and traffic analytics (optional) on a specified resource.
+ * This sample demonstrates how to queries status of flow log and traffic analytics (optional) on a specified resource.
  *
- * @summary Queries status of flow log and traffic analytics (optional) on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherFlowLogStatusQuery.json
+ * @summary queries status of flow log and traffic analytics (optional) on a specified resource.
+ * x-ms-original-file: 2025-05-01/NetworkWatcherFlowLogStatusQuery.json
  */
 async function getFlowLogStatus(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const parameters: FlowLogStatusParameters = {
-    targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkWatchers.beginGetFlowLogStatusAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    parameters,
-  );
+  const result = await client.networkWatchers.getFlowLogStatus("rg1", "nw1", {
+    targetResourceId:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+  });
   console.log(result);
 }
 

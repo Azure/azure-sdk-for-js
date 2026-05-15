@@ -3,69 +3,53 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified private endpoint by resource group.
+ * This sample demonstrates how to gets the specified private endpoint by resource group.
  *
- * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointGet.json
+ * @summary gets the specified private endpoint by resource group.
+ * x-ms-original-file: 2025-05-01/PrivateEndpointGet.json
  */
 async function getPrivateEndpoint(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpoints.get(
-    resourceGroupName,
-    privateEndpointName,
-  );
+  const result = await client.privateEndpoints.get("rg1", "testPe");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the specified private endpoint by resource group.
+ * This sample demonstrates how to gets the specified private endpoint by resource group.
  *
- * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointGetWithASG.json
- */
-async function getPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpoints.get(
-    resourceGroupName,
-    privateEndpointName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets the specified private endpoint by resource group.
- *
- * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointGetForManualApproval.json
+ * @summary gets the specified private endpoint by resource group.
+ * x-ms-original-file: 2025-05-01/PrivateEndpointGetForManualApproval.json
  */
 async function getPrivateEndpointWithManualApprovalConnection(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpoints.get(
-    resourceGroupName,
-    privateEndpointName,
-  );
+  const result = await client.privateEndpoints.get("rg1", "testPe");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets the specified private endpoint by resource group.
+ *
+ * @summary gets the specified private endpoint by resource group.
+ * x-ms-original-file: 2025-05-01/PrivateEndpointGetWithASG.json
+ */
+async function getPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.privateEndpoints.get("rg1", "testPe");
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await getPrivateEndpoint();
-  await getPrivateEndpointWithApplicationSecurityGroups();
   await getPrivateEndpointWithManualApprovalConnection();
+  await getPrivateEndpointWithApplicationSecurityGroups();
 }
 
 main().catch(console.error);

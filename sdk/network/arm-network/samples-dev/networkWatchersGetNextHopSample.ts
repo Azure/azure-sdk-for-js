@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NextHopParameters} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the next hop from the specified VM.
+ * This sample demonstrates how to gets the next hop from the specified VM.
  *
- * @summary Gets the next hop from the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherNextHopGet.json
+ * @summary gets the next hop from the specified VM.
+ * x-ms-original-file: 2025-05-01/NetworkWatcherNextHopGet.json
  */
 async function getNextHop(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const parameters: NextHopParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkWatchers.getNextHop("rg1", "nw1", {
     destinationIPAddress: "10.0.0.10",
     sourceIPAddress: "10.0.0.5",
     targetNicResourceId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1",
     targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkWatchers.beginGetNextHopAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    parameters,
-  );
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+  });
   console.log(result);
 }
 

@@ -1,42 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  QueryInboundNatRulePortMappingRequest} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List of inbound NAT rule port mappings.
+ * This sample demonstrates how to list of inbound NAT rule port mappings.
  *
- * @summary List of inbound NAT rule port mappings.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/QueryInboundNatRulePortMapping.json
+ * @summary list of inbound NAT rule port mappings.
+ * x-ms-original-file: 2025-05-01/QueryInboundNatRulePortMapping.json
  */
-async function queryInboundNatRulePortMapping(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const groupName = "rg1";
-  const loadBalancerName = "lb1";
-  const backendPoolName = "bp1";
-  const parameters: QueryInboundNatRulePortMappingRequest = {
-    ipAddress: "10.0.0.4",
-  };
+async function queryInboundNATRulePortMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.loadBalancers.beginListInboundNatRulePortMappingsAndWait(
-      groupName,
-      loadBalancerName,
-      backendPoolName,
-      parameters,
-    );
+  const result = await client.loadBalancers.listInboundNatRulePortMappings("rg1", "lb1", "bp1", {
+    ipAddress: "10.0.0.4",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await queryInboundNatRulePortMapping();
+  await queryInboundNATRulePortMapping();
 }
 
 main().catch(console.error);

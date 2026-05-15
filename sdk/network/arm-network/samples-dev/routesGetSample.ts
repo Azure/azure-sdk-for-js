@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified route from a route table.
+ * This sample demonstrates how to gets the specified route from a route table.
  *
- * @summary Gets the specified route from a route table.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteTableRouteGet.json
+ * @summary gets the specified route from a route table.
+ * x-ms-original-file: 2025-05-01/RouteTableRouteGet.json
  */
 async function getRoute(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const routeTableName = "testrt";
-  const routeName = "route1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routes.get(
-    resourceGroupName,
-    routeTableName,
-    routeName,
-  );
+  const result = await client.routes.get("rg1", "testrt", "route1");
   console.log(result);
 }
 

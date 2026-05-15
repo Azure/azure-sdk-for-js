@@ -3,22 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all network security perimeters in a subscription.
+ * This sample demonstrates how to list all network security perimeters in a subscription.
  *
- * @summary List all network security perimeters in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkSecurityPerimeterListAll.json
+ * @summary list all network security perimeters in a subscription.
+ * x-ms-original-file: 2025-05-01/NetworkSecurityPerimeterListAll.json
  */
 async function networkSecurityPerimetersList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.networkSecurityPerimeters.listBySubscription()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

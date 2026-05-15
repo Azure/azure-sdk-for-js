@@ -3,24 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets information about the specified virtual network appliance.
+ * This sample demonstrates how to gets information about the specified virtual network appliance.
  *
- * @summary Gets information about the specified virtual network appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkAppliances_Get.json
+ * @summary gets information about the specified virtual network appliance.
+ * x-ms-original-file: 2025-05-01/VirtualNetworkAppliances_Get.json
  */
 async function getVirtualNetworkAppliance(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkApplianceName = "test-vna";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkAppliances.get(
-    resourceGroupName,
-    virtualNetworkApplianceName,
-  );
+  const result = await client.virtualNetworkAppliances.get("rg1", "test-vna");
   console.log(result);
 }
 

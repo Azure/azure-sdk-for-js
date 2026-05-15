@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FirewallPolicy} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates the specified Firewall Policy.
+ * This sample demonstrates how to creates or updates the specified Firewall Policy.
  *
- * @summary Creates or updates the specified Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyPut.json
+ * @summary creates or updates the specified Firewall Policy.
+ * x-ms-original-file: 2025-05-01/FirewallPolicyPut.json
  */
 async function createFirewallPolicy(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
-  const parameters: FirewallPolicy = {
-    dnsSettings: {
-      enableProxy: true,
-      requireProxyForNetworkRules: false,
-      servers: ["30.3.4.5"],
-    },
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.firewallPolicies.createOrUpdate("rg1", "firewallPolicy", {
+    location: "West US",
+    dnsSettings: { enableProxy: true, requireProxyForNetworkRules: false, servers: ["30.3.4.5"] },
     explicitProxy: {
       enableExplicitProxy: true,
       enablePacFile: true,
@@ -35,19 +30,19 @@ async function createFirewallPolicy(): Promise<void> {
       isEnabled: true,
       logAnalyticsResources: {
         defaultWorkspaceId: {
-          id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
         },
         workspaces: [
           {
             region: "westus",
             workspaceId: {
-              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
             },
           },
           {
             region: "eastus",
             workspaceId: {
-              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
             },
           },
         ],
@@ -69,32 +64,18 @@ async function createFirewallPolicy(): Promise<void> {
         signatureOverrides: [{ id: "2525004", mode: "Deny" }],
       },
       mode: "Alert",
-      profile: "Core",
+      profile: "Balanced",
     },
-    location: "West US",
     sku: { tier: "Premium" },
     snat: { privateRanges: ["IANAPrivateRanges"] },
     sql: { allowSqlRedirect: true },
-    tags: { key1: "value1" },
     threatIntelMode: "Alert",
-    threatIntelWhitelist: {
-      fqdns: ["*.microsoft.com"],
-      ipAddresses: ["20.3.4.5"],
-    },
+    threatIntelWhitelist: { fqdns: ["*.microsoft.com"], ipAddresses: ["20.3.4.5"] },
     transportSecurity: {
-      certificateAuthority: {
-        name: "clientcert",
-        keyVaultSecretId: "https://kv/secret",
-      },
+      certificateAuthority: { name: "clientcert", keyVaultSecretId: "https://kv/secret" },
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    parameters,
-  );
+    tags: { key1: "value1" },
+  });
   console.log(result);
 }
 

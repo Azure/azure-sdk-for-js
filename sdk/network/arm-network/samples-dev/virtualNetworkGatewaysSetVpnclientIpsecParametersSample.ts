@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VpnClientIPsecParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
+ * This sample demonstrates how to the Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
  *
- * @summary The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
+ * @summary the Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
+ * x-ms-original-file: 2025-05-01/VirtualNetworkGatewaySetVpnClientIpsecParameters.json
  */
 async function setVirtualNetworkGatewayVpnClientIpsecParameters(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayName = "vpngw";
-  const vpnclientIpsecParams: VpnClientIPsecParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.virtualNetworkGateways.setVpnclientIpsecParameters("rg1", "vpngw", {
     dhGroup: "DHGroup2",
     ikeEncryption: "AES256",
     ikeIntegrity: "SHA384",
@@ -28,15 +23,7 @@ async function setVirtualNetworkGatewayVpnClientIpsecParameters(): Promise<void>
     pfsGroup: "PFS2",
     saDataSizeKilobytes: 429497,
     saLifeTimeSeconds: 86473,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGateways.beginSetVpnclientIpsecParametersAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-      vpnclientIpsecParams,
-    );
+  });
   console.log(result);
 }
 
