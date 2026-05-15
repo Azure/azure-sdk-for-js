@@ -2,10 +2,6 @@
 
 ## Unreleased
 
-### Features Added
-
-- Added a new `APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED` environment variable that disables only the exporter's built-in network statsbeat (`NetworkStatsbeatMetrics`) while leaving long-interval statsbeat (`LongIntervalStatsbeatMetrics`) running. Intended for upstream distros that want to record per-export network counts themselves while still allowing the Azure Monitor exporter to own long-interval feature/instrumentation reporting.
-
 ### Other Changes
 
 - Updated OpenTelemetry experimental dependencies from `^0.217.0` to `^0.218.0` (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`). The `otlp-transformer` in this release replaces its `protobufjs` dependency with a custom serializer, resolving related `npm audit` advisories.
