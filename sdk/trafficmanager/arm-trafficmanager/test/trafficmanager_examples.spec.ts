@@ -86,6 +86,7 @@ describe("TrafficManager test", () => {
   });
 
   it("profiles delete test", async () => {
+    await client.profiles.delete(resourceGroup, profileName);
     const resArray = new Array();
     for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

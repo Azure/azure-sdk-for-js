@@ -1015,7 +1015,7 @@
 # PRLabel: %Mgmt
 /sdk/terraform/arm-terraform/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
