@@ -3,30 +3,18 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Upgrades a data warehouse.
+ * This sample demonstrates how to upgrades a data warehouse.
  *
- * @summary Upgrades a data warehouse.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/UpgradeDataWarehouse.json
+ * @summary upgrades a data warehouse.
+ * x-ms-original-file: 2025-02-01-preview/UpgradeDataWarehouse.json
  */
 async function upgradesADataWarehouse(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdwdb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginUpgradeDataWarehouseAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
-  console.log(result);
+  await client.databases.upgradeDataWarehouse("Default-SQL-SouthEastAsia", "testsvr", "testdwdb");
 }
 
 async function main(): Promise<void> {

@@ -3,41 +3,35 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Sets a managed database's long term retention policy.
+ * This sample demonstrates how to sets a managed database's long term retention policy.
  *
- * @summary Sets a managed database's long term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceLongTermRetentionPolicyCreateOrUpdate.json
+ * @summary sets a managed database's long term retention policy.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceLongTermRetentionPolicyCreateOrUpdate.json
  */
-async function createOrUpdateTheLtrPolicyForTheManagedDatabase() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testResourceGroup";
-  const managedInstanceName = "testInstance";
-  const databaseName = "testDatabase";
-  const policyName = "default";
-  const parameters = {
-    monthlyRetention: "P1Y",
-    weekOfYear: 5,
-    weeklyRetention: "P1M",
-    yearlyRetention: "P5Y",
-  };
+async function createOrUpdateTheLTRPolicyForTheManagedDatabase() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceLongTermRetentionPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    databaseName,
-    policyName,
-    parameters,
+  const result = await client.managedInstanceLongTermRetentionPolicies.createOrUpdate(
+    "testResourceGroup",
+    "testInstance",
+    "testDatabase",
+    "default",
+    {
+      backupStorageAccessTier: "Hot",
+      monthlyRetention: "P1Y",
+      weekOfYear: 5,
+      weeklyRetention: "P1M",
+      yearlyRetention: "P5Y",
+    },
   );
   console.log(result);
 }
 
 async function main() {
-  await createOrUpdateTheLtrPolicyForTheManagedDatabase();
+  await createOrUpdateTheLTRPolicyForTheManagedDatabase();
 }
 
 main().catch(console.error);

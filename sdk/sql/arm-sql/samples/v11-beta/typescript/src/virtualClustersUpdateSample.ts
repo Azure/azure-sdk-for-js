@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VirtualClusterUpdate, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates an existing virtual cluster.
+ * This sample demonstrates how to updates an existing virtual cluster.
  *
- * @summary Updates an existing virtual cluster.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/VirtualClusterUpdate.json
+ * @summary updates an existing virtual cluster.
+ * x-ms-original-file: 2025-02-01-preview/VirtualClusterUpdate.json
  */
 async function updateVirtualClusterWithTags(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "20d7082a-0fc7-4468-82bd-542694d5042b";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const virtualClusterName = "vc-subnet1-f769ed71-b3ad-491a-a9d5-26eeceaa6be2";
-  const parameters: VirtualClusterUpdate = { tags: { tkey: "tvalue1" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.virtualClusters.beginUpdateAndWait(
-    resourceGroupName,
-    virtualClusterName,
-    parameters,
+  const result = await client.virtualClusters.update(
+    "testrg",
+    "vc-subnet1-f769ed71-b3ad-491a-a9d5-26eeceaa6be2",
+    { tags: { tkey: "tvalue1" } },
   );
   console.log(result);
 }

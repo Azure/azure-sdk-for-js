@@ -3,33 +3,22 @@
 
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists a job's executions.
+ * This sample demonstrates how to lists a job's executions.
  *
- * @summary Lists a job's executions.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByJob.json
+ * @summary lists a job's executions.
+ * x-ms-original-file: 2025-02-01-preview/ListJobExecutionsByJob.json
  */
 async function listAJobExecutions(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "group1";
-  const serverName = "server1";
-  const jobAgentName = "agent1";
-  const jobName = "job1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.jobExecutions.listByJob(
-    resourceGroupName,
-    serverName,
-    jobAgentName,
-    jobName,
-  )) {
+  for await (const item of client.jobExecutions.listByJob("group1", "server1", "agent1", "job1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

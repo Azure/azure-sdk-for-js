@@ -1,142 +1,104 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DatabasesGetOptionalParams,
-  SqlManagementClient,
-} from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a database.
+ * This sample demonstrates how to gets a database.
  *
- * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseDefaultEnclave.json
- */
-async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets a database.
- *
- * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseVBSEnclave.json
- */
-async function getsADatabaseConfiguredWithVbsEnclaveType(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets a database.
- *
- * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetDatabaseWithAvailabilityZone.json
+ * @summary gets a database.
+ * x-ms-original-file: 2025-02-01-preview/GetDatabaseWithAvailabilityZone.json
  */
 async function getsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
+  const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets a database.
+ * This sample demonstrates how to gets a database.
  *
- * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseWithExpandEqualsKeys.json
- */
-async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
-  const expand = "keys";
-  const options: DatabasesGetOptionalParams = { expand };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    options,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Gets a database.
- *
- * @summary Gets a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabase.json
+ * @summary gets a database.
+ * x-ms-original-file: 2025-02-01-preview/GetVCoreDatabase.json
  */
 async function getsADatabase(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
-  const serverName = "testsvr";
-  const databaseName = "testdb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.databases.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
+  const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a database.
+ *
+ * @summary gets a database.
+ * x-ms-original-file: 2025-02-01-preview/GetVCoreDatabaseDefaultEnclave.json
+ */
+async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a database.
+ *
+ * @summary gets a database.
+ * x-ms-original-file: 2025-02-01-preview/GetVCoreDatabaseVBSEnclave.json
+ */
+async function getsADatabaseConfiguredWithVBSEnclaveType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a database.
+ *
+ * @summary gets a database.
+ * x-ms-original-file: 2025-02-01-preview/GetVCoreDatabaseWithExpandEqualsKeys.json
+ */
+async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
+    expand: "keys",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to gets a database.
+ *
+ * @summary gets a database.
+ * x-ms-original-file: 2025-02-01-preview/GetVCoreDatabaseWithExpandEqualsKeysWithVersionlessKeys.json
+ */
+async function getsADatabaseWithDatabaseLevelKeysExpandedUsingVersionlessKeys(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlManagementClient(credential, subscriptionId);
+  const result = await client.databases.get("Default-SQL-SouthEastAsia", "testsvr", "testdb", {
+    expand: "keys",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getsADatabaseConfiguredWithDefaultEnclaveType();
-  await getsADatabaseConfiguredWithVbsEnclaveType();
   await getsADatabaseWithAvailabilityZoneSpecified();
-  await getsADatabaseWithDatabaseLevelKeysExpanded();
   await getsADatabase();
+  await getsADatabaseConfiguredWithDefaultEnclaveType();
+  await getsADatabaseConfiguredWithVBSEnclaveType();
+  await getsADatabaseWithDatabaseLevelKeysExpanded();
+  await getsADatabaseWithDatabaseLevelKeysExpandedUsingVersionlessKeys();
 }
 
 main().catch(console.error);

@@ -1,40 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GeoBackupPolicy, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a database geo backup policy.
+ * This sample demonstrates how to create or update a database default Geo backup policy.
  *
- * @summary Updates a database geo backup policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/GeoBackupPoliciesCreateOrUpdate.json
+ * @summary create or update a database default Geo backup policy.
+ * x-ms-original-file: 2025-02-01-preview/GeoBackupPoliciesCreateOrUpdate.json
  */
-async function updateGeoBackupPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-4799";
-  const serverName = "sqlcrudtest-5961";
-  const databaseName = "testdw";
-  const geoBackupPolicyName = "Default";
-  const parameters: GeoBackupPolicy = { state: "Enabled" };
+async function createOrUpdateADatabaseDefaultGeoBackupPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.geoBackupPolicies.createOrUpdate(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    geoBackupPolicyName,
-    parameters,
+    "sqlcrudtest-4799",
+    "sqlcrudtest-5961",
+    "testdw",
+    "Default",
+    { state: "Enabled" },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await updateGeoBackupPolicy();
+  await createOrUpdateADatabaseDefaultGeoBackupPolicy();
 }
 
 main().catch(console.error);

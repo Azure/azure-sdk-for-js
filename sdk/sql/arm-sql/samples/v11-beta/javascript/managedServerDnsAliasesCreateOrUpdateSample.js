@@ -3,34 +3,28 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Creates a managed server DNS alias.
+ * This sample demonstrates how to creates a managed server DNS alias.
  *
- * @summary Creates a managed server DNS alias.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ManagedServerDnsAliasCreateOrUpdate.json
+ * @summary creates a managed server DNS alias.
+ * x-ms-original-file: 2025-02-01-preview/ManagedServerDnsAliasCreateOrUpdate.json
  */
-async function createManagedServerDnsAlias() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
-  const managedInstanceName = "dns-mi";
-  const dnsAliasName = "dns-alias-mi";
-  const parameters = {};
+async function createManagedServerDNSAlias() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedServerDnsAliases.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    dnsAliasName,
-    parameters,
+  const result = await client.managedServerDnsAliases.createOrUpdate(
+    "Default",
+    "dns-mi",
+    "dns-alias-mi",
+    {},
   );
   console.log(result);
 }
 
 async function main() {
-  await createManagedServerDnsAlias();
+  await createManagedServerDNSAlias();
 }
 
 main().catch(console.error);

@@ -3,73 +3,62 @@
 
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates managed instance DTC settings.
+ * This sample demonstrates how to updates managed instance DTC settings.
  *
- * @summary Updates managed instance DTC settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedInstanceDtcUpdateEnableDtc.json
+ * @summary updates managed instance DTC settings.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceDtcUpdateEnableDtc.json
  */
-async function updatesManagedInstanceDtcSettingsByEnablingDtc() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const dtcName = "current";
-  const parameters = { dtcEnabled: true };
+async function updatesManagedInstanceDTCSettingsByEnablingDTC() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceDtcs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    dtcName,
-    parameters,
+  const result = await client.managedInstanceDtcs.createOrUpdate(
+    "testrg",
+    "testinstance",
+    "current",
+    { dtcEnabled: true },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Updates managed instance DTC settings.
+ * This sample demonstrates how to updates managed instance DTC settings.
  *
- * @summary Updates managed instance DTC settings.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/ManagedInstanceDtcUpdateMax.json
+ * @summary updates managed instance DTC settings.
+ * x-ms-original-file: 2025-02-01-preview/ManagedInstanceDtcUpdateMax.json
  */
-async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified() {
-  const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
-  const managedInstanceName = "testinstance";
-  const dtcName = "current";
-  const parameters = {
-    dtcEnabled: true,
-    externalDnsSuffixSearchList: ["dns.example1.com", "dns.example2.com"],
-    securitySettings: {
-      snaLu6Point2TransactionsEnabled: false,
-      transactionManagerCommunicationSettings: {
-        allowInboundEnabled: false,
-        allowOutboundEnabled: true,
-        authentication: "NoAuth",
-      },
-      xaTransactionsDefaultTimeout: 1000,
-      xaTransactionsEnabled: false,
-      xaTransactionsMaximumTimeout: 3000,
-    },
-  };
+async function updatesManagedInstanceDTCSettingsWithAllOptionalParametersSpecified() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.managedInstanceDtcs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    managedInstanceName,
-    dtcName,
-    parameters,
+  const result = await client.managedInstanceDtcs.createOrUpdate(
+    "testrg",
+    "testinstance",
+    "current",
+    {
+      dtcEnabled: true,
+      externalDnsSuffixSearchList: ["dns.example1.com", "dns.example2.com"],
+      securitySettings: {
+        snaLu6Point2TransactionsEnabled: false,
+        transactionManagerCommunicationSettings: {
+          allowInboundEnabled: false,
+          allowOutboundEnabled: true,
+          authentication: "NoAuth",
+        },
+        xaTransactionsDefaultTimeout: 1000,
+        xaTransactionsEnabled: false,
+        xaTransactionsMaximumTimeout: 3000,
+      },
+    },
   );
   console.log(result);
 }
 
 async function main() {
-  await updatesManagedInstanceDtcSettingsByEnablingDtc();
-  await updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified();
+  await updatesManagedInstanceDTCSettingsByEnablingDTC();
+  await updatesManagedInstanceDTCSettingsWithAllOptionalParametersSpecified();
 }
 
 main().catch(console.error);
