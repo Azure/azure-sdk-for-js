@@ -65,15 +65,24 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
           contentFields: [
             {
               name: "description",
+              state: "used",
             },
           ],
           keywordFields: [
             {
               name: "tags",
+              state: "used",
             },
           ],
+          rerankerInput: {
+            content:
+              "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+            keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+            title: "Fancy Stay",
+          },
           titleField: {
             name: "hotelName",
+            state: "used",
           },
         },
         result.documentDebugInfo?.semantic,

@@ -12,9 +12,11 @@ import type {
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
+  QueryResultDocumentRerankerInput,
   QueryType,
   ScoringStatistics,
   SearchMode,
+  SemanticFieldState,
   SemanticSearchResultsType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
@@ -945,6 +947,11 @@ export interface QueryResultDocumentSemanticField {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /**
+   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SemanticFieldState;
 }
 
 /**
@@ -982,6 +989,11 @@ export interface SemanticDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywordFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The raw concatenated strings that were sent to the semantic enrichment process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**

@@ -2525,6 +2525,13 @@ export enum KnownSemanticErrorReason {
 }
 
 // @public
+export enum KnownSemanticFieldState {
+    Partial = "partial",
+    Unused = "unused",
+    Used = "used"
+}
+
+// @public
 export enum KnownSemanticSearchResultsType {
     BaseResults = "baseResults",
     RerankedResults = "rerankedResults"
@@ -3141,8 +3148,16 @@ export interface QueryCaptionResult {
 export type QueryDebugMode = string;
 
 // @public
+export interface QueryResultDocumentRerankerInput {
+    readonly content?: string;
+    readonly keywords?: string;
+    readonly title?: string;
+}
+
+// @public
 export interface QueryResultDocumentSemanticField {
     readonly name?: string;
+    readonly state?: SemanticFieldState;
 }
 
 // @public
@@ -3799,6 +3814,7 @@ export interface SemanticConfiguration {
 export interface SemanticDebugInfo {
     readonly contentFields?: QueryResultDocumentSemanticField[];
     readonly keywordFields?: QueryResultDocumentSemanticField[];
+    readonly rerankerInput?: QueryResultDocumentRerankerInput;
     readonly titleField?: QueryResultDocumentSemanticField;
 }
 
@@ -3812,6 +3828,9 @@ export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
 export interface SemanticField {
     name: string;
 }
+
+// @public
+export type SemanticFieldState = string;
 
 // @public
 export interface SemanticPrioritizedFields {

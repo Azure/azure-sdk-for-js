@@ -97,6 +97,9 @@ describe("Knowledge", { timeout: 20_000 }, () => {
             search: "What is the most luxurious hotel?",
           },
         ],
+        retrievalReasoningEffort: {
+          kind: "minimal",
+        },
       });
 
       assert.exists(result.activity);
