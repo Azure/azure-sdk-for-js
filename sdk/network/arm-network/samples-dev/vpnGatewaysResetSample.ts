@@ -3,24 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Resets the primary of the vpn gateway in the specified resource group.
+ * This sample demonstrates how to resets the primary of the vpn gateway in the specified resource group.
  *
- * @summary Resets the primary of the vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VpnGatewayReset.json
+ * @summary resets the primary of the vpn gateway in the specified resource group.
+ * x-ms-original-file: 2025-05-01/VpnGatewayReset.json
  */
 async function resetVpnGateway(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const gatewayName = "vpngw";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.vpnGateways.beginResetAndWait(
-    resourceGroupName,
-    gatewayName,
-  );
+  const result = await client.vpnGateways.reset("rg1", "vpngw");
   console.log(result);
 }
 

@@ -3,24 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a draft Firewall Policy.
+ * This sample demonstrates how to get a draft Firewall Policy.
  *
- * @summary Get a draft Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyDraftGet.json
+ * @summary get a draft Firewall Policy.
+ * x-ms-original-file: 2025-05-01/FirewallPolicyDraftGet.json
  */
 async function getFirewallPolicyDraft(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyDrafts.get(
-    resourceGroupName,
-    firewallPolicyName,
-  );
+  const result = await client.firewallPolicyDrafts.get("rg1", "firewallPolicy");
   console.log(result);
 }
 

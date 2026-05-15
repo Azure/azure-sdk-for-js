@@ -1,79 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ServiceTagInformationListOptionalParams} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of service tag information resources with pagination.
+ * This sample demonstrates how to gets a list of service tag information resources with pagination.
  *
- * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ServiceTagInformationListResult.json
+ * @summary gets a list of service tag information resources with pagination.
+ * x-ms-original-file: 2025-05-01/ServiceTagInformationListResult.json
  */
 async function getListOfServiceTags(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westeurope";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.serviceTagInformationOperations.list(
-    location,
-  )) {
+  for await (const item of client.serviceTagInformation.list("westeurope")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets a list of service tag information resources with pagination.
+ * This sample demonstrates how to gets a list of service tag information resources with pagination.
  *
- * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ServiceTagInformationListResultWithNoAddressPrefixes.json
+ * @summary gets a list of service tag information resources with pagination.
+ * x-ms-original-file: 2025-05-01/ServiceTagInformationListResultWithNoAddressPrefixes.json
  */
 async function getListOfServiceTagsWithNoAddressPrefixes(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westeurope";
-  const noAddressPrefixes = true;
-  const options: ServiceTagInformationListOptionalParams = {
-    noAddressPrefixes,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.serviceTagInformationOperations.list(
-    location,
-    options,
-  )) {
+  for await (const item of client.serviceTagInformation.list("westeurope", {
+    noAddressPrefixes: true,
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Gets a list of service tag information resources with pagination.
+ * This sample demonstrates how to gets a list of service tag information resources with pagination.
  *
- * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ServiceTagInformationListResultWithTagname.json
+ * @summary gets a list of service tag information resources with pagination.
+ * x-ms-original-file: 2025-05-01/ServiceTagInformationListResultWithTagname.json
  */
 async function getListOfServiceTagsWithTagName(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westeurope";
-  const tagName = "ApiManagement";
-  const options: ServiceTagInformationListOptionalParams = { tagName };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.serviceTagInformationOperations.list(
-    location,
-    options,
-  )) {
+  for await (const item of client.serviceTagInformation.list("westeurope", {
+    tagName: "ApiManagement",
+  })) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

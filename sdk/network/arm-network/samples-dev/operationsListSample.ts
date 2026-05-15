@@ -3,24 +3,21 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all of the available Network Rest API operations.
+ * This sample demonstrates how to lists all of the available Network Rest API operations.
  *
- * @summary Lists all of the available Network Rest API operations.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/OperationList.json
+ * @summary lists all of the available Network Rest API operations.
+ * x-ms-original-file: 2025-05-01/OperationList.json
  */
 async function getAListOfOperationsForAResourceProvider(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
+  const client = new NetworkManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

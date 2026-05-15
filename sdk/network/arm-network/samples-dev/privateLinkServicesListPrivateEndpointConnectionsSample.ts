@@ -3,27 +3,25 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all private end point connections for a specific private link service.
+ * This sample demonstrates how to gets all private end point connections for a specific private link service.
  *
- * @summary Gets all private end point connections for a specific private link service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateLinkServiceListPrivateEndpointConnection.json
+ * @summary gets all private end point connections for a specific private link service.
+ * x-ms-original-file: 2025-05-01/PrivateLinkServiceListPrivateEndpointConnection.json
  */
 async function listPrivateLinkServiceInResourceGroup(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "testPls";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.privateLinkServices.listPrivateEndpointConnections(
-    resourceGroupName,
-    serviceName,
+    "rg1",
+    "testPls",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

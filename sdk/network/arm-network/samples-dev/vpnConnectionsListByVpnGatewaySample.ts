@@ -3,27 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves all vpn connections for a particular virtual wan vpn gateway.
+ * This sample demonstrates how to retrieves all vpn connections for a particular virtual wan vpn gateway.
  *
- * @summary Retrieves all vpn connections for a particular virtual wan vpn gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VpnConnectionList.json
+ * @summary retrieves all vpn connections for a particular virtual wan vpn gateway.
+ * x-ms-original-file: 2025-05-01/VpnConnectionList.json
  */
 async function vpnConnectionList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const gatewayName = "gateway1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.vpnConnections.listByVpnGateway(
-    resourceGroupName,
-    gatewayName,
-  )) {
+  for await (const item of client.vpnConnections.listByVpnGateway("rg1", "gateway1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

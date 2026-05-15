@@ -1,40 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PrivateDnsZoneGroup} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a private dns zone group in the specified private endpoint.
+ * This sample demonstrates how to creates or updates a private dns zone group in the specified private endpoint.
  *
- * @summary Creates or updates a private dns zone group in the specified private endpoint.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateEndpointDnsZoneGroupCreate.json
+ * @summary creates or updates a private dns zone group in the specified private endpoint.
+ * x-ms-original-file: 2025-05-01/PrivateEndpointDnsZoneGroupCreate.json
  */
 async function createPrivateDnsZoneGroup(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const privateEndpointName = "testPe";
-  const privateDnsZoneGroupName = "testPdnsgroup";
-  const parameters: PrivateDnsZoneGroup = {
-    privateDnsZoneConfigs: [
-      {
-        privateDnsZoneId:
-          "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateDnsZones/zone1.com",
-      },
-    ],
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateDnsZoneGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    privateEndpointName,
-    privateDnsZoneGroupName,
-    parameters,
+  const result = await client.privateDnsZoneGroups.createOrUpdate(
+    "rg1",
+    "testPe",
+    "testPdnsgroup",
+    {
+      privateDnsZoneConfigs: [
+        {
+          privateDnsZoneId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/privateDnsZones/zone1.com",
+        },
+      ],
+    },
   );
   console.log(result);
 }

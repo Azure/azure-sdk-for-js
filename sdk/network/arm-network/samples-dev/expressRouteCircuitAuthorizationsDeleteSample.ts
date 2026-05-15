@@ -3,28 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified authorization from the specified express route circuit.
+ * This sample demonstrates how to deletes the specified authorization from the specified express route circuit.
  *
- * @summary Deletes the specified authorization from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitAuthorizationDelete.json
+ * @summary deletes the specified authorization from the specified express route circuit.
+ * x-ms-original-file: 2025-05-01/ExpressRouteCircuitAuthorizationDelete.json
  */
 async function deleteExpressRouteCircuitAuthorization(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const circuitName = "circuitName";
-  const authorizationName = "authorizationName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.expressRouteCircuitAuthorizations.beginDeleteAndWait(
-      resourceGroupName,
-      circuitName,
-      authorizationName,
-    );
-  console.log(result);
+  await client.expressRouteCircuitAuthorizations.delete("rg1", "circuitName", "authorizationName");
 }
 
 async function main(): Promise<void> {

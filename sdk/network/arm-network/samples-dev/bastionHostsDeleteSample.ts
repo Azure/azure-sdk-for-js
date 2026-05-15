@@ -3,44 +3,31 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified Bastion Host.
+ * This sample demonstrates how to deletes the specified Bastion Host.
  *
- * @summary Deletes the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/BastionHostDelete.json
+ * @summary deletes the specified Bastion Host.
+ * x-ms-original-file: 2025-05-01/BastionHostDelete.json
  */
 async function deleteBastionHost(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const bastionHostName = "bastionhosttenant";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.bastionHosts.beginDeleteAndWait(
-    resourceGroupName,
-    bastionHostName,
-  );
-  console.log(result);
+  await client.bastionHosts.delete("rg1", "bastionhosttenant");
 }
 
 /**
- * This sample demonstrates how to Deletes the specified Bastion Host.
+ * This sample demonstrates how to deletes the specified Bastion Host.
  *
- * @summary Deletes the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/BastionHostDeveloperDelete.json
+ * @summary deletes the specified Bastion Host.
+ * x-ms-original-file: 2025-05-01/BastionHostDeveloperDelete.json
  */
 async function deleteDeveloperBastionHost(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg2";
-  const bastionHostName = "bastionhostdeveloper";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.bastionHosts.beginDeleteAndWait(
-    resourceGroupName,
-    bastionHostName,
-  );
-  console.log(result);
+  await client.bastionHosts.delete("rg2", "bastionhostdeveloper");
 }
 
 async function main(): Promise<void> {

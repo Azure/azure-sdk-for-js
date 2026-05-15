@@ -1,83 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkInterface} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a network interface.
+ * This sample demonstrates how to creates or updates a network interface.
  *
- * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceCreate.json
+ * @summary creates or updates a network interface.
+ * x-ms-original-file: 2025-05-01/NetworkInterfaceCreate.json
  */
 async function createNetworkInterface(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkInterfaceName = "test-nic";
-  const parameters: NetworkInterface = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkInterfaces.createOrUpdate("rg1", "test-nic", {
+    location: "eastus",
     disableTcpStateTracking: true,
     enableAcceleratedNetworking: true,
     ipConfigurations: [
       {
-        name: "ipconfig1",
         publicIPAddress: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
         },
         subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
         },
       },
-      { name: "ipconfig2", privateIPAddressPrefixLength: 28 },
+      { privateIPAddressPrefixLength: 28 },
     ],
-    location: "eastus",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkInterfaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    networkInterfaceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a network interface.
+ * This sample demonstrates how to creates or updates a network interface.
  *
- * @summary Creates or updates a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
+ * @summary creates or updates a network interface.
+ * x-ms-original-file: 2025-05-01/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
  */
 async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkInterfaceName = "test-nic";
-  const parameters: NetworkInterface = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkInterfaces.createOrUpdate("rg1", "test-nic", {
+    location: "eastus",
     enableAcceleratedNetworking: true,
     ipConfigurations: [
       {
-        name: "ipconfig1",
         gatewayLoadBalancer: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider",
         },
         publicIPAddress: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
         },
         subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
         },
       },
     ],
-    location: "eastus",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkInterfaces.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    networkInterfaceName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

@@ -3,27 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the value of the shared key of VpnLink connection specified.
+ * This sample demonstrates how to gets the value of the shared key of VpnLink connection specified.
  *
- * @summary Gets the value of the shared key of VpnLink connection specified.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VpnSiteLinkConnectionDefaultSharedKeyList.json
+ * @summary gets the value of the shared key of VpnLink connection specified.
+ * x-ms-original-file: 2025-05-01/VpnSiteLinkConnectionDefaultSharedKeyList.json
  */
 async function vpnSiteLinkConnectionDefaultSharedKeyList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const gatewayName = "gateway1";
-  const connectionName = "vpnConnection1";
-  const linkConnectionName = "Connection-Link1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.vpnLinkConnections.listDefaultSharedKey(
-    resourceGroupName,
-    gatewayName,
-    connectionName,
-    linkConnectionName,
+    "rg1",
+    "gateway1",
+    "vpnConnection1",
+    "Connection-Link1",
   );
   console.log(result);
 }

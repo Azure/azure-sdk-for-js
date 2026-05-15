@@ -3,22 +3,19 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a specified connection created by this management group.
+ * This sample demonstrates how to get a specified connection created by this management group.
  *
- * @summary Get a specified connection created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerConnectionManagementGroupGet.json
+ * @summary get a specified connection created by this management group.
+ * x-ms-original-file: 2025-05-01/NetworkManagerConnectionManagementGroupGet.json
  */
 async function getManagementGroupNetworkManagerConnection(): Promise<void> {
-  const managementGroupId = "managementGroupA";
-  const networkManagerConnectionName = "TestNMConnection";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential);
   const result = await client.managementGroupNetworkManagerConnections.get(
-    managementGroupId,
-    networkManagerConnectionName,
+    "managementGroupA",
+    "TestNMConnection",
   );
   console.log(result);
 }

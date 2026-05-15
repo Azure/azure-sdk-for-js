@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Returns all signatures overrides objects for a specific policy as a list containing a single value.
+ * This sample demonstrates how to returns all signatures overrides objects for a specific policy as a list containing a single value.
  *
- * @summary Returns all signatures overrides objects for a specific policy as a list containing a single value.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicySignatureOverridesList.json
+ * @summary returns all signatures overrides objects for a specific policy as a list containing a single value.
+ * x-ms-original-file: 2025-05-01/FirewallPolicySignatureOverridesList.json
  */
 async function getSignatureOverrides(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "e747cc13-97d4-4a79-b463-42d7f4e558f2";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyIdpsSignaturesOverrides.list(
-    resourceGroupName,
-    firewallPolicyName,
-  );
+  const result = await client.firewallPolicyIdpsSignaturesOverrides.list("rg1", "firewallPolicy");
   console.log(result);
 }
 

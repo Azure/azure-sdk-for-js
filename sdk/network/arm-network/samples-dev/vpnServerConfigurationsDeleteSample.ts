@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a VpnServerConfiguration.
+ * This sample demonstrates how to deletes a VpnServerConfiguration.
  *
- * @summary Deletes a VpnServerConfiguration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VpnServerConfigurationDelete.json
+ * @summary deletes a VpnServerConfiguration.
+ * x-ms-original-file: 2025-05-01/VpnServerConfigurationDelete.json
  */
 async function vpnServerConfigurationDelete(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const vpnServerConfigurationName = "vpnServerConfiguration1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.vpnServerConfigurations.beginDeleteAndWait(
-    resourceGroupName,
-    vpnServerConfigurationName,
-  );
-  console.log(result);
+  await client.vpnServerConfigurations.delete("rg1", "vpnServerConfiguration1");
 }
 
 async function main(): Promise<void> {

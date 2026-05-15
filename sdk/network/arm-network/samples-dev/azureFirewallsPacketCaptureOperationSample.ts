@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FirewallPacketCaptureParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Runs a packet capture operation on AzureFirewall.
+ * This sample demonstrates how to runs a packet capture operation on AzureFirewall.
  *
- * @summary Runs a packet capture operation on AzureFirewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/AzureFirewallPacketCaptureOperation.json
+ * @summary runs a packet capture operation on AzureFirewall.
+ * x-ms-original-file: 2025-05-01/AzureFirewallPacketCaptureOperation.json
  */
 async function azureFirewallPacketCaptureOperation(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const azureFirewallName = "azureFirewall1";
-  const parameters: FirewallPacketCaptureParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.azureFirewalls.packetCaptureOperation("rg1", "azureFirewall1", {
     durationInSeconds: 300,
     fileName: "azureFirewallPacketCapture",
     filters: [
-      {
-        destinationPorts: ["4500"],
-        destinations: ["20.1.2.0"],
-        sources: ["20.1.1.0"],
-      },
+      { destinationPorts: ["4500"], destinations: ["20.1.2.0"], sources: ["20.1.1.0"] },
       {
         destinationPorts: ["123", "80"],
         destinations: ["10.1.2.0"],
@@ -39,14 +30,7 @@ async function azureFirewallPacketCaptureOperation(): Promise<void> {
     operation: "Status",
     sasUrl: "someSASURL",
     protocol: "Any",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.azureFirewalls.beginPacketCaptureOperationAndWait(
-    resourceGroupName,
-    azureFirewallName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

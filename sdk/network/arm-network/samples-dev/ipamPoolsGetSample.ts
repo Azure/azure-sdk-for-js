@@ -3,28 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specific Pool resource.
+ * This sample demonstrates how to gets the specific Pool resource.
  *
- * @summary Gets the specific Pool resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/IpamPools_Get.json
+ * @summary gets the specific Pool resource.
+ * x-ms-original-file: 2025-05-01/IpamPools_Get.json
  */
 async function ipamPoolsGet(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "TestNetworkManager";
-  const poolName = "TestPool";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.ipamPools.get(
-    resourceGroupName,
-    networkManagerName,
-    poolName,
-  );
+  const result = await client.ipamPools.get("rg1", "TestNetworkManager", "TestPool");
   console.log(result);
 }
 

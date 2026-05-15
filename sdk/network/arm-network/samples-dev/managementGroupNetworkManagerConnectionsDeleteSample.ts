@@ -3,24 +3,20 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete specified pending connection created by this management group.
+ * This sample demonstrates how to delete specified pending connection created by this management group.
  *
- * @summary Delete specified pending connection created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerConnectionManagementGroupDelete.json
+ * @summary delete specified pending connection created by this management group.
+ * x-ms-original-file: 2025-05-01/NetworkManagerConnectionManagementGroupDelete.json
  */
 async function deleteManagementGroupNetworkManagerConnection(): Promise<void> {
-  const managementGroupId = "managementGroupA";
-  const networkManagerConnectionName = "TestNMConnection";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential);
-  const result = await client.managementGroupNetworkManagerConnections.delete(
-    managementGroupId,
-    networkManagerConnectionName,
+  await client.managementGroupNetworkManagerConnections.delete(
+    "managementGroupA",
+    "TestNMConnection",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

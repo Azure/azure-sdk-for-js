@@ -1,74 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SecurityAdminConfiguration} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a network manager security admin configuration.
+ * This sample demonstrates how to creates or updates a network manager security admin configuration.
  *
- * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
+ * @summary creates or updates a network manager security admin configuration.
+ * x-ms-original-file: 2025-05-01/NetworkManagerSecurityAdminConfigurationPut.json
  */
-async function createManualModeSecurityAdminConfiguration(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
-  const configurationName = "myTestSecurityConfig";
-  const securityAdminConfiguration: SecurityAdminConfiguration = {
-    description:
-      "A configuration which will update any network groups ip addresses at commit times.",
-    networkGroupAddressSpaceAggregationOption: "Manual",
-  };
+async function createNetworkManagerSecurityAdminConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.securityAdminConfigurations.createOrUpdate(
-    resourceGroupName,
-    networkManagerName,
-    configurationName,
-    securityAdminConfiguration,
+    "rg1",
+    "testNetworkManager",
+    "myTestSecurityConfig",
+    { description: "A sample policy", applyOnNetworkIntentPolicyBasedServices: ["None"] },
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Creates or updates a network manager security admin configuration.
+ * This sample demonstrates how to creates or updates a network manager security admin configuration.
  *
- * @summary Creates or updates a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerSecurityAdminConfigurationPut.json
+ * @summary creates or updates a network manager security admin configuration.
+ * x-ms-original-file: 2025-05-01/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
  */
-async function createNetworkManagerSecurityAdminConfiguration(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
-  const configurationName = "myTestSecurityConfig";
-  const securityAdminConfiguration: SecurityAdminConfiguration = {
-    description: "A sample policy",
-    applyOnNetworkIntentPolicyBasedServices: ["None"],
-  };
+async function createManualModeSecurityAdminConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-1111-1111-1111-111111111111";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.securityAdminConfigurations.createOrUpdate(
-    resourceGroupName,
-    networkManagerName,
-    configurationName,
-    securityAdminConfiguration,
+    "rg1",
+    "testNetworkManager",
+    "myTestSecurityConfig",
+    {
+      description:
+        "A configuration which will update any network groups ip addresses at commit times.",
+      networkGroupAddressSpaceAggregationOption: "Manual",
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createManualModeSecurityAdminConfiguration();
   await createNetworkManagerSecurityAdminConfiguration();
+  await createManualModeSecurityAdminConfiguration();
 }
 
 main().catch(console.error);

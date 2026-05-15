@@ -3,22 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all SKUs available for a virtual appliance.
+ * This sample demonstrates how to list all SKUs available for a virtual appliance.
  *
- * @summary List all SKUs available for a virtual appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceSkuList.json
+ * @summary list all SKUs available for a virtual appliance.
+ * x-ms-original-file: 2025-05-01/NetworkVirtualApplianceSkuList.json
  */
 async function networkVirtualApplianceSkuListResult(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.virtualApplianceSkus.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RouteFilterRule} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a route in the specified route filter.
+ * This sample demonstrates how to creates or updates a route in the specified route filter.
  *
- * @summary Creates or updates a route in the specified route filter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/RouteFilterRuleCreate.json
+ * @summary creates or updates a route in the specified route filter.
+ * x-ms-original-file: 2025-05-01/RouteFilterRuleCreate.json
  */
 async function routeFilterRuleCreate(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const routeFilterName = "filterName";
-  const ruleName = "ruleName";
-  const routeFilterRuleParameters: RouteFilterRule = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.routeFilterRules.createOrUpdate("rg1", "filterName", "ruleName", {
     access: "Allow",
     communities: ["12076:5030", "12076:5040"],
     routeFilterRuleType: "Community",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.routeFilterRules.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    routeFilterName,
-    ruleName,
-    routeFilterRuleParameters,
-  );
+  });
   console.log(result);
 }
 

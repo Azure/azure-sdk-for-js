@@ -1,36 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  GetOutboundRoutesParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the outbound routes configured for the Virtual Hub on a particular connection.
+ * This sample demonstrates how to gets the outbound routes configured for the Virtual Hub on a particular connection.
  *
- * @summary Gets the outbound routes configured for the Virtual Hub on a particular connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/GetOutboundRoutes.json
+ * @summary gets the outbound routes configured for the Virtual Hub on a particular connection.
+ * x-ms-original-file: 2025-05-01/GetOutboundRoutes.json
  */
 async function outboundRoutesForTheVirtualHubOnAParticularConnection(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualHubName = "virtualHub1";
-  const getOutboundRoutesParameters: GetOutboundRoutesParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.virtualHubs.getOutboundRoutes("rg1", "virtualHub1", {
     connectionType: "ExpressRouteConnection",
     resourceUri:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualHubs.beginGetOutboundRoutesAndWait(
-    resourceGroupName,
-    virtualHubName,
-    getOutboundRoutesParameters,
-  );
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1",
+  });
   console.log(result);
 }
 

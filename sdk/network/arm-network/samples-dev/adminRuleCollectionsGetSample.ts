@@ -3,29 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a network manager security admin configuration rule collection.
+ * This sample demonstrates how to gets a network manager security admin configuration rule collection.
  *
- * @summary Gets a network manager security admin configuration rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerAdminRuleCollectionGet.json
+ * @summary gets a network manager security admin configuration rule collection.
+ * x-ms-original-file: 2025-05-01/NetworkManagerAdminRuleCollectionGet.json
  */
 async function getsSecurityAdminRuleCollection(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
-  const configurationName = "myTestSecurityConfig";
-  const ruleCollectionName = "testRuleCollection";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.adminRuleCollections.get(
-    resourceGroupName,
-    networkManagerName,
-    configurationName,
-    ruleCollectionName,
+    "rg1",
+    "testNetworkManager",
+    "myTestSecurityConfig",
+    "testRuleCollection",
   );
   console.log(result);
 }

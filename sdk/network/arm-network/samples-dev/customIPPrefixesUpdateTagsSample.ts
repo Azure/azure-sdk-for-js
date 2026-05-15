@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates custom IP prefix tags.
+ * This sample demonstrates how to updates custom IP prefix tags.
  *
- * @summary Updates custom IP prefix tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/CustomIpPrefixUpdateTags.json
+ * @summary updates custom IP prefix tags.
+ * x-ms-original-file: 2025-05-01/CustomIpPrefixUpdateTags.json
  */
 async function updatePublicIPAddressTags(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const customIpPrefixName = "test-customipprefix";
-  const parameters: TagsObject = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.customIPPrefixes.updateTags(
-    resourceGroupName,
-    customIpPrefixName,
-    parameters,
-  );
+  const result = await client.customIPPrefixes.updateTags("rg1", "test-customipprefix", {
+    tags: { tag1: "value1", tag2: "value2" },
+  });
   console.log(result);
 }
 

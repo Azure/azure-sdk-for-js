@@ -1,33 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ConnectionSharedKey} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
+ * This sample demonstrates how to the Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
  *
- * @summary The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayConnectionSetSharedKey.json
+ * @summary the Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
+ * x-ms-original-file: 2025-05-01/VirtualNetworkGatewayConnectionSetSharedKey.json
  */
 async function setVirtualNetworkGatewayConnectionSharedKey(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayConnectionName = "connS2S";
-  const parameters: ConnectionSharedKey = { value: "AzureAbc123" };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGatewayConnections.beginSetSharedKeyAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayConnectionName,
-      parameters,
-    );
+  const result = await client.virtualNetworkGatewayConnections.setSharedKey("rg1", "connS2S", {
+    value: "AzureAbc123",
+  });
   console.log(result);
 }
 

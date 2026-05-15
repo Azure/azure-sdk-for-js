@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete specified connection created by this subscription.
+ * This sample demonstrates how to delete specified connection created by this subscription.
  *
- * @summary Delete specified connection created by this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerConnectionSubscriptionDelete.json
+ * @summary delete specified connection created by this subscription.
+ * x-ms-original-file: 2025-05-01/NetworkManagerConnectionSubscriptionDelete.json
  */
 async function deleteSubscriptionNetworkManagerConnection(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const networkManagerConnectionName = "TestNMConnection";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.subscriptionNetworkManagerConnections.delete(
-    networkManagerConnectionName,
-  );
-  console.log(result);
+  await client.subscriptionNetworkManagerConnections.delete("TestNMConnection");
 }
 
 async function main(): Promise<void> {

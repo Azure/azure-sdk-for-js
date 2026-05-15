@@ -3,23 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List what values of endpoint services are available for use.
+ * This sample demonstrates how to list what values of endpoint services are available for use.
  *
- * @summary List what values of endpoint services are available for use.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/EndpointServicesList.json
+ * @summary list what values of endpoint services are available for use.
+ * x-ms-original-file: 2025-05-01/EndpointServicesList.json
  */
 async function endpointServicesList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const location = "westus";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.availableEndpointServices.list(location)) {
+  for await (const item of client.availableEndpointServices.list("westus")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

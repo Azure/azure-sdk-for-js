@@ -3,47 +3,32 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets load balancer backend address pool.
+ * This sample demonstrates how to gets load balancer backend address pool.
  *
- * @summary Gets load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
+ * @summary gets load balancer backend address pool.
+ * x-ms-original-file: 2025-05-01/LBBackendAddressPoolWithBackendAddressesGet.json
  */
 async function loadBalancerWithBackendAddressPoolWithBackendAddresses(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const loadBalancerName = "lb";
-  const backendAddressPoolName = "backend";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancerBackendAddressPools.get(
-    resourceGroupName,
-    loadBalancerName,
-    backendAddressPoolName,
-  );
+  const result = await client.loadBalancerBackendAddressPools.get("testrg", "lb", "backend");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets load balancer backend address pool.
+ * This sample demonstrates how to gets load balancer backend address pool.
  *
- * @summary Gets load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerBackendAddressPoolGet.json
+ * @summary gets load balancer backend address pool.
+ * x-ms-original-file: 2025-05-01/LoadBalancerBackendAddressPoolGet.json
  */
 async function loadBalancerBackendAddressPoolGet(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const loadBalancerName = "lb";
-  const backendAddressPoolName = "backend";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancerBackendAddressPools.get(
-    resourceGroupName,
-    loadBalancerName,
-    backendAddressPoolName,
-  );
+  const result = await client.loadBalancerBackendAddressPools.get("testrg", "lb", "backend");
   console.log(result);
 }
 
