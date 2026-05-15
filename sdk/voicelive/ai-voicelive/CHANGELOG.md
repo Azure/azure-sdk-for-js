@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2026-05-07)
+## 1.0.0 (Unreleased)
 
 General Availability release of `@azure/ai-voicelive`. This release upgrades the wire protocol to API version `2026-04-10` and consolidates the public API surface from beta.1 through beta.4 into a stable contract.
 
