@@ -779,6 +779,37 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.isUndefined(exporter["sender"]["longIntervalStatsbeatMetrics"]);
         delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
       });
+
+      it("should disable network statsbeat (only) when APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED is set", () => {
+        process.env["APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED"] = "true";
+        // Reset singletons to pick up the environment variable.
+        (NetworkStatsbeatMetrics as any).instance = null;
+        (LongIntervalStatsbeatMetrics as any).instance = null;
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        // Network statsbeat is opted out…
+        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]);
+        // …but long-interval statsbeat keeps running.
+        assert.isDefined(exporter["sender"]["longIntervalStatsbeatMetrics"]);
+        delete process.env["APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED"];
+        // Reset singletons for clean state.
+        (NetworkStatsbeatMetrics as any).instance = null;
+        (LongIntervalStatsbeatMetrics as any).instance = null;
+      });
+
+      it("export still succeeds when network statsbeat is opted out via APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED", async () => {
+        process.env["APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED"] = "true";
+        (NetworkStatsbeatMetrics as any).instance = null;
+        (LongIntervalStatsbeatMetrics as any).instance = null;
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        const response = successfulBreezeResponse(1);
+        scope.reply(200, JSON.stringify(response));
+        const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]);
+        delete process.env["APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED"];
+        (NetworkStatsbeatMetrics as any).instance = null;
+        (LongIntervalStatsbeatMetrics as any).instance = null;
+      });
     });
 
     describe("Long Interval Statsbeat Metrics", () => {

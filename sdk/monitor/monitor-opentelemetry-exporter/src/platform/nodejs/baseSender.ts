@@ -23,6 +23,7 @@ import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
+  ENV_DISABLE_NETWORK_STATSBEAT,
   ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
@@ -58,11 +59,16 @@ export abstract class BaseSender {
     this.numConsecutiveRedirects = 0;
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     if (options.trackStatsbeat) {
-      this.networkStatsbeatMetrics = NetworkStatsbeatMetrics.getInstance({
-        instrumentationKey: options.instrumentationKey,
-        endpointUrl: options.endpointUrl,
-        disableOfflineStorage: this.disableOfflineStorage,
-      });
+      // Network statsbeat can be opted out of independently of long-interval
+      // statsbeat (e.g. when an upstream distro wants to record per-export
+      // network counts itself). Long-interval statsbeat keeps running.
+      if (!process.env[ENV_DISABLE_NETWORK_STATSBEAT]) {
+        this.networkStatsbeatMetrics = NetworkStatsbeatMetrics.getInstance({
+          instrumentationKey: options.instrumentationKey,
+          endpointUrl: options.endpointUrl,
+          disableOfflineStorage: this.disableOfflineStorage,
+        });
+      }
       this.longIntervalStatsbeatMetrics = LongIntervalStatsbeatMetrics.getInstance({
         instrumentationKey: options.instrumentationKey,
         endpointUrl: options.endpointUrl,

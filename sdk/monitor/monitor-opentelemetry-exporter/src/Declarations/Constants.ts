@@ -52,6 +52,19 @@ export const ENV_INSTRUMENTATION_KEY = "APPINSIGHTS_INSTRUMENTATIONKEY";
  */
 export const ENV_DISABLE_STATSBEAT = "APPLICATIONINSIGHTS_STATSBEAT_DISABLED";
 /**
+ * Disable network Statsbeat environment variable name.
+ *
+ * When set to a truthy value, the exporter does not start its built-in
+ * `NetworkStatsbeatMetrics` pipeline. Long-interval statsbeat
+ * (`LongIntervalStatsbeatMetrics`) is unaffected. Use this when an
+ * upstream distro wants to record per-export network counts itself
+ * (for example to attribute them to a specific exporter version) while
+ * still letting the Azure Monitor exporter own long-interval feature
+ * and instrumentation reporting.
+ * @internal
+ */
+export const ENV_DISABLE_NETWORK_STATSBEAT = "APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED";
+/**
  * Legacy disable Statsbeat environment variable name.
  * @internal
  */

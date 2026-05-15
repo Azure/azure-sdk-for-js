@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.42 (Unreleased)
+
+### Features Added
+
+- Added a new `APPLICATIONINSIGHTS_NETWORK_STATSBEAT_DISABLED` environment variable that disables only the exporter's built-in network statsbeat (`NetworkStatsbeatMetrics`) while leaving long-interval statsbeat (`LongIntervalStatsbeatMetrics`) running. Intended for upstream distros that want to record per-export network counts themselves while still allowing the Azure Monitor exporter to own long-interval feature/instrumentation reporting.
+
 ## 1.0.0-beta.41 (2026-05-12)
 
 ### Bugs Fixed
