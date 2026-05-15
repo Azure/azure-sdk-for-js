@@ -199,6 +199,7 @@ export interface FleetProperties {
     readonly timeCreated?: Date;
     readonly uniqueId?: string;
     vmAttributes?: VMAttributes;
+    vmNamePrefix?: string;
     vmSizesProfile: VmSizeProfile[];
     zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
@@ -346,7 +347,7 @@ export enum KnownEvictionPolicy {
 
 // @public
 export enum KnownFleetMode {
-    Instance = "Instance",
+    Launch = "Launch",
     Managed = "Managed"
 }
 
@@ -507,7 +508,7 @@ export enum KnownVersions {
     V20231101Preview = "2023-11-01-preview",
     V20240501Preview = "2024-05-01-preview",
     V20241101 = "2024-11-01",
-    V20250701Preview = "2025-07-01-preview"
+    V20260401Preview = "2026-04-01-preview"
 }
 
 // @public
@@ -530,10 +531,9 @@ export enum KnownVMCategory {
 
 // @public
 export enum KnownVMOperationStatus {
-    Canceled = "Canceled",
-    CancelFailedStatusUnknown = "CancelFailedStatusUnknown",
     Creating = "Creating",
     Failed = "Failed",
+    Launching = "Launching",
     Succeeded = "Succeeded"
 }
 
@@ -609,7 +609,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -618,7 +618,7 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManagedServiceIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
