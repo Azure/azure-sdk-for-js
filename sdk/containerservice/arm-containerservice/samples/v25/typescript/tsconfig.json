@@ -13,6 +13,7 @@
     "types": [
       "node"
     ],
+    "verbatimModuleSyntax": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
     "moduleResolution": "node10"
