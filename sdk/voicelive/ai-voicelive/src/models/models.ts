@@ -918,6 +918,8 @@ export enum KnownPersonalVoiceModels {
   DragonLatestNeural = "DragonLatestNeural",
   /** Use the latest Phoenix model. */
   PhoenixLatestNeural = "PhoenixLatestNeural",
+  /** Use the Phoenix V2 model. */
+  PhoenixV2Neural = "PhoenixV2Neural",
   /** Use the latest Dragon HD Omni model. */
   DragonHDOmniLatestNeural = "DragonHDOmniLatestNeural",
   /** Use the MAI-Voice-1 model. */
@@ -931,6 +933,7 @@ export enum KnownPersonalVoiceModels {
  * ### Known values supported by the service
  * **DragonLatestNeural**: Use the latest Dragon model. \
  * **PhoenixLatestNeural**: Use the latest Phoenix model. \
+ * **PhoenixV2Neural**: Use the Phoenix V2 model. \
  * **DragonHDOmniLatestNeural**: Use the latest Dragon HD Omni model. \
  * **MAI-Voice-1**: Use the MAI-Voice-1 model.
  */
