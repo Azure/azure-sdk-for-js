@@ -943,7 +943,7 @@
 # PRLabel: %Mgmt
 /sdk/servicebus/arm-servicebus/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
