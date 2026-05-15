@@ -7,6 +7,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient, DocumentContent } from "../../../../src/index.js";
+import { toLlmInput } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
@@ -86,6 +87,33 @@ describe("Sample: analyzeBinary", () => {
         `Document pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber} (${totalPages} pages)`,
       );
     }
+
+    // Test toLlmInput conversion (mirrors sample's convert_to_llm_input block).
+    // The helper packages the AnalysisResult into YAML front matter + markdown body.
+    const text = toLlmInput(result);
+    assert.ok(
+      typeof text === "string" && text.trim().length > 0,
+      "toLlmInput should return a non-empty string",
+    );
+    assert.ok(
+      text.startsWith("---"),
+      "toLlmInput output should start with YAML front matter delimiter",
+    );
+    assert.ok(
+      text.includes("\n---\n"),
+      "toLlmInput output should contain YAML front matter closing delimiter",
+    );
+    assert.ok(
+      text.includes("contentType: document"),
+      "YAML front matter should declare 'contentType: document'",
+    );
+    if (content.markdown) {
+      assert.ok(
+        text.includes(content.markdown),
+        "toLlmInput output should include the original markdown body",
+      );
+    }
+    console.log(`[PASS] toLlmInput output validated (${text.length} characters)`);
   });
 
   it("should analyze binary with content ranges", async () => {

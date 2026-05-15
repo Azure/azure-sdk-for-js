@@ -102,7 +102,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
   instrumentationOptions: {
     // Instrumentations generating traces
     azureSdk: { enabled: true },
-    azureFunctions: { enabled: true },
     http: { enabled: true },
     mongoDb: { enabled: true },
     mySql: { enabled: true },
@@ -156,7 +155,6 @@ useAzureMonitor(options);
 {
   http: { enabled: true },
   azureSdk: { enabled: true },
-  azureFunctions: { enabled: true },
   mongoDb: { enabled: true },
   mySql: { enabled: true },
   postgreSql: { enabled: true },

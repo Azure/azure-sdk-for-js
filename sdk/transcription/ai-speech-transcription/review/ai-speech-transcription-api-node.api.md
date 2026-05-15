@@ -11,17 +11,17 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export function createTranscription(endpoint: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptionalParams): TranscriptionContext;
+export function createTranscription(endpoint: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptions): TranscriptionContext;
 
 // @public
-export function transcribe(context: TranscriptionContext, body: TranscriptionContent, options?: TranscribeOptionalParams): Promise<TranscriptionResult>;
+export function transcribe(context: TranscriptionContext, body: TranscriptionContent, options?: TranscribeOptions): Promise<TranscriptionResult>;
 
 // @public
-export interface TranscribeOptionalParams extends OperationOptions {
+export interface TranscribeOptions extends OperationOptions {
 }
 
 // @public
-export interface TranscriptionClientOptionalParams extends ClientOptions {
+export interface TranscriptionClientOptions extends ClientOptions {
     serviceVersion?: string;
 }
 

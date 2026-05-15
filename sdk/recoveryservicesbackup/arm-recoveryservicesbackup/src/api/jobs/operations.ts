@@ -20,7 +20,7 @@ export function _$exportSend(
       vaultName: vaultName,
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
       "%24filter": options?.filter,
     },
     {
@@ -43,11 +43,6 @@ export async function _$exportDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Triggers export of jobs specified by filters and returns an OperationID to track. */
-/**
- *  @fixme export is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $export(
   context: Client,
   vaultName: string,

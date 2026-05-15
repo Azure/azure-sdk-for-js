@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import {
-  Experiment,
-  ExperimentUpdate,
-  ExperimentExecution,
-  ExperimentExecutionDetails,
-} from "../../models/models.js";
-import {
-  ExperimentsExecutionDetailsOptionalParams,
-  ExperimentsListAllExecutionsOptionalParams,
-  ExperimentsGetExecutionOptionalParams,
-  ExperimentsStartOptionalParams,
-  ExperimentsCancelOptionalParams,
-  ExperimentsListAllOptionalParams,
-  ExperimentsListOptionalParams,
-  ExperimentsDeleteOptionalParams,
-  ExperimentsUpdateOptionalParams,
-  ExperimentsCreateOrUpdateOptionalParams,
-  ExperimentsGetOptionalParams,
-} from "../../api/experiments/options.js";
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import {
   executionDetails,
   listAllExecutions,
@@ -34,8 +15,27 @@ import {
   createOrUpdate,
   get,
 } from "../../api/experiments/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ExperimentsExecutionDetailsOptionalParams,
+  ExperimentsListAllExecutionsOptionalParams,
+  ExperimentsGetExecutionOptionalParams,
+  ExperimentsStartOptionalParams,
+  ExperimentsCancelOptionalParams,
+  ExperimentsListAllOptionalParams,
+  ExperimentsListOptionalParams,
+  ExperimentsDeleteOptionalParams,
+  ExperimentsUpdateOptionalParams,
+  ExperimentsCreateOrUpdateOptionalParams,
+  ExperimentsGetOptionalParams,
+} from "../../api/experiments/options.js";
+import type {
+  Experiment,
+  ExperimentUpdate,
+  ExperimentExecution,
+  ExperimentExecutionDetails,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Experiments operations. */
 export interface ExperimentsOperations {
@@ -79,11 +79,6 @@ export interface ExperimentsOperations {
     options?: ExperimentsListOptionalParams,
   ) => PagedAsyncIterableIterator<Experiment>;
   /** Delete a Experiment resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     experimentName: string,

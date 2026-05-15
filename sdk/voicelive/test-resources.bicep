@@ -4,6 +4,9 @@ param baseName string = resourceGroup().name
 @description('The location of the resource. By default, this is the same as the resource group.')
 param location string = resourceGroup().location
 
+@description('The principal ID of the test application identity. Provided by New-TestResources.ps1 in CI; defaults to empty for local deploys.')
+param testApplicationOid string = ''
+
 param tagValues object = {}
 param allowProjectManagement bool = true
 param virtualNetworkType string = 'None'
@@ -12,6 +15,10 @@ param ipRules array = []
 param identity object = {
   type: 'SystemAssigned'
 }
+
+// Built-in role definition IDs
+// "Azure AI Account Owner" - full control-plane management of AI projects/accounts.
+var azureAiAccountOwnerRoleDefinitionId = 'e47c6f54-e4a2-4754-9501-8e0985b135e1'
 
 @description('The name of the OpenAI model you want to deploy')
 param modelName string = 'gpt-4.1'
@@ -89,6 +96,19 @@ resource modelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-
       format: modelFormat
       version: modelVersion
     }
+  }
+}
+
+// Grant the test application identity "Azure AI Account Owner" on the AI Services account so
+// integration tests can list/create Foundry agents (e.g. AIProjectClient.agents.list()).
+// Skipped when no test principal is supplied (local-only deploys).
+resource agentRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(testApplicationOid)) {
+  scope: aiServices
+  name: guid(aiServices.id, testApplicationOid, azureAiAccountOwnerRoleDefinitionId)
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', azureAiAccountOwnerRoleDefinitionId)
+    principalId: testApplicationOid
+    principalType: 'ServicePrincipal'
   }
 }
 

@@ -38,7 +38,9 @@ describe("Sample: createClassifier", () => {
   });
 
   it("should create a classifier analyzer with content categories", async () => {
-    // Define content categories for classification
+    // Define content categories for classification.
+    // The Invoice category sets analyzerId: "prebuilt-invoice" so matched segments are
+    // routed to the prebuilt invoice analyzer for field extraction (mirrors the sample).
     const contentCategories = {
       Loan_Application: {
         description:
@@ -51,6 +53,7 @@ describe("Sample: createClassifier", () => {
           "Billing documents issued by sellers or service providers to request " +
           "payment for goods or services, detailing items, prices, taxes, totals, " +
           "and payment terms.",
+        analyzerId: "prebuilt-invoice",
       },
       Bank_Statement: {
         description:
@@ -58,6 +61,13 @@ describe("Sample: createClassifier", () => {
           "over a period, including deposits, withdrawals, fees, and balances.",
       },
     };
+
+    // Assert Invoice category routes segments for field extraction
+    assert.equal(
+      contentCategories.Invoice.analyzerId,
+      "prebuilt-invoice",
+      "Invoice category should route segments to prebuilt-invoice for field extraction",
+    );
 
     // Create analyzer configuration
     const config: ContentAnalyzerConfig = {
