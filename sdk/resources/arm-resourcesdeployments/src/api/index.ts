@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { ResourcesContext, ResourcesClientOptionalParams } from "./resourcesContext.js";
-export { createResources } from "./resourcesContext.js";
+export type { DeploymentsContext, DeploymentsClientOptionalParams } from "./deploymentsContext.js";
+export { createDeployments } from "./deploymentsContext.js";

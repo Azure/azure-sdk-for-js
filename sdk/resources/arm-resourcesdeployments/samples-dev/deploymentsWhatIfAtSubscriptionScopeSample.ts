@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesClient } from "@azure/arm-resourcesdeployments";
+import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.whatIfAtSubscriptionScope("my-deployment", {
     location: "westus",
     properties: {

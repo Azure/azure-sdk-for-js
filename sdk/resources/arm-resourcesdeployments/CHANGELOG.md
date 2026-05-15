@@ -23,12 +23,10 @@ Compared with version 1.0.0-beta.1
   - Added operation DeploymentsOperations.whatIfAtManagementGroupScope
   - Added operation DeploymentsOperations.whatIfAtSubscriptionScope
   - Added operation DeploymentsOperations.whatIfAtTenantScope
-  - Added Class ResourcesClient
   - Added Interface ExtensionResource
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface Resource
-  - Added Interface ResourcesClientOptionalParams
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
   - Added Interface SystemData
@@ -41,9 +39,7 @@ Compared with version 1.0.0-beta.1
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Deleted Class DeploymentsClient
   - Removed Interface DeploymentExtendedFilter
-  - Removed Interface DeploymentsClientOptionalParams
   - Removed Interface ResourceProviderOperationDisplayProperties
   - Removed Interface SubResource
 

@@ -9,16 +9,16 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createResources(credential: TokenCredential, subscriptionId: string, options?: ResourcesClientOptionalParams): ResourcesContext;
+export function createDeployments(credential: TokenCredential, subscriptionId: string, options?: DeploymentsClientOptionalParams): DeploymentsContext;
 
 // @public
-export interface ResourcesClientOptionalParams extends ClientOptions {
+export interface DeploymentsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface ResourcesContext extends Client {
+export interface DeploymentsContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
 }

@@ -132,7 +132,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/resourcesContext.ts",
+        "path": "src/api/deploymentsContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesContext } from "../../api/resourcesContext.js";
+import { DeploymentsContext } from "../../api/deploymentsContext.js";
 import {
   list,
   get,
@@ -94,7 +94,7 @@ export interface DeploymentOperationsOperations {
   ) => Promise<DeploymentOperation>;
 }
 
-function _getDeploymentOperations(context: ResourcesContext) {
+function _getDeploymentOperations(context: DeploymentsContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -151,7 +151,7 @@ function _getDeploymentOperations(context: ResourcesContext) {
 }
 
 export function _getDeploymentOperationsOperations(
-  context: ResourcesContext,
+  context: DeploymentsContext,
 ): DeploymentOperationsOperations {
   return {
     ..._getDeploymentOperations(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesClient } from "@azure/arm-resourcesdeployments";
+import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.createOrUpdate("my-resource-group", "my-deployment", {
     properties: {
       mode: "Incremental",
@@ -37,7 +37,7 @@ async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString():
 async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.createOrUpdate("my-resource-group", "my-deployment", {
     properties: {
       mode: "Incremental",
@@ -59,7 +59,7 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
 async function createDeploymentUsingExternalInputs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.createOrUpdate("my-resource-group", "my-deployment", {
     properties: {
       externalInputDefinitions: { fooValue: { config: "FOO_VALUE", kind: "sys.envVar" } },
@@ -87,7 +87,7 @@ async function createDeploymentUsingExternalInputs(): Promise<void> {
 async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.createOrUpdate("my-resource-group", "my-deployment", {
     properties: {
       mode: "Complete",
@@ -108,7 +108,7 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
 async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.createOrUpdate("my-resource-group", "my-deployment", {
     properties: {
       mode: "Complete",

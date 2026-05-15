@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ResourcesClient } = require("@azure/arm-resourcesdeployments");
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function predictTemplateChangesAtManagementGroupScope() {
   const credential = new DefaultAzureCredential();
-  const client = new ResourcesClient(credential);
+  const client = new DeploymentsClient(credential);
   const result = await client.deployments.whatIfAtManagementGroupScope(
     "myManagementGruop",
     "exampleDeploymentName",

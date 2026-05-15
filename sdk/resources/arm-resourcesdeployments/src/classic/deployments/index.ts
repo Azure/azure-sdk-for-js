@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesContext } from "../../api/resourcesContext.js";
+import { DeploymentsContext } from "../../api/deploymentsContext.js";
 import {
   calculateTemplateHash,
   exportTemplate,
@@ -630,7 +630,7 @@ export interface DeploymentsOperations {
   ) => Promise<DeploymentExtended>;
 }
 
-function _getDeployments(context: ResourcesContext) {
+function _getDeployments(context: DeploymentsContext) {
   return {
     calculateTemplateHash: (
       template: any,
@@ -1210,7 +1210,7 @@ function _getDeployments(context: ResourcesContext) {
   };
 }
 
-export function _getDeploymentsOperations(context: ResourcesContext): DeploymentsOperations {
+export function _getDeploymentsOperations(context: DeploymentsContext): DeploymentsOperations {
   return {
     ..._getDeployments(context),
   };

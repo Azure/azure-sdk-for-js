@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesContext as Client } from "../index.js";
+import { DeploymentsContext as Client } from "../index.js";
 import {
   DeploymentExtended,
   deploymentExtendedDeserializer,

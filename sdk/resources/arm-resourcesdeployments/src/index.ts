@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ResourcesClient } from "./resourcesClient.js";
+export { DeploymentsClient } from "./deploymentsClient.js";
 export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
@@ -105,7 +105,7 @@ export {
   KnownDeploymentIdentityType,
   KnownVersions,
 } from "./models/index.js";
-export type { ResourcesClientOptionalParams } from "./api/index.js";
+export type { DeploymentsClientOptionalParams } from "./api/index.js";
 export type {
   DeploymentOperationsListOptionalParams,
   DeploymentOperationsGetOptionalParams,

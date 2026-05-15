@@ -53,34 +53,34 @@ export interface DeploymentOperationsListOptionalParams extends OperationOptions
 }
 
 // @public
-export function get(context: ResourcesContext, resourceGroupName: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetOptionalParams): Promise<DeploymentOperation>;
+export function get(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetOptionalParams): Promise<DeploymentOperation>;
 
 // @public
-export function getAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtManagementGroupScopeOptionalParams): Promise<DeploymentOperation>;
+export function getAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtManagementGroupScopeOptionalParams): Promise<DeploymentOperation>;
 
 // @public
-export function getAtScope(context: ResourcesContext, scope: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtScopeOptionalParams): Promise<DeploymentOperation>;
+export function getAtScope(context: DeploymentsContext, scope: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtScopeOptionalParams): Promise<DeploymentOperation>;
 
 // @public
-export function getAtSubscriptionScope(context: ResourcesContext, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentOperation>;
+export function getAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentOperation>;
 
 // @public
-export function getAtTenantScope(context: ResourcesContext, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtTenantScopeOptionalParams): Promise<DeploymentOperation>;
+export function getAtTenantScope(context: DeploymentsContext, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtTenantScopeOptionalParams): Promise<DeploymentOperation>;
 
 // @public
-export function list(context: ResourcesContext, resourceGroupName: string, deploymentName: string, options?: DeploymentOperationsListOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
+export function list(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, options?: DeploymentOperationsListOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
 
 // @public
-export function listAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
+export function listAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
 
 // @public
-export function listAtScope(context: ResourcesContext, scope: string, deploymentName: string, options?: DeploymentOperationsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
+export function listAtScope(context: DeploymentsContext, scope: string, deploymentName: string, options?: DeploymentOperationsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
 
 // @public
-export function listAtSubscriptionScope(context: ResourcesContext, deploymentName: string, options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
+export function listAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
 
 // @public
-export function listAtTenantScope(context: ResourcesContext, deploymentName: string, options?: DeploymentOperationsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
+export function listAtTenantScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentOperationsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
 
 // (No @packageDocumentation comment for this package)
 

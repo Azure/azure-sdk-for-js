@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesClient } from "./resourcesClient.js";
+import { DeploymentsClient } from "./deploymentsClient.js";
 import {
   _whatIfDeserialize,
   _validateDeserialize,
@@ -53,7 +53,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: ResourcesClient,
+  client: DeploymentsClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

@@ -10,67 +10,67 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: ResourcesContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function calculateTemplateHash(context: ResourcesContext, template: any, options?: DeploymentsCalculateTemplateHashOptionalParams): Promise<TemplateHashResult>;
+export function calculateTemplateHash(context: DeploymentsContext, template: any, options?: DeploymentsCalculateTemplateHashOptionalParams): Promise<TemplateHashResult>;
 
 // @public
-export function cancel(context: ResourcesContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsCancelOptionalParams): Promise<void>;
+export function cancel(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsCancelOptionalParams): Promise<void>;
 
 // @public
-export function cancelAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, options?: DeploymentsCancelAtManagementGroupScopeOptionalParams): Promise<void>;
+export function cancelAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, options?: DeploymentsCancelAtManagementGroupScopeOptionalParams): Promise<void>;
 
 // @public
-export function cancelAtScope(context: ResourcesContext, scope: string, deploymentName: string, options?: DeploymentsCancelAtScopeOptionalParams): Promise<void>;
+export function cancelAtScope(context: DeploymentsContext, scope: string, deploymentName: string, options?: DeploymentsCancelAtScopeOptionalParams): Promise<void>;
 
 // @public
-export function cancelAtSubscriptionScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsCancelAtSubscriptionScopeOptionalParams): Promise<void>;
+export function cancelAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsCancelAtSubscriptionScopeOptionalParams): Promise<void>;
 
 // @public
-export function cancelAtTenantScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsCancelAtTenantScopeOptionalParams): Promise<void>;
+export function cancelAtTenantScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsCancelAtTenantScopeOptionalParams): Promise<void>;
 
 // @public
-export function checkExistence(context: ResourcesContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams): Promise<DeploymentsCheckExistenceResponse>;
+export function checkExistence(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams): Promise<DeploymentsCheckExistenceResponse>;
 
 // @public
-export function checkExistenceAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
+export function checkExistenceAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
 
 // @public
-export function checkExistenceAtScope(context: ResourcesContext, scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams): Promise<DeploymentsCheckExistenceAtScopeResponse>;
+export function checkExistenceAtScope(context: DeploymentsContext, scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams): Promise<DeploymentsCheckExistenceAtScopeResponse>;
 
 // @public
-export function checkExistenceAtSubscriptionScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
+export function checkExistenceAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
 
 // @public
-export function checkExistenceAtTenantScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams): Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
+export function checkExistenceAtTenantScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams): Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
 
 // @public
-export function createOrUpdate(context: ResourcesContext, resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+export function createOrUpdate(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 
 // @public
-export function createOrUpdateAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+export function createOrUpdateAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 
 // @public
-export function createOrUpdateAtScope(context: ResourcesContext, scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+export function createOrUpdateAtScope(context: DeploymentsContext, scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 
 // @public
-export function createOrUpdateAtSubscriptionScope(context: ResourcesContext, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+export function createOrUpdateAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 
 // @public
-export function createOrUpdateAtTenantScope(context: ResourcesContext, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+export function createOrUpdateAtTenantScope(context: DeploymentsContext, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams): PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 
 // @public
-export function deleteAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteAtScope(context: ResourcesContext, scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteAtScope(context: DeploymentsContext, scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteAtSubscriptionScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deleteAtTenantScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams): PollerLike<OperationState<void>, void>;
+export function deleteAtTenantScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface DeploymentsCalculateTemplateHashOptionalParams extends OperationOptions {
@@ -282,76 +282,76 @@ export interface DeploymentsWhatIfOptionalParams extends OperationOptions {
 }
 
 // @public
-export function exportTemplate(context: ResourcesContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsExportTemplateOptionalParams): Promise<DeploymentExportResult>;
+export function exportTemplate(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsExportTemplateOptionalParams): Promise<DeploymentExportResult>;
 
 // @public
-export function exportTemplateAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams): Promise<DeploymentExportResult>;
+export function exportTemplateAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams): Promise<DeploymentExportResult>;
 
 // @public
-export function exportTemplateAtScope(context: ResourcesContext, scope: string, deploymentName: string, options?: DeploymentsExportTemplateAtScopeOptionalParams): Promise<DeploymentExportResult>;
+export function exportTemplateAtScope(context: DeploymentsContext, scope: string, deploymentName: string, options?: DeploymentsExportTemplateAtScopeOptionalParams): Promise<DeploymentExportResult>;
 
 // @public
-export function exportTemplateAtSubscriptionScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsExportTemplateAtSubscriptionScopeOptionalParams): Promise<DeploymentExportResult>;
+export function exportTemplateAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsExportTemplateAtSubscriptionScopeOptionalParams): Promise<DeploymentExportResult>;
 
 // @public
-export function exportTemplateAtTenantScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsExportTemplateAtTenantScopeOptionalParams): Promise<DeploymentExportResult>;
+export function exportTemplateAtTenantScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsExportTemplateAtTenantScopeOptionalParams): Promise<DeploymentExportResult>;
 
 // @public
-export function get(context: ResourcesContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentExtended>;
+export function get(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentExtended>;
 
 // @public
-export function getAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, options?: DeploymentsGetAtManagementGroupScopeOptionalParams): Promise<DeploymentExtended>;
+export function getAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, options?: DeploymentsGetAtManagementGroupScopeOptionalParams): Promise<DeploymentExtended>;
 
 // @public
-export function getAtScope(context: ResourcesContext, scope: string, deploymentName: string, options?: DeploymentsGetAtScopeOptionalParams): Promise<DeploymentExtended>;
+export function getAtScope(context: DeploymentsContext, scope: string, deploymentName: string, options?: DeploymentsGetAtScopeOptionalParams): Promise<DeploymentExtended>;
 
 // @public
-export function getAtSubscriptionScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentExtended>;
+export function getAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentExtended>;
 
 // @public
-export function getAtTenantScope(context: ResourcesContext, deploymentName: string, options?: DeploymentsGetAtTenantScopeOptionalParams): Promise<DeploymentExtended>;
+export function getAtTenantScope(context: DeploymentsContext, deploymentName: string, options?: DeploymentsGetAtTenantScopeOptionalParams): Promise<DeploymentExtended>;
 
 // @public
-export function listAtManagementGroupScope(context: ResourcesContext, groupId: string, options?: DeploymentsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
+export function listAtManagementGroupScope(context: DeploymentsContext, groupId: string, options?: DeploymentsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
 
 // @public
-export function listAtScope(context: ResourcesContext, scope: string, options?: DeploymentsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
+export function listAtScope(context: DeploymentsContext, scope: string, options?: DeploymentsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
 
 // @public
-export function listAtSubscriptionScope(context: ResourcesContext, options?: DeploymentsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
+export function listAtSubscriptionScope(context: DeploymentsContext, options?: DeploymentsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
 
 // @public
-export function listAtTenantScope(context: ResourcesContext, options?: DeploymentsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
+export function listAtTenantScope(context: DeploymentsContext, options?: DeploymentsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
 
 // @public
-export function listByResourceGroup(context: ResourcesContext, resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
+export function listByResourceGroup(context: DeploymentsContext, resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
 
 // @public
-export function validate(context: ResourcesContext, resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+export function validate(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 
 // @public
-export function validateAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+export function validateAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 
 // @public
-export function validateAtScope(context: ResourcesContext, scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+export function validateAtScope(context: DeploymentsContext, scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 
 // @public
-export function validateAtSubscriptionScope(context: ResourcesContext, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+export function validateAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 
 // @public
-export function validateAtTenantScope(context: ResourcesContext, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+export function validateAtTenantScope(context: DeploymentsContext, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams): PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 
 // @public
-export function whatIf(context: ResourcesContext, resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+export function whatIf(context: DeploymentsContext, resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 
 // @public
-export function whatIfAtManagementGroupScope(context: ResourcesContext, groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+export function whatIfAtManagementGroupScope(context: DeploymentsContext, groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 
 // @public
-export function whatIfAtSubscriptionScope(context: ResourcesContext, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+export function whatIfAtSubscriptionScope(context: DeploymentsContext, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 
 // @public
-export function whatIfAtTenantScope(context: ResourcesContext, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+export function whatIfAtTenantScope(context: DeploymentsContext, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams): PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 
 // (No @packageDocumentation comment for this package)
 

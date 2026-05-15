@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesClient } from "@azure/arm-resourcesdeployments";
+import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function validatesATemplateAtScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new ResourcesClient(credential);
+  const client = new DeploymentsClient(credential);
   const result = await client.deployments.validateAtScope(
     "subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group",
     "my-deployment",

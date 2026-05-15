@@ -373,6 +373,21 @@ export type DeploymentsCheckExistenceResponse = {
     body: boolean;
 };
 
+// @public (undocumented)
+export class DeploymentsClient {
+    constructor(credential: TokenCredential, options?: DeploymentsClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DeploymentsClientOptionalParams);
+    readonly deploymentOperations: DeploymentOperationsOperations;
+    readonly deployments: DeploymentsOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface DeploymentsClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
 // @public
 export interface DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
@@ -926,23 +941,8 @@ export interface ResourceReference {
     readonly resourceType?: string;
 }
 
-// @public (undocumented)
-export class ResourcesClient {
-    constructor(credential: TokenCredential, options?: ResourcesClientOptionalParams);
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ResourcesClientOptionalParams);
-    readonly deploymentOperations: DeploymentOperationsOperations;
-    readonly deployments: DeploymentsOperations;
-    readonly pipeline: Pipeline;
-}
-
 // @public
-export interface ResourcesClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ResourcesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeploymentsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

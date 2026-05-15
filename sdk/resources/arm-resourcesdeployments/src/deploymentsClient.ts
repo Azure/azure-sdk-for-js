@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourcesContext, ResourcesClientOptionalParams, createResources } from "./api/index.js";
+import {
+  DeploymentsContext,
+  DeploymentsClientOptionalParams,
+  createDeployments,
+} from "./api/index.js";
 import {
   DeploymentOperationsOperations,
   _getDeploymentOperationsOperations,
@@ -10,24 +14,24 @@ import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/depl
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { ResourcesClientOptionalParams } from "./api/resourcesContext.js";
+export type { DeploymentsClientOptionalParams } from "./api/deploymentsContext.js";
 
-export class ResourcesClient {
-  private _client: ResourcesContext;
+export class DeploymentsClient {
+  private _client: DeploymentsContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  constructor(credential: TokenCredential, options?: ResourcesClientOptionalParams);
+  constructor(credential: TokenCredential, options?: DeploymentsClientOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options?: ResourcesClientOptionalParams,
+    options?: DeploymentsClientOptionalParams,
   );
   /** Provides operations for working with deployments. */
   constructor(
     credential: TokenCredential,
-    subscriptionIdOrOptions?: string | ResourcesClientOptionalParams,
-    options?: ResourcesClientOptionalParams,
+    subscriptionIdOrOptions?: string | DeploymentsClientOptionalParams,
+    options?: DeploymentsClientOptionalParams,
   ) {
     let subscriptionId: string | undefined;
 
@@ -42,7 +46,7 @@ export class ResourcesClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createResources(credential, subscriptionId ?? "", {
+    this._client = createDeployments(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

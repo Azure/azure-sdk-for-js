@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { ResourcesClient } = require("@azure/arm-resourcesdeployments");
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function validatesATemplateAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
-  const client = new ResourcesClient(credential, subscriptionId);
+  const client = new DeploymentsClient(credential, subscriptionId);
   const result = await client.deployments.validateAtSubscriptionScope("my-deployment", {
     location: "eastus",
     properties: {
