@@ -775,7 +775,8 @@ export enum KnownPersonalVoiceModels {
     DragonHDOmniLatestNeural = "DragonHDOmniLatestNeural",
     DragonLatestNeural = "DragonLatestNeural",
     MAIVoice1 = "MAI-Voice-1",
-    PhoenixLatestNeural = "PhoenixLatestNeural"
+    PhoenixLatestNeural = "PhoenixLatestNeural",
+    PhoenixV2Neural = "PhoenixV2Neural"
 }
 
 // @public
