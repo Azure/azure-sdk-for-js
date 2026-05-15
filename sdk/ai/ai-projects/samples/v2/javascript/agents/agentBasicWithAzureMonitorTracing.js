@@ -7,7 +7,7 @@
  * viewed in Microsoft Foundry.
  *
  * To use Azure Monitor tracing, add an Application Insights resource
- * to your Microsoft Foundry project via the Tracing tab.
+ * to your Microsoft Foundry project.
  *
  * Set the following environment variables before running:
  *   FOUNDRY_PROJECT_ENDPOINT - Your Microsoft Foundry project endpoint URL
