@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Alias {
@@ -31,7 +35,7 @@ export interface AliasPath {
 // @public
 export type AliasPathAttributes = string;
 
-// @public (undocumented)
+// @public
 export interface AliasPathMetadata {
     readonly attributes?: AliasPathAttributes;
     readonly type?: AliasPathTokenType;
@@ -53,11 +57,21 @@ export type AliasPatternType = "NotSpecified" | "Extract";
 // @public
 export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 
-// @public (undocumented)
+// @public
 export interface ApiProfile {
     readonly apiVersion?: string;
     readonly profileVersion?: string;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BasicDependency {
@@ -73,6 +87,14 @@ export type ChangeType = "Create" | "Delete" | "Ignore" | "Deploy" | "NoChange" 
 export interface CloudError {
     error?: ErrorResponse;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DebugSetting {
@@ -92,12 +114,10 @@ export interface Deployment {
     identity?: DeploymentIdentity;
     location?: string;
     properties: DeploymentProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface DeploymentDiagnosticsDefinition {
     readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code: string;
@@ -108,39 +128,27 @@ export interface DeploymentDiagnosticsDefinition {
 
 // @public
 export interface DeploymentExportResult {
-    template?: Record<string, unknown>;
+    template?: any;
 }
 
 // @public
-export interface DeploymentExtended {
-    readonly id?: string;
+export interface DeploymentExtended extends ExtensionResource {
     location?: string;
-    readonly name?: string;
     properties?: DeploymentPropertiesExtended;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface DeploymentExtendedFilter {
-    provisioningState?: string;
-}
-
-// @public (undocumented)
 export interface DeploymentExtensionConfigItem {
     keyVaultReference?: KeyVaultParameterReference;
     readonly type?: ExtensionConfigPropertyType;
     value?: any;
 }
 
-// @public (undocumented)
+// @public
 export interface DeploymentExtensionDefinition {
     readonly alias?: string;
-    readonly config?: {
-        [propertyName: string]: DeploymentExtensionConfigItem;
-    };
+    readonly config?: Record<string, DeploymentExtensionConfigItem>;
     readonly configId?: string;
     readonly name?: string;
     readonly version?: string;
@@ -160,19 +168,11 @@ export interface DeploymentExternalInputDefinition {
 // @public
 export interface DeploymentIdentity {
     type: DeploymentIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
 export type DeploymentIdentityType = string;
-
-// @public
-export interface DeploymentListResult {
-    readonly nextLink?: string;
-    value?: DeploymentExtended[];
-}
 
 // @public
 export type DeploymentMode = "Incremental" | "Complete";
@@ -199,133 +199,62 @@ export interface DeploymentOperationProperties {
 }
 
 // @public
-export interface DeploymentOperations {
-    get(resourceGroupName: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetOptionalParams): Promise<DeploymentOperationsGetResponse>;
-    getAtManagementGroupScope(groupId: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtManagementGroupScopeOptionalParams): Promise<DeploymentOperationsGetAtManagementGroupScopeResponse>;
-    getAtScope(scope: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtScopeOptionalParams): Promise<DeploymentOperationsGetAtScopeResponse>;
-    getAtSubscriptionScope(deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentOperationsGetAtSubscriptionScopeResponse>;
-    getAtTenantScope(deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtTenantScopeOptionalParams): Promise<DeploymentOperationsGetAtTenantScopeResponse>;
-    list(resourceGroupName: string, deploymentName: string, options?: DeploymentOperationsListOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtScope(scope: string, deploymentName: string, options?: DeploymentOperationsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtSubscriptionScope(deploymentName: string, options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtTenantScope(deploymentName: string, options?: DeploymentOperationsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
+export interface DeploymentOperationsGetAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentOperationsGetAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsGetAtScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentOperationsGetAtManagementGroupScopeResponse = DeploymentOperation;
-
-// @public
-export interface DeploymentOperationsGetAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsGetAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentOperationsGetAtScopeResponse = DeploymentOperation;
-
-// @public
-export interface DeploymentOperationsGetAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsGetAtTenantScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentOperationsGetAtSubscriptionScopeResponse = DeploymentOperation;
-
-// @public
-export interface DeploymentOperationsGetAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentOperationsGetAtTenantScopeResponse = DeploymentOperation;
-
-// @public
-export interface DeploymentOperationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentOperationsGetResponse = DeploymentOperation;
-
-// @public
-export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentOperationsListAtManagementGroupScopeNextResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentOperationsListAtScopeNextResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsListAtScopeOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentOperationsListAtSubscriptionScopeNextResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentOperationsListAtTenantScopeNextResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsListAtTenantScopeOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentOperationsListNextResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentOperationsListOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type DeploymentOperationsListResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListResult {
-    readonly nextLink?: string;
-    value?: DeploymentOperation[];
+export interface DeploymentOperationsOperations {
+    get: (resourceGroupName: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetOptionalParams) => Promise<DeploymentOperation>;
+    getAtManagementGroupScope: (groupId: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtManagementGroupScopeOptionalParams) => Promise<DeploymentOperation>;
+    getAtScope: (scope: string, deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtScopeOptionalParams) => Promise<DeploymentOperation>;
+    getAtSubscriptionScope: (deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtSubscriptionScopeOptionalParams) => Promise<DeploymentOperation>;
+    getAtTenantScope: (deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtTenantScopeOptionalParams) => Promise<DeploymentOperation>;
+    list: (resourceGroupName: string, deploymentName: string, options?: DeploymentOperationsListOptionalParams) => PagedAsyncIterableIterator<DeploymentOperation>;
+    listAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentOperation>;
+    listAtScope: (scope: string, deploymentName: string, options?: DeploymentOperationsListAtScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentOperation>;
+    listAtSubscriptionScope: (deploymentName: string, options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentOperation>;
+    listAtTenantScope: (deploymentName: string, options?: DeploymentOperationsListAtTenantScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentOperation>;
 }
 
 // @public
@@ -339,24 +268,14 @@ export interface DeploymentParameter {
 export interface DeploymentProperties {
     debugSetting?: DebugSetting;
     expressionEvaluationOptions?: ExpressionEvaluationOptions;
-    extensionConfigs?: {
-        [propertyName: string]: {
-            [propertyName: string]: DeploymentExtensionConfigItem;
-        };
-    };
-    externalInputDefinitions?: {
-        [propertyName: string]: DeploymentExternalInputDefinition;
-    };
-    externalInputs?: {
-        [propertyName: string]: DeploymentExternalInput;
-    };
+    extensionConfigs?: Record<string, Record<string, DeploymentExtensionConfigItem>>;
+    externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
+    externalInputs?: Record<string, DeploymentExternalInput>;
     mode: DeploymentMode;
     onErrorDeployment?: OnErrorDeployment;
-    parameters?: {
-        [propertyName: string]: DeploymentParameter;
-    };
+    parameters?: Record<string, DeploymentParameter>;
     parametersLink?: ParametersLink;
-    template?: Record<string, unknown>;
+    template?: any;
     templateLink?: TemplateLink;
     validationLevel?: ValidationLevel;
 }
@@ -373,8 +292,8 @@ export interface DeploymentPropertiesExtended {
     readonly mode?: DeploymentMode;
     readonly onErrorDeployment?: OnErrorDeploymentExtended;
     readonly outputResources?: ResourceReference[];
-    readonly outputs?: Record<string, unknown>;
-    readonly parameters?: Record<string, unknown>;
+    readonly outputs?: any;
+    readonly parameters?: any;
     readonly parametersLink?: ParametersLink;
     readonly providers?: Provider[];
     readonly provisioningState?: ProvisioningState;
@@ -386,497 +305,378 @@ export interface DeploymentPropertiesExtended {
 }
 
 // @public
-export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginCreateOrUpdateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>, DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>>;
-    beginCreateOrUpdateAtManagementGroupScopeAndWait(groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams): Promise<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>;
-    beginCreateOrUpdateAtScope(scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateAtScopeResponse>, DeploymentsCreateOrUpdateAtScopeResponse>>;
-    beginCreateOrUpdateAtScopeAndWait(scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams): Promise<DeploymentsCreateOrUpdateAtScopeResponse>;
-    beginCreateOrUpdateAtSubscriptionScope(deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>, DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>>;
-    beginCreateOrUpdateAtSubscriptionScopeAndWait(deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams): Promise<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>;
-    beginCreateOrUpdateAtTenantScope(deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateAtTenantScopeResponse>, DeploymentsCreateOrUpdateAtTenantScopeResponse>>;
-    beginCreateOrUpdateAtTenantScopeAndWait(deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams): Promise<DeploymentsCreateOrUpdateAtTenantScopeResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
-    beginDeleteAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtManagementGroupScopeAndWait(groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams): Promise<void>;
-    beginDeleteAtScope(scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtScopeAndWait(scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams): Promise<void>;
-    beginDeleteAtSubscriptionScope(deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtSubscriptionScopeAndWait(deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams): Promise<void>;
-    beginDeleteAtTenantScope(deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtTenantScopeAndWait(deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams): Promise<void>;
-    beginValidate(resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsValidateResponse>, DeploymentsValidateResponse>>;
-    beginValidateAndWait(resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams): Promise<DeploymentsValidateResponse>;
-    beginValidateAtManagementGroupScope(groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsValidateAtManagementGroupScopeResponse>, DeploymentsValidateAtManagementGroupScopeResponse>>;
-    beginValidateAtManagementGroupScopeAndWait(groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams): Promise<DeploymentsValidateAtManagementGroupScopeResponse>;
-    beginValidateAtScope(scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsValidateAtScopeResponse>, DeploymentsValidateAtScopeResponse>>;
-    beginValidateAtScopeAndWait(scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams): Promise<DeploymentsValidateAtScopeResponse>;
-    beginValidateAtSubscriptionScope(deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsValidateAtSubscriptionScopeResponse>, DeploymentsValidateAtSubscriptionScopeResponse>>;
-    beginValidateAtSubscriptionScopeAndWait(deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams): Promise<DeploymentsValidateAtSubscriptionScopeResponse>;
-    beginValidateAtTenantScope(deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsValidateAtTenantScopeResponse>, DeploymentsValidateAtTenantScopeResponse>>;
-    beginValidateAtTenantScopeAndWait(deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams): Promise<DeploymentsValidateAtTenantScopeResponse>;
-    beginWhatIf(resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsWhatIfResponse>, DeploymentsWhatIfResponse>>;
-    beginWhatIfAndWait(resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams): Promise<DeploymentsWhatIfResponse>;
-    beginWhatIfAtManagementGroupScope(groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsWhatIfAtManagementGroupScopeResponse>, DeploymentsWhatIfAtManagementGroupScopeResponse>>;
-    beginWhatIfAtManagementGroupScopeAndWait(groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams): Promise<DeploymentsWhatIfAtManagementGroupScopeResponse>;
-    beginWhatIfAtSubscriptionScope(deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsWhatIfAtSubscriptionScopeResponse>, DeploymentsWhatIfAtSubscriptionScopeResponse>>;
-    beginWhatIfAtSubscriptionScopeAndWait(deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams): Promise<DeploymentsWhatIfAtSubscriptionScopeResponse>;
-    beginWhatIfAtTenantScope(deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsWhatIfAtTenantScopeResponse>, DeploymentsWhatIfAtTenantScopeResponse>>;
-    beginWhatIfAtTenantScopeAndWait(deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams): Promise<DeploymentsWhatIfAtTenantScopeResponse>;
-    calculateTemplateHash(template: Record<string, unknown>, options?: DeploymentsCalculateTemplateHashOptionalParams): Promise<DeploymentsCalculateTemplateHashResponse>;
-    cancel(resourceGroupName: string, deploymentName: string, options?: DeploymentsCancelOptionalParams): Promise<void>;
-    cancelAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsCancelAtManagementGroupScopeOptionalParams): Promise<void>;
-    cancelAtScope(scope: string, deploymentName: string, options?: DeploymentsCancelAtScopeOptionalParams): Promise<void>;
-    cancelAtSubscriptionScope(deploymentName: string, options?: DeploymentsCancelAtSubscriptionScopeOptionalParams): Promise<void>;
-    cancelAtTenantScope(deploymentName: string, options?: DeploymentsCancelAtTenantScopeOptionalParams): Promise<void>;
-    checkExistence(resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams): Promise<DeploymentsCheckExistenceResponse>;
-    checkExistenceAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams): Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
-    checkExistenceAtScope(scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams): Promise<DeploymentsCheckExistenceAtScopeResponse>;
-    checkExistenceAtSubscriptionScope(deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams): Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
-    checkExistenceAtTenantScope(deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams): Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
-    exportTemplate(resourceGroupName: string, deploymentName: string, options?: DeploymentsExportTemplateOptionalParams): Promise<DeploymentsExportTemplateResponse>;
-    exportTemplateAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams): Promise<DeploymentsExportTemplateAtManagementGroupScopeResponse>;
-    exportTemplateAtScope(scope: string, deploymentName: string, options?: DeploymentsExportTemplateAtScopeOptionalParams): Promise<DeploymentsExportTemplateAtScopeResponse>;
-    exportTemplateAtSubscriptionScope(deploymentName: string, options?: DeploymentsExportTemplateAtSubscriptionScopeOptionalParams): Promise<DeploymentsExportTemplateAtSubscriptionScopeResponse>;
-    exportTemplateAtTenantScope(deploymentName: string, options?: DeploymentsExportTemplateAtTenantScopeOptionalParams): Promise<DeploymentsExportTemplateAtTenantScopeResponse>;
-    get(resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
-    getAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentsGetAtManagementGroupScopeOptionalParams): Promise<DeploymentsGetAtManagementGroupScopeResponse>;
-    getAtScope(scope: string, deploymentName: string, options?: DeploymentsGetAtScopeOptionalParams): Promise<DeploymentsGetAtScopeResponse>;
-    getAtSubscriptionScope(deploymentName: string, options?: DeploymentsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentsGetAtSubscriptionScopeResponse>;
-    getAtTenantScope(deploymentName: string, options?: DeploymentsGetAtTenantScopeOptionalParams): Promise<DeploymentsGetAtTenantScopeResponse>;
-    listAtManagementGroupScope(groupId: string, options?: DeploymentsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtScope(scope: string, options?: DeploymentsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtSubscriptionScope(options?: DeploymentsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtTenantScope(options?: DeploymentsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listByResourceGroup(resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
+export interface DeploymentsCalculateTemplateHashOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentsCalculateTemplateHashOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCancelAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsCalculateTemplateHashResponse = TemplateHashResult;
-
-// @public
-export interface DeploymentsCancelAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCancelAtScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentsCancelAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCancelAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentsCancelAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCancelAtTenantScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentsCancelAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeploymentsCancelOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
-// @public
-export interface DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
+// @public (undocumented)
 export type DeploymentsCheckExistenceAtManagementGroupScopeResponse = {
     body: boolean;
 };
 
 // @public
-export interface DeploymentsCheckExistenceAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCheckExistenceAtScopeOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type DeploymentsCheckExistenceAtScopeResponse = {
     body: boolean;
 };
 
 // @public
-export interface DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type DeploymentsCheckExistenceAtSubscriptionScopeResponse = {
     body: boolean;
 };
 
 // @public
-export interface DeploymentsCheckExistenceAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCheckExistenceAtTenantScopeOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type DeploymentsCheckExistenceAtTenantScopeResponse = {
     body: boolean;
 };
 
 // @public
-export interface DeploymentsCheckExistenceOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCheckExistenceOptionalParams extends OperationOptions {
 }
 
-// @public
+// @public (undocumented)
 export type DeploymentsCheckExistenceResponse = {
     body: boolean;
 };
 
 // @public (undocumented)
-export class DeploymentsClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeploymentsClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: DeploymentsClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    deploymentOperations: DeploymentOperations;
-    // (undocumented)
-    deployments: Deployments;
-    // (undocumented)
-    subscriptionId?: string;
+export class DeploymentsClient {
+    constructor(credential: TokenCredential, options?: DeploymentsClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DeploymentsClientOptionalParams);
+    readonly deploymentOperations: DeploymentOperationsOperations;
+    readonly deployments: DeploymentsOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface DeploymentsClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DeploymentsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateAtManagementGroupScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsCreateOrUpdateAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateAtScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsCreateOrUpdateAtTenantScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsCreateOrUpdateAtTenantScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateAtTenantScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsDeleteAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteAtManagementGroupScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsDeleteAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteAtSubscriptionScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsDeleteAtTenantScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteAtTenantScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsExportTemplateAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsExportTemplateAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsExportTemplateAtManagementGroupScopeResponse = DeploymentExportResult;
-
-// @public
-export interface DeploymentsExportTemplateAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsExportTemplateAtScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsExportTemplateAtScopeResponse = DeploymentExportResult;
-
-// @public
-export interface DeploymentsExportTemplateAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsExportTemplateAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsExportTemplateAtSubscriptionScopeResponse = DeploymentExportResult;
-
-// @public
-export interface DeploymentsExportTemplateAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsExportTemplateAtTenantScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsExportTemplateAtTenantScopeResponse = DeploymentExportResult;
-
-// @public
-export interface DeploymentsExportTemplateOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsExportTemplateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsExportTemplateResponse = DeploymentExportResult;
-
-// @public
-export interface DeploymentsGetAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetAtManagementGroupScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetAtManagementGroupScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsGetAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetAtScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetAtScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsGetAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetAtSubscriptionScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetAtSubscriptionScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsGetAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetAtTenantScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetAtTenantScopeResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetResponse = DeploymentExtended;
-
-// @public
-export interface DeploymentsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListAtManagementGroupScopeNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListAtManagementGroupScopeOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type DeploymentsListAtManagementGroupScopeResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListAtScopeNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListAtScopeOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type DeploymentsListAtScopeResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListAtSubscriptionScopeNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListAtSubscriptionScopeOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type DeploymentsListAtSubscriptionScopeResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListAtTenantScopeNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtTenantScopeOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListAtTenantScopeOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type DeploymentsListAtTenantScopeResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListByResourceGroupNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListByResourceGroupOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type DeploymentsListByResourceGroupResponse = DeploymentListResult;
+export interface DeploymentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentExtended>, DeploymentExtended>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => Promise<DeploymentExtended>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentExtended>, DeploymentExtended>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtManagementGroupScopeAndWait: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams) => Promise<DeploymentExtended>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtScope: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentExtended>, DeploymentExtended>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtScopeAndWait: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams) => Promise<DeploymentExtended>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtSubscriptionScope: (deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentExtended>, DeploymentExtended>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtSubscriptionScopeAndWait: (deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams) => Promise<DeploymentExtended>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtTenantScope: (deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentExtended>, DeploymentExtended>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtTenantScopeAndWait: (deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams) => Promise<DeploymentExtended>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtManagementGroupScopeAndWait: (groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAtScope: (scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtScopeAndWait: (scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAtSubscriptionScope: (deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtSubscriptionScopeAndWait: (deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAtTenantScope: (deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtTenantScopeAndWait: (deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginValidate: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateAndWait: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams) => Promise<DeploymentValidateResult>;
+    // @deprecated (undocumented)
+    beginValidateAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateAtManagementGroupScopeAndWait: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams) => Promise<DeploymentValidateResult>;
+    // @deprecated (undocumented)
+    beginValidateAtScope: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateAtScopeAndWait: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams) => Promise<DeploymentValidateResult>;
+    // @deprecated (undocumented)
+    beginValidateAtSubscriptionScope: (deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateAtSubscriptionScopeAndWait: (deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams) => Promise<DeploymentValidateResult>;
+    // @deprecated (undocumented)
+    beginValidateAtTenantScope: (deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateAtTenantScopeAndWait: (deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams) => Promise<DeploymentValidateResult>;
+    // @deprecated (undocumented)
+    beginWhatIf: (resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams) => Promise<SimplePollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAndWait: (resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams) => Promise<WhatIfOperationResult>;
+    // @deprecated (undocumented)
+    beginWhatIfAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams) => Promise<SimplePollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAtManagementGroupScopeAndWait: (groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams) => Promise<WhatIfOperationResult>;
+    // @deprecated (undocumented)
+    beginWhatIfAtSubscriptionScope: (deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams) => Promise<SimplePollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAtSubscriptionScopeAndWait: (deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams) => Promise<WhatIfOperationResult>;
+    // @deprecated (undocumented)
+    beginWhatIfAtTenantScope: (deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams) => Promise<SimplePollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAtTenantScopeAndWait: (deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams) => Promise<WhatIfOperationResult>;
+    calculateTemplateHash: (template: any, options?: DeploymentsCalculateTemplateHashOptionalParams) => Promise<TemplateHashResult>;
+    cancel: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCancelOptionalParams) => Promise<void>;
+    cancelAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsCancelAtManagementGroupScopeOptionalParams) => Promise<void>;
+    cancelAtScope: (scope: string, deploymentName: string, options?: DeploymentsCancelAtScopeOptionalParams) => Promise<void>;
+    cancelAtSubscriptionScope: (deploymentName: string, options?: DeploymentsCancelAtSubscriptionScopeOptionalParams) => Promise<void>;
+    cancelAtTenantScope: (deploymentName: string, options?: DeploymentsCancelAtTenantScopeOptionalParams) => Promise<void>;
+    checkExistence: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCheckExistenceOptionalParams) => Promise<DeploymentsCheckExistenceResponse>;
+    checkExistenceAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsCheckExistenceAtManagementGroupScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtManagementGroupScopeResponse>;
+    checkExistenceAtScope: (scope: string, deploymentName: string, options?: DeploymentsCheckExistenceAtScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtScopeResponse>;
+    checkExistenceAtSubscriptionScope: (deploymentName: string, options?: DeploymentsCheckExistenceAtSubscriptionScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
+    checkExistenceAtTenantScope: (deploymentName: string, options?: DeploymentsCheckExistenceAtTenantScopeOptionalParams) => Promise<DeploymentsCheckExistenceAtTenantScopeResponse>;
+    createOrUpdate: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+    createOrUpdateAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+    createOrUpdateAtScope: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtScopeOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+    createOrUpdateAtSubscriptionScope: (deploymentName: string, parameters: Deployment, options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+    createOrUpdateAtTenantScope: (deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams) => PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
+    delete: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAtScope: (scope: string, deploymentName: string, options?: DeploymentsDeleteAtScopeOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAtSubscriptionScope: (deploymentName: string, options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAtTenantScope: (deploymentName: string, options?: DeploymentsDeleteAtTenantScopeOptionalParams) => PollerLike<OperationState<void>, void>;
+    exportTemplate: (resourceGroupName: string, deploymentName: string, options?: DeploymentsExportTemplateOptionalParams) => Promise<DeploymentExportResult>;
+    exportTemplateAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsExportTemplateAtManagementGroupScopeOptionalParams) => Promise<DeploymentExportResult>;
+    exportTemplateAtScope: (scope: string, deploymentName: string, options?: DeploymentsExportTemplateAtScopeOptionalParams) => Promise<DeploymentExportResult>;
+    exportTemplateAtSubscriptionScope: (deploymentName: string, options?: DeploymentsExportTemplateAtSubscriptionScopeOptionalParams) => Promise<DeploymentExportResult>;
+    exportTemplateAtTenantScope: (deploymentName: string, options?: DeploymentsExportTemplateAtTenantScopeOptionalParams) => Promise<DeploymentExportResult>;
+    get: (resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentExtended>;
+    getAtManagementGroupScope: (groupId: string, deploymentName: string, options?: DeploymentsGetAtManagementGroupScopeOptionalParams) => Promise<DeploymentExtended>;
+    getAtScope: (scope: string, deploymentName: string, options?: DeploymentsGetAtScopeOptionalParams) => Promise<DeploymentExtended>;
+    getAtSubscriptionScope: (deploymentName: string, options?: DeploymentsGetAtSubscriptionScopeOptionalParams) => Promise<DeploymentExtended>;
+    getAtTenantScope: (deploymentName: string, options?: DeploymentsGetAtTenantScopeOptionalParams) => Promise<DeploymentExtended>;
+    listAtManagementGroupScope: (groupId: string, options?: DeploymentsListAtManagementGroupScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentExtended>;
+    listAtScope: (scope: string, options?: DeploymentsListAtScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentExtended>;
+    listAtSubscriptionScope: (options?: DeploymentsListAtSubscriptionScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentExtended>;
+    listAtTenantScope: (options?: DeploymentsListAtTenantScopeOptionalParams) => PagedAsyncIterableIterator<DeploymentExtended>;
+    listByResourceGroup: (resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DeploymentExtended>;
+    validate: (resourceGroupName: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateOptionalParams) => PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+    validateAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtManagementGroupScopeOptionalParams) => PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+    validateAtScope: (scope: string, deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtScopeOptionalParams) => PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+    validateAtSubscriptionScope: (deploymentName: string, parameters: Deployment, options?: DeploymentsValidateAtSubscriptionScopeOptionalParams) => PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+    validateAtTenantScope: (deploymentName: string, parameters: ScopedDeployment, options?: DeploymentsValidateAtTenantScopeOptionalParams) => PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
+    whatIf: (resourceGroupName: string, deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfOptionalParams) => PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+    whatIfAtManagementGroupScope: (groupId: string, deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams) => PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+    whatIfAtSubscriptionScope: (deploymentName: string, parameters: DeploymentWhatIf, options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams) => PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+    whatIfAtTenantScope: (deploymentName: string, parameters: ScopedDeploymentWhatIf, options?: DeploymentsWhatIfAtTenantScopeOptionalParams) => PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
+}
 
 // @public
-export interface DeploymentsValidateAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsValidateAtManagementGroupScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsValidateAtManagementGroupScopeResponse = DeploymentValidateResult;
-
-// @public
-export interface DeploymentsValidateAtScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsValidateAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsValidateAtScopeResponse = DeploymentValidateResult;
-
-// @public
-export interface DeploymentsValidateAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsValidateAtSubscriptionScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsValidateAtSubscriptionScopeResponse = DeploymentValidateResult;
-
-// @public
-export interface DeploymentsValidateAtTenantScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsValidateAtTenantScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsValidateAtTenantScopeResponse = DeploymentValidateResult;
-
-// @public
-export interface DeploymentsValidateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsValidateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsValidateResponse = DeploymentValidateResult;
-
-// @public
-export interface DeploymentsWhatIfAtManagementGroupScopeHeaders {
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentsWhatIfAtManagementGroupScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsWhatIfAtManagementGroupScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsWhatIfAtManagementGroupScopeResponse = WhatIfOperationResult;
-
-// @public
-export interface DeploymentsWhatIfAtSubscriptionScopeHeaders {
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentsWhatIfAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsWhatIfAtSubscriptionScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsWhatIfAtSubscriptionScopeResponse = WhatIfOperationResult;
-
-// @public
-export interface DeploymentsWhatIfAtTenantScopeHeaders {
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentsWhatIfAtTenantScopeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsWhatIfAtTenantScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsWhatIfAtTenantScopeResponse = WhatIfOperationResult;
-
-// @public
-export interface DeploymentsWhatIfHeaders {
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentsWhatIfOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsWhatIfOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DeploymentsWhatIfResponse = WhatIfOperationResult;
 
 // @public
 export interface DeploymentValidateResult {
@@ -905,7 +705,7 @@ export interface DeploymentWhatIfSettings {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -930,11 +730,12 @@ export type ExpressionEvaluationOptionsScopeType = string;
 export type ExtensionConfigPropertyType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface ExtensionResource extends Resource {
+}
 
 // @public
 export interface HttpMessage {
-    content?: Record<string, unknown>;
+    content?: any;
 }
 
 // @public
@@ -965,6 +766,14 @@ export enum KnownAliasPathTokenType {
     Number = "Number",
     Object = "Object",
     String = "String"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -1030,6 +839,11 @@ export enum KnownValidationLevel {
 }
 
 // @public
+export enum KnownVersions {
+    V20250401 = "2025-04-01"
+}
+
+// @public
 export type Level = string;
 
 // @public
@@ -1047,6 +861,18 @@ export interface OnErrorDeploymentExtended {
 
 // @public
 export type OnErrorDeploymentType = "LastSuccessful" | "SpecificDeployment";
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface ParametersLink {
@@ -1086,9 +912,7 @@ export interface ProviderResourceType {
     readonly defaultApiVersion?: string;
     locationMappings?: ProviderExtendedLocation[];
     locations?: string[];
-    properties?: {
-        [propertyName: string]: string;
-    };
+    properties?: Record<string, string>;
     resourceType?: string;
     // (undocumented)
     zoneMappings?: ZoneMapping[];
@@ -1101,12 +925,11 @@ export type ProvisioningOperation = "NotSpecified" | "Create" | "Delete" | "Wait
 export type ProvisioningState = string;
 
 // @public
-export interface ResourceProviderOperationDisplayProperties {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    publisher?: string;
-    resource?: string;
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
 
 // @public
@@ -1114,17 +937,25 @@ export interface ResourceReference {
     readonly apiVersion?: string;
     readonly extension?: DeploymentExtensionDefinition;
     readonly id?: string;
-    readonly identifiers?: Record<string, unknown>;
+    readonly identifiers?: any;
     readonly resourceType?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeploymentsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface ScopedDeployment {
     location: string;
     properties: DeploymentProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1134,14 +965,41 @@ export interface ScopedDeploymentWhatIf {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface StatusMessage {
     error?: ErrorResponse;
     status?: string;
 }
 
 // @public
-export interface SubResource {
-    id?: string;
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -1149,7 +1007,7 @@ export interface TargetResource {
     apiVersion?: string;
     extension?: DeploymentExtensionDefinition;
     id?: string;
-    identifiers?: Record<string, unknown>;
+    identifiers?: any;
     resourceName?: string;
     resourceType?: string;
     symbolicName?: string;
@@ -1181,16 +1039,23 @@ export type ValidationLevel = string;
 
 // @public
 export interface WhatIfChange {
-    after?: Record<string, unknown>;
-    before?: Record<string, unknown>;
+    after?: any;
+    before?: any;
     changeType: ChangeType;
     delta?: WhatIfPropertyChange[];
     deploymentId?: string;
     extension?: DeploymentExtensionDefinition;
-    identifiers?: Record<string, unknown>;
+    identifiers?: any;
     resourceId?: string;
     symbolicName?: string;
     unsupportedReason?: string;
+}
+
+// @public
+export interface WhatIfOperationProperties {
+    changes?: WhatIfChange[];
+    readonly diagnostics?: DeploymentDiagnosticsDefinition[];
+    potentialChanges?: WhatIfChange[];
 }
 
 // @public
@@ -1204,8 +1069,8 @@ export interface WhatIfOperationResult {
 
 // @public
 export interface WhatIfPropertyChange {
-    after?: Record<string, unknown>;
-    before?: Record<string, unknown>;
+    after?: any;
+    before?: any;
     children?: WhatIfPropertyChange[];
     path: string;
     propertyChangeType: PropertyChangeType;
@@ -1214,7 +1079,7 @@ export interface WhatIfPropertyChange {
 // @public
 export type WhatIfResultFormat = "ResourceIdOnly" | "FullResourcePayloads";
 
-// @public (undocumented)
+// @public
 export interface ZoneMapping {
     location?: string;
     // (undocumented)
