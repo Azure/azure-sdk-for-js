@@ -3,7 +3,7 @@ trigger: none
 # This pipeline helps to run NPM admin tasks like remove or add tag to a released package version or deprecate a package version
 # Following variables should be set at queue time to run this pipeline
 # variable name: TaskType
-# valid Options: 'AddTag', 'RemoveTag', 'Deprecate', 'Unpublish'
+# valid Options: 'AddTag', 'RemoveTag', 'Deprecate', 'Unpublish', 'CacheExternalPackage'
 
 # variable name: PackageName
 # e.g. values: '@azure/storage-blob', '@azure/core-http'
@@ -24,6 +24,7 @@ parameters:
     - RemoveTag
     - Deprecate
     - Unpublish
+    - CacheExternalPackage
 
   - name: PackageName
     displayName: Package Name (e.g. @azure/template)
@@ -44,6 +45,21 @@ parameters:
     displayName: Reason
     type: string
     default: ''
+
+  - name: FeedName
+    displayName: DevOps Feed Name
+    type: string
+    default: 'azure-sdk-for-js'
+
+  - name: Organization
+    displayName: DevOps Organization
+    type: string
+    default: 'azure-sdk'
+
+  - name: Project
+    displayName: DevOps Project
+    type: string
+    default: 'public'
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -66,18 +82,35 @@ extends:
           steps:
             - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
 
-            - task: PowerShell@2
-              displayName: 'Run Task'
-              inputs:
-                targetType: filePath
-                filePath: "$(System.DefaultWorkingDirectory)/eng/scripts/npm-admin-tasks.ps1"
-                arguments: >
-                  -taskType ${{parameters.TaskType}}
-                  -packageName ${{parameters.PackageName}}
-                  -pkgVersion ${{parameters.PkgVersion}}
-                  -tagName ${{parameters.TagName}}
-                  -npmToken "$(azure-sdk-npm-token)"
-                  -reason "${{parameters.Reason}}"
-                pwsh: true
-              env:
-                npm_config_registry: $(PublicNpmRegistry)
+            - ${{ if eq(parameters.TaskType, 'CacheExternalPackage') }}:
+              - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+                parameters:
+                  npmrcPath: $(CommonNpmrcPath)
+                  registryUrl: $(PublicDevOpsRegistry)
+              - task: PowerShell@2
+                displayName: 'Cache External Package: ${{ parameters.PackageName }}'
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    $script = "$(System.DefaultWorkingDirectory)/eng/scripts/Cache-ExternalPackage.ps1"
+                    & $script -PackageName "${{ parameters.PackageName }}" -PackageVersion "${{ parameters.PkgVersion }}" -FeedName "${{ parameters.FeedName }}" -Organization "${{ parameters.Organization }}" -Project "${{ parameters.Project }}"
+                  pwsh: true
+                env:
+                  ADO_PAT: $(System.AccessToken)
+
+            - ${{ if ne(parameters.TaskType, 'CacheExternalPackage') }}:
+              - task: PowerShell@2
+                displayName: 'Run Task'
+                inputs:
+                  targetType: filePath
+                  filePath: "$(System.DefaultWorkingDirectory)/eng/scripts/npm-admin-tasks.ps1"
+                  arguments: >
+                    -taskType ${{parameters.TaskType}}
+                    -packageName ${{parameters.PackageName}}
+                    -pkgVersion ${{parameters.PkgVersion}}
+                    -tagName ${{parameters.TagName}}
+                    -npmToken "$(azure-sdk-npm-token)"
+                    -reason "${{parameters.Reason}}"
+                  pwsh: true
+                env:
+                  npm_config_registry: $(PublicNpmRegistry)
