@@ -1,7 +1,15 @@
+
 extends: ../../../warp.base.config.yml
-exports:
-  "./api": "./src/api/index.ts"
-  "./api/certificateProfiles": "./src/api/certificateProfiles/index.ts"
-  "./api/codeSigningAccounts": "./src/api/codeSigningAccounts/index.ts"
-  "./api/operations": "./src/api/operations/index.ts"
-  "./models": "./src/models/index.ts"
+
+targets:
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs
+
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
