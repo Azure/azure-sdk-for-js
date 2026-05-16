@@ -86,8 +86,8 @@ describe.skip("MongoCluster test", () => {
       fireWallName,
       {
         properties: {
-          startIPAddress: "0.0.0.0",
-          endIPAddress: "255.255.255.255",
+          startIpAddress: "0.0.0.0",
+          endIpAddress: "255.255.255.255",
         },
       },
       testPollingOptions,
