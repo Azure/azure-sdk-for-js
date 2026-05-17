@@ -1,0 +1,66 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ApiManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  PortalSettingsCollection,
+  portalSettingsCollectionDeserializer,
+} from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { PortalSettingsListByServiceOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+
+export function _listByServiceSend(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  options: PortalSettingsListByServiceOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      serviceName: serviceName,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listByServiceDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PortalSettingsCollection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return portalSettingsCollectionDeserializer(result.body);
+}
+
+/** Lists a collection of portalsettings defined within a service instance.. */
+export async function listByService(
+  context: Client,
+  resourceGroupName: string,
+  serviceName: string,
+  options: PortalSettingsListByServiceOptionalParams = { requestOptions: {} },
+): Promise<PortalSettingsCollection> {
+  const result = await _listByServiceSend(context, resourceGroupName, serviceName, options);
+  return _listByServiceDeserialize(result);
+}
