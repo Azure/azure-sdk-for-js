@@ -164,3 +164,9 @@ export {
   type CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption/index.js";
+
+export type {
+  RerankScore,
+  SemanticRerankResult,
+  SemanticRerankOptions,
+} from "./inference/index.js";

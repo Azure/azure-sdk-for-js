@@ -1841,4 +1841,32 @@ describe("snippets", () => {
       }
     }
   });
+  it("ContainerSemanticRerank", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const aadCredentials = new DefaultAzureCredential();
+    const client = new CosmosClient({
+      endpoint,
+      aadCredentials,
+    });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const queryResults = ["doc1 JSON", "doc2 JSON", "doc3 JSON"];
+    const result = await container.semanticRerank(
+      "most economical with multiple adjustments",
+      queryResults,
+      { return_documents: true, top_k: 10, sort: true },
+    );
+    // Access the top-ranked document
+    if (result.rerankScores.length > 0) {
+      const topResult = result.rerankScores[0];
+      const topScore = topResult.score;
+      const topDocument = topResult.document;
+      if (topDocument !== null) {
+        console.log("Top-ranked document:", topDocument);
+      }
+      console.log("Top score:", topScore);
+    }
+  });
 });
