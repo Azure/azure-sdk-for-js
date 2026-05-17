@@ -6,6 +6,7 @@
     "@typespec/events": "0.81.0",
     "@typespec/openapi": "1.11.0",
     "@typespec/openapi3": "1.11.0",
+    "@typespec/sse": "0.81.0",
     "@typespec/streams": "0.81.0",
     "@typespec/xml": "0.81.0",
     "@azure-tools/typespec-ts": "0.52.3-alpha.20260508.1",
