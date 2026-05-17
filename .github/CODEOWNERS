@@ -379,7 +379,7 @@
 # PRLabel: %Mgmt
 /sdk/astro/arm-astro/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
