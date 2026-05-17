@@ -1,0 +1,4 @@
+directory: specification/billing/resource-manager/Microsoft.Billing/Billing
+commit: 16ef0366fb1d117302459602c63bf723dac8420b
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
