@@ -3,31 +3,26 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all the rule collections in a routing configuration, in a paginated format.
+ * This sample demonstrates how to lists all the rule collections in a routing configuration, in a paginated format.
  *
- * @summary Lists all the rule collections in a routing configuration, in a paginated format.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerRoutingRuleCollectionList.json
+ * @summary lists all the rule collections in a routing configuration, in a paginated format.
+ * x-ms-original-file: 2025-07-01/NetworkManagerRoutingRuleCollectionList.json
  */
 async function listRoutingRuleCollections(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
-  const configurationName = "myTestRoutingConfig";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.routingRuleCollections.list(
-    resourceGroupName,
-    networkManagerName,
-    configurationName,
+    "rg1",
+    "testNetworkManager",
+    "myTestRoutingConfig",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

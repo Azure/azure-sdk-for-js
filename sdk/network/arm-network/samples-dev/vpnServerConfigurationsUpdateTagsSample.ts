@@ -1,31 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates VpnServerConfiguration tags.
+ * This sample demonstrates how to updates VpnServerConfiguration tags.
  *
- * @summary Updates VpnServerConfiguration tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VpnServerConfigurationUpdateTags.json
+ * @summary updates VpnServerConfiguration tags.
+ * x-ms-original-file: 2025-07-01/VpnServerConfigurationUpdateTags.json
  */
 async function vpnServerConfigurationUpdate(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const vpnServerConfigurationName = "vpnServerConfiguration1";
-  const vpnServerConfigurationParameters: TagsObject = {
-    tags: { key1: "value1", key2: "value2" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.vpnServerConfigurations.updateTags(
-    resourceGroupName,
-    vpnServerConfigurationName,
-    vpnServerConfigurationParameters,
-  );
+  const result = await client.vpnServerConfigurations.updateTags("rg1", "vpnServerConfiguration1", {
+    tags: { key1: "value1", key2: "value2" },
+  });
   console.log(result);
 }
 

@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get health details of a load balancing rule.
+ * This sample demonstrates how to get health details of a load balancing rule.
  *
- * @summary Get health details of a load balancing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerHealth.json
+ * @summary get health details of a load balancing rule.
+ * x-ms-original-file: 2025-07-01/LoadBalancerHealth.json
  */
 async function queryLoadBalancingRuleHealth(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const groupName = "rg1";
-  const loadBalancerName = "lb1";
-  const loadBalancingRuleName = "rulelb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancerLoadBalancingRules.beginHealthAndWait(
-    groupName,
-    loadBalancerName,
-    loadBalancingRuleName,
-  );
+  const result = await client.loadBalancerLoadBalancingRules.health("rg1", "lb1", "rulelb");
   console.log(result);
 }
 

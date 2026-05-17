@@ -3,25 +3,21 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get Rule Collection Group Draft.
+ * This sample demonstrates how to get Rule Collection Group Draft.
  *
- * @summary Get Rule Collection Group Draft.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyRuleCollectionGroupDraftGet.json
+ * @summary get Rule Collection Group Draft.
+ * x-ms-original-file: 2025-07-01/FirewallPolicyRuleCollectionGroupDraftGet.json
  */
 async function getRuleCollectionGroupDraft(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
-  const ruleCollectionGroupName = "ruleCollectionGroup1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.firewallPolicyRuleCollectionGroupDrafts.get(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName,
+    "rg1",
+    "firewallPolicy",
+    "ruleCollectionGroup1",
   );
   console.log(result);
 }

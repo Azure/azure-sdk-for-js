@@ -3,25 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes the specified load balancer.
+ * This sample demonstrates how to deletes the specified load balancer.
  *
- * @summary Deletes the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/LoadBalancerDelete.json
+ * @summary deletes the specified load balancer.
+ * x-ms-original-file: 2025-07-01/LoadBalancerDelete.json
  */
 async function deleteLoadBalancer(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const loadBalancerName = "lb";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.loadBalancers.beginDeleteAndWait(
-    resourceGroupName,
-    loadBalancerName,
-  );
-  console.log(result);
+  await client.loadBalancers.delete("rg1", "lb");
 }
 
 async function main(): Promise<void> {

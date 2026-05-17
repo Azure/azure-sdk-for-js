@@ -1,34 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualNetworkTap} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a Virtual Network Tap.
+ * This sample demonstrates how to create a VirtualNetworkTap
  *
- * @summary Creates or updates a Virtual Network Tap.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkTapCreate.json
+ * @summary create a VirtualNetworkTap
+ * x-ms-original-file: 2025-07-01/VirtualNetworkTapCreate.json
  */
 async function createVirtualNetworkTap(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const tapName = "test-vtap";
-  const parameters: VirtualNetworkTap = {
-    destinationNetworkInterfaceIPConfiguration: {
-      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1",
-    },
-    location: "centraluseuap",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.virtualNetworkTaps.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    tapName,
-    parameters,
-  );
+  const result = await client.virtualNetworkTaps.createOrUpdate("rg1", "test-vtap", {
+    location: "centraluseuap",
+    destinationNetworkInterfaceIPConfiguration: {
+      id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1",
+    },
+  });
   console.log(result);
 }
 

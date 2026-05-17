@@ -3,27 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
+ * This sample demonstrates how to this operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
  *
- * @summary This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayGetAdvertisedRoutes.json
+ * @summary this operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGatewayGetAdvertisedRoutes.json
  */
 async function getVirtualNetworkGatewayAdvertisedRoutes(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayName = "vpngw";
-  const peer = "test";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGateways.beginGetAdvertisedRoutesAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-      peer,
-    );
+  const result = await client.virtualNetworkGateways.getAdvertisedRoutes("rg1", "vpngw", "test");
   console.log(result);
 }
 

@@ -3,25 +3,21 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get the specified tap configuration on a network interface.
+ * This sample demonstrates how to get the specified tap configuration on a network interface.
  *
- * @summary Get the specified tap configuration on a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceTapConfigurationGet.json
+ * @summary get the specified tap configuration on a network interface.
+ * x-ms-original-file: 2025-07-01/NetworkInterfaceTapConfigurationGet.json
  */
 async function getNetworkInterfaceTapConfigurations(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
-  const networkInterfaceName = "mynic";
-  const tapConfigurationName = "tapconfiguration1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkInterfaceTapConfigurations.get(
-    resourceGroupName,
-    networkInterfaceName,
-    tapConfigurationName,
+    "testrg",
+    "mynic",
+    "tapconfiguration1",
   );
   console.log(result);
 }

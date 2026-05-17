@@ -1,0 +1,4 @@
+directory: specification/network/resource-manager/Microsoft.Network/Network
+commit: c11f4a99a0d0a430e825fab35ec8e5748fa48756
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

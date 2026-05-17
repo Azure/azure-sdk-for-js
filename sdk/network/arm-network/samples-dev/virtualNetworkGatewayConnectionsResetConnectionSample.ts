@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Resets the virtual network gateway connection specified.
+ * This sample demonstrates how to resets the virtual network gateway connection specified.
  *
- * @summary Resets the virtual network gateway connection specified.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayConnectionReset.json
+ * @summary resets the virtual network gateway connection specified.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGatewayConnectionReset.json
  */
 async function resetVirtualNetworkGatewayConnection(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayConnectionName = "conn1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGatewayConnections.beginResetConnectionAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayConnectionName,
-    );
-  console.log(result);
+  await client.virtualNetworkGatewayConnections.resetConnection("rg1", "conn1");
 }
 
 async function main(): Promise<void> {

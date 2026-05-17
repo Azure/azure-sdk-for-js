@@ -1,45 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PacketCapture} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create and start a packet capture on the specified VM.
+ * This sample demonstrates how to create and start a packet capture on the specified VM.
  *
- * @summary Create and start a packet capture on the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherPacketCaptureCreate.json
+ * @summary create and start a packet capture on the specified VM.
+ * x-ms-original-file: 2025-07-01/NetworkWatcherPacketCaptureCreate.json
  */
 async function createPacketCapture(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const packetCaptureName = "pc1";
-  const parameters: PacketCapture = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.packetCaptures.create("rg1", "nw1", "pc1", {
     bytesToCapturePerPacket: 10000,
     filters: [{ localIPAddress: "10.0.0.4", localPort: "80", protocol: "TCP" }],
     storageLocation: {
       filePath: "D:\\capture\\pc1.cap",
       storageId:
-        "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
-      storagePath:
-        "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
+      storagePath: "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
     },
     target:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
     timeLimitInSeconds: 100,
     totalBytesPerSession: 100000,
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.packetCaptures.beginCreateAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    packetCaptureName,
-    parameters,
-  );
+  });
   console.log(result);
 }
 

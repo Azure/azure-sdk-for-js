@@ -1,39 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AzureReachabilityReportParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
+ * This sample demonstrates how to nOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
  *
- * @summary NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherAzureReachabilityReportGet.json
+ * @summary nOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
+ * x-ms-original-file: 2025-07-01/NetworkWatcherAzureReachabilityReportGet.json
  */
 async function getAzureReachabilityReport(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const parameters: AzureReachabilityReportParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkWatchers.getAzureReachabilityReport("rg1", "nw1", {
     azureLocations: ["West US"],
     endTime: new Date("2017-09-10T00:00:00Z"),
     providerLocation: { country: "United States", state: "washington" },
     providers: ["Frontier Communications of America, Inc. - ASN 5650"],
     startTime: new Date("2017-09-07T00:00:00Z"),
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.networkWatchers.beginGetAzureReachabilityReportAndWait(
-      resourceGroupName,
-      networkWatcherName,
-      parameters,
-    );
+  });
   console.log(result);
 }
 

@@ -3,27 +3,22 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists NetworkVirtualApplianceConnections under the NVA.
+ * This sample demonstrates how to lists NetworkVirtualApplianceConnections under the NVA.
  *
- * @summary Lists NetworkVirtualApplianceConnections under the NVA.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceConnectionList.json
+ * @summary lists NetworkVirtualApplianceConnections under the NVA.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceConnectionList.json
  */
 async function networkVirtualApplianceConnectionList(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.networkVirtualApplianceConnections.list(
-    resourceGroupName,
-    networkVirtualApplianceName,
-  )) {
+  for await (const item of client.networkVirtualApplianceConnections.list("rg1", "nva1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

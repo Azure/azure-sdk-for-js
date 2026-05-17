@@ -1,38 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  VpnClientParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
+ * This sample demonstrates how to generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
  *
- * @summary Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/VirtualNetworkGatewayGenerateVpnClientPackage.json
+ * @summary generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
+ * x-ms-original-file: 2025-07-01/VirtualNetworkGatewayGenerateVpnClientPackage.json
  */
-async function generateVpnClientPackage(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const virtualNetworkGatewayName = "vpngw";
-  const parameters: VpnClientParameters = {};
+async function generateVPNClientPackage(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualNetworkGateways.beginGeneratevpnclientpackageAndWait(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-      parameters,
-    );
+  const result = await client.virtualNetworkGateways.generatevpnclientpackage("rg1", "vpngw", {});
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await generateVpnClientPackage();
+  await generateVPNClientPackage();
 }
 
 main().catch(console.error);

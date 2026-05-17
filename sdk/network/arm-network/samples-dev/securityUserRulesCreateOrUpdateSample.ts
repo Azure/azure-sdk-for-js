@@ -1,44 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityUserRule} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates a security user rule.
+ * This sample demonstrates how to creates or updates a security user rule.
  *
- * @summary Creates or updates a security user rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkManagerSecurityUserRulePut.json
+ * @summary creates or updates a security user rule.
+ * x-ms-original-file: 2025-07-01/NetworkManagerSecurityUserRulePut.json
  */
 async function createASecurityUserRule(): Promise<void> {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkManagerName = "testNetworkManager";
-  const configurationName = "myTestSecurityConfig";
-  const ruleCollectionName = "testRuleCollection";
-  const ruleName = "SampleUserRule";
-  const securityUserRule: SecurityUserRule = {
-    description: "Sample User Rule",
-    destinationPortRanges: ["22"],
-    destinations: [{ addressPrefix: "*", addressPrefixType: "IPPrefix" }],
-    direction: "Inbound",
-    sourcePortRanges: ["0-65535"],
-    sources: [{ addressPrefix: "*", addressPrefixType: "IPPrefix" }],
-    protocol: "Tcp",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.securityUserRules.createOrUpdate(
-    resourceGroupName,
-    networkManagerName,
-    configurationName,
-    ruleCollectionName,
-    ruleName,
-    securityUserRule,
+    "rg1",
+    "testNetworkManager",
+    "myTestSecurityConfig",
+    "testRuleCollection",
+    "SampleUserRule",
+    {
+      description: "Sample User Rule",
+      destinationPortRanges: ["22"],
+      destinations: [{ addressPrefix: "*", addressPrefixType: "IPPrefix" }],
+      direction: "Inbound",
+      sourcePortRanges: ["0-65535"],
+      sources: [{ addressPrefix: "*", addressPrefixType: "IPPrefix" }],
+      protocol: "Tcp",
+    },
   );
   console.log(result);
 }

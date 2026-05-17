@@ -3,26 +3,18 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the specified NSP link resource.
+ * This sample demonstrates how to gets the specified NSP link resource.
  *
- * @summary Gets the specified NSP link resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NspLinkGet.json
+ * @summary gets the specified NSP link resource.
+ * x-ms-original-file: 2025-07-01/NspLinkGet.json
  */
 async function nspLinksGet(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkSecurityPerimeterName = "nsp1";
-  const linkName = "link1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkSecurityPerimeterLinks.get(
-    resourceGroupName,
-    networkSecurityPerimeterName,
-    linkName,
-  );
+  const result = await client.networkSecurityPerimeterLinks.get("rg1", "nsp1", "link1");
   console.log(result);
 }
 

@@ -3,17 +3,16 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Lists all available web application firewall rule sets.
+ * This sample demonstrates how to lists all available web application firewall rule sets.
  *
- * @summary Lists all available web application firewall rule sets.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
+ * @summary lists all available web application firewall rule sets.
+ * x-ms-original-file: 2025-07-01/ApplicationGatewayAvailableWafRuleSetsGet.json
  */
 async function getAvailableWafRuleSets(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.applicationGateways.listAvailableWafRuleSets();
   console.log(result);

@@ -1,29 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject} from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates a Network Virtual Appliance.
+ * This sample demonstrates how to updates a Network Virtual Appliance.
  *
- * @summary Updates a Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkVirtualApplianceUpdateTags.json
+ * @summary updates a Network Virtual Appliance.
+ * x-ms-original-file: 2025-07-01/NetworkVirtualApplianceUpdateTags.json
  */
 async function updateNetworkVirtualAppliance(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkVirtualApplianceName = "nva";
-  const parameters: TagsObject = { tags: { key1: "value1", key2: "value2" } };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkVirtualAppliances.updateTags(
-    resourceGroupName,
-    networkVirtualApplianceName,
-    parameters,
-  );
+  const result = await client.networkVirtualAppliances.updateTags("rg1", "nva", {
+    tags: { key1: "value1", key2: "value2" },
+  });
   console.log(result);
 }
 

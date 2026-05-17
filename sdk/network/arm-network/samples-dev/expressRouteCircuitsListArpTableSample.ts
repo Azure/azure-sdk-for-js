@@ -3,33 +3,28 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the currently advertised ARP table associated with the express route circuit in a resource group.
+ * This sample demonstrates how to gets the currently advertised ARP table associated with the express route circuit in a resource group.
  *
- * @summary Gets the currently advertised ARP table associated with the express route circuit in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/ExpressRouteCircuitARPTableList.json
+ * @summary gets the currently advertised ARP table associated with the express route circuit in a resource group.
+ * x-ms-original-file: 2025-07-01/ExpressRouteCircuitARPTableList.json
  */
-async function listArpTable(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const circuitName = "circuitName";
-  const peeringName = "peeringName";
-  const devicePath = "devicePath";
+async function listARPTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRouteCircuits.beginListArpTableAndWait(
-    resourceGroupName,
-    circuitName,
-    peeringName,
-    devicePath,
+  const result = await client.expressRouteCircuits.listArpTable(
+    "rg1",
+    "circuitName",
+    "peeringName",
+    "devicePath",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await listArpTable();
+  await listARPTable();
 }
 
 main().catch(console.error);

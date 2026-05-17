@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PrivateLinkService} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates or updates an private link service in the specified resource group.
+ * This sample demonstrates how to creates or updates an private link service in the specified resource group.
  *
- * @summary Creates or updates an private link service in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/PrivateLinkServiceCreate.json
+ * @summary creates or updates an private link service in the specified resource group.
+ * x-ms-original-file: 2025-07-01/PrivateLinkServiceCreate.json
  */
 async function createPrivateLinkService(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const serviceName = "testPls";
-  const parameters: PrivateLinkService = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.privateLinkServices.createOrUpdate("rg1", "testPls", {
+    location: "eastus",
     autoApproval: { subscriptions: ["subscription1", "subscription2"] },
     fqdns: ["fqdn1", "fqdn2", "fqdn3"],
     ipConfigurations: [
@@ -29,27 +25,17 @@ async function createPrivateLinkService(): Promise<void> {
         privateIPAddressVersion: "IPv4",
         privateIPAllocationMethod: "Static",
         subnet: {
-          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
         },
       },
     ],
     loadBalancerFrontendIpConfigurations: [
       {
-        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
       },
     ],
-    location: "eastus",
-    visibility: {
-      subscriptions: ["subscription1", "subscription2", "subscription3"],
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkServices.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serviceName,
-    parameters,
-  );
+    visibility: { subscriptions: ["subscription1", "subscription2", "subscription3"] },
+  });
   console.log(result);
 }
 

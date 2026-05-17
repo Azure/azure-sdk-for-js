@@ -1,38 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  TroubleshootingParameters} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Initiate troubleshooting on a specified resource.
+ * This sample demonstrates how to initiate troubleshooting on a specified resource.
  *
- * @summary Initiate troubleshooting on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkWatcherTroubleshootGet.json
+ * @summary initiate troubleshooting on a specified resource.
+ * x-ms-original-file: 2025-07-01/NetworkWatcherTroubleshootGet.json
  */
 async function getTroubleshooting(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const networkWatcherName = "nw1";
-  const parameters: TroubleshootingParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkWatchers.getTroubleshooting("rg1", "nw1", {
     storageId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/st1",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/st1",
     storagePath: "https://st1.blob.core.windows.net/cn1",
     targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkWatchers.beginGetTroubleshootingAndWait(
-    resourceGroupName,
-    networkWatcherName,
-    parameters,
-  );
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+  });
   console.log(result);
 }
 

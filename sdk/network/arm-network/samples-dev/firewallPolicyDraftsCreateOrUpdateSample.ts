@@ -1,30 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  FirewallPolicyDraft} from "@azure/arm-network";
-import {
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update a draft Firewall Policy.
+ * This sample demonstrates how to create or update a draft Firewall Policy.
  *
- * @summary Create or update a draft Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/FirewallPolicyDraftPut.json
+ * @summary create or update a draft Firewall Policy.
+ * x-ms-original-file: 2025-07-01/FirewallPolicyDraftPut.json
  */
 async function createOrUpdateFirewallPolicyDraft(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
-  const firewallPolicyName = "firewallPolicy";
-  const parameters: FirewallPolicyDraft = {
-    dnsSettings: {
-      enableProxy: true,
-      requireProxyForNetworkRules: false,
-      servers: ["30.3.4.5"],
-    },
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.firewallPolicyDrafts.createOrUpdate("rg1", "firewallPolicy", {
+    dnsSettings: { enableProxy: true, requireProxyForNetworkRules: false, servers: ["30.3.4.5"] },
     explicitProxy: {
       enableExplicitProxy: true,
       enablePacFile: true,
@@ -38,19 +29,19 @@ async function createOrUpdateFirewallPolicyDraft(): Promise<void> {
       isEnabled: true,
       logAnalyticsResources: {
         defaultWorkspaceId: {
-          id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
+          id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
         },
         workspaces: [
           {
             region: "westus",
             workspaceId: {
-              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
             },
           },
           {
             region: "eastus",
             workspaceId: {
-              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
             },
           },
         ],
@@ -77,18 +68,8 @@ async function createOrUpdateFirewallPolicyDraft(): Promise<void> {
     snat: { privateRanges: ["IANAPrivateRanges"] },
     sql: { allowSqlRedirect: true },
     threatIntelMode: "Alert",
-    threatIntelWhitelist: {
-      fqdns: ["*.microsoft.com"],
-      ipAddresses: ["20.3.4.5"],
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyDrafts.createOrUpdate(
-    resourceGroupName,
-    firewallPolicyName,
-    parameters,
-  );
+    threatIntelWhitelist: { fqdns: ["*.microsoft.com"], ipAddresses: ["20.3.4.5"] },
+  });
   console.log(result);
 }
 

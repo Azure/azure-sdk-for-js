@@ -3,27 +3,27 @@
 
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets all IpGroups in a subscription.
+ * This sample demonstrates how to gets all IpGroups in a subscription.
  *
- * @summary Gets all IpGroups in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/IpGroupsListBySubscription.json
+ * @summary gets all IpGroups in a subscription.
+ * x-ms-original-file: 2025-07-01/IpGroupsListBySubscription.json
  */
-async function listIPGroups(): Promise<void> {
-  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
+async function listIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.ipGroups.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listIPGroups();
+  await listIpGroups();
 }
 
 main().catch(console.error);
