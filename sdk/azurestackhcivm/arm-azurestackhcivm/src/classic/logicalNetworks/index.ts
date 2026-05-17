@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/logicalNetworks/operations.js";
-import {
+import type {
   LogicalNetworksListAllOptionalParams,
   LogicalNetworksListByResourceGroupOptionalParams,
   LogicalNetworksDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   LogicalNetworksCreateOrUpdateOptionalParams,
   LogicalNetworksGetOptionalParams,
 } from "../../api/logicalNetworks/options.js";
-import { LogicalNetwork, LogicalNetworksUpdateRequest } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { LogicalNetwork, LogicalNetworksUpdateRequest } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LogicalNetworks operations. */
 export interface LogicalNetworksOperations {
@@ -34,11 +34,6 @@ export interface LogicalNetworksOperations {
     options?: LogicalNetworksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<LogicalNetwork>;
   /** The operation to delete a logical network. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     logicalNetworkName: string,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the gallery images in the specified subscription. Use the nextLink property in the response to get the next page of gallery images.
  *
  * @summary lists all of the gallery images in the specified subscription. Use the nextLink property in the response to get the next page of gallery images.
- * x-ms-original-file: 2025-06-01-preview/GalleryImages_ListAll.json
+ * x-ms-original-file: 2026-04-01-preview/GalleryImages_ListAll.json
  */
 async function listGalleryImageBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

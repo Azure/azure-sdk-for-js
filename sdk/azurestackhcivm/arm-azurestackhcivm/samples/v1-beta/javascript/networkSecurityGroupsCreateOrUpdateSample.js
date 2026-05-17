@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a network security group in the specified resource group.
  *
  * @summary creates or updates a network security group in the specified resource group.
- * x-ms-original-file: 2025-06-01-preview/NetworkSecurityGroups_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityGroups_CreateOrUpdate.json
  */
 async function createNetworkSecurityGroup() {
   const credential = new DefaultAzureCredential();

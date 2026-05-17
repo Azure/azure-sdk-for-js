@@ -1,24 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type {
   VirtualMachineInstance,
-  virtualMachineInstanceSerializer,
-  virtualMachineInstanceDeserializer,
   VirtualMachineInstanceUpdateRequest,
-  virtualMachineInstanceUpdateRequestSerializer,
   _VirtualMachineInstanceListResult,
-  _virtualMachineInstanceListResultDeserializer,
+  PowerOffVirtualMachineOptions,
+  OperationStatusResult,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  virtualMachineInstanceSerializer,
+  virtualMachineInstanceDeserializer,
+  virtualMachineInstanceUpdateRequestSerializer,
+  _virtualMachineInstanceListResultDeserializer,
+  powerOffVirtualMachineOptionsSerializer,
+  operationStatusResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
+  VirtualMachineInstancesPowerOffOptionalParams,
   VirtualMachineInstancesSaveOptionalParams,
   VirtualMachineInstancesPauseOptionalParams,
   VirtualMachineInstancesRestartOptionalParams,
@@ -30,13 +35,63 @@ import {
   VirtualMachineInstancesCreateOrUpdateOptionalParams,
   VirtualMachineInstancesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _powerOffSend(
+  context: Client,
+  resourceUri: string,
+  body: PowerOffVirtualMachineOptions,
+  options: VirtualMachineInstancesPowerOffOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/powerOff{?api%2Dversion}",
+    {
+      resourceUri: resourceUri,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: powerOffVirtualMachineOptionsSerializer(body),
+  });
+}
+
+export async function _powerOffDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return operationStatusResultDeserializer(result.body);
+}
+
+/** The operation to power off a virtual machine instance. */
+export function powerOff(
+  context: Client,
+  resourceUri: string,
+  body: PowerOffVirtualMachineOptions,
+  options: VirtualMachineInstancesPowerOffOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _powerOffDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _powerOffSend(context, resourceUri, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+}
 
 export function _saveSend(
   context: Client,
@@ -47,7 +102,7 @@ export function _saveSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/save{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,10 +112,11 @@ export function _saveSend(
 }
 
 export async function _saveDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -73,11 +129,12 @@ export function save(
   resourceUri: string,
   options: VirtualMachineInstancesSaveOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _saveDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _saveDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _saveSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -90,7 +147,7 @@ export function _pauseSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/pause{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,10 +157,11 @@ export function _pauseSend(
 }
 
 export async function _pauseDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -116,26 +174,25 @@ export function pause(
   resourceUri: string,
   options: VirtualMachineInstancesPauseOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _pauseDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _pauseDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _pauseSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _restartSend(
   context: Client,
   resourceUri: string,
-  options: VirtualMachineInstancesRestartOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualMachineInstancesRestartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/restart{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,10 +202,11 @@ export function _restartSend(
 }
 
 export async function _restartDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -159,15 +217,14 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 export function restart(
   context: Client,
   resourceUri: string,
-  options: VirtualMachineInstancesRestartOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualMachineInstancesRestartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _restartDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _restartDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _restartSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -180,7 +237,7 @@ export function _stopSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/stop{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,10 +247,11 @@ export function _stopSend(
 }
 
 export async function _stopDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -206,11 +264,12 @@ export function stop(
   resourceUri: string,
   options: VirtualMachineInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _stopDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _stopDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _stopSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -223,7 +282,7 @@ export function _startSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/start{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,10 +292,11 @@ export function _startSend(
 }
 
 export async function _startDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -249,11 +309,12 @@ export function start(
   resourceUri: string,
   options: VirtualMachineInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _startDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _startDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -266,7 +327,7 @@ export function _listSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,10 +335,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -288,6 +346,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -305,7 +364,11 @@ export function list(
     () => _listSend(context, resourceUri, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    },
   );
 }
 
@@ -318,7 +381,7 @@ export function _$deleteSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,6 +395,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -339,11 +403,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** The operation to delete a virtual machine instance. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceUri: string,
@@ -354,6 +413,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -367,7 +427,7 @@ export function _updateSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -376,10 +436,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: virtualMachineInstanceUpdateRequestSerializer(properties),
   });
 }
@@ -387,10 +444,11 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<VirtualMachineInstance> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -404,11 +462,12 @@ export function update(
   properties: VirtualMachineInstanceUpdateRequest,
   options: VirtualMachineInstancesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceUri, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
 }
 
@@ -416,15 +475,13 @@ export function _createOrUpdateSend(
   context: Client,
   resourceUri: string,
   resource: VirtualMachineInstance,
-  options: VirtualMachineInstancesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualMachineInstancesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,10 +490,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: virtualMachineInstanceSerializer(resource),
   });
 }
@@ -448,6 +502,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -459,15 +514,14 @@ export function createOrUpdate(
   context: Client,
   resourceUri: string,
   resource: VirtualMachineInstance,
-  options: VirtualMachineInstancesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualMachineInstancesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, resourceUri, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
 }
 
@@ -480,7 +534,7 @@ export function _getSend(
     "/{+resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,10 +542,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -502,6 +553,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

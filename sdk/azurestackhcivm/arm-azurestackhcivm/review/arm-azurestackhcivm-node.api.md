@@ -4,14 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type ActionType = string;
 
 // @public
 export interface AttestationStatus extends ProxyResource {
@@ -68,20 +71,29 @@ export enum AzureClouds {
 
 // @public (undocumented)
 export class AzureStackHCIVMManagementClient {
+    constructor(credential: TokenCredential, options?: AzureStackHCIVMManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureStackHCIVMManagementClientOptionalParams);
     readonly attestationStatuses: AttestationStatusesOperations;
     readonly galleryImages: GalleryImagesOperations;
     readonly guestAgents: GuestAgentsOperations;
     readonly hybridIdentityMetadata: HybridIdentityMetadataOperations;
+    readonly inboundRules: InboundRulesOperations;
+    readonly loadBalancers: LoadBalancersOperations;
     readonly logicalNetworks: LogicalNetworksOperations;
     readonly marketplaceGalleryImages: MarketplaceGalleryImagesOperations;
+    readonly natGateways: NatGatewaysOperations;
     readonly networkInterfaces: NetworkInterfacesOperations;
     readonly networkSecurityGroups: NetworkSecurityGroupsOperations;
+    readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly publicIPAddresses: PublicIPAddressesOperations;
     readonly securityRules: SecurityRulesOperations;
+    readonly snapshots: SnapshotsOperations;
     readonly storageContainers: StorageContainersOperations;
     readonly virtualHardDisks: VirtualHardDisksOperations;
     readonly virtualMachineInstances: VirtualMachineInstancesOperations;
+    readonly virtualNetworks: VirtualNetworksOperations;
+    readonly virtualNetworkSubnets: VirtualNetworkSubnetsOperations;
 }
 
 // @public
@@ -94,6 +106,19 @@ export interface AzureStackHCIVMManagementClientOptionalParams extends ClientOpt
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface BackendAddressPool {
+    name: string;
+    properties: BackendAddressPoolProperties;
+}
+
+// @public
+export interface BackendAddressPoolProperties {
+    loadBalancerBackendAddresses?: LoadBalancerBackendAddress[];
+    logicalNetwork?: LogicalNetworkArmReference;
+    virtualNetwork?: VirtualNetworkArmReference;
+}
+
+// @public
 export type CloudInitDataSource = string;
 
 // @public
@@ -103,6 +128,16 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CreationData {
+    createOption: DiskCreateOption;
+    sourceResourceId?: string;
+    readonly sourceUniqueId?: string;
+}
+
+// @public
+export type DiskCreateOption = string;
 
 // @public
 export type DiskFileFormat = string;
@@ -141,6 +176,47 @@ export interface ExtensionResource extends Resource {
 }
 
 // @public
+export type FabricConnectionHealthEnum = string;
+
+// @public
+export type FabricIntegrationStateEnum = string;
+
+// @public
+export interface FabricIntegrationStatus {
+    readonly health?: FabricConnectionHealthEnum;
+    readonly issues?: FabricIssue[];
+    readonly lastChecked?: Date;
+    readonly resourceType?: FabricResourceTypeEnum;
+    readonly state?: FabricIntegrationStateEnum;
+}
+
+// @public
+export interface FabricIssue {
+    readonly code?: string;
+    readonly message?: string;
+    readonly severity?: string;
+    readonly target?: string;
+    readonly timestamp?: Date;
+}
+
+// @public
+export type FabricResourceTypeEnum = string;
+
+// @public
+export interface FrontendIPConfiguration {
+    name: string;
+    properties: FrontendIPConfigurationProperties;
+}
+
+// @public
+export interface FrontendIPConfigurationProperties {
+    privateIPAddress?: string;
+    privateIPAllocationMethod?: IpAllocationMethodEnum;
+    publicIPAddress?: PublicIPAddressArmReference;
+    subnet?: VirtualNetworkSubnetArmReference;
+}
+
+// @public
 export interface GalleryImage extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     properties?: GalleryImageProperties;
@@ -165,7 +241,6 @@ export interface GalleryImageProperties {
     sourceVirtualMachineId?: string;
     readonly status?: GalleryImageStatus;
     version?: GalleryImageVersion;
-    vmImageRepositoryCredentials?: VmImageRepositoryCredentials;
 }
 
 // @public
@@ -233,7 +308,7 @@ export interface GalleryImageTagsUpdate {
 // @public
 export interface GalleryImageVersion {
     name?: string;
-    properties?: GalleryImageVersionProperties;
+    storageProfile?: GalleryImageVersionStorageProfile;
 }
 
 // @public
@@ -367,6 +442,65 @@ export interface ImageArmReference {
 }
 
 // @public
+export type InboundNATRuleProtocol = string;
+
+// @public
+export interface InboundRule extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: InboundRuleProperties;
+}
+
+// @public
+export interface InboundRuleProperties {
+    backendIPConfiguration: IPConfigurationArmReference;
+    backendPort: number;
+    frontendPort: number;
+    protocol: InboundNATRuleProtocol;
+    readonly provisioningState?: ProvisioningStateEnum;
+    publicIPAddress: PublicIPAddressArmReference;
+    readonly status?: InboundRuleStatus;
+}
+
+// @public
+export interface InboundRulesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InboundRulesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InboundRulesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface InboundRulesListByNatGatewayOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface InboundRulesOperations {
+    createOrUpdate: (resourceGroupName: string, natGatewayName: string, inboundRuleName: string, resource: InboundRule, options?: InboundRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<InboundRule>, InboundRule>;
+    delete: (resourceGroupName: string, natGatewayName: string, inboundRuleName: string, options?: InboundRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, natGatewayName: string, inboundRuleName: string, options?: InboundRulesGetOptionalParams) => Promise<InboundRule>;
+    listByNatGateway: (resourceGroupName: string, natGatewayName: string, options?: InboundRulesListByNatGatewayOptionalParams) => PagedAsyncIterableIterator<InboundRule>;
+}
+
+// @public
+export interface InboundRuleStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    provisioningStatus?: InboundRuleStatusProvisioningStatus;
+}
+
+// @public
+export interface InboundRuleStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
 export interface InstanceViewStatus {
     code?: string;
     displayStatus?: string;
@@ -387,6 +521,11 @@ export type IpAllocationMethodEnum = string;
 export interface IPConfiguration {
     name?: string;
     properties?: IPConfigurationProperties;
+}
+
+// @public
+export interface IPConfigurationArmReference {
+    resourceId?: string;
 }
 
 // @public
@@ -414,6 +553,11 @@ export interface IPPoolInfo {
 
 // @public
 export type IPPoolTypeEnum = string;
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
 
 // @public
 export enum KnownAttestBootIntegrityPropertyEnum {
@@ -471,6 +615,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDiskCreateOption {
+    Copy = "Copy",
+    Empty = "Empty"
+}
+
+// @public
 export enum KnownDiskFileFormat {
     Vhd = "vhd",
     Vhdx = "vhdx"
@@ -482,6 +632,29 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownFabricConnectionHealthEnum {
+    Error = "Error",
+    Healthy = "Healthy",
+    Unknown = "Unknown",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownFabricIntegrationStateEnum {
+    Connected = "Connected",
+    Connecting = "Connecting",
+    Disconnected = "Disconnected",
+    Misconfigured = "Misconfigured",
+    NotApplicable = "NotApplicable"
+}
+
+// @public
+export enum KnownFabricResourceTypeEnum {
+    L2IsolationDomain = "L2IsolationDomain",
+    L3InternalNetwork = "L3InternalNetwork"
+}
+
+// @public
 export enum KnownGpuAssignmentTypeEnum {
     GpuDDA = "GpuDDA",
     GpuP = "GpuP"
@@ -489,8 +662,15 @@ export enum KnownGpuAssignmentTypeEnum {
 
 // @public
 export enum KnownHyperVGeneration {
+    NA = "NA",
     V1 = "V1",
     V2 = "V2"
+}
+
+// @public
+export enum KnownInboundNATRuleProtocol {
+    TCP = "Tcp",
+    UDP = "Udp"
 }
 
 // @public
@@ -503,6 +683,32 @@ export enum KnownIpAllocationMethodEnum {
 export enum KnownIPPoolTypeEnum {
     Vippool = "vippool",
     Vm = "vm"
+}
+
+// @public
+export enum KnownLoadBalancerBackendAddressAdminState {
+    Down = "Down",
+    Up = "Up"
+}
+
+// @public
+export enum KnownLoadBalancerProbeProtocol {
+    Http = "Http",
+    TCP = "Tcp"
+}
+
+// @public
+export enum KnownLoadBalancerRuleSessionPersistenceType {
+    Default = "Default",
+    SourceIP = "SourceIP",
+    SourceIPProtocol = "SourceIPProtocol"
+}
+
+// @public
+export enum KnownLoadBalancerRuleTransportProtocol {
+    All = "All",
+    TCP = "Tcp",
+    UDP = "Udp"
 }
 
 // @public
@@ -523,6 +729,13 @@ export enum KnownManagedServiceIdentityType {
 export enum KnownOperatingSystemTypes {
     Linux = "Linux",
     Windows = "Windows"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -553,6 +766,12 @@ export enum KnownProvisioningStateEnum {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPublicIPAddressType {
+    IPv4 = "IPv4",
+    IPv6 = "IPv6"
 }
 
 // @public
@@ -615,7 +834,10 @@ export enum KnownVersions {
     V20241001Preview = "2024-10-01-preview",
     V20250201Preview = "2025-02-01-preview",
     V20250401Preview = "2025-04-01-preview",
-    V20250601Preview = "2025-06-01-preview"
+    V20250601Preview = "2025-06-01-preview",
+    V20250901Preview = "2025-09-01-preview",
+    V20260201Preview = "2026-02-01-preview",
+    V20260401Preview = "2026-04-01-preview"
 }
 
 // @public
@@ -646,6 +868,138 @@ export enum KnownVmSizeEnum {
 }
 
 // @public
+export interface LoadBalancer extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: LoadBalancerProperties;
+}
+
+// @public
+export interface LoadBalancerBackendAddress {
+    name: string;
+    properties: LoadBalancerBackendAddressProperties;
+}
+
+// @public
+export type LoadBalancerBackendAddressAdminState = string;
+
+// @public
+export interface LoadBalancerBackendAddressPoolReference {
+    name: string;
+}
+
+// @public
+export interface LoadBalancerBackendAddressProperties {
+    adminState?: LoadBalancerBackendAddressAdminState;
+    readonly ipAddress?: string;
+    readonly logicalNetwork?: LogicalNetworkArmReference;
+    networkInterfaceIPConfiguration?: IPConfigurationArmReference;
+    readonly subnet?: VirtualNetworkSubnetArmReference;
+    readonly virtualNetwork?: VirtualNetworkArmReference;
+}
+
+// @public
+export interface LoadBalancerFrontendIPConfigurationReference {
+    name: string;
+}
+
+// @public
+export type LoadBalancerProbeProtocol = string;
+
+// @public
+export interface LoadBalancerProbeReference {
+    name: string;
+}
+
+// @public
+export interface LoadBalancerProperties {
+    backendAddressPools?: BackendAddressPool[];
+    frontendIPConfigurations: FrontendIPConfiguration[];
+    loadBalancingRules?: LoadBalancerRule[];
+    probes?: Probe[];
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: LoadBalancerStatus;
+}
+
+// @public
+export interface LoadBalancerRule {
+    name: string;
+    properties: LoadBalancerRuleProperties;
+}
+
+// @public
+export interface LoadBalancerRuleProperties {
+    backendAddressPool: LoadBalancerBackendAddressPoolReference;
+    backendPort: number;
+    frontendIPConfiguration: LoadBalancerFrontendIPConfigurationReference;
+    frontendPort: number;
+    idleTimeoutInMinutes?: number;
+    loadDistribution?: LoadBalancerRuleSessionPersistenceType;
+    probe?: LoadBalancerProbeReference;
+    protocol: LoadBalancerRuleTransportProtocol;
+}
+
+// @public
+export type LoadBalancerRuleSessionPersistenceType = string;
+
+// @public
+export type LoadBalancerRuleTransportProtocol = string;
+
+// @public
+export interface LoadBalancersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LoadBalancersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LoadBalancersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LoadBalancersListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LoadBalancersListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LoadBalancersOperations {
+    createOrUpdate: (resourceGroupName: string, loadBalancerName: string, resource: LoadBalancer, options?: LoadBalancersCreateOrUpdateOptionalParams) => PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
+    delete: (resourceGroupName: string, loadBalancerName: string, options?: LoadBalancersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams) => Promise<LoadBalancer>;
+    listAll: (options?: LoadBalancersListAllOptionalParams) => PagedAsyncIterableIterator<LoadBalancer>;
+    listByResourceGroup: (resourceGroupName: string, options?: LoadBalancersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LoadBalancer>;
+    updateTags: (resourceGroupName: string, loadBalancerName: string, properties: LoadBalancerTagsUpdate, options?: LoadBalancersUpdateTagsOptionalParams) => PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
+}
+
+// @public
+export interface LoadBalancerStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    provisioningStatus?: LoadBalancerStatusProvisioningStatus;
+}
+
+// @public
+export interface LoadBalancerStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface LoadBalancersUpdateTagsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LoadBalancerTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface LogicalNetwork extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     properties?: LogicalNetworkProperties;
@@ -659,6 +1013,7 @@ export interface LogicalNetworkArmReference {
 // @public
 export interface LogicalNetworkProperties {
     dhcpOptions?: LogicalNetworkPropertiesDhcpOptions;
+    fabricNetworkConfiguration?: ManagedNetworkFabricArmReference;
     readonly networkType?: LogicalNetworkTypeEnum;
     readonly provisioningState?: ProvisioningStateEnum;
     readonly status?: LogicalNetworkStatus;
@@ -707,6 +1062,7 @@ export interface LogicalNetworksOperations {
 export interface LogicalNetworkStatus {
     errorCode?: string;
     errorMessage?: string;
+    fabricIntegration?: FabricIntegrationStatus;
     provisioningStatus?: LogicalNetworkStatusProvisioningStatus;
 }
 
@@ -730,11 +1086,16 @@ export interface LogicalNetworksUpdateRequest {
 export type LogicalNetworkTypeEnum = string;
 
 // @public
+export interface ManagedNetworkFabricArmReference {
+    resourceId?: string;
+}
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -821,6 +1182,80 @@ export interface MarketplaceGalleryImageTagsUpdate {
 }
 
 // @public
+export interface NatGateway extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: NatGatewayProperties;
+}
+
+// @public
+export interface NatGatewayArmReference {
+    resourceId?: string;
+}
+
+// @public
+export interface NatGatewayProperties {
+    readonly provisioningState?: ProvisioningStateEnum;
+    publicIPAddresses?: PublicIPAddressArmReference[];
+    readonly status?: NatGatewayStatus;
+    readonly subnets?: VirtualNetworkSubnetArmReference[];
+}
+
+// @public
+export interface NatGatewaysCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NatGatewaysDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NatGatewaysGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NatGatewaysListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NatGatewaysListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NatGatewaysOperations {
+    createOrUpdate: (resourceGroupName: string, natGatewayName: string, resource: NatGateway, options?: NatGatewaysCreateOrUpdateOptionalParams) => PollerLike<OperationState<NatGateway>, NatGateway>;
+    delete: (resourceGroupName: string, natGatewayName: string, options?: NatGatewaysDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, natGatewayName: string, options?: NatGatewaysGetOptionalParams) => Promise<NatGateway>;
+    listAll: (options?: NatGatewaysListAllOptionalParams) => PagedAsyncIterableIterator<NatGateway>;
+    listByResourceGroup: (resourceGroupName: string, options?: NatGatewaysListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NatGateway>;
+    updateTags: (resourceGroupName: string, natGatewayName: string, properties: NatGatewayTagsUpdate, options?: NatGatewaysUpdateTagsOptionalParams) => PollerLike<OperationState<NatGateway>, NatGateway>;
+}
+
+// @public
+export interface NatGatewayStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    provisioningStatus?: NatGatewayStatusProvisioningStatus;
+}
+
+// @public
+export interface NatGatewayStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface NatGatewaysUpdateTagsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NatGatewayTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface NetworkInterface extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     properties?: NetworkInterfaceProperties;
@@ -833,6 +1268,7 @@ export interface NetworkInterfaceArmReference {
 
 // @public
 export interface NetworkInterfaceProperties {
+    bypassSdnPolicies?: boolean;
     createFromLocal?: boolean;
     dnsSettings?: InterfaceDNSSettings;
     ipConfigurations?: IPConfiguration[];
@@ -894,6 +1330,7 @@ export interface NetworkInterfacesUpdateOptionalParams extends OperationOptions 
 
 // @public
 export interface NetworkInterfacesUpdateProperties {
+    bypassSdnPolicies?: boolean;
     dnsSettings?: InterfaceDNSSettings;
     networkSecurityGroup?: NetworkSecurityGroupArmReference;
 }
@@ -988,6 +1425,48 @@ export interface NetworkSecurityGroupTagsUpdate {
 export type OperatingSystemTypes = string;
 
 // @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export type Origin = string;
+
+// @public
 export interface OsProfileUpdate {
     computerName?: string;
     linuxConfiguration?: OsProfileUpdateLinuxConfiguration;
@@ -1019,7 +1498,27 @@ export interface PageSettings {
 }
 
 // @public
+export interface PowerOffVirtualMachineOptions {
+    skipShutdown?: boolean;
+}
+
+// @public
 export type PowerStateEnum = string;
+
+// @public
+export interface Probe {
+    name: string;
+    properties: ProbeProperties;
+}
+
+// @public
+export interface ProbeProperties {
+    intervalInSeconds?: number;
+    numberOfProbes?: number;
+    port: number;
+    protocol: LoadBalancerProbeProtocol;
+    requestPath?: string;
+}
 
 // @public
 export type ProvisioningAction = string;
@@ -1030,6 +1529,72 @@ export type ProvisioningStateEnum = string;
 // @public
 export interface ProxyResource extends Resource {
 }
+
+// @public
+export interface PublicIPAddress extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: PublicIPAddressProperties;
+}
+
+// @public
+export interface PublicIPAddressArmReference {
+    resourceId?: string;
+}
+
+// @public
+export interface PublicIPAddressesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PublicIPAddressesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PublicIPAddressesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PublicIPAddressesListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PublicIPAddressesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PublicIPAddressesOperations {
+    createOrUpdate: (resourceGroupName: string, publicIPAddressName: string, resource: PublicIPAddress, options?: PublicIPAddressesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
+    delete: (resourceGroupName: string, publicIPAddressName: string, options?: PublicIPAddressesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, publicIPAddressName: string, options?: PublicIPAddressesGetOptionalParams) => Promise<PublicIPAddress>;
+    listAll: (options?: PublicIPAddressesListAllOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
+    listByResourceGroup: (resourceGroupName: string, options?: PublicIPAddressesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PublicIPAddress>;
+    updateTags: (resourceGroupName: string, publicIPAddressName: string, properties: PublicIPAddressTagsUpdate, options?: PublicIPAddressesUpdateTagsOptionalParams) => PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
+}
+
+// @public
+export interface PublicIPAddressesUpdateTagsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PublicIPAddressProperties {
+    ipAddress?: string;
+    ipAllocationScope?: string;
+    readonly ipConfiguration?: IPConfigurationArmReference;
+    readonly natGateway?: NatGatewayArmReference;
+    readonly provisioningState?: ProvisioningStateEnum;
+    publicIPAddressVersion?: PublicIPAddressType;
+}
+
+// @public
+export interface PublicIPAddressTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export type PublicIPAddressType = string;
 
 // @public
 export interface Resource {
@@ -1051,8 +1616,9 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export interface Route {
+    addressPrefix?: string;
     name?: string;
-    properties?: RouteProperties;
+    nextHopIpAddress?: string;
 }
 
 // @public
@@ -1065,7 +1631,7 @@ export interface RouteProperties {
 export interface RouteTable {
     readonly etag?: string;
     readonly name?: string;
-    properties?: RouteTableProperties;
+    routes?: Route[];
     readonly type?: string;
 }
 
@@ -1134,6 +1700,77 @@ export interface SecurityRulesOperations {
 
 // @public
 export type SecurityTypes = string;
+
+// @public
+export interface Snapshot extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: SnapshotProperties;
+}
+
+// @public
+export interface SnapshotProperties {
+    creationData?: CreationData;
+    readonly diskSizeBytes?: number;
+    readonly provisioningState?: ProvisioningStateEnum;
+    readonly status?: SnapshotStatus;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
+}
+
+// @public
+export interface SnapshotsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SnapshotsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SnapshotsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SnapshotsListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SnapshotsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SnapshotsOperations {
+    createOrUpdate: (resourceGroupName: string, snapshotName: string, resource: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
+    delete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) => Promise<Snapshot>;
+    listAll: (options?: SnapshotsListAllOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listByResourceGroup: (resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    update: (resourceGroupName: string, snapshotName: string, properties: SnapshotTagsUpdate, options?: SnapshotsUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
+}
+
+// @public
+export interface SnapshotStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    provisioningStatus?: SnapshotStatusProvisioningStatus;
+}
+
+// @public
+export interface SnapshotStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface SnapshotsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SnapshotTagsUpdate {
+    tags?: Record<string, string>;
+}
 
 // @public
 export interface SshConfiguration {
@@ -1232,8 +1869,16 @@ export interface StorageProfileUpdate {
 
 // @public
 export interface Subnet {
+    addressPrefix?: string;
+    addressPrefixes?: string[];
+    ipAllocationMethod?: IpAllocationMethodEnum;
+    ipConfigurationReferences?: SubnetIpConfigurationReference[];
+    ipPools?: IPPool[];
     name?: string;
-    properties?: SubnetProperties;
+    networkSecurityGroup?: NetworkSecurityGroupArmReference;
+    readonly provisioningState?: ProvisioningStateEnum;
+    routeTable?: RouteTable;
+    vlan?: number;
 }
 
 // @public
@@ -1249,6 +1894,7 @@ export interface SubnetProperties {
     ipConfigurationReferences?: SubnetIpConfigurationReference[];
     ipPools?: IPPool[];
     networkSecurityGroup?: NetworkSecurityGroupArmReference;
+    readonly provisioningState?: ProvisioningStateEnum;
     routeTable?: RouteTable;
     vlan?: number;
 }
@@ -1298,11 +1944,13 @@ export interface VirtualHardDiskProperties {
     blockSizeBytes?: number;
     containerId?: string;
     createFromLocal?: boolean;
+    creationData?: CreationData;
     diskFileFormat?: DiskFileFormat;
     diskSizeGB?: number;
     downloadUrl?: string;
     dynamic?: boolean;
     hyperVGeneration?: HyperVGeneration;
+    localVhdPath?: string;
     logicalSectorBytes?: number;
     maxShares?: number;
     physicalSectorBytes?: number;
@@ -1429,6 +2077,7 @@ export interface VirtualMachineInstanceProperties {
     httpProxyConfig?: HttpProxyConfiguration;
     readonly hyperVVmId?: string;
     readonly instanceView?: VirtualMachineInstanceView;
+    localVmName?: string;
     networkProfile?: VirtualMachineInstancePropertiesNetworkProfile;
     osProfile?: VirtualMachineInstancePropertiesOsProfile;
     placementProfile?: VirtualMachineInstancePropertiesPlacementProfile;
@@ -1552,6 +2201,7 @@ export interface VirtualMachineInstancesOperations {
     get: (resourceUri: string, options?: VirtualMachineInstancesGetOptionalParams) => Promise<VirtualMachineInstance>;
     list: (resourceUri: string, options?: VirtualMachineInstancesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineInstance>;
     pause: (resourceUri: string, options?: VirtualMachineInstancesPauseOptionalParams) => PollerLike<OperationState<void>, void>;
+    powerOff: (resourceUri: string, body: PowerOffVirtualMachineOptions, options?: VirtualMachineInstancesPowerOffOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     restart: (resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams) => PollerLike<OperationState<void>, void>;
     save: (resourceUri: string, options?: VirtualMachineInstancesSaveOptionalParams) => PollerLike<OperationState<void>, void>;
     start: (resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -1561,6 +2211,11 @@ export interface VirtualMachineInstancesOperations {
 
 // @public
 export interface VirtualMachineInstancesPauseOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineInstancesPowerOffOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1623,14 +2278,175 @@ export interface VirtualMachineInstanceView {
 }
 
 // @public
-export interface VMDiskSecurityProfile {
-    securityEncryptionType?: SecurityEncryptionType;
+export interface VirtualNetwork extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: VirtualNetworkProperties;
 }
 
 // @public
-export interface VmImageRepositoryCredentials {
-    password: string;
-    username: string;
+export interface VirtualNetworkAddressSpace {
+    addressPrefixes: string[];
+}
+
+// @public
+export interface VirtualNetworkArmReference {
+    resourceId?: string;
+}
+
+// @public
+export interface VirtualNetworkDhcpOptions {
+    dnsServers?: string[];
+}
+
+// @public
+export interface VirtualNetworkProperties {
+    addressSpace: VirtualNetworkAddressSpace;
+    dhcpOptions: VirtualNetworkDhcpOptions;
+    readonly provisioningState?: ProvisioningStateEnum;
+    status?: VirtualNetworkStatus;
+}
+
+// @public
+export interface VirtualNetworksCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualNetworksDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualNetworksGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualNetworksListAllOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualNetworksListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualNetworksOperations {
+    createOrUpdate: (resourceGroupName: string, virtualNetworkName: string, resource: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetwork>, VirtualNetwork>;
+    delete: (resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksGetOptionalParams) => Promise<VirtualNetwork>;
+    listAll: (options?: VirtualNetworksListAllOptionalParams) => PagedAsyncIterableIterator<VirtualNetwork>;
+    listByResourceGroup: (resourceGroupName: string, options?: VirtualNetworksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<VirtualNetwork>;
+    updateTags: (resourceGroupName: string, virtualNetworkName: string, properties: VirtualNetworkTagsUpdate, options?: VirtualNetworksUpdateTagsOptionalParams) => PollerLike<OperationState<VirtualNetwork>, VirtualNetwork>;
+}
+
+// @public
+export interface VirtualNetworkStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    provisioningStatus?: VirtualNetworkStatusProvisioningStatus;
+}
+
+// @public
+export interface VirtualNetworkStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface VirtualNetworkSubnet extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: VirtualNetworkSubnetProperties;
+}
+
+// @public
+export interface VirtualNetworkSubnetArmReference {
+    resourceId?: string;
+}
+
+// @public
+export interface VirtualNetworkSubnetIpConfigurationReference {
+    id?: string;
+}
+
+// @public
+export interface VirtualNetworkSubnetProperties {
+    addressPrefix: string;
+    readonly ipConfigurations?: VirtualNetworkSubnetIpConfigurationReference[];
+    natGateway?: NatGatewayArmReference;
+    networkSecurityGroup?: NetworkSecurityGroupArmReference;
+    readonly provisioningState?: ProvisioningStateEnum;
+    routeTable?: RouteTable;
+    readonly status?: VirtualNetworkSubnetStatus;
+}
+
+// @public
+export interface VirtualNetworkSubnetsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualNetworkSubnetsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualNetworkSubnetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualNetworkSubnetsListByVirtualNetworkOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VirtualNetworkSubnetsOperations {
+    createOrUpdate: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, resource: VirtualNetworkSubnet, options?: VirtualNetworkSubnetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkSubnet>, VirtualNetworkSubnet>;
+    delete: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: VirtualNetworkSubnetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: VirtualNetworkSubnetsGetOptionalParams) => Promise<VirtualNetworkSubnet>;
+    listByVirtualNetwork: (resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworkSubnetsListByVirtualNetworkOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkSubnet>;
+    update: (resourceGroupName: string, virtualNetworkName: string, subnetName: string, properties: VirtualNetworkSubnetUpdateRequest, options?: VirtualNetworkSubnetsUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkSubnet>, VirtualNetworkSubnet>;
+}
+
+// @public
+export interface VirtualNetworkSubnetStatus {
+    errorCode?: string;
+    errorMessage?: string;
+    provisioningStatus?: VirtualNetworkSubnetStatusProvisioningStatus;
+}
+
+// @public
+export interface VirtualNetworkSubnetStatusProvisioningStatus {
+    operationId?: string;
+    status?: Status;
+}
+
+// @public
+export interface VirtualNetworkSubnetsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualNetworkSubnetUpdateProperties {
+    natGateway?: NatGatewayArmReference;
+    networkSecurityGroup?: NetworkSecurityGroupArmReference;
+}
+
+// @public
+export interface VirtualNetworkSubnetUpdateRequest {
+    properties?: VirtualNetworkSubnetUpdateProperties;
+}
+
+// @public
+export interface VirtualNetworksUpdateTagsOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualNetworkTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VMDiskSecurityProfile {
+    securityEncryptionType?: SecurityEncryptionType;
 }
 
 // @public

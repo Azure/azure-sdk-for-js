@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a logical network.
  *
  * @summary the operation to delete a logical network.
- * x-ms-original-file: 2025-06-01-preview/LogicalNetworks_Delete.json
+ * x-ms-original-file: 2026-04-01-preview/LogicalNetworks_Delete.json
  */
 async function deleteLogicalNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

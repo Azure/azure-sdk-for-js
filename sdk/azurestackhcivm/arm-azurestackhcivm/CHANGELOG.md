@@ -1,4 +1,180 @@
 # Release History
+
+## 1.0.0-beta.2 (2026-05-12)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added operation group InboundRulesOperations
+  - Added operation group LoadBalancersOperations
+  - Added operation group NatGatewaysOperations
+  - Added operation group OperationsOperations
+  - Added operation group PublicIPAddressesOperations
+  - Added operation group SnapshotsOperations
+  - Added operation group VirtualNetworksOperations
+  - Added operation group VirtualNetworkSubnetsOperations
+  - Added operation VirtualMachineInstancesOperations.powerOff
+  - Class AzureStackHCIVMManagementClient has a new constructor "constructor(credential: TokenCredential, options?: AzureStackHCIVMManagementClientOptionalParams);"
+  - Added Interface BackendAddressPool
+  - Added Interface BackendAddressPoolProperties
+  - Added Interface CreationData
+  - Added Interface FabricIntegrationStatus
+  - Added Interface FabricIssue
+  - Added Interface FrontendIPConfiguration
+  - Added Interface FrontendIPConfigurationProperties
+  - Added Interface InboundRule
+  - Added Interface InboundRuleProperties
+  - Added Interface InboundRulesCreateOrUpdateOptionalParams
+  - Added Interface InboundRulesDeleteOptionalParams
+  - Added Interface InboundRulesGetOptionalParams
+  - Added Interface InboundRulesListByNatGatewayOptionalParams
+  - Added Interface InboundRuleStatus
+  - Added Interface InboundRuleStatusProvisioningStatus
+  - Added Interface IPConfigurationArmReference
+  - Added Interface LoadBalancer
+  - Added Interface LoadBalancerBackendAddress
+  - Added Interface LoadBalancerBackendAddressPoolReference
+  - Added Interface LoadBalancerBackendAddressProperties
+  - Added Interface LoadBalancerFrontendIPConfigurationReference
+  - Added Interface LoadBalancerProbeReference
+  - Added Interface LoadBalancerProperties
+  - Added Interface LoadBalancerRule
+  - Added Interface LoadBalancerRuleProperties
+  - Added Interface LoadBalancersCreateOrUpdateOptionalParams
+  - Added Interface LoadBalancersDeleteOptionalParams
+  - Added Interface LoadBalancersGetOptionalParams
+  - Added Interface LoadBalancersListAllOptionalParams
+  - Added Interface LoadBalancersListByResourceGroupOptionalParams
+  - Added Interface LoadBalancerStatus
+  - Added Interface LoadBalancerStatusProvisioningStatus
+  - Added Interface LoadBalancersUpdateTagsOptionalParams
+  - Added Interface LoadBalancerTagsUpdate
+  - Added Interface ManagedNetworkFabricArmReference
+  - Added Interface NatGateway
+  - Added Interface NatGatewayArmReference
+  - Added Interface NatGatewayProperties
+  - Added Interface NatGatewaysCreateOrUpdateOptionalParams
+  - Added Interface NatGatewaysDeleteOptionalParams
+  - Added Interface NatGatewaysGetOptionalParams
+  - Added Interface NatGatewaysListAllOptionalParams
+  - Added Interface NatGatewaysListByResourceGroupOptionalParams
+  - Added Interface NatGatewayStatus
+  - Added Interface NatGatewayStatusProvisioningStatus
+  - Added Interface NatGatewaysUpdateTagsOptionalParams
+  - Added Interface NatGatewayTagsUpdate
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OperationStatusResult
+  - Added Interface PowerOffVirtualMachineOptions
+  - Added Interface Probe
+  - Added Interface ProbeProperties
+  - Added Interface PublicIPAddress
+  - Added Interface PublicIPAddressArmReference
+  - Added Interface PublicIPAddressesCreateOrUpdateOptionalParams
+  - Added Interface PublicIPAddressesDeleteOptionalParams
+  - Added Interface PublicIPAddressesGetOptionalParams
+  - Added Interface PublicIPAddressesListAllOptionalParams
+  - Added Interface PublicIPAddressesListByResourceGroupOptionalParams
+  - Added Interface PublicIPAddressesUpdateTagsOptionalParams
+  - Added Interface PublicIPAddressProperties
+  - Added Interface PublicIPAddressTagsUpdate
+  - Added Interface Snapshot
+  - Added Interface SnapshotProperties
+  - Added Interface SnapshotsCreateOrUpdateOptionalParams
+  - Added Interface SnapshotsDeleteOptionalParams
+  - Added Interface SnapshotsGetOptionalParams
+  - Added Interface SnapshotsListAllOptionalParams
+  - Added Interface SnapshotsListByResourceGroupOptionalParams
+  - Added Interface SnapshotStatus
+  - Added Interface SnapshotStatusProvisioningStatus
+  - Added Interface SnapshotsUpdateOptionalParams
+  - Added Interface SnapshotTagsUpdate
+  - Added Interface VirtualMachineInstancesPowerOffOptionalParams
+  - Added Interface VirtualNetwork
+  - Added Interface VirtualNetworkAddressSpace
+  - Added Interface VirtualNetworkArmReference
+  - Added Interface VirtualNetworkDhcpOptions
+  - Added Interface VirtualNetworkProperties
+  - Added Interface VirtualNetworksCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworksDeleteOptionalParams
+  - Added Interface VirtualNetworksGetOptionalParams
+  - Added Interface VirtualNetworksListAllOptionalParams
+  - Added Interface VirtualNetworksListByResourceGroupOptionalParams
+  - Added Interface VirtualNetworkStatus
+  - Added Interface VirtualNetworkStatusProvisioningStatus
+  - Added Interface VirtualNetworkSubnet
+  - Added Interface VirtualNetworkSubnetArmReference
+  - Added Interface VirtualNetworkSubnetIpConfigurationReference
+  - Added Interface VirtualNetworkSubnetProperties
+  - Added Interface VirtualNetworkSubnetsCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkSubnetsDeleteOptionalParams
+  - Added Interface VirtualNetworkSubnetsGetOptionalParams
+  - Added Interface VirtualNetworkSubnetsListByVirtualNetworkOptionalParams
+  - Added Interface VirtualNetworkSubnetStatus
+  - Added Interface VirtualNetworkSubnetStatusProvisioningStatus
+  - Added Interface VirtualNetworkSubnetsUpdateOptionalParams
+  - Added Interface VirtualNetworkSubnetUpdateProperties
+  - Added Interface VirtualNetworkSubnetUpdateRequest
+  - Added Interface VirtualNetworksUpdateTagsOptionalParams
+  - Added Interface VirtualNetworkTagsUpdate
+  - Interface GalleryImageVersion has a new optional parameter storageProfile
+  - Interface LogicalNetworkProperties has a new optional parameter fabricNetworkConfiguration
+  - Interface LogicalNetworkStatus has a new optional parameter fabricIntegration
+  - Interface NetworkInterfaceProperties has a new optional parameter bypassSdnPolicies
+  - Interface NetworkInterfacesUpdateProperties has a new optional parameter bypassSdnPolicies
+  - Interface Route has a new optional parameter addressPrefix
+  - Interface Route has a new optional parameter nextHopIpAddress
+  - Interface RouteTable has a new optional parameter routes
+  - Interface Subnet has a new optional parameter addressPrefix
+  - Interface Subnet has a new optional parameter addressPrefixes
+  - Interface Subnet has a new optional parameter ipAllocationMethod
+  - Interface Subnet has a new optional parameter ipConfigurationReferences
+  - Interface Subnet has a new optional parameter ipPools
+  - Interface Subnet has a new optional parameter networkSecurityGroup
+  - Interface Subnet has a new optional parameter provisioningState
+  - Interface Subnet has a new optional parameter routeTable
+  - Interface Subnet has a new optional parameter vlan
+  - Interface SubnetProperties has a new optional parameter provisioningState
+  - Interface VirtualHardDiskProperties has a new optional parameter creationData
+  - Interface VirtualHardDiskProperties has a new optional parameter localVhdPath
+  - Interface VirtualMachineInstanceProperties has a new optional parameter localVmName
+  - Added Type Alias ActionType
+  - Added Type Alias DiskCreateOption
+  - Added Type Alias FabricConnectionHealthEnum
+  - Added Type Alias FabricIntegrationStateEnum
+  - Added Type Alias FabricResourceTypeEnum
+  - Added Type Alias InboundNATRuleProtocol
+  - Added Type Alias LoadBalancerBackendAddressAdminState
+  - Added Type Alias LoadBalancerProbeProtocol
+  - Added Type Alias LoadBalancerRuleSessionPersistenceType
+  - Added Type Alias LoadBalancerRuleTransportProtocol
+  - Added Type Alias Origin
+  - Added Type Alias PublicIPAddressType
+  - Added Enum KnownActionType
+  - Added Enum KnownDiskCreateOption
+  - Added Enum KnownFabricConnectionHealthEnum
+  - Added Enum KnownFabricIntegrationStateEnum
+  - Added Enum KnownFabricResourceTypeEnum
+  - Added Enum KnownInboundNATRuleProtocol
+  - Added Enum KnownLoadBalancerBackendAddressAdminState
+  - Added Enum KnownLoadBalancerProbeProtocol
+  - Added Enum KnownLoadBalancerRuleSessionPersistenceType
+  - Added Enum KnownLoadBalancerRuleTransportProtocol
+  - Added Enum KnownOrigin
+  - Added Enum KnownPublicIPAddressType
+  - Enum KnownHyperVGeneration has a new value NA
+  - Enum KnownVersions has a new value V20250901Preview
+  - Enum KnownVersions has a new value V20260201Preview
+  - Enum KnownVersions has a new value V20260401Preview
+
+### Breaking Changes
+  - Removed Interface VmImageRepositoryCredentials
+  - Interface GalleryImageProperties no longer has parameter vmImageRepositoryCredentials
+  - Interface GalleryImageVersion no longer has parameter properties
+  - Interface Route no longer has parameter properties
+  - Interface RouteTable no longer has parameter properties
+  - Interface Subnet no longer has parameter properties
+
     
 ## 1.0.0-beta.1 (2025-08-14)
 

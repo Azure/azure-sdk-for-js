@@ -10,12 +10,12 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type VirtualHardDisksUploadOptionalParams,
-  type VirtualHardDisksListAllOptionalParams,
-  type VirtualHardDisksListByResourceGroupOptionalParams,
-  type VirtualHardDisksDeleteOptionalParams,
-  type VirtualHardDisksUpdateOptionalParams,
-  type VirtualHardDisksCreateOrUpdateOptionalParams,
-  type VirtualHardDisksGetOptionalParams,
+export type {
+  VirtualHardDisksUploadOptionalParams,
+  VirtualHardDisksListAllOptionalParams,
+  VirtualHardDisksListByResourceGroupOptionalParams,
+  VirtualHardDisksDeleteOptionalParams,
+  VirtualHardDisksUpdateOptionalParams,
+  VirtualHardDisksCreateOrUpdateOptionalParams,
+  VirtualHardDisksGetOptionalParams,
 } from "./options.js";

@@ -1,17 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementClient } from "./azureStackHcivmManagementClient.js";
-import { _$deleteDeserialize, _createDeserialize } from "./api/guestAgents/operations.js";
+import type { AzureStackHCIVMManagementClient } from "./azureStackHcivmManagementClient.js";
 import {
+  _$deleteDeserialize,
+  _updateTagsDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/loadBalancers/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeInboundRules,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeInboundRules,
+} from "./api/inboundRules/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeNatGateways,
+  _updateTagsDeserialize as _updateTagsDeserializeNatGateways,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeNatGateways,
+} from "./api/natGateways/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializePublicIPAddresses,
+  _updateTagsDeserialize as _updateTagsDeserializePublicIPAddresses,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializePublicIPAddresses,
+} from "./api/publicIPAddresses/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeVirtualNetworkSubnets,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualNetworkSubnets,
+} from "./api/virtualNetworkSubnets/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeVirtualNetworks,
+  _updateTagsDeserialize as _updateTagsDeserializeVirtualNetworks,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualNetworks,
+} from "./api/virtualNetworks/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeGuestAgents,
+  _createDeserialize,
+} from "./api/guestAgents/operations.js";
+import {
+  _powerOffDeserialize,
   _saveDeserialize,
   _pauseDeserialize,
   _restartDeserialize,
   _stopDeserialize,
   _startDeserialize,
   _$deleteDeserialize as _$deleteDeserializeVirtualMachineInstances,
-  _updateDeserialize,
-  _createOrUpdateDeserialize,
+  _updateDeserialize as _updateDeserializeVirtualMachineInstances,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineInstances,
 } from "./api/virtualMachineInstances/operations.js";
 import {
   _uploadDeserialize,
@@ -25,12 +58,17 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeStorageContainers,
 } from "./api/storageContainers/operations.js";
 import {
+  _$deleteDeserialize as _$deleteDeserializeSnapshots,
+  _updateDeserialize as _updateDeserializeSnapshots,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSnapshots,
+} from "./api/snapshots/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeSecurityRules,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeSecurityRules,
 } from "./api/securityRules/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeNetworkSecurityGroups,
-  _updateTagsDeserialize,
+  _updateTagsDeserialize as _updateTagsDeserializeNetworkSecurityGroups,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeNetworkSecurityGroups,
 } from "./api/networkSecurityGroups/operations.js";
 import {
@@ -54,14 +92,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeGalleryImages,
 } from "./api/galleryImages/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -106,6 +140,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -116,95 +151,141 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/loadBalancers/{loadBalancerName}":
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/loadBalancers/{loadBalancerName}":
+    { deserializer: _updateTagsDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/loadBalancers/{loadBalancerName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/natGateways/{natGatewayName}/inboundRules/{inboundRuleName}":
+    { deserializer: _$deleteDeserializeInboundRules, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/natGateways/{natGatewayName}/inboundRules/{inboundRuleName}":
     {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default":
-    {
-      deserializer: _createDeserialize,
+      deserializer: _createOrUpdateDeserializeInboundRules,
       expectedStatuses: ["200", "201", "202"],
     },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/natGateways/{natGatewayName}":
+    { deserializer: _$deleteDeserializeNatGateways, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/natGateways/{natGatewayName}":
+    { deserializer: _updateTagsDeserializeNatGateways, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/natGateways/{natGatewayName}":
+    {
+      deserializer: _createOrUpdateDeserializeNatGateways,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/publicIPAddresses/{publicIPAddressName}":
+    { deserializer: _$deleteDeserializePublicIPAddresses, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/publicIPAddresses/{publicIPAddressName}":
+    {
+      deserializer: _updateTagsDeserializePublicIPAddresses,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/publicIPAddresses/{publicIPAddressName}":
+    {
+      deserializer: _createOrUpdateDeserializePublicIPAddresses,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}":
+    {
+      deserializer: _$deleteDeserializeVirtualNetworkSubnets,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}":
+    {
+      deserializer: _createOrUpdateDeserializeVirtualNetworkSubnets,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualNetworks/{virtualNetworkName}":
+    { deserializer: _$deleteDeserializeVirtualNetworks, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualNetworks/{virtualNetworkName}":
+    {
+      deserializer: _updateTagsDeserializeVirtualNetworks,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualNetworks/{virtualNetworkName}":
+    {
+      deserializer: _createOrUpdateDeserializeVirtualNetworks,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default":
+    { deserializer: _$deleteDeserializeGuestAgents, expectedStatuses: ["202", "204", "200"] },
+  "PUT /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default":
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/powerOff":
+    { deserializer: _powerOffDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/save": {
     deserializer: _saveDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/pause": {
     deserializer: _pauseDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/restart": {
     deserializer: _restartDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/stop": {
     deserializer: _stopDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/start": {
     deserializer: _startDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
   "DELETE /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default": {
     deserializer: _$deleteDeserializeVirtualMachineInstances,
     expectedStatuses: ["202", "204", "200"],
   },
   "PATCH /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default": {
-    deserializer: _updateDeserialize,
-    expectedStatuses: ["200", "202"],
+    deserializer: _updateDeserializeVirtualMachineInstances,
+    expectedStatuses: ["200", "202", "201"],
   },
   "PUT /{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default": {
-    deserializer: _createOrUpdateDeserialize,
+    deserializer: _createOrUpdateDeserializeVirtualMachineInstances,
     expectedStatuses: ["200", "201", "202"],
   },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}/upload":
-    { deserializer: _uploadDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _uploadDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}":
-    {
-      deserializer: _$deleteDeserializeVirtualHardDisks,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeVirtualHardDisks, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}":
-    {
-      deserializer: _updateDeserializeVirtualHardDisks,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeVirtualHardDisks, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}":
     {
       deserializer: _createOrUpdateDeserializeVirtualHardDisks,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}":
-    {
-      deserializer: _$deleteDeserializeStorageContainers,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeStorageContainers, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}":
-    {
-      deserializer: _updateDeserializeStorageContainers,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeStorageContainers, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}":
     {
       deserializer: _createOrUpdateDeserializeStorageContainers,
       expectedStatuses: ["200", "201", "202"],
     },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/snapshots/{snapshotName}":
+    { deserializer: _$deleteDeserializeSnapshots, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/snapshots/{snapshotName}":
+    { deserializer: _updateDeserializeSnapshots, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/snapshots/{snapshotName}":
+    { deserializer: _createOrUpdateDeserializeSnapshots, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}":
-    {
-      deserializer: _$deleteDeserializeSecurityRules,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeSecurityRules, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}":
     {
       deserializer: _createOrUpdateDeserializeSecurityRules,
@@ -216,22 +297,19 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkSecurityGroups/{networkSecurityGroupName}":
-    { deserializer: _updateTagsDeserialize, expectedStatuses: ["200", "202"] },
+    {
+      deserializer: _updateTagsDeserializeNetworkSecurityGroups,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkSecurityGroups/{networkSecurityGroupName}":
     {
       deserializer: _createOrUpdateDeserializeNetworkSecurityGroups,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}":
-    {
-      deserializer: _$deleteDeserializeNetworkInterfaces,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeNetworkInterfaces, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}":
-    {
-      deserializer: _updateDeserializeNetworkInterfaces,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeNetworkInterfaces, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}":
     {
       deserializer: _createOrUpdateDeserializeNetworkInterfaces,
@@ -245,7 +323,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}":
     {
       deserializer: _updateDeserializeMarketplaceGalleryImages,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}":
     {
@@ -253,30 +331,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}":
-    {
-      deserializer: _$deleteDeserializeLogicalNetworks,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeLogicalNetworks, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}":
-    {
-      deserializer: _updateDeserializeLogicalNetworks,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeLogicalNetworks, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}":
     {
       deserializer: _createOrUpdateDeserializeLogicalNetworks,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}":
-    {
-      deserializer: _$deleteDeserializeGalleryImages,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeGalleryImages, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}":
-    {
-      deserializer: _updateDeserializeGalleryImages,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeGalleryImages, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}":
     {
       deserializer: _createOrUpdateDeserializeGalleryImages,
@@ -352,4 +418,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

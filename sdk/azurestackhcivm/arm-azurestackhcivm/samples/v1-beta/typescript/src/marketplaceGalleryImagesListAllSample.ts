@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the marketplace gallery images in the specified subscription. Use the nextLink property in the response to get the next page of marketplace gallery images.
  *
  * @summary lists all of the marketplace gallery images in the specified subscription. Use the nextLink property in the response to get the next page of marketplace gallery images.
- * x-ms-original-file: 2025-06-01-preview/MarketplaceGalleryImages_ListAll.json
+ * x-ms-original-file: 2026-04-01-preview/MarketplaceGalleryImages_ListAll.json
  */
 async function listMarketplaceGalleryImageBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

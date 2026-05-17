@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the virtual hard disks in the specified subscription. Use the nextLink property in the response to get the next page of virtual hard disks.
  *
  * @summary lists all of the virtual hard disks in the specified subscription. Use the nextLink property in the response to get the next page of virtual hard disks.
- * x-ms-original-file: 2025-06-01-preview/VirtualHardDisks_ListAll.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualHardDisks_ListAll.json
  */
 async function listVirtualHardDiskBySubscription() {
   const credential = new DefaultAzureCredential();

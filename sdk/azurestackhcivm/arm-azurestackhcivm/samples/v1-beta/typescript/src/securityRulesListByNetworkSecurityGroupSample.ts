@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all security rules in a Network Security Group.
  *
  * @summary gets all security rules in a Network Security Group.
- * x-ms-original-file: 2025-06-01-preview/SecurityRules_ListByNetworkSecurityGroup.json
+ * x-ms-original-file: 2026-04-01-preview/SecurityRules_ListByNetworkSecurityGroup.json
  */
 async function listNetworkSecurityRulesInNetworkSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

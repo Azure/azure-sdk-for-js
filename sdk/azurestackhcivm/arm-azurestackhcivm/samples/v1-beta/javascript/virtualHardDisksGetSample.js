@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a virtual hard disk
  *
  * @summary gets a virtual hard disk
- * x-ms-original-file: 2025-06-01-preview/VirtualHardDisks_Get.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualHardDisks_Get.json
  */
 async function getVirtualHardDisk() {
   const credential = new DefaultAzureCredential();

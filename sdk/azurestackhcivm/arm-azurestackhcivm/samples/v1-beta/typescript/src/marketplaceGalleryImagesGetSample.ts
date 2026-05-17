@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a marketplace gallery image
  *
  * @summary gets a marketplace gallery image
- * x-ms-original-file: 2025-06-01-preview/MarketplaceGalleryImages_Get.json
+ * x-ms-original-file: 2026-04-01-preview/MarketplaceGalleryImages_Get.json
  */
 async function getMarketplaceGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();

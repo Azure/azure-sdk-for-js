@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified network security group.
  *
  * @summary gets the specified network security group.
- * x-ms-original-file: 2025-06-01-preview/NetworkSecurityGroups_Get.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityGroups_Get.json
  */
 async function getNetworkSecurityGroup() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all network security groups in a resource group.
  *
  * @summary gets all network security groups in a resource group.
- * x-ms-original-file: 2025-06-01-preview/NetworkSecurityGroups_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityGroups_ListByResourceGroup.json
  */
 async function listNetworkSecurityGroupsInResourceGroup() {
   const credential = new DefaultAzureCredential();

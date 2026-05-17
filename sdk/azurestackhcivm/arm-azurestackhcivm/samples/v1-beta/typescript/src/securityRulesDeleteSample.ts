@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified security rule.
  *
  * @summary deletes the specified security rule.
- * x-ms-original-file: 2025-06-01-preview/SecurityRules_Delete.json
+ * x-ms-original-file: 2026-04-01-preview/SecurityRules_Delete.json
  */
 async function securityRulesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

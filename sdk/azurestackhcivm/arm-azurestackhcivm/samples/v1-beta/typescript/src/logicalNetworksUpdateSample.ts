@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a logical network.
  *
  * @summary the operation to update a logical network.
- * x-ms-original-file: 2025-06-01-preview/LogicalNetworks_Update.json
+ * x-ms-original-file: 2026-04-01-preview/LogicalNetworks_Update.json
  */
 async function updateLogicalNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

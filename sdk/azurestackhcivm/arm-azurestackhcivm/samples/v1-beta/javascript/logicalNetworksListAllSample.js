@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the logical networks in the specified subscription. Use the nextLink property in the response to get the next page of logical networks.
  *
  * @summary lists all of the logical networks in the specified subscription. Use the nextLink property in the response to get the next page of logical networks.
- * x-ms-original-file: 2025-06-01-preview/LogicalNetworks_ListAll.json
+ * x-ms-original-file: 2026-04-01-preview/LogicalNetworks_ListAll.json
  */
 async function listLogicalNetworkBySubscription() {
   const credential = new DefaultAzureCredential();

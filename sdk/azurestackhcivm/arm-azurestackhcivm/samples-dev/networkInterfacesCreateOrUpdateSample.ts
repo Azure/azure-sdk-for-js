@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
  *
  * @summary the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces_CreateOrUpdate.json
  */
-
-import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function putNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -41,7 +40,7 @@ async function putNetworkInterface(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
  *
  * @summary the operation to create or update a network interface. Please note some properties can be set only during network interface creation.
- * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces__CreateOrUpdate_CreateFromLocal.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkInterfaces__CreateOrUpdate_CreateFromLocal.json
  */
 async function createNetworkInterfaceFromLocal(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a logical network. Please note some properties can be set only during logical network creation.
  *
  * @summary the operation to create or update a logical network. Please note some properties can be set only during logical network creation.
- * x-ms-original-file: 2025-06-01-preview/LogicalNetworks_CreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/LogicalNetworks_CreateOrUpdate.json
  */
 async function putLogicalNetwork() {
   const credential = new DefaultAzureCredential();

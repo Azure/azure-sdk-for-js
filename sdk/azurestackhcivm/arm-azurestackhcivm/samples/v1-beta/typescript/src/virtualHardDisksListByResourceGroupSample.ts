@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the virtual hard disks in the specified resource group. Use the nextLink property in the response to get the next page of virtual hard disks.
  *
  * @summary lists all of the virtual hard disks in the specified resource group. Use the nextLink property in the response to get the next page of virtual hard disks.
- * x-ms-original-file: 2025-06-01-preview/VirtualHardDisks_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualHardDisks_ListByResourceGroup.json
  */
 async function listVirtualHardDiskByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

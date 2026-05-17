@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to update a storage container.
  *
  * @summary the operation to update a storage container.
- * x-ms-original-file: 2025-06-01-preview/StorageContainers_Update.json
+ * x-ms-original-file: 2026-04-01-preview/StorageContainers_Update.json
  */
 async function updateStorageContainer() {
   const credential = new DefaultAzureCredential();
