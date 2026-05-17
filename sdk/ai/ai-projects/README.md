@@ -69,8 +69,12 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Skills operations (preview)](#skills-operations-preview)
   - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
+  - [Experimental feature gate](#experimental-feature-gate)
+  - [Getting started with tracing](#getting-started-with-tracing)
   - [Installation](#installation)
   - [How to enable tracing](#how-to-enable-tracing)
+  - [Enabling content recording](#enabling-content-recording)
+  - [Enabling trace context propagation](#enabling-trace-context-propagation)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -1267,33 +1271,136 @@ See the full sample code in [toolboxesCrud.ts](https://github.com/Azure/azure-sd
 
 ## Tracing
 
-**Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
+### Experimental feature gate
 
-You can add an Application Insights Azure resource to your Microsoft Foundry project. See the Tracing tab in your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
+**Important:** GenAI tracing instrumentation is an experimental preview feature. Spans, attributes, and events may be modified in future versions. To use it, you must explicitly opt in by calling `enableGenAITracing` with the `experimental` option set to `true`, or by setting the environment variable:
+
+```bash
+AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING=true
+```
+
+Only enable this feature after reviewing your requirements and understanding that the tracing behavior may change in future versions.
+
+### Getting started with tracing
+
+You can add an Application Insights Azure resource to your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe traces in Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
 
 ### Installation
 
+To send traces to Azure Monitor:
+
 ```bash
-npm install @azure/monitor-opentelemetry@^1.14.2 @opentelemetry/api@^1.9.0
+npm install @azure/monitor-opentelemetry @opentelemetry/api
+```
+
+To print traces to the console (useful for local development):
+
+```bash
+npm install @opentelemetry/sdk-trace-node @opentelemetry/api @opentelemetry/instrumentation @azure/opentelemetry-instrumentation-azure-sdk
 ```
 
 ### How to enable tracing
 
+The `enableGenAITracing` function accepts an options object with the following properties:
+
+| Option | Environment Variable | Default | Description |
+|---|---|---|---|
+| `contentRecording` | `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` | `false` | Capture prompt and completion content in traces |
+| `traceContextPropagation` | `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` | `true` | Inject W3C trace context headers into requests |
+| `experimental` | `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING` | `false` | Acknowledge the experimental nature of this feature |
+
+When an option is passed explicitly, it takes precedence over the corresponding environment variable. When omitted, the environment variable is checked.
+
+#### Azure Monitor tracing
+
 Here is a code sample that shows how to enable Azure Monitor tracing:
 
-```ts snippet:tracing
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
+```ts snippet:tracing_azure_monitor
+import { AIProjectClient, enableGenAITracing } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 
-const TELEMETRY_CONNECTION_STRING = process.env["TELEMETRY_CONNECTION_STRING"];
-const options: AzureMonitorOpenTelemetryOptions = {
-  azureMonitorExporterOptions: {
-    connectionString: TELEMETRY_CONNECTION_STRING,
-  },
-};
-useAzureMonitor(options);
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+// Get Application Insights connection string from the project
+const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
+// Configure Azure Monitor tracing
+useAzureMonitor({ azureMonitorExporterOptions: { connectionString } });
+// Enable GenAI tracing (experimental)
+enableGenAITracing({
+  contentRecording: false,
+  traceContextPropagation: true,
+  experimental: true,
+});
 ```
 
-See the full sample code in [remoteTelemetry.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/telemetry/remoteTelemetry.ts).
+You may also want to create a span for your scenario:
+
+```ts snippet:tracing_create_span
+import { trace, context } from "@opentelemetry/api";
+
+const tracer = trace.getTracer("MyScenario");
+const span = tracer.startSpan("myOperation");
+const ctx = trace.setSpan(context.active(), span);
+await context.with(ctx, async () => {
+  // Your agent operations here
+});
+span.end();
+```
+
+See the full sample code in [agentBasicWithAzureMonitorTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithAzureMonitorTracing.ts).
+
+#### Console tracing
+
+For local development, you can print traces to the console:
+
+```ts snippet:tracing_console
+import {
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+  ConsoleSpanExporter,
+} from "@opentelemetry/sdk-trace-node";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+import { enableGenAITracing } from "@azure/ai-projects";
+
+// Set up OpenTelemetry with a console exporter
+const provider = new NodeTracerProvider({
+  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+});
+provider.register();
+// Bridge @azure/core-tracing to OpenTelemetry
+registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
+// Enable GenAI tracing (experimental)
+enableGenAITracing({
+  contentRecording: false,
+  traceContextPropagation: true,
+  experimental: true,
+});
+```
+
+See the full sample code in [agentBasicWithConsoleTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithConsoleTracing.ts).
+
+### Enabling content recording
+
+Content recording controls whether message contents and tool call details (such as parameters and return values) are captured in traces. This data may include sensitive user information.
+
+To enable content recording, pass `contentRecording: true` to `enableGenAITracing()`, or set the environment variable `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` to `true`. Content recording defaults to `false`.
+
+### Enabling trace context propagation
+
+Trace context propagation allows client-side spans to be correlated with server-side spans from Azure OpenAI and other Azure services. When enabled, the SDK automatically injects W3C Trace Context headers (`traceparent` and `tracestate`) into HTTP requests made by OpenAI clients obtained via `project.getOpenAIClient()`.
+
+This ensures that all operations within a distributed trace share the same trace ID, providing end-to-end visibility across your application and Azure services in your observability backend.
+
+Trace context propagation is enabled by default. To disable it, pass `traceContextPropagation: false` to `enableGenAITracing()`, or set the environment variable `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` to `false`.
+
+**Important security and privacy considerations:**
+
+- **Trace IDs**: When trace context propagation is enabled, trace IDs are sent to Azure OpenAI and other external services.
+- **Request correlation**: Trace IDs allow Azure services to correlate requests from the same session or user across multiple API calls, which may have privacy implications depending on your use case.
+
+Only enable trace context propagation after carefully reviewing your observability, privacy, and security requirements.
 
 ## Troubleshooting
 
