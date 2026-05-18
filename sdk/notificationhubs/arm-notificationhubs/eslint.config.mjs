@@ -9,6 +9,10 @@ export default [
         "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
         "@azure/azure-sdk/ts-package-json-files-required": "off",
         "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
+        "@azure/azure-sdk/github-source-headers": "off",
+        "@typescript-eslint/no-use-before-define": "warn",
+        eqeqeq: "warn",
+        "prefer-const": "warn",
         "tsdoc/syntax": "warn"
       }
     }
