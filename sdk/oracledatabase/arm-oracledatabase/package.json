@@ -9,7 +9,6 @@
   "autoPublish": false,
   "type": "module",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "keywords": [
     "node",
     "azure",
@@ -70,14 +69,13 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
-    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -87,8 +85,8 @@
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
@@ -104,14 +102,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -119,16 +109,16 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      },
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
       }
     },
     "./api": {
       "browser": {
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
       },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
@@ -144,10 +134,6 @@
         "types": "./dist/browser/api/dbVersions/index.d.ts",
         "default": "./dist/browser/api/dbVersions/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/dbVersions/index.d.ts",
-        "default": "./dist/react-native/api/dbVersions/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/dbVersions/index.d.ts",
         "default": "./dist/esm/api/dbVersions/index.js"
@@ -161,10 +147,6 @@
       "browser": {
         "types": "./dist/browser/api/dbSystems/index.d.ts",
         "default": "./dist/browser/api/dbSystems/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/dbSystems/index.d.ts",
-        "default": "./dist/react-native/api/dbSystems/index.js"
       },
       "import": {
         "types": "./dist/esm/api/dbSystems/index.d.ts",
@@ -180,10 +162,6 @@
         "types": "./dist/browser/api/resourceAnchors/index.d.ts",
         "default": "./dist/browser/api/resourceAnchors/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/resourceAnchors/index.d.ts",
-        "default": "./dist/react-native/api/resourceAnchors/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/resourceAnchors/index.d.ts",
         "default": "./dist/esm/api/resourceAnchors/index.js"
@@ -197,10 +175,6 @@
       "browser": {
         "types": "./dist/browser/api/networkAnchors/index.d.ts",
         "default": "./dist/browser/api/networkAnchors/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/networkAnchors/index.d.ts",
-        "default": "./dist/react-native/api/networkAnchors/index.js"
       },
       "import": {
         "types": "./dist/esm/api/networkAnchors/index.d.ts",
@@ -216,10 +190,6 @@
         "types": "./dist/browser/api/exascaleDbStorageVaults/index.d.ts",
         "default": "./dist/browser/api/exascaleDbStorageVaults/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/exascaleDbStorageVaults/index.d.ts",
-        "default": "./dist/react-native/api/exascaleDbStorageVaults/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/exascaleDbStorageVaults/index.d.ts",
         "default": "./dist/esm/api/exascaleDbStorageVaults/index.js"
@@ -233,10 +203,6 @@
       "browser": {
         "types": "./dist/browser/api/exascaleDbNodes/index.d.ts",
         "default": "./dist/browser/api/exascaleDbNodes/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/exascaleDbNodes/index.d.ts",
-        "default": "./dist/react-native/api/exascaleDbNodes/index.js"
       },
       "import": {
         "types": "./dist/esm/api/exascaleDbNodes/index.d.ts",
@@ -252,10 +218,6 @@
         "types": "./dist/browser/api/exadbVmClusters/index.d.ts",
         "default": "./dist/browser/api/exadbVmClusters/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/exadbVmClusters/index.d.ts",
-        "default": "./dist/react-native/api/exadbVmClusters/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/exadbVmClusters/index.d.ts",
         "default": "./dist/esm/api/exadbVmClusters/index.js"
@@ -269,10 +231,6 @@
       "browser": {
         "types": "./dist/browser/api/autonomousDatabaseVersions/index.d.ts",
         "default": "./dist/browser/api/autonomousDatabaseVersions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/autonomousDatabaseVersions/index.d.ts",
-        "default": "./dist/react-native/api/autonomousDatabaseVersions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/autonomousDatabaseVersions/index.d.ts",
@@ -288,10 +246,6 @@
         "types": "./dist/browser/api/autonomousDatabaseNationalCharacterSets/index.d.ts",
         "default": "./dist/browser/api/autonomousDatabaseNationalCharacterSets/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/autonomousDatabaseNationalCharacterSets/index.d.ts",
-        "default": "./dist/react-native/api/autonomousDatabaseNationalCharacterSets/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/autonomousDatabaseNationalCharacterSets/index.d.ts",
         "default": "./dist/esm/api/autonomousDatabaseNationalCharacterSets/index.js"
@@ -305,10 +259,6 @@
       "browser": {
         "types": "./dist/browser/api/autonomousDatabaseCharacterSets/index.d.ts",
         "default": "./dist/browser/api/autonomousDatabaseCharacterSets/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/autonomousDatabaseCharacterSets/index.d.ts",
-        "default": "./dist/react-native/api/autonomousDatabaseCharacterSets/index.js"
       },
       "import": {
         "types": "./dist/esm/api/autonomousDatabaseCharacterSets/index.d.ts",
@@ -324,10 +274,6 @@
         "types": "./dist/browser/api/autonomousDatabaseBackups/index.d.ts",
         "default": "./dist/browser/api/autonomousDatabaseBackups/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/autonomousDatabaseBackups/index.d.ts",
-        "default": "./dist/react-native/api/autonomousDatabaseBackups/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/autonomousDatabaseBackups/index.d.ts",
         "default": "./dist/esm/api/autonomousDatabaseBackups/index.js"
@@ -341,10 +287,6 @@
       "browser": {
         "types": "./dist/browser/api/autonomousDatabases/index.d.ts",
         "default": "./dist/browser/api/autonomousDatabases/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/autonomousDatabases/index.d.ts",
-        "default": "./dist/react-native/api/autonomousDatabases/index.js"
       },
       "import": {
         "types": "./dist/esm/api/autonomousDatabases/index.d.ts",
@@ -360,10 +302,6 @@
         "types": "./dist/browser/api/flexComponents/index.d.ts",
         "default": "./dist/browser/api/flexComponents/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/flexComponents/index.d.ts",
-        "default": "./dist/react-native/api/flexComponents/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/flexComponents/index.d.ts",
         "default": "./dist/esm/api/flexComponents/index.js"
@@ -377,10 +315,6 @@
       "browser": {
         "types": "./dist/browser/api/dnsPrivateZones/index.d.ts",
         "default": "./dist/browser/api/dnsPrivateZones/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/dnsPrivateZones/index.d.ts",
-        "default": "./dist/react-native/api/dnsPrivateZones/index.js"
       },
       "import": {
         "types": "./dist/esm/api/dnsPrivateZones/index.d.ts",
@@ -396,10 +330,6 @@
         "types": "./dist/browser/api/dnsPrivateViews/index.d.ts",
         "default": "./dist/browser/api/dnsPrivateViews/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/dnsPrivateViews/index.d.ts",
-        "default": "./dist/react-native/api/dnsPrivateViews/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/dnsPrivateViews/index.d.ts",
         "default": "./dist/esm/api/dnsPrivateViews/index.js"
@@ -413,10 +343,6 @@
       "browser": {
         "types": "./dist/browser/api/dbSystemShapes/index.d.ts",
         "default": "./dist/browser/api/dbSystemShapes/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/dbSystemShapes/index.d.ts",
-        "default": "./dist/react-native/api/dbSystemShapes/index.js"
       },
       "import": {
         "types": "./dist/esm/api/dbSystemShapes/index.d.ts",
@@ -432,10 +358,6 @@
         "types": "./dist/browser/api/giMinorVersions/index.d.ts",
         "default": "./dist/browser/api/giMinorVersions/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/giMinorVersions/index.d.ts",
-        "default": "./dist/react-native/api/giMinorVersions/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/giMinorVersions/index.d.ts",
         "default": "./dist/esm/api/giMinorVersions/index.js"
@@ -449,10 +371,6 @@
       "browser": {
         "types": "./dist/browser/api/giVersions/index.d.ts",
         "default": "./dist/browser/api/giVersions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/giVersions/index.d.ts",
-        "default": "./dist/react-native/api/giVersions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/giVersions/index.d.ts",
@@ -468,10 +386,6 @@
         "types": "./dist/browser/api/dbNodes/index.d.ts",
         "default": "./dist/browser/api/dbNodes/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/dbNodes/index.d.ts",
-        "default": "./dist/react-native/api/dbNodes/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/dbNodes/index.d.ts",
         "default": "./dist/esm/api/dbNodes/index.js"
@@ -485,10 +399,6 @@
       "browser": {
         "types": "./dist/browser/api/oracleSubscriptions/index.d.ts",
         "default": "./dist/browser/api/oracleSubscriptions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/oracleSubscriptions/index.d.ts",
-        "default": "./dist/react-native/api/oracleSubscriptions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/oracleSubscriptions/index.d.ts",
@@ -504,10 +414,6 @@
         "types": "./dist/browser/api/systemVersions/index.d.ts",
         "default": "./dist/browser/api/systemVersions/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/systemVersions/index.d.ts",
-        "default": "./dist/react-native/api/systemVersions/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/systemVersions/index.d.ts",
         "default": "./dist/esm/api/systemVersions/index.js"
@@ -521,10 +427,6 @@
       "browser": {
         "types": "./dist/browser/api/virtualNetworkAddresses/index.d.ts",
         "default": "./dist/browser/api/virtualNetworkAddresses/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/virtualNetworkAddresses/index.d.ts",
-        "default": "./dist/react-native/api/virtualNetworkAddresses/index.js"
       },
       "import": {
         "types": "./dist/esm/api/virtualNetworkAddresses/index.d.ts",
@@ -540,10 +442,6 @@
         "types": "./dist/browser/api/cloudVmClusters/index.d.ts",
         "default": "./dist/browser/api/cloudVmClusters/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/cloudVmClusters/index.d.ts",
-        "default": "./dist/react-native/api/cloudVmClusters/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/cloudVmClusters/index.d.ts",
         "default": "./dist/esm/api/cloudVmClusters/index.js"
@@ -557,10 +455,6 @@
       "browser": {
         "types": "./dist/browser/api/dbServers/index.d.ts",
         "default": "./dist/browser/api/dbServers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/dbServers/index.d.ts",
-        "default": "./dist/react-native/api/dbServers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/dbServers/index.d.ts",
@@ -576,10 +470,6 @@
         "types": "./dist/browser/api/cloudExadataInfrastructures/index.d.ts",
         "default": "./dist/browser/api/cloudExadataInfrastructures/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/cloudExadataInfrastructures/index.d.ts",
-        "default": "./dist/react-native/api/cloudExadataInfrastructures/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/cloudExadataInfrastructures/index.d.ts",
         "default": "./dist/esm/api/cloudExadataInfrastructures/index.js"
@@ -594,10 +484,6 @@
         "types": "./dist/browser/api/operations/index.d.ts",
         "default": "./dist/browser/api/operations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/operations/index.d.ts",
         "default": "./dist/esm/api/operations/index.js"
@@ -611,10 +497,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
@@ -631,7 +513,6 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
