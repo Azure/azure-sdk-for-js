@@ -8,8 +8,7 @@
     "@azure/storage-blob": "^12.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1",
-    "uuid": "^14.0.0"
+    "react-scripts": "4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

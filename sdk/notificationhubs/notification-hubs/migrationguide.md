@@ -226,7 +226,6 @@ In `@azure/notification-hubs` with the service client:
 
 ```typescript
 import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
-import { v4 as uuid } from "uuid";
 
 const HUB_NAME = "<hub-name>";
 const CONNECTION_STRING = "<connection-string>";
@@ -238,7 +237,7 @@ const TAGS = ["likes_hockey", "likes_football"];
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
-  installationId: uuid(),
+  installationId: crypto.randomUUID(),
   pushChannel: DEVICE_TOKEN,
   tags: TAGS,
 });
@@ -251,7 +250,6 @@ In `@azure/notification-hubs` with modular exports:
 ```typescript
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 import { createAppleInstallation } from "@azure/notification-hubs/models";
-import { v4 as uuid } from "uuid";
 
 const HUB_NAME = "<hub-name>";
 const CONNECTION_STRING = "<connection-string>";  
@@ -263,7 +261,7 @@ const TAGS = ["likes_hockey", "likes_football"];
 
 // Create an installation for APNs
 let installation = createAppleInstallation({
-  installationId: uuid(),
+  installationId: crypto.randomUUID(),
   pushChannel: DEVICE_TOKEN,
   tags: TAGS,
 });
