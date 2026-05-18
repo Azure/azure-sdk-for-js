@@ -80,19 +80,16 @@ interface ApiJson {
 }
 
 async function buildExportConfiguration(
-  packageJson: { exports: Record<string, Record<string, { types: string }>>; name: string },
+  packageJson: { exports: Record<string, Record<string, { types: string }>> },
   projectRoot: string,
 ): Promise<ExportEntry[] | undefined> {
   const exports = packageJson.exports;
   if (!exports) return undefined;
 
   const exportEntries: ExportEntry[] = [];
-  const isManagement = isManagementPackage(packageJson.name);
   for (const [pathKey, entry] of Object.entries(exports)) {
     if (pathKey === "./package.json") continue;
     const isMainExport = pathKey === ".";
-    // Skip subpath exports for management packages
-    if (isManagement && !isMainExport) continue;
     const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-");
     const common = {
       path: pathKey,
@@ -292,10 +289,6 @@ async function writeRuntimeApiFiles(
 
 function getUnscopedPackageName(packageName: string): string {
   return packageName.includes("/") ? packageName.split("/")[1] : packageName;
-}
-
-function isManagementPackage(packageName: string): boolean {
-  return packageName.includes("/arm-");
 }
 
 async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
