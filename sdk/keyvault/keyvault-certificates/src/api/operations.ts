@@ -92,7 +92,13 @@ export function _recoverDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}/recover{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +145,13 @@ export function _purgeDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +198,13 @@ export function _getDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +249,13 @@ export function _getDeletedCertificatesSend(
   const path = expandUrlTemplate(
     "/deletedcertificates{?api%2Dversion,maxresults,includePending}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
       maxresults: options?.maxresults,
       includePending: options?.includePending,
     },
@@ -271,7 +295,17 @@ export function getDeletedCertificates(
     () => _getDeletedCertificatesSend(context, options),
     _getDeletedCertificatesDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
   );
 }
 
@@ -283,7 +317,13 @@ export function _restoreCertificateSend(
   const path = expandUrlTemplate(
     "/certificates/restore{?api%2Dversion}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,7 +372,13 @@ export function _backupCertificateSend(
     "/certificates/{certificate-name}/backup{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -380,7 +426,13 @@ export function _mergeCertificateSend(
     "/certificates/{certificate-name}/pending/merge{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -430,7 +482,13 @@ export function _deleteCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -477,7 +535,13 @@ export function _getCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -525,7 +589,13 @@ export function _updateCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -582,7 +652,13 @@ export function _getCertificateSend(
     {
       "certificate-name": certificateName,
       "certificate-version": certificateVersion,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -633,7 +709,13 @@ export function _updateCertificateSend(
     {
       "certificate-name": certificateName,
       "certificate-version": certificateVersion,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -691,7 +773,13 @@ export function _updateCertificatePolicySend(
     "/certificates/{certificate-name}/policy{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -746,7 +834,13 @@ export function _getCertificatePolicySend(
     "/certificates/{certificate-name}/policy{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -793,7 +887,13 @@ export function _getCertificateVersionsSend(
     "/certificates/{certificate-name}/versions{?api%2Dversion,maxresults}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -833,7 +933,17 @@ export function getCertificateVersions(
     () => _getCertificateVersionsSend(context, certificateName, options),
     _getCertificateVersionsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
   );
 }
 
@@ -847,7 +957,13 @@ export function _importCertificateSend(
     "/certificates/{certificate-name}/import{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -898,7 +1014,13 @@ export function _createCertificateSend(
     "/certificates/{certificate-name}/create{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -948,7 +1070,13 @@ export function _deleteCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -995,7 +1123,13 @@ export function _getCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1043,7 +1177,13 @@ export function _updateCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1094,7 +1234,13 @@ export function _setCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1142,7 +1288,13 @@ export function _getCertificateIssuersSend(
   const path = expandUrlTemplate(
     "/certificates/issuers{?api%2Dversion,maxresults}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -1181,7 +1333,17 @@ export function getCertificateIssuers(
     () => _getCertificateIssuersSend(context, options),
     _getCertificateIssuersDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
   );
 }
 
@@ -1192,7 +1354,13 @@ export function _deleteCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1236,7 +1404,13 @@ export function _getCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1281,7 +1455,13 @@ export function _setCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1330,7 +1510,13 @@ export function _deleteCertificateSend(
     "/certificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1375,7 +1561,13 @@ export function _getCertificatesSend(
   const path = expandUrlTemplate(
     "/certificates{?api%2Dversion,maxresults,includePending}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
       maxresults: options?.maxresults,
       includePending: options?.includePending,
     },
@@ -1415,6 +1607,16 @@ export function getCertificates(
     () => _getCertificatesSend(context, options),
     _getCertificatesDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/operations.ts
   );
 }
