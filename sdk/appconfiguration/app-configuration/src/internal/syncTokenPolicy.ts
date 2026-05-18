@@ -69,7 +69,10 @@ export class SyncTokens {
       return;
     }
 
-    const newTokens = syncTokenHeaderValue.split(",").map(parseSyncToken);
+    const newTokens = syncTokenHeaderValue
+      .split(",")
+      .map((s) => s.trim())
+      .map(parseSyncToken);
 
     for (const newToken of newTokens) {
       const existingToken = this._currentSyncTokens.get(newToken.id);
