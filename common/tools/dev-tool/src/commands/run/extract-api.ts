@@ -80,7 +80,7 @@ interface ApiJson {
 }
 
 async function buildExportConfiguration(
-  packageJson: { exports: Record<string, Record<string, { types: string }>>, name: string },
+  packageJson: { exports: Record<string, Record<string, { types: string }>>; name: string },
   projectRoot: string,
 ): Promise<ExportEntry[] | undefined> {
   const exports = packageJson.exports;
