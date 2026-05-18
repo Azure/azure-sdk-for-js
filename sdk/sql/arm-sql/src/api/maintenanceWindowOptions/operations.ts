@@ -31,7 +31,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       maintenanceWindowOptionsName: maintenanceWindowOptionsName,
     },
     {

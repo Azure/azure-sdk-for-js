@@ -7,7 +7,7 @@ import {
   DataMaskingRulesCreateOrUpdateOptionalParams,
   DataMaskingRulesListByDatabaseOptionalParams,
 } from "../../api/dataMaskingRules/options.js";
-import { DataMaskingPolicyName, DataMaskingRule } from "../../models/models.js";
+import { DataMaskingRule } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataMaskingRules operations. */
@@ -17,7 +17,6 @@ export interface DataMaskingRulesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    dataMaskingPolicyName: DataMaskingPolicyName,
     dataMaskingRuleName: string,
     parameters: DataMaskingRule,
     options?: DataMaskingRulesCreateOrUpdateOptionalParams,
@@ -27,7 +26,6 @@ export interface DataMaskingRulesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    dataMaskingPolicyName: DataMaskingPolicyName,
     options?: DataMaskingRulesListByDatabaseOptionalParams,
   ) => PagedAsyncIterableIterator<DataMaskingRule>;
 }
@@ -38,7 +36,6 @@ function _getDataMaskingRules(context: SqlManagementContext) {
       resourceGroupName: string,
       serverName: string,
       databaseName: string,
-      dataMaskingPolicyName: DataMaskingPolicyName,
       dataMaskingRuleName: string,
       parameters: DataMaskingRule,
       options?: DataMaskingRulesCreateOrUpdateOptionalParams,
@@ -48,7 +45,6 @@ function _getDataMaskingRules(context: SqlManagementContext) {
         resourceGroupName,
         serverName,
         databaseName,
-        dataMaskingPolicyName,
         dataMaskingRuleName,
         parameters,
         options,
@@ -57,17 +53,8 @@ function _getDataMaskingRules(context: SqlManagementContext) {
       resourceGroupName: string,
       serverName: string,
       databaseName: string,
-      dataMaskingPolicyName: DataMaskingPolicyName,
       options?: DataMaskingRulesListByDatabaseOptionalParams,
-    ) =>
-      listByDatabase(
-        context,
-        resourceGroupName,
-        serverName,
-        databaseName,
-        dataMaskingPolicyName,
-        options,
-      ),
+    ) => listByDatabase(context, resourceGroupName, serverName, databaseName, options),
   };
 }
 

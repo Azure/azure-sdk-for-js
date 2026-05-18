@@ -31,7 +31,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

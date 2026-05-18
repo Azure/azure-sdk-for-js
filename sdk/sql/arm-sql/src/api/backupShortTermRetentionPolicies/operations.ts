@@ -45,7 +45,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,11 +84,7 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -109,7 +105,7 @@ export function _updateSend(
       serverName: serverName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +157,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<BackupShortTermRetentionPolicy>, BackupShortTermRetentionPolicy>;
 }
 
@@ -182,7 +178,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,7 +230,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<BackupShortTermRetentionPolicy>, BackupShortTermRetentionPolicy>;
 }
 
@@ -254,7 +250,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

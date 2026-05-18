@@ -38,7 +38,7 @@ export function _listByDatabaseAdvisorSend(
       serverName: serverName,
       databaseName: databaseName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,7 @@ export function _updateSend(
       databaseName: databaseName,
       advisorName: advisorName,
       recommendedActionName: recommendedActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +173,7 @@ export function _getSend(
       databaseName: databaseName,
       advisorName: advisorName,
       recommendedActionName: recommendedActionName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

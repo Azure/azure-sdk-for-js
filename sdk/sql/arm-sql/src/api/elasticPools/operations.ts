@@ -48,7 +48,7 @@ export function _failoverSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, serverName, elasticPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -99,7 +99,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       "%24skip": options?.skip,
     },
     {
@@ -138,11 +138,7 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -160,7 +156,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,7 +191,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, elasticPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -214,7 +210,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +251,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, serverName, elasticPoolName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<ElasticPool>, ElasticPool>;
 }
 
@@ -274,7 +270,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +320,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<ElasticPool>, ElasticPool>;
 }
 
@@ -342,7 +338,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

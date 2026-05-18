@@ -4,7 +4,6 @@
 import { SqlManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  DataMaskingPolicyName,
   _DataMaskingRuleListResult,
   _dataMaskingRuleListResultDeserializer,
   DataMaskingRule,
@@ -32,7 +31,6 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   dataMaskingRuleName: string,
   parameters: DataMaskingRule,
   options: DataMaskingRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
@@ -44,9 +42,9 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      dataMaskingPolicyName: dataMaskingPolicyName,
+      dataMaskingPolicyName: "Default",
       dataMaskingRuleName: dataMaskingRuleName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +78,6 @@ export async function createOrUpdate(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   dataMaskingRuleName: string,
   parameters: DataMaskingRule,
   options: DataMaskingRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
@@ -90,7 +87,6 @@ export async function createOrUpdate(
     resourceGroupName,
     serverName,
     databaseName,
-    dataMaskingPolicyName,
     dataMaskingRuleName,
     parameters,
     options,
@@ -103,19 +99,17 @@ export function _listByDatabaseSend(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   options: DataMaskingRulesListByDatabaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules{?api%2Dversion,%24skip}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      dataMaskingPolicyName: dataMaskingPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
-      "%24skip": options?.skip,
+      dataMaskingPolicyName: "Default",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,26 +141,13 @@ export function listByDatabase(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   options: DataMaskingRulesListByDatabaseOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DataMaskingRule> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByDatabaseSend(
-        context,
-        resourceGroupName,
-        serverName,
-        databaseName,
-        dataMaskingPolicyName,
-        options,
-      ),
+    () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }

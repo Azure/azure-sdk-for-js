@@ -37,7 +37,7 @@ export function _listByInstancePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       instancePoolName: instancePoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,11 +75,7 @@ export function listByInstancePool(
     () => _listByInstancePoolSend(context, resourceGroupName, instancePoolName, options),
     _listByInstancePoolDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -97,7 +93,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       instancePoolName: instancePoolName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

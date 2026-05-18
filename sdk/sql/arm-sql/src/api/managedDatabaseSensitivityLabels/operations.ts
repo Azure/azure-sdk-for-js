@@ -50,7 +50,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       "%24filter": options?.filter,
     },
     {
@@ -91,11 +91,7 @@ export function listByDatabase(
       _listByDatabaseSend(context, resourceGroupName, managedInstanceName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -115,7 +111,7 @@ export function _listRecommendedByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       "%24skipToken": options?.skipToken,
       includeDisabledRecommendations: options?.includeDisabledRecommendations,
       "%24filter": options?.filter,
@@ -166,11 +162,7 @@ export function listRecommendedByDatabase(
       ),
     _listRecommendedByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -189,7 +181,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +242,7 @@ export function _listCurrentByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       "%24skipToken": options?.skipToken,
       "%24count": options?.count,
       "%24filter": options?.filter,
@@ -301,11 +293,7 @@ export function listCurrentByDatabase(
       ),
     _listCurrentByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -332,7 +320,7 @@ export function _enableRecommendationSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "recommended",
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -404,7 +392,7 @@ export function _disableRecommendationSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "recommended",
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -474,7 +462,7 @@ export function _$deleteSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "current",
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -541,7 +529,7 @@ export function _createOrUpdateSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: "current",
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -617,7 +605,7 @@ export function _getSend(
       tableName: tableName,
       columnName: columnName,
       sensitivityLabelSource: sensitivityLabelSource,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

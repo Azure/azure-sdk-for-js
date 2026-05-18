@@ -7,7 +7,4 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface DataMaskingRulesCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DataMaskingRulesListByDatabaseOptionalParams extends OperationOptions {
-  /** The number of elements in the collection to skip. */
-  skip?: number;
-}
+export interface DataMaskingRulesListByDatabaseOptionalParams extends OperationOptions {}

@@ -7,7 +7,6 @@ import {
   DataMaskingPolicy,
   dataMaskingPolicySerializer,
   dataMaskingPolicyDeserializer,
-  DataMaskingPolicyName,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -26,7 +25,6 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   parameters: DataMaskingPolicy,
   options: DataMaskingPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -37,8 +35,8 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      dataMaskingPolicyName: dataMaskingPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      dataMaskingPolicyName: "Default",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +70,6 @@ export async function createOrUpdate(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   parameters: DataMaskingPolicy,
   options: DataMaskingPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DataMaskingPolicy> {
@@ -81,7 +78,6 @@ export async function createOrUpdate(
     resourceGroupName,
     serverName,
     databaseName,
-    dataMaskingPolicyName,
     parameters,
     options,
   );
@@ -93,7 +89,6 @@ export function _getSend(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   options: DataMaskingPoliciesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -103,8 +98,8 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      dataMaskingPolicyName: dataMaskingPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      dataMaskingPolicyName: "Default",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,16 +129,8 @@ export async function get(
   resourceGroupName: string,
   serverName: string,
   databaseName: string,
-  dataMaskingPolicyName: DataMaskingPolicyName,
   options: DataMaskingPoliciesGetOptionalParams = { requestOptions: {} },
 ): Promise<DataMaskingPolicy> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    serverName,
-    databaseName,
-    dataMaskingPolicyName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, serverName, databaseName, options);
   return _getDeserialize(result);
 }

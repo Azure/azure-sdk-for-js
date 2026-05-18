@@ -31,7 +31,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,6 +70,6 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, serverName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }

@@ -40,7 +40,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       schema: !options?.schema
         ? options?.schema
         : options?.schema.map((p: any) => {
@@ -101,11 +101,7 @@ export function listByDatabase(
       _listByDatabaseSend(context, resourceGroupName, managedInstanceName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -127,7 +123,7 @@ export function _listByTableSend(
       databaseName: databaseName,
       schemaName: schemaName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       "%24filter": options?.filter,
     },
     {
@@ -178,11 +174,7 @@ export function listByTable(
       ),
     _listByTableDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -206,7 +198,7 @@ export function _getSend(
       schemaName: schemaName,
       tableName: tableName,
       columnName: columnName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

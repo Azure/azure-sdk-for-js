@@ -71,7 +71,7 @@ export function _listByResourceGroupServerSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -119,11 +119,7 @@ export function listByResourceGroupServer(
       ),
     _listByResourceGroupServerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -141,7 +137,7 @@ export function _listByResourceGroupLocationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -183,11 +179,7 @@ export function listByResourceGroupLocation(
     () => _listByResourceGroupLocationSend(context, resourceGroupName, locationName, options),
     _listByResourceGroupLocationDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -203,7 +195,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -243,11 +235,7 @@ export function listByServer(
     () => _listByServerSend(context, locationName, longTermRetentionServerName, options),
     _listByServerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -261,7 +249,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -300,11 +288,7 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -327,7 +311,7 @@ export function _updateByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +368,7 @@ export function updateByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -411,7 +395,7 @@ export function _setLegalHoldImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -467,7 +451,7 @@ export function setLegalHoldImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -492,7 +476,7 @@ export function _removeTimeBasedImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -548,7 +532,7 @@ export function removeTimeBasedImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -573,7 +557,7 @@ export function _removeLegalHoldImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -629,7 +613,7 @@ export function removeLegalHoldImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -654,7 +638,7 @@ export function _lockTimeBasedImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -710,7 +694,7 @@ export function lockTimeBasedImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -734,7 +718,7 @@ export function _copyByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -791,7 +775,7 @@ export function copyByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -819,7 +803,7 @@ export function _changeAccessTierByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -879,7 +863,7 @@ export function changeAccessTierByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -902,7 +886,7 @@ export function _listByResourceGroupDatabaseSend(
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -954,11 +938,7 @@ export function listByResourceGroupDatabase(
       ),
     _listByResourceGroupDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -980,7 +960,7 @@ export function _deleteByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1027,7 +1007,7 @@ export function deleteByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1049,7 +1029,7 @@ export function _getByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1114,7 +1094,7 @@ export function _updateSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1169,7 +1149,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -1192,7 +1172,7 @@ export function _setLegalHoldImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1244,7 +1224,7 @@ export function setLegalHoldImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1267,7 +1247,7 @@ export function _removeTimeBasedImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1321,7 +1301,7 @@ export function removeTimeBasedImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1344,7 +1324,7 @@ export function _removeLegalHoldImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1398,7 +1378,7 @@ export function removeLegalHoldImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1419,7 +1399,7 @@ export function _lockTimeBasedImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1471,7 +1451,7 @@ export function lockTimeBasedImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+      apiVersion: context.apiVersion ?? "2025-01-01",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1493,7 +1473,7 @@ export function _copySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1548,7 +1528,7 @@ export function copy(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -1572,7 +1552,7 @@ export function _changeAccessTierSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1624,7 +1604,7 @@ export function changeAccessTier(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
 
@@ -1642,7 +1622,7 @@ export function _listByDatabaseSend(
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -1690,11 +1670,7 @@ export function listByDatabase(
       ),
     _listByDatabaseDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -1714,7 +1690,7 @@ export function _$deleteSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1757,7 +1733,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1777,7 +1753,7 @@ export function _getSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

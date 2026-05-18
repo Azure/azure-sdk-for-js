@@ -48,7 +48,7 @@ export function _listByVersionSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobVersion: jobVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,11 +98,7 @@ export function listByVersion(
       ),
     _listByVersionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -126,7 +122,7 @@ export function _getByVersionSend(
       jobName: jobName,
       jobVersion: jobVersion,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +186,7 @@ export function _listByJobSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,11 +226,7 @@ export function listByJob(
     () => _listByJobSend(context, resourceGroupName, serverName, jobAgentName, jobName, options),
     _listByJobDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -256,7 +248,7 @@ export function _$deleteSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +310,7 @@ export function _createOrUpdateSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -386,7 +378,7 @@ export function _getSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

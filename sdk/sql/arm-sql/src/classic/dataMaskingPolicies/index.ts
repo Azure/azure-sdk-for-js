@@ -7,7 +7,7 @@ import {
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
   DataMaskingPoliciesGetOptionalParams,
 } from "../../api/dataMaskingPolicies/options.js";
-import { DataMaskingPolicy, DataMaskingPolicyName } from "../../models/models.js";
+import { DataMaskingPolicy } from "../../models/models.js";
 
 /** Interface representing a DataMaskingPolicies operations. */
 export interface DataMaskingPoliciesOperations {
@@ -16,7 +16,6 @@ export interface DataMaskingPoliciesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    dataMaskingPolicyName: DataMaskingPolicyName,
     parameters: DataMaskingPolicy,
     options?: DataMaskingPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<DataMaskingPolicy>;
@@ -25,7 +24,6 @@ export interface DataMaskingPoliciesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    dataMaskingPolicyName: DataMaskingPolicyName,
     options?: DataMaskingPoliciesGetOptionalParams,
   ) => Promise<DataMaskingPolicy>;
 }
@@ -36,26 +34,15 @@ function _getDataMaskingPolicies(context: SqlManagementContext) {
       resourceGroupName: string,
       serverName: string,
       databaseName: string,
-      dataMaskingPolicyName: DataMaskingPolicyName,
       parameters: DataMaskingPolicy,
       options?: DataMaskingPoliciesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        serverName,
-        databaseName,
-        dataMaskingPolicyName,
-        parameters,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, serverName, databaseName, parameters, options),
     get: (
       resourceGroupName: string,
       serverName: string,
       databaseName: string,
-      dataMaskingPolicyName: DataMaskingPolicyName,
       options?: DataMaskingPoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, serverName, databaseName, dataMaskingPolicyName, options),
+    ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
 

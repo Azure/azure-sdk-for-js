@@ -34,7 +34,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       "%24expand": options?.expand,
     },
     {
@@ -85,7 +85,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,7 +145,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

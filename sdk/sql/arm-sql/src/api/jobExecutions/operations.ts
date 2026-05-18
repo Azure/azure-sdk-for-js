@@ -47,7 +47,7 @@ export function _createSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,7 +86,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, serverName, jobAgentName, jobName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<JobExecution>, JobExecution>;
 }
 
@@ -104,7 +104,7 @@ export function _listByAgentSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       jobAgentName: jobAgentName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -154,11 +154,7 @@ export function listByAgent(
     () => _listByAgentSend(context, resourceGroupName, serverName, jobAgentName, options),
     _listByAgentDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -178,7 +174,7 @@ export function _listByJobSend(
       serverName: serverName,
       jobAgentName: jobAgentName,
       jobName: jobName,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -229,11 +225,7 @@ export function listByJob(
     () => _listByJobSend(context, resourceGroupName, serverName, jobAgentName, jobName, options),
     _listByJobDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
   );
 }
 
@@ -255,7 +247,7 @@ export function _cancelSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,7 +308,7 @@ export function _createOrUpdateSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -366,7 +358,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    apiVersion: context.apiVersion ?? "2025-01-01",
   }) as PollerLike<OperationState<JobExecution>, JobExecution>;
 }
 
@@ -388,7 +380,7 @@ export function _getSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
