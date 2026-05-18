@@ -53,7 +53,13 @@ export function _restoreSecretSend(
   const path = expandUrlTemplate(
     "/secrets/restore{?api%2Dversion}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +108,13 @@ export function _backupSecretSend(
     "/secrets/{secret-name}/backup{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +161,13 @@ export function _recoverDeletedSecretSend(
     "/deletedsecrets/{secret-name}/recover{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,7 +214,13 @@ export function _purgeDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +265,13 @@ export function _getDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,7 +316,13 @@ export function _getDeletedSecretsSend(
   const path = expandUrlTemplate(
     "/deletedsecrets{?api%2Dversion,maxresults}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -325,7 +361,17 @@ export function getDeletedSecrets(
     () => _getDeletedSecretsSend(context, options),
     _getDeletedSecretsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
   );
 }
 
@@ -338,7 +384,13 @@ export function _getSecretVersionsSend(
     "/secrets/{secret-name}/versions{?api%2Dversion,maxresults}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -378,7 +430,17 @@ export function getSecretVersions(
     () => _getSecretVersionsSend(context, secretName, options),
     _getSecretVersionsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
   );
 }
 
@@ -389,7 +451,13 @@ export function _getSecretsSend(
   const path = expandUrlTemplate(
     "/secrets{?api%2Dversion,maxresults}",
     {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       maxresults: options?.maxresults,
     },
     {
@@ -428,7 +496,17 @@ export function getSecrets(
     () => _getSecretsSend(context, options),
     _getSecretsDeserialize,
     ["200"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+=======
     { itemName: "value", nextLinkName: "nextLink" },
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
   );
 }
 
@@ -443,7 +521,13 @@ export function _getSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
       outContentType: options?.outContentType,
     },
     {
@@ -493,7 +577,13 @@ export function _updateSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -544,7 +634,13 @@ export function _deleteSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -592,7 +688,13 @@ export function _setSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/result/src/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/base/sdk/keyvault/keyvault-secrets/generated/api/operations.ts
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+=======
       "api%2Dversion": context.apiVersion,
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolO0WXpu/custom/sdk/keyvault/keyvault-secrets/src/api/operations.ts
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
