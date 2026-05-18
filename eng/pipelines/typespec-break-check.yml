@@ -54,7 +54,15 @@ parameters:
   - name: MaxWorkers
     displayName: "Concurrent workers"
     type: number
-    default: 4
+    default: 2
+  - name: RegenerationJobCount
+    displayName: "Matrix jobs for regeneration"
+    type: number
+    default: 10
+  - name: MinimumPerJob
+    displayName: "Minimum packages per matrix job"
+    type: number
+    default: 10
   - name: SkipBuild
     displayName: "Skip build verification"
     type: boolean
@@ -129,10 +137,40 @@ stages:
               fi
             displayName: 'Step 2: Update emitter + regenerate lock file'
 
+      - job: GenerateMatrix
+        displayName: 'Generate package matrix'
+        dependsOn: Setup
+        steps:
+          - task: PowerShell@2
+            displayName: 'Split ARM packages into matrix batches'
+            name: generateMatrix
+            inputs:
+              pwsh: true
+              filePath: ./eng/common/scripts/New-RegenerateMatrix.ps1
+              arguments: >
+                -OutputDirectory "$(Build.ArtifactStagingDirectory)/matrix"
+                -OutputVariableName matrix
+                -JobCount ${{ parameters.RegenerationJobCount }}
+                -MinimumPerJob ${{ parameters.MinimumPerJob }}
+                -MaxPackages ${{ parameters.MaxPackages }}
+                -OnlyTypeSpec false
+                -DirectoryFilterPattern 'arm-*'
+              workingDirectory: $(Build.SourcesDirectory)
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish matrix artifacts'
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)/matrix
+              artifact: matrix_artifacts
+
       - job: RegenerateAndBuild
         displayName: 'Regenerate & build packages'
-        dependsOn: Setup
+        dependsOn:
+          - Setup
+          - GenerateMatrix
         timeoutInMinutes: 180
+        strategy:
+          matrix: $[ dependencies.GenerateMatrix.outputs['generateMatrix.matrix'] ]
         variables:
           emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
         steps:
@@ -146,6 +184,10 @@ stages:
               npm install -g pnpm
               npm config set legacy-peer-deps true
             displayName: 'Install tsp-client and pnpm'
+
+          - download: current
+            displayName: 'Download matrix artifacts'
+            artifact: matrix_artifacts
 
           # Clone azure-rest-api-specs (latest main) as a sibling directory.
           - script: |
@@ -186,13 +228,15 @@ stages:
           # Step 3-5: Build spec index → classify packages → regenerate → build
           - script: |
               cd $(sdkRoot)
+              mkdir -p "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
               node eng/pipelines/scripts/regenerate-runner.js \
                 --specRepoRoot "$(specRepoRoot)" \
                 --maxWorkers "${{ parameters.MaxWorkers }}" \
-                --maxPackages "${{ parameters.MaxPackages }}" \
                 --skipBuild "${{ parameters.SkipBuild }}" \
-                --emitterVersion "$(emitterVersion)"
-            displayName: 'Regenerate & build ARM packages'
+                --emitterVersion "$(emitterVersion)" \
+                --directoryList "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
+                --resultOutputDir "$(Build.ArtifactStagingDirectory)/results/$(JobKey)"
+            displayName: 'Regenerate & build ARM package batch'
 
           # Step 6: Breaking Change Detection
           - script: |
@@ -209,3 +253,103 @@ stages:
               git diff --stat
             displayName: 'Show generated changes'
             condition: always()
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish batch result'
+            condition: always()
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)/results/$(JobKey)
+              artifact: regen_result_$(JobKey)
+
+      - job: Summary
+        displayName: 'Summarize matrix results'
+        dependsOn: RegenerateAndBuild
+        condition: succeededOrFailed()
+        steps:
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: $(nodeVersion)
+
+          - download: current
+            displayName: 'Download result artifacts'
+
+          - script: |
+              node - <<'NODE'
+              const fs = require("fs");
+              const path = require("path");
+
+              const root = process.env.PIPELINE_WORKSPACE;
+              const resultFiles = [];
+
+              function walk(dir) {
+                if (!fs.existsSync(dir)) return;
+                for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                  const full = path.join(dir, entry.name);
+                  if (entry.isDirectory()) walk(full);
+                  else if (entry.name === "result.json") resultFiles.push(full);
+                }
+              }
+
+              walk(root);
+
+              const totals = {
+                packages: 0,
+                regenTotal: 0,
+                regenSuccess: 0,
+                regenFailed: 0,
+                buildTotal: 0,
+                buildSuccess: 0,
+                buildFailed: 0,
+                regenFailures: [],
+                buildFailures: [],
+              };
+
+              for (const file of resultFiles) {
+                const result = JSON.parse(fs.readFileSync(file, "utf8"));
+                totals.packages += result.packages?.length ?? 0;
+                totals.regenTotal += result.regeneration?.total ?? 0;
+                totals.regenSuccess += result.regeneration?.success ?? 0;
+                totals.regenFailed += result.regeneration?.failed ?? 0;
+                totals.regenFailures.push(...(result.regeneration?.failures ?? []));
+
+                if (result.build) {
+                  totals.buildTotal += result.build.total ?? 0;
+                  totals.buildSuccess += result.build.success ?? 0;
+                  totals.buildFailed += result.build.failed ?? 0;
+                  totals.buildFailures.push(...(result.build.failures ?? []));
+                }
+              }
+
+              console.log("========== MATRIX SUMMARY ==========");
+              console.log(`Result files: ${resultFiles.length}`);
+              console.log(`Packages: ${totals.packages}`);
+              console.log("--- Regeneration ---");
+              console.log(`Total: ${totals.regenTotal} | Success: ${totals.regenSuccess} | Failed: ${totals.regenFailed}`);
+              console.log(`Success Rate: ${totals.regenTotal === 0 ? "0.0" : ((totals.regenSuccess * 100) / totals.regenTotal).toFixed(1)}%`);
+              console.log("--- Build ---");
+              console.log(`Total: ${totals.buildTotal} | Build OK: ${totals.buildSuccess} | Build Failed: ${totals.buildFailed}`);
+              console.log(`Build Pass Rate: ${totals.buildTotal === 0 ? "0.0" : ((totals.buildSuccess * 100) / totals.buildTotal).toFixed(1)}%`);
+
+              if (totals.regenFailures.length > 0) {
+                console.log("");
+                console.log("Regeneration failures:");
+                for (const failure of totals.regenFailures) {
+                  console.log(`  - ${failure.pkg}: ${failure.error}`);
+                }
+              }
+
+              if (totals.buildFailures.length > 0) {
+                console.log("");
+                console.log("Build failures:");
+                for (const failure of totals.buildFailures) {
+                  console.log(`  - ${failure.pkg} (failed at ${failure.phase}): ${failure.error}`);
+                }
+              }
+              console.log("====================================");
+
+              if (resultFiles.length === 0 || totals.regenFailed > 0 || totals.buildFailed > 0) {
+                process.exit(1);
+              }
+              NODE
+            displayName: 'Aggregate regeneration results'

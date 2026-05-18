@@ -19,7 +19,10 @@ param (
   # Optional comma-separated filter patterns applied to package directory names
   # (e.g., 'Azure.ResourceManager*,Azure.Provisioning*')
   [Parameter()]
-  [string]$DirectoryFilterPattern
+  [string]$DirectoryFilterPattern,
+
+  [Parameter()]
+  [int]$MaxPackages = 0
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
@@ -95,6 +98,11 @@ if ($directoriesForGeneration.Count -eq 0) {
     "PackageDirectory" = "$($_.Parent.Name)/$($_.Name)"
     "ServiceArea"   = $_.Parent.Name
   }
+}
+
+if ($MaxPackages -gt 0 -and $packageDirectories.Count -gt $MaxPackages) {
+  $packageDirectories = @($packageDirectories | Select-Object -First $MaxPackages)
+  Write-Host "Limited matrix to first $MaxPackages package directories."
 }
 
 $batches = Split-Items -Items $packageDirectories
