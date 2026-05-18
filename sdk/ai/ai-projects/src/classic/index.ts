@@ -13,6 +13,7 @@ export type { BetaEvaluationTaxonomiesOperations } from "./beta/evaluationTaxono
 export type { BetaEvaluatorsOperations } from "./beta/evaluators/index.js";
 export type { BetaInsightsOperations } from "./beta/insights/index.js";
 export type { BetaMemoryStoresOperations } from "./beta/memoryStores/index.js";
+export type { BetaModelsOperations } from "./beta/models/index.js";
 export type { BetaRedTeamsOperations } from "./beta/redTeams/index.js";
 export type { BetaSchedulesOperations } from "./beta/schedules/index.js";
 export type { BetaDatasetsOperations } from "./beta/datasets/index.js";

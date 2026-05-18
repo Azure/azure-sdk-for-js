@@ -11,6 +11,11 @@ import {
   EvaluationRulesOperations,
   _getEvaluationRulesOperations,
 } from "./classic/evaluationRules/index.js";
+import {
+  EvaluationSuitesOperations,
+  _getEvaluationSuitesOperations,
+} from "./classic/evaluationSuites/index.js";
+import { EvaluatorsOperations, _getEvaluatorsOperations } from "./classic/evaluators/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -36,6 +41,8 @@ export class AIProjectClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.evaluationSuites = _getEvaluationSuitesOperations(this._client);
+    this.evaluators = _getEvaluatorsOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.datasets = _getDatasetsOperations(this._client);
@@ -45,6 +52,10 @@ export class AIProjectClient {
     this.beta = _getBetaOperations(this._client);
   }
 
+  /** The operation groups for evaluationSuites */
+  public readonly evaluationSuites: EvaluationSuitesOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for deployments */

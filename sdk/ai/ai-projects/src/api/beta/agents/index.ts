@@ -3,7 +3,7 @@
 
 export {
   deleteSessionFile,
-  getSessionFiles,
+  listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
   getSessionLogStream,
@@ -11,11 +11,15 @@ export {
   deleteSession,
   getSession,
   createSession,
-  patchAgentObject,
+  downloadAgentCode,
+  createAgentVersionFromCode,
+  updateAgentObject,
+  updateAgentFromCode,
+  createAgentFromCode,
 } from "./operations.js";
 export type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
@@ -23,5 +27,9 @@ export type {
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsUpdateAgentFromCodeOptionalParams,
+  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "./options.js";

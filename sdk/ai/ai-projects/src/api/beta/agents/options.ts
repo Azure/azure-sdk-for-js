@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentEndpoint, AgentCard, PageOrder } from "../../../models/models.js";
+import type {
+  AgentEndpoint,
+  AgentCard,
+  AgentDefinitionOptInKeys,
+  PageOrder,
+} from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -13,7 +18,7 @@ export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsListSessionFilesOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "HostedAgents=V1Preview";
 }
@@ -81,7 +86,21 @@ export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions 
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentEndpoints=V1Preview";
   /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
-  agentSessionId?: string;
+  sessionId?: string;
+}
+
+/** Optional parameters. */
+export interface BetaAgentsDownloadAgentCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "CodeAgents=V1Preview";
+  /** The version of the agent whose code to download. When provided, downloads code for that specific version. */
+  agentVersion?: string;
+}
+
+/** Optional parameters. */
+export interface BetaAgentsCreateAgentVersionFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
 }
 
 /** Optional parameters. */
@@ -92,4 +111,16 @@ export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptio
   agentEndpoint?: AgentEndpoint;
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
+}
+
+/** Optional parameters. */
+export interface BetaAgentsUpdateAgentFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
+
+/** Optional parameters. */
+export interface BetaAgentsCreateAgentFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
 }

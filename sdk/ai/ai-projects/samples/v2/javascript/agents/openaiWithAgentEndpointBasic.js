@@ -22,7 +22,6 @@ require("dotenv/config");
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const image = process.env["FOUNDRY_AGENT_CONTAINER_IMAGE"] || "<agent image>";
 const agentName = "MySessionHostedAgent";
-const isolationKey = "sample-isolation-key";
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
@@ -65,11 +64,7 @@ async function main() {
     type: "version_ref",
     agent_version: agent.version,
   };
-  const session = await project.beta.agents.createSession(
-    agentName,
-    isolationKey,
-    versionIndicator,
-  );
+  const session = await project.beta.agents.createSession(agentName, versionIndicator);
   console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
   try {
@@ -93,7 +88,7 @@ async function main() {
     // ── Cleanup ─────────────────────────────────────────────────────────
     console.log("\nCleaning up resources...");
 
-    await project.beta.agents.deleteSession(agentName, session.agent_session_id, isolationKey);
+    await project.beta.agents.deleteSession(agentName, session.agent_session_id);
     console.log(`Session with id: ${session.agent_session_id} deleted.`);
 
     await project.agents.deleteVersion(agentName, agent.version);

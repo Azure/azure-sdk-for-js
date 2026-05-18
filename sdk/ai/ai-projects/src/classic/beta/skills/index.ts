@@ -47,7 +47,7 @@ export interface BetaSkillsOperations {
   get: (skillName: string, options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
   /** Creates a skill from a zip package. */
   createFromPackage: (
-    body: Uint8Array,
+    packageData: Uint8Array,
     options?: CreateFromPackageOptionalParams,
   ) => Promise<SkillObject>;
   /** Creates a skill. */
@@ -65,8 +65,8 @@ function _getBetaSkills(context: AIProjectContext) {
       download(context, skillName, options),
     get: (skillName: string, options?: BetaSkillsGetOptionalParams) =>
       get(context, skillName, options),
-    createFromPackage: (body: Uint8Array, options?: CreateFromPackageOptionalParams) =>
-      createFromPackage(context, body, options),
+    createFromPackage: (packageData: Uint8Array, options?: CreateFromPackageOptionalParams) =>
+      createFromPackage(context, packageData, options),
     create: (name: string, options?: BetaSkillsCreateOptionalParams) =>
       create(context, name, options),
   };

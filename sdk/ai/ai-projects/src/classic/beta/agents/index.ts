@@ -4,7 +4,7 @@
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   deleteSessionFile,
-  getSessionFiles,
+  listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
   getSessionLogStream,
@@ -12,11 +12,15 @@ import {
   deleteSession,
   getSession,
   createSession,
-  patchAgentObject,
+  downloadAgentCode,
+  createAgentVersionFromCode,
+  updateAgentObject,
+  updateAgentFromCode,
+  createAgentFromCode,
 } from "../../../api/beta/agents/operations.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
@@ -24,16 +28,24 @@ import type {
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsUpdateAgentFromCodeOptionalParams,
+  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import type {
   Agent,
+  AgentVersion,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
   BetaAgentsGetSessionLogStreamResponse,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -45,7 +57,7 @@ export interface BetaAgentsOperations {
    */
   deleteSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: BetaAgentsDeleteSessionFileOptionalParams,
   ) => Promise<void>;
@@ -53,16 +65,16 @@ export interface BetaAgentsOperations {
    * List files and directories at a given path in the session sandbox.
    * Returns only the immediate children of the specified directory (non-recursive).
    */
-  getSessionFiles: (
+  listSessionFiles: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
-    options?: BetaAgentsGetSessionFilesOptionalParams,
+    options?: BetaAgentsListSessionFilesOptionalParams,
   ) => Promise<SessionDirectoryListResponse>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: BetaAgentsDownloadSessionFileOptionalParams,
   ) => Promise<BetaAgentsDownloadSessionFileResponse>;
@@ -72,7 +84,7 @@ export interface BetaAgentsOperations {
    */
   uploadSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     content: Uint8Array,
     options?: BetaAgentsUploadSessionFileOptionalParams,
@@ -123,7 +135,6 @@ export interface BetaAgentsOperations {
   deleteSession: (
     agentName: string,
     sessionId: string,
-    isolationKey: string,
     options?: BetaAgentsDeleteSessionOptionalParams,
   ) => Promise<void>;
   /** Retrieves a session by ID. */
@@ -134,19 +145,65 @@ export interface BetaAgentsOperations {
   ) => Promise<AgentSessionResource>;
   /**
    * Creates a new session for an agent endpoint.
-   * The endpoint resolves the backing agent version from `version_indicator` and
-   * enforces session ownership using the provided isolation key for session-mutating operations.
+   * The endpoint resolves the backing agent version from `version_indicator`.
    */
   createSession: (
     agentName: string,
-    isolationKey: string,
     versionIndicator: VersionIndicatorUnion,
     options?: BetaAgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
+  /**
+   * Download the code zip for a code-based hosted agent.
+   * When `agentVersion` is provided, downloads code for that specific version;
+   * otherwise downloads code for the latest version.
+   * Returns the previously-uploaded zip (`application/zip`).
+   */
+  downloadAgentCode: (
+    agentName: string,
+    options?: BetaAgentsDownloadAgentCodeOptionalParams,
+  ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
+  /**
+   * Creates a new version for an existing code-based hosted agent.
+   * @param agentName - The name of the agent to version.
+   * @param codeZipSha256 - The SHA-256 hex digest of the uploaded zip payload.
+   * @param body - Multipart content containing JSON metadata and the code zip file.
+   * @param options - Optional parameters for the request.
+   */
+  createAgentVersionFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    content: CreateAgentVersionFromCodeContent,
+    options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  ) => Promise<AgentVersion>;
   /** Updates an agent endpoint. */
-  patchAgent: (
+  updateAgent: (
     agentName: string,
     options?: BetaAgentsPatchAgentObjectOptionalParams,
+  ) => Promise<Agent>;
+  /**
+   * Updates a code-based agent by uploading new code and creating a new version.
+   * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  updateAgentFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    content: CreateAgentVersionFromCodeContent,
+    options?: BetaAgentsUpdateAgentFromCodeOptionalParams,
+  ) => Promise<Agent>;
+  /**
+   * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
+   * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
+   * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
+   * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+   * Maximum upload size is 250 MB.
+   */
+  createAgentFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    content: CreateAgentFromCodeContent,
+    options?: BetaAgentsCreateAgentFromCodeOptionalParams,
   ) => Promise<Agent>;
 }
 
@@ -154,29 +211,29 @@ function _getBetaAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: BetaAgentsDeleteSessionFileOptionalParams,
-    ) => deleteSessionFile(context, agentName, agentSessionId, path, options),
-    getSessionFiles: (
+    ) => deleteSessionFile(context, agentName, sessionId, path, options),
+    listSessionFiles: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
-      options?: BetaAgentsGetSessionFilesOptionalParams,
-    ) => getSessionFiles(context, agentName, agentSessionId, path, options),
+      options?: BetaAgentsListSessionFilesOptionalParams,
+    ) => listSessionFiles(context, agentName, sessionId, path, options),
     downloadSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: BetaAgentsDownloadSessionFileOptionalParams,
-    ) => downloadSessionFile(context, agentName, agentSessionId, path, options),
+    ) => downloadSessionFile(context, agentName, sessionId, path, options),
     uploadSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       content: Uint8Array,
       options?: BetaAgentsUploadSessionFileOptionalParams,
-    ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,
@@ -188,9 +245,8 @@ function _getBetaAgents(context: AIProjectContext) {
     deleteSession: (
       agentName: string,
       sessionId: string,
-      isolationKey: string,
       options?: BetaAgentsDeleteSessionOptionalParams,
-    ) => deleteSession(context, agentName, sessionId, isolationKey, options),
+    ) => deleteSession(context, agentName, sessionId, options),
     getSession: (
       agentName: string,
       sessionId: string,
@@ -198,12 +254,31 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => getSession(context, agentName, sessionId, options),
     createSession: (
       agentName: string,
-      isolationKey: string,
       versionIndicator: VersionIndicatorUnion,
       options?: BetaAgentsCreateSessionOptionalParams,
-    ) => createSession(context, agentName, isolationKey, versionIndicator, options),
-    patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
-      patchAgentObject(context, agentName, options),
+    ) => createSession(context, agentName, versionIndicator, options),
+    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
+      downloadAgentCode(context, agentName, options),
+    createAgentVersionFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      content: CreateAgentVersionFromCodeContent,
+      options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+    ) => createAgentVersionFromCode(context, agentName, codeZipSha256, content, options),
+    updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
+      updateAgentObject(context, agentName, options),
+    updateAgentFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      content: CreateAgentVersionFromCodeContent,
+      options?: BetaAgentsUpdateAgentFromCodeOptionalParams,
+    ) => updateAgentFromCode(context, agentName, codeZipSha256, content, options),
+    createAgentFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      content: CreateAgentFromCodeContent,
+      options?: BetaAgentsCreateAgentFromCodeOptionalParams,
+    ) => createAgentFromCode(context, agentName, codeZipSha256, content, options),
   };
 }
 

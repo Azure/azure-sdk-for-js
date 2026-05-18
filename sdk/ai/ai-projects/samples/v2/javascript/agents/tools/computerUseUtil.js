@@ -149,11 +149,11 @@ function printFinalOutput(response) {
 }
 
 module.exports = {
+  ComputerAction,
   SearchState,
   ScreenshotInfo,
   Screenshots,
   loadScreenshotAssets,
-  ComputerAction,
   handleComputerActionAndTakeScreenshot,
   ResponseItem,
   AgentResponse,

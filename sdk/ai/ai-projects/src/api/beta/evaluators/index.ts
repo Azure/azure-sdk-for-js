@@ -2,6 +2,13 @@
 // Licensed under the MIT License.
 
 export {
+  deleteGenerationSuiteJob,
+  cancelGenerationSuiteJob,
+  listGenerationSuiteJobs,
+  getGenerationSuiteJob,
+  createGenerationSuiteJob,
+  runEvaluationSuite,
+  createEvaluationSuiteVersion,
   deleteGenerationJob,
   cancelGenerationJob,
   listGenerationJobs,
@@ -15,6 +22,13 @@ export {
   listVersions,
 } from "./operations.js";
 export type {
+  BetaEvaluatorsDeleteGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsCancelGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsListGenerationSuiteJobsOptionalParams,
+  BetaEvaluatorsGetGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsCreateGenerationSuiteJobOptionalParams,
+  BetaEvaluatorsRunEvaluationSuiteOptionalParams,
+  BetaEvaluatorsCreateEvaluationSuiteVersionOptionalParams,
   BetaEvaluatorsDeleteGenerationJobOptionalParams,
   BetaEvaluatorsCancelGenerationJobOptionalParams,
   BetaEvaluatorsListGenerationJobsOptionalParams,

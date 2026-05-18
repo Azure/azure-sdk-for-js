@@ -72,14 +72,12 @@ describe("beta agents - session CRUD and file operations", () => {
       }
     }
 
-    const isolationKey = "test-isolation-key";
-
     // Create a session
     const versionIndicator: VersionRefIndicator = {
       type: "version_ref",
       agent_version: agent.version,
     };
-    const session = await betaAgents.createSession(agentName, isolationKey, versionIndicator);
+    const session = await betaAgents.createSession(agentName, versionIndicator);
     assert.isNotNull(session);
     assert.isNotNull(session.agent_session_id);
     assert.isNotNull(session.status);
@@ -110,7 +108,7 @@ describe("beta agents - session CRUD and file operations", () => {
     assert.isTrue(uploadResult.bytes_written > 0);
 
     // List files in the session sandbox
-    const listing = await betaAgents.getSessionFiles(
+    const listing = await betaAgents.listSessionFiles(
       agentName,
       session.agent_session_id,
       "/sandbox",
@@ -142,7 +140,7 @@ describe("beta agents - session CRUD and file operations", () => {
     await betaAgents.deleteSessionFile(agentName, session.agent_session_id, filePath);
 
     // Delete the session
-    await betaAgents.deleteSession(agentName, session.agent_session_id, isolationKey);
+    await betaAgents.deleteSession(agentName, session.agent_session_id);
 
     // Delete the agent version
     await agents.deleteVersion(agentName, agent.version);

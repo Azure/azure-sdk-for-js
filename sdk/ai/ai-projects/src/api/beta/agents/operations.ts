@@ -4,6 +4,9 @@
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
   Agent,
+  AgentVersion,
+  CreateAgentFromCodeContent,
+  CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
   _AgentsPagedResultAgentSessionResource,
@@ -11,12 +14,16 @@ import type {
   SessionDirectoryListResponse,
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsGetSessionLogStreamResponse,
+  BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
 import {
   agentDeserializer,
+  agentVersionDeserializer,
   agentEndpointConfigSerializer,
   agentCardSerializer,
   apiErrorResponseDeserializer,
+  createAgentFromCodeContentSerializer,
+  createAgentVersionFromCodeContentSerializer,
   versionIndicatorUnionSerializer,
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
@@ -29,7 +36,7 @@ import { getBinaryStreamResponse } from "../../../static-helpers/serialization/g
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
@@ -37,7 +44,11 @@ import type {
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsUpdateAgentFromCodeOptionalParams,
+  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -104,7 +115,7 @@ export function _getSessionFilesSend(
   agentName: string,
   sessionId: string,
   path: string,
-  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview";
   const path_1 = expandUrlTemplate(
@@ -147,12 +158,12 @@ export async function _getSessionFilesDeserialize(
  * List files and directories at a given path in the session sandbox.
  * Returns only the immediate children of the specified directory (non-recursive).
  */
-export async function getSessionFiles(
+export async function listSessionFiles(
   context: Client,
   agentName: string,
   sessionId: string,
   path: string,
-  options: BetaAgentsGetSessionFilesOptionalParams = { requestOptions: {} },
+  options: BetaAgentsListSessionFilesOptionalParams = { requestOptions: {} },
 ): Promise<SessionDirectoryListResponse> {
   const result = await _getSessionFilesSend(context, agentName, sessionId, path, options);
   return _getSessionFilesDeserialize(result);
@@ -294,13 +305,14 @@ export function _getSessionLogStreamSend(
   sessionId: string,
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview";
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api%2Dversion}",
+    "/agents/{agent_name}/versions/{agent_version}/sessions/{session_id}:logstream{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
       session_id: sessionId,
-      "api%2Dversion": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -309,9 +321,7 @@ export function _getSessionLogStreamSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "text/event-stream",
       ...options.requestOptions?.headers,
     },
@@ -323,10 +333,7 @@ export async function _getSessionLogStreamDeserialize(
 ): Promise<BetaAgentsGetSessionLogStreamResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
+    throw createRestError(result);
   }
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
@@ -453,7 +460,6 @@ export function _deleteSessionSend(
   context: Client,
   agentName: string,
   sessionId: string,
-  isolationKey: string,
   options: BetaAgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "HostedAgents=V1Preview,AgentEndpoints=V1Preview";
@@ -472,7 +478,6 @@ export function _deleteSessionSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      "x-session-isolation-key": isolationKey,
       ...options.requestOptions?.headers,
     },
   });
@@ -498,10 +503,9 @@ export async function deleteSession(
   context: Client,
   agentName: string,
   sessionId: string,
-  isolationKey: string,
   options: BetaAgentsDeleteSessionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteSessionSend(context, agentName, sessionId, isolationKey, options);
+  const result = await _deleteSessionSend(context, agentName, sessionId, options);
   return _deleteSessionDeserialize(result);
 }
 
@@ -562,7 +566,6 @@ export async function getSession(
 export function _createSessionSend(
   context: Client,
   agentName: string,
-  isolationKey: string,
   versionIndicator: VersionIndicatorUnion,
   options: BetaAgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -583,12 +586,11 @@ export function _createSessionSend(
     contentType: "application/json",
     headers: {
       "foundry-features": foundryFeatures,
-      "x-session-isolation-key": isolationKey,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
-      agent_session_id: options?.agentSessionId,
+      agent_session_id: options?.sessionId,
       version_indicator: versionIndicatorUnionSerializer(versionIndicator),
     },
   });
@@ -616,18 +618,135 @@ export async function _createSessionDeserialize(
 export async function createSession(
   context: Client,
   agentName: string,
-  isolationKey: string,
   versionIndicator: VersionIndicatorUnion,
   options: BetaAgentsCreateSessionOptionalParams = { requestOptions: {} },
 ): Promise<AgentSessionResource> {
-  const result = await _createSessionSend(
+  const result = await _createSessionSend(context, agentName, versionIndicator, options);
+  return _createSessionDeserialize(result);
+}
+
+export function _downloadAgentCodeSend(
+  context: Client,
+  agentName: string,
+  options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/code:download{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/zip",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _downloadAgentCodeDeserialize(
+  result: PathUncheckedResponse & BetaAgentsDownloadAgentCodeResponse,
+): Promise<BetaAgentsDownloadAgentCodeResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+/**
+ * Download the code zip for a code-based hosted agent.
+ * Returns the previously-uploaded zip (`application/zip`).
+ *
+ * If `agent_version` is supplied, returns that version's code zip; otherwise
+ * returns the latest version's code zip.
+ *
+ * The SHA-256 digest of the returned bytes matches the `content_hash` on the
+ * resolved version's `code_configuration`.
+ */
+export async function downloadAgentCode(
+  context: Client,
+  agentName: string,
+  options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
+): Promise<BetaAgentsDownloadAgentCodeResponse> {
+  const streamableMethod = _downloadAgentCodeSend(context, agentName, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
+  return _downloadAgentCodeDeserialize(result);
+}
+
+export function _createAgentVersionFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: BetaAgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createAgentVersionFromCodeContentSerializer(content),
+  });
+}
+
+export async function _createAgentVersionFromCodeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentVersionDeserializer(result.body);
+}
+
+export async function createAgentVersionFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: BetaAgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
+): Promise<AgentVersion> {
+  const result = await _createAgentVersionFromCodeSend(
     context,
     agentName,
-    isolationKey,
-    versionIndicator,
+    codeZipSha256,
+    content,
     options,
   );
-  return _createSessionDeserialize(result);
+  return _createAgentVersionFromCodeDeserialize(result);
 }
 
 export function _patchAgentObjectSend(
@@ -678,11 +797,150 @@ export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse
 }
 
 /** Updates an agent endpoint. */
-export async function patchAgentObject(
+export async function updateAgentObject(
   context: Client,
   agentName: string,
   options: BetaAgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _patchAgentObjectSend(context, agentName, options);
   return _patchAgentObjectDeserialize(result);
+}
+
+export function _updateAgentFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: BetaAgentsUpdateAgentFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createAgentVersionFromCodeContentSerializer(content),
+  });
+}
+
+export async function _updateAgentFromCodeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Updates a code-based agent by uploading new code and creating a new version.
+ * If the code and definition are unchanged (matched by x-ms-code-zip-sha256 header), returns the existing version.
+ * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+ * Maximum upload size is 250 MB.
+ */
+export async function updateAgentFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentVersionFromCodeContent,
+  options: BetaAgentsUpdateAgentFromCodeOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _updateAgentFromCodeSend(
+    context,
+    agentName,
+    codeZipSha256,
+    content,
+    options,
+  );
+  return _updateAgentFromCodeDeserialize(result);
+}
+
+export function _createAgentFromCodeSend(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentFromCodeContent,
+  options: BetaAgentsCreateAgentFromCodeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents{?api-version}",
+    {
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      "x-ms-agent-name": agentName,
+      "x-ms-code-zip-sha256": codeZipSha256,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: createAgentFromCodeContentSerializer(content),
+  });
+}
+
+export async function _createAgentFromCodeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Creates a new code-based agent. Uploads the code zip and creates the agent in a single call.
+ * The agent name is provided in the `x-ms-agent-name` header since POST /agents has no name in the URL path.
+ * The SHA-256 hex digest of the zip is provided in the `x-ms-code-zip-sha256` header for integrity and dedup.
+ * The request body is multipart/form-data with a JSON metadata part and a binary code part (part order is irrelevant).
+ * Maximum upload size is 250 MB.
+ */
+export async function createAgentFromCode(
+  context: Client,
+  agentName: string,
+  codeZipSha256: string,
+  content: CreateAgentFromCodeContent,
+  options: BetaAgentsCreateAgentFromCodeOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _createAgentFromCodeSend(
+    context,
+    agentName,
+    codeZipSha256,
+    content,
+    options,
+  );
+  return _createAgentFromCodeDeserialize(result);
 }
