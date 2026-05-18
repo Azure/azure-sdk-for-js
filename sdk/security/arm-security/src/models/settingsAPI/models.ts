@@ -12,20 +12,13 @@ import { ProxyResource, systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The kind of the security setting */
 export interface Setting extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: Record<string, any>;
   /** the kind of the settings string */
   /** The discriminator possible values: DataExportSettings, AlertSyncSettings */
   kind: SettingKind;
 }
 
 export function settingSerializer(item: Setting): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : _settingPropertiesSerializer(item["properties"]),
-    kind: item["kind"],
-  };
+  return { kind: item["kind"] };
 }
 
 export function settingDeserializer(item: any): Setting {
@@ -36,9 +29,6 @@ export function settingDeserializer(item: any): Setting {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : _settingPropertiesDeserializer(item["properties"]),
     kind: item["kind"],
   };
 }
@@ -72,17 +62,6 @@ export function settingUnionDeserializer(item: any): SettingUnion {
   }
 }
 
-/** model interface _SettingProperties */
-export interface _SettingProperties {}
-
-export function _settingPropertiesSerializer(_item: _SettingProperties): any {
-  return {};
-}
-
-export function _settingPropertiesDeserializer(item: any): _SettingProperties {
-  return item;
-}
-
 /** the kind of the settings string */
 export enum KnownSettingKind {
   /** DataExportSettings */
@@ -114,18 +93,15 @@ export interface DataExportSettings extends Setting {
 
 export function dataExportSettingsSerializer(item: DataExportSettings): any {
   return {
+    kind: item["kind"],
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
       : _dataExportSettingsPropertiesSerializer(item),
-    kind: item["kind"],
   };
 }
 
 export function dataExportSettingsDeserializer(item: any): DataExportSettings {
   return {
-    ...(!item["properties"]
-      ? item["properties"]
-      : _dataExportSettingsPropertiesDeserializer(item["properties"])),
     kind: item["kind"],
     id: item["id"],
     name: item["name"],
@@ -133,6 +109,9 @@ export function dataExportSettingsDeserializer(item: any): DataExportSettings {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _dataExportSettingsPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -162,18 +141,15 @@ export interface AlertSyncSettings extends Setting {
 
 export function alertSyncSettingsSerializer(item: AlertSyncSettings): any {
   return {
+    kind: item["kind"],
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
       : _alertSyncSettingsPropertiesSerializer(item),
-    kind: item["kind"],
   };
 }
 
 export function alertSyncSettingsDeserializer(item: any): AlertSyncSettings {
   return {
-    ...(!item["properties"]
-      ? item["properties"]
-      : _alertSyncSettingsPropertiesDeserializer(item["properties"])),
     kind: item["kind"],
     id: item["id"],
     name: item["name"],
@@ -181,6 +157,9 @@ export function alertSyncSettingsDeserializer(item: any): AlertSyncSettings {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _alertSyncSettingsPropertiesDeserializer(item["properties"])),
   };
 }
 

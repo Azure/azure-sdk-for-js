@@ -31,7 +31,6 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
-  ArmPrivateEndpointConnection,
   Identity,
   ResourceIdentityType,
   OperationStatusResult,
@@ -670,15 +669,15 @@ export { KnownMipIntegrationStatus } from "./models/sensitivitySettingsAPI/index
 export type {
   ServerVulnerabilityAssessmentsSetting,
   ServerVulnerabilityAssessmentsSettingUnion,
-  ServerVulnerabilityAssessmentsSettingKindName,
   ServerVulnerabilityAssessmentsSettingKind,
+  ServerVulnerabilityAssessmentsSettingKindName,
   AzureServersSetting,
   ServerVulnerabilityAssessmentsAzureSettingProperties,
   ServerVulnerabilityAssessmentsAzureSettingSelectedProvider,
 } from "./models/serverVulnerabilityAssessmentsSettingsAPI/index.js";
 export {
-  KnownServerVulnerabilityAssessmentsSettingKindName,
   KnownServerVulnerabilityAssessmentsSettingKind,
+  KnownServerVulnerabilityAssessmentsSettingKindName,
   KnownServerVulnerabilityAssessmentsAzureSettingSelectedProvider,
 } from "./models/serverVulnerabilityAssessmentsSettingsAPI/index.js";
 export type {

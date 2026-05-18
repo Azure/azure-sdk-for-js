@@ -530,11 +530,6 @@ export interface ArcAutoProvisioningGcp extends ArcAutoProvisioning {
 export type ArmActionType = string;
 
 // @public
-export interface ArmPrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
-}
-
-// @public
 export interface AscLocation extends ProxyResource {
     properties?: any;
 }
@@ -4490,14 +4485,14 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 // @public
 export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: ArmPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    beginCreateOrUpdate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: ArmPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: ArmPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    createOrUpdate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     delete: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
     list: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -5750,7 +5745,6 @@ export interface ServerVulnerabilityAssessmentsList {
 // @public
 export interface ServerVulnerabilityAssessmentsSetting extends ProxyResource {
     kind: ServerVulnerabilityAssessmentsSettingKind;
-    properties?: Record<string, any>;
 }
 
 // @public
@@ -5802,7 +5796,6 @@ export interface ServerVulnerabilityProperties extends AdditionalData {
 // @public
 export interface Setting extends ProxyResource {
     kind: SettingKind;
-    properties?: Record<string, any>;
 }
 
 // @public

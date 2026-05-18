@@ -1,0 +1,34 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to updates a monitored Azure DevOps repository resource.
+ *
+ * @summary updates a monitored Azure DevOps repository resource.
+ * x-ms-original-file: 2025-11-01-preview/SecurityConnectorsDevOps/UpdateAzureDevOpsRepos_example.json
+ */
+async function updateAzureDevOpsRepos(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
+  const client = new SecurityCenter(credential, subscriptionId);
+  const result = await client.azureDevOpsRepos.update(
+    "myRg",
+    "mySecurityConnectorName",
+    "myAzDevOpsOrg",
+    "myAzDevOpsProject",
+    "myAzDevOpsRepo",
+    {
+      properties: { actionableRemediation: { state: "Enabled" }, onboardingState: "NotApplicable" },
+    },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await updateAzureDevOpsRepos();
+}
+
+main().catch(console.error);

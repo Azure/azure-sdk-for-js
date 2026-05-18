@@ -8,11 +8,6 @@
 export type ArmActionType = string;
 
 // @public
-export interface ArmPrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
-}
-
-// @public
 export type CreatedByType = string;
 
 // @public

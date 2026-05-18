@@ -20,7 +20,6 @@ export type {
   PrivateLinkServiceConnectionState,
   PrivateEndpointServiceConnectionStatus,
   PrivateEndpointConnectionProvisioningState,
-  ArmPrivateEndpointConnection,
   Identity,
   ResourceIdentityType,
   OperationStatusResult,

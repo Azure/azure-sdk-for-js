@@ -4,7 +4,6 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  ArmPrivateEndpointConnection,
   _PrivateEndpointConnectionListResult,
   _privateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
@@ -152,7 +151,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   privateLinkName: PrivateLinkParameters,
   privateEndpointConnectionName: string,
-  privateEndpointConnection: ArmPrivateEndpointConnection,
+  privateEndpointConnection: PrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -196,7 +195,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   privateLinkName: PrivateLinkParameters,
   privateEndpointConnectionName: string,
-  privateEndpointConnection: ArmPrivateEndpointConnection,
+  privateEndpointConnection: PrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

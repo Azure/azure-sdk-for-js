@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.0-beta.7 (2026-05-10)
+## 6.0.0-beta.7 (2026-05-18)
 Compared with version 5.0.0
 
 ### Features Added
@@ -87,7 +87,6 @@ Compared with version 5.0.0
   - Added Interface ArcAutoProvisioningAws
   - Added Interface ArcAutoProvisioningConfiguration
   - Added Interface ArcAutoProvisioningGcp
-  - Added Interface ArmPrivateEndpointConnection
   - Added Interface AscLocation
   - Added Interface AssessmentStatusResponse
   - Added Interface AssignedAssessmentItem

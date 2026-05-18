@@ -36,7 +36,6 @@ export enum KnownSettingKind {
 // @public
 export interface Setting extends ProxyResource {
     kind: SettingKind;
-    properties?: Record<string, any>;
 }
 
 // @public

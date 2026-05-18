@@ -14,7 +14,6 @@ import {
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import { ArmPrivateEndpointConnection } from "../../models/models.js";
 import { PrivateEndpointConnection } from "../../models/privateLinksAPI/models.js";
 import { PrivateLinkParameters } from "../../models/securityManagementClient/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -55,7 +54,7 @@ export interface PrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     privateLinkName: PrivateLinkParameters,
     privateEndpointConnectionName: string,
-    privateEndpointConnection: ArmPrivateEndpointConnection,
+    privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
   /** @deprecated use createOrUpdate instead */
@@ -63,7 +62,7 @@ export interface PrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     privateLinkName: PrivateLinkParameters,
     privateEndpointConnectionName: string,
-    privateEndpointConnection: ArmPrivateEndpointConnection,
+    privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ) => Promise<
     SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>
@@ -73,7 +72,7 @@ export interface PrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     privateLinkName: PrivateLinkParameters,
     privateEndpointConnectionName: string,
-    privateEndpointConnection: ArmPrivateEndpointConnection,
+    privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
   /** Gets the specified private endpoint connection associated with the private link. Returns the connection details, status, and configuration for a specific private endpoint. */
@@ -133,7 +132,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
       resourceGroupName: string,
       privateLinkName: PrivateLinkParameters,
       privateEndpointConnectionName: string,
-      privateEndpointConnection: ArmPrivateEndpointConnection,
+      privateEndpointConnection: PrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -148,7 +147,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
       resourceGroupName: string,
       privateLinkName: PrivateLinkParameters,
       privateEndpointConnectionName: string,
-      privateEndpointConnection: ArmPrivateEndpointConnection,
+      privateEndpointConnection: PrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -166,7 +165,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
       resourceGroupName: string,
       privateLinkName: PrivateLinkParameters,
       privateEndpointConnectionName: string,
-      privateEndpointConnection: ArmPrivateEndpointConnection,
+      privateEndpointConnection: PrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

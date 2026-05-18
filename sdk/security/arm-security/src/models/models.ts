@@ -477,20 +477,6 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** The private endpoint connection resource */
-export interface ArmPrivateEndpointConnection extends Resource {
-  /** The private endpoint connection properties */
-  properties?: PrivateEndpointConnectionProperties;
-}
-
-export function armPrivateEndpointConnectionSerializer(item: ArmPrivateEndpointConnection): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
-  };
-}
-
 /** The response of a PrivateEndpointConnection list operation. */
 export interface _PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
