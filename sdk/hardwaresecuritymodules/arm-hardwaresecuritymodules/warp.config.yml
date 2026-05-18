@@ -1,12 +1,15 @@
+
 extends: ../../../warp.base.config.yml
-exports:
-  "./api": "./src/api/index.ts"
-  "./api/dedicatedHsm": "./src/api/dedicatedHsm/index.ts"
-  "./api/cloudHsmClusterPrivateEndpointConnections": "./src/api/cloudHsmClusterPrivateEndpointConnections/index.ts"
-  "./api/cloudHsmClusterRestoreStatus": "./src/api/cloudHsmClusterRestoreStatus/index.ts"
-  "./api/cloudHsmClusterBackupStatus": "./src/api/cloudHsmClusterBackupStatus/index.ts"
-  "./api/cloudHsmClusterPrivateLinkResources": "./src/api/cloudHsmClusterPrivateLinkResources/index.ts"
-  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
-  "./api/cloudHsmClusters": "./src/api/cloudHsmClusters/index.ts"
-  "./api/operations": "./src/api/operations/index.ts"
-  "./models": "./src/models/index.ts"
+
+targets:
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs
+
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
