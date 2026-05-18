@@ -11,4 +11,9 @@ export * from "./isUnexpected.js";
 export type * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export { type LedgerIdentity, getLedgerIdentity } from "./getLedgerIdentity.js";
+export {
+  pollTransactionStatus,
+  type PollTransactionStatusOptions,
+  type PollTransactionStatusResult,
+} from "./pollTransactionStatus.js";
 export default ConfidentialLedger;
