@@ -60,6 +60,18 @@ import type {
   CertificateContactAll,
   ActionType,
   CertificatePolicyAction,
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/index.ts
+  IssuerParameters,
+  PlatformManaged,
+  Contacts,
+  Contact,
+  CertificateIssuerItem,
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/index.ts
+  IssuerParameters,
+  Contacts,
+  Contact,
+  CertificateIssuerItem,
+=======
   LifetimeAction,
   RequireAtLeastOne,
   ArrayOneOrMore,
@@ -81,6 +93,7 @@ import {
 } from "./certificatesModels.js";
 
 import type {
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/index.ts
   CertificateIssuerSetParameters,
   CertificateIssuerUpdateParameters,
   BackupCertificateResult,
