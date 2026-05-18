@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -34,6 +35,7 @@ export {
   createOrUpdateSynonymMap,
 } from "./operations.js";
 export type {
+  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,

@@ -18,6 +18,8 @@ import type {
   KnowledgeSourceUnion,
   _ListKnowledgeSourcesResult,
   SearchServiceStatistics,
+  _ListIndexStatsSummary,
+  IndexStatisticsSummary,
 } from "../../models/azure/search/documents/indexes/models.js";
 import {
   synonymMapSerializer,
@@ -39,6 +41,7 @@ import {
   knowledgeSourceUnionDeserializer,
   _listKnowledgeSourcesResultDeserializer,
   searchServiceStatisticsDeserializer,
+  _listIndexStatsSummaryDeserializer,
 } from "../../models/azure/search/documents/indexes/models.js";
 import type { KnowledgeSourceStatus } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { knowledgeSourceStatusDeserializer } from "../../models/azure/search/documents/knowledgeBases/models.js";
@@ -49,6 +52,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -83,6 +87,70 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
+export function _listIndexStatsSummarySend(
+  context: Client,
+  options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/indexstats{?api%2Dversion,%24top,%24skip,%24count}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "%24top": options?.top,
+      "%24skip": options?.skip,
+      "%24count": options?.count,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listIndexStatsSummaryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ListIndexStatsSummary> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _listIndexStatsSummaryDeserializer(result.body);
+}
+
+/** Retrieves a summary of statistics for all indexes in the search service. */
+export function listIndexStatsSummary(
+  context: Client,
+  options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<IndexStatisticsSummary> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listIndexStatsSummarySend(context, options),
+    _listIndexStatsSummaryDeserialize,
+    ["200"],
+    {
+      itemName: "indexesStatistics",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+  );
+}
+
 export function _getServiceStatisticsSend(
   context: Client,
   options: GetServiceStatisticsOptionalParams = { requestOptions: {} },
@@ -90,7 +158,7 @@ export function _getServiceStatisticsSend(
   const path = expandUrlTemplate(
     "/servicestats{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +212,7 @@ export function _getKnowledgeSourceStatusSend(
     "/knowledgesources('{sourceName}')/status{?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +266,7 @@ export function _createKnowledgeSourceSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,7 +321,7 @@ export function _listKnowledgeSourcesSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +367,7 @@ export function listKnowledgeSources(
     () => _listKnowledgeSourcesSend(context, options),
     _listKnowledgeSourcesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
 }
 
@@ -312,7 +380,7 @@ export function _getKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -367,7 +435,7 @@ export function _deleteKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -425,7 +493,7 @@ export function _createOrUpdateKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -485,7 +553,7 @@ export function _createKnowledgeBaseSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -540,7 +608,7 @@ export function _listKnowledgeBasesSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -586,7 +654,7 @@ export function listKnowledgeBases(
     () => _listKnowledgeBasesSend(context, options),
     _listKnowledgeBasesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
 }
 
@@ -599,7 +667,7 @@ export function _getKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -654,7 +722,7 @@ export function _deleteKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -712,7 +780,7 @@ export function _createOrUpdateKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -772,7 +840,7 @@ export function _createAliasSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -825,7 +893,7 @@ export function _listAliasesSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -871,7 +939,7 @@ export function listAliases(
     () => _listAliasesSend(context, options),
     _listAliasesDeserialize,
     ["200"],
-    { itemName: "aliases", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "aliases", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
   );
 }
 
@@ -884,7 +952,7 @@ export function _getAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -937,7 +1005,7 @@ export function _deleteAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -993,7 +1061,7 @@ export function _createOrUpdateAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1055,7 +1123,7 @@ export function _analyzeTextSend(
     "/indexes('{indexName}')/search.analyze{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1113,7 +1181,7 @@ export function _getIndexStatisticsSend(
     "/indexes('{indexName}')/search.stats{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1167,7 +1235,7 @@ export function _createIndexSend(
   const path = expandUrlTemplate(
     "/indexes{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1218,10 +1286,13 @@ export function _listIndexesWithSelectedPropertiesSend(
   options: ListIndexesWithSelectedPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api%2Dversion,%24select}",
+    "/indexes{?api%2Dversion,%24select,%24top,%24skip,%24count}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
+      "%24top": options?.top,
+      "%24skip": options?.skip,
+      "%24count": options?.count,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1267,7 +1338,11 @@ export function listIndexesWithSelectedProperties(
     () => _listIndexesWithSelectedPropertiesSend(context, options),
     _listIndexesWithSelectedPropertiesDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -1276,9 +1351,12 @@ export function _listIndexesSend(
   options: ListIndexesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api%2Dversion}",
+    "/indexes{?api%2Dversion,%24top,%24skip,%24count}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "%24top": options?.top,
+      "%24skip": options?.skip,
+      "%24count": options?.count,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1324,7 +1402,11 @@ export function listIndexes(
     () => _listIndexesSend(context, options),
     _listIndexesDeserialize,
     ["200"],
-    { itemName: "indexes", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "indexes",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -1337,7 +1419,7 @@ export function _getIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1390,7 +1472,7 @@ export function _deleteIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1446,7 +1528,7 @@ export function _createOrUpdateIndexSend(
     "/indexes('{indexName}'){?api%2Dversion,allowIndexDowntime}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       allowIndexDowntime: options?.allowIndexDowntime,
     },
     {
@@ -1507,7 +1589,7 @@ export function _createSynonymMapSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1562,7 +1644,7 @@ export function _getSynonymMapsSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
     },
     {
@@ -1617,7 +1699,7 @@ export function _getSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1672,7 +1754,7 @@ export function _deleteSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1728,7 +1810,7 @@ export function _createOrUpdateSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
