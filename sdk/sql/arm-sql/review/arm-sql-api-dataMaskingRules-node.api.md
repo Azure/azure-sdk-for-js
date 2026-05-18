@@ -16,6 +16,7 @@ export interface DataMaskingRulesCreateOrUpdateOptionalParams extends OperationO
 
 // @public
 export interface DataMaskingRulesListByDatabaseOptionalParams extends OperationOptions {
+    skip?: number;
 }
 
 // @public

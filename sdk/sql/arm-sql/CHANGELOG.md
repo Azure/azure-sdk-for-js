@@ -1,6 +1,7 @@
 # Release History
 
-## 11.0.0 (2026-05-18)
+## 11.0.0-beta.5 (2026-05-18)
+Compared with version 10.0.0
 
 ### Features Added
   - Added operation group InstancePoolOperationsOperations
@@ -252,6 +253,8 @@
   - Added Interface DatabaseVulnerabilityAssessmentScanExportProperties
   - Added Interface DataMaskingPolicyProperties
   - Added Interface DataMaskingRuleProperties
+  - Added Interface DataSyncParticipantIdentity
+  - Added Interface DataSyncParticipantUserAssignedIdentity
   - Added Interface DataWarehouseUserActivitiesProperties
   - Added Interface DeletedServerProperties
   - Added Interface DistributedAvailabilityGroupDatabase
@@ -429,6 +432,7 @@
   - Interface BackupShortTermRetentionPolicy has a new optional parameter systemData
   - Interface Database has a new optional parameter encryptionProtectorAutoRotation
   - Interface Database has a new optional parameter freeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter provisioningState
   - Interface Database has a new optional parameter useFreeLimit
   - Interface Database has a new optional parameter systemData
   - Interface DatabaseAutomaticTuning has a new optional parameter systemData
@@ -446,9 +450,14 @@
   - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
   - Interface DatabaseOperation has a new optional parameter systemData
   - Interface DatabaseSchema has a new optional parameter systemData
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter filter
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter orderby
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter skip
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter top
   - Interface DatabaseTable has a new optional parameter systemData
   - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
   - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
+  - Interface DatabaseUpdate has a new optional parameter provisioningState
   - Interface DatabaseUpdate has a new optional parameter useFreeLimit
   - Interface DatabaseUsage has a new optional parameter systemData
   - Interface DatabaseVulnerabilityAssessment has a new optional parameter systemData
@@ -456,6 +465,7 @@
   - Interface DatabaseVulnerabilityAssessmentScansExport has a new optional parameter systemData
   - Interface DataMaskingPolicy has a new optional parameter systemData
   - Interface DataMaskingRule has a new optional parameter systemData
+  - Interface DataMaskingRulesListByDatabaseOptionalParams has a new optional parameter skip
   - Interface DataWarehouseUserActivities has a new optional parameter systemData
   - Interface DeletedServer has a new optional parameter systemData
   - Interface DistributedAvailabilityGroup has a new optional parameter databases
@@ -471,6 +481,7 @@
   - Interface EditionCapability has a new optional parameter zonePinning
   - Interface ElasticPool has a new optional parameter autoPauseDelay
   - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter currentSku
   - Interface ElasticPool has a new optional parameter minCapacity
   - Interface ElasticPool has a new optional parameter preferredEnclaveType
   - Interface ElasticPool has a new optional parameter systemData
@@ -483,6 +494,7 @@
   - Interface ElasticPoolPerformanceLevelCapability has a new optional parameter supportedZones
   - Interface ElasticPoolUpdate has a new optional parameter autoPauseDelay
   - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter currentSku
   - Interface ElasticPoolUpdate has a new optional parameter minCapacity
   - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
   - Interface EncryptionProtector has a new optional parameter keyVersion
@@ -569,6 +581,7 @@
   - Interface ManagedInstance has a new optional parameter systemData
   - Interface ManagedInstanceAdministrator has a new optional parameter systemData
   - Interface ManagedInstanceAzureADOnlyAuthentication has a new optional parameter systemData
+  - Interface ManagedInstanceDtc has a new optional parameter fqdnEnabled
   - Interface ManagedInstanceDtc has a new optional parameter systemData
   - Interface ManagedInstanceEditionCapability has a new optional parameter isGeneralPurposeV2
   - Interface ManagedInstanceEncryptionProtector has a new optional parameter systemData
@@ -663,7 +676,9 @@
   - Interface SynapseLinkWorkspace has a new optional parameter systemData
   - Interface SyncAgent has a new optional parameter systemData
   - Interface SyncAgentLinkedDatabase has a new optional parameter systemData
+  - Interface SyncGroup has a new optional parameter identity
   - Interface SyncGroup has a new optional parameter systemData
+  - Interface SyncMember has a new optional parameter identity
   - Interface SyncMember has a new optional parameter systemData
   - Interface TdeCertificate has a new optional parameter systemData
   - Interface TimeZone has a new optional parameter systemData
@@ -679,6 +694,7 @@
   - Added Type Alias BackupStorageAccessTier
   - Added Type Alias CheckNameAvailabilityResourceType
   - Added Type Alias ClientClassificationSource
+  - Added Type Alias DataSyncParticipantIdentityType
   - Added Type Alias ErrorType
   - Added Type Alias FailoverGroupDatabasesSecondaryType
   - Added Type Alias FailoverModeType
@@ -709,6 +725,9 @@
   - Added Enum KnownAuthMetadataLookupModes
   - Added Enum KnownBackupStorageAccessTier
   - Added Enum KnownClientClassificationSource
+  - Added Enum KnownDataMaskingFunction
+  - Added Enum KnownDataMaskingRuleState
+  - Added Enum KnownDataSyncParticipantIdentityType
   - Added Enum KnownErrorType
   - Added Enum KnownFailoverGroupDatabasesSecondaryType
   - Added Enum KnownFailoverModeType
@@ -758,6 +777,8 @@
   - Operation Databases.beginExportAndWait has a new signature
   - Operation Databases.beginImport has a new signature
   - Operation Databases.beginImportAndWait has a new signature
+  - Operation Databases.listByServer has a new signature
+  - Operation DataMaskingRules.createOrUpdate has a new signature
   - Operation GeoBackupPolicies.createOrUpdate has a new signature
   - Operation GeoBackupPolicies.get has a new signature
   - Operation JobSteps.createOrUpdate has a new signature
@@ -808,6 +829,7 @@
   - Type of parameter details of interface RecommendedAction is changed from {
         [propertyName: string]: Record<string, unknown>;
     } to Record<string, string>
+  - Interface DatabasesListByServerOptionalParams no longer has parameter skipToken
   - Interface DistributedAvailabilityGroup no longer has parameter lastHardenedLsn
   - Interface DistributedAvailabilityGroup no longer has parameter linkState
   - Interface DistributedAvailabilityGroup no longer has parameter primaryAvailabilityGroupName
@@ -832,6 +854,8 @@
   - Removed Type Alias UnitDefinitionType
   - Removed Type Alias UnitType
   - Removed Type Alias UpsertManagedServerOperationStepStatus
+  - Type alias "DataMaskingFunction" has been changed
+  - Type alias "DataMaskingRuleState" has been changed
   - Removed Enum KnownManagedInstancePropertiesProvisioningState
   - Removed Enum KnownPrimaryAggregationType
   - Removed Enum KnownReplicationMode

@@ -44,7 +44,7 @@ export function _listByJobExecutionSend(
       jobAgentName: jobAgentName,
       jobName: jobName,
       jobExecutionId: jobExecutionId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -105,7 +105,11 @@ export function listByJobExecution(
       ),
     _listByJobExecutionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -129,7 +133,7 @@ export function _listByStepSend(
       jobName: jobName,
       jobExecutionId: jobExecutionId,
       stepName: stepName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
       createTimeMin: !options?.createTimeMin
         ? options?.createTimeMin
         : options?.createTimeMin.toISOString(),
@@ -192,7 +196,11 @@ export function listByStep(
       ),
     _listByStepDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-02-01-preview",
+    },
   );
 }
 
@@ -218,7 +226,7 @@ export function _getSend(
       jobExecutionId: jobExecutionId,
       stepName: stepName,
       targetId: targetId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
