@@ -37,6 +37,7 @@ import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
 import type { PartitionKeyRangeCache } from "./routing/index.js";
+import { filterPartitionKeyRanges } from "./routing/partitionKeyRangeUtils.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -375,8 +376,19 @@ export class QueryIterator<T> {
       await this.partitionKeyRangeCache.onCollectionRoutingMap(this.resourceLink, diagnosticNode)
     ).getOrderedParitionKeyRanges();
 
-    // convert allPartitionKeyRanges to QueryRanges
-    const queryRanges: QueryRange[] = allPartitionKeyRanges.map((partitionKeyRange) => {
+    // If partitionKey is specified in FeedOptions, filter to only the target partition range.
+    const targetRanges =
+      this.options.partitionKey !== undefined
+        ? filterPartitionKeyRanges(
+            this.options.partitionKey,
+            allPartitionKeyRanges,
+            this.resourceLink,
+            this.clientContext,
+          )
+        : allPartitionKeyRanges;
+
+    // convert partition key ranges to QueryRanges
+    const queryRanges: QueryRange[] = targetRanges.map((partitionKeyRange) => {
       return {
         min: partitionKeyRange.minInclusive,
         max: partitionKeyRange.maxExclusive,
