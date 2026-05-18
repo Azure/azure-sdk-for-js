@@ -94,6 +94,15 @@ const allowedRedirect = ["GET", "HEAD"];
 const writeMethods = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
 /**
+ * HTTP status codes that this policy interprets as redirects. Used to detect
+ * when a redirect chain terminated on an actual non-redirect response vs. one
+ * the chain failed to follow (e.g., max-retries exhausted or malformed
+ * Location). The staged cache is only committed on a terminal non-redirect
+ * response.
+ */
+const redirectStatusCodes = new Set([300, 301, 302, 303, 307, 308]);
+
+/**
  * Rewrite a URL by replacing its scheme and host with those from the cached base URL,
  * preserving the original path, query string, and fragment.
  *
@@ -244,8 +253,12 @@ function confidentialLedgerRedirectPolicy(
         cachedBaseUrl = null;
         request.url = originalUrl;
         request.method = originalMethod;
-      } else if (pendingCacheUrl) {
-        // Commit the staged cache only on a successful (non-5xx) trusted chain.
+      } else if (pendingCacheUrl && !redirectStatusCodes.has(response.status)) {
+        // Commit the staged cache only when the redirect chain reached a
+        // terminal non-redirect response. If the chain ended on a 3xx (e.g.,
+        // max-retries exhausted, malformed Location, or no Location header),
+        // we do not know the staged URL is reachable, so the cache is
+        // discarded to avoid poisoning subsequent writes.
         cachedBaseUrl = pendingCacheUrl;
       }
 
