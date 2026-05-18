@@ -2228,11 +2228,11 @@ export function volumeArrayDeserializer(result: Array<Volume>): any[] {
 /** Supported versions for PureStorage.Block. */
 export enum KnownVersions {
   /** Version 1 preview. */
-  V1Preview = "2024-10-01-preview",
+  V20241001Preview = "2024-10-01-preview",
   /** Version 2 preview. */
-  V2Preview = "2024-11-01-preview",
+  V20241101Preview = "2024-11-01-preview",
   /** Version 1 stable */
-  V1Stable = "2024-11-01",
+  V20241101 = "2024-11-01",
   /** Version 3 preview with Azure native VM support. */
   V20260101Preview = "2026-01-01-preview",
 }

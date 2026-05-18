@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-05-14)
+## 1.1.0-beta.1 (2026-05-18)
 Compared with version 1.0.0
 
 ### Features Added
@@ -35,13 +35,9 @@ Compared with version 1.0.0
   - Interface BlockClientOptionalParams has a new optional parameter cloudSetting
   - Added Type Alias AzureSupportedClouds
   - Added Enum AzureClouds
-  - Enum KnownVersions has a new value V1Preview
-  - Enum KnownVersions has a new value V1Stable
+  - Enum KnownVersions has a new value V20241001Preview
+  - Enum KnownVersions has a new value V20241101Preview
   - Enum KnownVersions has a new value V20260101Preview
-  - Enum KnownVersions has a new value V2Preview
-
-### Breaking Changes
-  - Enum KnownVersions no longer has value V20241101
 
     
 ## 1.0.0 (2025-06-30)
