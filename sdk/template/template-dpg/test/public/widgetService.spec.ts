@@ -57,9 +57,6 @@ describe("WidgetServiceClient", () => {
         "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
       ],
     });
-    await recorder.setMatcher("CustomDefaultMatcher", {
-      excludedHeaders: ["Cache-Control", "Pragma"],
-    });
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
