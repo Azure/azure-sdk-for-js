@@ -4,17 +4,17 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function attachResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequest, options?: ScheduledActionsAttachResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
+export function attachResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequestInput, options?: ScheduledActionsAttachResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
 
 // @public
 export function cancelNextOccurrence(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: CancelOccurrenceRequest, options?: ScheduledActionsCancelNextOccurrenceOptionalParams): Promise<RecurringActionsResourceOperationResult>;
@@ -44,7 +44,7 @@ export function listBySubscription(context: ComputeScheduleContext, options?: Sc
 export function listResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsListResourcesOptionalParams): PagedAsyncIterableIterator<ScheduledActionResource>;
 
 // @public
-export function patchResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequest, options?: ScheduledActionsPatchResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
+export function patchResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequestInput, options?: ScheduledActionsPatchResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
 
 // @public
 export interface ScheduledActionsAttachResourcesOptionalParams extends OperationOptions {
@@ -109,6 +109,10 @@ export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams e
 }
 
 // @public
+export interface ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ScheduledActionsVirtualMachinesExecuteCreateOptionalParams extends OperationOptions {
 }
 
@@ -159,6 +163,9 @@ export function virtualMachinesCancelOperations(context: ComputeScheduleContext,
 
 // @public
 export function virtualMachinesExecuteCreate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams): Promise<CreateResourceOperationResponse>;
+
+// @public
+export function virtualMachinesExecuteCreateFlex(context: ComputeScheduleContext, locationparameter: string, body: ExecuteCreateFlexRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams): Promise<CreateFlexResourceOperationResponse>;
 
 // @public
 export function virtualMachinesExecuteDeallocate(context: ComputeScheduleContext, locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams): Promise<DeallocateResourceOperationResponse>;
