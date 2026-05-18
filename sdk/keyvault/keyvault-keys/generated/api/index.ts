@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
-} from "./keyVaultContext.js";
+export type { KeyVaultContext, KeyVaultClientOptionalParams } from "./keyVaultContext.js";
+export { createKeyVault } from "./keyVaultContext.js";
 export {
   getKeyAttestation,
   getRandomBytes,
@@ -17,6 +14,8 @@ export {
   getDeletedKeys,
   release,
   unwrapKey,
+  secureUnwrapKey,
+  secureWrapKey,
   wrapKey,
   verify,
   sign,
@@ -33,7 +32,7 @@ export {
   rotateKey,
   createKey,
 } from "./operations.js";
-export {
+export type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -44,6 +43,8 @@ export {
   GetDeletedKeysOptionalParams,
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
   WrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,

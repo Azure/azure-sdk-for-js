@@ -1,28 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
-  KeyCreateParameters,
-  KeyBundle,
-  KeyImportParameters,
-  DeletedKeyBundle,
-  KeyUpdateParameters,
-  KeyItem,
-  BackupKeyResult,
-  KeyRestoreParameters,
-  KeyOperationsParameters,
-  KeyOperationResult,
-  KeySignParameters,
-  KeyVerifyParameters,
-  KeyVerifyResult,
-  KeyReleaseParameters,
-  KeyReleaseResult,
-  DeletedKeyItem,
-  KeyRotationPolicy,
-  GetRandomBytesRequest,
-  RandomBytes,
-} from "./models/models.js";
+  getKeyAttestation,
+  getRandomBytes,
+  updateKeyRotationPolicy,
+  getKeyRotationPolicy,
+  recoverDeletedKey,
+  purgeDeletedKey,
+  getDeletedKey,
+  getDeletedKeys,
+  release,
+  unwrapKey,
+  secureUnwrapKey,
+  secureWrapKey,
+  wrapKey,
+  verify,
+  sign,
+  decrypt,
+  encrypt,
+  restoreKey,
+  backupKey,
+  getKeys,
+  getKeyVersions,
+  getKey,
+  updateKey,
+  deleteKey,
+  importKey,
+  rotateKey,
+  createKey,
+} from "./api/operations.js";
 import {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
@@ -34,6 +42,8 @@ import {
   GetDeletedKeysOptionalParams,
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
   WrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
@@ -51,37 +61,34 @@ import {
   CreateKeyOptionalParams,
 } from "./api/options.js";
 import {
-  getKeyAttestation,
-  getRandomBytes,
-  updateKeyRotationPolicy,
-  getKeyRotationPolicy,
-  recoverDeletedKey,
-  purgeDeletedKey,
-  getDeletedKey,
-  getDeletedKeys,
-  release,
-  unwrapKey,
-  wrapKey,
-  verify,
-  sign,
-  decrypt,
-  encrypt,
-  restoreKey,
-  backupKey,
-  getKeys,
-  getKeyVersions,
-  getKey,
-  updateKey,
-  deleteKey,
-  importKey,
-  rotateKey,
-  createKey,
-} from "./api/operations.js";
+  KeyCreateParameters,
+  KeyBundle,
+  KeyImportParameters,
+  DeletedKeyBundle,
+  KeyUpdateParameters,
+  KeyItem,
+  BackupKeyResult,
+  KeyRestoreParameters,
+  KeyOperationsParameters,
+  KeyOperationResult,
+  KeySignParameters,
+  KeyVerifyParameters,
+  KeyVerifyResult,
+  SecureKeyWrapOperationParameters,
+  SecureKeyOperationResult,
+  SecureKeyUnWrapOperationParameters,
+  KeyReleaseParameters,
+  KeyReleaseResult,
+  DeletedKeyItem,
+  KeyRotationPolicy,
+  GetRandomBytesRequest,
+  RandomBytes,
+} from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;
@@ -188,6 +195,29 @@ export class KeyVaultClient {
     options: UnwrapKeyOptionalParams = { requestOptions: {} },
   ): Promise<KeyOperationResult> {
     return unwrapKey(this._client, keyName, keyVersion, parameters, options);
+  }
+
+  /**
+   * The SECURE UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the SECURE WRAP operation. The SECURE UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/unwrapKey permission.
+   * The SECURE UNWRAP operation ensures that MAA (Microsoft Azure Attestation Service) is used to attest the TEE (Trusted Execution Environment) before the key is unwrapped.
+   */
+  secureUnwrapKey(
+    keyName: string,
+    keyVersion: string,
+    parameters: SecureKeyUnWrapOperationParameters,
+    options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+  ): Promise<SecureKeyOperationResult> {
+    return secureUnwrapKey(this._client, keyName, keyVersion, parameters, options);
+  }
+
+  /** The SECURE WRAP operation creates a new 256 bit AES key within the trusted execution environment(TEE) and encrypts the same with a key encryption key that has previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/wrapKey permission. */
+  secureWrapKey(
+    keyName: string,
+    keyVersion: string,
+    parameters: SecureKeyWrapOperationParameters,
+    options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+  ): Promise<SecureKeyOperationResult> {
+    return secureWrapKey(this._client, keyName, keyVersion, parameters, options);
   }
 
   /** The WRAP operation supports encryption of a symmetric key using a key encryption key that has previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/wrapKey permission. */
