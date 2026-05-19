@@ -1,5 +1,17 @@
 # Release History
 
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Regenerated SDK with latest TypeSpec emitter (v0.53.2)
+
 ## 2.0.0 (2026-04-16)
 
 ### Features Added
