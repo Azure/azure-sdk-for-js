@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0 (2026-05-15)
+
+### Features Added
+
+This is the first stable (GA) release of the `@azure/ai-speech-transcription` client library. It targets the `2025-10-15` Azure AI Speech Transcription service API version.
+
+### Breaking Changes
+
+- Combined `TranscriptionClient.transcribe`'s `options` and `operationOptions` parameters into a single options bag. `TranscriptionOptions` now extends `OperationOptions`, so callers can pass `abortSignal`, `requestOptions`, `tracingOptions`, and `onResponse` alongside transcription-specific parameters in the same object. `TranscribeOptions` is no longer re-exported from the package root; it remains available from the `@azure/ai-speech-transcription/api` subpath for advanced scenarios that call the underlying operation directly. Callers that previously passed `(source, options, operationOptions)` should merge both objects into a single `options` argument.
+
 ## 1.0.0-beta.2 (2026-05-13)
 
 ### Breaking Changes
