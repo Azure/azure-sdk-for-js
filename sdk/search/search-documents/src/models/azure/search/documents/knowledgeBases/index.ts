@@ -69,6 +69,14 @@ export type {
   KnowledgeBaseFabricDataAgentReference,
   KnowledgeBaseFabricOntologyReference,
 } from "./models.js";
+export type {
+  McpServerKnowledgeSourceParams,
+  FileKnowledgeSourceParams,
+  IndexedSqlKnowledgeSourceParams,
+  KnowledgeBaseMcpServerReference,
+  KnowledgeBaseFileReference,
+  KnowledgeBaseIndexedSqlReference,
+} from "../../../../generated/models/azure/search/documents/knowledgeBases/index.js";
 export {
   KnownKnowledgeRetrievalReasoningEffortKind,
   KnownKnowledgeRetrievalOutputMode,
