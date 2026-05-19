@@ -85,7 +85,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -164,42 +166,35 @@
+@@ -170,42 +172,35 @@
  }
  
  // @public
@@ -139,7 +139,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -208,13 +203,8 @@
+@@ -214,13 +209,8 @@
      encodedContentLength: number;
  }>;
  
@@ -153,7 +153,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId: string | undefined;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -227,10 +217,13 @@
+@@ -233,10 +223,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

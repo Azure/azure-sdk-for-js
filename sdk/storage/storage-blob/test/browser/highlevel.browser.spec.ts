@@ -6,8 +6,7 @@ import {
   bodyToString,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -33,9 +32,7 @@ describe("Highlevel", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
