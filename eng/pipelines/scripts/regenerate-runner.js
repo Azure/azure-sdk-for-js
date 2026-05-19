@@ -264,6 +264,33 @@ function isRetryableGitError(output) {
   );
 }
 
+// Sanitize a package directory like "sdk/foo/arm-foo" into a safe filename.
+function safeLogName(pkg) {
+  return pkg.replace(/[\\/]/g, "__");
+}
+
+// Write the full log for a single package to <resultOutputDir>/logs/<phase>/<pkg>.log,
+// and also print an ADO-collapsible group with the full log for failed runs so
+// developers can read it directly in the pipeline UI without downloading artifacts.
+function recordPackageLog(phase, pkg, success, output) {
+  if (resultOutputDir) {
+    try {
+      const logDir = path.join(resultOutputDir, "logs", phase);
+      fs.mkdirSync(logDir, { recursive: true });
+      const logFile = path.join(logDir, `${safeLogName(pkg)}.log`);
+      fs.writeFileSync(logFile, output);
+    } catch (err) {
+      console.log(`  Warning: failed to write log for ${pkg}: ${err.message}`);
+    }
+  }
+  if (!success) {
+    // Azure DevOps collapsible group — folded by default.
+    console.log(`##[group]${phase} log: ${pkg}`);
+    console.log(output);
+    console.log("##[endgroup]");
+  }
+}
+
 // Recursively delete nested duplicate workspace directories of the form
 // sdk/X/Y/sdk/X/Y created by tsp-client when emitter-output-dir is misresolved.
 // These break pnpm install because two workspaces share the same package name.
@@ -708,6 +735,7 @@ async function regenerateAll(packages) {
       const duration = ((Date.now() - start) / 1000).toFixed(1);
       console.log(`  ❌ [${completed}/${packages.length}] ${pkg.pkg} - FAILED (${duration}s)`);
       console.log(`     ${extractError(output)}`);
+      recordPackageLog("regenerate", pkg.pkg, false, output);
       results.push({ pkg: pkg.pkg, success: false, duration, output });
       return;
     }
@@ -739,6 +767,7 @@ async function regenerateAll(packages) {
       console.log(`  ❌ [${completed}/${packages.length}] ${pkg.pkg} - FAILED (${duration}s)`);
       console.log(`     ${extractError(output)}`);
     }
+    recordPackageLog("regenerate", pkg.pkg, success, output);
     results.push({ pkg: pkg.pkg, success, duration, output });
   }
 
@@ -837,6 +866,7 @@ async function buildAll(regenResults) {
       console.log(`     ${extractError(build.output)}`);
       buildResults.push({ pkg: pkg.pkg, success: false, duration, phase: "pnpm build", output: build.output });
     }
+    recordPackageLog("build", pkg.pkg, build.code === 0, build.output);
   }
 
   for (const pkg of successPkgs) {
