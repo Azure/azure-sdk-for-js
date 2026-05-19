@@ -86,6 +86,8 @@ export type {
 export type { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions.js";
 export { AzurePipelinesCredential as AzurePipelinesCredential } from "./credentials/azurePipelinesCredential.js";
 export type { AzurePipelinesCredentialOptions as AzurePipelinesCredentialOptions } from "./credentials/azurePipelinesCredentialOptions.js";
+export { GitHubActionsCredential } from "./credentials/gitHubActionsCredential.js";
+export type { GitHubActionsCredentialOptions } from "./credentials/gitHubActionsCredentialOptions.js";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential.js";
 export type { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions.js";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential.js";
