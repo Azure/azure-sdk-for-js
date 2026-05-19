@@ -245,7 +245,7 @@ export interface BaseKnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "web" | "remoteSharePoint" | "workIQ" | "fabricDataAgent" | "fabricOntology";
+    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "indexedSql" | "file" | "web" | "remoteSharePoint" | "workIQ" | "mcpServer" | "fabricDataAgent" | "fabricOntology";
     name: string;
 }
 
@@ -992,12 +992,9 @@ export interface FieldMappingFunction {
     parameters?: Record<string, any>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "KnowledgeSource_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface FileKnowledgeSource extends KnowledgeSource_2 {
+export interface FileKnowledgeSource extends BaseKnowledgeSource {
     fileParameters: FileKnowledgeSourceParameters;
-    // (undocumented)
     kind: "file";
 }
 
@@ -1221,7 +1218,7 @@ export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSou
 }
 
 // @public
-export interface IndexedSqlKnowledgeSource extends KnowledgeSource_2 {
+export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
     indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
     kind: "indexedSql";
 }
@@ -1662,7 +1659,7 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 }
 
 // @public (undocumented)
-export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource | WorkIQKnowledgeSource | FabricDataAgentKnowledgeSource | FabricOntologyKnowledgeSource;
+export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | IndexedSqlKnowledgeSource | FileKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource | WorkIQKnowledgeSource | McpServerKnowledgeSource | FabricDataAgentKnowledgeSource | FabricOntologyKnowledgeSource;
 
 // @public
 export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {
@@ -2305,6 +2302,26 @@ export enum KnownMarkdownHeaderDepth {
 export enum KnownMarkdownParsingSubmode {
     OneToMany = "oneToMany",
     OneToOne = "oneToOne"
+}
+
+// @public
+export enum KnownMcpServerAuthenticationKind {
+    FoundryConnection = "foundryConnection",
+    StoredHeaders = "storedHeaders"
+}
+
+// @public
+export enum KnownMcpServerOutputParsingKind {
+    Auto = "auto",
+    Json = "json",
+    None = "none",
+    Split = "split"
+}
+
+// @public
+export enum KnownMcpServerToolInclusionMode {
+    Always = "always",
+    Reranked = "reranked"
 }
 
 // @public
@@ -2994,6 +3011,118 @@ export type MarkdownHeaderDepth = string;
 
 // @public
 export type MarkdownParsingSubmode = string;
+
+// @public
+export interface McpServerAuthentication {
+    kind: McpServerAuthenticationKind;
+}
+
+// @public
+export type McpServerAuthenticationKind = string;
+
+// @public
+export type McpServerAuthenticationUnion = McpServerFoundryConnectionAuthentication | McpServerStoredHeadersAuthentication | McpServerAuthentication;
+
+// @public
+export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
+    kind: "auto";
+}
+
+// @public
+export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
+    foundryConnectionParameters: McpServerFoundryConnectionParameters;
+    kind: "foundryConnection";
+}
+
+// @public
+export interface McpServerFoundryConnectionParameters {
+    connectionId?: string;
+}
+
+// @public
+export interface McpServerHeaders {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
+export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
+    jsonParameters: McpServerOutputParsingJsonParameters;
+    kind: "json";
+}
+
+// @public
+export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
+    kind: "mcpServer";
+    mcpServerParameters: McpServerKnowledgeSourceParameters;
+}
+
+// @public
+export interface McpServerKnowledgeSourceParameters {
+    authentication?: McpServerAuthenticationUnion;
+    serverURL: string;
+    tools: McpServerTool[];
+}
+
+// @public
+export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
+    kind: "none";
+}
+
+// @public
+export interface McpServerOutputParsing {
+    kind: McpServerOutputParsingKind;
+}
+
+// @public
+export interface McpServerOutputParsingJsonParameters {
+    documentsPath: string;
+    includeContext?: boolean;
+}
+
+// @public
+export type McpServerOutputParsingKind = string;
+
+// @public
+export interface McpServerOutputParsingSplitParameters {
+    // Warning: (ae-forgotten-export) The symbol "SplitSkillLanguage_2" needs to be exported by the entry point index.d.ts
+    defaultLanguageCode?: SplitSkillLanguage_2;
+    maximumPageLength?: number;
+    maximumPagesToTake?: number;
+    pageOverlapLength?: number;
+    // Warning: (ae-forgotten-export) The symbol "TextSplitMode_2" needs to be exported by the entry point index.d.ts
+    textSplitMode?: TextSplitMode_2;
+}
+
+// @public
+export type McpServerOutputParsingUnion = McpServerAutoOutputParsing | McpServerJsonOutputParsing | McpServerSplitOutputParsing | McpServerNoneOutputParsing | McpServerOutputParsing;
+
+// @public
+export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
+    kind: "split";
+    splitParameters?: McpServerOutputParsingSplitParameters;
+}
+
+// @public
+export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
+    kind: "storedHeaders";
+    storedHeadersParameters: McpServerStoredHeadersParameters;
+}
+
+// @public
+export interface McpServerStoredHeadersParameters {
+    headers?: McpServerHeaders;
+}
+
+// @public
+export interface McpServerTool {
+    inclusionMode?: McpServerToolInclusionMode;
+    maxOutputTokens?: number;
+    name?: string;
+    outputParsing?: McpServerOutputParsingUnion;
+}
+
+// @public
+export type McpServerToolInclusionMode = string;
 
 // @public
 export type MergeDocumentsOptions = IndexDocumentsOptions;

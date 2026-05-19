@@ -143,6 +143,9 @@ import type {
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
   KnowledgeSourceIngestionPermissionOption,
+  IndexedSqlKnowledgeSourceParameters,
+  FileKnowledgeSourceParameters,
+  McpServerKnowledgeSourceParameters,
 } from "./models/azure/search/documents/indexes/index.js";
 import type { SharePointConnectorAppRegistration } from "./models/index.js";
 import type {
@@ -3102,9 +3105,12 @@ export type KnowledgeSource =
   | AzureBlobKnowledgeSource
   | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
+  | IndexedSqlKnowledgeSource
+  | FileKnowledgeSource
   | WebKnowledgeSource
   | RemoteSharePointKnowledgeSource
   | WorkIQKnowledgeSource
+  | McpServerKnowledgeSource
   | FabricDataAgentKnowledgeSource
   | FabricOntologyKnowledgeSource;
 
@@ -3120,9 +3126,12 @@ export interface BaseKnowledgeSource {
     | "azureBlob"
     | "indexedSharePoint"
     | "indexedOneLake"
+    | "indexedSql"
+    | "file"
     | "web"
     | "remoteSharePoint"
     | "workIQ"
+    | "mcpServer"
     | "fabricDataAgent"
     | "fabricOntology";
   /**
@@ -3360,6 +3369,48 @@ export interface FabricOntologyKnowledgeSourceParameters {
   workspaceId: string;
   /** The ID of the ontology to use from the Fabric workspace. */
   ontologyId: string;
+}
+
+/**
+ * Configuration for a knowledge source backed by an Azure SQL Database or SQL Managed Instance.
+ */
+export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "indexedSql";
+  /**
+   * The parameters for the SQL knowledge source.
+   */
+  indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
+}
+
+/**
+ * Configuration for a knowledge source that supports direct file upload and indexing.
+ */
+export interface FileKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "file";
+  /**
+   * The parameters for the File knowledge source.
+   */
+  fileParameters: FileKnowledgeSourceParameters;
+}
+
+/**
+ * Configuration for a knowledge source backed by an MCP (Model Context Protocol) server.
+ */
+export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "mcpServer";
+  /**
+   * The parameters for the MCP server knowledge source.
+   */
+  mcpServerParameters: McpServerKnowledgeSourceParameters;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */

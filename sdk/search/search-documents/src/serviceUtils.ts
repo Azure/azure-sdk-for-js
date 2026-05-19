@@ -1018,6 +1018,9 @@ export function convertKnowledgeSourceToPublic(
     case "indexedSharePoint":
     case "remoteSharePoint":
     case "workIQ":
+    case "mcpServer":
+    case "indexedSql":
+    case "file":
     case "fabricDataAgent":
     case "fabricOntology": {
       const { encryptionKey } = knowledgeSource;
