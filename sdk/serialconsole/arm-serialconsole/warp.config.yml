@@ -1,4 +1,4 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
 
 exports:
   "./package.json": "./package.json"

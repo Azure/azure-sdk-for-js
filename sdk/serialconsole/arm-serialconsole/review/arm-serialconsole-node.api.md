@@ -5,8 +5,10 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -67,6 +69,8 @@ export interface GetSerialConsoleSubscriptionNotFound {
     message?: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownCreatedByType {
     Application = "Application",
@@ -112,6 +116,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export interface SerialConsoleOperationGroupDisableConsoleOptionalParams extends OperationOptions {

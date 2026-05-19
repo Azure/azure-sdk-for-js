@@ -33,10 +33,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -50,10 +46,6 @@
       "browser": {
         "types": "./dist/browser/api/serialConsoleOperationGroup/index.d.ts",
         "default": "./dist/browser/api/serialConsoleOperationGroup/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/serialConsoleOperationGroup/index.d.ts",
-        "default": "./dist/react-native/api/serialConsoleOperationGroup/index.js"
       },
       "import": {
         "types": "./dist/esm/api/serialConsoleOperationGroup/index.d.ts",
@@ -69,10 +61,6 @@
         "types": "./dist/browser/api/serialPorts/index.d.ts",
         "default": "./dist/browser/api/serialPorts/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/serialPorts/index.d.ts",
-        "default": "./dist/react-native/api/serialPorts/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/serialPorts/index.d.ts",
         "default": "./dist/esm/api/serialPorts/index.js"
@@ -86,10 +74,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
@@ -184,5 +168,12 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-serialconsole?view=azure-node-preview"
+  },
+  "imports": {
+    "#platform/*.js": {
+      "browser": "./src/*-browser.mjs",
+      "react-native": "./src/*-react-native.mjs",
+      "default": "./src/*.js"
+    }
   }
 }

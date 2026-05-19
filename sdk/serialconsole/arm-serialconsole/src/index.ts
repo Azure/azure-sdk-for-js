@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, type AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 
 export { MicrosoftSerialConsoleClient } from "./microsoftSerialConsoleClient.js";
 export type {
@@ -51,3 +51,4 @@ export type {
 } from "./classic/index.js";
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
