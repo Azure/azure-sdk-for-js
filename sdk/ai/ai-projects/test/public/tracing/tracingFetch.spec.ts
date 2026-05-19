@@ -9,11 +9,8 @@ import { getTracingFetch } from "../../../src/tracing/tracingFetch.js";
 const mockCreateRequestHeaders = vi.fn<() => Record<string, string>>();
 
 vi.mock("../../../src/tracing/tracingClient.js", () => ({
-  tracingClient: {
-    createRequestHeaders: (...args: unknown[]) => mockCreateRequestHeaders(...(args as [])),
-    withSpan: vi.fn(),
-    startSpan: vi.fn(),
-  },
+  createRequestHeaders: (...args: unknown[]) => mockCreateRequestHeaders(...(args as [])),
+  startSpan: vi.fn(),
 }));
 
 describe("tracingFetch - trace context propagation", () => {

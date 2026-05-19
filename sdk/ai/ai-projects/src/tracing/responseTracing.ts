@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Response as OAIResponse } from "openai/resources/responses/responses";
-import type { TracingSpan } from "@azure/core-tracing";
-import { tracingClient } from "./tracingClient.js";
+import type { Span } from "@opentelemetry/api";
+import { startSpan, runInSpanContext } from "./tracingClient.js";
 import { isContentRecordingEnabled } from "./configuration.js";
 import {
   parseEndpoint,
@@ -43,46 +43,50 @@ export async function traceNonStreamingResponse(
   let errorType: string | undefined;
   let responseModel: string | undefined;
 
-  return tracingClient.withSpan(spanName, { tracingOptions: {} }, async (_updatedOptions, span) => {
-    try {
-      setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
-      const response = (await responsesCreate(body, options)) as OAIResponse;
-      setResponseSpanAttributes(span, response);
-      addWorkflowActionEvents(span, response);
-      responseModel = typeof response.model === "string" ? response.model : undefined;
+  const { span, ctx } = startSpan(spanName);
+  try {
+    setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
+    const response = (await runInSpanContext(ctx, () =>
+      responsesCreate(body, options),
+    )) as OAIResponse;
+    setResponseSpanAttributes(span, response);
+    addWorkflowActionEvents(span, response);
+    responseModel = typeof response.model === "string" ? response.model : undefined;
 
-      // Record metrics
-      const durationSeconds = (performance.now() - startTime) / 1000;
-      recordOperationDuration(durationSeconds, {
+    // Record metrics
+    const durationSeconds = (performance.now() - startTime) / 1000;
+    recordOperationDuration(durationSeconds, {
+      operationName,
+      serverAddress,
+      serverPort,
+      responseModel,
+    });
+    if (response.usage) {
+      recordTokenUsage(response.usage.input_tokens, response.usage.output_tokens, {
         operationName,
         serverAddress,
         serverPort,
         responseModel,
       });
-      if (response.usage) {
-        recordTokenUsage(response.usage.input_tokens, response.usage.output_tokens, {
-          operationName,
-          serverAddress,
-          serverPort,
-          responseModel,
-        });
-      }
-
-      return response;
-    } catch (error) {
-      setErrorAttributes(span, error);
-      errorType =
-        error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
-      const durationSeconds = (performance.now() - startTime) / 1000;
-      recordOperationDuration(durationSeconds, {
-        operationName,
-        serverAddress,
-        serverPort,
-        errorType,
-      });
-      throw error;
     }
-  });
+
+    span.setStatus({ code: 1 }); // SpanStatusCode.OK
+    span.end();
+    return response;
+  } catch (error) {
+    setErrorAttributes(span, error);
+    errorType = error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
+    const durationSeconds = (performance.now() - startTime) / 1000;
+    recordOperationDuration(durationSeconds, {
+      operationName,
+      serverAddress,
+      serverPort,
+      errorType,
+    });
+    span.setStatus({ code: 2, message: errorType }); // SpanStatusCode.ERROR
+    span.end();
+    throw error;
+  }
 }
 
 export async function traceStreamingResponse(
@@ -96,11 +100,14 @@ export async function traceStreamingResponse(
 ): Promise<unknown> {
   const startTime = performance.now();
   const { serverAddress, serverPort } = parseEndpoint(endpoint);
-  const { span } = tracingClient.startSpan(spanName, { tracingOptions: {} });
+  const { span, ctx } = startSpan(spanName);
   setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
 
   try {
-    const stream = await (responsesCreate(body, options) as Promise<AsyncIterable<unknown>>);
+    const stream = await runInSpanContext(
+      ctx,
+      () => responsesCreate(body, options) as Promise<AsyncIterable<unknown>>,
+    );
     return wrapStream(stream, span, {
       startTime,
       operationName,
@@ -109,7 +116,7 @@ export async function traceStreamingResponse(
     });
   } catch (error) {
     setErrorAttributes(span, error);
-    span.setStatus({ status: "error", error: error instanceof Error ? error : undefined });
+    span.setStatus({ code: 2, message: error instanceof Error ? error.message : "Error" });
     span.end();
     const errorType =
       error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
@@ -126,7 +133,7 @@ export async function traceStreamingResponse(
 
 function wrapStream(
   innerStream: AsyncIterable<unknown>,
-  span: TracingSpan,
+  span: Span,
   metricsCtx: StreamMetricsContext,
 ): AsyncIterable<unknown> {
   const iterator = innerStream[Symbol.asyncIterator]();
@@ -164,7 +171,7 @@ function wrapStream(
       try {
         const result = await iterator.next();
         if (result.done) {
-          span.setStatus({ status: "success" });
+          span.setStatus({ code: 1 }); // OK
           span.end();
           recordStreamMetrics();
           return result;
@@ -184,7 +191,7 @@ function wrapStream(
         return result;
       } catch (error) {
         setErrorAttributes(span, error);
-        span.setStatus({ status: "error", error: error instanceof Error ? error : undefined });
+        span.setStatus({ code: 2, message: error instanceof Error ? error.message : "Error" });
         span.end();
         const errType =
           error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
@@ -193,7 +200,7 @@ function wrapStream(
       }
     },
     async return(value?: unknown) {
-      span.setStatus({ status: "success" });
+      span.setStatus({ code: 1 }); // OK
       span.end();
       recordStreamMetrics();
       if (iterator.return) {
@@ -203,7 +210,10 @@ function wrapStream(
     },
     async throw(error?: unknown) {
       setErrorAttributes(span, error);
-      span.setStatus({ status: "error", error: error instanceof Error ? error : undefined });
+      span.setStatus({
+        code: 2,
+        message: error instanceof Error ? (error as Error).message : "Error",
+      });
       span.end();
       const errType =
         error instanceof Error ? error.name || error.constructor?.name || "Error" : "Error";
@@ -229,13 +239,7 @@ function wrapStream(
 /**
  * Emits a gen_ai.workflow.action event for a single workflow action item.
  */
-function addSingleWorkflowActionEvent(
-  span: TracingSpan | Omit<TracingSpan, "end">,
-  item: Record<string, unknown>,
-): void {
-  const fullSpan = span as TracingSpan;
-  if (!fullSpan.addEvent) return;
-
+function addSingleWorkflowActionEvent(span: Span, item: Record<string, unknown>): void {
   const workflowDetails: Record<string, unknown> = {};
   if (item.status) workflowDetails.status = item.status;
   if (isContentRecordingEnabled()) {
@@ -250,21 +254,16 @@ function addSingleWorkflowActionEvent(
     },
   ];
 
-  fullSpan.addEvent(GEN_AI_WORKFLOW_ACTION_EVENT, {
-    attributes: {
-      [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,
-      [GEN_AI_EVENT_CONTENT]: JSON.stringify(contentArray),
-    },
+  span.addEvent(GEN_AI_WORKFLOW_ACTION_EVENT, {
+    [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,
+    [GEN_AI_EVENT_CONTENT]: JSON.stringify(contentArray),
   });
 }
 
 /**
  * Emits workflow action events from a non-streaming response.
  */
-function addWorkflowActionEvents(
-  span: TracingSpan | Omit<TracingSpan, "end">,
-  response: OAIResponse,
-): void {
+function addWorkflowActionEvents(span: Span, response: OAIResponse): void {
   const output = (response as unknown as Record<string, unknown>).output;
   if (!Array.isArray(output)) return;
   for (const item of output) {
@@ -283,17 +282,18 @@ export async function traceConversationCreate(
   args: unknown[],
   endpoint: string,
 ): Promise<unknown> {
-  return tracingClient.withSpan(
-    OperationName.CREATE_CONVERSATION,
-    { tracingOptions: {} },
-    async (_updatedOptions, span) => {
-      setCommonAttributes(span, OperationName.CREATE_CONVERSATION, endpoint);
-      const result = await (conversationsCreate as (...a: unknown[]) => Promise<unknown>)(...args);
-      const conversation = result as Record<string, unknown>;
-      if (typeof conversation.id === "string") {
-        span.setAttribute(GEN_AI_CONVERSATION_ID, conversation.id);
-      }
-      return result;
-    },
-  );
+  const { span, ctx } = startSpan(OperationName.CREATE_CONVERSATION);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_CONVERSATION, endpoint);
+    const result = await runInSpanContext(ctx, () =>
+      (conversationsCreate as (...a: unknown[]) => Promise<unknown>)(...args),
+    );
+    const conversation = result as Record<string, unknown>;
+    if (typeof conversation.id === "string") {
+      span.setAttribute(GEN_AI_CONVERSATION_ID, conversation.id);
+    }
+    return result;
+  } finally {
+    span.end();
+  }
 }

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TracingSpan } from "@azure/core-tracing";
+import type { Span } from "@opentelemetry/api";
 import { isContentRecordingEnabled } from "./configuration.js";
 import { formatInputMessages, formatOutputMessages } from "./formatters.js";
 import type { Response as OAIResponse } from "openai/resources/responses/responses";
 
 /**
- * Subset of TracingSpan used by attribute helpers.
- * Compatible with both TracingSpan and `Omit<TracingSpan, "end">` from withSpan callbacks.
+ * Subset of Span used by attribute helpers.
+ * Compatible with OTel Span interface.
  */
-export type SpanLike = Pick<TracingSpan, "setAttribute" | "setStatus">;
+export type SpanLike = Pick<Span, "setAttribute" | "setStatus">;
 import {
   GEN_AI_AGENT_ID,
   GEN_AI_AGENT_NAME,
@@ -132,19 +132,16 @@ export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinit
     } else {
       span.setAttribute(GEN_AI_SYSTEM_MESSAGE, JSON.stringify([{ type: "text" }]));
     }
-    // Model is always set regardless of content recording
+    // Model and request parameters are not content-sensitive, always set
     span.setAttribute(GEN_AI_REQUEST_MODEL, promptDef.model);
-
-    if (isContentRecordingEnabled()) {
-      if (promptDef.temperature !== undefined) {
-        span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(promptDef.temperature));
-      }
-      if (promptDef.top_p !== undefined) {
-        span.setAttribute(GEN_AI_REQUEST_TOP_P, String(promptDef.top_p));
-      }
-      if (promptDef.reasoning?.effort) {
-        span.setAttribute(GEN_AI_REQUEST_REASONING_EFFORT, promptDef.reasoning.effort);
-      }
+    if (promptDef.temperature !== undefined) {
+      span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(promptDef.temperature));
+    }
+    if (promptDef.top_p !== undefined) {
+      span.setAttribute(GEN_AI_REQUEST_TOP_P, String(promptDef.top_p));
+    }
+    if (promptDef.reasoning?.effort) {
+      span.setAttribute(GEN_AI_REQUEST_REASONING_EFFORT, promptDef.reasoning.effort);
     }
   } else if (definition.kind === "hosted") {
     const hostedDef = definition as HostedAgentDefinition;
@@ -165,19 +162,15 @@ export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinit
     }
   } else if (definition.kind === "workflow") {
     const workflowDef = definition as WorkflowAgentDefinition;
-    const fullSpan = span as TracingSpan;
-    if (fullSpan.addEvent) {
-      const contentArray =
-        isContentRecordingEnabled() && workflowDef.workflow
-          ? [{ type: "workflow", content: workflowDef.workflow }]
-          : [];
-      fullSpan.addEvent(GEN_AI_AGENT_WORKFLOW_EVENT, {
-        attributes: {
-          [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,
-          [GEN_AI_EVENT_CONTENT]: JSON.stringify(contentArray),
-        },
-      });
-    }
+    const fullSpan = span as Span;
+    const contentArray =
+      isContentRecordingEnabled() && workflowDef.workflow
+        ? [{ type: "workflow", content: workflowDef.workflow }]
+        : [];
+    fullSpan.addEvent(GEN_AI_AGENT_WORKFLOW_EVENT, {
+      [GEN_AI_PROVIDER_NAME]: AGENTS_PROVIDER,
+      [GEN_AI_EVENT_CONTENT]: JSON.stringify(contentArray),
+    });
   }
 }
 
@@ -273,18 +266,19 @@ export function setCommonSpanAttributes(
     span.setAttribute(GEN_AI_INPUT_MESSAGES, inputMessages);
   }
 
-  // Request attributes (content-recording gated)
+  // Request attributes (not content-sensitive, always set)
+  if (body.model) {
+    span.setAttribute(GEN_AI_REQUEST_MODEL, String(body.model));
+  }
+  if (body.temperature !== undefined) {
+    span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(body.temperature));
+  }
+  if (body.top_p !== undefined) {
+    span.setAttribute(GEN_AI_REQUEST_TOP_P, String(body.top_p));
+  }
+
+  // system_instructions only for non-agent (chat) operations (content-sensitive)
   if (isContentRecordingEnabled()) {
-    if (body.model) {
-      span.setAttribute(GEN_AI_REQUEST_MODEL, String(body.model));
-    }
-    if (body.temperature !== undefined) {
-      span.setAttribute(GEN_AI_REQUEST_TEMPERATURE, String(body.temperature));
-    }
-    if (body.top_p !== undefined) {
-      span.setAttribute(GEN_AI_REQUEST_TOP_P, String(body.top_p));
-    }
-    // system_instructions only for non-agent (chat) operations
     if (!agentName) {
       if (body.instructions) {
         span.setAttribute(

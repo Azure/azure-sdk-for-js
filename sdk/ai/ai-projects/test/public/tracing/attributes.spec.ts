@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import type { TracingSpan } from "@azure/core-tracing";
+import type { Span } from "@opentelemetry/api";
 import { enableGenAITracing } from "../../../src/tracing/configuration.js";
 import {
   setCommonAttributes,
@@ -47,10 +47,10 @@ import {
 // Simple mock span that collects attributes and events
 interface RecordedEvent {
   name: string;
-  options?: { attributes?: Record<string, unknown> };
+  attributes?: Record<string, unknown>;
 }
 
-function createMockSpan(): TracingSpan & {
+function createMockSpan(): Span & {
   attributes: Record<string, unknown>;
   events: RecordedEvent[];
 } {
@@ -61,9 +61,10 @@ function createMockSpan(): TracingSpan & {
     events,
     setAttribute(name: string, value: unknown) {
       attributes[name] = value;
+      return this;
     },
-    setStatus(_status: { status: string; error?: string }) {
-      // no-op for tests
+    setStatus(_status: { code: number; message?: string }) {
+      return this;
     },
     end() {
       // no-op for tests
@@ -71,9 +72,23 @@ function createMockSpan(): TracingSpan & {
     isRecording() {
       return true;
     },
-    addEvent(name: string, options?: { attributes?: Record<string, unknown> }) {
-      events.push({ name, options });
+    addEvent(name: string, attrs?: Record<string, unknown>) {
+      events.push({ name, attributes: attrs });
+      return this;
     },
+    spanContext() {
+      return { traceId: "0", spanId: "0", traceFlags: 0 };
+    },
+    setAttributes() {
+      return this;
+    },
+    addLink() {
+      return this;
+    },
+    updateName() {
+      return this;
+    },
+    recordException() {},
   } as any;
 }
 
@@ -206,8 +221,8 @@ describe("setDefinitionAttributes", () => {
     assert.notProperty(parsed[0], "content");
   });
 
-  it("sets temperature and top_p only when content recording enabled", () => {
-    enableContentRecording();
+  it("sets temperature and top_p regardless of content recording", () => {
+    disableContentRecording();
     const span = createMockSpan();
     setDefinitionAttributes(span, {
       kind: "prompt",
@@ -220,8 +235,8 @@ describe("setDefinitionAttributes", () => {
     assert.equal(span.attributes[GEN_AI_REQUEST_TOP_P], "0.9");
   });
 
-  it("does not set temperature/top_p when content recording disabled", () => {
-    disableContentRecording();
+  it("also sets temperature/top_p when content recording enabled", () => {
+    enableContentRecording();
     const span = createMockSpan();
     setDefinitionAttributes(span, {
       kind: "prompt",
@@ -230,8 +245,8 @@ describe("setDefinitionAttributes", () => {
       top_p: 0.9,
     } as any);
 
-    assert.notProperty(span.attributes, GEN_AI_REQUEST_TEMPERATURE);
-    assert.notProperty(span.attributes, GEN_AI_REQUEST_TOP_P);
+    assert.equal(span.attributes[GEN_AI_REQUEST_TEMPERATURE], "0.7");
+    assert.equal(span.attributes[GEN_AI_REQUEST_TOP_P], "0.9");
   });
 
   it("handles null definition gracefully", () => {
@@ -402,9 +417,7 @@ describe("setDefinitionAttributes - workflow agent", () => {
     assert.lengthOf(span.events, 1);
     assert.equal(span.events[0]!.name, GEN_AI_AGENT_WORKFLOW_EVENT);
 
-    const eventContent = JSON.parse(
-      span.events[0]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const eventContent = JSON.parse(span.events[0]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.lengthOf(eventContent, 1);
     assert.equal(eventContent[0].type, "workflow");
     assert.equal(eventContent[0].content, sampleWorkflow);
@@ -422,9 +435,7 @@ describe("setDefinitionAttributes - workflow agent", () => {
     assert.lengthOf(span.events, 1);
     assert.equal(span.events[0]!.name, GEN_AI_AGENT_WORKFLOW_EVENT);
 
-    const eventContent = JSON.parse(
-      span.events[0]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const eventContent = JSON.parse(span.events[0]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.lengthOf(eventContent, 0, "workflow CSDL must not leak when content recording is off");
   });
 
@@ -436,7 +447,7 @@ describe("setDefinitionAttributes - workflow agent", () => {
       workflow: sampleWorkflow,
     } as any);
 
-    assert.equal(span.events[0]!.options!.attributes![GEN_AI_PROVIDER_NAME], AGENTS_PROVIDER);
+    assert.equal(span.events[0]!.attributes![GEN_AI_PROVIDER_NAME], AGENTS_PROVIDER);
   });
 });
 
@@ -499,7 +510,7 @@ describe("setAgentVersionAttributes", () => {
     );
   });
 
-  it("sets reasoning effort only when content recording is ON", () => {
+  it("sets reasoning effort regardless of content recording", () => {
     enableContentRecording();
     const span = createMockSpan();
     setAgentVersionAttributes(span, {
@@ -511,7 +522,7 @@ describe("setAgentVersionAttributes", () => {
     assert.equal(span.attributes[GEN_AI_REQUEST_REASONING_EFFORT], "high");
   });
 
-  it("does NOT set reasoning effort when content recording is OFF", () => {
+  it("sets reasoning effort even when content recording is OFF", () => {
     disableContentRecording();
     const span = createMockSpan();
     setAgentVersionAttributes(span, {
@@ -520,6 +531,6 @@ describe("setAgentVersionAttributes", () => {
       definition: { kind: "prompt", model: "gpt-4.1", reasoning: { effort: "high" } },
     } as any);
 
-    assert.notProperty(span.attributes, GEN_AI_REQUEST_REASONING_EFFORT);
+    assert.equal(span.attributes[GEN_AI_REQUEST_REASONING_EFFORT], "high");
   });
 });

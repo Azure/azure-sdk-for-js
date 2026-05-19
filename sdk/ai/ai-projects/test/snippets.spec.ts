@@ -26,8 +26,7 @@ import {
   ConsoleSpanExporter,
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+
 
 describe("snippets", function () {
   let project: AIProjectClient;
@@ -1033,7 +1032,11 @@ Be direct and efficient. When you reach the search results page, read and descri
     const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
 
     // Configure Azure Monitor tracing
-    useAzureMonitor({ azureMonitorExporterOptions: { connectionString } });
+    useAzureMonitor({
+      azureMonitorExporterOptions: { connectionString },
+      samplingRatio: 1,
+      tracesPerSecond: 0,
+    });
 
     // Enable GenAI tracing (experimental)
     enableGenAITracing({
@@ -1061,10 +1064,6 @@ Be direct and efficient. When you reach the search results page, read and descri
       spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
     });
     provider.register();
-
-    // Bridge @azure/core-tracing to OpenTelemetry
-    registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
-
     // Enable GenAI tracing (experimental)
     enableGenAITracing({
       contentRecording: false,

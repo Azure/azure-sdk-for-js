@@ -3,7 +3,7 @@
 
 import type OpenAI from "openai";
 import { isGenAITracingApplied, isTraceContextPropagationEnabled } from "./configuration.js";
-import { tracingClient } from "./tracingClient.js";
+import { createRequestHeaders } from "./tracingClient.js";
 
 type FetchFn = NonNullable<NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"]>;
 
@@ -20,7 +20,7 @@ export function getTracingFetch(innerFetch?: FetchFn): FetchFn {
     if (!isGenAITracingApplied() || !isTraceContextPropagationEnabled()) {
       return baseFetch(resource, options);
     }
-    const tracingHeaders = tracingClient.createRequestHeaders();
+    const tracingHeaders = createRequestHeaders();
     if (Object.keys(tracingHeaders).length === 0) {
       return baseFetch(resource, options);
     }

@@ -1296,7 +1296,7 @@ npm install @azure/monitor-opentelemetry @opentelemetry/api
 To print traces to the console (useful for local development):
 
 ```bash
-npm install @opentelemetry/sdk-trace-node @opentelemetry/api @opentelemetry/instrumentation @azure/opentelemetry-instrumentation-azure-sdk
+npm install @opentelemetry/sdk-trace-node @opentelemetry/api
 ```
 
 ### How to enable tracing
@@ -1325,7 +1325,11 @@ const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(
 // Get Application Insights connection string from the project
 const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
 // Configure Azure Monitor tracing
-useAzureMonitor({ azureMonitorExporterOptions: { connectionString } });
+useAzureMonitor({
+  azureMonitorExporterOptions: { connectionString },
+  samplingRatio: 1,
+  tracesPerSecond: 0,
+});
 // Enable GenAI tracing (experimental)
 enableGenAITracing({
   contentRecording: false,
@@ -1360,8 +1364,6 @@ import {
   SimpleSpanProcessor,
   ConsoleSpanExporter,
 } from "@opentelemetry/sdk-trace-node";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { enableGenAITracing } from "@azure/ai-projects";
 
 // Set up OpenTelemetry with a console exporter
@@ -1369,8 +1371,6 @@ const provider = new NodeTracerProvider({
   spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
 });
 provider.register();
-// Bridge @azure/core-tracing to OpenTelemetry
-registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
 // Enable GenAI tracing (experimental)
 enableGenAITracing({
   contentRecording: false,

@@ -36,19 +36,25 @@ import {
 
 interface RecordedEvent {
   name: string;
-  options?: { attributes?: Record<string, unknown> };
+  attributes?: Record<string, unknown>;
 }
 
 interface RecordedSpan {
   name: string;
   attributes: Record<string, unknown>;
   events: RecordedEvent[];
-  statusInfo?: { status: string; error?: unknown };
+  statusInfo?: { code: number; message?: string };
   ended: boolean;
-  setAttribute(key: string, value: unknown): void;
-  setStatus(status: { status: string; error?: unknown }): void;
+  setAttribute(key: string, value: unknown): RecordedSpan;
+  setStatus(status: { code: number; message?: string }): RecordedSpan;
   end(): void;
-  addEvent(name: string, options?: { attributes?: Record<string, unknown> }): void;
+  addEvent(name: string, attributes?: Record<string, unknown>): RecordedSpan;
+  spanContext(): { traceId: string; spanId: string; traceFlags: number };
+  setAttributes(attrs: Record<string, unknown>): RecordedSpan;
+  addLink(): RecordedSpan;
+  updateName(name: string): RecordedSpan;
+  isRecording(): boolean;
+  recordException(): void;
 }
 
 function createMockSpan(name: string): RecordedSpan {
@@ -60,16 +66,40 @@ function createMockSpan(name: string): RecordedSpan {
     ended: false,
     setAttribute(key: string, value: unknown) {
       span.attributes[key] = value;
+      return span;
     },
-    setStatus(status: { status: string; error?: unknown }) {
+    setStatus(status: { code: number; message?: string }) {
       span.statusInfo = status;
+      return span;
     },
     end() {
       span.ended = true;
     },
-    addEvent(eventName: string, options?: { attributes?: Record<string, unknown> }) {
-      span.events.push({ name: eventName, options });
+    addEvent(eventName: string, attributes?: Record<string, unknown>) {
+      span.events.push({ name: eventName, attributes });
+      return span;
     },
+    spanContext() {
+      return {
+        traceId: "00000000000000000000000000000001",
+        spanId: "0000000000000001",
+        traceFlags: 1,
+      };
+    },
+    setAttributes(attrs: Record<string, unknown>) {
+      Object.assign(span.attributes, attrs);
+      return span;
+    },
+    addLink() {
+      return span;
+    },
+    updateName(_n: string) {
+      return span;
+    },
+    isRecording() {
+      return true;
+    },
+    recordException() {},
   };
   return span;
 }
@@ -77,27 +107,13 @@ function createMockSpan(name: string): RecordedSpan {
 let recordedSpans: RecordedSpan[] = [];
 
 vi.mock("../../../src/tracing/tracingClient.js", () => ({
-  tracingClient: {
-    withSpan: async (name: string, options: unknown, callback: (...args: any[]) => any) => {
-      const span = createMockSpan(name);
-      recordedSpans.push(span);
-      try {
-        const result = await callback(options, span);
-        span.setStatus({ status: "success" });
-        return result;
-      } catch (error) {
-        span.setStatus({ status: "error", error });
-        throw error;
-      } finally {
-        span.end();
-      }
-    },
-    startSpan: (name: string, _options: unknown) => {
-      const span = createMockSpan(name);
-      recordedSpans.push(span);
-      return { span, tracingContext: {} };
-    },
+  startSpan: (name: string) => {
+    const span = createMockSpan(name);
+    recordedSpans.push(span);
+    return { span, ctx: {} };
   },
+  createRequestHeaders: () => ({}),
+  runInSpanContext: (_ctx: unknown, fn: () => unknown) => fn(),
 }));
 
 // ---- Mock OpenAI client factory ----
@@ -637,15 +653,11 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const actionEvents = span.events.filter((e) => e.name === GEN_AI_WORKFLOW_ACTION_EVENT);
     assert.lengthOf(actionEvents, 2, "should have 2 workflow action events");
 
-    const event1Content = JSON.parse(
-      actionEvents[0]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const event1Content = JSON.parse(actionEvents[0]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.equal(event1Content[0].parts[0].content.status, "completed");
     assert.equal(event1Content[0].parts[0].content.action_id, "action_1");
 
-    const event2Content = JSON.parse(
-      actionEvents[1]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const event2Content = JSON.parse(actionEvents[1]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.equal(event2Content[0].parts[0].content.action_id, "action_2");
     assert.equal(event2Content[0].parts[0].content.previous_action_id, "action_1");
   });
@@ -677,9 +689,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const actionEvents = span.events.filter((e) => e.name === GEN_AI_WORKFLOW_ACTION_EVENT);
     assert.lengthOf(actionEvents, 1);
 
-    const eventContent = JSON.parse(
-      actionEvents[0]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const eventContent = JSON.parse(actionEvents[0]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.equal(eventContent[0].parts[0].content.status, "completed");
     assert.notProperty(
       eventContent[0].parts[0].content,
@@ -739,9 +749,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const actionEvents = span.events.filter((e) => e.name === GEN_AI_WORKFLOW_ACTION_EVENT);
     assert.lengthOf(actionEvents, 2, "should have 2 workflow action events from stream");
 
-    const event1Content = JSON.parse(
-      actionEvents[0]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const event1Content = JSON.parse(actionEvents[0]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.equal(event1Content[0].parts[0].content.action_id, "action_s1");
   });
 
@@ -777,9 +785,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     const actionEvents = span.events.filter((e) => e.name === GEN_AI_WORKFLOW_ACTION_EVENT);
     assert.lengthOf(actionEvents, 1);
 
-    const eventContent = JSON.parse(
-      actionEvents[0]!.options!.attributes![GEN_AI_EVENT_CONTENT] as string,
-    );
+    const eventContent = JSON.parse(actionEvents[0]!.attributes![GEN_AI_EVENT_CONTENT] as string);
     assert.equal(eventContent[0].parts[0].content.status, "completed");
     assert.notProperty(eventContent[0].parts[0].content, "action_id");
   });
@@ -848,10 +854,10 @@ describe("overwriteOpenAIClient - tracing integration", () => {
       "system instructions must not appear when content OFF",
     );
 
-    // No model parameters
-    assert.notProperty(span.attributes, GEN_AI_REQUEST_MODEL);
-    assert.notProperty(span.attributes, GEN_AI_REQUEST_TEMPERATURE);
-    assert.notProperty(span.attributes, GEN_AI_REQUEST_TOP_P);
+    // Model parameters are always present (not content-sensitive)
+    assert.equal(span.attributes[GEN_AI_REQUEST_MODEL], "gpt-4.1");
+    assert.equal(span.attributes[GEN_AI_REQUEST_TEMPERATURE], "0.7");
+    assert.equal(span.attributes[GEN_AI_REQUEST_TOP_P], "0.9");
 
     // Metadata attributes are still present
     assert.equal(span.attributes[GEN_AI_RESPONSE_MODEL], "gpt-4.1");

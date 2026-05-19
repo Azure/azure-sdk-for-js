@@ -45,7 +45,7 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { isGenAITracingApplied } from "../../tracing/configuration.js";
-import { tracingClient } from "../../tracing/tracingClient.js";
+import { startSpan } from "../../tracing/tracingClient.js";
 import {
   setAgentAttributes,
   setAgentVersionAttributes,
@@ -264,23 +264,22 @@ export async function createAgentVersionFromManifest(
     );
     return _createAgentVersionFromManifestDeserialize(result);
   }
-  return tracingClient.withSpan(
-    `${OperationName.CREATE_AGENT} ${agentName}`,
-    options,
-    async (updatedOptions, span) => {
-      setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-      const result = await _createAgentVersionFromManifestSend(
-        context,
-        agentName,
-        manifestId,
-        parameterValues,
-        updatedOptions,
-      );
-      const version = await _createAgentVersionFromManifestDeserialize(result);
-      setAgentVersionAttributes(span, version);
-      return version;
-    },
-  );
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createAgentVersionFromManifestSend(
+      context,
+      agentName,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    const version = await _createAgentVersionFromManifestDeserialize(result);
+    setAgentVersionAttributes(span, version);
+    return version;
+  } finally {
+    span.end();
+  }
 }
 
 export function _createVersionSend(
@@ -344,17 +343,16 @@ export async function createVersion(
     const result = await _createVersionSend(context, agentName, definition, options);
     return _createVersionDeserialize(result);
   }
-  return tracingClient.withSpan(
-    `${OperationName.CREATE_AGENT} ${agentName}`,
-    options,
-    async (updatedOptions, span) => {
-      setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-      const result = await _createVersionSend(context, agentName, definition, updatedOptions);
-      const version = await _createVersionDeserialize(result);
-      setAgentVersionAttributes(span, version);
-      return version;
-    },
-  );
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${agentName}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createVersionSend(context, agentName, definition, options);
+    const version = await _createVersionDeserialize(result);
+    setAgentVersionAttributes(span, version);
+    return version;
+  } finally {
+    span.end();
+  }
 }
 
 export function _listSend(
@@ -582,23 +580,22 @@ export async function createAgentFromManifest(
     );
     return _createAgentFromManifestDeserialize(result);
   }
-  return tracingClient.withSpan(
-    `${OperationName.CREATE_AGENT} ${name}`,
-    options,
-    async (updatedOptions, span) => {
-      setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-      const result = await _createAgentFromManifestSend(
-        context,
-        name,
-        manifestId,
-        parameterValues,
-        updatedOptions,
-      );
-      const agent = await _createAgentFromManifestDeserialize(result);
-      setAgentAttributes(span, agent);
-      return agent;
-    },
-  );
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createAgentFromManifestSend(
+      context,
+      name,
+      manifestId,
+      parameterValues,
+      options,
+    );
+    const agent = await _createAgentFromManifestDeserialize(result);
+    setAgentAttributes(span, agent);
+    return agent;
+  } finally {
+    span.end();
+  }
 }
 
 export function _updateSend(
@@ -728,17 +725,16 @@ export async function create(
     const result = await _createSend(context, name, definition, options);
     return _createDeserialize(result);
   }
-  return tracingClient.withSpan(
-    `${OperationName.CREATE_AGENT} ${name}`,
-    options,
-    async (updatedOptions, span) => {
-      setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
-      const result = await _createSend(context, name, definition, updatedOptions);
-      const agent = await _createDeserialize(result);
-      setAgentAttributes(span, agent);
-      return agent;
-    },
-  );
+  const { span } = startSpan(`${OperationName.CREATE_AGENT} ${name}`);
+  try {
+    setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
+    const result = await _createSend(context, name, definition, options);
+    const agent = await _createDeserialize(result);
+    setAgentAttributes(span, agent);
+    return agent;
+  } finally {
+    span.end();
+  }
 }
 
 export function _getSend(

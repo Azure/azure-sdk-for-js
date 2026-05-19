@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as nodeModule from "node:module";
 import {
   GEN_AI_CLIENT_OPERATION_DURATION,
   GEN_AI_CLIENT_TOKEN_USAGE,
@@ -21,19 +22,29 @@ interface Histogram {
   record(value: number, attributes?: Record<string, string | number>): void;
 }
 
+let _metricsResolved = false;
 let operationDurationHistogram: Histogram | undefined;
 let tokenUsageHistogram: Histogram | undefined;
 
 /**
- * Eagerly attempts to initialize metrics using `@opentelemetry/api` if available.
- * Uses dynamic import() so it works in both ESM and CJS.
- * If the package is not installed, metrics are silently disabled (no-op).
- * The returned promise is intentionally not awaited — metrics will be available
- * by the time the first recording call happens (after client setup and an API call).
+ * Lazily initializes OTel metrics histograms on first use.
+ * Uses the same synchronous require pattern as tracingClient.ts so that
+ * histograms are guaranteed to be available by the first recording call.
  */
-void (async () => {
+function ensureMetrics(): void {
+  if (_metricsResolved) return;
+  _metricsResolved = true;
   try {
-    const otelApi = await import("@opentelemetry/api");
+    let _require: ((id: string) => unknown) | undefined;
+    if (typeof require === "function") {
+      _require = require;
+    } else if (typeof import.meta.url === "string") {
+      _require = nodeModule.createRequire(import.meta.url);
+    }
+    if (!_require) {
+      return;
+    }
+    const otelApi = _require("@opentelemetry/api") as typeof import("@opentelemetry/api");
     const meter = otelApi.metrics.getMeter("@azure/ai-projects");
 
     operationDurationHistogram = meter.createHistogram(GEN_AI_CLIENT_OPERATION_DURATION, {
@@ -48,7 +59,7 @@ void (async () => {
   } catch {
     // @opentelemetry/api not available — metrics disabled
   }
-})();
+}
 
 interface MetricDimensions {
   operationName: string;
@@ -87,6 +98,7 @@ export function recordOperationDuration(
   durationSeconds: number,
   dimensions: MetricDimensions,
 ): void {
+  ensureMetrics();
   if (!operationDurationHistogram) return;
   operationDurationHistogram.record(durationSeconds, buildCommonAttributes(dimensions));
 }
@@ -102,6 +114,7 @@ export function recordTokenUsage(
   outputTokens: number | undefined,
   dimensions: MetricDimensions,
 ): void {
+  ensureMetrics();
   if (!tokenUsageHistogram) return;
 
   const baseAttrs = buildCommonAttributes(dimensions);
