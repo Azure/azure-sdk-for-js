@@ -16,5 +16,5 @@ export type {
   TranscribedPhrase,
   TranscribedWord,
 } from "./models/index.js";
-export type { TranscriptionClientOptionalParams, TranscribeOptionalParams } from "./api/index.js";
+export type { TranscriptionClientOptions } from "./api/index.js";
 export type { FileContents };
