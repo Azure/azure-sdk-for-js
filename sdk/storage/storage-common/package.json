@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "sideEffects": false,
   "author": "Microsoft Corporation",
-  "version": "12.5.0-beta.1",
+  "version": "12.5.0-beta.99",
   "description": "Azure Storage Common Client Library for JavaScript",
   "license": "MIT",
   "repository": {

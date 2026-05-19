@@ -92,7 +92,7 @@
     "@azure/core-util": "^1.13.1",
     "@azure/logger": "^1.3.0",
     "@azure/storage-blob": "12.33.0-beta.1",
-    "@azure/storage-common": "12.5.0-beta.1",
+    "@azure/storage-common": "12.5.0-beta.99",
     "@azure-rest/core-client": "^2.6.0",
     "events": "^3.3.0",
     "fast-xml-parser": "^5.5.10",
