@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the configuration stores for a given subscription.
  *
  * @summary lists the configuration stores for a given subscription.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresList.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresList.json
  */
 async function configurationStoresList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -6,18 +6,29 @@ products:
   - azure
   - azure-cognitive-search
   - azure-search
-urlFragment: search-documents-javascript-v13
+urlFragment: search-documents-javascript
 ---
 
 # Azure Search Documents client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Search Documents in some common scenarios.
 
-| **File Name**                                                     | **Description**                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------- |
-| [knowledgeBaseOperations.js][knowledgebaseoperations]             | Demonstrates the Knowledge Base Operations.           |
-| [knowledgeSourceOperations.js][knowledgesourceoperations]         | Demonstrates the Knowledge Source Operations.         |
-| [knowledgeRetrievalOperations.js][knowledgeretrievaloperations]   | Demonstrates the Knowledge Retrieval Operations.      |
+| **File Name**                                                       | **Description**                                                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [bufferedSenderAutoFlushSize.js][bufferedsenderautoflushsize]       | Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.                             |
+| [bufferedSenderAutoFlushTimer.js][bufferedsenderautoflushtimer]     | Demonstrates the SearchIndexingBufferedSender with Autoflush based on timer.                            |
+| [bufferedSenderManualFlush.js][bufferedsendermanualflush]           | Demonstrates the SearchIndexingBufferedSender with Manual Flush.                                        |
+| [dataSourceConnectionOperations.js][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                                                      |
+| [indexOperations.js][indexoperations]                               | Demonstrates the Index Operations.                                                                      |
+| [indexerOperations.js][indexeroperations]                           | Demonstrates the Indexer Operations.                                                                    |
+| [knowledgeBaseOperations.js][knowledgebaseoperations]               | Demonstrates the Knowledge Base Operations.                                                             |
+| [knowledgeRetrievalOperations.js][knowledgeretrievaloperations]     | Demonstrates the Knowledge Retrieval Operations using KnowledgeRetrievalClient.                         |
+| [knowledgeSourceOperations.js][knowledgesourceoperations]           | Demonstrates the Knowledge Source Operations.                                                           |
+| [searchClientOperations.js][searchclientoperations]                 | Demonstrates the SearchClient.                                                                          |
+| [skillSetOperations.js][skillsetoperations]                         | Demonstrates the Skillset Operations.                                                                   |
+| [stickySession.js][stickysession]                                   | Demonstrates user sticky sessions, a way to reduce inconsistent behavior by targeting a single replica. |
+| [synonymMapOperations.js][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                                                 |
+| [vectorSearch.js][vectorsearch]                                     | Demonstrates vector search                                                                              |
 
 ## Prerequisites
 
@@ -46,22 +57,33 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node knowledgeBaseOperations.js
+node bufferedSenderAutoFlushSize.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env ENDPOINT="<endpoint>" node knowledgeBaseOperations.js
+npx cross-env ENDPOINT="<endpoint>" node bufferedSenderAutoFlushSize.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[bufferedsenderautoflushsize]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/bufferedSenderAutoFlushSize.js
+[bufferedsenderautoflushtimer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/bufferedSenderAutoFlushTimer.js
+[bufferedsendermanualflush]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/bufferedSenderManualFlush.js
+[datasourceconnectionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/dataSourceConnectionOperations.js
+[indexoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/indexOperations.js
+[indexeroperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/indexerOperations.js
 [knowledgebaseoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeBaseOperations.js
-[knowledgesourceoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeSourceOperations.js
 [knowledgeretrievaloperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeRetrievalOperations.js
+[knowledgesourceoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/knowledgeSourceOperations.js
+[searchclientoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/searchClientOperations.js
+[skillsetoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/skillSetOperations.js
+[stickysession]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/stickySession.js
+[synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/synonymMapOperations.js
+[vectorsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v13/javascript/vectorSearch.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/search-documents
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuresearchdocumentsinstance]: https://learn.microsoft.com/azure/search/search-create-service-portal

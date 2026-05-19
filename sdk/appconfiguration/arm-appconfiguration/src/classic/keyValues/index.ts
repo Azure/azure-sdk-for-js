@@ -16,11 +16,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a KeyValues operations. */
 export interface KeyValuesOperations {
   /** Deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     configStoreName: string,

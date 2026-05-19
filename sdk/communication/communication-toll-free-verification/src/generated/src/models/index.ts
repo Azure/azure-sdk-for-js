@@ -37,6 +37,8 @@ export interface CampaignBrief {
   attachments?: CampaignBriefAttachmentSummary[];
   optInDetails?: OptInDetails;
   multipleNumbersJustification?: string;
+  /** Doing Business As (DBA). Must be filled if the company name used to contact customers differs from the legal entity name. */
+  dba?: string;
   /** URL to the privacy policy for the campaign. */
   privacyPolicyUrl?: string;
   /** URL to the terms and conditions for the campaign. */

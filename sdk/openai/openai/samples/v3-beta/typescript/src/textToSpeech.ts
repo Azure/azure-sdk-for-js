@@ -7,7 +7,6 @@
  * @summary text to speech.
  */
 
-import "openai/shims/node";
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import { writeFile } from "node:fs/promises";

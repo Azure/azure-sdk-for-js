@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns backup management server registered to Recovery Services Vault.
  *
  * @summary returns backup management server registered to Recovery Services Vault.
- * x-ms-original-file: 2026-01-01-preview/Dpm/BackupEngines_Get.json
+ * x-ms-original-file: 2026-01-31-preview/Dpm/BackupEngines_Get.json
  */
 async function getDpmOrAzureBackupServerOrLajollaBackupEngineDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

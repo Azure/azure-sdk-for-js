@@ -115,11 +115,6 @@
       "react-native": "./src/util/checkNetworkConnection-web.mts",
       "default": "./src/util/checkNetworkConnection.ts"
     },
-    "#platform/hmacSha256": {
-      "browser": "./src/util/hmacSha256-web.mts",
-      "react-native": "./src/util/hmacSha256-web.mts",
-      "default": "./src/util/hmacSha256.ts"
-    },
     "#platform/runtimeInfo": {
       "browser": "./src/util/runtimeInfo-browser.mts",
       "react-native": "./src/util/runtimeInfo-react-native.mts",

@@ -109,7 +109,7 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 
   // List files in the session sandbox
-  const listing = await project.beta.agents.listSessionFiles(
+  const listing = await project.beta.agents.getSessionFiles(
     agentName,
     session.agent_session_id,
     "/sandbox",

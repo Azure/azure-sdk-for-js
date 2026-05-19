@@ -634,6 +634,16 @@ export interface TimeField extends ContentField {
 }
 
 // @public
+export function toLlmInput(result: AnalysisResult, options?: ToLlmInputOptions): string;
+
+// @public
+export interface ToLlmInputOptions {
+    includeFields?: boolean;
+    includeMarkdown?: boolean;
+    metadata?: Record<string, unknown>;
+}
+
+// @public
 export interface TranscriptPhrase {
     confidence?: number;
     endTimeMs: number;

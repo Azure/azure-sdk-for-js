@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the ResourceGuardProxies under vault
  *
  * @summary list the ResourceGuardProxies under vault
- * x-ms-original-file: 2026-01-01-preview/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
+ * x-ms-original-file: 2026-01-31-preview/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
  */
 async function getVaultGuardProxies() {
   const credential = new DefaultAzureCredential();

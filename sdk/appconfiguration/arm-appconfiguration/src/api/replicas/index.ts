@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { listByConfigurationStore, $delete, create, get } from "./operations.js";
-export {
-  type ReplicasListByConfigurationStoreOptionalParams,
-  type ReplicasDeleteOptionalParams,
-  type ReplicasCreateOptionalParams,
-  type ReplicasGetOptionalParams,
+export type {
+  ReplicasListByConfigurationStoreOptionalParams,
+  ReplicasDeleteOptionalParams,
+  ReplicasCreateOptionalParams,
+  ReplicasGetOptionalParams,
 } from "./options.js";
