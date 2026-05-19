@@ -135,10 +135,6 @@
         "types": "./dist/browser/api/volumes/index.d.ts",
         "default": "./dist/browser/api/volumes/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/volumes/index.d.ts",
-        "default": "./dist/react-native/api/volumes/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/volumes/index.d.ts",
         "default": "./dist/esm/api/volumes/index.js"
@@ -152,10 +148,6 @@
       "browser": {
         "types": "./dist/browser/api/volumeGroups/index.d.ts",
         "default": "./dist/browser/api/volumeGroups/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/volumeGroups/index.d.ts",
-        "default": "./dist/react-native/api/volumeGroups/index.js"
       },
       "import": {
         "types": "./dist/esm/api/volumeGroups/index.d.ts",
