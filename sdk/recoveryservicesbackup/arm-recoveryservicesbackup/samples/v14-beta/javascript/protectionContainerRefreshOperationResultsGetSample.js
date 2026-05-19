@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to provides the result of the refresh operation triggered by the BeginRefresh operation.
  *
  * @summary provides the result of the refresh operation triggered by the BeginRefresh operation.
- * x-ms-original-file: 2026-01-01-preview/Common/RefreshContainers_OperationResults.json
+ * x-ms-original-file: 2026-01-31-preview/Common/RefreshContainers_OperationResults.json
  */
 async function azureVmDiscoveryOperationResult() {
   const credential = new DefaultAzureCredential();

@@ -56,6 +56,7 @@ export type AdvancedNetworkPolicies = string;
 
 // @public
 export interface AgentPool extends ProxyResource {
+    artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
     count?: number;
@@ -110,6 +111,11 @@ export interface AgentPool extends ProxyResource {
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
+}
+
+// @public
+export interface AgentPoolArtifactStreamingProfile {
+    enabled?: boolean;
 }
 
 // @public
@@ -759,6 +765,7 @@ export enum KnownOSDiskType {
 
 // @public
 export enum KnownOssku {
+    AzureContainerLinux = "AzureContainerLinux",
     AzureLinux = "AzureLinux",
     AzureLinux3 = "AzureLinux3",
     CBLMariner = "CBLMariner",
@@ -910,7 +917,8 @@ export enum KnownUpgradeChannel {
 export enum KnownVersions {
     V20251001 = "2025-10-01",
     V20260101 = "2026-01-01",
-    V20260201 = "2026-02-01"
+    V20260201 = "2026-02-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -1167,6 +1175,7 @@ export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolP
 
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
+    artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
     count?: number;

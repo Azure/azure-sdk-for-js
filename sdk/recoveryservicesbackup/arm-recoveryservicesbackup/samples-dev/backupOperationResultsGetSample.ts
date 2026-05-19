@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * status code in the response would be Accepted. It will continue to be in this state till it reaches completion. On
  * successful completion, the status code will be OK. This method expects OperationID as an argument. OperationID is
  * part of the Location header of the operation response.
- * x-ms-original-file: 2026-01-01-preview/Common/ProtectedItem_Delete_OperationResult.json
+ * x-ms-original-file: 2026-01-31-preview/Common/ProtectedItem_Delete_OperationResult.json
  */
 async function getResultForProtectedItemDeleteOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

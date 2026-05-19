@@ -3,8 +3,11 @@
 
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
-  getCredentials,
-  startPendingUpload,
+  deleteGenerationJob,
+  cancelGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
+  createGenerationJob,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -13,8 +16,11 @@ import {
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
 import {
-  BetaEvaluatorsGetCredentialsOptionalParams,
-  BetaEvaluatorsStartPendingUploadOptionalParams,
+  BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  BetaEvaluatorsCancelGenerationJobOptionalParams,
+  BetaEvaluatorsListGenerationJobsOptionalParams,
+  BetaEvaluatorsGetGenerationJobOptionalParams,
+  BetaEvaluatorsCreateGenerationJobOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -22,31 +28,41 @@ import {
   BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import {
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-  EvaluatorVersion,
-  EvaluatorCredentialRequest,
-} from "../../../models/models.js";
+import { EvaluatorVersion, EvaluatorGenerationJob } from "../../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
-  /** Get the SAS credential to access the storage account associated with an Evaluator version. */
-  getCredentials: (
-    name: string,
-    credentialRequest: EvaluatorCredentialRequest,
-    version: string,
-    options?: BetaEvaluatorsGetCredentialsOptionalParams,
-  ) => Promise<DatasetCredential>;
-  /** Start a new or get an existing pending upload of an evaluator for a specific version. */
-  startPendingUpload: (
-    name: string,
-    version: string,
-    pendingUploadRequest: PendingUploadRequest,
-    options?: BetaEvaluatorsStartPendingUploadOptionalParams,
-  ) => Promise<PendingUploadResponse>;
+  /**
+   * Deletes an evaluator generation job by its ID. Deletes the job record only;
+   * the generated evaluator (if any) is preserved.
+   */
+  deleteGenerationJob: (
+    jobId: string,
+    options?: BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancels an evaluator generation job by its ID. */
+  cancelGenerationJob: (
+    jobId: string,
+    options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /** Returns a list of evaluator generation jobs. */
+  listGenerationJobs: (
+    options?: BetaEvaluatorsListGenerationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
+  /** Gets the details of an evaluator generation job by its ID. */
+  getGenerationJob: (
+    jobId: string,
+    options?: BetaEvaluatorsGetGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /**
+   * Creates an evaluator generation job. The service generates rubric-based evaluator
+   * definitions from the provided source materials asynchronously.
+   */
+  createGenerationJob: (
+    body: EvaluatorGenerationJob,
+    options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
   /** Update an existing EvaluatorVersion with the given version id */
   updateVersion: (
     name: string,
@@ -91,18 +107,22 @@ export interface BetaEvaluatorsOperations {
 
 function _getBetaEvaluators(context: AIProjectContext) {
   return {
-    getCredentials: (
-      name: string,
-      credentialRequest: EvaluatorCredentialRequest,
-      version: string,
-      options?: BetaEvaluatorsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, credentialRequest, version, options),
-    startPendingUpload: (
-      name: string,
-      version: string,
-      pendingUploadRequest: PendingUploadRequest,
-      options?: BetaEvaluatorsStartPendingUploadOptionalParams,
-    ) => startPendingUpload(context, name, version, pendingUploadRequest, options),
+    deleteGenerationJob: (
+      jobId: string,
+      options?: BetaEvaluatorsDeleteGenerationJobOptionalParams,
+    ) => deleteGenerationJob(context, jobId, options),
+    cancelGenerationJob: (
+      jobId: string,
+      options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
+    ) => cancelGenerationJob(context, jobId, options),
+    listGenerationJobs: (options?: BetaEvaluatorsListGenerationJobsOptionalParams) =>
+      listGenerationJobs(context, options),
+    getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
+      getGenerationJob(context, jobId, options),
+    createGenerationJob: (
+      body: EvaluatorGenerationJob,
+      options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
+    ) => createGenerationJob(context, body, options),
     updateVersion: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",

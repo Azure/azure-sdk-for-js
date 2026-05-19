@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks whether the configuration store name is available for use.
  *
  * @summary checks whether the configuration store name is available for use.
- * x-ms-original-file: 2025-06-01-preview/RegionalCheckNameAvailable.json
+ * x-ms-original-file: 2025-08-01-preview/RegionalCheckNameAvailable.json
  */
 async function configurationStoresCheckNameAvailable(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function configurationStoresCheckNameAvailable(): Promise<void> {
  * This sample demonstrates how to checks whether the configuration store name is available for use.
  *
  * @summary checks whether the configuration store name is available for use.
- * x-ms-original-file: 2025-06-01-preview/RegionalCheckNameNotAvailable.json
+ * x-ms-original-file: 2025-08-01-preview/RegionalCheckNameNotAvailable.json
  */
 async function configurationStoresCheckNameNotAvailable(): Promise<void> {
   const credential = new DefaultAzureCredential();

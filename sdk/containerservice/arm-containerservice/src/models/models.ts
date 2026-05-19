@@ -112,6 +112,8 @@ export interface AgentPool extends ProxyResource {
   gpuProfile?: GPUProfile;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
   gatewayProfile?: AgentPoolGatewayProfile;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
   /** Specifications on VirtualMachines agent pool. */
   virtualMachinesProfile?: VirtualMachinesProfile;
   /** The status of nodes in a VirtualMachines agent pool. */
@@ -171,6 +173,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "securityProfile",
       "gpuProfile",
       "gatewayProfile",
+      "artifactStreamingProfile",
       "virtualMachinesProfile",
       "virtualMachineNodesStatus",
       "status",
@@ -297,6 +300,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gpuProfile?: GPUProfile;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
   gatewayProfile?: AgentPoolGatewayProfile;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
   /** Specifications on VirtualMachines agent pool. */
   virtualMachinesProfile?: VirtualMachinesProfile;
   /** The status of nodes in a VirtualMachines agent pool. */
@@ -381,6 +386,9 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileSerializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
@@ -482,6 +490,9 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileDeserializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileDeserializer(item["virtualMachinesProfile"]),
@@ -608,6 +619,8 @@ export enum KnownOssku {
   Windows2025 = "Windows2025",
   /** Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https://aka.ms/aks/supported-ubuntu-versions */
   Ubuntu2404 = "Ubuntu2404",
+  /** Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https://aka.ms/azurecontainerlinux */
+  AzureContainerLinux = "AzureContainerLinux",
 }
 
 /**
@@ -623,7 +636,8 @@ export enum KnownOssku {
  * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. \
  * **Ubuntu2204**: Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https:\//aka.ms\/aks\/supported-ubuntu-versions \
  * **Windows2025**: Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. \
- * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions
+ * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions \
+ * **AzureContainerLinux**: Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https:\//aka.ms\/azurecontainerlinux
  */
 export type Ossku = string;
 
@@ -1306,6 +1320,26 @@ export function agentPoolGatewayProfileSerializer(item: AgentPoolGatewayProfile)
 export function agentPoolGatewayProfileDeserializer(item: any): AgentPoolGatewayProfile {
   return {
     publicIPPrefixSize: item["publicIPPrefixSize"],
+  };
+}
+
+/** Artifact streaming profile for the agent pool. */
+export interface AgentPoolArtifactStreamingProfile {
+  /** Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false. */
+  enabled?: boolean;
+}
+
+export function agentPoolArtifactStreamingProfileSerializer(
+  item: AgentPoolArtifactStreamingProfile,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function agentPoolArtifactStreamingProfileDeserializer(
+  item: any,
+): AgentPoolArtifactStreamingProfile {
+  return {
+    enabled: item["enabled"],
   };
 }
 
@@ -2598,6 +2632,9 @@ export function managedClusterAgentPoolProfileSerializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileSerializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
@@ -2700,6 +2737,9 @@ export function managedClusterAgentPoolProfileDeserializer(
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileDeserializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileDeserializer(item["virtualMachinesProfile"]),
@@ -8134,6 +8174,8 @@ export enum KnownVersions {
   V20260101 = "2026-01-01",
   /** The 2026-02-01 API version. */
   V20260201 = "2026-02-01",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -8208,6 +8250,9 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileSerializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileSerializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
@@ -8307,6 +8352,9 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     gatewayProfile: !item["gatewayProfile"]
       ? item["gatewayProfile"]
       : agentPoolGatewayProfileDeserializer(item["gatewayProfile"]),
+    artifactStreamingProfile: !item["artifactStreamingProfile"]
+      ? item["artifactStreamingProfile"]
+      : agentPoolArtifactStreamingProfileDeserializer(item["artifactStreamingProfile"]),
     virtualMachinesProfile: !item["virtualMachinesProfile"]
       ? item["virtualMachinesProfile"]
       : virtualMachinesProfileDeserializer(item["virtualMachinesProfile"]),

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import { OperationStatusResult } from "../../models/models.js";
-import { OperationStatusesGetOptionalParams } from "../../api/operationStatuses/options.js";
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import { get } from "../../api/operationStatuses/operations.js";
+import type { OperationStatusesGetOptionalParams } from "../../api/operationStatuses/options.js";
+import type { OperationStatusResult } from "../../models/models.js";
 
 /** Interface representing a OperationStatuses operations. */
 export interface OperationStatusesOperations {

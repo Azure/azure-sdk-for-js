@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the status of async operations of tiering cost
  *
  * @summary gets the status of async operations of tiering cost
- * x-ms-original-file: 2026-01-01-preview/TieringCost/GetTieringCostOperationStatus.json
+ * x-ms-original-file: 2026-01-31-preview/TieringCost/GetTieringCostOperationStatus.json
  */
 async function fetchTieringCostOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -482,8 +482,8 @@ export class VoiceAssistant {
       });
 
       // Create and connect a session with model
-      this.session = await this.client.startSession('gpt-4o', sessionOptions);
-
+      this.session = await this.client.startSession('gpt-4.1', sessionOptions);
+      
       // Setup handler-based event subscription (Azure SDK pattern)
       this.subscription = this.session.subscribe(this.createEventHandlers());
 

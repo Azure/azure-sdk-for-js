@@ -3,6 +3,11 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  deleteGenerationJob,
+  cancelGenerationJob,
+  listGenerationJobs,
+  getGenerationJob,
+  createGenerationJob,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -17,12 +22,47 @@ import type {
   BetaEvaluatorsGetVersionOptionalParams,
   BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
+  BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  BetaEvaluatorsCancelGenerationJobOptionalParams,
+  BetaEvaluatorsListGenerationJobsOptionalParams,
+  BetaEvaluatorsGetGenerationJobOptionalParams,
+  BetaEvaluatorsCreateGenerationJobOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import type { EvaluatorVersion } from "../../../models/models.js";
+import type { EvaluatorVersion, EvaluatorGenerationJob } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
+  /**
+   * Deletes an evaluator generation job by its ID. Deletes the job record only;
+   * the generated evaluator (if any) is preserved.
+   */
+  deleteGenerationJob: (
+    jobId: string,
+    options?: BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  ) => Promise<void>;
+  /** Cancels an evaluator generation job by its ID. */
+  cancelGenerationJob: (
+    jobId: string,
+    options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /** Returns a list of evaluator generation jobs. */
+  listGenerationJobs: (
+    options?: BetaEvaluatorsListGenerationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
+  /** Gets the details of an evaluator generation job by its ID. */
+  getGenerationJob: (
+    jobId: string,
+    options?: BetaEvaluatorsGetGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
+  /**
+   * Creates an evaluator generation job. The service generates rubric-based evaluator
+   * definitions from the provided source materials asynchronously.
+   */
+  createGenerationJob: (
+    body: EvaluatorGenerationJob,
+    options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
+  ) => Promise<EvaluatorGenerationJob>;
   /** Update an existing EvaluatorVersion with the given version id */
   updateVersion: (
     name: string,
@@ -61,6 +101,22 @@ export interface BetaEvaluatorsOperations {
 
 function _getBetaEvaluators(context: AIProjectContext) {
   return {
+    deleteGenerationJob: (
+      jobId: string,
+      options?: BetaEvaluatorsDeleteGenerationJobOptionalParams,
+    ) => deleteGenerationJob(context, jobId, options),
+    cancelGenerationJob: (
+      jobId: string,
+      options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
+    ) => cancelGenerationJob(context, jobId, options),
+    listGenerationJobs: (options?: BetaEvaluatorsListGenerationJobsOptionalParams) =>
+      listGenerationJobs(context, options),
+    getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
+      getGenerationJob(context, jobId, options),
+    createGenerationJob: (
+      body: EvaluatorGenerationJob,
+      options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
+    ) => createGenerationJob(context, body, options),
     updateVersion: (
       name: string,
       version: string,

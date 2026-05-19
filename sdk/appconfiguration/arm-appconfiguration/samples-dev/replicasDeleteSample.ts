@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a replica.
  *
  * @summary deletes a replica.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresDeleteReplica.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresDeleteReplica.json
  */
 async function replicasDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,6 +5,13 @@
 ```ts
 
 // @public
+export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
+    inputTokensCount?: number;
+    outputTokensCount?: number;
+    type: "modelWebSummarization";
+}
+
+// @public
 export enum KnownVersions {
     V20260401 = "2026-04-01"
 }

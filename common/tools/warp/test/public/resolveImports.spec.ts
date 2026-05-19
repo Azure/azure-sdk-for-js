@@ -998,12 +998,16 @@ describe("buildImportTargetIndex", () => {
 
     const { exactPaths, wildcardPatterns } = buildImportTargetIndex(importsMap, "/pkg");
 
-    // Exact: nodeTypes entries
+    // Exact: nodeTypes entries (now return {key, condition})
     expect(exactPaths.size).toBe(2);
-    expect(exactPaths.get(path.resolve("/pkg", "./src/nodeTypes-browser.mts"))).toBe(
-      "#platform/nodeTypes",
-    );
-    expect(exactPaths.get(path.resolve("/pkg", "./src/nodeTypes.ts"))).toBe("#platform/nodeTypes");
+    expect(exactPaths.get(path.resolve("/pkg", "./src/nodeTypes-browser.mts"))).toEqual({
+      key: "#platform/nodeTypes",
+      condition: "browser",
+    });
+    expect(exactPaths.get(path.resolve("/pkg", "./src/nodeTypes.ts"))).toEqual({
+      key: "#platform/nodeTypes",
+      condition: "default",
+    });
 
     // Wildcard: 2 patterns (browser + default)
     expect(wildcardPatterns.length).toBe(2);
