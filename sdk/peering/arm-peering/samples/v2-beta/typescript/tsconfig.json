@@ -13,10 +13,7 @@
     "types": [
       "node"
     ],
-<<<<<<<< HEAD:sdk/servicefabric/arm-servicefabric/samples/v4-beta/typescript/tsconfig.json
-========
     "verbatimModuleSyntax": true,
->>>>>>>> origin/main:sdk/peering/arm-peering/samples/v2-beta/typescript/tsconfig.json
     "outDir": "./dist",
     "resolveJsonModule": true,
     "moduleResolution": "node10"
