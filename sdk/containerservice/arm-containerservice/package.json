@@ -47,10 +47,6 @@
         "types": "./dist/browser/api/vmSkus/index.d.ts",
         "default": "./dist/browser/api/vmSkus/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/vmSkus/index.d.ts",
-        "default": "./dist/react-native/api/vmSkus/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/vmSkus/index.d.ts",
         "default": "./dist/esm/api/vmSkus/index.js"
@@ -64,10 +60,6 @@
       "browser": {
         "types": "./dist/browser/api/containerService/index.d.ts",
         "default": "./dist/browser/api/containerService/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/containerService/index.d.ts",
-        "default": "./dist/react-native/api/containerService/index.js"
       },
       "import": {
         "types": "./dist/esm/api/containerService/index.d.ts",
@@ -125,10 +117,6 @@
         "types": "./dist/browser/api/operationStatusResult/index.d.ts",
         "default": "./dist/browser/api/operationStatusResult/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/operationStatusResult/index.d.ts",
-        "default": "./dist/react-native/api/operationStatusResult/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/operationStatusResult/index.d.ts",
         "default": "./dist/esm/api/operationStatusResult/index.js"
@@ -157,10 +145,6 @@
         "types": "./dist/browser/api/meshMemberships/index.d.ts",
         "default": "./dist/browser/api/meshMemberships/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/meshMemberships/index.d.ts",
-        "default": "./dist/react-native/api/meshMemberships/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/meshMemberships/index.d.ts",
         "default": "./dist/esm/api/meshMemberships/index.js"
@@ -174,10 +158,6 @@
       "browser": {
         "types": "./dist/browser/api/jwtAuthenticators/index.d.ts",
         "default": "./dist/browser/api/jwtAuthenticators/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/jwtAuthenticators/index.d.ts",
-        "default": "./dist/react-native/api/jwtAuthenticators/index.js"
       },
       "import": {
         "types": "./dist/esm/api/jwtAuthenticators/index.d.ts",
@@ -193,10 +173,6 @@
         "types": "./dist/browser/api/identityBindings/index.d.ts",
         "default": "./dist/browser/api/identityBindings/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/identityBindings/index.d.ts",
-        "default": "./dist/react-native/api/identityBindings/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/identityBindings/index.d.ts",
         "default": "./dist/esm/api/identityBindings/index.js"
@@ -210,10 +186,6 @@
       "browser": {
         "types": "./dist/browser/api/loadBalancers/index.d.ts",
         "default": "./dist/browser/api/loadBalancers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/loadBalancers/index.d.ts",
-        "default": "./dist/react-native/api/loadBalancers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/loadBalancers/index.d.ts",
@@ -242,10 +214,6 @@
       "browser": {
         "types": "./dist/browser/api/managedClusterSnapshots/index.d.ts",
         "default": "./dist/browser/api/managedClusterSnapshots/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/managedClusterSnapshots/index.d.ts",
-        "default": "./dist/react-native/api/managedClusterSnapshots/index.js"
       },
       "import": {
         "types": "./dist/esm/api/managedClusterSnapshots/index.d.ts",
