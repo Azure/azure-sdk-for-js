@@ -39,6 +39,7 @@ on:
           } catch (e) {
             core.warning(`Could not add in-progress label: ${e.message}`);
           }
+checkout: false
 labels: [mgmt-review-needed]
 if: github.event.label.name == 'mgmt-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
@@ -79,6 +80,12 @@ safe-outputs:
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  add-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  remove-labels:
+    max: 1
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"

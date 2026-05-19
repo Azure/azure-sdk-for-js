@@ -56,7 +56,7 @@ export class VoiceLiveClient {
   /**
    * Creates a new VoiceLiveSession for real-time voice communication.
    *
-   * @param model - The model name to use for the session (e.g., "gpt-4o-realtime-preview")
+   * @param model - The model name to use for the session (e.g., "gpt-realtime")
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A new VoiceLiveSession instance ready to connect
    */
@@ -78,7 +78,7 @@ export class VoiceLiveClient {
    * const endpoint = "https://your-resource.cognitiveservices.azure.com";
    * const client = new VoiceLiveClient(endpoint, credential);
    *
-   * const session = client.createSession({ model: "gpt-4o-realtime-preview" });
+   * const session = client.createSession({ model: "gpt-realtime" });
    * ```
    *
    * @example Agent-centric session
@@ -223,7 +223,7 @@ export class VoiceLiveClient {
   /**
    * Creates and immediately connects a new VoiceLiveSession.
    *
-   * @param model - The model name to use for the session (e.g., "gpt-4o-realtime-preview")
+   * @param model - The model name to use for the session (e.g., "gpt-realtime")
    * @param sessionOptions - Optional configuration specific to this session
    * @returns A connected VoiceLiveSession instance
    */
@@ -248,7 +248,7 @@ export class VoiceLiveClient {
    * const endpoint = "https://your-resource.cognitiveservices.azure.com";
    * const client = new VoiceLiveClient(endpoint, credential);
    *
-   * const session = await client.startSession({ model: "gpt-4o-realtime-preview" });
+   * const session = await client.startSession({ model: "gpt-realtime" });
    * ```
    *
    * @example Agent-centric session

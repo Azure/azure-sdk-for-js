@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds, type AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 
 export { MicrosoftSerialConsoleClient } from "./microsoftSerialConsoleClient.js";
 export type {
