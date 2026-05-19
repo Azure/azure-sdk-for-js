@@ -928,7 +928,7 @@
 # PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/security/arm-security/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
