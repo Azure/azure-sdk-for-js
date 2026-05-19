@@ -18,6 +18,7 @@ const skipBuild = getArg("--skipBuild", "false").toLowerCase() === "true";
 const emitterVersion = getArg("--emitterVersion", "");
 const directoryListFile = getArg("--directoryList", "");
 const resultOutputDir = getArg("--resultOutputDir", "");
+const regenTimeoutMs = Number(getArg("--regenTimeoutMs", String(30 * 60 * 1000)));
 
 if (!specRepoRoot || !fs.existsSync(specRepoRoot)) {
   console.error(`ERROR: spec repo root not found: ${specRepoRoot}`);
@@ -201,11 +202,25 @@ function buildSpecIndex() {
 function runCommand(cmd, args, cwd, timeoutMs = 600000) {
   return new Promise((resolve) => {
     let output = "";
-    const proc = spawn(cmd, args, { cwd, shell: true, timeout: timeoutMs });
+    let killedByTimeout = false;
+    const proc = spawn(cmd, args, { cwd, shell: true });
+    const timer = setTimeout(() => {
+      killedByTimeout = true;
+      try { proc.kill("SIGKILL"); } catch {}
+    }, timeoutMs);
     proc.stdout.on("data", (d) => (output += d.toString()));
     proc.stderr.on("data", (d) => (output += d.toString()));
-    proc.on("close", (code) => resolve({ code, output }));
-    proc.on("error", (err) => resolve({ code: 1, output: `${output}\n${err.message}` }));
+    proc.on("close", (code) => {
+      clearTimeout(timer);
+      if (killedByTimeout) {
+        output += `\n[runner] killed by timeout after ${timeoutMs}ms\n`;
+      }
+      resolve({ code, output, timedOut: killedByTimeout });
+    });
+    proc.on("error", (err) => {
+      clearTimeout(timer);
+      resolve({ code: 1, output: `${output}\n${err.message}`, timedOut: false });
+    });
   });
 }
 
@@ -247,6 +262,52 @@ function isRetryableGitError(output) {
   return /git clone failed|fatal: early EOF|unable to access|Failed to connect|Could not connect to server|The remote end hung up unexpectedly/.test(
     output,
   );
+}
+
+// Recursively delete nested duplicate workspace directories of the form
+// sdk/X/Y/sdk/X/Y created by tsp-client when emitter-output-dir is misresolved.
+// These break pnpm install because two workspaces share the same package name.
+function cleanupNestedDuplicateWorkspaces(root) {
+  const nestedPattern = /^sdk[/\\][^/\\]+[/\\][^/\\]+[/\\]sdk[/\\]/;
+  function findNested(dir, results) {
+    let entries;
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return results; }
+    for (const entry of entries) {
+      if (entry.name === "node_modules" || entry.name === ".git") continue;
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        findNested(full, results);
+      } else if (entry.name === "package.json") {
+        const rel = normalizePath(path.relative(root, full));
+        if (nestedPattern.test(rel)) results.push(full);
+      }
+    }
+    return results;
+  }
+  const packageJsonPaths = findNested(path.join(root, "sdk"), []);
+  if (packageJsonPaths.length === 0) return 0;
+
+  // Delete the inner duplicate "sdk" folder so the outer workspace stays.
+  // Example: sdk/azurestackhci/arm-azurestackhci/sdk -> delete this whole inner sdk
+  const innerSdkRoots = new Set();
+  for (const pkgJson of packageJsonPaths) {
+    const rel = normalizePath(path.relative(root, pkgJson));
+    const segments = rel.split("/");
+    const innerIndex = segments.indexOf("sdk", 1);
+    if (innerIndex > 0) {
+      const innerSdkRel = segments.slice(0, innerIndex + 1).join("/");
+      innerSdkRoots.add(path.join(root, innerSdkRel));
+    }
+  }
+  for (const innerSdk of innerSdkRoots) {
+    try {
+      fs.rmSync(innerSdk, { recursive: true, force: true });
+      console.log(`  Removed nested duplicate workspace: ${path.relative(root, innerSdk)}`);
+    } catch (err) {
+      console.log(`  Warning: failed to remove ${innerSdk}: ${err.message}`);
+    }
+  }
+  return innerSdkRoots.size;
 }
 
 // ============ Pre-build workaround helpers ============
@@ -659,12 +720,15 @@ async function regenerateAll(packages) {
         "tsp-client",
         ["init", "--update-if-exists", "-c", pkg.tspConfigPath, "--local-spec-repo", pkg.localSpecPath, "--debug"],
         pkg.pkgDir,
+        regenTimeoutMs,
       );
       output += `\n===== Attempt ${attempt}/${maxAttempts} =====\n${result.output}`;
       output += `\nExit code: ${result.code}\n`;
       success = result.code === 0;
 
-      if (success || !isRetryableGitError(result.output)) break;
+      // Do not retry on timeout-kill — it will just waste another full timeout.
+      if (success || result.timedOut) break;
+      if (!isRetryableGitError(result.output)) break;
     }
 
     const duration = ((Date.now() - start) / 1000).toFixed(1);
@@ -704,6 +768,15 @@ async function buildAll(regenResults) {
   // Pre-build fix 1: Clean up TempTypeSpecFiles to avoid turbo "duplicate workspace" errors
   console.log("Cleaning up TempTypeSpecFiles directories...");
   cleanupTempTypeSpecFiles(sdkRoot);
+
+  // Pre-build fix 1b: Clean up nested duplicate workspaces created by tsp-client
+  // (e.g. sdk/foo/arm-foo/sdk/foo/arm-foo/package.json), which would otherwise
+  // make pnpm install reject the whole workspace.
+  console.log("Cleaning up nested duplicate workspace directories...");
+  const nestedRemoved = cleanupNestedDuplicateWorkspaces(sdkRoot);
+  if (nestedRemoved === 0) {
+    console.log("  No nested duplicate workspaces found.");
+  }
 
   // Pre-build fix 2: Scaffold missing config/tsconfig files for warp-enabled packages
   console.log("Scaffolding missing config/tsconfig files...");
