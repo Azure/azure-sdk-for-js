@@ -9,6 +9,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export interface ManagedApplyMaintenanceWindowPostOptionalParams extends OperationOptions {
+    body?: ApplyMaintenanceWindowRequest;
 }
 
 // @public

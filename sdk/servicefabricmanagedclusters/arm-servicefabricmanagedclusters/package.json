@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-servicefabricmanagedclusters",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.1",
   "description": "A generated SDK for ServiceFabricManagedClustersManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -358,9 +358,10 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "imports": {
-    "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "default": "./src/*.ts"
+    "#platform/*.js": {
+      "browser": "./src/*-browser.mjs",
+      "react-native": "./src/*-react-native.mjs",
+      "default": "./src/*.js"
     }
   }
 }
