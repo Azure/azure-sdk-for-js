@@ -68,7 +68,7 @@ export {
   ExternalEndpointResult,
   KnownVersions,
 } from "./models/index.js";
-export { PolicyClientOptionalParams } from "./api/index.js";
+export type { PolicyClientOptionalParams } from "./api/index.js";
 export {
   PolicyAssignmentsListForResourceOptionalParams,
   PolicyAssignmentsListOptionalParams,
