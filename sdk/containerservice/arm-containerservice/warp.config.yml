@@ -1,7 +1,5 @@
 extends: ../../../warp.base.config.yml
 exports:
-  "./package.json": "./package.json"
-  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/vmSkus": "./src/api/vmSkus/index.ts"
   "./api/containerService": "./src/api/containerService/index.ts"
