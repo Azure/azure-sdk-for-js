@@ -12,17 +12,12 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -38,10 +33,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -55,10 +46,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
@@ -74,10 +61,6 @@
         "types": "./dist/browser/models/alertsAPI/index.d.ts",
         "default": "./dist/browser/models/alertsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/alertsAPI/index.d.ts",
-        "default": "./dist/react-native/models/alertsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/alertsAPI/index.d.ts",
         "default": "./dist/esm/models/alertsAPI/index.js"
@@ -91,10 +74,6 @@
       "browser": {
         "types": "./dist/browser/models/alertsSuppressionRulesAPI/index.d.ts",
         "default": "./dist/browser/models/alertsSuppressionRulesAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/alertsSuppressionRulesAPI/index.d.ts",
-        "default": "./dist/react-native/models/alertsSuppressionRulesAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/alertsSuppressionRulesAPI/index.d.ts",
@@ -110,10 +89,6 @@
         "types": "./dist/browser/models/apiCollectionsAPI/index.d.ts",
         "default": "./dist/browser/models/apiCollectionsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/apiCollectionsAPI/index.d.ts",
-        "default": "./dist/react-native/models/apiCollectionsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/apiCollectionsAPI/index.d.ts",
         "default": "./dist/esm/models/apiCollectionsAPI/index.js"
@@ -127,10 +102,6 @@
       "browser": {
         "types": "./dist/browser/models/applicationsAPI/index.d.ts",
         "default": "./dist/browser/models/applicationsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/applicationsAPI/index.d.ts",
-        "default": "./dist/react-native/models/applicationsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/applicationsAPI/index.d.ts",
@@ -146,10 +117,6 @@
         "types": "./dist/browser/models/assessmentAPI/index.d.ts",
         "default": "./dist/browser/models/assessmentAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/assessmentAPI/index.d.ts",
-        "default": "./dist/react-native/models/assessmentAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/assessmentAPI/index.d.ts",
         "default": "./dist/esm/models/assessmentAPI/index.js"
@@ -163,10 +130,6 @@
       "browser": {
         "types": "./dist/browser/models/atpSettingsAPI/index.d.ts",
         "default": "./dist/browser/models/atpSettingsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/atpSettingsAPI/index.d.ts",
-        "default": "./dist/react-native/models/atpSettingsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/atpSettingsAPI/index.d.ts",
@@ -182,10 +145,6 @@
         "types": "./dist/browser/models/automationsAPI/index.d.ts",
         "default": "./dist/browser/models/automationsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/automationsAPI/index.d.ts",
-        "default": "./dist/react-native/models/automationsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/automationsAPI/index.d.ts",
         "default": "./dist/esm/models/automationsAPI/index.js"
@@ -199,10 +158,6 @@
       "browser": {
         "types": "./dist/browser/models/common/index.d.ts",
         "default": "./dist/browser/models/common/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/common/index.d.ts",
-        "default": "./dist/react-native/models/common/index.js"
       },
       "import": {
         "types": "./dist/esm/models/common/index.d.ts",
@@ -218,10 +173,6 @@
         "types": "./dist/browser/models/complianceResultsAPI/index.d.ts",
         "default": "./dist/browser/models/complianceResultsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/complianceResultsAPI/index.d.ts",
-        "default": "./dist/react-native/models/complianceResultsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/complianceResultsAPI/index.d.ts",
         "default": "./dist/esm/models/complianceResultsAPI/index.js"
@@ -235,10 +186,6 @@
       "browser": {
         "types": "./dist/browser/models/defenderForStorageAPI/index.d.ts",
         "default": "./dist/browser/models/defenderForStorageAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/defenderForStorageAPI/index.d.ts",
-        "default": "./dist/react-native/models/defenderForStorageAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/defenderForStorageAPI/index.d.ts",
@@ -254,10 +201,6 @@
         "types": "./dist/browser/models/governanceAPI/index.d.ts",
         "default": "./dist/browser/models/governanceAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/governanceAPI/index.d.ts",
-        "default": "./dist/react-native/models/governanceAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/governanceAPI/index.d.ts",
         "default": "./dist/esm/models/governanceAPI/index.js"
@@ -271,10 +214,6 @@
       "browser": {
         "types": "./dist/browser/models/healthReportsAPI/index.d.ts",
         "default": "./dist/browser/models/healthReportsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/healthReportsAPI/index.d.ts",
-        "default": "./dist/react-native/models/healthReportsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/healthReportsAPI/index.d.ts",
@@ -290,10 +229,6 @@
         "types": "./dist/browser/models/ioTSecurityAPI/index.d.ts",
         "default": "./dist/browser/models/ioTSecurityAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/ioTSecurityAPI/index.d.ts",
-        "default": "./dist/react-native/models/ioTSecurityAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/ioTSecurityAPI/index.d.ts",
         "default": "./dist/esm/models/ioTSecurityAPI/index.js"
@@ -307,10 +242,6 @@
       "browser": {
         "types": "./dist/browser/models/legacySettingsAPI/index.d.ts",
         "default": "./dist/browser/models/legacySettingsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/legacySettingsAPI/index.d.ts",
-        "default": "./dist/react-native/models/legacySettingsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/legacySettingsAPI/index.d.ts",
@@ -326,10 +257,6 @@
         "types": "./dist/browser/models/locationsAPI/index.d.ts",
         "default": "./dist/browser/models/locationsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/locationsAPI/index.d.ts",
-        "default": "./dist/react-native/models/locationsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/locationsAPI/index.d.ts",
         "default": "./dist/esm/models/locationsAPI/index.js"
@@ -343,10 +270,6 @@
       "browser": {
         "types": "./dist/browser/models/mdeOnboardingAPI/index.d.ts",
         "default": "./dist/browser/models/mdeOnboardingAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/mdeOnboardingAPI/index.d.ts",
-        "default": "./dist/react-native/models/mdeOnboardingAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/mdeOnboardingAPI/index.d.ts",
@@ -362,10 +285,6 @@
         "types": "./dist/browser/models/pricingsAPI/index.d.ts",
         "default": "./dist/browser/models/pricingsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/pricingsAPI/index.d.ts",
-        "default": "./dist/react-native/models/pricingsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/pricingsAPI/index.d.ts",
         "default": "./dist/esm/models/pricingsAPI/index.js"
@@ -379,10 +298,6 @@
       "browser": {
         "types": "./dist/browser/models/privateLinksAPI/index.d.ts",
         "default": "./dist/browser/models/privateLinksAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/privateLinksAPI/index.d.ts",
-        "default": "./dist/react-native/models/privateLinksAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/privateLinksAPI/index.d.ts",
@@ -398,10 +313,6 @@
         "types": "./dist/browser/models/regulatoryComplianceAPI/index.d.ts",
         "default": "./dist/browser/models/regulatoryComplianceAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/regulatoryComplianceAPI/index.d.ts",
-        "default": "./dist/react-native/models/regulatoryComplianceAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/regulatoryComplianceAPI/index.d.ts",
         "default": "./dist/esm/models/regulatoryComplianceAPI/index.js"
@@ -415,10 +326,6 @@
       "browser": {
         "types": "./dist/browser/models/secureScoreAPI/index.d.ts",
         "default": "./dist/browser/models/secureScoreAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/secureScoreAPI/index.d.ts",
-        "default": "./dist/react-native/models/secureScoreAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/secureScoreAPI/index.d.ts",
@@ -434,10 +341,6 @@
         "types": "./dist/browser/models/securityConnectorsAPI/index.d.ts",
         "default": "./dist/browser/models/securityConnectorsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/securityConnectorsAPI/index.d.ts",
-        "default": "./dist/react-native/models/securityConnectorsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/securityConnectorsAPI/index.d.ts",
         "default": "./dist/esm/models/securityConnectorsAPI/index.js"
@@ -451,10 +354,6 @@
       "browser": {
         "types": "./dist/browser/models/securityConnectorsDevOpsAPI/index.d.ts",
         "default": "./dist/browser/models/securityConnectorsDevOpsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/securityConnectorsDevOpsAPI/index.d.ts",
-        "default": "./dist/react-native/models/securityConnectorsDevOpsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/securityConnectorsDevOpsAPI/index.d.ts",
@@ -470,10 +369,6 @@
         "types": "./dist/browser/models/securityManagementClient/index.d.ts",
         "default": "./dist/browser/models/securityManagementClient/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/securityManagementClient/index.d.ts",
-        "default": "./dist/react-native/models/securityManagementClient/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/securityManagementClient/index.d.ts",
         "default": "./dist/esm/models/securityManagementClient/index.js"
@@ -487,10 +382,6 @@
       "browser": {
         "types": "./dist/browser/models/securityOperatorsAPI/index.d.ts",
         "default": "./dist/browser/models/securityOperatorsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/securityOperatorsAPI/index.d.ts",
-        "default": "./dist/react-native/models/securityOperatorsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/securityOperatorsAPI/index.d.ts",
@@ -506,10 +397,6 @@
         "types": "./dist/browser/models/securitySolutionsAPI/index.d.ts",
         "default": "./dist/browser/models/securitySolutionsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/securitySolutionsAPI/index.d.ts",
-        "default": "./dist/react-native/models/securitySolutionsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/securitySolutionsAPI/index.d.ts",
         "default": "./dist/esm/models/securitySolutionsAPI/index.js"
@@ -523,10 +410,6 @@
       "browser": {
         "types": "./dist/browser/models/securityStandardsAPI/index.d.ts",
         "default": "./dist/browser/models/securityStandardsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/securityStandardsAPI/index.d.ts",
-        "default": "./dist/react-native/models/securityStandardsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/securityStandardsAPI/index.d.ts",
@@ -542,10 +425,6 @@
         "types": "./dist/browser/models/sensitivitySettingsAPI/index.d.ts",
         "default": "./dist/browser/models/sensitivitySettingsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/sensitivitySettingsAPI/index.d.ts",
-        "default": "./dist/react-native/models/sensitivitySettingsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/sensitivitySettingsAPI/index.d.ts",
         "default": "./dist/esm/models/sensitivitySettingsAPI/index.js"
@@ -559,10 +438,6 @@
       "browser": {
         "types": "./dist/browser/models/serverVulnerabilityAssessmentsSettingsAPI/index.d.ts",
         "default": "./dist/browser/models/serverVulnerabilityAssessmentsSettingsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/serverVulnerabilityAssessmentsSettingsAPI/index.d.ts",
-        "default": "./dist/react-native/models/serverVulnerabilityAssessmentsSettingsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/serverVulnerabilityAssessmentsSettingsAPI/index.d.ts",
@@ -578,10 +453,6 @@
         "types": "./dist/browser/models/settingsAPI/index.d.ts",
         "default": "./dist/browser/models/settingsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/settingsAPI/index.d.ts",
-        "default": "./dist/react-native/models/settingsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/settingsAPI/index.d.ts",
         "default": "./dist/esm/models/settingsAPI/index.js"
@@ -595,10 +466,6 @@
       "browser": {
         "types": "./dist/browser/models/sqlVulnerabilityAssessmentsAPI/index.d.ts",
         "default": "./dist/browser/models/sqlVulnerabilityAssessmentsAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/sqlVulnerabilityAssessmentsAPI/index.d.ts",
-        "default": "./dist/react-native/models/sqlVulnerabilityAssessmentsAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/sqlVulnerabilityAssessmentsAPI/index.d.ts",
@@ -614,10 +481,6 @@
         "types": "./dist/browser/models/standardsAPI/index.d.ts",
         "default": "./dist/browser/models/standardsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/standardsAPI/index.d.ts",
-        "default": "./dist/react-native/models/standardsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/standardsAPI/index.d.ts",
         "default": "./dist/esm/models/standardsAPI/index.js"
@@ -632,10 +495,6 @@
         "types": "./dist/browser/models/subAssessmentsAPI/index.d.ts",
         "default": "./dist/browser/models/subAssessmentsAPI/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/models/subAssessmentsAPI/index.d.ts",
-        "default": "./dist/react-native/models/subAssessmentsAPI/index.js"
-      },
       "import": {
         "types": "./dist/esm/models/subAssessmentsAPI/index.d.ts",
         "default": "./dist/esm/models/subAssessmentsAPI/index.js"
@@ -649,10 +508,6 @@
       "browser": {
         "types": "./dist/browser/models/tasksAPI/index.d.ts",
         "default": "./dist/browser/models/tasksAPI/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/tasksAPI/index.d.ts",
-        "default": "./dist/react-native/models/tasksAPI/index.js"
       },
       "import": {
         "types": "./dist/esm/models/tasksAPI/index.d.ts",
@@ -730,16 +585,16 @@
     "pack": "pnpm pack 2>&1",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "build:samples": "echo skipped",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate:client": "echo skipped",
-    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:browser": "dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
   }
 }

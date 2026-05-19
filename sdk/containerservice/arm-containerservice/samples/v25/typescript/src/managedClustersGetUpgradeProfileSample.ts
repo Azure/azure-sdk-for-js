@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the upgrade profile of a managed cluster.
  *
  * @summary gets the upgrade profile of a managed cluster.
- * x-ms-original-file: 2026-02-01/ManagedClustersGetUpgradeProfile.json
+ * x-ms-original-file: 2026-03-01/ManagedClustersGetUpgradeProfile.json
  */
 async function getUpgradeProfileForManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

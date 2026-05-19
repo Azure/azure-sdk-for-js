@@ -291,9 +291,9 @@
 # ServiceOwners: @axisc @hmlam @sjkwak
 
 # PRLabel: %Search
-/sdk/search/    @Azure/azsdk-search @Azure/azure-sdk-write-search
+/sdk/search/    @Azure/azure-sdk-write-search
 
-# AzureSdkOwners: @dgetu
+# AzureSdkOwners: @srbalakr @efrainretana
 # ServiceLabel: %Search
 
 # PRLabel: %Service Bus
@@ -421,7 +421,7 @@
 # PRLabel: %Mgmt
 /sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -613,7 +613,7 @@
 # PRLabel: %Mgmt
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -823,7 +823,7 @@
 # PRLabel: %Mgmt
 /sdk/onlineexperimentation/arm-onlineexperimentation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/peering/arm-peering/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -997,7 +997,7 @@
 # PRLabel: %Mgmt
 /sdk/streamanalytics/arm-streamanalytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/subscription/arm-subscriptions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1093,7 +1093,7 @@
 # PRLabel: %Mgmt
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/chaos/arm-chaos/ @qiaozha @MaryGao @JialinHuang803
 
 # ServiceLabel: %AAD %Service Attention
@@ -1682,6 +1682,9 @@ sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @Ji
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
 sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

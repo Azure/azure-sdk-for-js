@@ -4,8 +4,8 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export function $delete(context: ChaosManagementContext, resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, capabilityName: string, options?: CapabilitiesDeleteOptionalParams): Promise<void>;

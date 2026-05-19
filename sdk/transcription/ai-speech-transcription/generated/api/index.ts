@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { transcribe } from "./operations.js";
-export { TranscribeOptionalParams } from "./options.js";
-export {
-  createTranscription,
+export type { TranscribeOptionalParams } from "./options.js";
+export type {
   TranscriptionContext,
   TranscriptionClientOptionalParams,
 } from "./transcriptionContext.js";
+export { createTranscription } from "./transcriptionContext.js";
