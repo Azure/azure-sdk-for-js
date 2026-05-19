@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IoTOperationsContext as Client } from "../index.js";
-import type {
-  InstanceResource,
-  InstancePatchModel,
-  _InstanceResourceListResult,
-} from "../../models/models.js";
+import { IoTOperationsContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  InstanceResource,
   instanceResourceSerializer,
   instanceResourceDeserializer,
+  InstancePatchModel,
   instancePatchModelSerializer,
+  _InstanceResourceListResult,
   _instanceResourceListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   InstanceListBySubscriptionOptionalParams,
   InstanceListByResourceGroupOptionalParams,
   InstanceDeleteOptionalParams,
@@ -26,9 +26,13 @@ import type {
   InstanceCreateOrUpdateOptionalParams,
   InstanceGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -163,11 +167,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a InstanceResource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
