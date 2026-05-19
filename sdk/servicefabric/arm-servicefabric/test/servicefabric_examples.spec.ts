@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("ServiceFabric test", () => {
+describe("ServiceFabric test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ServiceFabricManagementClient;
