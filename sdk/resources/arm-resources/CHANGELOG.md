@@ -1,16 +1,60 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 8.0.0-beta.1 (2026-05-19)
+Compared with version 7.0.0
 
 ### Features Added
+  - Added operation ResourceGroupsOperations.delete
+  - Added operation ResourceGroupsOperations.exportTemplate
+  - Added operation ResourcesOperations.createOrUpdate
+  - Added operation ResourcesOperations.createOrUpdateById
+  - Added operation ResourcesOperations.delete
+  - Added operation ResourcesOperations.deleteById
+  - Added operation ResourcesOperations.moveResources
+  - Added operation ResourcesOperations.update
+  - Added operation ResourcesOperations.updateById
+  - Added operation ResourcesOperations.validateMoveResources
+  - Added operation TagsOperations.createOrUpdateAtScope
+  - Added operation TagsOperations.deleteAtScope
+  - Added operation TagsOperations.updateAtScope
+  - Added Interface ErrorDetail
+  - Added Interface ExtensionResource
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Interface GenericResource has a new optional parameter systemData
+  - Interface GenericResourceExpanded has a new optional parameter systemData
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceGroup has a new optional parameter systemData
+  - Interface TagsResource has a new optional parameter systemData
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed Interface GenericResourceFilter
+  - Removed Interface ResourceGroupFilter
+  - Removed Interface ResourceProviderOperationDisplayProperties
+  - Removed Interface SubResource
+  - Interface Resource no longer has parameter extendedLocation
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Parameter value of interface ProviderPermissionListResult is now required
+  - Parameter value of interface ProviderResourceTypeListResult is now required
 
-### Bugs Fixed
-
-### Other Changes
-
-
+    
 ## 7.0.0 (2025-06-10)
     
 - operation groups `DeploymentOperations` and `Deployments` has been split into an independent library [`@azure/arm-resourcesdeployment`](https://www.npmjs.com/package/@azure/arm-resourcesdeployments/v/1.0.0-beta.1).
