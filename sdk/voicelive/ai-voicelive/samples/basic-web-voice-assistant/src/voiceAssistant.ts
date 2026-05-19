@@ -119,8 +119,8 @@ export class VoiceAssistant {
   private currentAudioSources: AudioBufferSourceNode[] = [];
   
   private speechConfig?: speechSDK.SpeechConfig;
-  private recognitionLanguage = 'en-US';
-  private silenceTimeout = 1500;
+  private recognitionLanguage = 'en-US';  // PA feature just supports English for now.
+  private silenceTimeout = 1500;  // you can adjust this based on expected user speech patterns
   private enablePronunciationAssessment = false;
   private enableLatencyTracking = false;
   private paWithReferenceText = true;
@@ -1030,6 +1030,14 @@ export class VoiceAssistant {
         timestamp: new Date()
       });
 
+      // When PA is enabled, let LLM speak first to initiate the conversation
+      if (this.enablePronunciationAssessment) {
+        this.session?.sendEvent({
+          type: 'response.create',
+          additionalInstructions: 'Greet the user warmly in 1–2 short sentences and invite them to start speaking English. Keep it brief and encouraging.'
+        });
+      }
+
       console.log('Conversation started');
 
     } catch (error) {
@@ -1105,6 +1113,14 @@ export class VoiceAssistant {
         voice,
         inputAudioFormat: 'pcm16',
         outputAudioFormat: 'pcm16',
+        inputAudioTranscription: this.enablePronunciationAssessment
+          ? {
+              // "azure-speech" | "mai-transcribe-1" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize"
+              model: "azure-speech",
+              // Language cannot be configured for mai-transcribe-1 model
+              language: this.recognitionLanguage
+            }
+          : undefined,
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
