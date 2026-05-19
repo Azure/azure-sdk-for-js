@@ -19,10 +19,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -36,10 +32,6 @@
       "browser": {
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
       },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
@@ -55,10 +47,6 @@
         "types": "./dist/browser/api/modelCapacities/index.d.ts",
         "default": "./dist/browser/api/modelCapacities/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/modelCapacities/index.d.ts",
-        "default": "./dist/react-native/api/modelCapacities/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/modelCapacities/index.d.ts",
         "default": "./dist/esm/api/modelCapacities/index.js"
@@ -72,10 +60,6 @@
       "browser": {
         "types": "./dist/browser/api/locationBasedModelCapacities/index.d.ts",
         "default": "./dist/browser/api/locationBasedModelCapacities/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/locationBasedModelCapacities/index.d.ts",
-        "default": "./dist/react-native/api/locationBasedModelCapacities/index.js"
       },
       "import": {
         "types": "./dist/esm/api/locationBasedModelCapacities/index.d.ts",
@@ -91,10 +75,6 @@
         "types": "./dist/browser/api/models/index.d.ts",
         "default": "./dist/browser/api/models/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/models/index.d.ts",
-        "default": "./dist/react-native/api/models/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/models/index.d.ts",
         "default": "./dist/esm/api/models/index.js"
@@ -108,10 +88,6 @@
       "browser": {
         "types": "./dist/browser/api/commitmentTiers/index.d.ts",
         "default": "./dist/browser/api/commitmentTiers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/commitmentTiers/index.d.ts",
-        "default": "./dist/react-native/api/commitmentTiers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/commitmentTiers/index.d.ts",
@@ -127,10 +103,6 @@
         "types": "./dist/browser/api/usages/index.d.ts",
         "default": "./dist/browser/api/usages/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/usages/index.d.ts",
-        "default": "./dist/react-native/api/usages/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/usages/index.d.ts",
         "default": "./dist/esm/api/usages/index.js"
@@ -144,10 +116,6 @@
       "browser": {
         "types": "./dist/browser/api/resourceSkus/index.d.ts",
         "default": "./dist/browser/api/resourceSkus/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/resourceSkus/index.d.ts",
-        "default": "./dist/react-native/api/resourceSkus/index.js"
       },
       "import": {
         "types": "./dist/esm/api/resourceSkus/index.d.ts",
@@ -163,10 +131,6 @@
         "types": "./dist/browser/api/agentDeployments/index.d.ts",
         "default": "./dist/browser/api/agentDeployments/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/agentDeployments/index.d.ts",
-        "default": "./dist/react-native/api/agentDeployments/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/agentDeployments/index.d.ts",
         "default": "./dist/esm/api/agentDeployments/index.js"
@@ -180,10 +144,6 @@
       "browser": {
         "types": "./dist/browser/api/managedNetworkProvisions/index.d.ts",
         "default": "./dist/browser/api/managedNetworkProvisions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/managedNetworkProvisions/index.d.ts",
-        "default": "./dist/react-native/api/managedNetworkProvisions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/managedNetworkProvisions/index.d.ts",
@@ -199,10 +159,6 @@
         "types": "./dist/browser/api/outboundRules/index.d.ts",
         "default": "./dist/browser/api/outboundRules/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/outboundRules/index.d.ts",
-        "default": "./dist/react-native/api/outboundRules/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/outboundRules/index.d.ts",
         "default": "./dist/esm/api/outboundRules/index.js"
@@ -216,10 +172,6 @@
       "browser": {
         "types": "./dist/browser/api/managedNetworkSettings/index.d.ts",
         "default": "./dist/browser/api/managedNetworkSettings/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/managedNetworkSettings/index.d.ts",
-        "default": "./dist/react-native/api/managedNetworkSettings/index.js"
       },
       "import": {
         "types": "./dist/esm/api/managedNetworkSettings/index.d.ts",
@@ -235,10 +187,6 @@
         "types": "./dist/browser/api/outboundRule/index.d.ts",
         "default": "./dist/browser/api/outboundRule/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/outboundRule/index.d.ts",
-        "default": "./dist/react-native/api/outboundRule/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/outboundRule/index.d.ts",
         "default": "./dist/esm/api/outboundRule/index.js"
@@ -252,10 +200,6 @@
       "browser": {
         "types": "./dist/browser/api/accountCapabilityHosts/index.d.ts",
         "default": "./dist/browser/api/accountCapabilityHosts/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/accountCapabilityHosts/index.d.ts",
-        "default": "./dist/react-native/api/accountCapabilityHosts/index.js"
       },
       "import": {
         "types": "./dist/esm/api/accountCapabilityHosts/index.d.ts",
@@ -271,10 +215,6 @@
         "types": "./dist/browser/api/accountConnections/index.d.ts",
         "default": "./dist/browser/api/accountConnections/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/accountConnections/index.d.ts",
-        "default": "./dist/react-native/api/accountConnections/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/accountConnections/index.d.ts",
         "default": "./dist/esm/api/accountConnections/index.js"
@@ -288,10 +228,6 @@
       "browser": {
         "types": "./dist/browser/api/raiExternalSafetyProviders/index.d.ts",
         "default": "./dist/browser/api/raiExternalSafetyProviders/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/raiExternalSafetyProviders/index.d.ts",
-        "default": "./dist/react-native/api/raiExternalSafetyProviders/index.js"
       },
       "import": {
         "types": "./dist/esm/api/raiExternalSafetyProviders/index.d.ts",
@@ -307,10 +243,6 @@
         "types": "./dist/browser/api/raiExternalSafetyProvider/index.d.ts",
         "default": "./dist/browser/api/raiExternalSafetyProvider/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/raiExternalSafetyProvider/index.d.ts",
-        "default": "./dist/react-native/api/raiExternalSafetyProvider/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/raiExternalSafetyProvider/index.d.ts",
         "default": "./dist/esm/api/raiExternalSafetyProvider/index.js"
@@ -324,10 +256,6 @@
       "browser": {
         "types": "./dist/browser/api/testRaiExternalSafetyProvider/index.d.ts",
         "default": "./dist/browser/api/testRaiExternalSafetyProvider/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/testRaiExternalSafetyProvider/index.d.ts",
-        "default": "./dist/react-native/api/testRaiExternalSafetyProvider/index.js"
       },
       "import": {
         "types": "./dist/esm/api/testRaiExternalSafetyProvider/index.d.ts",
@@ -343,10 +271,6 @@
         "types": "./dist/browser/api/privateLinkResources/index.d.ts",
         "default": "./dist/browser/api/privateLinkResources/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/privateLinkResources/index.d.ts",
-        "default": "./dist/react-native/api/privateLinkResources/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/privateLinkResources/index.d.ts",
         "default": "./dist/esm/api/privateLinkResources/index.js"
@@ -360,10 +284,6 @@
       "browser": {
         "types": "./dist/browser/api/computeOperations/index.d.ts",
         "default": "./dist/browser/api/computeOperations/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/computeOperations/index.d.ts",
-        "default": "./dist/react-native/api/computeOperations/index.js"
       },
       "import": {
         "types": "./dist/esm/api/computeOperations/index.d.ts",
@@ -379,10 +299,6 @@
         "types": "./dist/browser/api/agentApplications/index.d.ts",
         "default": "./dist/browser/api/agentApplications/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/agentApplications/index.d.ts",
-        "default": "./dist/react-native/api/agentApplications/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/agentApplications/index.d.ts",
         "default": "./dist/esm/api/agentApplications/index.js"
@@ -396,10 +312,6 @@
       "browser": {
         "types": "./dist/browser/api/quotaTiers/index.d.ts",
         "default": "./dist/browser/api/quotaTiers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/quotaTiers/index.d.ts",
-        "default": "./dist/react-native/api/quotaTiers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/quotaTiers/index.d.ts",
@@ -415,10 +327,6 @@
         "types": "./dist/browser/api/projectCapabilityHosts/index.d.ts",
         "default": "./dist/browser/api/projectCapabilityHosts/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/projectCapabilityHosts/index.d.ts",
-        "default": "./dist/react-native/api/projectCapabilityHosts/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/projectCapabilityHosts/index.d.ts",
         "default": "./dist/esm/api/projectCapabilityHosts/index.js"
@@ -432,10 +340,6 @@
       "browser": {
         "types": "./dist/browser/api/projectConnections/index.d.ts",
         "default": "./dist/browser/api/projectConnections/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/projectConnections/index.d.ts",
-        "default": "./dist/react-native/api/projectConnections/index.js"
       },
       "import": {
         "types": "./dist/esm/api/projectConnections/index.d.ts",
@@ -451,10 +355,6 @@
         "types": "./dist/browser/api/projects/index.d.ts",
         "default": "./dist/browser/api/projects/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/projects/index.d.ts",
-        "default": "./dist/react-native/api/projects/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/projects/index.d.ts",
         "default": "./dist/esm/api/projects/index.js"
@@ -468,10 +368,6 @@
       "browser": {
         "types": "./dist/browser/api/defenderForAISettings/index.d.ts",
         "default": "./dist/browser/api/defenderForAISettings/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/defenderForAISettings/index.d.ts",
-        "default": "./dist/react-native/api/defenderForAISettings/index.js"
       },
       "import": {
         "types": "./dist/esm/api/defenderForAISettings/index.d.ts",
@@ -487,10 +383,6 @@
         "types": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.d.ts",
         "default": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/networkSecurityPerimeterConfigurations/index.d.ts",
-        "default": "./dist/react-native/api/networkSecurityPerimeterConfigurations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.d.ts",
         "default": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.js"
@@ -504,10 +396,6 @@
       "browser": {
         "types": "./dist/browser/api/raiContentFilters/index.d.ts",
         "default": "./dist/browser/api/raiContentFilters/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/raiContentFilters/index.d.ts",
-        "default": "./dist/react-native/api/raiContentFilters/index.js"
       },
       "import": {
         "types": "./dist/esm/api/raiContentFilters/index.d.ts",
@@ -523,10 +411,6 @@
         "types": "./dist/browser/api/raiToolLabels/index.d.ts",
         "default": "./dist/browser/api/raiToolLabels/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/raiToolLabels/index.d.ts",
-        "default": "./dist/react-native/api/raiToolLabels/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/raiToolLabels/index.d.ts",
         "default": "./dist/esm/api/raiToolLabels/index.js"
@@ -540,10 +424,6 @@
       "browser": {
         "types": "./dist/browser/api/raiTopics/index.d.ts",
         "default": "./dist/browser/api/raiTopics/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/raiTopics/index.d.ts",
-        "default": "./dist/react-native/api/raiTopics/index.js"
       },
       "import": {
         "types": "./dist/esm/api/raiTopics/index.d.ts",
@@ -559,10 +439,6 @@
         "types": "./dist/browser/api/raiBlocklists/index.d.ts",
         "default": "./dist/browser/api/raiBlocklists/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/raiBlocklists/index.d.ts",
-        "default": "./dist/react-native/api/raiBlocklists/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/raiBlocklists/index.d.ts",
         "default": "./dist/esm/api/raiBlocklists/index.js"
@@ -576,10 +452,6 @@
       "browser": {
         "types": "./dist/browser/api/raiBlocklistItems/index.d.ts",
         "default": "./dist/browser/api/raiBlocklistItems/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/raiBlocklistItems/index.d.ts",
-        "default": "./dist/react-native/api/raiBlocklistItems/index.js"
       },
       "import": {
         "types": "./dist/esm/api/raiBlocklistItems/index.d.ts",
@@ -595,10 +467,6 @@
         "types": "./dist/browser/api/subscriptionRaiPolicy/index.d.ts",
         "default": "./dist/browser/api/subscriptionRaiPolicy/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/subscriptionRaiPolicy/index.d.ts",
-        "default": "./dist/react-native/api/subscriptionRaiPolicy/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/subscriptionRaiPolicy/index.d.ts",
         "default": "./dist/esm/api/subscriptionRaiPolicy/index.js"
@@ -612,10 +480,6 @@
       "browser": {
         "types": "./dist/browser/api/raiPolicies/index.d.ts",
         "default": "./dist/browser/api/raiPolicies/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/raiPolicies/index.d.ts",
-        "default": "./dist/react-native/api/raiPolicies/index.js"
       },
       "import": {
         "types": "./dist/esm/api/raiPolicies/index.d.ts",
@@ -631,10 +495,6 @@
         "types": "./dist/browser/api/encryptionScopes/index.d.ts",
         "default": "./dist/browser/api/encryptionScopes/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/encryptionScopes/index.d.ts",
-        "default": "./dist/react-native/api/encryptionScopes/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/encryptionScopes/index.d.ts",
         "default": "./dist/esm/api/encryptionScopes/index.js"
@@ -648,10 +508,6 @@
       "browser": {
         "types": "./dist/browser/api/commitmentPlans/index.d.ts",
         "default": "./dist/browser/api/commitmentPlans/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/commitmentPlans/index.d.ts",
-        "default": "./dist/react-native/api/commitmentPlans/index.js"
       },
       "import": {
         "types": "./dist/esm/api/commitmentPlans/index.d.ts",
@@ -667,10 +523,6 @@
         "types": "./dist/browser/api/deployments/index.d.ts",
         "default": "./dist/browser/api/deployments/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/deployments/index.d.ts",
-        "default": "./dist/react-native/api/deployments/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/deployments/index.d.ts",
         "default": "./dist/esm/api/deployments/index.js"
@@ -684,10 +536,6 @@
       "browser": {
         "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
         "default": "./dist/browser/api/privateEndpointConnections/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/privateEndpointConnections/index.d.ts",
-        "default": "./dist/react-native/api/privateEndpointConnections/index.js"
       },
       "import": {
         "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
@@ -703,10 +551,6 @@
         "types": "./dist/browser/api/deletedAccounts/index.d.ts",
         "default": "./dist/browser/api/deletedAccounts/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/deletedAccounts/index.d.ts",
-        "default": "./dist/react-native/api/deletedAccounts/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/deletedAccounts/index.d.ts",
         "default": "./dist/esm/api/deletedAccounts/index.js"
@@ -720,10 +564,6 @@
       "browser": {
         "types": "./dist/browser/api/accounts/index.d.ts",
         "default": "./dist/browser/api/accounts/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/accounts/index.d.ts",
-        "default": "./dist/react-native/api/accounts/index.js"
       },
       "import": {
         "types": "./dist/esm/api/accounts/index.d.ts",
@@ -739,10 +579,6 @@
         "types": "./dist/browser/api/operations/index.d.ts",
         "default": "./dist/browser/api/operations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/operations/index.d.ts",
         "default": "./dist/esm/api/operations/index.js"
@@ -756,10 +592,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
