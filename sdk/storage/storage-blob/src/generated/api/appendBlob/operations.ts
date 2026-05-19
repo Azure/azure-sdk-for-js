@@ -141,7 +141,7 @@ export function _sealDeserializeExceptionHeaders(result: PathUncheckedResponse):
   };
 }
 
-/** The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version 2019-12-12 version or later. */
+/** Seals the append blob to make it read-only. */
 export async function seal(
   context: Client,
   options: AppendBlobSealOptionalParams = { requestOptions: {} },
@@ -411,7 +411,7 @@ export function _appendBlockFromUrlDeserializeExceptionHeaders(result: PathUnche
   };
 }
 
-/** The Append Block From URL operation creates a new block to be committed as part of an append blob where the contents are read from a URL. */
+/** Uploads a new block of data from the specified URL to the end of an append blob. */
 export async function appendBlockFromUrl(
   context: Client,
   sourceUrl: string,
@@ -666,7 +666,7 @@ export function _appendBlockDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Append Block operation commits a new block of data to the end of an append blob. */
+/** Uploads a new block of data to the end of an append blob. */
 export async function appendBlock(
   context: Client,
   body: Uint8Array,
@@ -901,7 +901,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
   };
 }
 
-/** The Create operation creates a new append blob. */
+/** Creates a new append blob. */
 export async function create(
   context: Client,
   options: AppendBlobCreateOptionalParams = { requestOptions: {} },

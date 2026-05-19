@@ -29,7 +29,7 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a PageBlob operations. */
 export interface PageBlobOperations {
-  /** The Copy Incremental operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31. */
+  /** Copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. */
   copyIncremental: (
     copySource: string,
     options?: PageBlobCopyIncrementalOptionalParams,
@@ -57,7 +57,7 @@ export interface PageBlobOperations {
       }
     >
   >;
-  /** The Update Sequence Number operation sets the blob's sequence number. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
+  /** Updates the sequence number of the specified page blob. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
   setSequenceNumber: (
     sequenceNumberAction: SequenceNumberActionType,
     options?: PageBlobSetSequenceNumberOptionalParams,
@@ -83,7 +83,7 @@ export interface PageBlobOperations {
       }
     >
   >;
-  /** The Resize operation increases the size of the page blob to the specified size. */
+  /** Changes the size of the specified page blob. */
   resize: (
     size: number,
     options?: PageBlobResizeOptionalParams,
@@ -109,7 +109,7 @@ export interface PageBlobOperations {
       }
     >
   >;
-  /** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+  /** Returns the list of page ranges in the diff between the specified page blob and the specified previous snapshot. */
   getPageRangesDiff: (
     options?: PageBlobGetPageRangesDiffOptionalParams,
   ) => Promise<
@@ -137,7 +137,7 @@ export interface PageBlobOperations {
         }
       >
   >;
-  /** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+  /** Returns the list of valid page ranges for the specified page blob. */
   getPageRanges: (
     options?: PageBlobGetPageRangesOptionalParams,
   ) => Promise<
@@ -165,7 +165,7 @@ export interface PageBlobOperations {
         }
       >
   >;
-  /** The Upload Pages operation writes a range of pages to a page blob where the contents are read from a URL. */
+  /** Writes a range of pages to the specified page blob where the contents are read from a URL. */
   uploadPagesFromUrl: (
     sourceUrl: string,
     sourceRange: string,
@@ -204,7 +204,7 @@ export interface PageBlobOperations {
       }
     >
   >;
-  /** The Clear Pages operation clears a range of pages from a page blob */
+  /** Clears a range of pages from the specified page blob. */
   clearPages: (
     range: string,
     options?: PageBlobClearPagesOptionalParams,
@@ -234,7 +234,7 @@ export interface PageBlobOperations {
       }
     >
   >;
-  /** The Upload Pages operation writes a range of pages to a page blob */
+  /** Writes a range of pages to the specified page blob. */
   uploadPages: (
     body: Uint8Array,
     contentLength: number,
@@ -274,7 +274,7 @@ export interface PageBlobOperations {
       }
     >
   >;
-  /** The Create operation creates a new page blob. */
+  /** Creates a new page blob. */
   create: (
     size: number,
     options?: PageBlobCreateOptionalParams,

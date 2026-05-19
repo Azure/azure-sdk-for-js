@@ -19,7 +19,7 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/** The service properties. */
+/** The blob service properties. */
 export interface BlobServiceProperties {
   /** The logging properties. */
   blobAnalyticsLogging?: Logging;
@@ -180,7 +180,7 @@ export function blobServicePropertiesXmlDeserializer(xmlString: string): BlobSer
   );
 }
 
-/** Azure Analytics Logging settings. */
+/** Azure Analytics logging settings. */
 export interface Logging {
   /** The version of the logging properties. */
   version: string;
@@ -317,7 +317,7 @@ export function loggingXmlObjectDeserializer(xmlObject: Record<string, unknown>)
 
 /** The retention policy. */
 export interface RetentionPolicy {
-  /** Whether to enable the retention policy. */
+  /** Whether the policy is enabled. */
   enabled: boolean;
   /** The number of days to retain the logs. */
   days?: number;
@@ -388,7 +388,7 @@ export function retentionPolicyXmlObjectDeserializer(
 export interface Metrics {
   /** The version of the metrics properties. */
   version?: string;
-  /** Whether it is enabled. */
+  /** Whether the metrics are enabled. */
   enabled: boolean;
   /** Whether to include API in the metrics. */
   includeAPIs?: boolean;
@@ -517,7 +517,7 @@ export function corsRuleArrayDeserializer(result: Array<CorsRule>): any[] {
   });
 }
 
-/** CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as same-origin policy that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain */
+/** A Cross-Origin Resource Sharing (CORS) rule. */
 export interface CorsRule {
   /** The allowed origins. */
   allowedOrigins: string;
@@ -644,15 +644,15 @@ export function corsRuleXmlObjectDeserializer(xmlObject: Record<string, unknown>
   return deserializeXmlObject<CorsRule>(xmlObject, properties);
 }
 
-/** The properties that enable an account to host a static website */
+/** The properties that enable an account to host a static website. */
 export interface StaticWebsite {
-  /** Indicates whether this account is hosting a static website */
+  /** Indicates whether this account is hosting a static website. */
   enabled: boolean;
   /** The index document. */
   indexDocument?: string;
   /** The error document. */
   errorDocument404Path?: string;
-  /** Absolute path of the default index page */
+  /** Absolute path of the default index page. */
   defaultIndexDocumentPath?: string;
 }
 
@@ -773,11 +773,11 @@ export interface ErrorModel {
   code?: StorageErrorCode;
   /** The error message. */
   message?: string;
-  /** Copy source status code */
+  /** The copy source status code. */
   copySourceStatusCode?: number;
-  /** Copy source error code */
+  /** The copy source error code. */
   copySourceErrorCode?: string;
-  /** Copy source error message */
+  /** The copy source error message. */
   copySourceErrorMessage?: string;
   errorCode?: string;
 }
@@ -958,7 +958,7 @@ export type StorageErrorCode =
 
 /** Stats for the storage service. */
 export interface StorageServiceStats {
-  /** The geo replication stats. */
+  /** The geo-replication stats. */
   geoReplication?: GeoReplication;
 }
 
@@ -982,11 +982,11 @@ export function storageServiceStatsXmlDeserializer(xmlString: string): StorageSe
   return deserializeFromXml<StorageServiceStats>(xmlString, properties, "StorageServiceStats");
 }
 
-/** Geo-Replication information for the Secondary Storage Service */
+/** Geo-replication information for the secondary storage service. */
 export interface GeoReplication {
-  /** The status of the secondary location */
+  /** The status of the secondary location. */
   status: GeoReplicationStatusType;
-  /** A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads. */
+  /** A date-time value that indicates where all primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads. */
   lastSyncOn: Date;
 }
 
@@ -1035,22 +1035,22 @@ export function geoReplicationXmlObjectDeserializer(
   return deserializeXmlObject<GeoReplication>(xmlObject, properties);
 }
 
-/** The geo replication status. */
+/** The geo-replication status. */
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
-/** The list container segment response */
+/** The result of the List Containers API. */
 export interface ListContainersSegmentResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The prefix of the containers. */
   prefix?: string;
-  /** The marker of the containers. */
+  /** An opaque string value that identifies the portion of the result set returned with this operation. */
   marker?: string;
-  /** The max results of the containers. */
+  /** The maximum number of containers to be returned with this operation. */
   maxPageSize?: number;
-  /** The container segment. */
+  /** The list of containers. */
   containerItems: ContainerItem[];
-  /** The next marker of the containers. */
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Use this value in the next request to continue the listing operation. */
   continuationToken?: string;
 }
 
@@ -1121,11 +1121,11 @@ export function containerItemArrayDeserializer(result: Array<ContainerItem>): an
   });
 }
 
-/** An Azure Storage container. */
+/** Represents a container. */
 export interface ContainerItem {
   /** The name of the container. */
   name: string;
-  /** Whether the container is deleted. */
+  /** Whether the container is soft-deleted. */
   deleted?: boolean;
   /** The version of the container. */
   version?: string;
@@ -1213,7 +1213,7 @@ export function containerItemXmlObjectDeserializer(
 
 /** The properties of a container. */
 export interface ContainerProperties {
-  /** The date-time the container was last modified in RFC1123 format. */
+  /** The date-time that the container was last modified. */
   lastModified: Date;
   /** The ETag of the container. */
   etag: string;
@@ -1225,15 +1225,15 @@ export interface ContainerProperties {
   leaseDuration?: LeaseDuration;
   /** The public access type of the container. */
   publicAccess?: PublicAccessType;
-  /** Whether it has an immutability policy. */
+  /** Whether the container has an immutability policy. */
   hasImmutabilityPolicy?: boolean;
-  /** The has legal hold status of the container. */
+  /** Whether the container has a legal hold. */
   hasLegalHold?: boolean;
   /** The default encryption scope of the container. */
   defaultEncryptionScope?: string;
   /** Whether to prevent encryption scope override. */
   preventEncryptionScopeOverride?: boolean;
-  /** The deleted time of the container. */
+  /** The date-time the container was deleted. */
   deletedOn?: Date;
   /** The remaining retention days of the container. */
   remainingRetentionDays?: number;
@@ -1435,16 +1435,16 @@ export type LeaseStatus = "unlocked" | "locked";
 export type LeaseState = "available" | "leased" | "expired" | "breaking" | "broken";
 /** The lease duration. */
 export type LeaseDuration = "infinite" | "fixed";
-/** The public access types. */
+/** The public access type. */
 export type PublicAccessType = "blob" | "container";
 
-/** Key information */
+/** Key information. */
 export interface KeyInfo {
   /** The date-time the key is active. */
   startsOn: string;
   /** The date-time the key expires. */
   expiresOn: string;
-  /** The delegated user tenant id in Azure AD. */
+  /** The delegated user tenant ID in Entra ID. */
   delegatedUserTid?: string;
 }
 
@@ -1471,9 +1471,9 @@ export function keyInfoXmlSerializer(item: KeyInfo): string {
 
 /** A user delegation key. */
 export interface UserDelegationKey {
-  /** The Azure Active Directory object ID in GUID format. */
+  /** The Entra ID object ID in GUID format. */
   signedObjectId: string;
-  /** The Azure Active Directory tenant ID in GUID format. */
+  /** The Entra ID tenant ID in GUID format. */
   signedTenantId: string;
   /** The date-time the key is active. */
   signedStartsOn: string;
@@ -1483,9 +1483,9 @@ export interface UserDelegationKey {
   signedService: string;
   /** The service version that created the key. */
   signedVersion: string;
-  /** The delegated user tenant id in Azure AD. Return if DelegatedUserTid is specified. */
+  /** The delegated user tenant ID in Entra ID. Returned if DelegatedUserTid is specified. */
   signedDelegatedUserTid?: string;
-  /** The key as a base64 string. */
+  /** The base64 encoded key value. */
   value: Uint8Array;
 }
 
@@ -1571,15 +1571,15 @@ export function _submitBatchResponseDeserializer(item: any): _SubmitBatchRespons
   };
 }
 
-/** The result of a Filter Blobs API call */
+/** The result of the Find Blobs by Tags API. */
 export interface FilterBlobSegment {
   /** The service endpoint. */
   serviceEndpoint: string;
-  /** The filter for the blobs. */
+  /** The filter expression for the blobs. */
   where: string;
-  /** The blob segment. */
+  /** The list of filtered blobs. */
   blobs: FilterBlobItem[];
-  /** The next marker of the blobs. */
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Use this value in the next request to continue the listing operation. */
   continuationToken?: string;
 }
 
@@ -1628,17 +1628,17 @@ export function filterBlobItemArrayDeserializer(result: Array<FilterBlobItem>): 
   });
 }
 
-/** The filter blob item. */
+/** The filtered blob item. */
 export interface FilterBlobItem {
   /** The name of the blob. */
   name: string;
-  /** The properties of the blob. */
+  /** The name of the container. */
   containerName: string;
-  /** The metadata of the blob. */
+  /** The tags of the blob. */
   tags?: BlobTags;
   /** The version ID of the blob. */
   versionId?: string;
-  /** Whether it is the current version of the blob */
+  /** Whether it is the current version of the blob. */
   isCurrentVersion?: boolean;
 }
 
@@ -1726,9 +1726,9 @@ export function filterBlobItemXmlObjectDeserializer(
   return deserializeXmlObject<FilterBlobItem>(xmlObject, properties);
 }
 
-/** Represents blob tags. */
+/** A list of blob tags. */
 export interface BlobTags {
-  /** Represents the blob tags. */
+  /** A list of blob tags. */
   blobTagSet: BlobTag[];
 }
 
@@ -1794,7 +1794,7 @@ export function blobTagArrayDeserializer(result: Array<BlobTag>): any[] {
   });
 }
 
-/** The blob tags. */
+/** A key-value pair associated with a blob. */
 export interface BlobTag {
   /** The key of the tag. */
   key: string;
@@ -1861,9 +1861,9 @@ export function blobTagXmlObjectDeserializer(xmlObject: Record<string, unknown>)
   return deserializeXmlObject<BlobTag>(xmlObject, properties);
 }
 
-/** Represents an array of signed identifiers */
+/** List of signed identifiers. */
 export interface SignedIdentifiers {
-  /** The array of signed identifiers. */
+  /** The list of signed identifiers. */
   items: SignedIdentifier[];
 }
 
@@ -1913,7 +1913,7 @@ export function signedIdentifierArrayDeserializer(result: Array<SignedIdentifier
   });
 }
 
-/** The signed identifier. */
+/** A signed identifier. */
 export interface SignedIdentifier {
   /** The unique ID for the signed identifier. */
   id: string;
@@ -2006,7 +2006,7 @@ export interface AccessPolicy {
   startsOn?: string;
   /** The date-time the policy expires. */
   expiresOn?: string;
-  /** The permissions for acl the policy. */
+  /** The permissions for the policy. */
   permissions?: string;
 }
 
@@ -2089,21 +2089,21 @@ export function accessPolicyXmlObjectDeserializer(
   return deserializeXmlObject<AccessPolicy>(xmlObject, properties);
 }
 
-/** An enumeration of blobs. */
+/** The result of the List Blobs API. */
 export interface ListBlobsResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The container name. */
   containerName: string;
-  /** The prefix of the blobs. */
+  /** The prefix of the list operation. */
   prefix?: string;
-  /** The marker of the blobs. */
+  /** An opaque string value that identifies the portion of the result set returned with this operation. */
   marker?: string;
-  /** The max results of the blobs. */
+  /** The maximum number of blobs to be returned with this operation. */
   maxPageSize?: number;
-  /** The blob segment. */
-  segment: BlobFlatListSegment;
-  /** The next marker of the blobs. */
+  /** The list of blobs. */
+  blobItems: BlobItem[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Use this value in the next request to continue the listing operation. */
   continuationToken?: string;
 }
 
@@ -2114,7 +2114,7 @@ export function listBlobsResponseDeserializer(item: any): ListBlobsResponse {
     prefix: item["prefix"],
     marker: item["marker"],
     maxPageSize: item["maxPageSize"],
-    segment: blobFlatListSegmentDeserializer(item["segment"]),
+    blobItems: blobItemArrayDeserializer(item["blobItems"]),
     continuationToken: item["continuationToken"],
   };
 }
@@ -2152,10 +2152,10 @@ export function listBlobsResponseXmlDeserializer(xmlString: string): ListBlobsRe
       primitiveSubtype: "number",
     },
     {
-      propertyName: "segment",
-      xmlOptions: { name: "Blobs" },
-      type: "object",
-      deserializer: blobFlatListSegmentXmlObjectDeserializer,
+      propertyName: "blobItems",
+      xmlOptions: { name: "Blobs", itemsName: "Blob" },
+      type: "array",
+      deserializer: blobItemXmlObjectDeserializer,
     },
     {
       propertyName: "continuationToken",
@@ -2167,51 +2167,13 @@ export function listBlobsResponseXmlDeserializer(xmlString: string): ListBlobsRe
   return deserializeFromXml<ListBlobsResponse>(xmlString, properties, "EnumerationResults");
 }
 
-/** The blob flat list segment. */
-export interface BlobFlatListSegment {
-  /** The blob items. */
-  blobItems: BlobItem[];
-}
-
-export function blobFlatListSegmentDeserializer(item: any): BlobFlatListSegment {
-  return {
-    blobItems: blobItemArrayDeserializer(item["blobItems"]),
-  };
-}
-
-export function blobFlatListSegmentXmlDeserializer(xmlString: string): BlobFlatListSegment {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "blobItems",
-      xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
-      type: "array",
-      deserializer: blobItemXmlObjectDeserializer,
-    },
-  ];
-  return deserializeFromXml<BlobFlatListSegment>(xmlString, properties, "BlobFlatListSegment");
-}
-
-export function blobFlatListSegmentXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): BlobFlatListSegment {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "blobItems",
-      xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
-      type: "array",
-      deserializer: blobItemXmlObjectDeserializer,
-    },
-  ];
-  return deserializeXmlObject<BlobFlatListSegment>(xmlObject, properties);
-}
-
 export function blobItemArrayDeserializer(result: Array<BlobItem>): any[] {
   return result.map((item) => {
     return blobItemDeserializer(item);
   });
 }
 
-/** An Azure Storage Blob */
+/** Represents a blob. */
 export interface BlobItem {
   /** The name of the blob. */
   name: BlobName;
@@ -2219,7 +2181,7 @@ export interface BlobItem {
   deleted: boolean;
   /** The snapshot of the blob. */
   snapshot: string;
-  /** The version id of the blob. */
+  /** The version ID of the blob. */
   versionId?: string;
   /** Whether the blob is the current version. */
   isCurrentVersion?: boolean;
@@ -2437,9 +2399,9 @@ export function blobNameXmlObjectDeserializer(xmlObject: Record<string, unknown>
 
 /** The properties of a blob. */
 export interface BlobProperties {
-  /** The date-time the blob was created in RFC1123 format. */
+  /** The date-time the blob was created. */
   createdOn?: Date;
-  /** The date-time the blob was last modified in RFC1123 format. */
+  /** The date-time the blob was last modified. */
   lastModified: Date;
   /** The blob ETag. */
   etag: string;
@@ -2475,17 +2437,17 @@ export interface BlobProperties {
   copySource?: string;
   /** The copy progress of the blob. */
   copyProgress?: string;
-  /** The copy completion time of the blob. */
+  /** The copy completion date-time of the blob. */
   copyCompletedOn?: Date;
   /** The copy status description of the blob. */
   copyStatusDescription?: string;
   /** Whether the blob is encrypted on the server. */
   serverEncrypted?: boolean;
-  /** Whether the blob is incremental copy. */
+  /** Whether the blob is an incremental copy. */
   incrementalCopy?: boolean;
   /** The name of the destination snapshot. */
   destinationSnapshot?: string;
-  /** The time the blob was deleted. */
+  /** The date-time the blob was deleted. */
   deletedOn?: Date;
   /** The remaining retention days of the blob. */
   remainingRetentionDays?: number;
@@ -2497,23 +2459,23 @@ export interface BlobProperties {
   archiveStatus?: ArchiveStatus;
   /** The smart access tier of the blob. */
   smartAccessTier?: AccessTier;
-  /** Customer provided key sha256 */
+  /** The SHA-256 hash of the blob's encryption key, if provided. */
   customerProvidedKeySha256?: string;
   /** The encryption scope of the blob. */
   encryptionScope?: string;
-  /** The access tier change time of the blob. */
+  /** The date-time that the access tier of the blob changed. */
   accessTierChangedOn?: Date;
   /** The number of tags for the blob. */
   tagCount?: number;
-  /** The expire time of the blob. */
+  /** The expiry time of the blob. */
   expiresOn?: Date;
   /** Whether the blob is sealed. */
   isSealed?: boolean;
   /** The rehydrate priority of the blob. */
   rehydratePriority?: RehydratePriority;
-  /** The last access time of the blob. */
+  /** The date-time the blob was last accessed. */
   lastAccessedOn?: Date;
-  /** The immutability policy until time of the blob. */
+  /** The date-time the immutability policy of the blob expires. */
   immutabilityPolicyExpiresOn?: Date;
   /** The immutability policy mode of the blob. */
   immutabilityPolicyMode?: ImmutabilityPolicyMode;
@@ -3114,9 +3076,9 @@ export type ArchiveStatus =
   | "rehydrate-pending-to-cool"
   | "rehydrate-pending-to-cold"
   | "rehydrate-pending-to-smart";
-/** If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are High and Standard. */
+/** The priority of the rehydrate operation. */
 export type RehydratePriority = "High" | "Standard";
-/** The immutability policy mode used in requests and responses. */
+/** The immutability policy mode. */
 export type ImmutabilityPolicyMode = "mutable" | "locked" | "unlocked";
 
 /** The blob metadata. */
@@ -3206,8 +3168,8 @@ export function objectReplicationMetadataXmlObjectDeserializer(
   });
 }
 
-/** An enumeration of blobs */
-export interface ListBlobsHierarchySegmentResponse {
+/** The result of the List Blobs Hierarchical API. */
+export interface ListBlobsHierarchicalResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The container name. */
@@ -3216,19 +3178,19 @@ export interface ListBlobsHierarchySegmentResponse {
   delimiter?: string;
   /** The prefix of the blobs. */
   prefix?: string;
-  /** The marker of the blobs. */
+  /** An opaque string value that identifies the portion of the result set returned with this operation. */
   marker?: string;
-  /** The max results of the blobs. */
+  /** The maximum number of blobs to be returned with this operation. */
   maxPageSize?: number;
-  /** The blob segment. */
-  segment: BlobHierarchyListSegment;
-  /** The next marker of the blobs. */
+  /** The list of hierarchical blobs. */
+  hierarchicalList: BlobHierarchyList;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Use this value in the next request to continue the listing operation. */
   continuationToken?: string;
 }
 
-export function listBlobsHierarchySegmentResponseDeserializer(
+export function listBlobsHierarchicalResponseDeserializer(
   item: any,
-): ListBlobsHierarchySegmentResponse {
+): ListBlobsHierarchicalResponse {
   return {
     serviceEndpoint: item["serviceEndpoint"],
     containerName: item["containerName"],
@@ -3236,14 +3198,14 @@ export function listBlobsHierarchySegmentResponseDeserializer(
     prefix: item["prefix"],
     marker: item["marker"],
     maxPageSize: item["maxPageSize"],
-    segment: blobHierarchyListSegmentDeserializer(item["segment"]),
+    hierarchicalList: blobHierarchyListDeserializer(item["hierarchicalList"]),
     continuationToken: item["continuationToken"],
   };
 }
 
-export function listBlobsHierarchySegmentResponseXmlDeserializer(
+export function listBlobsHierarchicalResponseXmlDeserializer(
   xmlString: string,
-): ListBlobsHierarchySegmentResponse {
+): ListBlobsHierarchicalResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -3282,10 +3244,10 @@ export function listBlobsHierarchySegmentResponseXmlDeserializer(
       primitiveSubtype: "number",
     },
     {
-      propertyName: "segment",
+      propertyName: "hierarchicalList",
       xmlOptions: { name: "Blobs" },
       type: "object",
-      deserializer: blobHierarchyListSegmentXmlObjectDeserializer,
+      deserializer: blobHierarchyListXmlObjectDeserializer,
     },
     {
       propertyName: "continuationToken",
@@ -3294,7 +3256,7 @@ export function listBlobsHierarchySegmentResponseXmlDeserializer(
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<ListBlobsHierarchySegmentResponse>(
+  return deserializeFromXml<ListBlobsHierarchicalResponse>(
     xmlString,
     properties,
     "EnumerationResults",
@@ -3302,14 +3264,14 @@ export function listBlobsHierarchySegmentResponseXmlDeserializer(
 }
 
 /** Represents an array of blobs. */
-export interface BlobHierarchyListSegment {
-  /** The blob items */
+export interface BlobHierarchyList {
+  /** The blob items. */
   blobItems: BlobItem[];
   /** The blob prefixes. */
   blobPrefixes?: BlobPrefix[];
 }
 
-export function blobHierarchyListSegmentDeserializer(item: any): BlobHierarchyListSegment {
+export function blobHierarchyListDeserializer(item: any): BlobHierarchyList {
   return {
     blobItems: blobItemArrayDeserializer(item["blobItems"]),
     blobPrefixes: !item["blobPrefixes"]
@@ -3318,9 +3280,7 @@ export function blobHierarchyListSegmentDeserializer(item: any): BlobHierarchyLi
   };
 }
 
-export function blobHierarchyListSegmentXmlDeserializer(
-  xmlString: string,
-): BlobHierarchyListSegment {
+export function blobHierarchyListXmlDeserializer(xmlString: string): BlobHierarchyList {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "blobItems",
@@ -3335,16 +3295,12 @@ export function blobHierarchyListSegmentXmlDeserializer(
       deserializer: blobPrefixXmlObjectDeserializer,
     },
   ];
-  return deserializeFromXml<BlobHierarchyListSegment>(
-    xmlString,
-    properties,
-    "BlobHierarchyListSegment",
-  );
+  return deserializeFromXml<BlobHierarchyList>(xmlString, properties, "BlobHierarchyList");
 }
 
-export function blobHierarchyListSegmentXmlObjectDeserializer(
+export function blobHierarchyListXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
-): BlobHierarchyListSegment {
+): BlobHierarchyList {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "blobItems",
@@ -3359,7 +3315,7 @@ export function blobHierarchyListSegmentXmlObjectDeserializer(
       deserializer: blobPrefixXmlObjectDeserializer,
     },
   ];
-  return deserializeXmlObject<BlobHierarchyListSegment>(xmlObject, properties);
+  return deserializeXmlObject<BlobHierarchyList>(xmlObject, properties);
 }
 
 export function blobPrefixArrayDeserializer(result: Array<BlobPrefix>): any[] {
@@ -3404,13 +3360,13 @@ export function blobPrefixXmlObjectDeserializer(xmlObject: Record<string, unknow
   return deserializeXmlObject<BlobPrefix>(xmlObject, properties);
 }
 
-/** The Block lookup list. */
+/** The block lookup list. */
 export interface BlockLookupList {
-  /** The committed blocks */
+  /** The committed blocks. */
   committed?: Uint8Array[];
-  /** The uncommitted blocks */
+  /** The uncommitted blocks. */
   uncommitted?: Uint8Array[];
-  /** The latest blocks */
+  /** The latest blocks. */
   latest?: Uint8Array[];
 }
 
@@ -3504,7 +3460,7 @@ export function blockArrayDeserializer(result: Array<Block>): any[] {
   });
 }
 
-/** Represents a single block in a block blob. It describes the block's ID and size. */
+/** Represents a single block in a block blob. */
 export interface Block {
   /** The base64 encoded block ID. */
   name: Uint8Array;
@@ -3550,7 +3506,7 @@ export function blockXmlObjectDeserializer(xmlObject: Record<string, unknown>): 
 export interface QueryRequest {
   /** Required. The type of the provided query expression. */
   queryType: QueryRequestType;
-  /** The query expression in SQL. The maximum size of the query expression is 256KiB. */
+  /** The query expression. The maximum size of the query expression is 256KiB. */
   expression: string;
   /** The input serialization settings. */
   inputSerialization?: QuerySerialization;
@@ -3591,7 +3547,7 @@ export function queryRequestXmlSerializer(item: QueryRequest): string {
   return serializeToXml(item, properties, "QueryRequest");
 }
 
-/** The query request, note only SQL supported */
+/** The query request type. */
 export type QueryRequestType = "SQL";
 
 /** The query serialization settings. */
@@ -3785,7 +3741,7 @@ export function jsonTextConfigurationXmlObjectSerializer(
 
 /** Represents the Apache Arrow configuration. */
 export interface ArrowConfiguration {
-  /** The Apache Arrow schema */
+  /** The Apache Arrow schema. */
   schema: ArrowField[];
 }
 
@@ -3881,13 +3837,13 @@ export function parquetConfigurationXmlObjectSerializer(
   return { ...item["additionalProperties"] } as XmlSerializedObject;
 }
 
-/** Represents a page list. */
+/** The result of the Get Pages API. */
 export interface PageList {
   /** The page ranges. */
   pageRange?: PageRange[];
   /** The clear ranges. */
   clearRange?: ClearRange[];
-  /** The next marker. */
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Use this value in the next request to continue the listing operation. */
   continuationToken?: string;
 }
 
@@ -3933,7 +3889,7 @@ export function pageRangeArrayDeserializer(result: Array<PageRange>): any[] {
   });
 }
 
-/** The page range. */
+/** A page range. */
 export interface PageRange {
   /** The start of the byte range. */
   start: number;
@@ -3990,7 +3946,7 @@ export function clearRangeArrayDeserializer(result: Array<ClearRange>): any[] {
   });
 }
 
-/** The clear range. */
+/** A clear range. */
 export interface ClearRange {
   /** The start of the byte range. */
   start: number;
@@ -4041,9 +3997,9 @@ export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknow
   return deserializeXmlObject<ClearRange>(xmlObject, properties);
 }
 
-/** Include this parameter to specify that the container's metadata be returned as part of the response body. */
+/** Specifies what additional information should be returned as part of the list operation. */
 export type ListContainersIncludeType = "metadata" | "deleted" | "system";
-/** The SKU types */
+/** The account SKU. */
 export type SkuName =
   | "Standard_LRS"
   | "Standard_GRS"
@@ -4060,9 +4016,9 @@ export type AccountKind =
   | "StorageV2"
   | "FileStorage"
   | "BlockBlobStorage";
-/** The filter blobs includes. */
+/** Specifies what type of blobs should be returned as part of the filter operation. */
 export type FilterBlobsIncludeItem = "none" | "versions";
-/** The list blob includes parameter values. */
+/** Specifies additional datasets to include when listing blobs in a container. */
 export type ListBlobsIncludeItem =
   | "copy"
   | "deleted"
@@ -4074,13 +4030,13 @@ export type ListBlobsIncludeItem =
   | "immutabilitypolicy"
   | "legalhold"
   | "deletedwithversions";
-/** The algorithm used to produce the encryption key hash. Currently, the only accepted value is \"AES256\". Must be provided if the x-ms-encryption-key header is provided. */
+/** The algorithm used to produce the encryption key hash. */
 export type EncryptionAlgorithmType = "AES256";
-/** The delete snapshots option type. */
+/** Specifies the delete behavior of blob snapshots. */
 export type DeleteSnapshotsOptionType = "only" | "include";
 /** The type of blob deletions. */
 export type BlobDeleteType = "Permanent";
-/** The blob expiration options. */
+/** The blob expiry options. */
 export type BlobExpiryOptions = "NeverExpire" | "RelativeToCreation" | "RelativeToNow" | "Absolute";
 /** The blob copy source tags types. */
 export type BlobCopySourceTags = "REPLACE" | "COPY";

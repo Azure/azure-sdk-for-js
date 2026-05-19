@@ -187,7 +187,7 @@ export function _setTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** The Set Tags operation enables users to set tags on a blob. */
+/** Sets the tags of the specified blob. */
 export async function setTags(
   context: Client,
   tags: BlobTags,
@@ -326,7 +326,7 @@ export function _getTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** The Get Blob Tags operation enables users to get tags on a blob. */
+/** Gets the tags of the specified blob. */
 export async function getTags(
   context: Client,
   options: BlobGetTagsOptionalParams = { requestOptions: {} },
@@ -457,7 +457,7 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
   };
 }
 
-/** Returns the sku name and account kind */
+/** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
   options: BlobGetAccountInfoOptionalParams = { requestOptions: {} },
@@ -590,7 +590,7 @@ export function _setTierDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** The Set Tier operation sets the tier on a block blob. The operation is allowed on a page blob or block blob, but not on an append blob. A block blob's tier determines Hot/Cool/Archive storage type. This operation does not update the blob's ETag. */
+/** Sets the tier of the specified blob. */
 export async function setTier(
   context: Client,
   tier: AccessTier,
@@ -711,7 +711,7 @@ export function _abortCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
   };
 }
 
-/** The Abort Copy From URL operation aborts a pending Copy From URL operation, and leaves a destination blob with zero length and full metadata. */
+/** Aborts a pending asynchronous copy operation and leaves a destination blob with zero length and full metadata. */
 export async function abortCopyFromUrl(
   context: Client,
   copyId: string,
@@ -933,7 +933,7 @@ export function _copyFromUrlDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Copy From URL operation copies a blob or an internet resource to a new blob. It will not return a response until the copy is complete. */
+/** Synchronously copies a blob from a source URL to the destination blob. */
 export async function copyFromUrl(
   context: Client,
   copySource: string,
@@ -1144,7 +1144,7 @@ export function _startCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
   };
 }
 
-/** The Start Copy From URL operation copies a blob or an internet resource to a new blob. */
+/** Starts an asynchronous copy from a source URL to a destination blob. */
 export async function startCopyFromUrl(
   context: Client,
   copySource: string,
@@ -1323,7 +1323,7 @@ export function _createSnapshotDeserializeExceptionHeaders(result: PathUnchecked
   };
 }
 
-/** The Create Snapshot operation creates a read-only snapshot of a blob */
+/** Creates a read-only snapshot of the specified blob. */
 export async function createSnapshot(
   context: Client,
   options: BlobCreateSnapshotOptionalParams = { requestOptions: {} },
@@ -1484,7 +1484,7 @@ export function _breakLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
   };
 }
 
-/** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
+/** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
 export async function breakLease(
   context: Client,
   options: BlobBreakLeaseOptionalParams = { requestOptions: {} },
@@ -1642,7 +1642,7 @@ export function _changeLeaseDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Change Lease operation is used to change the ID of an existing lease. */
+/** Change the ID of an existing lease. */
 export async function changeLease(
   context: Client,
   leaseId: string,
@@ -1800,7 +1800,7 @@ export function _renewLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
   };
 }
 
-/** The Renew Lease operation renews an existing lease. */
+/** Renews an existing lease. */
 export async function renewLease(
   context: Client,
   leaseId: string,
@@ -1952,7 +1952,7 @@ export function _releaseLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
+/** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
 export async function releaseLease(
   context: Client,
   leaseId: string,
@@ -2110,7 +2110,7 @@ export function _acquireLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Acquire Lease operation requests a new lease on a blob. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
+/** Requests a new lease on the specified blob. */
 export async function acquireLease(
   context: Client,
   duration: number,
@@ -2292,7 +2292,7 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
   };
 }
 
-/** The Set Metadata operation sets user-defined metadata for the specified blob as one or more name-value pairs. */
+/** Sets user-defined metadata for the specified blob. */
 export async function setMetadata(
   context: Client,
   options: BlobSetMetadataOptionalParams = { requestOptions: {} },
@@ -2431,7 +2431,7 @@ export function _setLegalHoldDeserializeExceptionHeaders(result: PathUncheckedRe
   };
 }
 
-/** The Set Legal Hold operation sets a legal hold on the blob. */
+/** Sets a legal hold on the specified blob. */
 export async function setLegalHold(
   context: Client,
   legalHold: boolean,
@@ -2557,7 +2557,7 @@ export function _deleteImmutabilityPolicyDeserializeExceptionHeaders(
   };
 }
 
-/** The Delete Immutability Policy operation deletes the immutability policy on the blob. */
+/** Deletes the immutability policy on the specified blob. */
 export async function deleteImmutabilityPolicy(
   context: Client,
   options: BlobDeleteImmutabilityPolicyOptionalParams = { requestOptions: {} },
@@ -2702,7 +2702,7 @@ export function _setImmutabilityPolicyDeserializeExceptionHeaders(result: PathUn
   };
 }
 
-/** Set the immutability policy of a blob */
+/** Set the immutability policy on the specified blob. */
 export async function setImmutabilityPolicy(
   context: Client,
   options: BlobSetImmutabilityPolicyOptionalParams = { requestOptions: {} },
@@ -2873,7 +2873,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** The Set HTTP Headers operation sets system properties on the blob. */
+/** Sets system properties on the specified blob. */
 export async function setProperties(
   context: Client,
   options: BlobSetPropertiesOptionalParams = { requestOptions: {} },
@@ -3010,7 +3010,7 @@ export function _setExpiryDeserializeExceptionHeaders(result: PathUncheckedRespo
   };
 }
 
-/** Set the expiration time of a blob */
+/** Set the expiration time of the specified blob. */
 export async function setExpiry(
   context: Client,
   expiryOptions: BlobExpiryOptions,
@@ -3133,7 +3133,7 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
   };
 }
 
-/** Undelete a blob that was previously soft deleted */
+/** Undelete the specified previously soft deleted blob. */
 export async function undelete(
   context: Client,
   options: BlobUndeleteOptionalParams = { requestOptions: {} },
@@ -3284,7 +3284,7 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
   };
 }
 
-/** If the storage account's soft delete feature is disabled then, when a blob is deleted, it is permanently removed from the storage account. If the storage account's soft delete feature is enabled, then, when a blob is deleted, it is marked for deletion and becomes inaccessible immediately. However, the blob service retains the blob or snapshot for the number of days specified by the DeleteRetentionPolicy section of [Storage service properties] (Set-Blob-Service-Properties.md). After the specified number of days has passed, the blob's data is permanently removed from the storage account. Note that you continue to be charged for the soft-deleted blob's storage until it is permanently removed. Use the List Blobs API and specify the \"include=deleted\" query parameter to discover which blobs and snapshots have been soft deleted. You can then use the Undelete Blob API to restore a soft-deleted blob. All other operations on a soft-deleted blob or snapshot causes the service to return an HTTP status code of 404 (ResourceNotFound). */
+/** Deletes the specified blob. If blob soft delete is enabled, the blob is marked for deletion and can be recovered until the retention period expires. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -3624,7 +3624,7 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
   };
 }
 
-/** The Get Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob. */
+/** Returns all user-defined metadata, standard HTTP properties, and system properties for the specified blob. It does not return the content of the blob. */
 export async function getProperties(
   context: Client,
   options: BlobGetPropertiesOptionalParams = { requestOptions: {} },
@@ -4048,7 +4048,7 @@ export function _downloadDeserializeExceptionHeaders(result: PathUncheckedRespon
   };
 }
 
-/** The Download operation reads or downloads a blob from the system, including its metadata and properties. You can also call Download to read a snapshot. */
+/** Downloads the specified blob. */
 export async function download(
   context: Client,
   options: BlobDownloadOptionalParams = { requestOptions: {} },

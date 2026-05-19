@@ -1320,7 +1320,7 @@ export class ContainerClient extends StorageClient {
           _response: original._response, // non-enumerable
           segment: {
             // ...original.segment,
-            blobItems: original.segment.blobItems.map((blobItemInternal) => {
+            blobItems: original.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
                 properties: {
@@ -1384,8 +1384,8 @@ export class ContainerClient extends StorageClient {
           ...original,
           _response: original._response,
           segment: {
-            ...original.segment,
-            blobItems: original.segment.blobItems.map((blobItemInternal) => {
+            ...original.hierarchicalList,
+            blobItems: original.hierarchicalList.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
                 properties: {
@@ -1403,7 +1403,7 @@ export class ContainerClient extends StorageClient {
               };
               return blobItem;
             }),
-            blobPrefixes: original.segment.blobPrefixes?.map((blobPrefixInternal) => {
+            blobPrefixes: original.hierarchicalList.blobPrefixes?.map((blobPrefixInternal) => {
               const blobPrefix: BlobPrefix = {
                 ...blobPrefixInternal,
                 name: BlobNameToString(blobPrefixInternal.name),

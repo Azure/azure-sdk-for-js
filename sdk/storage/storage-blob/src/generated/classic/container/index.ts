@@ -50,7 +50,7 @@ import {
   FilterBlobSegment,
   SignedIdentifiers,
   ListBlobsResponse,
-  ListBlobsHierarchySegmentResponse,
+  ListBlobsHierarchicalResponse,
   SkuName,
   AccountKind,
 } from "../../models/models.js";
@@ -59,7 +59,7 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a Container operations. */
 export interface ContainerOperations {
-  /** Returns the sku name and account kind */
+  /** Returns information about the storage account. */
   getAccountInfo: (
     options?: ContainerGetAccountInfoOptionalParams,
   ) => Promise<
@@ -84,7 +84,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** The List Blobs operation returns a list of the blobs under the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
+  /** Returns a list of the blobs in the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
   listBlobHierarchySegment: (
     delimiter: string,
     options?: ContainerListBlobHierarchySegmentOptionalParams,
@@ -95,9 +95,9 @@ export interface ContainerOperations {
       requestId?: string;
       clientRequestId?: string;
       contentType: "application/xml";
-    } & ListBlobsHierarchySegmentResponse &
+    } & ListBlobsHierarchicalResponse &
       StorageCompatResponseInfo<
-        ListBlobsHierarchySegmentResponse,
+        ListBlobsHierarchicalResponse,
         {
           date: Date;
           version: string;
@@ -107,7 +107,7 @@ export interface ContainerOperations {
         }
       >
   >;
-  /** The List Blobs operation returns a list of the blobs under the specified container. */
+  /** Returns a list of the blobs in the specified container. */
   listBlobs: (
     options?: ContainerListBlobsOptionalParams,
   ) => Promise<
@@ -129,7 +129,7 @@ export interface ContainerOperations {
         }
       >
   >;
-  /** The Change Lease operation is used to change the ID of an existing lease. */
+  /** Change the ID of an existing lease. */
   changeLease: (
     leaseId: string,
     proposedLeaseId: string,
@@ -156,7 +156,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
+  /** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
   breakLease: (
     options?: ContainerBreakLeaseOptionalParams,
   ) => Promise<
@@ -181,7 +181,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** The Renew Lease operation renews an existing lease. */
+  /** Renews an existing lease. */
   renewLease: (
     leaseId: string,
     options?: ContainerRenewLeaseOptionalParams,
@@ -207,7 +207,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the container. */
+  /** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the container. */
   releaseLease: (
     leaseId: string,
     options?: ContainerReleaseLeaseOptionalParams,
@@ -231,7 +231,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** The Acquire Lease operation requests a new lease on a container. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
+  /** Requests a new lease on the specified container. */
   acquireLease: (
     duration: number,
     options?: ContainerAcquireLeaseOptionalParams,
@@ -257,7 +257,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** The Filter Blobs operation enables callers to list blobs in a container whose tags match a given search expression.  Filter blobs searches within the given container. */
+  /** Lists blobs in the specified container whose tags match a given search expression. */
   findBlobsByTags: (
     filterExpression: string,
     options?: ContainerFindBlobsByTagsOptionalParams,
@@ -280,7 +280,7 @@ export interface ContainerOperations {
         }
       >
   >;
-  /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
+  /** Allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch: (
     contentType: string,
     contentLength: number,
@@ -296,7 +296,7 @@ export interface ContainerOperations {
         { requestId?: string; version: string; contentType: "multipart/mixed" }
       >
   >;
-  /** Renames an existing container. */
+  /** Renames the specified existing container. */
   rename: (
     sourceContainerName: string,
     options?: ContainerRenameOptionalParams,
@@ -311,7 +311,7 @@ export interface ContainerOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** Restores a previously-deleted container. */
+  /** Restores the specified previously-deleted container. */
   restore: (
     options?: ContainerRestoreOptionalParams,
   ) => Promise<
@@ -325,7 +325,7 @@ export interface ContainerOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
+  /** Sets the permissions for the specified container. */
   setAccessPolicy: (
     options?: ContainerSetAccessPolicyOptionalParams,
   ) => Promise<
@@ -348,7 +348,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly. */
+  /** Gets the permissions for the specified container. */
   getAccessPolicy: (
     options?: ContainerGetAccessPolicyOptionalParams,
   ) => Promise<
@@ -376,7 +376,7 @@ export interface ContainerOperations {
         }
       >
   >;
-  /** operation sets one or more user-defined name-value pairs for the specified container. */
+  /** Sets user-defined metadata for the specified container. */
   setMetadata: (
     options?: ContainerSetMetadataOptionalParams,
   ) => Promise<
@@ -399,7 +399,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection */
+  /** Deletes the specified container. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -418,7 +418,7 @@ export interface ContainerOperations {
       { date: Date; version: string; requestId?: string; clientRequestId?: string }
     >
   >;
-  /** returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs */
+  /** Returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs. */
   getProperties: (
     options?: ContainerGetPropertiesOptionalParams,
   ) => Promise<
@@ -459,7 +459,7 @@ export interface ContainerOperations {
       }
     >
   >;
-  /** Creates a new container under the specified account. If the container with the same name already exists, the operation fails. */
+  /** Creates a new container in the specified account. If the container with the same name already exists, the operation fails. */
   create: (
     options?: ContainerCreateOptionalParams,
   ) => Promise<
