@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import { AvsStorageContainerVolumeUpdate, AvsStorageContainerVolume } from "../../models/models.js";
-import {
-  AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
-  AvsStorageContainerVolumesDeleteOptionalParams,
-  AvsStorageContainerVolumesGetOptionalParams,
-  AvsStorageContainerVolumesUpdateOptionalParams,
-} from "../../api/avsStorageContainerVolumes/options.js";
+import type { BlockContext } from "../../api/blockContext.js";
 import {
   listByAvsStorageContainer,
   $delete,
   get,
   update,
 } from "../../api/avsStorageContainerVolumes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
+  AvsStorageContainerVolumesDeleteOptionalParams,
+  AvsStorageContainerVolumesGetOptionalParams,
+  AvsStorageContainerVolumesUpdateOptionalParams,
+} from "../../api/avsStorageContainerVolumes/options.js";
+import type {
+  AvsStorageContainerVolumeUpdate,
+  AvsStorageContainerVolume,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AvsStorageContainerVolumes operations. */
 export interface AvsStorageContainerVolumesOperations {
@@ -28,11 +31,6 @@ export interface AvsStorageContainerVolumesOperations {
     options?: AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
   ) => PagedAsyncIterableIterator<AvsStorageContainerVolume>;
   /** Delete a volume in an AVS storage container */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

@@ -1,31 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import {
-  StoragePool,
-  StoragePoolUpdate,
-  StoragePoolHealthInfo,
-  AvsConnection,
-  AvsStatus,
-  StoragePoolEnableAvsConnectionPost,
-  StoragePoolFinalizeAvsConnectionPost,
-} from "../../models/models.js";
-import {
-  StoragePoolsRepairAvsConnectionOptionalParams,
-  StoragePoolsFinalizeAvsConnectionOptionalParams,
-  StoragePoolsDisableAvsConnectionOptionalParams,
-  StoragePoolsEnableAvsConnectionOptionalParams,
-  StoragePoolsGetAvsStatusOptionalParams,
-  StoragePoolsGetAvsConnectionOptionalParams,
-  StoragePoolsGetHealthStatusOptionalParams,
-  StoragePoolsListBySubscriptionOptionalParams,
-  StoragePoolsListByResourceGroupOptionalParams,
-  StoragePoolsDeleteOptionalParams,
-  StoragePoolsUpdateOptionalParams,
-  StoragePoolsCreateOptionalParams,
-  StoragePoolsGetOptionalParams,
-} from "../../api/storagePools/options.js";
+import type { BlockContext } from "../../api/blockContext.js";
 import {
   repairAvsConnection,
   finalizeAvsConnection,
@@ -41,8 +17,32 @@ import {
   create,
   get,
 } from "../../api/storagePools/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  StoragePoolsRepairAvsConnectionOptionalParams,
+  StoragePoolsFinalizeAvsConnectionOptionalParams,
+  StoragePoolsDisableAvsConnectionOptionalParams,
+  StoragePoolsEnableAvsConnectionOptionalParams,
+  StoragePoolsGetAvsStatusOptionalParams,
+  StoragePoolsGetAvsConnectionOptionalParams,
+  StoragePoolsGetHealthStatusOptionalParams,
+  StoragePoolsListBySubscriptionOptionalParams,
+  StoragePoolsListByResourceGroupOptionalParams,
+  StoragePoolsDeleteOptionalParams,
+  StoragePoolsUpdateOptionalParams,
+  StoragePoolsCreateOptionalParams,
+  StoragePoolsGetOptionalParams,
+} from "../../api/storagePools/options.js";
+import type {
+  StoragePool,
+  StoragePoolUpdate,
+  StoragePoolHealthInfo,
+  AvsConnection,
+  AvsStatus,
+  StoragePoolEnableAvsConnectionPost,
+  StoragePoolFinalizeAvsConnectionPost,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StoragePools operations. */
 export interface StoragePoolsOperations {
@@ -100,11 +100,6 @@ export interface StoragePoolsOperations {
     options?: StoragePoolsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StoragePool>;
   /** Delete a storage pool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

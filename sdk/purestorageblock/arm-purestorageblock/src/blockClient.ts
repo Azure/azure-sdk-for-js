@@ -1,33 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBlock, BlockContext, BlockClientOptionalParams } from "./api/index.js";
-import {
-  AvsVmVolumesOperations,
-  _getAvsVmVolumesOperations,
-} from "./classic/avsVmVolumes/index.js";
-import { AvsVmsOperations, _getAvsVmsOperations } from "./classic/avsVms/index.js";
-import {
-  AvsStorageContainerVolumesOperations,
-  _getAvsStorageContainerVolumesOperations,
-} from "./classic/avsStorageContainerVolumes/index.js";
-import {
-  AvsStorageContainersOperations,
-  _getAvsStorageContainersOperations,
-} from "./classic/avsStorageContainers/index.js";
-import {
-  StoragePoolsOperations,
-  _getStoragePoolsOperations,
-} from "./classic/storagePools/index.js";
-import {
-  ReservationsOperations,
-  _getReservationsOperations,
-} from "./classic/reservations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { BlockContext, BlockClientOptionalParams } from "./api/index.js";
+import { createBlock } from "./api/index.js";
+import type { AvsStorageContainerVolumesOperations } from "./classic/avsStorageContainerVolumes/index.js";
+import { _getAvsStorageContainerVolumesOperations } from "./classic/avsStorageContainerVolumes/index.js";
+import type { AvsStorageContainersOperations } from "./classic/avsStorageContainers/index.js";
+import { _getAvsStorageContainersOperations } from "./classic/avsStorageContainers/index.js";
+import type { AvsVmVolumesOperations } from "./classic/avsVmVolumes/index.js";
+import { _getAvsVmVolumesOperations } from "./classic/avsVmVolumes/index.js";
+import type { AvsVmsOperations } from "./classic/avsVms/index.js";
+import { _getAvsVmsOperations } from "./classic/avsVms/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { ReservationsOperations } from "./classic/reservations/index.js";
+import { _getReservationsOperations } from "./classic/reservations/index.js";
+import type { StoragePoolsOperations } from "./classic/storagePools/index.js";
+import { _getStoragePoolsOperations } from "./classic/storagePools/index.js";
+import type { VolumeGroupsOperations } from "./classic/volumeGroups/index.js";
+import { _getVolumeGroupsOperations } from "./classic/volumeGroups/index.js";
+import type { VolumesOperations } from "./classic/volumes/index.js";
+import { _getVolumesOperations } from "./classic/volumes/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type BlockClientOptionalParams } from "./api/blockContext.js";
+export type { BlockClientOptionalParams } from "./api/blockContext.js";
 
 export class BlockClient {
   private _client: BlockContext;
@@ -48,6 +45,8 @@ export class BlockClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.volumes = _getVolumesOperations(this._client);
+    this.volumeGroups = _getVolumeGroupsOperations(this._client);
     this.avsVmVolumes = _getAvsVmVolumesOperations(this._client);
     this.avsVms = _getAvsVmsOperations(this._client);
     this.avsStorageContainerVolumes = _getAvsStorageContainerVolumesOperations(this._client);
@@ -57,6 +56,10 @@ export class BlockClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for volumes */
+  public readonly volumes: VolumesOperations;
+  /** The operation groups for volumeGroups */
+  public readonly volumeGroups: VolumeGroupsOperations;
   /** The operation groups for avsVmVolumes */
   public readonly avsVmVolumes: AvsVmVolumesOperations;
   /** The operation groups for avsVms */

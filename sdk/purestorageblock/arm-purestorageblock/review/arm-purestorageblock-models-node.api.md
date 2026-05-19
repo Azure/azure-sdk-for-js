@@ -138,6 +138,17 @@ export interface AzureVmwareService {
 }
 
 // @public
+export interface AzureVolumeProperties {
+    readonly createdAt?: Date;
+    provisionedSize?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly serialNumber?: string;
+    sourceVolumeGroupResourceId?: string;
+    sourceVolumeResourceId?: string;
+    readonly space?: Space;
+}
+
+// @public
 export interface BandwidthUsage {
     current: number;
     max: number;
@@ -159,6 +170,11 @@ export interface BillingUsageProperty {
 export interface CompanyDetails {
     address?: Address;
     companyName: string;
+}
+
+// @public
+export interface ConnectionParametersResponse {
+    iscsi: IscsiConnectionParameters;
 }
 
 // @public
@@ -199,6 +215,18 @@ export interface IopsUsage {
     current: number;
     max: number;
     provisioned: number;
+}
+
+// @public
+export interface IscsiConnectionParameters {
+    endpoints: IscsiEndpoint[];
+}
+
+// @public
+export interface IscsiEndpoint {
+    ip: string;
+    iqn: string;
+    port: number;
 }
 
 // @public
@@ -270,7 +298,10 @@ export enum KnownUsageSeverity {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    V20241001Preview = "2024-10-01-preview",
+    V20241101 = "2024-11-01",
+    V20241101Preview = "2024-11-01-preview",
+    V20260101Preview = "2026-01-01-preview"
 }
 
 // @public
@@ -301,7 +332,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -348,9 +379,21 @@ export interface OperationDisplay {
 export type Origin = string;
 
 // @public
+export interface PerformanceParameters {
+    bandwidthLimitMbPerSec?: number;
+    iopsLimit?: number;
+}
+
+// @public
 export interface PerformancePolicyLimits {
     bandwidthLimit: RangeLimits;
     iopsLimit: RangeLimits;
+}
+
+// @public
+export interface ProtectionParameters {
+    frequency?: string;
+    retention?: string;
 }
 
 // @public
@@ -560,7 +603,45 @@ export interface VnetInjection {
 }
 
 // @public
+export interface Volume extends ProxyResource {
+    properties?: AzureVolumeProperties;
+}
+
+// @public
 export type VolumeContainerType = string;
+
+// @public
+export interface VolumeGroup extends TrackedResource {
+    properties?: VolumeGroupProperties;
+}
+
+// @public
+export interface VolumeGroupProperties {
+    performanceParameters?: PerformanceParameters;
+    protectionParameters?: ProtectionParameters;
+    readonly provisioningState?: ProvisioningState;
+    sourceVolumeGroupResourceId?: string;
+    readonly storagePoolInternalId?: string;
+    readonly volumeGroupInternalId?: string;
+}
+
+// @public
+export interface VolumeGroupStatus {
+    connectedHostCount: number;
+    space: Space;
+}
+
+// @public
+export interface VolumeGroupUpdate {
+    properties?: VolumeGroupUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VolumeGroupUpdateProperties {
+    performanceParameters?: PerformanceParameters;
+    protectionParameters?: ProtectionParameters;
+}
 
 // @public
 export interface VolumeLimits {
@@ -584,6 +665,16 @@ export interface VolumeProperties {
 
 // @public
 export type VolumeType = string;
+
+// @public
+export interface VolumeUpdate {
+    properties?: VolumeUpdateProperties;
+}
+
+// @public
+export interface VolumeUpdateProperties {
+    provisionedSize?: number;
+}
 
 // (No @packageDocumentation comment for this package)
 
