@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-voicelive",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0",
   "description": "A generated SDK for VoiceLiveClient.",
   "engines": {
     "node": ">=20.0.0"

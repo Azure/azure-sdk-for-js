@@ -1,7 +1,15 @@
+
 extends: ../../../warp.base.config.yml
-exports:
-  "./api": "./src/api/index.ts"
-  "./api/sitesByServiceGroup": "./src/api/sitesByServiceGroup/index.ts"
-  "./api/sitesBySubscription": "./src/api/sitesBySubscription/index.ts"
-  "./api/sites": "./src/api/sites/index.ts"
-  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

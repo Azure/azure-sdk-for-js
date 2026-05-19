@@ -1,5 +1,15 @@
 # Release History
 
+## 25.2.0 (2026-05-09)
+
+### Features Added
+  - Added Interface AgentPoolArtifactStreamingProfile
+  - Interface AgentPool has a new optional parameter artifactStreamingProfile
+  - Interface ManagedClusterAgentPoolProfile has a new optional parameter artifactStreamingProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter artifactStreamingProfile
+  - Enum KnownOssku has a new value AzureContainerLinux
+  - Enum KnownVersions has a new value V20260301
+
 ## 25.1.0 (2026-04-21)
 
 ### Features Added

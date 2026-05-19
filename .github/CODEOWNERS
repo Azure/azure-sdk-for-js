@@ -613,7 +613,7 @@
 # PRLabel: %Mgmt
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -997,7 +997,7 @@
 # PRLabel: %Mgmt
 /sdk/streamanalytics/arm-streamanalytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/subscription/arm-subscriptions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1093,7 +1093,7 @@
 # PRLabel: %Mgmt
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/chaos/arm-chaos/ @qiaozha @MaryGao @JialinHuang803
 
 # ServiceLabel: %AAD %Service Attention
