@@ -106,7 +106,7 @@ const examplePackageGood = `{
     "process": "^0.11.10",
     "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -128,7 +128,6 @@ const examplePackageGood = `{
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^20.0.0",
-    "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
@@ -259,7 +258,7 @@ const examplePackageBad = `{
     "process": "^0.11.10",
     "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -281,7 +280,6 @@ const examplePackageBad = `{
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^20.0.0",
-    "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",

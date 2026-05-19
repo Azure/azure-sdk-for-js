@@ -9,7 +9,7 @@
  */
 
 import {
-  TagsPatchResource,
+  type TagsPatchResource,
   ResourceManagementClient,
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";

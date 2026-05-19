@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createTranscription,
   TranscriptionContext,
   TranscriptionClientOptionalParams,
+  createTranscription,
 } from "./api/index.js";
 import { transcribe } from "./api/operations.js";
 import { TranscribeOptionalParams } from "./api/options.js";
@@ -12,7 +12,7 @@ import { TranscriptionContent, TranscriptionResult } from "./models/models.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { TranscriptionClientOptionalParams } from "./api/transcriptionContext.js";
+export type { TranscriptionClientOptionalParams } from "./api/transcriptionContext.js";
 
 export class TranscriptionClient {
   private _client: TranscriptionContext;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to approve or Reject Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: 2026-01-01-preview/PrivateEndpointConnection/PutPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-01-31-preview/PrivateEndpointConnection/PutPrivateEndpointConnection.json
  */
 async function updatePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -65,16 +65,16 @@ describe("SessionTarget and AgentSessionConfig Types", () => {
   describe("SessionTarget - Model Mode", () => {
     it("should create a valid model session target", () => {
       const target: SessionTarget = {
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       };
 
-      expect(target.model).toBe("gpt-4o-realtime-preview");
+      expect(target.model).toBe("gpt-realtime");
       expect(target.agent).toBeUndefined();
     });
 
     it("should be identified by isModelSessionTarget", () => {
       const target: SessionTarget = {
-        model: "gpt-4o-realtime-preview",
+        model: "gpt-realtime",
       };
 
       expect(isModelSessionTarget(target)).toBe(true);
@@ -129,7 +129,7 @@ describe("SessionTarget and AgentSessionConfig Types", () => {
 
   describe("Type Guard Functions", () => {
     it("isModelSessionTarget should return true for model targets", () => {
-      const modelTarget: SessionTarget = { model: "gpt-4o" };
+      const modelTarget: SessionTarget = { model: "gpt-4.1" };
       expect(isModelSessionTarget(modelTarget)).toBe(true);
     });
 
@@ -148,7 +148,7 @@ describe("SessionTarget and AgentSessionConfig Types", () => {
     });
 
     it("isAgentSessionTarget should return false for model targets", () => {
-      const modelTarget: SessionTarget = { model: "gpt-4o" };
+      const modelTarget: SessionTarget = { model: "gpt-4.1" };
       expect(isAgentSessionTarget(modelTarget)).toBe(false);
     });
 
@@ -173,7 +173,7 @@ describe("SessionTarget and AgentSessionConfig Types", () => {
         return _exhaustive;
       };
 
-      expect(handleTarget({ model: "gpt-4o" })).toBe("Model: gpt-4o");
+      expect(handleTarget({ model: "gpt-4.1" })).toBe("Model: gpt-4.1");
       expect(handleTarget({ agent: { agentName: "a1", projectName: "p1" } })).toBe("Agent: a1");
     });
   });

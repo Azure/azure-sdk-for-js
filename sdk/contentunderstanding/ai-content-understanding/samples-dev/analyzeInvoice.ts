@@ -23,6 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import {
   ContentUnderstandingClient,
+  toLlmInput,
   type DocumentContent,
   type ArrayField,
   type ObjectField,
@@ -206,6 +207,18 @@ export async function main(): Promise<void> {
       }
     }
   }
+
+  // ======================================================================
+  // Convert the result to LLM-ready text using toLlmInput.
+  // ======================================================================
+  // The fields above can also be packaged into a single LLM-ready text block.
+  // toLlmInput() renders all extracted fields as YAML front matter followed by
+  // the markdown body, so an LLM can consume both structured data and document text
+  // in one shot. For advanced options, see toLlmInput.ts.
+  console.log("\nLLM-ready output:");
+  console.log("=".repeat(50));
+  console.log(toLlmInput(result));
+  console.log("=".repeat(50));
 }
 
 main().catch((err) => {

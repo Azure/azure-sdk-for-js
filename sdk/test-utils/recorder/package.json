@@ -16,8 +16,8 @@
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "dev-tool run build-package && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
     "test:browser:proxy": "dev-tool run test:vitest --browser",
     "test:node": "concurrently \"npm run tests:server\" \"npm run test:node:proxy\" --kill-others --success first",
     "test:node:proxy": "dev-tool run test:vitest",
@@ -70,6 +70,7 @@
     "express": "catalog:internal",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:",
@@ -82,10 +83,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -97,5 +94,15 @@
     }
   },
   "type": "module",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "imports": {
+    "#platform/env": {
+      "browser": "./src/utils/env-browser.mts",
+      "default": "./src/utils/env.ts"
+    },
+    "#platform/relativeRecordingsPath": {
+      "browser": "./src/utils/relativePathCalculator-browser.mts",
+      "default": "./src/utils/relativePathCalculator.ts"
+    }
+  }
 }

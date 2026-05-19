@@ -28,7 +28,7 @@
     "cjs-forms": "latest",
     "dotenv": "latest",
     "@azure/test1": "latest",
-    "@azure-test2/test2": "next"
+    "@azure-test2/test2": "beta"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

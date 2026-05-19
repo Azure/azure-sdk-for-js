@@ -32,7 +32,7 @@ export function _revokeSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +101,7 @@ export function _provisionSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary used to disable backup of an item within a container. This is an asynchronous operation. To know the status of the
  * request, call the GetItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/Common/ProtectedItem_Delete.json
+ * x-ms-original-file: 2026-01-31-preview/Common/ProtectedItem_Delete.json
  */
 async function deleteProtectionFromAzureVirtualMachine() {
   const credential = new DefaultAzureCredential();

@@ -29,7 +29,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
       "%24filter": options?.filter,
     },
     {
@@ -71,7 +71,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-01-31-preview",
     },
   );
 }

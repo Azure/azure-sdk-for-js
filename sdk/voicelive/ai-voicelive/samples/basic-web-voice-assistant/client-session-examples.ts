@@ -24,7 +24,7 @@ async function basicHandlerPatternExample() {
   );
 
   // 2. Create and connect a session with model
-  const session = await client.startSession('gpt-4o-realtime-preview', {
+  const session = await client.startSession('gpt-realtime', {
     connectionTimeoutInMs: 30000
   });
 
@@ -67,7 +67,7 @@ async function basicHandlerPatternExample() {
 
     // 4. Configure the session
     await session.updateSession({
-      model: 'gpt-4o-realtime-preview',
+      model: 'gpt-realtime',
       modalities: ['audio', 'text'],
       instructions: 'You are a helpful assistant.',
       voice: {
@@ -116,19 +116,19 @@ async function multipleSessionsExample() {
   );
 
   // Create multiple sessions for different purposes
-  const chatSession = await client.startSession('gpt-4o-realtime-preview');
-  const audioSession = await client.startSession('gpt-4o-realtime-preview');
+  const chatSession = await client.startSession('gpt-realtime');
+  const audioSession = await client.startSession('gpt-realtime');
 
   try {
     // Configure each session differently
     await chatSession.updateSession({
-      model: 'gpt-4o-realtime-preview',
+      model: 'gpt-realtime',
       modalities: ['text'],
       instructions: 'You are a text-only chat assistant.'
     });
 
     await audioSession.updateSession({
-      model: 'gpt-4o-realtime-preview',
+      model: 'gpt-realtime',
       modalities: ['audio'],
       instructions: 'You are a voice-only assistant.',
       voice: {
@@ -162,7 +162,7 @@ async function streamingExample() {
     new AzureKeyCredential('your-api-key')
   );
 
-  const session = await client.startSession('gpt-4o-realtime-preview');
+  const session = await client.startSession('gpt-realtime');
 
   try {
     // Set up streaming

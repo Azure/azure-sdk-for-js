@@ -2,7 +2,7 @@
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 9 * * 1"
+    - cron: "weekly on monday"
 description: Review documentation for inconsistencies with source code and create a PR with fixes
 permissions:
   contents: read
