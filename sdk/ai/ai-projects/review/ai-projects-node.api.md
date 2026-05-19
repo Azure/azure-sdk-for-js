@@ -1131,6 +1131,7 @@ export interface BetaOperations {
     insights: BetaInsightsOperations;
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
+    routines: BetaRoutinesOperations;
     schedules: BetaSchedulesOperations;
     skills: BetaSkillsOperations;
     toolboxes: BetaToolboxesOperations;
@@ -1155,6 +1156,31 @@ export interface BetaRedTeamsOperations {
     create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) => Promise<RedTeam>;
     get: (name: string, options?: BetaRedTeamsGetOptionalParams) => Promise<RedTeam>;
     list: (options?: BetaRedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
+}
+
+// @public
+export interface BetaRoutinesOperations {
+    // Warning: (ae-forgotten-export) The symbol "RoutineTriggerUnion" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RoutineActionUnion" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesCreateOrUpdateOptionalParams" needs to be exported by the entry point index.d.ts
+    createOrUpdate: (routineName: string, triggers: Record<string, RoutineTriggerUnion>, action: RoutineActionUnion, options?: BetaRoutinesCreateOrUpdateOptionalParams) => Promise<Routine>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesDeleteOptionalParams" needs to be exported by the entry point index.d.ts
+    delete: (routineName: string, options?: BetaRoutinesDeleteOptionalParams) => Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesDisableOptionalParams" needs to be exported by the entry point index.d.ts
+    disable: (routineName: string, options?: BetaRoutinesDisableOptionalParams) => Promise<Routine>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesDispatchAsyncOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "DispatchRoutineResponse" needs to be exported by the entry point index.d.ts
+    dispatchAsync: (routineName: string, options?: BetaRoutinesDispatchAsyncOptionalParams) => Promise<DispatchRoutineResponse>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesEnableOptionalParams" needs to be exported by the entry point index.d.ts
+    enable: (routineName: string, options?: BetaRoutinesEnableOptionalParams) => Promise<Routine>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesGetOptionalParams" needs to be exported by the entry point index.d.ts
+    get: (routineName: string, options?: BetaRoutinesGetOptionalParams) => Promise<Routine>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesListOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Routine" needs to be exported by the entry point index.d.ts
+    list: (options?: BetaRoutinesListOptionalParams) => PagedAsyncIterableIterator<Routine>;
+    // Warning: (ae-forgotten-export) The symbol "BetaRoutinesListRunsOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "RoutineRun" needs to be exported by the entry point index.d.ts
+    listRuns: (routineName: string, options?: BetaRoutinesListRunsOptionalParams) => PagedAsyncIterableIterator<RoutineRun>;
 }
 
 // @public

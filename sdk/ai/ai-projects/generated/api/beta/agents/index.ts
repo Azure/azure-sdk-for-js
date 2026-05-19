@@ -2,6 +2,15 @@
 // Licensed under the MIT License.
 
 export {
+  getOptimizationCandidateResults,
+  getOptimizationCandidateConfig,
+  getOptimizationCandidate,
+  listOptimizationCandidates,
+  deleteOptimizationJob,
+  cancelOptimizationJob,
+  listOptimizationJobs,
+  getOptimizationJob,
+  createOptimizationJob,
   deleteSessionFile,
   getSessionFiles,
   downloadSessionFile,
@@ -12,12 +21,19 @@ export {
   getSession,
   createSession,
   downloadAgentCode,
-  createAgentVersionFromCode,
+  createVersionFromCode,
   patchAgentObject,
-  updateAgentFromCode,
-  createAgentFromCode,
 } from "./operations.js";
 export type {
+  BetaAgentsGetOptimizationCandidateResultsOptionalParams,
+  BetaAgentsGetOptimizationCandidateConfigOptionalParams,
+  BetaAgentsGetOptimizationCandidateOptionalParams,
+  BetaAgentsListOptimizationCandidatesOptionalParams,
+  BetaAgentsDeleteOptimizationJobOptionalParams,
+  BetaAgentsCancelOptimizationJobOptionalParams,
+  BetaAgentsListOptimizationJobsOptionalParams,
+  BetaAgentsGetOptimizationJobOptionalParams,
+  BetaAgentsCreateOptimizationJobOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
   BetaAgentsGetSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
@@ -28,8 +44,6 @@ export type {
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
   BetaAgentsDownloadAgentCodeOptionalParams,
-  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  BetaAgentsCreateVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
-  BetaAgentsUpdateAgentFromCodeOptionalParams,
-  BetaAgentsCreateAgentFromCodeOptionalParams,
 } from "./options.js";

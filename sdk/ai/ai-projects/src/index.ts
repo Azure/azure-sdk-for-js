@@ -839,6 +839,7 @@ export type {
   BetaToolboxesOperations,
   BetaDatasetsOperations,
 } from "./classic/index.js";
+export type { BetaRoutinesOperations } from "./classic/beta/routines/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 
 export type {

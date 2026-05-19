@@ -2,10 +2,6 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import {
-  BetaAgentOptimizationJobsOperations,
-  _getBetaAgentOptimizationJobsOperations,
-} from "./agentOptimizationJobs/index.js";
 import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
 import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
 import {
@@ -20,17 +16,18 @@ import {
 } from "./memoryStores/index.js";
 import { BetaModelsOperations, _getBetaModelsOperations } from "./models/index.js";
 import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/index.js";
+import { BetaRoutinesOperations, _getBetaRoutinesOperations } from "./routines/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
 import { BetaSkillsOperations, _getBetaSkillsOperations } from "./skills/index.js";
 import { BetaToolboxesOperations, _getBetaToolboxesOperations } from "./toolboxes/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  agentOptimizationJobs: BetaAgentOptimizationJobsOperations;
   datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
   toolboxes: BetaToolboxesOperations;
   schedules: BetaSchedulesOperations;
+  routines: BetaRoutinesOperations;
   redTeams: BetaRedTeamsOperations;
   models: BetaModelsOperations;
   memoryStores: BetaMemoryStoresOperations;
@@ -42,11 +39,11 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    agentOptimizationJobs: _getBetaAgentOptimizationJobsOperations(context),
     datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
     toolboxes: _getBetaToolboxesOperations(context),
     schedules: _getBetaSchedulesOperations(context),
+    routines: _getBetaRoutinesOperations(context),
     redTeams: _getBetaRedTeamsOperations(context),
     models: _getBetaModelsOperations(context),
     memoryStores: _getBetaMemoryStoresOperations(context),

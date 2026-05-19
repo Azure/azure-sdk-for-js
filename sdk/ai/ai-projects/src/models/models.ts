@@ -9447,6 +9447,553 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
   });
 }
 
+export function routineTriggerUnionRecordSerializer(
+  item: Record<string, RoutineTrigger>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : routineTriggerUnionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function routineTriggerUnionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RoutineTrigger> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : routineTriggerUnionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Base model for a routine trigger. */
+export interface RoutineTrigger {
+  /** The trigger type. */
+  /** The discriminator possible values: schedule, timer, github_issue_opened */
+  type: RoutineTriggerType;
+}
+
+export function routineTriggerSerializer(item: RoutineTrigger): any {
+  return { type: item["type"] };
+}
+
+export function routineTriggerDeserializer(item: any): RoutineTrigger {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RoutineTriggerUnion */
+export type RoutineTriggerUnion =
+  | ScheduleRoutineTrigger
+  | TimerRoutineTrigger
+  | GitHubIssueOpenedRoutineTrigger
+  | RoutineTrigger;
+
+export function routineTriggerUnionSerializer(item: RoutineTriggerUnion): any {
+  switch (item.type) {
+    case "schedule":
+      return scheduleRoutineTriggerSerializer(item as ScheduleRoutineTrigger);
+
+    case "timer":
+      return timerRoutineTriggerSerializer(item as TimerRoutineTrigger);
+
+    case "github_issue_opened":
+      return gitHubIssueOpenedRoutineTriggerSerializer(item as GitHubIssueOpenedRoutineTrigger);
+
+    default:
+      return routineTriggerSerializer(item);
+  }
+}
+
+export function routineTriggerUnionDeserializer(item: any): RoutineTriggerUnion {
+  switch (item["type"]) {
+    case "schedule":
+      return scheduleRoutineTriggerDeserializer(item as ScheduleRoutineTrigger);
+
+    case "timer":
+      return timerRoutineTriggerDeserializer(item as TimerRoutineTrigger);
+
+    case "github_issue_opened":
+      return gitHubIssueOpenedRoutineTriggerDeserializer(item as GitHubIssueOpenedRoutineTrigger);
+
+    default:
+      return routineTriggerDeserializer(item);
+  }
+}
+
+/** The discriminator values supported for routine triggers. */
+export type RoutineTriggerType = "github_issue_opened" | "schedule" | "timer";
+
+/** A recurring cron-based routine trigger. */
+export interface ScheduleRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "schedule";
+  /** A 5-field cron expression. The service enforces a minimum interval of five minutes by default. */
+  cron_expression: string;
+  /** An IANA or Windows time zone identifier for the schedule. */
+  time_zone: string;
+}
+
+export function scheduleRoutineTriggerSerializer(item: ScheduleRoutineTrigger): any {
+  return {
+    type: item["type"],
+    cron_expression: item["cron_expression"],
+    time_zone: item["time_zone"],
+  };
+}
+
+export function scheduleRoutineTriggerDeserializer(item: any): ScheduleRoutineTrigger {
+  return {
+    type: item["type"],
+    cron_expression: item["cron_expression"],
+    time_zone: item["time_zone"],
+  };
+}
+
+/** A one-shot timer routine trigger. */
+export interface TimerRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "timer";
+  /** A future timer expression. Supported values include an ISO-8601 timestamp with an explicit offset, a local timestamp paired with time_zone, or a positive duration from now. */
+  at: string;
+  /** An optional IANA or Windows time zone identifier when the timer uses a local timestamp. */
+  time_zone?: string;
+}
+
+export function timerRoutineTriggerSerializer(item: TimerRoutineTrigger): any {
+  return { type: item["type"], at: item["at"], time_zone: item["time_zone"] };
+}
+
+export function timerRoutineTriggerDeserializer(item: any): TimerRoutineTrigger {
+  return {
+    type: item["type"],
+    at: item["at"],
+    time_zone: item["time_zone"],
+  };
+}
+
+/** A GitHub issue-opened routine trigger. */
+export interface GitHubIssueOpenedRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "github_issue_opened";
+  /** The workspace connection identifier that resolves the GitHub configuration for the trigger. */
+  connection_id: string;
+  /** The GitHub assignee or organization filter that scopes which issues can fire the trigger. */
+  assignee: string;
+  /** The GitHub repository filter that scopes which issues can fire the trigger. */
+  repository: string;
+}
+
+export function gitHubIssueOpenedRoutineTriggerSerializer(
+  item: GitHubIssueOpenedRoutineTrigger,
+): any {
+  return {
+    type: item["type"],
+    connection_id: item["connection_id"],
+    assignee: item["assignee"],
+    repository: item["repository"],
+  };
+}
+
+export function gitHubIssueOpenedRoutineTriggerDeserializer(
+  item: any,
+): GitHubIssueOpenedRoutineTrigger {
+  return {
+    type: item["type"],
+    connection_id: item["connection_id"],
+    assignee: item["assignee"],
+    repository: item["repository"],
+  };
+}
+
+/** Base model for a routine action. */
+export interface RoutineAction {
+  /** The action type. */
+  /** The discriminator possible values: invoke_agent_responses_api, invoke_agent_invocations_api */
+  type: RoutineActionType;
+}
+
+export function routineActionSerializer(item: RoutineAction): any {
+  return { type: item["type"] };
+}
+
+export function routineActionDeserializer(item: any): RoutineAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RoutineActionUnion */
+export type RoutineActionUnion =
+  | InvokeAgentResponsesApiRoutineAction
+  | InvokeAgentInvocationsApiRoutineAction
+  | RoutineAction;
+
+export function routineActionUnionSerializer(item: RoutineActionUnion): any {
+  switch (item.type) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiRoutineActionSerializer(
+        item as InvokeAgentResponsesApiRoutineAction,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiRoutineActionSerializer(
+        item as InvokeAgentInvocationsApiRoutineAction,
+      );
+
+    default:
+      return routineActionSerializer(item);
+  }
+}
+
+export function routineActionUnionDeserializer(item: any): RoutineActionUnion {
+  switch (item["type"]) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiRoutineActionDeserializer(
+        item as InvokeAgentResponsesApiRoutineAction,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiRoutineActionDeserializer(
+        item as InvokeAgentInvocationsApiRoutineAction,
+      );
+
+    default:
+      return routineActionDeserializer(item);
+  }
+}
+
+/** The discriminator values supported for routine actions. */
+export type RoutineActionType = "invoke_agent_responses_api" | "invoke_agent_invocations_api";
+
+/** Dispatches a routine through the responses API. Exactly one of agent_name or agent_endpoint_id must be provided. */
+export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
+  /** The action type. */
+  type: "invoke_agent_responses_api";
+  /** The project-scoped agent name for responses API dispatch. */
+  agent_name?: string;
+  /** The endpoint-scoped agent identifier for responses API dispatch. */
+  agent_endpoint_id?: string;
+  /** An optional existing conversation identifier to continue during the downstream dispatch. */
+  conversation_id?: string;
+}
+
+export function invokeAgentResponsesApiRoutineActionSerializer(
+  item: InvokeAgentResponsesApiRoutineAction,
+): any {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    conversation_id: item["conversation_id"],
+  };
+}
+
+export function invokeAgentResponsesApiRoutineActionDeserializer(
+  item: any,
+): InvokeAgentResponsesApiRoutineAction {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    conversation_id: item["conversation_id"],
+  };
+}
+
+/** Dispatches a routine through the raw invocations API. */
+export interface InvokeAgentInvocationsApiRoutineAction extends RoutineAction {
+  /** The action type. */
+  type: "invoke_agent_invocations_api";
+  /** The endpoint-scoped agent identifier for invocations API dispatch. */
+  agent_endpoint_id: string;
+  /** An optional existing hosted-agent session identifier to continue during the downstream dispatch. */
+  session_id?: string;
+}
+
+export function invokeAgentInvocationsApiRoutineActionSerializer(
+  item: InvokeAgentInvocationsApiRoutineAction,
+): any {
+  return {
+    type: item["type"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    session_id: item["session_id"],
+  };
+}
+
+export function invokeAgentInvocationsApiRoutineActionDeserializer(
+  item: any,
+): InvokeAgentInvocationsApiRoutineAction {
+  return {
+    type: item["type"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** A routine definition returned by the service. */
+export interface Routine {
+  /** The routine name. */
+  name: string;
+  /** A human-readable description of the routine. */
+  description?: string;
+  /** Whether the routine is enabled. */
+  enabled: boolean;
+  /** The triggers configured for the routine. */
+  triggers: Record<string, RoutineTriggerUnion>;
+  /** The action executed when the routine fires. */
+  action: RoutineActionUnion;
+  /** The time when the routine was created. */
+  created_at?: Date;
+  /** The time when the routine was last updated. */
+  updated_at?: Date;
+}
+
+export function routineDeserializer(item: any): Routine {
+  return {
+    name: item["name"],
+    description: item["description"],
+    enabled: item["enabled"],
+    triggers: routineTriggerUnionRecordDeserializer(item["triggers"]),
+    action: routineActionUnionDeserializer(item["action"]),
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    updated_at: !item["updated_at"] ? item["updated_at"] : new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRoutine {
+  /** The requested list of items. */
+  data: Routine[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRoutineDeserializer(item: any): _AgentsPagedResultRoutine {
+  return {
+    data: routineArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function routineArrayDeserializer(result: Array<Routine>): any[] {
+  return result.map((item) => {
+    return routineDeserializer(item);
+  });
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRoutineRun {
+  /** The requested list of items. */
+  data: RoutineRun[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRoutineRunDeserializer(item: any): _AgentsPagedResultRoutineRun {
+  return {
+    data: routineRunArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function routineRunArrayDeserializer(result: Array<RoutineRun>): any[] {
+  return result.map((item) => {
+    return routineRunDeserializer(item);
+  });
+}
+
+/** A single routine run returned from the run history API. */
+export interface RoutineRun {
+  /** The MLflow run identifier for the routine attempt. */
+  id: string;
+  /** The underlying MLflow run status. */
+  status: string;
+  /** The AgentExtensions lifecycle phase for the routine attempt. */
+  phase?: RoutineRunPhase;
+  /** The trigger type that produced the routine attempt. */
+  trigger_type: RoutineTriggerType;
+  /** The source path that created the routine attempt. */
+  attempt_source?: RoutineAttemptSource;
+  /** The action type dispatched for the routine attempt. */
+  action_type?: RoutineActionType;
+  /** The logical trigger time recorded for the routine attempt. */
+  triggered_at?: Date;
+  /** The time when the underlying run started. */
+  started_at: Date;
+  /** The time when the underlying run reached a terminal state. */
+  ended_at?: Date;
+  /** The dispatch identifier associated with the routine attempt. */
+  dispatch_id?: string;
+  /** The downstream action correlation identifier, when available. */
+  action_correlation_id?: string;
+  /** The downstream response or invocation identifier, when available. */
+  response_id?: string;
+  /** The workspace task identifier linked to the routine attempt, when available. */
+  task_id?: string;
+  /** The fully qualified error type captured for a failed attempt, when available. */
+  error_type?: string;
+  /** The truncated failure message captured for a failed attempt, when available. */
+  error_message?: string;
+  /** Diagnostic data captured for the routine attempt. */
+  diagnostics?: RoutineRunDiagnostics;
+}
+
+export function routineRunDeserializer(item: any): RoutineRun {
+  return {
+    id: item["id"],
+    status: item["status"],
+    phase: item["phase"],
+    trigger_type: item["trigger_type"],
+    attempt_source: item["attempt_source"],
+    action_type: item["action_type"],
+    triggered_at: !item["triggered_at"]
+      ? item["triggered_at"]
+      : new Date(item["triggered_at"] * 1000),
+    started_at: new Date(item["started_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    dispatch_id: item["dispatch_id"],
+    action_correlation_id: item["action_correlation_id"],
+    response_id: item["response_id"],
+    task_id: item["task_id"],
+    error_type: item["error_type"],
+    error_message: item["error_message"],
+    diagnostics: !item["diagnostics"]
+      ? item["diagnostics"]
+      : routineRunDiagnosticsDeserializer(item["diagnostics"]),
+  };
+}
+
+/** Known lifecycle phases recorded for a routine run. */
+export type RoutineRunPhase = "queued" | "dispatching" | "completed" | "failed";
+/** Known source paths that can produce a routine run. */
+export type RoutineAttemptSource =
+  | "event_fire"
+  | "manual_dispatch"
+  | "queued_dispatch"
+  | "schedule_delivery"
+  | "timer_delivery";
+
+/** Generic diagnostics captured on a routine run. */
+export interface RoutineRunDiagnostics {
+  /** MLflow parameters recorded on the run, keyed by parameter name. */
+  parameters: Record<string, string>;
+  /** MLflow tags recorded on the run, keyed by tag name. */
+  tags: Record<string, string>;
+  /** Latest MLflow metric values recorded on the run, keyed by metric name. */
+  metrics: Record<string, number>;
+}
+
+export function routineRunDiagnosticsDeserializer(item: any): RoutineRunDiagnostics {
+  return {
+    parameters: Object.fromEntries(
+      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    metrics: Object.fromEntries(
+      Object.entries(item["metrics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+  };
+}
+
+/** Base model for a manual dispatch payload. */
+export interface RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  /** The discriminator possible values: invoke_agent_responses_api, invoke_agent_invocations_api */
+  type: RoutineDispatchPayloadType;
+}
+
+export function routineDispatchPayloadSerializer(item: RoutineDispatchPayload): any {
+  return { type: item["type"] };
+}
+
+/** Alias for RoutineDispatchPayloadUnion */
+export type RoutineDispatchPayloadUnion =
+  | InvokeAgentResponsesApiDispatchPayload
+  | InvokeAgentInvocationsApiDispatchPayload
+  | RoutineDispatchPayload;
+
+export function routineDispatchPayloadUnionSerializer(item: RoutineDispatchPayloadUnion): any {
+  switch (item.type) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiDispatchPayloadSerializer(
+        item as InvokeAgentResponsesApiDispatchPayload,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiDispatchPayloadSerializer(
+        item as InvokeAgentInvocationsApiDispatchPayload,
+      );
+
+    default:
+      return routineDispatchPayloadSerializer(item);
+  }
+}
+
+/** The discriminator values supported for manual routine dispatch payloads. */
+export type RoutineDispatchPayloadType =
+  | "invoke_agent_responses_api"
+  | "invoke_agent_invocations_api";
+
+/** A manual payload used to test a responses API routine dispatch. */
+export interface InvokeAgentResponsesApiDispatchPayload extends RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  type: "invoke_agent_responses_api";
+  /** The user input sent to the downstream responses target. */
+  input?: string;
+}
+
+export function invokeAgentResponsesApiDispatchPayloadSerializer(
+  item: InvokeAgentResponsesApiDispatchPayload,
+): any {
+  return { type: item["type"], input: item["input"] };
+}
+
+/** A manual payload used to test an invocations API routine dispatch. */
+export interface InvokeAgentInvocationsApiDispatchPayload extends RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  type: "invoke_agent_invocations_api";
+  /** The raw input sent to the downstream invocations target. */
+  input?: string;
+}
+
+export function invokeAgentInvocationsApiDispatchPayloadSerializer(
+  item: InvokeAgentInvocationsApiDispatchPayload,
+): any {
+  return { type: item["type"], input: item["input"] };
+}
+
+/** Identifiers returned after a routine dispatch is queued. */
+export interface DispatchRoutineResponse {
+  /** The dispatch identifier created for the routine dispatch. */
+  dispatch_id?: string;
+  /** A downstream action correlation identifier, when available. */
+  action_correlation_id?: string;
+  /** A workspace task identifier created for the dispatch, when available. */
+  task_id?: string;
+}
+
+export function dispatchRoutineResponseDeserializer(item: any): DispatchRoutineResponse {
+  return {
+    dispatch_id: item["dispatch_id"],
+    action_correlation_id: item["action_correlation_id"],
+    task_id: item["task_id"],
+  };
+}
+
 /** Schedule model. */
 export interface Schedule {
   /** Identifier of the schedule. */
