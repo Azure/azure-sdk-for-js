@@ -8,11 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
-export type {
-  SharePointConnectorAppRegistration,
-  ContentUnderstandingSkillChunkingMethod,
-} from "./models/index.js";
-export { KnownContentUnderstandingSkillChunkingMethod, KnownVersions } from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
   ErrorDetail,
@@ -235,6 +231,7 @@ export type {
   VectorSearchCompressionTarget,
   BinaryQuantizationCompression,
   SearchIndexPermissionFilterOption,
+  SharePointConnectorAppRegistration,
   SearchIndexResponse,
   GetIndexStatisticsResult,
   AnalyzeTextOptions,
@@ -305,6 +302,7 @@ export type {
   FabricOntologyKnowledgeSource,
   FabricOntologyKnowledgeSourceParameters,
   KnowledgeSourceSynchronizationStatus,
+  KnowledgeSourceFile,
   SearchServiceStatistics,
   ServiceCounters,
   ResourceCounter,
@@ -405,6 +403,7 @@ export type {
   ContentUnderstandingSkill,
   ContentUnderstandingSkillExtractionOptions,
   ContentUnderstandingSkillChunkingProperties,
+  ContentUnderstandingSkillChunkingMethod,
   ContentUnderstandingSkillChunkingUnit,
   ChatCompletionSkill,
   CommonModelParameters,
@@ -497,6 +496,7 @@ export {
   KnownDocumentIntelligenceLayoutSkillExtractionOptions,
   KnownDocumentIntelligenceLayoutSkillChunkingUnit,
   KnownContentUnderstandingSkillExtractionOptions,
+  KnownContentUnderstandingSkillChunkingMethod,
   KnownContentUnderstandingSkillChunkingUnit,
   KnownChatCompletionExtraParametersBehavior,
   KnownChatCompletionResponseFormatType,
@@ -545,6 +545,9 @@ export type {
   WorkIQKnowledgeSourceParams,
   FabricDataAgentKnowledgeSourceParams,
   FabricOntologyKnowledgeSourceParams,
+  McpServerKnowledgeSourceParams,
+  FileKnowledgeSourceParams,
+  IndexedSqlKnowledgeSourceParams,
   KnowledgeBaseRetrievalResponse,
   KnowledgeBaseActivityRecord,
   KnowledgeBaseActivityRecordUnion,
@@ -569,6 +572,9 @@ export type {
   WorkIQAttribution,
   KnowledgeBaseFabricDataAgentReference,
   KnowledgeBaseFabricOntologyReference,
+  KnowledgeBaseMcpServerReference,
+  KnowledgeBaseFileReference,
+  KnowledgeBaseIndexedSqlReference,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export {
   KnownKnowledgeRetrievalReasoningEffortKind,
@@ -595,6 +601,9 @@ export { SearchIndexClient } from "./searchIndex/searchIndexClient.js";
 export type {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  DeleteKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,

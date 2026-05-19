@@ -44,6 +44,9 @@ export type {
   WorkIQKnowledgeSourceParams,
   FabricDataAgentKnowledgeSourceParams,
   FabricOntologyKnowledgeSourceParams,
+  McpServerKnowledgeSourceParams,
+  FileKnowledgeSourceParams,
+  IndexedSqlKnowledgeSourceParams,
   KnowledgeBaseRetrievalResponse,
   KnowledgeBaseActivityRecord,
   KnowledgeBaseActivityRecordUnion,
@@ -68,6 +71,9 @@ export type {
   WorkIQAttribution,
   KnowledgeBaseFabricDataAgentReference,
   KnowledgeBaseFabricOntologyReference,
+  KnowledgeBaseMcpServerReference,
+  KnowledgeBaseFileReference,
+  KnowledgeBaseIndexedSqlReference,
 } from "./models.js";
 export {
   KnownKnowledgeRetrievalReasoningEffortKind,

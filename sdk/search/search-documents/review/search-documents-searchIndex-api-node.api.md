@@ -160,6 +160,15 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 export function deleteKnowledgeSource(context: SearchIndexContext, name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
 
 // @public
+export function deleteKnowledgeSourceFile(context: SearchIndexContext, name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+
+// @public
+export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
 export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -316,6 +325,15 @@ export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
 }
 
 // @public
+export function listKnowledgeSourceFiles(context: SearchIndexContext, name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
+
+// @public
+export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
 export function listKnowledgeSources(context: SearchIndexContext, options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
 
 // @public
@@ -332,6 +350,15 @@ export interface SearchIndexClientOptionalParams extends ClientOptions {
 // @public (undocumented)
 export interface SearchIndexContext extends Client {
     apiVersion?: string;
+}
+
+// @public
+export function uploadKnowledgeSourceFile(context: SearchIndexContext, name: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+
+// @public
+export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

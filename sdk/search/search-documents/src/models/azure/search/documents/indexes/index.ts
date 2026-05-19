@@ -177,6 +177,8 @@ export type {
   EmbeddingColumnMapping,
   FileKnowledgeSource,
   FileKnowledgeSourceParameters,
+  KnowledgeSourceFile,
+  _ListKnowledgeSourceFilesResult,
   WebKnowledgeSource,
   WebKnowledgeSourceParameters,
   WebKnowledgeSourceDomains,

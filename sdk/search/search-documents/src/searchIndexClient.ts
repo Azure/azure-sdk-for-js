@@ -13,6 +13,7 @@ import {
 import type {
   AnalyzeResult,
   IndexStatisticsSummary,
+  KnowledgeSourceFile,
 } from "./models/azure/search/documents/indexes/index.js";
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
@@ -42,6 +43,7 @@ import type {
   DeleteIndexOptions,
   DeleteKnowledgeBaseOptions,
   DeleteKnowledgeSourceOptions,
+  DeleteKnowledgeSourceFileOptions,
   DeleteSynonymMapOptions,
   GetAliasOptions,
   GetIndexOptions,
@@ -61,11 +63,13 @@ import type {
   ListIndexStatsSummaryOptions,
   ListKnowledgeBasesOptions,
   ListKnowledgeSourcesOptions,
+  ListKnowledgeSourceFilesOptions,
   ListSynonymMapsOptions,
   SearchIndex,
   SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
+  UploadKnowledgeSourceFileOptions,
   SynonymMap,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
@@ -865,6 +869,58 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         return this.client.getKnowledgeSourceStatus(sourceName, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Uploads a file to a File knowledge source for processing and indexing.
+   * @param name - The name of the knowledge source.
+   * @param file - The file contents.
+   * @param options - The options parameters.
+   */
+  public async uploadKnowledgeSourceFile(
+    name: string,
+    file: Uint8Array,
+    options: UploadKnowledgeSourceFileOptions = {},
+  ): Promise<KnowledgeSourceFile> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-uploadKnowledgeSourceFile",
+      options,
+      async (updatedOptions) => {
+        return this.client.uploadKnowledgeSourceFile(name, file, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Lists all files in a File knowledge source.
+   * @param name - The name of the knowledge source.
+   * @param options - The options parameters.
+   */
+  public listKnowledgeSourceFiles(
+    name: string,
+    options: ListKnowledgeSourceFilesOptions = {},
+  ): PagedAsyncIterableIterator<KnowledgeSourceFile> {
+    return this.client.listKnowledgeSourceFiles(name, options);
+  }
+
+  /**
+   * Deletes a file from a File knowledge source and removes all indexed content derived from it.
+   * @param name - The name of the knowledge source.
+   * @param fileId - The file identifier.
+   * @param options - The options parameters.
+   */
+  public async deleteKnowledgeSourceFile(
+    name: string,
+    fileId: string,
+    options: DeleteKnowledgeSourceFileOptions = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-deleteKnowledgeSourceFile",
+      options,
+      async (updatedOptions) => {
+        return this.client.deleteKnowledgeSourceFile(name, fileId, updatedOptions);
       },
     );
   }

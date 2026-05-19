@@ -16,6 +16,8 @@ import type {
   KnowledgeBase,
   _ListKnowledgeBasesResult,
   KnowledgeSourceUnion,
+  KnowledgeSourceFile,
+  _ListKnowledgeSourceFilesResult,
   _ListKnowledgeSourcesResult,
   SearchServiceStatistics,
   _ListIndexStatsSummary,
@@ -39,6 +41,8 @@ import {
   _listKnowledgeBasesResultDeserializer,
   knowledgeSourceUnionSerializer,
   knowledgeSourceUnionDeserializer,
+  knowledgeSourceFileDeserializer,
+  _listKnowledgeSourceFilesResultDeserializer,
   _listKnowledgeSourcesResultDeserializer,
   searchServiceStatisticsDeserializer,
   _listIndexStatsSummaryDeserializer,
@@ -55,6 +59,9 @@ import type {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  DeleteKnowledgeSourceFileOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
   GetKnowledgeSourceOptionalParams,
@@ -256,6 +263,181 @@ export async function getKnowledgeSourceStatus(
 ): Promise<KnowledgeSourceStatus> {
   const result = await _getKnowledgeSourceStatusSend(context, name, options);
   return _getKnowledgeSourceStatusDeserialize(result);
+}
+
+export function _uploadKnowledgeSourceFileSend(
+  context: Client,
+  name: string,
+  file: Uint8Array,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/octet-stream",
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+    body: file,
+  });
+}
+
+export async function _uploadKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return knowledgeSourceFileDeserializer(result.body);
+}
+
+/** Uploads a file to a File knowledge source for processing and indexing. */
+export async function uploadKnowledgeSourceFile(
+  context: Client,
+  name: string,
+  file: Uint8Array,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _uploadKnowledgeSourceFileSend(context, name, file, options);
+  return _uploadKnowledgeSourceFileDeserialize(result);
+}
+
+export function _listKnowledgeSourceFilesSend(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listKnowledgeSourceFilesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ListKnowledgeSourceFilesResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _listKnowledgeSourceFilesResultDeserializer(result.body);
+}
+
+/** Lists all files in a File knowledge source. */
+export function listKnowledgeSourceFiles(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFilesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<KnowledgeSourceFile> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listKnowledgeSourceFilesSend(context, name, options),
+    _listKnowledgeSourceFilesDeserialize,
+    ["200"],
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-05-01-preview" },
+  );
+}
+
+export function _deleteKnowledgeSourceFileSend(
+  context: Client,
+  name: string,
+  fileId: string,
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files('{fileId}'){?api%2Dversion}",
+    {
+      sourceName: name,
+      fileId,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204", "404"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+
+    throw error;
+  }
+}
+
+/** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
+export async function deleteKnowledgeSourceFile(
+  context: Client,
+  name: string,
+  fileId: string,
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteKnowledgeSourceFileSend(context, name, fileId, options);
+  return _deleteKnowledgeSourceFileDeserialize(result);
 }
 
 export function _createKnowledgeSourceSend(

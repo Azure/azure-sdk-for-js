@@ -900,6 +900,16 @@ export interface KnowledgeSource {
 export type KnowledgeSourceContentExtractionMode = string;
 
 // @public
+export interface KnowledgeSourceFile {
+    readonly createdAt?: Date;
+    readonly errorMessage?: string | null;
+    readonly fileId?: string;
+    readonly fileName?: string;
+    readonly fileSizeBytes?: number;
+    readonly lastUpdatedAt?: Date;
+}
+
+// @public
 export type KnowledgeSourceIngestionPermissionOption = string;
 
 // @public
@@ -1979,6 +1989,11 @@ export interface ListDataSourcesResult {
 // @public
 export interface ListIndexersResult {
     readonly indexers: SearchIndexer[];
+}
+
+// @public
+export interface _ListKnowledgeSourceFilesResult {
+    value: KnowledgeSourceFile[];
 }
 
 // @public

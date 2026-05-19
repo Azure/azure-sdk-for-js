@@ -8,12 +8,6 @@ import { parseNewlineCollection } from "../../../../../static-helpers/serializat
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
 import {
-  SharePointConnectorAppRegistration,
-  sharePointConnectorAppRegistrationSerializer,
-  sharePointConnectorAppRegistrationDeserializer,
-  ContentUnderstandingSkillChunkingMethod,
-} from "../../../../models.js";
-import {
   knowledgeRetrievalReasoningEffortUnionSerializer,
   knowledgeRetrievalReasoningEffortUnionDeserializer,
   KnowledgeRetrievalReasoningEffortUnion,
@@ -5127,6 +5121,36 @@ export enum KnownSearchIndexPermissionFilterOption {
  */
 export type SearchIndexPermissionFilterOption = string;
 
+/** Configures a SharePoint connector app registration for the index, enabling document-level permissions from SharePoint. */
+export interface SharePointConnectorAppRegistration {
+  /** The application (client) ID of the app registration used to connect to SharePoint. */
+  applicationId: string;
+  /** The federated credential ID configured on the app registration. */
+  federatedCredentialId: string;
+  /** The tenant ID of the app registration. If not specified, the tenant of the search service is used. */
+  tenantId?: string;
+}
+
+export function sharePointConnectorAppRegistrationSerializer(
+  item: SharePointConnectorAppRegistration,
+): any {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function sharePointConnectorAppRegistrationDeserializer(
+  item: any,
+): SharePointConnectorAppRegistration {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesResult {
   /** The total count of indexes in the service, or null if the count was not requested. */
@@ -6474,6 +6498,7 @@ export function embeddingColumnMappingDeserializer(item: any): EmbeddingColumnMa
 
 /** Configuration for File knowledge source that supports direct file upload and indexing. */
 export interface FileKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
   kind: "file";
   /** The parameters for the File knowledge source. */
   fileParameters: FileKnowledgeSourceParameters;
@@ -6755,6 +6780,7 @@ export function remoteSharePointKnowledgeSourceParametersDeserializer(
 
 /** Configuration for WorkIQ knowledge source. */
 export interface WorkIQKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
   kind: "workIQ";
 }
 
@@ -7638,6 +7664,53 @@ export enum KnownKnowledgeSourceSynchronizationStatus {
  * **deleting**: The knowledge source is being deleted and synchronization is paused.
  */
 export type KnowledgeSourceSynchronizationStatus = string;
+
+/** Metadata for a file uploaded to a File knowledge source. */
+export interface KnowledgeSourceFile {
+  /** The unique identifier for the file. */
+  readonly fileId?: string;
+  /** The original file name. */
+  readonly fileName?: string;
+  /** The file size in bytes. */
+  readonly fileSizeBytes?: number;
+  /** The timestamp when the file was created. */
+  readonly createdAt?: Date;
+  /** The timestamp when the file was last updated. */
+  readonly lastUpdatedAt?: Date;
+  /** The error message if file processing failed, null otherwise. */
+  readonly errorMessage?: string;
+}
+
+export function knowledgeSourceFileDeserializer(item: any): KnowledgeSourceFile {
+  return {
+    fileId: item["fileId"],
+    fileName: item["fileName"],
+    fileSizeBytes: item["fileSizeBytes"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastUpdatedAt: !item["lastUpdatedAt"] ? item["lastUpdatedAt"] : new Date(item["lastUpdatedAt"]),
+    errorMessage: item["errorMessage"],
+  };
+}
+
+/** Response from a List Files request. */
+export interface _ListKnowledgeSourceFilesResult {
+  /** The list of files. */
+  value: KnowledgeSourceFile[];
+}
+
+export function _listKnowledgeSourceFilesResultDeserializer(
+  item: any,
+): _ListKnowledgeSourceFilesResult {
+  return {
+    value: knowledgeSourceFileArrayDeserializer(item["value"]),
+  };
+}
+
+export function knowledgeSourceFileArrayDeserializer(result: Array<KnowledgeSourceFile>): any[] {
+  return result.map((item) => {
+    return knowledgeSourceFileDeserializer(item);
+  });
+}
 
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface SearchServiceStatistics {
@@ -12101,6 +12174,24 @@ export function contentUnderstandingSkillChunkingPropertiesDeserializer(
     overlapLength: item["overlapLength"],
   };
 }
+
+/** The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. */
+export enum KnownContentUnderstandingSkillChunkingMethod {
+  /** Fixed-size character-based windowed chunking. */
+  FixedSize = "fixedSize",
+  /** Layout-aware, paragraph-boundary-respecting chunking. */
+  Semantic = "semantic",
+}
+
+/**
+ * The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. \
+ * {@link KnownContentUnderstandingSkillChunkingMethod} can be used interchangeably with ContentUnderstandingSkillChunkingMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fixedSize**: Fixed-size character-based windowed chunking. \
+ * **semantic**: Layout-aware, paragraph-boundary-respecting chunking.
+ */
+export type ContentUnderstandingSkillChunkingMethod = string;
 
 /** Controls the cardinality of the chunk unit. Default is 'characters' */
 export enum KnownContentUnderstandingSkillChunkingUnit {

@@ -34,6 +34,30 @@ export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions
 }
 
 /** Optional parameters. */
+export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
+export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
+export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=minimal";
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
+
+/** Optional parameters. */
 export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";

@@ -522,6 +522,13 @@ export interface ConditionalSkill extends BaseSearchIndexerSkill {
 }
 
 // @public
+export interface ContentColumnMapping {
+    name: string;
+    searchFieldType: string;
+    sourceField: string;
+}
+
+// @public
 export interface ContentUnderstandingSkill extends BaseSearchIndexerSkill {
     chunkingProperties?: ContentUnderstandingSkillChunkingProperties;
     extractionOptions?: ContentUnderstandingSkillExtractionOptions[];
@@ -737,6 +744,10 @@ export interface DeleteKnowledgeBaseOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export interface DeleteKnowledgeSourceOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
@@ -843,6 +854,12 @@ export interface EdgeNGramTokenizer extends BaseLexicalTokenizer {
 export interface ElisionTokenFilter extends BaseTokenFilter {
     articles?: string[];
     odatatype: "#Microsoft.Azure.Search.ElisionTokenFilter";
+}
+
+// @public
+export interface EmbeddingColumnMapping {
+    name: string;
+    sourceField: string;
 }
 
 // @public
@@ -973,6 +990,23 @@ export interface FieldMapping {
 export interface FieldMappingFunction {
     name: string;
     parameters?: Record<string, any>;
+}
+
+// Warning: (ae-forgotten-export) The symbol "KnowledgeSource_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface FileKnowledgeSource extends KnowledgeSource_2 {
+    fileParameters: FileKnowledgeSourceParameters;
+    // (undocumented)
+    kind: "file";
+}
+
+// @public
+export interface FileKnowledgeSourceParameters {
+    // Warning: (ae-forgotten-export) The symbol "CreatedResources" needs to be exported by the entry point index.d.ts
+    readonly createdResources?: CreatedResources;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceIngestionParameters_2" needs to be exported by the entry point index.d.ts
+    ingestionParameters?: KnowledgeSourceIngestionParameters_2;
 }
 
 // @public
@@ -1184,6 +1218,23 @@ export interface IndexedSharePointKnowledgeSourceParameters {
 // @public
 export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "indexedSharePoint";
+}
+
+// @public
+export interface IndexedSqlKnowledgeSource extends KnowledgeSource_2 {
+    indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
+    kind: "indexedSql";
+}
+
+// @public
+export interface IndexedSqlKnowledgeSourceParameters {
+    connectionString: string;
+    contentColumns?: ContentColumnMapping[];
+    readonly createdResources?: CreatedResources;
+    embeddingColumns?: EmbeddingColumnMapping[];
+    highWaterMarkColumnName?: string;
+    ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+    tableOrView: string;
 }
 
 // @public
@@ -1621,6 +1672,16 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourc
 
 // @public
 export type KnowledgeSourceContentExtractionMode = string;
+
+// @public
+export interface KnowledgeSourceFile {
+    readonly createdAt?: Date;
+    readonly errorMessage?: string | null;
+    readonly fileId?: string;
+    readonly fileName?: string;
+    readonly fileSizeBytes?: number;
+    readonly lastUpdatedAt?: Date;
+}
 
 // @public
 export interface KnowledgeSourceIngestionParameters {
@@ -2877,6 +2938,10 @@ export interface ListKnowledgeBasesOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export interface ListKnowledgeSourcesOptions extends OperationOptions {
 }
 
@@ -3389,6 +3454,7 @@ export class SearchIndexClient {
     deleteKnowledgeBase(knowledgeBase: KnowledgeBase, options?: DeleteKnowledgeBaseOptions): Promise<void>;
     deleteKnowledgeSource(sourceName: string, options?: DeleteKnowledgeSourceOptions): Promise<void>;
     deleteKnowledgeSource(source: KnowledgeSource, options?: DeleteKnowledgeSourceOptions): Promise<void>;
+    deleteKnowledgeSourceFile(name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
@@ -3406,11 +3472,13 @@ export class SearchIndexClient {
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listIndexStatsSummary(options?: ListIndexStatsSummaryOptions): PagedAsyncIterableIterator<IndexStatisticsSummary>;
     listKnowledgeBases(options?: ListKnowledgeBasesOptions): KnowledgeBaseIterator;
+    listKnowledgeSourceFiles(name: string, options?: ListKnowledgeSourceFilesOptions): PagedAsyncIterableIterator<KnowledgeSourceFile>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptions): KnowledgeSourceIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
     readonly pipeline: Pipeline;
     readonly serviceVersion: string;
+    uploadKnowledgeSourceFile(name: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptions): Promise<KnowledgeSourceFile>;
 }
 
 // @public
@@ -4184,6 +4252,10 @@ export interface UniqueTokenFilter extends BaseTokenFilter {
 
 // @public
 export type UploadDocumentsOptions = IndexDocumentsOptions;
+
+// @public (undocumented)
+export interface UploadKnowledgeSourceFileOptions extends OperationOptions {
+}
 
 // @public
 export type VectorEncodingFormat = string;

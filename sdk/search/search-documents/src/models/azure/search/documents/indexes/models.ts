@@ -6538,6 +6538,53 @@ export function fileKnowledgeSourceParametersDeserializer(
   };
 }
 
+/** Metadata for a file uploaded to a File knowledge source. */
+export interface KnowledgeSourceFile {
+  /** The unique identifier for the file. */
+  readonly fileId?: string;
+  /** The original file name. */
+  readonly fileName?: string;
+  /** The file size in bytes. */
+  readonly fileSizeBytes?: number;
+  /** The timestamp when the file was created. */
+  readonly createdAt?: Date;
+  /** The timestamp when the file was last updated. */
+  readonly lastUpdatedAt?: Date;
+  /** The error message if file processing failed, null otherwise. */
+  readonly errorMessage?: string | null;
+}
+
+export function knowledgeSourceFileDeserializer(item: any): KnowledgeSourceFile {
+  return {
+    fileId: item["fileId"],
+    fileName: item["fileName"],
+    fileSizeBytes: item["fileSizeBytes"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastUpdatedAt: !item["lastUpdatedAt"] ? item["lastUpdatedAt"] : new Date(item["lastUpdatedAt"]),
+    errorMessage: item["errorMessage"],
+  };
+}
+
+export function knowledgeSourceFileArrayDeserializer(result: Array<KnowledgeSourceFile>): any[] {
+  return result.map((item) => {
+    return knowledgeSourceFileDeserializer(item);
+  });
+}
+
+/** Response from a List Files request. */
+export interface _ListKnowledgeSourceFilesResult {
+  /** The list of files. */
+  value: KnowledgeSourceFile[];
+}
+
+export function _listKnowledgeSourceFilesResultDeserializer(
+  item: any,
+): _ListKnowledgeSourceFilesResult {
+  return {
+    value: knowledgeSourceFileArrayDeserializer(item["value"]),
+  };
+}
+
 /** Knowledge Source targeting web results. */
 export interface WebKnowledgeSource extends KnowledgeSource {
   kind: "web";
