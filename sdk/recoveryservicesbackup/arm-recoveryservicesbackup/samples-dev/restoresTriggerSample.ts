@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
  */
 async function restoreToNewAzureIaasVmWithIaasVMRestoreRequest(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function restoreToNewAzureIaasVmWithIaasVMRestoreRequest(): Promise<void> 
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreToNewAzureIaasVmWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,7 +104,7 @@ async function restoreToNewAzureIaasVmWithIaasVMRestoreRequestWithIdentityBasedR
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreToNewAzureIaasVmWithIaasVMRestoreWithRehydrationRequest(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -153,7 +153,7 @@ async function restoreToNewAzureIaasVmWithIaasVMRestoreWithRehydrationRequest():
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_ResourceGuardEnabled.json
  */
 async function restoreWithResourceGuardEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -200,7 +200,7 @@ async function restoreWithResourceGuardEnabled(): Promise<void> {
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
  */
 async function restoreDisksWithIaasVMRestoreRequest(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -247,7 +247,7 @@ async function restoreDisksWithIaasVMRestoreRequest(): Promise<void> {
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -291,7 +291,7 @@ async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetai
  *
  * @summary restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
  * GetProtectedItemOperationResult API.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreDisksWithIaasVMRestoreWithRehydrationRequest(): Promise<void> {
   const credential = new DefaultAzureCredential();

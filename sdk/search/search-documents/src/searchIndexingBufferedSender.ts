@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { delay, getRandomIntegerInclusive } from "@azure/core-util";
-import EventEmitter from "node:events";
+import { EventEmitter } from "events";
 import { createInterval } from "#platform/timers";
 import type { IndexDocumentsResult } from "./models/azure/search/documents/index.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";

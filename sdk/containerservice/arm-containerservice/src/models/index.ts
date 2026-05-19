@@ -34,6 +34,7 @@ export type {
   GPUProfile,
   GPUDriver,
   AgentPoolGatewayProfile,
+  AgentPoolArtifactStreamingProfile,
   VirtualMachinesProfile,
   ScaleProfile,
   ManualScaleProfile,
