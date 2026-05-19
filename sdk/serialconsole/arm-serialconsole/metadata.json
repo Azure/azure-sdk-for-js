@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.SerialConsole": "2024-07-01"
   },
-  "emitterVersion": "0.53.1",
+  "emitterVersion": "0.53.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.SerialConsole",
     "CrossLanguageDefinitionId": {
