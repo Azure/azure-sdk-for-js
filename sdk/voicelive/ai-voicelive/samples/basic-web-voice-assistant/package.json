@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.0.0.tgz",
-    "@azure/core-auth": "^1.9.0"
+    "@azure/core-auth": "^1.9.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.47.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -1,6 +1,6 @@
 // Main entry point for Voice Live Web Assistant
 import { VoiceAssistant } from './voiceAssistant.js';
-import type { VoiceAssistantConfig, VoiceAssistantCallbacks } from './voiceAssistant.js';
+import type { VoiceAssistantConfig, VoiceAssistantCallbacks, PaWord, LatencyInfo } from './voiceAssistant.js';
 
 class WebVoiceAssistantApp {
   private voiceAssistant: VoiceAssistant;
@@ -112,6 +112,40 @@ class WebVoiceAssistantApp {
       });
     });
 
+    // Handle PA checkbox — show/hide PA options and fill instructions
+    const paCheckbox = document.getElementById('enablePronunciationAssessment') as HTMLInputElement;
+    const paOptions = document.getElementById('paOptions') as HTMLElement;
+    const instructionsTextarea = document.getElementById('instructions') as HTMLTextAreaElement;
+    const updatePaOptionsVisibility = () => {
+      paOptions.style.display = paCheckbox.checked ? 'block' : 'none';
+      if (paCheckbox.checked) {
+        // When PA is enabled, fill instructions with the selected scenario's predefined instructions
+        const selectedScenario = (document.querySelector('input[name="paScenario"]:checked') as HTMLInputElement)?.value || 'conversation';
+        instructionsTextarea.value = this.voiceAssistant.getScenarioInstructions(selectedScenario);
+      } else {
+        // When PA is disabled, reset to default instructions
+        instructionsTextarea.value = 'You are a helpful AI assistant. Respond naturally and conversationally. Keep your responses concise but engaging.';
+      }
+    };
+    paCheckbox.addEventListener('change', updatePaOptionsVisibility);
+    updatePaOptionsVisibility();
+
+    // Handle PA scenario selection — fill instructions textarea
+    const scenarioRadios = document.querySelectorAll('input[name="paScenario"]');
+    const paRefTextCheckbox = document.getElementById('paWithReferenceText') as HTMLInputElement;
+    scenarioRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        instructionsTextarea.value = this.voiceAssistant.getScenarioInstructions(target.value);
+        if (target.value === 'readAlong') {
+          paRefTextCheckbox.checked = false;
+          paRefTextCheckbox.disabled = true;
+        } else {
+          paRefTextCheckbox.disabled = false;
+        }
+      });
+    });
+
     // Load saved settings
     this.loadSettings();
   }
@@ -218,8 +252,13 @@ class WebVoiceAssistantApp {
     const voice = (document.getElementById('voice') as HTMLSelectElement).value;
     const instructions = (document.getElementById('instructions') as HTMLTextAreaElement).value;
     const debugMode = (document.getElementById('debugMode') as HTMLInputElement).checked;
+    const enablePronunciationAssessment = (document.getElementById('enablePronunciationAssessment') as HTMLInputElement).checked;
+    const paWithReferenceText = (document.getElementById('paWithReferenceText') as HTMLInputElement).checked;
+    const paScenarioElement = document.querySelector('input[name="paScenario"]:checked') as HTMLInputElement;
+    const paScenario = paScenarioElement?.value || 'conversation';
     const authMethodElement = document.querySelector('input[name="authMethod"]:checked') as HTMLInputElement;
     const useTokenCredential = authMethodElement ? authMethodElement.value === 'token' : false;
+    const enableLatencyTracking = (document.getElementById('enableLatencyTracking') as HTMLInputElement).checked;
 
     if (!endpoint) {
       throw new Error('Endpoint is required');
@@ -229,7 +268,18 @@ class WebVoiceAssistantApp {
       throw new Error('API key is required when using API key authentication');
     }
 
-    return { endpoint, apiKey, voice, instructions, debugMode, useTokenCredential };
+    return {
+      endpoint,
+      apiKey,
+      voice,
+      instructions,
+      debugMode,
+      useTokenCredential,
+      enablePronunciationAssessment,
+      paWithReferenceText,
+      paScenario,
+      enableLatencyTracking
+    };
   }
 
   private updateConnectionStatus(status: string): void {
@@ -269,7 +319,7 @@ class WebVoiceAssistantApp {
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
   }
 
-  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean }): void {
+  private updateConversationMessage(message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[]; latencyInfo?: LatencyInfo }): void {
     if (!message.messageId) {
       // Fallback to regular message if no ID provided
       this.addConversationMessage(message);
@@ -304,7 +354,8 @@ class WebVoiceAssistantApp {
       
       existingMessage.appendChild(timestamp);
       existingMessage.appendChild(content);
-      
+      this.renderLatencyInfo(existingMessage, message);
+
       this.conversationHistory.appendChild(existingMessage);
     } else {
       // Update existing message content
@@ -316,7 +367,13 @@ class WebVoiceAssistantApp {
           existingCursor.remove();
         }
         
-        contentSpan.textContent = message.content;
+        if (message.paWords && message.paWords.length > 0) {
+          // Safely render PA word spans as DOM nodes (no innerHTML).
+          contentSpan.textContent = '';
+          this.appendPaWordNodes(contentSpan, message.paWords);
+        } else {
+          contentSpan.textContent = message.content;
+        }
         
         // Add/remove streaming indicator
         if (message.isStreaming) {
@@ -328,11 +385,100 @@ class WebVoiceAssistantApp {
         } else {
           contentSpan.classList.remove('streaming');
         }
+
+        this.renderLatencyInfo(existingMessage, message);
       }
     }
     
     // Auto-scroll to bottom
     this.conversationHistory.scrollTop = this.conversationHistory.scrollHeight;
+  }
+
+  private renderLatencyInfo(existingMessage: HTMLElement, message: { role: string; latencyInfo?: LatencyInfo }): void {
+    const existingLatency = existingMessage.querySelector('.latency-info');
+    if (existingLatency) {
+      existingLatency.remove();
+    }
+
+    if (message.role !== 'user' || !message.latencyInfo) {
+      return;
+    }
+
+    const value = message.latencyInfo;
+    const formatMs = (ms: number | null): string => (ms == null ? '-' : `${Math.round(ms)}ms`);
+    const speechEndToPaReady = value.speechEndToPaStart != null && value.paStartToPaEnd != null
+      ? value.speechEndToPaStart + value.paStartToPaEnd
+      : null;
+
+    const latency = document.createElement('span');
+    latency.className = 'latency-info';
+    latency.appendChild(document.createTextNode('Latency '));
+
+    const items = [
+      {
+        label: '①',
+        value: formatMs(value.paStartToPaEnd),
+        title: `PA start -> full PA result ready: ${formatMs(value.paStartToPaEnd)}`
+      },
+      {
+        label: '②',
+        value: formatMs(speechEndToPaReady),
+        title: `User speech end -> full PA result ready: ${formatMs(speechEndToPaReady)}`
+      },
+      {
+        label: '③',
+        value: formatMs(value.paEndToTtsFirstChunk),
+        title: `Full PA result ready -> first TTS chunk starts: ${formatMs(value.paEndToTtsFirstChunk)}`
+      },
+      {
+        label: '④',
+        value: formatMs(value.speechEndToTtsFirstChunk),
+        title: `User speech end -> first TTS chunk starts: ${formatMs(value.speechEndToTtsFirstChunk)}`
+      }
+    ];
+
+    items.forEach((item, index) => {
+      const metric = document.createElement('span');
+      metric.className = 'latency-metric';
+      metric.title = item.title;
+      metric.textContent = `${item.label} ${item.value}`;
+      latency.appendChild(metric);
+      if (index < items.length - 1) {
+        latency.appendChild(document.createTextNode(' '));
+      }
+    });
+
+    existingMessage.appendChild(latency);
+  }
+
+  /**
+   * Safely render pronunciation-assessment word spans into a container using
+   * DOM APIs (textContent + setAttribute). Avoids any innerHTML / HTML parsing,
+   * so untrusted text in PA results cannot inject markup or break out of the
+   * `title` attribute.
+   */
+  private appendPaWordNodes(container: HTMLElement, paWords: PaWord[]): void {
+    paWords.forEach((w, idx) => {
+      const score = w.score;
+      const errorType = w.errorType || 'None';
+
+      let cls = 'pa-word-good';
+      if (errorType === 'Omission') cls = 'pa-word-omission';
+      else if (errorType === 'Insertion') cls = 'pa-word-insertion';
+      else if (errorType === 'Mispronunciation' || score <= 59) cls = 'pa-word-bad';
+
+      const span = document.createElement('span');
+      span.className = `pa-word ${cls}`;
+      span.setAttribute('title', `Score: ${score}, Error: ${errorType}`);
+      // textContent is HTML-safe and also escapes attribute-breaking characters,
+      // since we only use it for text content (not attributes).
+      span.textContent = errorType === 'Omission' ? `[${w.word}]` : w.word;
+
+      if (idx > 0) {
+        container.appendChild(document.createTextNode(' '));
+      }
+      container.appendChild(span);
+    });
   }
 
   private addEvent(event: { type: string; data: any; timestamp: Date }): void {
@@ -425,7 +571,6 @@ class WebVoiceAssistantApp {
       localStorage.setItem('voiceLiveSettings', JSON.stringify({
         endpoint: config.endpoint,
         voice: config.voice,
-        instructions: config.instructions
         // Note: We don't save API key for security
       }));
     } catch (error) {
@@ -444,9 +589,6 @@ class WebVoiceAssistantApp {
         }
         if (settings.voice) {
           (document.getElementById('voice') as HTMLSelectElement).value = settings.voice;
-        }
-        if (settings.instructions) {
-          (document.getElementById('instructions') as HTMLTextAreaElement).value = settings.instructions;
         }
       }
     } catch (error) {

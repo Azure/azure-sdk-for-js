@@ -32,7 +32,8 @@ Opens at: **http://localhost:3000**
 2. Enter your **API key**
 3. Choose a **voice** (OpenAI or Azure)
 4. Customize **instructions** (optional)
-5. Click **"Connect"**
+5. (Optional) Enable **Pronunciation Assessment** — see [PA section](#-pronunciation-assessment-pa) below
+6. Click **"Connect"**
 
 ### 4. **Start Conversation**
 1. Click **"Start Conversation"**
@@ -218,6 +219,44 @@ session.events.on('error', (error) => {
 - **Better UX**: Fail fast rather than ghost connections
 - **Simpler logic**: No complex retry state management
 
+## 🗣️ **Pronunciation Assessment (PA)**
+
+The sample includes an optional **Pronunciation Assessment** feature powered by the Azure Speech SDK, which evaluates user pronunciation in real-time and provides feedback through the AI assistant.
+
+### **Enabling PA**
+
+PA is **disabled by default**. To enable it:
+1. Check the **"Enable Pronunciation Assessment (PA)"** checkbox in the Configuration panel
+2. The instructions textarea will automatically be populated with a predefined PA scenario prompt
+3. Select a PA scenario (see below)
+4. Connect and start the conversation
+
+When PA is disabled, the instructions textarea shows the default general-purpose assistant prompt. When PA is enabled, scenario-specific instructions are auto-filled.
+
+### **PA Scenarios**
+
+| Scenario | Description | Instructions |
+|----------|-------------|--------------|
+| **Conversation** (default) | Free-form conversation with pronunciation feedback integrated naturally | Detailed coaching prompt with examples |
+| **Concise** | Same as Conversation but with strict brevity rules (max 2 sentences, under 30 words) | Shortened coaching prompt |
+| **Read Along** | Bilingual (Chinese + English) guided read-along exercises with the `set_reference_text` tool | Read-along specific prompt with tool call rules |
+
+Switching scenarios automatically updates the instructions textarea with the corresponding predefined prompt.
+
+### **PA Modes**
+
+- **With Reference Text**: PA waits for the full user transcription before evaluating. Best for accuracy.
+- **Without Reference Text**: PA runs in streaming mode, evaluating as the user speaks. Lower latency but may be less accurate.
+
+In the **Read Along** scenario, the assistant calls the `set_reference_text` tool to set the expected sentence, and the "PA with reference text" checkbox is automatically disabled (the reference text comes from the tool call instead).
+
+### **PA Architecture**
+
+- PA only initializes when explicitly enabled via the checkbox
+- The `set_reference_text` function tool is only registered with the session when PA is enabled
+- The Speech SDK `SpeechConfig` is only created when PA is enabled
+- PA results are sent to the LLM as `additionalInstructions` on `response.create` so the assistant can provide pronunciation feedback
+
 ## 🎤 **Voice Configuration**
 
 The SDK supports multiple voice providers with proper object structures (not strings):
@@ -303,7 +342,8 @@ npm run preview
 - **Endpoint**: Voice Live service WebSocket URL
 - **API Key**: Your Voice Live API credentials  
 - **Voice Selection**: OpenAI voices (alloy, echo, fable, onyx, nova, shimmer) or Azure Neural voices
-- **Instructions**: Custom system prompt for the AI assistant
+- **Instructions**: Custom system prompt for the AI assistant (auto-populated when PA is enabled)
+- **Pronunciation Assessment**: Optional PA with scenario selection (Conversation / Concise / Read Along) and reference text mode
 
 ### **Control Panel**
 - **Connection Status**: Real-time connection state indicators
