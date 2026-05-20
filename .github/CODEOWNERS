@@ -910,7 +910,7 @@
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
