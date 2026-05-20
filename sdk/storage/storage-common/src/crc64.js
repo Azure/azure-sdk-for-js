@@ -1,6 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// ESM-COMPAT-START (this block is stripped from dist/commonjs by copyJSFiles.cjs)
+// In ESM under Node, `require`, `__filename`, and `__dirname` are not defined.
+// Synthesize them from `import.meta.url` so the Emscripten Node branch below works as-is.
+// Specifiers are held in variables to prevent web bundlers from statically resolving `node:*`.
+// The detection check below MUST stay byte-for-byte identical to the Emscripten-generated
+// `ENVIRONMENT_IS_NODE` check later in this file; otherwise the polyfill and the Node branch
+// can disagree and the ESM `ReferenceError: require is not defined` bug returns.
+const __isNode__ =
+  typeof process === "object" &&
+  typeof process.versions === "object" &&
+  typeof process.versions.node === "string";
+let require;
+let __filename;
+let __dirname;
+if (__isNode__) {
+  const _modSpecifier = "node:module";
+  const _urlSpecifier = "node:url";
+  const _pathSpecifier = "node:path";
+  const { createRequire } = await import(_modSpecifier);
+  const { fileURLToPath } = await import(_urlSpecifier);
+  const { dirname } = await import(_pathSpecifier);
+  require = createRequire(import.meta.url);
+  __filename = fileURLToPath(import.meta.url);
+  __dirname = dirname(__filename);
+}
+// ESM-COMPAT-END
+
 var NativeCRC64 = (() => {
   var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
   if (typeof __filename !== 'undefined') _scriptDir = _scriptDir || __filename;
@@ -2925,4 +2952,6 @@ Crc64Hash.prototype['OnFinal'] = Crc64Hash.prototype.OnFinal = /** @suppress {un
 // else if (typeof exports === 'object')
 //   exports["NativeCRC64"] = NativeCRC64;
 
-  export default NativeCRC64;
+// ESM-EXPORT-START (rewritten to `module.exports = NativeCRC64;` in dist/commonjs by copyJSFiles.cjs)
+export default NativeCRC64;
+// ESM-EXPORT-END
