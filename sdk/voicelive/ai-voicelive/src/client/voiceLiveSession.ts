@@ -36,12 +36,13 @@ import type {
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
 import type { AgentSessionConfig } from "./types.js";
 import { SessionTelemetryTracker } from "../telemetry/index.js";
+import { DEFAULT_API_VERSION } from "../constants.js";
 
 export interface VoiceLiveSessionOptions {
+  /** API version to use for the Voice Live service. Defaults to the latest known version when not specified. */
+  apiVersion?: string;
   /** Connection timeout in milliseconds */
   connectionTimeoutInMs?: number;
-  /** Enable debug logging for development */
-  enableDebugLogging?: boolean;
 }
 
 export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
@@ -103,14 +104,12 @@ export class VoiceLiveSession {
    *
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
-   * @param apiVersion - API version to use for the Voice Live service
    * @param model - The model name to use for the session
-   * @param options - Optional configuration for the session
+   * @param options - Optional configuration for the session, including `apiVersion`
    */
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    apiVersion: string,
     model: string,
     options?: VoiceLiveSessionOptions,
   );
@@ -120,14 +119,12 @@ export class VoiceLiveSession {
    *
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
-   * @param apiVersion - API version to use for the Voice Live service
    * @param agentConfig - The agent configuration for the session
-   * @param options - Optional configuration for the session
+   * @param options - Optional configuration for the session, including `apiVersion`
    */
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    apiVersion: string,
     agentConfig: AgentSessionConfig,
     options?: VoiceLiveSessionOptions,
   );
@@ -135,7 +132,6 @@ export class VoiceLiveSession {
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    apiVersion: string,
     modelOrAgent: string | AgentSessionConfig,
     options: VoiceLiveSessionOptions = {},
   ) {
@@ -143,7 +139,7 @@ export class VoiceLiveSession {
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
-    this._apiVersion = apiVersion;
+    this._apiVersion = this._options.apiVersion;
 
     // Determine if this is a model or agent session
     if (typeof modelOrAgent === "string") {
@@ -174,8 +170,7 @@ export class VoiceLiveSession {
       endpoint: this._endpoint,
       model: this._model,
       agentName: this._agentConfig?.agentName,
-      apiVersion: apiVersion,
-      enableDebugLogging: this._options.enableDebugLogging,
+      apiVersion: this._apiVersion,
     });
   }
 
@@ -457,8 +452,8 @@ export class VoiceLiveSession {
     options: VoiceLiveSessionOptions,
   ): Required<VoiceLiveSessionOptions> {
     return {
+      apiVersion: options.apiVersion || DEFAULT_API_VERSION,
       connectionTimeoutInMs: options.connectionTimeoutInMs || 30000,
-      enableDebugLogging: options.enableDebugLogging ?? false,
     };
   }
 
