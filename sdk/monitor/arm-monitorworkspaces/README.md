@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitorworkspaces)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-monitorworkspaces)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-monitorworkspaces)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-monitorworkspaces?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitorworkspaces/samples)
 
 ## Getting started
