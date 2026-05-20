@@ -82,7 +82,9 @@ export interface AvatarConfig {
     customized: boolean;
     iceServers?: IceServer[];
     model?: PhotoAvatarBaseModes;
+    outputAuditAudio?: boolean;
     outputProtocol?: AvatarOutputProtocol;
+    scene?: Scene;
     style?: string;
     type?: AvatarConfigTypes;
     video?: VideoParams;
@@ -782,7 +784,8 @@ export enum KnownServerEventType {
     SessionAvatarSwitchToIdle = "session.avatar.switch_to_idle",
     SessionAvatarSwitchToSpeaking = "session.avatar.switch_to_speaking",
     SessionCreated = "session.created",
-    SessionUpdated = "session.updated"
+    SessionUpdated = "session.updated",
+    Warning = "warning"
 }
 
 // @public
@@ -978,24 +981,6 @@ export interface RequestTextContentPart extends ContentPart {
     // (undocumented)
     type: "input_text";
 }
-
-// @public
-interface Response_2 {
-    conversationId?: string;
-    id?: string;
-    maxOutputTokens?: number | "inf";
-    metadata?: Record<string, string>;
-    modalities?: Modality[];
-    object?: "realtime.response";
-    output?: ResponseItemUnion[];
-    outputAudioFormat?: OutputAudioFormat;
-    status?: ResponseStatus;
-    statusDetails?: ResponseStatusDetailsUnion;
-    temperature?: number;
-    usage?: TokenUsage;
-    voice?: Voice;
-}
-export { Response_2 as Response }
 
 // @public
 export interface ResponseAudioContentPart extends ContentPart {
@@ -1197,6 +1182,17 @@ export interface ResponseWebSearchCallItem extends ResponseItem {
     id?: string;
     status: string;
     type: "web_search_call";
+}
+
+// @public
+export interface Scene {
+    amplitude?: number;
+    positionX?: number;
+    positionY?: number;
+    rotationX?: number;
+    rotationY?: number;
+    rotationZ?: number;
+    zoom?: number;
 }
 
 // @public
@@ -1502,14 +1498,14 @@ export interface ServerEventResponseContentPartDone extends ServerEvent {
 // @public
 export interface ServerEventResponseCreated extends ServerEvent {
     // (undocumented)
-    response: Response_2;
+    response: VoiceLiveResponse;
     type: "response.created";
 }
 
 // @public
 export interface ServerEventResponseDone extends ServerEvent {
     // (undocumented)
-    response: Response_2;
+    response: VoiceLiveResponse;
     type: "response.done";
 }
 
@@ -1715,7 +1711,20 @@ export interface ServerEventSessionUpdated extends ServerEvent {
 export type ServerEventType = string;
 
 // @public
-export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEventSessionAvatarSwitchToSpeaking | ServerEventSessionAvatarSwitchToIdle | ServerEventResponseVideoDelta | ServerEventResponseWebSearchCallSearching | ServerEventResponseWebSearchCallInProgress | ServerEventResponseWebSearchCallCompleted | ServerEventResponseFileSearchCallSearching | ServerEventResponseFileSearchCallInProgress | ServerEventResponseFileSearchCallCompleted | ServerEventOutputAudioBufferCleared | ServerEventResponseAudioTranscriptAnnotationAdded | ServerEvent;
+export type ServerEventUnion = ServerEventError | ServerEventWarning | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEventSessionAvatarSwitchToSpeaking | ServerEventSessionAvatarSwitchToIdle | ServerEventResponseVideoDelta | ServerEventResponseWebSearchCallSearching | ServerEventResponseWebSearchCallInProgress | ServerEventResponseWebSearchCallCompleted | ServerEventResponseFileSearchCallSearching | ServerEventResponseFileSearchCallInProgress | ServerEventResponseFileSearchCallCompleted | ServerEventOutputAudioBufferCleared | ServerEventResponseAudioTranscriptAnnotationAdded | ServerEvent;
+
+// @public
+export interface ServerEventWarning extends ServerEvent {
+    type: "warning";
+    warning: ServerEventWarningDetails;
+}
+
+// @public
+export interface ServerEventWarningDetails {
+    code?: string;
+    message: string;
+    param?: string;
+}
 
 // @public
 export interface ServerVad extends TurnDetection {
@@ -1861,6 +1870,23 @@ export interface VoiceLiveErrorDetails {
     message: string;
     param?: string;
     type?: string;
+}
+
+// @public
+export interface VoiceLiveResponse {
+    conversationId?: string;
+    id?: string;
+    maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
+    modalities?: Modality[];
+    object?: "realtime.response";
+    output?: ResponseItemUnion[];
+    outputAudioFormat?: OutputAudioFormat;
+    status?: ResponseStatus;
+    statusDetails?: ResponseStatusDetailsUnion;
+    temperature?: number;
+    usage?: TokenUsage;
+    voice?: Voice;
 }
 
 // (No @packageDocumentation comment for this package)

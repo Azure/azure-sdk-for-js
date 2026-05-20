@@ -15,7 +15,7 @@ General Availability release of `@azure/ai-voicelive`. This release upgrades the
 - Model Context Protocol (MCP) integration: server connection, approval workflow, tool listing, and streaming MCP call execution with the full event handler set.
 - Reasoning effort configuration (`ReasoningEffort`, `KnownReasoningEffort`).
 - Interim response configuration (`InterimResponseConfig`, `StaticInterimResponseConfig`, `LlmInterimResponseConfig`, triggers, and types).
-- Response `metadata` for arbitrary key-value pairs on `ResponseCreateParams` and `Response`.
+- Response `metadata` for arbitrary key-value pairs on `ResponseCreateParams` and `VoiceLiveResponse`.
 - Distributed tracing via `@azure/core-tracing`. Spans cover the session lifecycle (`connect`, `send`, `recv`, `close`) following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). See the [Telemetry / Distributed Tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#telemetry--distributed-tracing) section in the README and the [`samples/telemetry/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) and [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md) samples.
 - Automatic proxy support via standard `HTTPS_PROXY` / `HTTP_PROXY` / `NO_PROXY` environment variables.
 - New types added in this GA release (API version `2026-04-10`):
@@ -38,7 +38,7 @@ General Availability release of `@azure/ai-voicelive`. This release upgrades the
 - Model Context Protocol (MCP) integration: server connection, approval workflow, tool listing, and streaming MCP call execution with the full event handler set.
 - Reasoning effort configuration (`ReasoningEffort`, `KnownReasoningEffort`).
 - Interim response configuration (`InterimResponseConfig`, `StaticInterimResponseConfig`, `LlmInterimResponseConfig`, triggers, and types).
-- Response `metadata` for arbitrary key-value pairs on `ResponseCreateParams` and `Response`.
+- Response `metadata` for arbitrary key-value pairs on `ResponseCreateParams` and `VoiceLiveResponse`.
 - Distributed tracing via `@azure/core-tracing`. Spans cover the session lifecycle (`connect`, `send`, `recv`, `close`) following [GenAI Semantic Conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/). See the [Telemetry / Distributed Tracing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#telemetry--distributed-tracing) section in the README and the [`samples/telemetry/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry/README.md) and [`samples/telemetry-browser/`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/samples/telemetry-browser/README.md) samples.
 - Automatic proxy support via standard `HTTPS_PROXY` / `HTTP_PROXY` / `NO_PROXY` environment variables.
 - New types added in this GA release (API version `2026-04-10`):

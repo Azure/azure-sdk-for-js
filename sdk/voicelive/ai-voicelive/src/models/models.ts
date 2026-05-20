@@ -1611,8 +1611,12 @@ export interface AvatarConfig {
   customized: boolean;
   /** Optional video configuration including resolution, bitrate, and codec. */
   video?: VideoParams;
+  /** Configuration for the avatar's zoom level, position, rotation and movement amplitude in the video frame. */
+  scene?: Scene;
   /** Output protocol for avatar streaming. Default is 'webrtc'. */
   outputProtocol?: AvatarOutputProtocol;
+  /** When enabled, forwards audit audio via WebSocket for review/debugging purposes, even when avatar output is delivered via WebRTC. */
+  outputAuditAudio?: boolean;
 }
 
 export function avatarConfigSerializer(item: AvatarConfig): any {
@@ -1626,7 +1630,9 @@ export function avatarConfigSerializer(item: AvatarConfig): any {
     model: item["model"],
     customized: item["customized"],
     video: !item["video"] ? item["video"] : videoParamsSerializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : sceneSerializer(item["scene"]),
     output_protocol: item["outputProtocol"],
+    output_audit_audio: item["outputAuditAudio"],
   };
 }
 
@@ -1641,7 +1647,51 @@ export function avatarConfigDeserializer(item: any): AvatarConfig {
     model: item["model"],
     customized: item["customized"],
     video: !item["video"] ? item["video"] : videoParamsDeserializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : sceneDeserializer(item["scene"]),
     outputProtocol: item["output_protocol"],
+    outputAuditAudio: item["output_audit_audio"],
+  };
+}
+
+/** Configuration for avatar's zoom level, position, rotation and movement amplitude in the video frame. */
+export interface Scene {
+  /** Zoom level of the avatar. Range is (0, +∞). Values less than 1 zoom out, values greater than 1 zoom in. */
+  zoom?: number;
+  /** Horizontal position of the avatar. Range is [-1, 1], as a proportion of frame width. Negative values move left, positive values move right. */
+  positionX?: number;
+  /** Vertical position of the avatar. Range is [-1, 1], as a proportion of frame height. Negative values move up, positive values move down. */
+  positionY?: number;
+  /** Rotation around the X-axis (pitch). Range is [-π, π] in radians. Negative values rotate up, positive values rotate down. */
+  rotationX?: number;
+  /** Rotation around the Y-axis (yaw). Range is [-π, π] in radians. Negative values rotate left, positive values rotate right. */
+  rotationY?: number;
+  /** Rotation around the Z-axis (roll). Range is [-π, π] in radians. Negative values rotate anticlockwise, positive values rotate clockwise. */
+  rotationZ?: number;
+  /** Amplitude of the avatar movement. Range is (0, 1]. Values in (0, 1) mean reduced amplitude, 1 means full amplitude. */
+  amplitude?: number;
+}
+
+export function sceneSerializer(item: Scene): any {
+  return {
+    zoom: item["zoom"],
+    position_x: item["positionX"],
+    position_y: item["positionY"],
+    rotation_x: item["rotationX"],
+    rotation_y: item["rotationY"],
+    rotation_z: item["rotationZ"],
+    amplitude: item["amplitude"],
+  };
+}
+
+export function sceneDeserializer(item: any): Scene {
+  return {
+    zoom: item["zoom"],
+    positionX: item["position_x"],
+    positionY: item["position_y"],
+    rotationX: item["rotation_x"],
+    rotationY: item["rotation_y"],
+    rotationZ: item["rotation_z"],
+    amplitude: item["amplitude"],
   };
 }
 
@@ -3488,7 +3538,7 @@ export function conversationItemBaseSerializer(_item: ConversationItemBase): any
 }
 
 /** The response resource. */
-export interface Response {
+export interface VoiceLiveResponse {
   /** The unique ID of the response. */
   id?: string;
   /** The object type, must be `realtime.response`. */
@@ -3545,7 +3595,7 @@ export interface Response {
   metadata?: Record<string, string>;
 }
 
-export function responseDeserializer(item: any): Response {
+export function voiceLiveResponseDeserializer(item: any): VoiceLiveResponse {
   return {
     id: item["id"],
     object: item["object"],
@@ -4321,6 +4371,7 @@ export function serverEventDeserializer(item: any): ServerEvent {
 /** Alias for ServerEventUnion */
 export type ServerEventUnion =
   | ServerEventError
+  | ServerEventWarning
   | ServerEventSessionCreated
   | ServerEventSessionUpdated
   | ServerEventSessionAvatarConnecting
@@ -4380,6 +4431,9 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
   switch (item["type"]) {
     case "error":
       return serverEventErrorDeserializer(item as ServerEventError);
+
+    case "warning":
+      return serverEventWarningDeserializer(item as ServerEventWarning);
 
     case "session.created":
       return serverEventSessionCreatedDeserializer(item as ServerEventSessionCreated);
@@ -4631,6 +4685,8 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
 export enum KnownServerEventType {
   /** error */
   Error = "error",
+  /** warning */
+  Warning = "warning",
   /** session.avatar.connecting */
   SessionAvatarConnecting = "session.avatar.connecting",
   /** session.created */
@@ -4842,6 +4898,43 @@ export function serverEventErrorDetailsDeserializer(item: any): ServerEventError
     message: item["message"],
     param: item["param"],
     eventId: item["event_id"],
+  };
+}
+
+/**
+ * Returned when a warning occurs that does not interrupt the conversation flow.
+ * Warnings are informational and the session will continue normally.
+ */
+export interface ServerEventWarning extends ServerEvent {
+  /** The event type, must be `warning`. */
+  type: "warning";
+  /** Details of the warning. */
+  warning: ServerEventWarningDetails;
+}
+
+export function serverEventWarningDeserializer(item: any): ServerEventWarning {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    warning: serverEventWarningDetailsDeserializer(item["warning"]),
+  };
+}
+
+/** Details of the warning. */
+export interface ServerEventWarningDetails {
+  /** A human-readable warning message. */
+  message: string;
+  /** Warning code, if any. */
+  code?: string;
+  /** Parameter related to the warning, if any. */
+  param?: string;
+}
+
+export function serverEventWarningDetailsDeserializer(item: any): ServerEventWarningDetails {
+  return {
+    message: item["message"],
+    code: item["code"],
+    param: item["param"],
   };
 }
 
@@ -5455,14 +5548,14 @@ export function serverEventConversationItemDeletedDeserializer(
 export interface ServerEventResponseCreated extends ServerEvent {
   /** The event type, must be `response.created`. */
   type: "response.created";
-  response: Response;
+  response: VoiceLiveResponse;
 }
 
 export function serverEventResponseCreatedDeserializer(item: any): ServerEventResponseCreated {
   return {
     type: item["type"],
     eventId: item["event_id"],
-    response: responseDeserializer(item["response"]),
+    response: voiceLiveResponseDeserializer(item["response"]),
   };
 }
 
@@ -5474,14 +5567,14 @@ export function serverEventResponseCreatedDeserializer(item: any): ServerEventRe
 export interface ServerEventResponseDone extends ServerEvent {
   /** The event type, must be `response.done`. */
   type: "response.done";
-  response: Response;
+  response: VoiceLiveResponse;
 }
 
 export function serverEventResponseDoneDeserializer(item: any): ServerEventResponseDone {
   return {
     type: item["type"],
     eventId: item["event_id"],
-    response: responseDeserializer(item["response"]),
+    response: voiceLiveResponseDeserializer(item["response"]),
   };
 }
 
