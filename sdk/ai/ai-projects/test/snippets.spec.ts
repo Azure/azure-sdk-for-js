@@ -27,7 +27,6 @@ import {
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 
-
 describe("snippets", function () {
   let project: AIProjectClient;
   let deploymentName: string = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
