@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/objectReplicationPolicies/operations.js";
-import {
+import type {
   ObjectReplicationPoliciesListOptionalParams,
   ObjectReplicationPoliciesDeleteOptionalParams,
   ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ObjectReplicationPoliciesGetOptionalParams,
 } from "../../api/objectReplicationPolicies/options.js";
-import { ObjectReplicationPolicy } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ObjectReplicationPolicy } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ObjectReplicationPolicies operations. */
 export interface ObjectReplicationPoliciesOperations {

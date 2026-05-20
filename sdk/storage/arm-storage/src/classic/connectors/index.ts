@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   testExistingConnection,
   listByStorageAccount,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/connectors/operations.js";
-import {
+import type {
   ConnectorsTestExistingConnectionOptionalParams,
   ConnectorsListByStorageAccountOptionalParams,
   ConnectorsDeleteOptionalParams,
@@ -18,15 +18,16 @@ import {
   ConnectorsCreateOptionalParams,
   ConnectorsGetOptionalParams,
 } from "../../api/connectors/options.js";
-import {
+import type {
   Connector,
   ConnectorUpdate,
   TestExistingConnectionRequest,
   TestConnectionResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Connectors operations. */
 export interface ConnectorsOperations {

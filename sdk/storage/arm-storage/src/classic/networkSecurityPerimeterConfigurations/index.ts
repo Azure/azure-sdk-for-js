@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   reconcile,
   list,
   get,
 } from "../../api/networkSecurityPerimeterConfigurations/operations.js";
-import {
+import type {
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   NetworkSecurityPerimeterConfigurationsListOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
 } from "../../api/networkSecurityPerimeterConfigurations/options.js";
-import { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurations operations. */
 export interface NetworkSecurityPerimeterConfigurationsOperations {

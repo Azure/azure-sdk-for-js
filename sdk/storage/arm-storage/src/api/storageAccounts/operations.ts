@@ -1,49 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { StorageManagementContext as Client } from "../index.js";
+import type {
   StorageAccountCheckNameAvailabilityParameters,
-  storageAccountCheckNameAvailabilityParametersSerializer,
   CheckNameAvailabilityResult,
-  checkNameAvailabilityResultDeserializer,
   StorageAccount,
-  storageAccountDeserializer,
   BlobRestoreStatus,
-  blobRestoreStatusDeserializer,
   BlobRestoreParameters,
-  blobRestoreParametersSerializer,
   StorageAccountCreateParameters,
-  storageAccountCreateParametersSerializer,
   StorageAccountUpdateParameters,
-  storageAccountUpdateParametersSerializer,
   _StorageAccountListResult,
-  _storageAccountListResultDeserializer,
   StorageAccountListKeysResult,
-  storageAccountListKeysResultDeserializer,
   StorageAccountRegenerateKeyParameters,
-  storageAccountRegenerateKeyParametersSerializer,
   AccountSasParameters,
-  accountSasParametersSerializer,
   ListAccountSasResponse,
-  listAccountSasResponseDeserializer,
   ServiceSasParameters,
-  serviceSasParametersSerializer,
   ListServiceSasResponse,
-  listServiceSasResponseDeserializer,
   StorageAccountMigration,
-  storageAccountMigrationSerializer,
-  storageAccountMigrationDeserializer,
   MigrationName,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  storageAccountCheckNameAvailabilityParametersSerializer,
+  checkNameAvailabilityResultDeserializer,
+  storageAccountDeserializer,
+  blobRestoreStatusDeserializer,
+  blobRestoreParametersSerializer,
+  storageAccountCreateParametersSerializer,
+  storageAccountUpdateParametersSerializer,
+  _storageAccountListResultDeserializer,
+  storageAccountListKeysResultDeserializer,
+  storageAccountRegenerateKeyParametersSerializer,
+  accountSasParametersSerializer,
+  listAccountSasResponseDeserializer,
+  serviceSasParametersSerializer,
+  listServiceSasResponseDeserializer,
+  storageAccountMigrationSerializer,
+  storageAccountMigrationDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StorageAccountsGetCustomerInitiatedMigrationOptionalParams,
   StorageAccountsRevokeUserDelegationKeysOptionalParams,
   StorageAccountsRestoreBlobRangesOptionalParams,
@@ -63,13 +63,9 @@ import {
   StorageAccountsGetPropertiesOptionalParams,
   StorageAccountsCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getCustomerInitiatedMigrationSend(
   context: Client,

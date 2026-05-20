@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   list,
   setServiceProperties,
   getServiceProperties,
 } from "../../api/tableServices/operations.js";
-import {
+import type {
   TableServicesListOptionalParams,
   TableServicesSetServicePropertiesOptionalParams,
   TableServicesGetServicePropertiesOptionalParams,
 } from "../../api/tableServices/options.js";
-import { TableServiceProperties, ListTableServices } from "../../models/models.js";
+import type { TableServiceProperties, ListTableServices } from "../../models/models.js";
 
 /** Interface representing a TableServices operations. */
 export interface TableServicesOperations {

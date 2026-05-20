@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/table/operations.js";
-import {
+import type {
   TableListOptionalParams,
   TableDeleteOptionalParams,
   TableUpdateOptionalParams,
   TableCreateOptionalParams,
   TableGetOptionalParams,
 } from "../../api/table/options.js";
-import { Table } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Table } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Table operations. */
 export interface TableOperations {

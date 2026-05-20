@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
+import type { StorageManagementContext as Client } from "../index.js";
+import type { DeletedAccount, _DeletedAccountListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  DeletedAccount,
   deletedAccountDeserializer,
-  _DeletedAccountListResult,
   _deletedAccountListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { DeletedAccountsListOptionalParams, DeletedAccountsGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  DeletedAccountsListOptionalParams,
+  DeletedAccountsGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -72,8 +68,8 @@ export function list(
 
 export function _getSend(
   context: Client,
-  location: string,
   deletedAccountName: string,
+  location: string,
   options: DeletedAccountsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -109,10 +105,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 /** Get properties of specified deleted account resource. */
 export async function get(
   context: Client,
-  location: string,
   deletedAccountName: string,
+  location: string,
   options: DeletedAccountsGetOptionalParams = { requestOptions: {} },
 ): Promise<DeletedAccount> {
-  const result = await _getSend(context, location, deletedAccountName, options);
+  const result = await _getSend(context, deletedAccountName, location, options);
   return _getDeserialize(result);
 }

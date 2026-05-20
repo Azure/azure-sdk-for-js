@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
+import type { StorageManagementContext as Client } from "../index.js";
+import type { QueueServiceProperties, ListQueueServices } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  QueueServiceProperties,
   queueServicePropertiesSerializer,
   queueServicePropertiesDeserializer,
-  ListQueueServices,
   listQueueServicesDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   QueueServicesListOptionalParams,
   QueueServicesSetServicePropertiesOptionalParams,
   QueueServicesGetServicePropertiesOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,

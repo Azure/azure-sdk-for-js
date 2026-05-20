@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { list } from "../../api/storageTaskAssignmentsInstancesReport/operations.js";
-import { StorageTaskAssignmentsInstancesReportListOptionalParams } from "../../api/storageTaskAssignmentsInstancesReport/options.js";
-import { StorageTaskReportInstance } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { StorageTaskAssignmentsInstancesReportListOptionalParams } from "../../api/storageTaskAssignmentsInstancesReport/options.js";
+import type { StorageTaskReportInstance } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StorageTaskAssignmentsInstancesReport operations. */
 export interface StorageTaskAssignmentsInstancesReportOperations {

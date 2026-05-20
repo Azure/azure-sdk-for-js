@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer_1,
+import type { StorageManagementContext as Client } from "../index.js";
+import type {
   Connector,
-  connectorSerializer,
-  connectorDeserializer,
   ConnectorUpdate,
-  connectorUpdateSerializer,
   _ConnectorListResult,
-  _connectorListResultDeserializer,
   TestExistingConnectionRequest,
-  testExistingConnectionRequestSerializer,
   TestConnectionResponse,
-  testConnectionResponseDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer_1,
+  connectorSerializer,
+  connectorDeserializer,
+  connectorUpdateSerializer,
+  _connectorListResultDeserializer,
+  testExistingConnectionRequestSerializer,
+  testConnectionResponseDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ConnectorsTestExistingConnectionOptionalParams,
   ConnectorsListByStorageAccountOptionalParams,
   ConnectorsDeleteOptionalParams,
@@ -30,13 +30,9 @@ import {
   ConnectorsCreateOptionalParams,
   ConnectorsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _testExistingConnectionSend(
   context: Client,

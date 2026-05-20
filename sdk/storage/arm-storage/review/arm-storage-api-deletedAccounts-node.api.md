@@ -4,8 +4,8 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
 export interface DeletedAccountsGetOptionalParams extends OperationOptions {
@@ -16,7 +16,7 @@ export interface DeletedAccountsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: StorageManagementContext, location: string, deletedAccountName: string, options?: DeletedAccountsGetOptionalParams): Promise<DeletedAccount>;
+export function get(context: StorageManagementContext, deletedAccountName: string, location: string, options?: DeletedAccountsGetOptionalParams): Promise<DeletedAccount>;
 
 // @public
 export function list(context: StorageManagementContext, options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<DeletedAccount>;

@@ -1,33 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
+import type { StorageManagementContext as Client } from "../index.js";
+import type { Table, _ListTableResource } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  Table,
   tableSerializer,
   tableDeserializer,
-  _ListTableResource,
   _listTableResourceDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   TableListOptionalParams,
   TableDeleteOptionalParams,
   TableUpdateOptionalParams,
   TableCreateOptionalParams,
   TableGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,

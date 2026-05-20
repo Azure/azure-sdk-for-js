@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { $delete, update, create, get, list } from "../../api/queue/operations.js";
-import {
+import type {
   QueueDeleteOptionalParams,
   QueueUpdateOptionalParams,
   QueueCreateOptionalParams,
   QueueGetOptionalParams,
   QueueListOptionalParams,
 } from "../../api/queue/options.js";
-import { ListQueue, StorageQueue } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ListQueue, StorageQueue } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Queue operations. */
 export interface QueueOperations {

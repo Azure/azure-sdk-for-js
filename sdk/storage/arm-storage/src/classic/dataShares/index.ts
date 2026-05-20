@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext } from "../../api/storageManagementContext.js";
+import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   listByStorageAccount,
   $delete,
@@ -9,17 +9,18 @@ import {
   create,
   get,
 } from "../../api/dataShares/operations.js";
-import {
+import type {
   DataSharesListByStorageAccountOptionalParams,
   DataSharesDeleteOptionalParams,
   DataSharesUpdateOptionalParams,
   DataSharesCreateOptionalParams,
   DataSharesGetOptionalParams,
 } from "../../api/dataShares/options.js";
-import { DataShare, DataShareUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DataShare, DataShareUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DataShares operations. */
 export interface DataSharesOperations {

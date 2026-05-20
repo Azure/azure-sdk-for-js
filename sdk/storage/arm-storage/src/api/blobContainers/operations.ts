@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
+import type { StorageManagementContext as Client } from "../index.js";
+import type {
+  BlobContainer,
+  LegalHold,
+  LeaseContainerResponse,
+  _ListContainerItems,
+  ListContainerItem,
+  ImmutabilityPolicy,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  BlobContainer,
   blobContainerSerializer,
   blobContainerDeserializer,
-  LegalHold,
   legalHoldSerializer,
   legalHoldDeserializer,
   leaseContainerRequestSerializer,
-  LeaseContainerResponse,
   leaseContainerResponseDeserializer,
   cloudErrorDeserializer,
-  _ListContainerItems,
   _listContainerItemsDeserializer,
-  ListContainerItem,
-  ImmutabilityPolicy,
   immutabilityPolicySerializer,
   immutabilityPolicyDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   BlobContainersExtendImmutabilityPolicyOptionalParams,
   BlobContainersLockImmutabilityPolicyOptionalParams,
   BlobContainersDeleteImmutabilityPolicyOptionalParams,
@@ -43,13 +43,9 @@ import {
   BlobContainersCreateOptionalParams,
   BlobContainersGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _extendImmutabilityPolicySend(
   context: Client,

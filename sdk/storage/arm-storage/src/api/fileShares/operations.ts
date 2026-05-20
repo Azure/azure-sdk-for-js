@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementContext as Client } from "../index.js";
-import {
-  cloudErrorDeserializer,
+import type { StorageManagementContext as Client } from "../index.js";
+import type {
   FileShare,
-  fileShareSerializer,
-  fileShareDeserializer,
   DeletedShare,
-  deletedShareSerializer,
-  leaseShareRequestSerializer,
   LeaseShareResponse,
-  leaseShareResponseDeserializer,
   _FileShareItems,
-  _fileShareItemsDeserializer,
   FileShareItem,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  cloudErrorDeserializer,
+  fileShareSerializer,
+  fileShareDeserializer,
+  deletedShareSerializer,
+  leaseShareRequestSerializer,
+  leaseShareResponseDeserializer,
+  _fileShareItemsDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FileSharesListOptionalParams,
   FileSharesLeaseOptionalParams,
   FileSharesRestoreOptionalParams,
@@ -30,12 +30,8 @@ import {
   FileSharesCreateOptionalParams,
   FileSharesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PollerLike, OperationState, CancelOnProgress } from "@azure/core-lro";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, CancelOnProgress } from "@azure/core-lro";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * A simple poller that can be used to poll a long running operation.
