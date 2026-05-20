@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `ServiceBusClient.listMessageSessions()` to list session IDs for session-enabled queues and subscriptions, including optional filtering by session-state update timestamp. Implements the `com.microsoft:get-message-sessions` management operation. ([#38323](https://github.com/Azure/azure-sdk-for-js/pull/38323))
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -14,10 +16,6 @@
 ### Other Changes
 
 ## 7.10.0-beta.4 (2026-03-10)
-
-### Features Added
-
-- Added `ServiceBusClient.listMessageSessions()` to list session IDs for session-enabled queues and subscriptions, including optional filtering by session-state update timestamp. Implements the `com.microsoft:get-message-sessions` management operation. ([#38323](https://github.com/Azure/azure-sdk-for-js/pull/38323))
 
 ### Bugs Fixed
 
