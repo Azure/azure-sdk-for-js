@@ -112,7 +112,6 @@ export type {
   SessionBase,
   ConversationItemBase,
   VoiceLiveResponse,
-  KnownResponseStatus,
   ResponseStatus,
   ResponseStatusDetails,
   ResponseStatusDetailsUnion,
