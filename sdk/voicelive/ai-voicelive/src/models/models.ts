@@ -5410,9 +5410,9 @@ export function transcriptionPhraseArrayDeserializer(result: Array<Transcription
 /** A transcribed phrase with timing information. */
 export interface TranscriptionPhrase {
   /** Offset from the start of the audio in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** Duration of the phrase in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
   /** The transcribed text of the phrase. */
   text: string;
   /** The individual words in the phrase with timing information. */
@@ -5425,8 +5425,8 @@ export interface TranscriptionPhrase {
 
 export function transcriptionPhraseDeserializer(item: any): TranscriptionPhrase {
   return {
-    offsetMilliseconds: item["offset_milliseconds"],
-    durationMilliseconds: item["duration_milliseconds"],
+    offsetInMs: item["offset_milliseconds"],
+    durationInMs: item["duration_milliseconds"],
     text: item["text"],
     words: !item["words"] ? item["words"] : transcriptionWordArrayDeserializer(item["words"]),
     locale: item["locale"],
@@ -5445,16 +5445,16 @@ export interface TranscriptionWord {
   /** The transcribed word text. */
   text: string;
   /** Offset from the start of the audio in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** Duration of the word in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
 }
 
 export function transcriptionWordDeserializer(item: any): TranscriptionWord {
   return {
     text: item["text"],
-    offsetMilliseconds: item["offset_milliseconds"],
-    durationMilliseconds: item["duration_milliseconds"],
+    offsetInMs: item["offset_milliseconds"],
+    durationInMs: item["duration_milliseconds"],
   };
 }
 

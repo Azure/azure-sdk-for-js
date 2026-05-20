@@ -1922,17 +1922,17 @@ export type ToolUnion = FunctionTool | MCPServer | Tool;
 // @public
 export interface TranscriptionPhrase {
     confidence?: number;
-    durationMilliseconds: number;
+    durationInMs: number;
     locale?: string;
-    offsetMilliseconds: number;
+    offsetInMs: number;
     text: string;
     words?: TranscriptionWord[];
 }
 
 // @public
 export interface TranscriptionWord {
-    durationMilliseconds: number;
-    offsetMilliseconds: number;
+    durationInMs: number;
+    offsetInMs: number;
     text: string;
 }
 
