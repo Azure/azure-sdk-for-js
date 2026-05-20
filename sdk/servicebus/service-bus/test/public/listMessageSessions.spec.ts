@@ -41,14 +41,12 @@ describe("listMessageSessions", () => {
     }
 
     // List sessions
-    let result: string[];
-    if (entityNames.queue) {
-      result = await serviceBusClient.listMessageSessions(entityNames.queue);
-    } else {
-      result = await serviceBusClient.listMessageSessions(
-        entityNames.topic!,
-        entityNames.subscription!,
-      );
+    const result: string[] = [];
+    const iter = entityNames.queue
+      ? serviceBusClient.listMessageSessions(entityNames.queue)
+      : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!);
+    for await (const id of iter) {
+      result.push(id);
     }
 
     // All 3 sessions should be returned
@@ -60,14 +58,12 @@ describe("listMessageSessions", () => {
 
   it("returns empty array when no active sessions", async () => {
     // Don't send any messages; entity should have no active sessions
-    let result: string[];
-    if (entityNames.queue) {
-      result = await serviceBusClient.listMessageSessions(entityNames.queue);
-    } else {
-      result = await serviceBusClient.listMessageSessions(
-        entityNames.topic!,
-        entityNames.subscription!,
-      );
+    const result: string[] = [];
+    const iter = entityNames.queue
+      ? serviceBusClient.listMessageSessions(entityNames.queue)
+      : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!);
+    for await (const id of iter) {
+      result.push(id);
     }
 
     expect(result).to.deep.equal([]);
@@ -112,19 +108,41 @@ describe("listMessageSessions", () => {
 
     // List with updatedAfter = beforeStateUpdate should include the session
     // because its state was updated after that cutoff.
-    let result: string[];
-    if (entityNames.queue) {
-      result = await serviceBusClient.listMessageSessions(entityNames.queue, {
-        updatedAfter: beforeStateUpdate,
-      });
-    } else {
-      result = await serviceBusClient.listMessageSessions(
-        entityNames.topic!,
-        entityNames.subscription!,
-        { updatedAfter: beforeStateUpdate },
-      );
+    const result: string[] = [];
+    const iter = entityNames.queue
+      ? serviceBusClient.listMessageSessions(entityNames.queue, { updatedAfter: beforeStateUpdate })
+      : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!, {
+          updatedAfter: beforeStateUpdate,
+        });
+    for await (const id of iter) {
+      result.push(id);
     }
 
     expect(result).to.include(sessionId);
+  });
+
+  it("byPage returns pages of session IDs", async () => {
+    // Send messages to distinct sessions
+    const sessionIds = ["page-session-1", "page-session-2"];
+    for (const sessionId of sessionIds) {
+      await sender.sendMessages({
+        body: `paging test for ${sessionId}`,
+        sessionId,
+      });
+    }
+
+    const iter = entityNames.queue
+      ? serviceBusClient.listMessageSessions(entityNames.queue)
+      : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!);
+
+    const allIds: string[] = [];
+    for await (const page of iter.byPage()) {
+      expect(page).to.be.an("array");
+      allIds.push(...page);
+    }
+
+    for (const id of sessionIds) {
+      expect(allIds).to.include(id);
+    }
   });
 });

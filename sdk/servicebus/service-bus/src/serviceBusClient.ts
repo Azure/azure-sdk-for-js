@@ -3,6 +3,8 @@
 
 import type { ConnectionConfig } from "@azure/core-amqp";
 import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
   createConnectionContextForConnectionString,
@@ -29,6 +31,13 @@ import { MessageSession } from "./session/messageSession.js";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards.js";
 import { ensureValidIdentifier } from "./util/utils.js";
+
+/**
+ * DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) in milliseconds from epoch.
+ * The service interprets this sentinel as "return sessions with active messages"
+ * rather than "return sessions updated after this time."
+ */
+const ACTIVE_SESSIONS_SENTINEL_MS = 253402300799999;
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -481,9 +490,12 @@ export class ServiceBusClient {
    *
    * @param queueName - Name of the session-enabled queue.
    * @param options - Options for listing sessions.
-   * @returns An array of session IDs.
+   * @returns A paged async iterator of session ID strings.
    */
-  listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): Promise<string[]>;
+  listMessageSessions(
+    queueName: string,
+    options?: ListMessageSessionsOptions,
+  ): PagedAsyncIterableIterator<string, string[]>;
   /**
    * Lists the IDs of sessions in a session-enabled subscription.
    *
@@ -494,18 +506,18 @@ export class ServiceBusClient {
    * @param topicName - Name of the topic.
    * @param subscriptionName - Name of the subscription.
    * @param options - Options for listing sessions.
-   * @returns An array of session IDs.
+   * @returns A paged async iterator of session ID strings.
    */
   listMessageSessions(
     topicName: string,
     subscriptionName: string,
     options?: ListMessageSessionsOptions,
-  ): Promise<string[]>;
-  async listMessageSessions(
+  ): PagedAsyncIterableIterator<string, string[]>;
+  listMessageSessions(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ListMessageSessionsOptions | string,
     options3?: ListMessageSessionsOptions,
-  ): Promise<string[]> {
+  ): PagedAsyncIterableIterator<string, string[]> {
     let entityPath: string;
     let options: ListMessageSessionsOptions | undefined;
     if (typeof optionsOrSubscriptionName2 === "string") {
@@ -520,38 +532,44 @@ export class ServiceBusClient {
 
     const managementClient = this._connectionContext.getManagementClient(entityPath);
     const pageSize = 100;
-    const allSessionIds: string[] = [];
-    let skip = 0;
 
     // The service checks for DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) to switch
     // between "active messages" mode and "updated since" mode. On the AMQP wire, timestamps
-    // have millisecond precision, so DateTime.MaxValue becomes 253402300799999 ms from epoch.
-    const lastUpdatedTime = options?.updatedAfter ?? new Date(253402300799999);
+    // have millisecond precision, so DateTime.MaxValue becomes this value in ms from epoch.
+    const lastUpdatedTime = options?.updatedAfter ?? new Date(ACTIVE_SESSIONS_SENTINEL_MS);
 
-    for (;;) {
-      let page: string[];
-      try {
-        page = await managementClient.listMessageSessions(skip, pageSize, lastUpdatedTime, options);
-      } catch (err: any) {
-        // Treat only the 404 + SessionCannotBeLocked response from the
-        // get-message-sessions management operation as "no sessions exist".
-        // Don't catch other 404s (e.g., MessagingEntityNotFound for a missing entity).
-        if (err.statusCode === 404 && err.code === "SessionCannotBeLocked") {
-          break;
+    const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
+      firstPageLink: 0,
+      getPage: async (pageLink, maxPageSize) => {
+        const top = maxPageSize ?? pageSize;
+        let page: string[];
+        try {
+          page = await managementClient.listMessageSessions(
+            pageLink,
+            top,
+            lastUpdatedTime,
+            options,
+          );
+        } catch (err: any) {
+          // Treat only the 404 + MessageNotFound response from the
+          // get-message-sessions management operation as "no sessions exist".
+          // Aligns with .NET (com.microsoft:message-not-found) and Python.
+          if (err.statusCode === 404 && err.code === "MessageNotFound") {
+            return undefined;
+          }
+          throw err;
         }
-        throw err;
-      }
-      if (!page || page.length === 0) {
-        break;
-      }
-      allSessionIds.push(...page);
-      if (page.length < pageSize) {
-        break;
-      }
-      skip += page.length;
-    }
+        if (!page || page.length === 0) {
+          return undefined;
+        }
+        return {
+          page,
+          nextPageLink: page.length >= top ? pageLink + page.length : undefined,
+        };
+      },
+    };
 
-    return allSessionIds;
+    return getPagedAsyncIterator(pagedResult);
   }
 
   /**
