@@ -34,7 +34,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
+  public getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions,
+  ): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

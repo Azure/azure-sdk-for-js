@@ -1,35 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FleetResource} from "@azure/arm-cosmosdb";
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Creates an Azure Cosmos DB fleet under a subscription.
+ * This sample demonstrates how to creates an Azure Cosmos DB fleet under a subscription.
  *
- * @summary Creates an Azure Cosmos DB fleet under a subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetCreate.json
+ * @summary creates an Azure Cosmos DB fleet under a subscription.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetCreate.json
  */
-async function cosmosDbFleetCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
-  const body: FleetResource = {
-    location: "West US",
-    tags: { dept: "Finance", environment: "Production" },
-  };
+async function cosmosDBFleetCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.fleet.create(resourceGroupName, fleetName, body);
+  const result = await client.fleet.create("rg1", "fleet1", {
+    location: "West US",
+    tags: { Dept: "Finance", Environment: "Production" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbFleetCreate();
+  await cosmosDBFleetCreate();
 }
 
 main().catch(console.error);

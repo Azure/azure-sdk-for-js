@@ -10,8 +10,11 @@ import { AzureLogger } from '@azure/logger';
 import type { Debugger } from '@azure/logger';
 import type { GetTokenOptions } from '@azure/core-auth';
 import { HttpMethods } from '@azure/core-util';
+import { NodeBuffer } from '@typespec/ts-http-runtime';
+import { NodeReadableStream } from '@typespec/ts-http-runtime';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { TokenCredential } from '@azure/core-auth';
+import { WebReadableStream } from '@typespec/ts-http-runtime';
 
 // @public
 export interface AddPipelineOptions {
@@ -82,7 +85,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 // @public
 export interface BodyPart {
-    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: ((() => WebReadableStream<Uint8Array>) | (() => NodeReadableStream)) | WebReadableStream<Uint8Array> | NodeReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
@@ -102,7 +105,7 @@ export function createEmptyPipeline(): Pipeline;
 export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
 
 // @public
-export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+export function createFileFromStream(stream: () => WebReadableStream<Uint8Array> | NodeReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
 
 // @public
 export interface CreateFileFromStreamOptions extends CreateFileOptions {
@@ -197,7 +200,7 @@ export function isRestError(e: unknown): e is RestError;
 // @public
 export interface KeyObject {
     passphrase?: string | undefined;
-    pem: string | Buffer;
+    pem: string | NodeBuffer;
 }
 
 // @public
@@ -230,6 +233,10 @@ export function ndJsonPolicy(): PipelinePolicy;
 
 // @public
 export const ndJsonPolicyName = "ndJsonPolicy";
+
+export { NodeBuffer }
+
+export { NodeReadableStream }
 
 // @public
 export interface Pipeline {
@@ -317,9 +324,9 @@ export interface PipelineRequestOptions {
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
-    browserStreamBody?: ReadableStream<Uint8Array>;
+    browserStreamBody?: WebReadableStream<Uint8Array>;
     headers: HttpHeaders;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeReadableStream;
     request: PipelineRequest;
     status: number;
 }
@@ -349,7 +356,7 @@ export interface ProxySettings {
 
 // @public
 export interface PxfObject {
-    buf: string | Buffer;
+    buf: string | NodeBuffer;
     passphrase?: string | undefined;
 }
 
@@ -374,7 +381,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeReadableStream | (() => NodeReadableStream) | WebReadableStream<Uint8Array> | (() => WebReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export interface RestError extends Error {
@@ -481,11 +488,11 @@ export const tlsPolicyName = "tlsPolicy";
 
 // @public
 export interface TlsSettings {
-    ca?: string | Buffer | Array<string | Buffer> | undefined;
-    cert?: string | Buffer | Array<string | Buffer> | undefined;
-    key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+    ca?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
+    cert?: string | NodeBuffer | Array<string | NodeBuffer> | undefined;
+    key?: string | NodeBuffer | Array<NodeBuffer | KeyObject> | undefined;
     passphrase?: string | undefined;
-    pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+    pfx?: string | NodeBuffer | Array<string | NodeBuffer | PxfObject> | undefined;
 }
 
 // @public
@@ -515,6 +522,8 @@ export const userAgentPolicyName = "userAgentPolicy";
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
+
+export { WebReadableStream }
 
 // (No @packageDocumentation comment for this package)
 

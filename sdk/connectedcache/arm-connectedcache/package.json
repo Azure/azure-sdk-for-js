@@ -26,7 +26,11 @@
     "CHANGELOG.md"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/connectedcache/arm-connectedcache"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -70,7 +74,7 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -80,9 +84,9 @@
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
@@ -100,10 +104,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -117,10 +117,6 @@
       "browser": {
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
       },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
@@ -136,10 +132,6 @@
         "types": "./dist/browser/api/enterpriseMccCacheNodesOperations/index.d.ts",
         "default": "./dist/browser/api/enterpriseMccCacheNodesOperations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/enterpriseMccCacheNodesOperations/index.d.ts",
-        "default": "./dist/react-native/api/enterpriseMccCacheNodesOperations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/enterpriseMccCacheNodesOperations/index.d.ts",
         "default": "./dist/esm/api/enterpriseMccCacheNodesOperations/index.js"
@@ -153,10 +145,6 @@
       "browser": {
         "types": "./dist/browser/api/enterpriseMccCustomers/index.d.ts",
         "default": "./dist/browser/api/enterpriseMccCustomers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/enterpriseMccCustomers/index.d.ts",
-        "default": "./dist/react-native/api/enterpriseMccCustomers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/enterpriseMccCustomers/index.d.ts",
@@ -172,10 +160,6 @@
         "types": "./dist/browser/api/ispCacheNodesOperations/index.d.ts",
         "default": "./dist/browser/api/ispCacheNodesOperations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/ispCacheNodesOperations/index.d.ts",
-        "default": "./dist/react-native/api/ispCacheNodesOperations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/ispCacheNodesOperations/index.d.ts",
         "default": "./dist/esm/api/ispCacheNodesOperations/index.js"
@@ -189,10 +173,6 @@
       "browser": {
         "types": "./dist/browser/api/ispCustomers/index.d.ts",
         "default": "./dist/browser/api/ispCustomers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/ispCustomers/index.d.ts",
-        "default": "./dist/react-native/api/ispCustomers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/ispCustomers/index.d.ts",
@@ -208,10 +188,6 @@
         "types": "./dist/browser/api/operations/index.d.ts",
         "default": "./dist/browser/api/operations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/operations/index.d.ts",
         "default": "./dist/esm/api/operations/index.js"
@@ -225,10 +201,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
@@ -244,5 +216,11 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/connectedcache/arm-connectedcache/README.md",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

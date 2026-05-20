@@ -22,6 +22,9 @@ resources in your Microsoft Foundry Project. Use it to:
   * Microsoft SharePoint (Preview)
   * Web Search (Preview)
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
+* **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
+* **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
+* **Manage toolboxes (preview)** for grouping tools into reusable collections, using the `.beta.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
 * **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
 `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
@@ -62,6 +65,9 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
   - [fine-tuning operations](#fine-tuning-operations)
+  - [Beta agent sessions operations (preview)](#beta-agent-sessions-operations-preview)
+  - [Skills operations (preview)](#skills-operations-preview)
+  - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
   - [Installation](#installation)
   - [How to enable tracing](#how-to-enable-tracing)
@@ -127,7 +133,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 ## Examples
 
@@ -1179,6 +1185,86 @@ const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateP
 console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 ```
 
+### Beta agent sessions operations (preview)
+
+The `.beta.agents` operations let you manage agent sessions and session files for hosted agents. Sessions provide isolated sandbox environments for agent interactions.
+
+```ts snippet:beta-agents
+import { VersionRefIndicator } from "@azure/ai-projects";
+
+const agentName = "MyBetaAgent";
+const isolationKey = "sample-isolation-key";
+// Create a session for the agent
+const versionIndicator: VersionRefIndicator = {
+  type: "version_ref",
+  agent_version: "1.0",
+};
+const session = await project.beta.agents.createSession(agentName, isolationKey, versionIndicator);
+console.log(`Session created: ${session.agent_session_id}`);
+// Upload a file to the session sandbox
+const filePath = "/sandbox/hello.txt";
+const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
+const uploadResult = await project.beta.agents.uploadSessionFile(
+  agentName,
+  session.agent_session_id,
+  filePath,
+  fileContent,
+);
+console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
+```
+
+See the full sample code in [betaAgents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/betaAgents.ts).
+
+### Skills operations (preview)
+
+The `.beta.skills` operations let you create and manage reusable skills that define agent capabilities.
+
+```ts snippet:skills
+const skillName = "sample-skill";
+// Create a new skill
+const created = await project.beta.skills.create(skillName, {
+  description: "Example skill created by the @azure/ai-projects sample.",
+  instructions: "You are a helpful assistant that answers questions concisely.",
+  metadata: { owner: "sample" },
+});
+console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
+// Retrieve the skill
+const fetched = await project.beta.skills.get(skillName);
+console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+```
+
+See the full sample code in [skillBasic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/skills/skillBasic.ts).
+
+### Toolboxes operations (preview)
+
+The `.beta.toolboxes` operations let you create and manage toolboxes — reusable collections of tools that can be shared across agents.
+
+```ts snippet:toolboxes
+import { ToolUnion, MCPTool } from "@azure/ai-projects";
+
+const toolboxName = "mcp";
+// Define tools for the toolbox
+const tools: ToolUnion[] = [
+  {
+    type: "mcp",
+    server_label: "api_specs",
+    server_url: "https://github.com/Azure/azure-rest-api-specs",
+    require_approval: "never",
+  } satisfies MCPTool,
+];
+// Create a new toolbox version
+const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+  description: "Example toolbox created by the @azure/ai-projects sample.",
+  metadata: { status: "created" },
+});
+console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
+// Retrieve the toolbox
+const fetched = await project.beta.toolboxes.get(toolboxName);
+console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
+```
+
+See the full sample code in [toolboxesCrud.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/toolboxes/toolboxesCrud.ts).
+
 ## Tracing
 
 **Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
@@ -1244,6 +1330,29 @@ To report issues with the client library, or request additional features, please
 ## Next steps
 
 Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
+
+## Regenerating from TypeSpec (maintainers)
+
+This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The full workflow is encoded as six skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+
+To dispatch a regen as a cloud agent task, run from this directory:
+
+```powershell
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1                     # latest commit on feature/foundry-release
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -TspCommit <sha>    # pin a specific commit
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -DryRun             # render the prompt locally, do not dispatch
+pwsh -NoProfile -File ./scripts/start-cloud-regen.ps1 -Repo myuser/azure-sdk-for-js -Follow   # smoke-test on a fork
+```
+
+> On Windows, invoking the script directly (e.g. `./scripts/start-cloud-regen.ps1`) may be blocked by the default `Restricted` execution policy. The `pwsh -NoProfile -File ...` form above sidesteps that. Alternatively, run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` once to allow local scripts.
+
+Prerequisites:
+
+- `gh` CLI installed and authenticated (`gh auth login`) against the target repo. The `agent-task` subcommand is in preview and requires a recent `gh`.
+- Membership in an organization with the GitHub Copilot coding agent enabled for the target repo.
+- Push access to the target repo (the cloud agent uses its own GitHub App identity to push and open the draft PR).
+
+Caveat: the dispatched prompt runs `pnpm install --filter @azure/ai-projects...` and `pnpm --filter @azure/ai-projects... build` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
 
 ## Contributing
 

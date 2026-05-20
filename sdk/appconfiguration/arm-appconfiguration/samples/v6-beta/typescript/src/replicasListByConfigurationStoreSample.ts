@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the replicas for a given configuration store.
  *
  * @summary lists the replicas for a given configuration store.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresListReplicas.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresListReplicas.json
  */
 async function replicasListByConfigurationStore(): Promise<void> {
   const credential = new DefaultAzureCredential();

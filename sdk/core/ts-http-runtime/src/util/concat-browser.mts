@@ -1,34 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isWebReadableStream } from "./typeGuards.js";
+import { isWebReadableStream } from "#platform/typeGuards";
 
 /**
  * Drain the content of the given ReadableStream into a Blob.
- * The blob's content may end up in memory or on disk dependent on size.
  */
-function drain(stream: ReadableStream<Uint8Array>): Promise<Blob> {
+function drain(stream: ReadableStream<Uint8Array<ArrayBuffer>>): Promise<Blob> {
   return new Response(stream).blob();
 }
 
-async function toBlobPart(source: ConcatSource): Promise<Blob | Uint8Array> {
+async function toBlobPart(
+  source: ReadableStream<Uint8Array<ArrayBuffer>> | Uint8Array<ArrayBuffer> | Blob,
+): Promise<Blob | Uint8Array<ArrayBuffer>> {
   if (source instanceof Blob || source instanceof Uint8Array) {
     return source;
   }
 
   if (isWebReadableStream(source)) {
     return drain(source);
-  } else {
-    throw new Error(
-      "Unsupported source type. Only Blob, Uint8Array, and ReadableStream are supported in browser.",
-    );
   }
+
+  throw new Error(
+    "Unsupported source type. Only Blob, Uint8Array, and ReadableStream are supported in browser.",
+  );
 }
 
 /**
  * Converts a Uint8Array to a Uint8Array<ArrayBuffer>.
- * @param source - The source Uint8Array.
- * @returns
  */
 function arrayToArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
   if ("resize" in source.buffer) {
@@ -44,27 +43,23 @@ function arrayToArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
  *
  * @internal
  */
-export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+export type ConcatSource = ReadableStream<Uint8Array<ArrayBuffer>> | Uint8Array<ArrayBuffer> | Blob;
 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.
  *
  * @param sources - array of sources for the concatenation
- * @returns - in Node, a (() =\> NodeJS.ReadableStream) which, when read, produces a concatenation of all the inputs.
- *           In browser, returns a `Blob` representing all the concatenated inputs.
+ * @returns a `Blob` representing all the concatenated inputs.
  *
  * @internal
  */
-export async function concat(
-  sources: (ConcatSource | (() => ConcatSource))[],
-): Promise<(() => NodeJS.ReadableStream) | Blob> {
-  const parts = [];
+export async function concat(sources: (ConcatSource | (() => ConcatSource))[]): Promise<Blob> {
+  const parts: Blob[] = [];
   for (const source of sources) {
     const blobPart = await toBlobPart(typeof source === "function" ? source() : source);
     if (blobPart instanceof Blob) {
       parts.push(blobPart);
     } else {
-      // Uint8Array
       parts.push(new Blob([arrayToArrayBuffer(blobPart)]));
     }
   }

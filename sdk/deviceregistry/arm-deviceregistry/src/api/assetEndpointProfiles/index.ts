@@ -9,11 +9,11 @@ export {
   createOrReplace,
   get,
 } from "./operations.js";
-export {
-  type AssetEndpointProfilesListBySubscriptionOptionalParams,
-  type AssetEndpointProfilesListByResourceGroupOptionalParams,
-  type AssetEndpointProfilesDeleteOptionalParams,
-  type AssetEndpointProfilesUpdateOptionalParams,
-  type AssetEndpointProfilesCreateOrReplaceOptionalParams,
-  type AssetEndpointProfilesGetOptionalParams,
+export type {
+  AssetEndpointProfilesListBySubscriptionOptionalParams,
+  AssetEndpointProfilesListByResourceGroupOptionalParams,
+  AssetEndpointProfilesDeleteOptionalParams,
+  AssetEndpointProfilesUpdateOptionalParams,
+  AssetEndpointProfilesCreateOrReplaceOptionalParams,
+  AssetEndpointProfilesGetOptionalParams,
 } from "./options.js";

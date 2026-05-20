@@ -354,7 +354,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
   }
 
   /**
-   * Formats a value for use in SQL condition
+   * Formats a value for use in SQL condition.
+   * We escape single quotes as \\u0027 to avoid ambiguity with \\\\ followed by '
    */
   private formatValueForSQL(value: any): string {
     if (value === null || value === undefined) {
@@ -365,8 +366,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     switch (valueType) {
       case "string":
-        // Escape single quotes and wrap in quotes
-        return `'${value.toString().replace(/'/g, "''")}'`;
+        // Escape backslashes first, then single quotes as unicode escape
+        return `'${value.toString().replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
       case "number":
       case "bigint":
         return value.toString();
@@ -375,9 +376,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       default:
         // For objects and arrays, convert to JSON string
         if (typeof value === "object") {
-          return `'${JSON.stringify(value).replace(/'/g, "''")}'`;
+          return `'${JSON.stringify(value).replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
         }
-        return `'${value.toString().replace(/'/g, "''")}'`;
+        return `'${value.toString().replace(/\\/g, "\\\\").replace(/'/g, "\\u0027")}'`;
     }
   }
 

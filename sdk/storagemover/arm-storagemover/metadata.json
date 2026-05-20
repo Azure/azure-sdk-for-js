@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.StorageMover": "2025-12-01"
   },
-  "emitterVersion": "0.50.4",
+  "emitterVersion": "0.52.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageMover",
     "CrossLanguageDefinitionId": {
@@ -71,6 +71,7 @@
       "@azure/arm-storagemover!TargetEndpoint:interface": "Microsoft.StorageMover.TargetEndpoint",
       "@azure/arm-storagemover!TargetEndpointProperties:interface": "Microsoft.StorageMover.TargetEndpointProperties",
       "@azure/arm-storagemover!ScheduleInfo:interface": "Microsoft.StorageMover.ScheduleInfo",
+      "@azure/arm-storagemover!SchedulerTime:interface": "Microsoft.StorageMover.SchedulerTime",
       "@azure/arm-storagemover!JobDefinitionUpdateParameters:interface": "Microsoft.StorageMover.JobDefinitionUpdateParameters",
       "@azure/arm-storagemover!JobDefinitionUpdateProperties:interface": "Microsoft.StorageMover.JobDefinitionUpdateProperties",
       "@azure/arm-storagemover!JobDefinitionList:interface": "Microsoft.StorageMover.JobDefinitionList",

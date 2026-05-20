@@ -3,7 +3,7 @@
 
 import type { HttpClient } from "./interfaces.js";
 import { createDefaultHttpClient as tspCreateDefaultHttpClient } from "@typespec/ts-http-runtime";
-import { wrapAbortSignalLike } from "./util/wrapAbortSignal.js";
+import { wrapAbortSignalLike } from "#platform/wrapAbortSignal";
 import { type PipelineRequest as TspPipelineRequest } from "@typespec/ts-http-runtime";
 
 /**

@@ -1,12 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../../index.js";
-import type { _PagedEvaluatorVersion, EvaluatorVersion } from "../../../models/models.js";
+import { AIProjectContext as Client } from "../../index.js";
+import type {
+  _PagedEvaluatorVersion,
+  EvaluatorVersion,
+  EvaluatorGenerationJob,
+  _AgentsPagedResultEvaluatorGenerationJob,
+} from "../../../models/models.js";
 import {
-  _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  _pagedEvaluatorVersionDeserializer,
+  evaluatorGenerationJobSerializer,
+  evaluatorGenerationJobDeserializer,
+  _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  apiErrorResponseDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -16,11 +25,285 @@ import type {
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
+  BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
+  BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  BetaEvaluatorsCancelGenerationJobOptionalParams,
+  BetaEvaluatorsListGenerationJobsOptionalParams,
+  BetaEvaluatorsGetGenerationJobOptionalParams,
+  BetaEvaluatorsCreateGenerationJobOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _deleteGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Deletes an evaluator generation job by its ID. Deletes the job record only;
+ * the generated evaluator (if any) is preserved.
+ */
+export async function deleteGenerationJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteGenerationJobSend(context, jobId, options);
+  return _deleteGenerationJobDeserialize(result);
+}
+
+export function _cancelGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}:cancel{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _cancelGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Cancels an evaluator generation job by its ID. */
+export async function cancelGenerationJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _cancelGenerationJobSend(context, jobId, options);
+  return _cancelGenerationJobDeserialize(result);
+}
+
+export function _listGenerationJobsSend(
+  context: Client,
+  options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs{?limit,order,after,before,category,api%2Dversion}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      category: options?.category,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listGenerationJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultEvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return _agentsPagedResultEvaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Returns a list of evaluator generation jobs. */
+export function listGenerationJobs(
+  context: Client,
+  options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<EvaluatorGenerationJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listGenerationJobsSend(context, options),
+    _listGenerationJobsDeserialize,
+    ["200"],
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+  );
+}
+
+export function _getGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}{?api%2Dversion}",
+    {
+      jobId: jobId,
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Gets the details of an evaluator generation job by its ID. */
+export async function getGenerationJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _getGenerationJobSend(context, jobId, options);
+  return _getGenerationJobDeserialize(result);
+}
+
+export function _createGenerationJobSend(
+  context: Client,
+  body: EvaluatorGenerationJob,
+  options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluatorGenerationJobSerializer(body),
+  });
+}
+
+export async function _createGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/**
+ * Creates an evaluator generation job. The service generates rubric-based evaluator
+ * definitions from the provided source materials asynchronously.
+ */
+export async function createGenerationJob(
+  context: Client,
+  body: EvaluatorGenerationJob,
+  options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _createGenerationJobSend(context, body, options);
+  return _createGenerationJobDeserialize(result);
+}
 
 export function _updateVersionSend(
   context: Client,
@@ -221,9 +504,9 @@ export async function getVersion(
   return _getVersionDeserialize(result);
 }
 
-export function _listLatestVersionsSend(
+export function _listSend(
   context: Client,
-  options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
@@ -247,7 +530,7 @@ export function _listLatestVersionsSend(
   });
 }
 
-export async function _listLatestVersionsDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedEvaluatorVersion> {
   const expectedStatuses = ["200"];
@@ -259,14 +542,14 @@ export async function _listLatestVersionsDeserialize(
 }
 
 /** List the latest version of each evaluator */
-export function listLatestVersions(
+export function list(
   context: Client,
-  options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listLatestVersionsSend(context, options),
-    _listLatestVersionsDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     {
       itemName: "value",

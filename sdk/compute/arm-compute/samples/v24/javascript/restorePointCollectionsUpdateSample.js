@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to the operation to update the restore point collection.
+ *
+ * @summary the operation to update the restore point collection.
+ * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
+ */
+async function restorePointCollectionUpdateMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.restorePointCollections.update("rgcompute", "aaaaaaaaaaaaaaaaaaaa", {
+    source: {
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+    },
+    instantAccess: true,
+    tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to the operation to update the restore point collection.
+ *
+ * @summary the operation to update the restore point collection.
+ * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
+ */
+async function restorePointCollectionUpdateMinimumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.restorePointCollections.update("rgcompute", "aaaaaaaaaaaaaaaaaa", {});
+  console.log(result);
+}
+
+async function main() {
+  await restorePointCollectionUpdateMaximumSetGen();
+  await restorePointCollectionUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

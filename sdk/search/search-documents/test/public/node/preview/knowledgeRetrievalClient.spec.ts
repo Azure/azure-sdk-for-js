@@ -98,7 +98,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
 
   describe("KnowledgeRetrievalClient", () => {
     it("executes queries", { timeout: 60000 }, async () => {
-      const result = await knowledgeRetrievalClient.retrieveKnowledge({
+      const result = await knowledgeRetrievalClient.retrieve({
         intents: [
           {
             type: "semantic",
@@ -129,7 +129,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
         name: "web-ks",
       };
 
-      await indexClient.createOrUpdateKnowledgeSource(webKnowledgeSource.name, webKnowledgeSource);
+      await indexClient.createOrUpdateKnowledgeSource(webKnowledgeSource);
 
       await indexClient.createKnowledgeBase({
         name: `${TEST_BASE_NAME}-web`,

@@ -1,5 +1,36 @@
 # Release History
 
+## 25.2.0 (2026-05-09)
+
+### Features Added
+  - Added Interface AgentPoolArtifactStreamingProfile
+  - Interface AgentPool has a new optional parameter artifactStreamingProfile
+  - Interface ManagedClusterAgentPoolProfile has a new optional parameter artifactStreamingProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter artifactStreamingProfile
+  - Enum KnownOssku has a new value AzureContainerLinux
+  - Enum KnownVersions has a new value V20260301
+
+## 25.1.0 (2026-04-21)
+
+### Features Added
+  - Added Interface ManagedClusterAppRoutingIstio
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoring
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
+  - Added Interface ManagedClusterHostedSystemProfile
+  - Added Interface ManagedClusterIngressProfileGatewayConfiguration
+  - Added Interface ManagedClusterWebAppRoutingGatewayAPIImplementations
+  - Interface ManagedCluster has a new optional parameter hostedSystemProfile
+  - Interface ManagedClusterAzureMonitorProfile has a new optional parameter appMonitoring
+  - Interface ManagedClusterIngressProfile has a new optional parameter gatewayAPI
+  - Interface ManagedClusterIngressProfileWebAppRouting has a new optional parameter gatewayAPIImplementations
+  - Interface ManagedClusterProperties has a new optional parameter hostedSystemProfile
+  - Added Type Alias GatewayAPIIstioEnabled
+  - Added Type Alias ManagedGatewayType
+  - Added Enum KnownGatewayAPIIstioEnabled
+  - Added Enum KnownManagedGatewayType
+  - Enum KnownOssku has a new value Windows2025
+  - Enum KnownVersions has a new value V20260201
+
 ## 25.1.0-beta.1 (2026-03-31)
 Compared with version 25.0.0
 

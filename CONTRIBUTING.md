@@ -416,4 +416,4 @@ This will:
 
 ### Using MCP Servers in VS Code
 
-This repository configures MCP servers to be used with GitHub Copilot in VS Code. They are listed in `.vscode/mcp.json`. For example, to use the ESLint MCP server, follow [the instructions at ESLint documentation site](https://eslint.org/docs/latest/use/mcp#using-the-eslint-mcp-server-with-github-copilot).
+This repository configures MCP servers to be used with GitHub Copilot in VS Code. They are listed in `.mcp.json`. For example, to use the ESLint MCP server, follow [the instructions at ESLint documentation site](https://eslint.org/docs/latest/use/mcp#using-the-eslint-mcp-server-with-github-copilot).

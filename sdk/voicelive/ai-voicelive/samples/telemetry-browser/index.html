@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoiceLive Telemetry — Browser Sample</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+      h1 { margin-bottom: 1rem; }
+      .form-group { margin-bottom: 1rem; }
+      label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
+      input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; }
+      button { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-right: 0.5rem; }
+      button:disabled { opacity: 0.5; cursor: not-allowed; }
+      .btn-primary { background: #0078d4; color: white; }
+      .btn-danger { background: #d42020; color: white; }
+      #status { margin: 1rem 0; padding: 0.75rem; border-radius: 4px; background: #f0f0f0; }
+      #spans { font-family: "Cascadia Code", "Fira Code", monospace; font-size: 0.8rem; background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 4px; max-height: 500px; overflow-y: auto; white-space: pre-wrap; margin-top: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>VoiceLive Telemetry — Browser</h1>
+    <p>This sample shows OpenTelemetry spans captured from the VoiceLive SDK running in a browser.</p>
+
+    <div class="form-group" style="margin-top: 1rem;">
+      <label for="endpoint">VoiceLive Endpoint</label>
+      <input id="endpoint" type="text" placeholder="https://your-resource.cognitiveservices.azure.com" />
+    </div>
+    <div class="form-group">
+      <label for="apiKey">API Key</label>
+      <input id="apiKey" type="password" placeholder="Your API key" />
+    </div>
+
+    <div>
+      <button id="connectBtn" class="btn-primary">Connect & Send Message</button>
+      <button id="disconnectBtn" class="btn-danger" disabled>Disconnect</button>
+    </div>
+
+    <div id="status">Status: Not connected</div>
+
+    <h2 style="margin-top: 1rem;">Captured Spans</h2>
+    <div id="spans">(Spans will appear here after connecting)</div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -7,7 +7,6 @@ import {
   getAvailableAgentPoolVersions,
   upgradeNodeImageVersion,
   deleteMachines,
-  completeUpgrade,
   abortLatestOperation,
   list,
   $delete,
@@ -19,7 +18,6 @@ import type {
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,
-  AgentPoolsCompleteUpgradeOptionalParams,
   AgentPoolsAbortLatestOperationOptionalParams,
   AgentPoolsListOptionalParams,
   AgentPoolsDeleteOptionalParams,
@@ -97,27 +95,6 @@ export interface AgentPoolsOperations {
     machines: AgentPoolDeleteMachinesParameter,
     options?: AgentPoolsDeleteMachinesOptionalParams,
   ) => Promise<void>;
-  /** Completes the upgrade operation for the specified agent pool. */
-  completeUpgrade: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsCompleteUpgradeOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use completeUpgrade instead */
-  beginCompleteUpgrade: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsCompleteUpgradeOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use completeUpgrade instead */
-  beginCompleteUpgradeAndWait: (
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsCompleteUpgradeOptionalParams,
-  ) => Promise<void>;
   /** Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned. */
   abortLatestOperation: (
     resourceGroupName: string,
@@ -146,11 +123,6 @@ export interface AgentPoolsOperations {
     options?: AgentPoolsListOptionalParams,
   ) => PagedAsyncIterableIterator<AgentPool>;
   /** Deletes an agent pool in the specified managed cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     resourceName: string,
@@ -291,42 +263,6 @@ function _getAgentPools(context: ContainerServiceContext) {
         resourceName,
         agentPoolName,
         machines,
-        options,
-      );
-    },
-    completeUpgrade: (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      options?: AgentPoolsCompleteUpgradeOptionalParams,
-    ) => completeUpgrade(context, resourceGroupName, resourceName, agentPoolName, options),
-    beginCompleteUpgrade: async (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      options?: AgentPoolsCompleteUpgradeOptionalParams,
-    ) => {
-      const poller = completeUpgrade(
-        context,
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginCompleteUpgradeAndWait: async (
-      resourceGroupName: string,
-      resourceName: string,
-      agentPoolName: string,
-      options?: AgentPoolsCompleteUpgradeOptionalParams,
-    ) => {
-      return await completeUpgrade(
-        context,
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
         options,
       );
     },

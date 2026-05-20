@@ -1,0 +1,7 @@
+{
+  "extends": "./base.src.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "outDir": "${configDir}/../dist/esm"
+  }
+}

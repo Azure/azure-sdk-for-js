@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of the specified private endpoint connection associated with the configuration store. This operation cannot be used to create a private endpoint connection. Private endpoint connections must be created with the Network resource provider.
  *
  * @summary update the state of the specified private endpoint connection associated with the configuration store. This operation cannot be used to create a private endpoint connection. Private endpoint connections must be created with the Network resource provider.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresUpdatePrivateEndpointConnection.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresUpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

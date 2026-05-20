@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import debug from "./debug.js";
+import { getEnvironmentVariable } from "#platform/env";
 
 import type { Debugger } from "./debug.js";
 export type { Debugger };
@@ -129,9 +130,7 @@ function isTypeSpecRuntimeLogLevel(level: string): level is TypeSpecRuntimeLogLe
  */
 export function createLoggerContext(options: CreateLoggerContextOptions): LoggerContext {
   const registeredLoggers = new Set<DebuggerWithLogLevel>();
-  const logLevelFromEnv =
-    (typeof process !== "undefined" && process.env && process.env[options.logLevelEnvVarName]) ||
-    undefined;
+  const logLevelFromEnv = getEnvironmentVariable(options.logLevelEnvVarName);
 
   let logLevel: TypeSpecRuntimeLogLevel | undefined;
 
