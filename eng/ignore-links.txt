@@ -105,7 +105,5 @@ https://www.npmjs.com/package/@azure/arm-fileshares
 https://learn.microsoft.com/javascript/api/@azure/arm-fileshares
 https://learn.microsoft.com/javascript/api/@azure/arm-providerhub?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-providerhub
-https://learn.microsoft.com/javascript/api/@azure/arm-monitoraccounts?view=azure-node-preview
-https://www.npmjs.com/package/@azure/arm-monitoraccounts
 https://learn.microsoft.com/javascript/api/@azure/arm-monitorworkspaces?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-monitorworkspaces
