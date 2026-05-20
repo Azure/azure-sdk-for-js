@@ -31,7 +31,10 @@ General Availability release of `@azure/ai-voicelive`. This release upgrades the
 
 ### Breaking Changes
 
-- API version updated from `2026-01-01-preview` to `2026-04-10`.
+- API version updated from `2026-01-01-preview` to `2026-04-10`. The default `apiVersion` used by `VoiceLiveClient` and `VoiceLiveSession` is now `2026-04-10` (centralized in the `DEFAULT_API_VERSION` constant). Callers that do not supply an `apiVersion` automatically pick up the new default.
+- `VoiceLiveSession` constructor no longer accepts `apiVersion` as a positional parameter. `apiVersion` (and `connectionTimeoutInMs`) are now passed through the `VoiceLiveSessionOptions` options bag, matching the shape used by `VoiceLiveClient`. New signature: `new VoiceLiveSession(endpoint, credential, model | agentConfig, options?)`.
+- Removed the no-op `enableDebugLogging` field from `VoiceLiveSessionOptions`. SDK log verbosity is now controlled exclusively through the standard [`@azure/logger`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) package — set `AZURE_LOG_LEVEL=verbose` or call `setLogLevel("verbose")` from `@azure/logger`. See the [Logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/voicelive/ai-voicelive/README.md#logging) section in the README.
+- Renamed the public `Response` model interface to `VoiceLiveResponse` to avoid a collision with the global DOM `Response` type (which previously caused API Extractor to emit it as `Response_2` in the public type rollup). Update any imports of `Response` from `@azure/ai-voicelive` to `VoiceLiveResponse`.
 
 ### Bugs Fixed
 

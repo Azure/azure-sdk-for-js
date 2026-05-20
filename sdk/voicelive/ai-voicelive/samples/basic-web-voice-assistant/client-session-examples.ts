@@ -11,16 +11,11 @@ import {
 import { AzureKeyCredential } from '@azure/core-auth';
 
 async function basicHandlerPatternExample() {
-  // 1. Create client (session factory)
+  // 1. Create client (session factory). `apiVersion` defaults to the latest
+  // known version, so it's usually omitted; override only to pin a specific version.
   const client = new VoiceLiveClient(
     'https://your-voicelive-endpoint.com',
     new AzureKeyCredential('your-api-key'),
-    {
-      apiVersion: '2025-10-01',
-      defaultSessionOptions: {
-        enableDebugLogging: true
-      }
-    }
   );
 
   // 2. Create and connect a session with model
