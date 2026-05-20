@@ -350,8 +350,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
-    listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): Promise<string[]>;
-    listMessageSessions(topicName: string, subscriptionName: string, options?: ListMessageSessionsOptions): Promise<string[]>;
+    listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
+    listMessageSessions(topicName: string, subscriptionName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
 }
 
 // @public
