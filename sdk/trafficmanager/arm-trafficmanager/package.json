@@ -12,17 +12,12 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -38,10 +33,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -55,10 +46,6 @@
       "browser": {
         "types": "./dist/browser/api/trafficManagerUserMetricsKeys/index.d.ts",
         "default": "./dist/browser/api/trafficManagerUserMetricsKeys/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/trafficManagerUserMetricsKeys/index.d.ts",
-        "default": "./dist/react-native/api/trafficManagerUserMetricsKeys/index.js"
       },
       "import": {
         "types": "./dist/esm/api/trafficManagerUserMetricsKeys/index.d.ts",
@@ -74,10 +61,6 @@
         "types": "./dist/browser/api/heatMap/index.d.ts",
         "default": "./dist/browser/api/heatMap/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/heatMap/index.d.ts",
-        "default": "./dist/react-native/api/heatMap/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/heatMap/index.d.ts",
         "default": "./dist/esm/api/heatMap/index.js"
@@ -91,10 +74,6 @@
       "browser": {
         "types": "./dist/browser/api/geographicHierarchies/index.d.ts",
         "default": "./dist/browser/api/geographicHierarchies/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/geographicHierarchies/index.d.ts",
-        "default": "./dist/react-native/api/geographicHierarchies/index.js"
       },
       "import": {
         "types": "./dist/esm/api/geographicHierarchies/index.d.ts",
@@ -110,10 +89,6 @@
         "types": "./dist/browser/api/profiles/index.d.ts",
         "default": "./dist/browser/api/profiles/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/profiles/index.d.ts",
-        "default": "./dist/react-native/api/profiles/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/profiles/index.d.ts",
         "default": "./dist/esm/api/profiles/index.js"
@@ -128,10 +103,6 @@
         "types": "./dist/browser/api/endpoints/index.d.ts",
         "default": "./dist/browser/api/endpoints/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/endpoints/index.d.ts",
-        "default": "./dist/react-native/api/endpoints/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/endpoints/index.d.ts",
         "default": "./dist/esm/api/endpoints/index.js"
@@ -145,10 +116,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
