@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/applicationinsights/arm-appinsights)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appinsights)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-appinsights)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-appinsights?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/applicationinsights/arm-appinsights/samples)
 
 ## Getting started
