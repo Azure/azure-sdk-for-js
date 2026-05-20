@@ -29426,8 +29426,8 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.4.0-beta.1
-        version: 12.4.0-beta.1(@azure/core-client@sdk+core+core-client)
+        specifier: ^12.5.0-beta.1
+        version: link:../storage-common
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -29742,8 +29742,8 @@ importers:
         specifier: ^12.32.0-beta.1
         version: link:../storage-blob
       '@azure/storage-common':
-        specifier: ^12.4.0-beta.1
-        version: 12.4.0-beta.1(@azure/core-client@sdk+core+core-client)
+        specifier: ^12.5.0-beta.1
+        version: link:../storage-common
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -29882,8 +29882,8 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.4.0-beta.1
-        version: 12.4.0-beta.1(@azure/core-client@sdk+core+core-client)
+        specifier: ^12.5.0-beta.1
+        version: link:../storage-common
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -30086,8 +30086,8 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.4.0-beta.1
-        version: 12.4.0-beta.1(@azure/core-client@sdk+core+core-client)
+        specifier: ^12.5.0-beta.1
+        version: link:../storage-common
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -34127,10 +34127,6 @@ packages:
 
   '@azure/storage-common@12.3.0':
     resolution: {integrity: sha1-W/JXODg25npCbJHX6WeEea/oAqk=}
-    engines: {node: '>=20.0.0'}
-
-  '@azure/storage-common@12.4.0-beta.1':
-    resolution: {integrity: sha1-Hpd5frTiLMLa3zlxWOXyEX+aJ64=}
     engines: {node: '>=20.0.0'}
 
   '@azure/storage-file-datalake@12.29.0':
@@ -40197,21 +40193,6 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-http-compat': 2.4.0(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-tracing': 1.3.1
-      '@azure/core-util': 1.13.1
-      '@azure/logger': 1.3.0
-      events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@azure/core-client'
-      - supports-color
-
-  '@azure/storage-common@12.4.0-beta.1(@azure/core-client@sdk+core+core-client)':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-http-compat': 2.4.0(@azure/core-client@sdk+core+core-client)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
       '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
