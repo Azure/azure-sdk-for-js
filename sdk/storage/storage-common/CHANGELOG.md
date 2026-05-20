@@ -1,8 +1,10 @@
 # Release History
 
-## 12.4.0-beta.2 (Unreleased)
+## 12.5.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- add `storageRedirectRangeHeaderPolicy` to standardize on `x-ms-range` header per service team recommendation.
 
 ### Breaking Changes
 
@@ -11,6 +13,8 @@
 - Fixed CRC64 checksum calculator failing under both module systems: `ReferenceError: require is not defined` when loaded as ESM under Node, and `SyntaxError: Unexpected token 'export'` when loaded as CommonJS. The bundled Emscripten output now polyfills `require`/`__filename`/`__dirname` from `import.meta.url` for the ESM build, and the CommonJS copy is rewritten to use `module.exports`. Issues [#38069](https://github.com/Azure/azure-sdk-for-js/issues/38069) and [#38501](https://github.com/Azure/azure-sdk-for-js/issues/38501).
 
 ### Other Changes
+
+- update `storageRequestFailureDetailsParserPolicy` support the scenario where a RestError is not thrown.
 
 ## 12.4.0-beta.1 (2026-03-05)
 
