@@ -67,7 +67,7 @@ describe("snippets", () => {
     // In this case the dtmi "dtmi:com:example:TemperatureController;1" has 2 model dependencies
     // and the dtmi "dtmi:com:example:azuresphere:sampledevice;1" has no additional dependencies.
     // The returned IDictionary will include 4 models.
-    console.log(`${dtmis.toString()} resolved in ${Object.keys(models.keys).length} interfaces.`);
+    console.log(`${dtmis.toString()} resolved in ${Object.keys(models.keys as {}).length} interfaces.`);
   });
 
   it("ReadmeSampleDtmiConventions", async () => {
