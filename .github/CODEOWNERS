@@ -1689,6 +1689,9 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/monitor/arm-monitoraccounts/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########

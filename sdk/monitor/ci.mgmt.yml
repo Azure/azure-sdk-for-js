@@ -15,6 +15,7 @@ trigger:
       - sdk/monitor/arm-monitor
       - sdk/monitor/arm-monitorslis
       - sdk/monitor/arm-monitoraccounts
+      - sdk/monitor/arm-monitorworkspaces
 pr:
   branches:
     include:
@@ -31,6 +32,7 @@ pr:
       - sdk/monitor/arm-monitor
       - sdk/monitor/arm-monitorslis
       - sdk/monitor/arm-monitoraccounts
+      - sdk/monitor/arm-monitorworkspaces
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -45,3 +47,5 @@ extends:
         safeName: azurearmmonitorslis
       - name: azure-arm-monitoraccounts
         safeName: azurearmmonitoraccounts
+      - name: azure-arm-monitorworkspaces
+        safeName: azurearmmonitorworkspaces
