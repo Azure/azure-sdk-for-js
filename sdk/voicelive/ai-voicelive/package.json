@@ -93,7 +93,6 @@
     "build": "dev-tool run build-package && dev-tool run extract-api",
     "fastbuild": "dev-tool run build-package",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "test:debug": "vitest -c vitest.debug.config.ts",
     "test:debug:ui": "vitest -c vitest.debug.config.ts --ui",
     "test:node:verbose": "AZURE_LOG_LEVEL=verbose DEBUG=azure:ai-voicelive:* dev-tool run test:vitest --reporter=verbose",
