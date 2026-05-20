@@ -90,8 +90,7 @@ describe("snippets", () => {
       );
       legs.forEach(({ summary, points }, idx) => {
         console.log(
-          `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-            summary.travelTimeInSeconds
+          `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
           } seconds. Followings are the first 10 points: `,
         );
         console.table(points.slice(0, 10));
@@ -133,8 +132,7 @@ describe("snippets", () => {
       );
       legs.forEach(({ summary, points }, idx) => {
         console.log(
-          `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-            summary.travelTimeInSeconds
+          `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
           } seconds. Followings are the first 10 points: `,
         );
         console.table(points.slice(0, 10));
@@ -172,7 +170,7 @@ describe("snippets", () => {
       `The optimized distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
     console.log("The route is optimized by: ");
-    routeDirectionsResult.body.optimizedWaypoints.forEach(
+    (routeDirectionsResult.body.optimizedWaypoints ?? []).forEach(
       ({ providedIndex, optimizedIndex }) => `Moving index ${providedIndex} to ${optimizedIndex}`,
     );
   });
