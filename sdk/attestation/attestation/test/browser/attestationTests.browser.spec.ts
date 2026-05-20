@@ -9,7 +9,7 @@ import {
   createRecordedClient,
   recorderOptions,
 } from "../utils/recordedClient.js";
-import * as base64url from "../utils/base64url.js";
+import * as base64url from "../utils/base64url-browser.mjs";
 
 import { KnownAttestationType } from "../../src/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
