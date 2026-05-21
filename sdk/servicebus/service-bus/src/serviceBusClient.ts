@@ -551,9 +551,15 @@ export class ServiceBusClient {
             options,
           );
         } catch (err: any) {
-          // Treat only the 404 + MessageNotFound response from the
-          // get-message-sessions management operation as "no sessions exist".
-          // Aligns with .NET (com.microsoft:message-not-found) and Python.
+          // The service returns 204 NoContent (with com.microsoft:session-not-found)
+          // when no sessions match the query. Because 204 is a 2xx status code, the
+          // core AMQP layer resolves it normally and the internal managementClient
+          // returns an empty array, which the `page.length === 0` check below handles.
+          //
+          // The 404 + MessageNotFound catch below is a cross-SDK safety net that .NET
+          // and Python also carry. The service does not currently send this combination
+          // for get-message-sessions, but keeping it avoids a breaking behavior change
+          // if the service ever starts returning 404 for empty results.
           if (err.statusCode === 404 && err.code === "MessageNotFound") {
             return undefined;
           }
