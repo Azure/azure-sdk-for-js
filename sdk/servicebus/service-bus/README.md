@@ -488,8 +488,8 @@ You can read more about how sessions work [here][docsms_messagesessions].
 To discover which sessions have active messages or recently updated session state, use `listMessageSessions()`:
 
 ```ts snippet:ReadmeSampleListMessageSessions
-import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
 
 const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
 const credential = new DefaultAzureCredential();
