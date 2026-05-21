@@ -41,6 +41,11 @@ export interface FabricOntologyKnowledgeSourceParams extends KnowledgeSourcePara
 }
 
 // @public
+export interface FileKnowledgeSourceParams extends KnowledgeSourceParams {
+    kind: "file";
+}
+
+// @public
 export interface FreshnessPolicy {
     boostingDuration?: string;
 }
@@ -53,6 +58,11 @@ export interface IndexedOneLakeKnowledgeSourceParams extends KnowledgeSourcePara
 // @public
 export interface IndexedSharePointKnowledgeSourceParams extends KnowledgeSourceParams {
     kind: "indexedSharePoint";
+}
+
+// @public
+export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
+    kind: "indexedSql";
 }
 
 // @public
@@ -114,6 +124,12 @@ export interface KnowledgeBaseFabricOntologyReference extends KnowledgeBaseRefer
 }
 
 // @public
+export interface KnowledgeBaseFileReference extends KnowledgeBaseReference {
+    docName?: string;
+    type: "file";
+}
+
+// @public
 export interface KnowledgeBaseImageContent {
     url: string;
 }
@@ -130,6 +146,19 @@ export interface KnowledgeBaseIndexedSharePointReference extends KnowledgeBaseRe
     docUrl?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedSharePoint";
+}
+
+// @public
+export interface KnowledgeBaseIndexedSqlReference extends KnowledgeBaseReference {
+    docUrl?: string;
+    type: "indexedSql";
+}
+
+// @public
+export interface KnowledgeBaseMcpServerReference extends KnowledgeBaseReference {
+    title?: string;
+    toolName?: string;
+    type: "mcpServer";
 }
 
 // @public
@@ -198,7 +227,7 @@ export interface KnowledgeBaseReference {
 export type KnowledgeBaseReferenceType = string;
 
 // @public
-export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseReference;
+export type KnowledgeBaseReferenceUnion = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | KnowledgeBaseReference;
 
 // @public
 export interface KnowledgeBaseRemoteSharePointReference extends KnowledgeBaseReference {
@@ -329,7 +358,7 @@ export interface KnowledgeSourceParams {
 }
 
 // @public
-export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | KnowledgeSourceParams;
+export type KnowledgeSourceParamsUnion = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | McpServerKnowledgeSourceParams | FileKnowledgeSourceParams | IndexedSqlKnowledgeSourceParams | KnowledgeSourceParams;
 
 // @public
 export interface KnowledgeSourceStatistics {
@@ -372,8 +401,11 @@ export enum KnownKnowledgeBaseActivityRecordType {
     AzureBlob = "azureBlob",
     FabricDataAgent = "fabricDataAgent",
     FabricOntology = "fabricOntology",
+    File = "file",
     IndexedOneLake = "indexedOneLake",
     IndexedSharePoint = "indexedSharePoint",
+    IndexedSql = "indexedSql",
+    McpServer = "mcpServer",
     ModelAnswerSynthesis = "modelAnswerSynthesis",
     ModelQueryPlanning = "modelQueryPlanning",
     ModelWebSummarization = "modelWebSummarization",
@@ -394,8 +426,11 @@ export enum KnownKnowledgeBaseReferenceType {
     AzureBlob = "azureBlob",
     FabricDataAgent = "fabricDataAgent",
     FabricOntology = "fabricOntology",
+    File = "file",
     IndexedOneLake = "indexedOneLake",
     IndexedSharePoint = "indexedSharePoint",
+    IndexedSql = "indexedSql",
+    McpServer = "mcpServer",
     RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
     Web = "web",
@@ -418,6 +453,11 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
     Low = "low",
     Medium = "medium",
     Minimal = "minimal"
+}
+
+// @public
+export interface McpServerKnowledgeSourceParams extends KnowledgeSourceParams {
+    kind: "mcpServer";
 }
 
 // @public

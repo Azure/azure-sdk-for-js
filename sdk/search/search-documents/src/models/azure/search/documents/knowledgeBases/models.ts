@@ -953,7 +953,7 @@ export interface KnowledgeSourceParams {
   /** Limits the maximum number of documents returned from this knowledge source. */
   maxOutputDocuments?: number;
   /** The type of the knowledge source. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql */
   kind: KnowledgeSourceKind;
   /** Indicates whether image serving should be enabled for this knowledge source at retrieval time. When true, images extracted during ingestion are delivered to downstream models. */
   enableImageServing?: boolean;
@@ -984,6 +984,9 @@ export type KnowledgeSourceParamsUnion =
   | WorkIQKnowledgeSourceParams
   | FabricDataAgentKnowledgeSourceParams
   | FabricOntologyKnowledgeSourceParams
+  | McpServerKnowledgeSourceParams
+  | FileKnowledgeSourceParams
+  | IndexedSqlKnowledgeSourceParams
   | KnowledgeSourceParams;
 
 export function knowledgeSourceParamsUnionSerializer(item: KnowledgeSourceParamsUnion): any {
@@ -1024,6 +1027,15 @@ export function knowledgeSourceParamsUnionSerializer(item: KnowledgeSourceParams
       return fabricOntologyKnowledgeSourceParamsSerializer(
         item as FabricOntologyKnowledgeSourceParams,
       );
+
+    case "mcpServer":
+      return mcpServerKnowledgeSourceParamsSerializer(item as McpServerKnowledgeSourceParams);
+
+    case "file":
+      return fileKnowledgeSourceParamsSerializer(item as FileKnowledgeSourceParams);
+
+    case "indexedSql":
+      return indexedSqlKnowledgeSourceParamsSerializer(item as IndexedSqlKnowledgeSourceParams);
 
     default:
       return knowledgeSourceParamsSerializer(item);
@@ -1242,6 +1254,70 @@ export function fabricOntologyKnowledgeSourceParamsSerializer(
   };
 }
 
+/** Specifies runtime parameters for an MCP server knowledge source */
+export interface McpServerKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "mcpServer";
+}
+
+export function mcpServerKnowledgeSourceParamsSerializer(
+  item: McpServerKnowledgeSourceParams,
+): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for a File knowledge source */
+export interface FileKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "file";
+}
+
+export function fileKnowledgeSourceParamsSerializer(item: FileKnowledgeSourceParams): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
+/** Specifies runtime parameters for an indexed SQL knowledge source */
+export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
+  /** The discriminator value. */
+  kind: "indexedSql";
+}
+
+export function indexedSqlKnowledgeSourceParamsSerializer(
+  item: IndexedSqlKnowledgeSourceParams,
+): any {
+  return {
+    knowledgeSourceName: item["knowledgeSourceName"],
+    includeReferences: item["includeReferences"],
+    includeReferenceSourceData: item["includeReferenceSourceData"],
+    alwaysQuerySource: item["alwaysQuerySource"],
+    failOnError: item["failOnError"],
+    rerankerThreshold: item["rerankerThreshold"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    kind: item["kind"],
+    enableImageServing: item["enableImageServing"],
+  };
+}
+
 /** The output contract for the retrieval response. */
 export interface KnowledgeBaseRetrievalResponse {
   /** The response messages. */
@@ -1363,6 +1439,12 @@ export enum KnownKnowledgeBaseActivityRecordType {
   FabricDataAgent = "fabricDataAgent",
   /** Fabric Ontology retrieval activity. */
   FabricOntology = "fabricOntology",
+  /** MCP server retrieval activity. */
+  McpServer = "mcpServer",
+  /** File retrieval activity. */
+  File = "file",
+  /** Indexed SQL retrieval activity. */
+  IndexedSql = "indexedSql",
   /** LLM query planning activity. */
   ModelQueryPlanning = "modelQueryPlanning",
   /** LLM answer synthesis activity. */
@@ -1387,6 +1469,9 @@ export enum KnownKnowledgeBaseActivityRecordType {
  * **workIQ**: WorkIQ retrieval activity. \
  * **fabricDataAgent**: Fabric Data Agent retrieval activity. \
  * **fabricOntology**: Fabric Ontology retrieval activity. \
+ * **mcpServer**: MCP server retrieval activity. \
+ * **file**: File retrieval activity. \
+ * **indexedSql**: Indexed SQL retrieval activity. \
  * **modelQueryPlanning**: LLM query planning activity. \
  * **modelAnswerSynthesis**: LLM answer synthesis activity. \
  * **modelWebSummarization**: LLM web summarization activity. \
@@ -1575,7 +1660,7 @@ export function knowledgeBaseReferenceUnionArrayDeserializer(
 /** Base type for references. */
 export interface KnowledgeBaseReference {
   /** The type of the reference. */
-  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql */
   type: KnowledgeBaseReferenceType;
   /** The ID of the reference. */
   id: string;
@@ -1612,6 +1697,9 @@ export type KnowledgeBaseReferenceUnion =
   | KnowledgeBaseWorkIQReference
   | KnowledgeBaseFabricDataAgentReference
   | KnowledgeBaseFabricOntologyReference
+  | KnowledgeBaseMcpServerReference
+  | KnowledgeBaseFileReference
+  | KnowledgeBaseIndexedSqlReference
   | KnowledgeBaseReference;
 
 export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBaseReferenceUnion {
@@ -1655,6 +1743,15 @@ export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBas
         item as KnowledgeBaseFabricOntologyReference,
       );
 
+    case "mcpServer":
+      return knowledgeBaseMcpServerReferenceDeserializer(item as KnowledgeBaseMcpServerReference);
+
+    case "file":
+      return knowledgeBaseFileReferenceDeserializer(item as KnowledgeBaseFileReference);
+
+    case "indexedSql":
+      return knowledgeBaseIndexedSqlReferenceDeserializer(item as KnowledgeBaseIndexedSqlReference);
+
     default:
       return knowledgeBaseReferenceDeserializer(item);
   }
@@ -1680,6 +1777,12 @@ export enum KnownKnowledgeBaseReferenceType {
   FabricDataAgent = "fabricDataAgent",
   /** Fabric Ontology document reference. */
   FabricOntology = "fabricOntology",
+  /** MCP server document reference. */
+  McpServer = "mcpServer",
+  /** File document reference. */
+  File = "file",
+  /** Indexed SQL document reference. */
+  IndexedSql = "indexedSql",
 }
 
 /**
@@ -1695,7 +1798,10 @@ export enum KnownKnowledgeBaseReferenceType {
  * **remoteSharePoint**: Remote SharePoint document reference. \
  * **workIQ**: Work IQ document reference. \
  * **fabricDataAgent**: Fabric Data Agent document reference. \
- * **fabricOntology**: Fabric Ontology document reference.
+ * **fabricOntology**: Fabric Ontology document reference. \
+ * **mcpServer**: MCP server document reference. \
+ * **file**: File document reference. \
+ * **indexedSql**: Indexed SQL document reference.
  */
 export type KnowledgeBaseReferenceType = string;
 
@@ -1998,5 +2104,81 @@ export function knowledgeBaseFabricOntologyReferenceDeserializer(
     rerankerScore: item["rerankerScore"],
     workspaceId: item["workspaceId"],
     ontologyId: item["ontologyId"],
+  };
+}
+
+/** Represents an MCP server document reference. */
+export interface KnowledgeBaseMcpServerReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "mcpServer";
+  /** The name of the MCP server tool that produced the reference. */
+  toolName?: string;
+  /** The title of the MCP server tool result. */
+  title?: string;
+}
+
+export function knowledgeBaseMcpServerReferenceDeserializer(
+  item: any,
+): KnowledgeBaseMcpServerReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    toolName: item["toolName"],
+    title: item["title"],
+  };
+}
+
+/** Represents a file document reference. */
+export interface KnowledgeBaseFileReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "file";
+  /** The document name for the reference. */
+  docName?: string;
+}
+
+export function knowledgeBaseFileReferenceDeserializer(item: any): KnowledgeBaseFileReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    docName: item["docName"],
+  };
+}
+
+/** Represents an Azure SQL document reference. */
+export interface KnowledgeBaseIndexedSqlReference extends KnowledgeBaseReference {
+  /** The discriminator value. */
+  type: "indexedSql";
+  /** The document URL for the reference. */
+  docUrl?: string;
+}
+
+export function knowledgeBaseIndexedSqlReferenceDeserializer(
+  item: any,
+): KnowledgeBaseIndexedSqlReference {
+  return {
+    type: item["type"],
+    id: item["id"],
+    activitySource: item["activitySource"],
+    sourceData: !item["sourceData"]
+      ? item["sourceData"]
+      : Object.fromEntries(
+          Object.entries(item["sourceData"]).map(([k, p]: [string, unknown]) => [k, p]),
+        ),
+    rerankerScore: item["rerankerScore"],
+    docUrl: item["docUrl"],
   };
 }

@@ -1007,6 +1007,11 @@ export interface FileKnowledgeSourceParameters {
 }
 
 // @public
+export interface FileKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "file";
+}
+
+// @public
 export interface FreshnessPolicy {
     boostingDuration?: string;
 }
@@ -1232,6 +1237,11 @@ export interface IndexedSqlKnowledgeSourceParameters {
     highWaterMarkColumnName?: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters_2;
     tableOrView: string;
+}
+
+// @public
+export interface IndexedSqlKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "indexedSql";
 }
 
 // @public
@@ -1473,6 +1483,12 @@ export interface KnowledgeBaseFabricOntologyReference extends BaseKnowledgeBaseR
 }
 
 // @public
+export interface KnowledgeBaseFileReference extends BaseKnowledgeBaseReference {
+    docName?: string;
+    type: "file";
+}
+
+// @public
 export interface KnowledgeBaseIndexedOneLakeReference extends BaseKnowledgeBaseReference {
     docUrl?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
@@ -1487,7 +1503,20 @@ export interface KnowledgeBaseIndexedSharePointReference extends BaseKnowledgeBa
 }
 
 // @public
+export interface KnowledgeBaseIndexedSqlReference extends BaseKnowledgeBaseReference {
+    docUrl?: string;
+    type: "indexedSql";
+}
+
+// @public
 export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
+
+// @public
+export interface KnowledgeBaseMcpServerReference extends BaseKnowledgeBaseReference {
+    title?: string;
+    toolName?: string;
+    type: "mcpServer";
+}
 
 // @public
 export interface KnowledgeBaseMessage {
@@ -1549,7 +1578,7 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKn
 }
 
 // @public
-export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | BaseKnowledgeBaseReference;
+export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | BaseKnowledgeBaseReference;
 
 // @public
 export type KnowledgeBaseReferenceType = string;
@@ -1704,7 +1733,7 @@ export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource
 export type KnowledgeSourceKind = string;
 
 // @public
-export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | BaseKnowledgeSourceParams;
+export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | McpServerKnowledgeSourceParams | FileKnowledgeSourceParams | IndexedSqlKnowledgeSourceParams | BaseKnowledgeSourceParams;
 
 // @public
 export interface KnowledgeSourceReference {
@@ -3061,6 +3090,11 @@ export interface McpServerKnowledgeSourceParameters {
     authentication?: McpServerAuthenticationUnion;
     serverURL: string;
     tools: McpServerTool[];
+}
+
+// @public
+export interface McpServerKnowledgeSourceParams extends BaseKnowledgeSourceParams {
+    kind: "mcpServer";
 }
 
 // @public
