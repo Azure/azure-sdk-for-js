@@ -18,6 +18,8 @@ import type { BetaMemoryStoresOperations } from "./memoryStores/index.js";
 import { _getBetaMemoryStoresOperations } from "./memoryStores/index.js";
 import type { BetaRedTeamsOperations } from "./redTeams/index.js";
 import { _getBetaRedTeamsOperations } from "./redTeams/index.js";
+import type { BetaRoutinesOperations } from "./routines/index.js";
+import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
 import type { BetaToolboxesOperations } from "./toolboxes/index.js";
@@ -33,6 +35,8 @@ export interface BetaOperations {
   toolboxes: BetaToolboxesOperations;
   /** Operations for managing schedules. */
   schedules: BetaSchedulesOperations;
+  /** Operations for managing routines. */
+  routines: BetaRoutinesOperations;
   /** Operations for managing red team evaluations. */
   redTeams: BetaRedTeamsOperations;
   /** Operations for managing memory stores. */
@@ -57,6 +61,8 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     toolboxes: _getBetaToolboxesOperations(context),
     /** Operations for managing schedules. */
     schedules: _getBetaSchedulesOperations(context),
+    /** Operations for managing routines. */
+    routines: _getBetaRoutinesOperations(context),
     /** Operations for managing red team evaluations. */
     redTeams: _getBetaRedTeamsOperations(context),
     /** Operations for managing memory stores. */

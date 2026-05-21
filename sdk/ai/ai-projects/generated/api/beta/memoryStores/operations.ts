@@ -67,7 +67,7 @@ export function _deleteMemorySend(
   options: BetaMemoryStoresDeleteMemoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories/{memory_id}{?api%2Dversion}",
+    "/memory_stores/{name}/items/{memory_id}{?api%2Dversion}",
     {
       name: name,
       memory_id: memoryId,
@@ -119,12 +119,14 @@ export function _listMemoriesSend(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
   name: string,
+  scope: string,
   options: BetaMemoryStoresListMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories{?limit,order,after,before,api%2Dversion}",
+    "/memory_stores/{name}/items:list{?kind,limit,order,after,before,api%2Dversion}",
     {
       name: name,
+      kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -137,13 +139,15 @@ export function _listMemoriesSend(
   );
   return context
     .path(path)
-    .get({
+    .post({
       ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
       headers: {
         "foundry-features": foundryFeatures,
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
+      body: { scope: scope },
     });
 }
 
@@ -166,11 +170,12 @@ export function listMemories(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
   name: string,
+  scope: string,
   options: BetaMemoryStoresListMemoriesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MemoryItemUnion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listMemoriesSend(context, foundryFeatures, name, options),
+    () => _listMemoriesSend(context, foundryFeatures, name, scope, options),
     _listMemoriesDeserialize,
     ["200"],
     { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
@@ -185,7 +190,7 @@ export function _getMemorySend(
   options: BetaMemoryStoresGetMemoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories/{memory_id}{?api%2Dversion}",
+    "/memory_stores/{name}/items/{memory_id}{?api%2Dversion}",
     {
       name: name,
       memory_id: memoryId,
@@ -242,7 +247,7 @@ export function _updateMemorySend(
   options: BetaMemoryStoresUpdateMemoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories/{memory_id}{?api%2Dversion}",
+    "/memory_stores/{name}/items/{memory_id}{?api%2Dversion}",
     {
       name: name,
       memory_id: memoryId,
@@ -310,7 +315,7 @@ export function _createMemorySend(
   options: BetaMemoryStoresCreateMemoryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories{?api%2Dversion}",
+    "/memory_stores/{name}/items{?api%2Dversion}",
     {
       name: name,
       "api%2Dversion": context.apiVersion ?? "v1",
