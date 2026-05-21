@@ -32,10 +32,28 @@ Only flag removals present in GA.
 ### Constructor & Factory
 - Constructors: `(endpoint, credential, options?)` or `(endpoint, pipeline, options?)`
 - Connection strings: static `fromConnectionString()`, not constructor
+- **Every public client class must declare `readonly serviceApiVersion: string`** initialized to the package's API-version constant.
+  ```typescript
+  export class WidgetClient {
+    public readonly serviceApiVersion: string = API_VERSION;
+    // ...
+  }
+  ```
+  Missing `serviceApiVersion` on a new public client → flag as a tool/design issue.
 
 ### Parameters & Options
 - Optional params via options bag extending `OperationOptions`
 - Prefer `undefined` over `null` | Units in names (`timeoutInMs`)
+- **Every public method's TSDoc must include an `@servicePath` tag** identifying the underlying REST verb + path so the public API and the wire contract stay in sync.
+  ```typescript
+  /**
+   * Lists widgets in the registry.
+   *
+   * @servicePath GET /widgets
+   */
+  list(options?: ListOptions): PagedAsyncIterableIterator<Widget>;
+  ```
+  Missing `@servicePath` on a new public method → flag.
 
 ### Core Packages
 Use `@azure/core-*`: `core-rest-pipeline`, `core-client`, `core-lro`, `core-auth`, `core-paging`, `core-tracing`, `core-util`, `@azure/logger`
