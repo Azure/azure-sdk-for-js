@@ -2097,7 +2097,7 @@ export class VoiceLiveSession {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, model: string, options?: VoiceLiveSessionOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, agentConfig: AgentSessionConfig, options?: VoiceLiveSessionOptions);
     get activeTurnId(): string | undefined;
-    addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
+    addConversationItem(item: ConversationRequestItemUnion, options?: SendEventOptions): Promise<void>;
     connect(options?: ConnectOptions): Promise<void>;
     get connectionState(): ConnectionState;
     disconnect(): Promise<void>;
