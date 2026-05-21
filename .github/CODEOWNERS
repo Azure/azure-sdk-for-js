@@ -12,14 +12,14 @@
 ################
 
 /.devcontainer/ @Azure/azure-sdk-eng @Azure/azure-sdk-for-js-core
-/documentation/ @jeremymeng @Azure/azure-sdk-js-dev
-/samples/       @jeremymeng @Azure/azure-sdk-js-dev
+/documentation/ @Azure/azure-sdk-js-dev
+/samples/       @Azure/azure-sdk-js-dev
 
 ################
 # Architecture
 ################
 
-/design/ @bterlson @joheredi @jeremymeng @maorleger
+/design/ @Azure/azure-sdk-for-js-core
 
 # Catch all
 /sdk/ @xirzec @Azure/azure-sdk-js-dev
@@ -30,16 +30,16 @@
 ####################
 
 # PRLabel: %AgriFood
-/sdk/agrifood/    @joheredi
+/sdk/agrifood/    @jeremymeng
 
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %AgriFood
 
 # PRLabel: %AI Agents
-/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+/sdk/ai/ai-agents    @bobogogo1990 @dargilco @ganeshyb @glharper
 
 # ServiceLabel: %AI Agents
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper
 
 # PRLabel: %AI Model Inference
 /sdk/ai/ai-inference-rest    @dargilco @glharper
@@ -48,10 +48,10 @@
 # ServiceOwners: @dargilco @glharper
 
 # PRLabel: %AI Projects
-/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+/sdk/ai/ai-projects    @bobogogo1990 @dargilco @ganeshyb @glharper
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper @ZachhK
+# ServiceOwners: @bobogogo1990 @dargilco @ganeshyb @glharper
 
 # PRLabel: %App Configuration
 /sdk/appconfiguration/    @jimmyca15 @linglingye001 @zhiyuanliang-ms
@@ -72,18 +72,6 @@
 
 # PRLabel: %Azure.Core
 /sdk/core/    @Azure/azure-sdk-for-js-core
-
-# PRLabel: %Azure.Core
-/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @xirzec
-
-# PRLabel: %Azure.Core
-/sdk/core/core-client-rest/    @Azure/azure-sdk-for-js-core @joheredi @timovv
-
-# PRLabel: %Azure.Core
-/sdk/core/core-lro/    @Azure/azure-sdk-for-js-core @joheredi
-
-# PRLabel: %Azure.Core
-/sdk/core/core-tracing/    @Azure/azure-sdk-for-js-core @maorleger
 
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %Azure.Core
@@ -107,7 +95,7 @@
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/                                               @changjian-wang @bojunehsu @yungshinlintw
 
-# AzureSdkOwners: @jeremymeng
+# AzureSdkOwners: @changjian-wang @bojunehsu @yungshinlintw
 # ServiceLabel: %Cognitive - Form Recognizer
 
 # ServiceLabel: %Cognitive - Language
@@ -200,9 +188,9 @@
 /sdk/digitaltwins/    @johngallardo @olivakar @sjiherzig
 
 # PRLabel: %DocumentTranslator
-/sdk/documenttranslator/    @joheredi
+/sdk/documenttranslator/    @jeremymeng
 
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %DocumentTranslator
 
 # PRLabel: %Durable Task Scheduler
@@ -212,9 +200,9 @@
 # ServiceOwners: @berndverst @cgillum @kaibocai @philliphoff @torosent
 
 # PRLabel: %EngSys
-/sdk/template/    @benbp @mikeharder @weshaggard
+/sdk/template/    @benbp @mikeharder
 
-# AzureSdkOwners: @benbp @mikeharder @weshaggard
+# AzureSdkOwners: @benbp @mikeharder
 # ServiceLabel: %EngSys
 
 # PRLabel: %Event Grid
@@ -312,21 +300,22 @@
 # PRLabel: %Storage
 /sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
 
-# AzureSdkOwners: @joheredi @wanyang7
+# AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
+
 # PRLabel: %Synapse
-/sdk/synapse/    @joheredi @wanyang7
+/sdk/synapse/    @wanyang7
 
 # PRLabel: %Tables
-/sdk/tables/    @jeremymeng @joheredi
+/sdk/tables/    @jeremymeng
 
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %Tables
 
 # PRLabel: %test-utils
-/sdk/test-utils/    @timovv
+/sdk/test-utils/    @Azure/azure-sdk-for-js-core
 
-# AzureSdkOwners: @timovv
+# AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %test-utils
 
 # PRLabel: %Voice Live
@@ -1689,10 +1678,10 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @jeremymeng
-/common/ @mikeharder @jeremymeng
-/package.json @jeremymeng @Azure/azure-sdk-js-dev
-/turbo.json @jeremymeng @Azure/azure-sdk-js-dev
+/.vscode/ @mikeharder @Azure/azure-sdk-for-js-core
+/common/ @mikeharder @Azure/azure-sdk-for-js-core
+/package.json @Azure/azure-sdk-js-dev
+/turbo.json @Azure/azure-sdk-js-dev
 /pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
 /pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
 
@@ -1704,10 +1693,10 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 /common/tools/ @Azure/azure-sdk-js-dev
 
 # PRLabel: %dev-tool
-/common/tools/dev-tool/ @jeremymeng @timovv @maorleger
+/common/tools/dev-tool/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %eslint plugin
-/common/tools/eslint-plugin-azure-sdk*/ @Azure/azure-sdk-for-js-core
+/common/tools/eslint-plugin-azure-sdk/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %warp
 /common/tools/warp/ @Azure/azure-sdk-for-js-core
@@ -1735,12 +1724,13 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 #########################
 # Eng Sys and CODEOWNERS
 #########################
-/eng/                                    @mikeharder @weshaggard @benbp
+/eng/                                    @mikeharder @benbp
 /eng/tsconfigs/                          @Azure/azure-sdk-for-js-core
 /eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-/.config/1espt/                          @benbp @weshaggard
+/.config/1espt/                          @benbp @mikeharder
+
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
@@ -1772,16 +1762,18 @@ sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 /.github/prompts/security-review-guidelines.md     @Azure/azure-sdk-for-js-core
 /.github/prompts/test-recording.prompt.md          @Azure/azure-sdk-for-js-core
 /.github/prompts/test-review-guidelines.md         @Azure/azure-sdk-for-js-core
-/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
-/.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
-/eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
 
-/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
+/.github/copilot-instructions.md         @praveenkuttappan
+/eng/scripts/docs/type2docfx.version.txt @danieljurek @mikeharder
+
+/eng/tools @Azure/azure-sdk-for-js-core
+
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 
 # Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
+/eng/pipelines/aggregate-reports.yml         @Azure/azure-sdk-for-js-core
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
-/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @weshaggard @benbp
+/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @benbp
