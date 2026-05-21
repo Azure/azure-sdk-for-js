@@ -33,11 +33,16 @@ import { isCredential } from "./util/typeGuards.js";
 import { ensureValidIdentifier } from "./util/utils.js";
 
 /**
- * DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) in milliseconds from epoch.
- * The service interprets this sentinel as "return sessions with active messages"
- * rather than "return sessions updated after this time."
+ * The .NET AMQP library encodes DateTime.MaxValue as 253402300800000 ms
+ * (10000-01-01T00:00:00Z) due to double-to-long rounding in TotalMilliseconds,
+ * and its decoder clamps values beyond DateTime.MaxValue.Ticks back to
+ * DateTime.MaxValue. The service checks `lastUpdatedTime != DateTime.MaxValue`
+ * (exact equality) to switch into "active messages" mode. This value matches
+ * Track 1 Java's SessionBrowser.MAXDATE = new Date(253402300800000L).
+ *
+ * @internal
  */
-const ACTIVE_SESSIONS_SENTINEL_MS = 253402300799999;
+export const ACTIVE_SESSIONS_SENTINEL_MS = 253402300800000;
 
 /**
  * A client that can create Sender instances for sending messages to queues and
