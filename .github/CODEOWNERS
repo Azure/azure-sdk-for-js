@@ -139,7 +139,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @alvinjiang-msft
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -147,7 +147,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @alvinjiang-msft
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -291,9 +291,9 @@
 # ServiceOwners: @axisc @hmlam @sjkwak
 
 # PRLabel: %Search
-/sdk/search/    @Azure/azsdk-search @Azure/azure-sdk-write-search
+/sdk/search/    @Azure/azure-sdk-write-search
 
-# AzureSdkOwners: @dgetu
+# AzureSdkOwners: @srbalakr @efrainretana
 # ServiceLabel: %Search
 
 # PRLabel: %Service Bus
@@ -367,7 +367,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -382,7 +382,7 @@
 # PRLabel: %Mgmt
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/authorization/arm-authorization/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -421,7 +421,7 @@
 # PRLabel: %Mgmt
 /sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -613,7 +613,7 @@
 # PRLabel: %Mgmt
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -772,7 +772,7 @@
 # PRLabel: %Mgmt
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -781,7 +781,7 @@
 # PRLabel: %Mgmt
 /sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/msi/arm-msi/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -811,7 +811,7 @@
 # PRLabel: %Mgmt
 /sdk/notificationhubs/arm-notificationhubs/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/operationalinsights/arm-operationalinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -823,7 +823,7 @@
 # PRLabel: %Mgmt
 /sdk/onlineexperimentation/arm-onlineexperimentation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/peering/arm-peering/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -910,7 +910,7 @@
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -967,7 +967,7 @@
 # PRLabel: %Mgmt
 /sdk/sqlvirtualmachine/arm-sqlvirtualmachine/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storage/arm-storage/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -997,7 +997,7 @@
 # PRLabel: %Mgmt
 /sdk/streamanalytics/arm-streamanalytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/subscription/arm-subscriptions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1093,7 +1093,7 @@
 # PRLabel: %Mgmt
 /sdk/maintenance/arm-maintenance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/chaos/arm-chaos/ @qiaozha @MaryGao @JialinHuang803
 
 # ServiceLabel: %AAD %Service Attention
@@ -1682,6 +1682,9 @@ sdk/alertrulerecommendations/arm-alertrulerecommendations/ @qiaozha @MaryGao @Ji
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/alertsmanagement/arm-alertsmanagement/ @qiaozha @MaryGao @JialinHuang803
 sdk/prometheusrulegroups/arm-prometheusrulegroups/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/providerhub/arm-providerhub/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

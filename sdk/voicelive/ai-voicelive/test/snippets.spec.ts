@@ -30,7 +30,7 @@ describe("snippets", () => {
     const client = new VoiceLiveClient(endpoint, credential);
     // @ts-preserve-whitespace
     // Create and connect a session
-    const session = await client.startSession("gpt-4o-mini-realtime-preview");
+    const session = await client.startSession("gpt-realtime-mini");
     // @ts-preserve-whitespace
     // Configure session for voice conversation
     await session.updateSession({
@@ -55,7 +55,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
-    const session = await client.startSession("gpt-4o-realtime-preview");
+    const session = await client.startSession("gpt-realtime");
     // @ts-preserve-whitespace
     // Advanced session configuration
     await session.updateSession({
@@ -81,7 +81,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
-    const session = await client.startSession("gpt-4o-mini-realtime-preview");
+    const session = await client.startSession("gpt-realtime-mini");
     // @ts-preserve-whitespace
     // Set up event handlers using subscription pattern
     const subscription = session.subscribe({
@@ -113,7 +113,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
-    const session = await client.startSession("gpt-4o-mini-realtime-preview");
+    const session = await client.startSession("gpt-realtime-mini");
     // @ts-preserve-whitespace
     // Define available functions
     const tools = [
@@ -176,7 +176,7 @@ describe("snippets", () => {
     const client = new VoiceLiveClient(endpoint, credential);
     // @ts-preserve-whitespace
     // Model mode - LLM is the main actor
-    const session = await client.startSession("gpt-4o-realtime-preview");
+    const session = await client.startSession("gpt-realtime");
   });
 
   it("ReadmeSampleAgentModeSession", async () => {
@@ -198,7 +198,7 @@ describe("snippets", () => {
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const session = client.createSession({ model: "gpt-4o-realtime-preview" });
+    const session = client.createSession({ model: "gpt-realtime" });
   });
 
   it("CreateSessionAgentTarget", async () => {
@@ -216,7 +216,7 @@ describe("snippets", () => {
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
     const client = new VoiceLiveClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const session = await client.startSession({ model: "gpt-4o-realtime-preview" });
+    const session = await client.startSession({ model: "gpt-realtime" });
   });
 
   it("StartSessionAgentTarget", async () => {

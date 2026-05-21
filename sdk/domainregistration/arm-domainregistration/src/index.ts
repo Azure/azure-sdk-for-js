@@ -1,66 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import { AzureClouds, type AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DomainRegistrationManagementClient } from "./domainRegistrationManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Domain,
-  DomainProperties,
-  Contact,
-  Address,
-  DomainStatus,
-  ProvisioningState,
-  HostName,
-  AzureResourceType,
-  CustomHostNameDnsRecordType,
-  HostNameType,
-  DomainPurchaseConsent,
+  type Domain,
+  type DomainProperties,
+  type Contact,
+  type Address,
+  type DomainStatus,
+  type ProvisioningState,
+  type HostName,
+  type AzureResourceType,
+  type CustomHostNameDnsRecordType,
+  type HostNameType,
+  type DomainPurchaseConsent,
   KnownResourceNotRenewableReason,
-  ResourceNotRenewableReason,
-  DnsType,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ResourceNotRenewableReason,
+  type DnsType,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  DefaultErrorResponse,
-  DefaultErrorResponseError,
-  DefaultErrorResponseErrorDetailsItem,
-  DomainPatchResource,
-  DomainPatchResourceProperties,
-  ProxyOnlyResource,
-  DomainOwnershipIdentifier,
-  DomainOwnershipIdentifierProperties,
-  ProxyResource,
-  NameIdentifier,
-  DomainAvailabilityCheckResult,
-  DomainType,
-  DomainControlCenterSsoRequest,
-  DomainRecommendationSearchParameters,
-  TopLevelDomain,
-  TopLevelDomainProperties,
-  TopLevelDomainAgreementOption,
-  TldLegalAgreement,
-  CsmOperationDescription,
-  CsmOperationDisplay,
-  CsmOperationDescriptionProperties,
-  ServiceSpecification,
-  MetricSpecification,
-  Dimension,
-  MetricAvailability,
-  LogSpecification,
+  type CreatedByType,
+  type DefaultErrorResponse,
+  type DefaultErrorResponseError,
+  type DefaultErrorResponseErrorDetailsItem,
+  type DomainPatchResource,
+  type DomainPatchResourceProperties,
+  type ProxyOnlyResource,
+  type DomainOwnershipIdentifier,
+  type DomainOwnershipIdentifierProperties,
+  type ProxyResource,
+  type NameIdentifier,
+  type DomainAvailabilityCheckResult,
+  type DomainType,
+  type DomainControlCenterSsoRequest,
+  type DomainRecommendationSearchParameters,
+  type TopLevelDomain,
+  type TopLevelDomainProperties,
+  type TopLevelDomainAgreementOption,
+  type TldLegalAgreement,
+  type CsmOperationDescription,
+  type CsmOperationDisplay,
+  type CsmOperationDescriptionProperties,
+  type ServiceSpecification,
+  type MetricSpecification,
+  type Dimension,
+  type MetricAvailability,
+  type LogSpecification,
   KnownVersions,
 } from "./models/index.js";
-export { DomainRegistrationManagementClientOptionalParams } from "./api/index.js";
-export { DomainRegistrationProviderListOperationsOptionalParams } from "./api/domainRegistrationProvider/index.js";
-export {
+export type { DomainRegistrationManagementClientOptionalParams } from "./api/index.js";
+export type { DomainRegistrationProviderListOperationsOptionalParams } from "./api/domainRegistrationProvider/index.js";
+export type {
   DomainsListRecommendationsOptionalParams,
   DomainsGetControlCenterSsoRequestOptionalParams,
   DomainsCheckAvailabilityOptionalParams,
@@ -78,15 +78,15 @@ export {
   DomainsCreateOrUpdateOptionalParams,
   DomainsGetOptionalParams,
 } from "./api/domains/index.js";
-export {
+export type {
   TopLevelDomainsListAgreementsOptionalParams,
   TopLevelDomainsListOptionalParams,
   TopLevelDomainsGetOptionalParams,
 } from "./api/topLevelDomains/index.js";
-export {
+export type {
   DomainRegistrationProviderOperations,
   DomainsOperations,
   TopLevelDomainsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };
