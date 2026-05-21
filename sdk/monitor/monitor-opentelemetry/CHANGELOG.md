@@ -1,5 +1,19 @@
 # Release History
 
+## 1.19.0 (Unreleased)
+
+### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.217.0` to `^0.218.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`). The `otlp-transformer` in this release replaces its `protobufjs` dependency with a custom serializer, resolving related `npm audit` advisories.
+- Removed the redundant private `quickpulseClientOptions` field from `QuickpulseSender`; tests now read `credential` and `credentialScopes` directly via bracket notation.
+
+## 1.18.0 (2026-05-12)
+
+### Other Changes
+
+- Updated OpenTelemetry dependencies to the `0.217.0` / `2.7.1` release line, including `@opentelemetry/sdk-node`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, the stable `@opentelemetry/core` / `@opentelemetry/resources` / `@opentelemetry/sdk-metrics` / `@opentelemetry/sdk-trace-base` / `@opentelemetry/sdk-trace-node` packages, `@opentelemetry/semantic-conventions`, and the contrib instrumentations (`bunyan`, `mongodb`, `mysql`, `pg`, `redis`, `winston`, `resource-detector-azure`, `winston-transport`).
+- Updated to using exporter version 1.0.0-beta.41.
+
 ## 1.17.0 (2026-05-07)
 
 ### Features Added
@@ -7,7 +21,6 @@
 - Added GenAI main agent attribution: `AzureMonitorSpanProcessor` and `AzureLogRecordProcessor` now propagate `microsoft.gen_ai.main_agent.*` attributes (with fallback to `gen_ai.agent.*` / `gen_ai.conversation.id`) from parent spans to child spans, derive them on `invoke_agent` spans, and copy them from the active span onto emitted log records.
 - Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
 - Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
-- Replaced custom `AzureFunctionsHook` with `@azure/functions-opentelemetry-instrumentation` for Azure Functions context propagation. The new package is maintained by the Azure Functions team and provides additional capabilities including log forwarding and `WorkerOpenTelemetryEnabled` host capability. Added `azureFunctions` to `instrumentationOptions`, allowing the Azure Functions instrumentation to be configured (enabled/disabled) like all other instrumentations. It is enabled by default.
 
 ### Bugs Fixed
 

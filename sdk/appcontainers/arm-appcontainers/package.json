@@ -44,7 +44,6 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
-    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -72,10 +71,9 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "lint": "echo skipped",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -89,7 +87,6 @@
   },
   "autoPublish": true,
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers/README.md",
   "//sampleConfiguration": {
     "productName": "",
@@ -106,10 +103,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -122,7 +115,6 @@
   },
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }

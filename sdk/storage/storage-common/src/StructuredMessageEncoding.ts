@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { StorageCRC64Calculator } from "./StorageCRC64Calculator.js";
-import { isNodeLike } from "@azure/core-util";
+import { signalStreamEnd } from "#platform/streamHelpers";
 
 export const MESSAGE_VERSION: number = 1;
 export const MESSAGE_HEADER_LENGTH: number = 13;
@@ -66,7 +66,7 @@ export class StructuredMessageEncoding {
 
   private state: SMRegion;
 
-  public sourceDataHandler = (data: Buffer): void => {
+  public sourceDataHandler = (data: Uint8Array): void => {
     this.currentDataOffset = 0;
 
     if (this.state === SMRegion.StreamHeader) {
@@ -126,7 +126,7 @@ export class StructuredMessageEncoding {
     this.state = SMRegion.SegmentContent;
   }
 
-  private handlingSegmentContent(data: Buffer) {
+  private handlingSegmentContent(data: Uint8Array) {
     const length = Math.min(
       this.segmentContentLength - this.segmentContentOffset,
       data.length - this.currentDataOffset,
@@ -168,45 +168,25 @@ export class StructuredMessageEncoding {
   private handlingMessageFooter() {
     const crc64Result = this.messageCrc64.final(new Uint8Array([]), 0);
     this.pushData(crc64Result);
-    if (isNodeLike) {
-      this.pushData(null);
-    }
+    signalStreamEnd(this.pushData);
     this.state = SMRegion.Completed;
   }
 
   private fillInt64(buffer: Uint8Array, offset: number, input: number) {
     if (buffer.length < offset + 8) {
-      throw new Error("Buffer length is not expected.");
+      throw new Error("Uint8Array length is not expected.");
     }
 
-    if (isNodeLike) {
-      const internalBuffer = Buffer.alloc(8);
-      internalBuffer.writeBigUInt64LE(BigInt(input));
-
-      for (let index = 0; index < 6; ++index) {
-        buffer[offset + index] = internalBuffer[index];
-      }
-    } else {
-      const view = new DataView(buffer.buffer, offset, 8);
-      view.setBigUint64(0, BigInt(input), true);
-    }
+    const view = new DataView(buffer.buffer, buffer.byteOffset + offset, 8);
+    view.setBigUint64(0, BigInt(input), true);
   }
 
   private fillInt16(buffer: Uint8Array, offset: number, input: number) {
     if (buffer.length < offset + 2) {
-      throw new Error("Buffer length is not expected.");
+      throw new Error("Uint8Array length is not expected.");
     }
 
-    if (isNodeLike) {
-      const internalBuffer = Buffer.alloc(2);
-      internalBuffer.writeInt16LE(input);
-
-      for (let index = 0; index < 2; ++index) {
-        buffer[offset + index] = internalBuffer[index];
-      }
-    } else {
-      const view = new DataView(buffer.buffer, offset, 2);
-      view.setUint16(0, input, true);
-    }
+    const view = new DataView(buffer.buffer, buffer.byteOffset + offset, 2);
+    view.setUint16(0, input, true);
   }
 }

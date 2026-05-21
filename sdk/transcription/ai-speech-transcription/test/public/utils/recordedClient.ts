@@ -4,7 +4,7 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { TranscriptionClient, type TranscriptionClientOptionalParams } from "../../../src/index.js";
+import { TranscriptionClient, type TranscriptionClientOptions } from "../../../src/index.js";
 import { resolve, join } from "node:path";
 
 const replaceableVariables: Record<string, string> = {
@@ -49,7 +49,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
  */
 export function createClient(
   recorder: Recorder,
-  options?: TranscriptionClientOptionalParams,
+  options?: TranscriptionClientOptions,
 ): TranscriptionClient {
   const endpoint = env.TRANSCRIPTION_ENDPOINT ?? "https://eastus.api.cognitive.microsoft.com";
   const apiKey = env.TRANSCRIPTION_API_KEY ?? "fake_api_key";
