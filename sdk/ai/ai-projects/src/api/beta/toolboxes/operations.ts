@@ -22,14 +22,14 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
-  BetaToolboxesDeleteVersionOptionalParams,
+  DeleteVersionOptionalParams,
   BetaToolboxesDeleteOptionalParams,
   BetaToolboxesUpdateOptionalParams,
-  BetaToolboxesGetVersionOptionalParams,
-  BetaToolboxesListVersionsOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  BetaToolboxesCreateVersionOptionalParams,
+  CreateVersionOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -38,7 +38,7 @@ export function _deleteVersionSend(
   context: Client,
   toolboxName: string,
   version: string,
-  options: BetaToolboxesDeleteVersionOptionalParams = { requestOptions: {} },
+  options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
@@ -75,7 +75,7 @@ export async function deleteVersion(
   context: Client,
   toolboxName: string,
   version: string,
-  options: BetaToolboxesDeleteVersionOptionalParams = { requestOptions: {} },
+  options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _deleteVersionSend(context, toolboxName, version, options);
   return _deleteVersionDeserialize(result);
@@ -181,7 +181,7 @@ export function _getVersionSend(
   context: Client,
   toolboxName: string,
   version: string,
-  options: BetaToolboxesGetVersionOptionalParams = { requestOptions: {} },
+  options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
@@ -224,7 +224,7 @@ export async function getVersion(
   context: Client,
   toolboxName: string,
   version: string,
-  options: BetaToolboxesGetVersionOptionalParams = { requestOptions: {} },
+  options: GetVersionOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxVersionObject> {
   const result = await _getVersionSend(context, toolboxName, version, options);
   return _getVersionDeserialize(result);
@@ -233,7 +233,7 @@ export async function getVersion(
 export function _listVersionsSend(
   context: Client,
   toolboxName: string,
-  options: BetaToolboxesListVersionsOptionalParams = { requestOptions: {} },
+  options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
@@ -278,7 +278,7 @@ export async function _listVersionsDeserialize(
 export function listVersions(
   context: Client,
   toolboxName: string,
-  options: BetaToolboxesListVersionsOptionalParams = { requestOptions: {} },
+  options: ListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ToolboxVersionObject> {
   return buildPagedAsyncIterator(
     context,
@@ -409,7 +409,7 @@ export function _createVersionSend(
   context: Client,
   toolboxName: string,
   tools: ToolUnion[],
-  options: BetaToolboxesCreateVersionOptionalParams = { requestOptions: {} },
+  options: CreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
@@ -460,7 +460,7 @@ export async function createVersion(
   context: Client,
   toolboxName: string,
   tools: ToolUnion[],
-  options: BetaToolboxesCreateVersionOptionalParams = { requestOptions: {} },
+  options: CreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxVersionObject> {
   const result = await _createVersionSend(context, toolboxName, tools, options);
   return _createVersionDeserialize(result);

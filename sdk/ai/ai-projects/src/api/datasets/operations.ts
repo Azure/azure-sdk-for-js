@@ -380,7 +380,7 @@ async function createDatasetAndGetItsContainer(
   const { connectionName, projectOptions = {} } = options || {};
   // Start a pending upload to get the container URL with SAS token
   const pendingUploadResponse = await pendingUpload(context, name, version, {
-    pendingUploadType: "TemporaryBlobReference",
+    pendingUploadType: "BlobReference",
     connectionName,
   } as PendingUploadRequest);
 

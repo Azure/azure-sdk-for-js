@@ -64,11 +64,11 @@ export function _deleteMemorySend(
 ): StreamableMethod {
   const foundryFeatures = "MemoryStores=V1Preview";
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories/{memory_id}{?api-version}",
+    "/memory_stores/{name}/items/{memory_id}{?api-version}",
     {
       name: name,
       memory_id: memoryId,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,30 +112,34 @@ export async function deleteMemory(
 export function _listMemoriesSend(
   context: Client,
   name: string,
+  scope: string,
   options: BetaMemoryStoresListMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "MemoryStores=V1Preview";
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories{?limit,order,after,before,api-version}",
+    "/memory_stores/{name}/items:list{?kind,limit,order,after,before,api-version}",
     {
       name: name,
+      kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
+  return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: {
       "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
+    body: { scope: scope },
   });
 }
 
@@ -157,14 +161,15 @@ export async function _listMemoriesDeserialize(
 export function listMemories(
   context: Client,
   name: string,
+  scope: string,
   options: BetaMemoryStoresListMemoriesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MemoryItemUnion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listMemoriesSend(context, name, options),
+    () => _listMemoriesSend(context, name, scope, options),
     _listMemoriesDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -176,11 +181,11 @@ export function _getMemorySend(
 ): StreamableMethod {
   const foundryFeatures = "MemoryStores=V1Preview";
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories/{memory_id}{?api-version}",
+    "/memory_stores/{name}/items/{memory_id}{?api-version}",
     {
       name: name,
       memory_id: memoryId,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,11 +235,11 @@ export function _updateMemorySend(
 ): StreamableMethod {
   const foundryFeatures = "MemoryStores=V1Preview";
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories/{memory_id}{?api-version}",
+    "/memory_stores/{name}/items/{memory_id}{?api-version}",
     {
       name: name,
       memory_id: memoryId,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +293,7 @@ export function _createMemorySend(
 ): StreamableMethod {
   const foundryFeatures = "MemoryStores=V1Preview";
   const path = expandUrlTemplate(
-    "/memory_stores/{name}/memories{?api-version}",
+    "/memory_stores/{name}/items{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
