@@ -24,6 +24,13 @@ export { EventGridSenderClient } from "./eventGridSenderClient.js";
 
 export { EventGridReceiverClient } from "./eventGridReceiverClient.js";
 
+export {
+  EventGridDiagnosticsClient,
+  type GetTopicHealthOptions,
+  type GetSubscriptionLagOptions,
+  type TopicHealthSnapshot,
+} from "./eventGridDiagnosticsClient.js";
+
 export type { EventGridClientOptionalParams as EventGridClientOptions } from "./generated/index.js";
 
 export type { OperationOptions } from "@azure-rest/core-client";

@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `EventGridDiagnosticsClient` for retrieving topic health snapshots and subscriber lag without subscribing to events.
+
 ### Breaking Changes
 
 ### Bugs Fixed
