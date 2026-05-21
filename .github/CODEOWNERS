@@ -139,7 +139,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @alvinjiang-msft
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -147,7 +147,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @AikoBB @maximrytych-ms @mjafferi-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @alvinjiang-msft
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -781,7 +781,7 @@
 # PRLabel: %Mgmt
 /sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/msi/arm-msi/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -811,7 +811,7 @@
 # PRLabel: %Mgmt
 /sdk/notificationhubs/arm-notificationhubs/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/operationalinsights/arm-operationalinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -910,7 +910,7 @@
 # PRLabel: %Mgmt
 /sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
