@@ -30,13 +30,7 @@ export function createKeyVault(
 ): KeyVaultContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/result/src/api/keyVaultContext.ts
-  const userAgentInfo = `azsdk-js-keyvault-certificates/1.0.0-beta.1`;
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/base/sdk/keyvault/keyvault-certificates/generated/api/keyVaultContext.ts
-  const userAgentInfo = `azsdk-js-keyvault-certificates/4.10.4`;
-=======
   const userAgentInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolaYXwzU/custom/sdk/keyvault/keyvault-certificates/src/api/keyVaultContext.ts
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -50,7 +44,7 @@ export function createKeyVault(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? KnownVersions.V20250701;
+  const apiVersion = options.apiVersion ?? KnownVersions.V20260301Preview;
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

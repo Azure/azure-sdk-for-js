@@ -76,6 +76,51 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(pendingCertificate!.properties.preserveCertificateOrder).toEqual(true);
   });
 
+  it("can create a certificate with subject alternative name IP addresses", async (ctx) => {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+    const ipAddresses: [string, ...string[]] = ["10.0.0.1", "192.168.1.1"];
+
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      {
+        ...basicCertificatePolicy,
+        subjectAlternativeNames: {
+          ipAddresses,
+        },
+      },
+      testPollerProperties,
+    );
+    await poller.pollUntilDone();
+
+    const certificate = await client.getCertificate(certificateName);
+    expect(certificate.policy!.subjectAlternativeNames!.ipAddresses).toEqual(ipAddresses);
+  });
+
+  it("can create a certificate with subject alternative name URIs", async (ctx) => {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+    const uniformResourceIdentifiers: [string, ...string[]] = [
+      "https://example.com",
+      "urn:example:certificate",
+    ];
+
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      {
+        ...basicCertificatePolicy,
+        subjectAlternativeNames: {
+          uniformResourceIdentifiers,
+        },
+      },
+      testPollerProperties,
+    );
+    await poller.pollUntilDone();
+
+    const certificate = await client.getCertificate(certificateName);
+    expect(certificate.policy!.subjectAlternativeNames!.uniformResourceIdentifiers).toEqual(
+      uniformResourceIdentifiers,
+    );
+  });
+
   it("can abort creating a certificate", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const controller = new AbortController();
