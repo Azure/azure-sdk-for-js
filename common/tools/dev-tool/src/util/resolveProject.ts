@@ -132,6 +132,8 @@ async function isAzureSDKPackage(packageObject: unknown): Promise<boolean> {
     return true;
   } else if (packageObject.name.startsWith("@typespec")) {
     return true;
+  } else if (packageObject.name === "@microsoft/warp") {
+    return true;
   } else {
     return false;
   }
