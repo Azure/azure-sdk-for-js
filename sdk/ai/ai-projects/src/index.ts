@@ -476,7 +476,7 @@ export type {
   BetaAgentsDownloadSessionFileResponse,
   BetaAgentsDownloadAgentCodeResponse,
 } from "./models/index.js";
-export type { AIProjectClientOptionalParams } from "./api/index.js";
+export type { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
 export type { FileContents } from "./static-helpers/multipartHelpers.js";
 export type {
   AgentsListVersionsOptionalParams,
