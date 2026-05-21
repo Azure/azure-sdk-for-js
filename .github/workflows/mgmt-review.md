@@ -60,7 +60,6 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
-  edit:
   cache-memory:
   repo-memory:
 safe-outputs:
@@ -73,10 +72,6 @@ safe-outputs:
     max: 10
     side: "RIGHT"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
-  push-to-pull-request-branch:
-    max: 3
-    protected-files: allowed
-    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
