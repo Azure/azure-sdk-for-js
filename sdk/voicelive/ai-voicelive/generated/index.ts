@@ -111,7 +111,7 @@ export type {
   InterimResponseTrigger,
   SessionBase,
   ConversationItemBase,
-  Response,
+  VoiceLiveResponse,
   ResponseStatus,
   ResponseStatusDetails,
   ResponseStatusDetailsUnion,

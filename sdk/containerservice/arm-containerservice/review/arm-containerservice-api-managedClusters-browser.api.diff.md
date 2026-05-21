@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -204,9 +204,10 @@
+@@ -241,9 +241,10 @@
  // @public
  export function start(context: ContainerServiceContext, resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): PollerLike<OperationState<void>, void>;
  
