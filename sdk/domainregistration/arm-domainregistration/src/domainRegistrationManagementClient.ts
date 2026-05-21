@@ -15,7 +15,7 @@ import { _getTopLevelDomainsOperations } from "./classic/topLevelDomains/index.j
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DomainRegistrationManagementClientOptionalParams } from "./api/domainRegistrationManagementContext.js";
+export type { DomainRegistrationManagementClientOptionalParams } from "./api/domainRegistrationManagementContext.js";
 
 export class DomainRegistrationManagementClient {
   private _client: DomainRegistrationManagementContext;
