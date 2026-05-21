@@ -125,6 +125,54 @@ export enum KnownSchemaFormats {
   Custom = "Custom",
 }
 
+/**
+ * Sort order for listing schemas in a registry group.
+ */
+export enum SchemaSortOrder {
+  /** Sort schemas in ascending order by name. */
+  Ascending = "asc",
+  /** Sort schemas in descending order by name. */
+  Descending = "desc",
+}
+
+/**
+ * A lightweight summary of a registered schema, returned by listing operations.
+ */
+export interface SchemaSummary {
+  /** Name of the schema. */
+  name: string;
+  /** Schema group under which the schema is registered. */
+  groupName: string;
+  /** Latest version of the schema. */
+  latestVersion: number;
+  /** Schema format. */
+  format: string;
+}
+
+/**
+ * Options for SchemaRegistryClient.listSchemas.
+ */
+export interface ListSchemasOptions {
+  /**
+   * Maximum number of schemas to return in a single page.
+   */
+  maxPageSize?: number;
+  /**
+   * Sort order for the returned schemas.
+   */
+  sortOrder?: SchemaSortOrder;
+}
+
+/**
+ * Options for SchemaRegistryClient.getAllSchemas.
+ */
+export interface GetAllSchemasOptions extends OperationOptions {
+  /**
+   * Optional substring filter applied to schema names.
+   */
+  nameFilter?: string;
+}
+
 /** Alias for SchemaContentTypeValues */
 export type SchemaContentTypeValues =
   | "application/json; serialization=Avro"

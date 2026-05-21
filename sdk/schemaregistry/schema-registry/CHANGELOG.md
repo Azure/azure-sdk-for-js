@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Added `listSchemas` method on `SchemaRegistryClient` to enumerate every schema in a registry group.
+- Added `getAllSchemas` method on `SchemaRegistryClient` for retrieving schemas across all groups in a single call.
+- Renamed the `SchemaContentTypeValues` type to `SchemaContentType` for consistency with other clients.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -2,14 +2,17 @@
 // Licensed under the MIT License.
 
 import type {
+  GetAllSchemasOptions,
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
+  ListSchemasOptions,
   RegisterSchemaOptions,
   Schema,
   SchemaDescription,
   SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClientOptions,
+  SchemaSummary,
 } from "./models.js";
 import type { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions.js";
 import {
@@ -18,6 +21,7 @@ import {
   getSchemaById,
   getSchemaByVersion,
 } from "./operations.js";
+import { listSchemas, getAllSchemas } from "./listSchemas.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
@@ -206,5 +210,29 @@ export class SchemaRegistryClient implements SchemaRegistry {
         updatedOptions,
       ),
     );
+  }
+
+  /**
+   * Lists all schemas registered under the given group.
+   *
+   * @param groupName - The schema group to enumerate.
+   * @param options - Optional listing parameters.
+   * @returns An array of schema summaries.
+   */
+  listSchemas(
+    groupName: string,
+    options: ListSchemasOptions = {},
+  ): Promise<SchemaSummary[]> {
+    return listSchemas(this._client, groupName, options);
+  }
+
+  /**
+   * Returns every schema visible to the caller, across all groups.
+   *
+   * @param options - Optional filtering parameters.
+   * @returns A flat array of every visible schema summary.
+   */
+  getAllSchemas(options: GetAllSchemasOptions = {}): Promise<SchemaSummary[]> {
+    return getAllSchemas(this._client, options);
   }
 }
