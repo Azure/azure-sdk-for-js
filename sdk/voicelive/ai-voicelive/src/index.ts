@@ -245,6 +245,8 @@ export {
   KnownServerEventType,
 } from "./models/index.js";
 
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
+
 // Main client export
 export { VoiceLiveClient, type VoiceLiveClientOptions } from "./client/voiceLiveClient.js";
 
