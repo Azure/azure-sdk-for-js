@@ -47,3 +47,15 @@ export type {
   PageSettings,
   ContinuablePage,
 } from "./static-helpers/pagingHelpers.js";
+
+export {
+  fetchActiveConnections,
+  getAllHubMetrics,
+  HubMetricKind,
+  type FetchActiveConnectionsOptions,
+  type GetAllHubMetricsOptions,
+  type HubMetric,
+} from "./hubMetrics.js";
+
+/** @internal */
+export { parseConnectionString } from "./parseConnectionString.js";

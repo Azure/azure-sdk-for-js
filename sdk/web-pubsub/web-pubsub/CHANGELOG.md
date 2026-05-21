@@ -3,6 +3,10 @@
 
 ### Features Added
 
+- Added `fetchActiveConnections` helper for retrieving the list of active connection ids for a hub.
+- Added `getAllHubMetrics` helper for aggregating connection / user / group counts across every hub the credential can access.
+- Introduced `HubMetricKind` and the `HubMetric` snapshot type.
+
 ### Breaking Changes
 
 ### Bugs Fixed
