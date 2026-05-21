@@ -44,11 +44,6 @@ export interface BetaRoutinesOperations {
     options?: BetaRoutinesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<RoutineRun>;
   /** Delete a routine. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (routineName: string, options?: BetaRoutinesDeleteOptionalParams) => Promise<void>;
   /** List routines. */
   list: (options?: BetaRoutinesListOptionalParams) => PagedAsyncIterableIterator<Routine>;
