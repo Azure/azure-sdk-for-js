@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { KeyClient } from "../../src/index.js";
+import { CryptographyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 import type { CreateOctKeyOptions } from "../../src/keysModels.js";
 import { KnownKeyExportEncryptionAlgorithm } from "../../src/index.js";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -23,6 +25,7 @@ describe("Keys client - create, read, update and delete operations for managed H
   let hsmClient: KeyClient;
   let testClient: TestClient;
   let recorder: Recorder;
+  let credential: TokenCredential;
 
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
@@ -40,6 +43,7 @@ describe("Keys client - create, read, update and delete operations for managed H
     }
 
     hsmClient = authentication.hsmClient;
+    credential = authentication.credential;
     keySuffix = authentication.keySuffix;
     testClient = new TestClient(authentication.hsmClient);
   });
@@ -157,6 +161,36 @@ describe("Keys client - create, read, update and delete operations for managed H
       });
 
       assert.exists(releaseResult.value);
+    });
+
+    it("can securely wrap and unwrap a key", async () => {
+      const keyName = recorder.variable(
+        "securewrapkey",
+        `securewrapkey-${Math.floor(Math.random() * 100000)}`,
+      );
+      const key = await hsmClient.createKey(keyName, "RSA", {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+      const cryptoClient = new CryptographyClient(
+        key,
+        credential,
+        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
+      );
+
+      const wrapResult = await cryptoClient.secureWrapKey("RSA-OAEP-256");
+      assert.exists(wrapResult.keyID);
+      assert.equal(wrapResult.algorithm, "RSA-OAEP-256");
+      assert.exists(wrapResult.result);
+
+      const unwrapResult = await cryptoClient.secureUnwrapKey(
+        "RSA-OAEP-256",
+        wrapResult.result,
+        attestation,
+      );
+      assert.exists(unwrapResult.keyID);
+      assert.equal(unwrapResult.algorithm, "RSA-OAEP-256");
+      assert.exists(unwrapResult.result);
     });
 
     it("can update a key's release policy", async () => {

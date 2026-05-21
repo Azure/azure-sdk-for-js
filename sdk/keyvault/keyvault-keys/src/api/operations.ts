@@ -17,18 +17,9 @@ import type {
   KeySignParameters,
   KeyVerifyParameters,
   KeyVerifyResult,
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/api/operations.ts
-  keyVerifyResultDeserializer,
   SecureKeyWrapOperationParameters,
-  secureKeyWrapOperationParametersSerializer,
   SecureKeyOperationResult,
-  secureKeyOperationResultDeserializer,
   SecureKeyUnWrapOperationParameters,
-  secureKeyUnWrapOperationParametersSerializer,
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/api/operations.ts
-  keyVerifyResultDeserializer,
-=======
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/api/operations.ts
   KeyReleaseParameters,
   KeyReleaseResult,
   _DeletedKeyListResult,
@@ -52,6 +43,9 @@ import {
   keySignParametersSerializer,
   keyVerifyParametersSerializer,
   keyVerifyResultDeserializer,
+  secureKeyWrapOperationParametersSerializer,
+  secureKeyOperationResultDeserializer,
+  secureKeyUnWrapOperationParametersSerializer,
   keyReleaseParametersSerializer,
   keyReleaseResultDeserializer,
   _deletedKeyListResultDeserializer,
@@ -60,18 +54,7 @@ import {
   getRandomBytesRequestSerializer,
   randomBytesDeserializer,
 } from "../models/models.js";
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/api/operations.ts
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/api/operations.ts
-import {
-=======
 import type {
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/api/operations.ts
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -100,32 +83,11 @@ import type {
   RotateKeyOptionalParams,
   CreateKeyOptionalParams,
 } from "./options.js";
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/api/operations.ts
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/api/operations.ts
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-=======
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/api/operations.ts
 
 export function _getKeyAttestationSend(
   context: Client,
@@ -144,12 +106,10 @@ export function _getKeyAttestationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getKeyAttestationDeserialize(
@@ -191,14 +151,12 @@ export function _getRandomBytesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: getRandomBytesRequestSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: getRandomBytesRequestSerializer(parameters),
+  });
 }
 
 export async function _getRandomBytesDeserialize(
@@ -241,14 +199,12 @@ export function _updateKeyRotationPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyRotationPolicySerializer(keyRotationPolicy),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyRotationPolicySerializer(keyRotationPolicy),
+  });
 }
 
 export async function _updateKeyRotationPolicyDeserialize(
@@ -291,12 +247,10 @@ export function _getKeyRotationPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getKeyRotationPolicyDeserialize(
@@ -338,12 +292,10 @@ export function _recoverDeletedKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _recoverDeletedKeyDeserialize(
@@ -425,12 +377,10 @@ export function _getDeletedKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeletedKeyDeserialize(
@@ -471,12 +421,10 @@ export function _getDeletedKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeletedKeysDeserialize(
@@ -529,14 +477,12 @@ export function _releaseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyReleaseParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyReleaseParametersSerializer(parameters),
+  });
 }
 
 export async function _releaseDeserialize(
@@ -583,14 +529,12 @@ export function _unwrapKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyOperationsParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyOperationsParametersSerializer(parameters),
+  });
 }
 
 export async function _unwrapKeyDeserialize(
@@ -637,14 +581,12 @@ export function _secureUnwrapKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: secureKeyUnWrapOperationParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: secureKeyUnWrapOperationParametersSerializer(parameters),
+  });
 }
 
 export async function _secureUnwrapKeyDeserialize(
@@ -694,14 +636,12 @@ export function _secureWrapKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: secureKeyWrapOperationParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: secureKeyWrapOperationParametersSerializer(parameters),
+  });
 }
 
 export async function _secureWrapKeyDeserialize(
@@ -748,14 +688,12 @@ export function _wrapKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyOperationsParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyOperationsParametersSerializer(parameters),
+  });
 }
 
 export async function _wrapKeyDeserialize(
@@ -802,14 +740,12 @@ export function _verifySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyVerifyParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyVerifyParametersSerializer(parameters),
+  });
 }
 
 export async function _verifyDeserialize(result: PathUncheckedResponse): Promise<KeyVerifyResult> {
@@ -854,14 +790,12 @@ export function _signSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keySignParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keySignParametersSerializer(parameters),
+  });
 }
 
 export async function _signDeserialize(result: PathUncheckedResponse): Promise<KeyOperationResult> {
@@ -906,14 +840,12 @@ export function _decryptSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyOperationsParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyOperationsParametersSerializer(parameters),
+  });
 }
 
 export async function _decryptDeserialize(
@@ -960,14 +892,12 @@ export function _encryptSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyOperationsParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyOperationsParametersSerializer(parameters),
+  });
 }
 
 export async function _encryptDeserialize(
@@ -1010,14 +940,12 @@ export function _restoreKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyRestoreParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyRestoreParametersSerializer(parameters),
+  });
 }
 
 export async function _restoreKeyDeserialize(result: PathUncheckedResponse): Promise<KeyBundle> {
@@ -1057,12 +985,10 @@ export function _backupKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _backupKeyDeserialize(
@@ -1103,12 +1029,10 @@ export function _getKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getKeysDeserialize(result: PathUncheckedResponse): Promise<_KeyListResult> {
@@ -1157,12 +1081,10 @@ export function _getKeyVersionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getKeyVersionsDeserialize(
@@ -1215,12 +1137,10 @@ export function _getKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getKeyDeserialize(result: PathUncheckedResponse): Promise<KeyBundle> {
@@ -1264,14 +1184,12 @@ export function _updateKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyUpdateParametersSerializer(parameters),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyUpdateParametersSerializer(parameters),
+  });
 }
 
 export async function _updateKeyDeserialize(result: PathUncheckedResponse): Promise<KeyBundle> {
@@ -1313,12 +1231,10 @@ export function _deleteKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _deleteKeyDeserialize(
@@ -1361,14 +1277,12 @@ export function _importKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyImportParametersSerializer(parameters),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyImportParametersSerializer(parameters),
+  });
 }
 
 export async function _importKeyDeserialize(result: PathUncheckedResponse): Promise<KeyBundle> {
@@ -1409,12 +1323,10 @@ export function _rotateKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _rotateKeyDeserialize(result: PathUncheckedResponse): Promise<KeyBundle> {
@@ -1455,14 +1367,12 @@ export function _createKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: keyCreateParametersSerializer(parameters),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: keyCreateParametersSerializer(parameters),
+  });
 }
 
 export async function _createKeyDeserialize(result: PathUncheckedResponse): Promise<KeyBundle> {

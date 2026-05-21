@@ -630,6 +630,10 @@ export enum KnownKeyOperations {
   WrapKey = "wrapKey",
   /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
+  /** Key operation - secureWrapKey */
+  SecureWrapKey = "secureWrapKey",
+  /** Key operation - secureUnwrapKey */
+  SecureUnwrapKey = "secureUnwrapKey",
   /** Key operation - import */
   Import = "import",
 }

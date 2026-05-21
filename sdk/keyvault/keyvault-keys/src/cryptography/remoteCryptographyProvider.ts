@@ -11,6 +11,9 @@ import type {
   EncryptParameters,
   EncryptResult,
   KeyWrapAlgorithm,
+  SecureKeyResult,
+  SecureUnwrapKeyOptions,
+  SecureWrapKeyOptions,
   SignOptions,
   SignResult,
   UnwrapKeyOptions,
@@ -207,6 +210,60 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           result: result.result!,
           algorithm,
           keyID: this.getKeyID(),
+        };
+      },
+    );
+  }
+
+  secureWrapKey(
+    algorithm: KeyWrapAlgorithm,
+    options: SecureWrapKeyOptions = {},
+  ): Promise<SecureKeyResult> {
+    return tracingClient.withSpan(
+      "RemoteCryptographyProvider.secureWrapKey",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.secureWrapKey(
+          this.name,
+          this.version,
+          { algorithm },
+          updatedOptions,
+        );
+
+        return {
+          result: result.value,
+          algorithm,
+          keyID: result.kid,
+        };
+      },
+    );
+  }
+
+  secureUnwrapKey(
+    algorithm: KeyWrapAlgorithm,
+    encryptedKey: Uint8Array,
+    targetAttestationToken: string,
+    options: SecureUnwrapKeyOptions = {},
+  ): Promise<SecureKeyResult> {
+    return tracingClient.withSpan(
+      "RemoteCryptographyProvider.secureUnwrapKey",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.secureUnwrapKey(
+          this.name,
+          this.version,
+          {
+            algorithm,
+            value: encryptedKey,
+            targetAttestationToken,
+          },
+          updatedOptions,
+        );
+
+        return {
+          result: result.value,
+          algorithm,
+          keyID: result.kid,
         };
       },
     );

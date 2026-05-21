@@ -2,38 +2,6 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/index.ts
-import {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./static-helpers/pagingHelpers.js";
-
-export { KeyVaultClient } from "./keyVaultClient.js";
-export type {
-  KeyCreateParameters,
-  JsonWebKeyType,
-  JsonWebKeyOperation,
-  KeyAttributes,
-  DeletionRecoveryLevel,
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/index.ts
-import {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./static-helpers/pagingHelpers.js";
-
-export { KeyVaultClient } from "./keyVaultClient.js";
-export {
-  KeyCreateParameters,
-  KnownJsonWebKeyType,
-  JsonWebKeyType,
-  KnownJsonWebKeyOperation,
-  JsonWebKeyOperation,
-  KeyAttributes,
-  KnownDeletionRecoveryLevel,
-  DeletionRecoveryLevel,
-=======
 import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -65,90 +33,16 @@ import type {
   GetRandomBytesOptions,
   ImportKeyOptions,
   JsonWebKey,
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/index.ts
   KeyAttestation,
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/index.ts
-  ExternalKey,
-  JsonWebKeyCurveName,
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/index.ts
-  KnownJsonWebKeyCurveName,
-  JsonWebKeyCurveName,
-=======
   KeyClientOptions,
   KeyExportEncryptionAlgorithm,
   KeyOperation,
   KeyPollerOptions,
   KeyProperties,
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/index.ts
   KeyReleasePolicy,
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/index.ts
-  KeyBundle,
-  JsonWebKey,
-  KeyVaultError,
-  ErrorModel,
-  KeyImportParameters,
-  DeletedKeyBundle,
-  KeyUpdateParameters,
-  KeyItem,
-  BackupKeyResult,
-  KeyRestoreParameters,
-  KeyOperationsParameters,
-  JsonWebKeyEncryptionAlgorithm,
-  KeyOperationResult,
-  KeySignParameters,
-  JsonWebKeySignatureAlgorithm,
-  KeyVerifyParameters,
-  KeyVerifyResult,
-  SecureKeyWrapOperationParameters,
-  JsonWebKeyWrapAlgorithm,
-  SecureKeyOperationResult,
-  SecureKeyUnWrapOperationParameters,
-  KeyReleaseParameters,
-  KeyEncryptionAlgorithm,
-  KeyReleaseResult,
-  DeletedKeyItem,
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/index.ts
-  KeyBundle,
-  JsonWebKey,
-  KeyVaultError,
-  ErrorModel,
-  KeyImportParameters,
-  DeletedKeyBundle,
-  KeyUpdateParameters,
-  KeyItem,
-  BackupKeyResult,
-  KeyRestoreParameters,
-  KeyOperationsParameters,
-  KnownJsonWebKeyEncryptionAlgorithm,
-  JsonWebKeyEncryptionAlgorithm,
-  KeyOperationResult,
-  KeySignParameters,
-  KnownJsonWebKeySignatureAlgorithm,
-  JsonWebKeySignatureAlgorithm,
-  KeyVerifyParameters,
-  KeyVerifyResult,
-  KeyReleaseParameters,
-  KnownKeyEncryptionAlgorithm,
-  KeyEncryptionAlgorithm,
-  KeyReleaseResult,
-  DeletedKeyItem,
-=======
   KeyRotationLifetimeAction,
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/index.ts
   KeyRotationPolicy,
   KeyRotationPolicyAction,
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/index.ts
-  KeyRotationPolicyAttributes,
-  GetRandomBytesRequest,
-  RandomBytes,
-} from "./models/index.js";
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/index.ts
-  KeyRotationPolicyAttributes,
-  GetRandomBytesRequest,
-  RandomBytes,
-  KnownVersions,
-} from "./models/index.js";
-=======
   KeyRotationPolicyProperties,
   KeyType,
   KeyVaultKey,
@@ -186,6 +80,9 @@ import type {
   RsaEncryptionAlgorithm,
   SignOptions,
   SignResult,
+  SecureKeyResult,
+  SecureUnwrapKeyOptions,
+  SecureWrapKeyOptions,
   SignatureAlgorithm,
   UnwrapKeyOptions,
   UnwrapResult,
@@ -214,80 +111,7 @@ import {
 import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/index.ts
 export {
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/index.ts
-  KnownJsonWebKeyType,
-  KnownJsonWebKeyOperation,
-  KnownDeletionRecoveryLevel,
-  KnownJsonWebKeyCurveName,
-  KnownJsonWebKeyEncryptionAlgorithm,
-  KnownJsonWebKeySignatureAlgorithm,
-  KnownJsonWebKeyWrapAlgorithm,
-  KnownKeyEncryptionAlgorithm,
-  KnownVersions,
-} from "./models/index.js";
-export type {
-  KeyVaultClientOptionalParams,
-  GetKeyAttestationOptionalParams,
-  GetRandomBytesOptionalParams,
-  UpdateKeyRotationPolicyOptionalParams,
-  GetKeyRotationPolicyOptionalParams,
-  RecoverDeletedKeyOptionalParams,
-  PurgeDeletedKeyOptionalParams,
-  GetDeletedKeyOptionalParams,
-  GetDeletedKeysOptionalParams,
-  ReleaseOptionalParams,
-  UnwrapKeyOptionalParams,
-  SecureUnwrapKeyOptionalParams,
-  SecureWrapKeyOptionalParams,
-  WrapKeyOptionalParams,
-  VerifyOptionalParams,
-  SignOptionalParams,
-  DecryptOptionalParams,
-  EncryptOptionalParams,
-  RestoreKeyOptionalParams,
-  BackupKeyOptionalParams,
-  GetKeysOptionalParams,
-  GetKeyVersionsOptionalParams,
-  GetKeyOptionalParams,
-  UpdateKeyOptionalParams,
-  DeleteKeyOptionalParams,
-  ImportKeyOptionalParams,
-  RotateKeyOptionalParams,
-  CreateKeyOptionalParams,
-} from "./api/index.js";
-export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/index.ts
-  KeyVaultClientOptionalParams,
-  GetKeyAttestationOptionalParams,
-  GetRandomBytesOptionalParams,
-  UpdateKeyRotationPolicyOptionalParams,
-  GetKeyRotationPolicyOptionalParams,
-  RecoverDeletedKeyOptionalParams,
-  PurgeDeletedKeyOptionalParams,
-  GetDeletedKeyOptionalParams,
-  GetDeletedKeysOptionalParams,
-  ReleaseOptionalParams,
-  UnwrapKeyOptionalParams,
-  WrapKeyOptionalParams,
-  VerifyOptionalParams,
-  SignOptionalParams,
-  DecryptOptionalParams,
-  EncryptOptionalParams,
-  RestoreKeyOptionalParams,
-  BackupKeyOptionalParams,
-  GetKeysOptionalParams,
-  GetKeyVersionsOptionalParams,
-  GetKeyOptionalParams,
-  UpdateKeyOptionalParams,
-  DeleteKeyOptionalParams,
-  ImportKeyOptionalParams,
-  RotateKeyOptionalParams,
-  CreateKeyOptionalParams,
-} from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-=======
   type CryptographyClientOptions,
   type KeyClientOptions,
   type BackupKeyOptions,
@@ -353,6 +177,9 @@ export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
   type RotateKeyOptions,
   type SignOptions,
   type SignResult,
+  type SecureKeyResult,
+  type SecureUnwrapKeyOptions,
+  type SecureWrapKeyOptions,
   type UnwrapKeyOptions,
   type UnwrapResult,
   type UpdateKeyPropertiesOptions,
@@ -549,7 +376,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.ECHSM : KnownKeyTypes.EC;
+    const keyType = options?.hsm ? KnownKeyTypes.Echsm : KnownKeyTypes.EC;
     return this.createKey(name, keyType, options);
   }
 
@@ -579,7 +406,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.RSAHSM : KnownKeyTypes.RSA;
+    const keyType = options?.hsm ? KnownKeyTypes.Rsahsm : KnownKeyTypes.RSA;
     return this.createKey(name, keyType, options);
   }
 
@@ -1481,4 +1308,3 @@ export class KeyClient {
     );
   }
 }
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/index.ts

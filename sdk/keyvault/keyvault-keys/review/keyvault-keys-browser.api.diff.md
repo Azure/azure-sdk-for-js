@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // @deprecated
      decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
      encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
-@@ -134,11 +134,11 @@
+@@ -136,11 +136,11 @@
  
  // @public
  export interface DeletedKey {
@@ -32,7 +32,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      properties: KeyProperties & {
          readonly recoveryId?: string;
          readonly scheduledPurgeDate?: Date;
-@@ -209,26 +209,27 @@
+@@ -211,26 +211,27 @@
      };
  }
  
@@ -62,7 +62,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyAttestation {
      certificatePemFile?: Uint8Array;
-@@ -243,18 +244,18 @@
+@@ -245,18 +246,18 @@
      backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
      beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
@@ -83,7 +83,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
      listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
      purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-@@ -341,16 +342,17 @@
+@@ -343,16 +344,17 @@
      lifetimeActions?: KeyRotationLifetimeAction[];
  }
  

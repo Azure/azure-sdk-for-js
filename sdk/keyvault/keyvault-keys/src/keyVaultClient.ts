@@ -1,63 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/keyVaultClient.ts
-import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
-import {
-  getKeyAttestation,
-  getRandomBytes,
-  updateKeyRotationPolicy,
-  getKeyRotationPolicy,
-  recoverDeletedKey,
-  purgeDeletedKey,
-  getDeletedKey,
-  getDeletedKeys,
-  release,
-  unwrapKey,
-  secureUnwrapKey,
-  secureWrapKey,
-  wrapKey,
-  verify,
-  sign,
-  decrypt,
-  encrypt,
-  restoreKey,
-  backupKey,
-  getKeys,
-  getKeyVersions,
-  getKey,
-  updateKey,
-  deleteKey,
-  importKey,
-  rotateKey,
-  createKey,
-} from "./api/operations.js";
-import {
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/keyVaultClient.ts
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
-  KeyCreateParameters,
-  KeyBundle,
-  KeyImportParameters,
-  DeletedKeyBundle,
-  KeyUpdateParameters,
-  KeyItem,
-  BackupKeyResult,
-  KeyRestoreParameters,
-  KeyOperationsParameters,
-  KeyOperationResult,
-  KeySignParameters,
-  KeyVerifyParameters,
-  KeyVerifyResult,
-  KeyReleaseParameters,
-  KeyReleaseResult,
-  DeletedKeyItem,
-  KeyRotationPolicy,
-  GetRandomBytesRequest,
-  RandomBytes,
-} from "./models/models.js";
-import {
-=======
 import type { KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
 import { createKeyVault } from "./api/index.js";
 import type {
@@ -74,6 +17,9 @@ import type {
   KeySignParameters,
   KeyVerifyParameters,
   KeyVerifyResult,
+  SecureKeyWrapOperationParameters,
+  SecureKeyOperationResult,
+  SecureKeyUnWrapOperationParameters,
   KeyReleaseParameters,
   KeyReleaseResult,
   DeletedKeyItem,
@@ -82,7 +28,6 @@ import type {
   RandomBytes,
 } from "./models/models.js";
 import type {
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/keyVaultClient.ts
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -112,34 +57,6 @@ import type {
   CreateKeyOptionalParams,
 } from "./api/options.js";
 import {
-<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/result/src/keyVaultClient.ts
-  KeyCreateParameters,
-  KeyBundle,
-  KeyImportParameters,
-  DeletedKeyBundle,
-  KeyUpdateParameters,
-  KeyItem,
-  BackupKeyResult,
-  KeyRestoreParameters,
-  KeyOperationsParameters,
-  KeyOperationResult,
-  KeySignParameters,
-  KeyVerifyParameters,
-  KeyVerifyResult,
-  SecureKeyWrapOperationParameters,
-  SecureKeyOperationResult,
-  SecureKeyUnWrapOperationParameters,
-  KeyReleaseParameters,
-  KeyReleaseResult,
-  DeletedKeyItem,
-  KeyRotationPolicy,
-  GetRandomBytesRequest,
-  RandomBytes,
-} from "./models/models.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/base/sdk/keyvault/keyvault-keys/generated/keyVaultClient.ts
   getKeyAttestation,
   getRandomBytes,
   updateKeyRotationPolicy,
@@ -150,36 +67,8 @@ import { Pipeline } from "@azure/core-rest-pipeline";
   getDeletedKeys,
   release,
   unwrapKey,
-  wrapKey,
-  verify,
-  sign,
-  decrypt,
-  encrypt,
-  restoreKey,
-  backupKey,
-  getKeys,
-  getKeyVersions,
-  getKey,
-  updateKey,
-  deleteKey,
-  importKey,
-  rotateKey,
-  createKey,
-} from "./api/operations.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-=======
-  getKeyAttestation,
-  getRandomBytes,
-  updateKeyRotationPolicy,
-  getKeyRotationPolicy,
-  recoverDeletedKey,
-  purgeDeletedKey,
-  getDeletedKey,
-  getDeletedKeys,
-  release,
-  unwrapKey,
+  secureUnwrapKey,
+  secureWrapKey,
   wrapKey,
   verify,
   sign,
@@ -199,7 +88,6 @@ import { TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
->>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolgRhxXW/custom/sdk/keyvault/keyvault-keys/src/keyVaultClient.ts
 
 export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
