@@ -43,8 +43,8 @@ describe("snippets", () => {
       turnDetection: {
         type: "server_vad",
         threshold: 0.5,
-        prefixPaddingMs: 300,
-        silenceDurationMs: 500,
+        prefixPaddingInMs: 300,
+        silenceDurationInMs: 500,
       },
       inputAudioFormat: "pcm16",
       outputAudioFormat: "pcm16",
@@ -69,8 +69,8 @@ describe("snippets", () => {
       turnDetection: {
         type: "server_vad",
         threshold: 0.6,
-        prefixPaddingMs: 200,
-        silenceDurationMs: 300,
+        prefixPaddingInMs: 200,
+        silenceDurationInMs: 300,
       },
       inputAudioFormat: "pcm16",
       outputAudioFormat: "pcm16",
@@ -97,7 +97,7 @@ describe("snippets", () => {
         console.log("Assistant:", event.delta);
       },
       // @ts-preserve-whitespace
-      onInputAudioTranscriptionCompleted: async (event, context) => {
+      onConversationItemInputAudioTranscriptionCompleted: async (event, context) => {
         // Handle user speech transcription
         console.log("User said:", event.transcript);
       },

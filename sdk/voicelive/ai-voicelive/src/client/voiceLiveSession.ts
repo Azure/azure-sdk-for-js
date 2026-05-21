@@ -12,7 +12,7 @@ import {
   type ClientEventInputAudioTurnStart,
   type ClientEventInputAudioTurnAppend,
   type ClientEventInputAudioTurnEnd,
-  type ConversationRequestItem,
+  type ConversationRequestItemUnion,
   type ClientEventConversationItemCreate,
   type ServerEventUnion,
   KnownClientEventType,
@@ -380,7 +380,7 @@ export class VoiceLiveSession {
    * Adds a conversation item (message) to the conversation.
    */
   async addConversationItem(
-    item: ConversationRequestItem,
+    item: ConversationRequestItemUnion,
     options: SendEventOptions = {},
   ): Promise<void> {
     this._ensureConnected();

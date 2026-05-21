@@ -517,8 +517,8 @@ export class VoiceAssistant {
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
-          prefixPaddingMs: 300,
-          silenceDurationMs: 500
+          prefixPaddingInMs: 300,
+          silenceDurationInMs: 500
         }
       });
       
