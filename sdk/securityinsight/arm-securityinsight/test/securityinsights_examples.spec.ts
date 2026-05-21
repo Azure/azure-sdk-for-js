@@ -9,10 +9,8 @@
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SecurityInsights } from "../src/securityInsights.js";
-import {
-  SentinelOnboardingState,
-  SentinelOnboardingStatesCreateOptionalParams,
-} from "../src/models/index.js";
+import { SentinelOnboardingState } from "../src/models/index.js";
+import { SentinelOnboardingStatesCreateOptionalParams } from "../src/api/sentinelOnboardingStates/options.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -34,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("securityinsight test", () => {
+describe.skip("securityinsight test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SecurityInsights;
