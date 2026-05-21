@@ -13,14 +13,14 @@ import {
   createVersion,
 } from "../../../api/beta/toolboxes/operations.js";
 import type {
-  BetaToolboxesDeleteVersionOptionalParams,
+  DeleteVersionOptionalParams,
   BetaToolboxesDeleteOptionalParams,
   BetaToolboxesUpdateOptionalParams,
-  BetaToolboxesGetVersionOptionalParams,
-  BetaToolboxesListVersionsOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  BetaToolboxesCreateVersionOptionalParams,
+  CreateVersionOptionalParams,
 } from "../../../api/beta/toolboxes/options.js";
 import type { ToolUnion, ToolboxVersionObject, ToolboxObject } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -31,7 +31,7 @@ export interface BetaToolboxesOperations {
   deleteVersion: (
     toolboxName: string,
     version: string,
-    options?: BetaToolboxesDeleteVersionOptionalParams,
+    options?: DeleteVersionOptionalParams,
   ) => Promise<void>;
   /** Delete a toolbox and all its versions. */
   delete: (toolboxName: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
@@ -45,12 +45,12 @@ export interface BetaToolboxesOperations {
   getVersion: (
     toolboxName: string,
     version: string,
-    options?: BetaToolboxesGetVersionOptionalParams,
+    options?: GetVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
   /** List all versions of a toolbox. */
   listVersions: (
     toolboxName: string,
-    options?: BetaToolboxesListVersionsOptionalParams,
+    options?: ListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ToolboxVersionObject>;
   /** List all toolboxes. */
   list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
@@ -60,17 +60,14 @@ export interface BetaToolboxesOperations {
   createVersion: (
     toolboxName: string,
     tools: ToolUnion[],
-    options?: BetaToolboxesCreateVersionOptionalParams,
+    options?: CreateVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
 }
 
 function _getBetaToolboxes(context: AIProjectContext) {
   return {
-    deleteVersion: (
-      toolboxName: string,
-      version: string,
-      options?: BetaToolboxesDeleteVersionOptionalParams,
-    ) => deleteVersion(context, toolboxName, version, options),
+    deleteVersion: (toolboxName: string, version: string, options?: DeleteVersionOptionalParams) =>
+      deleteVersion(context, toolboxName, version, options),
     delete: (toolboxName: string, options?: BetaToolboxesDeleteOptionalParams) =>
       $delete(context, toolboxName, options),
     update: (
@@ -78,12 +75,9 @@ function _getBetaToolboxes(context: AIProjectContext) {
       defaultVersion: string,
       options?: BetaToolboxesUpdateOptionalParams,
     ) => update(context, toolboxName, defaultVersion, options),
-    getVersion: (
-      toolboxName: string,
-      version: string,
-      options?: BetaToolboxesGetVersionOptionalParams,
-    ) => getVersion(context, toolboxName, version, options),
-    listVersions: (toolboxName: string, options?: BetaToolboxesListVersionsOptionalParams) =>
+    getVersion: (toolboxName: string, version: string, options?: GetVersionOptionalParams) =>
+      getVersion(context, toolboxName, version, options),
+    listVersions: (toolboxName: string, options?: ListVersionsOptionalParams) =>
       listVersions(context, toolboxName, options),
     list: (options?: BetaToolboxesListOptionalParams) => list(context, options),
     get: (toolboxName: string, options?: BetaToolboxesGetOptionalParams) =>
@@ -91,7 +85,7 @@ function _getBetaToolboxes(context: AIProjectContext) {
     createVersion: (
       toolboxName: string,
       tools: ToolUnion[],
-      options?: BetaToolboxesCreateVersionOptionalParams,
+      options?: CreateVersionOptionalParams,
     ) => createVersion(context, toolboxName, tools, options),
   };
 }

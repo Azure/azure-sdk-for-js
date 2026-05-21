@@ -62,6 +62,7 @@ export interface BetaMemoryStoresOperations {
   listMemories: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
+    scope: string,
     options?: BetaMemoryStoresListMemoriesOptionalParams,
   ) => PagedAsyncIterableIterator<MemoryItemUnion>;
   /** Retrieve a memory item from a memory store. */
@@ -167,8 +168,9 @@ function _getBetaMemoryStores(context: AIProjectContext) {
     listMemories: (
       foundryFeatures: "MemoryStores=V1Preview",
       name: string,
+      scope: string,
       options?: BetaMemoryStoresListMemoriesOptionalParams,
-    ) => listMemories(context, foundryFeatures, name, options),
+    ) => listMemories(context, foundryFeatures, name, scope, options),
     getMemory: (
       foundryFeatures: "MemoryStores=V1Preview",
       name: string,

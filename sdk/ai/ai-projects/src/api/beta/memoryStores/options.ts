@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import type { MemorySearchOptions, PageOrder } from "../../../models/models.js";
+import type { MemorySearchOptions, MemoryItemKind, PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -10,6 +10,8 @@ export interface BetaMemoryStoresDeleteMemoryOptionalParams extends OperationOpt
 
 /** Optional parameters. */
 export interface BetaMemoryStoresListMemoriesOptionalParams extends OperationOptions {
+  /** The kind of the memory item. */
+  kind?: MemoryItemKind;
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.

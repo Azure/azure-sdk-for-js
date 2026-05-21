@@ -166,12 +166,13 @@ export function agentDefinitionDeserializer(item: any): AgentDefinition {
 
 /**
  * Union type for all agent definition types.
- * Supports workflow, hosted, container app, and prompt agents.
+ * Supports workflow, hosted, container app, prompt and external agents.
  */
 export type AgentDefinitionUnion =
   | HostedAgentDefinition
   | PromptAgentDefinition
   | WorkflowAgentDefinition
+  | ExternalAgentDefinition
   | AgentDefinition;
 
 export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any {
@@ -184,6 +185,9 @@ export function agentDefinitionUnionSerializer(item: AgentDefinitionUnion): any 
 
     case "workflow":
       return workflowAgentDefinitionSerializer(item as WorkflowAgentDefinition);
+
+    case "external":
+      return externalAgentDefinitionSerializer(item as ExternalAgentDefinition);
 
     default:
       return agentDefinitionSerializer(item);
@@ -201,6 +205,9 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
     case "workflow":
       return workflowAgentDefinitionDeserializer(item as WorkflowAgentDefinition);
 
+    case "external":
+      return externalAgentDefinitionDeserializer(item as ExternalAgentDefinition);
+
     default:
       return agentDefinitionDeserializer(item);
   }
@@ -210,7 +217,7 @@ export function agentDefinitionUnionDeserializer(item: any): AgentDefinitionUnio
  * Defines the type/kind of agent.
  * Determines which agent definition structure is used.
  */
-export type AgentKind = "prompt" | "hosted" | "workflow";
+export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 
 /** Configuration for Responsible AI (RAI) content filtering and safety features. */
 export interface RaiConfig {
@@ -605,6 +612,12 @@ export interface BingGroundingTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The bing grounding search tool parameters. */
   bing_grounding: BingGroundingSearchToolParameters;
 }
@@ -614,6 +627,9 @@ export function bingGroundingToolSerializer(item: BingGroundingTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     bing_grounding: bingGroundingSearchToolParametersSerializer(item["bing_grounding"]),
   };
 }
@@ -623,7 +639,53 @@ export function bingGroundingToolDeserializer(item: any): BingGroundingTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     bing_grounding: bingGroundingSearchToolParametersDeserializer(item["bing_grounding"]),
+  };
+}
+
+export function toolConfigRecordSerializer(item: Record<string, ToolConfig>): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : toolConfigSerializer(item[key]);
+  });
+  return result;
+}
+
+export function toolConfigRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, ToolConfig> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : toolConfigDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Per-tool configuration that controls tool visibility and search behavior. */
+export interface ToolConfig {
+  /**
+   * When true, the tool is always included in agent context and visible in `tools/list`.
+   * When false (default), the tool is hidden from `tools/list` and only discoverable via `tool_search`.
+   */
+  pin?: boolean;
+  /**
+   * Additional text indexed for tool_search. Supplements the native tool description
+   * to improve discoverability. Does not alter `tools/list` output.
+   */
+  additional_search_text?: string;
+}
+
+export function toolConfigSerializer(item: ToolConfig): any {
+  return { pin: item["pin"], additional_search_text: item["additional_search_text"] };
+}
+
+export function toolConfigDeserializer(item: any): ToolConfig {
+  return {
+    pin: item["pin"],
+    additional_search_text: item["additional_search_text"],
   };
 }
 
@@ -718,6 +780,12 @@ export interface MicrosoftFabricPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The fabric data agent tool parameters. */
   fabric_dataagent_preview: FabricDataAgentToolParameters;
 }
@@ -727,6 +795,9 @@ export function microsoftFabricPreviewToolSerializer(item: MicrosoftFabricPrevie
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     fabric_dataagent_preview: fabricDataAgentToolParametersSerializer(
       item["fabric_dataagent_preview"],
     ),
@@ -738,6 +809,9 @@ export function microsoftFabricPreviewToolDeserializer(item: any): MicrosoftFabr
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     fabric_dataagent_preview: fabricDataAgentToolParametersDeserializer(
       item["fabric_dataagent_preview"],
     ),
@@ -809,6 +883,12 @@ export interface SharepointPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The sharepoint grounding tool parameters. */
   sharepoint_grounding_preview: SharepointGroundingToolParameters;
 }
@@ -818,6 +898,9 @@ export function sharepointPreviewToolSerializer(item: SharepointPreviewTool): an
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     sharepoint_grounding_preview: sharepointGroundingToolParametersSerializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -829,6 +912,9 @@ export function sharepointPreviewToolDeserializer(item: any): SharepointPreviewT
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     sharepoint_grounding_preview: sharepointGroundingToolParametersDeserializer(
       item["sharepoint_grounding_preview"],
     ),
@@ -872,6 +958,12 @@ export interface AzureAISearchTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
 }
@@ -881,6 +973,9 @@ export function azureAISearchToolSerializer(item: AzureAISearchTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     azure_ai_search: azureAISearchToolResourceSerializer(item["azure_ai_search"]),
   };
 }
@@ -890,6 +985,9 @@ export function azureAISearchToolDeserializer(item: any): AzureAISearchTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     azure_ai_search: azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
   };
 }
@@ -979,16 +1077,31 @@ export interface OpenApiTool extends Tool {
   type: "openapi";
   /** The openapi function definition. */
   openapi: OpenApiFunctionDefinition;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function openApiToolSerializer(item: OpenApiTool): any {
-  return { type: item["type"], openapi: openApiFunctionDefinitionSerializer(item["openapi"]) };
+  return {
+    type: item["type"],
+    openapi: openApiFunctionDefinitionSerializer(item["openapi"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
 }
 
 export function openApiToolDeserializer(item: any): OpenApiTool {
   return {
     type: item["type"],
     openapi: openApiFunctionDefinitionDeserializer(item["openapi"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1243,6 +1356,12 @@ export interface BingCustomSearchPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The bing custom search tool parameters. */
   bing_custom_search_preview: BingCustomSearchToolParameters;
 }
@@ -1252,6 +1371,9 @@ export function bingCustomSearchPreviewToolSerializer(item: BingCustomSearchPrev
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     bing_custom_search_preview: bingCustomSearchToolParametersSerializer(
       item["bing_custom_search_preview"],
     ),
@@ -1263,6 +1385,9 @@ export function bingCustomSearchPreviewToolDeserializer(item: any): BingCustomSe
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     bing_custom_search_preview: bingCustomSearchToolParametersDeserializer(
       item["bing_custom_search_preview"],
     ),
@@ -1362,6 +1487,12 @@ export interface BrowserAutomationPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The Browser Automation Tool parameters. */
   browser_automation_preview: BrowserAutomationToolParameters;
 }
@@ -1371,6 +1502,9 @@ export function browserAutomationPreviewToolSerializer(item: BrowserAutomationPr
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     browser_automation_preview: browserAutomationToolParametersSerializer(
       item["browser_automation_preview"],
     ),
@@ -1382,6 +1516,9 @@ export function browserAutomationPreviewToolDeserializer(item: any): BrowserAuto
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     browser_automation_preview: browserAutomationToolParametersDeserializer(
       item["browser_automation_preview"],
     ),
@@ -1434,12 +1571,21 @@ export interface AzureFunctionTool extends Tool {
   type: "azure_function";
   /** The Azure Function Tool definition. */
   azure_function: AzureFunctionDefinition;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function azureFunctionToolSerializer(item: AzureFunctionTool): any {
   return {
     type: item["type"],
     azure_function: azureFunctionDefinitionSerializer(item["azure_function"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -1447,6 +1593,9 @@ export function azureFunctionToolDeserializer(item: any): AzureFunctionTool {
   return {
     type: item["type"],
     azure_function: azureFunctionDefinitionDeserializer(item["azure_function"]),
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1555,6 +1704,12 @@ export interface CaptureStructuredOutputsTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The structured outputs to capture from the model. */
   outputs: StructuredOutputDefinition;
 }
@@ -1564,6 +1719,9 @@ export function captureStructuredOutputsToolSerializer(item: CaptureStructuredOu
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     outputs: structuredOutputDefinitionSerializer(item["outputs"]),
   };
 }
@@ -1573,6 +1731,9 @@ export function captureStructuredOutputsToolDeserializer(item: any): CaptureStru
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     outputs: structuredOutputDefinitionDeserializer(item["outputs"]),
   };
 }
@@ -1615,6 +1776,12 @@ export interface A2APreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** Base URL of the agent. */
   base_url?: string;
   /**
@@ -1634,6 +1801,9 @@ export function a2APreviewToolSerializer(item: A2APreviewTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1645,6 +1815,9 @@ export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     base_url: item["base_url"],
     agent_card_path: item["agent_card_path"],
     project_connection_id: item["project_connection_id"],
@@ -1661,6 +1834,12 @@ export interface WorkIQPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function workIQPreviewToolSerializer(item: WorkIQPreviewTool): any {
@@ -1669,6 +1848,9 @@ export function workIQPreviewToolSerializer(item: WorkIQPreviewTool): any {
     project_connection_id: item["project_connection_id"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -1678,6 +1860,9 @@ export function workIQPreviewToolDeserializer(item: any): WorkIQPreviewTool {
     project_connection_id: item["project_connection_id"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1697,6 +1882,12 @@ export interface FabricIQPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
@@ -1710,6 +1901,9 @@ export function fabricIQPreviewToolSerializer(item: FabricIQPreviewTool): any {
       : _fabricIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -1724,6 +1918,9 @@ export function fabricIQPreviewToolDeserializer(item: any): FabricIQPreviewTool 
       : _fabricIQPreviewToolRequireApprovalDeserializer(item["require_approval"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1804,6 +2001,12 @@ export interface MemorySearchPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /** The name of the memory store to use. */
   memory_store_name: string;
   /**
@@ -1823,6 +2026,9 @@ export function memorySearchPreviewToolSerializer(item: MemorySearchPreviewTool)
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1837,6 +2043,9 @@ export function memorySearchPreviewToolDeserializer(item: any): MemorySearchPrev
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     memory_store_name: item["memory_store_name"],
     scope: item["scope"],
     search_options: !item["search_options"]
@@ -1874,10 +2083,23 @@ export interface ToolboxSearchPreviewTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function toolboxSearchPreviewToolSerializer(item: ToolboxSearchPreviewTool): any {
-  return { type: item["type"], name: item["name"], description: item["description"] };
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
 }
 
 export function toolboxSearchPreviewToolDeserializer(item: any): ToolboxSearchPreviewTool {
@@ -1885,6 +2107,9 @@ export function toolboxSearchPreviewToolDeserializer(item: any): ToolboxSearchPr
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -1896,6 +2121,12 @@ export interface CodeInterpreterTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -1910,6 +2141,9 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerSerializer(item["container"]),
@@ -1921,6 +2155,9 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerDeserializer(item["container"]),
@@ -2198,6 +2435,12 @@ export interface FileSearchTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function fileSearchToolSerializer(item: FileSearchTool): any {
@@ -2211,6 +2454,9 @@ export function fileSearchToolSerializer(item: FileSearchTool): any {
     filters: !item["filters"] ? item["filters"] : filtersSerializer(item["filters"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2225,6 +2471,9 @@ export function fileSearchToolDeserializer(item: any): FileSearchTool {
     filters: !item["filters"] ? item["filters"] : filtersDeserializer(item["filters"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2471,6 +2720,12 @@ export interface WebSearchTool extends Tool {
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
   /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
+  /**
    * The project connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
    */
@@ -2487,6 +2742,9 @@ export function webSearchToolSerializer(item: WebSearchTool): any {
     search_context_size: item["search_context_size"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationSerializer(item["custom_search_configuration"]),
@@ -2503,6 +2761,9 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
     search_context_size: item["search_context_size"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
@@ -2638,6 +2899,12 @@ export interface MCPTool extends Tool {
   defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function mcpToolSerializer(item: MCPTool): any {
@@ -2657,6 +2924,9 @@ export function mcpToolSerializer(item: MCPTool): any {
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2677,6 +2947,9 @@ export function mcpToolDeserializer(item: any): MCPTool {
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2747,6 +3020,12 @@ export interface ImageGenTool extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function imageGenToolSerializer(item: ImageGenTool): any {
@@ -2767,6 +3046,9 @@ export function imageGenToolSerializer(item: ImageGenTool): any {
     action: item["action"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2788,6 +3070,9 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
     action: item["action"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2824,10 +3109,23 @@ export interface LocalShellToolParam extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function localShellToolParamSerializer(item: LocalShellToolParam): any {
-  return { type: item["type"], name: item["name"], description: item["description"] };
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
 }
 
 export function localShellToolParamDeserializer(item: any): LocalShellToolParam {
@@ -2835,6 +3133,9 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
     type: item["type"],
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -2848,6 +3149,12 @@ export interface FunctionShellToolParam extends Tool {
   name?: string;
   /** Optional user-defined description for this tool or configuration. */
   description?: string;
+  /**
+   * Per-tool configuration map. Keys are tool names or `*` (catch-all default).
+   * Resolution order: exact tool name match takes priority over `*`.
+   * Unknown tool names are silently ignored at runtime.
+   */
+  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
@@ -2858,6 +3165,9 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
       : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
   };
 }
 
@@ -2869,6 +3179,9 @@ export function functionShellToolParamDeserializer(item: any): FunctionShellTool
       : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
   };
 }
 
@@ -3618,7 +3931,7 @@ export function protocolVersionRecordDeserializer(item: any): ProtocolVersionRec
 }
 
 /** Type of AgentProtocol */
-export type AgentProtocol = "activity_protocol" | "responses" | "invocations";
+export type AgentProtocol = "activity_protocol" | "responses" | "mcp" | "invocations";
 
 /** Container-based deployment configuration for a hosted agent. */
 export interface ContainerConfiguration {
@@ -4697,6 +5010,41 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
   };
 }
 
+/**
+ * The external agent definition. Represents a third-party agent hosted outside Foundry (for example, on GCP or AWS).
+ * Registration is metadata-only: Foundry records the agent definition to light up observability experiences (traces, evaluations)
+ * over customer-emitted OpenTelemetry data.
+ */
+export interface ExternalAgentDefinition extends AgentDefinition {
+  kind: "external";
+  /**
+   * The OpenTelemetry agent identifier used to attribute customer-emitted spans to this Foundry agent.
+   * Spans must include the attribute `gen_ai.agent.id = <otel_agent_id>` to appear under this registration.
+   * Defaults to the top-level agent name when omitted. Provide an explicit value only for migration scenarios
+   * where the running external agent already emits a stable id that differs from the Foundry agent name.
+   * The resolved value is always echoed on read.
+   */
+  otel_agent_id?: string;
+}
+
+export function externalAgentDefinitionSerializer(item: ExternalAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    otel_agent_id: item["otel_agent_id"],
+  };
+}
+
+export function externalAgentDefinitionDeserializer(item: any): ExternalAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    otel_agent_id: item["otel_agent_id"],
+  };
+}
+
 /** The provisioning status of an agent version. */
 export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
 
@@ -4938,7 +5286,7 @@ export function fixedRatioVersionSelectionRuleDeserializer(
 }
 
 /** Type of AgentEndpointProtocol */
-export type AgentEndpointProtocol = "activity" | "responses" | "a2a" | "invocations";
+export type AgentEndpointProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations";
 
 export function agentEndpointAuthorizationSchemeUnionArraySerializer(
   result: Array<AgentEndpointAuthorizationSchemeUnion>,
@@ -5026,15 +5374,105 @@ export type AgentEndpointAuthorizationSchemeType = "Entra" | "BotService" | "Bot
 /** model interface EntraAuthorizationScheme */
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
   type: "Entra";
+  /** The source from which the per-user isolation key is derived for requests authorized via this scheme. Defaults to Entra-based isolation when omitted. */
+  isolation_key_source?: IsolationKeySourceUnion;
 }
 
 export function entraAuthorizationSchemeSerializer(item: EntraAuthorizationScheme): any {
-  return { type: item["type"] };
+  return {
+    type: item["type"],
+    isolation_key_source: !item["isolation_key_source"]
+      ? item["isolation_key_source"]
+      : isolationKeySourceUnionSerializer(item["isolation_key_source"]),
+  };
 }
 
 export function entraAuthorizationSchemeDeserializer(item: any): EntraAuthorizationScheme {
   return {
     type: item["type"],
+    isolation_key_source: !item["isolation_key_source"]
+      ? item["isolation_key_source"]
+      : isolationKeySourceUnionDeserializer(item["isolation_key_source"]),
+  };
+}
+
+/** model interface IsolationKeySource */
+export interface IsolationKeySource {
+  kind: IsolationKeySourceKind;
+}
+
+export function isolationKeySourceSerializer(item: IsolationKeySource): any {
+  return { kind: item["kind"] };
+}
+
+export function isolationKeySourceDeserializer(item: any): IsolationKeySource {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for IsolationKeySourceUnion */
+export type IsolationKeySourceUnion =
+  | EntraIsolationKeySource
+  | HeaderIsolationKeySource
+  | IsolationKeySource;
+
+export function isolationKeySourceUnionSerializer(item: IsolationKeySourceUnion): any {
+  switch (item.kind) {
+    case "Entra":
+      return entraIsolationKeySourceSerializer(item as EntraIsolationKeySource);
+
+    case "Header":
+      return headerIsolationKeySourceSerializer(item as HeaderIsolationKeySource);
+
+    default:
+      return isolationKeySourceSerializer(item);
+  }
+}
+
+export function isolationKeySourceUnionDeserializer(item: any): IsolationKeySourceUnion {
+  switch (item["kind"]) {
+    case "Entra":
+      return entraIsolationKeySourceDeserializer(item as EntraIsolationKeySource);
+
+    case "Header":
+      return headerIsolationKeySourceDeserializer(item as HeaderIsolationKeySource);
+
+    default:
+      return isolationKeySourceDeserializer(item);
+  }
+}
+
+/** Type of IsolationKeySourceKind */
+export type IsolationKeySourceKind = "Entra" | "Header";
+
+/** model interface EntraIsolationKeySource */
+export interface EntraIsolationKeySource extends IsolationKeySource {
+  kind: "Entra";
+}
+
+export function entraIsolationKeySourceSerializer(item: EntraIsolationKeySource): any {
+  return { kind: item["kind"] };
+}
+
+export function entraIsolationKeySourceDeserializer(item: any): EntraIsolationKeySource {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** model interface HeaderIsolationKeySource */
+export interface HeaderIsolationKeySource extends IsolationKeySource {
+  kind: "Header";
+}
+
+export function headerIsolationKeySourceSerializer(item: HeaderIsolationKeySource): any {
+  return { kind: item["kind"] };
+}
+
+export function headerIsolationKeySourceDeserializer(item: any): HeaderIsolationKeySource {
+  return {
+    kind: item["kind"],
   };
 }
 
@@ -5876,8 +6314,8 @@ export interface PendingUploadRequest {
   pendingUploadId?: string;
   /** Azure Storage Account connection name to use for generating temporary SAS token */
   connectionName?: string;
-  /** TemporaryBlobReference is the only supported type. */
-  pendingUploadType: "TemporaryBlobReference";
+  /** The type of pending upload. */
+  pendingUploadType: "BlobReference";
 }
 
 export function pendingUploadRequestSerializer(item: PendingUploadRequest): any {
@@ -5896,8 +6334,8 @@ export interface PendingUploadResponse {
   pendingUploadId: string;
   /** Version of asset to be created if user did not specify version when initially creating upload */
   version?: string;
-  /** TemporaryBlobReference is the only supported type */
-  pendingUploadType: "TemporaryBlobReference";
+  /** The type of pending upload. */
+  pendingUploadType: "BlobReference";
 }
 
 export function pendingUploadResponseDeserializer(item: any): PendingUploadResponse {
@@ -6335,21 +6773,6 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
     modelDeploymentName: item["modelDeploymentName"],
     embeddingField: item["embeddingField"],
   };
-}
-
-/** Multipart request body for creating a new code-based agent (POST /agents). Inherits from CreateAgentVersionFromCodeContent for future extensibility. */
-export interface CreateAgentFromCodeContent {
-  /** JSON metadata including description and hosted definition. */
-  metadata: CreateAgentVersionFromCodeMetadata;
-  /** The code zip file (max 250 MB). */
-  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-}
-
-export function createAgentFromCodeContentSerializer(item: CreateAgentFromCodeContent): any {
-  return [
-    { name: "metadata", body: createAgentVersionFromCodeMetadataSerializer(item["metadata"]) },
-    createFilePartDescriptor("code", item["code"], "application/octet-stream"),
-  ];
 }
 
 /**
@@ -6862,6 +7285,7 @@ export interface AzureAIAgentTarget extends EvaluationTarget {
   version?: string;
   /** The parameters used to control the sampling behavior of the agent during text generation. */
   tool_descriptions?: ToolDescription[];
+  tools?: ToolUnion[];
 }
 
 export function azureAIAgentTargetSerializer(item: AzureAIAgentTarget): any {
@@ -6872,6 +7296,7 @@ export function azureAIAgentTargetSerializer(item: AzureAIAgentTarget): any {
     tool_descriptions: !item["tool_descriptions"]
       ? item["tool_descriptions"]
       : toolDescriptionArraySerializer(item["tool_descriptions"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
   };
 }
 
@@ -6883,6 +7308,7 @@ export function azureAIAgentTargetDeserializer(item: any): AzureAIAgentTarget {
     tool_descriptions: !item["tool_descriptions"]
       ? item["tool_descriptions"]
       : toolDescriptionArrayDeserializer(item["tool_descriptions"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
   };
 }
 
@@ -7153,7 +7579,7 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 /** Base evaluator configuration with discriminator */
 export interface EvaluatorDefinition {
   /** The type of evaluator definition */
-  /** The discriminator possible values: code, prompt, rubrics */
+  /** The discriminator possible values: code, prompt, rubric */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
   init_parameters?: Record<string, unknown>;
@@ -7198,7 +7624,7 @@ export function evaluatorDefinitionUnionSerializer(item: EvaluatorDefinitionUnio
     case "prompt":
       return promptBasedEvaluatorDefinitionSerializer(item as PromptBasedEvaluatorDefinition);
 
-    case "rubrics":
+    case "rubric":
       return rubricBasedEvaluatorDefinitionSerializer(item as RubricBasedEvaluatorDefinition);
 
     default:
@@ -7214,7 +7640,7 @@ export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefini
     case "prompt":
       return promptBasedEvaluatorDefinitionDeserializer(item as PromptBasedEvaluatorDefinition);
 
-    case "rubrics":
+    case "rubric":
       return rubricBasedEvaluatorDefinitionDeserializer(item as RubricBasedEvaluatorDefinition);
 
     default:
@@ -7229,7 +7655,7 @@ export type EvaluatorDefinitionType =
   | "prompt_and_code"
   | "service"
   | "openai_graders"
-  | "rubrics";
+  | "rubric";
 
 export function evaluatorMetricRecordSerializer(
   item: Record<string, EvaluatorMetric>,
@@ -7370,10 +7796,13 @@ export function promptBasedEvaluatorDefinitionDeserializer(
   };
 }
 
+/** Rubric-based evaluator definition — stores dimensions produced by the generate API. Used for both quality and safety evaluators. */
 export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
-  type: "rubrics";
-  /** Rubric criteria — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual criterion with rubric_id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same rubric structure. */
-  rubric_criteria: RubricCriterion[];
+  type: "rubric";
+  /** The set of dimensions — the scoring blueprint used by the LLM judge. Quality evaluators include a non-editable residual dimension with id 'general_quality' (always_applicable: true); safety evaluators include 'general_policy_compliance'. Both use the same Dimension structure. */
+  dimensions: Dimension[];
+  /** Pass/fail threshold for the aggregate rubric score, on the same normalized 0.0-1.0 scale as the emitted `score`. When the runtime weighted average meets or exceeds this value, the result is `pass`. Defaults to 0.5 (equivalent to a raw 1-5 weighted average of 3.0). The 'any dimension scored 1 → fail' rule still applies regardless of this threshold. */
+  pass_threshold?: number;
 }
 
 export function rubricBasedEvaluatorDefinitionSerializer(
@@ -7384,7 +7813,8 @@ export function rubricBasedEvaluatorDefinitionSerializer(
     init_parameters: item["init_parameters"],
     data_schema: item["data_schema"],
     metrics: !item["metrics"] ? item["metrics"] : evaluatorMetricRecordSerializer(item["metrics"]),
-    rubric_criteria: rubricCriterionArraySerializer(item["rubric_criteria"]),
+    dimensions: dimensionArraySerializer(item["dimensions"]),
+    pass_threshold: item["pass_threshold"],
   };
 }
 
@@ -7406,46 +7836,47 @@ export function rubricBasedEvaluatorDefinitionDeserializer(
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
-    rubric_criteria: rubricCriterionArrayDeserializer(item["rubric_criteria"]),
+    dimensions: dimensionArrayDeserializer(item["dimensions"]),
+    pass_threshold: item["pass_threshold"],
   };
 }
 
-export function rubricCriterionArraySerializer(result: Array<RubricCriterion>): any[] {
+export function dimensionArraySerializer(result: Array<Dimension>): any[] {
   return result.map((item) => {
-    return rubricCriterionSerializer(item);
+    return dimensionSerializer(item);
   });
 }
 
-export function rubricCriterionArrayDeserializer(result: Array<RubricCriterion>): any[] {
+export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
   return result.map((item) => {
-    return rubricCriterionDeserializer(item);
+    return dimensionDeserializer(item);
   });
 }
 
-/** A single rubric criterion — one measurable quality dimension in an evaluator's scoring blueprint. */
-export interface RubricCriterion {
-  /** Stable identifier for this rubric criterion (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated catalog; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
-  rubric_id: string;
-  /** What this criterion measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
+/** A single dimension — one independent, measurable quality dimension within a rubric evaluator's scoring blueprint. */
+export interface Dimension {
+  /** Stable identifier for this dimension (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated set; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
+  id: string;
+  /** What this dimension measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
   description: string;
-  /** Relative weight of this criterion (1-10). The generation pipeline assigns exactly one criterion weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
+  /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
   weight: number;
-  /** When true, the LLM judge always scores this criterion regardless of relevance (skips applicability assessment). The service-generated general quality/policy criterion has this set to true and is non-editable. Users may set this on their own custom criteria. */
+  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. */
   always_applicable?: boolean;
 }
 
-export function rubricCriterionSerializer(item: RubricCriterion): any {
+export function dimensionSerializer(item: Dimension): any {
   return {
-    rubric_id: item["rubric_id"],
+    id: item["id"],
     description: item["description"],
     weight: item["weight"],
     always_applicable: item["always_applicable"],
   };
 }
 
-export function rubricCriterionDeserializer(item: any): RubricCriterion {
+export function dimensionDeserializer(item: any): Dimension {
   return {
-    rubric_id: item["rubric_id"],
+    id: item["id"],
     description: item["description"],
     weight: item["weight"],
     always_applicable: item["always_applicable"],
@@ -7529,35 +7960,35 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
 
 /** Caller-supplied inputs for an evaluator generation job. */
 export interface EvaluatorGenerationInputs {
-  /** Display name for this generation job. */
-  name: string;
   /** Source materials for generation — agent descriptions, prompts, traces, or datasets. Each entry is an `EvaluatorGenerationJobSource` variant discriminated by `type`. */
   sources: EvaluatorGenerationJobSourceUnion[];
-  /** Category determines the rubric generation focus: 'quality' (default) produces quality-focused rubric criteria, 'safety' produces policy-derived safety rubric criteria. Both use the same rubric structure. Singular because quality and safety generation are mutually exclusive pipelines — the output EvaluatorVersion.categories is an array (e.g., ['agents', 'quality']). */
-  category?: EvaluatorCategory;
   /** The LLM model to use for rubric generation (e.g., 'gpt-4o'). Required — users must provide their own model rather than relying on service-owned capacity. */
   model: string;
-  /** The evaluator name to create or update. If an evaluator with this name already exists, the service retrieves the latest version's criteria as context for improvement. */
+  /** The evaluator name (immutable identifier). 1-256 characters; allowed characters are ASCII letters, digits, underscore (`_`), period (`.`), tilde (`~`), and hyphen (`-`). The prefix `builtin.` is reserved for system-managed evaluators and is rejected by the service. If an evaluator with this name already exists in the project (and is rubric-subtype), the service creates a new version under the same name and uses the prior version's `dimensions` as context for incremental improvement (foundation of the post-//build adaptive loop). Old versions remain queryable via `get_version(name, version)`. If the existing evaluator is not a rubric-subtype evaluator (built-in, prompt-based, code-based), the request is rejected with `400 Bad Request`. */
   evaluator_name: string;
+  /** Optional human-friendly display name for the resulting evaluator. Surfaced as `EvaluatorVersion.display_name` on the persisted evaluator. When omitted, the service uses `evaluator_name` as the display name. The `evaluator_` prefix disambiguates this from the immutable `evaluator_name` identifier. */
+  evaluator_display_name?: string;
+  /** Optional human-friendly description for the resulting evaluator. Surfaced as `EvaluatorVersion.description` on the persisted evaluator. Typically collected from the UI alongside `evaluator_display_name`. The `evaluator_` prefix disambiguates this from any other description fields on related models. */
+  evaluator_description?: string;
 }
 
 export function evaluatorGenerationInputsSerializer(item: EvaluatorGenerationInputs): any {
   return {
-    name: item["name"],
     sources: evaluatorGenerationJobSourceUnionArraySerializer(item["sources"]),
-    category: item["category"],
     model: item["model"],
     evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
   };
 }
 
 export function evaluatorGenerationInputsDeserializer(item: any): EvaluatorGenerationInputs {
   return {
-    name: item["name"],
     sources: evaluatorGenerationJobSourceUnionArrayDeserializer(item["sources"]),
-    category: item["category"],
     model: item["model"],
     evaluator_name: item["evaluator_name"],
+    evaluator_display_name: item["evaluator_display_name"],
+    evaluator_description: item["evaluator_description"],
   };
 }
 
@@ -7737,8 +8168,6 @@ export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJ
   start_time?: Date;
   /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
   end_time?: Date;
-  /** Maximum number of traces to retrieve. */
-  max_traces?: number;
 }
 
 export function tracesEvaluatorGenerationJobSourceSerializer(
@@ -7754,7 +8183,6 @@ export function tracesEvaluatorGenerationJobSourceSerializer(
       ? item["start_time"]
       : (item["start_time"].getTime() / 1000) | 0,
     end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-    max_traces: item["max_traces"],
   };
 }
 
@@ -7769,7 +8197,6 @@ export function tracesEvaluatorGenerationJobSourceDeserializer(
     agent_version: item["agent_version"],
     start_time: !item["start_time"] ? item["start_time"] : new Date(item["start_time"] * 1000),
     end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-    max_traces: item["max_traces"],
   };
 }
 
@@ -7885,15 +8312,7 @@ export interface Insight {
   readonly result?: InsightResultUnion;
 }
 
-/** Request body for generating an insight. */
-export interface InsightGenerationRequest {
-  /** User friendly display name for the insight. */
-  displayName: string;
-  /** Request for the insights analysis. */
-  request: InsightRequestUnion;
-}
-
-export function insightSerializer(item: InsightGenerationRequest): any {
+export function insightSerializer(item: Insight): any {
   return {
     displayName: item["displayName"],
     request: insightRequestUnionSerializer(item["request"]),
@@ -8649,6 +9068,10 @@ export interface MemoryStoreDefaultOptions {
   user_profile_details?: string;
   /** Whether to enable chat summary extraction and storage. Default is true. */
   chat_summary_enabled: boolean;
+  /** Whether to enable procedural memory extraction and storage. Default is true. */
+  procedural_memory_enabled?: boolean;
+  /** The default time-to-live for memories in seconds.  A value of 0 indicates that memories do not expire. */
+  default_ttl_seconds?: number;
 }
 
 export function memoryStoreDefaultOptionsSerializer(item: MemoryStoreDefaultOptions): any {
@@ -8656,6 +9079,8 @@ export function memoryStoreDefaultOptionsSerializer(item: MemoryStoreDefaultOpti
     user_profile_enabled: item["user_profile_enabled"],
     user_profile_details: item["user_profile_details"],
     chat_summary_enabled: item["chat_summary_enabled"],
+    procedural_memory_enabled: item["procedural_memory_enabled"],
+    default_ttl_seconds: item["default_ttl_seconds"],
   };
 }
 
@@ -8664,6 +9089,8 @@ export function memoryStoreDefaultOptionsDeserializer(item: any): MemoryStoreDef
     user_profile_enabled: item["user_profile_enabled"],
     user_profile_details: item["user_profile_details"],
     chat_summary_enabled: item["chat_summary_enabled"],
+    procedural_memory_enabled: item["procedural_memory_enabled"],
+    default_ttl_seconds: item["default_ttl_seconds"],
   };
 }
 
@@ -8794,7 +9221,7 @@ export interface MemoryItem {
   /** The content of the memory. */
   content: string;
   /** The kind of the memory item. */
-  /** The discriminator possible values: user_profile, chat_summary */
+  /** The discriminator possible values: user_profile, chat_summary, procedural */
   kind: MemoryItemKind;
 }
 
@@ -8809,7 +9236,11 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 }
 
 /** Alias for MemoryItemUnion */
-export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
+export type MemoryItemUnion =
+  | UserProfileMemoryItem
+  | ChatSummaryMemoryItem
+  | ProceduralMemoryItem
+  | MemoryItem;
 
 export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
   switch (item.kind) {
@@ -8819,13 +9250,16 @@ export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
     case "chat_summary":
       return chatSummaryMemoryItemDeserializer(item as ChatSummaryMemoryItem);
 
+    case "procedural":
+      return proceduralMemoryItemDeserializer(item as ProceduralMemoryItem);
+
     default:
       return memoryItemDeserializer(item);
   }
 }
 
 /** Memory item kind. */
-export type MemoryItemKind = "user_profile" | "chat_summary";
+export type MemoryItemKind = "user_profile" | "chat_summary" | "procedural";
 
 /** A memory item specifically containing user profile information extracted from conversations, such as preferences, interests, and personal details. */
 export interface UserProfileMemoryItem extends MemoryItem {
@@ -8850,6 +9284,22 @@ export interface ChatSummaryMemoryItem extends MemoryItem {
 }
 
 export function chatSummaryMemoryItemDeserializer(item: any): ChatSummaryMemoryItem {
+  return {
+    memory_id: item["memory_id"],
+    updated_at: new Date(item["updated_at"] * 1000),
+    scope: item["scope"],
+    content: item["content"],
+    kind: item["kind"],
+  };
+}
+
+/** A memory item containing a procedure extracted from conversations. */
+export interface ProceduralMemoryItem extends MemoryItem {
+  /** The kind of the memory item. */
+  kind: "procedural";
+}
+
+export function proceduralMemoryItemDeserializer(item: any): ProceduralMemoryItem {
   return {
     memory_id: item["memory_id"],
     updated_at: new Date(item["updated_at"] * 1000),
@@ -9445,6 +9895,553 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
   return result.map((item) => {
     return redTeamDeserializer(item);
   });
+}
+
+export function routineTriggerUnionRecordSerializer(
+  item: Record<string, RoutineTrigger>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : routineTriggerUnionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function routineTriggerUnionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RoutineTrigger> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : routineTriggerUnionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Base model for a routine trigger. */
+export interface RoutineTrigger {
+  /** The trigger type. */
+  /** The discriminator possible values: schedule, timer, github_issue_opened */
+  type: RoutineTriggerType;
+}
+
+export function routineTriggerSerializer(item: RoutineTrigger): any {
+  return { type: item["type"] };
+}
+
+export function routineTriggerDeserializer(item: any): RoutineTrigger {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RoutineTriggerUnion */
+export type RoutineTriggerUnion =
+  | ScheduleRoutineTrigger
+  | TimerRoutineTrigger
+  | GitHubIssueOpenedRoutineTrigger
+  | RoutineTrigger;
+
+export function routineTriggerUnionSerializer(item: RoutineTriggerUnion): any {
+  switch (item.type) {
+    case "schedule":
+      return scheduleRoutineTriggerSerializer(item as ScheduleRoutineTrigger);
+
+    case "timer":
+      return timerRoutineTriggerSerializer(item as TimerRoutineTrigger);
+
+    case "github_issue_opened":
+      return gitHubIssueOpenedRoutineTriggerSerializer(item as GitHubIssueOpenedRoutineTrigger);
+
+    default:
+      return routineTriggerSerializer(item);
+  }
+}
+
+export function routineTriggerUnionDeserializer(item: any): RoutineTriggerUnion {
+  switch (item["type"]) {
+    case "schedule":
+      return scheduleRoutineTriggerDeserializer(item as ScheduleRoutineTrigger);
+
+    case "timer":
+      return timerRoutineTriggerDeserializer(item as TimerRoutineTrigger);
+
+    case "github_issue_opened":
+      return gitHubIssueOpenedRoutineTriggerDeserializer(item as GitHubIssueOpenedRoutineTrigger);
+
+    default:
+      return routineTriggerDeserializer(item);
+  }
+}
+
+/** The discriminator values supported for routine triggers. */
+export type RoutineTriggerType = "github_issue_opened" | "schedule" | "timer";
+
+/** A recurring cron-based routine trigger. */
+export interface ScheduleRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "schedule";
+  /** A 5-field cron expression. The service enforces a minimum interval of five minutes by default. */
+  cron_expression: string;
+  /** An IANA or Windows time zone identifier for the schedule. */
+  time_zone: string;
+}
+
+export function scheduleRoutineTriggerSerializer(item: ScheduleRoutineTrigger): any {
+  return {
+    type: item["type"],
+    cron_expression: item["cron_expression"],
+    time_zone: item["time_zone"],
+  };
+}
+
+export function scheduleRoutineTriggerDeserializer(item: any): ScheduleRoutineTrigger {
+  return {
+    type: item["type"],
+    cron_expression: item["cron_expression"],
+    time_zone: item["time_zone"],
+  };
+}
+
+/** A one-shot timer routine trigger. */
+export interface TimerRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "timer";
+  /** A future timer expression. Supported values include an ISO-8601 timestamp with an explicit offset, a local timestamp paired with time_zone, or a positive duration from now. */
+  at: string;
+  /** An optional IANA or Windows time zone identifier when the timer uses a local timestamp. */
+  time_zone?: string;
+}
+
+export function timerRoutineTriggerSerializer(item: TimerRoutineTrigger): any {
+  return { type: item["type"], at: item["at"], time_zone: item["time_zone"] };
+}
+
+export function timerRoutineTriggerDeserializer(item: any): TimerRoutineTrigger {
+  return {
+    type: item["type"],
+    at: item["at"],
+    time_zone: item["time_zone"],
+  };
+}
+
+/** A GitHub issue-opened routine trigger. */
+export interface GitHubIssueOpenedRoutineTrigger extends RoutineTrigger {
+  /** The trigger type. */
+  type: "github_issue_opened";
+  /** The workspace connection identifier that resolves the GitHub configuration for the trigger. */
+  connection_id: string;
+  /** The GitHub assignee or organization filter that scopes which issues can fire the trigger. */
+  assignee: string;
+  /** The GitHub repository filter that scopes which issues can fire the trigger. */
+  repository: string;
+}
+
+export function gitHubIssueOpenedRoutineTriggerSerializer(
+  item: GitHubIssueOpenedRoutineTrigger,
+): any {
+  return {
+    type: item["type"],
+    connection_id: item["connection_id"],
+    assignee: item["assignee"],
+    repository: item["repository"],
+  };
+}
+
+export function gitHubIssueOpenedRoutineTriggerDeserializer(
+  item: any,
+): GitHubIssueOpenedRoutineTrigger {
+  return {
+    type: item["type"],
+    connection_id: item["connection_id"],
+    assignee: item["assignee"],
+    repository: item["repository"],
+  };
+}
+
+/** Base model for a routine action. */
+export interface RoutineAction {
+  /** The action type. */
+  /** The discriminator possible values: invoke_agent_responses_api, invoke_agent_invocations_api */
+  type: RoutineActionType;
+}
+
+export function routineActionSerializer(item: RoutineAction): any {
+  return { type: item["type"] };
+}
+
+export function routineActionDeserializer(item: any): RoutineAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RoutineActionUnion */
+export type RoutineActionUnion =
+  | InvokeAgentResponsesApiRoutineAction
+  | InvokeAgentInvocationsApiRoutineAction
+  | RoutineAction;
+
+export function routineActionUnionSerializer(item: RoutineActionUnion): any {
+  switch (item.type) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiRoutineActionSerializer(
+        item as InvokeAgentResponsesApiRoutineAction,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiRoutineActionSerializer(
+        item as InvokeAgentInvocationsApiRoutineAction,
+      );
+
+    default:
+      return routineActionSerializer(item);
+  }
+}
+
+export function routineActionUnionDeserializer(item: any): RoutineActionUnion {
+  switch (item["type"]) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiRoutineActionDeserializer(
+        item as InvokeAgentResponsesApiRoutineAction,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiRoutineActionDeserializer(
+        item as InvokeAgentInvocationsApiRoutineAction,
+      );
+
+    default:
+      return routineActionDeserializer(item);
+  }
+}
+
+/** The discriminator values supported for routine actions. */
+export type RoutineActionType = "invoke_agent_responses_api" | "invoke_agent_invocations_api";
+
+/** Dispatches a routine through the responses API. Exactly one of agent_name or agent_endpoint_id must be provided. */
+export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
+  /** The action type. */
+  type: "invoke_agent_responses_api";
+  /** The project-scoped agent name for responses API dispatch. */
+  agent_name?: string;
+  /** The endpoint-scoped agent identifier for responses API dispatch. */
+  agent_endpoint_id?: string;
+  /** An optional existing conversation identifier to continue during the downstream dispatch. */
+  conversation_id?: string;
+}
+
+export function invokeAgentResponsesApiRoutineActionSerializer(
+  item: InvokeAgentResponsesApiRoutineAction,
+): any {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    conversation_id: item["conversation_id"],
+  };
+}
+
+export function invokeAgentResponsesApiRoutineActionDeserializer(
+  item: any,
+): InvokeAgentResponsesApiRoutineAction {
+  return {
+    type: item["type"],
+    agent_name: item["agent_name"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    conversation_id: item["conversation_id"],
+  };
+}
+
+/** Dispatches a routine through the raw invocations API. */
+export interface InvokeAgentInvocationsApiRoutineAction extends RoutineAction {
+  /** The action type. */
+  type: "invoke_agent_invocations_api";
+  /** The endpoint-scoped agent identifier for invocations API dispatch. */
+  agent_endpoint_id: string;
+  /** An optional existing hosted-agent session identifier to continue during the downstream dispatch. */
+  session_id?: string;
+}
+
+export function invokeAgentInvocationsApiRoutineActionSerializer(
+  item: InvokeAgentInvocationsApiRoutineAction,
+): any {
+  return {
+    type: item["type"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    session_id: item["session_id"],
+  };
+}
+
+export function invokeAgentInvocationsApiRoutineActionDeserializer(
+  item: any,
+): InvokeAgentInvocationsApiRoutineAction {
+  return {
+    type: item["type"],
+    agent_endpoint_id: item["agent_endpoint_id"],
+    session_id: item["session_id"],
+  };
+}
+
+/** A routine definition returned by the service. */
+export interface Routine {
+  /** The routine name. */
+  name: string;
+  /** A human-readable description of the routine. */
+  description?: string;
+  /** Whether the routine is enabled. */
+  enabled: boolean;
+  /** The triggers configured for the routine. */
+  triggers: Record<string, RoutineTriggerUnion>;
+  /** The action executed when the routine fires. */
+  action: RoutineActionUnion;
+  /** The time when the routine was created. */
+  created_at?: Date;
+  /** The time when the routine was last updated. */
+  updated_at?: Date;
+}
+
+export function routineDeserializer(item: any): Routine {
+  return {
+    name: item["name"],
+    description: item["description"],
+    enabled: item["enabled"],
+    triggers: routineTriggerUnionRecordDeserializer(item["triggers"]),
+    action: routineActionUnionDeserializer(item["action"]),
+    created_at: !item["created_at"] ? item["created_at"] : new Date(item["created_at"] * 1000),
+    updated_at: !item["updated_at"] ? item["updated_at"] : new Date(item["updated_at"] * 1000),
+  };
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRoutine {
+  /** The requested list of items. */
+  data: Routine[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRoutineDeserializer(item: any): _AgentsPagedResultRoutine {
+  return {
+    data: routineArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function routineArrayDeserializer(result: Array<Routine>): any[] {
+  return result.map((item) => {
+    return routineDeserializer(item);
+  });
+}
+
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultRoutineRun {
+  /** The requested list of items. */
+  data: RoutineRun[];
+  /** The first ID represented in this list. */
+  first_id?: string;
+  /** The last ID represented in this list. */
+  last_id?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+export function _agentsPagedResultRoutineRunDeserializer(item: any): _AgentsPagedResultRoutineRun {
+  return {
+    data: routineRunArrayDeserializer(item["data"]),
+    first_id: item["first_id"],
+    last_id: item["last_id"],
+    has_more: item["has_more"],
+  };
+}
+
+export function routineRunArrayDeserializer(result: Array<RoutineRun>): any[] {
+  return result.map((item) => {
+    return routineRunDeserializer(item);
+  });
+}
+
+/** A single routine run returned from the run history API. */
+export interface RoutineRun {
+  /** The MLflow run identifier for the routine attempt. */
+  id: string;
+  /** The underlying MLflow run status. */
+  status: string;
+  /** The AgentExtensions lifecycle phase for the routine attempt. */
+  phase?: RoutineRunPhase;
+  /** The trigger type that produced the routine attempt. */
+  trigger_type: RoutineTriggerType;
+  /** The source path that created the routine attempt. */
+  attempt_source?: RoutineAttemptSource;
+  /** The action type dispatched for the routine attempt. */
+  action_type?: RoutineActionType;
+  /** The logical trigger time recorded for the routine attempt. */
+  triggered_at?: Date;
+  /** The time when the underlying run started. */
+  started_at: Date;
+  /** The time when the underlying run reached a terminal state. */
+  ended_at?: Date;
+  /** The dispatch identifier associated with the routine attempt. */
+  dispatch_id?: string;
+  /** The downstream action correlation identifier, when available. */
+  action_correlation_id?: string;
+  /** The downstream response or invocation identifier, when available. */
+  response_id?: string;
+  /** The workspace task identifier linked to the routine attempt, when available. */
+  task_id?: string;
+  /** The fully qualified error type captured for a failed attempt, when available. */
+  error_type?: string;
+  /** The truncated failure message captured for a failed attempt, when available. */
+  error_message?: string;
+  /** Diagnostic data captured for the routine attempt. */
+  diagnostics?: RoutineRunDiagnostics;
+}
+
+export function routineRunDeserializer(item: any): RoutineRun {
+  return {
+    id: item["id"],
+    status: item["status"],
+    phase: item["phase"],
+    trigger_type: item["trigger_type"],
+    attempt_source: item["attempt_source"],
+    action_type: item["action_type"],
+    triggered_at: !item["triggered_at"]
+      ? item["triggered_at"]
+      : new Date(item["triggered_at"] * 1000),
+    started_at: new Date(item["started_at"] * 1000),
+    ended_at: !item["ended_at"] ? item["ended_at"] : new Date(item["ended_at"] * 1000),
+    dispatch_id: item["dispatch_id"],
+    action_correlation_id: item["action_correlation_id"],
+    response_id: item["response_id"],
+    task_id: item["task_id"],
+    error_type: item["error_type"],
+    error_message: item["error_message"],
+    diagnostics: !item["diagnostics"]
+      ? item["diagnostics"]
+      : routineRunDiagnosticsDeserializer(item["diagnostics"]),
+  };
+}
+
+/** Known lifecycle phases recorded for a routine run. */
+export type RoutineRunPhase = "queued" | "dispatching" | "completed" | "failed";
+/** Known source paths that can produce a routine run. */
+export type RoutineAttemptSource =
+  | "event_fire"
+  | "manual_dispatch"
+  | "queued_dispatch"
+  | "schedule_delivery"
+  | "timer_delivery";
+
+/** Generic diagnostics captured on a routine run. */
+export interface RoutineRunDiagnostics {
+  /** MLflow parameters recorded on the run, keyed by parameter name. */
+  parameters: Record<string, string>;
+  /** MLflow tags recorded on the run, keyed by tag name. */
+  tags: Record<string, string>;
+  /** Latest MLflow metric values recorded on the run, keyed by metric name. */
+  metrics: Record<string, number>;
+}
+
+export function routineRunDiagnosticsDeserializer(item: any): RoutineRunDiagnostics {
+  return {
+    parameters: Object.fromEntries(
+      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    tags: Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    metrics: Object.fromEntries(
+      Object.entries(item["metrics"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+  };
+}
+
+/** Base model for a manual dispatch payload. */
+export interface RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  /** The discriminator possible values: invoke_agent_responses_api, invoke_agent_invocations_api */
+  type: RoutineDispatchPayloadType;
+}
+
+export function routineDispatchPayloadSerializer(item: RoutineDispatchPayload): any {
+  return { type: item["type"] };
+}
+
+/** Alias for RoutineDispatchPayloadUnion */
+export type RoutineDispatchPayloadUnion =
+  | InvokeAgentResponsesApiDispatchPayload
+  | InvokeAgentInvocationsApiDispatchPayload
+  | RoutineDispatchPayload;
+
+export function routineDispatchPayloadUnionSerializer(item: RoutineDispatchPayloadUnion): any {
+  switch (item.type) {
+    case "invoke_agent_responses_api":
+      return invokeAgentResponsesApiDispatchPayloadSerializer(
+        item as InvokeAgentResponsesApiDispatchPayload,
+      );
+
+    case "invoke_agent_invocations_api":
+      return invokeAgentInvocationsApiDispatchPayloadSerializer(
+        item as InvokeAgentInvocationsApiDispatchPayload,
+      );
+
+    default:
+      return routineDispatchPayloadSerializer(item);
+  }
+}
+
+/** The discriminator values supported for manual routine dispatch payloads. */
+export type RoutineDispatchPayloadType =
+  | "invoke_agent_responses_api"
+  | "invoke_agent_invocations_api";
+
+/** A manual payload used to test a responses API routine dispatch. */
+export interface InvokeAgentResponsesApiDispatchPayload extends RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  type: "invoke_agent_responses_api";
+  /** The user input sent to the downstream responses target. */
+  input?: string;
+}
+
+export function invokeAgentResponsesApiDispatchPayloadSerializer(
+  item: InvokeAgentResponsesApiDispatchPayload,
+): any {
+  return { type: item["type"], input: item["input"] };
+}
+
+/** A manual payload used to test an invocations API routine dispatch. */
+export interface InvokeAgentInvocationsApiDispatchPayload extends RoutineDispatchPayload {
+  /** The manual dispatch payload type. */
+  type: "invoke_agent_invocations_api";
+  /** The raw input sent to the downstream invocations target. */
+  input?: string;
+}
+
+export function invokeAgentInvocationsApiDispatchPayloadSerializer(
+  item: InvokeAgentInvocationsApiDispatchPayload,
+): any {
+  return { type: item["type"], input: item["input"] };
+}
+
+/** Identifiers returned after a routine dispatch is queued. */
+export interface DispatchRoutineResponse {
+  /** The dispatch identifier created for the routine dispatch. */
+  dispatch_id?: string;
+  /** A downstream action correlation identifier, when available. */
+  action_correlation_id?: string;
+  /** A workspace task identifier created for the dispatch, when available. */
+  task_id?: string;
+}
+
+export function dispatchRoutineResponseDeserializer(item: any): DispatchRoutineResponse {
+  return {
+    dispatch_id: item["dispatch_id"],
+    action_correlation_id: item["action_correlation_id"],
+    task_id: item["task_id"],
+  };
 }
 
 /** Schedule model. */
@@ -10272,6 +11269,8 @@ export interface DataGenerationJobInputs {
   options: DataGenerationJobOptionsUnion;
   /** The scenario of the data generation job. Either for fine-tuning or evaluation. */
   scenario: DataGenerationJobScenario;
+  /** Optional caller-supplied metadata for the job's output. See individual fields for whether they apply to file outputs (fine-tuning scenarios), dataset outputs (evaluation scenario), or both. */
+  output_options?: DataGenerationJobOutputOptions;
 }
 
 export function dataGenerationJobInputsSerializer(item: DataGenerationJobInputs): any {
@@ -10280,6 +11279,9 @@ export function dataGenerationJobInputsSerializer(item: DataGenerationJobInputs)
     sources: dataGenerationJobSourceUnionArraySerializer(item["sources"]),
     options: dataGenerationJobOptionsUnionSerializer(item["options"]),
     scenario: item["scenario"],
+    output_options: !item["output_options"]
+      ? item["output_options"]
+      : dataGenerationJobOutputOptionsSerializer(item["output_options"]),
   };
 }
 
@@ -10289,6 +11291,9 @@ export function dataGenerationJobInputsDeserializer(item: any): DataGenerationJo
     sources: dataGenerationJobSourceUnionArrayDeserializer(item["sources"]),
     options: dataGenerationJobOptionsUnionDeserializer(item["options"]),
     scenario: item["scenario"],
+    output_options: !item["output_options"]
+      ? item["output_options"]
+      : dataGenerationJobOutputOptionsDeserializer(item["output_options"]),
   };
 }
 
@@ -10454,8 +11459,6 @@ export interface TracesDataGenerationJobSource extends DataGenerationJobSource {
   start_time?: Date;
   /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
   end_time?: Date;
-  /** Maximum number of traces to retrieve. */
-  max_traces?: number;
 }
 
 export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerationJobSource): any {
@@ -10469,7 +11472,6 @@ export function tracesDataGenerationJobSourceSerializer(item: TracesDataGenerati
       ? item["start_time"]
       : (item["start_time"].getTime() / 1000) | 0,
     end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-    max_traces: item["max_traces"],
   };
 }
 
@@ -10484,7 +11486,6 @@ export function tracesDataGenerationJobSourceDeserializer(
     agent_version: item["agent_version"],
     start_time: !item["start_time"] ? item["start_time"] : new Date(item["start_time"] * 1000),
     end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-    max_traces: item["max_traces"],
   };
 }
 
@@ -10957,7 +11958,7 @@ export type AgentType =
 export type AgentDefinitionOptInKeys =
   | "HostedAgents=V1Preview"
   | "WorkflowAgents=V1Preview"
-  | "ContainerAgents=V1Preview"
+  | "ExternalAgents=V1Preview"
   | "AgentEndpoints=V1Preview"
   | "CodeAgents=V1Preview";
 /** Type of PageOrder */
@@ -10970,15 +11971,18 @@ export type FoundryFeaturesOptInKeys =
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
   | "MemoryStores=V1Preview"
-  | "Toolboxes=V1Preview"
-  | "DataGenerationJobs=V1Preview";
+  | "Routines=V1Preview"
+  | "DataGenerationJobs=V1Preview"
+  | "Models=V1Preview"
+  | "AgentsOptimization=V1Preview";
 /** The type of pending upload. */
-export type PendingUploadType = "None" | "BlobReference";
+export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
 /** Type of MemoryStoreType */
 export type MemoryStoreType =
   | "memory_store"
   | "memory_store.deleted"
-  | "memory_store.scope.deleted";
+  | "memory_store.scope.deleted"
+  | "memory_store.item.deleted";
 
 /** Microsoft Foundry API versions */
 export enum KnownApiVersions {
@@ -11041,78 +12045,6 @@ export type BetaAgentsDownloadAgentCodeResponse = {
   readableStreamBody?: NodeJS.ReadableStream;
 };
 
-/**
- * Response type for the `getSessionLogStream` operation.
- * Exposes the raw Server-Sent Events (SSE) byte stream. Callers are responsible
- * for parsing the individual `event:` / `data:` frames from the stream.
- */
-export type BetaAgentsGetSessionLogStreamResponse = {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob containing the raw SSE byte stream.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream containing the raw SSE event stream.
-   * Callers must parse the individual `event:` / `data:` frames from this stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-};
-
-/** model interface _AgentObjectVersions */
-export interface _AgentObjectVersions {
-  latest: AgentVersion;
-}
-
-export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersions {
-  return {
-    latest: agentVersionDeserializer(item["latest"]),
-  };
-}
-
-export function _fileSearchToolFiltersValue1ArraySerializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Serializer(item);
-  });
-}
-
-export function _fileSearchToolFiltersValue1ArrayDeserializer(
-  result: Array<_FileSearchToolFiltersValue1>,
-): any[] {
-  return result.map((item) => {
-    return _fileSearchToolFiltersValue1Deserializer(item);
-  });
-}
-
-/** Alias for _FileSearchToolFiltersValue1 */
-export type _FileSearchToolFiltersValue1 = string | number;
-
-export function _fileSearchToolFiltersValue1Serializer(item: _FileSearchToolFiltersValue1): any {
-  return item;
-}
-
-export function _fileSearchToolFiltersValue1Deserializer(item: any): _FileSearchToolFiltersValue1 {
-  return item;
-}
-
-/** Type of GrammarSyntax1 */
-export type GrammarSyntax1 = "lark" | "regex";
-
-/** Shared Access Signature (SAS) credential definition */
-export interface SASCredentials extends BaseCredentials {
-  /** The credential type */
-  readonly type: "SAS";
-  /** SAS token */
-  readonly sasToken?: string;
-}
-
 /** Request body for getting evaluator credentials */
 export interface EvaluatorCredentialRequest {
   /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
@@ -11121,1490 +12053,6 @@ export interface EvaluatorCredentialRequest {
 
 export function evaluatorCredentialRequestSerializer(item: EvaluatorCredentialRequest): any {
   return { blob_uri: item["blob_uri"] };
-}
-
-/** Paged collection of EvaluationSuiteVersion items */
-export interface _PagedEvaluationSuiteVersion {
-  /** The EvaluationSuiteVersion items on this page */
-  value: EvaluationSuiteVersion[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedEvaluationSuiteVersionDeserializer(item: any): _PagedEvaluationSuiteVersion {
-  return {
-    value: evaluationSuiteVersionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function evaluationSuiteVersionArraySerializer(
-  result: Array<EvaluationSuiteVersion>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteVersionSerializer(item);
-  });
-}
-
-export function evaluationSuiteVersionArrayDeserializer(
-  result: Array<EvaluationSuiteVersion>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteVersionDeserializer(item);
-  });
-}
-
-/**
- * An evaluation suite bundles testing criteria — an optional dataset, one or more
- * evaluator configs with thresholds and init params — into a reusable, named artifact that
- * can gate agent changes across batch, scheduled, continuous, and CI/CD evals.
- */
-export interface EvaluationSuiteVersion {
-  /**
-   * Human-readable display name.
-   * Does not need to be unique. Shown in Foundry portal list views and eval reports.
-   */
-  display_name?: string;
-  /** Subtype of the evaluation suite. */
-  subtype?: EvaluationSuiteSubtype;
-  /**
-   * Dataset reference for evaluation.
-   * Optional — omit for evaluator-only suites where data comes from
-   * live production traces or is provided at run time.
-   * The referenced dataset must exist in the project's dataset registry.
-   */
-  dataset?: EvaluationDatasetReference;
-  /**
-   * Testing criteria — the evaluator configurations for this suite.
-   * Supports all grader types: azure_ai_evaluator, string_check, label_model,
-   * score_model, text_similarity, python, etc.
-   * At least one entry is required.
-   */
-  testing_criteria: (
-    | EvalGraderLabelModel
-    | EvalGraderStringCheck
-    | EvalGraderTextSimilarity
-    | EvalGraderPython
-    | EvalGraderScoreModel
-    | TestingCriterionAzureAIEvaluator
-  )[];
-  /**
-   * Target for this evaluation suite. Uses the existing Target discriminated type
-   * from eval runs. Supports azure_ai_agent, azure_ai_model, azure_ai_assistant.
-   * Optional — allows suites to exist without a target.
-   */
-  target?: EvaluationTargetUnion;
-  /**
-   * How to send dataset rows to the target (agent or model).
-   * Supports template type (prompt with column placeholders) and
-   * item_reference type (column containing pre-built messages).
-   */
-  input_messages?:
-    | CreateEvalResponsesRunDataSourceInputMessagesTemplate
-    | CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
-  /** Default evaluation level for this suite. Can be overridden at run time. */
-  evaluation_level?: EvaluationLevel;
-  /** The name of the resource. */
-  readonly name: string;
-  /** The version of the resource. */
-  readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
-}
-
-export function evaluationSuiteVersionSerializer(item: EvaluationSuiteVersion): any {
-  return {
-    display_name: item["display_name"],
-    subtype: item["subtype"],
-    dataset: !item["dataset"]
-      ? item["dataset"]
-      : evaluationDatasetReferenceSerializer(item["dataset"]),
-    testing_criteria: _evaluationSuiteVersionTestingCriterionArraySerializer(
-      item["testing_criteria"],
-    ),
-    target: !item["target"] ? item["target"] : evaluationTargetUnionSerializer(item["target"]),
-    input_messages: !item["input_messages"]
-      ? item["input_messages"]
-      : _evaluationSuiteVersionInputMessagesSerializer(item["input_messages"]),
-    evaluation_level: item["evaluation_level"],
-    description: item["description"],
-    tags: item["tags"],
-  };
-}
-
-export function evaluationSuiteVersionDeserializer(item: any): EvaluationSuiteVersion {
-  return {
-    display_name: item["display_name"],
-    subtype: item["subtype"],
-    dataset: !item["dataset"]
-      ? item["dataset"]
-      : evaluationDatasetReferenceDeserializer(item["dataset"]),
-    testing_criteria: _evaluationSuiteVersionTestingCriterionArrayDeserializer(
-      item["testing_criteria"],
-    ),
-    target: !item["target"] ? item["target"] : evaluationTargetUnionDeserializer(item["target"]),
-    input_messages: !item["input_messages"]
-      ? item["input_messages"]
-      : _evaluationSuiteVersionInputMessagesDeserializer(item["input_messages"]),
-    evaluation_level: item["evaluation_level"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-/** The subtype of an evaluation suite. */
-export type EvaluationSuiteSubtype = "default" | "benchmark";
-
-/** Reference to a dataset by name and version. */
-export interface EvaluationDatasetReference {
-  /** Dataset name. */
-  name: string;
-  /** Dataset version. If not provided, resolves to the latest version. */
-  version?: string;
-  /**
-   * Name of the schema file within the dataset's blob folder (e.g., "a3f2b1c4_schema.json").
-   * Optional — if not provided, schema is inferred at runtime from the data.
-   * Only applicable for uri_folder datasets.
-   */
-  schema_file_name?: string;
-}
-
-export function evaluationDatasetReferenceSerializer(item: EvaluationDatasetReference): any {
-  return {
-    name: item["name"],
-    version: item["version"],
-    schema_file_name: item["schema_file_name"],
-  };
-}
-
-export function evaluationDatasetReferenceDeserializer(item: any): EvaluationDatasetReference {
-  return {
-    name: item["name"],
-    version: item["version"],
-    schema_file_name: item["schema_file_name"],
-  };
-}
-
-export function _evaluationSuiteVersionTestingCriterionArraySerializer(
-  result: Array<_EvaluationSuiteVersionTestingCriterion>,
-): any[] {
-  return result.map((item) => {
-    return _evaluationSuiteVersionTestingCriterionSerializer(item);
-  });
-}
-
-export function _evaluationSuiteVersionTestingCriterionArrayDeserializer(
-  result: Array<_EvaluationSuiteVersionTestingCriterion>,
-): any[] {
-  return result.map((item) => {
-    return _evaluationSuiteVersionTestingCriterionDeserializer(item);
-  });
-}
-
-/** Alias for _EvaluationSuiteVersionTestingCriterion */
-export type _EvaluationSuiteVersionTestingCriterion =
-  | EvalGraderLabelModel
-  | EvalGraderStringCheck
-  | EvalGraderTextSimilarity
-  | EvalGraderPython
-  | EvalGraderScoreModel
-  | TestingCriterionAzureAIEvaluator;
-
-export function _evaluationSuiteVersionTestingCriterionSerializer(
-  item: _EvaluationSuiteVersionTestingCriterion,
-): any {
-  return item;
-}
-
-export function _evaluationSuiteVersionTestingCriterionDeserializer(
-  item: any,
-): _EvaluationSuiteVersionTestingCriterion {
-  return item;
-}
-
-/** model interface EvalGraderLabelModel */
-export interface EvalGraderLabelModel {
-  /** The object type, which is always `label_model`. */
-  type: "label_model";
-  /** The name of the grader. */
-  name: string;
-  /** The model to use for the evaluation. Must support structured outputs. */
-  model: string;
-  input: EvalItem[];
-  /** The labels to assign to each item in the evaluation. */
-  labels: string[];
-  /** The labels that indicate a passing result. Must be a subset of labels. */
-  passing_labels: string[];
-}
-
-export function evalGraderLabelModelSerializer(item: EvalGraderLabelModel): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    model: item["model"],
-    input: evalItemArraySerializer(item["input"]),
-    labels: item["labels"].map((p: any) => {
-      return p;
-    }),
-    passing_labels: item["passing_labels"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function evalGraderLabelModelDeserializer(item: any): EvalGraderLabelModel {
-  return {
-    type: item["type"],
-    name: item["name"],
-    model: item["model"],
-    input: evalItemArrayDeserializer(item["input"]),
-    labels: item["labels"].map((p: any) => {
-      return p;
-    }),
-    passing_labels: item["passing_labels"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function evalItemArraySerializer(result: Array<EvalItem>): any[] {
-  return result.map((item) => {
-    return evalItemSerializer(item);
-  });
-}
-
-export function evalItemArrayDeserializer(result: Array<EvalItem>): any[] {
-  return result.map((item) => {
-    return evalItemDeserializer(item);
-  });
-}
-
-/**
- * A message input to the model with a role indicating instruction following
- * hierarchy. Instructions given with the `developer` or `system` role take
- * precedence over instructions given with the `user` role. Messages with the
- * `assistant` role are presumed to have been generated by the model in previous
- * interactions.
- */
-export interface EvalItem {
-  /**
-   * The role of the message input. One of `user`, `assistant`, `system`, or
-   *   `developer`.
-   */
-  role: "user" | "assistant" | "system" | "developer";
-  content: EvalItemContent;
-  /** The type of the message input. Always `message`. */
-  type?: "message";
-}
-
-export function evalItemSerializer(item: EvalItem): any {
-  return {
-    role: item["role"],
-    content: evalItemContentSerializer(item["content"]),
-    type: item["type"],
-  };
-}
-
-export function evalItemDeserializer(item: any): EvalItem {
-  return {
-    role: item["role"],
-    content: evalItemContentDeserializer(item["content"]),
-    type: item["type"],
-  };
-}
-
-/** Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items. */
-export type EvalItemContent = EvalItemContentItem | EvalItemContentItem[];
-
-export function evalItemContentSerializer(item: EvalItemContent): any {
-  return item;
-}
-
-export function evalItemContentDeserializer(item: any): EvalItemContent {
-  return item;
-}
-
-/** A single content item: input text, output text, input image, or input audio. */
-export type EvalItemContentItem = string | EvalItemContentItemObjectUnion;
-
-export function evalItemContentItemSerializer(item: EvalItemContentItem): any {
-  return item;
-}
-
-export function evalItemContentItemDeserializer(item: any): EvalItemContentItem {
-  return item;
-}
-
-/** A single content item: input text, output text, input image, or input audio. */
-export interface EvalItemContentItemObject {
-  type: EvalItemContentItemObjectType;
-}
-
-export function evalItemContentItemObjectSerializer(item: EvalItemContentItemObject): any {
-  return { type: item["type"] };
-}
-
-export function evalItemContentItemObjectDeserializer(item: any): EvalItemContentItemObject {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for EvalItemContentItemObjectUnion */
-export type EvalItemContentItemObjectUnion =
-  | EvalItemContentOutputText
-  | EvalItemInputImage
-  | InputAudio
-  | EvalItemContentItemObjectInputTextContent
-  | EvalItemContentItemObject;
-
-export function evalItemContentItemObjectUnionSerializer(
-  item: EvalItemContentItemObjectUnion,
-): any {
-  switch (item.type) {
-    case "output_text":
-      return evalItemContentOutputTextSerializer(item as EvalItemContentOutputText);
-
-    case "input_image":
-      return evalItemInputImageSerializer(item as EvalItemInputImage);
-
-    case "input_audio":
-      return inputAudioSerializer(item as InputAudio);
-
-    case "input_text":
-      return evalItemContentItemObjectInputTextContentSerializer(
-        item as EvalItemContentItemObjectInputTextContent,
-      );
-
-    default:
-      return evalItemContentItemObjectSerializer(item);
-  }
-}
-
-export function evalItemContentItemObjectUnionDeserializer(
-  item: any,
-): EvalItemContentItemObjectUnion {
-  switch (item["type"]) {
-    case "output_text":
-      return evalItemContentOutputTextDeserializer(item as EvalItemContentOutputText);
-
-    case "input_image":
-      return evalItemInputImageDeserializer(item as EvalItemInputImage);
-
-    case "input_audio":
-      return inputAudioDeserializer(item as InputAudio);
-
-    case "input_text":
-      return evalItemContentItemObjectInputTextContentDeserializer(
-        item as EvalItemContentItemObjectInputTextContent,
-      );
-
-    default:
-      return evalItemContentItemObjectDeserializer(item);
-  }
-}
-
-/** Type of EvalItemContentItemObjectType */
-export type EvalItemContentItemObjectType =
-  | "input_text"
-  | "output_text"
-  | "input_image"
-  | "input_audio";
-
-/** A text output from the model. */
-export interface EvalItemContentOutputText extends EvalItemContentItemObject {
-  /** The type of the output text. Always `output_text`. */
-  type: "output_text";
-  /** The text output from the model. */
-  text: string;
-}
-
-export function evalItemContentOutputTextSerializer(item: EvalItemContentOutputText): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function evalItemContentOutputTextDeserializer(item: any): EvalItemContentOutputText {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-/** An image input block used within EvalItem content arrays. */
-export interface EvalItemInputImage extends EvalItemContentItemObject {
-  /** The type of the image input. Always `input_image`. */
-  type: "input_image";
-  /** The URL of the image input. */
-  image_url: string;
-  /** The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`. */
-  detail?: string;
-}
-
-export function evalItemInputImageSerializer(item: EvalItemInputImage): any {
-  return { type: item["type"], image_url: item["image_url"], detail: item["detail"] };
-}
-
-export function evalItemInputImageDeserializer(item: any): EvalItemInputImage {
-  return {
-    type: item["type"],
-    image_url: item["image_url"],
-    detail: item["detail"],
-  };
-}
-
-/** An audio input to the model. */
-export interface InputAudio extends EvalItemContentItemObject {
-  /** The type of the input item. Always `input_audio`. */
-  type: "input_audio";
-  input_audio: InputAudioInputAudio;
-}
-
-export function inputAudioSerializer(item: InputAudio): any {
-  return { type: item["type"], input_audio: inputAudioInputAudioSerializer(item["input_audio"]) };
-}
-
-export function inputAudioDeserializer(item: any): InputAudio {
-  return {
-    type: item["type"],
-    input_audio: inputAudioInputAudioDeserializer(item["input_audio"]),
-  };
-}
-
-/** model interface InputAudioInputAudio */
-export interface InputAudioInputAudio {
-  data: string;
-  format: "mp3" | "wav";
-}
-
-export function inputAudioInputAudioSerializer(item: InputAudioInputAudio): any {
-  return { data: item["data"], format: item["format"] };
-}
-
-export function inputAudioInputAudioDeserializer(item: any): InputAudioInputAudio {
-  return {
-    data: item["data"],
-    format: item["format"],
-  };
-}
-
-/** A text input to the model. */
-export interface EvalItemContentItemObjectInputTextContent extends EvalItemContentItemObject {
-  /** The type of the input item. Always `input_text`. */
-  type: "input_text";
-  /** The text input to the model. */
-  text: string;
-}
-
-export function evalItemContentItemObjectInputTextContentSerializer(
-  item: EvalItemContentItemObjectInputTextContent,
-): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function evalItemContentItemObjectInputTextContentDeserializer(
-  item: any,
-): EvalItemContentItemObjectInputTextContent {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-export function evalItemContentItemArraySerializer(result: Array<EvalItemContentItem>): any[] {
-  return result.map((item) => {
-    return evalItemContentItemSerializer(item);
-  });
-}
-
-export function evalItemContentItemArrayDeserializer(result: Array<EvalItemContentItem>): any[] {
-  return result.map((item) => {
-    return evalItemContentItemDeserializer(item);
-  });
-}
-
-/** model interface EvalGraderStringCheck */
-export interface EvalGraderStringCheck {
-  /** The object type, which is always `string_check`. */
-  type: "string_check";
-  /** The name of the grader. */
-  name: string;
-  /** The input text. This may include template strings. */
-  input: string;
-  /** The reference text. This may include template strings. */
-  reference: string;
-  /** The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`. */
-  operation: "eq" | "ne" | "like" | "ilike";
-}
-
-export function evalGraderStringCheckSerializer(item: EvalGraderStringCheck): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    input: item["input"],
-    reference: item["reference"],
-    operation: item["operation"],
-  };
-}
-
-export function evalGraderStringCheckDeserializer(item: any): EvalGraderStringCheck {
-  return {
-    type: item["type"],
-    name: item["name"],
-    input: item["input"],
-    reference: item["reference"],
-    operation: item["operation"],
-  };
-}
-
-/** model interface EvalGraderTextSimilarity */
-export interface EvalGraderTextSimilarity {
-  /** The type of grader. */
-  type: "text_similarity";
-  /** The name of the grader. */
-  name: string;
-  /** The text being graded. */
-  input: string;
-  /** The text being graded against. */
-  reference: string;
-  /**
-   * The evaluation metric to use. One of `cosine`, `fuzzy_match`, `bleu`,
-   *   `gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`,
-   *   or `rouge_l`.
-   */
-  evaluation_metric:
-    | "cosine"
-    | "fuzzy_match"
-    | "bleu"
-    | "gleu"
-    | "meteor"
-    | "rouge_1"
-    | "rouge_2"
-    | "rouge_3"
-    | "rouge_4"
-    | "rouge_5"
-    | "rouge_l";
-  /** The threshold for the score. */
-  pass_threshold: number;
-}
-
-export function evalGraderTextSimilaritySerializer(item: EvalGraderTextSimilarity): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    input: item["input"],
-    reference: item["reference"],
-    evaluation_metric: item["evaluation_metric"],
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-export function evalGraderTextSimilarityDeserializer(item: any): EvalGraderTextSimilarity {
-  return {
-    type: item["type"],
-    name: item["name"],
-    input: item["input"],
-    reference: item["reference"],
-    evaluation_metric: item["evaluation_metric"],
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-/** model interface EvalGraderPython */
-export interface EvalGraderPython {
-  /** The object type, which is always `python`. */
-  type: "python";
-  /** The name of the grader. */
-  name: string;
-  /** The source code of the python script. */
-  source: string;
-  /** The image tag to use for the python script. */
-  image_tag?: string;
-  /** The threshold for the score. */
-  pass_threshold?: number;
-}
-
-export function evalGraderPythonSerializer(item: EvalGraderPython): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    source: item["source"],
-    image_tag: item["image_tag"],
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-export function evalGraderPythonDeserializer(item: any): EvalGraderPython {
-  return {
-    type: item["type"],
-    name: item["name"],
-    source: item["source"],
-    image_tag: item["image_tag"],
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-/** model interface EvalGraderScoreModel */
-export interface EvalGraderScoreModel {
-  /** The object type, which is always `score_model`. */
-  type: "score_model";
-  /** The name of the grader. */
-  name: string;
-  /** The model to use for the evaluation. */
-  model: string;
-  /** The sampling parameters for the model. */
-  sampling_params?: EvalGraderScoreModelSamplingParams;
-  /** The input messages evaluated by the grader. Supports text, output text, input image, and input audio content blocks, and may include template strings. */
-  input: EvalItem[];
-  /** The range of the score. Defaults to `[0, 1]`. */
-  range?: number[];
-  /** The threshold for the score. */
-  pass_threshold?: number;
-}
-
-export function evalGraderScoreModelSerializer(item: EvalGraderScoreModel): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    model: item["model"],
-    sampling_params: !item["sampling_params"]
-      ? item["sampling_params"]
-      : evalGraderScoreModelSamplingParamsSerializer(item["sampling_params"]),
-    input: evalItemArraySerializer(item["input"]),
-    range: !item["range"]
-      ? item["range"]
-      : item["range"].map((p: any) => {
-          return p;
-        }),
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-export function evalGraderScoreModelDeserializer(item: any): EvalGraderScoreModel {
-  return {
-    type: item["type"],
-    name: item["name"],
-    model: item["model"],
-    sampling_params: !item["sampling_params"]
-      ? item["sampling_params"]
-      : evalGraderScoreModelSamplingParamsDeserializer(item["sampling_params"]),
-    input: evalItemArrayDeserializer(item["input"]),
-    range: !item["range"]
-      ? item["range"]
-      : item["range"].map((p: any) => {
-          return p;
-        }),
-    pass_threshold: item["pass_threshold"],
-  };
-}
-
-/** model interface EvalGraderScoreModelSamplingParams */
-export interface EvalGraderScoreModelSamplingParams {
-  seed?: number;
-  top_p?: number;
-  temperature?: number;
-  max_completions_tokens?: number;
-  reasoning_effort?: ReasoningEffort;
-}
-
-export function evalGraderScoreModelSamplingParamsSerializer(
-  item: EvalGraderScoreModelSamplingParams,
-): any {
-  return {
-    seed: item["seed"],
-    top_p: item["top_p"],
-    temperature: item["temperature"],
-    max_completions_tokens: item["max_completions_tokens"],
-    reasoning_effort: item["reasoning_effort"],
-  };
-}
-
-export function evalGraderScoreModelSamplingParamsDeserializer(
-  item: any,
-): EvalGraderScoreModelSamplingParams {
-  return {
-    seed: item["seed"],
-    top_p: item["top_p"],
-    temperature: item["temperature"],
-    max_completions_tokens: item["max_completions_tokens"],
-    reasoning_effort: item["reasoning_effort"],
-  };
-}
-
-/** An Azure AI Evaluator grader used as testing criterion in evaluations. */
-export interface TestingCriterionAzureAIEvaluator {
-  /** The object type, which is always `azure_ai_evaluator`. */
-  type: "azure_ai_evaluator";
-  /** The name of the grader. */
-  name: string;
-  /** The name of the evaluator. */
-  evaluator_name: string;
-  /** The version of the evaluator. Latest version if not specified. */
-  evaluator_version?: string;
-  /** The initialization parameters for the evaluation. Must support structured outputs. */
-  initialization_parameters?: Record<string, any>;
-  /** The model to use for the evaluation. Must support structured outputs. */
-  data_mapping?: Record<string, string>;
-}
-
-export function testingCriterionAzureAIEvaluatorSerializer(
-  item: TestingCriterionAzureAIEvaluator,
-): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    evaluator_name: item["evaluator_name"],
-    evaluator_version: item["evaluator_version"],
-    initialization_parameters: !item["initialization_parameters"]
-      ? item["initialization_parameters"]
-      : _evaluationSuiteVersionTestingCriterionInitializationParametersSerializer(
-          item["initialization_parameters"],
-        ),
-    data_mapping: item["data_mapping"],
-  };
-}
-
-export function testingCriterionAzureAIEvaluatorDeserializer(
-  item: any,
-): TestingCriterionAzureAIEvaluator {
-  return {
-    type: item["type"],
-    name: item["name"],
-    evaluator_name: item["evaluator_name"],
-    evaluator_version: item["evaluator_version"],
-    initialization_parameters: !item["initialization_parameters"]
-      ? item["initialization_parameters"]
-      : _evaluationSuiteVersionTestingCriterionInitializationParametersDeserializer(
-          item["initialization_parameters"],
-        ),
-    data_mapping: !item["data_mapping"]
-      ? item["data_mapping"]
-      : Object.fromEntries(
-          Object.entries(item["data_mapping"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-  };
-}
-
-/** model interface _EvaluationSuiteVersionTestingCriterionInitializationParameters */
-export interface _EvaluationSuiteVersionTestingCriterionInitializationParameters {}
-
-export function _evaluationSuiteVersionTestingCriterionInitializationParametersSerializer(
-  _item: _EvaluationSuiteVersionTestingCriterionInitializationParameters,
-): any {
-  return {};
-}
-
-export function _evaluationSuiteVersionTestingCriterionInitializationParametersDeserializer(
-  item: any,
-): _EvaluationSuiteVersionTestingCriterionInitializationParameters {
-  return item;
-}
-
-/** Alias for _EvaluationSuiteVersionInputMessages */
-export type _EvaluationSuiteVersionInputMessages =
-  | CreateEvalResponsesRunDataSourceInputMessagesTemplate
-  | CreateEvalCompletionsRunDataSourceInputMessagesItemReference;
-
-export function _evaluationSuiteVersionInputMessagesSerializer(
-  item: _EvaluationSuiteVersionInputMessages,
-): any {
-  return item;
-}
-
-export function _evaluationSuiteVersionInputMessagesDeserializer(
-  item: any,
-): _EvaluationSuiteVersionInputMessages {
-  return item;
-}
-
-/** model interface CreateEvalResponsesRunDataSourceInputMessagesTemplate */
-export interface CreateEvalResponsesRunDataSourceInputMessagesTemplate {
-  type: "template";
-  template: (
-    | {
-        role: string;
-        content: string;
-      }
-    | EvalItem
-  )[];
-}
-
-export function createEvalResponsesRunDataSourceInputMessagesTemplateSerializer(
-  item: CreateEvalResponsesRunDataSourceInputMessagesTemplate,
-): any {
-  return {
-    type: item["type"],
-    template: _evaluationSuiteVersionInputMessagesTemplateArraySerializer(item["template"]),
-  };
-}
-
-export function createEvalResponsesRunDataSourceInputMessagesTemplateDeserializer(
-  item: any,
-): CreateEvalResponsesRunDataSourceInputMessagesTemplate {
-  return {
-    type: item["type"],
-    template: _evaluationSuiteVersionInputMessagesTemplateArrayDeserializer(item["template"]),
-  };
-}
-
-export function _evaluationSuiteVersionInputMessagesTemplateArraySerializer(
-  result: Array<_EvaluationSuiteVersionInputMessagesTemplate>,
-): any[] {
-  return result.map((item) => {
-    return _evaluationSuiteVersionInputMessagesTemplateSerializer(item);
-  });
-}
-
-export function _evaluationSuiteVersionInputMessagesTemplateArrayDeserializer(
-  result: Array<_EvaluationSuiteVersionInputMessagesTemplate>,
-): any[] {
-  return result.map((item) => {
-    return _evaluationSuiteVersionInputMessagesTemplateDeserializer(item);
-  });
-}
-
-/** Alias for _EvaluationSuiteVersionInputMessagesTemplate */
-export type _EvaluationSuiteVersionInputMessagesTemplate =
-  | {
-      role: string;
-      content: string;
-    }
-  | EvalItem;
-
-export function _evaluationSuiteVersionInputMessagesTemplateSerializer(
-  item: _EvaluationSuiteVersionInputMessagesTemplate,
-): any {
-  return item;
-}
-
-export function _evaluationSuiteVersionInputMessagesTemplateDeserializer(
-  item: any,
-): _EvaluationSuiteVersionInputMessagesTemplate {
-  return item;
-}
-
-/** model interface _EvaluationSuiteVersionInputMessagesTemplate1 */
-export interface _EvaluationSuiteVersionInputMessagesTemplate1 {
-  role: string;
-  content: string;
-}
-
-export function _evaluationSuiteVersionInputMessagesTemplate1Serializer(
-  item: _EvaluationSuiteVersionInputMessagesTemplate1,
-): any {
-  return { role: item["role"], content: item["content"] };
-}
-
-export function _evaluationSuiteVersionInputMessagesTemplate1Deserializer(
-  item: any,
-): _EvaluationSuiteVersionInputMessagesTemplate1 {
-  return {
-    role: item["role"],
-    content: item["content"],
-  };
-}
-
-/** model interface CreateEvalCompletionsRunDataSourceInputMessagesItemReference */
-export interface CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
-  type: "item_reference";
-  item_reference: string;
-}
-
-export function createEvalCompletionsRunDataSourceInputMessagesItemReferenceSerializer(
-  item: CreateEvalCompletionsRunDataSourceInputMessagesItemReference,
-): any {
-  return { type: item["type"], item_reference: item["item_reference"] };
-}
-
-export function createEvalCompletionsRunDataSourceInputMessagesItemReferenceDeserializer(
-  item: any,
-): CreateEvalCompletionsRunDataSourceInputMessagesItemReference {
-  return {
-    type: item["type"],
-    item_reference: item["item_reference"],
-  };
-}
-
-/** The level at which evaluation is performed. */
-export type EvaluationLevel = "turn" | "conversation";
-
-export function dimensionArraySerializer(result: Array<Dimension>): any[] {
-  return result.map((item) => {
-    return dimensionSerializer(item);
-  });
-}
-
-export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
-  return result.map((item) => {
-    return dimensionDeserializer(item);
-  });
-}
-
-/** A single dimension — one independent, measurable quality dimension within a rubric evaluator's scoring blueprint. */
-export interface Dimension {
-  /** Stable identifier for this dimension (snake_case, e.g., `correct_resolution`). Required. Provided by the user when manually creating a rubric evaluator or during human-in-the-loop review of a generated set; the generation pipeline produces an initial value the user can edit. Editable when saving new versions. */
-  dimension_id: string;
-  /** What this dimension measures (e.g., 'Correctly identifies the user's reservation intent and pursues the appropriate workflow'). */
-  description: string;
-  /** Relative weight of this dimension (1-10). The generation pipeline assigns exactly one dimension weight 8-10; all others use 1-6. User edits are not constrained by this heuristic. */
-  weight: number;
-  /** When true, the LLM judge always scores this dimension regardless of relevance (skips applicability assessment). The service-generated general quality/policy dimension has this set to true and is non-editable. Users may set this on their own custom dimensions. */
-  always_applicable?: boolean;
-}
-
-export function dimensionSerializer(item: Dimension): any {
-  return {
-    dimension_id: item["dimension_id"],
-    description: item["description"],
-    weight: item["weight"],
-    always_applicable: item["always_applicable"],
-  };
-}
-
-export function dimensionDeserializer(item: any): Dimension {
-  return {
-    dimension_id: item["dimension_id"],
-    description: item["description"],
-    weight: item["weight"],
-    always_applicable: item["always_applicable"],
-  };
-}
-
-/** Request body for running an evaluation from a suite. */
-export interface EvaluationSuiteRunRequest {
-  /** Name for the evaluation. Default: '{suiteName}-runs'. */
-  evaluation_name?: string;
-  /** Evaluation suite version to run. Default: latest. */
-  evaluation_suite_version?: string;
-  /** Overrides the suite's default evaluation level. If omitted, uses the level from the suite. */
-  evaluation_level?: EvaluationLevel;
-}
-
-export function evaluationSuiteRunRequestSerializer(item: EvaluationSuiteRunRequest): any {
-  return {
-    evaluation_name: item["evaluation_name"],
-    evaluation_suite_version: item["evaluation_suite_version"],
-    evaluation_level: item["evaluation_level"],
-  };
-}
-
-/** Response from running an evaluation suite. */
-export interface EvaluationSuiteRunResponse {
-  /** The evaluation suite name used. */
-  evaluation_suite_name: string;
-  /** The evaluation suite version resolved. */
-  evaluation_suite_version: string;
-  /** The run results. Currently a single-element array; will support multiple runs in the future. */
-  results: EvaluationSuiteRunResult[];
-}
-
-export function evaluationSuiteRunResponseDeserializer(item: any): EvaluationSuiteRunResponse {
-  return {
-    evaluation_suite_name: item["evaluation_suite_name"],
-    evaluation_suite_version: item["evaluation_suite_version"],
-    results: evaluationSuiteRunResultArrayDeserializer(item["results"]),
-  };
-}
-
-export function evaluationSuiteRunResultArrayDeserializer(
-  result: Array<EvaluationSuiteRunResult>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteRunResultDeserializer(item);
-  });
-}
-
-/** Result of a single evaluation run within a suite execution. */
-export interface EvaluationSuiteRunResult {
-  /** The evaluation ID created. */
-  eval_id: string;
-  /** The eval run ID created. */
-  run_id: string;
-  /** Status of the run. */
-  status: JobStatus;
-  /** Timestamp when the run was created. */
-  created_at: Date;
-}
-
-export function evaluationSuiteRunResultDeserializer(item: any): EvaluationSuiteRunResult {
-  return {
-    eval_id: item["eval_id"],
-    run_id: item["run_id"],
-    status: item["status"],
-    created_at: new Date(item["created_at"] * 1000),
-  };
-}
-
-/** Evaluation suite generation job resource — a long-running job that generates testing criteria and optionally a dataset from source materials. On success, the result is the persisted EvaluationSuiteVersion. */
-export interface EvaluationSuiteGenerationJob {
-  /** Server-assigned unique identifier. */
-  readonly id: string;
-  /** Caller-supplied inputs. */
-  inputs?: EvaluationSuiteGenerationJobInputs;
-  /** Result produced on success. */
-  readonly result?: EvaluationSuiteVersion;
-  /** Current lifecycle status. */
-  readonly status: JobStatus;
-  /** Error details — populated only on failure. */
-  readonly error?: ErrorModel;
-  /** The timestamp when the job was created, represented in Unix time. */
-  readonly created_at: Date;
-  /** The timestamp when the job finished, represented in Unix time. */
-  readonly finished_at?: Date;
-  /** Token consumption summary. Populated on terminal states. */
-  readonly usage?: EvaluationSuiteGenerationTokenUsage;
-}
-
-export function evaluationSuiteGenerationJobSerializer(item: EvaluationSuiteGenerationJob): any {
-  return {
-    inputs: !item["inputs"]
-      ? item["inputs"]
-      : evaluationSuiteGenerationJobInputsSerializer(item["inputs"]),
-  };
-}
-
-export function evaluationSuiteGenerationJobDeserializer(item: any): EvaluationSuiteGenerationJob {
-  return {
-    id: item["id"],
-    inputs: !item["inputs"]
-      ? item["inputs"]
-      : evaluationSuiteGenerationJobInputsDeserializer(item["inputs"]),
-    result: !item["result"] ? item["result"] : evaluationSuiteVersionDeserializer(item["result"]),
-    status: item["status"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
-    created_at: new Date(item["created_at"] * 1000),
-    finished_at: !item["finished_at"] ? item["finished_at"] : new Date(item["finished_at"] * 1000),
-    usage: !item["usage"]
-      ? item["usage"]
-      : evaluationSuiteGenerationTokenUsageDeserializer(item["usage"]),
-  };
-}
-
-/** Caller-supplied inputs for an evaluation suite generation job. */
-export interface EvaluationSuiteGenerationJobInputs {
-  /** The evaluation suite name to create. */
-  evaluation_suite_name: string;
-  /** Source materials for generation — agent context, prompts, traces, or datasets. */
-  sources: EvaluationSuiteJobSourceUnion[];
-  /** The LLM model to use for rubric and data generation (e.g., 'gpt-4o'). */
-  generation_model: string;
-  /** Category determines the generation focus. Default: quality. */
-  category?: EvaluationSuiteGenerationCategory;
-  /**
-   * Optional initialization parameters applied to all generated evaluators.
-   * For example, deployment_name for LLM judge model, default threshold.
-   */
-  initialization_parameters?: Record<string, any>;
-  /**
-   * Data generation options. Controls how the evaluation dataset is generated.
-   * If omitted, defaults are used (simple_qna, 100 max_samples).
-   */
-  data_generation_options?: EvaluationSuiteDataGenerationOptions;
-}
-
-export function evaluationSuiteGenerationJobInputsSerializer(
-  item: EvaluationSuiteGenerationJobInputs,
-): any {
-  return {
-    evaluation_suite_name: item["evaluation_suite_name"],
-    sources: evaluationSuiteJobSourceUnionArraySerializer(item["sources"]),
-    generation_model: item["generation_model"],
-    category: item["category"],
-    initialization_parameters: item["initialization_parameters"],
-    data_generation_options: !item["data_generation_options"]
-      ? item["data_generation_options"]
-      : evaluationSuiteDataGenerationOptionsSerializer(item["data_generation_options"]),
-  };
-}
-
-export function evaluationSuiteGenerationJobInputsDeserializer(
-  item: any,
-): EvaluationSuiteGenerationJobInputs {
-  return {
-    evaluation_suite_name: item["evaluation_suite_name"],
-    sources: evaluationSuiteJobSourceUnionArrayDeserializer(item["sources"]),
-    generation_model: item["generation_model"],
-    category: item["category"],
-    initialization_parameters: !item["initialization_parameters"]
-      ? item["initialization_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["initialization_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_generation_options: !item["data_generation_options"]
-      ? item["data_generation_options"]
-      : evaluationSuiteDataGenerationOptionsDeserializer(item["data_generation_options"]),
-  };
-}
-
-export function evaluationSuiteJobSourceUnionArraySerializer(
-  result: Array<EvaluationSuiteJobSourceUnion>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteJobSourceUnionSerializer(item);
-  });
-}
-
-export function evaluationSuiteJobSourceUnionArrayDeserializer(
-  result: Array<EvaluationSuiteJobSourceUnion>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteJobSourceUnionDeserializer(item);
-  });
-}
-
-/** The base source model for evaluation suite generation jobs. Polymorphic over `type`. */
-export interface EvaluationSuiteJobSource {
-  /** The type of source. */
-  /** The discriminator possible values: prompt, agent, traces, dataset */
-  type: EvaluationSuiteJobSourceType;
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-}
-
-export function evaluationSuiteJobSourceSerializer(item: EvaluationSuiteJobSource): any {
-  return { type: item["type"], description: item["description"] };
-}
-
-export function evaluationSuiteJobSourceDeserializer(item: any): EvaluationSuiteJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-  };
-}
-
-/** Alias for EvaluationSuiteJobSourceUnion */
-export type EvaluationSuiteJobSourceUnion =
-  | PromptEvaluationSuiteJobSource
-  | AgentEvaluationSuiteJobSource
-  | TracesEvaluationSuiteJobSource
-  | DatasetEvaluationSuiteJobSource
-  | EvaluationSuiteJobSource;
-
-export function evaluationSuiteJobSourceUnionSerializer(item: EvaluationSuiteJobSourceUnion): any {
-  switch (item.type) {
-    case "prompt":
-      return promptEvaluationSuiteJobSourceSerializer(item as PromptEvaluationSuiteJobSource);
-
-    case "agent":
-      return agentEvaluationSuiteJobSourceSerializer(item as AgentEvaluationSuiteJobSource);
-
-    case "traces":
-      return tracesEvaluationSuiteJobSourceSerializer(item as TracesEvaluationSuiteJobSource);
-
-    case "dataset":
-      return datasetEvaluationSuiteJobSourceSerializer(item as DatasetEvaluationSuiteJobSource);
-
-    default:
-      return evaluationSuiteJobSourceSerializer(item);
-  }
-}
-
-export function evaluationSuiteJobSourceUnionDeserializer(
-  item: any,
-): EvaluationSuiteJobSourceUnion {
-  switch (item["type"]) {
-    case "prompt":
-      return promptEvaluationSuiteJobSourceDeserializer(item as PromptEvaluationSuiteJobSource);
-
-    case "agent":
-      return agentEvaluationSuiteJobSourceDeserializer(item as AgentEvaluationSuiteJobSource);
-
-    case "traces":
-      return tracesEvaluationSuiteJobSourceDeserializer(item as TracesEvaluationSuiteJobSource);
-
-    case "dataset":
-      return datasetEvaluationSuiteJobSourceDeserializer(item as DatasetEvaluationSuiteJobSource);
-
-    default:
-      return evaluationSuiteJobSourceDeserializer(item);
-  }
-}
-
-/** The supported source types for evaluation suite generation jobs. */
-export type EvaluationSuiteJobSourceType = "prompt" | "agent" | "traces" | "dataset";
-
-/** Prompt source for evaluation suite generation jobs — inline text provided by the user. */
-export interface PromptEvaluationSuiteJobSource extends EvaluationSuiteJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Prompt. */
-  type: "prompt";
-  /** Inline prompt text (e.g., agent description, policy text, supplementary context). */
-  prompt: string;
-}
-
-export function promptEvaluationSuiteJobSourceSerializer(
-  item: PromptEvaluationSuiteJobSource,
-): any {
-  return { type: item["type"], description: item["description"], prompt: item["prompt"] };
-}
-
-export function promptEvaluationSuiteJobSourceDeserializer(
-  item: any,
-): PromptEvaluationSuiteJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    prompt: item["prompt"],
-  };
-}
-
-/** Agent source for evaluation suite generation jobs — references an agent to fetch instructions and metadata from. */
-export interface AgentEvaluationSuiteJobSource extends EvaluationSuiteJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Agent. */
-  type: "agent";
-  /** The agent name to fetch instructions from. */
-  agent_name: string;
-  /** The agent version. If not specified, the latest version is used. */
-  agent_version?: string;
-}
-
-export function agentEvaluationSuiteJobSourceSerializer(item: AgentEvaluationSuiteJobSource): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-export function agentEvaluationSuiteJobSourceDeserializer(
-  item: any,
-): AgentEvaluationSuiteJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-  };
-}
-
-/** Traces source for evaluation suite generation jobs — conversation traces from Application Insights. */
-export interface TracesEvaluationSuiteJobSource extends EvaluationSuiteJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Traces. */
-  type: "traces";
-  /** The unique agent ID used to filter traces. Provide either `agent_id` or `agent_name` — at least one is required. */
-  agent_id?: string;
-  /** The agent name to fetch traces for. Provide either `agent_id` or `agent_name` — at least one is required. */
-  agent_name?: string;
-  /** The agent version. If not specified, traces for ALL versions of the agent are included within the time window. */
-  agent_version?: string;
-  /** Start of the time window (Unix timestamp in seconds) for fetching traces. */
-  start_time: Date;
-  /** End of the time window (Unix timestamp in seconds). Defaults to current time. */
-  end_time?: Date;
-}
-
-export function tracesEvaluationSuiteJobSourceSerializer(
-  item: TracesEvaluationSuiteJobSource,
-): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_id: item["agent_id"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-    start_time: (item["start_time"].getTime() / 1000) | 0,
-    end_time: !item["end_time"] ? item["end_time"] : (item["end_time"].getTime() / 1000) | 0,
-  };
-}
-
-export function tracesEvaluationSuiteJobSourceDeserializer(
-  item: any,
-): TracesEvaluationSuiteJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    agent_id: item["agent_id"],
-    agent_name: item["agent_name"],
-    agent_version: item["agent_version"],
-    start_time: new Date(item["start_time"] * 1000),
-    end_time: !item["end_time"] ? item["end_time"] : new Date(item["end_time"] * 1000),
-  };
-}
-
-/** Dataset source for evaluation suite generation jobs — reference to a dataset. */
-export interface DatasetEvaluationSuiteJobSource extends EvaluationSuiteJobSource {
-  /** Optional description of what this source represents — helps the pipeline interpret its content (e.g., 'Company refund policy document' or 'Describes the agent's core capabilities'). */
-  description?: string;
-  /** The source type for this source, which is Dataset. */
-  type: "dataset";
-  /** The name of the dataset. */
-  name: string;
-  /** The version of the dataset. If not specified, the latest version is used. */
-  version?: string;
-}
-
-export function datasetEvaluationSuiteJobSourceSerializer(
-  item: DatasetEvaluationSuiteJobSource,
-): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-export function datasetEvaluationSuiteJobSourceDeserializer(
-  item: any,
-): DatasetEvaluationSuiteJobSource {
-  return {
-    type: item["type"],
-    description: item["description"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** The category of evaluator generation. */
-export type EvaluationSuiteGenerationCategory = "quality" | "safety";
-
-/** Options for dataset generation within an evaluation suite generation job. */
-export interface EvaluationSuiteDataGenerationOptions {
-  /** The data generation type. Defaults to 'simple_qna' if not specified. */
-  type?: EvaluationDataGenerationType;
-  /** Maximum number of samples to generate. Valid range: 15-1000. */
-  max_samples?: number;
-}
-
-export function evaluationSuiteDataGenerationOptionsSerializer(
-  item: EvaluationSuiteDataGenerationOptions,
-): any {
-  return { type: item["type"], max_samples: item["max_samples"] };
-}
-
-export function evaluationSuiteDataGenerationOptionsDeserializer(
-  item: any,
-): EvaluationSuiteDataGenerationOptions {
-  return {
-    type: item["type"],
-    max_samples: item["max_samples"],
-  };
-}
-
-/** The data generation type. */
-export type EvaluationDataGenerationType = "simple_qna" | "traces" | "tool_use" | "task";
-
-/** Token usage summary for an evaluation suite generation job. */
-export interface EvaluationSuiteGenerationTokenUsage {
-  /** Number of input tokens consumed. */
-  input_tokens?: number;
-  /** Number of output tokens consumed. */
-  output_tokens?: number;
-  /** Total tokens consumed. */
-  total_tokens?: number;
-}
-
-export function evaluationSuiteGenerationTokenUsageDeserializer(
-  item: any,
-): EvaluationSuiteGenerationTokenUsage {
-  return {
-    input_tokens: item["input_tokens"],
-    output_tokens: item["output_tokens"],
-    total_tokens: item["total_tokens"],
-  };
-}
-
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultEvaluationSuiteGenerationJob {
-  /** The requested list of items. */
-  data: EvaluationSuiteGenerationJob[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-export function _agentsPagedResultEvaluationSuiteGenerationJobDeserializer(
-  item: any,
-): _AgentsPagedResultEvaluationSuiteGenerationJob {
-  return {
-    data: evaluationSuiteGenerationJobArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
-  };
-}
-
-export function evaluationSuiteGenerationJobArraySerializer(
-  result: Array<EvaluationSuiteGenerationJob>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteGenerationJobSerializer(item);
-  });
-}
-
-export function evaluationSuiteGenerationJobArrayDeserializer(
-  result: Array<EvaluationSuiteGenerationJob>,
-): any[] {
-  return result.map((item) => {
-    return evaluationSuiteGenerationJobDeserializer(item);
-  });
-}
-
-export function memorySearchItemArraySerializer(result: Array<MemorySearchItem>): any[] {
-  return result.map((item) => {
-    return memorySearchItemSerializer(item);
-  });
-}
-
-export function memorySearchItemSerializer(item: MemorySearchItem): any {
-  return { memory_item: memoryItemUnionSerializer(item["memory_item"]) };
-}
-
-export function memoryItemSerializer(item: MemoryItem): any {
-  return {
-    memory_id: item["memory_id"],
-    updated_at: (item["updated_at"].getTime() / 1000) | 0,
-    scope: item["scope"],
-    content: item["content"],
-    kind: item["kind"],
-  };
-}
-
-export function memoryItemUnionSerializer(item: MemoryItemUnion): any {
-  switch (item.kind) {
-    case "user_profile":
-      return userProfileMemoryItemSerializer(item as UserProfileMemoryItem);
-
-    case "chat_summary":
-      return chatSummaryMemoryItemSerializer(item as ChatSummaryMemoryItem);
-
-    default:
-      return memoryItemSerializer(item);
-  }
-}
-
-export function userProfileMemoryItemSerializer(item: UserProfileMemoryItem): any {
-  return {
-    memory_id: item["memory_id"],
-    updated_at: (item["updated_at"].getTime() / 1000) | 0,
-    scope: item["scope"],
-    content: item["content"],
-    kind: item["kind"],
-  };
-}
-
-export function chatSummaryMemoryItemSerializer(item: ChatSummaryMemoryItem): any {
-  return {
-    memory_id: item["memory_id"],
-    updated_at: (item["updated_at"].getTime() / 1000) | 0,
-    scope: item["scope"],
-    content: item["content"],
-    kind: item["kind"],
-  };
 }
 
 /** The response data for a requested list of items. */
@@ -12628,12 +12076,6 @@ export function _agentsPagedResultMemoryItemDeserializer(item: any): _AgentsPage
   };
 }
 
-export function memoryItemUnionArraySerializer(result: Array<MemoryItemUnion>): any[] {
-  return result.map((item) => {
-    return memoryItemUnionSerializer(item);
-  });
-}
-
 export function memoryItemUnionArrayDeserializer(result: Array<MemoryItemUnion>): any[] {
   return result.map((item) => {
     return memoryItemUnionDeserializer(item);
@@ -12642,10 +12084,8 @@ export function memoryItemUnionArrayDeserializer(result: Array<MemoryItemUnion>)
 
 /** Response for deleting a memory item from a memory store. */
 export interface DeleteMemoryResponse {
-  /** The object type. Always 'memory.deleted'. */
-  object: "memory.deleted";
-  /** The name of the memory store. */
-  name: string;
+  /** The object type. Always 'memory_store.item.deleted'. */
+  object: "memory_store.item.deleted";
   /** The unique ID of the deleted memory item. */
   memory_id: string;
   /** Whether the memory item was successfully deleted. */
@@ -12655,7 +12095,6 @@ export interface DeleteMemoryResponse {
 export function deleteMemoryResponseDeserializer(item: any): DeleteMemoryResponse {
   return {
     object: item["object"],
-    name: item["name"],
     memory_id: item["memory_id"],
     deleted: item["deleted"],
   };
@@ -12944,7 +12383,7 @@ export interface DatasetItem {
   /** Pre-computed evaluation results in AOAI-compatible format. When provided together with `response_items`, the baseline run-and-evaluate phase is skipped. */
   eval_results?: EvalRunOutputItemResult[];
   /** Pre-computed agent response output items. Captures the full trajectory (function calls, tool outputs, messages) from a prior agent run. */
-  response_items?: OutputItemUnion[];
+  response_items?: Record<string, any>[];
 }
 
 export function datasetItemSerializer(item: DatasetItem): any {
@@ -12960,7 +12399,9 @@ export function datasetItemSerializer(item: DatasetItem): any {
       : evalRunOutputItemResultArraySerializer(item["eval_results"]),
     response_items: !item["response_items"]
       ? item["response_items"]
-      : outputItemUnionArraySerializer(item["response_items"]),
+      : item["response_items"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -12977,7 +12418,9 @@ export function datasetItemDeserializer(item: any): DatasetItem {
       : evalRunOutputItemResultArrayDeserializer(item["eval_results"]),
     response_items: !item["response_items"]
       ? item["response_items"]
-      : outputItemUnionArrayDeserializer(item["response_items"]),
+      : item["response_items"].map((p: any) => {
+          return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
+        }),
   };
 }
 
@@ -13112,4749 +12555,6 @@ export function evalRunOutputItemResultDeserializer(item: any): EvalRunOutputIte
 
 /** The evaluation status for an evaluation run output item result. */
 export type EvalRunOutputItemResultStatus = "completed" | "errored" | "skipped";
-
-export function outputItemUnionArraySerializer(result: Array<OutputItemUnion>): any[] {
-  return result.map((item) => {
-    return outputItemUnionSerializer(item);
-  });
-}
-
-export function outputItemUnionArrayDeserializer(result: Array<OutputItemUnion>): any[] {
-  return result.map((item) => {
-    return outputItemUnionDeserializer(item);
-  });
-}
-
-/** model interface OutputItem */
-export interface OutputItem {
-  type: OutputItemType;
-  /** The agent that created the item. */
-  agent_reference?: AgentReference;
-  /** The response on which the item is created. */
-  response_id?: string;
-}
-
-export function outputItemSerializer(item: OutputItem): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-  };
-}
-
-export function outputItemDeserializer(item: any): OutputItem {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-  };
-}
-
-/** Alias for OutputItemUnion */
-export type OutputItemUnion =
-  | StructuredOutputsOutputItem
-  | WorkflowActionOutputItem
-  | OAuthConsentRequestOutputItem
-  | MemorySearchToolCallItemResource
-  | BingGroundingToolCall
-  | BingGroundingToolCallOutput
-  | SharepointGroundingToolCall
-  | SharepointGroundingToolCallOutput
-  | AzureAISearchToolCall
-  | AzureAISearchToolCallOutput
-  | BingCustomSearchToolCall
-  | BingCustomSearchToolCallOutput
-  | OpenApiToolCall
-  | OpenApiToolCallOutput
-  | BrowserAutomationToolCall
-  | BrowserAutomationToolCallOutput
-  | FabricDataAgentToolCall
-  | FabricDataAgentToolCallOutput
-  | AzureFunctionToolCall
-  | AzureFunctionToolCallOutput
-  | A2AToolCall
-  | A2AToolCallOutput
-  | OutputItemOutputMessage
-  | OutputItemFileSearchToolCall
-  | OutputItemFunctionToolCall
-  | OutputItemFunctionToolCallOutput
-  | OutputItemWebSearchToolCall
-  | OutputItemComputerToolCall
-  | OutputItemComputerToolCallOutput
-  | OutputItemReasoningItem
-  | OutputItemToolSearchCall
-  | OutputItemToolSearchOutput
-  | OutputItemCompactionBody
-  | OutputItemImageGenToolCall
-  | OutputItemCodeInterpreterToolCall
-  | OutputItemLocalShellToolCall
-  | OutputItemLocalShellToolCallOutput
-  | OutputItemFunctionShellCall
-  | OutputItemFunctionShellCallOutput
-  | OutputItemApplyPatchToolCall
-  | OutputItemApplyPatchToolCallOutput
-  | OutputItemMcpToolCall
-  | OutputItemMcpListTools
-  | OutputItemMcpApprovalRequest
-  | OutputItemMcpApprovalResponseResource
-  | OutputItemCustomToolCallResource
-  | OutputItemCustomToolCallOutputResource
-  | OutputItem;
-
-export function outputItemUnionSerializer(item: OutputItemUnion): any {
-  switch (item.type) {
-    case "structured_outputs":
-      return structuredOutputsOutputItemSerializer(item as StructuredOutputsOutputItem);
-
-    case "workflow_action":
-      return workflowActionOutputItemSerializer(item as WorkflowActionOutputItem);
-
-    case "oauth_consent_request":
-      return oAuthConsentRequestOutputItemSerializer(item as OAuthConsentRequestOutputItem);
-
-    case "memory_search_call":
-      return memorySearchToolCallItemResourceSerializer(item as MemorySearchToolCallItemResource);
-
-    case "bing_grounding_call":
-      return bingGroundingToolCallSerializer(item as BingGroundingToolCall);
-
-    case "bing_grounding_call_output":
-      return bingGroundingToolCallOutputSerializer(item as BingGroundingToolCallOutput);
-
-    case "sharepoint_grounding_preview_call":
-      return sharepointGroundingToolCallSerializer(item as SharepointGroundingToolCall);
-
-    case "sharepoint_grounding_preview_call_output":
-      return sharepointGroundingToolCallOutputSerializer(item as SharepointGroundingToolCallOutput);
-
-    case "azure_ai_search_call":
-      return azureAISearchToolCallSerializer(item as AzureAISearchToolCall);
-
-    case "azure_ai_search_call_output":
-      return azureAISearchToolCallOutputSerializer(item as AzureAISearchToolCallOutput);
-
-    case "bing_custom_search_preview_call":
-      return bingCustomSearchToolCallSerializer(item as BingCustomSearchToolCall);
-
-    case "bing_custom_search_preview_call_output":
-      return bingCustomSearchToolCallOutputSerializer(item as BingCustomSearchToolCallOutput);
-
-    case "openapi_call":
-      return openApiToolCallSerializer(item as OpenApiToolCall);
-
-    case "openapi_call_output":
-      return openApiToolCallOutputSerializer(item as OpenApiToolCallOutput);
-
-    case "browser_automation_preview_call":
-      return browserAutomationToolCallSerializer(item as BrowserAutomationToolCall);
-
-    case "browser_automation_preview_call_output":
-      return browserAutomationToolCallOutputSerializer(item as BrowserAutomationToolCallOutput);
-
-    case "fabric_dataagent_preview_call":
-      return fabricDataAgentToolCallSerializer(item as FabricDataAgentToolCall);
-
-    case "fabric_dataagent_preview_call_output":
-      return fabricDataAgentToolCallOutputSerializer(item as FabricDataAgentToolCallOutput);
-
-    case "azure_function_call":
-      return azureFunctionToolCallSerializer(item as AzureFunctionToolCall);
-
-    case "azure_function_call_output":
-      return azureFunctionToolCallOutputSerializer(item as AzureFunctionToolCallOutput);
-
-    case "a2a_preview_call":
-      return a2AToolCallSerializer(item as A2AToolCall);
-
-    case "a2a_preview_call_output":
-      return a2AToolCallOutputSerializer(item as A2AToolCallOutput);
-
-    case "output_message":
-      return outputItemOutputMessageSerializer(item as OutputItemOutputMessage);
-
-    case "file_search_call":
-      return outputItemFileSearchToolCallSerializer(item as OutputItemFileSearchToolCall);
-
-    case "function_call":
-      return outputItemFunctionToolCallSerializer(item as OutputItemFunctionToolCall);
-
-    case "function_call_output":
-      return outputItemFunctionToolCallOutputSerializer(item as OutputItemFunctionToolCallOutput);
-
-    case "web_search_call":
-      return outputItemWebSearchToolCallSerializer(item as OutputItemWebSearchToolCall);
-
-    case "computer_call":
-      return outputItemComputerToolCallSerializer(item as OutputItemComputerToolCall);
-
-    case "computer_call_output":
-      return outputItemComputerToolCallOutputSerializer(item as OutputItemComputerToolCallOutput);
-
-    case "reasoning":
-      return outputItemReasoningItemSerializer(item as OutputItemReasoningItem);
-
-    case "tool_search_call":
-      return outputItemToolSearchCallSerializer(item as OutputItemToolSearchCall);
-
-    case "tool_search_output":
-      return outputItemToolSearchOutputSerializer(item as OutputItemToolSearchOutput);
-
-    case "compaction":
-      return outputItemCompactionBodySerializer(item as OutputItemCompactionBody);
-
-    case "image_generation_call":
-      return outputItemImageGenToolCallSerializer(item as OutputItemImageGenToolCall);
-
-    case "code_interpreter_call":
-      return outputItemCodeInterpreterToolCallSerializer(item as OutputItemCodeInterpreterToolCall);
-
-    case "local_shell_call":
-      return outputItemLocalShellToolCallSerializer(item as OutputItemLocalShellToolCall);
-
-    case "local_shell_call_output":
-      return outputItemLocalShellToolCallOutputSerializer(
-        item as OutputItemLocalShellToolCallOutput,
-      );
-
-    case "shell_call":
-      return outputItemFunctionShellCallSerializer(item as OutputItemFunctionShellCall);
-
-    case "shell_call_output":
-      return outputItemFunctionShellCallOutputSerializer(item as OutputItemFunctionShellCallOutput);
-
-    case "apply_patch_call":
-      return outputItemApplyPatchToolCallSerializer(item as OutputItemApplyPatchToolCall);
-
-    case "apply_patch_call_output":
-      return outputItemApplyPatchToolCallOutputSerializer(
-        item as OutputItemApplyPatchToolCallOutput,
-      );
-
-    case "mcp_call":
-      return outputItemMcpToolCallSerializer(item as OutputItemMcpToolCall);
-
-    case "mcp_list_tools":
-      return outputItemMcpListToolsSerializer(item as OutputItemMcpListTools);
-
-    case "mcp_approval_request":
-      return outputItemMcpApprovalRequestSerializer(item as OutputItemMcpApprovalRequest);
-
-    case "mcp_approval_response":
-      return outputItemMcpApprovalResponseResourceSerializer(
-        item as OutputItemMcpApprovalResponseResource,
-      );
-
-    case "custom_tool_call":
-      return outputItemCustomToolCallResourceSerializer(item as OutputItemCustomToolCallResource);
-
-    case "custom_tool_call_output":
-      return outputItemCustomToolCallOutputResourceSerializer(
-        item as OutputItemCustomToolCallOutputResource,
-      );
-
-    default:
-      return outputItemSerializer(item);
-  }
-}
-
-export function outputItemUnionDeserializer(item: any): OutputItemUnion {
-  switch (item["type"]) {
-    case "structured_outputs":
-      return structuredOutputsOutputItemDeserializer(item as StructuredOutputsOutputItem);
-
-    case "workflow_action":
-      return workflowActionOutputItemDeserializer(item as WorkflowActionOutputItem);
-
-    case "oauth_consent_request":
-      return oAuthConsentRequestOutputItemDeserializer(item as OAuthConsentRequestOutputItem);
-
-    case "memory_search_call":
-      return memorySearchToolCallItemResourceDeserializer(item as MemorySearchToolCallItemResource);
-
-    case "bing_grounding_call":
-      return bingGroundingToolCallDeserializer(item as BingGroundingToolCall);
-
-    case "bing_grounding_call_output":
-      return bingGroundingToolCallOutputDeserializer(item as BingGroundingToolCallOutput);
-
-    case "sharepoint_grounding_preview_call":
-      return sharepointGroundingToolCallDeserializer(item as SharepointGroundingToolCall);
-
-    case "sharepoint_grounding_preview_call_output":
-      return sharepointGroundingToolCallOutputDeserializer(
-        item as SharepointGroundingToolCallOutput,
-      );
-
-    case "azure_ai_search_call":
-      return azureAISearchToolCallDeserializer(item as AzureAISearchToolCall);
-
-    case "azure_ai_search_call_output":
-      return azureAISearchToolCallOutputDeserializer(item as AzureAISearchToolCallOutput);
-
-    case "bing_custom_search_preview_call":
-      return bingCustomSearchToolCallDeserializer(item as BingCustomSearchToolCall);
-
-    case "bing_custom_search_preview_call_output":
-      return bingCustomSearchToolCallOutputDeserializer(item as BingCustomSearchToolCallOutput);
-
-    case "openapi_call":
-      return openApiToolCallDeserializer(item as OpenApiToolCall);
-
-    case "openapi_call_output":
-      return openApiToolCallOutputDeserializer(item as OpenApiToolCallOutput);
-
-    case "browser_automation_preview_call":
-      return browserAutomationToolCallDeserializer(item as BrowserAutomationToolCall);
-
-    case "browser_automation_preview_call_output":
-      return browserAutomationToolCallOutputDeserializer(item as BrowserAutomationToolCallOutput);
-
-    case "fabric_dataagent_preview_call":
-      return fabricDataAgentToolCallDeserializer(item as FabricDataAgentToolCall);
-
-    case "fabric_dataagent_preview_call_output":
-      return fabricDataAgentToolCallOutputDeserializer(item as FabricDataAgentToolCallOutput);
-
-    case "azure_function_call":
-      return azureFunctionToolCallDeserializer(item as AzureFunctionToolCall);
-
-    case "azure_function_call_output":
-      return azureFunctionToolCallOutputDeserializer(item as AzureFunctionToolCallOutput);
-
-    case "a2a_preview_call":
-      return a2AToolCallDeserializer(item as A2AToolCall);
-
-    case "a2a_preview_call_output":
-      return a2AToolCallOutputDeserializer(item as A2AToolCallOutput);
-
-    case "output_message":
-      return outputItemOutputMessageDeserializer(item as OutputItemOutputMessage);
-
-    case "file_search_call":
-      return outputItemFileSearchToolCallDeserializer(item as OutputItemFileSearchToolCall);
-
-    case "function_call":
-      return outputItemFunctionToolCallDeserializer(item as OutputItemFunctionToolCall);
-
-    case "function_call_output":
-      return outputItemFunctionToolCallOutputDeserializer(item as OutputItemFunctionToolCallOutput);
-
-    case "web_search_call":
-      return outputItemWebSearchToolCallDeserializer(item as OutputItemWebSearchToolCall);
-
-    case "computer_call":
-      return outputItemComputerToolCallDeserializer(item as OutputItemComputerToolCall);
-
-    case "computer_call_output":
-      return outputItemComputerToolCallOutputDeserializer(item as OutputItemComputerToolCallOutput);
-
-    case "reasoning":
-      return outputItemReasoningItemDeserializer(item as OutputItemReasoningItem);
-
-    case "tool_search_call":
-      return outputItemToolSearchCallDeserializer(item as OutputItemToolSearchCall);
-
-    case "tool_search_output":
-      return outputItemToolSearchOutputDeserializer(item as OutputItemToolSearchOutput);
-
-    case "compaction":
-      return outputItemCompactionBodyDeserializer(item as OutputItemCompactionBody);
-
-    case "image_generation_call":
-      return outputItemImageGenToolCallDeserializer(item as OutputItemImageGenToolCall);
-
-    case "code_interpreter_call":
-      return outputItemCodeInterpreterToolCallDeserializer(
-        item as OutputItemCodeInterpreterToolCall,
-      );
-
-    case "local_shell_call":
-      return outputItemLocalShellToolCallDeserializer(item as OutputItemLocalShellToolCall);
-
-    case "local_shell_call_output":
-      return outputItemLocalShellToolCallOutputDeserializer(
-        item as OutputItemLocalShellToolCallOutput,
-      );
-
-    case "shell_call":
-      return outputItemFunctionShellCallDeserializer(item as OutputItemFunctionShellCall);
-
-    case "shell_call_output":
-      return outputItemFunctionShellCallOutputDeserializer(
-        item as OutputItemFunctionShellCallOutput,
-      );
-
-    case "apply_patch_call":
-      return outputItemApplyPatchToolCallDeserializer(item as OutputItemApplyPatchToolCall);
-
-    case "apply_patch_call_output":
-      return outputItemApplyPatchToolCallOutputDeserializer(
-        item as OutputItemApplyPatchToolCallOutput,
-      );
-
-    case "mcp_call":
-      return outputItemMcpToolCallDeserializer(item as OutputItemMcpToolCall);
-
-    case "mcp_list_tools":
-      return outputItemMcpListToolsDeserializer(item as OutputItemMcpListTools);
-
-    case "mcp_approval_request":
-      return outputItemMcpApprovalRequestDeserializer(item as OutputItemMcpApprovalRequest);
-
-    case "mcp_approval_response":
-      return outputItemMcpApprovalResponseResourceDeserializer(
-        item as OutputItemMcpApprovalResponseResource,
-      );
-
-    case "custom_tool_call":
-      return outputItemCustomToolCallResourceDeserializer(item as OutputItemCustomToolCallResource);
-
-    case "custom_tool_call_output":
-      return outputItemCustomToolCallOutputResourceDeserializer(
-        item as OutputItemCustomToolCallOutputResource,
-      );
-
-    default:
-      return outputItemDeserializer(item);
-  }
-}
-
-/** Type of OutputItemType */
-export type OutputItemType =
-  | "output_message"
-  | "file_search_call"
-  | "function_call"
-  | "function_call_output"
-  | "web_search_call"
-  | "computer_call"
-  | "computer_call_output"
-  | "reasoning"
-  | "tool_search_call"
-  | "tool_search_output"
-  | "compaction"
-  | "image_generation_call"
-  | "code_interpreter_call"
-  | "local_shell_call"
-  | "local_shell_call_output"
-  | "shell_call"
-  | "shell_call_output"
-  | "apply_patch_call"
-  | "apply_patch_call_output"
-  | "mcp_call"
-  | "mcp_list_tools"
-  | "mcp_approval_request"
-  | "mcp_approval_response"
-  | "custom_tool_call"
-  | "custom_tool_call_output"
-  | "structured_outputs"
-  | "oauth_consent_request"
-  | "memory_search_call"
-  | "workflow_action"
-  | "a2a_preview_call"
-  | "a2a_preview_call_output"
-  | "bing_grounding_call"
-  | "bing_grounding_call_output"
-  | "sharepoint_grounding_preview_call"
-  | "sharepoint_grounding_preview_call_output"
-  | "azure_ai_search_call"
-  | "azure_ai_search_call_output"
-  | "bing_custom_search_preview_call"
-  | "bing_custom_search_preview_call_output"
-  | "openapi_call"
-  | "openapi_call_output"
-  | "browser_automation_preview_call"
-  | "browser_automation_preview_call_output"
-  | "fabric_dataagent_preview_call"
-  | "fabric_dataagent_preview_call_output"
-  | "azure_function_call"
-  | "azure_function_call_output";
-
-/** model interface AgentReference */
-export interface AgentReference {
-  type: "agent_reference";
-  /** The name of the agent. */
-  name: string;
-  /** The version identifier of the agent. */
-  version?: string;
-}
-
-export function agentReferenceSerializer(item: AgentReference): any {
-  return { type: item["type"], name: item["name"], version: item["version"] };
-}
-
-export function agentReferenceDeserializer(item: any): AgentReference {
-  return {
-    type: item["type"],
-    name: item["name"],
-    version: item["version"],
-  };
-}
-
-/** model interface StructuredOutputsOutputItem */
-export interface StructuredOutputsOutputItem extends OutputItem {
-  type: "structured_outputs";
-  /** The structured output captured during the response. */
-  output: any;
-}
-
-export function structuredOutputsOutputItemSerializer(item: StructuredOutputsOutputItem): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    output: item["output"],
-  };
-}
-
-export function structuredOutputsOutputItemDeserializer(item: any): StructuredOutputsOutputItem {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    output: item["output"],
-  };
-}
-
-/** model interface WorkflowActionOutputItem */
-export interface WorkflowActionOutputItem extends OutputItem {
-  type: "workflow_action";
-  /** The kind of CSDL action (e.g., 'SetVariable', 'InvokeAzureAgent'). */
-  kind: string;
-  /** Unique identifier for the action. */
-  action_id: string;
-  /** ID of the parent action if this is a nested action. */
-  parent_action_id?: string;
-  /** ID of the previous action if this action follows another. */
-  previous_action_id?: string;
-  /** Status of the action (e.g., 'in_progress', 'completed', 'failed', 'cancelled'). */
-  status: "completed" | "failed" | "in_progress" | "cancelled";
-}
-
-export function workflowActionOutputItemSerializer(item: WorkflowActionOutputItem): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    kind: item["kind"],
-    action_id: item["action_id"],
-    parent_action_id: item["parent_action_id"],
-    previous_action_id: item["previous_action_id"],
-    status: item["status"],
-  };
-}
-
-export function workflowActionOutputItemDeserializer(item: any): WorkflowActionOutputItem {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    kind: item["kind"],
-    action_id: item["action_id"],
-    parent_action_id: item["parent_action_id"],
-    previous_action_id: item["previous_action_id"],
-    status: item["status"],
-  };
-}
-
-/** Request from the service for the user to perform OAuth consent. */
-export interface OAuthConsentRequestOutputItem extends OutputItem {
-  id: string;
-  type: "oauth_consent_request";
-  /** The link the user can use to perform OAuth consent. */
-  consent_link: string;
-  /** The server label for the OAuth consent request. */
-  server_label: string;
-}
-
-export function oAuthConsentRequestOutputItemSerializer(item: OAuthConsentRequestOutputItem): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    consent_link: item["consent_link"],
-    server_label: item["server_label"],
-  };
-}
-
-export function oAuthConsentRequestOutputItemDeserializer(
-  item: any,
-): OAuthConsentRequestOutputItem {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    consent_link: item["consent_link"],
-    server_label: item["server_label"],
-  };
-}
-
-/** model interface MemorySearchToolCallItemResource */
-export interface MemorySearchToolCallItemResource extends OutputItem {
-  type: "memory_search_call";
-  /**
-   * The status of the memory search tool call. One of `in_progress`,
-   * `searching`, `completed`, `incomplete` or `failed`,
-   */
-  status: "in_progress" | "searching" | "completed" | "incomplete" | "failed";
-  /** The results returned from the memory search. */
-  results?: MemorySearchItem[];
-}
-
-export function memorySearchToolCallItemResourceSerializer(
-  item: MemorySearchToolCallItemResource,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    status: item["status"],
-    results: !item["results"] ? item["results"] : memorySearchItemArraySerializer(item["results"]),
-  };
-}
-
-export function memorySearchToolCallItemResourceDeserializer(
-  item: any,
-): MemorySearchToolCallItemResource {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    status: item["status"],
-    results: !item["results"]
-      ? item["results"]
-      : memorySearchItemArrayDeserializer(item["results"]),
-  };
-}
-
-/** A Bing grounding tool call. */
-export interface BingGroundingToolCall extends OutputItem {
-  type: "bing_grounding_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function bingGroundingToolCallSerializer(item: BingGroundingToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function bingGroundingToolCallDeserializer(item: any): BingGroundingToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The status of a tool call. */
-export type ToolCallStatus = "in_progress" | "completed" | "incomplete" | "failed";
-
-/** The output of a Bing grounding tool call. */
-export interface BingGroundingToolCallOutput extends OutputItem {
-  type: "bing_grounding_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The output from the Bing grounding tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function bingGroundingToolCallOutputSerializer(item: BingGroundingToolCallOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function bingGroundingToolCallOutputDeserializer(item: any): BingGroundingToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** The output content from a tool call, which can be a dictionary, string, or array. */
-export type ToolCallOutputContent = Record<string, any> | string | any[];
-
-export function toolCallOutputContentSerializer(item: ToolCallOutputContent): any {
-  return item;
-}
-
-export function toolCallOutputContentDeserializer(item: any): ToolCallOutputContent {
-  return item;
-}
-
-/** A SharePoint grounding tool call. */
-export interface SharepointGroundingToolCall extends OutputItem {
-  type: "sharepoint_grounding_preview_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function sharepointGroundingToolCallSerializer(item: SharepointGroundingToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function sharepointGroundingToolCallDeserializer(item: any): SharepointGroundingToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of a SharePoint grounding tool call. */
-export interface SharepointGroundingToolCallOutput extends OutputItem {
-  type: "sharepoint_grounding_preview_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The output from the SharePoint grounding tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function sharepointGroundingToolCallOutputSerializer(
-  item: SharepointGroundingToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function sharepointGroundingToolCallOutputDeserializer(
-  item: any,
-): SharepointGroundingToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** An Azure AI Search tool call. */
-export interface AzureAISearchToolCall extends OutputItem {
-  type: "azure_ai_search_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function azureAISearchToolCallSerializer(item: AzureAISearchToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function azureAISearchToolCallDeserializer(item: any): AzureAISearchToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of an Azure AI Search tool call. */
-export interface AzureAISearchToolCallOutput extends OutputItem {
-  type: "azure_ai_search_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The output from the Azure AI Search tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function azureAISearchToolCallOutputSerializer(item: AzureAISearchToolCallOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function azureAISearchToolCallOutputDeserializer(item: any): AzureAISearchToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** A Bing custom search tool call. */
-export interface BingCustomSearchToolCall extends OutputItem {
-  type: "bing_custom_search_preview_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function bingCustomSearchToolCallSerializer(item: BingCustomSearchToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function bingCustomSearchToolCallDeserializer(item: any): BingCustomSearchToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of a Bing custom search tool call. */
-export interface BingCustomSearchToolCallOutput extends OutputItem {
-  type: "bing_custom_search_preview_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The output from the Bing custom search tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function bingCustomSearchToolCallOutputSerializer(
-  item: BingCustomSearchToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function bingCustomSearchToolCallOutputDeserializer(
-  item: any,
-): BingCustomSearchToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** An OpenAPI tool call. */
-export interface OpenApiToolCall extends OutputItem {
-  type: "openapi_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The name of the OpenAPI operation being called. */
-  name: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function openApiToolCallSerializer(item: OpenApiToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function openApiToolCallDeserializer(item: any): OpenApiToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of an OpenAPI tool call. */
-export interface OpenApiToolCallOutput extends OutputItem {
-  type: "openapi_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The name of the OpenAPI operation that was called. */
-  name: string;
-  /** The output from the OpenAPI tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function openApiToolCallOutputSerializer(item: OpenApiToolCallOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function openApiToolCallOutputDeserializer(item: any): OpenApiToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** A browser automation tool call. */
-export interface BrowserAutomationToolCall extends OutputItem {
-  type: "browser_automation_preview_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function browserAutomationToolCallSerializer(item: BrowserAutomationToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function browserAutomationToolCallDeserializer(item: any): BrowserAutomationToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of a browser automation tool call. */
-export interface BrowserAutomationToolCallOutput extends OutputItem {
-  type: "browser_automation_preview_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The output from the browser automation tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function browserAutomationToolCallOutputSerializer(
-  item: BrowserAutomationToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function browserAutomationToolCallOutputDeserializer(
-  item: any,
-): BrowserAutomationToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** A Fabric data agent tool call. */
-export interface FabricDataAgentToolCall extends OutputItem {
-  type: "fabric_dataagent_preview_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function fabricDataAgentToolCallSerializer(item: FabricDataAgentToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function fabricDataAgentToolCallDeserializer(item: any): FabricDataAgentToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of a Fabric data agent tool call. */
-export interface FabricDataAgentToolCallOutput extends OutputItem {
-  type: "fabric_dataagent_preview_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The output from the Fabric data agent tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function fabricDataAgentToolCallOutputSerializer(item: FabricDataAgentToolCallOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function fabricDataAgentToolCallOutputDeserializer(
-  item: any,
-): FabricDataAgentToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** An Azure Function tool call. */
-export interface AzureFunctionToolCall extends OutputItem {
-  type: "azure_function_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The name of the Azure Function being called. */
-  name: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function azureFunctionToolCallSerializer(item: AzureFunctionToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function azureFunctionToolCallDeserializer(item: any): AzureFunctionToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of an Azure Function tool call. */
-export interface AzureFunctionToolCallOutput extends OutputItem {
-  type: "azure_function_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The name of the Azure Function that was called. */
-  name: string;
-  /** The output from the Azure Function tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function azureFunctionToolCallOutputSerializer(item: AzureFunctionToolCallOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function azureFunctionToolCallOutputDeserializer(item: any): AzureFunctionToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** An A2A (Agent-to-Agent) tool call. */
-export interface A2AToolCall extends OutputItem {
-  type: "a2a_preview_call";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The name of the A2A agent card being called. */
-  name: string;
-  /** A JSON string of the arguments to pass to the tool. */
-  arguments: string;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function a2AToolCallSerializer(item: A2AToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function a2AToolCallDeserializer(item: any): A2AToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of an A2A (Agent-to-Agent) tool call. */
-export interface A2AToolCallOutput extends OutputItem {
-  type: "a2a_preview_call_output";
-  /** The unique ID of the tool call generated by the model. */
-  call_id: string;
-  /** The name of the A2A agent card that was called. */
-  name: string;
-  /** The output from the A2A tool call. */
-  output?: ToolCallOutputContent;
-  /** The status of the tool call. */
-  status: ToolCallStatus;
-}
-
-export function a2AToolCallOutputSerializer(item: A2AToolCallOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function a2AToolCallOutputDeserializer(item: any): A2AToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    name: item["name"],
-    output: !item["output"] ? item["output"] : toolCallOutputContentDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** An output message from the model. */
-export interface OutputItemOutputMessage extends OutputItem {
-  /** The unique ID of the output message. */
-  id: string;
-  /** The type of the output message. Always `message`. */
-  type: "output_message";
-  /** The role of the output message. Always `assistant`. */
-  role: "assistant";
-  /** The content of the output message. */
-  content: OutputMessageContentUnion[];
-  phase?: MessagePhase;
-  /**
-   * The status of the message input. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when input items are returned via API.
-   */
-  status: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemOutputMessageSerializer(item: OutputItemOutputMessage): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    role: item["role"],
-    content: outputMessageContentUnionArraySerializer(item["content"]),
-    phase: item["phase"],
-    status: item["status"],
-  };
-}
-
-export function outputItemOutputMessageDeserializer(item: any): OutputItemOutputMessage {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    role: item["role"],
-    content: outputMessageContentUnionArrayDeserializer(item["content"]),
-    phase: item["phase"],
-    status: item["status"],
-  };
-}
-
-export function outputMessageContentUnionArraySerializer(
-  result: Array<OutputMessageContentUnion>,
-): any[] {
-  return result.map((item) => {
-    return outputMessageContentUnionSerializer(item);
-  });
-}
-
-export function outputMessageContentUnionArrayDeserializer(
-  result: Array<OutputMessageContentUnion>,
-): any[] {
-  return result.map((item) => {
-    return outputMessageContentUnionDeserializer(item);
-  });
-}
-
-/** model interface OutputMessageContent */
-export interface OutputMessageContent {
-  type: OutputMessageContentType;
-}
-
-export function outputMessageContentSerializer(item: OutputMessageContent): any {
-  return { type: item["type"] };
-}
-
-export function outputMessageContentDeserializer(item: any): OutputMessageContent {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for OutputMessageContentUnion */
-export type OutputMessageContentUnion =
-  | OutputMessageContentOutputTextContent
-  | OutputMessageContentRefusalContent
-  | OutputMessageContent;
-
-export function outputMessageContentUnionSerializer(item: OutputMessageContentUnion): any {
-  switch (item.type) {
-    case "output_text":
-      return outputMessageContentOutputTextContentSerializer(
-        item as OutputMessageContentOutputTextContent,
-      );
-
-    case "refusal":
-      return outputMessageContentRefusalContentSerializer(
-        item as OutputMessageContentRefusalContent,
-      );
-
-    default:
-      return outputMessageContentSerializer(item);
-  }
-}
-
-export function outputMessageContentUnionDeserializer(item: any): OutputMessageContentUnion {
-  switch (item["type"]) {
-    case "output_text":
-      return outputMessageContentOutputTextContentDeserializer(
-        item as OutputMessageContentOutputTextContent,
-      );
-
-    case "refusal":
-      return outputMessageContentRefusalContentDeserializer(
-        item as OutputMessageContentRefusalContent,
-      );
-
-    default:
-      return outputMessageContentDeserializer(item);
-  }
-}
-
-/** Type of OutputMessageContentType */
-export type OutputMessageContentType = "output_text" | "refusal";
-
-/** A text output from the model. */
-export interface OutputMessageContentOutputTextContent extends OutputMessageContent {
-  /** The type of the output text. Always `output_text`. */
-  type: "output_text";
-  /** The text output from the model. */
-  text: string;
-  /** The annotations of the text output. */
-  annotations: AnnotationUnion[];
-  logprobs: LogProb[];
-}
-
-export function outputMessageContentOutputTextContentSerializer(
-  item: OutputMessageContentOutputTextContent,
-): any {
-  return {
-    type: item["type"],
-    text: item["text"],
-    annotations: annotationUnionArraySerializer(item["annotations"]),
-    logprobs: logProbArraySerializer(item["logprobs"]),
-  };
-}
-
-export function outputMessageContentOutputTextContentDeserializer(
-  item: any,
-): OutputMessageContentOutputTextContent {
-  return {
-    type: item["type"],
-    text: item["text"],
-    annotations: annotationUnionArrayDeserializer(item["annotations"]),
-    logprobs: logProbArrayDeserializer(item["logprobs"]),
-  };
-}
-
-export function annotationUnionArraySerializer(result: Array<AnnotationUnion>): any[] {
-  return result.map((item) => {
-    return annotationUnionSerializer(item);
-  });
-}
-
-export function annotationUnionArrayDeserializer(result: Array<AnnotationUnion>): any[] {
-  return result.map((item) => {
-    return annotationUnionDeserializer(item);
-  });
-}
-
-/** An annotation that applies to a span of output text. */
-export interface Annotation {
-  type: AnnotationType;
-}
-
-export function annotationSerializer(item: Annotation): any {
-  return { type: item["type"] };
-}
-
-export function annotationDeserializer(item: any): Annotation {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for AnnotationUnion */
-export type AnnotationUnion =
-  | FileCitationBody
-  | UrlCitationBody
-  | ContainerFileCitationBody
-  | FilePath
-  | Annotation;
-
-export function annotationUnionSerializer(item: AnnotationUnion): any {
-  switch (item.type) {
-    case "file_citation":
-      return fileCitationBodySerializer(item as FileCitationBody);
-
-    case "url_citation":
-      return urlCitationBodySerializer(item as UrlCitationBody);
-
-    case "container_file_citation":
-      return containerFileCitationBodySerializer(item as ContainerFileCitationBody);
-
-    case "file_path":
-      return filePathSerializer(item as FilePath);
-
-    default:
-      return annotationSerializer(item);
-  }
-}
-
-export function annotationUnionDeserializer(item: any): AnnotationUnion {
-  switch (item["type"]) {
-    case "file_citation":
-      return fileCitationBodyDeserializer(item as FileCitationBody);
-
-    case "url_citation":
-      return urlCitationBodyDeserializer(item as UrlCitationBody);
-
-    case "container_file_citation":
-      return containerFileCitationBodyDeserializer(item as ContainerFileCitationBody);
-
-    case "file_path":
-      return filePathDeserializer(item as FilePath);
-
-    default:
-      return annotationDeserializer(item);
-  }
-}
-
-/** Type of AnnotationType */
-export type AnnotationType =
-  | "file_citation"
-  | "url_citation"
-  | "container_file_citation"
-  | "file_path";
-
-/** A citation to a file. */
-export interface FileCitationBody extends Annotation {
-  /** The type of the file citation. Always `file_citation`. */
-  type: "file_citation";
-  /** The ID of the file. */
-  file_id: string;
-  /** The index of the file in the list of files. */
-  index: number;
-  /** The filename of the file cited. */
-  filename: string;
-}
-
-export function fileCitationBodySerializer(item: FileCitationBody): any {
-  return {
-    type: item["type"],
-    file_id: item["file_id"],
-    index: item["index"],
-    filename: item["filename"],
-  };
-}
-
-export function fileCitationBodyDeserializer(item: any): FileCitationBody {
-  return {
-    type: item["type"],
-    file_id: item["file_id"],
-    index: item["index"],
-    filename: item["filename"],
-  };
-}
-
-/** A citation for a web resource used to generate a model response. */
-export interface UrlCitationBody extends Annotation {
-  /** The type of the URL citation. Always `url_citation`. */
-  type: "url_citation";
-  /** The URL of the web resource. */
-  url: string;
-  /** The index of the first character of the URL citation in the message. */
-  start_index: number;
-  /** The index of the last character of the URL citation in the message. */
-  end_index: number;
-  /** The title of the web resource. */
-  title: string;
-}
-
-export function urlCitationBodySerializer(item: UrlCitationBody): any {
-  return {
-    type: item["type"],
-    url: item["url"],
-    start_index: item["start_index"],
-    end_index: item["end_index"],
-    title: item["title"],
-  };
-}
-
-export function urlCitationBodyDeserializer(item: any): UrlCitationBody {
-  return {
-    type: item["type"],
-    url: item["url"],
-    start_index: item["start_index"],
-    end_index: item["end_index"],
-    title: item["title"],
-  };
-}
-
-/** A citation for a container file used to generate a model response. */
-export interface ContainerFileCitationBody extends Annotation {
-  /** The type of the container file citation. Always `container_file_citation`. */
-  type: "container_file_citation";
-  /** The ID of the container file. */
-  container_id: string;
-  /** The ID of the file. */
-  file_id: string;
-  /** The index of the first character of the container file citation in the message. */
-  start_index: number;
-  /** The index of the last character of the container file citation in the message. */
-  end_index: number;
-  /** The filename of the container file cited. */
-  filename: string;
-}
-
-export function containerFileCitationBodySerializer(item: ContainerFileCitationBody): any {
-  return {
-    type: item["type"],
-    container_id: item["container_id"],
-    file_id: item["file_id"],
-    start_index: item["start_index"],
-    end_index: item["end_index"],
-    filename: item["filename"],
-  };
-}
-
-export function containerFileCitationBodyDeserializer(item: any): ContainerFileCitationBody {
-  return {
-    type: item["type"],
-    container_id: item["container_id"],
-    file_id: item["file_id"],
-    start_index: item["start_index"],
-    end_index: item["end_index"],
-    filename: item["filename"],
-  };
-}
-
-/** A path to a file. */
-export interface FilePath extends Annotation {
-  /** The type of the file path. Always `file_path`. */
-  type: "file_path";
-  /** The ID of the file. */
-  file_id: string;
-  /** The index of the file in the list of files. */
-  index: number;
-}
-
-export function filePathSerializer(item: FilePath): any {
-  return { type: item["type"], file_id: item["file_id"], index: item["index"] };
-}
-
-export function filePathDeserializer(item: any): FilePath {
-  return {
-    type: item["type"],
-    file_id: item["file_id"],
-    index: item["index"],
-  };
-}
-
-export function logProbArraySerializer(result: Array<LogProb>): any[] {
-  return result.map((item) => {
-    return logProbSerializer(item);
-  });
-}
-
-export function logProbArrayDeserializer(result: Array<LogProb>): any[] {
-  return result.map((item) => {
-    return logProbDeserializer(item);
-  });
-}
-
-/** The log probability of a token. */
-export interface LogProb {
-  token: string;
-  logprob: number;
-  bytes: number[];
-  top_logprobs: TopLogProb[];
-}
-
-export function logProbSerializer(item: LogProb): any {
-  return {
-    token: item["token"],
-    logprob: item["logprob"],
-    bytes: item["bytes"].map((p: any) => {
-      return p;
-    }),
-    top_logprobs: topLogProbArraySerializer(item["top_logprobs"]),
-  };
-}
-
-export function logProbDeserializer(item: any): LogProb {
-  return {
-    token: item["token"],
-    logprob: item["logprob"],
-    bytes: item["bytes"].map((p: any) => {
-      return p;
-    }),
-    top_logprobs: topLogProbArrayDeserializer(item["top_logprobs"]),
-  };
-}
-
-export function topLogProbArraySerializer(result: Array<TopLogProb>): any[] {
-  return result.map((item) => {
-    return topLogProbSerializer(item);
-  });
-}
-
-export function topLogProbArrayDeserializer(result: Array<TopLogProb>): any[] {
-  return result.map((item) => {
-    return topLogProbDeserializer(item);
-  });
-}
-
-/** The top log probability of a token. */
-export interface TopLogProb {
-  token: string;
-  logprob: number;
-  bytes: number[];
-}
-
-export function topLogProbSerializer(item: TopLogProb): any {
-  return {
-    token: item["token"],
-    logprob: item["logprob"],
-    bytes: item["bytes"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function topLogProbDeserializer(item: any): TopLogProb {
-  return {
-    token: item["token"],
-    logprob: item["logprob"],
-    bytes: item["bytes"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-/** A refusal from the model. */
-export interface OutputMessageContentRefusalContent extends OutputMessageContent {
-  /** The type of the refusal. Always `refusal`. */
-  type: "refusal";
-  /** The refusal explanation from the model. */
-  refusal: string;
-}
-
-export function outputMessageContentRefusalContentSerializer(
-  item: OutputMessageContentRefusalContent,
-): any {
-  return { type: item["type"], refusal: item["refusal"] };
-}
-
-export function outputMessageContentRefusalContentDeserializer(
-  item: any,
-): OutputMessageContentRefusalContent {
-  return {
-    type: item["type"],
-    refusal: item["refusal"],
-  };
-}
-
-/**
- * Labels an `assistant` message as intermediate commentary (`commentary`) or the final answer (`final_answer`).
- * For models like `gpt-5.3-codex` and beyond, when sending follow-up requests, preserve and resend
- * phase on all assistant messages — dropping it can degrade performance. Not used for user messages.
- */
-export type MessagePhase = "commentary" | "final_answer";
-
-/**
- * The results of a file search tool call. See the
- * [file search guide](/docs/guides/tools-file-search) for more information.
- */
-export interface OutputItemFileSearchToolCall extends OutputItem {
-  /** The unique ID of the file search tool call. */
-  id: string;
-  /** The type of the file search tool call. Always `file_search_call`. */
-  type: "file_search_call";
-  /**
-   * The status of the file search tool call. One of `in_progress`,
-   *   `searching`, `incomplete` or `failed`,
-   */
-  status: "in_progress" | "searching" | "completed" | "incomplete" | "failed";
-  /** The queries used to search for files. */
-  queries: string[];
-  results?: FileSearchToolCallResults[];
-}
-
-export function outputItemFileSearchToolCallSerializer(item: OutputItemFileSearchToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    queries: item["queries"].map((p: any) => {
-      return p;
-    }),
-    results: !item["results"]
-      ? item["results"]
-      : fileSearchToolCallResultsArraySerializer(item["results"]),
-  };
-}
-
-export function outputItemFileSearchToolCallDeserializer(item: any): OutputItemFileSearchToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    queries: item["queries"].map((p: any) => {
-      return p;
-    }),
-    results: !item["results"]
-      ? item["results"]
-      : fileSearchToolCallResultsArrayDeserializer(item["results"]),
-  };
-}
-
-export function fileSearchToolCallResultsArraySerializer(
-  result: Array<FileSearchToolCallResults>,
-): any[] {
-  return result.map((item) => {
-    return fileSearchToolCallResultsSerializer(item);
-  });
-}
-
-export function fileSearchToolCallResultsArrayDeserializer(
-  result: Array<FileSearchToolCallResults>,
-): any[] {
-  return result.map((item) => {
-    return fileSearchToolCallResultsDeserializer(item);
-  });
-}
-
-/** model interface FileSearchToolCallResults */
-export interface FileSearchToolCallResults {
-  file_id?: string;
-  text?: string;
-  filename?: string;
-  attributes?: VectorStoreFileAttributes;
-  score?: number;
-}
-
-export function fileSearchToolCallResultsSerializer(item: FileSearchToolCallResults): any {
-  return {
-    file_id: item["file_id"],
-    text: item["text"],
-    filename: item["filename"],
-    attributes: !item["attributes"]
-      ? item["attributes"]
-      : vectorStoreFileAttributesSerializer(item["attributes"]),
-    score: item["score"],
-  };
-}
-
-export function fileSearchToolCallResultsDeserializer(item: any): FileSearchToolCallResults {
-  return {
-    file_id: item["file_id"],
-    text: item["text"],
-    filename: item["filename"],
-    attributes: !item["attributes"]
-      ? item["attributes"]
-      : vectorStoreFileAttributesDeserializer(item["attributes"]),
-    score: item["score"],
-  };
-}
-
-/**
- * Set of 16 key-value pairs that can be attached to an object. This can be
- * useful for storing additional information about the object in a structured
- * format, and querying for objects via API or the dashboard. Keys are strings
- * with a maximum length of 64 characters. Values are strings with a maximum
- * length of 512 characters, booleans, or numbers.
- */
-export interface VectorStoreFileAttributes {
-  /** Additional properties */
-  additionalProperties?: Record<string, string | number | boolean>;
-}
-
-export function vectorStoreFileAttributesSerializer(item: VectorStoreFileAttributes): any {
-  return {
-    ...serializeRecord(
-      item.additionalProperties ?? {},
-      undefined,
-      _fileSearchToolCallResultsAttributesAdditionalPropertySerializer,
-    ),
-  };
-}
-
-export function vectorStoreFileAttributesDeserializer(item: any): VectorStoreFileAttributes {
-  return {
-    additionalProperties: serializeRecord(
-      item,
-      [],
-      _fileSearchToolCallResultsAttributesAdditionalPropertyDeserializer,
-    ),
-  };
-}
-
-/** Alias for _FileSearchToolCallResultsAttributesAdditionalProperty */
-export type _FileSearchToolCallResultsAttributesAdditionalProperty = string | number | boolean;
-
-export function _fileSearchToolCallResultsAttributesAdditionalPropertySerializer(
-  item: _FileSearchToolCallResultsAttributesAdditionalProperty,
-): any {
-  return item;
-}
-
-export function _fileSearchToolCallResultsAttributesAdditionalPropertyDeserializer(
-  item: any,
-): _FileSearchToolCallResultsAttributesAdditionalProperty {
-  return item;
-}
-
-/**
- * A tool call to run a function. See the
- * [function calling guide](/docs/guides/function-calling) for more information.
- */
-export interface OutputItemFunctionToolCall extends OutputItem {
-  /** The unique ID of the function tool call. */
-  readonly id: string;
-  /** The type of the function tool call. Always `function_call`. */
-  type: "function_call";
-  /** The unique ID of the function tool call generated by the model. */
-  call_id: string;
-  /** The namespace of the function to run. */
-  namespace?: string;
-  /** The name of the function to run. */
-  name: string;
-  /** A JSON string of the arguments to pass to the function. */
-  arguments: string;
-  /**
-   * The status of the item. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when items are returned via API.
-   */
-  status?: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemFunctionToolCallSerializer(item: OutputItemFunctionToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    namespace: item["namespace"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-export function outputItemFunctionToolCallDeserializer(item: any): OutputItemFunctionToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    namespace: item["namespace"],
-    name: item["name"],
-    arguments: item["arguments"],
-    status: item["status"],
-  };
-}
-
-/** The output of a function tool call. */
-export interface OutputItemFunctionToolCallOutput extends OutputItem {
-  /**
-   * The unique ID of the function tool call output. Populated when this item
-   *   is returned via API.
-   */
-  readonly id: string;
-  /** The type of the function tool call output. Always `function_call_output`. */
-  type: "function_call_output";
-  /** The unique ID of the function tool call generated by the model. */
-  call_id: string;
-  /**
-   * The output from the function call generated by your code.
-   *   Can be a string or an list of output content.
-   */
-  output: string | FunctionAndCustomToolCallOutputUnion[];
-  /**
-   * The status of the item. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when items are returned via API.
-   */
-  status?: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemFunctionToolCallOutputSerializer(
-  item: OutputItemFunctionToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    output: _outputItemFunctionToolCallOutputOutputSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function outputItemFunctionToolCallOutputDeserializer(
-  item: any,
-): OutputItemFunctionToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    output: _outputItemFunctionToolCallOutputOutputDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** Alias for _OutputItemFunctionToolCallOutputOutput */
-export type _OutputItemFunctionToolCallOutputOutput =
-  | string
-  | FunctionAndCustomToolCallOutputUnion[];
-
-export function _outputItemFunctionToolCallOutputOutputSerializer(
-  item: _OutputItemFunctionToolCallOutputOutput,
-): any {
-  return item;
-}
-
-export function _outputItemFunctionToolCallOutputOutputDeserializer(
-  item: any,
-): _OutputItemFunctionToolCallOutputOutput {
-  return item;
-}
-
-export function functionAndCustomToolCallOutputUnionArraySerializer(
-  result: Array<FunctionAndCustomToolCallOutputUnion>,
-): any[] {
-  return result.map((item) => {
-    return functionAndCustomToolCallOutputUnionSerializer(item);
-  });
-}
-
-export function functionAndCustomToolCallOutputUnionArrayDeserializer(
-  result: Array<FunctionAndCustomToolCallOutputUnion>,
-): any[] {
-  return result.map((item) => {
-    return functionAndCustomToolCallOutputUnionDeserializer(item);
-  });
-}
-
-/** model interface FunctionAndCustomToolCallOutput */
-export interface FunctionAndCustomToolCallOutput {
-  type: FunctionAndCustomToolCallOutputType;
-}
-
-export function functionAndCustomToolCallOutputSerializer(
-  item: FunctionAndCustomToolCallOutput,
-): any {
-  return { type: item["type"] };
-}
-
-export function functionAndCustomToolCallOutputDeserializer(
-  item: any,
-): FunctionAndCustomToolCallOutput {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for FunctionAndCustomToolCallOutputUnion */
-export type FunctionAndCustomToolCallOutputUnion =
-  | FunctionAndCustomToolCallOutputInputTextContent
-  | FunctionAndCustomToolCallOutputInputImageContent
-  | FunctionAndCustomToolCallOutputInputFileContent
-  | FunctionAndCustomToolCallOutput;
-
-export function functionAndCustomToolCallOutputUnionSerializer(
-  item: FunctionAndCustomToolCallOutputUnion,
-): any {
-  switch (item.type) {
-    case "input_text":
-      return functionAndCustomToolCallOutputInputTextContentSerializer(
-        item as FunctionAndCustomToolCallOutputInputTextContent,
-      );
-
-    case "input_image":
-      return functionAndCustomToolCallOutputInputImageContentSerializer(
-        item as FunctionAndCustomToolCallOutputInputImageContent,
-      );
-
-    case "input_file":
-      return functionAndCustomToolCallOutputInputFileContentSerializer(
-        item as FunctionAndCustomToolCallOutputInputFileContent,
-      );
-
-    default:
-      return functionAndCustomToolCallOutputSerializer(item);
-  }
-}
-
-export function functionAndCustomToolCallOutputUnionDeserializer(
-  item: any,
-): FunctionAndCustomToolCallOutputUnion {
-  switch (item["type"]) {
-    case "input_text":
-      return functionAndCustomToolCallOutputInputTextContentDeserializer(
-        item as FunctionAndCustomToolCallOutputInputTextContent,
-      );
-
-    case "input_image":
-      return functionAndCustomToolCallOutputInputImageContentDeserializer(
-        item as FunctionAndCustomToolCallOutputInputImageContent,
-      );
-
-    case "input_file":
-      return functionAndCustomToolCallOutputInputFileContentDeserializer(
-        item as FunctionAndCustomToolCallOutputInputFileContent,
-      );
-
-    default:
-      return functionAndCustomToolCallOutputDeserializer(item);
-  }
-}
-
-/** Type of FunctionAndCustomToolCallOutputType */
-export type FunctionAndCustomToolCallOutputType = "input_text" | "input_image" | "input_file";
-
-/** A text input to the model. */
-export interface FunctionAndCustomToolCallOutputInputTextContent extends FunctionAndCustomToolCallOutput {
-  /** The type of the input item. Always `input_text`. */
-  type: "input_text";
-  /** The text input to the model. */
-  text: string;
-}
-
-export function functionAndCustomToolCallOutputInputTextContentSerializer(
-  item: FunctionAndCustomToolCallOutputInputTextContent,
-): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function functionAndCustomToolCallOutputInputTextContentDeserializer(
-  item: any,
-): FunctionAndCustomToolCallOutputInputTextContent {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-/** An image input to the model. Learn about [image inputs](/docs/guides/vision). */
-export interface FunctionAndCustomToolCallOutputInputImageContent extends FunctionAndCustomToolCallOutput {
-  /** The type of the input item. Always `input_image`. */
-  type: "input_image";
-  image_url?: string;
-  file_id?: string;
-  /** The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`. */
-  detail: ImageDetail;
-}
-
-export function functionAndCustomToolCallOutputInputImageContentSerializer(
-  item: FunctionAndCustomToolCallOutputInputImageContent,
-): any {
-  return {
-    type: item["type"],
-    image_url: item["image_url"],
-    file_id: item["file_id"],
-    detail: item["detail"],
-  };
-}
-
-export function functionAndCustomToolCallOutputInputImageContentDeserializer(
-  item: any,
-): FunctionAndCustomToolCallOutputInputImageContent {
-  return {
-    type: item["type"],
-    image_url: item["image_url"],
-    file_id: item["file_id"],
-    detail: item["detail"],
-  };
-}
-
-/** Type of ImageDetail */
-export type ImageDetail = "low" | "high" | "auto" | "original";
-
-/** A file input to the model. */
-export interface FunctionAndCustomToolCallOutputInputFileContent extends FunctionAndCustomToolCallOutput {
-  /** The type of the input item. Always `input_file`. */
-  type: "input_file";
-  file_id?: string;
-  /** The name of the file to be sent to the model. */
-  filename?: string;
-  /** The content of the file to be sent to the model. */
-  file_data?: string;
-  /** The URL of the file to be sent to the model. */
-  file_url?: string;
-  /** The detail level of the file to be sent to the model. Use `low` for the default rendering behavior, or `high` to render the file at higher quality. Defaults to `low`. */
-  detail?: FileInputDetail;
-}
-
-export function functionAndCustomToolCallOutputInputFileContentSerializer(
-  item: FunctionAndCustomToolCallOutputInputFileContent,
-): any {
-  return {
-    type: item["type"],
-    file_id: item["file_id"],
-    filename: item["filename"],
-    file_data: item["file_data"],
-    file_url: item["file_url"],
-    detail: item["detail"],
-  };
-}
-
-export function functionAndCustomToolCallOutputInputFileContentDeserializer(
-  item: any,
-): FunctionAndCustomToolCallOutputInputFileContent {
-  return {
-    type: item["type"],
-    file_id: item["file_id"],
-    filename: item["filename"],
-    file_data: item["file_data"],
-    file_url: item["file_url"],
-    detail: item["detail"],
-  };
-}
-
-/** Type of FileInputDetail */
-export type FileInputDetail = "low" | "high";
-
-/**
- * The results of a web search tool call. See the
- * [web search guide](/docs/guides/tools-web-search) for more information.
- */
-export interface OutputItemWebSearchToolCall extends OutputItem {
-  /** The unique ID of the web search tool call. */
-  id: string;
-  /** The type of the web search tool call. Always `web_search_call`. */
-  type: "web_search_call";
-  /** The status of the web search tool call. */
-  status: "in_progress" | "searching" | "completed" | "failed";
-  /**
-   * An object describing the specific action taken in this web search call.
-   *   Includes details on how the model used the web (search, open_page, find_in_page).
-   */
-  action: WebSearchActionSearch | WebSearchActionOpenPage | WebSearchActionFind;
-}
-
-export function outputItemWebSearchToolCallSerializer(item: OutputItemWebSearchToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    action: _outputItemWebSearchToolCallActionSerializer(item["action"]),
-  };
-}
-
-export function outputItemWebSearchToolCallDeserializer(item: any): OutputItemWebSearchToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    action: _outputItemWebSearchToolCallActionDeserializer(item["action"]),
-  };
-}
-
-/** Alias for _OutputItemWebSearchToolCallAction */
-export type _OutputItemWebSearchToolCallAction =
-  | WebSearchActionSearch
-  | WebSearchActionOpenPage
-  | WebSearchActionFind;
-
-export function _outputItemWebSearchToolCallActionSerializer(
-  item: _OutputItemWebSearchToolCallAction,
-): any {
-  return item;
-}
-
-export function _outputItemWebSearchToolCallActionDeserializer(
-  item: any,
-): _OutputItemWebSearchToolCallAction {
-  return item;
-}
-
-/** Action type "search" - Performs a web search query. */
-export interface WebSearchActionSearch {
-  /** The action type. */
-  type: "search";
-  /** [DEPRECATED] The search query. */
-  query: string;
-  /** The search queries. */
-  queries?: string[];
-  /** The sources used in the search. */
-  sources?: WebSearchActionSearchSources[];
-}
-
-export function webSearchActionSearchSerializer(item: WebSearchActionSearch): any {
-  return {
-    type: item["type"],
-    query: item["query"],
-    queries: !item["queries"]
-      ? item["queries"]
-      : item["queries"].map((p: any) => {
-          return p;
-        }),
-    sources: !item["sources"]
-      ? item["sources"]
-      : webSearchActionSearchSourcesArraySerializer(item["sources"]),
-  };
-}
-
-export function webSearchActionSearchDeserializer(item: any): WebSearchActionSearch {
-  return {
-    type: item["type"],
-    query: item["query"],
-    queries: !item["queries"]
-      ? item["queries"]
-      : item["queries"].map((p: any) => {
-          return p;
-        }),
-    sources: !item["sources"]
-      ? item["sources"]
-      : webSearchActionSearchSourcesArrayDeserializer(item["sources"]),
-  };
-}
-
-export function webSearchActionSearchSourcesArraySerializer(
-  result: Array<WebSearchActionSearchSources>,
-): any[] {
-  return result.map((item) => {
-    return webSearchActionSearchSourcesSerializer(item);
-  });
-}
-
-export function webSearchActionSearchSourcesArrayDeserializer(
-  result: Array<WebSearchActionSearchSources>,
-): any[] {
-  return result.map((item) => {
-    return webSearchActionSearchSourcesDeserializer(item);
-  });
-}
-
-/** model interface WebSearchActionSearchSources */
-export interface WebSearchActionSearchSources {
-  type: "url";
-  url: string;
-}
-
-export function webSearchActionSearchSourcesSerializer(item: WebSearchActionSearchSources): any {
-  return { type: item["type"], url: item["url"] };
-}
-
-export function webSearchActionSearchSourcesDeserializer(item: any): WebSearchActionSearchSources {
-  return {
-    type: item["type"],
-    url: item["url"],
-  };
-}
-
-/** Action type "open_page" - Opens a specific URL from search results. */
-export interface WebSearchActionOpenPage {
-  /** The action type. */
-  type: "open_page";
-  /** The URL opened by the model. */
-  url?: string;
-}
-
-export function webSearchActionOpenPageSerializer(item: WebSearchActionOpenPage): any {
-  return { type: item["type"], url: item["url"] };
-}
-
-export function webSearchActionOpenPageDeserializer(item: any): WebSearchActionOpenPage {
-  return {
-    type: item["type"],
-    url: item["url"],
-  };
-}
-
-/** Action type "find_in_page": Searches for a pattern within a loaded page. */
-export interface WebSearchActionFind {
-  /** The action type. */
-  type: "find_in_page";
-  /** The URL of the page searched for the pattern. */
-  url: string;
-  /** The pattern or text to search for within the page. */
-  pattern: string;
-}
-
-export function webSearchActionFindSerializer(item: WebSearchActionFind): any {
-  return { type: item["type"], url: item["url"], pattern: item["pattern"] };
-}
-
-export function webSearchActionFindDeserializer(item: any): WebSearchActionFind {
-  return {
-    type: item["type"],
-    url: item["url"],
-    pattern: item["pattern"],
-  };
-}
-
-/**
- * A tool call to a computer use tool. See the
- * [computer use guide](/docs/guides/tools-computer-use) for more information.
- */
-export interface OutputItemComputerToolCall extends OutputItem {
-  /** The type of the computer call. Always `computer_call`. */
-  type: "computer_call";
-  /** The unique ID of the computer call. */
-  id: string;
-  /** An identifier used when responding to the tool call with output. */
-  call_id: string;
-  action?: ComputerActionUnion;
-  actions?: ComputerActionUnion[];
-  /** The pending safety checks for the computer call. */
-  pending_safety_checks: ComputerCallSafetyCheckParam[];
-  /**
-   * The status of the item. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when items are returned via API.
-   */
-  status: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemComputerToolCallSerializer(item: OutputItemComputerToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    action: !item["action"] ? item["action"] : computerActionUnionSerializer(item["action"]),
-    actions: !item["actions"]
-      ? item["actions"]
-      : computerActionUnionArraySerializer(item["actions"]),
-    pending_safety_checks: computerCallSafetyCheckParamArraySerializer(
-      item["pending_safety_checks"],
-    ),
-    status: item["status"],
-  };
-}
-
-export function outputItemComputerToolCallDeserializer(item: any): OutputItemComputerToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    action: !item["action"] ? item["action"] : computerActionUnionDeserializer(item["action"]),
-    actions: !item["actions"]
-      ? item["actions"]
-      : computerActionUnionArrayDeserializer(item["actions"]),
-    pending_safety_checks: computerCallSafetyCheckParamArrayDeserializer(
-      item["pending_safety_checks"],
-    ),
-    status: item["status"],
-  };
-}
-
-/** model interface ComputerAction */
-export interface ComputerAction {
-  type: ComputerActionType;
-}
-
-export function computerActionSerializer(item: ComputerAction): any {
-  return { type: item["type"] };
-}
-
-export function computerActionDeserializer(item: any): ComputerAction {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ComputerActionUnion */
-export type ComputerActionUnion =
-  | ClickParam
-  | DoubleClickAction
-  | DragParam
-  | KeyPressAction
-  | MoveParam
-  | ScreenshotParam
-  | ScrollParam
-  | TypeParam
-  | WaitParam
-  | ComputerAction;
-
-export function computerActionUnionSerializer(item: ComputerActionUnion): any {
-  switch (item.type) {
-    case "click":
-      return clickParamSerializer(item as ClickParam);
-
-    case "double_click":
-      return doubleClickActionSerializer(item as DoubleClickAction);
-
-    case "drag":
-      return dragParamSerializer(item as DragParam);
-
-    case "keypress":
-      return keyPressActionSerializer(item as KeyPressAction);
-
-    case "move":
-      return moveParamSerializer(item as MoveParam);
-
-    case "screenshot":
-      return screenshotParamSerializer(item as ScreenshotParam);
-
-    case "scroll":
-      return scrollParamSerializer(item as ScrollParam);
-
-    case "type":
-      return typeParamSerializer(item as TypeParam);
-
-    case "wait":
-      return waitParamSerializer(item as WaitParam);
-
-    default:
-      return computerActionSerializer(item);
-  }
-}
-
-export function computerActionUnionDeserializer(item: any): ComputerActionUnion {
-  switch (item["type"]) {
-    case "click":
-      return clickParamDeserializer(item as ClickParam);
-
-    case "double_click":
-      return doubleClickActionDeserializer(item as DoubleClickAction);
-
-    case "drag":
-      return dragParamDeserializer(item as DragParam);
-
-    case "keypress":
-      return keyPressActionDeserializer(item as KeyPressAction);
-
-    case "move":
-      return moveParamDeserializer(item as MoveParam);
-
-    case "screenshot":
-      return screenshotParamDeserializer(item as ScreenshotParam);
-
-    case "scroll":
-      return scrollParamDeserializer(item as ScrollParam);
-
-    case "type":
-      return typeParamDeserializer(item as TypeParam);
-
-    case "wait":
-      return waitParamDeserializer(item as WaitParam);
-
-    default:
-      return computerActionDeserializer(item);
-  }
-}
-
-/** Type of ComputerActionType */
-export type ComputerActionType =
-  | "click"
-  | "double_click"
-  | "drag"
-  | "keypress"
-  | "move"
-  | "screenshot"
-  | "scroll"
-  | "type"
-  | "wait";
-
-/** A click action. */
-export interface ClickParam extends ComputerAction {
-  /** Specifies the event type. For a click action, this property is always `click`. */
-  type: "click";
-  /** Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`. */
-  button: ClickButtonType;
-  /** The x-coordinate where the click occurred. */
-  x: number;
-  /** The y-coordinate where the click occurred. */
-  y: number;
-  keys?: string[];
-}
-
-export function clickParamSerializer(item: ClickParam): any {
-  return {
-    type: item["type"],
-    button: item["button"],
-    x: item["x"],
-    y: item["y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function clickParamDeserializer(item: any): ClickParam {
-  return {
-    type: item["type"],
-    button: item["button"],
-    x: item["x"],
-    y: item["y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** Type of ClickButtonType */
-export type ClickButtonType = "left" | "right" | "wheel" | "back" | "forward";
-
-/** A double click action. */
-export interface DoubleClickAction extends ComputerAction {
-  /** Specifies the event type. For a double click action, this property is always set to `double_click`. */
-  type: "double_click";
-  /** The x-coordinate where the double click occurred. */
-  x: number;
-  /** The y-coordinate where the double click occurred. */
-  y: number;
-  keys: string[] | null;
-}
-
-export function doubleClickActionSerializer(item: DoubleClickAction): any {
-  return {
-    type: item["type"],
-    x: item["x"],
-    y: item["y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function doubleClickActionDeserializer(item: any): DoubleClickAction {
-  return {
-    type: item["type"],
-    x: item["x"],
-    y: item["y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A drag action. */
-export interface DragParam extends ComputerAction {
-  /** Specifies the event type. For a drag action, this property is always set to `drag`. */
-  type: "drag";
-  /**
-   * An array of coordinates representing the path of the drag action. Coordinates will appear as an array of objects, eg
-   *   ```
-   *   [
-   *     { x: 100, y: 200 },
-   *     { x: 200, y: 300 }
-   *   ]
-   *   ```
-   */
-  path: CoordParam[];
-  keys?: string[];
-}
-
-export function dragParamSerializer(item: DragParam): any {
-  return {
-    type: item["type"],
-    path: coordParamArraySerializer(item["path"]),
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function dragParamDeserializer(item: any): DragParam {
-  return {
-    type: item["type"],
-    path: coordParamArrayDeserializer(item["path"]),
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-export function coordParamArraySerializer(result: Array<CoordParam>): any[] {
-  return result.map((item) => {
-    return coordParamSerializer(item);
-  });
-}
-
-export function coordParamArrayDeserializer(result: Array<CoordParam>): any[] {
-  return result.map((item) => {
-    return coordParamDeserializer(item);
-  });
-}
-
-/** An x/y coordinate pair, e.g. `{ x: 100, y: 200 }`. */
-export interface CoordParam {
-  /** The x-coordinate. */
-  x: number;
-  /** The y-coordinate. */
-  y: number;
-}
-
-export function coordParamSerializer(item: CoordParam): any {
-  return { x: item["x"], y: item["y"] };
-}
-
-export function coordParamDeserializer(item: any): CoordParam {
-  return {
-    x: item["x"],
-    y: item["y"],
-  };
-}
-
-/** A collection of keypresses the model would like to perform. */
-export interface KeyPressAction extends ComputerAction {
-  /** Specifies the event type. For a keypress action, this property is always set to `keypress`. */
-  type: "keypress";
-  /** The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key. */
-  keys: string[];
-}
-
-export function keyPressActionSerializer(item: KeyPressAction): any {
-  return {
-    type: item["type"],
-    keys: item["keys"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function keyPressActionDeserializer(item: any): KeyPressAction {
-  return {
-    type: item["type"],
-    keys: item["keys"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-/** A mouse move action. */
-export interface MoveParam extends ComputerAction {
-  /** Specifies the event type. For a move action, this property is always set to `move`. */
-  type: "move";
-  /** The x-coordinate to move to. */
-  x: number;
-  /** The y-coordinate to move to. */
-  y: number;
-  keys?: string[];
-}
-
-export function moveParamSerializer(item: MoveParam): any {
-  return {
-    type: item["type"],
-    x: item["x"],
-    y: item["y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function moveParamDeserializer(item: any): MoveParam {
-  return {
-    type: item["type"],
-    x: item["x"],
-    y: item["y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** A screenshot action. */
-export interface ScreenshotParam extends ComputerAction {
-  /** Specifies the event type. For a screenshot action, this property is always set to `screenshot`. */
-  type: "screenshot";
-}
-
-export function screenshotParamSerializer(item: ScreenshotParam): any {
-  return { type: item["type"] };
-}
-
-export function screenshotParamDeserializer(item: any): ScreenshotParam {
-  return {
-    type: item["type"],
-  };
-}
-
-/** A scroll action. */
-export interface ScrollParam extends ComputerAction {
-  /** Specifies the event type. For a scroll action, this property is always set to `scroll`. */
-  type: "scroll";
-  /** The x-coordinate where the scroll occurred. */
-  x: number;
-  /** The y-coordinate where the scroll occurred. */
-  y: number;
-  /** The horizontal scroll distance. */
-  scroll_x: number;
-  /** The vertical scroll distance. */
-  scroll_y: number;
-  keys?: string[];
-}
-
-export function scrollParamSerializer(item: ScrollParam): any {
-  return {
-    type: item["type"],
-    x: item["x"],
-    y: item["y"],
-    scroll_x: item["scroll_x"],
-    scroll_y: item["scroll_y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function scrollParamDeserializer(item: any): ScrollParam {
-  return {
-    type: item["type"],
-    x: item["x"],
-    y: item["y"],
-    scroll_x: item["scroll_x"],
-    scroll_y: item["scroll_y"],
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p1: any) => {
-          return p1;
-        }),
-  };
-}
-
-/** An action to type in text. */
-export interface TypeParam extends ComputerAction {
-  /** Specifies the event type. For a type action, this property is always set to `type`. */
-  type: "type";
-  /** The text to type. */
-  text: string;
-}
-
-export function typeParamSerializer(item: TypeParam): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function typeParamDeserializer(item: any): TypeParam {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-/** A wait action. */
-export interface WaitParam extends ComputerAction {
-  /** Specifies the event type. For a wait action, this property is always set to `wait`. */
-  type: "wait";
-}
-
-export function waitParamSerializer(item: WaitParam): any {
-  return { type: item["type"] };
-}
-
-export function waitParamDeserializer(item: any): WaitParam {
-  return {
-    type: item["type"],
-  };
-}
-
-export function computerActionUnionArraySerializer(result: Array<ComputerActionUnion>): any[] {
-  return result.map((item) => {
-    return computerActionUnionSerializer(item);
-  });
-}
-
-export function computerActionUnionArrayDeserializer(result: Array<ComputerActionUnion>): any[] {
-  return result.map((item) => {
-    return computerActionUnionDeserializer(item);
-  });
-}
-
-export function computerCallSafetyCheckParamArraySerializer(
-  result: Array<ComputerCallSafetyCheckParam>,
-): any[] {
-  return result.map((item) => {
-    return computerCallSafetyCheckParamSerializer(item);
-  });
-}
-
-export function computerCallSafetyCheckParamArrayDeserializer(
-  result: Array<ComputerCallSafetyCheckParam>,
-): any[] {
-  return result.map((item) => {
-    return computerCallSafetyCheckParamDeserializer(item);
-  });
-}
-
-/** A pending safety check for the computer call. */
-export interface ComputerCallSafetyCheckParam {
-  /** The ID of the pending safety check. */
-  id: string;
-  code?: string;
-  message?: string;
-}
-
-export function computerCallSafetyCheckParamSerializer(item: ComputerCallSafetyCheckParam): any {
-  return { id: item["id"], code: item["code"], message: item["message"] };
-}
-
-export function computerCallSafetyCheckParamDeserializer(item: any): ComputerCallSafetyCheckParam {
-  return {
-    id: item["id"],
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
-/** The output of a computer tool call. */
-export interface OutputItemComputerToolCallOutput extends OutputItem {
-  /** The type of the computer tool call output. Always `computer_call_output`. */
-  type: "computer_call_output";
-  /** The ID of the computer tool call output. */
-  readonly id: string;
-  /** The ID of the computer tool call that produced the output. */
-  call_id: string;
-  /**
-   * The safety checks reported by the API that have been acknowledged by the
-   *   developer.
-   */
-  acknowledged_safety_checks?: ComputerCallSafetyCheckParam[];
-  output: ComputerScreenshotImage;
-  /**
-   * The status of the message input. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when input items are returned via API.
-   */
-  status?: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemComputerToolCallOutputSerializer(
-  item: OutputItemComputerToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    call_id: item["call_id"],
-    acknowledged_safety_checks: !item["acknowledged_safety_checks"]
-      ? item["acknowledged_safety_checks"]
-      : computerCallSafetyCheckParamArraySerializer(item["acknowledged_safety_checks"]),
-    output: computerScreenshotImageSerializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-export function outputItemComputerToolCallOutputDeserializer(
-  item: any,
-): OutputItemComputerToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    acknowledged_safety_checks: !item["acknowledged_safety_checks"]
-      ? item["acknowledged_safety_checks"]
-      : computerCallSafetyCheckParamArrayDeserializer(item["acknowledged_safety_checks"]),
-    output: computerScreenshotImageDeserializer(item["output"]),
-    status: item["status"],
-  };
-}
-
-/** A computer screenshot image used with the computer use tool. */
-export interface ComputerScreenshotImage {
-  /**
-   * Specifies the event type. For a computer screenshot, this property is
-   *   always set to `computer_screenshot`.
-   */
-  type: "computer_screenshot";
-  /** The URL of the screenshot image. */
-  image_url?: string;
-  /** The identifier of an uploaded file that contains the screenshot. */
-  file_id?: string;
-}
-
-export function computerScreenshotImageSerializer(item: ComputerScreenshotImage): any {
-  return { type: item["type"], image_url: item["image_url"], file_id: item["file_id"] };
-}
-
-export function computerScreenshotImageDeserializer(item: any): ComputerScreenshotImage {
-  return {
-    type: item["type"],
-    image_url: item["image_url"],
-    file_id: item["file_id"],
-  };
-}
-
-/**
- * A description of the chain of thought used by a reasoning model while generating
- * a response. Be sure to include these items in your `input` to the Responses API
- * for subsequent turns of a conversation if you are manually
- * [managing context](/docs/guides/conversation-state).
- */
-export interface OutputItemReasoningItem extends OutputItem {
-  /** The type of the object. Always `reasoning`. */
-  type: "reasoning";
-  /** The unique identifier of the reasoning content. */
-  id: string;
-  encrypted_content?: string;
-  /** Reasoning summary content. */
-  summary: SummaryTextContent[];
-  /** Reasoning text content. */
-  content?: ReasoningTextContent[];
-  /**
-   * The status of the item. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when items are returned via API.
-   */
-  status?: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemReasoningItemSerializer(item: OutputItemReasoningItem): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    encrypted_content: item["encrypted_content"],
-    summary: summaryTextContentArraySerializer(item["summary"]),
-    content: !item["content"]
-      ? item["content"]
-      : reasoningTextContentArraySerializer(item["content"]),
-    status: item["status"],
-  };
-}
-
-export function outputItemReasoningItemDeserializer(item: any): OutputItemReasoningItem {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    encrypted_content: item["encrypted_content"],
-    summary: summaryTextContentArrayDeserializer(item["summary"]),
-    content: !item["content"]
-      ? item["content"]
-      : reasoningTextContentArrayDeserializer(item["content"]),
-    status: item["status"],
-  };
-}
-
-export function summaryTextContentArraySerializer(result: Array<SummaryTextContent>): any[] {
-  return result.map((item) => {
-    return summaryTextContentSerializer(item);
-  });
-}
-
-export function summaryTextContentArrayDeserializer(result: Array<SummaryTextContent>): any[] {
-  return result.map((item) => {
-    return summaryTextContentDeserializer(item);
-  });
-}
-
-/** A summary text from the model. */
-export interface SummaryTextContent extends MessageContent {
-  /** The type of the object. Always `summary_text`. */
-  type: "summary_text";
-  /** A summary of the reasoning output from the model so far. */
-  text: string;
-}
-
-export function summaryTextContentSerializer(item: SummaryTextContent): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function summaryTextContentDeserializer(item: any): SummaryTextContent {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-export function reasoningTextContentArraySerializer(result: Array<ReasoningTextContent>): any[] {
-  return result.map((item) => {
-    return reasoningTextContentSerializer(item);
-  });
-}
-
-export function reasoningTextContentArrayDeserializer(result: Array<ReasoningTextContent>): any[] {
-  return result.map((item) => {
-    return reasoningTextContentDeserializer(item);
-  });
-}
-
-/** Reasoning text from the model. */
-export interface ReasoningTextContent {
-  /** The type of the reasoning text. Always `reasoning_text`. */
-  type: "reasoning_text";
-  /** The reasoning text from the model. */
-  text: string;
-}
-
-export function reasoningTextContentSerializer(item: ReasoningTextContent): any {
-  return { type: item["type"], text: item["text"] };
-}
-
-export function reasoningTextContentDeserializer(item: any): ReasoningTextContent {
-  return {
-    type: item["type"],
-    text: item["text"],
-  };
-}
-
-/** model interface OutputItemToolSearchCall */
-export interface OutputItemToolSearchCall extends OutputItem {
-  /** The type of the item. Always `tool_search_call`. */
-  type: "tool_search_call";
-  /** The unique ID of the tool search call item. */
-  id: string;
-  call_id: string | null;
-  /** Whether tool search was executed by the server or by the client. */
-  execution: ToolSearchExecutionType;
-  /** Arguments used for the tool search call. */
-  arguments: any;
-  /** The status of the tool search call item that was recorded. */
-  status: FunctionCallStatus;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function outputItemToolSearchCallSerializer(item: OutputItemToolSearchCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    execution: item["execution"],
-    arguments: item["arguments"],
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemToolSearchCallDeserializer(item: any): OutputItemToolSearchCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    execution: item["execution"],
-    arguments: item["arguments"],
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-/** Type of FunctionCallStatus */
-export type FunctionCallStatus = "in_progress" | "completed" | "incomplete";
-
-/** model interface OutputItemToolSearchOutput */
-export interface OutputItemToolSearchOutput extends OutputItem {
-  /** The type of the item. Always `tool_search_output`. */
-  type: "tool_search_output";
-  /** The unique ID of the tool search output item. */
-  id: string;
-  call_id: string | null;
-  /** Whether tool search was executed by the server or by the client. */
-  execution: ToolSearchExecutionType;
-  /** The loaded tool definitions returned by tool search. */
-  tools: ToolUnion[];
-  /** The status of the tool search output item that was recorded. */
-  status: FunctionCallOutputStatusEnum;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function outputItemToolSearchOutputSerializer(item: OutputItemToolSearchOutput): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    execution: item["execution"],
-    tools: toolUnionArraySerializer(item["tools"]),
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemToolSearchOutputDeserializer(item: any): OutputItemToolSearchOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    execution: item["execution"],
-    tools: toolUnionArrayDeserializer(item["tools"]),
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-/** Type of FunctionCallOutputStatusEnum */
-export type FunctionCallOutputStatusEnum = "in_progress" | "completed" | "incomplete";
-
-/** A compaction item generated by the [`v1/responses/compact` API](/docs/api-reference/responses/compact). */
-export interface OutputItemCompactionBody extends OutputItem {
-  /** The type of the item. Always `compaction`. */
-  type: "compaction";
-  /** The unique ID of the compaction item. */
-  id: string;
-  /** The encrypted content that was produced by compaction. */
-  encrypted_content: string;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function outputItemCompactionBodySerializer(item: OutputItemCompactionBody): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    encrypted_content: item["encrypted_content"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemCompactionBodyDeserializer(item: any): OutputItemCompactionBody {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    encrypted_content: item["encrypted_content"],
-    created_by: item["created_by"],
-  };
-}
-
-/** An image generation request made by the model. */
-export interface OutputItemImageGenToolCall extends OutputItem {
-  /** The type of the image generation call. Always `image_generation_call`. */
-  type: "image_generation_call";
-  /** The unique ID of the image generation call. */
-  id: string;
-  /** The status of the image generation call. */
-  status: "in_progress" | "completed" | "generating" | "failed";
-  result: string | null;
-}
-
-export function outputItemImageGenToolCallSerializer(item: OutputItemImageGenToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    result: item["result"],
-  };
-}
-
-export function outputItemImageGenToolCallDeserializer(item: any): OutputItemImageGenToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    result: item["result"],
-  };
-}
-
-/** A tool call to run code. */
-export interface OutputItemCodeInterpreterToolCall extends OutputItem {
-  /** The type of the code interpreter tool call. Always `code_interpreter_call`. */
-  type: "code_interpreter_call";
-  /** The unique ID of the code interpreter tool call. */
-  id: string;
-  /** The status of the code interpreter tool call. Valid values are `in_progress`, `completed`, `incomplete`, `interpreting`, and `failed`. */
-  status: "in_progress" | "completed" | "incomplete" | "interpreting" | "failed";
-  /** The ID of the container used to run the code. */
-  container_id: string;
-  code: string | null;
-  outputs: (CodeInterpreterOutputLogs | CodeInterpreterOutputImage)[] | null;
-}
-
-export function outputItemCodeInterpreterToolCallSerializer(
-  item: OutputItemCodeInterpreterToolCall,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    container_id: item["container_id"],
-    code: item["code"],
-    outputs: !item["outputs"]
-      ? item["outputs"]
-      : _outputItemCodeInterpreterToolCallOutputArraySerializer(item["outputs"]),
-  };
-}
-
-export function outputItemCodeInterpreterToolCallDeserializer(
-  item: any,
-): OutputItemCodeInterpreterToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    status: item["status"],
-    container_id: item["container_id"],
-    code: item["code"],
-    outputs: !item["outputs"]
-      ? item["outputs"]
-      : _outputItemCodeInterpreterToolCallOutputArrayDeserializer(item["outputs"]),
-  };
-}
-
-export function _outputItemCodeInterpreterToolCallOutputArraySerializer(
-  result: Array<_OutputItemCodeInterpreterToolCallOutput>,
-): any[] {
-  return result.map((item) => {
-    return _outputItemCodeInterpreterToolCallOutputSerializer(item);
-  });
-}
-
-export function _outputItemCodeInterpreterToolCallOutputArrayDeserializer(
-  result: Array<_OutputItemCodeInterpreterToolCallOutput>,
-): any[] {
-  return result.map((item) => {
-    return _outputItemCodeInterpreterToolCallOutputDeserializer(item);
-  });
-}
-
-/** Alias for _OutputItemCodeInterpreterToolCallOutput */
-export type _OutputItemCodeInterpreterToolCallOutput =
-  | CodeInterpreterOutputLogs
-  | CodeInterpreterOutputImage;
-
-export function _outputItemCodeInterpreterToolCallOutputSerializer(
-  item: _OutputItemCodeInterpreterToolCallOutput,
-): any {
-  return item;
-}
-
-export function _outputItemCodeInterpreterToolCallOutputDeserializer(
-  item: any,
-): _OutputItemCodeInterpreterToolCallOutput {
-  return item;
-}
-
-/** The logs output from the code interpreter. */
-export interface CodeInterpreterOutputLogs {
-  /** The type of the output. Always `logs`. */
-  type: "logs";
-  /** The logs output from the code interpreter. */
-  logs: string;
-}
-
-export function codeInterpreterOutputLogsSerializer(item: CodeInterpreterOutputLogs): any {
-  return { type: item["type"], logs: item["logs"] };
-}
-
-export function codeInterpreterOutputLogsDeserializer(item: any): CodeInterpreterOutputLogs {
-  return {
-    type: item["type"],
-    logs: item["logs"],
-  };
-}
-
-/** The image output from the code interpreter. */
-export interface CodeInterpreterOutputImage {
-  /** The type of the output. Always `image`. */
-  type: "image";
-  /** The URL of the image output from the code interpreter. */
-  url: string;
-}
-
-export function codeInterpreterOutputImageSerializer(item: CodeInterpreterOutputImage): any {
-  return { type: item["type"], url: item["url"] };
-}
-
-export function codeInterpreterOutputImageDeserializer(item: any): CodeInterpreterOutputImage {
-  return {
-    type: item["type"],
-    url: item["url"],
-  };
-}
-
-/** A tool call to run a command on the local shell. */
-export interface OutputItemLocalShellToolCall extends OutputItem {
-  /** The type of the local shell call. Always `local_shell_call`. */
-  type: "local_shell_call";
-  /** The unique ID of the local shell call. */
-  id: string;
-  /** The unique ID of the local shell tool call generated by the model. */
-  call_id: string;
-  action: LocalShellExecAction;
-  /** The status of the local shell call. */
-  status: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemLocalShellToolCallSerializer(item: OutputItemLocalShellToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    action: localShellExecActionSerializer(item["action"]),
-    status: item["status"],
-  };
-}
-
-export function outputItemLocalShellToolCallDeserializer(item: any): OutputItemLocalShellToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    action: localShellExecActionDeserializer(item["action"]),
-    status: item["status"],
-  };
-}
-
-/** Execute a shell command on the server. */
-export interface LocalShellExecAction {
-  /** The type of the local shell action. Always `exec`. */
-  type: "exec";
-  /** The command to run. */
-  command: string[];
-  timeout_ms?: number;
-  working_directory?: string;
-  /** Environment variables to set for the command. */
-  env: Record<string, string>;
-  user?: string;
-}
-
-export function localShellExecActionSerializer(item: LocalShellExecAction): any {
-  return {
-    type: item["type"],
-    command: item["command"].map((p: any) => {
-      return p;
-    }),
-    timeout_ms: item["timeout_ms"],
-    working_directory: item["working_directory"],
-    env: item["env"],
-    user: item["user"],
-  };
-}
-
-export function localShellExecActionDeserializer(item: any): LocalShellExecAction {
-  return {
-    type: item["type"],
-    command: item["command"].map((p: any) => {
-      return p;
-    }),
-    timeout_ms: item["timeout_ms"],
-    working_directory: item["working_directory"],
-    env: Object.fromEntries(Object.entries(item["env"]).map(([k, p]: [string, any]) => [k, p])),
-    user: item["user"],
-  };
-}
-
-/** The output of a local shell tool call. */
-export interface OutputItemLocalShellToolCallOutput extends OutputItem {
-  /** The type of the local shell tool call output. Always `local_shell_call_output`. */
-  type: "local_shell_call_output";
-  /** The unique ID of the local shell tool call generated by the model. */
-  id: string;
-  /** A JSON string of the output of the local shell tool call. */
-  output: string;
-  status?: "in_progress" | "completed" | "incomplete";
-}
-
-export function outputItemLocalShellToolCallOutputSerializer(
-  item: OutputItemLocalShellToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    output: item["output"],
-    status: item["status"],
-  };
-}
-
-export function outputItemLocalShellToolCallOutputDeserializer(
-  item: any,
-): OutputItemLocalShellToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    output: item["output"],
-    status: item["status"],
-  };
-}
-
-/** A tool call that executes one or more shell commands in a managed environment. */
-export interface OutputItemFunctionShellCall extends OutputItem {
-  /** The type of the item. Always `shell_call`. */
-  type: "shell_call";
-  /** The unique ID of the shell tool call. Populated when this item is returned via API. */
-  id: string;
-  /** The unique ID of the shell tool call generated by the model. */
-  call_id: string;
-  /** The shell commands and limits that describe how to run the tool call. */
-  action: FunctionShellAction;
-  /** The status of the shell call. One of `in_progress`, `completed`, or `incomplete`. */
-  status: LocalShellCallStatus;
-  environment: FunctionShellCallEnvironmentUnion | null;
-  /** The ID of the entity that created this tool call. */
-  created_by?: string;
-}
-
-export function outputItemFunctionShellCallSerializer(item: OutputItemFunctionShellCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    action: functionShellActionSerializer(item["action"]),
-    status: item["status"],
-    environment: !item["environment"]
-      ? item["environment"]
-      : functionShellCallEnvironmentUnionSerializer(item["environment"]),
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemFunctionShellCallDeserializer(item: any): OutputItemFunctionShellCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    action: functionShellActionDeserializer(item["action"]),
-    status: item["status"],
-    environment: !item["environment"]
-      ? item["environment"]
-      : functionShellCallEnvironmentUnionDeserializer(item["environment"]),
-    created_by: item["created_by"],
-  };
-}
-
-/** Execute a shell command. */
-export interface FunctionShellAction {
-  commands: string[];
-  timeout_ms: number | null;
-  max_output_length: number | null;
-}
-
-export function functionShellActionSerializer(item: FunctionShellAction): any {
-  return {
-    commands: item["commands"].map((p: any) => {
-      return p;
-    }),
-    timeout_ms: item["timeout_ms"],
-    max_output_length: item["max_output_length"],
-  };
-}
-
-export function functionShellActionDeserializer(item: any): FunctionShellAction {
-  return {
-    commands: item["commands"].map((p: any) => {
-      return p;
-    }),
-    timeout_ms: item["timeout_ms"],
-    max_output_length: item["max_output_length"],
-  };
-}
-
-/** Type of LocalShellCallStatus */
-export type LocalShellCallStatus = "in_progress" | "completed" | "incomplete";
-
-/** model interface FunctionShellCallEnvironment */
-export interface FunctionShellCallEnvironment {
-  type: FunctionShellCallEnvironmentType;
-}
-
-export function functionShellCallEnvironmentSerializer(item: FunctionShellCallEnvironment): any {
-  return { type: item["type"] };
-}
-
-export function functionShellCallEnvironmentDeserializer(item: any): FunctionShellCallEnvironment {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for FunctionShellCallEnvironmentUnion */
-export type FunctionShellCallEnvironmentUnion =
-  | LocalEnvironmentResource
-  | ContainerReferenceResource
-  | FunctionShellCallEnvironment;
-
-export function functionShellCallEnvironmentUnionSerializer(
-  item: FunctionShellCallEnvironmentUnion,
-): any {
-  switch (item.type) {
-    case "local":
-      return localEnvironmentResourceSerializer(item as LocalEnvironmentResource);
-
-    case "container_reference":
-      return containerReferenceResourceSerializer(item as ContainerReferenceResource);
-
-    default:
-      return functionShellCallEnvironmentSerializer(item);
-  }
-}
-
-export function functionShellCallEnvironmentUnionDeserializer(
-  item: any,
-): FunctionShellCallEnvironmentUnion {
-  switch (item["type"]) {
-    case "local":
-      return localEnvironmentResourceDeserializer(item as LocalEnvironmentResource);
-
-    case "container_reference":
-      return containerReferenceResourceDeserializer(item as ContainerReferenceResource);
-
-    default:
-      return functionShellCallEnvironmentDeserializer(item);
-  }
-}
-
-/** Type of FunctionShellCallEnvironmentType */
-export type FunctionShellCallEnvironmentType = "local" | "container_reference";
-
-/** Represents the use of a local environment to perform shell actions. */
-export interface LocalEnvironmentResource extends FunctionShellCallEnvironment {
-  /** The environment type. Always `local`. */
-  type: "local";
-}
-
-export function localEnvironmentResourceSerializer(item: LocalEnvironmentResource): any {
-  return { type: item["type"] };
-}
-
-export function localEnvironmentResourceDeserializer(item: any): LocalEnvironmentResource {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Represents a container created with /v1/containers. */
-export interface ContainerReferenceResource extends FunctionShellCallEnvironment {
-  /** The environment type. Always `container_reference`. */
-  type: "container_reference";
-  container_id: string;
-}
-
-export function containerReferenceResourceSerializer(item: ContainerReferenceResource): any {
-  return { type: item["type"], container_id: item["container_id"] };
-}
-
-export function containerReferenceResourceDeserializer(item: any): ContainerReferenceResource {
-  return {
-    type: item["type"],
-    container_id: item["container_id"],
-  };
-}
-
-/** The output of a shell tool call that was emitted. */
-export interface OutputItemFunctionShellCallOutput extends OutputItem {
-  /** The type of the shell call output. Always `shell_call_output`. */
-  type: "shell_call_output";
-  /** The unique ID of the shell call output. Populated when this item is returned via API. */
-  id: string;
-  /** The unique ID of the shell tool call generated by the model. */
-  call_id: string;
-  /** The status of the shell call output. One of `in_progress`, `completed`, or `incomplete`. */
-  status: LocalShellCallOutputStatusEnum;
-  /** An array of shell call output contents */
-  output: FunctionShellCallOutputContent[];
-  max_output_length: number | null;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function outputItemFunctionShellCallOutputSerializer(
-  item: OutputItemFunctionShellCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    status: item["status"],
-    output: functionShellCallOutputContentArraySerializer(item["output"]),
-    max_output_length: item["max_output_length"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemFunctionShellCallOutputDeserializer(
-  item: any,
-): OutputItemFunctionShellCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    status: item["status"],
-    output: functionShellCallOutputContentArrayDeserializer(item["output"]),
-    max_output_length: item["max_output_length"],
-    created_by: item["created_by"],
-  };
-}
-
-/** Type of LocalShellCallOutputStatusEnum */
-export type LocalShellCallOutputStatusEnum = "in_progress" | "completed" | "incomplete";
-
-export function functionShellCallOutputContentArraySerializer(
-  result: Array<FunctionShellCallOutputContent>,
-): any[] {
-  return result.map((item) => {
-    return functionShellCallOutputContentSerializer(item);
-  });
-}
-
-export function functionShellCallOutputContentArrayDeserializer(
-  result: Array<FunctionShellCallOutputContent>,
-): any[] {
-  return result.map((item) => {
-    return functionShellCallOutputContentDeserializer(item);
-  });
-}
-
-/** The content of a shell tool call output that was emitted. */
-export interface FunctionShellCallOutputContent {
-  /** The standard output that was captured. */
-  stdout: string;
-  /** The standard error output that was captured. */
-  stderr: string;
-  /** Represents either an exit outcome (with an exit code) or a timeout outcome for a shell call output chunk. */
-  outcome: FunctionShellCallOutputOutcomeUnion;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function functionShellCallOutputContentSerializer(
-  item: FunctionShellCallOutputContent,
-): any {
-  return {
-    stdout: item["stdout"],
-    stderr: item["stderr"],
-    outcome: functionShellCallOutputOutcomeUnionSerializer(item["outcome"]),
-    created_by: item["created_by"],
-  };
-}
-
-export function functionShellCallOutputContentDeserializer(
-  item: any,
-): FunctionShellCallOutputContent {
-  return {
-    stdout: item["stdout"],
-    stderr: item["stderr"],
-    outcome: functionShellCallOutputOutcomeUnionDeserializer(item["outcome"]),
-    created_by: item["created_by"],
-  };
-}
-
-/** Represents either an exit outcome (with an exit code) or a timeout outcome for a shell call output chunk. */
-export interface FunctionShellCallOutputOutcome {
-  type: FunctionShellCallOutputOutcomeType;
-}
-
-export function functionShellCallOutputOutcomeSerializer(
-  item: FunctionShellCallOutputOutcome,
-): any {
-  return { type: item["type"] };
-}
-
-export function functionShellCallOutputOutcomeDeserializer(
-  item: any,
-): FunctionShellCallOutputOutcome {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for FunctionShellCallOutputOutcomeUnion */
-export type FunctionShellCallOutputOutcomeUnion =
-  | FunctionShellCallOutputTimeoutOutcome
-  | FunctionShellCallOutputExitOutcome
-  | FunctionShellCallOutputOutcome;
-
-export function functionShellCallOutputOutcomeUnionSerializer(
-  item: FunctionShellCallOutputOutcomeUnion,
-): any {
-  switch (item.type) {
-    case "timeout":
-      return functionShellCallOutputTimeoutOutcomeSerializer(
-        item as FunctionShellCallOutputTimeoutOutcome,
-      );
-
-    case "exit":
-      return functionShellCallOutputExitOutcomeSerializer(
-        item as FunctionShellCallOutputExitOutcome,
-      );
-
-    default:
-      return functionShellCallOutputOutcomeSerializer(item);
-  }
-}
-
-export function functionShellCallOutputOutcomeUnionDeserializer(
-  item: any,
-): FunctionShellCallOutputOutcomeUnion {
-  switch (item["type"]) {
-    case "timeout":
-      return functionShellCallOutputTimeoutOutcomeDeserializer(
-        item as FunctionShellCallOutputTimeoutOutcome,
-      );
-
-    case "exit":
-      return functionShellCallOutputExitOutcomeDeserializer(
-        item as FunctionShellCallOutputExitOutcome,
-      );
-
-    default:
-      return functionShellCallOutputOutcomeDeserializer(item);
-  }
-}
-
-/** Type of FunctionShellCallOutputOutcomeType */
-export type FunctionShellCallOutputOutcomeType = "timeout" | "exit";
-
-/** Indicates that the shell call exceeded its configured time limit. */
-export interface FunctionShellCallOutputTimeoutOutcome extends FunctionShellCallOutputOutcome {
-  /** The outcome type. Always `timeout`. */
-  type: "timeout";
-}
-
-export function functionShellCallOutputTimeoutOutcomeSerializer(
-  item: FunctionShellCallOutputTimeoutOutcome,
-): any {
-  return { type: item["type"] };
-}
-
-export function functionShellCallOutputTimeoutOutcomeDeserializer(
-  item: any,
-): FunctionShellCallOutputTimeoutOutcome {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Indicates that the shell commands finished and returned an exit code. */
-export interface FunctionShellCallOutputExitOutcome extends FunctionShellCallOutputOutcome {
-  /** The outcome type. Always `exit`. */
-  type: "exit";
-  /** Exit code from the shell process. */
-  exit_code: number;
-}
-
-export function functionShellCallOutputExitOutcomeSerializer(
-  item: FunctionShellCallOutputExitOutcome,
-): any {
-  return { type: item["type"], exit_code: item["exit_code"] };
-}
-
-export function functionShellCallOutputExitOutcomeDeserializer(
-  item: any,
-): FunctionShellCallOutputExitOutcome {
-  return {
-    type: item["type"],
-    exit_code: item["exit_code"],
-  };
-}
-
-/** A tool call that applies file diffs by creating, deleting, or updating files. */
-export interface OutputItemApplyPatchToolCall extends OutputItem {
-  /** The type of the item. Always `apply_patch_call`. */
-  type: "apply_patch_call";
-  /** The unique ID of the apply patch tool call. Populated when this item is returned via API. */
-  id: string;
-  /** The unique ID of the apply patch tool call generated by the model. */
-  call_id: string;
-  /** The status of the apply patch tool call. One of `in_progress` or `completed`. */
-  status: ApplyPatchCallStatus;
-  /** One of the create_file, delete_file, or update_file operations applied via apply_patch. */
-  operation: ApplyPatchFileOperationUnion;
-  /** The ID of the entity that created this tool call. */
-  created_by?: string;
-}
-
-export function outputItemApplyPatchToolCallSerializer(item: OutputItemApplyPatchToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    status: item["status"],
-    operation: applyPatchFileOperationUnionSerializer(item["operation"]),
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemApplyPatchToolCallDeserializer(item: any): OutputItemApplyPatchToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    status: item["status"],
-    operation: applyPatchFileOperationUnionDeserializer(item["operation"]),
-    created_by: item["created_by"],
-  };
-}
-
-/** Type of ApplyPatchCallStatus */
-export type ApplyPatchCallStatus = "in_progress" | "completed";
-
-/** One of the create_file, delete_file, or update_file operations applied via apply_patch. */
-export interface ApplyPatchFileOperation {
-  type: ApplyPatchFileOperationType;
-}
-
-export function applyPatchFileOperationSerializer(item: ApplyPatchFileOperation): any {
-  return { type: item["type"] };
-}
-
-export function applyPatchFileOperationDeserializer(item: any): ApplyPatchFileOperation {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for ApplyPatchFileOperationUnion */
-export type ApplyPatchFileOperationUnion =
-  | ApplyPatchCreateFileOperation
-  | ApplyPatchDeleteFileOperation
-  | ApplyPatchUpdateFileOperation
-  | ApplyPatchFileOperation;
-
-export function applyPatchFileOperationUnionSerializer(item: ApplyPatchFileOperationUnion): any {
-  switch (item.type) {
-    case "create_file":
-      return applyPatchCreateFileOperationSerializer(item as ApplyPatchCreateFileOperation);
-
-    case "delete_file":
-      return applyPatchDeleteFileOperationSerializer(item as ApplyPatchDeleteFileOperation);
-
-    case "update_file":
-      return applyPatchUpdateFileOperationSerializer(item as ApplyPatchUpdateFileOperation);
-
-    default:
-      return applyPatchFileOperationSerializer(item);
-  }
-}
-
-export function applyPatchFileOperationUnionDeserializer(item: any): ApplyPatchFileOperationUnion {
-  switch (item["type"]) {
-    case "create_file":
-      return applyPatchCreateFileOperationDeserializer(item as ApplyPatchCreateFileOperation);
-
-    case "delete_file":
-      return applyPatchDeleteFileOperationDeserializer(item as ApplyPatchDeleteFileOperation);
-
-    case "update_file":
-      return applyPatchUpdateFileOperationDeserializer(item as ApplyPatchUpdateFileOperation);
-
-    default:
-      return applyPatchFileOperationDeserializer(item);
-  }
-}
-
-/** Type of ApplyPatchFileOperationType */
-export type ApplyPatchFileOperationType = "create_file" | "delete_file" | "update_file";
-
-/** Instruction describing how to create a file via the apply_patch tool. */
-export interface ApplyPatchCreateFileOperation extends ApplyPatchFileOperation {
-  /** Create a new file with the provided diff. */
-  type: "create_file";
-  /** Path of the file to create. */
-  path: string;
-  /** Diff to apply. */
-  diff: string;
-}
-
-export function applyPatchCreateFileOperationSerializer(item: ApplyPatchCreateFileOperation): any {
-  return { type: item["type"], path: item["path"], diff: item["diff"] };
-}
-
-export function applyPatchCreateFileOperationDeserializer(
-  item: any,
-): ApplyPatchCreateFileOperation {
-  return {
-    type: item["type"],
-    path: item["path"],
-    diff: item["diff"],
-  };
-}
-
-/** Instruction describing how to delete a file via the apply_patch tool. */
-export interface ApplyPatchDeleteFileOperation extends ApplyPatchFileOperation {
-  /** Delete the specified file. */
-  type: "delete_file";
-  /** Path of the file to delete. */
-  path: string;
-}
-
-export function applyPatchDeleteFileOperationSerializer(item: ApplyPatchDeleteFileOperation): any {
-  return { type: item["type"], path: item["path"] };
-}
-
-export function applyPatchDeleteFileOperationDeserializer(
-  item: any,
-): ApplyPatchDeleteFileOperation {
-  return {
-    type: item["type"],
-    path: item["path"],
-  };
-}
-
-/** Instruction describing how to update a file via the apply_patch tool. */
-export interface ApplyPatchUpdateFileOperation extends ApplyPatchFileOperation {
-  /** Update an existing file with the provided diff. */
-  type: "update_file";
-  /** Path of the file to update. */
-  path: string;
-  /** Diff to apply. */
-  diff: string;
-}
-
-export function applyPatchUpdateFileOperationSerializer(item: ApplyPatchUpdateFileOperation): any {
-  return { type: item["type"], path: item["path"], diff: item["diff"] };
-}
-
-export function applyPatchUpdateFileOperationDeserializer(
-  item: any,
-): ApplyPatchUpdateFileOperation {
-  return {
-    type: item["type"],
-    path: item["path"],
-    diff: item["diff"],
-  };
-}
-
-/** The output emitted by an apply patch tool call. */
-export interface OutputItemApplyPatchToolCallOutput extends OutputItem {
-  /** The type of the item. Always `apply_patch_call_output`. */
-  type: "apply_patch_call_output";
-  /** The unique ID of the apply patch tool call output. Populated when this item is returned via API. */
-  id: string;
-  /** The unique ID of the apply patch tool call generated by the model. */
-  call_id: string;
-  /** The status of the apply patch tool call output. One of `completed` or `failed`. */
-  status: ApplyPatchCallOutputStatus;
-  output?: string;
-  /** The ID of the entity that created this tool call output. */
-  created_by?: string;
-}
-
-export function outputItemApplyPatchToolCallOutputSerializer(
-  item: OutputItemApplyPatchToolCallOutput,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    status: item["status"],
-    output: item["output"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemApplyPatchToolCallOutputDeserializer(
-  item: any,
-): OutputItemApplyPatchToolCallOutput {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    status: item["status"],
-    output: item["output"],
-    created_by: item["created_by"],
-  };
-}
-
-/** Type of ApplyPatchCallOutputStatus */
-export type ApplyPatchCallOutputStatus = "completed" | "failed";
-
-/** An invocation of a tool on an MCP server. */
-export interface OutputItemMcpToolCall extends OutputItem {
-  /** The type of the item. Always `mcp_call`. */
-  type: "mcp_call";
-  /** The unique ID of the tool call. */
-  id: string;
-  /** The label of the MCP server running the tool. */
-  server_label: string;
-  /** The name of the tool that was run. */
-  name: string;
-  /** A JSON string of the arguments passed to the tool. */
-  arguments: string;
-  output?: string;
-  error?: Record<string, any>;
-  /** The status of the tool call. One of `in_progress`, `completed`, `incomplete`, `calling`, or `failed`. */
-  status?: MCPToolCallStatus;
-  approval_request_id?: string;
-}
-
-export function outputItemMcpToolCallSerializer(item: OutputItemMcpToolCall): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    server_label: item["server_label"],
-    name: item["name"],
-    arguments: item["arguments"],
-    output: item["output"],
-    error: item["error"],
-    status: item["status"],
-    approval_request_id: item["approval_request_id"],
-  };
-}
-
-export function outputItemMcpToolCallDeserializer(item: any): OutputItemMcpToolCall {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    server_label: item["server_label"],
-    name: item["name"],
-    arguments: item["arguments"],
-    output: item["output"],
-    error: !item["error"]
-      ? item["error"]
-      : Object.fromEntries(Object.entries(item["error"]).map(([k, p]: [string, any]) => [k, p])),
-    status: item["status"],
-    approval_request_id: item["approval_request_id"],
-  };
-}
-
-/** Type of MCPToolCallStatus */
-export type MCPToolCallStatus = "in_progress" | "completed" | "incomplete" | "calling" | "failed";
-
-/** A list of tools available on an MCP server. */
-export interface OutputItemMcpListTools extends OutputItem {
-  /** The type of the item. Always `mcp_list_tools`. */
-  type: "mcp_list_tools";
-  /** The unique ID of the list. */
-  id: string;
-  /** The label of the MCP server. */
-  server_label: string;
-  /** The tools available on the server. */
-  tools: MCPListToolsTool[];
-  error?: RealtimeMCPErrorUnion;
-}
-
-export function outputItemMcpListToolsSerializer(item: OutputItemMcpListTools): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    server_label: item["server_label"],
-    tools: mcpListToolsToolArraySerializer(item["tools"]),
-    error: !item["error"] ? item["error"] : realtimeMCPErrorUnionSerializer(item["error"]),
-  };
-}
-
-export function outputItemMcpListToolsDeserializer(item: any): OutputItemMcpListTools {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    server_label: item["server_label"],
-    tools: mcpListToolsToolArrayDeserializer(item["tools"]),
-    error: !item["error"] ? item["error"] : realtimeMCPErrorUnionDeserializer(item["error"]),
-  };
-}
-
-export function mcpListToolsToolArraySerializer(result: Array<MCPListToolsTool>): any[] {
-  return result.map((item) => {
-    return mcpListToolsToolSerializer(item);
-  });
-}
-
-export function mcpListToolsToolArrayDeserializer(result: Array<MCPListToolsTool>): any[] {
-  return result.map((item) => {
-    return mcpListToolsToolDeserializer(item);
-  });
-}
-
-/** A tool available on an MCP server. */
-export interface MCPListToolsTool {
-  /** The name of the tool. */
-  name: string;
-  description?: string;
-  /** The JSON schema describing the tool's input. */
-  input_schema: MCPListToolsToolInputSchema;
-  annotations?: MCPListToolsToolAnnotations;
-}
-
-export function mcpListToolsToolSerializer(item: MCPListToolsTool): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    input_schema: mcpListToolsToolInputSchemaSerializer(item["input_schema"]),
-    annotations: !item["annotations"]
-      ? item["annotations"]
-      : mcpListToolsToolAnnotationsSerializer(item["annotations"]),
-  };
-}
-
-export function mcpListToolsToolDeserializer(item: any): MCPListToolsTool {
-  return {
-    name: item["name"],
-    description: item["description"],
-    input_schema: mcpListToolsToolInputSchemaDeserializer(item["input_schema"]),
-    annotations: !item["annotations"]
-      ? item["annotations"]
-      : mcpListToolsToolAnnotationsDeserializer(item["annotations"]),
-  };
-}
-
-/** model interface MCPListToolsToolInputSchema */
-export interface MCPListToolsToolInputSchema {}
-
-export function mcpListToolsToolInputSchemaSerializer(_item: MCPListToolsToolInputSchema): any {
-  return {};
-}
-
-export function mcpListToolsToolInputSchemaDeserializer(item: any): MCPListToolsToolInputSchema {
-  return item;
-}
-
-/** model interface MCPListToolsToolAnnotations */
-export interface MCPListToolsToolAnnotations {}
-
-export function mcpListToolsToolAnnotationsSerializer(_item: MCPListToolsToolAnnotations): any {
-  return {};
-}
-
-export function mcpListToolsToolAnnotationsDeserializer(item: any): MCPListToolsToolAnnotations {
-  return item;
-}
-
-/** model interface RealtimeMCPError */
-export interface RealtimeMCPError {
-  type: RealtimeMcpErrorType;
-}
-
-export function realtimeMCPErrorSerializer(item: RealtimeMCPError): any {
-  return { type: item["type"] };
-}
-
-export function realtimeMCPErrorDeserializer(item: any): RealtimeMCPError {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for RealtimeMCPErrorUnion */
-export type RealtimeMCPErrorUnion =
-  | RealtimeMCPProtocolError
-  | RealtimeMCPToolExecutionError
-  | RealtimeMcphttpError
-  | RealtimeMCPError;
-
-export function realtimeMCPErrorUnionSerializer(item: RealtimeMCPErrorUnion): any {
-  switch (item.type) {
-    case "protocol_error":
-      return realtimeMCPProtocolErrorSerializer(item as RealtimeMCPProtocolError);
-
-    case "tool_execution_error":
-      return realtimeMCPToolExecutionErrorSerializer(item as RealtimeMCPToolExecutionError);
-
-    case "http_error":
-      return realtimeMcphttpErrorSerializer(item as RealtimeMcphttpError);
-
-    default:
-      return realtimeMCPErrorSerializer(item);
-  }
-}
-
-export function realtimeMCPErrorUnionDeserializer(item: any): RealtimeMCPErrorUnion {
-  switch (item["type"]) {
-    case "protocol_error":
-      return realtimeMCPProtocolErrorDeserializer(item as RealtimeMCPProtocolError);
-
-    case "tool_execution_error":
-      return realtimeMCPToolExecutionErrorDeserializer(item as RealtimeMCPToolExecutionError);
-
-    case "http_error":
-      return realtimeMcphttpErrorDeserializer(item as RealtimeMcphttpError);
-
-    default:
-      return realtimeMCPErrorDeserializer(item);
-  }
-}
-
-/** Type of RealtimeMcpErrorType */
-export type RealtimeMcpErrorType = "protocol_error" | "tool_execution_error" | "http_error";
-
-/** model interface RealtimeMCPProtocolError */
-export interface RealtimeMCPProtocolError extends RealtimeMCPError {
-  type: "protocol_error";
-  code: number;
-  message: string;
-}
-
-export function realtimeMCPProtocolErrorSerializer(item: RealtimeMCPProtocolError): any {
-  return { type: item["type"], code: item["code"], message: item["message"] };
-}
-
-export function realtimeMCPProtocolErrorDeserializer(item: any): RealtimeMCPProtocolError {
-  return {
-    type: item["type"],
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
-/** model interface RealtimeMCPToolExecutionError */
-export interface RealtimeMCPToolExecutionError extends RealtimeMCPError {
-  type: "tool_execution_error";
-  message: string;
-}
-
-export function realtimeMCPToolExecutionErrorSerializer(item: RealtimeMCPToolExecutionError): any {
-  return { type: item["type"], message: item["message"] };
-}
-
-export function realtimeMCPToolExecutionErrorDeserializer(
-  item: any,
-): RealtimeMCPToolExecutionError {
-  return {
-    type: item["type"],
-    message: item["message"],
-  };
-}
-
-/** model interface RealtimeMcphttpError */
-export interface RealtimeMcphttpError extends RealtimeMCPError {
-  type: "http_error";
-  code: number;
-  message: string;
-}
-
-export function realtimeMcphttpErrorSerializer(item: RealtimeMcphttpError): any {
-  return { type: item["type"], code: item["code"], message: item["message"] };
-}
-
-export function realtimeMcphttpErrorDeserializer(item: any): RealtimeMcphttpError {
-  return {
-    type: item["type"],
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
-/** A request for human approval of a tool invocation. */
-export interface OutputItemMcpApprovalRequest extends OutputItem {
-  /** The type of the item. Always `mcp_approval_request`. */
-  type: "mcp_approval_request";
-  /** The unique ID of the approval request. */
-  id: string;
-  /** The label of the MCP server making the request. */
-  server_label: string;
-  /** The name of the tool to run. */
-  name: string;
-  /** A JSON string of arguments for the tool. */
-  arguments: string;
-}
-
-export function outputItemMcpApprovalRequestSerializer(item: OutputItemMcpApprovalRequest): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    server_label: item["server_label"],
-    name: item["name"],
-    arguments: item["arguments"],
-  };
-}
-
-export function outputItemMcpApprovalRequestDeserializer(item: any): OutputItemMcpApprovalRequest {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    server_label: item["server_label"],
-    name: item["name"],
-    arguments: item["arguments"],
-  };
-}
-
-/** A response to an MCP approval request. */
-export interface OutputItemMcpApprovalResponseResource extends OutputItem {
-  /** The type of the item. Always `mcp_approval_response`. */
-  type: "mcp_approval_response";
-  /** The unique ID of the approval response */
-  id: string;
-  /** The ID of the approval request being answered. */
-  approval_request_id: string;
-  /** Whether the request was approved. */
-  approve: boolean;
-  reason?: string;
-}
-
-export function outputItemMcpApprovalResponseResourceSerializer(
-  item: OutputItemMcpApprovalResponseResource,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    approval_request_id: item["approval_request_id"],
-    approve: item["approve"],
-    reason: item["reason"],
-  };
-}
-
-export function outputItemMcpApprovalResponseResourceDeserializer(
-  item: any,
-): OutputItemMcpApprovalResponseResource {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    approval_request_id: item["approval_request_id"],
-    approve: item["approve"],
-    reason: item["reason"],
-  };
-}
-
-/** model interface OutputItemCustomToolCallResource */
-export interface OutputItemCustomToolCallResource extends OutputItem {
-  /** The type of the custom tool call. Always `custom_tool_call`. */
-  type: "custom_tool_call";
-  /** The unique ID of the custom tool call in the OpenAI platform. */
-  id?: string;
-  /** An identifier used to map this custom tool call to a tool call output. */
-  call_id: string;
-  /** The namespace of the custom tool being called. */
-  namespace?: string;
-  /** The name of the custom tool being called. */
-  name: string;
-  /** The input for the custom tool call generated by the model. */
-  input: string;
-  /**
-   * The status of the item. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when items are returned via API.
-   */
-  status: FunctionCallStatus;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function outputItemCustomToolCallResourceSerializer(
-  item: OutputItemCustomToolCallResource,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    namespace: item["namespace"],
-    name: item["name"],
-    input: item["input"],
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemCustomToolCallResourceDeserializer(
-  item: any,
-): OutputItemCustomToolCallResource {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    namespace: item["namespace"],
-    name: item["name"],
-    input: item["input"],
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-/** model interface OutputItemCustomToolCallOutputResource */
-export interface OutputItemCustomToolCallOutputResource extends OutputItem {
-  /** The type of the custom tool call output. Always `custom_tool_call_output`. */
-  type: "custom_tool_call_output";
-  /** The unique ID of the custom tool call output in the OpenAI platform. */
-  id?: string;
-  /** The call ID, used to map this custom tool call output to a custom tool call. */
-  call_id: string;
-  /**
-   * The output from the custom tool call generated by your code.
-   *   Can be a string or an list of output content.
-   */
-  output: string | FunctionAndCustomToolCallOutputUnion[];
-  /**
-   * The status of the item. One of `in_progress`, `completed`, or
-   *   `incomplete`. Populated when items are returned via API.
-   */
-  status: FunctionCallOutputStatusEnum;
-  /** The identifier of the actor that created the item. */
-  created_by?: string;
-}
-
-export function outputItemCustomToolCallOutputResourceSerializer(
-  item: OutputItemCustomToolCallOutputResource,
-): any {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceSerializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    output: _outputItemCustomToolCallOutputResourceOutputSerializer(item["output"]),
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-export function outputItemCustomToolCallOutputResourceDeserializer(
-  item: any,
-): OutputItemCustomToolCallOutputResource {
-  return {
-    type: item["type"],
-    agent_reference: !item["agent_reference"]
-      ? item["agent_reference"]
-      : agentReferenceDeserializer(item["agent_reference"]),
-    response_id: item["response_id"],
-    id: item["id"],
-    call_id: item["call_id"],
-    output: _outputItemCustomToolCallOutputResourceOutputDeserializer(item["output"]),
-    status: item["status"],
-    created_by: item["created_by"],
-  };
-}
-
-/** Alias for _OutputItemCustomToolCallOutputResourceOutput */
-export type _OutputItemCustomToolCallOutputResourceOutput =
-  | string
-  | FunctionAndCustomToolCallOutputUnion[];
-
-export function _outputItemCustomToolCallOutputResourceOutputSerializer(
-  item: _OutputItemCustomToolCallOutputResourceOutput,
-): any {
-  return item;
-}
-
-export function _outputItemCustomToolCallOutputResourceOutputDeserializer(
-  item: any,
-): _OutputItemCustomToolCallOutputResourceOutput {
-  return item;
-}
 
 /** Reference to a registered dataset in the Foundry Dataset Service. */
 export interface DatasetRef {
@@ -18153,56 +12853,6 @@ export function optimizationJobProgressDeserializer(item: any): OptimizationJobP
   };
 }
 
-/** A content part that makes up an input or output item. */
-export interface MessageContent {
-  type: MessageContentType;
-}
-
-export function messageContentSerializer(item: MessageContent): any {
-  return { type: item["type"] };
-}
-
-export function messageContentDeserializer(item: any): MessageContent {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for MessageContentUnion */
-export type MessageContentUnion = SummaryTextContent | MessageContent;
-
-export function messageContentUnionSerializer(item: MessageContentUnion): any {
-  switch (item.type) {
-    case "summary_text":
-      return summaryTextContentSerializer(item as SummaryTextContent);
-
-    default:
-      return messageContentSerializer(item);
-  }
-}
-
-export function messageContentUnionDeserializer(item: any): MessageContentUnion {
-  switch (item["type"]) {
-    case "summary_text":
-      return summaryTextContentDeserializer(item as SummaryTextContent);
-
-    default:
-      return messageContentDeserializer(item);
-  }
-}
-
-/** Type of MessageContentType */
-export type MessageContentType =
-  | "input_text"
-  | "output_text"
-  | "text"
-  | "summary_text"
-  | "reasoning_text"
-  | "refusal"
-  | "input_image"
-  | "computer_screenshot"
-  | "input_file";
-
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultOptimizationJob {
   /** The requested list of items. */
@@ -18298,18 +12948,3 @@ export function candidateResultsDeserializer(item: any): CandidateResults {
     results: optimizationTaskResultArrayDeserializer(item["results"]),
   };
 }
-
-/** Type of AgentObjectType */
-export type AgentObjectType =
-  | "agent"
-  | "agent.version"
-  | "agent.deleted"
-  | "agent.version.deleted"
-  | "agent.container";
-
-/** Type of MemoryStoreObjectType */
-export type MemoryStoreObjectType =
-  | "memory_store"
-  | "memory_store.deleted"
-  | "memory_store.scope.deleted"
-  | "memory.deleted";

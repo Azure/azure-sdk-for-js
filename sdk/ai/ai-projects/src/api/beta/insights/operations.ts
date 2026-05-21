@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type { Insight, InsightGenerationRequest, _PagedInsight } from "../../../models/models.js";
+import type { Insight, _PagedInsight } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
   insightSerializer,
@@ -141,7 +141,7 @@ export async function get(
 
 export function _generateSend(
   context: Client,
-  insight: InsightGenerationRequest,
+  insight: Insight,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Insights=V1Preview";
@@ -191,7 +191,7 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
-  insight: InsightGenerationRequest,
+  insight: Insight,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
   const result = await _generateSend(context, insight, options);

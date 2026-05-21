@@ -110,10 +110,11 @@ export function _deleteVersionSend(
   options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}{?api-version}",
+    "/agents/{agent_name}/versions/{agent_version}{?force,api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
+      force: options?.force,
       "api-version": context.apiVersion,
     },
     {
@@ -379,9 +380,10 @@ export function _deleteSend(
   options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}{?api-version}",
+    "/agents/{agent_name}{?force,api-version}",
     {
       agent_name: agentName,
+      force: options?.force,
       "api-version": context.apiVersion,
     },
     {

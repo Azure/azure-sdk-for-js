@@ -60,6 +60,7 @@ export interface BetaMemoryStoresOperations {
   /** List all memory items in a memory store. */
   listMemories: (
     name: string,
+    scope: string,
     options?: BetaMemoryStoresListMemoriesOptionalParams,
   ) => PagedAsyncIterableIterator<MemoryItemUnion>;
   /** Retrieve a memory item from a memory store. */
@@ -136,8 +137,11 @@ function _getBetaMemoryStores(context: AIProjectContext) {
       memoryId: string,
       options?: BetaMemoryStoresDeleteMemoryOptionalParams,
     ) => deleteMemory(context, name, memoryId, options),
-    listMemories: (name: string, options?: BetaMemoryStoresListMemoriesOptionalParams) =>
-      listMemories(context, name, options),
+    listMemories: (
+      name: string,
+      scope: string,
+      options?: BetaMemoryStoresListMemoriesOptionalParams,
+    ) => listMemories(context, name, scope, options),
     getMemory: (
       name: string,
       memoryId: string,
