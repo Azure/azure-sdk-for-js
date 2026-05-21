@@ -37,7 +37,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript swagger/swagger.md",
+    "generate:client": "tsp-client update -d --emitter-options=\"generate-metadata=false;generate-test=false\" && npm run format",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix",
     "pack": "pnpm pack 2>&1",
@@ -60,10 +60,6 @@
       {
         "path": "src/generated/src/appConfiguration.ts",
         "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/swagger.md",
-        "prefix": "package-version"
       },
       {
         "path": "src/generated/api/azureAppConfigurationContext.ts",

@@ -97,8 +97,6 @@ import {
   _getSnapshotsDeserialize,
   _createSnapshotSend,
   _createSnapshotDeserialize,
-  _deleteKeyValueSend,
-  _deleteKeyValueDeserialize,
 } from "./generated/api/operations.js";
 import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
 import type { AzureAppConfigurationContext } from "./generated/api/azureAppConfigurationContext.js";
