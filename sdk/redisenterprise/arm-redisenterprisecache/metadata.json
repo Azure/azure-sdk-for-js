@@ -54,7 +54,7 @@
       "@azure/arm-redisenterprisecache!MaintenanceWindow:interface": "Microsoft.Cache.MaintenanceWindow",
       "@azure/arm-redisenterprisecache!MaintenanceWindowSchedule:interface": "Microsoft.Cache.MaintenanceWindowSchedule",
       "@azure/arm-redisenterprisecache!Sku:interface": "Microsoft.Cache.Sku",
-      "@azure/arm-redisenterprisecache!ManagedServiceIdentityV4:interface": "Azure.ResourceManager.Legacy.ManagedServiceIdentityV4",
+      "@azure/arm-redisenterprisecache!ManagedServiceIdentity:interface": "Azure.ResourceManager.Legacy.ManagedServiceIdentityV4",
       "@azure/arm-redisenterprisecache!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-redisenterprisecache!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
       "@azure/arm-redisenterprisecache!ClusterUpdate:interface": "Microsoft.Cache.ClusterUpdate",

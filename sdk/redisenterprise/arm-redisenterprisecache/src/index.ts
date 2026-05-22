@@ -69,7 +69,7 @@ export type {
   Kind,
   Sku,
   SkuName,
-  ManagedServiceIdentityV4,
+  ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   ClusterCommonProperties,

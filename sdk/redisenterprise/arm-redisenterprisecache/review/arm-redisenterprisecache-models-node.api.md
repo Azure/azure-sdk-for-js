@@ -55,7 +55,7 @@ export interface Cluster extends TrackedResource {
     encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
-    identity?: ManagedServiceIdentityV4;
+    identity?: ManagedServiceIdentity;
     readonly kind?: Kind;
     maintenanceConfiguration?: MaintenanceConfiguration;
     readonly migratedEndpoint?: string;
@@ -115,7 +115,7 @@ export interface ClusterUpdate {
     encryption?: ClusterCommonPropertiesEncryption;
     highAvailability?: HighAvailability;
     readonly hostName?: string;
-    identity?: ManagedServiceIdentityV4;
+    identity?: ManagedServiceIdentity;
     maintenanceConfiguration?: MaintenanceConfiguration;
     readonly migratedEndpoint?: string;
     minimumTlsVersion?: TlsVersion;
@@ -571,15 +571,15 @@ export interface MaintenanceWindowSchedule {
 export type MaintenanceWindowType = string;
 
 // @public
-export type ManagedServiceIdentityType = string;
-
-// @public
-export interface ManagedServiceIdentityV4 {
+export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Migration extends ProxyResource {

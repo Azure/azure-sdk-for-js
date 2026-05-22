@@ -1370,7 +1370,7 @@ export interface Cluster extends TrackedResource {
   /** The availability zones. */
   zones?: string[];
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityV4;
+  identity?: ManagedServiceIdentity;
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
   highAvailability?: HighAvailability;
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
@@ -1418,7 +1418,7 @@ export function clusterSerializer(item: Cluster): any {
         }),
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityV4Serializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -1446,7 +1446,7 @@ export function clusterDeserializer(item: any): Cluster {
         }),
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityV4Deserializer(item["identity"]),
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -1726,7 +1726,7 @@ export enum KnownSkuName {
 export type SkuName = string;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentityV4 {
+export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -1737,7 +1737,7 @@ export interface ManagedServiceIdentityV4 {
   userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function managedServiceIdentityV4Serializer(item: ManagedServiceIdentityV4): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
@@ -1746,7 +1746,7 @@ export function managedServiceIdentityV4Serializer(item: ManagedServiceIdentityV
   };
 }
 
-export function managedServiceIdentityV4Deserializer(item: any): ManagedServiceIdentityV4 {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -2209,7 +2209,7 @@ export interface ClusterUpdate {
   /** The SKU to create, which affects price, performance, and features. */
   sku?: Sku;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityV4;
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
@@ -2252,7 +2252,7 @@ export function clusterUpdateSerializer(item: ClusterUpdate): any {
       : _clusterUpdatePropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
-      : managedServiceIdentityV4Serializer(item["identity"]),
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
   };
 }
