@@ -19,7 +19,10 @@ export interface BetaInsightsOperations {
   /** Get a specific insight by Id. */
   get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
-  generate: (insight: InsightGenerationRequest, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+  generate: (
+    insight: InsightGenerationRequest,
+    options?: BetaInsightsGenerateOptionalParams,
+  ) => Promise<Insight>;
 }
 
 function _getBetaInsights(context: AIProjectContext) {

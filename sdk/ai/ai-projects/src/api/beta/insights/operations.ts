@@ -173,7 +173,10 @@ export function _generateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: { displayName: insight.displayName, request: insightRequestUnionSerializer(insight.request) },
+    body: {
+      displayName: insight.displayName,
+      request: insightRequestUnionSerializer(insight.request),
+    },
   });
 }
 

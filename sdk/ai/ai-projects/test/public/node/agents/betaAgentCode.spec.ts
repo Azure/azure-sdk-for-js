@@ -10,13 +10,11 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
   AIProjectClientOptionalParams,
   BetaAgentsOperations,
-  CreateAgentFromCodeContent,
   CreateAgentVersionFromCodeContent,
   HostedAgentDefinition,
 } from "../../../../src/index.js";
 import { AIProjectClient } from "../../../../src/index.js";
 import {
-  createAgentFromCodeContentSerializer,
   createAgentVersionFromCodeContentSerializer,
 } from "../../../../src/models/models.js";
 import { createFilePartDescriptor } from "../../../../src/static-helpers/multipartHelpers.js";
@@ -36,40 +34,14 @@ const hostedDefinition: HostedAgentDefinition = {
 };
 
 function createCodeAgentBody(
-  code: CreateAgentFromCodeContent["code"],
-): CreateAgentFromCodeContent & CreateAgentVersionFromCodeContent {
+  code: CreateAgentVersionFromCodeContent["code"],
+): CreateAgentVersionFromCodeContent {
   return {
     metadata: {
       description: "code agent",
       definition: hostedDefinition,
     },
     code,
-  };
-}
-
-function createMockAgentResponseBody(): Record<string, unknown> {
-  return {
-    object: "agent",
-    id: "agent-id",
-    name: agentName,
-    versions: {
-      latest: {
-        metadata: {},
-        object: "agent.version",
-        id: "version-id",
-        name: agentName,
-        version: "1",
-        created_at: 1,
-        status: "active",
-        definition: {
-          ...hostedDefinition,
-          code_configuration: {
-            ...hostedDefinition.code_configuration,
-            content_hash: codeZipSha256,
-          },
-        },
-      },
-    },
   };
 }
 
@@ -167,7 +139,7 @@ describe("beta agents - code-based operations", () => {
         },
       });
       return {
-        jsonBody: createMockAgentResponseBody(),
+        jsonBody: createMockAgentVersionResponseBody(),
       };
     });
 
@@ -177,38 +149,19 @@ describe("beta agents - code-based operations", () => {
       filename: "agent.zip",
     });
 
-    const created = await betaAgents.createAgentFromCode(agentName, codeZipSha256, body, {
-      foundryFeatures: "CodeAgents=V1Preview",
-    });
-    const updated = await betaAgents.updateAgentFromCode(agentName, codeZipSha256, body, {
+    const created = await betaAgents.createAgentVersionFromCode(agentName, codeZipSha256, body, {
       foundryFeatures: "CodeAgents=V1Preview",
     });
 
     expect(created.name).toBe(agentName);
-    expect(updated.name).toBe(agentName);
-    expect(requests).toHaveLength(2);
+    expect(requests).toHaveLength(1);
     expect(requests[0]?.method).toBe("POST");
-    expect(requests[0]?.url).toContain("/agents?api-version=v1");
+    expect(requests[0]?.url).toContain(`/agents/${agentName}/versions?api-version=v1`);
     expect(requests[0]?.headers).toEqual({
-      agentName,
-      codeZipSha256,
-      foundryFeatures: "CodeAgents=V1Preview",
-    });
-    expect(requests[1]?.url).toContain(`/agents/${agentName}?api-version=v1`);
-    expect(requests[1]?.headers).toEqual({
       agentName: "",
       codeZipSha256,
-      foundryFeatures: "CodeAgents=V1Preview",
+      foundryFeatures: "HostedAgents=V1Preview,CodeAgents=V1Preview",
     });
-    expect(createAgentFromCodeContentSerializer(body)).toMatchObject([
-      { name: "metadata" },
-      {
-        name: "code",
-        body: "",
-        contentType: "application/zip",
-        filename: "agent.zip",
-      },
-    ]);
     expect(createAgentVersionFromCodeContentSerializer(body)).toMatchObject([
       { name: "metadata" },
       {
@@ -251,7 +204,7 @@ describe("beta agents - code-based operations", () => {
     expect(version.version).toBe("2");
     expect(capturedRequest).toMatchObject({
       method: "POST",
-      foundryFeatures: "CodeAgents=V1Preview",
+      foundryFeatures: "HostedAgents=V1Preview,CodeAgents=V1Preview",
       codeZipSha256,
     });
     expect(capturedRequest?.url).toContain(`/agents/${agentName}/versions?api-version=v1`);
@@ -283,7 +236,7 @@ describe("beta agents - code-based operations", () => {
       new Uint8Array(payload),
     );
     expect(requests[0]).toContain(`/agents/${agentName}/code:download?api-version=v1`);
-    expect(requests[1]).toContain(`/agents/${agentName}/versions/2/code:download?api-version=v1`);
+    expect(requests[1]).toContain(`/agents/${agentName}/code:download?agent_version=2&api-version=v1`);
   });
 
   it("surfaces service failures from code-based agent operations", async () => {
@@ -298,7 +251,7 @@ describe("beta agents - code-based operations", () => {
     }));
 
     await expect(
-      betaAgents.createAgentFromCode(
+      betaAgents.createAgentVersionFromCode(
         agentName,
         codeZipSha256,
         createCodeAgentBody(new Uint8Array([1])),
