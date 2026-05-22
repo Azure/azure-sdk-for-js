@@ -69,7 +69,7 @@ describe("listMessageSessions", () => {
     expect(result).to.deep.equal([]);
   });
 
-  it("updatedAfter filters to recently updated sessions", async () => {
+  it("sessionStateUpdatedAfter filters to recently updated sessions", async () => {
     const sessionId = "time-filter-session";
 
     // Send a message to create the session.
@@ -89,7 +89,7 @@ describe("listMessageSessions", () => {
 
     // Accept the session and explicitly set state. This guarantees a row in the
     // service's session-state table with a known LastUpdatedTime, which is what
-    // the updatedAfter filter queries.
+    // the sessionStateUpdatedAfter filter queries.
     let sessionReceiver;
     if (entityNames.queue) {
       sessionReceiver = await serviceBusClient.acceptSession(entityNames.queue, sessionId);
@@ -106,13 +106,13 @@ describe("listMessageSessions", () => {
       await sessionReceiver.close();
     }
 
-    // List with updatedAfter = beforeStateUpdate should include the session
+    // List with sessionStateUpdatedAfter = beforeStateUpdate should include the session
     // because its state was updated after that cutoff.
     const result: string[] = [];
     const iter = entityNames.queue
-      ? serviceBusClient.listMessageSessions(entityNames.queue, { updatedAfter: beforeStateUpdate })
+      ? serviceBusClient.listMessageSessions(entityNames.queue, { sessionStateUpdatedAfter: beforeStateUpdate })
       : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!, {
-          updatedAfter: beforeStateUpdate,
+          sessionStateUpdatedAfter: beforeStateUpdate,
         });
     for await (const id of iter) {
       result.push(id);

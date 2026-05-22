@@ -185,7 +185,7 @@ export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
 export interface ListMessageSessionsOptions extends OperationOptionsBase {
-    updatedAfter?: Date;
+    sessionStateUpdatedAfter?: Date;
 }
 
 // @public

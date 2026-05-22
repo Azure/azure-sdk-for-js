@@ -490,7 +490,7 @@ export class ServiceBusClient {
    * Lists the IDs of sessions in a session-enabled queue.
    *
    * By default, returns sessions with active messages in the entity.
-   * If {@link ListMessageSessionsOptions.updatedAfter} is specified, returns sessions
+   * If {@link ListMessageSessionsOptions.sessionStateUpdatedAfter} is specified, returns sessions
    * whose session state was updated after that time instead.
    *
    * @param queueName - Name of the session-enabled queue.
@@ -505,7 +505,7 @@ export class ServiceBusClient {
    * Lists the IDs of sessions in a session-enabled subscription.
    *
    * By default, returns sessions with active messages in the entity.
-   * If {@link ListMessageSessionsOptions.updatedAfter} is specified, returns sessions
+   * If {@link ListMessageSessionsOptions.sessionStateUpdatedAfter} is specified, returns sessions
    * whose session state was updated after that time instead.
    *
    * @param topicName - Name of the topic.
@@ -541,7 +541,7 @@ export class ServiceBusClient {
     // The service checks for DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) to switch
     // between "active messages" mode and "updated since" mode. On the AMQP wire, timestamps
     // have millisecond precision, so DateTime.MaxValue becomes this value in ms from epoch.
-    const lastUpdatedTime = options?.updatedAfter ?? new Date(ACTIVE_SESSIONS_SENTINEL_MS);
+    const lastUpdatedTime = options?.sessionStateUpdatedAfter ?? new Date(ACTIVE_SESSIONS_SENTINEL_MS);
 
     const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
       firstPageLink: 0,

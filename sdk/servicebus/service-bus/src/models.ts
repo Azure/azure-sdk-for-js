@@ -354,5 +354,5 @@ export interface ListMessageSessionsOptions extends OperationOptionsBase {
    * If specified, only sessions whose state was updated after this time are returned.
    * If not specified, returns sessions with active messages in the entity.
    */
-  updatedAfter?: Date;
+  sessionStateUpdatedAfter?: Date;
 }
