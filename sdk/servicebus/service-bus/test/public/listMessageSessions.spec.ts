@@ -110,7 +110,9 @@ describe("listMessageSessions", () => {
     // because its state was updated after that cutoff.
     const result: string[] = [];
     const iter = entityNames.queue
-      ? serviceBusClient.listMessageSessions(entityNames.queue, { sessionStateUpdatedAfter: beforeStateUpdate })
+      ? serviceBusClient.listMessageSessions(entityNames.queue, {
+          sessionStateUpdatedAfter: beforeStateUpdate,
+        })
       : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!, {
           sessionStateUpdatedAfter: beforeStateUpdate,
         });
