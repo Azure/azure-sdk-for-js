@@ -239,6 +239,7 @@ export type {
   EmbeddingConfiguration,
   CreateAgentVersionFromCodeMetadata,
   CreateAgentVersionFromCodeContent,
+  FileWithMetadata,
   VersionIndicator,
   VersionIndicatorUnion,
   VersionIndicatorType,

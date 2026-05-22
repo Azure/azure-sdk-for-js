@@ -710,12 +710,10 @@ export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationO
 
 // @public
 export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
     operationId?: string;
 }
 
@@ -725,7 +723,6 @@ export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -734,12 +731,10 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -751,7 +746,6 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
     after?: string;
     before?: string;
     category?: EvaluatorCategory;
-    foundryFeatures?: "Evaluations=V1Preview";
     limit?: number;
     order?: PageOrder;
 }
@@ -787,7 +781,6 @@ export interface BetaEvaluatorsOperations {
 
 // @public
 export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1512,11 +1505,7 @@ export interface CosmosDBIndex extends Index {
 
 // @public
 export interface CreateAgentVersionFromCodeContent {
-    code: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
+    code: FileContents | FileWithMetadata;
     metadata: CreateAgentVersionFromCodeMetadata;
 }
 
@@ -2281,6 +2270,16 @@ export interface FileSearchTool extends Tool {
     tool_configs?: Record<string, ToolConfig>;
     type: "file_search";
     vector_store_ids: string[];
+}
+
+// @public
+export interface FileWithMetadata {
+    // (undocumented)
+    contents: FileContents;
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    filename?: string;
 }
 
 // @public

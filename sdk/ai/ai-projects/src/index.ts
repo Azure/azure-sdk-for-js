@@ -250,6 +250,7 @@ export type {
   ToolDescription,
   CreateAgentVersionFromCodeMetadata,
   CreateAgentVersionFromCodeContent,
+  FileWithMetadata,
   VersionIndicator,
   VersionIndicatorUnion,
   VersionIndicatorType,

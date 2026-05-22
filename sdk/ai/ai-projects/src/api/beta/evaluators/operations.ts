@@ -64,9 +64,7 @@ export function _deleteGenerationJobSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       ...options.requestOptions?.headers,
     },
   });
@@ -117,9 +115,7 @@ export function _cancelGenerationJobSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -170,9 +166,7 @@ export function _listGenerationJobsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -203,7 +197,7 @@ export function listGenerationJobs(
     () => _listGenerationJobsSend(context, options),
     _listGenerationJobsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    { itemName: "value", apiVersion: context.apiVersion },
   );
 }
 
@@ -225,9 +219,7 @@ export function _getGenerationJobSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -276,9 +268,7 @@ export function _createGenerationJobSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -336,9 +326,7 @@ export function _getCredentialsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -394,9 +382,7 @@ export function _pendingUploadSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Evaluations=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

@@ -6807,12 +6807,19 @@ export function createAgentVersionFromCodeMetadataSerializer(
   };
 }
 
+/** File contents with optional metadata for multipart uploads. */
+export interface FileWithMetadata {
+  contents: FileContents;
+  contentType?: string;
+  filename?: string;
+}
+
 /** Multipart request body for updating or versioning a code-based agent (POST /agents/{name} and POST /agents/{name}/versions). */
 export interface CreateAgentVersionFromCodeContent {
   /** JSON metadata including description and hosted definition. */
   metadata: CreateAgentVersionFromCodeMetadata;
   /** The code zip file (max 250 MB). */
-  code: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+  code: FileContents | FileWithMetadata;
 }
 
 export function createAgentVersionFromCodeContentSerializer(
@@ -7936,9 +7943,10 @@ export interface EvaluatorGenerationJob {
 }
 
 export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
-  return {
-    inputs: !item["inputs"] ? item["inputs"] : evaluatorGenerationInputsSerializer(item["inputs"]),
-  };
+  if (!item["inputs"]) {
+    return {};
+  }
+  return evaluatorGenerationInputsSerializer(item["inputs"]);
 }
 
 export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerationJob {
@@ -8273,10 +8281,10 @@ export function _agentsPagedResultEvaluatorGenerationJobDeserializer(
   item: any,
 ): _AgentsPagedResultEvaluatorGenerationJob {
   return {
-    data: evaluatorGenerationJobArrayDeserializer(item["data"]),
+    data: evaluatorGenerationJobArrayDeserializer(item["value"] ?? item["data"] ?? []),
     first_id: item["first_id"],
     last_id: item["last_id"],
-    has_more: item["has_more"],
+    has_more: item["has_more"] ?? false,
   };
 }
 
