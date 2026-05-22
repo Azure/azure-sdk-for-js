@@ -485,7 +485,7 @@ You can read more about how sessions work [here][docsms_messagesessions].
 
 ### List message sessions
 
-To discover which sessions have active messages or recently updated session state, use `listMessageSessions()`:
+To discover which sessions have active messages in a queue or subscription, use `listMessageSessions()`:
 
 ```ts snippet:ReadmeSampleListMessageSessions
 import { DefaultAzureCredential } from "@azure/identity";
