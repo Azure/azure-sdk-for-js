@@ -180,18 +180,20 @@ export class EntraTokenCredential implements AcsTokenCredential {
   private determineEndpointAndApiVersion(): [string, string] {
     if (!this.options.scopes || this.options.scopes.length === 0) {
       throw new Error(ScopeValidationErrorMessage);
-    } else if (
+    }
+
+    if (
       this.options.scopes.every((scope) =>
         TeamsExtensionScopePrefixes.some((prefix) => scope.startsWith(prefix)),
       )
     ) {
       return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
-    } else if (
-      this.options.scopes.every((scope) => scope.startsWith(CommunicationClientsScopePrefix))
-    ) {
-      return [CommunicationClientsEndpoint, CommunicationClientsApiVersion];
-    } else {
-      throw new Error(ScopeValidationErrorMessage);
     }
+
+    if (this.options.scopes.every((scope) => scope.startsWith(CommunicationClientsScopePrefix))) {
+      return [CommunicationClientsEndpoint, CommunicationClientsApiVersion];
+    }
+
+    throw new Error(ScopeValidationErrorMessage);
   }
 }
