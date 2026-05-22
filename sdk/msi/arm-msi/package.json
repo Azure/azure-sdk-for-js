@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-msi",
-  "version": "2.3.0-beta.1",
+  "version": "2.3.0-beta.2",
   "description": "A generated SDK for ManagedServiceIdentityClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -15,6 +15,7 @@
   "imports": {
     "#platform/*.js": {
       "browser": "./src/*-browser.mjs",
+      "react-native": "./src/*-react-native.mjs",
       "default": "./src/*.js"
     }
   },
