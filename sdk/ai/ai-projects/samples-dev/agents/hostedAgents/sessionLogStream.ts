@@ -36,19 +36,15 @@ interface SseFrame {
   data: string;
 }
 
-function closeReadableStream(stream: NodeJS.ReadableStream): void {
-  stream.pause();
-  if ("destroy" in stream && typeof stream.destroy === "function") {
-    stream.destroy();
-  }
-}
+async function* iterSseFrames(
+  stream: NodeJS.ReadableStream,
+  maxEvents: number,
+): AsyncGenerator<SseFrame> {
+  let buffer = "";
+  let eventCount = 0;
 
-function iterSseFrames(stream: NodeJS.ReadableStream, maxLogEvents: number): Promise<SseFrame[]> {
-  return new Promise((resolve, reject) => {
-    const frames: SseFrame[] = [];
-    let buffer = "";
-
-    stream.on("data", (chunk: Buffer) => {
+  try {
+    for await (const chunk of stream as AsyncIterable<Buffer>) {
       buffer += chunk.toString("utf-8");
 
       while (buffer.includes("\n\n")) {
@@ -58,7 +54,6 @@ function iterSseFrames(stream: NodeJS.ReadableStream, maxLogEvents: number): Pro
 
         let eventName: string | undefined;
         const dataLines: string[] = [];
-
         for (const line of frame.split("\n")) {
           if (line.startsWith("event: ")) {
             eventName = line.slice(7);
@@ -68,19 +63,17 @@ function iterSseFrames(stream: NodeJS.ReadableStream, maxLogEvents: number): Pro
         }
 
         if (dataLines.length > 0 || eventName) {
-          frames.push({ event: eventName, data: dataLines.join("\n") });
-          if (frames.length >= maxLogEvents) {
-            closeReadableStream(stream);
-            resolve(frames);
-            return;
-          }
+          yield { event: eventName, data: dataLines.join("\n") };
+          eventCount++;
+          if (eventCount >= maxEvents) return;
         }
       }
-    });
-
-    stream.on("end", () => resolve(frames));
-    stream.on("error", reject);
-  });
+    }
+  } finally {
+    if ("destroy" in stream && typeof stream.destroy === "function") {
+      stream.destroy();
+    }
+  }
 }
 
 export async function main(): Promise<void> {
@@ -177,8 +170,9 @@ export async function main(): Promise<void> {
     );
 
     if (logStream.readableStreamBody) {
-      const frames = await iterSseFrames(logStream.readableStreamBody, 30);
-      for (const frame of frames) {
+      const stream = logStream.readableStreamBody;
+
+      for await (const frame of iterSseFrames(stream, 30)) {
         console.log(`SSE event: ${frame.event}`);
         console.log(`SSE data: ${frame.data}\n`);
       }

@@ -5,7 +5,6 @@ import type { AIProjectContext as Client } from "../../index.js";
 import type {
   Agent,
   AgentVersion,
-  SessionLogEvent,
   CandidateResults,
   OptimizationJob,
   OptimizationCandidate,
@@ -31,7 +30,6 @@ import {
   versionIndicatorUnionSerializer,
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
-  sessionLogEventDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
   optimizationJobSerializer,
@@ -840,14 +838,14 @@ export function _getSessionLogStreamSend(
 }
 
 export async function _getSessionLogStreamDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SessionLogEvent> {
+  result: PathUncheckedResponse & BetaAgentsDownloadSessionFileResponse,
+): Promise<BetaAgentsDownloadSessionFileResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return sessionLogEventDeserializer(result.body);
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /**
@@ -884,14 +882,15 @@ export async function getSessionLogStream(
   agentVersion: string,
   sessionId: string,
   options: BetaAgentsGetSessionLogStreamOptionalParams = { requestOptions: {} },
-): Promise<SessionLogEvent> {
-  const result = await _getSessionLogStreamSend(
+): Promise<BetaAgentsDownloadSessionFileResponse> {
+  const streamableMethod = _getSessionLogStreamSend(
     context,
     agentName,
     agentVersion,
     sessionId,
     options,
   );
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getSessionLogStreamDeserialize(result);
 }
 
@@ -1148,6 +1147,7 @@ export function _downloadAgentCodeSend(
   agentName: string,
   options: BetaAgentsDownloadAgentCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview,CodeAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/code:download{?agent_version,api-version}",
     {
@@ -1162,9 +1162,7 @@ export function _downloadAgentCodeSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/zip",
       ...options.requestOptions?.headers,
     },
@@ -1177,7 +1175,9 @@ export async function _downloadAgentCodeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body?.error) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1212,6 +1212,7 @@ export function _createAgentVersionFromCodeSend(
   content: CreateAgentVersionFromCodeContent,
   options: BetaAgentsCreateAgentVersionFromCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "HostedAgents=V1Preview,CodeAgents=V1Preview";
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions{?api-version}",
     {
@@ -1226,9 +1227,7 @@ export function _createAgentVersionFromCodeSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       "x-ms-code-zip-sha256": codeZipSha256,
       accept: "application/json",
       ...options.requestOptions?.headers,

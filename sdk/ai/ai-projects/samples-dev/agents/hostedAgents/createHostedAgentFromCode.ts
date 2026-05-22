@@ -65,7 +65,7 @@ export async function main(): Promise<void> {
     memory: "1Gi",
     protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
     code_configuration: {
-      runtime: "python_3_12",
+      runtime: "python_3_13",
       entry_point: ["python", "main.py"],
       dependency_resolution: dependencyResolution,
     },
@@ -87,7 +87,6 @@ export async function main(): Promise<void> {
     agentName,
     codeZipSha256,
     content,
-    { foundryFeatures: "HostedAgents=V1Preview" },
   );
   const createdVersion = created.version;
   console.log(`Created code-based hosted agent version: ${createdVersion}`);

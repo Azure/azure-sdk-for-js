@@ -598,10 +598,9 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
 // @public
 export interface BetaAgentsOperations {
     cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    createAgentVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => Promise<OptimizationJob>;
     createSession: (agentName: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
-    // (undocumented)
-    createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
     deleteSession: (agentName: string, sessionId: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
     deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
@@ -612,7 +611,7 @@ export interface BetaAgentsOperations {
     getOptimizationCandidateResults: (jobId: string, candidateId: string, options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams) => Promise<CandidateResults>;
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
     getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
-    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<SessionLogEvent>;
+    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
     listOptimizationCandidates: (jobId: string, options?: BetaAgentsListOptimizationCandidatesOptionalParams) => Promise<AgentsPagedResultOptimizationCandidate>;
     listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJob>;
     listSessionFiles: (agentName: string, sessionId: string, path: string, options?: BetaAgentsListSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;

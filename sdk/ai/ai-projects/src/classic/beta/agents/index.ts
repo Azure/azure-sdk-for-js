@@ -54,7 +54,6 @@ import type {
   CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
-  SessionLogEvent,
   SessionFileWriteResponse,
   SessionDirectoryListResponse,
   OptimizationJob,
@@ -187,7 +186,7 @@ export interface BetaAgentsOperations {
     agentVersion: string,
     sessionId: string,
     options?: BetaAgentsGetSessionLogStreamOptionalParams,
-  ) => Promise<SessionLogEvent>;
+  ) => Promise<BetaAgentsDownloadSessionFileResponse>;
   /** Returns a list of sessions for the specified agent. */
   listSessions: (
     agentName: string,
@@ -232,7 +231,11 @@ export interface BetaAgentsOperations {
     agentName: string,
     options?: BetaAgentsDownloadAgentCodeOptionalParams,
   ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
-  createVersionFromCode: (
+  /**
+   * Creates a new agent version from code content and makes it available for hosting.
+   * Returns the created version, which may be in `provisioning` state — clients should poll `getVersion` until the status is `active` before creating sessions or downloading code.
+   */
+  createAgentVersionFromCode: (
     agentName: string,
     codeZipSha256: string,
     content: CreateAgentVersionFromCodeContent,
@@ -332,7 +335,7 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => createSession(context, agentName, versionIndicator, options),
     downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
       downloadAgentCode(context, agentName, options),
-    createVersionFromCode: (
+    createAgentVersionFromCode: (
       agentName: string,
       codeZipSha256: string,
       content: CreateAgentVersionFromCodeContent,
