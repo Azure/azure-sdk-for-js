@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/codetransparency": ["../src/index.ts"],
+      "@azure-rest/codetransparency/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
