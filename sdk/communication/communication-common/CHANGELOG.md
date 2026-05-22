@@ -1,18 +1,14 @@
 # Release History
 
-## 2.4.2 (Unreleased)
+## 2.4.2 (2026-05-25)
 
 ### Features Added
 
 - Added support for the GCCH Teams Phone Extensibility Entra scope `https://auth.msft.communication.azure.us/TeamsExtension.ManageCalls`.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Updated the `EntraTokenCredential` scope validation error message and fixed string interpolation in the error text.
-
-### Other Changes
 
 ## 2.4.0 (2025-06-04)
 
