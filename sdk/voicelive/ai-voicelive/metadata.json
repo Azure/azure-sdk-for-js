@@ -2,7 +2,7 @@
   "apiVersions": {
     "VoiceLive": "2026-04-10"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.53.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "VoiceLive",
     "CrossLanguageDefinitionId": {

@@ -5,7 +5,9 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -613,6 +615,8 @@ export function isModelSessionTarget(target: SessionTarget): target is {
     model: string;
     agent?: never;
 };
+
+export { isRestError }
 
 // @public
 export type ItemParamStatus = string;
@@ -1273,6 +1277,8 @@ export interface ResponseWebSearchCallItem extends ResponseItem {
     status: string;
     type: "web_search_call";
 }
+
+export { RestError }
 
 // @public
 export interface Scene {
