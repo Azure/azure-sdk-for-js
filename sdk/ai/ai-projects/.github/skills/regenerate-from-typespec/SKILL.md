@@ -35,15 +35,21 @@ Run from the package root: `sdk/ai/ai-projects/`.
 Before mutating `tsp-location.saved.yaml`, capture the currently pinned commit and resolve the target commit. Then fetch enough `Azure/azure-rest-api-specs` history to write the commit subjects and bodies from the commit after the current hash through the target hash, inclusive. Use this artifact later to verify that the SDK code after emitter merge adheres to the upstream change descriptions.
 
 ```powershell
+$branch = 'feature/foundry-release'
+$commit = $null
 $currentCommit = (Select-String -Path tsp-location.saved.yaml -Pattern '^commit:\s*(\S+)' | ForEach-Object { $_.Matches[0].Groups[1].Value })
-$targetCommit = ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -ResolveOnly -Branch feature/foundry-release
+if ($commit) {
+	$targetCommit = $commit
+} else {
+	$targetCommit = ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -ResolveOnly -Branch $branch
+}
 $commitDescriptionsPath = 'temp/typespec-commit-descriptions.md'
 
 $specRepo = Join-Path $env:TEMP 'azure-rest-api-specs-foundry'
 if (-not (Test-Path $specRepo)) {
 	git clone --filter=blob:none --no-checkout https://github.com/Azure/azure-rest-api-specs.git $specRepo
 }
-git -C $specRepo fetch --filter=blob:none --no-tags origin feature/foundry-release
+git -C $specRepo fetch --filter=blob:none --no-tags origin $branch
 
 New-Item -ItemType Directory -Force (Split-Path $commitDescriptionsPath) | Out-Null
 git -C $specRepo log --reverse --format='commit %H%nsubject: %s%n%n%b%n---' "$currentCommit..$targetCommit" > $commitDescriptionsPath
