@@ -5,7 +5,7 @@ description: 'Apply language-specific post-emitter fixes to ai-projects after a 
 
 # Apply Post-Emitter Edits to ai-projects
 
-The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory and no three-way merge.
+The TypeSpec emitter writes **directly into `src/` and `generated/`**. This skill reviews that working-tree diff, then handles the work in four categories: conflict cleanup, protected-file checks, public-surface propagation, and targeted post-emitter workarounds. There is no `incoming/` staging directory; generated changes land directly in the working tree, although later customization steps may still surface diff3 conflict markers from three-way merge tooling.
 
 When the preceding `regenerate-from-typespec` skill produced `temp/typespec-commit-descriptions.md`, use that file only to validate whether changed SDK source matches upstream TypeSpec intent. The standing workarounds still apply, but upstream commit descriptions can justify specific non-additive spec changes that should be preserved rather than reverted.
 
