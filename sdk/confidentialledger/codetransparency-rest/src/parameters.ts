@@ -3,6 +3,7 @@
 
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 
 export interface GetTransparencyConfigCborHeaders {
   /** Accept header */
@@ -50,7 +51,7 @@ export interface CreateEntryV09BodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 export interface CreateEntryV09QueryParamProperties {
