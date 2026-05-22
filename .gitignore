@@ -201,3 +201,6 @@ sdk/**/sshKey.pub
 # vitest browser test artifacts
 .vitest-attachments/
 **/__screenshots__/
+
+# management SDK published samples
+sdk/*/arm-*/samples/
