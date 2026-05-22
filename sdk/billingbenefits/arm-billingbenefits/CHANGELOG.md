@@ -1,21 +1,240 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0-beta.1 (2026-05-22)
+Compared with version 1.0.0
 
 ### Features Added
+  - Added operation group ApplicableMaccsOperations
+  - Added operation group BenefitOperations
+  - Added operation group ConditionalCreditContributorsOperations
+  - Added operation group ConditionalCreditsOperations
+  - Added operation group ContributorsOperations
+  - Added operation group CreditsOperations
+  - Added operation group DiscountOperations
+  - Added operation group DiscountsOperations
+  - Added operation group FreeServicesOperations
+  - Added operation group MaccsOperations
+  - Added operation group SellerResourceOperations
+  - Added operation group SourcesOperations
+  - Added operation ReservationOrderAliasOperations.create
+  - Added operation SavingsPlanOrderAliasOperations.create
+  - Added Interface ApplicableMacc
+  - Added Interface ApplicableMaccsListOptionalParams
+  - Added Interface AutomaticShortfallSuppressReason
+  - Added Interface Award
+  - Added Interface BenefitValidateModel
+  - Added Interface BenefitValidateOptionalParams
+  - Added Interface BenefitValidateRequest
+  - Added Interface BenefitValidateResponse
+  - Added Interface BenefitValidateResponseProperty
+  - Added Interface CatalogClaimsItem
+  - Added Interface ChargeShortfallRequest
+  - Added Interface ConditionalCredit
+  - Added Interface ConditionalCreditContributor
+  - Added Interface ConditionalCreditContributorsGetFromPrimaryOptionalParams
+  - Added Interface ConditionalCreditContributorsListFromApplicableConditionalCreditOptionalParams
+  - Added Interface ConditionalCreditContributorsListFromPrimaryOptionalParams
+  - Added Interface ConditionalCreditMilestone
+  - Added Interface ConditionalCreditMilestoneBase
+  - Added Interface ConditionalCreditPatchRequest
+  - Added Interface ConditionalCreditPatchRequestProperties
+  - Added Interface ConditionalCreditProperties
+  - Added Interface ConditionalCreditsCancelOptionalParams
+  - Added Interface ConditionalCreditsCreateOrUpdateOptionalParams
+  - Added Interface ConditionalCreditsDeleteOptionalParams
+  - Added Interface ConditionalCreditsGetOptionalParams
+  - Added Interface ConditionalCreditsListByResourceGroupOptionalParams
+  - Added Interface ConditionalCreditsListBySubscriptionOptionalParams
+  - Added Interface ConditionalCreditsScopeListOptionalParams
+  - Added Interface ConditionalCreditsUpdateOptionalParams
+  - Added Interface ConditionalCreditsValidateModel
+  - Added Interface ConditionsItem
+  - Added Interface Contributor
+  - Added Interface ContributorConditionalCreditMilestone
+  - Added Interface ContributorConditionalCreditProperties
+  - Added Interface ContributorsGetFromPrimaryOptionalParams
+  - Added Interface ContributorsListFromApplicableMaccOptionalParams
+  - Added Interface ContributorsListFromPrimaryOptionalParams
+  - Added Interface Credit
+  - Added Interface CreditBreakdownItem
+  - Added Interface CreditDimension
+  - Added Interface CreditPatchProperties
+  - Added Interface CreditPatchRequest
+  - Added Interface CreditPolicies
+  - Added Interface CreditProperties
+  - Added Interface CreditReason
+  - Added Interface CreditsCancelOptionalParams
+  - Added Interface CreditsCreateOptionalParams
+  - Added Interface CreditsDeleteOptionalParams
+  - Added Interface CreditsGetOptionalParams
+  - Added Interface CreditsListApplicableOptionalParams
+  - Added Interface CreditsListByResourceGroupOptionalParams
+  - Added Interface CreditsListBySubscriptionOptionalParams
+  - Added Interface CreditSource
+  - Added Interface CreditSourcePatchRequest
+  - Added Interface CreditSourceProperties
+  - Added Interface CreditsUpdateOptionalParams
+  - Added Interface CreditsValidateModel
+  - Added Interface CustomPriceProperties
+  - Added Interface Discount
+  - Added Interface DiscountGetOptionalParams
+  - Added Interface DiscountPatchRequest
+  - Added Interface DiscountPatchRequestProperties
+  - Added Interface DiscountProperties
+  - Added Interface DiscountsCancelOptionalParams
+  - Added Interface DiscountsCreateOptionalParams
+  - Added Interface DiscountsDeleteOptionalParams
+  - Added Interface DiscountsResourceGroupListOptionalParams
+  - Added Interface DiscountsScopeListOptionalParams
+  - Added Interface DiscountsSubscriptionListOptionalParams
+  - Added Interface DiscountTypeCustomPrice
+  - Added Interface DiscountTypeCustomPriceMultiCurrency
+  - Added Interface DiscountTypeProduct
+  - Added Interface DiscountTypeProductFamily
+  - Added Interface DiscountTypeProductSku
+  - Added Interface DiscountTypeProperties
+  - Added Interface DiscountUpdateOptionalParams
+  - Added Interface EntityTypeAffiliateDiscount
+  - Added Interface EntityTypePrimaryDiscount
+  - Added Interface FreeServices
+  - Added Interface FreeServicesCreateOptionalParams
+  - Added Interface FreeServicesDeleteOptionalParams
+  - Added Interface FreeServicesGetOptionalParams
+  - Added Interface FreeServicesListByResourceGroupOptionalParams
+  - Added Interface FreeServicesListBySubscriptionOptionalParams
+  - Added Interface FreeServicesPatchRequest
+  - Added Interface FreeServicesPatchRequestProperties
+  - Added Interface FreeServicesProperties
+  - Added Interface FreeServicesUpdateOptionalParams
+  - Added Interface Macc
+  - Added Interface MaccMilestone
+  - Added Interface MaccModelProperties
+  - Added Interface MaccPatchRequest
+  - Added Interface MaccPatchRequestProperties
+  - Added Interface MaccsCancelOptionalParams
+  - Added Interface MaccsChargeShortfallOptionalParams
+  - Added Interface MaccsCreateOptionalParams
+  - Added Interface MaccsDeleteOptionalParams
+  - Added Interface MaccsGetOptionalParams
+  - Added Interface MaccsListByResourceGroupOptionalParams
+  - Added Interface MaccsListBySubscriptionOptionalParams
+  - Added Interface MaccsUpdateOptionalParams
+  - Added Interface MaccsWriteOffOptionalParams
+  - Added Interface MaccValidateModel
+  - Added Interface ManagedServiceIdentity
+  - Added Interface ManagedServiceIdentity_1
+  - Added Interface MarketSetPricesItems
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Plan
+  - Added Interface PriceGuaranteeProperties
+  - Added Interface PrimaryConditionalCreditProperties
+  - Added Interface ProxyResource
+  - Added Interface PurchaseRequestProperties
+  - Added Interface ReservationOrderAliasRequestProperties
+  - Added Interface ReservationOrderAliasResponseProperties
+  - Added Interface ResourceSku
+  - Added Interface RestorePollerOptions
+  - Added Interface RoleAssignmentEntityProperties
+  - Added Interface SavingsPlanModelProperties
+  - Added Interface SavingsPlanOrderAliasProperties
+  - Added Interface SavingsPlanOrderModelProperties
+  - Added Interface SavingsPlanValidateModel
+  - Added Interface SellerResourceListOptionalParams
+  - Added Interface SellerResourceListRequest
+  - Added Interface SellerResourceListRequestProperties
+  - Added Interface Shortfall
+  - Added Interface SourcesCreateOptionalParams
+  - Added Interface SourcesDeleteOptionalParams
+  - Added Interface SourcesGetOptionalParams
+  - Added Interface SourcesListByCreditOptionalParams
+  - Added Interface SourcesUpdateOptionalParams
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Interface SavingsPlanOrderAliasModel has a new optional parameter renew
+  - Interface SavingsPlanUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Sku has a new optional parameter capacity
+  - Interface Sku has a new optional parameter family
+  - Interface Sku has a new optional parameter size
+  - Interface Sku has a new optional parameter tier
+  - Added Type Alias ApplyDiscountOn
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BenefitType
+  - Added Type Alias BenefitValidateModelUnion
+  - Added Type Alias ConditionalCreditEntityType
+  - Added Type Alias ConditionalCreditPropertiesUnion
+  - Added Type Alias ConditionalCreditsProvisioningState
+  - Added Type Alias ConditionalCreditStatus
+  - Added Type Alias CreditExpirationPolicy
+  - Added Type Alias CreditRedemptionPolicy
+  - Added Type Alias CreditStatus
+  - Added Type Alias DiscountAppliedScopeType
+  - Added Type Alias DiscountCombinationRule
+  - Added Type Alias DiscountEntityType
+  - Added Type Alias DiscountPropertiesUnion
+  - Added Type Alias DiscountProvisioningState
+  - Added Type Alias DiscountRuleType
+  - Added Type Alias DiscountStatus
+  - Added Type Alias DiscountType
+  - Added Type Alias DiscountTypeCustomPriceUnion
+  - Added Type Alias DiscountTypePropertiesUnion
+  - Added Type Alias EnablementMode
+  - Added Type Alias FreeServicesStatus
+  - Added Type Alias MaccEntityType
+  - Added Type Alias MaccMilestoneStatus
+  - Added Type Alias MaccStatus
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias ManagedServiceIdentityType_1
+  - Added Type Alias MilestoneStatus
+  - Added Type Alias PricingPolicy
+  - Added Type Alias SkuTier
+  - Added Enum AzureClouds
+  - Added Enum KnownApplyDiscountOn
+  - Added Enum KnownBenefitType
+  - Added Enum KnownConditionalCreditEntityType
+  - Added Enum KnownConditionalCreditsProvisioningState
+  - Added Enum KnownConditionalCreditStatus
+  - Added Enum KnownCreditExpirationPolicy
+  - Added Enum KnownCreditRedemptionPolicy
+  - Added Enum KnownCreditStatus
+  - Added Enum KnownDiscountAppliedScopeType
+  - Added Enum KnownDiscountCombinationRule
+  - Added Enum KnownDiscountEntityType
+  - Added Enum KnownDiscountProvisioningState
+  - Added Enum KnownDiscountRuleType
+  - Added Enum KnownDiscountStatus
+  - Added Enum KnownDiscountType
+  - Added Enum KnownEnablementMode
+  - Added Enum KnownFreeServicesStatus
+  - Added Enum KnownMaccEntityType
+  - Added Enum KnownMaccMilestoneStatus
+  - Added Enum KnownMaccStatus
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownManagedServiceIdentityType_1
+  - Added Enum KnownMilestoneStatus
+  - Added Enum KnownPricingPolicy
+  - Added Enum KnownVersions
+  - Enum KnownCommitmentGrain has a new value FullTerm
+  - Enum KnownCommitmentGrain has a new value Unknown
+  - Enum KnownTerm has a new value P1M
 
 ### Breaking Changes
+  - Removed operation ReservationOrderAlias.beginCreate
+  - Removed operation ReservationOrderAlias.beginCreateAndWait
+  - Removed operation SavingsPlanOrderAlias.beginCreate
+  - Removed operation SavingsPlanOrderAlias.beginCreateAndWait
+  - Removed Interface BillingInformation
+  - Removed Interface OperationResultError
+  - Removed Interface PricingCurrencyTotal
+  - Removed Interface SavingsPlanModelList
+  - Removed Interface SavingsPlanOrderModelList
+  - Removed Interface SavingsPlanPurchaseValidateRequest
+  - Removed Interface ValidatePurchaseOptionalParams
+  - Parameter name of interface Sku is now required
+  - Removed Type Alias PricingCurrencyDuration
+  - Removed Enum KnownPricingCurrencyDuration
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0 (2022-12-12)
 
-The package of @azure/arm-billingbenefits is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-billingbenefits is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
