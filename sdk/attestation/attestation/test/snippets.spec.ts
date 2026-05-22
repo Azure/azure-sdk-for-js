@@ -153,8 +153,7 @@ describe("snippets", () => {
     try {
       await client.attestSgxEnclave(openEnclaveReport);
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      console.log(`Exception thrown for invalid request: ${message}`);
+      console.log(`Exception thrown for invalid request: ${error}`);
     }
   });
 
