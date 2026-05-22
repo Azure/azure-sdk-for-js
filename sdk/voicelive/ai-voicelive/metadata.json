@@ -2,7 +2,7 @@
   "apiVersions": {
     "VoiceLive": "2026-04-10"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.53.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "VoiceLive",
     "CrossLanguageDefinitionId": {
@@ -77,7 +77,7 @@
       "@azure/ai-voicelive!ClientEventOutputAudioBufferClear:interface": "VoiceLive.ClientEventOutputAudioBufferClear",
       "@azure/ai-voicelive!SessionBase:interface": "VoiceLive.SessionBase",
       "@azure/ai-voicelive!ConversationItemBase:interface": "VoiceLive.ConversationItemBase",
-      "@azure/ai-voicelive!Response:interface": "VoiceLive.Response",
+      "@azure/ai-voicelive!VoiceLiveResponse:interface": "VoiceLive.Response",
       "@azure/ai-voicelive!ResponseStatusDetails:interface": "VoiceLive.ResponseStatusDetails",
       "@azure/ai-voicelive!ResponseCancelledDetails:interface": "VoiceLive.ResponseCancelledDetails",
       "@azure/ai-voicelive!ResponseIncompleteDetails:interface": "VoiceLive.ResponseIncompleteDetails",
