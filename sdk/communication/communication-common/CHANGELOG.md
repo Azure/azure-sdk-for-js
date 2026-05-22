@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Updated the `EntraTokenCredential` scope validation error message and fixed string interpolation in the error text.
+
 ### Other Changes
 
 ## 2.4.0 (2025-06-04)
