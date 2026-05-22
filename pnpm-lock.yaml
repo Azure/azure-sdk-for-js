@@ -10,14 +10,14 @@ catalogs:
       specifier: 8.1.0
       version: 8.1.0
     '@azure/arm-resources':
-      specifier: 7.0.1
-      version: 7.0.1
+      specifier: 7.0.0
+      version: 7.0.0
     '@azure/arm-storage':
       specifier: 18.5.0
       version: 18.5.0
     '@azure/arm-webpubsub':
-      specifier: 1.2.2
-      version: 1.2.2
+      specifier: 1.2.0
+      version: 1.2.0
   default:
     '@types/node':
       specifier: ^20.19.25
@@ -1931,24 +1931,27 @@ importers:
 
   sdk/appcontainers/arm-appcontainers:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1965,12 +1968,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.40
@@ -3427,7 +3430,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: link:../../resources/arm-resources
+        version: 7.0.0
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.5.0
@@ -3618,7 +3621,7 @@ importers:
         version: link:../../keyvault/arm-keyvault
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: link:../../resources/arm-resources
+        version: 7.0.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -18561,7 +18564,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-resources':
         specifier: catalog:arm
-        version: link:../../resources/arm-resources
+        version: 7.0.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -33425,7 +33428,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-webpubsub':
         specifier: catalog:arm
-        version: link:../arm-webpubsub
+        version: 1.2.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -33996,6 +33999,10 @@ packages:
     resolution: {integrity: sha1-xhCsgrCAoBid/WnFP8GwR1gkT9E=}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-resources@7.0.0':
+    resolution: {integrity: sha1-BVmrhR0htNdIiB/2pTwv0FfJoDA=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/arm-search@3.3.0':
     resolution: {integrity: sha1-8Tr5mwParu0OYtHg7Hvmh+ZkRks=}
     engines: {node: '>=20.0.0'}
@@ -34006,6 +34013,10 @@ packages:
 
   '@azure/arm-storage@18.5.0':
     resolution: {integrity: sha1-hHzWoKc3k3aMCxqEesNscjBgZrE=}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/arm-webpubsub@1.2.0':
+    resolution: {integrity: sha1-mfACuVCTDGJNhvkWsqXe5eKtOGQ=}
     engines: {node: '>=18.0.0'}
 
   '@azure/communication-common@2.4.0':
@@ -39818,6 +39829,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/arm-resources@7.0.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/arm-search@3.3.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -39845,6 +39868,18 @@ snapshots:
   '@azure/arm-storage@18.5.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-webpubsub@1.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
