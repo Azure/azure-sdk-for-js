@@ -579,6 +579,7 @@ export type {
   BetaInsightsListOptionalParams,
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
+  InsightGenerationRequest,
 } from "./api/beta/insights/index.js";
 export type {
   BetaMemoryStoresDeleteMemoryOptionalParams,

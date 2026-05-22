@@ -821,7 +821,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaInsightsOperations {
-    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+    generate: (insight: InsightGenerationRequest, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
     get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
@@ -2552,6 +2552,12 @@ export interface InsightCluster {
     suggestion: string;
     suggestionTitle: string;
     weight: number;
+}
+
+// @public
+export interface InsightGenerationRequest {
+    displayName: string;
+    request: InsightRequestUnion;
 }
 
 // @public

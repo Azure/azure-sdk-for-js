@@ -7,6 +7,7 @@ import type {
   BetaInsightsListOptionalParams,
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
+  InsightGenerationRequest,
 } from "../../../api/beta/insights/options.js";
 import type { Insight } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -18,7 +19,7 @@ export interface BetaInsightsOperations {
   /** Get a specific insight by Id. */
   get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
-  generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+  generate: (insight: InsightGenerationRequest, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
 }
 
 function _getBetaInsights(context: AIProjectContext) {
@@ -26,7 +27,7 @@ function _getBetaInsights(context: AIProjectContext) {
     list: (options?: BetaInsightsListOptionalParams) => list(context, options),
     get: (insightId: string, options?: BetaInsightsGetOptionalParams) =>
       get(context, insightId, options),
-    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) =>
+    generate: (insight: InsightGenerationRequest, options?: BetaInsightsGenerateOptionalParams) =>
       generate(context, insight, options),
   };
 }
