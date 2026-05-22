@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext as Client } from "../index.js";
-import type {
-  RaiBlocklistItem,
-  _RaiBlockListItemsResult,
-  RaiBlocklistItemBulkRequest,
-  RaiBlocklist,
-} from "../../models/models.js";
+import { CognitiveServicesManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  RaiBlocklistItem,
   raiBlocklistItemSerializer,
   raiBlocklistItemDeserializer,
+  _RaiBlockListItemsResult,
   _raiBlockListItemsResultDeserializer,
+  RaiBlocklistItemBulkRequest,
+  RaiBlocklist,
   raiBlocklistDeserializer,
   raiBlocklistItemBulkRequestArraySerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   RaiBlocklistItemsBatchDeleteOptionalParams,
   RaiBlocklistItemsBatchAddOptionalParams,
   RaiBlocklistItemsListOptionalParams,
@@ -28,9 +28,13 @@ import type {
   RaiBlocklistItemsCreateOrUpdateOptionalParams,
   RaiBlocklistItemsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _batchDeleteSend(
   context: Client,
@@ -47,7 +51,7 @@ export function _batchDeleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +113,7 @@ export function _batchAddSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -169,7 +173,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +215,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
     },
   );
 }
@@ -232,7 +236,7 @@ export function _$deleteSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,7 +279,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -296,7 +300,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -362,7 +366,7 @@ export function _getSend(
       accountName: accountName,
       raiBlocklistName: raiBlocklistName,
       raiBlocklistItemName: raiBlocklistItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

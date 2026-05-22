@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext as Client } from "../index.js";
-import type {
-  ConnectionPropertiesV2BasicResource,
-  _ConnectionPropertiesV2BasicResourceArmPaginatedResult,
-} from "../../models/models.js";
+import { CognitiveServicesManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ConnectionPropertiesV2BasicResource,
   connectionPropertiesV2BasicResourceSerializer,
   connectionPropertiesV2BasicResourceDeserializer,
   connectionUpdateContentSerializer,
+  _ConnectionPropertiesV2BasicResourceArmPaginatedResult,
   _connectionPropertiesV2BasicResourceArmPaginatedResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ProjectConnectionsListOptionalParams,
   ProjectConnectionsDeleteOptionalParams,
   ProjectConnectionsUpdateOptionalParams,
   ProjectConnectionsCreateOptionalParams,
   ProjectConnectionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -40,7 +44,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
       target: options?.target,
       category: options?.category,
       includeAll: options?.includeAll,
@@ -85,7 +89,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
     },
   );
 }
@@ -106,7 +110,7 @@ export function _$deleteSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +167,7 @@ export function _updateSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,9 +177,9 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["connection"]
-      ? options["connection"]
-      : connectionUpdateContentSerializer(options["connection"]),
+    body: !options?.connection
+      ? options?.connection
+      : connectionUpdateContentSerializer(options?.connection),
   });
 }
 
@@ -229,7 +233,7 @@ export function _createSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,9 +243,9 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["connection"]
-      ? options["connection"]
-      : connectionPropertiesV2BasicResourceSerializer(options["connection"]),
+    body: !options?.connection
+      ? options?.connection
+      : connectionPropertiesV2BasicResourceSerializer(options?.connection),
   });
 }
 
@@ -295,7 +299,7 @@ export function _getSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

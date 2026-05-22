@@ -344,6 +344,13 @@ export interface CheckSkuAvailabilityParameter {
 }
 
 // @public
+export interface ClusterComputeProperties extends ComputeProperties {
+    computeType: "Cluster";
+    pools: Pool[];
+    subnetArmId?: string;
+}
+
+// @public
 export interface CommitmentCost {
     commitmentMeterId?: string;
     overageMeterId?: string;
@@ -421,6 +428,16 @@ export interface CommitmentTier {
 }
 
 // @public
+export interface Compute extends ProxyResource {
+    readonly etag?: string;
+    identity?: Identity;
+    kind?: string;
+    location?: string;
+    properties: ComputePropertiesUnion;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface ComputeOperationStatus extends ProxyResource {
     properties?: ComputeOperationStatusProperties;
 }
@@ -435,6 +452,23 @@ export interface ComputeOperationStatusProperties {
 
 // @public
 export type ComputeOperationStatusType = string;
+
+// @public
+export interface ComputeProperties {
+    computeType: ComputeType;
+    readonly creationTime?: Date;
+    readonly errors?: ErrorDetail[];
+    readonly provisioningState?: ComputeProvisioningState;
+}
+
+// @public
+export type ComputePropertiesUnion = ClusterComputeProperties | ContainerInstanceComputeProperties | ComputeProperties;
+
+// @public
+export type ComputeProvisioningState = string;
+
+// @public
+export type ComputeType = string;
 
 // @public
 export interface ConnectionAccessKey {
@@ -554,6 +588,22 @@ export interface ConnectionUsernamePassword {
 }
 
 // @public
+export interface ConnectivityEndpoints {
+    readonly publicIpAddress?: string;
+    readonly sshPort?: number;
+}
+
+// @public
+export interface ContainerInstanceComputeProperties extends ComputeProperties {
+    computeType: "ContainerInstance";
+    readonly connectivityEndpoints?: ConnectivityEndpoints;
+    idleTimeBeforeShutdown?: string;
+    imageLink: string;
+    sshSettings?: SshSettings;
+    targetClusterId: string;
+}
+
+// @public
 export type ContentLevel = string;
 
 // @public
@@ -619,6 +669,13 @@ export interface DeploymentModel {
 export type DeploymentModelVersionUpgradeOption = string;
 
 // @public
+export interface DeploymentPolicyEvaluationResult {
+    errorMessage?: string;
+    evaluationOutcome?: PolicyEvaluationOutcome;
+    nonCompliantAssignments?: PolicyAssignmentEvaluationDetails[];
+}
+
+// @public
 export interface DeploymentProperties {
     readonly callRateLimit?: CallRateLimit;
     readonly capabilities?: Record<string, string>;
@@ -657,6 +714,13 @@ export interface DeploymentScaleSettings {
 
 // @public
 export type DeploymentScaleType = string;
+
+// @public
+export interface DeploymentSizeCapacity {
+    readonly largestDeploymentCapacity?: number;
+    readonly modelInstanceAcceleratorCount?: number;
+    readonly totalAvailableCapacity?: number;
+}
 
 // @public
 export type DeploymentState = string;
@@ -716,6 +780,28 @@ export interface ErrorDetail {
 // @public
 export interface ErrorResponse {
     error?: ErrorDetail;
+}
+
+// @public
+export interface EvaluateDeploymentPoliciesDeployment {
+    name: string;
+    properties: EvaluateDeploymentPoliciesDeploymentProperties;
+}
+
+// @public
+export interface EvaluateDeploymentPoliciesDeploymentProperties {
+    model: DeploymentModel;
+    raiPolicyName?: string;
+}
+
+// @public
+export interface EvaluateDeploymentPoliciesRequest {
+    deployments: EvaluateDeploymentPoliciesDeployment[];
+}
+
+// @public
+export interface EvaluateDeploymentPoliciesResponse {
+    results?: Record<string, DeploymentPolicyEvaluationResult>;
 }
 
 // @public
@@ -892,6 +978,27 @@ export enum KnownComputeOperationStatusType {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownComputeProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Disabled = "Disabled",
+    Failed = "Failed",
+    Restarting = "Restarting",
+    Scaling = "Scaling",
+    Starting = "Starting",
+    Stopped = "Stopped",
+    Stopping = "Stopping",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownComputeType {
+    Cluster = "Cluster",
+    ContainerInstance = "ContainerInstance"
 }
 
 // @public
@@ -1252,6 +1359,13 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPolicyEvaluationOutcome {
+    Compliant = "Compliant",
+    Error = "Error",
+    NonCompliant = "NonCompliant"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -1436,12 +1550,89 @@ export enum KnownUpgradeAvailabilityStatus {
 export enum KnownVersions {
     V20251001Preview = "2025-10-01-preview",
     V20251201 = "2025-12-01",
-    V20260115Preview = "2026-01-15-preview"
+    V20260115Preview = "2026-01-15-preview",
+    V20260301 = "2026-03-01",
+    V20260315Preview = "2026-03-15-preview"
+}
+
+// @public
+export enum KnownVmPriority {
+    LowPriority = "LowPriority",
+    Regular = "Regular"
 }
 
 // @public
 export interface ManagedAgentDeployment extends AgentDeploymentProperties {
     deploymentType: "Managed";
+}
+
+// @public
+export interface ManagedComputeCapacity extends ProxyResource {
+    properties?: ManagedComputeCapacityProperties;
+}
+
+// @public
+export interface ManagedComputeCapacityProperties {
+    readonly acceleratorType?: string;
+    readonly availableAccelerators?: number;
+    readonly deploymentSizeCapacities?: DeploymentSizeCapacity[];
+    readonly location?: string;
+}
+
+// @public
+export interface ManagedComputeDeployment extends ProxyResource {
+    readonly etag?: string;
+    properties?: ManagedComputeDeploymentProperties;
+    sku?: Sku;
+}
+
+// @public
+export interface ManagedComputeDeploymentInfo {
+    acceleratorCount?: number;
+    deploymentId?: string;
+    instanceCount?: number;
+    modelId?: string;
+    projectId?: string;
+}
+
+// @public
+export interface ManagedComputeDeploymentProperties {
+    readonly acceleratorsPerInstance?: number;
+    acceleratorType?: string;
+    computeId?: string;
+    deploymentTemplate?: string;
+    model: string;
+    priority?: string;
+    readonly provisioningDetails?: ManagedComputeDeploymentProvisioningDetails;
+    readonly provisioningState?: ProvisioningState;
+    readonly routes?: ManagedComputeDeploymentRoutes;
+    readonly totalAccelerators?: number;
+    versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+}
+
+// @public
+export interface ManagedComputeDeploymentProvisioningDetails {
+    lastOperationTimestamp?: Date;
+    message?: string;
+}
+
+// @public
+export interface ManagedComputeDeploymentRoutes {
+    chatCompletionsScoringPath?: string;
+    messagesApiScoringPath?: string;
+    swagger?: string;
+}
+
+// @public
+export interface ManagedComputeUsage {
+    currentValue?: number;
+    deployments?: ManagedComputeDeploymentInfo[];
+    readonly id?: string;
+    limit?: number;
+    readonly name?: MetricName;
+    offerScope?: string;
+    readonly type?: string;
+    unit?: UnitType;
 }
 
 // @public
@@ -1720,6 +1911,11 @@ export interface PATAuthTypeConnectionProperties extends ConnectionPropertiesV2 
 }
 
 // @public
+export interface PatchResourceSku {
+    sku?: Sku;
+}
+
+// @public
 export interface PatchResourceTags {
     tags?: Record<string, string>;
 }
@@ -1727,6 +1923,38 @@ export interface PatchResourceTags {
 // @public
 export interface PatchResourceTagsAndSku extends PatchResourceTags {
     sku?: Sku;
+}
+
+// @public
+export interface PolicyAssignmentEvaluationDetails {
+    assignmentId?: string;
+    effect?: string;
+    evaluationOutcome?: PolicyEvaluationOutcome;
+    expressionEvaluations?: PolicyExpressionEvaluationDetails[];
+    nonComplianceReason?: string;
+    policyDefinitionId?: string;
+    policySetDefinitionId?: string;
+}
+
+// @public
+export type PolicyEvaluationOutcome = string;
+
+// @public
+export interface PolicyExpressionEvaluationDetails {
+    expression?: string;
+    expressionKind?: string;
+    expressionValue?: string;
+    operator?: string;
+    result?: string;
+    targetValue?: string;
+}
+
+// @public
+export interface Pool {
+    instanceType: string;
+    name: string;
+    nodeCount: number;
+    vmPriority: VmPriority;
 }
 
 // @public
@@ -2243,6 +2471,12 @@ export interface SkuResource {
 export type SkuTier = string;
 
 // @public
+export interface SshSettings {
+    adminEnabled?: boolean;
+    sshPublicKey?: string;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -2343,6 +2577,32 @@ export interface VirtualNetworkRule {
     id: string;
     ignoreMissingVnetServiceEndpoint?: boolean;
     state?: string;
+}
+
+// @public
+export type VmPriority = string;
+
+// @public
+export interface Workbench extends ProxyResource {
+    readonly etag?: string;
+    identity?: Identity;
+    location?: string;
+    properties: WorkbenchProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface WorkbenchProperties {
+    readonly connectivityEndpoints?: ConnectivityEndpoints;
+    readonly creationTime?: Date;
+    datasetId?: string;
+    readonly errors?: ErrorDetail[];
+    idleTimeBeforeShutdown?: string;
+    imageLink: string;
+    readonly provisioningState?: ComputeProvisioningState;
+    sshSettings?: SshSettings;
+    targetClusterId: string;
+    readonly webEndpoint?: string;
 }
 
 // (No @packageDocumentation comment for this package)

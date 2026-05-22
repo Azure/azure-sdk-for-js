@@ -4,10 +4,10 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PollerLike } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -20,6 +20,10 @@ export interface AccountsCreateOptionalParams extends OperationOptions {
 // @public
 export interface AccountsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccountsEvaluateDeploymentPoliciesOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -62,6 +66,9 @@ export interface AccountsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export function create(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): PollerLike<OperationState<Account>, Account>;
+
+// @public
+export function evaluateDeploymentPolicies(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, body: EvaluateDeploymentPoliciesRequest, options?: AccountsEvaluateDeploymentPoliciesOptionalParams): Promise<EvaluateDeploymentPoliciesResponse>;
 
 // @public
 export function get(context: CognitiveServicesManagementContext, resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<Account>;

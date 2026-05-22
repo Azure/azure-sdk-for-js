@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext as Client } from "./index.js";
-import type {
-  SkuAvailabilityListResult,
-  DomainAvailability,
-  CalculateModelCapacityResult,
-} from "../models/models.js";
+import { CognitiveServicesManagementContext as Client } from "./index.js";
 import {
+  SkuAvailabilityListResult,
   skuAvailabilityListResultDeserializer,
   errorResponseDeserializer,
+  DomainAvailability,
   domainAvailabilityDeserializer,
   deploymentModelSerializer,
   modelCapacityCalculatorWorkloadArraySerializer,
+  CalculateModelCapacityResult,
   calculateModelCapacityResultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
+import {
   CalculateModelCapacityOptionalParams,
   CheckDomainAvailabilityOptionalParams,
   CheckSkuAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _calculateModelCapacitySend(
   context: Client,
@@ -32,7 +34,7 @@ export function _calculateModelCapacitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/calculateModelCapacity{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +87,7 @@ export function _checkDomainAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +139,7 @@ export function _checkSkuAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
