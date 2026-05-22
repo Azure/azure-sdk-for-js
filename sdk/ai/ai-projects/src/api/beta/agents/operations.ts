@@ -729,7 +729,8 @@ export async function downloadSessionFile(
   path: string,
   options: BetaAgentsDownloadSessionFileOptionalParams = { requestOptions: {} },
 ): Promise<BetaAgentsDownloadSessionFileResponse> {
-  const result = await _downloadSessionFileSend(context, agentName, sessionId, path, options);
+  const streamableMethod = _downloadSessionFileSend(context, agentName, sessionId, path, options);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadSessionFileDeserialize(result);
 }
 
