@@ -14,9 +14,7 @@ import type {
   HostedAgentDefinition,
 } from "../../../../src/index.js";
 import { AIProjectClient } from "../../../../src/index.js";
-import {
-  createAgentVersionFromCodeContentSerializer,
-} from "../../../../src/models/models.js";
+import { createAgentVersionFromCodeContentSerializer } from "../../../../src/models/models.js";
 import { createFilePartDescriptor } from "../../../../src/static-helpers/multipartHelpers.js";
 
 const agentName = "code-agent";
@@ -236,7 +234,9 @@ describe("beta agents - code-based operations", () => {
       new Uint8Array(payload),
     );
     expect(requests[0]).toContain(`/agents/${agentName}/code:download?api-version=v1`);
-    expect(requests[1]).toContain(`/agents/${agentName}/code:download?agent_version=2&api-version=v1`);
+    expect(requests[1]).toContain(
+      `/agents/${agentName}/code:download?agent_version=2&api-version=v1`,
+    );
   });
 
   it("surfaces service failures from code-based agent operations", async () => {

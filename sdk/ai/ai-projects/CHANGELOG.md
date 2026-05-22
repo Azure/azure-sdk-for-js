@@ -28,7 +28,7 @@
 - Added `FabricIQPreviewTool` as a new agent tool kind (`"fabric_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 - Added `WorkIQPreviewTool` as a new agent tool kind (`"work_iq_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 - Added `getSessionLogStream` and `listSessionFiles` operations on `project.beta.agents`.
-- Added `createAgentFromCode`, `updateAgentFromCode`, `createAgentVersionFromCode`, and `downloadAgentCode` operations on `project.beta.agents` for code-based hosted agents, plus the `"CodeAgents=V1Preview"` opt-in value on `AgentDefinitionOptInKeys`.
+- Added `createAgentVersionFromCode` and `downloadAgentCode` operations on `project.beta.agents` for code-based hosted agents, plus the `"CodeAgents=V1Preview"` opt-in value on `AgentDefinitionOptInKeys`.
 - Added `project.beta.models` route for listing, creating, updating, deleting, and retrieving credentials for model versions.
 - Added async model version creation and pending upload support on `project.beta.models`.
 - Added `CodeDependencyResolution` and `dependency_resolution` on `CodeConfiguration` for code-based hosted agent dependency resolution.
