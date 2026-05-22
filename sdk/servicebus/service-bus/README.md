@@ -501,10 +501,7 @@ for await (const sessionId of serviceBusClient.listMessageSessions("my-session-q
 }
 
 // List sessions in a subscription
-for await (const sessionId of serviceBusClient.listMessageSessions(
-  "my-topic",
-  "my-subscription",
-)) {
+for await (const sessionId of serviceBusClient.listMessageSessions("my-topic", "my-subscription")) {
   console.log("Session ID:", sessionId);
 }
 ```
