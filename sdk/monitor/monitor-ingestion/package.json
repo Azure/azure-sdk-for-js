@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure Monitor Ingestion library",
   "keywords": [
     "azure",
@@ -107,20 +107,7 @@
     "node": ">=20.0.0"
   },
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/generatedMonitorIngestionClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
+    "constantPaths": []
   },
   "//sampleConfiguration": {
     "skipFolder": false,
