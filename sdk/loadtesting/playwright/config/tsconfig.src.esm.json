@@ -3,5 +3,5 @@
   "compilerOptions": {
     "skipLibCheck": true
   },
-  "include": ["../src/index.ts", "../src/reporter/index.ts"]
+  "include": ["../src/**/*.ts"]
 }
