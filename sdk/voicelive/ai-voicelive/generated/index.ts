@@ -111,7 +111,7 @@ export type {
   InterimResponseTrigger,
   SessionBase,
   ConversationItemBase,
-  Response,
+  VoiceLiveResponse,
   ResponseStatus,
   ResponseStatusDetails,
   ResponseStatusDetailsUnion,
@@ -244,3 +244,4 @@ export {
   KnownResponseItemStatus,
   KnownServerEventType,
 } from "./models/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
