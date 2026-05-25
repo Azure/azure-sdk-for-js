@@ -880,7 +880,7 @@
 # PRLabel: %Mgmt
 /sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
