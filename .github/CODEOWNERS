@@ -748,7 +748,7 @@
 # PRLabel: %Mgmt
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
