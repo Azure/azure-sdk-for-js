@@ -86,25 +86,23 @@ export class VoiceAssistant {
       // Create appropriate credential based on configuration
       const credential = this._createCredential(config);
       
-      // Create client options for session
+      // Create session options
       const sessionOptions: any = {
         connectionTimeoutInMs: 30000,
-        enableDebugLogging: config.debugMode !== false // Enable by default
       };
 
-      console.log(`🔧 Creating Voice Live client with debug mode: ${sessionOptions.enableDebugLogging}`);
       console.log(`🔑 Using credential type: ${config.useTokenCredential ? 'TokenCredential' : 'API Key'}`);
       console.log('⚡ Using fail-fast connection policy - any disconnection will terminate session');
-      
-      if (sessionOptions.enableDebugLogging) {
-        console.log('🐛 Debug mode enabled - you will see detailed SDK logs');
+
+      if (config.debugMode !== false) {
+        console.log('🐛 Debug mode enabled - set AZURE_LOG_LEVEL=verbose (or call setLogLevel("verbose") from @azure/logger) to see detailed SDK logs');
         console.log('🔍 Check Network tab for WebSocket messages');
         console.log('📡 Watch Events panel for real-time SDK events');
       }
 
-      // Create Voice Live client
+      // Create Voice Live client. `apiVersion` defaults to the latest known
+      // version; override only to pin a specific version.
       this.client = new VoiceLiveClient(config.endpoint, credential, {
-        apiVersion: '2025-10-01',
         defaultSessionOptions: sessionOptions
       });
       
@@ -519,8 +517,8 @@ export class VoiceAssistant {
         turnDetection: {
           type: 'server_vad',
           threshold: 0.5,
-          prefixPaddingMs: 300,
-          silenceDurationMs: 500
+          prefixPaddingInMs: 300,
+          silenceDurationInMs: 500
         }
       });
       
