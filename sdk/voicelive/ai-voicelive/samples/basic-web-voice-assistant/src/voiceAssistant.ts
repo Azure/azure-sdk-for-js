@@ -108,6 +108,8 @@ export class VoiceAssistant {
   private currentAssistantMessage = '';
   private messageStartTime?: Date;
   private currentAssistantMessageId?: string;
+  // Track whether the current response contained a function call (for tool-only response handling)
+  private currentResponseHadFunctionCall = false;
   
   // Track ongoing transcription for user speech
   private currentUserTranscription = '';
@@ -608,20 +610,15 @@ export class VoiceAssistant {
 
         this.currentResponseId = event.response.id;
         this.currentAssistantMessage = ''; // Reset for new response
+        this.currentResponseHadFunctionCall = false; // Reset function call tracking
         this.messageStartTime = new Date();
         this.currentAssistantMessageId = `response_${event.response.id}_${Date.now()}`;
 
         // Clear any previous audio queue when starting new response
         this.clearAudioQueue();
 
-        // Add initial empty message that we'll update as deltas come in
-        this.callbacks?.onConversationMessageUpdate({
-          role: 'assistant',
-          content: '', // Start empty
-          timestamp: this.messageStartTime,
-          messageId: this.currentAssistantMessageId,
-          isStreaming: true
-        });
+        // Don't create UI message here — wait for the first content delta.
+        // This avoids showing an empty message for function-call-only responses.
         
         this.callbacks?.onAssistantStatusChange('thinking');
         this.callbacks?.onEventReceived({
@@ -646,10 +643,17 @@ export class VoiceAssistant {
           });
         }
 
+        // If the response contained only a function call with no audio/text content,
+        // the model needs a follow-up response.create to continue generating output.
+        // This handles the Read Along initial greeting where the model calls
+        // set_reference_text first without producing audio.
+        const needsFollowUp = this.currentResponseHadFunctionCall && !this.currentAssistantMessage.trim();
+
         // Reset for next response
         this.currentAssistantMessage = '';
         this.messageStartTime = undefined;
         this.currentAssistantMessageId = undefined;
+        this.currentResponseHadFunctionCall = false;
         
         this.callbacks?.onAssistantStatusChange('listening');
         this.callbacks?.onEventReceived({
@@ -657,6 +661,13 @@ export class VoiceAssistant {
           data: event,
           timestamp: new Date()
         });
+
+        if (needsFollowUp) {
+          console.log('🔄 Response had function call but no content — sending follow-up response.create');
+          this.session?.sendEvent({
+            type: 'response.create'
+          });
+        }
       },
 
       onInputAudioBufferSpeechStarted: async (event, context: SessionContext) => {
@@ -784,6 +795,7 @@ export class VoiceAssistant {
         this.currentAssistantMessage += event.delta;
 
         // Stream the transcript update to the conversation UI in real-time
+        // onConversationMessageUpdate with a new messageId creates the UI element on first call
         if (this.currentAssistantMessageId) {
           this.callbacks?.onConversationMessageUpdate({
             role: 'assistant',
@@ -979,6 +991,8 @@ export class VoiceAssistant {
             console.warn('Failed to parse set_reference_text arguments:', e);
           }
         }
+
+        this.currentResponseHadFunctionCall = true;
 
         // Must send function_call_output to close the function call in conversation context,
         // otherwise subsequent response.create calls may fail or behave unexpectedly.
