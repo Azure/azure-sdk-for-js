@@ -78,8 +78,9 @@ interface AudioBytesWithTimestamp {
 }
 
 interface TurnContext {
-  preparedPaAudioBuffer?: ArrayBuffer;
-  preparedPaAudio?: ArrayBuffer;
+  audioStartMillis?: number;
+  audioEndMillis?: number;
+  preparedAudio?: ArrayBuffer;
   paPromise?: Promise<[boolean, string]>;
   userMessageId?: string;
   userText?: string;
@@ -127,10 +128,10 @@ export class VoiceAssistant {
   private activeTurnContext?: TurnContext;
   // Latency tracking: keep turn context alive until TTS first chunk arrives
   private pendingLatencyTurn?: TurnContext;
-  private audioChunksToAssess: Uint8Array[] = [];
+  // Queue of prepared turn contexts for paWithReferenceText mode to handle
+  // interleaved speech events (Turn B's speechStopped can arrive before Turn A's transcriptionCompleted)
+  private pendingTurnContexts: TurnContext[] = [];
   private audioChunks: AudioBytesWithTimestamp[] = [];
-  private audioStartMillis: number | null = null;
-  private audioEndMillis: number | null = null;
   // Streaming PA state (used when paWithReferenceText is false)
   private paStreamingPushStream?: speechSDK.PushAudioInputStream;
   private paStreamingActive = false;
@@ -551,10 +552,8 @@ export class VoiceAssistant {
       this.callbacks?.onConnectionStatusChange('disconnected');
 
       this.audioTimeline.totalBytes = 0;
-      this.audioChunksToAssess = [];
       this.audioChunks = [];
-      this.audioStartMillis = null;
-      this.audioEndMillis = null;
+      this.pendingTurnContexts = [];
       this.paStreamingActive = false;
       this.paStreamingPushStream = undefined;
       this.paStreamingWriteReady = Promise.resolve();
@@ -664,7 +663,6 @@ export class VoiceAssistant {
         console.log('🔔 Speech Started:', event);
         this.currentUserTranscription = ''; // Reset transcription
         this.userSpeechStartTime = new Date();
-        this.audioStartMillis = event.audioStartInMs;
 
         // BARGE-IN: If audio is currently playing, stop it immediately
         if (this.isPlayingAudio) {
@@ -681,11 +679,13 @@ export class VoiceAssistant {
             isStreaming: false
           });
         }
+
+        // Create per-turn context with audio start timestamp for ALL modes.
+        // This ensures each turn owns its own audio range and avoids cross-turn interference.
+        this.activeTurnContext = { audioStartMillis: event.audioStartInMs };
         
         // Start streaming PA immediately for non-reference-text mode
-        // Also start streaming PA when currentReferenceText is available (Read Along scenario)
         if (this.enablePronunciationAssessment && !this.paWithReferenceText) {
-          this.activeTurnContext = {};
           // Record PA start time for latency tracking (streaming mode starts PA at speech start)
           if (this.enableLatencyTracking) {
             this.activeTurnContext.paStartTime = performance.now();
@@ -709,29 +709,21 @@ export class VoiceAssistant {
         console.log('🔔 Speech Stopped:', event);
         this.callbacks?.onAssistantStatusChange('processing');
 
-        // Don't add a message here - wait for transcription
-        // The transcription handlers will add the actual user message
-
-        this.audioEndMillis = event.audioEndInMs;
-
-        if (this.paStreamingActive && this.activeTurnContext) {
-          // Record speech end time for latency tracking
+        // Update the existing turn context with audio end timestamp and speech end time.
+        // TurnContext was created at speechStarted — no need to overwrite it here.
+        if (this.activeTurnContext) {
+          this.activeTurnContext.audioEndMillis = event.audioEndInMs;
           if (this.enableLatencyTracking) {
             this.activeTurnContext.speechEndTime = performance.now();
           }
-          // Streaming PA mode: close the push stream
-          if (this.paStreamingPushStream) {
-            const stream = this.paStreamingPushStream;
-            this.paStreamingWriteReady = this.paStreamingWriteReady.then(() => {
-              stream.close();
-            });
-          }
-        } else {
-          this.activeTurnContext = {};
-          // Record speech end time for latency tracking
-          if (this.enableLatencyTracking) {
-            this.activeTurnContext.speechEndTime = performance.now();
-          }
+        }
+
+        // Streaming PA mode: close the push stream
+        if (this.paStreamingActive && this.paStreamingPushStream) {
+          const stream = this.paStreamingPushStream;
+          this.paStreamingWriteReady = this.paStreamingWriteReady.then(() => {
+            stream.close();
+          });
         }
 
         this.callbacks?.onEventReceived({
@@ -745,16 +737,19 @@ export class VoiceAssistant {
         // In streaming PA mode, audio is pushed directly to the recognizer
         if (this.paStreamingActive) return;
 
-        this.extractValidAudio();
+        // Extract and prepare audio for PA using per-turn timestamps
+        if (this.enablePronunciationAssessment && this.activeTurnContext && !this.activeTurnContext.preparedAudio) {
+          const { audioStartMillis, audioEndMillis } = this.activeTurnContext;
+          if (audioStartMillis != null && audioEndMillis != null) {
+            this.activeTurnContext.preparedAudio = this.extractAndPrepareAudio(audioStartMillis, audioEndMillis);
+          }
+        }
 
-        if (
-          this.enablePronunciationAssessment &&
-          this.activeTurnContext &&
-          !this.activeTurnContext.preparedPaAudioBuffer &&
-          !this.activeTurnContext.preparedPaAudio &&
-          this.audioChunksToAssess.length > 0
-        ) {
-          this.activeTurnContext.preparedPaAudioBuffer = this.preparePAAudio();
+        // Enqueue the prepared turn context so that a subsequent turn's events
+        // cannot interfere before transcriptionCompleted arrives (which is async).
+        if (this.enablePronunciationAssessment && this.activeTurnContext) {
+          this.pendingTurnContexts.push(this.activeTurnContext);
+          this.activeTurnContext = undefined;
         }
       },
 
@@ -815,7 +810,11 @@ export class VoiceAssistant {
         const userText = event.transcript || this.currentUserTranscription || '[Audio input]';
         const userMsgTimestamp = this.userSpeechStartTime || new Date();
         const userMsgId = `user_${Date.now()}`;
-        const turnCtx: TurnContext = this.activeTurnContext || {};
+        // In paWithReferenceText mode, dequeue the prepared turn context (FIFO)
+        // to correctly match audio data with its transcription, even when turns interleave.
+        const turnCtx: TurnContext = (this.enablePronunciationAssessment && this.paWithReferenceText && this.pendingTurnContexts.length > 0)
+          ? this.pendingTurnContexts.shift()!
+          : (this.activeTurnContext || {});
         turnCtx.userText = userText;
         turnCtx.userMessageTimestamp = userMsgTimestamp;
         turnCtx.userMessageId = userMsgId;
@@ -832,7 +831,6 @@ export class VoiceAssistant {
 
         if (!this.enablePronunciationAssessment) {
           this.publishTurnMessage(turnCtx);
-          this.clearPAAudioCache();
 
           // Save turn context for TTS first chunk latency tracking
           if (this.enableLatencyTracking) {
@@ -909,6 +907,11 @@ export class VoiceAssistant {
           content: '[Audio input - transcription unavailable]',
           timestamp: this.userSpeechStartTime || new Date()
         });
+
+        // Discard the corresponding queued turn context (if any)
+        if (this.enablePronunciationAssessment && this.paWithReferenceText && this.pendingTurnContexts.length > 0) {
+          this.pendingTurnContexts.shift();
+        }
 
         // Reset transcription tracking
         this.currentUserTranscription = '';
@@ -1108,26 +1111,26 @@ export class VoiceAssistant {
     const voice = this.createVoiceObject(config.voice);
 
     const sessionConfig: any = {
-        modalities: ['audio', 'text'],
-        instructions: config.instructions,
-        voice,
-        inputAudioFormat: 'pcm16',
-        outputAudioFormat: 'pcm16',
-        inputAudioTranscription: this.enablePronunciationAssessment
-          ? {
-              // "azure-speech" | "mai-transcribe-1" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize"
-              model: "azure-speech",
-              // Language cannot be configured for mai-transcribe-1 model
-              language: this.recognitionLanguage
-            }
-          : undefined,
-        turnDetection: {
-          type: 'server_vad',
-          threshold: 0.5,
-          prefixPaddingInMs: 1000,
-          silenceDurationInMs: this.silenceTimeout,
-          createResponse: false
-        }
+      modalities: ['audio', 'text'],
+      instructions: config.instructions,
+      voice,
+      inputAudioFormat: 'pcm16',
+      outputAudioFormat: 'pcm16',
+      inputAudioTranscription: this.enablePronunciationAssessment
+        ? {
+            // "azure-speech" | "mai-transcribe-1" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize"
+            model: "azure-speech",
+            // Language cannot be configured for mai-transcribe-1 model
+            language: this.recognitionLanguage
+          }
+        : undefined,
+      turnDetection: {
+        type: 'server_vad',
+        threshold: 0.5,
+        prefixPaddingInMs: 1000,
+        silenceDurationInMs: this.silenceTimeout,
+        createResponse: false
+      }
     };
 
     // Only register set_reference_text tool when PA is enabled and Read Along scenario is selected
@@ -1179,7 +1182,10 @@ export class VoiceAssistant {
     try {
       // Convert ArrayBuffer to Uint8Array for sending
       const audioBytes = new Uint8Array(audioData);
-      this.cacheAudioChunks(audioBytes);
+      // Only cache audio when pronunciation assessment is enabled
+      if (this.enablePronunciationAssessment) {
+        this.cacheAudioChunks(audioBytes);
+      }
       await this.session.sendAudio(audioBytes);
 
       // Push to streaming PA if active
@@ -1325,16 +1331,9 @@ export class VoiceAssistant {
     referenceText: string,
     useReferenceText: boolean
   ): Promise<[boolean, string]> {
-    const audioChunks = turnCtx.preparedPaAudio
-      ? turnCtx.preparedPaAudio
-      : turnCtx.preparedPaAudioBuffer
-        ? turnCtx.preparedPaAudioBuffer
-        : this.preparePAAudio();
-    turnCtx.preparedPaAudio = audioChunks;
-    const result = await this.startPAWithStream(referenceText, audioChunks, useReferenceText);
-    this.clearPAAudioCache();
-    turnCtx.preparedPaAudioBuffer = undefined;
-    turnCtx.preparedPaAudio = undefined;
+    const audio = turnCtx.preparedAudio;
+    const result = await this.startPAWithStream(referenceText, audio, useReferenceText);
+    turnCtx.preparedAudio = undefined;
     turnCtx.paPromise = undefined;
     return result;
   }
@@ -1365,7 +1364,7 @@ export class VoiceAssistant {
     this.paStreamingWriteReady = Promise.resolve();
 
     // Push already-cached audio (from audioStartMillis to now) first
-    this.paStreamingWriteReady = this.pushCachedAudioToStream(pushStream);
+    this.paStreamingWriteReady = this.pushCachedAudioToStream(pushStream, turnCtx.audioStartMillis!);
 
     // Set up recognizer
     const audioConfig = speechSDK.AudioConfig.fromStreamInput(pushStream);
@@ -1397,7 +1396,6 @@ export class VoiceAssistant {
         finished = true;
         this.paStreamingActive = false;
         this.paStreamingPushStream = undefined;
-        this.clearPAAudioCache();
         resolve(result);
       };
 
@@ -1440,11 +1438,9 @@ export class VoiceAssistant {
    * Push cached audio chunks (from audioStartMillis to current position)
    * to the streaming PA push stream.
    */
-  private async pushCachedAudioToStream(pushStream: speechSDK.PushAudioInputStream): Promise<void> {
-    if (this.audioStartMillis == null) return;
-
+  private async pushCachedAudioToStream(pushStream: speechSDK.PushAudioInputStream, audioStartMillis: number): Promise<void> {
     const bytesPerMs = (this.audioCapture.currentSampleRate || 24000) * 2 / 1000;
-    const startByte = Math.floor(this.audioStartMillis * bytesPerMs);
+    const startByte = Math.floor(audioStartMillis * bytesPerMs);
 
     for (const c of this.audioChunks) {
       if (c.endByte <= startByte) continue;
@@ -1456,23 +1452,7 @@ export class VoiceAssistant {
     }
   }
 
-  private preparePAAudio(): ArrayBuffer {
-    let totalBytes = 0;
-    for (const c of this.audioChunksToAssess) {
-      totalBytes += c.byteLength;
-    }
-    const buffer = new ArrayBuffer(totalBytes);
-    const view = new Uint8Array(buffer);
-    let offset = 0;
-    for (const c of this.audioChunksToAssess) {
-      view.set(c, offset);
-      offset += c.byteLength;
-    }
-    this.audioChunksToAssess = [];
-    return buffer;
-  }
-
-  private startPAWithStream(referenceText: string, audioChunksToAssess: ArrayBuffer, useReferenceText: boolean): Promise<[boolean, string]> {
+  private startPAWithStream(referenceText: string, audioChunksToAssess: ArrayBuffer | undefined, useReferenceText: boolean): Promise<[boolean, string]> {
     return new Promise((resolve) => {
       let finished = false;
       const safeResolve = (result: [boolean, string]) => {
@@ -1579,9 +1559,8 @@ export class VoiceAssistant {
   }
 
   private cacheAudioChunks(chunk: Uint8Array): void {
-    // No guard here: caching is independent of playback AudioContext, and capture
-    // state flags can lag behind real audio flow. Invalid chunks are filtered out
-    // later by extractValidAudio() based on audioStartMillis/audioEndMillis.
+    // Caching is guarded by enablePronunciationAssessment at the call site (sendAudioData).
+    // Old chunks are trimmed by extractAndPrepareAudio after each turn.
     const start = this.audioTimeline.totalBytes;
     const end = start + chunk.byteLength;
 
@@ -1594,19 +1573,24 @@ export class VoiceAssistant {
     this.audioTimeline.totalBytes = end;
   }
 
-  private extractValidAudio() {
-    if (
-      this.audioStartMillis == null ||
-      this.audioEndMillis == null ||
-      this.audioEndMillis < this.audioStartMillis
-    ) {
-      console.warn('Invalid audio start/end timestamps for extraction.');
-      return;
+  /**
+   * Extract audio from the shared chunk cache for the given time range,
+   * merge into a single ArrayBuffer, and trim old chunks.
+   * Combines the old extractValidAudio + preparePAAudio into one step,
+   * eliminating the intermediate audioChunksToAssess buffer.
+   */
+  private extractAndPrepareAudio(startMillis: number, endMillis: number): ArrayBuffer | undefined {
+    if (endMillis < startMillis) {
+      console.warn('Invalid audio timestamps for extraction.');
+      return undefined;
     }
 
     const bytesPerMs = this.audioCapture.currentSampleRate! * 2 / 1000;
-    const startByte = Math.floor(this.audioStartMillis * bytesPerMs);
-    const endByte   = Math.ceil(this.audioEndMillis * bytesPerMs);
+    const startByte = Math.floor(startMillis * bytesPerMs);
+    const endByte   = Math.ceil(endMillis * bytesPerMs);
+
+    const slices: Uint8Array[] = [];
+    let totalBytes = 0;
 
     for (const c of this.audioChunks) {
       if (c.endByte <= startByte) continue;
@@ -1614,22 +1598,24 @@ export class VoiceAssistant {
 
       const sliceStart = Math.max(startByte, c.startByte) - c.startByte;
       const sliceEnd   = Math.min(endByte, c.endByte) - c.startByte;
-
-      this.audioChunksToAssess.push(
-        c.bytes.slice(sliceStart, sliceEnd)
-      );
+      const slice = c.bytes.slice(sliceStart, sliceEnd);
+      slices.push(slice);
+      totalBytes += slice.byteLength;
     }
 
-    this.audioChunks = [];
-    this.audioStartMillis = null;
-    this.audioEndMillis = null;
-  }
+    // Trim chunks that are fully before this extraction range
+    this.audioChunks = this.audioChunks.filter(c => c.endByte > endByte);
 
-  private clearPAAudioCache(): void {
-    this.audioChunks = [];
-    this.audioChunksToAssess = [];
-    this.audioStartMillis = null;
-    this.audioEndMillis = null;
+    if (totalBytes === 0) return undefined;
+
+    const buffer = new ArrayBuffer(totalBytes);
+    const view = new Uint8Array(buffer);
+    let offset = 0;
+    for (const s of slices) {
+      view.set(s, offset);
+      offset += s.byteLength;
+    }
+    return buffer;
   }
 
   /**
