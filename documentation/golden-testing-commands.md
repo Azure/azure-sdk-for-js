@@ -62,7 +62,7 @@ export default mergeConfig(
 ```ts
    it.only("test title...")
 ```
-Run the test command such as `npm run unit-test:node` to run the test
+Run the test command such as `npm run test:node` to run the test
 
 [powershell]: https://github.com/PowerShell/PowerShell
 

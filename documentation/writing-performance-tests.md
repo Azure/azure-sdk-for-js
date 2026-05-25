@@ -27,12 +27,12 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 1.  Create a new folder for the perf tests.
 
-    Path- `sdk/<service>/perf-tests/<service-sdk>`
+    Path- `sdk/<service>/<service-sdk>-perf-tests`
 
-    (Create the `perf-tests` folder if that doesn't exist)
+    (This is the naming convention used across the repository for perf test packages)
 
-3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/src`
-4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+3.  Tests will live under `sdk/<service>/<service-sdk>-perf-tests/src`
+4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-datalake-perf-tests/package.json) at `sdk/<service>/<service-sdk>-perf-tests` folder.
 
     Make sure to import your `<service-sdk>` and the `test-perf` project.
 
@@ -54,7 +54,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```
 
 5.  Run `pnpm install` and commit the changes to the `pnpm-lock` file.
-6.  Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/perf-tests/<service-sdk>`.
+6.  Copy the `tsconfig.json`, `sample.env`(and `.env`) files that are present at the `sdk/<service>/<service-sdk>` to `sdk/<service>/<service-sdk>-perf-tests`.
 
     TSCONFIG
 
@@ -81,11 +81,11 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 (_Skip this section if your service does not have or does not care about a track-1 version._)
 
-1. If there is an old major version of your package that needs to be compared, create the folder as `sdk/<service>/perf-tests/<service-sdk>-track-1`
+1. If there is an old major version of your package that needs to be compared, create the folder as `sdk/<service>/<service-sdk>-track-1-perf-tests`
 
 2. It is expected that the track-1 perf tests are counterparts of track-2 tests, so they need to have the same names as specified in the track-2 tests for convenience.
 
-3. Add a `package.json` such as [example-track-1-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
+3. Add a `package.json` such as [example-track-1-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/package.json) at `sdk/<service>/<service-sdk>-track-1-perf-tests` folder.
 
    Make sure to import your `<service-sdk>` and the `test-perf` project.
 
@@ -111,6 +111,8 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    ```json
        "setup": "node ../../../../common/tools/perf-tests-track-1-setup.js",
    ```
+
+   > **Note:** The `perf-tests-track-1-setup.js` script referenced above is a legacy helper that may no longer exist in the current repository. Contact the Azure SDK team if you need guidance on setting up track-1 perf tests.
 
 4. Run `pnpm install` followed by `npm run setup` to be able to use the perf framework for track-1 perf tests.
 
