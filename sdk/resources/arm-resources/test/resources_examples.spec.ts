@@ -94,25 +94,25 @@ describe("Resources test", () => {
   });
 
   it("tagsOperations create test", async () => {
-    const res = await client.tagsOperations.createOrUpdate(tagName);
+    const res = await client.tags.createOrUpdate(tagName);
     assert.equal(res.tagName, tagName);
   });
 
   it("tagsOperations get test", async () => {
-    const res = await client.tagsOperations.getAtScope(scope);
+    const res = await client.tags.getAtScope(scope);
     assert.equal(res.name, "default");
   });
 
   it("tagsOperations list test", async () => {
     const resArray = new Array();
-    for await (const item of client.tagsOperations.list()) {
+    for await (const item of client.tags.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
   it("tagsOperations update test", async () => {
-    const res = await client.tagsOperations.beginUpdateAtScopeAndWait(scope, {
+    const res = await client.tags.beginUpdateAtScopeAndWait(scope, {
       operation: "Delete",
       properties: {
         tags: {
@@ -125,8 +125,8 @@ describe("Resources test", () => {
 
   it("tagsOperations delete test", async () => {
     const resArray = new Array();
-    await client.tagsOperations.beginDeleteAtScopeAndWait(scope);
-    for await (const item of client.tagsOperations.list()) {
+    await client.tags.beginDeleteAtScopeAndWait(scope);
+    for await (const item of client.tags.list()) {
       resArray.push(item);
     }
     assert.ok(resArray);
