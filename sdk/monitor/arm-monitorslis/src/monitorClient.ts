@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorContext, MonitorClientOptionalParams, createMonitor } from "./api/index.js";
-import { SlisOperations, _getSlisOperations } from "./classic/slis/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { MonitorContext, MonitorClientOptionalParams} from "./api/index.js";
+import { createMonitor } from "./api/index.js";
+import type { SlisOperations} from "./classic/slis/index.js";
+import { _getSlisOperations } from "./classic/slis/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MonitorClientOptionalParams } from "./api/monitorContext.js";
 

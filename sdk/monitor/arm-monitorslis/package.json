@@ -88,7 +88,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/monitor/arm-monitorslis"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -157,7 +161,6 @@
   "imports": {
     "#platform/*.js": {
       "browser": "./src/*-browser.mjs",
-      "react-native": "./src/*-react-native.mjs",
       "default": "./src/*.js"
     }
   }
