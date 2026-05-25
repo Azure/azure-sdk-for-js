@@ -17,6 +17,7 @@ import {
   SavingsPlanValidateResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SavingsPlan operations. */
@@ -44,6 +45,20 @@ export interface SavingsPlanOperations {
     body: SavingsPlanUpdateRequest,
     options?: SavingsPlanUpdateOptionalParams,
   ) => PollerLike<OperationState<SavingsPlanModel>, SavingsPlanModel>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    savingsPlanOrderId: string,
+    savingsPlanId: string,
+    body: SavingsPlanUpdateRequest,
+    options?: SavingsPlanUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SavingsPlanModel>, SavingsPlanModel>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    savingsPlanOrderId: string,
+    savingsPlanId: string,
+    body: SavingsPlanUpdateRequest,
+    options?: SavingsPlanUpdateOptionalParams,
+  ) => Promise<SavingsPlanModel>;
   /** Get savings plan. */
   get: (
     savingsPlanOrderId: string,
@@ -69,6 +84,24 @@ function _getSavingsPlan(context: BillingBenefitsRPContext) {
       body: SavingsPlanUpdateRequest,
       options?: SavingsPlanUpdateOptionalParams,
     ) => update(context, savingsPlanOrderId, savingsPlanId, body, options),
+    beginUpdate: async (
+      savingsPlanOrderId: string,
+      savingsPlanId: string,
+      body: SavingsPlanUpdateRequest,
+      options?: SavingsPlanUpdateOptionalParams,
+    ) => {
+      const poller = update(context, savingsPlanOrderId, savingsPlanId, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      savingsPlanOrderId: string,
+      savingsPlanId: string,
+      body: SavingsPlanUpdateRequest,
+      options?: SavingsPlanUpdateOptionalParams,
+    ) => {
+      return await update(context, savingsPlanOrderId, savingsPlanId, body, options);
+    },
     get: (
       savingsPlanOrderId: string,
       savingsPlanId: string,

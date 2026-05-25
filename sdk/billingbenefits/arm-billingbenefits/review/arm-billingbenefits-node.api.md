@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -328,6 +329,22 @@ export interface ConditionalCreditsListBySubscriptionOptionalParams extends Oper
 
 // @public
 export interface ConditionalCreditsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<ConditionalCredit>, ConditionalCredit>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsCancelOptionalParams) => Promise<ConditionalCredit>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCredit, options?: ConditionalCreditsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConditionalCredit>, ConditionalCredit>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCredit, options?: ConditionalCreditsCreateOrUpdateOptionalParams) => Promise<ConditionalCredit>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCreditPatchRequest, options?: ConditionalCreditsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConditionalCredit>, ConditionalCredit>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCreditPatchRequest, options?: ConditionalCreditsUpdateOptionalParams) => Promise<ConditionalCredit>;
     cancel: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsCancelOptionalParams) => PollerLike<OperationState<ConditionalCredit>, ConditionalCredit>;
     createOrUpdate: (resourceGroupName: string, conditionalCreditName: string, body: ConditionalCredit, options?: ConditionalCreditsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ConditionalCredit>, ConditionalCredit>;
     delete: (resourceGroupName: string, conditionalCreditName: string, options?: ConditionalCreditsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -554,6 +571,22 @@ export interface CreditsListBySubscriptionOptionalParams extends OperationOption
 
 // @public
 export interface CreditsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, creditName: string, options?: CreditsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Credit>, Credit>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, creditName: string, options?: CreditsCancelOptionalParams) => Promise<Credit>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, creditName: string, body: Credit, options?: CreditsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Credit>, Credit>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, creditName: string, body: Credit, options?: CreditsCreateOptionalParams) => Promise<Credit>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, creditName: string, options?: CreditsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, creditName: string, options?: CreditsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, creditName: string, body: CreditPatchRequest, options?: CreditsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Credit>, Credit>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, creditName: string, body: CreditPatchRequest, options?: CreditsUpdateOptionalParams) => Promise<Credit>;
     cancel: (resourceGroupName: string, creditName: string, options?: CreditsCancelOptionalParams) => PollerLike<OperationState<Credit>, Credit>;
     create: (resourceGroupName: string, creditName: string, body: Credit, options?: CreditsCreateOptionalParams) => PollerLike<OperationState<Credit>, Credit>;
     delete: (resourceGroupName: string, creditName: string, options?: CreditsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -654,6 +687,10 @@ export interface DiscountGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DiscountOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Discount>, Discount>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams) => Promise<Discount>;
     get: (resourceGroupName: string, discountName: string, options?: DiscountGetOptionalParams) => Promise<Discount>;
     update: (resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams) => PollerLike<OperationState<Discount>, Discount>;
 }
@@ -711,6 +748,18 @@ export interface DiscountsDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface DiscountsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Discount>, Discount>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams) => Promise<Discount>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Discount>, Discount>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams) => Promise<Discount>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams) => Promise<void>;
     cancel: (resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams) => PollerLike<OperationState<Discount>, Discount>;
     create: (resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams) => PollerLike<OperationState<Discount>, Discount>;
     delete: (resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -879,6 +928,18 @@ export interface FreeServicesListBySubscriptionOptionalParams extends OperationO
 
 // @public
 export interface FreeServicesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, freeServiceName: string, body: FreeServices, options?: FreeServicesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<FreeServices>, FreeServices>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, freeServiceName: string, body: FreeServices, options?: FreeServicesCreateOptionalParams) => Promise<FreeServices>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, freeServiceName: string, body: FreeServicesPatchRequest, options?: FreeServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FreeServices>, FreeServices>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, freeServiceName: string, body: FreeServicesPatchRequest, options?: FreeServicesUpdateOptionalParams) => Promise<FreeServices>;
     create: (resourceGroupName: string, freeServiceName: string, body: FreeServices, options?: FreeServicesCreateOptionalParams) => PollerLike<OperationState<FreeServices>, FreeServices>;
     delete: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, freeServiceName: string, options?: FreeServicesGetOptionalParams) => Promise<FreeServices>;
@@ -1372,6 +1433,30 @@ export interface MaccsListBySubscriptionOptionalParams extends OperationOptions 
 
 // @public
 export interface MaccsOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, maccName: string, options?: MaccsCancelOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, maccName: string, options?: MaccsCancelOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginChargeShortfall: (resourceGroupName: string, maccName: string, body: ChargeShortfallRequest, options?: MaccsChargeShortfallOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginChargeShortfallAndWait: (resourceGroupName: string, maccName: string, body: ChargeShortfallRequest, options?: MaccsChargeShortfallOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, maccName: string, body: Macc, options?: MaccsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, maccName: string, body: Macc, options?: MaccsCreateOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, maccName: string, options?: MaccsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, maccName: string, options?: MaccsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, maccName: string, body: MaccPatchRequest, options?: MaccsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, maccName: string, body: MaccPatchRequest, options?: MaccsUpdateOptionalParams) => Promise<Macc>;
+    // @deprecated (undocumented)
+    beginWriteOff: (resourceGroupName: string, maccName: string, options?: MaccsWriteOffOptionalParams) => Promise<SimplePollerLike<OperationState<Macc>, Macc>>;
+    // @deprecated (undocumented)
+    beginWriteOffAndWait: (resourceGroupName: string, maccName: string, options?: MaccsWriteOffOptionalParams) => Promise<Macc>;
     cancel: (resourceGroupName: string, maccName: string, options?: MaccsCancelOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
     chargeShortfall: (resourceGroupName: string, maccName: string, body: ChargeShortfallRequest, options?: MaccsChargeShortfallOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
     create: (resourceGroupName: string, maccName: string, body: Macc, options?: MaccsCreateOptionalParams) => PollerLike<OperationState<Macc>, Macc>;
@@ -1592,6 +1677,10 @@ export interface ReservationOrderAliasGetOptionalParams extends OperationOptions
 
 // @public
 export interface ReservationOrderAliasOperations {
+    // @deprecated (undocumented)
+    beginCreate: (reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ReservationOrderAliasResponse>, ReservationOrderAliasResponse>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams) => Promise<ReservationOrderAliasResponse>;
     create: (reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams) => PollerLike<OperationState<ReservationOrderAliasResponse>, ReservationOrderAliasResponse>;
     get: (reservationOrderAliasName: string, options?: ReservationOrderAliasGetOptionalParams) => Promise<ReservationOrderAliasResponse>;
 }
@@ -1799,6 +1888,10 @@ export interface SavingsPlanModelProperties {
 
 // @public
 export interface SavingsPlanOperations {
+    // @deprecated (undocumented)
+    beginUpdate: (savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SavingsPlanModel>, SavingsPlanModel>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams) => Promise<SavingsPlanModel>;
     get: (savingsPlanOrderId: string, savingsPlanId: string, options?: SavingsPlanGetOptionalParams) => Promise<SavingsPlanModel>;
     list: (savingsPlanOrderId: string, options?: SavingsPlanListOptionalParams) => PagedAsyncIterableIterator<SavingsPlanModel>;
     listAll: (options?: SavingsPlanListAllOptionalParams) => PagedAsyncIterableIterator<SavingsPlanModel>;
@@ -1833,6 +1926,10 @@ export interface SavingsPlanOrderAliasModel extends ProxyResource {
 
 // @public
 export interface SavingsPlanOrderAliasOperations {
+    // @deprecated (undocumented)
+    beginCreate: (savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SavingsPlanOrderAliasModel>, SavingsPlanOrderAliasModel>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams) => Promise<SavingsPlanOrderAliasModel>;
     create: (savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams) => PollerLike<OperationState<SavingsPlanOrderAliasModel>, SavingsPlanOrderAliasModel>;
     get: (savingsPlanOrderAliasName: string, options?: SavingsPlanOrderAliasGetOptionalParams) => Promise<SavingsPlanOrderAliasModel>;
 }
@@ -2030,6 +2127,28 @@ export interface Shortfall {
     resourceId?: string;
     startAt?: Date;
     systemId?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

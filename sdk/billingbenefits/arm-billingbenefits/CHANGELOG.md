@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-05-22)
+## 2.0.0-beta.1 (2026-05-25)
 Compared with version 1.0.0
 
 ### Features Added
@@ -17,6 +17,8 @@ Compared with version 1.0.0
   - Added operation group SellerResourceOperations
   - Added operation group SourcesOperations
   - Added operation ReservationOrderAliasOperations.create
+  - Added operation SavingsPlanOperations.beginUpdate
+  - Added operation SavingsPlanOperations.beginUpdateAndWait
   - Added operation SavingsPlanOrderAliasOperations.create
   - Added Interface ApplicableMacc
   - Added Interface ApplicableMaccsListOptionalParams
@@ -144,6 +146,7 @@ Compared with version 1.0.0
   - Added Interface SellerResourceListRequest
   - Added Interface SellerResourceListRequestProperties
   - Added Interface Shortfall
+  - Added Interface SimplePollerLike
   - Added Interface SourcesCreateOptionalParams
   - Added Interface SourcesDeleteOptionalParams
   - Added Interface SourcesGetOptionalParams
@@ -219,10 +222,6 @@ Compared with version 1.0.0
   - Enum KnownTerm has a new value P1M
 
 ### Breaking Changes
-  - Removed operation ReservationOrderAlias.beginCreate
-  - Removed operation ReservationOrderAlias.beginCreateAndWait
-  - Removed operation SavingsPlanOrderAlias.beginCreate
-  - Removed operation SavingsPlanOrderAlias.beginCreateAndWait
   - Removed Interface BillingInformation
   - Removed Interface OperationResultError
   - Removed Interface PricingCurrencyTotal
