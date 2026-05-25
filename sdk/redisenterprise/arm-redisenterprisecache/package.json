@@ -15,7 +15,6 @@
   "imports": {
     "#platform/*.js": {
       "browser": "./src/*-browser.mjs",
-      "react-native": "./src/*-react-native.mjs",
       "default": "./src/*.js"
     }
   },
