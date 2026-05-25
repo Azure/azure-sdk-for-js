@@ -1,5 +1,11 @@
 # Release History
 
+## 4.12.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added support for service API versions `2026-01-01-preview` and `2026-03-01-preview`. The latest preview version (`2026-03-01-preview`) is now the default for this beta. [#38577](https://github.com/Azure/azure-sdk-for-js/pull/38577)
+
 ## 4.11.2 (2026-04-27)
 
 ### Bugs Fixed

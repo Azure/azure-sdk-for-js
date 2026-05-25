@@ -56,7 +56,18 @@ describe("The Secrets client should set the serviceVersion", () => {
   });
 
   it("it should allow us to specify an API version from a specific set of versions", async () => {
-    const versions = ["7.0", "7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "2025-07-01"] as const;
+    const versions = [
+      "7.0",
+      "7.1",
+      "7.2",
+      "7.3",
+      "7.4",
+      "7.5",
+      "7.6",
+      "2025-07-01",
+      "2026-01-01-preview",
+      "2026-03-01-preview",
+    ] as const;
     for (const serviceVersion of versions) {
       const client = new SecretClient(keyVaultUrl, credential, {
         serviceVersion,
