@@ -147,7 +147,7 @@ export class Filter {
     const fieldName: string = filter.fieldName.replace("CustomDimensions.", "");
     let value: string | undefined;
     if (data.CustomDimensions.has(fieldName)) {
-      value = data.CustomDimensions.get(fieldName) as string;
+      value = data.CustomDimensions.get(fieldName);
     } else {
       return false; // the asked for field is not present in the custom dimensions
     }
