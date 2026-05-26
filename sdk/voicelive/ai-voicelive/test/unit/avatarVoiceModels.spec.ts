@@ -22,6 +22,7 @@
 import { describe, it, expect } from "vitest";
 import type {
   AvatarConfig,
+  Scene,
   AzureCustomVoice,
   AzureStandardVoice,
   AzurePersonalVoice,
@@ -32,6 +33,8 @@ import type {
 import {
   avatarConfigSerializer,
   avatarConfigDeserializer,
+  sceneSerializer,
+  sceneDeserializer,
   azureCustomVoiceSerializer,
   azureCustomVoiceDeserializer,
   azureStandardVoiceSerializer,
@@ -185,6 +188,135 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
       expect(deserialized.customized).toBe(original.customized);
       expect(deserialized.style).toBe(original.style);
       expect(deserialized.outputProtocol).toBe(original.outputProtocol);
+    });
+
+    it("should serialize scene and outputAuditAudio fields (GA 1.0.0)", () => {
+      const config: AvatarConfig = {
+        character: "avatar-with-scene",
+        customized: false,
+        outputAuditAudio: true,
+        scene: {
+          zoom: 1.5,
+          positionX: 0.2,
+          positionY: -0.1,
+          rotationX: 0,
+          rotationY: 0.05,
+          rotationZ: 0,
+          amplitude: 0.8,
+        },
+      };
+
+      const serialized = avatarConfigSerializer(config);
+
+      expect(serialized.output_audit_audio).toBe(true);
+      expect(serialized.scene).toBeDefined();
+      expect(serialized.scene.zoom).toBe(1.5);
+      expect(serialized.scene.position_x).toBe(0.2);
+      expect(serialized.scene.position_y).toBe(-0.1);
+      expect(serialized.scene.rotation_y).toBe(0.05);
+      expect(serialized.scene.amplitude).toBe(0.8);
+    });
+
+    it("should deserialize scene and outputAuditAudio fields (GA 1.0.0)", () => {
+      const wireFormat = {
+        character: "avatar-with-scene",
+        customized: false,
+        output_audit_audio: true,
+        scene: {
+          zoom: 2,
+          position_x: -0.3,
+          position_y: 0.4,
+          rotation_x: 0.1,
+          rotation_y: -0.2,
+          rotation_z: 0.05,
+          amplitude: 0.5,
+        },
+      };
+
+      const deserialized = avatarConfigDeserializer(wireFormat);
+
+      expect(deserialized.outputAuditAudio).toBe(true);
+      expect(deserialized.scene).toBeDefined();
+      expect(deserialized.scene?.zoom).toBe(2);
+      expect(deserialized.scene?.positionX).toBe(-0.3);
+      expect(deserialized.scene?.positionY).toBe(0.4);
+      expect(deserialized.scene?.rotationX).toBe(0.1);
+      expect(deserialized.scene?.rotationY).toBe(-0.2);
+      expect(deserialized.scene?.rotationZ).toBe(0.05);
+      expect(deserialized.scene?.amplitude).toBe(0.5);
+    });
+  });
+
+  describe("Scene (GA 1.0.0)", () => {
+    it("should map camelCase to snake_case on serialize", () => {
+      const scene: Scene = {
+        zoom: 1.25,
+        positionX: 0.1,
+        positionY: 0.2,
+        rotationX: 0.3,
+        rotationY: 0.4,
+        rotationZ: 0.5,
+        amplitude: 0.9,
+      };
+
+      const serialized = sceneSerializer(scene);
+
+      expect(serialized.zoom).toBe(1.25);
+      expect(serialized.position_x).toBe(0.1);
+      expect(serialized.position_y).toBe(0.2);
+      expect(serialized.rotation_x).toBe(0.3);
+      expect(serialized.rotation_y).toBe(0.4);
+      expect(serialized.rotation_z).toBe(0.5);
+      expect(serialized.amplitude).toBe(0.9);
+    });
+
+    it("should map snake_case to camelCase on deserialize", () => {
+      const wireFormat = {
+        zoom: 0.75,
+        position_x: -0.1,
+        position_y: -0.2,
+        rotation_x: -0.3,
+        rotation_y: -0.4,
+        rotation_z: -0.5,
+        amplitude: 0.6,
+      };
+
+      const deserialized = sceneDeserializer(wireFormat);
+
+      expect(deserialized.zoom).toBe(0.75);
+      expect(deserialized.positionX).toBe(-0.1);
+      expect(deserialized.positionY).toBe(-0.2);
+      expect(deserialized.rotationX).toBe(-0.3);
+      expect(deserialized.rotationY).toBe(-0.4);
+      expect(deserialized.rotationZ).toBe(-0.5);
+      expect(deserialized.amplitude).toBe(0.6);
+    });
+
+    it("should round-trip through serialize/deserialize", () => {
+      const original: Scene = {
+        zoom: 1.1,
+        positionX: 0.05,
+        positionY: 0.15,
+        rotationX: 0.25,
+        rotationY: 0.35,
+        rotationZ: 0.45,
+        amplitude: 0.7,
+      };
+
+      const roundTripped = sceneDeserializer(sceneSerializer(original));
+
+      expect(roundTripped).toEqual(original);
+    });
+
+    it("should handle empty scene with all optional fields undefined", () => {
+      const scene: Scene = {};
+
+      const serialized = sceneSerializer(scene);
+      const deserialized = sceneDeserializer(serialized);
+
+      expect(deserialized.zoom).toBeUndefined();
+      expect(deserialized.positionX).toBeUndefined();
+      expect(deserialized.amplitude).toBeUndefined();
     });
   });
 
