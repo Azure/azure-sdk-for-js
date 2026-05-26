@@ -28,7 +28,7 @@ import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateAsyncOptionalParams,
+  BetaModelsCreateOptionalParams,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
   BetaModelsGetOptionalParams,
@@ -151,7 +151,7 @@ export function _createAsyncSend(
   name: string,
   version: string,
   body: ModelVersion,
-  options: BetaModelsCreateAsyncOptionalParams = { requestOptions: {} },
+  options: BetaModelsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
@@ -195,7 +195,7 @@ export async function create(
   name: string,
   version: string,
   body: ModelVersion,
-  options: BetaModelsCreateAsyncOptionalParams = { requestOptions: {} },
+  options: BetaModelsCreateOptionalParams = { requestOptions: {} },
 ): Promise<{
   location?: string;
   operationResult?: string | null;

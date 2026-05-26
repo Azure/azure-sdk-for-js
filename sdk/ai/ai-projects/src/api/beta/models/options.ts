@@ -10,7 +10,7 @@ export interface BetaModelsGetCredentialsOptionalParams extends OperationOptions
 export interface BetaModelsPendingUploadOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaModelsCreateAsyncOptionalParams extends OperationOptions {}
+export interface BetaModelsCreateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaModelsUpdateOptionalParams extends OperationOptions {}

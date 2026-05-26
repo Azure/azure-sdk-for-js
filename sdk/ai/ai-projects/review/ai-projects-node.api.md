@@ -914,7 +914,7 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaModelsCreateAsyncOptionalParams extends OperationOptions {
+export interface BetaModelsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -939,7 +939,7 @@ export interface BetaModelsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaModelsOperations {
-    create: (name: string, version: string, body: ModelVersion, options?: BetaModelsCreateAsyncOptionalParams) => Promise<{
+    create: (name: string, version: string, body: ModelVersion, options?: BetaModelsCreateOptionalParams) => Promise<{
         location?: string;
         operationResult?: string | null;
     }>;

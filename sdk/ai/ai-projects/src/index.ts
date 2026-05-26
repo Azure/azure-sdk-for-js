@@ -601,7 +601,7 @@ export type {
 export type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateAsyncOptionalParams,
+  BetaModelsCreateOptionalParams,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
   BetaModelsGetOptionalParams,
