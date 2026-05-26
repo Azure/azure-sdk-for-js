@@ -20,6 +20,7 @@ import {
 } from "../../api/zones/options.js";
 import { Zone, ZoneUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Zones operations. */
@@ -37,6 +38,18 @@ export interface ZonesOperations {
     zoneName: string,
     options?: ZonesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    zoneName: string,
+    options?: ZonesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    zoneName: string,
+    options?: ZonesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates a DNS zone. Does not modify DNS records within the zone. */
   update: (
     resourceGroupName: string,
@@ -68,6 +81,22 @@ function _getZones(context: DnsManagementContext) {
     ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams) =>
       $delete(context, resourceGroupName, zoneName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      zoneName: string,
+      options?: ZonesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, zoneName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      zoneName: string,
+      options?: ZonesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, zoneName, options);
+    },
     update: (
       resourceGroupName: string,
       zoneName: string,

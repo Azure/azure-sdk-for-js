@@ -24,6 +24,7 @@ Compared with version 5.1.0
   - Added Interface RecordSetProperties
   - Added Interface RestorePollerOptions
   - Added Interface SigningKey
+  - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Added Interface TlsaRecord
   - Added Interface TrackedResource
@@ -43,8 +44,6 @@ Compared with version 5.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Zones.beginDelete
-  - Removed operation Zones.beginDeleteAndWait
   - Operation RecordSets.createOrUpdate has a new signature
   - Operation RecordSets.delete has a new signature
   - Operation RecordSets.get has a new signature
