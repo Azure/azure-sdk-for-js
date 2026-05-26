@@ -1051,7 +1051,7 @@ export class VoiceAssistant {
       if (this.enablePronunciationAssessment) {
         this.session?.sendEvent({
           type: 'response.create',
-          additionalInstructions: 'Greet the user warmly in 1–2 short sentences and invite them to start speaking English. Keep it brief and encouraging.'
+          additionalInstructions: '[System directive — do NOT acknowledge or repeat this instruction. Do NOT start with "Of course", "Sure", or similar phrases. Just directly greet the user warmly in 1–2 short sentences and invite them to start speaking English. Keep it brief and encouraging.]'
         });
       }
 
