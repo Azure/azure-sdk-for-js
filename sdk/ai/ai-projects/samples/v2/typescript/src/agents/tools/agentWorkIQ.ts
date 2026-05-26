@@ -3,41 +3,40 @@
 
 /**
  * This sample demonstrates how to run a Prompt Agent that uses the
- * Fabric IQ preview tool.
+ * Work IQ preview tool.
  *
- * @summary Create an agent with FabricIQPreviewTool, send a query that leverages
- * Fabric IQ to search and retrieve information, and clean up resources.
+ * @summary Create an agent with WorkIQPreviewTool, send a query that leverages
+ * Work IQ to search and retrieve Microsoft 365 information, and clean up resources.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AIProjectClient } = require("@azure/ai-projects");
-require("dotenv/config");
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient, type WorkIQPreviewTool } from "@azure/ai-projects";
+import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
-const fabricIqProjectConnectionId =
-  process.env["FABRIC_IQ_PROJECT_CONNECTION_ID"] || "<fabric iq project connection id>";
+const workIqProjectConnectionId =
+  process.env["WORKIQ_CONNECTION_ID"] || "<work iq project connection id>";
 
-async function main() {
+export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = project.getOpenAIClient();
 
-  const tool = {
-    type: "fabric_iq_preview",
-    project_connection_id: fabricIqProjectConnectionId,
-    require_approval: "never",
+  const tool: WorkIQPreviewTool = {
+    type: "work_iq_preview",
+    project_connection_id: workIqProjectConnectionId,
   };
 
-  console.log("Creating agent with FabricIQPreviewTool...");
-  const agent = await project.agents.createVersion("MyAgent", {
+  console.log("Creating agent with WorkIQPreviewTool...");
+  const agent = await project.agents.createVersion("MyWorkIQAgent", {
     kind: "prompt",
     model: deploymentName,
-    instructions: "Use the available Fabric IQ tools to answer questions and perform tasks.",
+    instructions: "Use the available Work IQ tools to answer questions and perform tasks.",
     tools: [tool],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-  const userInput = process.env["FABRIC_IQ_USER_INPUT"] || "Summarize the available datasets";
+  const userInput = "What meetings do I have scheduled today?";
   console.log("\nSending request to agent...");
 
   const response = await openAIClient.responses.create(
@@ -46,7 +45,7 @@ async function main() {
     },
     {
       body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
+        agent_reference: { name: agent.name, version: agent.version, type: "agent_reference" },
       },
     },
   );
@@ -61,5 +60,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

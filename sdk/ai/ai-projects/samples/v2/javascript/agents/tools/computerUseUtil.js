@@ -8,6 +8,7 @@
 
 const fs = require("node:fs");
 const path = require("path");
+
 /**
  * Enum for tracking the state of the simulated web search workflow.
  */

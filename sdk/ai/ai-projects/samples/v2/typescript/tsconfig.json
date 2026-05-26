@@ -1,24 +1,18 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "module": "commonjs",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
+    "module": "nodenext",
+    "lib": ["ES2022", "DOM"],
     "importHelpers": true,
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
     "types": ["node"],
     "outDir": "./dist",
+    "rootDir": "./src",
     "resolveJsonModule": true,
-    "moduleResolution": "node10"
+    "moduleResolution": "nodenext"
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }
