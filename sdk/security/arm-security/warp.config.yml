@@ -1,5 +1,8 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
 exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./models": "./src/models/index.ts"
   "./models/alertsAPI": "./src/models/alertsAPI/index.ts"

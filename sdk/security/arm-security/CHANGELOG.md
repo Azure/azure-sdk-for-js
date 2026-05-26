@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.0-beta.7 (2026-05-18)
+## 6.0.0-beta.7 (2026-05-26)
 Compared with version 5.0.0
 
 ### Features Added
@@ -53,6 +53,7 @@ Compared with version 5.0.0
   - Added Interface AadSolutionProperties
   - Added Interface AccessTokenAuthentication
   - Added Interface ActionableRemediation
+  - Added Interface ActiveConnectionsNotInAllowedRange
   - Added Interface AdvancedThreatProtectionProperties
   - Added Interface AdvancedThreatProtectionSetting
   - Added Interface AgentlessConfiguration
@@ -69,6 +70,9 @@ Compared with version 5.0.0
   - Added Interface AllowedConnectionsResource
   - Added Interface AllowedConnectionsResourceProperties
   - Added Interface AllowlistCustomAlertRule
+  - Added Interface AmqpC2DMessagesNotInAllowedRange
+  - Added Interface AmqpC2DRejectedMessagesNotInAllowedRange
+  - Added Interface AmqpD2CMessagesNotInAllowedRange
   - Added Interface ApiCollection
   - Added Interface ApiCollectionProperties
   - Added Interface APICollectionsGetByAzureApiManagementServiceOptionalParams
@@ -151,6 +155,8 @@ Compared with version 5.0.0
   - Added Interface ComplianceProperties
   - Added Interface ComplianceResult
   - Added Interface ComplianceResultProperties
+  - Added Interface ConnectionFromIpNotAllowed
+  - Added Interface ConnectionToIpNotAllowed
   - Added Interface ContainerRegistryVulnerabilityProperties
   - Added Interface CspmMonitorAwsOffering
   - Added Interface CspmMonitorAzureDevOpsOffering
@@ -240,6 +246,7 @@ Compared with version 5.0.0
   - Added Interface DevOpsConfigurationsListOptionalParams
   - Added Interface DevOpsConfigurationsUpdateOptionalParams
   - Added Interface DevOpsOperationResultsGetOptionalParams
+  - Added Interface DirectMethodInvokesNotInAllowedRange
   - Added Interface DiscoveredSecuritySolution
   - Added Interface DiscoveredSecuritySolutionProperties
   - Added Interface DockerHubEnvironmentData
@@ -251,7 +258,9 @@ Compared with version 5.0.0
   - Added Interface Extension
   - Added Interface ExtensionResource
   - Added Interface ExternalSecuritySolution
+  - Added Interface FailedLocalLoginsNotInAllowedRange
   - Added Interface FilesScanSummary
+  - Added Interface FileUploadsNotInAllowedRange
   - Added Interface GcpOrganizationalData
   - Added Interface GcpOrganizationalDataMember
   - Added Interface GcpOrganizationalDataOrganization
@@ -309,6 +318,9 @@ Compared with version 5.0.0
   - Added Interface HealthReportProperties
   - Added Interface HealthReportsGetOptionalParams
   - Added Interface HealthReportsListOptionalParams
+  - Added Interface HttpC2DMessagesNotInAllowedRange
+  - Added Interface HttpC2DRejectedMessagesNotInAllowedRange
+  - Added Interface HttpD2CMessagesNotInAllowedRange
   - Added Interface Identity
   - Added Interface InformationProtectionPolicy
   - Added Interface InformationProtectionPolicyProperties
@@ -326,15 +338,21 @@ Compared with version 5.0.0
   - Added Interface IssueCreationRequest
   - Added Interface JFrogEnvironmentData
   - Added Interface JitNetworkAccessPolicy
+  - Added Interface JitNetworkAccessPolicyCreate
   - Added Interface JitNetworkAccessPolicyProperties
+  - Added Interface JitNetworkAccessPolicyPropertiesCreate
   - Added Interface Label
   - Added Interface ListCustomAlertRule
+  - Added Interface LocalUserNotAllowed
   - Added Interface LogAnalyticsIdentifier
   - Added Interface MalwareScan
   - Added Interface MalwareScanningProperties
   - Added Interface MalwareScanProperties
   - Added Interface MdeOnboardingData
   - Added Interface MdeOnboardingDataProperties
+  - Added Interface MqttC2DMessagesNotInAllowedRange
+  - Added Interface MqttC2DRejectedMessagesNotInAllowedRange
+  - Added Interface MqttD2CMessagesNotInAllowedRange
   - Added Interface NotificationsSource
   - Added Interface NotificationsSourceAlert
   - Added Interface NotificationsSourceAttackPath
@@ -361,7 +379,6 @@ Compared with version 5.0.0
   - Added Interface PrivateEndpointConnectionsGetOptionalParams
   - Added Interface PrivateEndpointConnectionsListOptionalParams
   - Added Interface PrivateLinkGroupResource
-  - Added Interface PrivateLinkParameters
   - Added Interface PrivateLinkProperties
   - Added Interface PrivateLinkResource
   - Added Interface PrivateLinkResourceProperties
@@ -376,7 +393,9 @@ Compared with version 5.0.0
   - Added Interface PrivateLinksListOptionalParams
   - Added Interface PrivateLinksUpdateOptionalParams
   - Added Interface PrivateLinkUpdate
+  - Added Interface ProcessNotAllowed
   - Added Interface ProxyResource
+  - Added Interface QueuePurgesNotInAllowedRange
   - Added Interface RegulatoryComplianceAssessment
   - Added Interface RegulatoryComplianceAssessmentProperties
   - Added Interface RegulatoryComplianceControl
@@ -486,6 +505,8 @@ Compared with version 5.0.0
   - Added Interface TopologyResource
   - Added Interface TopologyResourceProperties
   - Added Interface TrackedResource
+  - Added Interface TwinUpdatesNotInAllowedRange
+  - Added Interface UnauthorizedOperationsNotInAllowedRange
   - Added Interface UpdateIotSecuritySolutionData
   - Added Interface UpdateIoTSecuritySolutionProperties
   - Added Interface UpdateSensitivitySettingsRequest
@@ -692,6 +713,7 @@ Compared with version 5.0.0
   - Operation Automations.createOrUpdate has a new signature
   - Operation Automations.get has a new signature
   - Operation Automations.validate has a new signature
+  - Operation JitNetworkAccessPolicies.createOrUpdate has a new signature
   - Operation Pricings.get has a new signature
   - Operation Pricings.list has a new signature
   - Operation Pricings.update has a new signature
@@ -838,7 +860,6 @@ Compared with version 5.0.0
   - Removed Type Alias AlertSyncSettings
   - Removed Type Alias AllowedConnectionsResource
   - Removed Type Alias AllowlistCustomAlertRule
-  - Removed Type Alias AllowlistCustomAlertRuleUnion
   - Removed Type Alias AmqpC2DMessagesNotInAllowedRange
   - Removed Type Alias AmqpC2DRejectedMessagesNotInAllowedRange
   - Removed Type Alias AmqpD2CMessagesNotInAllowedRange
@@ -941,7 +962,6 @@ Compared with version 5.0.0
   - Removed Type Alias SupportedCloudEnum
   - Removed Type Alias ThresholdCustomAlertRule
   - Removed Type Alias TimeWindowCustomAlertRule
-  - Removed Type Alias TimeWindowCustomAlertRuleUnion
   - Removed Type Alias TopologyResource
   - Removed Type Alias TrackedResource
   - Removed Type Alias TransportProtocol
@@ -954,11 +974,9 @@ Compared with version 5.0.0
   - Type alias "AutomationActionUnion" has been changed
   - Type alias "CloudOfferingUnion" has been changed
   - Type alias "CustomAlertRuleUnion" has been changed
-  - Type alias "ListCustomAlertRuleUnion" has been changed
   - Type alias "OnPremiseResourceDetailsUnion" has been changed
   - Type alias "ResourceDetailsUnion" has been changed
   - Type alias "ResourceIdentifierUnion" has been changed
-  - Type alias "ThresholdCustomAlertRuleUnion" has been changed
   - Removed Enum KnownAdaptiveApplicationControlIssue
   - Removed Enum KnownAlertNotifications
   - Removed Enum KnownAlertsToAdmins

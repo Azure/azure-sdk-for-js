@@ -15,7 +15,6 @@ import {
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
 import { PrivateEndpointConnection } from "../../models/privateLinksAPI/models.js";
-import { PrivateLinkParameters } from "../../models/securityManagementClient/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -25,34 +24,34 @@ export interface PrivateEndpointConnectionsOperations {
   /** Gets all private endpoint connections for a private link. Returns the list of private endpoints that are connected or in the process of connecting to this private link. */
   list: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     options?: PrivateEndpointConnectionsListOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection associated with the private link. This operation will disconnect the private endpoint and remove the connection configuration. */
   delete: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use delete instead */
   beginDelete: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use delete instead */
   beginDeleteAndWait: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ) => Promise<void>;
   /** Update the state of specified private endpoint connection associated with the private link. This operation is typically used to approve or reject pending private endpoint connections. */
   createOrUpdate: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
@@ -60,7 +59,7 @@ export interface PrivateEndpointConnectionsOperations {
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
@@ -70,7 +69,7 @@ export interface PrivateEndpointConnectionsOperations {
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
@@ -78,7 +77,7 @@ export interface PrivateEndpointConnectionsOperations {
   /** Gets the specified private endpoint connection associated with the private link. Returns the connection details, status, and configuration for a specific private endpoint. */
   get: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
@@ -88,19 +87,19 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
   return {
     list: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       options?: PrivateEndpointConnectionsListOptionalParams,
     ) => list(context, resourceGroupName, privateLinkName, options),
     delete: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) =>
       $delete(context, resourceGroupName, privateLinkName, privateEndpointConnectionName, options),
     beginDelete: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) => {
@@ -116,7 +115,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
     },
     beginDeleteAndWait: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) => {
@@ -130,7 +129,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
     },
     createOrUpdate: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       privateEndpointConnection: PrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
@@ -145,7 +144,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
       ),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       privateEndpointConnection: PrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
@@ -163,7 +162,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
     },
     beginCreateOrUpdateAndWait: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       privateEndpointConnection: PrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
@@ -179,7 +178,7 @@ function _getPrivateEndpointConnections(context: SecurityCenterContext) {
     },
     get: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsGetOptionalParams,
     ) => get(context, resourceGroupName, privateLinkName, privateEndpointConnectionName, options),

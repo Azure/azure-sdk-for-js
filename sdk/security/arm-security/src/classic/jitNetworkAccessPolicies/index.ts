@@ -22,6 +22,7 @@ import {
   JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
   JitNetworkAccessPoliciesGetOptionalParams,
 } from "../../api/jitNetworkAccessPolicies/options.js";
+import { JitNetworkAccessPolicyCreate } from "../../models/securityManagementClient/models.js";
 import {
   JitNetworkAccessPolicy,
   JitNetworkAccessRequest,
@@ -71,7 +72,7 @@ export interface JitNetworkAccessPoliciesOperations {
     resourceGroupName: string,
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
-    body: JitNetworkAccessPolicy,
+    body: JitNetworkAccessPolicyCreate,
     options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<JitNetworkAccessPolicy>;
   /** Policies for protecting resources using Just-in-Time access control for the subscription, location */
@@ -117,7 +118,7 @@ function _getJitNetworkAccessPolicies(context: SecurityCenterContext) {
       resourceGroupName: string,
       ascLocation: string,
       jitNetworkAccessPolicyName: string,
-      body: JitNetworkAccessPolicy,
+      body: JitNetworkAccessPolicyCreate,
       options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

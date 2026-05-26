@@ -18,7 +18,13 @@ async function createOrUpdateADeviceSecurityGroupForTheSpecifiedIoTHubResource()
     "samplesecuritygroup",
     {
       timeWindowRules: [
-        { isEnabled: true, maxThreshold: 30, minThreshold: 0, timeWindowSize: "PT05M" },
+        {
+          isEnabled: true,
+          maxThreshold: 30,
+          minThreshold: 0,
+          ruleType: "ActiveConnectionsNotInAllowedRange",
+          timeWindowSize: "PT05M",
+        },
       ],
     },
   );

@@ -15,9 +15,9 @@ export interface DeviceSecurityGroup extends ExtensionResource {
   /** The list of custom alert threshold rules. */
   thresholdRules?: ThresholdCustomAlertRuleUnion[];
   /** The list of custom alert time-window rules. */
-  timeWindowRules?: TimeWindowCustomAlertRule[];
+  timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
   /** The allow-list custom alert rules. */
-  allowlistRules?: AllowlistCustomAlertRule[];
+  allowlistRules?: AllowlistCustomAlertRuleUnion[];
   /** The deny-list custom alert rules. */
   denylistRules?: DenylistCustomAlertRule[];
 }
@@ -54,9 +54,9 @@ export interface DeviceSecurityGroupProperties {
   /** The list of custom alert threshold rules. */
   thresholdRules?: ThresholdCustomAlertRuleUnion[];
   /** The list of custom alert time-window rules. */
-  timeWindowRules?: TimeWindowCustomAlertRule[];
+  timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
   /** The allow-list custom alert rules. */
-  allowlistRules?: AllowlistCustomAlertRule[];
+  allowlistRules?: AllowlistCustomAlertRuleUnion[];
   /** The deny-list custom alert rules. */
   denylistRules?: DenylistCustomAlertRule[];
 }
@@ -68,10 +68,10 @@ export function deviceSecurityGroupPropertiesSerializer(item: DeviceSecurityGrou
       : thresholdCustomAlertRuleUnionArraySerializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : timeWindowCustomAlertRuleArraySerializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleUnionArraySerializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : allowlistCustomAlertRuleArraySerializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleUnionArraySerializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
       : denylistCustomAlertRuleArraySerializer(item["denylistRules"]),
@@ -87,10 +87,10 @@ export function deviceSecurityGroupPropertiesDeserializer(
       : thresholdCustomAlertRuleUnionArrayDeserializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : timeWindowCustomAlertRuleArrayDeserializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleUnionArrayDeserializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : allowlistCustomAlertRuleArrayDeserializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleUnionArrayDeserializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
       : denylistCustomAlertRuleArrayDeserializer(item["denylistRules"]),
@@ -119,7 +119,25 @@ export interface ThresholdCustomAlertRule extends CustomAlertRule {
   minThreshold: number;
   /** The maximum threshold. */
   maxThreshold: number;
-  ruleType: "ThresholdCustomAlertRule" | "TimeWindowCustomAlertRule";
+  ruleType:
+    | "ThresholdCustomAlertRule"
+    | "TimeWindowCustomAlertRule"
+    | "ActiveConnectionsNotInAllowedRange"
+    | "AmqpC2DMessagesNotInAllowedRange"
+    | "MqttC2DMessagesNotInAllowedRange"
+    | "HttpC2DMessagesNotInAllowedRange"
+    | "AmqpC2DRejectedMessagesNotInAllowedRange"
+    | "MqttC2DRejectedMessagesNotInAllowedRange"
+    | "HttpC2DRejectedMessagesNotInAllowedRange"
+    | "AmqpD2CMessagesNotInAllowedRange"
+    | "MqttD2CMessagesNotInAllowedRange"
+    | "HttpD2CMessagesNotInAllowedRange"
+    | "DirectMethodInvokesNotInAllowedRange"
+    | "FailedLocalLoginsNotInAllowedRange"
+    | "FileUploadsNotInAllowedRange"
+    | "QueuePurgesNotInAllowedRange"
+    | "TwinUpdatesNotInAllowedRange"
+    | "UnauthorizedOperationsNotInAllowedRange";
 }
 
 export function thresholdCustomAlertRuleSerializer(item: ThresholdCustomAlertRule): any {
@@ -143,12 +161,30 @@ export function thresholdCustomAlertRuleDeserializer(item: any): ThresholdCustom
 }
 
 /** Alias for ThresholdCustomAlertRuleUnion */
-export type ThresholdCustomAlertRuleUnion = TimeWindowCustomAlertRule | ThresholdCustomAlertRule;
+export type ThresholdCustomAlertRuleUnion =
+  | TimeWindowCustomAlertRuleUnion
+  | ThresholdCustomAlertRule;
 
 export function thresholdCustomAlertRuleUnionSerializer(item: ThresholdCustomAlertRuleUnion): any {
   switch (item.ruleType) {
     case "TimeWindowCustomAlertRule":
-      return timeWindowCustomAlertRuleSerializer(item as TimeWindowCustomAlertRule);
+    case "ActiveConnectionsNotInAllowedRange":
+    case "AmqpC2DMessagesNotInAllowedRange":
+    case "MqttC2DMessagesNotInAllowedRange":
+    case "HttpC2DMessagesNotInAllowedRange":
+    case "AmqpC2DRejectedMessagesNotInAllowedRange":
+    case "MqttC2DRejectedMessagesNotInAllowedRange":
+    case "HttpC2DRejectedMessagesNotInAllowedRange":
+    case "AmqpD2CMessagesNotInAllowedRange":
+    case "MqttD2CMessagesNotInAllowedRange":
+    case "HttpD2CMessagesNotInAllowedRange":
+    case "DirectMethodInvokesNotInAllowedRange":
+    case "FailedLocalLoginsNotInAllowedRange":
+    case "FileUploadsNotInAllowedRange":
+    case "QueuePurgesNotInAllowedRange":
+    case "TwinUpdatesNotInAllowedRange":
+    case "UnauthorizedOperationsNotInAllowedRange":
+      return timeWindowCustomAlertRuleUnionSerializer(item as TimeWindowCustomAlertRuleUnion);
 
     default:
       return thresholdCustomAlertRuleSerializer(item);
@@ -160,7 +196,23 @@ export function thresholdCustomAlertRuleUnionDeserializer(
 ): ThresholdCustomAlertRuleUnion {
   switch (item["ruleType"]) {
     case "TimeWindowCustomAlertRule":
-      return timeWindowCustomAlertRuleDeserializer(item as TimeWindowCustomAlertRule);
+    case "ActiveConnectionsNotInAllowedRange":
+    case "AmqpC2DMessagesNotInAllowedRange":
+    case "MqttC2DMessagesNotInAllowedRange":
+    case "HttpC2DMessagesNotInAllowedRange":
+    case "AmqpC2DRejectedMessagesNotInAllowedRange":
+    case "MqttC2DRejectedMessagesNotInAllowedRange":
+    case "HttpC2DRejectedMessagesNotInAllowedRange":
+    case "AmqpD2CMessagesNotInAllowedRange":
+    case "MqttD2CMessagesNotInAllowedRange":
+    case "HttpD2CMessagesNotInAllowedRange":
+    case "DirectMethodInvokesNotInAllowedRange":
+    case "FailedLocalLoginsNotInAllowedRange":
+    case "FileUploadsNotInAllowedRange":
+    case "QueuePurgesNotInAllowedRange":
+    case "TwinUpdatesNotInAllowedRange":
+    case "UnauthorizedOperationsNotInAllowedRange":
+      return timeWindowCustomAlertRuleUnionDeserializer(item as TimeWindowCustomAlertRuleUnion);
 
     default:
       return thresholdCustomAlertRuleDeserializer(item);
@@ -171,7 +223,24 @@ export function thresholdCustomAlertRuleUnionDeserializer(
 export interface TimeWindowCustomAlertRule extends ThresholdCustomAlertRule {
   /** The time window size in iso8601 format. */
   timeWindowSize: string;
-  ruleType: "TimeWindowCustomAlertRule";
+  ruleType:
+    | "TimeWindowCustomAlertRule"
+    | "ActiveConnectionsNotInAllowedRange"
+    | "AmqpC2DMessagesNotInAllowedRange"
+    | "MqttC2DMessagesNotInAllowedRange"
+    | "HttpC2DMessagesNotInAllowedRange"
+    | "AmqpC2DRejectedMessagesNotInAllowedRange"
+    | "MqttC2DRejectedMessagesNotInAllowedRange"
+    | "HttpC2DRejectedMessagesNotInAllowedRange"
+    | "AmqpD2CMessagesNotInAllowedRange"
+    | "MqttD2CMessagesNotInAllowedRange"
+    | "HttpD2CMessagesNotInAllowedRange"
+    | "DirectMethodInvokesNotInAllowedRange"
+    | "FailedLocalLoginsNotInAllowedRange"
+    | "FileUploadsNotInAllowedRange"
+    | "QueuePurgesNotInAllowedRange"
+    | "TwinUpdatesNotInAllowedRange"
+    | "UnauthorizedOperationsNotInAllowedRange";
 }
 
 export function timeWindowCustomAlertRuleSerializer(item: TimeWindowCustomAlertRule): any {
@@ -196,35 +265,697 @@ export function timeWindowCustomAlertRuleDeserializer(item: any): TimeWindowCust
   };
 }
 
-export function timeWindowCustomAlertRuleArraySerializer(
-  result: Array<TimeWindowCustomAlertRule>,
+/** Alias for TimeWindowCustomAlertRuleUnion */
+export type TimeWindowCustomAlertRuleUnion =
+  | ActiveConnectionsNotInAllowedRange
+  | AmqpC2DMessagesNotInAllowedRange
+  | MqttC2DMessagesNotInAllowedRange
+  | HttpC2DMessagesNotInAllowedRange
+  | AmqpC2DRejectedMessagesNotInAllowedRange
+  | MqttC2DRejectedMessagesNotInAllowedRange
+  | HttpC2DRejectedMessagesNotInAllowedRange
+  | AmqpD2CMessagesNotInAllowedRange
+  | MqttD2CMessagesNotInAllowedRange
+  | HttpD2CMessagesNotInAllowedRange
+  | DirectMethodInvokesNotInAllowedRange
+  | FailedLocalLoginsNotInAllowedRange
+  | FileUploadsNotInAllowedRange
+  | QueuePurgesNotInAllowedRange
+  | TwinUpdatesNotInAllowedRange
+  | UnauthorizedOperationsNotInAllowedRange
+  | TimeWindowCustomAlertRule;
+
+export function timeWindowCustomAlertRuleUnionSerializer(
+  item: TimeWindowCustomAlertRuleUnion,
+): any {
+  switch (item.ruleType) {
+    case "ActiveConnectionsNotInAllowedRange":
+      return activeConnectionsNotInAllowedRangeSerializer(
+        item as ActiveConnectionsNotInAllowedRange,
+      );
+
+    case "AmqpC2DMessagesNotInAllowedRange":
+      return amqpC2DMessagesNotInAllowedRangeSerializer(item as AmqpC2DMessagesNotInAllowedRange);
+
+    case "MqttC2DMessagesNotInAllowedRange":
+      return mqttC2DMessagesNotInAllowedRangeSerializer(item as MqttC2DMessagesNotInAllowedRange);
+
+    case "HttpC2DMessagesNotInAllowedRange":
+      return httpC2DMessagesNotInAllowedRangeSerializer(item as HttpC2DMessagesNotInAllowedRange);
+
+    case "AmqpC2DRejectedMessagesNotInAllowedRange":
+      return amqpC2DRejectedMessagesNotInAllowedRangeSerializer(
+        item as AmqpC2DRejectedMessagesNotInAllowedRange,
+      );
+
+    case "MqttC2DRejectedMessagesNotInAllowedRange":
+      return mqttC2DRejectedMessagesNotInAllowedRangeSerializer(
+        item as MqttC2DRejectedMessagesNotInAllowedRange,
+      );
+
+    case "HttpC2DRejectedMessagesNotInAllowedRange":
+      return httpC2DRejectedMessagesNotInAllowedRangeSerializer(
+        item as HttpC2DRejectedMessagesNotInAllowedRange,
+      );
+
+    case "AmqpD2CMessagesNotInAllowedRange":
+      return amqpD2CMessagesNotInAllowedRangeSerializer(item as AmqpD2CMessagesNotInAllowedRange);
+
+    case "MqttD2CMessagesNotInAllowedRange":
+      return mqttD2CMessagesNotInAllowedRangeSerializer(item as MqttD2CMessagesNotInAllowedRange);
+
+    case "HttpD2CMessagesNotInAllowedRange":
+      return httpD2CMessagesNotInAllowedRangeSerializer(item as HttpD2CMessagesNotInAllowedRange);
+
+    case "DirectMethodInvokesNotInAllowedRange":
+      return directMethodInvokesNotInAllowedRangeSerializer(
+        item as DirectMethodInvokesNotInAllowedRange,
+      );
+
+    case "FailedLocalLoginsNotInAllowedRange":
+      return failedLocalLoginsNotInAllowedRangeSerializer(
+        item as FailedLocalLoginsNotInAllowedRange,
+      );
+
+    case "FileUploadsNotInAllowedRange":
+      return fileUploadsNotInAllowedRangeSerializer(item as FileUploadsNotInAllowedRange);
+
+    case "QueuePurgesNotInAllowedRange":
+      return queuePurgesNotInAllowedRangeSerializer(item as QueuePurgesNotInAllowedRange);
+
+    case "TwinUpdatesNotInAllowedRange":
+      return twinUpdatesNotInAllowedRangeSerializer(item as TwinUpdatesNotInAllowedRange);
+
+    case "UnauthorizedOperationsNotInAllowedRange":
+      return unauthorizedOperationsNotInAllowedRangeSerializer(
+        item as UnauthorizedOperationsNotInAllowedRange,
+      );
+
+    default:
+      return timeWindowCustomAlertRuleSerializer(item);
+  }
+}
+
+export function timeWindowCustomAlertRuleUnionDeserializer(
+  item: any,
+): TimeWindowCustomAlertRuleUnion {
+  switch (item["ruleType"]) {
+    case "ActiveConnectionsNotInAllowedRange":
+      return activeConnectionsNotInAllowedRangeDeserializer(
+        item as ActiveConnectionsNotInAllowedRange,
+      );
+
+    case "AmqpC2DMessagesNotInAllowedRange":
+      return amqpC2DMessagesNotInAllowedRangeDeserializer(item as AmqpC2DMessagesNotInAllowedRange);
+
+    case "MqttC2DMessagesNotInAllowedRange":
+      return mqttC2DMessagesNotInAllowedRangeDeserializer(item as MqttC2DMessagesNotInAllowedRange);
+
+    case "HttpC2DMessagesNotInAllowedRange":
+      return httpC2DMessagesNotInAllowedRangeDeserializer(item as HttpC2DMessagesNotInAllowedRange);
+
+    case "AmqpC2DRejectedMessagesNotInAllowedRange":
+      return amqpC2DRejectedMessagesNotInAllowedRangeDeserializer(
+        item as AmqpC2DRejectedMessagesNotInAllowedRange,
+      );
+
+    case "MqttC2DRejectedMessagesNotInAllowedRange":
+      return mqttC2DRejectedMessagesNotInAllowedRangeDeserializer(
+        item as MqttC2DRejectedMessagesNotInAllowedRange,
+      );
+
+    case "HttpC2DRejectedMessagesNotInAllowedRange":
+      return httpC2DRejectedMessagesNotInAllowedRangeDeserializer(
+        item as HttpC2DRejectedMessagesNotInAllowedRange,
+      );
+
+    case "AmqpD2CMessagesNotInAllowedRange":
+      return amqpD2CMessagesNotInAllowedRangeDeserializer(item as AmqpD2CMessagesNotInAllowedRange);
+
+    case "MqttD2CMessagesNotInAllowedRange":
+      return mqttD2CMessagesNotInAllowedRangeDeserializer(item as MqttD2CMessagesNotInAllowedRange);
+
+    case "HttpD2CMessagesNotInAllowedRange":
+      return httpD2CMessagesNotInAllowedRangeDeserializer(item as HttpD2CMessagesNotInAllowedRange);
+
+    case "DirectMethodInvokesNotInAllowedRange":
+      return directMethodInvokesNotInAllowedRangeDeserializer(
+        item as DirectMethodInvokesNotInAllowedRange,
+      );
+
+    case "FailedLocalLoginsNotInAllowedRange":
+      return failedLocalLoginsNotInAllowedRangeDeserializer(
+        item as FailedLocalLoginsNotInAllowedRange,
+      );
+
+    case "FileUploadsNotInAllowedRange":
+      return fileUploadsNotInAllowedRangeDeserializer(item as FileUploadsNotInAllowedRange);
+
+    case "QueuePurgesNotInAllowedRange":
+      return queuePurgesNotInAllowedRangeDeserializer(item as QueuePurgesNotInAllowedRange);
+
+    case "TwinUpdatesNotInAllowedRange":
+      return twinUpdatesNotInAllowedRangeDeserializer(item as TwinUpdatesNotInAllowedRange);
+
+    case "UnauthorizedOperationsNotInAllowedRange":
+      return unauthorizedOperationsNotInAllowedRangeDeserializer(
+        item as UnauthorizedOperationsNotInAllowedRange,
+      );
+
+    default:
+      return timeWindowCustomAlertRuleDeserializer(item);
+  }
+}
+
+/** Number of active connections is not in allowed range. */
+export interface ActiveConnectionsNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "ActiveConnectionsNotInAllowedRange";
+}
+
+export function activeConnectionsNotInAllowedRangeSerializer(
+  item: ActiveConnectionsNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function activeConnectionsNotInAllowedRangeDeserializer(
+  item: any,
+): ActiveConnectionsNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of cloud to device messages (AMQP protocol) is not in allowed range. */
+export interface AmqpC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "AmqpC2DMessagesNotInAllowedRange";
+}
+
+export function amqpC2DMessagesNotInAllowedRangeSerializer(
+  item: AmqpC2DMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function amqpC2DMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): AmqpC2DMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of cloud to device messages (MQTT protocol) is not in allowed range. */
+export interface MqttC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "MqttC2DMessagesNotInAllowedRange";
+}
+
+export function mqttC2DMessagesNotInAllowedRangeSerializer(
+  item: MqttC2DMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function mqttC2DMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): MqttC2DMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of cloud to device messages (HTTP protocol) is not in allowed range. */
+export interface HttpC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "HttpC2DMessagesNotInAllowedRange";
+}
+
+export function httpC2DMessagesNotInAllowedRangeSerializer(
+  item: HttpC2DMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function httpC2DMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): HttpC2DMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of rejected cloud to device messages (AMQP protocol) is not in allowed range. */
+export interface AmqpC2DRejectedMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "AmqpC2DRejectedMessagesNotInAllowedRange";
+}
+
+export function amqpC2DRejectedMessagesNotInAllowedRangeSerializer(
+  item: AmqpC2DRejectedMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function amqpC2DRejectedMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): AmqpC2DRejectedMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of rejected cloud to device messages (MQTT protocol) is not in allowed range. */
+export interface MqttC2DRejectedMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "MqttC2DRejectedMessagesNotInAllowedRange";
+}
+
+export function mqttC2DRejectedMessagesNotInAllowedRangeSerializer(
+  item: MqttC2DRejectedMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function mqttC2DRejectedMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): MqttC2DRejectedMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of rejected cloud to device messages (HTTP protocol) is not in allowed range. */
+export interface HttpC2DRejectedMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "HttpC2DRejectedMessagesNotInAllowedRange";
+}
+
+export function httpC2DRejectedMessagesNotInAllowedRangeSerializer(
+  item: HttpC2DRejectedMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function httpC2DRejectedMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): HttpC2DRejectedMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of device to cloud messages (AMQP protocol) is not in allowed range. */
+export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "AmqpD2CMessagesNotInAllowedRange";
+}
+
+export function amqpD2CMessagesNotInAllowedRangeSerializer(
+  item: AmqpD2CMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function amqpD2CMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): AmqpD2CMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of device to cloud messages (MQTT protocol) is not in allowed range. */
+export interface MqttD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "MqttD2CMessagesNotInAllowedRange";
+}
+
+export function mqttD2CMessagesNotInAllowedRangeSerializer(
+  item: MqttD2CMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function mqttD2CMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): MqttD2CMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of device to cloud messages (HTTP protocol) is not in allowed range. */
+export interface HttpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "HttpD2CMessagesNotInAllowedRange";
+}
+
+export function httpD2CMessagesNotInAllowedRangeSerializer(
+  item: HttpD2CMessagesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function httpD2CMessagesNotInAllowedRangeDeserializer(
+  item: any,
+): HttpD2CMessagesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of direct method invokes is not in allowed range. */
+export interface DirectMethodInvokesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "DirectMethodInvokesNotInAllowedRange";
+}
+
+export function directMethodInvokesNotInAllowedRangeSerializer(
+  item: DirectMethodInvokesNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function directMethodInvokesNotInAllowedRangeDeserializer(
+  item: any,
+): DirectMethodInvokesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of failed local logins is not in allowed range. */
+export interface FailedLocalLoginsNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "FailedLocalLoginsNotInAllowedRange";
+}
+
+export function failedLocalLoginsNotInAllowedRangeSerializer(
+  item: FailedLocalLoginsNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function failedLocalLoginsNotInAllowedRangeDeserializer(
+  item: any,
+): FailedLocalLoginsNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of file uploads is not in allowed range. */
+export interface FileUploadsNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "FileUploadsNotInAllowedRange";
+}
+
+export function fileUploadsNotInAllowedRangeSerializer(item: FileUploadsNotInAllowedRange): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function fileUploadsNotInAllowedRangeDeserializer(item: any): FileUploadsNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of device queue purges is not in allowed range. */
+export interface QueuePurgesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "QueuePurgesNotInAllowedRange";
+}
+
+export function queuePurgesNotInAllowedRangeSerializer(item: QueuePurgesNotInAllowedRange): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function queuePurgesNotInAllowedRangeDeserializer(item: any): QueuePurgesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of twin updates is not in allowed range. */
+export interface TwinUpdatesNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "TwinUpdatesNotInAllowedRange";
+}
+
+export function twinUpdatesNotInAllowedRangeSerializer(item: TwinUpdatesNotInAllowedRange): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function twinUpdatesNotInAllowedRangeDeserializer(item: any): TwinUpdatesNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Number of unauthorized operations is not in allowed range. */
+export interface UnauthorizedOperationsNotInAllowedRange extends TimeWindowCustomAlertRule {
+  /** The type of the custom alert rule. */
+  ruleType: "UnauthorizedOperationsNotInAllowedRange";
+}
+
+export function unauthorizedOperationsNotInAllowedRangeSerializer(
+  item: UnauthorizedOperationsNotInAllowedRange,
+): any {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function unauthorizedOperationsNotInAllowedRangeDeserializer(
+  item: any,
+): UnauthorizedOperationsNotInAllowedRange {
+  return {
+    timeWindowSize: item["timeWindowSize"],
+    ruleType: item["ruleType"],
+    minThreshold: item["minThreshold"],
+    maxThreshold: item["maxThreshold"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function timeWindowCustomAlertRuleUnionArraySerializer(
+  result: Array<TimeWindowCustomAlertRuleUnion>,
 ): any[] {
   return result.map((item) => {
-    return timeWindowCustomAlertRuleSerializer(item);
+    return timeWindowCustomAlertRuleUnionSerializer(item);
   });
 }
 
-export function timeWindowCustomAlertRuleArrayDeserializer(
-  result: Array<TimeWindowCustomAlertRule>,
+export function timeWindowCustomAlertRuleUnionArrayDeserializer(
+  result: Array<TimeWindowCustomAlertRuleUnion>,
 ): any[] {
   return result.map((item) => {
-    return timeWindowCustomAlertRuleDeserializer(item);
+    return timeWindowCustomAlertRuleUnionDeserializer(item);
   });
 }
 
-export function allowlistCustomAlertRuleArraySerializer(
-  result: Array<AllowlistCustomAlertRule>,
+export function allowlistCustomAlertRuleUnionArraySerializer(
+  result: Array<AllowlistCustomAlertRuleUnion>,
 ): any[] {
   return result.map((item) => {
-    return allowlistCustomAlertRuleSerializer(item);
+    return allowlistCustomAlertRuleUnionSerializer(item);
   });
 }
 
-export function allowlistCustomAlertRuleArrayDeserializer(
-  result: Array<AllowlistCustomAlertRule>,
+export function allowlistCustomAlertRuleUnionArrayDeserializer(
+  result: Array<AllowlistCustomAlertRuleUnion>,
 ): any[] {
   return result.map((item) => {
-    return allowlistCustomAlertRuleDeserializer(item);
+    return allowlistCustomAlertRuleUnionDeserializer(item);
   });
 }
 
@@ -232,7 +963,12 @@ export function allowlistCustomAlertRuleArrayDeserializer(
 export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
   /** The values to allow. The format of the values depends on the rule type. */
   allowlistValues: string[];
-  ruleType: "AllowlistCustomAlertRule";
+  ruleType:
+    | "AllowlistCustomAlertRule"
+    | "ConnectionToIpNotAllowed"
+    | "ConnectionFromIpNotAllowed"
+    | "LocalUserNotAllowed"
+    | "ProcessNotAllowed";
 }
 
 export function allowlistCustomAlertRuleSerializer(item: AllowlistCustomAlertRule): any {
@@ -255,6 +991,166 @@ export function allowlistCustomAlertRuleDeserializer(item: any): AllowlistCustom
     allowlistValues: item["allowlistValues"].map((p: any) => {
       return p;
     }),
+  };
+}
+
+/** Alias for AllowlistCustomAlertRuleUnion */
+export type AllowlistCustomAlertRuleUnion =
+  | ConnectionToIpNotAllowed
+  | ConnectionFromIpNotAllowed
+  | LocalUserNotAllowed
+  | ProcessNotAllowed
+  | AllowlistCustomAlertRule;
+
+export function allowlistCustomAlertRuleUnionSerializer(item: AllowlistCustomAlertRuleUnion): any {
+  switch (item.ruleType) {
+    case "ConnectionToIpNotAllowed":
+      return connectionToIpNotAllowedSerializer(item as ConnectionToIpNotAllowed);
+
+    case "ConnectionFromIpNotAllowed":
+      return connectionFromIpNotAllowedSerializer(item as ConnectionFromIpNotAllowed);
+
+    case "LocalUserNotAllowed":
+      return localUserNotAllowedSerializer(item as LocalUserNotAllowed);
+
+    case "ProcessNotAllowed":
+      return processNotAllowedSerializer(item as ProcessNotAllowed);
+
+    default:
+      return allowlistCustomAlertRuleSerializer(item);
+  }
+}
+
+export function allowlistCustomAlertRuleUnionDeserializer(
+  item: any,
+): AllowlistCustomAlertRuleUnion {
+  switch (item["ruleType"]) {
+    case "ConnectionToIpNotAllowed":
+      return connectionToIpNotAllowedDeserializer(item as ConnectionToIpNotAllowed);
+
+    case "ConnectionFromIpNotAllowed":
+      return connectionFromIpNotAllowedDeserializer(item as ConnectionFromIpNotAllowed);
+
+    case "LocalUserNotAllowed":
+      return localUserNotAllowedDeserializer(item as LocalUserNotAllowed);
+
+    case "ProcessNotAllowed":
+      return processNotAllowedDeserializer(item as ProcessNotAllowed);
+
+    default:
+      return allowlistCustomAlertRuleDeserializer(item);
+  }
+}
+
+/** Outbound connection to an ip that isn't allowed. Allow list consists of ipv4 or ipv6 range in CIDR notation. */
+export interface ConnectionToIpNotAllowed extends AllowlistCustomAlertRule {
+  ruleType: "ConnectionToIpNotAllowed";
+}
+
+export function connectionToIpNotAllowedSerializer(item: ConnectionToIpNotAllowed): any {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function connectionToIpNotAllowedDeserializer(item: any): ConnectionToIpNotAllowed {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    valueType: item["valueType"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Inbound connection from an ip that isn't allowed. Allow list consists of ipv4 or ipv6 range in CIDR notation. */
+export interface ConnectionFromIpNotAllowed extends AllowlistCustomAlertRule {
+  ruleType: "ConnectionFromIpNotAllowed";
+}
+
+export function connectionFromIpNotAllowedSerializer(item: ConnectionFromIpNotAllowed): any {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function connectionFromIpNotAllowedDeserializer(item: any): ConnectionFromIpNotAllowed {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    valueType: item["valueType"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Login by a local user that isn't allowed. Allow list consists of login names to allow. */
+export interface LocalUserNotAllowed extends AllowlistCustomAlertRule {
+  ruleType: "LocalUserNotAllowed";
+}
+
+export function localUserNotAllowedSerializer(item: LocalUserNotAllowed): any {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function localUserNotAllowedDeserializer(item: any): LocalUserNotAllowed {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    valueType: item["valueType"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+/** Execution of a process that isn't allowed. Allow list consists of process names to allow. */
+export interface ProcessNotAllowed extends AllowlistCustomAlertRule {
+  ruleType: "ProcessNotAllowed";
+}
+
+export function processNotAllowedSerializer(item: ProcessNotAllowed): any {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    isEnabled: item["isEnabled"],
+  };
+}
+
+export function processNotAllowedDeserializer(item: any): ProcessNotAllowed {
+  return {
+    allowlistValues: item["allowlistValues"].map((p: any) => {
+      return p;
+    }),
+    ruleType: item["ruleType"],
+    valueType: item["valueType"],
+    displayName: item["displayName"],
+    description: item["description"],
+    isEnabled: item["isEnabled"],
   };
 }
 
@@ -313,7 +1209,7 @@ export interface CustomAlertRule {
   /** Status of the custom alert. */
   isEnabled: boolean;
   /** The type of the custom alert rule. */
-  /** The discriminator possible values: ThresholdCustomAlertRule, TimeWindowCustomAlertRule, AllowlistCustomAlertRule, ListCustomAlertRule, DenylistCustomAlertRule */
+  /** The discriminator possible values: ThresholdCustomAlertRule, TimeWindowCustomAlertRule, AllowlistCustomAlertRule, ListCustomAlertRule, DenylistCustomAlertRule, ConnectionToIpNotAllowed, ConnectionFromIpNotAllowed, LocalUserNotAllowed, ProcessNotAllowed, ActiveConnectionsNotInAllowedRange, AmqpC2DMessagesNotInAllowedRange, MqttC2DMessagesNotInAllowedRange, HttpC2DMessagesNotInAllowedRange, AmqpC2DRejectedMessagesNotInAllowedRange, MqttC2DRejectedMessagesNotInAllowedRange, HttpC2DRejectedMessagesNotInAllowedRange, AmqpD2CMessagesNotInAllowedRange, MqttD2CMessagesNotInAllowedRange, HttpD2CMessagesNotInAllowedRange, DirectMethodInvokesNotInAllowedRange, FailedLocalLoginsNotInAllowedRange, FileUploadsNotInAllowedRange, QueuePurgesNotInAllowedRange, TwinUpdatesNotInAllowedRange, UnauthorizedOperationsNotInAllowedRange */
   ruleType: string;
 }
 
@@ -340,11 +1236,31 @@ export function customAlertRuleUnionSerializer(item: CustomAlertRuleUnion): any 
   switch (item.ruleType) {
     case "ThresholdCustomAlertRule":
     case "TimeWindowCustomAlertRule":
+    case "ActiveConnectionsNotInAllowedRange":
+    case "AmqpC2DMessagesNotInAllowedRange":
+    case "MqttC2DMessagesNotInAllowedRange":
+    case "HttpC2DMessagesNotInAllowedRange":
+    case "AmqpC2DRejectedMessagesNotInAllowedRange":
+    case "MqttC2DRejectedMessagesNotInAllowedRange":
+    case "HttpC2DRejectedMessagesNotInAllowedRange":
+    case "AmqpD2CMessagesNotInAllowedRange":
+    case "MqttD2CMessagesNotInAllowedRange":
+    case "HttpD2CMessagesNotInAllowedRange":
+    case "DirectMethodInvokesNotInAllowedRange":
+    case "FailedLocalLoginsNotInAllowedRange":
+    case "FileUploadsNotInAllowedRange":
+    case "QueuePurgesNotInAllowedRange":
+    case "TwinUpdatesNotInAllowedRange":
+    case "UnauthorizedOperationsNotInAllowedRange":
       return thresholdCustomAlertRuleUnionSerializer(item as ThresholdCustomAlertRuleUnion);
 
     case "ListCustomAlertRule":
     case "AllowlistCustomAlertRule":
     case "DenylistCustomAlertRule":
+    case "ConnectionToIpNotAllowed":
+    case "ConnectionFromIpNotAllowed":
+    case "LocalUserNotAllowed":
+    case "ProcessNotAllowed":
       return listCustomAlertRuleUnionSerializer(item as ListCustomAlertRuleUnion);
 
     default:
@@ -356,11 +1272,31 @@ export function customAlertRuleUnionDeserializer(item: any): CustomAlertRuleUnio
   switch (item["ruleType"]) {
     case "ThresholdCustomAlertRule":
     case "TimeWindowCustomAlertRule":
+    case "ActiveConnectionsNotInAllowedRange":
+    case "AmqpC2DMessagesNotInAllowedRange":
+    case "MqttC2DMessagesNotInAllowedRange":
+    case "HttpC2DMessagesNotInAllowedRange":
+    case "AmqpC2DRejectedMessagesNotInAllowedRange":
+    case "MqttC2DRejectedMessagesNotInAllowedRange":
+    case "HttpC2DRejectedMessagesNotInAllowedRange":
+    case "AmqpD2CMessagesNotInAllowedRange":
+    case "MqttD2CMessagesNotInAllowedRange":
+    case "HttpD2CMessagesNotInAllowedRange":
+    case "DirectMethodInvokesNotInAllowedRange":
+    case "FailedLocalLoginsNotInAllowedRange":
+    case "FileUploadsNotInAllowedRange":
+    case "QueuePurgesNotInAllowedRange":
+    case "TwinUpdatesNotInAllowedRange":
+    case "UnauthorizedOperationsNotInAllowedRange":
       return thresholdCustomAlertRuleUnionDeserializer(item as ThresholdCustomAlertRuleUnion);
 
     case "ListCustomAlertRule":
     case "AllowlistCustomAlertRule":
     case "DenylistCustomAlertRule":
+    case "ConnectionToIpNotAllowed":
+    case "ConnectionFromIpNotAllowed":
+    case "LocalUserNotAllowed":
+    case "ProcessNotAllowed":
       return listCustomAlertRuleUnionDeserializer(item as ListCustomAlertRuleUnion);
 
     default:
@@ -372,7 +1308,14 @@ export function customAlertRuleUnionDeserializer(item: any): CustomAlertRuleUnio
 export interface ListCustomAlertRule extends CustomAlertRule {
   /** The value type of the items in the list. */
   readonly valueType?: ValueType;
-  ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule";
+  ruleType:
+    | "ListCustomAlertRule"
+    | "AllowlistCustomAlertRule"
+    | "DenylistCustomAlertRule"
+    | "ConnectionToIpNotAllowed"
+    | "ConnectionFromIpNotAllowed"
+    | "LocalUserNotAllowed"
+    | "ProcessNotAllowed";
 }
 
 export function listCustomAlertRuleSerializer(item: ListCustomAlertRule): any {
@@ -391,14 +1334,18 @@ export function listCustomAlertRuleDeserializer(item: any): ListCustomAlertRule 
 
 /** Alias for ListCustomAlertRuleUnion */
 export type ListCustomAlertRuleUnion =
-  | AllowlistCustomAlertRule
+  | AllowlistCustomAlertRuleUnion
   | DenylistCustomAlertRule
   | ListCustomAlertRule;
 
 export function listCustomAlertRuleUnionSerializer(item: ListCustomAlertRuleUnion): any {
   switch (item.ruleType) {
     case "AllowlistCustomAlertRule":
-      return allowlistCustomAlertRuleSerializer(item as AllowlistCustomAlertRule);
+    case "ConnectionToIpNotAllowed":
+    case "ConnectionFromIpNotAllowed":
+    case "LocalUserNotAllowed":
+    case "ProcessNotAllowed":
+      return allowlistCustomAlertRuleUnionSerializer(item as AllowlistCustomAlertRuleUnion);
 
     case "DenylistCustomAlertRule":
       return denylistCustomAlertRuleSerializer(item as DenylistCustomAlertRule);
@@ -411,7 +1358,11 @@ export function listCustomAlertRuleUnionSerializer(item: ListCustomAlertRuleUnio
 export function listCustomAlertRuleUnionDeserializer(item: any): ListCustomAlertRuleUnion {
   switch (item["ruleType"]) {
     case "AllowlistCustomAlertRule":
-      return allowlistCustomAlertRuleDeserializer(item as AllowlistCustomAlertRule);
+    case "ConnectionToIpNotAllowed":
+    case "ConnectionFromIpNotAllowed":
+    case "LocalUserNotAllowed":
+    case "ProcessNotAllowed":
+      return allowlistCustomAlertRuleUnionDeserializer(item as AllowlistCustomAlertRuleUnion);
 
     case "DenylistCustomAlertRule":
       return denylistCustomAlertRuleDeserializer(item as DenylistCustomAlertRule);
@@ -1525,10 +2476,10 @@ export function _deviceSecurityGroupPropertiesSerializer(item: DeviceSecurityGro
       : thresholdCustomAlertRuleUnionArraySerializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : timeWindowCustomAlertRuleArraySerializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleUnionArraySerializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : allowlistCustomAlertRuleArraySerializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleUnionArraySerializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
       : denylistCustomAlertRuleArraySerializer(item["denylistRules"]),
@@ -1542,10 +2493,10 @@ export function _deviceSecurityGroupPropertiesDeserializer(item: any) {
       : thresholdCustomAlertRuleUnionArrayDeserializer(item["thresholdRules"]),
     timeWindowRules: !item["timeWindowRules"]
       ? item["timeWindowRules"]
-      : timeWindowCustomAlertRuleArrayDeserializer(item["timeWindowRules"]),
+      : timeWindowCustomAlertRuleUnionArrayDeserializer(item["timeWindowRules"]),
     allowlistRules: !item["allowlistRules"]
       ? item["allowlistRules"]
-      : allowlistCustomAlertRuleArrayDeserializer(item["allowlistRules"]),
+      : allowlistCustomAlertRuleUnionArrayDeserializer(item["allowlistRules"]),
     denylistRules: !item["denylistRules"]
       ? item["denylistRules"]
       : denylistCustomAlertRuleArrayDeserializer(item["denylistRules"]),

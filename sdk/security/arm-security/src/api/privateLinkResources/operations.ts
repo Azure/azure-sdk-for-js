@@ -11,7 +11,6 @@ import {
   PrivateLinkGroupResource,
   privateLinkGroupResourceDeserializer,
 } from "../../models/privateLinksAPI/models.js";
-import { PrivateLinkParameters } from "../../models/securityManagementClient/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -31,7 +30,7 @@ import {
 export function _listSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinkResourcesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -39,7 +38,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -70,7 +69,7 @@ export async function _listDeserialize(
 export function list(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinkResourcesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateLinkGroupResource> {
   return buildPagedAsyncIterator(
@@ -85,7 +84,7 @@ export function list(
 export function _getSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   groupId: string,
   options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -94,7 +93,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       groupId: groupId,
       "api%2Dversion": "2026-01-01",
     },
@@ -126,7 +125,7 @@ export async function _getDeserialize(
 export async function get(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   groupId: string,
   options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateLinkGroupResource> {

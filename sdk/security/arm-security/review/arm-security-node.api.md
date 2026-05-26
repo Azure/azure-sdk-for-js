@@ -7,11 +7,13 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -49,6 +51,11 @@ export type ActionableRemediationState = string;
 
 // @public
 export type ActionType = string;
+
+// @public
+export interface ActiveConnectionsNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "ActiveConnectionsNotInAllowedRange";
+}
 
 // @public
 export interface AdditionalData {
@@ -385,7 +392,25 @@ export interface AllowedConnectionsResourceProperties {
 export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
     allowlistValues: string[];
     // (undocumented)
-    ruleType: "AllowlistCustomAlertRule";
+    ruleType: "AllowlistCustomAlertRule" | "ConnectionToIpNotAllowed" | "ConnectionFromIpNotAllowed" | "LocalUserNotAllowed" | "ProcessNotAllowed";
+}
+
+// @public
+export type AllowlistCustomAlertRuleUnion = ConnectionToIpNotAllowed | ConnectionFromIpNotAllowed | LocalUserNotAllowed | ProcessNotAllowed | AllowlistCustomAlertRule;
+
+// @public
+export interface AmqpC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "AmqpC2DMessagesNotInAllowedRange";
+}
+
+// @public
+export interface AmqpC2DRejectedMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "AmqpC2DRejectedMessagesNotInAllowedRange";
+}
+
+// @public
+export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "AmqpD2CMessagesNotInAllowedRange";
 }
 
 // @public
@@ -1313,6 +1338,18 @@ export interface ConnectedWorkspace {
 }
 
 // @public
+export interface ConnectionFromIpNotAllowed extends AllowlistCustomAlertRule {
+    // (undocumented)
+    ruleType: "ConnectionFromIpNotAllowed";
+}
+
+// @public
+export interface ConnectionToIpNotAllowed extends AllowlistCustomAlertRule {
+    // (undocumented)
+    ruleType: "ConnectionToIpNotAllowed";
+}
+
+// @public
 export type ConnectionType = string;
 
 // @public
@@ -1882,18 +1919,18 @@ export interface DenylistCustomAlertRule extends ListCustomAlertRule {
 
 // @public
 export interface DeviceSecurityGroup extends ExtensionResource {
-    allowlistRules?: AllowlistCustomAlertRule[];
+    allowlistRules?: AllowlistCustomAlertRuleUnion[];
     denylistRules?: DenylistCustomAlertRule[];
     thresholdRules?: ThresholdCustomAlertRuleUnion[];
-    timeWindowRules?: TimeWindowCustomAlertRule[];
+    timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
 }
 
 // @public
 export interface DeviceSecurityGroupProperties {
-    allowlistRules?: AllowlistCustomAlertRule[];
+    allowlistRules?: AllowlistCustomAlertRuleUnion[];
     denylistRules?: DenylistCustomAlertRule[];
     thresholdRules?: ThresholdCustomAlertRuleUnion[];
-    timeWindowRules?: TimeWindowCustomAlertRule[];
+    timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
 }
 
 // @public
@@ -1998,6 +2035,11 @@ export interface DevOpsOperationResultsOperations {
 
 // @public
 export type DevOpsProvisioningState = string;
+
+// @public
+export interface DirectMethodInvokesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "DirectMethodInvokesNotInAllowedRange";
+}
 
 // @public
 export interface DiscoveredSecuritySolution extends ProxyResource {
@@ -2164,12 +2206,22 @@ export interface ExternalSecuritySolutionsOperations {
 export type ExternalSecuritySolutionUnion = CefExternalSecuritySolution | AtaExternalSecuritySolution | AadExternalSecuritySolution | ExternalSecuritySolution;
 
 // @public
+export interface FailedLocalLoginsNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "FailedLocalLoginsNotInAllowedRange";
+}
+
+// @public
 export interface FilesScanSummary {
     failedFilesCount?: number;
     maliciousFilesCount?: number;
     scannedFilesInGB?: number;
     skippedFilesCount?: number;
     totalFilesScanned?: number;
+}
+
+// @public
+export interface FileUploadsNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "FileUploadsNotInAllowedRange";
 }
 
 // @public
@@ -2632,6 +2684,21 @@ export interface HealthReportsOperations {
 }
 
 // @public
+export interface HttpC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "HttpC2DMessagesNotInAllowedRange";
+}
+
+// @public
+export interface HttpC2DRejectedMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "HttpC2DRejectedMessagesNotInAllowedRange";
+}
+
+// @public
+export interface HttpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "HttpD2CMessagesNotInAllowedRange";
+}
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -2976,6 +3043,8 @@ export interface IoTSeverityMetrics {
 // @public
 export type IsEnabled = string;
 
+export { isRestError }
+
 // @public
 export interface Issue {
     issueAdditionalData?: Record<string, string>;
@@ -3032,7 +3101,7 @@ export interface JitNetworkAccessPoliciesListOptionalParams extends OperationOpt
 
 // @public
 export interface JitNetworkAccessPoliciesOperations {
-    createOrUpdate: (resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicy, options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams) => Promise<JitNetworkAccessPolicy>;
+    createOrUpdate: (resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicyCreate, options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams) => Promise<JitNetworkAccessPolicy>;
     delete: (resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, options?: JitNetworkAccessPoliciesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, options?: JitNetworkAccessPoliciesGetOptionalParams) => Promise<JitNetworkAccessPolicy>;
     initiate: (resourceGroupName: string, ascLocation: string, jitNetworkAccessPolicyName: string, body: JitNetworkAccessPolicyInitiateRequest, options?: JitNetworkAccessPoliciesInitiateOptionalParams) => Promise<JitNetworkAccessRequest>;
@@ -3050,6 +3119,12 @@ export interface JitNetworkAccessPolicy extends ProxyResource {
     // (undocumented)
     requests?: JitNetworkAccessRequest[];
     virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
+}
+
+// @public
+export interface JitNetworkAccessPolicyCreate {
+    kind?: string;
+    properties: JitNetworkAccessPolicyPropertiesCreate;
 }
 
 // @public
@@ -3075,6 +3150,13 @@ export interface JitNetworkAccessPolicyInitiateVirtualMachine {
 // @public
 export interface JitNetworkAccessPolicyProperties {
     readonly provisioningState?: string;
+    // (undocumented)
+    requests?: JitNetworkAccessRequest[];
+    virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
+}
+
+// @public
+export interface JitNetworkAccessPolicyPropertiesCreate {
     // (undocumented)
     requests?: JitNetworkAccessRequest[];
     virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
@@ -4125,12 +4207,18 @@ export interface Label {
 // @public
 export interface ListCustomAlertRule extends CustomAlertRule {
     // (undocumented)
-    ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule";
+    ruleType: "ListCustomAlertRule" | "AllowlistCustomAlertRule" | "DenylistCustomAlertRule" | "ConnectionToIpNotAllowed" | "ConnectionFromIpNotAllowed" | "LocalUserNotAllowed" | "ProcessNotAllowed";
     readonly valueType?: ValueType;
 }
 
 // @public
-export type ListCustomAlertRuleUnion = AllowlistCustomAlertRule | DenylistCustomAlertRule | ListCustomAlertRule;
+export type ListCustomAlertRuleUnion = AllowlistCustomAlertRuleUnion | DenylistCustomAlertRule | ListCustomAlertRule;
+
+// @public
+export interface LocalUserNotAllowed extends AllowlistCustomAlertRule {
+    // (undocumented)
+    ruleType: "LocalUserNotAllowed";
+}
 
 // @public
 export interface LocationsGetOptionalParams extends OperationOptions {
@@ -4219,6 +4307,21 @@ export type MinimalSeverity = string;
 
 // @public
 export type MipIntegrationStatus = string;
+
+// @public
+export interface MqttC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "MqttC2DMessagesNotInAllowedRange";
+}
+
+// @public
+export interface MqttC2DRejectedMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "MqttC2DRejectedMessagesNotInAllowedRange";
+}
+
+// @public
+export interface MqttD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "MqttD2CMessagesNotInAllowedRange";
+}
 
 // @public
 export interface NotificationsSource {
@@ -4485,17 +4588,17 @@ export interface PrivateEndpointConnectionsListOptionalParams extends OperationO
 // @public
 export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    beginCreateOrUpdate: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
-    delete: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
-    list: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    beginDeleteAndWait: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateLinkName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, privateLinkName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
@@ -4506,11 +4609,6 @@ export interface PrivateLinkGroupResource extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkParameters {
-    privateLinkName: string;
 }
 
 // @public
@@ -4546,8 +4644,8 @@ export interface PrivateLinkResourcesListOptionalParams extends OperationOptions
 
 // @public
 export interface PrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, groupId: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkGroupResource>;
-    list: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkGroupResource>;
+    get: (resourceGroupName: string, privateLinkName: string, groupId: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkGroupResource>;
+    list: (resourceGroupName: string, privateLinkName: string, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkGroupResource>;
 }
 
 // @public
@@ -4586,20 +4684,20 @@ export interface PrivateLinksListOptionalParams extends OperationOptions {
 // @public
 export interface PrivateLinksOperations {
     // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateLink: PrivateLinkResource, options?: PrivateLinksCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>>;
+    beginCreate: (resourceGroupName: string, privateLinkName: string, privateLink: PrivateLinkResource, options?: PrivateLinksCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>>;
     // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateLink: PrivateLinkResource, options?: PrivateLinksCreateOptionalParams) => Promise<PrivateLinkResource>;
+    beginCreateAndWait: (resourceGroupName: string, privateLinkName: string, privateLink: PrivateLinkResource, options?: PrivateLinksCreateOptionalParams) => Promise<PrivateLinkResource>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateLinksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, privateLinkName: string, options?: PrivateLinksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateLinksDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateLink: PrivateLinkResource, options?: PrivateLinksCreateOptionalParams) => PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>;
-    delete: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateLinksGetOptionalParams) => Promise<PrivateLinkResource>;
-    head: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, options?: PrivateLinksHeadOptionalParams) => Promise<void>;
+    beginDeleteAndWait: (resourceGroupName: string, privateLinkName: string, options?: PrivateLinksDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, privateLinkName: string, privateLink: PrivateLinkResource, options?: PrivateLinksCreateOptionalParams) => PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>;
+    delete: (resourceGroupName: string, privateLinkName: string, options?: PrivateLinksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, privateLinkName: string, options?: PrivateLinksGetOptionalParams) => Promise<PrivateLinkResource>;
+    head: (resourceGroupName: string, privateLinkName: string, options?: PrivateLinksHeadOptionalParams) => Promise<void>;
     list: (resourceGroupName: string, options?: PrivateLinksListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
     listBySubscription: (options?: PrivateLinksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
-    update: (resourceGroupName: string, privateLinkName: PrivateLinkParameters, privateLink: PrivateLinkUpdate, options?: PrivateLinksUpdateOptionalParams) => Promise<PrivateLinkResource>;
+    update: (resourceGroupName: string, privateLinkName: string, privateLink: PrivateLinkUpdate, options?: PrivateLinksUpdateOptionalParams) => Promise<PrivateLinkResource>;
 }
 
 // @public
@@ -4609,6 +4707,12 @@ export interface PrivateLinksUpdateOptionalParams extends OperationOptions {
 // @public
 export interface PrivateLinkUpdate {
     tags?: Record<string, string>;
+}
+
+// @public
+export interface ProcessNotAllowed extends AllowlistCustomAlertRule {
+    // (undocumented)
+    ruleType: "ProcessNotAllowed";
 }
 
 // @public
@@ -4632,6 +4736,11 @@ export interface QueryCheck {
     columnNames?: string[];
     expectedResult?: string[][];
     query?: string;
+}
+
+// @public
+export interface QueuePurgesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "QueuePurgesNotInAllowedRange";
 }
 
 // @public
@@ -4811,6 +4920,8 @@ export type ResourcesCoverageStatus = string;
 
 // @public
 export type ResourceStatus = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SecurityCenter, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -6290,18 +6401,21 @@ export interface ThresholdCustomAlertRule extends CustomAlertRule {
     maxThreshold: number;
     minThreshold: number;
     // (undocumented)
-    ruleType: "ThresholdCustomAlertRule" | "TimeWindowCustomAlertRule";
+    ruleType: "ThresholdCustomAlertRule" | "TimeWindowCustomAlertRule" | "ActiveConnectionsNotInAllowedRange" | "AmqpC2DMessagesNotInAllowedRange" | "MqttC2DMessagesNotInAllowedRange" | "HttpC2DMessagesNotInAllowedRange" | "AmqpC2DRejectedMessagesNotInAllowedRange" | "MqttC2DRejectedMessagesNotInAllowedRange" | "HttpC2DRejectedMessagesNotInAllowedRange" | "AmqpD2CMessagesNotInAllowedRange" | "MqttD2CMessagesNotInAllowedRange" | "HttpD2CMessagesNotInAllowedRange" | "DirectMethodInvokesNotInAllowedRange" | "FailedLocalLoginsNotInAllowedRange" | "FileUploadsNotInAllowedRange" | "QueuePurgesNotInAllowedRange" | "TwinUpdatesNotInAllowedRange" | "UnauthorizedOperationsNotInAllowedRange";
 }
 
 // @public
-export type ThresholdCustomAlertRuleUnion = TimeWindowCustomAlertRule | ThresholdCustomAlertRule;
+export type ThresholdCustomAlertRuleUnion = TimeWindowCustomAlertRuleUnion | ThresholdCustomAlertRule;
 
 // @public
 export interface TimeWindowCustomAlertRule extends ThresholdCustomAlertRule {
     // (undocumented)
-    ruleType: "TimeWindowCustomAlertRule";
+    ruleType: "TimeWindowCustomAlertRule" | "ActiveConnectionsNotInAllowedRange" | "AmqpC2DMessagesNotInAllowedRange" | "MqttC2DMessagesNotInAllowedRange" | "HttpC2DMessagesNotInAllowedRange" | "AmqpC2DRejectedMessagesNotInAllowedRange" | "MqttC2DRejectedMessagesNotInAllowedRange" | "HttpC2DRejectedMessagesNotInAllowedRange" | "AmqpD2CMessagesNotInAllowedRange" | "MqttD2CMessagesNotInAllowedRange" | "HttpD2CMessagesNotInAllowedRange" | "DirectMethodInvokesNotInAllowedRange" | "FailedLocalLoginsNotInAllowedRange" | "FileUploadsNotInAllowedRange" | "QueuePurgesNotInAllowedRange" | "TwinUpdatesNotInAllowedRange" | "UnauthorizedOperationsNotInAllowedRange";
     timeWindowSize: string;
 }
+
+// @public
+export type TimeWindowCustomAlertRuleUnion = ActiveConnectionsNotInAllowedRange | AmqpC2DMessagesNotInAllowedRange | MqttC2DMessagesNotInAllowedRange | HttpC2DMessagesNotInAllowedRange | AmqpC2DRejectedMessagesNotInAllowedRange | MqttC2DRejectedMessagesNotInAllowedRange | HttpC2DRejectedMessagesNotInAllowedRange | AmqpD2CMessagesNotInAllowedRange | MqttD2CMessagesNotInAllowedRange | HttpD2CMessagesNotInAllowedRange | DirectMethodInvokesNotInAllowedRange | FailedLocalLoginsNotInAllowedRange | FileUploadsNotInAllowedRange | QueuePurgesNotInAllowedRange | TwinUpdatesNotInAllowedRange | UnauthorizedOperationsNotInAllowedRange | TimeWindowCustomAlertRule;
 
 // @public
 export interface TopologyGetOptionalParams extends OperationOptions {
@@ -6364,7 +6478,17 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface TwinUpdatesNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "TwinUpdatesNotInAllowedRange";
+}
+
+// @public
 export type Type = string;
+
+// @public
+export interface UnauthorizedOperationsNotInAllowedRange extends TimeWindowCustomAlertRule {
+    ruleType: "UnauthorizedOperationsNotInAllowedRange";
+}
 
 // @public
 export type UnmaskedIpLoggingStatus = string;

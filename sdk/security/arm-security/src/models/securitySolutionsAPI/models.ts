@@ -418,10 +418,6 @@ export interface JitNetworkAccessPolicy extends ProxyResource {
   readonly provisioningState?: string;
 }
 
-export function jitNetworkAccessPolicySerializer(item: JitNetworkAccessPolicy): any {
-  return { properties: _jitNetworkAccessPolicyPropertiesSerializer(item), kind: item["kind"] };
-}
-
 export function jitNetworkAccessPolicyDeserializer(item: any): JitNetworkAccessPolicy {
   return {
     id: item["id"],
@@ -443,17 +439,6 @@ export interface JitNetworkAccessPolicyProperties {
   requests?: JitNetworkAccessRequest[];
   /** Gets the provisioning state of the Just-in-Time policy. */
   readonly provisioningState?: string;
-}
-
-export function jitNetworkAccessPolicyPropertiesSerializer(
-  item: JitNetworkAccessPolicyProperties,
-): any {
-  return {
-    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
-    requests: !item["requests"]
-      ? item["requests"]
-      : jitNetworkAccessRequestArraySerializer(item["requests"]),
-  };
 }
 
 export function jitNetworkAccessPolicyPropertiesDeserializer(
@@ -786,14 +771,6 @@ export function _jitNetworkAccessPoliciesListDeserializer(
     value: !item["value"] ? item["value"] : jitNetworkAccessPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function jitNetworkAccessPolicyArraySerializer(
-  result: Array<JitNetworkAccessPolicy>,
-): any[] {
-  return result.map((item) => {
-    return jitNetworkAccessPolicySerializer(item);
-  });
 }
 
 export function jitNetworkAccessPolicyArrayDeserializer(
@@ -1415,15 +1392,6 @@ export function _discoveredSecuritySolutionPropertiesDeserializer(item: any) {
     offer: item["offer"],
     publisher: item["publisher"],
     sku: item["sku"],
-  };
-}
-
-export function _jitNetworkAccessPolicyPropertiesSerializer(item: JitNetworkAccessPolicy): any {
-  return {
-    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
-    requests: !item["requests"]
-      ? item["requests"]
-      : jitNetworkAccessRequestArraySerializer(item["requests"]),
   };
 }
 

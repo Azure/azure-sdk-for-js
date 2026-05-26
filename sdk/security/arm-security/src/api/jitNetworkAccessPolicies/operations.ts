@@ -4,8 +4,11 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
+  JitNetworkAccessPolicyCreate,
+  jitNetworkAccessPolicyCreateSerializer,
+} from "../../models/securityManagementClient/models.js";
+import {
   JitNetworkAccessPolicy,
-  jitNetworkAccessPolicySerializer,
   jitNetworkAccessPolicyDeserializer,
   JitNetworkAccessRequest,
   jitNetworkAccessRequestDeserializer,
@@ -366,7 +369,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: JitNetworkAccessPolicy,
+  body: JitNetworkAccessPolicyCreate,
   options: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -386,7 +389,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: jitNetworkAccessPolicySerializer(body),
+    body: jitNetworkAccessPolicyCreateSerializer(body),
   });
 }
 
@@ -410,7 +413,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: JitNetworkAccessPolicy,
+  body: JitNetworkAccessPolicyCreate,
   options: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<JitNetworkAccessPolicy> {
   const result = await _createOrUpdateSend(

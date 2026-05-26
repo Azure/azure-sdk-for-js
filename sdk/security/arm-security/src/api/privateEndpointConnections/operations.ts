@@ -12,7 +12,6 @@ import {
   privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
 } from "../../models/privateLinksAPI/models.js";
-import { PrivateLinkParameters } from "../../models/securityManagementClient/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -36,7 +35,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 export function _listSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateEndpointConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -44,7 +43,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -75,7 +74,7 @@ export async function _listDeserialize(
 export function list(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateEndpointConnectionsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
   return buildPagedAsyncIterator(
@@ -90,7 +89,7 @@ export function list(
 export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -99,7 +98,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       privateEndpointConnectionName: privateEndpointConnectionName,
       "api%2Dversion": "2026-01-01",
     },
@@ -126,7 +125,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 export function $delete(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
@@ -149,7 +148,7 @@ export function $delete(
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateEndpointConnectionName: string,
   privateEndpointConnection: PrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
@@ -159,7 +158,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       privateEndpointConnectionName: privateEndpointConnectionName,
       "api%2Dversion": "2026-01-01",
     },
@@ -193,7 +192,7 @@ export async function _createOrUpdateDeserialize(
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateEndpointConnectionName: string,
   privateEndpointConnection: PrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
@@ -218,7 +217,7 @@ export function createOrUpdate(
 export function _getSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -227,7 +226,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       privateEndpointConnectionName: privateEndpointConnectionName,
       "api%2Dversion": "2026-01-01",
     },
@@ -259,7 +258,7 @@ export async function _getDeserialize(
 export async function get(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateEndpointConnection> {

@@ -112,7 +112,7 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /{resourceId}/providers/Microsoft.Security/sqlVulnerabilityAssessments/default/scans/initiateScan":
-    { deserializer: _initiateScanDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _initiateScanDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/serverVulnerabilityAssessments/{serverVulnerabilityAssessment}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/gitHubOwners/{ownerName}/repos/{repoName}/issues":

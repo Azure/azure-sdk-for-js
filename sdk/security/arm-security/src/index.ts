@@ -264,7 +264,29 @@ export type {
   ThresholdCustomAlertRule,
   ThresholdCustomAlertRuleUnion,
   TimeWindowCustomAlertRule,
+  TimeWindowCustomAlertRuleUnion,
+  ActiveConnectionsNotInAllowedRange,
+  AmqpC2DMessagesNotInAllowedRange,
+  MqttC2DMessagesNotInAllowedRange,
+  HttpC2DMessagesNotInAllowedRange,
+  AmqpC2DRejectedMessagesNotInAllowedRange,
+  MqttC2DRejectedMessagesNotInAllowedRange,
+  HttpC2DRejectedMessagesNotInAllowedRange,
+  AmqpD2CMessagesNotInAllowedRange,
+  MqttD2CMessagesNotInAllowedRange,
+  HttpD2CMessagesNotInAllowedRange,
+  DirectMethodInvokesNotInAllowedRange,
+  FailedLocalLoginsNotInAllowedRange,
+  FileUploadsNotInAllowedRange,
+  QueuePurgesNotInAllowedRange,
+  TwinUpdatesNotInAllowedRange,
+  UnauthorizedOperationsNotInAllowedRange,
   AllowlistCustomAlertRule,
+  AllowlistCustomAlertRuleUnion,
+  ConnectionToIpNotAllowed,
+  ConnectionFromIpNotAllowed,
+  LocalUserNotAllowed,
+  ProcessNotAllowed,
   DenylistCustomAlertRule,
   CustomAlertRule,
   CustomAlertRuleUnion,
@@ -560,7 +582,10 @@ export {
   KnownInventoryListKind,
   KnownInventoryKind,
 } from "./models/securityConnectorsDevOpsAPI/index.js";
-export type { PrivateLinkParameters } from "./models/securityManagementClient/index.js";
+export type {
+  JitNetworkAccessPolicyCreate,
+  JitNetworkAccessPolicyPropertiesCreate,
+} from "./models/securityManagementClient/index.js";
 export type { SecurityOperator } from "./models/securityOperatorsAPI/index.js";
 export type {
   DiscoveredSecuritySolution,
@@ -1248,3 +1273,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

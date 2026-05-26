@@ -12,7 +12,6 @@ import {
   _PrivateLinksList,
   _privateLinksListDeserializer,
 } from "../../models/privateLinksAPI/models.js";
-import { PrivateLinkParameters } from "../../models/securityManagementClient/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -136,7 +135,7 @@ export function list(
 export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinksDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -144,7 +143,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -170,7 +169,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 export function $delete(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinksDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
@@ -185,7 +184,7 @@ export function $delete(
 export function _updateSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateLink: PrivateLinkUpdate,
   options: PrivateLinksUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -194,7 +193,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -227,7 +226,7 @@ export async function _updateDeserialize(
 export async function update(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateLink: PrivateLinkUpdate,
   options: PrivateLinksUpdateOptionalParams = { requestOptions: {} },
 ): Promise<PrivateLinkResource> {
@@ -244,7 +243,7 @@ export async function update(
 export function _createSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateLink: PrivateLinkResource,
   options: PrivateLinksCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -253,7 +252,7 @@ export function _createSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -286,7 +285,7 @@ export async function _createDeserialize(
 export function create(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   privateLink: PrivateLinkResource,
   options: PrivateLinksCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource> {
@@ -303,7 +302,7 @@ export function create(
 export function _headSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinksHeadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -311,7 +310,7 @@ export function _headSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -337,7 +336,7 @@ export async function _headDeserialize(result: PathUncheckedResponse): Promise<v
 export async function head(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinksHeadOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _headSend(context, resourceGroupName, privateLinkName, options);
@@ -347,7 +346,7 @@ export async function head(
 export function _getSend(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinksGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -355,7 +354,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      privateLinkName: privateLinkName.privateLinkName,
+      privateLinkName: privateLinkName,
       "api%2Dversion": "2026-01-01",
     },
     {
@@ -384,7 +383,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 export async function get(
   context: Client,
   resourceGroupName: string,
-  privateLinkName: PrivateLinkParameters,
+  privateLinkName: string,
   options: PrivateLinksGetOptionalParams = { requestOptions: {} },
 ): Promise<PrivateLinkResource> {
   const result = await _getSend(context, resourceGroupName, privateLinkName, options);

@@ -106,9 +106,9 @@ export function _executeSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["executeGovernanceRuleParams"]
-      ? options["executeGovernanceRuleParams"]
-      : executeGovernanceRuleParamsSerializer(options["executeGovernanceRuleParams"]),
+    body: !options?.executeGovernanceRuleParams
+      ? options?.executeGovernanceRuleParams
+      : executeGovernanceRuleParamsSerializer(options?.executeGovernanceRuleParams),
   });
 }
 

@@ -40,9 +40,9 @@ export function _createSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["createIssueRequest"]
-      ? options["createIssueRequest"]
-      : issueCreationRequestSerializer(options["createIssueRequest"]),
+    body: !options?.createIssueRequest
+      ? options?.createIssueRequest
+      : issueCreationRequestSerializer(options?.createIssueRequest),
   });
 }
 

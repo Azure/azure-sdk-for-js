@@ -21,7 +21,6 @@ import {
   PrivateLinksGetOptionalParams,
 } from "../../api/privateLinks/options.js";
 import { PrivateLinkResource, PrivateLinkUpdate } from "../../models/privateLinksAPI/models.js";
-import { PrivateLinkParameters } from "../../models/securityManagementClient/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -40,59 +39,59 @@ export interface PrivateLinksOperations {
   /** Delete a private link resource. This operation will remove the private link infrastructure and disconnect all associated private endpoints. This operation is asynchronous and may take several minutes to complete. */
   delete: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     options?: PrivateLinksDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use delete instead */
   beginDelete: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     options?: PrivateLinksDeleteOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use delete instead */
   beginDeleteAndWait: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     options?: PrivateLinksDeleteOptionalParams,
   ) => Promise<void>;
   /** Update specific properties of a private link resource. Use this operation to update mutable properties like tags without affecting the entire resource configuration. */
   update: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateLink: PrivateLinkUpdate,
     options?: PrivateLinksUpdateOptionalParams,
   ) => Promise<PrivateLinkResource>;
   /** Create a private link resource. This operation creates the necessary infrastructure to enable private endpoint connections to Microsoft Defender for Cloud services. For updates to existing resources, use the PATCH operation. The operation is asynchronous and may take several minutes to complete. */
   create: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateLink: PrivateLinkResource,
     options?: PrivateLinksCreateOptionalParams,
   ) => PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>;
   /** @deprecated use create instead */
   beginCreate: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateLink: PrivateLinkResource,
     options?: PrivateLinksCreateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>>;
   /** @deprecated use create instead */
   beginCreateAndWait: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     privateLink: PrivateLinkResource,
     options?: PrivateLinksCreateOptionalParams,
   ) => Promise<PrivateLinkResource>;
   /** Checks whether private link exists. */
   head: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     options?: PrivateLinksHeadOptionalParams,
   ) => Promise<void>;
   /** Get a private link resource. Returns the configuration and status of private endpoint connectivity for Microsoft Defender for Cloud services in the specified region. */
   get: (
     resourceGroupName: string,
-    privateLinkName: PrivateLinkParameters,
+    privateLinkName: string,
     options?: PrivateLinksGetOptionalParams,
   ) => Promise<PrivateLinkResource>;
 }
@@ -105,12 +104,12 @@ function _getPrivateLinks(context: SecurityCenterContext) {
       list(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       options?: PrivateLinksDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, privateLinkName, options),
     beginDelete: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       options?: PrivateLinksDeleteOptionalParams,
     ) => {
       const poller = $delete(context, resourceGroupName, privateLinkName, options);
@@ -119,26 +118,26 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     },
     beginDeleteAndWait: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       options?: PrivateLinksDeleteOptionalParams,
     ) => {
       return await $delete(context, resourceGroupName, privateLinkName, options);
     },
     update: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateLink: PrivateLinkUpdate,
       options?: PrivateLinksUpdateOptionalParams,
     ) => update(context, resourceGroupName, privateLinkName, privateLink, options),
     create: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateLink: PrivateLinkResource,
       options?: PrivateLinksCreateOptionalParams,
     ) => create(context, resourceGroupName, privateLinkName, privateLink, options),
     beginCreate: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateLink: PrivateLinkResource,
       options?: PrivateLinksCreateOptionalParams,
     ) => {
@@ -148,7 +147,7 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     },
     beginCreateAndWait: async (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       privateLink: PrivateLinkResource,
       options?: PrivateLinksCreateOptionalParams,
     ) => {
@@ -156,12 +155,12 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     },
     head: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       options?: PrivateLinksHeadOptionalParams,
     ) => head(context, resourceGroupName, privateLinkName, options),
     get: (
       resourceGroupName: string,
-      privateLinkName: PrivateLinkParameters,
+      privateLinkName: string,
       options?: PrivateLinksGetOptionalParams,
     ) => get(context, resourceGroupName, privateLinkName, options),
   };

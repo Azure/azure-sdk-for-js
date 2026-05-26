@@ -596,5 +596,11 @@
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }
