@@ -56,7 +56,7 @@ describe("Main functions", () => {
   beforeEach(() => {
     originalEnv = process.env;
     // Preserve whatever the global OTel API object looks like before each test
-    savedOTelGlobal = (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    savedOTelGlobal = globalThis[GLOBAL_OPENTELEMETRY_API_KEY];
   });
 
   afterEach(() => {
@@ -64,9 +64,9 @@ describe("Main functions", () => {
     vi.restoreAllMocks();
     // Restore the global OTel API object to avoid cross-test contamination
     if (savedOTelGlobal === undefined) {
-      delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+      delete globalThis[GLOBAL_OPENTELEMETRY_API_KEY];
     } else {
-      (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = savedOTelGlobal;
+      globalThis[GLOBAL_OPENTELEMETRY_API_KEY] = savedOTelGlobal;
     }
   });
 
@@ -89,7 +89,7 @@ describe("Main functions", () => {
   });
 
   it("useAzureMonitor should clear stale global API version before initializing", () => {
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    globalThis[GLOBAL_OPENTELEMETRY_API_KEY] = {
       version: "1.6.0",
     };
     const config: AzureMonitorOpenTelemetryOptions = {
@@ -113,7 +113,7 @@ describe("Main functions", () => {
   it("useAzureMonitor should handle stale global with a newer/future API version", () => {
     // Even if the stale version is higher than the current one, the mismatch still
     // causes registerGlobal() to fail. Our fix should handle any version mismatch.
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    globalThis[GLOBAL_OPENTELEMETRY_API_KEY] = {
       version: "2.99.0",
     };
     const config: AzureMonitorOpenTelemetryOptions = {
@@ -132,7 +132,7 @@ describe("Main functions", () => {
 
   it("useAzureMonitor should work when no stale global exists", () => {
     // Regression: deleting a non-existent global key should not throw or break anything.
-    delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    delete globalThis[GLOBAL_OPENTELEMETRY_API_KEY];
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -157,7 +157,7 @@ describe("Main functions", () => {
     };
 
     // First call with stale global
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    globalThis[GLOBAL_OPENTELEMETRY_API_KEY] = {
       version: "1.6.0",
     };
     useAzureMonitor(config);
@@ -169,7 +169,7 @@ describe("Main functions", () => {
     expect(traceId).not.toBe("00000000000000000000000000000000");
 
     // Second call — re-inject stale global as if another extension re-registered
-    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+    globalThis[GLOBAL_OPENTELEMETRY_API_KEY] = {
       version: "1.4.0",
     };
     useAzureMonitor(config);
