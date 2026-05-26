@@ -56,9 +56,9 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function startRecorder(context: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
-  // Ignore api-version query parameter during matching so tests can run with 2026-06-06
-  // while matching recordings made with 2025-10-01-preview
-  // TODO: Remove this once 2026-06-06 recordings are available
+  // Workaround: 2026-06-06 GA API isn't published yet, so we reuse 2025-10-01-preview
+  // recordings and tell the test proxy to ignore the api-version query parameter.
+  // TODO: Remove once 2026-06-06 recordings are available.
   if (isPlaybackMode()) {
     const httpClient = createDefaultHttpClient();
     const request = createPipelineRequest({
@@ -70,6 +70,9 @@ export async function startRecorder(context: TestInfo): Promise<Recorder> {
     request.headers.set("x-recording-id", (recorder as any).recordingId);
     request.body = JSON.stringify({
       ignoredQueryParameters: "api-version",
+      // Exclude headers automatically added by the browser fetch implementation
+      // that aren't present in recordings made from Node.js.
+      excludedHeaders: "Cache-Control,Pragma",
     });
     await httpClient.sendRequest(request);
   }
