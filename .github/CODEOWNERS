@@ -96,7 +96,7 @@
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/    @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris
+/sdk/batch/    @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris @lilinvictorms @iwang2 @xingwu1
 
 # PRLabel: %Cognitive - Content Understanding
 /sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw @chienyuanchang
@@ -355,7 +355,7 @@
 # PRLabel: %Mgmt
 /sdk/apimanagement/arm-apimanagement/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appcontainers/arm-appcontainers/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -379,7 +379,7 @@
 # PRLabel: %Mgmt
 /sdk/astro/arm-astro/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -406,7 +406,7 @@
 # PRLabel: %Mgmt
 /sdk/baremetalinfrastructure/arm-baremetalinfrastructure/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/billing/arm-billing/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -880,7 +880,7 @@
 # PRLabel: %Mgmt
 /sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -931,7 +931,7 @@
 # PRLabel: %Mgmt
 /sdk/security/arm-security/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/serialconsole/arm-serialconsole/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
