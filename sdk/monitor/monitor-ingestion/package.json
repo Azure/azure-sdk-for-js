@@ -107,7 +107,12 @@
     "node": ">=20.0.0"
   },
   "//metadata": {
-    "constantPaths": []
+    "constantPaths": [
+      {
+        "path": "src/api/logsIngestionContext.ts",
+        "prefix": "const userAgentInfo"
+      }
+    ]
   },
   "//sampleConfiguration": {
     "skipFolder": false,

@@ -83,6 +83,14 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/metricsContext.ts",
+        "prefix": "const userAgentInfo"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "skipFolder": false,
     "productName": "Monitor Query Metrics",
