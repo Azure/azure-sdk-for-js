@@ -15,7 +15,7 @@ import {
 import type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateAsyncOptionalParams,
+  BetaModelsCreateOptionalParams,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
   BetaModelsGetOptionalParams,
@@ -53,7 +53,7 @@ export interface BetaModelsOperations {
     name: string,
     version: string,
     body: ModelVersion,
-    options?: BetaModelsCreateAsyncOptionalParams,
+    options?: BetaModelsCreateOptionalParams,
   ) => Promise<{
     location?: string;
     operationResult?: string | null;
@@ -104,7 +104,7 @@ function _getBetaModels(context: AIProjectContext) {
       name: string,
       version: string,
       body: ModelVersion,
-      options?: BetaModelsCreateAsyncOptionalParams,
+      options?: BetaModelsCreateOptionalParams,
     ) => create(context, name, version, body, options),
     update: (
       name: string,
