@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-05-25)
+## 3.0.0-beta.1 (2026-05-26)
 Compared with version 2.0.2
 
 ### Features Added
@@ -26,8 +26,6 @@ Compared with version 2.0.2
   - Added Interface SimplePollerLike
   - Added Interface SubscriptionUnderManagementGroupProperties
   - Added Interface SystemData
-  - Interface DescendantInfo has a new optional parameter properties
-  - Interface EntityInfo has a new optional parameter properties
   - Interface HierarchySettings has a new optional parameter systemData
   - Interface ManagementGroup has a new optional parameter systemData
   - Interface Operation has a new optional parameter actionType
@@ -62,18 +60,6 @@ Compared with version 2.0.2
   - Removed Interface OperationDisplayProperties
   - Removed Interface OperationResults
   - Type of parameter error of interface ErrorResponse is changed from ErrorDetails to ErrorDetail
-  - Interface DescendantInfo no longer has parameter displayName
-  - Interface DescendantInfo no longer has parameter parent
-  - Interface EntityInfo no longer has parameter displayName
-  - Interface EntityInfo no longer has parameter inheritedPermissions
-  - Interface EntityInfo no longer has parameter numberOfChildGroups
-  - Interface EntityInfo no longer has parameter numberOfChildren
-  - Interface EntityInfo no longer has parameter numberOfDescendants
-  - Interface EntityInfo no longer has parameter parent
-  - Interface EntityInfo no longer has parameter parentDisplayNameChain
-  - Interface EntityInfo no longer has parameter parentNameChain
-  - Interface EntityInfo no longer has parameter permissions
-  - Interface EntityInfo no longer has parameter tenantId
   - Removed Type Alias Enum0
   - Removed Type Alias Enum2
   - Removed Type Alias Enum3

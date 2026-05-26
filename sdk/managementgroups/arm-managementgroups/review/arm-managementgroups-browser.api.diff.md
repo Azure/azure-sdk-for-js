@@ -7,7 +7,25 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -156,16 +156,16 @@
+@@ -150,32 +150,32 @@
+ // @public
+ export interface EntityInfo {
+     displayName?: string;
+     readonly id?: string;
+-    inheritedPermissions?: Permissions;
++    inheritedPermissions?: Permissions_2;
+     readonly name?: string;
+     numberOfChildGroups?: number;
+     numberOfChildren?: number;
+     numberOfDescendants?: number;
+     parent?: EntityParentGroupInfo;
+     parentDisplayNameChain?: string[];
+     parentNameChain?: string[];
+-    permissions?: Permissions;
++    permissions?: Permissions_2;
+     tenantId?: string;
+     readonly type?: string;
+ }
  
  // @public
  export interface EntityInfoProperties {
@@ -26,7 +44,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -529,9 +529,10 @@
+@@ -539,9 +539,10 @@
      parentGroupId?: string;
  }
  

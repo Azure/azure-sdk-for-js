@@ -656,8 +656,10 @@ export interface DescendantInfo {
   readonly type?: string;
   /** The name of the descendant. For example, 00000000-0000-0000-0000-000000000000 */
   readonly name?: string;
-  /** The generic properties of an descendant. */
-  properties?: DescendantInfoProperties;
+  /** The friendly name of the management group. */
+  displayName?: string;
+  /** The ID of the parent management group. */
+  parent?: DescendantParentGroupInfo;
 }
 
 export function descendantInfoDeserializer(item: any): DescendantInfo {
@@ -665,9 +667,9 @@ export function descendantInfoDeserializer(item: any): DescendantInfo {
     id: item["id"],
     type: item["type"],
     name: item["name"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : descendantInfoPropertiesDeserializer(item["properties"]),
+      : _descendantInfoPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -984,8 +986,26 @@ export interface EntityInfo {
   readonly type?: string;
   /** The name of the entity. For example, 00000000-0000-0000-0000-000000000000 */
   readonly name?: string;
-  /** The generic properties of an entity. */
-  properties?: EntityInfoProperties;
+  /** The AAD Tenant ID associated with the entity. For example, 00000000-0000-0000-0000-000000000000 */
+  tenantId?: string;
+  /** The friendly name of the management group. */
+  displayName?: string;
+  /** (Optional) The ID of the parent management group. */
+  parent?: EntityParentGroupInfo;
+  /** The users specific permissions to this item. */
+  permissions?: Permissions;
+  /** The users specific permissions to this item. */
+  inheritedPermissions?: Permissions;
+  /** Number of Descendants */
+  numberOfDescendants?: number;
+  /** Number of children is the number of Groups and Subscriptions that are exactly one level underneath the current Group. */
+  numberOfChildren?: number;
+  /** Number of children is the number of Groups that are exactly one level underneath the current Group. */
+  numberOfChildGroups?: number;
+  /** The parent display name chain from the root group to the immediate parent */
+  parentDisplayNameChain?: string[];
+  /** The parent name chain from the root group to the immediate parent */
+  parentNameChain?: string[];
 }
 
 export function entityInfoDeserializer(item: any): EntityInfo {
@@ -993,9 +1013,9 @@ export function entityInfoDeserializer(item: any): EntityInfo {
     id: item["id"],
     type: item["type"],
     name: item["name"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : entityInfoPropertiesDeserializer(item["properties"]),
+      : _entityInfoPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -1143,6 +1163,15 @@ export function _azureAsyncOperationResultsPropertiesDeserializer(item: any) {
   };
 }
 
+export function _descendantInfoPropertiesDeserializer(item: any) {
+  return {
+    displayName: item["displayName"],
+    parent: !item["parent"]
+      ? item["parent"]
+      : descendantParentGroupInfoDeserializer(item["parent"]),
+  };
+}
+
 export function _managementGroupInfoPropertiesDeserializer(item: any) {
   return {
     tenantId: item["tenantId"],
@@ -1183,5 +1212,28 @@ export function _subscriptionUnderManagementGroupPropertiesDeserializer(item: an
       ? item["parent"]
       : descendantParentGroupInfoDeserializer(item["parent"]),
     state: item["state"],
+  };
+}
+
+export function _entityInfoPropertiesDeserializer(item: any) {
+  return {
+    tenantId: item["tenantId"],
+    displayName: item["displayName"],
+    parent: !item["parent"] ? item["parent"] : entityParentGroupInfoDeserializer(item["parent"]),
+    permissions: item["permissions"],
+    inheritedPermissions: item["inheritedPermissions"],
+    numberOfDescendants: item["numberOfDescendants"],
+    numberOfChildren: item["numberOfChildren"],
+    numberOfChildGroups: item["numberOfChildGroups"],
+    parentDisplayNameChain: !item["parentDisplayNameChain"]
+      ? item["parentDisplayNameChain"]
+      : item["parentDisplayNameChain"].map((p1: any) => {
+          return p1;
+        }),
+    parentNameChain: !item["parentNameChain"]
+      ? item["parentNameChain"]
+      : item["parentNameChain"].map((p1: any) => {
+          return p1;
+        }),
   };
 }

@@ -111,9 +111,10 @@ export interface CreateParentGroupInfo {
 
 // @public
 export interface DescendantInfo {
+    displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    properties?: DescendantInfoProperties;
+    parent?: DescendantParentGroupInfo;
     readonly type?: string;
 }
 
@@ -148,9 +149,18 @@ export interface EntitiesOperations {
 
 // @public
 export interface EntityInfo {
+    displayName?: string;
     readonly id?: string;
+    inheritedPermissions?: Permissions;
     readonly name?: string;
-    properties?: EntityInfoProperties;
+    numberOfChildGroups?: number;
+    numberOfChildren?: number;
+    numberOfDescendants?: number;
+    parent?: EntityParentGroupInfo;
+    parentDisplayNameChain?: string[];
+    parentNameChain?: string[];
+    permissions?: Permissions;
+    tenantId?: string;
     readonly type?: string;
 }
 
