@@ -113,7 +113,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   // must match", resulting in Noop providers. Deleting the global object forces
   // registerGlobal() to create a fresh one with the correct version.
   const globalOpentelemetryApiKey = Symbol.for("opentelemetry.js.api.1");
-  delete globalThis[globalOpentelemetryApiKey];
+  Reflect.deleteProperty(globalThis, globalOpentelemetryApiKey);
 
   // Create internal handlers
   const metricHandler = new MetricHandler(config);
