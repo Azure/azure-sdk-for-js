@@ -12,8 +12,11 @@
  * @summary Demonstrates agent operations with OpenTelemetry console tracing.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient, enableGenAITracing } from "@azure/ai-projects";
+// Set up OpenTelemetry and Azure SDK instrumentation BEFORE importing Azure SDK packages.
+// In TypeScript compiled to CommonJS, static `import` statements are hoisted to the top
+// of the file. To ensure the RITM (require-in-the-middle) hook from registerInstrumentations
+// can intercept @azure/core-tracing, Azure SDK packages must be loaded dynamically AFTER
+// instrumentation is registered.
 import {
   NodeTracerProvider,
   ConsoleSpanExporter,
@@ -24,18 +27,24 @@ import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import "dotenv/config";
 
+// Set up OpenTelemetry at module scope, before Azure SDK packages are loaded.
+const provider = new NodeTracerProvider({
+  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+});
+provider.register();
+
+// Bridge @azure/core-tracing to OpenTelemetry.
+// This must run before any Azure SDK package is imported so the RITM hook can intercept
+// @azure/core-tracing when it is first require()'d.
+registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
+
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
-  // Set up OpenTelemetry with a console exporter
-  const provider = new NodeTracerProvider({
-    spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
-  });
-  provider.register();
-
-  // Bridge @azure/core-tracing to OpenTelemetry
-  registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
+  // Dynamically import Azure SDK packages after instrumentation is registered.
+  const { DefaultAzureCredential } = await import("@azure/identity");
+  const { AIProjectClient, enableGenAITracing } = await import("@azure/ai-projects");
 
   // Enable GenAI tracing (experimental)
   // To capture prompt and completion content in traces, set contentRecording to true.

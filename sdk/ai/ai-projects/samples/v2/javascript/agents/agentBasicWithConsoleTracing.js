@@ -12,8 +12,7 @@
  * @summary Demonstrates agent operations with OpenTelemetry console tracing.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AIProjectClient, enableGenAITracing } = require("@azure/ai-projects");
+// Set up OpenTelemetry and Azure SDK instrumentation BEFORE importing Azure SDK packages.
 const {
   NodeTracerProvider,
   ConsoleSpanExporter,
@@ -22,21 +21,22 @@ const {
 const { context, trace } = require("@opentelemetry/api");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
+
+const provider = new NodeTracerProvider({
+  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+});
+provider.register();
+registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
+
+// Import Azure SDK packages (after instrumentation is registered)
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient, enableGenAITracing } = require("@azure/ai-projects");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 async function main() {
-  // Set up OpenTelemetry with a console exporter
-  const provider = new NodeTracerProvider({
-    spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
-  });
-  provider.register();
-
-  // Bridge @azure/core-tracing to OpenTelemetry
-  registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
-
   // Enable GenAI tracing (experimental)
   // To capture prompt and completion content in traces, set contentRecording to true.
   // Note: content recording may include sensitive data such as user inputs and model outputs.
