@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   TranscriptionContent,
   TranscriptionOptions,
   ProfanityFilterMode,
@@ -12,5 +12,5 @@ export {
   ChannelCombinedPhrases,
   TranscribedPhrase,
   TranscribedWord,
-  KnownServiceApiVersions,
 } from "./models.js";
+export { KnownServiceApiVersions } from "./models.js";

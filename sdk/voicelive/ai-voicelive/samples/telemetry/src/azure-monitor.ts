@@ -83,7 +83,7 @@ const client = new VoiceLiveClient(endpoint, credential);
 let session: VoiceLiveSession | undefined;
 
 try {
-  session = client.createSession("gpt-4o-realtime-preview");
+  session = client.createSession("gpt-realtime");
   await session.connect();
   console.log("Connected — session ID:", session.sessionId);
 

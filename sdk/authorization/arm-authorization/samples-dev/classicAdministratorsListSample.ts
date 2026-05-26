@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets service administrator, account administrator, and co-administrators for the subscription.
- *
- * @summary Gets service administrator, account administrator, and co-administrators for the subscription.
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetClassicAdministrators.json
- */
-
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets service administrator, account administrator, and co-administrators for the subscription.
+ *
+ * @summary gets service administrator, account administrator, and co-administrators for the subscription.
+ * x-ms-original-file: 2015-07-01/GetClassicAdministrators.json
+ */
 async function listClassicAdministrators(): Promise<void> {
-  const subscriptionId = process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "subId";
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.classicAdministrators.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

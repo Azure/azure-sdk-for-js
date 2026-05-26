@@ -45,7 +45,7 @@ describe.runIf(isLiveMode())("MCP Approval Workflow - Live", () => {
   let sessions: VoiceLiveSession[] = [];
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
-  const model = "gpt-4o";
+  const model = "gpt-4.1";
   const timeoutMs = 90000; // Approval tests take longer
 
   beforeEach(function (this: any) {

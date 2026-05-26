@@ -3,6 +3,6 @@
 
 export {
   createDomainRegistrationManagement,
-  DomainRegistrationManagementContext,
-  DomainRegistrationManagementClientOptionalParams,
+  type DomainRegistrationManagementContext,
+  type DomainRegistrationManagementClientOptionalParams,
 } from "./domainRegistrationManagementContext.js";

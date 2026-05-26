@@ -40,13 +40,13 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should create a session successfully", async function () {
-    session = await client.createSession("gpt-4o-mini");
+    session = await client.createSession("gpt-4.1-mini");
     expect(session).toBeDefined();
     expect(session.isConnected).toBe(false); // Not connected yet
   });
 
   it.skipIf(!isLiveMode())("should establish WebSocket connection", async function () {
-    session = await client.createSession("gpt-4o");
+    session = await client.createSession("gpt-4.1");
 
     // Connect to the WebSocket endpoint
     await session.connect();
@@ -55,7 +55,7 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should handle connection with authentication", async function () {
-    session = await client.createSession("gpt-4o");
+    session = await client.createSession("gpt-4.1");
 
     // Test connection with proper authentication
     await session.connect();
@@ -65,7 +65,7 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
 
     // Test that we can configure the session (requires authentication)
     await session.updateSession({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-mini",
       voice: "alloy",
     });
 
@@ -81,7 +81,7 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
     );
 
     try {
-      const invalidSession = await invalidClient.createSession("gpt-4o-mini");
+      const invalidSession = await invalidClient.createSession("gpt-4.1-mini");
       await invalidSession.connect();
 
       // Should not reach here
@@ -93,8 +93,8 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should support multiple concurrent sessions", async function () {
-    const session1 = await client.createSession("gpt-4o-mini");
-    const session2 = await client.createSession("gpt-4o-mini");
+    const session1 = await client.createSession("gpt-4.1-mini");
+    const session2 = await client.createSession("gpt-4.1-mini");
 
     try {
       await Promise.all([session1.connect(), session2.connect()]);
@@ -111,7 +111,7 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should handle session reconnection", async function () {
-    session = await client.createSession("gpt-4o");
+    session = await client.createSession("gpt-4.1");
 
     // Initial connection
     await session.connect();
@@ -134,7 +134,7 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
   });
 
   it.skipIf(!isLiveMode())("should handle session lifecycle correctly", async function (this: any) {
-    session = await client.createSession("gpt-4o");
+    session = await client.createSession("gpt-4.1");
 
     // Track session state changes
     let errorReceived = false;
@@ -164,7 +164,7 @@ describe.runIf(isLiveMode())("VoiceLive Integration - Connection Tests", () => {
 
       // Update session to trigger events
       await session.updateSession({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
       });
 
       // Give some time for events to be processed
