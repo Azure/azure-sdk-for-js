@@ -183,4 +183,222 @@ describe("MessageSender unit tests", () => {
 
     assert.equal(openCalled, retryOptions.maxRetries + 1);
   });
+
+  describe("createBatch uses vendor property for batch sizing", () => {
+    function createSender(): MessageSender {
+      return new MessageSender(
+        "serviceBusClientId",
+        createConnectionContextForTests(),
+        "entityPath",
+        { maxRetries: 0, retryDelayInMs: 0, timeoutInMs: 1000 },
+      );
+    }
+
+    it("prefers com.microsoft:max-message-batch-size over maxMessageSize", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024, // 100 MB (Premium large-message)
+          properties: {
+            "com.microsoft:max-message-batch-size": 1048576, // 1 MB
+          },
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        1048576,
+        "Batch size should use vendor property (1 MB), not maxMessageSize (100 MB)",
+      );
+    });
+
+    it("falls back to Math.min(maxMessageSize, defaultMaxBatchSize) when vendor property is absent", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 262144, // 256 KB (Standard tier)
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should be Math.min(maxMessageSize, defaultMaxBatchSize) = Math.min(256KB, 1MB) = 256KB",
+      );
+    });
+
+    it("falls back to Math.min(maxMessageSize, defaultMaxBatchSize) when properties dict is undefined", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 262144,
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should be Math.min(maxMessageSize, defaultMaxBatchSize) when properties is undefined",
+      );
+    });
+
+    it("falls back to capped size when vendor property has wrong type", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 262144,
+          properties: {
+            "com.microsoft:max-message-batch-size": "not-a-number",
+          },
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should fall back to Math.min(maxMessageSize, defaultMaxBatchSize) when vendor property is not a number",
+      );
+    });
+
+    it("falls back to capped size when vendor property is zero", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 262144,
+          properties: {
+            "com.microsoft:max-message-batch-size": 0,
+          },
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        262144,
+        "Batch size should fall back to Math.min(maxMessageSize, defaultMaxBatchSize) when vendor property is zero",
+      );
+    });
+
+    it("user-specified maxSizeInBytes still takes precedence over vendor property", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024,
+          properties: {
+            "com.microsoft:max-message-batch-size": 1048576,
+          },
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch({ maxSizeInBytes: 512 });
+      assert.equal(
+        batch.maxSizeInBytes,
+        512,
+        "User-specified maxSizeInBytes should override vendor property",
+      );
+    });
+
+    it("rejects user-specified maxSizeInBytes above vendor batch limit", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024,
+          properties: {
+            "com.microsoft:max-message-batch-size": 1048576,
+          },
+          isOpen: () => true,
+        } as any;
+      };
+
+      try {
+        await sender.createBatch({ maxSizeInBytes: 2 * 1024 * 1024 });
+        assert.fail("Should have thrown for maxSizeInBytes > batch limit");
+      } catch (e: any) {
+        assert.include(e.message, "Requested max batch size");
+      }
+    });
+
+    it("Standard tier uses 256 KB from vendor property", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 262144, // 256 KB (Standard)
+          properties: {
+            "com.microsoft:max-message-batch-size": 262144,
+          },
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(batch.maxSizeInBytes, 262144, "Standard tier should use 256 KB batch size");
+    });
+
+    it("caps batch size at 1 MB when vendor property is absent and maxMessageSize is 100 MB", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024, // 100 MB (Premium large-message)
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        1048576,
+        "Batch size should be capped at 1 MB (defaultMaxBatchSize) when vendor property is absent, even if maxMessageSize is 100 MB",
+      );
+    });
+
+    it("caps batch size at 1 MB when vendor property is absent and maxMessageSize is 2 MB", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 2 * 1024 * 1024, // 2 MB
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      const batch = await sender.createBatch();
+      assert.equal(
+        batch.maxSizeInBytes,
+        1048576,
+        "Batch size should be capped at 1 MB even when maxMessageSize is only slightly larger",
+      );
+    });
+
+    it("rejects user-specified maxSizeInBytes above capped batch limit (no vendor property)", async () => {
+      const sender = createSender();
+      sender["open"] = async () => {
+        sender["_link"] = {
+          maxMessageSize: 100 * 1024 * 1024, // 100 MB
+          properties: {},
+          isOpen: () => true,
+        } as any;
+      };
+
+      try {
+        // Without the cap, this would succeed (2 MB < 100 MB).
+        // With the cap, it should fail (2 MB > 1 MB cap).
+        await sender.createBatch({ maxSizeInBytes: 2 * 1024 * 1024 });
+        assert.fail("Should have thrown for maxSizeInBytes > capped batch limit");
+      } catch (e: any) {
+        assert.include(e.message, "Requested max batch size");
+      }
+    });
+  });
 });

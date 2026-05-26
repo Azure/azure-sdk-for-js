@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createSpatio,
-  type SpatioContext,
-  type SpatioClientOptionalParams,
-} from "./spatioContext.js";
+export type { SpatioContext, SpatioClientOptionalParams } from "./spatioContext.js";
+export { createSpatio } from "./spatioContext.js";

@@ -25,24 +25,31 @@ export async function streamToBuffer(
 
   return new Promise<void>((resolve, reject) => {
     stream.on("readable", () => {
+      // Already filled the requested amount; ignore any further `readable` events.
       if (pos >= count) {
         resolve();
         return;
       }
+      // Drain all currently-buffered chunks. Required since Node.js v26, where
+      // `stream.read()` returns one buffered chunk at a time instead of the
+      // concatenation of all queued data (see nodejs/node#60441).
+      let chunk: string | Buffer | null;
+      while ((chunk = stream.read()) !== null) {
+        if (typeof chunk === "string") {
+          chunk = Buffer.from(chunk, encoding);
+        }
 
-      let chunk = stream.read();
-      if (!chunk) {
-        return;
+        // How much data needed in this chunk
+        const chunkLength = pos + chunk.length > count ? count - pos : chunk.length;
+
+        buffer.fill(chunk.slice(0, chunkLength), offset + pos, offset + pos + chunkLength);
+        pos += chunkLength;
+
+        if (pos >= count) {
+          resolve();
+          return;
+        }
       }
-      if (typeof chunk === "string") {
-        chunk = Buffer.from(chunk, encoding);
-      }
-
-      // How much data needed in this chunk
-      const chunkLength = pos + chunk.length > count ? count - pos : chunk.length;
-
-      buffer.fill(chunk.slice(0, chunkLength), offset + pos, offset + pos + chunkLength);
-      pos += chunkLength;
     });
 
     stream.on("end", () => {
@@ -79,21 +86,23 @@ export async function streamToBuffer2(
 
   return new Promise<number>((resolve, reject) => {
     stream.on("readable", () => {
-      let chunk = stream.read();
-      if (!chunk) {
-        return;
-      }
-      if (typeof chunk === "string") {
-        chunk = Buffer.from(chunk, encoding);
-      }
+      // Drain all currently-buffered chunks. Required since Node.js v26, where
+      // `stream.read()` returns one buffered chunk at a time instead of the
+      // concatenation of all queued data (see nodejs/node#60441).
+      let chunk: string | Buffer | null;
+      while ((chunk = stream.read()) !== null) {
+        if (typeof chunk === "string") {
+          chunk = Buffer.from(chunk, encoding);
+        }
 
-      if (pos + chunk.length > bufferSize) {
-        reject(new Error(`Stream exceeds buffer size. Buffer size: ${bufferSize}`));
-        return;
-      }
+        if (pos + chunk.length > bufferSize) {
+          reject(new Error(`Stream exceeds buffer size. Buffer size: ${bufferSize}`));
+          return;
+        }
 
-      buffer.fill(chunk, pos, pos + chunk.length);
-      pos += chunk.length;
+        buffer.fill(chunk, pos, pos + chunk.length);
+        pos += chunk.length;
+      }
     });
 
     stream.on("end", () => {

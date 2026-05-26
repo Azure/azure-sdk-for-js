@@ -64,7 +64,7 @@ import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { isCredential } from "./utils/isCredential.js";
 import { logger } from "./logger.js";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils.js";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy.js";
+import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
 

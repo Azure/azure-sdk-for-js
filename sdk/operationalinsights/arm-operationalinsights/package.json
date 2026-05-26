@@ -1,98 +1,22 @@
 {
   "name": "@azure/arm-operationalinsights",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "11.0.0-beta.1",
   "description": "A generated SDK for OperationalInsightsManagementClient.",
-  "version": "10.1.0",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/core-lro": "^2.5.4",
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-client": "^1.9.3",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "type": "module",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "workspace:^",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "eslint": "catalog:",
-    "playwright": "catalog:testing",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "pack": "pnpm pack 2>&1",
-    "extract-api": "dev-tool run extract-api",
-    "lint": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "execute:samples": "echo skipped",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "test": "npm run test:node && npm run test:browser",
-    "test:node": "dev-tool run test:vitest",
-    "test:browser": "echo skipped",
-    "update-snippets": "dev-tool run update-snippets",
-    "test:node:esm": "dev-tool run test:vitest --esm"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/operationalInsightsManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/operationalinsights/arm-operationalinsights",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-operationalinsights?view=azure-node-preview"
+  "imports": {
+    "#platform/*.js": {
+      "browser": "./src/*-browser.mjs",
+      "default": "./src/*.js"
+    }
   },
   "exports": {
     "./package.json": "./package.json",
@@ -100,10 +24,6 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -113,6 +33,446 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/deletedWorkspaces": {
+      "browser": {
+        "types": "./dist/browser/api/deletedWorkspaces/index.d.ts",
+        "default": "./dist/browser/api/deletedWorkspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deletedWorkspaces/index.d.ts",
+        "default": "./dist/esm/api/deletedWorkspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deletedWorkspaces/index.d.ts",
+        "default": "./dist/commonjs/api/deletedWorkspaces/index.js"
+      }
+    },
+    "./api/operationStatuses": {
+      "browser": {
+        "types": "./dist/browser/api/operationStatuses/index.d.ts",
+        "default": "./dist/browser/api/operationStatuses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationStatuses/index.d.ts",
+        "default": "./dist/esm/api/operationStatuses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationStatuses/index.d.ts",
+        "default": "./dist/commonjs/api/operationStatuses/index.js"
+      }
+    },
+    "./api/summaryLogs": {
+      "browser": {
+        "types": "./dist/browser/api/summaryLogs/index.d.ts",
+        "default": "./dist/browser/api/summaryLogs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/summaryLogs/index.d.ts",
+        "default": "./dist/esm/api/summaryLogs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/summaryLogs/index.d.ts",
+        "default": "./dist/commonjs/api/summaryLogs/index.js"
+      }
+    },
+    "./api/storageInsightConfigs": {
+      "browser": {
+        "types": "./dist/browser/api/storageInsightConfigs/index.d.ts",
+        "default": "./dist/browser/api/storageInsightConfigs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/storageInsightConfigs/index.d.ts",
+        "default": "./dist/esm/api/storageInsightConfigs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/storageInsightConfigs/index.d.ts",
+        "default": "./dist/commonjs/api/storageInsightConfigs/index.js"
+      }
+    },
+    "./api/queryPacks": {
+      "browser": {
+        "types": "./dist/browser/api/queryPacks/index.d.ts",
+        "default": "./dist/browser/api/queryPacks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/queryPacks/index.d.ts",
+        "default": "./dist/esm/api/queryPacks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/queryPacks/index.d.ts",
+        "default": "./dist/commonjs/api/queryPacks/index.js"
+      }
+    },
+    "./api/queries": {
+      "browser": {
+        "types": "./dist/browser/api/queries/index.d.ts",
+        "default": "./dist/browser/api/queries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/queries/index.d.ts",
+        "default": "./dist/esm/api/queries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/queries/index.d.ts",
+        "default": "./dist/commonjs/api/queries/index.js"
+      }
+    },
+    "./api/linkedStorageAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/linkedStorageAccounts/index.d.ts",
+        "default": "./dist/browser/api/linkedStorageAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/linkedStorageAccounts/index.d.ts",
+        "default": "./dist/esm/api/linkedStorageAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/linkedStorageAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/linkedStorageAccounts/index.js"
+      }
+    },
+    "./api/workspacePurge": {
+      "browser": {
+        "types": "./dist/browser/api/workspacePurge/index.d.ts",
+        "default": "./dist/browser/api/workspacePurge/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspacePurge/index.d.ts",
+        "default": "./dist/esm/api/workspacePurge/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspacePurge/index.d.ts",
+        "default": "./dist/commonjs/api/workspacePurge/index.js"
+      }
+    },
+    "./api/usages": {
+      "browser": {
+        "types": "./dist/browser/api/usages/index.d.ts",
+        "default": "./dist/browser/api/usages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usages/index.d.ts",
+        "default": "./dist/esm/api/usages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usages/index.d.ts",
+        "default": "./dist/commonjs/api/usages/index.js"
+      }
+    },
+    "./api/sharedKeys": {
+      "browser": {
+        "types": "./dist/browser/api/sharedKeys/index.d.ts",
+        "default": "./dist/browser/api/sharedKeys/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedKeys/index.d.ts",
+        "default": "./dist/esm/api/sharedKeys/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedKeys/index.d.ts",
+        "default": "./dist/commonjs/api/sharedKeys/index.js"
+      }
+    },
+    "./api/schema": {
+      "browser": {
+        "types": "./dist/browser/api/schema/index.d.ts",
+        "default": "./dist/browser/api/schema/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/schema/index.d.ts",
+        "default": "./dist/esm/api/schema/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/schema/index.d.ts",
+        "default": "./dist/commonjs/api/schema/index.js"
+      }
+    },
+    "./api/managementGroups": {
+      "browser": {
+        "types": "./dist/browser/api/managementGroups/index.d.ts",
+        "default": "./dist/browser/api/managementGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managementGroups/index.d.ts",
+        "default": "./dist/esm/api/managementGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managementGroups/index.d.ts",
+        "default": "./dist/commonjs/api/managementGroups/index.js"
+      }
+    },
+    "./api/intelligencePacks": {
+      "browser": {
+        "types": "./dist/browser/api/intelligencePacks/index.d.ts",
+        "default": "./dist/browser/api/intelligencePacks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/intelligencePacks/index.d.ts",
+        "default": "./dist/esm/api/intelligencePacks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/intelligencePacks/index.d.ts",
+        "default": "./dist/commonjs/api/intelligencePacks/index.js"
+      }
+    },
+    "./api/gateways": {
+      "browser": {
+        "types": "./dist/browser/api/gateways/index.d.ts",
+        "default": "./dist/browser/api/gateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gateways/index.d.ts",
+        "default": "./dist/esm/api/gateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gateways/index.d.ts",
+        "default": "./dist/commonjs/api/gateways/index.js"
+      }
+    },
+    "./api/availableServiceTiers": {
+      "browser": {
+        "types": "./dist/browser/api/availableServiceTiers/index.d.ts",
+        "default": "./dist/browser/api/availableServiceTiers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/availableServiceTiers/index.d.ts",
+        "default": "./dist/esm/api/availableServiceTiers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/availableServiceTiers/index.d.ts",
+        "default": "./dist/commonjs/api/availableServiceTiers/index.js"
+      }
+    },
+    "./api/tables": {
+      "browser": {
+        "types": "./dist/browser/api/tables/index.d.ts",
+        "default": "./dist/browser/api/tables/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tables/index.d.ts",
+        "default": "./dist/esm/api/tables/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tables/index.d.ts",
+        "default": "./dist/commonjs/api/tables/index.js"
+      }
+    },
+    "./api/savedSearches": {
+      "browser": {
+        "types": "./dist/browser/api/savedSearches/index.d.ts",
+        "default": "./dist/browser/api/savedSearches/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/savedSearches/index.d.ts",
+        "default": "./dist/esm/api/savedSearches/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/savedSearches/index.d.ts",
+        "default": "./dist/commonjs/api/savedSearches/index.js"
+      }
+    },
+    "./api/linkedServices": {
+      "browser": {
+        "types": "./dist/browser/api/linkedServices/index.d.ts",
+        "default": "./dist/browser/api/linkedServices/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/linkedServices/index.d.ts",
+        "default": "./dist/esm/api/linkedServices/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/linkedServices/index.d.ts",
+        "default": "./dist/commonjs/api/linkedServices/index.js"
+      }
+    },
+    "./api/dataSources": {
+      "browser": {
+        "types": "./dist/browser/api/dataSources/index.d.ts",
+        "default": "./dist/browser/api/dataSources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataSources/index.d.ts",
+        "default": "./dist/esm/api/dataSources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataSources/index.d.ts",
+        "default": "./dist/commonjs/api/dataSources/index.js"
+      }
+    },
+    "./api/workspaces": {
+      "browser": {
+        "types": "./dist/browser/api/workspaces/index.d.ts",
+        "default": "./dist/browser/api/workspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspaces/index.d.ts",
+        "default": "./dist/esm/api/workspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspaces/index.d.ts",
+        "default": "./dist/commonjs/api/workspaces/index.js"
+      }
+    },
+    "./api/dataExports": {
+      "browser": {
+        "types": "./dist/browser/api/dataExports/index.d.ts",
+        "default": "./dist/browser/api/dataExports/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataExports/index.d.ts",
+        "default": "./dist/esm/api/dataExports/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataExports/index.d.ts",
+        "default": "./dist/commonjs/api/dataExports/index.js"
+      }
+    },
+    "./api/clusters": {
+      "browser": {
+        "types": "./dist/browser/api/clusters/index.d.ts",
+        "default": "./dist/browser/api/clusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusters/index.d.ts",
+        "default": "./dist/esm/api/clusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusters/index.d.ts",
+        "default": "./dist/commonjs/api/clusters/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/operationalinsights/arm-operationalinsights"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/operationalinsights/arm-operationalinsights/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/operationalInsightsManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-operationalinsights",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-operationalinsights?view=azure-node-preview"
   }
 }

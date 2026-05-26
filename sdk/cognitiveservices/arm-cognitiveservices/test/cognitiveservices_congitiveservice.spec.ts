@@ -62,7 +62,7 @@ describe("CognitiveServices test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "SSS3PT_czwjstest";
+    resourceGroup = "SSS3PT_myjstest";
     accountName = "myaccountxxxx1";
   });
 

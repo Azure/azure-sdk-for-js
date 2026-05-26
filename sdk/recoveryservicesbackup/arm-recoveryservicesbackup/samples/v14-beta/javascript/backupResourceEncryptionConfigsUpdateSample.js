@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates Vault encryption config.
  *
  * @summary updates Vault encryption config.
- * x-ms-original-file: 2026-01-01-preview/BackupResourceEncryptionConfig_Put.json
+ * x-ms-original-file: 2026-01-31-preview/BackupResourceEncryptionConfig_Put.json
  */
 async function updateVaultEncryptionConfiguration() {
   const credential = new DefaultAzureCredential();

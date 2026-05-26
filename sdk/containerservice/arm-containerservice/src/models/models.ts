@@ -57,7 +57,7 @@ export interface AgentPool extends ProxyResource {
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
   readonly currentOrchestratorVersion?: string;
   /** The version of node image */
-  readonly nodeImageVersion?: string;
+  nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
   /** Whether to enable the full-cache ephemeral OS disk feature. When this feature is enabled, the entire operating system will be locally cached on the ephemeral OS disk, preventing E17 events caused by network failures. */
@@ -130,8 +130,8 @@ export interface AgentPool extends ProxyResource {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
-  /** Settings to determine the node customization used to provision nodes in a pool. */
-  nodeCustomizationProfile?: NodeCustomizationProfile;
+  /** Settings to determine the prepared image specification used to provision nodes in a pool. */
+  preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
 }
 
 export function agentPoolSerializer(item: AgentPool): any {
@@ -157,6 +157,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "type",
       "mode",
       "orchestratorVersion",
+      "nodeImageVersion",
       "upgradeStrategy",
       "enableOSDiskFullCaching",
       "upgradeSettings",
@@ -192,7 +193,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "virtualMachineNodesStatus",
       "status",
       "localDNSProfile",
-      "nodeCustomizationProfile",
+      "preparedImageSpecificationProfile",
     ])
       ? undefined
       : _agentPoolPropertiesSerializer(item),
@@ -260,7 +261,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
   readonly currentOrchestratorVersion?: string;
   /** The version of node image */
-  readonly nodeImageVersion?: string;
+  nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
   /** Whether to enable the full-cache ephemeral OS disk feature. When this feature is enabled, the entire operating system will be locally cached on the ephemeral OS disk, preventing E17 events caused by network failures. */
@@ -333,8 +334,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   status?: AgentPoolStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
-  /** Settings to determine the node customization used to provision nodes in a pool. */
-  nodeCustomizationProfile?: NodeCustomizationProfile;
+  /** Settings to determine the prepared image specification used to provision nodes in a pool. */
+  preparedImageSpecificationProfile?: PreparedImageSpecificationProfile;
 }
 
 export function managedClusterAgentPoolProfilePropertiesSerializer(
@@ -361,6 +362,7 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     type: item["type"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
     upgradeStrategy: item["upgradeStrategy"],
     enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
@@ -434,9 +436,9 @@ export function managedClusterAgentPoolProfilePropertiesSerializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileSerializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -551,9 +553,9 @@ export function managedClusterAgentPoolProfilePropertiesDeserializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileDeserializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -679,6 +681,8 @@ export enum KnownOssku {
   WindowsAnnual = "WindowsAnnual",
   /** Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https://aka.ms/aks/supported-ubuntu-versions */
   Ubuntu2404 = "Ubuntu2404",
+  /** Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https://aka.ms/azurecontainerlinux */
+  AzureContainerLinux = "AzureContainerLinux",
 }
 
 /**
@@ -697,7 +701,8 @@ export enum KnownOssku {
  * **Ubuntu2204**: Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https:\//aka.ms\/aks\/supported-ubuntu-versions \
  * **Windows2025**: Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. \
  * **WindowsAnnual**: Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\//aka.ms\/aks\/windows-annual-channel-details. \
- * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions
+ * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions \
+ * **AzureContainerLinux**: Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https:\//aka.ms\/azurecontainerlinux
  */
 export type Ossku = string;
 
@@ -971,6 +976,10 @@ export interface KubeletConfig {
   podMaxPids?: number;
   /** Specifies the default seccomp profile applied to all workloads. If not specified, 'Unconfined' will be used by default. */
   seccompDefault?: SeccompDefault;
+  /** Kube-reserved values for kubelet. When a value is not set, the system-computed default based on VM size is used. See [AKS node resource reservations](https://aka.ms/aks/nodereservations) for details on computed defaults. Only applicable for Linux nodepools. */
+  kubeReserved?: KubeReserved;
+  /** Hard eviction thresholds for kubelet. When a threshold is not set, the system default is used. See [AKS node resource reservations](https://aka.ms/aks/nodereservations) for details on computed defaults. Only applicable for Linux nodepools. */
+  hardEvictionThreshold?: HardEvictionThreshold;
 }
 
 export function kubeletConfigSerializer(item: KubeletConfig): any {
@@ -991,6 +1000,12 @@ export function kubeletConfigSerializer(item: KubeletConfig): any {
     containerLogMaxFiles: item["containerLogMaxFiles"],
     podMaxPids: item["podMaxPids"],
     seccompDefault: item["seccompDefault"],
+    kubeReserved: !item["kubeReserved"]
+      ? item["kubeReserved"]
+      : kubeReservedSerializer(item["kubeReserved"]),
+    hardEvictionThreshold: !item["hardEvictionThreshold"]
+      ? item["hardEvictionThreshold"]
+      : hardEvictionThresholdSerializer(item["hardEvictionThreshold"]),
   };
 }
 
@@ -1012,6 +1027,12 @@ export function kubeletConfigDeserializer(item: any): KubeletConfig {
     containerLogMaxFiles: item["containerLogMaxFiles"],
     podMaxPids: item["podMaxPids"],
     seccompDefault: item["seccompDefault"],
+    kubeReserved: !item["kubeReserved"]
+      ? item["kubeReserved"]
+      : kubeReservedDeserializer(item["kubeReserved"]),
+    hardEvictionThreshold: !item["hardEvictionThreshold"]
+      ? item["hardEvictionThreshold"]
+      : hardEvictionThresholdDeserializer(item["hardEvictionThreshold"]),
   };
 }
 
@@ -1032,6 +1053,51 @@ export enum KnownSeccompDefault {
  * **RuntimeDefault**: The default seccomp profile for container runtime is applied, which restricts certain system calls for enhanced security.
  */
 export type SeccompDefault = string;
+
+/** Kube-reserved values for kubelet. When a value is not set, the system-computed default based on VM size is used. See [AKS node resource reservations](https://aka.ms/aks/nodereservations) for details on computed defaults. Only applicable for Linux nodepools. */
+export interface KubeReserved {
+  /** The amount of CPU reserved for Kubernetes system daemons, in millicores. Must be greater than or equal to 140. For example, a value of 200 means 200m (0.2 CPU cores). */
+  cpuMillicores?: number;
+  /** The amount of memory reserved for Kubernetes system daemons, in MiB. Must be greater than or equal to 750. */
+  memoryMB?: number;
+}
+
+export function kubeReservedSerializer(item: KubeReserved): any {
+  return { cpuMillicores: item["cpuMillicores"], memoryMB: item["memoryMB"] };
+}
+
+export function kubeReservedDeserializer(item: any): KubeReserved {
+  return {
+    cpuMillicores: item["cpuMillicores"],
+    memoryMB: item["memoryMB"],
+  };
+}
+
+/** Hard eviction thresholds for kubelet. These thresholds trigger pod eviction when node resources drop below the specified values. Values must be greater than or equal to the documented minimums for each signal. Supported formats are Ki, Mi, Gi, or percentages using %. */
+export interface HardEvictionThreshold {
+  /** The threshold for available memory below which pod eviction is triggered. Accepts absolute values (e.g. '500Mi') or percentage values (e.g. '5%'). Absolute values must be greater than or equal to 100Mi. Percentage values must be greater than or equal to 2%. */
+  memoryAvailable?: string;
+  /** The threshold for available node filesystem space below which pod eviction is triggered. Accepts absolute values (e.g. '1Gi') or percentage values (e.g. '10%'). Must be greater than or equal to the system default of 10%. */
+  nodeFsAvailable?: string;
+  /** The threshold for available inodes on the node filesystem below which pod eviction is triggered. Accepts absolute inode counts (e.g. '100000') or percentage values (e.g. '5%'). Percentage values must be greater than or equal to the system default of 5%. */
+  nodeFsInodesFree?: string;
+}
+
+export function hardEvictionThresholdSerializer(item: HardEvictionThreshold): any {
+  return {
+    memoryAvailable: item["memoryAvailable"],
+    nodeFsAvailable: item["nodeFsAvailable"],
+    nodeFsInodesFree: item["nodeFsInodesFree"],
+  };
+}
+
+export function hardEvictionThresholdDeserializer(item: any): HardEvictionThreshold {
+  return {
+    memoryAvailable: item["memoryAvailable"],
+    nodeFsAvailable: item["nodeFsAvailable"],
+    nodeFsInodesFree: item["nodeFsInodesFree"],
+  };
+}
 
 /** OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
 export interface LinuxOSConfig {
@@ -1236,10 +1302,14 @@ export function creationDataDeserializer(item: any): CreationData {
 export interface AgentPoolNetworkProfile {
   /** IPTags of instance-level public IPs. */
   nodePublicIPTags?: IPTag[];
+  /** The resource IDs of public IP prefixes for node public IPs. At most one IPv4 and one IPv6 prefix may be specified. Order does not matter; the RP determines IP version from the referenced resource's publicIPAddressVersion. Requires enableNodePublicIP to be true on the agent pool. Mutually exclusive with the top-level nodePublicIPPrefixID property. Immutable after node pool creation. To change prefixes, delete and recreate the node pool. For more information, see https://aka.ms/aks/ipv6-ilpip */
+  nodePublicIPPrefixIDs?: string[];
   /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
   allowedHostPorts?: PortRange[];
   /** The IDs of the application security groups which agent pool will associate when created. */
   applicationSecurityGroups?: string[];
+  /** Secondary network interface configurations for each VM in the agent pool. Each entry is a template: one physical NIC per entry is provisioned on every VM instance. These interfaces are created at agent pool creation time and are immutable. The length of the list must be less than the NIC capacity minus 1 for the VM size of the agent pool (AKS manages the primary NIC). For example, a Standard_D8a_v4 VM supports up to 4 NICs, so the maximum number of secondary interfaces allowed is 3. For mixed-SKU VM pools the effective capacity is the minimum across all SKUs: count(secondaryNetworkInterfaces) + 1 <= min(maxNICs). For more information, see https://aka.ms/aks/multi-nic */
+  secondaryNetworkInterfaces?: AgentPoolNetworkInterface[];
 }
 
 export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile): any {
@@ -1247,6 +1317,11 @@ export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile)
     nodePublicIPTags: !item["nodePublicIPTags"]
       ? item["nodePublicIPTags"]
       : ipTagArraySerializer(item["nodePublicIPTags"]),
+    nodePublicIPPrefixIDs: !item["nodePublicIPPrefixIDs"]
+      ? item["nodePublicIPPrefixIDs"]
+      : item["nodePublicIPPrefixIDs"].map((p: any) => {
+          return p;
+        }),
     allowedHostPorts: !item["allowedHostPorts"]
       ? item["allowedHostPorts"]
       : portRangeArraySerializer(item["allowedHostPorts"]),
@@ -1255,6 +1330,9 @@ export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile)
       : item["applicationSecurityGroups"].map((p: any) => {
           return p;
         }),
+    secondaryNetworkInterfaces: !item["secondaryNetworkInterfaces"]
+      ? item["secondaryNetworkInterfaces"]
+      : agentPoolNetworkInterfaceArraySerializer(item["secondaryNetworkInterfaces"]),
   };
 }
 
@@ -1263,6 +1341,11 @@ export function agentPoolNetworkProfileDeserializer(item: any): AgentPoolNetwork
     nodePublicIPTags: !item["nodePublicIPTags"]
       ? item["nodePublicIPTags"]
       : ipTagArrayDeserializer(item["nodePublicIPTags"]),
+    nodePublicIPPrefixIDs: !item["nodePublicIPPrefixIDs"]
+      ? item["nodePublicIPPrefixIDs"]
+      : item["nodePublicIPPrefixIDs"].map((p: any) => {
+          return p;
+        }),
     allowedHostPorts: !item["allowedHostPorts"]
       ? item["allowedHostPorts"]
       : portRangeArrayDeserializer(item["allowedHostPorts"]),
@@ -1271,6 +1354,9 @@ export function agentPoolNetworkProfileDeserializer(item: any): AgentPoolNetwork
       : item["applicationSecurityGroups"].map((p: any) => {
           return p;
         }),
+    secondaryNetworkInterfaces: !item["secondaryNetworkInterfaces"]
+      ? item["secondaryNetworkInterfaces"]
+      : agentPoolNetworkInterfaceArrayDeserializer(item["secondaryNetworkInterfaces"]),
   };
 }
 
@@ -1356,6 +1442,66 @@ export enum KnownProtocol {
  * **UDP**: UDP protocol.
  */
 export type Protocol = string;
+
+export function agentPoolNetworkInterfaceArraySerializer(
+  result: Array<AgentPoolNetworkInterface>,
+): any[] {
+  return result.map((item) => {
+    return agentPoolNetworkInterfaceSerializer(item);
+  });
+}
+
+export function agentPoolNetworkInterfaceArrayDeserializer(
+  result: Array<AgentPoolNetworkInterface>,
+): any[] {
+  return result.map((item) => {
+    return agentPoolNetworkInterfaceDeserializer(item);
+  });
+}
+
+/** Configuration of a secondary network interface provisioned on each VM instance in the agent pool. For more information, see https://aka.ms/aks/multi-nic */
+export interface AgentPoolNetworkInterface {
+  /** Type of NIC to be provisioned on the VM. */
+  type?: AgentPoolNetworkInterfaceType;
+  /** The resource ID of the subnet which will be attached to the secondary network interface. Required when `type` is `Standard`; must be an empty string (`""`) or omitted when `type` is `Dynamic`. */
+  vnetSubnetId?: string;
+  /** Whether accelerated networking is enabled on this secondary NIC. If omitted, this defaults to true only when the agent pool VM SKU supports accelerated networking. Validation will fail if it is enabled on an unsupported SKU or NIC configuration. */
+  enableAcceleratedNetworking?: boolean;
+}
+
+export function agentPoolNetworkInterfaceSerializer(item: AgentPoolNetworkInterface): any {
+  return {
+    type: item["type"],
+    vnetSubnetId: item["vnetSubnetId"],
+    enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+  };
+}
+
+export function agentPoolNetworkInterfaceDeserializer(item: any): AgentPoolNetworkInterface {
+  return {
+    type: item["type"],
+    vnetSubnetId: item["vnetSubnetId"],
+    enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+  };
+}
+
+/** Type of network interface to be provisioned on each virtual machine instance. For more information, see https://aka.ms/aks/multi-nic */
+export enum KnownAgentPoolNetworkInterfaceType {
+  /** A standard network interface programmed with an IP from a specified VNet subnet. Must be used with `vnetSubnetId` set in the AgentPoolNetworkInterface. IP address family (IPv4/IPv6/Dual-stack) is determined by the subnet. */
+  Standard = "Standard",
+  /** A secondary network interface created without IP configuration or subnet attachment. The interface is provisioned in an uninitialized state and the subnet is attached during workload creation. `vnetSubnetId` must be set to an empty string (`""`) or omitted. */
+  Dynamic = "Dynamic",
+}
+
+/**
+ * Type of network interface to be provisioned on each virtual machine instance. For more information, see https://aka.ms/aks/multi-nic \
+ * {@link KnownAgentPoolNetworkInterfaceType} can be used interchangeably with AgentPoolNetworkInterfaceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: A standard network interface programmed with an IP from a specified VNet subnet. Must be used with `vnetSubnetId` set in the AgentPoolNetworkInterface. IP address family (IPv4\/IPv6\/Dual-stack) is determined by the subnet. \
+ * **Dynamic**: A secondary network interface created without IP configuration or subnet attachment. The interface is provisioned in an uninitialized state and the subnet is attached during workload creation. `vnetSubnetId` must be set to an empty string (`""`) or omitted.
+ */
+export type AgentPoolNetworkInterfaceType = string;
 
 /** The Windows agent pool's specific profile. */
 export interface AgentPoolWindowsProfile {
@@ -1596,8 +1742,13 @@ export function virtualMachinesProfileDeserializer(item: any): VirtualMachinesPr
 export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
-  /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. */
-  autoscale?: AutoScaleProfile;
+  /**
+   * Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range.
+   * Each profile targets a specific VM SKU and is evaluated independently.
+   * Scaling decisions across profiles are governed by the cluster autoscaler expander,
+   * configurable via `ManagedCluster.properties.autoScalerProfile.expander`.
+   */
+  autoscale?: AutoScaleProfile[];
 }
 
 export function scaleProfileSerializer(item: ScaleProfile): any {
@@ -1605,7 +1756,7 @@ export function scaleProfileSerializer(item: ScaleProfile): any {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArraySerializer(item["manual"]),
     autoscale: !item["autoscale"]
       ? item["autoscale"]
-      : autoScaleProfileSerializer(item["autoscale"]),
+      : autoScaleProfileArraySerializer(item["autoscale"]),
   };
 }
 
@@ -1614,7 +1765,7 @@ export function scaleProfileDeserializer(item: any): ScaleProfile {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArrayDeserializer(item["manual"]),
     autoscale: !item["autoscale"]
       ? item["autoscale"]
-      : autoScaleProfileDeserializer(item["autoscale"]),
+      : autoScaleProfileArrayDeserializer(item["autoscale"]),
   };
 }
 
@@ -1647,6 +1798,18 @@ export function manualScaleProfileDeserializer(item: any): ManualScaleProfile {
     size: item["size"],
     count: item["count"],
   };
+}
+
+export function autoScaleProfileArraySerializer(result: Array<AutoScaleProfile>): any[] {
+  return result.map((item) => {
+    return autoScaleProfileSerializer(item);
+  });
+}
+
+export function autoScaleProfileArrayDeserializer(result: Array<AutoScaleProfile>): any[] {
+  return result.map((item) => {
+    return autoScaleProfileDeserializer(item);
+  });
 }
 
 /** Specifications on auto-scaling. */
@@ -1708,8 +1871,8 @@ export interface AgentPoolStatus {
   readonly provisioningError?: ErrorDetail;
 }
 
-export function agentPoolStatusSerializer(item: AgentPoolStatus): any {
-  return item;
+export function agentPoolStatusSerializer(_item: AgentPoolStatus): any {
+  return {};
 }
 
 export function agentPoolStatusDeserializer(item: any): AgentPoolStatus {
@@ -2011,27 +2174,31 @@ export enum KnownLocalDNSServeStale {
  */
 export type LocalDNSServeStale = string;
 
-/** Settings to determine the node customization used to provision nodes in a pool. */
-export interface NodeCustomizationProfile {
-  /** The resource ID of the node customization resource to use. This can be a version. Omitting the version will use the latest version of the node customization. */
-  nodeCustomizationId?: string;
+/** Settings to determine the prepared image specification used to provision nodes in a pool. */
+export interface PreparedImageSpecificationProfile {
+  /** The resource ID of the prepared image specification resource to use. This can include a version. Omitting the version will use the latest version of the prepared image specification. */
+  preparedImageSpecificationId?: string;
 }
 
-export function nodeCustomizationProfileSerializer(item: NodeCustomizationProfile): any {
-  return { nodeCustomizationId: item["nodeCustomizationId"] };
+export function preparedImageSpecificationProfileSerializer(
+  item: PreparedImageSpecificationProfile,
+): any {
+  return { preparedImageSpecificationId: item["preparedImageSpecificationId"] };
 }
 
-export function nodeCustomizationProfileDeserializer(item: any): NodeCustomizationProfile {
+export function preparedImageSpecificationProfileDeserializer(
+  item: any,
+): PreparedImageSpecificationProfile {
   return {
-    nodeCustomizationId: item["nodeCustomizationId"],
+    preparedImageSpecificationId: item["preparedImageSpecificationId"],
   };
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -2057,8 +2224,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2467,6 +2634,8 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
+  enableFips?: boolean;
   /** Enable namespace as Azure resource. The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
   enableNamespaceResources?: boolean;
   /** The network configuration profile. */
@@ -2521,6 +2690,10 @@ export interface ManagedCluster extends TrackedResource {
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Health monitor profile for the managed cluster. */
   healthMonitorProfile?: ManagedClusterHealthMonitorProfile;
+  /** Profile for providing scaled and performance guaranteed control plane capacity to deliver consistent performance under high workload. Requires Kubernetes version 1.33.0 or later. */
+  controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
+  /** Node disruption profile for a managed cluster. */
+  nodeDisruptionProfile?: NodeDisruptionProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2545,6 +2718,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeResourceGroupProfile",
       "enableRBAC",
       "supportPlan",
+      "enableFIPS",
       "enableNamespaceResources",
       "networkProfile",
       "aadProfile",
@@ -2571,6 +2745,8 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "schedulerProfile",
       "hostedSystemProfile",
       "healthMonitorProfile",
+      "controlPlaneScalingProfile",
+      "nodeDisruptionProfile",
       "status",
     ])
       ? undefined
@@ -2659,6 +2835,8 @@ export interface ManagedClusterProperties {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
+  enableFips?: boolean;
   /** Enable namespace as Azure resource. The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
   enableNamespaceResources?: boolean;
   /** The network configuration profile. */
@@ -2713,6 +2891,10 @@ export interface ManagedClusterProperties {
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Health monitor profile for the managed cluster. */
   healthMonitorProfile?: ManagedClusterHealthMonitorProfile;
+  /** Profile for providing scaled and performance guaranteed control plane capacity to deliver consistent performance under high workload. Requires Kubernetes version 1.33.0 or later. */
+  controlPlaneScalingProfile?: ManagedClusterControlPlaneScalingProfile;
+  /** Node disruption profile for a managed cluster. */
+  nodeDisruptionProfile?: NodeDisruptionProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2752,6 +2934,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableFIPS: item["enableFips"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -2822,6 +3005,12 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileSerializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileSerializer(item["controlPlaneScalingProfile"]),
+    nodeDisruptionProfile: !item["nodeDisruptionProfile"]
+      ? item["nodeDisruptionProfile"]
+      : nodeDisruptionProfileSerializer(item["nodeDisruptionProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -2870,6 +3059,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableFips: item["enableFIPS"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -2941,6 +3131,12 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileDeserializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileDeserializer(item["controlPlaneScalingProfile"]),
+    nodeDisruptionProfile: !item["nodeDisruptionProfile"]
+      ? item["nodeDisruptionProfile"]
+      : nodeDisruptionProfileDeserializer(item["nodeDisruptionProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }
@@ -2991,6 +3187,7 @@ export function managedClusterAgentPoolProfileSerializer(
     type: item["type"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
     upgradeStrategy: item["upgradeStrategy"],
     enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
@@ -3064,9 +3261,9 @@ export function managedClusterAgentPoolProfileSerializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileSerializer(item["preparedImageSpecificationProfile"]),
     name: item["name"],
   };
 }
@@ -3182,9 +3379,9 @@ export function managedClusterAgentPoolProfileDeserializer(
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileDeserializer(item["preparedImageSpecificationProfile"]),
     name: item["name"],
   };
 }
@@ -5701,14 +5898,12 @@ export function managedClusterStorageProfileDeserializer(item: any): ManagedClus
 export interface ManagedClusterStorageProfileDiskCSIDriver {
   /** Whether to enable AzureDisk CSI Driver. The default value is true. */
   enabled?: boolean;
-  /** The version of AzureDisk CSI Driver. The default value is v1. */
-  version?: string;
 }
 
 export function managedClusterStorageProfileDiskCSIDriverSerializer(
   item: ManagedClusterStorageProfileDiskCSIDriver,
 ): any {
-  return { enabled: item["enabled"], version: item["version"] };
+  return { enabled: item["enabled"] };
 }
 
 export function managedClusterStorageProfileDiskCSIDriverDeserializer(
@@ -5716,7 +5911,6 @@ export function managedClusterStorageProfileDiskCSIDriverDeserializer(
 ): ManagedClusterStorageProfileDiskCSIDriver {
   return {
     enabled: item["enabled"],
-    version: item["version"],
   };
 }
 
@@ -6018,7 +6212,7 @@ export function managedClusterIngressDefaultDomainProfileDeserializer(
   };
 }
 
-/** Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details. */
+/** Configuration for managed Gateway API CRDs. See https://aka.ms/k8s-gateway-api for more details. */
 export interface ManagedClusterIngressProfileGatewayConfiguration {
   /** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
   installation?: ManagedGatewayType;
@@ -6042,7 +6236,7 @@ export function managedClusterIngressProfileGatewayConfigurationDeserializer(
 export enum KnownManagedGatewayType {
   /** Gateway API CRDs will not be reconciled on your cluster. */
   Disabled = "Disabled",
-  /** The latest Gateway CRD bundle from the standard channel that is compatible with your Kubernetes version will be reconciled onto your cluster. See https://gateway-api.sigs.k8s.io/concepts/versioning/ for more details. */
+  /** Gateway API CRDs from the standard release channel will be reconciled onto your cluster. See https://aka.ms/gateway-api-versions to see which bundle will be installed for your Kubernetes version. */
   Standard = "Standard",
 }
 
@@ -6052,7 +6246,7 @@ export enum KnownManagedGatewayType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Disabled**: Gateway API CRDs will not be reconciled on your cluster. \
- * **Standard**: The latest Gateway CRD bundle from the standard channel that is compatible with your Kubernetes version will be reconciled onto your cluster. See https:\//gateway-api.sigs.k8s.io\/concepts\/versioning\/ for more details.
+ * **Standard**: Gateway API CRDs from the standard release channel will be reconciled onto your cluster. See https:\//aka.ms\/gateway-api-versions to see which bundle will be installed for your Kubernetes version.
  */
 export type ManagedGatewayType = string;
 
@@ -6249,6 +6443,8 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
   enabled: boolean;
   /** Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for details. */
   kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+  /** Control plane metrics collection profile for the Azure Managed Prometheus addon. Configures collection of operational runtime metrics from managed control plane components (kube-apiserver, etcd, etc). See aka.ms/aks/controlplane-metrics for an overview. */
+  controlPlane?: ManagedClusterAzureMonitorProfileMetricsControlPlane;
 }
 
 export function managedClusterAzureMonitorProfileMetricsSerializer(
@@ -6259,6 +6455,9 @@ export function managedClusterAzureMonitorProfileMetricsSerializer(
     kubeStateMetrics: !item["kubeStateMetrics"]
       ? item["kubeStateMetrics"]
       : managedClusterAzureMonitorProfileKubeStateMetricsSerializer(item["kubeStateMetrics"]),
+    controlPlane: !item["controlPlane"]
+      ? item["controlPlane"]
+      : managedClusterAzureMonitorProfileMetricsControlPlaneSerializer(item["controlPlane"]),
   };
 }
 
@@ -6270,6 +6469,9 @@ export function managedClusterAzureMonitorProfileMetricsDeserializer(
     kubeStateMetrics: !item["kubeStateMetrics"]
       ? item["kubeStateMetrics"]
       : managedClusterAzureMonitorProfileKubeStateMetricsDeserializer(item["kubeStateMetrics"]),
+    controlPlane: !item["controlPlane"]
+      ? item["controlPlane"]
+      : managedClusterAzureMonitorProfileMetricsControlPlaneDeserializer(item["controlPlane"]),
   };
 }
 
@@ -6296,6 +6498,26 @@ export function managedClusterAzureMonitorProfileKubeStateMetricsDeserializer(
   return {
     metricLabelsAllowlist: item["metricLabelsAllowlist"],
     metricAnnotationsAllowList: item["metricAnnotationsAllowList"],
+  };
+}
+
+/** Control plane metrics collection profile for the Azure Managed Prometheus addon. Configures collection of operational runtime metrics from managed control plane components (kube-apiserver, etcd, etc). See aka.ms/aks/controlplane-metrics for an overview. */
+export interface ManagedClusterAzureMonitorProfileMetricsControlPlane {
+  /** Whether to enable or disable collection of control plane metrics by the Azure Managed Prometheus addon. Defaults to disabled. See aka.ms/aks/controlplane-metrics for details. */
+  enabled?: boolean;
+}
+
+export function managedClusterAzureMonitorProfileMetricsControlPlaneSerializer(
+  item: ManagedClusterAzureMonitorProfileMetricsControlPlane,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function managedClusterAzureMonitorProfileMetricsControlPlaneDeserializer(
+  item: any,
+): ManagedClusterAzureMonitorProfileMetricsControlPlane {
+  return {
+    enabled: item["enabled"],
   };
 }
 
@@ -6359,14 +6581,14 @@ export enum KnownContainerNetworkLogs {
  */
 export type ContainerNetworkLogs = string;
 
-/** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring profile for AKS. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
-  /** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
-  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  /** Application Monitoring Open Telemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
-  /** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  openTelemetryLogs?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs;
+  /** Application Monitoring Open Telemetry Logs and Traces Profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
@@ -6383,10 +6605,10 @@ export function managedClusterAzureMonitorProfileAppMonitoringSerializer(
       : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
           item["openTelemetryMetrics"],
         ),
-    openTelemetryLogs: !item["openTelemetryLogs"]
-      ? item["openTelemetryLogs"]
-      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsSerializer(
-          item["openTelemetryLogs"],
+    openTelemetryLogsAndTraces: !item["openTelemetryLogsAndTraces"]
+      ? item["openTelemetryLogsAndTraces"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesSerializer(
+          item["openTelemetryLogsAndTraces"],
         ),
   };
 }
@@ -6405,17 +6627,17 @@ export function managedClusterAzureMonitorProfileAppMonitoringDeserializer(
       : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
           item["openTelemetryMetrics"],
         ),
-    openTelemetryLogs: !item["openTelemetryLogs"]
-      ? item["openTelemetryLogs"]
-      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsDeserializer(
-          item["openTelemetryLogs"],
+    openTelemetryLogsAndTraces: !item["openTelemetryLogsAndTraces"]
+      ? item["openTelemetryLogsAndTraces"]
+      : managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesDeserializer(
+          item["openTelemetryLogsAndTraces"],
         ),
   };
 }
 
-/** Application Monitoring Auto Instrumentation for Kubernetes Application Container. Deploys web hook to auto-instrument Azure Monitor OpenTelemetry based SDKs to collect OpenTelemetry metrics, logs and traces of the application. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
-  /** Indicates if Application Monitoring Auto Instrumentation is enabled or not. */
+  /** Indicates if Application Monitoring Auto-instrumentation is enabled or not. */
   enabled?: boolean;
 }
 
@@ -6433,18 +6655,20 @@ export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentatio
   };
 }
 
-/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Metrics. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring Open Telemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
   /** Indicates if Application Monitoring Open Telemetry Metrics is enabled or not. */
   enabled?: boolean;
-  /** The Open Telemetry host port for Open Telemetry metrics. If not specified, the default port is 28333. */
-  port?: number;
+  /** The host port for Open Telemetry HTTP/PROTOBUF metrics. If not specified, the default port is 28333. */
+  httpPort?: number;
+  /** The host port for Open Telemetry GRPC metrics. If not specified, the default port is 28334. */
+  grpcPort?: number;
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsSerializer(
   item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics,
 ): any {
-  return { enabled: item["enabled"], port: item["port"] };
+  return { enabled: item["enabled"], httpPort: item["httpPort"], grpcPort: item["grpcPort"] };
 }
 
 export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetricsDeserializer(
@@ -6452,30 +6676,34 @@ export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetri
 ): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
   return {
     enabled: item["enabled"],
-    port: item["port"],
+    httpPort: item["httpPort"],
+    grpcPort: item["grpcPort"],
   };
 }
 
-/** Application Monitoring Open Telemetry Metrics Profile for Kubernetes Application Container Logs and Traces. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+/** Application Monitoring Open Telemetry Logs and Traces Profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
   /** Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not. */
   enabled?: boolean;
-  /** The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. */
-  port?: number;
+  /** The host port for Open Telemetry HTTP/PROTOBUF logs and traces. If not specified, the default port is 28331. */
+  httpPort?: number;
+  /** The host port for Open Telemetry GRPC logs and traces. If not specified, the default port is 28332. */
+  grpcPort?: number;
 }
 
-export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsSerializer(
-  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs,
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesSerializer(
+  item: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces,
 ): any {
-  return { enabled: item["enabled"], port: item["port"] };
+  return { enabled: item["enabled"], httpPort: item["httpPort"], grpcPort: item["grpcPort"] };
 }
 
-export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsDeserializer(
+export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTracesDeserializer(
   item: any,
-): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs {
+): ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
   return {
     enabled: item["enabled"],
-    port: item["port"],
+    httpPort: item["httpPort"],
+    grpcPort: item["grpcPort"],
   };
 }
 
@@ -7011,12 +7239,20 @@ export type SchedulerConfigMode = string;
 export interface ManagedClusterHostedSystemProfile {
   /** Whether to enable hosted system addons for the cluster. */
   enabled?: boolean;
+  /** The ID of the subnet that will be joined by system nodes managed and hosted by AKS for running critical system addons. This ID must be provided together with `nodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must belong to the same VNet. If you don’t specify it, AKS will create a subnet in the managed resource group using a default /26 CIDR. */
+  systemNodeSubnetID?: string;
+  /** The ID of the subnet that will be joined by worker nodes managed by node auto provisioner for running workload pods in your tenant. This must be provided together with `systemNodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must be in the same VNet. If you don’t specify it, AKS will create a subnet in the managed resource group using a default /16 CIDR. */
+  nodeSubnetID?: string;
 }
 
 export function managedClusterHostedSystemProfileSerializer(
   item: ManagedClusterHostedSystemProfile,
 ): any {
-  return { enabled: item["enabled"] };
+  return {
+    enabled: item["enabled"],
+    systemNodeSubnetID: item["systemNodeSubnetID"],
+    nodeSubnetID: item["nodeSubnetID"],
+  };
 }
 
 export function managedClusterHostedSystemProfileDeserializer(
@@ -7024,6 +7260,8 @@ export function managedClusterHostedSystemProfileDeserializer(
 ): ManagedClusterHostedSystemProfile {
   return {
     enabled: item["enabled"],
+    systemNodeSubnetID: item["systemNodeSubnetID"],
+    nodeSubnetID: item["nodeSubnetID"],
   };
 }
 
@@ -7055,14 +7293,92 @@ export function managedClusterHealthMonitorProfileDeserializer(
   };
 }
 
+/** Profile for providing scaled and performance guaranteed control plane capacity to deliver consistent performance under high workload. Requires Kubernetes version 1.33.0 or later. */
+export interface ManagedClusterControlPlaneScalingProfile {
+  /** The scaling size of the control plane. Scaling sizes offer guaranteed capacity and predictable Kubernetes performance beyond standard tier defaults. Higher H sizes provide increased performance guarantees. See https://aka.ms/aks/hyperscale for performance metrics details for each size. */
+  scalingSize: ControlPlaneScalingSize;
+}
+
+export function managedClusterControlPlaneScalingProfileSerializer(
+  item: ManagedClusterControlPlaneScalingProfile,
+): any {
+  return { scalingSize: item["scalingSize"] };
+}
+
+export function managedClusterControlPlaneScalingProfileDeserializer(
+  item: any,
+): ManagedClusterControlPlaneScalingProfile {
+  return {
+    scalingSize: item["scalingSize"],
+  };
+}
+
+/** The scaling size of the control plane. Scaling sizes offer guaranteed capacity and predictable Kubernetes performance beyond standard tier defaults. Higher H sizes provide increased performance guarantees. See https://aka.ms/aks/hyperscale for performance metrics details for each size. */
+export enum KnownControlPlaneScalingSize {
+  /** H2 is the smallest scaling size with guaranteed capacity and predictable performance beyond standard tier defaults. */
+  H2 = "H2",
+  /** H4 scaling size provides increased guaranteed performance over H2. */
+  H4 = "H4",
+  /** H8 scaling size provides increased guaranteed performance over H4. */
+  H8 = "H8",
+}
+
+/**
+ * The scaling size of the control plane. Scaling sizes offer guaranteed capacity and predictable Kubernetes performance beyond standard tier defaults. Higher H sizes provide increased performance guarantees. See https://aka.ms/aks/hyperscale for performance metrics details for each size. \
+ * {@link KnownControlPlaneScalingSize} can be used interchangeably with ControlPlaneScalingSize,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **H2**: H2 is the smallest scaling size with guaranteed capacity and predictable performance beyond standard tier defaults. \
+ * **H4**: H4 scaling size provides increased guaranteed performance over H2. \
+ * **H8**: H8 scaling size provides increased guaranteed performance over H4.
+ */
+export type ControlPlaneScalingSize = string;
+
+/** Node disruption profile for a managed cluster. */
+export interface NodeDisruptionProfile {
+  /** The policy configuration for when to allow certain operations which require node re-image and trigger redeployment. For example, some operations, such as updating the .properties.ManagedClusterSecurityProfile.customCATrustCertificates field on an existing managed cluster, trigger rolling updates of the nodes. This setting allows control over when such updates are accepted. The default is 'Allow'. For a full list of covered operations see aka.ms/aks/nodedisruptionpolicy". */
+  nodeDisruptionPolicy?: NodeDisruptionPolicy;
+}
+
+export function nodeDisruptionProfileSerializer(item: NodeDisruptionProfile): any {
+  return { nodeDisruptionPolicy: item["nodeDisruptionPolicy"] };
+}
+
+export function nodeDisruptionProfileDeserializer(item: any): NodeDisruptionProfile {
+  return {
+    nodeDisruptionPolicy: item["nodeDisruptionPolicy"],
+  };
+}
+
+/** The policy configuration for when to allow certain operations which require node re-image and trigger redeployment. For example, some operations, such as updating the .properties.ManagedClusterSecurityProfile.customCATrustCertificates field on an existing managed cluster, trigger rolling updates of the nodes. This setting allows control over when such updates are accepted. The default is 'Allow'. For a full list of covered operations see aka.ms/aks/nodedisruptionpolicy". */
+export enum KnownNodeDisruptionPolicy {
+  /** Allows operations that will require node re-image and trigger redeployment. */
+  Allow = "Allow",
+  /** Blocks certain operations that will require node re-image and trigger redeployment unless within the aksManagedNodeOSUpgradeSchedule maintenance window. For a full list of covered operations see aka.ms/aks/nodedisruptionpolicy . For more information on using the aksManagedNodeOSUpgradeSchedule maintenance window, please see https://learn.microsoft.com/azure/aks/planned-maintenance?tabs=azure-cli */
+  AllowDuringMaintenanceWindow = "AllowDuringMaintenanceWindow",
+  /** Blocks certain operations that will require node re-image and trigger redeployment. For a full list of covered operations see aka.ms/aks/nodedisruptionpolicy */
+  Block = "Block",
+}
+
+/**
+ * The policy configuration for when to allow certain operations which require node re-image and trigger redeployment. For example, some operations, such as updating the .properties.ManagedClusterSecurityProfile.customCATrustCertificates field on an existing managed cluster, trigger rolling updates of the nodes. This setting allows control over when such updates are accepted. The default is 'Allow'. For a full list of covered operations see aka.ms/aks/nodedisruptionpolicy". \
+ * {@link KnownNodeDisruptionPolicy} can be used interchangeably with NodeDisruptionPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**: Allows operations that will require node re-image and trigger redeployment. \
+ * **AllowDuringMaintenanceWindow**: Blocks certain operations that will require node re-image and trigger redeployment unless within the aksManagedNodeOSUpgradeSchedule maintenance window. For a full list of covered operations see aka.ms\/aks\/nodedisruptionpolicy . For more information on using the aksManagedNodeOSUpgradeSchedule maintenance window, please see https:\//learn.microsoft.com\/azure\/aks\/planned-maintenance?tabs=azure-cli \
+ * **Block**: Blocks certain operations that will require node re-image and trigger redeployment. For a full list of covered operations see aka.ms\/aks\/nodedisruptionpolicy
+ */
+export type NodeDisruptionPolicy = string;
+
 /** Contains read-only information about the Managed Cluster. */
 export interface ManagedClusterStatus {
   /** The error details information of the managed cluster. Preserves the detailed info of failure. If there was no error, this field is omitted. */
   readonly provisioningError?: ErrorDetail;
 }
 
-export function managedClusterStatusSerializer(item: ManagedClusterStatus): any {
-  return item;
+export function managedClusterStatusSerializer(_item: ManagedClusterStatus): any {
+  return {};
 }
 
 export function managedClusterStatusDeserializer(item: any): ManagedClusterStatus {
@@ -7313,9 +7629,9 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 export function managedServiceIdentityUserAssignedIdentitiesValueSerializer(
-  item: ManagedServiceIdentityUserAssignedIdentitiesValue,
+  _item: ManagedServiceIdentityUserAssignedIdentitiesValue,
 ): any {
-  return item;
+  return {};
 }
 
 export function managedServiceIdentityUserAssignedIdentitiesValueDeserializer(
@@ -8872,7 +9188,7 @@ export interface Machine extends ProxyResource {
   /** The properties of the machine */
   properties?: MachineProperties;
   /** The Availability zone in which machine is located. */
-  readonly zones?: string[];
+  zones?: string[];
 }
 
 export function machineSerializer(item: Machine): any {
@@ -8880,6 +9196,11 @@ export function machineSerializer(item: Machine): any {
     properties: !item["properties"]
       ? item["properties"]
       : machinePropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -8905,7 +9226,7 @@ export function machineDeserializer(item: any): Machine {
 /** The properties of the machine */
 export interface MachineProperties {
   /** network properties of the machine */
-  readonly network?: MachineNetworkProperties;
+  network?: MachineNetworkProperties;
   /** Azure resource id of the machine. It can be used to GET underlying VM Instance */
   readonly resourceId?: string;
   /** The hardware and GPU settings of the machine. */
@@ -8940,6 +9261,9 @@ export interface MachineProperties {
 
 export function machinePropertiesSerializer(item: MachineProperties): any {
   return {
+    network: !item["network"]
+      ? item["network"]
+      : machineNetworkPropertiesSerializer(item["network"]),
     hardware: !item["hardware"]
       ? item["hardware"]
       : machineHardwareProfileSerializer(item["hardware"]),
@@ -9014,6 +9338,18 @@ export interface MachineNetworkProperties {
   nodePublicIPPrefixID?: string;
   /** IPTags of instance-level public IPs. */
   nodePublicIPTags?: IPTag[];
+}
+
+export function machineNetworkPropertiesSerializer(item: MachineNetworkProperties): any {
+  return {
+    vnetSubnetID: item["vnetSubnetID"],
+    podSubnetID: item["podSubnetID"],
+    enableNodePublicIP: item["enableNodePublicIP"],
+    nodePublicIPPrefixID: item["nodePublicIPPrefixID"],
+    nodePublicIPTags: !item["nodePublicIPTags"]
+      ? item["nodePublicIPTags"]
+      : ipTagArraySerializer(item["nodePublicIPTags"]),
+  };
 }
 
 export function machineNetworkPropertiesDeserializer(item: any): MachineNetworkProperties {
@@ -9785,11 +10121,11 @@ export function managedClusterSnapshotPropertiesDeserializer(
 /** managed cluster properties for snapshot, these properties are read only. */
 export interface ManagedClusterPropertiesForSnapshot {
   /** The current kubernetes version. */
-  kubernetesVersion?: string;
+  readonly kubernetesVersion?: string;
   /** The current managed cluster sku. */
-  sku?: ManagedClusterSKU;
+  readonly sku?: ManagedClusterSKU;
   /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
-  enableRbac?: boolean;
+  readonly enableRbac?: boolean;
   /** The current network profile. */
   readonly networkProfile?: NetworkProfileForSnapshot;
 }
@@ -11435,8 +11771,12 @@ export enum KnownVersions {
   V20251001 = "2025-10-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
-  /** The 2026-01-02-preview API version. */
-  V20260102Preview = "2026-01-02-preview",
+  /** The 2026-02-01 API version. */
+  V20260201 = "2026-02-01",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
+  /** The 2026-03-02-preview API version. */
+  V20260302Preview = "2026-03-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -11461,6 +11801,7 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     type: item["typePropertiesType"],
     mode: item["mode"],
     orchestratorVersion: item["orchestratorVersion"],
+    nodeImageVersion: item["nodeImageVersion"],
     upgradeStrategy: item["upgradeStrategy"],
     enableOSDiskFullCaching: item["enableOSDiskFullCaching"],
     upgradeSettings: !item["upgradeSettings"]
@@ -11534,9 +11875,9 @@ export function _agentPoolPropertiesSerializer(item: AgentPool): any {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileSerializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileSerializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -11649,9 +11990,9 @@ export function _agentPoolPropertiesDeserializer(item: any) {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
-    nodeCustomizationProfile: !item["nodeCustomizationProfile"]
-      ? item["nodeCustomizationProfile"]
-      : nodeCustomizationProfileDeserializer(item["nodeCustomizationProfile"]),
+    preparedImageSpecificationProfile: !item["preparedImageSpecificationProfile"]
+      ? item["preparedImageSpecificationProfile"]
+      : preparedImageSpecificationProfileDeserializer(item["preparedImageSpecificationProfile"]),
   };
 }
 
@@ -11717,6 +12058,7 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
       : managedClusterNodeResourceGroupProfileSerializer(item["nodeResourceGroupProfile"]),
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
+    enableFIPS: item["enableFips"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -11787,6 +12129,12 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileSerializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileSerializer(item["controlPlaneScalingProfile"]),
+    nodeDisruptionProfile: !item["nodeDisruptionProfile"]
+      ? item["nodeDisruptionProfile"]
+      : nodeDisruptionProfileSerializer(item["nodeDisruptionProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusSerializer(item["status"]),
   };
 }
@@ -11835,6 +12183,7 @@ export function _managedClusterPropertiesDeserializer(item: any) {
       : managedClusterNodeResourceGroupProfileDeserializer(item["nodeResourceGroupProfile"]),
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
+    enableFips: item["enableFIPS"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -11906,6 +12255,12 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     healthMonitorProfile: !item["healthMonitorProfile"]
       ? item["healthMonitorProfile"]
       : managedClusterHealthMonitorProfileDeserializer(item["healthMonitorProfile"]),
+    controlPlaneScalingProfile: !item["controlPlaneScalingProfile"]
+      ? item["controlPlaneScalingProfile"]
+      : managedClusterControlPlaneScalingProfileDeserializer(item["controlPlaneScalingProfile"]),
+    nodeDisruptionProfile: !item["nodeDisruptionProfile"]
+      ? item["nodeDisruptionProfile"]
+      : nodeDisruptionProfileDeserializer(item["nodeDisruptionProfile"]),
     status: !item["status"] ? item["status"] : managedClusterStatusDeserializer(item["status"]),
   };
 }

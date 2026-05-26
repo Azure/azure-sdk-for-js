@@ -1,5 +1,213 @@
 # Release History
 
+## 4.1.0-beta.1 (2026-04-13)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group ClusterJobsOperations
+  - Added operation group DevicePoolsOperations
+  - Added operation group EdgeMachineJobsOperations
+  - Added operation group EdgeMachinesOperations
+  - Added operation group KubernetesVersionsOperations
+  - Added operation group OsImagesOperations
+  - Added operation group OwnershipVouchersOperations
+  - Added operation group PlatformUpdatesOperations
+  - Added operation group PublishersOperations
+  - Added operation group UpdateContentsOperations
+  - Added operation group UpdateSummariesOperationGroupOperations
+  - Added operation ClustersOperations.beginChangeRing
+  - Added operation ClustersOperations.beginChangeRingAndWait
+  - Added operation ClustersOperations.changeRing
+  - Added operation UpdatesOperations.beginPrepare
+  - Added operation UpdatesOperations.beginPrepareAndWait
+  - Added operation UpdatesOperations.prepare
+  - Added Interface ChangeRingRequest
+  - Added Interface ChangeRingRequestProperties
+  - Added Interface CheckUpdatesRequest
+  - Added Interface ClaimDeviceRequest
+  - Added Interface ClusterBillingProperties
+  - Added Interface ClusterJob
+  - Added Interface ClusterJobProperties
+  - Added Interface ClusterJobsCreateOrUpdateOptionalParams
+  - Added Interface ClusterJobsDeleteOptionalParams
+  - Added Interface ClusterJobsGetOptionalParams
+  - Added Interface ClusterJobsListOptionalParams
+  - Added Interface ClustersChangeRingOptionalParams
+  - Added Interface ClusterSdnProperties
+  - Added Interface ConfidentialVmProfile
+  - Added Interface ConfidentialVmProperties
+  - Added Interface ContentPayload
+  - Added Interface DeviceDetail
+  - Added Interface DevicePool
+  - Added Interface DevicePoolPatch
+  - Added Interface DevicePoolProperties
+  - Added Interface DevicePoolsClaimDevicesOptionalParams
+  - Added Interface DevicePoolsCreateOrUpdateOptionalParams
+  - Added Interface DevicePoolsDeleteOptionalParams
+  - Added Interface DevicePoolsGetOptionalParams
+  - Added Interface DevicePoolsListByResourceGroupOptionalParams
+  - Added Interface DevicePoolsListBySubscriptionOptionalParams
+  - Added Interface DevicePoolsReleaseDevicesOptionalParams
+  - Added Interface DevicePoolsUpdateOptionalParams
+  - Added Interface DownloadOsJobProperties
+  - Added Interface DownloadOsProfile
+  - Added Interface DownloadRequest
+  - Added Interface EdgeDeviceDisks
+  - Added Interface EdgeMachine
+  - Added Interface EdgeMachineCollectLogJobProperties
+  - Added Interface EdgeMachineCollectLogJobReportedProperties
+  - Added Interface EdgeMachineJob
+  - Added Interface EdgeMachineJobProperties
+  - Added Interface EdgeMachineJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineJobsDeleteOptionalParams
+  - Added Interface EdgeMachineJobsGetOptionalParams
+  - Added Interface EdgeMachineJobsListOptionalParams
+  - Added Interface EdgeMachineNetworkProfile
+  - Added Interface EdgeMachineNicDetail
+  - Added Interface EdgeMachinePatch
+  - Added Interface EdgeMachineProperties
+  - Added Interface EdgeMachineRemoteSupportJobProperties
+  - Added Interface EdgeMachineRemoteSupportJobReportedProperties
+  - Added Interface EdgeMachineRemoteSupportNodeSettings
+  - Added Interface EdgeMachineReportedProperties
+  - Added Interface EdgeMachinesCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachinesDeleteOptionalParams
+  - Added Interface EdgeMachinesGetOptionalParams
+  - Added Interface EdgeMachinesListByResourceGroupOptionalParams
+  - Added Interface EdgeMachinesListBySubscriptionOptionalParams
+  - Added Interface EdgeMachinesUpdateOptionalParams
+  - Added Interface HardwareProfile
+  - Added Interface HciConfigureCvmJobProperties
+  - Added Interface HciConfigureSdnIntegrationJobProperties
+  - Added Interface IgvmStatusDetail
+  - Added Interface IpAddressRange
+  - Added Interface JobReportedProperties
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionProperties
+  - Added Interface KubernetesVersionsListBySubscriptionLocationResourceOptionalParams
+  - Added Interface NetworkAdapter
+  - Added Interface NetworkConfiguration
+  - Added Interface NextBillingModel
+  - Added Interface OnboardingConfiguration
+  - Added Interface OperationDetail
+  - Added Interface OsImage
+  - Added Interface OsImageProperties
+  - Added Interface OsImagesGetOptionalParams
+  - Added Interface OsImagesListBySubscriptionLocationResourceOptionalParams
+  - Added Interface OsProfile
+  - Added Interface OsProvisionProfile
+  - Added Interface OwnershipVoucherDetails
+  - Added Interface OwnershipVouchersValidateOptionalParams
+  - Added Interface OwnershipVoucherValidationDetails
+  - Added Interface PlatformPayload
+  - Added Interface PlatformUpdate
+  - Added Interface PlatformUpdateDetails
+  - Added Interface PlatformUpdateProperties
+  - Added Interface PlatformUpdatesGetOptionalParams
+  - Added Interface PlatformUpdatesListOptionalParams
+  - Added Interface ProvisioningDetails
+  - Added Interface ProvisioningRequest
+  - Added Interface ProvisionOsJobProperties
+  - Added Interface ProvisionOsReportedProperties
+  - Added Interface Publisher
+  - Added Interface PublisherProperties
+  - Added Interface PublishersGetOptionalParams
+  - Added Interface PublishersListByClusterOptionalParams
+  - Added Interface ReleaseDeviceRequest
+  - Added Interface SanAdapterIPConfig
+  - Added Interface SanAdapterProperties
+  - Added Interface SanClusterNetworkConfig
+  - Added Interface SanNetworks
+  - Added Interface SdnProperties
+  - Added Interface SiteDetails
+  - Added Interface StorageConfiguration
+  - Added Interface StorageProfile
+  - Added Interface StorageS2DConfig
+  - Added Interface StorageSanConfig
+  - Added Interface TargetDeviceConfiguration
+  - Added Interface TimeConfiguration
+  - Added Interface UpdateContent
+  - Added Interface UpdateContentProperties
+  - Added Interface UpdateContentsGetOptionalParams
+  - Added Interface UpdateContentsListOptionalParams
+  - Added Interface UpdatesPrepareOptionalParams
+  - Added Interface UpdateSummariesOperationGroupCheckHealthOptionalParams
+  - Added Interface UpdateSummariesOperationGroupCheckUpdatesOptionalParams
+  - Added Interface UserDetails
+  - Added Interface ValidateOwnershipVouchersRequest
+  - Added Interface ValidateOwnershipVouchersResponse
+  - Added Interface WebProxyConfiguration
+  - Interface Cluster has a new optional parameter billingProperties
+  - Interface Cluster has a new optional parameter confidentialVmProperties
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter ring
+  - Interface Cluster has a new optional parameter sdnProperties
+  - Interface Cluster has a new optional parameter storageType
+  - Interface ClusterProperties has a new optional parameter billingProperties
+  - Interface ClusterProperties has a new optional parameter confidentialVmProperties
+  - Interface ClusterProperties has a new optional parameter ring
+  - Interface ClusterProperties has a new optional parameter sdnProperties
+  - Interface ClusterProperties has a new optional parameter storageType
+  - Interface DeploymentSettingHostNetwork has a new optional parameter sanNetworks
+  - Interface HciNetworkProfile has a new optional parameter sdnProperties
+  - Interface HciReportedProperties has a new optional parameter confidentialVmProfile
+  - Interface HciReportedProperties has a new optional parameter lastSyncTimestamp
+  - Interface HciStorageProfile has a new optional parameter disks
+  - Interface PerNodeRemoteSupportSession has a new optional parameter transcriptLocation
+  - Interface RemoteSupportProperties has a new optional parameter remoteSupportProvisioningState
+  - Interface ReportedProperties has a new optional parameter confidentialVmProfile
+  - Interface ReportedProperties has a new optional parameter lastSyncTimestamp
+  - Interface Storage has a new optional parameter s2D
+  - Interface Storage has a new optional parameter san
+  - Interface Storage has a new optional parameter storageType
+  - Added Type Alias ClusterJobPropertiesUnion
+  - Added Type Alias ConfidentialVmIntent
+  - Added Type Alias ConfidentialVmStatus
+  - Added Type Alias EdgeMachineConnectivityStatus
+  - Added Type Alias EdgeMachineJobPropertiesUnion
+  - Added Type Alias EdgeMachineJobType
+  - Added Type Alias EdgeMachineKind
+  - Added Type Alias EdgeMachineState
+  - Added Type Alias HciJobType
+  - Added Type Alias IgvmStatus
+  - Added Type Alias IpAssignmentType
+  - Added Type Alias OnboardingResourceType
+  - Added Type Alias OSOperationType
+  - Added Type Alias OverprovisioningRatio
+  - Added Type Alias OwnerKeyType
+  - Added Type Alias OwnershipVoucherValidationStatus
+  - Added Type Alias ProvisioningOsType
+  - Added Type Alias RemoteSupportProvisioningState
+  - Added Type Alias SdnIntegrationIntent
+  - Added Type Alias SdnStatus
+  - Added Type Alias SecretType
+  - Added Type Alias StorageType
+  - Added Type Alias VolumeType
+  - Added Enum KnownConfidentialVmIntent
+  - Added Enum KnownConfidentialVmStatus
+  - Added Enum KnownEdgeMachineConnectivityStatus
+  - Added Enum KnownEdgeMachineJobType
+  - Added Enum KnownEdgeMachineKind
+  - Added Enum KnownEdgeMachineState
+  - Added Enum KnownHciJobType
+  - Added Enum KnownIgvmStatus
+  - Added Enum KnownIpAssignmentType
+  - Added Enum KnownOnboardingResourceType
+  - Added Enum KnownOSOperationType
+  - Added Enum KnownOverprovisioningRatio
+  - Added Enum KnownOwnerKeyType
+  - Added Enum KnownOwnershipVoucherValidationStatus
+  - Added Enum KnownProvisioningOsType
+  - Added Enum KnownRemoteSupportProvisioningState
+  - Added Enum KnownSdnIntegrationIntent
+  - Added Enum KnownSdnStatus
+  - Added Enum KnownSecretType
+  - Added Enum KnownStorageType
+  - Added Enum KnownVolumeType
+  - Enum KnownState has a new value HealthCheckExpired
+  - Enum KnownState has a new value PendingOEMValidation
+  - Enum KnownVersions has a new value V20260401Preview
+
 ## 4.0.0 (2026-03-31)
 
 ### Features Added

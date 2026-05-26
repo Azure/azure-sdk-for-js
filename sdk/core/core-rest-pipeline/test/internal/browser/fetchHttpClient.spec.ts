@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { createPipelineRequest } from "../../../src/pipelineRequest.js";
 import { png } from "./mocks/encodedPng.js";
 import { createHttpHeaders } from "../../../src/httpHeaders.js";
@@ -109,12 +109,7 @@ describe("FetchHttpClient", function () {
     controller.abort();
     vi.advanceTimersByTime(1);
 
-    try {
-      await promise;
-      assert.fail(`Expected await to throw`);
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should return AbortError while reading stream", async function () {
@@ -141,7 +136,7 @@ describe("FetchHttpClient", function () {
     vi.advanceTimersByTime(100);
     controller.abort();
     vi.advanceTimersByTime(1);
-    try {
+    const readAll = async () => {
       const response = await promise;
       const reader = response.browserStreamBody!.getReader();
       let finishReading = false;
@@ -151,10 +146,8 @@ describe("FetchHttpClient", function () {
           finishReading = true;
         }
       }
-      assert.fail(`Expected await to throw`);
-    } catch (error: any) {
-      assert.strictEqual(error.name, "AbortError");
-    }
+    };
+    await expect(readAll()).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("shouldn't be affected by requests cancelled late", async function () {
@@ -188,12 +181,7 @@ describe("FetchHttpClient", function () {
       abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should load chunk by chunk", async function () {
@@ -204,15 +192,12 @@ describe("FetchHttpClient", function () {
     // chunk one second (1000ms).
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText, 1000));
     const url = `http://localhost:3000/files/stream/nonempty`;
-    let downloadCalled = 0;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       allowInsecureConnection: true,
       method: "GET",
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled += 1;
-      },
+      onDownloadProgress,
       enableBrowserStreams: true,
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
@@ -226,8 +211,9 @@ describe("FetchHttpClient", function () {
     vi.advanceTimersByTime(1000);
 
     // Verify that only one chunk was loaded
-    assert.equal(downloadCalled, 1);
-    assert.equal(chunk.done, false);
+    expect(onDownloadProgress).toHaveBeenCalledOnce();
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
+    assert.isFalse(chunk.done);
   });
 
   it("should report download progress and decode chunks", async function () {
@@ -235,19 +221,16 @@ describe("FetchHttpClient", function () {
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
-    let downloadCalled = false;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       allowInsecureConnection: true,
       method: "GET",
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
+      onDownloadProgress,
     });
     const response = await client.sendRequest(request);
-    assert.isDefined(response.bodyAsText);
-    assert.isTrue(downloadCalled, "no download progress");
+    assert.strictEqual(response.bodyAsText, responseText);
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should report download progress and decode chunks without TransformStream", async function () {
@@ -258,20 +241,17 @@ describe("FetchHttpClient", function () {
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
-    let downloadCalled = false;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       allowInsecureConnection: true,
       method: "GET",
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
+      onDownloadProgress,
     });
     const response = await client.sendRequest(request);
 
-    assert.isDefined(response.bodyAsText);
-    assert.isTrue(downloadCalled, "no download progress");
+    assert.strictEqual(response.bodyAsText, responseText);
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should report download progress when handling blob", async function () {
@@ -279,23 +259,20 @@ describe("FetchHttpClient", function () {
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
-    let downloadCalled = false;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       allowInsecureConnection: true,
       method: "GET",
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
+      onDownloadProgress,
     });
     const response = await client.sendRequest(request);
     assert.isDefined(response.blobBody);
 
     const blob = await response.blobBody;
-    assert.isDefined(blob?.size);
-    assert.isTrue(downloadCalled, "no download progress");
+    assert.strictEqual(blob?.size, responseText.length);
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should stream response body when status code matches", async function () {
@@ -303,23 +280,20 @@ describe("FetchHttpClient", function () {
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
-    let downloadCalled = false;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       allowInsecureConnection: true,
       method: "GET",
       streamResponseStatusCodes: new Set([200]),
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
+      onDownloadProgress,
     });
     const response = await client.sendRequest(request);
     assert.isDefined(response.blobBody);
 
     const blob = await response.blobBody;
-    assert.isDefined(blob?.size);
-    assert.isTrue(downloadCalled, "no download progress");
+    assert.strictEqual(blob?.size, responseText.length);
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should not stream response body when status code doesn't match", async function () {
@@ -327,21 +301,18 @@ describe("FetchHttpClient", function () {
     const responseText = "An appropriate response.";
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
-    let downloadCalled = false;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       allowInsecureConnection: true,
       method: "GET",
       streamResponseStatusCodes: new Set([204]),
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
+      onDownloadProgress,
     });
     const response = await client.sendRequest(request);
     assert.isUndefined(response.blobBody);
-    assert.isDefined(response.bodyAsText);
-    assert.isTrue(downloadCalled, "no download progress");
+    assert.strictEqual(response.bodyAsText, responseText);
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should report upload progress with TransformStream", async () => {
@@ -350,7 +321,7 @@ describe("FetchHttpClient", function () {
     vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
-    let downloadCalled = false;
+    const onDownloadProgress = vi.fn();
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -358,17 +329,14 @@ describe("FetchHttpClient", function () {
       headers: createHttpHeaders({ "content-type": "application/octet-stream" }),
       allowInsecureConnection: true,
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
-      onDownloadProgress: (ev) => {
-        assert.isNumber(ev.loadedBytes);
-        downloadCalled = true;
-      },
+      onDownloadProgress,
     });
     const response = await client.sendRequest(request);
     assert.isDefined(response.blobBody);
 
     const blob = await response.blobBody;
-    assert.isDefined(blob?.size);
-    assert.isTrue(downloadCalled, "no download progress");
+    assert.strictEqual(blob?.size, responseText.length);
+    expect(onDownloadProgress).toHaveBeenCalledWith({ loadedBytes: expect.any(Number) });
   });
 
   it("should handle ReadableStream request body type", async () => {
@@ -376,30 +344,24 @@ describe("FetchHttpClient", function () {
     const requestText = "testing resettable stream";
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
-    let bodySent = false;
     const stream = new ReadableStream({
       start(controller) {
         controller.enqueue(requestText);
         controller.close();
       },
     });
-    vi.mocked(fetch).mockImplementation(
-      async (_url, options: (RequestInit & { duplex?: string }) | undefined) => {
+    const mockFetch = vi.fn(
+      async (_url: any, options: (RequestInit & { duplex?: string }) | undefined) => {
         const body = options?.body;
-        assert.isTrue(
-          body &&
-            typeof (body as ReadableStream).getReader === "function" &&
-            typeof (body as ReadableStream).tee === "function",
-          "expecting ReadableStream request body",
-        );
+        assert.instanceOf(body, ReadableStream, "expecting ReadableStream request body");
         assert.strictEqual(options?.duplex, "half");
-        const reader = (body as ReadableStream).getReader();
+        const reader = body.getReader();
         const data = await reader.read();
         assert.equal(data.value, requestText, "unexpected request text");
-        bodySent = true;
         return new Response(undefined, { status: 200 });
       },
     );
+    vi.mocked(fetch).mockImplementation(mockFetch);
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -409,7 +371,7 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
     await client.sendRequest(request);
-    assert.isTrue(bodySent, "body should have been sent to request");
+    expect(mockFetch).toHaveBeenCalled();
   });
 
   it("should handle () => ReadableStream request body type", async () => {
@@ -417,7 +379,6 @@ describe("FetchHttpClient", function () {
     const requestText = "testing resettable stream";
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
-    let bodySent = false;
     const factoryMethod = (): ReadableStream => {
       return new ReadableStream({
         start(controller) {
@@ -426,20 +387,15 @@ describe("FetchHttpClient", function () {
         },
       });
     };
-    vi.mocked(fetch).mockImplementation(async (_url, options) => {
+    const mockFetch = vi.fn(async (_url: any, options: any) => {
       const body = options?.body;
-      assert.isTrue(
-        body &&
-          typeof (body as ReadableStream).getReader === "function" &&
-          typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body",
-      );
-      const reader = (body as ReadableStream).getReader();
+      assert.instanceOf(body, ReadableStream, "expecting ReadableStream request body");
+      const reader = body.getReader();
       const data = await reader.read();
       assert.equal(data.value, requestText, "unexpected request text");
-      bodySent = true;
       return new Response(undefined, { status: 200 });
     });
+    vi.mocked(fetch).mockImplementation(mockFetch);
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -449,7 +405,7 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
     await client.sendRequest(request);
-    assert.isTrue(bodySent, "body should have been sent to request");
+    expect(mockFetch).toHaveBeenCalled();
   });
 
   it("should honor timeout", async function () {
@@ -481,12 +437,7 @@ describe("FetchHttpClient", function () {
     const promise = client.sendRequest(request);
     vi.advanceTimersByTime(timeoutLength);
 
-    try {
-      await promise;
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.strictEqual(e.name, "AbortError");
-    }
+    await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
@@ -494,12 +445,7 @@ describe("FetchHttpClient", function () {
     const request = createPipelineRequest({
       url: "http://example.com",
     });
-    try {
-      await client.sendRequest(request);
-      assert.fail("Expected await to throw");
-    } catch (e: any) {
-      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
-    }
+    await expect(client.sendRequest(request)).rejects.toThrow(/^Cannot connect/);
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {

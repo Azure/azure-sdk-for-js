@@ -35,7 +35,7 @@ export function _refreshSend(
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
       fabricName: fabricName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
       "%24filter": options?.filter,
     },
     {
@@ -88,7 +88,7 @@ export function _inquireSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
       "%24filter": options?.filter,
     },
     {
@@ -146,7 +146,7 @@ export function _unregisterSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,7 +207,7 @@ export function _registerSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +263,7 @@ export function register(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-01-31-preview",
   }) as PollerLike<OperationState<ProtectionContainerResource>, ProtectionContainerResource>;
 }
 
@@ -283,7 +283,7 @@ export function _getSend(
       vaultName: vaultName,
       fabricName: fabricName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

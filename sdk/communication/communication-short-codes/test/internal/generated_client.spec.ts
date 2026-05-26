@@ -10,7 +10,6 @@ import {
 import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src/index.js";
 import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
-import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi } from "vitest";
@@ -38,8 +37,9 @@ export const userAgentPolicy: (policyName: string, customHeader: string) => Pipe
   return {
     name: policyName,
     sendRequest: async (req, next) => {
-      const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
-      req.headers.set(userAgentHeader, customHeader);
+      // Set both headers to ensure it works in all environments
+      req.headers.set("user-agent", customHeader);
+      req.headers.set("x-ms-useragent", customHeader);
       return next(req);
     },
   };
