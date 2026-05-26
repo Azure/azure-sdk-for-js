@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { FeatureEnableRequest } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface FeaturesDisableOptionalParams extends OperationOptions {
@@ -13,6 +14,8 @@ export interface FeaturesDisableOptionalParams extends OperationOptions {
 export interface FeaturesEnableOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** The content of the action request */
+  body?: FeatureEnableRequest;
 }
 
 /** Optional parameters. */
