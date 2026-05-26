@@ -15,6 +15,7 @@
   "imports": {
     "#platform/*.js": {
       "browser": "./src/*-browser.mjs",
+      "react-native": "./src/*-react-native.mjs",
       "default": "./src/*.js"
     }
   },
@@ -76,18 +77,18 @@
         "default": "./dist/commonjs/api/providers/index.js"
       }
     },
-    "./api/tags": {
+    "./api/tagsOperations": {
       "browser": {
-        "types": "./dist/browser/api/tags/index.d.ts",
-        "default": "./dist/browser/api/tags/index.js"
+        "types": "./dist/browser/api/tagsOperations/index.d.ts",
+        "default": "./dist/browser/api/tagsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/tags/index.d.ts",
-        "default": "./dist/esm/api/tags/index.js"
+        "types": "./dist/esm/api/tagsOperations/index.d.ts",
+        "default": "./dist/esm/api/tagsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/tags/index.d.ts",
-        "default": "./dist/commonjs/api/tags/index.js"
+        "types": "./dist/commonjs/api/tagsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/tagsOperations/index.js"
       }
     },
     "./api/resources": {

@@ -6,7 +6,7 @@ exports:
   "./api": "./src/api/index.ts"
   "./api/providerResourceTypes": "./src/api/providerResourceTypes/index.ts"
   "./api/providers": "./src/api/providers/index.ts"
-  "./api/tags": "./src/api/tags/index.ts"
+  "./api/tagsOperations": "./src/api/tagsOperations/index.ts"
   "./api/resources": "./src/api/resources/index.ts"
   "./api/resourceGroups": "./src/api/resourceGroups/index.ts"
   "./api/operations": "./src/api/operations/index.ts"

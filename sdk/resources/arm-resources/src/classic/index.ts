@@ -6,4 +6,4 @@ export type { ProviderResourceTypesOperations } from "./providerResourceTypes/in
 export type { ProvidersOperations } from "./providers/index.js";
 export type { ResourceGroupsOperations } from "./resourceGroups/index.js";
 export type { ResourcesOperations } from "./resources/index.js";
-export type { TagsOperations } from "./tags/index.js";
+export type { TagsOperationsOperations } from "./tagsOperations/index.js";

@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -126,23 +125,23 @@ export type {
   ResourcesListByResourceGroupOptionalParams,
 } from "./api/resources/index.js";
 export type {
-  TagsListOptionalParams,
-  TagsDeleteOptionalParams,
-  TagsCreateOrUpdateOptionalParams,
-  TagsCreateOrUpdateValueOptionalParams,
-  TagsDeleteValueOptionalParams,
-  TagsDeleteAtScopeOptionalParams,
-  TagsUpdateAtScopeOptionalParams,
-  TagsCreateOrUpdateAtScopeOptionalParams,
-  TagsGetAtScopeOptionalParams,
-} from "./api/tags/index.js";
+  TagsOperationsListOptionalParams,
+  TagsOperationsDeleteOptionalParams,
+  TagsOperationsCreateOrUpdateOptionalParams,
+  TagsOperationsCreateOrUpdateValueOptionalParams,
+  TagsOperationsDeleteValueOptionalParams,
+  TagsOperationsDeleteAtScopeOptionalParams,
+  TagsOperationsUpdateAtScopeOptionalParams,
+  TagsOperationsCreateOrUpdateAtScopeOptionalParams,
+  TagsOperationsGetAtScopeOptionalParams,
+} from "./api/tagsOperations/index.js";
 export type {
   OperationsOperations,
   ProviderResourceTypesOperations,
   ProvidersOperations,
   ResourceGroupsOperations,
   ResourcesOperations,
-  TagsOperations,
+  TagsOperationsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

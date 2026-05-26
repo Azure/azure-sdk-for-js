@@ -164,7 +164,7 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: any;
+  readonly info?: Record<string, unknown>;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
@@ -460,7 +460,7 @@ export type ExportTemplateOutputFormat = string;
 /** Resource group export result. */
 export interface ResourceGroupExportResult {
   /** The template content. Used if outputFormat is empty or set to 'Json'. */
-  template?: any;
+  template?: Record<string, unknown>;
   /** The formatted export content. Used if outputFormat is set to 'Bicep'. */
   output?: string;
   /** The template export error. */
@@ -538,7 +538,7 @@ export function genericResourceExpandedDeserializer(item: any): GenericResourceE
 /** Resource information. */
 export interface GenericResource extends Resource {
   /** The resource-specific properties for this resource. */
-  properties?: any;
+  properties?: Record<string, unknown>;
   /** The plan of the resource. */
   plan?: Plan;
   /** The kind of the resource. */

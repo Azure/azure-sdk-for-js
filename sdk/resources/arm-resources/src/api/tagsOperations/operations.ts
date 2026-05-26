@@ -23,15 +23,15 @@ import {
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  TagsListOptionalParams,
-  TagsDeleteOptionalParams,
-  TagsCreateOrUpdateOptionalParams,
-  TagsCreateOrUpdateValueOptionalParams,
-  TagsDeleteValueOptionalParams,
-  TagsDeleteAtScopeOptionalParams,
-  TagsUpdateAtScopeOptionalParams,
-  TagsCreateOrUpdateAtScopeOptionalParams,
-  TagsGetAtScopeOptionalParams,
+  TagsOperationsListOptionalParams,
+  TagsOperationsDeleteOptionalParams,
+  TagsOperationsCreateOrUpdateOptionalParams,
+  TagsOperationsCreateOrUpdateValueOptionalParams,
+  TagsOperationsDeleteValueOptionalParams,
+  TagsOperationsDeleteAtScopeOptionalParams,
+  TagsOperationsUpdateAtScopeOptionalParams,
+  TagsOperationsCreateOrUpdateAtScopeOptionalParams,
+  TagsOperationsGetAtScopeOptionalParams,
 } from "./options.js";
 import {
   StreamableMethod,
@@ -43,7 +43,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
-  options: TagsListOptionalParams = { requestOptions: {} },
+  options: TagsOperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/tagNames{?api%2Dversion}",
@@ -76,7 +76,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 /** This operation performs a union of predefined tags, resource tags, resource group tags and subscription tags, and returns a summary of usage for each tag name and value under the given subscription. In case of a large number of tags, this operation may return a previously cached result. */
 export function list(
   context: Client,
-  options: TagsListOptionalParams = { requestOptions: {} },
+  options: TagsOperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<TagDetails> {
   return buildPagedAsyncIterator(
     context,
@@ -90,7 +90,7 @@ export function list(
 export function _$deleteSend(
   context: Client,
   tagName: string,
-  options: TagsDeleteOptionalParams = { requestOptions: {} },
+  options: TagsOperationsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/tagNames/{tagName}{?api%2Dversion}",
@@ -122,7 +122,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 export async function $delete(
   context: Client,
   tagName: string,
-  options: TagsDeleteOptionalParams = { requestOptions: {} },
+  options: TagsOperationsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(context, tagName, options);
   return _$deleteDeserialize(result);
@@ -131,7 +131,7 @@ export async function $delete(
 export function _createOrUpdateSend(
   context: Client,
   tagName: string,
-  options: TagsCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: TagsOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/tagNames/{tagName}{?api%2Dversion}",
@@ -168,7 +168,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   tagName: string,
-  options: TagsCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: TagsOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<TagDetails> {
   const result = await _createOrUpdateSend(context, tagName, options);
   return _createOrUpdateDeserialize(result);
@@ -178,7 +178,7 @@ export function _createOrUpdateValueSend(
   context: Client,
   tagName: string,
   tagValue: string,
-  options: TagsCreateOrUpdateValueOptionalParams = { requestOptions: {} },
+  options: TagsOperationsCreateOrUpdateValueOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}{?api%2Dversion}",
@@ -217,7 +217,7 @@ export async function createOrUpdateValue(
   context: Client,
   tagName: string,
   tagValue: string,
-  options: TagsCreateOrUpdateValueOptionalParams = { requestOptions: {} },
+  options: TagsOperationsCreateOrUpdateValueOptionalParams = { requestOptions: {} },
 ): Promise<TagValue> {
   const result = await _createOrUpdateValueSend(context, tagName, tagValue, options);
   return _createOrUpdateValueDeserialize(result);
@@ -227,7 +227,7 @@ export function _deleteValueSend(
   context: Client,
   tagName: string,
   tagValue: string,
-  options: TagsDeleteValueOptionalParams = { requestOptions: {} },
+  options: TagsOperationsDeleteValueOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}{?api%2Dversion}",
@@ -261,7 +261,7 @@ export async function deleteValue(
   context: Client,
   tagName: string,
   tagValue: string,
-  options: TagsDeleteValueOptionalParams = { requestOptions: {} },
+  options: TagsOperationsDeleteValueOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _deleteValueSend(context, tagName, tagValue, options);
   return _deleteValueDeserialize(result);
@@ -270,7 +270,7 @@ export async function deleteValue(
 export function _deleteAtScopeSend(
   context: Client,
   scope: string,
-  options: TagsDeleteAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsDeleteAtScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+scope}/providers/Microsoft.Resources/tags/default{?api%2Dversion}",
@@ -301,7 +301,7 @@ export async function _deleteAtScopeDeserialize(result: PathUncheckedResponse): 
 export function deleteAtScope(
   context: Client,
   scope: string,
-  options: TagsDeleteAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsDeleteAtScopeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _deleteAtScopeDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -316,7 +316,7 @@ export function _updateAtScopeSend(
   context: Client,
   scope: string,
   parameters: TagsPatchResource,
-  options: TagsUpdateAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsUpdateAtScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+scope}/providers/Microsoft.Resources/tags/default{?api%2Dversion}",
@@ -355,7 +355,7 @@ export function updateAtScope(
   context: Client,
   scope: string,
   parameters: TagsPatchResource,
-  options: TagsUpdateAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsUpdateAtScopeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TagsResource>, TagsResource> {
   return getLongRunningPoller(context, _updateAtScopeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -370,7 +370,7 @@ export function _createOrUpdateAtScopeSend(
   context: Client,
   scope: string,
   parameters: TagsResource,
-  options: TagsCreateOrUpdateAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsCreateOrUpdateAtScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+scope}/providers/Microsoft.Resources/tags/default{?api%2Dversion}",
@@ -409,7 +409,7 @@ export function createOrUpdateAtScope(
   context: Client,
   scope: string,
   parameters: TagsResource,
-  options: TagsCreateOrUpdateAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsCreateOrUpdateAtScopeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<TagsResource>, TagsResource> {
   return getLongRunningPoller(context, _createOrUpdateAtScopeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -423,7 +423,7 @@ export function createOrUpdateAtScope(
 export function _getAtScopeSend(
   context: Client,
   scope: string,
-  options: TagsGetAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsGetAtScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+scope}/providers/Microsoft.Resources/tags/default{?api%2Dversion}",
@@ -457,7 +457,7 @@ export async function _getAtScopeDeserialize(result: PathUncheckedResponse): Pro
 export async function getAtScope(
   context: Client,
   scope: string,
-  options: TagsGetAtScopeOptionalParams = { requestOptions: {} },
+  options: TagsOperationsGetAtScopeOptionalParams = { requestOptions: {} },
 ): Promise<TagsResource> {
   const result = await _getAtScopeSend(context, scope, options);
   return _getAtScopeDeserialize(result);

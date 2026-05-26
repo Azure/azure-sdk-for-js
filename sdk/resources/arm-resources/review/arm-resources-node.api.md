@@ -93,7 +93,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -146,7 +146,7 @@ export interface GenericResource extends Resource {
     location?: string;
     managedBy?: string;
     plan?: Plan;
-    properties?: any;
+    properties?: Record<string, unknown>;
     sku?: Sku;
     tags?: Record<string, string>;
 }
@@ -443,7 +443,7 @@ export interface ResourceGroup extends TrackedResource {
 export interface ResourceGroupExportResult {
     error?: ErrorDetail;
     output?: string;
-    template?: any;
+    template?: Record<string, unknown>;
 }
 
 // @public
@@ -529,7 +529,7 @@ export class ResourceManagementClient {
     readonly providers: ProvidersOperations;
     readonly resourceGroups: ResourceGroupsOperations;
     readonly resources: ResourcesOperations;
-    readonly tags: TagsOperations;
+    readonly tagsOperations: TagsOperationsOperations;
 }
 
 // @public
@@ -757,62 +757,67 @@ export interface Tags {
 }
 
 // @public
-export interface TagsCreateOrUpdateAtScopeOptionalParams extends OperationOptions {
+export interface TagsOperationsCreateOrUpdateAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TagsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface TagsOperationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsCreateOrUpdateValueOptionalParams extends OperationOptions {
+export interface TagsOperationsCreateOrUpdateValueOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsDeleteAtScopeOptionalParams extends OperationOptions {
+export interface TagsOperationsDeleteAtScopeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TagsDeleteOptionalParams extends OperationOptions {
+export interface TagsOperationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsDeleteValueOptionalParams extends OperationOptions {
+export interface TagsOperationsDeleteValueOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsGetAtScopeOptionalParams extends OperationOptions {
+export interface TagsOperationsGetAtScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsListOptionalParams extends OperationOptions {
+export interface TagsOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TagsOperations {
+export interface TagsOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdateAtScope: (scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<TagsResource>, TagsResource>>;
+    beginCreateOrUpdateAtScope: (scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<TagsResource>, TagsResource>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAtScopeAndWait: (scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams) => Promise<TagsResource>;
+    beginCreateOrUpdateAtScopeAndWait: (scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams) => Promise<TagsResource>;
     // @deprecated (undocumented)
-    beginDeleteAtScope: (scope: string, options?: TagsDeleteAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAtScope: (scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAtScopeAndWait: (scope: string, options?: TagsDeleteAtScopeOptionalParams) => Promise<void>;
+    beginDeleteAtScopeAndWait: (scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginUpdateAtScope: (scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<TagsResource>, TagsResource>>;
+    beginUpdateAtScope: (scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams) => Promise<SimplePollerLike<OperationState<TagsResource>, TagsResource>>;
     // @deprecated (undocumented)
-    beginUpdateAtScopeAndWait: (scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams) => Promise<TagsResource>;
-    createOrUpdate: (tagName: string, options?: TagsCreateOrUpdateOptionalParams) => Promise<TagDetails>;
-    createOrUpdateAtScope: (scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams) => PollerLike<OperationState<TagsResource>, TagsResource>;
-    createOrUpdateValue: (tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams) => Promise<TagValue>;
-    delete: (tagName: string, options?: TagsDeleteOptionalParams) => Promise<void>;
-    deleteAtScope: (scope: string, options?: TagsDeleteAtScopeOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteValue: (tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams) => Promise<void>;
-    getAtScope: (scope: string, options?: TagsGetAtScopeOptionalParams) => Promise<TagsResource>;
-    list: (options?: TagsListOptionalParams) => PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope: (scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams) => PollerLike<OperationState<TagsResource>, TagsResource>;
+    beginUpdateAtScopeAndWait: (scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams) => Promise<TagsResource>;
+    createOrUpdate: (tagName: string, options?: TagsOperationsCreateOrUpdateOptionalParams) => Promise<TagDetails>;
+    createOrUpdateAtScope: (scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams) => PollerLike<OperationState<TagsResource>, TagsResource>;
+    createOrUpdateValue: (tagName: string, tagValue: string, options?: TagsOperationsCreateOrUpdateValueOptionalParams) => Promise<TagValue>;
+    delete: (tagName: string, options?: TagsOperationsDeleteOptionalParams) => Promise<void>;
+    deleteAtScope: (scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteValue: (tagName: string, tagValue: string, options?: TagsOperationsDeleteValueOptionalParams) => Promise<void>;
+    getAtScope: (scope: string, options?: TagsOperationsGetAtScopeOptionalParams) => Promise<TagsResource>;
+    list: (options?: TagsOperationsListOptionalParams) => PagedAsyncIterableIterator<TagDetails>;
+    updateAtScope: (scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams) => PollerLike<OperationState<TagsResource>, TagsResource>;
+}
+
+// @public
+export interface TagsOperationsUpdateAtScopeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -827,11 +832,6 @@ export interface TagsPatchResource {
 // @public
 export interface TagsResource extends ExtensionResource {
     properties: Tags;
-}
-
-// @public
-export interface TagsUpdateAtScopeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public

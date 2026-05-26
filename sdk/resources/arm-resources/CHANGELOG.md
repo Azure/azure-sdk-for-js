@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.0-beta.1 (2026-05-19)
+## 8.0.0-beta.1 (2026-05-26)
 Compared with version 7.0.0
 
 ### Features Added
@@ -14,9 +14,9 @@ Compared with version 7.0.0
   - Added operation ResourcesOperations.update
   - Added operation ResourcesOperations.updateById
   - Added operation ResourcesOperations.validateMoveResources
-  - Added operation TagsOperations.createOrUpdateAtScope
-  - Added operation TagsOperations.deleteAtScope
-  - Added operation TagsOperations.updateAtScope
+  - Added operation TagsOperationsOperations.createOrUpdateAtScope
+  - Added operation TagsOperationsOperations.deleteAtScope
+  - Added operation TagsOperationsOperations.updateAtScope
   - Added Interface ErrorDetail
   - Added Interface ExtensionResource
   - Added Interface PagedAsyncIterableIterator
@@ -24,6 +24,15 @@ Compared with version 7.0.0
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
   - Added Interface SystemData
+  - Added Interface TagsOperationsCreateOrUpdateAtScopeOptionalParams
+  - Added Interface TagsOperationsCreateOrUpdateOptionalParams
+  - Added Interface TagsOperationsCreateOrUpdateValueOptionalParams
+  - Added Interface TagsOperationsDeleteAtScopeOptionalParams
+  - Added Interface TagsOperationsDeleteOptionalParams
+  - Added Interface TagsOperationsDeleteValueOptionalParams
+  - Added Interface TagsOperationsGetAtScopeOptionalParams
+  - Added Interface TagsOperationsListOptionalParams
+  - Added Interface TagsOperationsUpdateAtScopeOptionalParams
   - Added Interface TrackedResource
   - Interface GenericResource has a new optional parameter systemData
   - Interface GenericResourceExpanded has a new optional parameter systemData
@@ -48,6 +57,15 @@ Compared with version 7.0.0
   - Removed Interface ResourceGroupFilter
   - Removed Interface ResourceProviderOperationDisplayProperties
   - Removed Interface SubResource
+  - Removed Interface TagsCreateOrUpdateAtScopeOptionalParams
+  - Removed Interface TagsCreateOrUpdateOptionalParams
+  - Removed Interface TagsCreateOrUpdateValueOptionalParams
+  - Removed Interface TagsDeleteAtScopeOptionalParams
+  - Removed Interface TagsDeleteOptionalParams
+  - Removed Interface TagsDeleteValueOptionalParams
+  - Removed Interface TagsGetAtScopeOptionalParams
+  - Removed Interface TagsListOptionalParams
+  - Removed Interface TagsUpdateAtScopeOptionalParams
   - Interface Resource no longer has parameter extendedLocation
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags

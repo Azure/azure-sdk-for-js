@@ -6,7 +6,7 @@ import {
   _deleteAtScopeDeserialize,
   _updateAtScopeDeserialize,
   _createOrUpdateAtScopeDeserialize,
-} from "./api/tags/operations.js";
+} from "./api/tagsOperations/operations.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
