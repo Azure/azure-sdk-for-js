@@ -191,6 +191,7 @@ class WebVoiceAssistantApp {
       this.connectBtn.textContent = 'Disconnect';
       this.connectBtn.disabled = false;
       this.startBtn.disabled = false;
+      this.setConfigurationEnabled(false);
       
     } catch (error) {
       this.connectBtn.textContent = 'Connect';
@@ -208,6 +209,7 @@ class WebVoiceAssistantApp {
       this.connectBtn.disabled = false;
       this.startBtn.disabled = true;
       this.stopBtn.disabled = true;
+      this.setConfigurationEnabled(true);
       
     } catch (error) {
       this.showError(`Disconnect failed: ${error}`);
@@ -244,6 +246,15 @@ class WebVoiceAssistantApp {
     } catch (error) {
       this.showError(`Failed to stop conversation: ${error}`);
     }
+  }
+
+  private setConfigurationEnabled(enabled: boolean): void {
+    const configSection = document.querySelector('.config-section');
+    if (!configSection) return;
+    const elements = configSection.querySelectorAll('input, select, textarea');
+    elements.forEach((el) => {
+      (el as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).disabled = !enabled;
+    });
   }
 
   private getConfiguration(): VoiceAssistantConfig {

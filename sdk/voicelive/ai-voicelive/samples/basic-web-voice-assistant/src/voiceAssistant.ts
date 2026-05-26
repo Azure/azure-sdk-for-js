@@ -123,7 +123,8 @@ export class VoiceAssistant {
   
   private speechConfig?: speechSDK.SpeechConfig;
   private recognitionLanguage = 'en-US';  // PA feature just supports English for now.
-  private silenceTimeout = 1500;  // you can adjust this based on expected user speech patterns
+  private silenceTimeout = 1500;  // silenceDurationInMs for VAD & Speech_SegmentationSilenceTimeoutMs
+  private prefixPadding = 1000;   // prefixPaddingInMs for VAD
   private enablePronunciationAssessment = false;
   private enableLatencyTracking = false;
   private paWithReferenceText = true;
@@ -456,6 +457,15 @@ export class VoiceAssistant {
       this.enablePronunciationAssessment = config.enablePronunciationAssessment !== false;
       this.enableLatencyTracking = config.enableLatencyTracking === true;
       this.paWithReferenceText = config.paWithReferenceText !== false;
+
+      // Adjust VAD parameters based on PA mode
+      if (this.enablePronunciationAssessment) {
+        this.prefixPadding = 1000;
+        this.silenceTimeout = 1500;
+      } else {
+        this.prefixPadding = 300;
+        this.silenceTimeout = 500;
+      }
 
       this.callbacks?.onConnectionStatusChange('connecting');
 
@@ -847,10 +857,6 @@ export class VoiceAssistant {
             this.pendingLatencyTurn = turnCtx;
           }
 
-          this.session?.sendEvent({
-            type: 'response.create'
-          });
-
           // Reset transcription tracking
           this.currentUserTranscription = '';
           this.userSpeechStartTime = undefined;
@@ -1139,9 +1145,9 @@ export class VoiceAssistant {
       turnDetection: {
         type: 'server_vad',
         threshold: 0.5,
-        prefixPaddingInMs: 1000,
+        prefixPaddingInMs: this.prefixPadding,
         silenceDurationInMs: this.silenceTimeout,
-        createResponse: false
+        ...(this.enablePronunciationAssessment ? { createResponse: false } : {})
       }
     };
 
