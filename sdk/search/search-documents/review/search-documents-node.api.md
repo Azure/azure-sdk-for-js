@@ -1427,8 +1427,21 @@ export interface KnowledgeBase {
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseSearchIndexActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseAzureBlobActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedSharePointActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedOneLakeActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseWebActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseRemoteSharePointActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseWorkIQActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFabricDataAgentActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFabricOntologyActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseMcpServerActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFileActivityRecord" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedSqlActivityRecord" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type KnowledgeBaseActivityRecord = KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecord = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
 // @public
 export type KnowledgeBaseActivityRecordType = string;
@@ -3641,7 +3654,7 @@ export class SearchIndexClient {
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
     readonly pipeline: Pipeline;
     readonly serviceVersion: string;
-    uploadKnowledgeSourceFile(name: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptions): Promise<KnowledgeSourceFile>;
+    uploadKnowledgeSourceFile(name: string, file: Uint8Array, contentDisposition: string, options?: UploadKnowledgeSourceFileOptions): Promise<KnowledgeSourceFile>;
 }
 
 // @public

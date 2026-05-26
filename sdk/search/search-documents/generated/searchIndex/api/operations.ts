@@ -338,6 +338,7 @@ export function listKnowledgeSourceFiles(
 
 export function _uploadKnowledgeSourceFileSend(
   context: Client,
+  contentDisposition: string,
   file: Uint8Array,
   name: string,
   options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
@@ -356,6 +357,7 @@ export function _uploadKnowledgeSourceFileSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/octet-stream",
     headers: {
+      "content-disposition": contentDisposition,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -383,11 +385,18 @@ export async function _uploadKnowledgeSourceFileDeserialize(
 /** Uploads a file to a File knowledge source for processing and indexing. */
 export async function uploadKnowledgeSourceFile(
   context: Client,
+  contentDisposition: string,
   file: Uint8Array,
   name: string,
   options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeSourceFile> {
-  const result = await _uploadKnowledgeSourceFileSend(context, file, name, options);
+  const result = await _uploadKnowledgeSourceFileSend(
+    context,
+    contentDisposition,
+    file,
+    name,
+    options,
+  );
   return _uploadKnowledgeSourceFileDeserialize(result);
 }
 

@@ -154,11 +154,12 @@ export class SearchIndexClient {
 
   /** Uploads a file to a File knowledge source for processing and indexing. */
   uploadKnowledgeSourceFile(
+    contentDisposition: string,
     file: Uint8Array,
     name: string,
     options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
-    return uploadKnowledgeSourceFile(this._client, file, name, options);
+    return uploadKnowledgeSourceFile(this._client, contentDisposition, file, name, options);
   }
 
   /** Retrieves the status of a knowledge source. */

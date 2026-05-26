@@ -160,7 +160,7 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 export function deleteKnowledgeSource(context: SearchIndexContext, name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
 
 // @public
-export function deleteKnowledgeSourceFile(context: SearchIndexContext, name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+export function deleteKnowledgeSourceFile(context: SearchIndexContext, fileId: string, name: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
 
 // @public
 export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
@@ -353,7 +353,7 @@ export interface SearchIndexContext extends Client {
 }
 
 // @public
-export function uploadKnowledgeSourceFile(context: SearchIndexContext, name: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+export function uploadKnowledgeSourceFile(context: SearchIndexContext, contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {

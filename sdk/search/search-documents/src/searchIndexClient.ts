@@ -877,18 +877,25 @@ export class SearchIndexClient {
    * Uploads a file to a File knowledge source for processing and indexing.
    * @param name - The name of the knowledge source.
    * @param file - The file contents.
+   * @param contentDisposition - The content-disposition header value (e.g., 'attachment; filename="example.pdf"').
    * @param options - The options parameters.
    */
   public async uploadKnowledgeSourceFile(
     name: string,
     file: Uint8Array,
+    contentDisposition: string,
     options: UploadKnowledgeSourceFileOptions = {},
   ): Promise<KnowledgeSourceFile> {
     return tracingClient.withSpan(
       "SearchIndexClient-uploadKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.uploadKnowledgeSourceFile(name, file, updatedOptions);
+        return this.client.uploadKnowledgeSourceFile(
+          contentDisposition,
+          file,
+          name,
+          updatedOptions,
+        );
       },
     );
   }

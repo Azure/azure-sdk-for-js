@@ -265,15 +265,16 @@ export async function getKnowledgeSourceStatus(
   return _getKnowledgeSourceStatusDeserialize(result);
 }
 
-export function _uploadKnowledgeSourceFileSend(
+export function _deleteKnowledgeSourceFileSend(
   context: Client,
+  fileId: string,
   name: string,
-  file: Uint8Array,
-  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    "/knowledgesources('{sourceName}')/files('{fileId}'){?api%2Dversion}",
     {
+      fileId: fileId,
       sourceName: name,
       "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
@@ -281,9 +282,8 @@ export function _uploadKnowledgeSourceFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
+  return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/octet-stream",
     headers: {
       ...(options?.accept !== undefined
         ? {
@@ -295,14 +295,13 @@ export function _uploadKnowledgeSourceFileSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: file,
   });
 }
 
-export async function _uploadKnowledgeSourceFileDeserialize(
+export async function _deleteKnowledgeSourceFileDeserialize(
   result: PathUncheckedResponse,
-): Promise<KnowledgeSourceFile> {
-  const expectedStatuses = ["201"];
+): Promise<void> {
+  const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -310,18 +309,18 @@ export async function _uploadKnowledgeSourceFileDeserialize(
     throw error;
   }
 
-  return knowledgeSourceFileDeserializer(result.body);
+  return;
 }
 
-/** Uploads a file to a File knowledge source for processing and indexing. */
-export async function uploadKnowledgeSourceFile(
+/** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
+export async function deleteKnowledgeSourceFile(
   context: Client,
+  fileId: string,
   name: string,
-  file: Uint8Array,
-  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
-): Promise<KnowledgeSourceFile> {
-  const result = await _uploadKnowledgeSourceFileSend(context, name, file, options);
-  return _uploadKnowledgeSourceFileDeserialize(result);
+  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteKnowledgeSourceFileSend(context, fileId, name, options);
+  return _deleteKnowledgeSourceFileDeserialize(result);
 }
 
 export function _listKnowledgeSourceFilesSend(
@@ -384,60 +383,68 @@ export function listKnowledgeSourceFiles(
   );
 }
 
-export function _deleteKnowledgeSourceFileSend(
+export function _uploadKnowledgeSourceFileSend(
   context: Client,
+  contentDisposition: string,
+  file: Uint8Array,
   name: string,
-  fileId: string,
-  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/knowledgesources('{sourceName}')/files('{fileId}'){?api%2Dversion}",
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
     {
       sourceName: name,
-      fileId,
       "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
+  return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/octet-stream",
     headers: {
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
+      "content-disposition": contentDisposition,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
+      accept: "application/json",
       ...options.requestOptions?.headers,
     },
+    body: file,
   });
 }
 
-export async function _deleteKnowledgeSourceFileDeserialize(
+export async function _uploadKnowledgeSourceFileDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["204", "404"];
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
+
+  return knowledgeSourceFileDeserializer(result.body);
 }
 
-/** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
-export async function deleteKnowledgeSourceFile(
+/** Uploads a file to a File knowledge source for processing and indexing. */
+export async function uploadKnowledgeSourceFile(
   context: Client,
+  contentDisposition: string,
+  file: Uint8Array,
   name: string,
-  fileId: string,
-  options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deleteKnowledgeSourceFileSend(context, name, fileId, options);
-  return _deleteKnowledgeSourceFileDeserialize(result);
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _uploadKnowledgeSourceFileSend(
+    context,
+    contentDisposition,
+    file,
+    name,
+    options,
+  );
+  return _uploadKnowledgeSourceFileDeserialize(result);
 }
 
 export function _createKnowledgeSourceSend(

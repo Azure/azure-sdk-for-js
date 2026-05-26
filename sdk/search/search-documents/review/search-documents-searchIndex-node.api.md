@@ -247,7 +247,7 @@ export class SearchIndexClient {
     deleteIndex(name: string, options?: DeleteIndexOptionalParams): Promise<void>;
     deleteKnowledgeBase(name: string, options?: DeleteKnowledgeBaseOptionalParams): Promise<void>;
     deleteKnowledgeSource(name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
-    deleteKnowledgeSourceFile(name: string, fileId: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+    deleteKnowledgeSourceFile(fileId: string, name: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
     deleteSynonymMap(name: string, options?: DeleteSynonymMapOptionalParams): Promise<void>;
     getAlias(name: string, options?: GetAliasOptionalParams): Promise<SearchAlias>;
     getIndex(name: string, options?: GetIndexOptionalParams): Promise<SearchIndex>;
@@ -266,7 +266,7 @@ export class SearchIndexClient {
     listKnowledgeSourceFiles(name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
     readonly pipeline: Pipeline;
-    uploadKnowledgeSourceFile(name: string, file: Uint8Array, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+    uploadKnowledgeSourceFile(contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 }
 
 // @public

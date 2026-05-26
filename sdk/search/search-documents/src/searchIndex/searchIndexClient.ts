@@ -140,13 +140,13 @@ export class SearchIndexClient {
     return getKnowledgeSourceStatus(this._client, name, options);
   }
 
-  /** Uploads a file to a File knowledge source for processing and indexing. */
-  uploadKnowledgeSourceFile(
+  /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
+  deleteKnowledgeSourceFile(
+    fileId: string,
     name: string,
-    file: Uint8Array,
-    options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
-  ): Promise<KnowledgeSourceFile> {
-    return uploadKnowledgeSourceFile(this._client, name, file, options);
+    options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return deleteKnowledgeSourceFile(this._client, fileId, name, options);
   }
 
   /** Lists all files in a File knowledge source. */
@@ -157,13 +157,14 @@ export class SearchIndexClient {
     return listKnowledgeSourceFiles(this._client, name, options);
   }
 
-  /** Deletes a file from a File knowledge source and removes all indexed content derived from it. */
-  deleteKnowledgeSourceFile(
+  /** Uploads a file to a File knowledge source for processing and indexing. */
+  uploadKnowledgeSourceFile(
+    contentDisposition: string,
+    file: Uint8Array,
     name: string,
-    fileId: string,
-    options: DeleteKnowledgeSourceFileOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
-    return deleteKnowledgeSourceFile(this._client, name, fileId, options);
+    options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+  ): Promise<KnowledgeSourceFile> {
+    return uploadKnowledgeSourceFile(this._client, contentDisposition, file, name, options);
   }
 
   /** Creates a new knowledge source. */
