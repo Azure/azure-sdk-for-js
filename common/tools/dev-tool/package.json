@@ -83,7 +83,7 @@
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "catalog:",
-    "typescript-eslint": "~8.58.0",
+    "typescript-eslint": "~8.60.0",
     "vitest": "catalog:testing"
   }
 }
