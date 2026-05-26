@@ -18,5 +18,6 @@
     {
       "path": "./config/tsconfig.samples.json"
     }
-  ]
+  ],
+  "files": []
 }
