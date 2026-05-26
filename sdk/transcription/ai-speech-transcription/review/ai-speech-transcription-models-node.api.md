@@ -4,6 +4,8 @@
 
 ```ts
 
+import type { OperationOptions } from '@azure-rest/core-client';
+
 // @public
 export interface ChannelCombinedPhrases {
     channel?: number;
@@ -75,7 +77,7 @@ export interface TranscriptionDiarizationOptions {
 }
 
 // @public
-export interface TranscriptionOptions {
+export interface TranscriptionOptions extends OperationOptions {
     activeChannels?: number[];
     audioUrl?: string;
     diarizationOptions?: TranscriptionDiarizationOptions;
