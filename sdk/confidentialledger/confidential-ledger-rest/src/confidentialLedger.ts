@@ -323,11 +323,8 @@ function confidentialLedgerMergePatchContentTypePolicy(): PipelinePolicy {
   return {
     name: "confidentialLedgerMergePatchContentTypePolicy",
     sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (request.method === "PATCH") {
-        const pathStart = request.url.indexOf("/", request.url.indexOf("://") + 3);
-        const queryStart = request.url.indexOf("?", pathStart);
-        const path = queryStart === -1 ? request.url.slice(pathStart) : request.url.slice(pathStart, queryStart);
-
+      if (request.method.toUpperCase() === "PATCH") {
+        const path = new URL(request.url).pathname;
         if (usersPatchPathRe.test(path)) {
           request.headers.set("Content-Type", "application/merge-patch+json");
         }
