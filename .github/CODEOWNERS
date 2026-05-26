@@ -536,9 +536,6 @@
 /sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
 /sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
