@@ -1,11 +1,49 @@
 ---
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
+    forks: ["*"]
+  workflow_dispatch:
+    inputs:
+      item_number:
+        description: PR number to run the review on
+        required: true
+        type: string
+  permissions:
+    pull-requests: write
+  steps:
+    - name: Swap trigger label to in-progress
+      id: swap_label
+      if: github.event_name == 'pull_request_target' && github.event.label.name == 'performance-review-needed'
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const pr = context.payload.pull_request.number;
+          // Remove trigger label
+          try {
+            await github.rest.issues.removeLabel({
+              ...context.repo,
+              issue_number: pr,
+              name: 'performance-review-needed'
+            });
+          } catch (e) {
+            core.warning(`Could not remove trigger label: ${e.message}`);
+          }
+          // Add in-progress label
+          try {
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: pr,
+              labels: ['performance-review-in-progress']
+            });
+          } catch (e) {
+            core.warning(`Could not add in-progress label: ${e.message}`);
+          }
+checkout: false
 labels: [performance-review-needed]
-if: github.event.label.name == 'performance-review-needed' && github.event.pull_request.head.repo.fork == false
+if: github.event.label.name == 'performance-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
-  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}-${{ github.event.label.name || '' }}"
+  group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
   cancel-in-progress: true
 description: "Dash: Review a pull request for performance regressions"
 permissions:
@@ -178,3 +216,12 @@ body confirming no performance regressions were detected.
 
 After posting, store a brief summary in cache-memory (PR number,
 package, outcome) so future runs can track performance trends.
+
+## Final Step — Update Labels
+
+After completing all review steps, update the PR labels to indicate completion:
+
+1. Remove the `performance-review-in-progress` label
+2. Add the `performance-review-added` label
+
+Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.

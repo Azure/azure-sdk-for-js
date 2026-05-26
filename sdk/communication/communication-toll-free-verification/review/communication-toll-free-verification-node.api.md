@@ -71,6 +71,7 @@ export interface CampaignBrief {
     businessPointOfContact?: BusinessPointOfContact;
     businessRegistrationDetails?: BusinessRegistrationDetails;
     countryCode?: string;
+    dba?: string;
     estimatedMonthlyVolume?: EstimatedMonthlyVolume;
     id: string;
     // (undocumented)

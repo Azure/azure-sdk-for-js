@@ -831,6 +831,47 @@ interface CompileTargetOptions {
  * `moduleResolution: "Node16"` so all tools (IDE, eslint, api-extractor)
  * see the same resolution algorithm that warp uses.
  */
+
+/**
+ * Rebase import-map paths from a real package.json so they resolve correctly
+ * from a virtual package.json placed at a different directory.
+ *
+ * For example, if the real package.json is at the package root and has:
+ *   `"#platform/base64": { "default": "./src/base64.ts" }`
+ * and the virtual package.json is injected at `src/`, this function rewrites
+ * the path to `"./base64.ts"` so TypeScript resolves it correctly.
+ */
+function rebaseImportPaths(
+  imports: unknown,
+  realPkgDir: string | undefined,
+  virtualDir: string,
+): unknown {
+  if (!imports || typeof imports !== "object" || !realPkgDir) return imports;
+  if (realPkgDir === virtualDir) return imports;
+
+  const rebasePath = (p: unknown): unknown => {
+    if (typeof p === "string" && p.startsWith("./")) {
+      const abs = path.resolve(realPkgDir, p);
+      const rel = path.relative(virtualDir, abs);
+      return "./" + rel.split(path.sep).join("/");
+    }
+    if (p && typeof p === "object" && !Array.isArray(p)) {
+      return rebaseConditionMap(p as Record<string, unknown>);
+    }
+    return p;
+  };
+
+  const rebaseConditionMap = (map: Record<string, unknown>): Record<string, unknown> => {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(map)) {
+      result[key] = rebasePath(value);
+    }
+    return result;
+  };
+
+  return rebaseConditionMap(imports as Record<string, unknown>);
+}
+
 export async function compileTarget(
   parsed: ParsedTargetConfig,
   host?: ts.CompilerHost,
@@ -879,6 +920,7 @@ export async function compileTarget(
     // Read the real package.json to preserve its "imports" and "exports" fields
     let realPkgImports: unknown;
     let realPkgExports: unknown;
+    let realPkgDir: string | undefined;
     let dir = absRoot;
     while (dir) {
       const pkgPath = path.join(dir, "package.json");
@@ -889,6 +931,7 @@ export async function compileTarget(
         >;
         realPkgImports = pkgContent.imports;
         realPkgExports = pkgContent.exports;
+        realPkgDir = dir;
         break;
       } catch {
         // file doesn't exist or parse error — walk up
@@ -898,8 +941,16 @@ export async function compileTarget(
       dir = parent;
     }
 
+    // When the virtual package.json is injected at absRoot (rootDir, e.g. "src/")
+    // but the real package.json lives in a parent directory (e.g. the package root),
+    // import map paths like "./src/foo.ts" are relative to the real package.json.
+    // TypeScript resolves them relative to the virtual package.json location instead,
+    // producing wrong paths (e.g. "src/src/foo.ts"). Rebase paths so they resolve
+    // correctly from absRoot.
+    const rebasedImports = rebaseImportPaths(realPkgImports, realPkgDir, absRoot);
+
     const virtualPkg: Record<string, unknown> = { type: "commonjs" };
-    if (realPkgImports) virtualPkg.imports = realPkgImports;
+    if (rebasedImports) virtualPkg.imports = rebasedImports;
     if (realPkgExports) virtualPkg.exports = realPkgExports;
     const cjsPackageJson = JSON.stringify(virtualPkg);
 

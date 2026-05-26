@@ -2,7 +2,8 @@
   "extends": "./base.test.json",
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
-    "types": []
+    "types": [],
+    "customConditions": ["browser"]
   },
   "exclude": [
     "${configDir}/../test/**/node",

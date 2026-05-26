@@ -1,42 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ClusterResourcePatch} from "@azure/arm-cosmosdb";
-import {
-  CosmosDBManagementClient,
-} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Updates some of the properties of a garnet cluster.
+ * This sample demonstrates how to updates some of the properties of a garnet cluster.
  *
- * @summary Updates some of the properties of a garnet cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBGarnetClusterPatch.json
+ * @summary updates some of the properties of a garnet cluster.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBGarnetClusterPatch.json
  */
-async function cosmosDbGarnetClusterPatch(): Promise<void> {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["COSMOSDB_RESOURCE_GROUP"] || "garnet-prod-rg";
-  const clusterName = "garnet-prod";
-  const body: ClusterResourcePatch = {
-    properties: { clusterType: "Production" },
-  };
+async function cosmosDBGarnetClusterPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.garnetClusters.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    body,
-  );
+  const result = await client.garnetClusters.update("garnet-prod-rg", "garnet-prod", {
+    properties: { clusterType: "Production" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await cosmosDbGarnetClusterPatch();
+  await cosmosDBGarnetClusterPatch();
 }
 
 main().catch(console.error);

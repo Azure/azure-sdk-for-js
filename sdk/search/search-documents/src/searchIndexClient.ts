@@ -43,7 +43,6 @@ import type {
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
   GetKnowledgeSourceStatusOptions,
@@ -51,7 +50,6 @@ import type {
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
-  IndexStatisticsSummaryIterator,
   KnowledgeBaseIterator,
   KnowledgeSource,
   KnowledgeSourceIterator,
@@ -608,16 +606,6 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options - Options to the list index operation.
-   */
-  public getIndexStatsSummary(
-    options: GetIndexStatsSummaryOptions = {},
-  ): IndexStatisticsSummaryIterator {
-    return this.client.listIndexStatsSummary(options);
-  }
-
-  /**
    * Creates a new knowledgebase.
    * @param knowledgeBase - definition of the knowledgebase to create.
    * @param options - options parameters.
@@ -741,7 +729,6 @@ export class SearchIndexClient {
   }
 
   public async createOrUpdateKnowledgeSource(
-    sourceName: string,
     knowledgeSource: KnowledgeSource,
     options: CreateOrUpdateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
@@ -752,7 +739,7 @@ export class SearchIndexClient {
         const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
           utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
-          sourceName,
+          knowledgeSource.name,
           {
             ...updatedOptions,
             ifMatch: etag,

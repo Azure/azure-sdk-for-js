@@ -7,29 +7,66 @@
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
+    description?: string;
+    name?: string;
     project_connection_id?: string;
     type: "a2a_preview";
 }
 
 // @public
 export interface Agent {
+    // (undocumented)
+    agent_card?: AgentCard;
+    agent_endpoint?: AgentEndpointConfig;
+    readonly blueprint?: AgentIdentity;
+    readonly blueprint_reference?: AgentBlueprintReferenceUnion;
     id: string;
+    readonly instance_identity?: AgentIdentity;
     name: string;
     object: "agent";
     versions: {
         latest: AgentVersion;
     };
+}
+
+// @public
+export interface AgentBlueprintReference {
+    // (undocumented)
+    type: AgentBlueprintReferenceType;
+}
+
+// @public
+export type AgentBlueprintReferenceType = "ManagedAgentIdentityBlueprint";
+
+// @public
+export type AgentBlueprintReferenceUnion = ManagedAgentIdentityBlueprintReference | AgentBlueprintReference;
+
+// @public
+export interface AgentCard {
+    description?: string;
+    skills: AgentCardSkill[];
+    version: string;
+}
+
+// @public
+export interface AgentCardSkill {
+    description?: string;
+    examples?: string[];
+    id: string;
+    name: string;
+    tags?: string[];
 }
 
 // @public
@@ -46,16 +83,57 @@ export interface AgentClusterInsightResult extends InsightResult {
 }
 
 // @public
+export interface AgentDataGenerationJobSource extends DataGenerationJobSource {
+    agent_name: string;
+    agent_version?: string;
+    description?: string;
+    type: "agent";
+}
+
+// @public
 export interface AgentDefinition {
     kind: AgentKind;
     rai_config?: RaiConfig;
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "ContainerAgents=V1Preview" | "AgentEndpoints=V1Preview";
 
 // @public
-export type AgentDefinitionUnion = PromptAgentDefinition | WorkflowAgentDefinition | HostedAgentDefinition | AgentDefinition;
+export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | AgentDefinition;
+
+// @public @deprecated (undocumented)
+export type AgentEndpoint = AgentEndpointConfig;
+
+// @public
+export interface AgentEndpointAuthorizationScheme {
+    // (undocumented)
+    type: AgentEndpointAuthorizationSchemeType;
+}
+
+// @public
+export type AgentEndpointAuthorizationSchemeType = "Entra" | "BotService" | "BotServiceRbac";
+
+// @public
+export type AgentEndpointAuthorizationSchemeUnion = EntraAuthorizationScheme | BotServiceAuthorizationScheme | BotServiceRbacAuthorizationScheme | AgentEndpointAuthorizationScheme;
+
+// @public
+export interface AgentEndpointConfig {
+    authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
+    protocols?: AgentEndpointProtocol[];
+    version_selector?: VersionSelector;
+}
+
+// @public
+export type AgentEndpointProtocol = "activity" | "responses" | "a2a" | "invocations";
+
+// @public
+export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+    agent_name: string;
+    agent_version?: string;
+    description?: string;
+    type: "agent";
+}
 
 // @public
 export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
@@ -63,10 +141,16 @@ export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
 }
 
 // @public
+export interface AgentIdentity {
+    client_id: string;
+    principal_id: string;
+}
+
+// @public
 export type AgentKind = "prompt" | "hosted" | "workflow";
 
 // @public
-export type AgentProtocol = "activity_protocol" | "responses";
+export type AgentProtocol = "activity_protocol" | "responses" | "invocations";
 
 // @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
@@ -82,6 +166,9 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 
 // @public
 export interface AgentsCreateOptionalParams extends OperationOptions {
+    agentCard?: AgentCard;
+    agentEndpoint?: AgentEndpointConfig;
+    blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
@@ -89,6 +176,7 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
+    blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
@@ -101,6 +189,19 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 // @public
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
 }
+
+// @public
+export interface AgentSessionResource {
+    agent_session_id: string;
+    readonly created_at: Date;
+    readonly expires_at: Date;
+    readonly last_accessed_at: Date;
+    status: AgentSessionStatus;
+    version_indicator: VersionIndicatorUnion;
+}
+
+// @public
+export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
 
 // @public
 export interface AgentsGetOptionalParams extends OperationOptions {
@@ -151,6 +252,7 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 // @public
 export interface AgentsUpdateOptionalParams extends OperationOptions {
+    blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
@@ -168,15 +270,23 @@ export type AgentType = "agent" | "agent.version" | "agent.deleted" | "agent.ver
 
 // @public
 export interface AgentVersion {
+    readonly agent_guid?: string;
+    readonly blueprint?: AgentIdentity;
+    readonly blueprint_reference?: AgentBlueprintReferenceUnion;
     created_at: Date;
     definition: AgentDefinitionUnion;
     description?: string;
     id: string;
+    readonly instance_identity?: AgentIdentity;
     metadata: Record<string, string>;
     name: string;
     object: "agent.version";
+    status?: AgentVersionStatus;
     version: string;
 }
+
+// @public
+export type AgentVersionStatus = "creating" | "active" | "failed" | "deleting" | "deleted";
 
 // @public
 export class AIProjectClient {
@@ -188,7 +298,7 @@ export class AIProjectClient {
     readonly deployments: DeploymentsOperations;
     get endpoint(): string;
     readonly evaluationRules: EvaluationRulesOperations;
-    getOpenAIClient(opts?: ClientOptions_2): OpenAI;
+    getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
     readonly telemetry: TelemetryOperations;
 }
@@ -206,6 +316,24 @@ export interface AISearchIndexResource {
     project_connection_id?: string;
     query_type?: AzureAISearchQueryType;
     top_k?: number;
+}
+
+// @public
+export interface ApiError {
+    // (undocumented)
+    additionalInfo?: Record<string, any>;
+    // (undocumented)
+    code: string | null;
+    // (undocumented)
+    debugInfo?: Record<string, any>;
+    // (undocumented)
+    details?: ApiError[];
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    param?: string;
+    // (undocumented)
+    type?: string;
 }
 
 // @public
@@ -245,6 +373,12 @@ export interface AutoCodeInterpreterToolParam {
 }
 
 // @public
+export interface AzureAgentConfig {
+    agentName: string;
+    allowPreview: boolean;
+}
+
+// @public
 export interface AzureAIAgentTarget extends Target {
     name: string;
     tool_descriptions?: ToolDescription[];
@@ -273,6 +407,8 @@ export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_
 // @public
 export interface AzureAISearchTool extends Tool {
     azure_ai_search: AzureAISearchToolResource;
+    description?: string;
+    name?: string;
     type: "azure_ai_search";
 }
 
@@ -325,6 +461,131 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
+export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions {
+    agentSessionId?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+    recursive?: boolean;
+}
+
+// @public
+export interface BetaAgentsDeleteSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public (undocumented)
+export type BetaAgentsDownloadSessionFileResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public
+export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public
+export type BetaAgentsGetSessionLogStreamResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaAgentsOperations {
+    createSession: (agentName: string, isolationKey: string, versionIndicator: VersionIndicatorUnion, options?: BetaAgentsCreateSessionOptionalParams) => Promise<AgentSessionResource>;
+    deleteSession: (agentName: string, sessionId: string, isolationKey: string, options?: BetaAgentsDeleteSessionOptionalParams) => Promise<void>;
+    deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDeleteSessionFileOptionalParams) => Promise<void>;
+    downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsDownloadSessionFileOptionalParams) => Promise<BetaAgentsDownloadSessionFileResponse>;
+    getSession: (agentName: string, sessionId: string, options?: BetaAgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
+    getSessionFiles: (agentName: string, agentSessionId: string, path: string, options?: BetaAgentsGetSessionFilesOptionalParams) => Promise<SessionDirectoryListResponse>;
+    getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: BetaAgentsGetSessionLogStreamOptionalParams) => Promise<BetaAgentsGetSessionLogStreamResponse>;
+    listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
+    patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: BetaAgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
+}
+
+// @public
+export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptions {
+    agentCard?: AgentCard;
+    agentEndpoint?: AgentEndpoint;
+    foundryFeatures?: "AgentEndpoints=V1Preview";
+}
+
+// @public
+export interface BetaAgentsUploadSessionFileOptionalParams extends OperationOptions {
+    foundryFeatures?: "HostedAgents=V1Preview";
+}
+
+// @public
+export interface BetaDatasetsCancelGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+}
+
+// @public
+export interface BetaDatasetsCreateGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+    operationId?: string;
+}
+
+// @public
+export interface BetaDatasetsDeleteGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+}
+
+// @public
+export interface BetaDatasetsGetGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+}
+
+// @public
+export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    foundryFeatures?: "DataGenerationJobs=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+    scenario?: DataGenerationJobScenario;
+    type?: DataGenerationJobType[];
+}
+
+// @public
+export interface BetaDatasetsOperations {
+    cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    createGenerationJob: (body: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
+    getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJob>;
+}
+
+// @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
 }
 
@@ -359,7 +620,23 @@ export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationO
 }
 
 // @public
+export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+    operationId?: string;
+}
+
+// @public
 export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -367,11 +644,26 @@ export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOpti
 }
 
 // @public
+export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+export interface BetaEvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    category?: EvaluatorCategory;
+    foundryFeatures?: "Evaluations=V1Preview";
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
     evaluatorType?: EvaluatorType | "all";
     limit?: number;
 }
@@ -384,10 +676,15 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 
 // @public
 export interface BetaEvaluatorsOperations {
+    cancelGenerationJob: (jobId: string, options?: BetaEvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
+    createGenerationJob: (body: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    deleteGenerationJob: (jobId: string, options?: BetaEvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    list: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    list: (options?: BetaEvaluatorsListOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    listGenerationJobs: (options?: BetaEvaluatorsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
     updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
@@ -398,6 +695,7 @@ export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOpti
 
 // @public
 export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
+    foundryFeatures?: "Insights=V1Preview";
     repeatabilityFirstSent?: Date;
     repeatabilityRequestId?: string;
 }
@@ -405,6 +703,7 @@ export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
 // @public
 export interface BetaInsightsGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
+    foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
 }
 
@@ -413,6 +712,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
     agentName?: string;
     clientRequestId?: string;
     evalId?: string;
+    foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
     insightType?: InsightType;
     runId?: string;
@@ -421,7 +721,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 // @public
 export interface BetaInsightsOperations {
     generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
-    get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
+    get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
 
@@ -491,12 +791,16 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
+    agents: BetaAgentsOperations;
+    datasets: BetaDatasetsOperations;
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     evaluators: BetaEvaluatorsOperations;
     insights: BetaInsightsOperations;
     memoryStores: BetaMemoryStoresOperations;
     redTeams: BetaRedTeamsOperations;
     schedules: BetaSchedulesOperations;
+    skills: BetaSkillsOperations;
+    toolboxes: BetaToolboxesOperations;
 }
 
 // @public
@@ -564,6 +868,112 @@ export interface BetaSchedulesOperations {
 }
 
 // @public
+export interface BetaSkillsCreateOptionalParams extends OperationOptions {
+    description?: string;
+    instructions?: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
+export interface BetaSkillsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsDownloadOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type BetaSkillsDownloadResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+
+// @public
+export interface BetaSkillsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSkillsListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaSkillsOperations {
+    create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillObject>;
+    createFromPackage: (body: Uint8Array, options?: CreateFromPackageOptionalParams) => Promise<SkillObject>;
+    delete: (skillName: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+    download: (skillName: string, options?: BetaSkillsDownloadOptionalParams) => Promise<BetaSkillsDownloadResponse>;
+    get: (skillName: string, options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
+    list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<SkillObject>;
+    update: (skillName: string, options?: BetaSkillsUpdateOptionalParams) => Promise<SkillObject>;
+}
+
+// @public
+export interface BetaSkillsUpdateOptionalParams extends OperationOptions {
+    description?: string;
+    instructions?: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
+export interface BetaToolboxesCreateVersionOptionalParams extends OperationOptions {
+    description?: string;
+    metadata?: Record<string, string>;
+    policies?: ToolboxPolicies;
+}
+
+// @public
+export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaToolboxesDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaToolboxesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaToolboxesGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaToolboxesListOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaToolboxesListVersionsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaToolboxesOperations {
+    createVersion: (toolboxName: string, tools: ToolUnion[], options?: BetaToolboxesCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    delete: (toolboxName: string, options?: BetaToolboxesDeleteOptionalParams) => Promise<void>;
+    deleteVersion: (toolboxName: string, version: string, options?: BetaToolboxesDeleteVersionOptionalParams) => Promise<void>;
+    get: (toolboxName: string, options?: BetaToolboxesGetOptionalParams) => Promise<ToolboxObject>;
+    getVersion: (toolboxName: string, version: string, options?: BetaToolboxesGetVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    list: (options?: BetaToolboxesListOptionalParams) => PagedAsyncIterableIterator<ToolboxObject>;
+    listVersions: (toolboxName: string, options?: BetaToolboxesListVersionsOptionalParams) => PagedAsyncIterableIterator<ToolboxVersionObject>;
+    update: (toolboxName: string, defaultVersion: string, options?: BetaToolboxesUpdateOptionalParams) => Promise<ToolboxObject>;
+}
+
+// @public
+export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BingCustomSearchConfiguration {
     count?: number;
     freshness?: string;
@@ -576,6 +986,8 @@ export interface BingCustomSearchConfiguration {
 // @public
 export interface BingCustomSearchPreviewTool extends Tool {
     bing_custom_search_preview: BingCustomSearchToolParameters;
+    description?: string;
+    name?: string;
     type: "bing_custom_search_preview";
 }
 
@@ -601,6 +1013,8 @@ export interface BingGroundingSearchToolParameters {
 // @public
 export interface BingGroundingTool extends Tool {
     bing_grounding: BingGroundingSearchToolParameters;
+    description?: string;
+    name?: string;
     type: "bing_grounding";
 }
 
@@ -612,8 +1026,22 @@ export interface BlobReference {
 }
 
 // @public
+export interface BotServiceAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+    // (undocumented)
+    type: "BotService";
+}
+
+// @public
+export interface BotServiceRbacAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+    // (undocumented)
+    type: "BotServiceRbac";
+}
+
+// @public
 export interface BrowserAutomationPreviewTool extends Tool {
     browser_automation_preview: BrowserAutomationToolParameters;
+    description?: string;
+    name?: string;
     type: "browser_automation_preview";
 }
 
@@ -629,6 +1057,8 @@ export interface BrowserAutomationToolParameters {
 
 // @public
 export interface CaptureStructuredOutputsTool extends Tool {
+    description?: string;
+    name?: string;
     outputs: StructuredOutputDefinition;
     type: "capture_structured_outputs";
 }
@@ -661,20 +1091,32 @@ export interface ClusterTokenUsage {
 
 // @public
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-    code_text: string;
+    blob_uri?: string;
+    code_text?: string;
+    entry_point?: string;
+    image_tag?: string;
     type: "code";
+}
+
+// @public
+export interface CodeConfiguration {
+    readonly content_hash?: string;
+    entry_point: string[];
+    runtime: string;
 }
 
 // @public
 export interface CodeInterpreterTool extends Tool {
     container?: string | AutoCodeInterpreterToolParam;
+    description?: string;
+    name?: string;
     type: "code_interpreter";
 }
 
 // @public
 export interface ComparisonFilter {
     key: string;
-    type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
+    type: "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "nin";
     value: string | number | boolean | ComparisonFilterValueItems[];
 }
 
@@ -689,6 +1131,11 @@ export interface CompoundFilter {
 
 // @public
 export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+// @public
+export interface ComputerTool extends Tool {
+    type: "computer";
+}
 
 // @public
 export interface ComputerUsePreviewTool extends Tool {
@@ -750,6 +1197,11 @@ export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
     network_policy?: ContainerNetworkPolicyParamUnion;
     skills?: ContainerSkillUnion[];
     type: "container_auto";
+}
+
+// @public
+export interface ContainerConfiguration {
+    image: string;
 }
 
 // @public
@@ -819,6 +1271,10 @@ export interface CosmosDBIndex extends Index {
 }
 
 // @public
+export interface CreateFromPackageOptionalParams extends OperationOptions {
+}
+
+// @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
 
 // @public
@@ -850,6 +1306,7 @@ export interface CustomTextFormatParam extends CustomToolParamFormat {
 
 // @public
 export interface CustomToolParam extends Tool {
+    defer_loading?: boolean;
     description?: string;
     format?: CustomToolParamFormatUnion;
     name: string;
@@ -874,8 +1331,118 @@ export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
 }
 
 // @public
+export interface DataGenerationJob {
+    readonly created_at?: Date;
+    readonly error?: ApiError;
+    readonly finished_at?: Date;
+    readonly id?: string;
+    inputs?: DataGenerationJobInputs;
+    readonly result?: DataGenerationJobResult;
+    readonly status?: JobStatus;
+}
+
+// @public
+export interface DataGenerationJobInputs {
+    name: string;
+    options: DataGenerationJobOptionsUnion;
+    scenario: DataGenerationJobScenario;
+    sources: DataGenerationJobSourceUnion[];
+}
+
+// @public
+export interface DataGenerationJobOptions {
+    max_samples: number;
+    model_options?: DataGenerationModelOptions;
+    train_split?: number;
+    type: DataGenerationJobType;
+}
+
+// @public
+export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | TaskDataGenerationJobOptions | DataGenerationJobOptions;
+
+// @public
+export interface DataGenerationJobOutput {
+    type: DataGenerationJobOutputType;
+}
+
+// @public
+export type DataGenerationJobOutputType = "file" | "dataset";
+
+// @public
+export type DataGenerationJobOutputUnion = FileDataGenerationJobOutput | DatasetDataGenerationJobOutput | DataGenerationJobOutput;
+
+// @public
+export interface DataGenerationJobResult {
+    generated_samples: number;
+    outputs?: DataGenerationJobOutputUnion[];
+    token_usage?: DataGenerationTokenUsage;
+}
+
+// @public
+export type DataGenerationJobScenario = "supervised_finetuning" | "reinforcement_finetuning" | "evaluation";
+
+// @public
+export interface DataGenerationJobSource {
+    description?: string;
+    type: DataGenerationJobSourceType;
+}
+
+// @public
+export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "dataset" | "file";
+
+// @public
+export type DataGenerationJobSourceUnion = PromptDataGenerationJobSource | AgentDataGenerationJobSource | TracesDataGenerationJobSource | DatasetDataGenerationJobSource | FileDataGenerationJobSource | DataGenerationJobSource;
+
+// @public
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task";
+
+// @public
+export interface DataGenerationModelOptions {
+    model: string;
+}
+
+// @public
+export interface DataGenerationTokenUsage {
+    readonly completion_tokens?: number;
+    readonly prompt_tokens?: number;
+    readonly total_tokens?: number;
+}
+
+// @public
 export interface DatasetCredential {
     blobReference: BlobReference;
+}
+
+// @public
+export interface DatasetDataGenerationJobOutput extends DataGenerationJobOutput {
+    description?: string;
+    readonly id?: string;
+    name?: string;
+    tags?: Record<string, string>;
+    type: "dataset";
+    readonly version?: string;
+}
+
+// @public
+export interface DatasetDataGenerationJobSource extends DataGenerationJobSource {
+    description?: string;
+    name: string;
+    type: "dataset";
+    version?: string;
+}
+
+// @public
+export interface DatasetEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+    description?: string;
+    name: string;
+    type: "dataset";
+    version?: string;
+}
+
+// @public
+export interface DatasetReference {
+    name: string;
+    version: string;
 }
 
 // @public
@@ -970,6 +1537,12 @@ export interface DeleteMemoryStoreResponse {
 }
 
 // @public
+export interface DeleteSkillResponse {
+    deleted: boolean;
+    name: string;
+}
+
+// @public
 export interface Deployment {
     readonly name: string;
     type: DeploymentType;
@@ -1007,8 +1580,26 @@ export interface EmbeddingConfiguration {
 }
 
 // @public
+export interface EmptyModelParam {
+}
+
+// @public
+export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+    // (undocumented)
+    isolation_key_source: IsolationKeySourceUnion;
+    // (undocumented)
+    type: "Entra";
+}
+
+// @public
 export interface EntraIDCredentials extends BaseCredentials {
     readonly type: "AAD";
+}
+
+// @public
+export interface EntraIsolationKeySource extends IsolationKeySource {
+    // (undocumented)
+    kind: "Entra";
 }
 
 // @public
@@ -1110,17 +1701,14 @@ export interface EvaluationRuleFilter {
 
 // @public
 export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1128,7 +1716,6 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
     actionType?: EvaluationRuleActionType;
     agentName?: string;
     enabled?: boolean;
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1195,10 +1782,55 @@ export interface EvaluatorDefinition {
 }
 
 // @public
-export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders";
+export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders" | "rubrics";
 
 // @public
-export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | EvaluatorDefinition;
+export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | RubricBasedEvaluatorDefinition | EvaluatorDefinition;
+
+// @public
+export interface EvaluatorGenerationArtifacts {
+    dataset: DatasetReference;
+    kinds: string[];
+}
+
+// @public
+export interface EvaluatorGenerationInputs {
+    category?: EvaluatorCategory;
+    evaluator_name: string;
+    model: string;
+    name: string;
+    sources: EvaluatorGenerationJobSourceUnion[];
+}
+
+// @public
+export interface EvaluatorGenerationJob {
+    readonly created_at?: Date;
+    readonly error?: ApiError;
+    readonly finished_at?: Date;
+    readonly id?: string;
+    inputs?: EvaluatorGenerationInputs;
+    readonly result?: EvaluatorVersion;
+    readonly status?: JobStatus;
+    readonly usage?: EvaluatorGenerationTokenUsage;
+}
+
+// @public
+export interface EvaluatorGenerationJobSource {
+    type: EvaluatorGenerationJobSourceType;
+}
+
+// @public
+export type EvaluatorGenerationJobSourceType = "prompt" | "agent" | "traces" | "dataset";
+
+// @public
+export type EvaluatorGenerationJobSourceUnion = PromptEvaluatorGenerationJobSource | AgentEvaluatorGenerationJobSource | TracesEvaluatorGenerationJobSource | DatasetEvaluatorGenerationJobSource | EvaluatorGenerationJobSource;
+
+// @public
+export interface EvaluatorGenerationTokenUsage {
+    input_tokens: number;
+    output_tokens: number;
+    total_tokens: number;
+}
 
 // @public
 export interface EvaluatorMetric {
@@ -1206,6 +1838,7 @@ export interface EvaluatorMetric {
     is_primary?: boolean;
     max_value?: number;
     min_value?: number;
+    threshold?: number;
     type?: EvaluatorMetricType;
 }
 
@@ -1227,6 +1860,7 @@ export interface EvaluatorVersion {
     description?: string;
     display_name?: string;
     evaluator_type: EvaluatorType;
+    readonly generation_artifacts?: EvaluatorGenerationArtifacts;
     readonly id?: string;
     metadata?: Record<string, string>;
     readonly modified_at?: string;
@@ -1241,6 +1875,20 @@ export interface FabricDataAgentToolParameters {
 }
 
 // @public
+export interface FabricIQPreviewTool extends Tool {
+    fabric_iq_preview: FabricIQPreviewToolParameters;
+    type: "fabric_iq_preview";
+}
+
+// @public
+export interface FabricIQPreviewToolParameters {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    server_url?: string;
+}
+
+// @public
 export interface FieldMapping {
     contentFields: string[];
     filepathField?: string;
@@ -1251,14 +1899,29 @@ export interface FieldMapping {
 }
 
 // @public
+export interface FileDataGenerationJobOutput extends DataGenerationJobOutput {
+    readonly filename: string;
+    readonly id: string;
+    type: "file";
+}
+
+// @public
+export interface FileDataGenerationJobSource extends DataGenerationJobSource {
+    id: string;
+    type: "file";
+}
+
+// @public
 export interface FileDatasetVersion extends DatasetVersion {
     type: "uri_file";
 }
 
 // @public
 export interface FileSearchTool extends Tool {
+    description?: string;
     filters?: Filters;
     max_num_results?: number;
+    name?: string;
     ranking_options?: RankingOptions;
     type: "file_search";
     vector_store_ids: string[];
@@ -1268,16 +1931,25 @@ export interface FileSearchTool extends Tool {
 export type Filters = ComparisonFilter | CompoundFilter;
 
 // @public
+export interface FixedRatioVersionSelectionRule extends VersionSelectionRule {
+    traffic_percentage: number;
+    // (undocumented)
+    type: "FixedRatio";
+}
+
+// @public
 export interface FolderDatasetVersion extends DatasetVersion {
     type: "uri_folder";
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
+export type FoundryFeaturesOptInKeys = "Skills=V1Preview" | "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Toolboxes=V1Preview" | "DataGenerationJobs=V1Preview";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
+    description?: string;
     environment?: FunctionShellToolParamEnvironmentUnion;
+    name?: string;
     type: "shell";
 }
 
@@ -1306,6 +1978,7 @@ export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvir
 
 // @public
 export interface FunctionTool extends Tool {
+    defer_loading?: boolean;
     description?: string;
     name: string;
     parameters: Record<string, unknown>;
@@ -1314,16 +1987,50 @@ export interface FunctionTool extends Tool {
 }
 
 // @public
+export interface FunctionToolParam {
+    defer_loading?: boolean;
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    parameters?: EmptyModelParam;
+    // (undocumented)
+    strict?: boolean;
+    // (undocumented)
+    type: "function";
+}
+
+// @public
 export type GrammarSyntax = "lark" | "regex";
 
 // @public
+export interface HeaderIsolationKeySource extends IsolationKeySource {
+    // (undocumented)
+    kind: "Header";
+}
+
+// @public
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+    header_name: string;
+    secret_id: string;
+    secret_key: string;
+    type: "header";
+}
+
+// @public
 export interface HostedAgentDefinition extends AgentDefinition {
-    container_protocol_versions: ProtocolVersionRecord[];
+    code_configuration?: CodeConfiguration;
+    container_configuration?: ContainerConfiguration;
+    container_protocol_versions?: ProtocolVersionRecord[];
     cpu: string;
     environment_variables?: Record<string, string>;
     image?: string;
+    // (undocumented)
     kind: "hosted";
     memory: string;
+    protocol_versions?: ProtocolVersionRecord[];
+    telemetry_config?: TelemetryConfig;
     tools?: ToolUnion[];
 }
 
@@ -1351,10 +2058,12 @@ export type ImageGenAction = "generate" | "edit" | "auto";
 export interface ImageGenTool extends Tool {
     action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
+    description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
-    model?: "gpt-image-1" | "gpt-image-1-mini";
+    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
     moderation?: "auto" | "low";
+    name?: string;
     output_compression?: number;
     output_format?: "png" | "webp" | "jpeg";
     partial_images?: number;
@@ -1435,7 +2144,7 @@ export type InputFidelity = "high" | "low";
 // @public
 export interface Insight {
     displayName: string;
-    readonly id?: string;
+    readonly insight_id?: string;
     readonly metadata?: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
@@ -1511,12 +2220,29 @@ export interface InsightSummary {
 export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
 
 // @public
+export interface IsolationKeySource {
+    // (undocumented)
+    kind: IsolationKeySourceKind;
+}
+
+// @public
+export type IsolationKeySourceKind = "Entra" | "Header";
+
+// @public
+export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationKeySource | IsolationKeySource;
+
+// @public
+export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
+
+// @public
 export enum KnownApiVersions {
     v1 = "v1"
 }
 
 // @public
 export interface LocalShellToolParam extends Tool {
+    description?: string;
+    name?: string;
     type: "local_shell";
 }
 
@@ -1525,6 +2251,13 @@ export interface LocalSkillParam {
     description: string;
     name: string;
     path: string;
+}
+
+// @public
+export interface ManagedAgentIdentityBlueprintReference extends AgentBlueprintReference {
+    blueprint_id: string;
+    // (undocumented)
+    type: "ManagedAgentIdentityBlueprint";
 }
 
 // @public
@@ -1538,6 +2271,7 @@ export interface MCPTool extends Tool {
     allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
     connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
+    defer_loading?: boolean;
     headers?: Record<string, string>;
     project_connection_id?: string;
     require_approval?: MCPToolRequireApproval | "always" | "never";
@@ -1555,7 +2289,9 @@ export interface MCPToolFilter {
 
 // @public
 export interface MCPToolRequireApproval {
+    // (undocumented)
     always?: MCPToolFilter;
+    // (undocumented)
     never?: MCPToolFilter;
 }
 
@@ -1595,7 +2331,9 @@ export interface MemorySearchOptions {
 
 // @public
 export interface MemorySearchPreviewTool extends Tool {
+    description?: string;
     memory_store_name: string;
+    name?: string;
     scope: string;
     search_options?: MemorySearchOptions;
     type: "memory_search_preview";
@@ -1688,7 +2426,9 @@ export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "
 
 // @public
 export interface MicrosoftFabricPreviewTool extends Tool {
+    description?: string;
     fabric_dataagent_preview: FabricDataAgentToolParameters;
+    name?: string;
     type: "fabric_dataagent_preview";
 }
 
@@ -1727,6 +2467,14 @@ export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
 }
 
 // @public
+export interface NamespaceToolParam extends Tool {
+    description: string;
+    name: string;
+    tools: (FunctionToolParam | CustomToolParam)[];
+    type: "namespace";
+}
+
+// @public
 export interface NoAuthenticationCredentials extends BaseCredentials {
     readonly type: "None";
 }
@@ -1736,6 +2484,11 @@ export interface OneTimeTrigger extends Trigger {
     timeZone?: string;
     triggerAt: string;
     type: "OneTime";
+}
+
+// @public
+export interface OpenAIClientOptionsWithAzureAgent extends ClientOptions_2 {
+    azureConfig?: AzureAgentConfig;
 }
 
 // @public
@@ -1799,6 +2552,13 @@ export interface OpenApiTool extends Tool {
 // @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
+// @public
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+    endpoint: string;
+    kind: "OTLP";
+    protocol: TelemetryTransportProtocol;
+}
+
 export { PagedAsyncIterableIterator }
 
 // @public
@@ -1827,8 +2587,10 @@ export type PendingUploadType = "None" | "BlobReference";
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
     instructions?: string;
+    // (undocumented)
     kind: "prompt";
     model: string;
+    // (undocumented)
     reasoning?: Reasoning;
     structured_inputs?: Record<string, StructuredInputDefinition>;
     temperature?: number;
@@ -1840,12 +2602,27 @@ export interface PromptAgentDefinition extends AgentDefinition {
 
 // @public
 export interface PromptAgentDefinitionTextOptions {
-    format?: TextResponseFormatConfigurationUnion;
+    // (undocumented)
+    format?: TextResponseFormatUnion;
 }
 
 // @public
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
     prompt_text: string;
+    type: "prompt";
+}
+
+// @public
+export interface PromptDataGenerationJobSource extends DataGenerationJobSource {
+    description?: string;
+    prompt: string;
+    type: "prompt";
+}
+
+// @public
+export interface PromptEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+    description?: string;
+    prompt: string;
     type: "prompt";
 }
 
@@ -1872,8 +2649,11 @@ export interface RankingOptions {
 
 // @public
 export interface Reasoning {
+    // (undocumented)
     effort?: ReasoningEffort;
+    // (undocumented)
     generate_summary?: "auto" | "concise" | "detailed";
+    // (undocumented)
     summary?: "auto" | "concise" | "detailed";
 }
 
@@ -1926,8 +2706,25 @@ export interface ResponseUsageOutputTokensDetails {
     reasoning_tokens: number;
 }
 
+export { RestError }
+
 // @public
 export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm" | "ProtectedMaterial" | "CodeVulnerability" | "UngroundedAttributes" | "ProhibitedActions" | "SensitiveDataLeakage" | "TaskAdherence";
+
+// @public (undocumented)
+export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
+    rubric_criteria: RubricCriterion[];
+    // (undocumented)
+    type: "rubrics";
+}
+
+// @public
+export interface RubricCriterion {
+    always_applicable?: boolean;
+    description: string;
+    rubric_id: string;
+    weight: number;
+}
 
 // @public
 export type SampleType = "EvaluationResultSample";
@@ -1949,9 +2746,9 @@ export interface Schedule {
     description?: string;
     displayName?: string;
     enabled: boolean;
-    readonly id?: string;
     properties?: Record<string, string>;
     readonly provisioningStatus?: ScheduleProvisioningStatus;
+    readonly schedule_id?: string;
     readonly systemData?: Record<string, string>;
     tags?: Record<string, string>;
     task: ScheduleTaskUnion;
@@ -1984,7 +2781,39 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
 
 // @public
+export type SearchContentType = "text" | "image";
+
+// @public
 export type SearchContextSize = "low" | "medium" | "high";
+
+// @public
+export interface SessionDirectoryEntry {
+    is_directory: boolean;
+    modified_time: Date;
+    name: string;
+    size: number;
+}
+
+// @public
+export interface SessionDirectoryListResponse {
+    entries: SessionDirectoryEntry[];
+    path: string;
+}
+
+// @public
+export interface SessionFileWriteResponse {
+    bytes_written: number;
+    path: string;
+}
+
+// @public
+export interface SessionLogEvent {
+    data: string;
+    event: SessionLogEventType;
+}
+
+// @public
+export type SessionLogEventType = "log";
 
 // @public
 export interface SharepointGroundingToolParameters {
@@ -1993,8 +2822,28 @@ export interface SharepointGroundingToolParameters {
 
 // @public
 export interface SharepointPreviewTool extends Tool {
+    description?: string;
+    name?: string;
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
+}
+
+// @public
+export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
+    question_types?: SimpleQnAFineTuningQuestionType[];
+    type: "simple_qna";
+}
+
+// @public
+export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
+
+// @public
+export interface SkillObject {
+    description?: string;
+    has_blob: boolean;
+    metadata?: Record<string, string>;
+    name: string;
+    skill_id: string;
 }
 
 // @public
@@ -2047,6 +2896,11 @@ export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
 export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
 
 // @public
+export interface TaskDataGenerationJobOptions extends DataGenerationJobOptions {
+    type: "task";
+}
+
+// @public
 export interface TaxonomyCategory {
     description?: string;
     id: string;
@@ -2066,43 +2920,127 @@ export interface TaxonomySubCategory {
 }
 
 // @public
+export interface TelemetryConfig {
+    endpoints: TelemetryEndpointUnion[];
+}
+
+// @public
+export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
+
+// @public
+export interface TelemetryEndpoint {
+    auth?: TelemetryEndpointAuthUnion;
+    data: TelemetryDataKind[];
+    kind: TelemetryEndpointKind;
+}
+
+// @public
+export interface TelemetryEndpointAuth {
+    type: TelemetryEndpointAuthType;
+}
+
+// @public
+export type TelemetryEndpointAuthType = "header";
+
+// @public
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+// @public
+export type TelemetryEndpointKind = "OTLP";
+
+// @public
+export type TelemetryEndpointUnion = OtlpTelemetryEndpoint | TelemetryEndpoint;
+
+// @public
 export interface TelemetryOperations {
     getApplicationInsightsConnectionString: (options?: OperationOptions) => Promise<string>;
 }
 
 // @public
-export interface TextResponseFormatConfiguration {
+export type TelemetryTransportProtocol = "Http" | "Grpc";
+
+// @public
+export interface TextResponseFormat {
+    // (undocumented)
     type: TextResponseFormatConfigurationType;
 }
 
-// @public
-export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
-    type: "json_object";
+// @public @deprecated (undocumented)
+export interface TextResponseFormatConfiguration extends TextResponseFormat {
 }
 
-// @public
-export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
-    type: "text";
+// @public @deprecated (undocumented)
+export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatJsonObject {
+}
+
+// @public @deprecated (undocumented)
+export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatText {
 }
 
 // @public
 export type TextResponseFormatConfigurationType = "text" | "json_schema" | "json_object";
 
-// @public
-export type TextResponseFormatConfigurationUnion = TextResponseFormatJsonSchema | TextResponseFormatConfigurationResponseFormatText | TextResponseFormatConfigurationResponseFormatJsonObject | TextResponseFormatConfiguration;
+// @public @deprecated (undocumented)
+export type TextResponseFormatConfigurationUnion = TextResponseFormatUnion;
 
 // @public
-export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
+export interface TextResponseFormatJsonObject extends TextResponseFormat {
+    type: "json_object";
+}
+
+// @public
+export interface TextResponseFormatJsonSchema extends TextResponseFormat {
     description?: string;
     name: string;
+    // (undocumented)
     schema: Record<string, unknown>;
+    // (undocumented)
     strict?: boolean;
     type: "json_schema";
 }
 
 // @public
+export interface TextResponseFormatText extends TextResponseFormat {
+    type: "text";
+}
+
+// @public
+export type TextResponseFormatUnion = TextResponseFormatJsonSchema | TextResponseFormatText | TextResponseFormatJsonObject | TextResponseFormat;
+
+// @public
 export interface Tool {
     type: ToolType;
+}
+
+// @public
+export interface ToolboxObject {
+    default_version: string;
+    id: string;
+    name: string;
+}
+
+// @public
+export interface ToolboxPolicies {
+    rai_config?: RaiConfig;
+}
+
+// @public
+export interface ToolboxSearchPreviewTool extends Tool {
+    description?: string;
+    name?: string;
+    type: "toolbox_search_preview";
+}
+
+// @public
+export interface ToolboxVersionObject {
+    created_at: Date;
+    description?: string;
+    id: string;
+    metadata: Record<string, string>;
+    name: string;
+    policies?: ToolboxPolicies;
+    tools: ToolUnion[];
+    version: string;
 }
 
 // @public
@@ -2114,11 +3052,25 @@ export interface ToolChoiceAllowed extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
+    // (undocumented)
     type: "code_interpreter";
 }
 
 // @public
+export interface ToolChoiceComputer extends ToolChoiceParam {
+    // (undocumented)
+    type: "computer";
+}
+
+// @public
+export interface ToolChoiceComputerUse extends ToolChoiceParam {
+    // (undocumented)
+    type: "computer_use";
+}
+
+// @public
 export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
+    // (undocumented)
     type: "computer_use_preview";
 }
 
@@ -2130,6 +3082,7 @@ export interface ToolChoiceCustom extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceFileSearch extends ToolChoiceParam {
+    // (undocumented)
     type: "file_search";
 }
 
@@ -2141,11 +3094,13 @@ export interface ToolChoiceFunction extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceImageGeneration extends ToolChoiceParam {
+    // (undocumented)
     type: "image_generation";
 }
 
 // @public
 export interface ToolChoiceMCP extends ToolChoiceParam {
+    // (undocumented)
     name?: string;
     server_label: string;
     type: "mcp";
@@ -2153,22 +3108,25 @@ export interface ToolChoiceMCP extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceParam {
+    // (undocumented)
     type: ToolChoiceParamType;
 }
 
 // @public
-export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter";
+export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter" | "computer" | "computer_use";
 
 // @public
-export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceParam;
+export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceComputer | ToolChoiceComputerUse | ToolChoiceParam;
 
 // @public
 export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
+    // (undocumented)
     type: "web_search_preview";
 }
 
 // @public
 export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
+    // (undocumented)
     type: "web_search_preview_2025_03_11";
 }
 
@@ -2184,10 +3142,57 @@ export interface ToolProjectConnection {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolSearchExecutionType = "server" | "client";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
+export interface ToolSearchToolParam extends Tool {
+    // (undocumented)
+    description?: string;
+    execution?: ToolSearchExecutionType;
+    // (undocumented)
+    parameters?: EmptyModelParam;
+    type: "tool_search";
+}
+
+// @public
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+
+// @public
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ToolboxSearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+
+// @public
+export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
+    type: "tool_use";
+}
+
+// @public
+export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
+    type: "traces";
+}
+
+// @public
+export interface TracesDataGenerationJobSource extends DataGenerationJobSource {
+    agent_id?: string;
+    agent_name: string;
+    agent_version?: string;
+    description?: string;
+    end_time?: Date;
+    max_traces?: number;
+    start_time?: Date;
+    type: "traces";
+}
+
+// @public
+export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
+    agent_id?: string;
+    agent_name: string;
+    agent_version?: string;
+    description?: string;
+    end_time?: Date;
+    max_traces?: number;
+    start_time?: Date;
+    type: "traces";
+}
 
 // @public
 export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
@@ -2204,9 +3209,51 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
 // @public
+export interface UpdateToolboxRequest {
+    default_version: string;
+    name: string;
+}
+
+// @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
 }
+
+// @public
+export interface VersionIndicator {
+    type: VersionIndicatorType;
+}
+
+// @public
+export type VersionIndicatorType = "version_ref";
+
+// @public
+export type VersionIndicatorUnion = VersionRefIndicator | VersionIndicator;
+
+// @public
+export interface VersionRefIndicator extends VersionIndicator {
+    agent_version: string;
+    type: "version_ref";
+}
+
+// @public
+export interface VersionSelectionRule {
+    agent_version: string;
+    // (undocumented)
+    type: VersionSelectorType;
+}
+
+// @public
+export type VersionSelectionRuleUnion = FixedRatioVersionSelectionRule | VersionSelectionRule;
+
+// @public
+export interface VersionSelector {
+    // (undocumented)
+    version_selection_rules: VersionSelectionRuleUnion[];
+}
+
+// @public
+export type VersionSelectorType = "FixedRatio";
 
 // @public
 export interface WebSearchApproximateLocation {
@@ -2225,6 +3272,8 @@ export interface WebSearchConfiguration {
 
 // @public
 export interface WebSearchPreviewTool extends Tool {
+    // (undocumented)
+    search_content_types?: SearchContentType[];
     search_context_size?: SearchContextSize;
     type: "web_search_preview";
     user_location?: ApproximateLocation;
@@ -2233,7 +3282,9 @@ export interface WebSearchPreviewTool extends Tool {
 // @public
 export interface WebSearchTool extends Tool {
     custom_search_configuration?: WebSearchConfiguration;
+    description?: string;
     filters?: WebSearchToolFilters;
+    name?: string;
     search_context_size?: "low" | "medium" | "high";
     type: "web_search";
     user_location?: WebSearchApproximateLocation;
@@ -2252,8 +3303,22 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 
 // @public
 export interface WorkflowAgentDefinition extends AgentDefinition {
+    // (undocumented)
     kind: "workflow";
     workflow?: string;
+}
+
+// @public
+export interface WorkIQPreviewTool extends Tool {
+    description?: string;
+    name?: string;
+    type: "work_iq_preview";
+    work_iq_preview: WorkIQPreviewToolParameters;
+}
+
+// @public
+export interface WorkIQPreviewToolParameters {
+    project_connection_id: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBatch, BatchContext, BatchClientOptionalParams } from "./api/index.js";
+import { BatchContext, BatchClientOptionalParams, createBatch } from "./api/index.js";
 import {
   listNodeFiles,
   getNodeFileProperties,
@@ -191,7 +191,7 @@ import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { BatchClientOptionalParams } from "./api/batchContext.js";
+export type { BatchClientOptionalParams } from "./api/batchContext.js";
 
 export class BatchClient {
   private _client: BatchContext;

@@ -91,7 +91,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should create and connect a basic voice session",
     async () => {
       const sessionConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         input_audio_format: KnownInputAudioFormat.Pcm16,
       };
 
@@ -127,7 +127,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle audio input and transcription",
     async () => {
       const sessionConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         input_audio_format: KnownInputAudioFormat.Pcm16,
       };
 
@@ -175,7 +175,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
       };
 
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         modalities: [KnownModality.Text],
         tools: [additionTool],
       };
@@ -232,7 +232,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle session configuration updates",
     async () => {
       const initialConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         modalities: [KnownModality.Text],
         instructions: "Your name is Frank. Never forget that!",
       } as RequestSession;
@@ -267,7 +267,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle turn detection configuration",
     async () => {
       const sessionConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         input_audio_format: KnownInputAudioFormat.Pcm16,
         turn_detection: {
           type: KnownTurnDetectionType.ServerVad,
@@ -307,7 +307,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle audio buffer operations",
     async () => {
       const sessionConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         input_audio_format: KnownInputAudioFormat.Pcm16,
         turn_detection: null, // Disable turn detection for manual control
       } as RequestSession;
@@ -349,7 +349,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle multiple audio frames",
     async () => {
       const sessionConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         input_audio_format: KnownInputAudioFormat.Pcm16,
         turn_detection: null,
       };
@@ -390,7 +390,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
   it(
     "should handle session disposal",
     async () => {
-      const session = await client.startSession("gpt-4o");
+      const session = await client.startSession("gpt-4.1");
       sessions.push(session);
 
       expect(session.isConnected).toBe(true);
@@ -564,7 +564,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle basic hello conversation with audio",
     async () => {
       const sessionConfig = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         inputAudioFormat: KnownInputAudioFormat.Pcm16,
       } as RequestSession;
 
@@ -671,7 +671,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
       };
 
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         modalities: [KnownModality.Text],
         tools: [additionTool],
       };
@@ -777,7 +777,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
       };
 
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         modalities: [KnownModality.Text],
         tools: [additionTool],
       };
@@ -878,7 +878,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle instruction configuration",
     async () => {
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         modalities: [KnownModality.Text],
         instructions: "Your name is Frank. Never forget that!",
       };
@@ -981,13 +981,13 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle turn detection configuration with custom settings",
     async () => {
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         inputAudioFormat: KnownInputAudioFormat.Pcm16,
         turnDetection: {
           type: KnownTurnDetectionType.ServerVad,
           threshold: 0.5,
-          prefixPaddingMs: 300,
-          silenceDurationMs: 500,
+          prefixPaddingInMs: 300,
+          silenceDurationInMs: 500,
         } as ServerVad,
       };
 
@@ -1020,7 +1020,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle clear buffer and commit flow",
     async () => {
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         inputAudioFormat: KnownInputAudioFormat.Pcm16,
         turnDetection: { type: "none" }, // Disable turn detection
       };
@@ -1072,7 +1072,7 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
     "should handle multiple audio frames with transcription",
     async () => {
       const sessionConfig: RequestSession = {
-        model: "gpt-4o",
+        model: "gpt-4.1",
         inputAudioFormat: KnownInputAudioFormat.Pcm16,
         turnDetection: { type: "none" }, // Disable turn detection
       };

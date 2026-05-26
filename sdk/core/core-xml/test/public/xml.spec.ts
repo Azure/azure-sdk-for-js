@@ -620,4 +620,69 @@ describe("XML serializer", function () {
     assert.isDefined(parsed.Name);
     assert.deepEqual(parsed.Name, "trailingspace   ");
   });
+
+  describe("round-trip (stringify → parse)", function () {
+    it("simple element with value", async function () {
+      const obj = { message: "hello" };
+      const xml = stringifyXML(obj, { rootName: "root" });
+      const parsed = await parseXML(xml);
+      assert.deepStrictEqual(parsed, obj);
+    });
+
+    it("element with attributes", async function () {
+      const obj = { item: { $: { id: "1", type: "fruit" }, _: "apple" } };
+      const xml = stringifyXML(obj, { rootName: "root" });
+      const parsed = await parseXML(xml);
+      assert.deepStrictEqual(parsed, obj);
+    });
+
+    it("nested elements", async function () {
+      const obj = {
+        container: {
+          name: "test",
+          properties: {
+            size: "42",
+            enabled: "true",
+          },
+        },
+      };
+      const xml = stringifyXML(obj, { rootName: "root" });
+      const parsed = await parseXML(xml);
+      assert.deepStrictEqual(parsed, obj);
+    });
+
+    it("array of elements", async function () {
+      const obj = { item: ["one", "two", "three"] };
+      const xml = stringifyXML(obj, { rootName: "list" });
+      const parsed = await parseXML(xml);
+      assert.deepStrictEqual(parsed, obj);
+    });
+
+    it("Azure Storage-like blob list payload", async function () {
+      const obj = {
+        Blobs: {
+          Blob: [
+            { Name: "file1.txt", Properties: { ContentLength: "1024" } },
+            { Name: "file2.txt", Properties: { ContentLength: "2048" } },
+          ],
+        },
+      };
+      const xml = stringifyXML(obj, { rootName: "EnumerationResults" });
+      const parsed = await parseXML(xml);
+      assert.deepStrictEqual(parsed, obj);
+    });
+
+    it("preserves includeRoot option", async function () {
+      const obj = { root: { value: "test" } };
+      const xml = stringifyXML(obj.root, { rootName: "root" });
+      const parsed = await parseXML(xml, { includeRoot: true });
+      assert.deepStrictEqual(parsed, obj);
+    });
+
+    it("empty value round-trips as empty string", async function () {
+      const xml = stringifyXML("", { rootName: "empty" });
+      const parsed = await parseXML(xml);
+      assert.strictEqual(parsed, "");
+    });
+  });
 });

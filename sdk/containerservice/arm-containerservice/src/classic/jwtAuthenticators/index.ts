@@ -29,11 +29,6 @@ export interface JWTAuthenticatorsOperations {
     options?: JWTAuthenticatorsListByManagedClusterOptionalParams,
   ) => PagedAsyncIterableIterator<JWTAuthenticator>;
   /** Deletes a JWT authenticator and updates the managed cluster to apply the settings. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     resourceName: string,

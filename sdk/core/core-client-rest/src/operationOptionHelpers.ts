@@ -14,7 +14,11 @@ import {
  * @returns the result of the conversion in RequestParameters of RLC layer
  */
 export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
-  return tspOperationOptionsToRequestParameters(
+  const tspRequestParameters = tspOperationOptionsToRequestParameters(
     options as TspOperationOptions,
   ) as RequestParameters;
+  return {
+    ...tspRequestParameters,
+    tracingOptions: options.tracingOptions,
+  };
 }
