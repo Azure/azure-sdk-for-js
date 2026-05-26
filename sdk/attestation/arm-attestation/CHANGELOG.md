@@ -35,9 +35,6 @@ Compared with version 2.1.0
   - Added Enum KnownTpmAttestationAuthenticationType
   - Added Enum KnownVersions
 
-### Breaking Changes
-  - Removed Interface JsonWebKey_2
-
     
 ## 2.1.0 (2022-11-16)
     
