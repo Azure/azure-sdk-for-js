@@ -1,0 +1,188 @@
+name: SDK Format Auto-Fix
+
+on:
+  workflow_run:
+    workflows: ["Management Release Assistant"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to run format fix on
+        required: true
+        type: string
+
+jobs:
+  fix-format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Find PR with auto-format-needed label
+        id: find-pr
+        uses: actions/github-script@v9
+        with:
+          script: |
+            // Strategy 0: direct workflow_dispatch from mgmt-review (fastest path).
+            if (context.eventName === 'workflow_dispatch') {
+              const prNumberStr = context.payload.inputs?.pr_number;
+              if (!prNumberStr) {
+                core.warning('No pr_number input provided — falling through to label scan');
+              } else {
+                const prNumber = parseInt(prNumberStr);
+                core.info(`Got PR #${prNumber} from workflow_dispatch input`);
+                const { data: pr } = await github.rest.pulls.get({
+                  ...context.repo,
+                  pull_number: prNumber,
+                });
+                if (pr.state !== 'open') {
+                  core.info(`PR #${prNumber} is not open — skipping`);
+                  core.setOutput('has-pr', 'false');
+                  return;
+                }
+                core.info(`Processing PR #${pr.number} on branch ${pr.head.ref}`);
+                core.setOutput('has-pr', 'true');
+                core.setOutput('pr-number', String(pr.number));
+                core.setOutput('pr-branch', pr.head.ref);
+                core.setOutput('pr-repo', pr.head.repo.full_name);
+                return;
+              }
+            }
+
+            // Strategy 1 (workflow_run fallback): scan open PRs with the label.
+            const { data: openPRs } = await github.rest.pulls.list({
+              ...context.repo,
+              state: 'open',
+              per_page: 50,
+            });
+            const match = openPRs.find(pr => pr.labels.some(l => l.name === 'auto-format-needed'));
+            if (!match) {
+              core.info('No open PR with auto-format-needed label found');
+              core.setOutput('has-pr', 'false');
+              return;
+            }
+            core.info(`Got PR #${match.number} from label scan`);
+
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: match.number,
+            });
+
+            if (pr.state !== 'open') {
+              core.info(`PR #${match.number} is not open — skipping`);
+              core.setOutput('has-pr', 'false');
+              return;
+            }
+
+            core.info(`Processing PR #${pr.number} on branch ${pr.head.ref}`);
+            core.setOutput('has-pr', 'true');
+            core.setOutput('pr-number', String(pr.number));
+            core.setOutput('pr-branch', pr.head.ref);
+            core.setOutput('pr-repo', pr.head.repo.full_name);
+
+      - name: Checkout PR branch
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.find-pr.outputs.pr-branch }}
+          repository: ${{ steps.find-pr.outputs.pr-repo }}
+          # Token with write access needed to push the fix commit back
+          token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: pnpm/action-setup@v4
+
+      - name: Find affected packages and run pnpm format
+        if: steps.find-pr.outputs.has-pr == 'true'
+        run: |
+          # Find unique package directories (sdk/<service>/<package>) from changed files
+          PKGS=$(git diff --name-only origin/main...HEAD \
+            | grep '^sdk/' \
+            | sed 's|\(sdk/[^/]*/[^/]*\)/.*|\1|' \
+            | sort -u)
+
+          echo "Affected packages:"
+          echo "$PKGS"
+
+          if [ -z "$PKGS" ]; then
+            echo "No sdk/ packages changed, nothing to format"
+            exit 0
+          fi
+
+          # Build pnpm filter args (e.g. --filter=@azure/arm-foo...)
+          FILTERS=""
+          for pkg in $PKGS; do
+            if [ -f "$pkg/package.json" ]; then
+              PKG_NAME=$(node -p "require('./$pkg/package.json').name")
+              FILTERS="$FILTERS --filter=${PKG_NAME}"
+            fi
+          done
+
+          # Install only the affected packages and their dependencies
+          pnpm install $FILTERS --frozen-lockfile=false
+
+          # Run format in each affected package directory
+          for pkg in $PKGS; do
+            if [ -f "$pkg/package.json" ]; then
+              echo "Running pnpm format in $pkg"
+              (cd "$pkg" && pnpm format)
+            fi
+          done
+
+      - name: Commit and push formatting changes
+        if: steps.find-pr.outputs.has-pr == 'true'
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No formatting changes needed"
+            echo "CHANGES=false" >> $GITHUB_OUTPUT
+          else
+            git add -A
+            git commit -m "chore: apply prettier format fixes"
+            git push
+            echo "CHANGES=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Remove label and post result comment
+        if: steps.find-pr.outputs.has-pr == 'true'
+        uses: actions/github-script@v9
+        env:
+          CHANGES: ${{ steps.commit.outputs.CHANGES }}
+        with:
+          script: |
+            const prNumber = parseInt('${{ steps.find-pr.outputs.pr-number }}');
+
+            // Always remove the trigger label
+            try {
+              await github.rest.issues.removeLabel({
+                ...context.repo,
+                issue_number: prNumber,
+                name: 'auto-format-needed'
+              });
+              core.info(`Removed auto-format-needed label from PR #${prNumber}`);
+            } catch (e) {
+              core.warning(`Could not remove label: ${e.message}`);
+            }
+
+            if (process.env.CHANGES === 'true') {
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: prNumber,
+                body: '✅ Automatically ran `pnpm format` and pushed the formatting fixes. Check-format should now pass.'
+              });
+              core.info(`Posted success comment on PR #${prNumber}`);
+            } else {
+              core.info(`No formatting changes were needed for PR #${prNumber}`);
+            }
