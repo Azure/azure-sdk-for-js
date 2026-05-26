@@ -56,8 +56,8 @@ describe("Audio buffer control & transcription models (GA 1.0.0)", () => {
       });
 
       expect(word.text).toBe("hello");
-      expect(word.offsetMilliseconds).toBe(100);
-      expect(word.durationMilliseconds).toBe(250);
+      expect(word.offsetInMs).toBe(100);
+      expect(word.durationInMs).toBe(250);
     });
   });
 
@@ -75,13 +75,13 @@ describe("Audio buffer control & transcription models (GA 1.0.0)", () => {
         ],
       });
 
-      expect(phrase.offsetMilliseconds).toBe(0);
-      expect(phrase.durationMilliseconds).toBe(1500);
+      expect(phrase.offsetInMs).toBe(0);
+      expect(phrase.durationInMs).toBe(1500);
       expect(phrase.locale).toBe("en-US");
       expect(phrase.confidence).toBe(0.97);
       expect(phrase.words).toHaveLength(2);
-      expect(phrase.words?.[0].offsetMilliseconds).toBe(0);
-      expect(phrase.words?.[1].offsetMilliseconds).toBe(500);
+      expect(phrase.words?.[0].offsetInMs).toBe(0);
+      expect(phrase.words?.[1].offsetInMs).toBe(500);
     });
 
     it("preserves undefined words when not present in payload", () => {
