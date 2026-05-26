@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-query-metrics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An isomorphic client library for querying Azure Monitor's Metrics data sources.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -82,6 +82,14 @@
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/metricsContext.ts",
+        "prefix": "const userAgentInfo"
+      }
+    ]
   },
   "//sampleConfiguration": {
     "skipFolder": false,

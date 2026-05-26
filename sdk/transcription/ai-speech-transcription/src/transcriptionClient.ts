@@ -4,7 +4,6 @@
 import { createTranscription } from "./api/index.js";
 import type { TranscriptionContext, TranscriptionClientOptions } from "./api/index.js";
 import { transcribe as transcribeOperation } from "./api/operations.js";
-import type { TranscribeOptions } from "./api/options.js";
 import type {
   TranscriptionContent,
   TranscriptionOptions,
@@ -40,31 +39,21 @@ export class TranscriptionClient {
   transcribe(
     audioUrl: string,
     options?: Omit<TranscriptionOptions, "audioUrl">,
-    operationOptions?: TranscribeOptions,
   ): Promise<TranscriptionResult>;
   /** Transcribes audio from a binary source (buffer, stream, or blob). */
   transcribe(
     audio: Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob,
     options?: Omit<TranscriptionOptions, "audioUrl">,
-    operationOptions?: TranscribeOptions,
   ): Promise<TranscriptionResult>;
   transcribe(
     source: string | Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob,
     options: Omit<TranscriptionOptions, "audioUrl"> = {},
-    operationOptions: TranscribeOptions = { requestOptions: {} },
   ): Promise<TranscriptionResult> {
-    let body: TranscriptionContent;
-    if (typeof source === "string") {
-      body = {
-        options: { ...options, audioUrl: source },
-      };
-    } else {
-      body = {
-        audio: source,
-        options,
-      };
-    }
+    const body: TranscriptionContent =
+      typeof source === "string"
+        ? { options: { ...options, audioUrl: source } }
+        : { audio: source, options };
 
-    return transcribeOperation(this._client, body, operationOptions);
+    return transcribeOperation(this._client, body, options);
   }
 }

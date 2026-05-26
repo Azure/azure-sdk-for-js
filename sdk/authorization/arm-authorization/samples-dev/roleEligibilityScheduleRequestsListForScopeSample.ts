@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets role eligibility schedule requests for a scope.
- *
- * @summary Gets role eligibility schedule requests for a scope.
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/GetRoleEligibilityScheduleRequestByScope.json
- */
-
-import type { RoleEligibilityScheduleRequestsListForScopeOptionalParams } from "@azure/arm-authorization";
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets role eligibility schedule requests for a scope.
+ *
+ * @summary gets role eligibility schedule requests for a scope.
+ * x-ms-original-file: 2024-09-01-preview/GetRoleEligibilityScheduleRequestByScope.json
+ */
 async function getRoleEligibilityScheduleRequestByScope(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
-  const filter = "assignedTo('A3BB8764-CB92-4276-9D2A-CA1E895E55EA')";
-  const options: RoleEligibilityScheduleRequestsListForScopeOptionalParams = {
-    filter,
-  };
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.roleEligibilityScheduleRequests.listForScope(scope, options)) {
+  for await (const item of client.roleEligibilityScheduleRequests.listForScope(
+    "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
+    { filter: "assignedTo('A3BB8764-CB92-4276-9D2A-CA1E895E55EA')" },
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

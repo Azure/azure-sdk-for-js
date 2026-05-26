@@ -12,17 +12,12 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -38,10 +33,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -55,10 +46,6 @@
       "browser": {
         "types": "./dist/browser/api/storageContainers/index.d.ts",
         "default": "./dist/browser/api/storageContainers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/storageContainers/index.d.ts",
-        "default": "./dist/react-native/api/storageContainers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/storageContainers/index.d.ts",
@@ -74,10 +61,6 @@
         "types": "./dist/browser/api/storageAssets/index.d.ts",
         "default": "./dist/browser/api/storageAssets/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/storageAssets/index.d.ts",
-        "default": "./dist/react-native/api/storageAssets/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/storageAssets/index.d.ts",
         "default": "./dist/esm/api/storageAssets/index.js"
@@ -91,10 +74,6 @@
       "browser": {
         "types": "./dist/browser/api/supercomputers/index.d.ts",
         "default": "./dist/browser/api/supercomputers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/supercomputers/index.d.ts",
-        "default": "./dist/react-native/api/supercomputers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/supercomputers/index.d.ts",
@@ -110,10 +89,6 @@
         "types": "./dist/browser/api/nodePools/index.d.ts",
         "default": "./dist/browser/api/nodePools/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/nodePools/index.d.ts",
-        "default": "./dist/react-native/api/nodePools/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/nodePools/index.d.ts",
         "default": "./dist/esm/api/nodePools/index.js"
@@ -127,10 +102,6 @@
       "browser": {
         "types": "./dist/browser/api/workspacePrivateLinkResources/index.d.ts",
         "default": "./dist/browser/api/workspacePrivateLinkResources/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workspacePrivateLinkResources/index.d.ts",
-        "default": "./dist/react-native/api/workspacePrivateLinkResources/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workspacePrivateLinkResources/index.d.ts",
@@ -146,10 +117,6 @@
         "types": "./dist/browser/api/chatModelDeployments/index.d.ts",
         "default": "./dist/browser/api/chatModelDeployments/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/chatModelDeployments/index.d.ts",
-        "default": "./dist/react-native/api/chatModelDeployments/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/chatModelDeployments/index.d.ts",
         "default": "./dist/esm/api/chatModelDeployments/index.js"
@@ -163,10 +130,6 @@
       "browser": {
         "types": "./dist/browser/api/workspacePrivateEndpointConnections/index.d.ts",
         "default": "./dist/browser/api/workspacePrivateEndpointConnections/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workspacePrivateEndpointConnections/index.d.ts",
-        "default": "./dist/react-native/api/workspacePrivateEndpointConnections/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workspacePrivateEndpointConnections/index.d.ts",
@@ -182,10 +145,6 @@
         "types": "./dist/browser/api/workspaces/index.d.ts",
         "default": "./dist/browser/api/workspaces/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/workspaces/index.d.ts",
-        "default": "./dist/react-native/api/workspaces/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/workspaces/index.d.ts",
         "default": "./dist/esm/api/workspaces/index.js"
@@ -199,10 +158,6 @@
       "browser": {
         "types": "./dist/browser/api/projects/index.d.ts",
         "default": "./dist/browser/api/projects/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/projects/index.d.ts",
-        "default": "./dist/react-native/api/projects/index.js"
       },
       "import": {
         "types": "./dist/esm/api/projects/index.d.ts",
@@ -218,10 +173,6 @@
         "types": "./dist/browser/api/tools/index.d.ts",
         "default": "./dist/browser/api/tools/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/tools/index.d.ts",
-        "default": "./dist/react-native/api/tools/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/tools/index.d.ts",
         "default": "./dist/esm/api/tools/index.js"
@@ -235,10 +186,6 @@
       "browser": {
         "types": "./dist/browser/api/bookshelfPrivateLinkResources/index.d.ts",
         "default": "./dist/browser/api/bookshelfPrivateLinkResources/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/bookshelfPrivateLinkResources/index.d.ts",
-        "default": "./dist/react-native/api/bookshelfPrivateLinkResources/index.js"
       },
       "import": {
         "types": "./dist/esm/api/bookshelfPrivateLinkResources/index.d.ts",
@@ -254,10 +201,6 @@
         "types": "./dist/browser/api/bookshelfPrivateEndpointConnections/index.d.ts",
         "default": "./dist/browser/api/bookshelfPrivateEndpointConnections/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/bookshelfPrivateEndpointConnections/index.d.ts",
-        "default": "./dist/react-native/api/bookshelfPrivateEndpointConnections/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/bookshelfPrivateEndpointConnections/index.d.ts",
         "default": "./dist/esm/api/bookshelfPrivateEndpointConnections/index.js"
@@ -271,10 +214,6 @@
       "browser": {
         "types": "./dist/browser/api/bookshelves/index.d.ts",
         "default": "./dist/browser/api/bookshelves/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/bookshelves/index.d.ts",
-        "default": "./dist/react-native/api/bookshelves/index.js"
       },
       "import": {
         "types": "./dist/esm/api/bookshelves/index.d.ts",
@@ -290,10 +229,6 @@
         "types": "./dist/browser/api/operations/index.d.ts",
         "default": "./dist/browser/api/operations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/operations/index.d.ts",
         "default": "./dist/esm/api/operations/index.js"
@@ -307,10 +242,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
@@ -382,7 +313,6 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
-    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -393,7 +323,7 @@
     "pack": "pnpm pack 2>&1",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "execute:samples": "dev-tool samples run samples-dev",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
@@ -401,8 +331,7 @@
     "test:browser": "echo skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
-    "test": "npm run test:node && npm run test:browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
