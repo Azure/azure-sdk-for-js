@@ -4,7 +4,7 @@
 export {
   getCredentials,
   pendingUpload,
-  createAsync,
+  create,
   update,
   $delete,
   get,

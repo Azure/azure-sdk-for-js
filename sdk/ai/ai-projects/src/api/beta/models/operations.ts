@@ -155,7 +155,7 @@ export function _createAsyncSend(
 ): StreamableMethod {
   const foundryFeatures = "Models=V1Preview";
   const path = expandUrlTemplate(
-    "/models/{name}/versions/{version}/createAsync{?api-version}",
+    "/models/{name}/versions/{version}/create{?api-version}",
     {
       name: name,
       version: version,
@@ -190,7 +190,7 @@ export async function _createAsyncDeserialize(result: PathUncheckedResponse): Pr
 }
 
 /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
-export async function createAsync(
+export async function create(
   context: Client,
   name: string,
   version: string,

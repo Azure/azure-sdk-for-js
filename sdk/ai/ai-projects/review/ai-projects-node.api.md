@@ -939,7 +939,7 @@ export interface BetaModelsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaModelsOperations {
-    createAsync: (name: string, version: string, body: ModelVersion, options?: BetaModelsCreateAsyncOptionalParams) => Promise<{
+    create: (name: string, version: string, body: ModelVersion, options?: BetaModelsCreateAsyncOptionalParams) => Promise<{
         location?: string;
         operationResult?: string | null;
     }>;

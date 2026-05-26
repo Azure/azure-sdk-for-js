@@ -19,7 +19,7 @@
 - Changed `ModelSamplingParams` sampling properties from required to optional.
 - Renamed `UpdateToolboxRequest.toolbox_name` to `name`.
 - Changed `project.beta.agents.downloadAgentCode` to use the `agentVersion` option instead of the version-specific overload and `BetaAgentsDownloadAgentVersionCode*` types.
-- Changed `project.beta.models.createAsync` to return the create response body.
+- Changed `project.beta.models.create` to return the create response body.
 - Changed `project.beta.models.pendingUpload` to use `ModelPendingUploadRequest` and `ModelPendingUploadResponse`.
 - Renamed `body` parameter to `packageData` for `project.beta.skills.createFromPackage`.
 

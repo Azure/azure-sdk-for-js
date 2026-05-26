@@ -5,7 +5,7 @@ import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
-  createAsync,
+  create,
   update,
   $delete,
   get,
@@ -49,7 +49,7 @@ export interface BetaModelsOperations {
     options?: BetaModelsPendingUploadOptionalParams,
   ) => Promise<ModelPendingUploadResponse>;
   /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
-  createAsync: (
+  create: (
     name: string,
     version: string,
     body: ModelVersion,
@@ -100,12 +100,12 @@ function _getBetaModels(context: AIProjectContext) {
       body: ModelPendingUploadRequest,
       options?: BetaModelsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, body, options),
-    createAsync: (
+    create: (
       name: string,
       version: string,
       body: ModelVersion,
       options?: BetaModelsCreateAsyncOptionalParams,
-    ) => createAsync(context, name, version, body, options),
+    ) => create(context, name, version, body, options),
     update: (
       name: string,
       body: UpdateModelVersionRequest,
