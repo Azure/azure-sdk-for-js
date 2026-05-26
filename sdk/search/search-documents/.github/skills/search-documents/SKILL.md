@@ -8,7 +8,8 @@ description: 'Domain knowledge for @azure/search-documents. Covers architecture,
 ## Common Pitfalls
 
 - **Generated sub-client ≠ convenience client** — `src/search/searchClient.ts` is the GENERATED sub-client (overwritten on regeneration). `src/searchClient.ts` is the HAND-AUTHORED convenience client. Adding methods to the generated file does nothing for consumers. Always edit the hand-authored file at the `src/` root. See the "Generated vs Hand-Authored Files" table in Architecture.
-- **New operations must be wired through the convenience layer** — after regeneration, new operations appearing in generated files are NOT available to consumers until explicitly exposed via the hand-authored convenience clients, model files, and `src/index.ts`. Do not stop at regeneration. See "Exposing New Operations" below.
+- **New operations must be wired through the convenience layer** — after regeneration, new operations appearing in generated files are NOT available to consumers until explicitly exposed via the hand-authored convenience clients, model files, and `src/index.ts`. Do not stop at regeneration. See "Exposing New Operations and Models" below.
+- **New models must be wired through the convenience layer** — likewise, new generated `interface` / `type` / `enum` declarations (including new discriminated-union members like additional `*KnowledgeSource`, `*Skill`, `*Vectorizer`, or `*Activity` kinds) are invisible to consumers until mirrored in `src/serviceModels.ts` / `src/indexModels.ts` / `src/knowledgeBaseModels.ts`, plumbed through any `serviceUtils.ts` dispatch tables that switch on `kind`, and re-exported from `src/index.ts`.
 - **Never hand-edit files in `generated/`** — these are overwritten on every `tsp-client update`. Edit `src/` files directly; the 3-way merge preserves your changes.
 - **Never hand-edit generated-mirrored files** — files under `src/search/`, `src/searchIndex/`, `src/searchIndexer/`, `src/knowledgeBaseRetrieval/`, and `src/models/` are mirrored from `generated/`. Edits will be overwritten on next regeneration.
 - **Check for merge conflicts FIRST after regeneration** — `dev-tool customization apply` can produce conflict markers in `src/`. Run `grep -r "<<<<<<" src/ --include="*.ts"`.
@@ -99,17 +100,34 @@ After spec changes, check for:
 
 For 3-way merge details and conflict resolution, see [references/customization.md](references/customization.md).
 
-### Exposing New Operations
+### Exposing New Operations and Models
 
-New operations appearing after regeneration are **not available to consumers** until explicitly wired through the hand-authored convenience clients. Do not stop at regeneration. Complete ALL of these steps for each new operation:
+New operations and models appearing after regeneration are **not available to consumers** until explicitly wired through the hand-authored layer. Regeneration only changes `generated/` and the generated-mirrored files under `src/{subclient}/` and `src/models/` — none of those are part of the public package API. **Do not stop at regeneration.**
 
-1. **Add a public method** to the correct hand-authored convenience client (e.g. `src/searchClient.ts`, NOT `src/search/searchClient.ts`). The method must wrap `tracingClient.withSpan()`, convert public types to generated types, call the generated operation, and convert the response back.
-2. **Define public model types** in `src/indexModels.ts`, `src/serviceModels.ts`, or `src/knowledgeBaseModels.ts` for any new request/response types.
-3. **Add conversion functions** in `src/serviceUtils.ts` to translate between generated and public types (or add inline conversions in the convenience client for simple cases).
-4. **Export all new public symbols** from `src/index.ts` — this file is skipped during merge and must always be updated manually.
-5. **Run `api-extractor`** and verify new types/methods appear in `review/search-documents-node.api.md`. If they don't appear, they are not part of the public API.
+Before declaring a regeneration done, do a post-regeneration audit:
 
-The task is not complete until every new operation is callable from the public convenience client and visible in the API report.
+1. **Diff the generated client wrappers** — `git diff generated/<subclient>/<subclient>Client.ts src/<subclient>/<subclient>Client.ts` — to enumerate every operation method added, removed, or with a changed signature. Every newly added operation needs a hand-authored convenience method; every signature change needs a matching update.
+2. **Diff `generated/models/`** for new exported `interface` / `type` / `enum` declarations, especially new discriminated-union members (e.g. new `*KnowledgeSource`, `*Skill`, `*Vectorizer`, `*Authentication`, `*Activity` kinds). Each new union member that consumers should be able to construct or pattern-match needs a public mirror in `src/serviceModels.ts` / `src/indexModels.ts` / `src/knowledgeBaseModels.ts`, and a re-export from `src/index.ts`.
+3. **Diff the generated barrel** (`generated/index.ts`) for new `Known*` enums and union aliases (`*Union`). These typically need to be re-exported from `src/index.ts` so consumers can name them.
+4. **Update `knownSkills` and any other whitelists** — `convertSkillsToPublic()` in `src/serviceUtils.ts` (and similar discriminator switches) silently drop unknown kinds. New skill / KS / vectorizer / authentication kinds must be added to every dispatch table that switches on `kind`.
+5. **Add conversion functions** in `src/serviceUtils.ts` for every new request/response type that needs public ↔ generated translation. Simple pass-throughs can stay inline in the convenience client, but anything with field renames, enum widening, or polymorphic discrimination belongs in `serviceUtils.ts`.
+6. **Export every new public symbol** from `src/index.ts`. This file is intentionally skipped during the customization merge, so new exports are never added automatically. The `ae-forgotten-export` lint error catches the most obvious omissions; it does not catch missing operations or types that are never referenced internally.
+7. **Run `api-extractor`** (via `pnpm run extract-api` or the package build) and inspect `review/search-documents-node.api.md`. Cross-check that every new operation and every new model from steps 1–3 appears. **If a symbol isn't in the API report, it is not part of the public package, even if it compiles.**
+8. **Update the changelog** under `CHANGELOG.md` → `Features Added` (and `Breaking Changes` if applicable). Every new public symbol or method should be mentioned.
+
+Then add a public method per new operation:
+
+- Place the method on the correct hand-authored convenience client (`src/searchClient.ts`, `src/searchIndexClient.ts`, `src/searchIndexerClient.ts`, or `src/knowledgeRetrievalClient.ts`) — **never** in the generated-mirrored sub-client under `src/<subclient>/`.
+- Wrap the body in `tracingClient.withSpan("ClientName-methodName", options, async (updatedOptions) => { ... })`.
+- Convert public input types → generated types, call `this.client.<operation>(...)`, then convert the generated response → public types.
+- **Mirror the generated argument order exactly** when calling `this.client.*` (see the pitfall about arg-order swaps). Open the matching generated wrapper and verify each parameter position.
+- Add a TSDoc comment with `@param` entries and an `@example` snippet when the operation has non-trivial inputs.
+
+The task is not complete until:
+
+- Every new generated operation has a corresponding convenience method.
+- Every new generated model / union member that consumers need to construct or pattern-match is mirrored, converted, and re-exported.
+- `review/*.api.md` contains the new surface, the changelog lists it, and the public surface compiles with no `ae-forgotten-export` or `ae-internal-mixed-release` warnings.
 
 For a detailed example (wrong vs right), see [references/architecture.md](references/architecture.md).
 
