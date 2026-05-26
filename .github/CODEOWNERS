@@ -931,7 +931,7 @@
 # PRLabel: %Mgmt
 /sdk/security/arm-security/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/serialconsole/arm-serialconsole/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
