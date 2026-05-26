@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type { KnowledgeBase, KnowledgeSource, SearchIndexClient } from "../../../../src/index.js";
@@ -184,12 +184,14 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
       });
     });
 
-    describe("#fileKnowledgeSource", () => {
+    describe("#fileKnowledgeSource", { timeout: 120_000 }, () => {
       let fileKnowledgeSourceName: string;
-      const fileContents = new TextEncoder().encode(
-        "The Azure AI Search service supports a File knowledge source for direct file uploads.",
+      // Minimal valid one-page PDF that says "Hello World from Azure Search File Knowledge Source test".
+      const fileContents = Buffer.from(
+        "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvUmVzb3VyY2VzIDw8IC9Gb250IDw8IC9GMSA0IDAgUiA+PiA+PiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNSAwIFIgPj4KZW5kb2JqCjQgMCBvYmoKPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+CmVuZG9iago1IDAgb2JqCjw8IC9MZW5ndGggODkgPj4Kc3RyZWFtCkJUIC9GMSAyNCBUZiAxMDAgNzAwIFRkIChIZWxsbyBXb3JsZCBmcm9tIEF6dXJlIFNlYXJjaCBGaWxlIEtub3dsZWRnZSBTb3VyY2UgdGVzdCkgVGogRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMTUgMDAwMDAgbiAKMDAwMDAwMDA2NCAwMDAwMCBuIAowMDAwMDAwMTIxIDAwMDAwIG4gCjAwMDAwMDAyNDcgMDAwMDAgbiAKMDAwMDAwMDMxNyAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDYgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjQ1NQolJUVPRgo=",
+        "base64",
       );
-      const fileName = "sample.txt";
+      const fileName = "sample.pdf";
       const contentDisposition = `attachment; filename="${fileName}"`;
 
       beforeEach(async () => {
@@ -198,7 +200,18 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
           kind: "file",
           name: fileKnowledgeSourceName,
           description: "File knowledge source for tests",
-          fileParameters: {},
+          fileParameters: {
+            ingestionParameters: {
+              embeddingModel: {
+                kind: "azureOpenAI",
+                azureOpenAIParameters: {
+                  deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
+                  resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+                  modelName: "text-embedding-ada-002",
+                },
+              },
+            },
+          },
         };
         await indexClient.createKnowledgeSource(fileKnowledgeSource);
         await delay(WAIT_TIME);

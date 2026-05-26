@@ -31,6 +31,8 @@
 
 ### Bugs Fixed
 
+- Fixed argument order in `SearchIndexClient.deleteKnowledgeSourceFile` so the underlying request now targets the correct file (previously the `name` and `fileId` arguments were swapped on the wire, causing deletes to silently no-op).
+
 ### Other Changes
 
 ## 13.0.0 (2026-05-01)
@@ -85,6 +87,7 @@
 - Added new method `getKnowledgeSourceStatus` to search index client. [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
 
 ### Breaking Changes
+
 - Renamed KnowledgeAgent* -> KnowledgeBase* [#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
 - Renamed Knowledge Agent to Knowledge Base across all APIs and models:[#36262](https://github.com/Azure/azure-sdk-for-js/pull/36262)
   - All `KnowledgeAgent*` classes renamed to `KnowledgeBase*` equivalents
@@ -433,7 +436,6 @@
 ### Other Changes
 
 - Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-
   - Affects these types:
     - `IndexDocumentsClient`
     - `SearchClient`
@@ -560,7 +562,6 @@
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Regenerated the search SDK with the latest swaggers that includes the following changes:
-
   - Support for `TokenCredential` has been added. With this addition, the Search SDK supports authentication via AAD.
   - Identity types - `SearchIndexerDataNoneIdentity` & `SearchIndexerDataUserAssignedIdentity` have been added.
   - The following new skills have been added:

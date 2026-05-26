@@ -927,7 +927,7 @@ export class SearchIndexClient {
       "SearchIndexClient-deleteKnowledgeSourceFile",
       options,
       async (updatedOptions) => {
-        return this.client.deleteKnowledgeSourceFile(name, fileId, updatedOptions);
+        return this.client.deleteKnowledgeSourceFile(fileId, name, updatedOptions);
       },
     );
   }
