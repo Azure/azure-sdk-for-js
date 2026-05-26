@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 import { ResourceManagementClient } from "@azure/arm-resources";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { NetworkManagementClient } from "@azure/arm-network";
+import { StorageManagementClient } from "@azure/arm-storage";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -19,12 +22,48 @@ import {
  * so test bodies stay 1:1 with the .NET reference suite.
  */
 export const TEST_LOCATION = "eastus";
+/**
+ * westcentralus is required for matrix rows #10 (extended), #31, and #32 because
+ * the shared `cpmoveraccount` storage account and the `test-pls-wcs` PrivateLinkService
+ * both live there. Other regions return `LocationNotAvailableForResourceGroup` or
+ * fail at PLS-validation time.
+ */
+export const WCUS_LOCATION = "westcentralus";
 export const STORAGE_ACCOUNT_NAME = "testsmstore24";
 export const CONTAINER_NAME = "testsmcontainer";
 export const MULTI_CLOUD_CONNECTOR_ID =
   "/subscriptions/b6b34ad8-ca89-4f85-beb7-c2ec13702dac/resourceGroups/E2E-Management-RGsyn/providers/Microsoft.HybridConnectivity/publicCloudConnectors/e2e-sm-rp-connector";
+/** Public AWS S3 bucket exposed via the MCC above. Used by extended row #10. */
 export const AWS_S3_BUCKET_ID =
   "/subscriptions/b6b34ad8-ca89-4f85-beb7-c2ec13702dac/resourceGroups/aws_640698235822/providers/Microsoft.AWSConnector/s3Buckets/e2e-sm-rp-bucket";
+/** Private AWS S3 bucket exposed via the MCC above. Used by row #31. */
+export const AWS_PRIVATE_S3_BUCKET_ID =
+  "/subscriptions/b6b34ad8-ca89-4f85-beb7-c2ec13702dac/resourceGroups/aws_640698235822/providers/Microsoft.AWSConnector/s3Buckets/e2e-sm-rp-private-bucket";
+
+/**
+ * Cross-subscription shared infrastructure (XDataMove-Synthetics). All literals
+ * here resolve to the same subscription so they get sanitized together. Do not
+ * recreate these resources — they're shared team infra documented in the
+ * Porter's reference callout of the cross-language scenario-tests playbook.
+ */
+export const SYNTHETICS_SUBSCRIPTION_ID = "b6b34ad8-ca89-4f85-beb7-c2ec13702dac";
+
+export const PLS_RESOURCE_GROUP = "E2E-Management-RGsyn";
+export const PLS_NAME = "test-pls-wcs";
+export const REAL_PRIVATE_LINK_SERVICE_ID =
+  `/subscriptions/${SYNTHETICS_SUBSCRIPTION_ID}` +
+  `/resourceGroups/${PLS_RESOURCE_GROUP}` +
+  `/providers/Microsoft.Network/privateLinkServices/${PLS_NAME}`;
+
+export const STORAGE_ACCOUNT_RG = "CP_Mover_IN_WCUS";
+export const SHARED_STORAGE_ACCOUNT_NAME = "cpmoveraccount";
+export const SHARED_STORAGE_ACCOUNT_ID =
+  `/subscriptions/${SYNTHETICS_SUBSCRIPTION_ID}` +
+  `/resourceGroups/${STORAGE_ACCOUNT_RG}` +
+  `/providers/Microsoft.Storage/storageAccounts/${SHARED_STORAGE_ACCOUNT_NAME}`;
+
+/** Built-in role definition GUID for "Storage Blob Data Contributor". */
+export const STORAGE_BLOB_DATA_CONTRIBUTOR_ROLE_DEF_GUID = "ba92f5b4-2d11-453d-a403-e96b0029c9fe";
 
 /**
  * Subscription ID used in playback mode. Real subscription IDs are sanitized to
@@ -73,6 +112,12 @@ export function getSubscriptionId(): string {
  * The Recorder is constructed eagerly so callers can always call `.stop()` on
  * it even if `start()` later throws (e.g. when a recording file is missing in
  * playback mode).
+ *
+ * In addition to the default Recorder sanitization, this also installs the
+ * cross-subscription sanitizers required by matrix rows #10 (extended), #31,
+ * and #32 — applied to BOTH record and playback modes so that source-code
+ * literals (`SYNTHETICS_SUBSCRIPTION_ID`, role-assignment GUIDs, principal IDs)
+ * match the sanitized values in committed cassettes.
  */
 export async function setupRecorder(ctx: TestInfo): Promise<{
   recorder: Recorder;
@@ -82,6 +127,40 @@ export async function setupRecorder(ctx: TestInfo): Promise<{
   const recorder = new Recorder(ctx);
   try {
     await recorder.start(recorderOptions);
+    // Cross-sub sanitizers must be added in both "record" and "playback" so
+    // that on playback the proxy rewrites outgoing source-code literals to
+    // match the cassette. Mirrors the Python conftest.
+    await recorder.addSanitizers(
+      {
+        generalSanitizers: [
+          // Cross-sub literal — rewrite to the same fake sub the env var
+          // sanitizer uses so the two cooperate consistently.
+          {
+            regex: true,
+            target: SYNTHETICS_SUBSCRIPTION_ID,
+            value: PLAYBACK_SUBSCRIPTION_ID,
+          },
+          // Per-run role-assignment GUID under `roleAssignments/<guid>` —
+          // redact only there to avoid clobbering unrelated GUIDs elsewhere.
+          // .NET-style regex (test-proxy is .NET) — no lookbehind needed,
+          // we include the prefix in the match and the replacement.
+          {
+            regex: true,
+            target: "roleAssignments/[0-9a-fA-F\\-]{36}",
+            value: "roleAssignments/00000000-0000-0000-0000-000000000000",
+          },
+        ],
+        bodyKeySanitizers: [
+          // Managed-identity object IDs returned by the RP on blob endpoints
+          // (rows #10 + #31) and PE-connection responses.
+          {
+            jsonPath: "$..principalId",
+            value: "00000000-0000-0000-0000-000000000000",
+          },
+        ],
+      },
+      ["record", "playback"],
+    );
   } catch (err) {
     // Best-effort: try to stop the recorder so it doesn't dangle, then rethrow
     // so the test fails with the original (more useful) error.
@@ -112,6 +191,15 @@ export function nameFor(recorder: Recorder, key: string, prefix: string): string
 }
 
 /**
+ * Returns a deterministic-in-playback UUID for paths that require a real GUID
+ * (e.g. `roleAssignments/<guid>`). Live runs mint a fresh UUID; playback
+ * returns the recorded value.
+ */
+export function uuidFor(recorder: Recorder, key: string): string {
+  return recorder.variable(key, randomUuid());
+}
+
+/**
  * Returns an ISO-8601 timestamp `daysFromNow` days from now (`Z` suffix), recorded
  * via the recorder so playback uses the recorded value verbatim. Mirrors the Python
  * port's `variables.setdefault("schedule_start", …)` pattern.
@@ -132,6 +220,25 @@ function randomHex(bytes: number): string {
   return s;
 }
 
+/** RFC 4122 v4 UUID — used for role-assignment names. */
+function randomUuid(): string {
+  const hex = randomHex(16).split("");
+  // Set version (4) and variant bits per RFC 4122.
+  hex[12] = "4";
+  hex[16] = ((parseInt(hex[16], 16) & 0x3) | 0x8).toString(16);
+  return (
+    hex.slice(0, 8).join("") +
+    "-" +
+    hex.slice(8, 12).join("") +
+    "-" +
+    hex.slice(12, 16).join("") +
+    "-" +
+    hex.slice(16, 20).join("") +
+    "-" +
+    hex.slice(20, 32).join("")
+  );
+}
+
 /**
  * Creates a resource group via `@azure/arm-resources`. No-op in playback (the
  * test-proxy replays the SDK calls; we don't need a real RG for playback).
@@ -143,12 +250,13 @@ function randomHex(bytes: number): string {
 export async function provisionResourceGroup(
   subscriptionId: string,
   rgName: string,
+  location: string = TEST_LOCATION,
 ): Promise<void> {
   if (isPlaybackMode()) {
     return;
   }
   const rgClient = new ResourceManagementClient(createTestCredential(), subscriptionId);
-  await rgClient.resourceGroups.createOrUpdate(rgName, { location: TEST_LOCATION });
+  await rgClient.resourceGroups.createOrUpdate(rgName, { location });
 }
 
 /** Best-effort RG delete; no-op in playback. Logs (does not throw) on failure. */
@@ -173,9 +281,10 @@ export async function createStorageMover(
   storageMoverName: string,
   description = "scenario-test storage mover",
   tags?: Record<string, string>,
+  location: string = TEST_LOCATION,
 ): Promise<StorageMover> {
   return client.storageMovers.createOrUpdate(rgName, storageMoverName, {
-    location: TEST_LOCATION,
+    location,
     tags,
     properties: { description },
   });
@@ -254,4 +363,58 @@ export function storageAccountResourceIdFor(
     `/subscriptions/${subscriptionId}/resourceGroups/${rgName}` +
     `/providers/Microsoft.Storage/storageAccounts/${accountName}`
   );
+}
+
+// ---------------------------------------------------------------------------
+// Cross-subscription mgmt-client factories (matrix rows #10 extended, #31).
+//
+// All three target `SYNTHETICS_SUBSCRIPTION_ID` (the shared XDataMove-Synthetics
+// sub that owns cpmoveraccount, the MCC, the AWS S3 bucket connectors, and
+// the `test-pls-wcs` PrivateLinkService). Each MUST be constructed after
+// `recorder.start()` so requests route through the test-proxy.
+// ---------------------------------------------------------------------------
+
+/** Cross-sub `@azure/arm-network` client routed through the recorder. */
+export function createNetworkClient(recorder: Recorder): NetworkManagementClient {
+  return new NetworkManagementClient(
+    createTestCredential(),
+    SYNTHETICS_SUBSCRIPTION_ID,
+    recorder.configureClientOptions({}),
+  );
+}
+
+/** Cross-sub `@azure/arm-storage` client routed through the recorder. */
+export function createStorageClient(recorder: Recorder): StorageManagementClient {
+  return new StorageManagementClient(
+    createTestCredential(),
+    SYNTHETICS_SUBSCRIPTION_ID,
+    recorder.configureClientOptions({}),
+  );
+}
+
+/** Cross-sub `@azure/arm-authorization` client routed through the recorder. */
+export function createAuthorizationClient(recorder: Recorder): AuthorizationManagementClient {
+  return new AuthorizationManagementClient(
+    createTestCredential(),
+    SYNTHETICS_SUBSCRIPTION_ID,
+    recorder.configureClientOptions({}),
+  );
+}
+
+/**
+ * Returns the full role-definition ID for "Storage Blob Data Contributor"
+ * scoped at the synthetics subscription. Role definitions are subscription-
+ * scoped resource IDs even though the role definition itself is tenant-wide;
+ * the RP accepts any sub ID in the path.
+ */
+export function storageBlobDataContributorRoleId(): string {
+  return (
+    `/subscriptions/${SYNTHETICS_SUBSCRIPTION_ID}` +
+    `/providers/Microsoft.Authorization/roleDefinitions/${STORAGE_BLOB_DATA_CONTRIBUTOR_ROLE_DEF_GUID}`
+  );
+}
+
+/** Builds the container scope used by data-plane RBAC assignments. */
+export function blobContainerScope(containerName: string): string {
+  return `${SHARED_STORAGE_ACCOUNT_ID}/blobServices/default/containers/${containerName}`;
 }

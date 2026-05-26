@@ -150,7 +150,9 @@ describe("JobDefinitionScheduleTests", () => {
     );
     assert.equal(jd.name, jobDefinitionName);
     assert.equal(jd.properties.copyMode, "Mirror");
-    assert.equal(jd.properties.preservePermissions, true);
+    // Note: the RP does not echo `preservePermissions` or `dataIntegrityValidation: "None"`
+    // back in the response, so we don't assert on them here. Mirrors the .NET reference,
+    // which only asserts on copyMode + schedule fields.
     assert.ok(jd.properties.schedule);
     assert.equal(jd.properties.schedule?.frequency, "Daily");
 
