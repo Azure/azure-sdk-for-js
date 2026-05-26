@@ -183,5 +183,93 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
         assert.isTrue(deleted);
       });
     });
+
+    describe("#fileKnowledgeSource", () => {
+      let fileKnowledgeSourceName: string;
+      const fileContents = new TextEncoder().encode(
+        "The Azure AI Search service supports a File knowledge source for direct file uploads.",
+      );
+      const fileName = "sample.txt";
+      const contentDisposition = `attachment; filename="${fileName}"`;
+
+      beforeEach(async () => {
+        fileKnowledgeSourceName = `file-ks-${TEST_INDEX_NAME}`;
+        const fileKnowledgeSource: KnowledgeSource = {
+          kind: "file",
+          name: fileKnowledgeSourceName,
+          description: "File knowledge source for tests",
+          fileParameters: {},
+        };
+        await indexClient.createKnowledgeSource(fileKnowledgeSource);
+        await delay(WAIT_TIME);
+      });
+
+      afterEach(async () => {
+        // Best-effort cleanup of any remaining files before deleting the source.
+        try {
+          for await (const file of indexClient.listKnowledgeSourceFiles(fileKnowledgeSourceName)) {
+            if (file.fileId) {
+              await indexClient
+                .deleteKnowledgeSourceFile(fileKnowledgeSourceName, file.fileId)
+                .catch(() => {});
+            }
+          }
+        } catch {
+          // ignore listing errors during cleanup
+        }
+        await indexClient.deleteKnowledgeSource(fileKnowledgeSourceName).catch(() => {});
+      });
+
+      it("creates File knowledge source with correct properties", async () => {
+        const createdSource = await indexClient.getKnowledgeSource(fileKnowledgeSourceName);
+        assert.equal(createdSource.name, fileKnowledgeSourceName);
+        assert.equal(createdSource.kind, "file");
+      });
+
+      it("uploads a file to the File knowledge source", async () => {
+        const uploaded = await indexClient.uploadKnowledgeSourceFile(
+          fileKnowledgeSourceName,
+          fileContents,
+          contentDisposition,
+        );
+        assert.exists(uploaded);
+        assert.exists(uploaded.fileId);
+        assert.equal(uploaded.fileName, fileName);
+        assert.equal(uploaded.fileSizeBytes, fileContents.byteLength);
+      });
+
+      it("lists files in the File knowledge source", async () => {
+        const uploaded = await indexClient.uploadKnowledgeSourceFile(
+          fileKnowledgeSourceName,
+          fileContents,
+          contentDisposition,
+        );
+
+        const fileIds: string[] = [];
+        for await (const file of indexClient.listKnowledgeSourceFiles(fileKnowledgeSourceName)) {
+          if (file.fileId) {
+            fileIds.push(file.fileId);
+          }
+        }
+        assert.isTrue(fileIds.includes(uploaded.fileId!));
+      });
+
+      it("deletes a file from the File knowledge source", async () => {
+        const uploaded = await indexClient.uploadKnowledgeSourceFile(
+          fileKnowledgeSourceName,
+          fileContents,
+          contentDisposition,
+        );
+        await indexClient.deleteKnowledgeSourceFile(fileKnowledgeSourceName, uploaded.fileId!);
+
+        const remaining: string[] = [];
+        for await (const file of indexClient.listKnowledgeSourceFiles(fileKnowledgeSourceName)) {
+          if (file.fileId) {
+            remaining.push(file.fileId);
+          }
+        }
+        assert.isFalse(remaining.includes(uploaded.fileId!));
+      });
+    });
   });
 });
