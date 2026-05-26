@@ -12,11 +12,7 @@ import {
 
 describe("Condition values helpers", () => {
   it("getConditionValues splits on the ^^ separator", () => {
-    expect(getConditionValues({ value: "east^^west^^north" })).toEqual([
-      "east",
-      "west",
-      "north",
-    ]);
+    expect(getConditionValues({ value: "east^^west^^north" })).toEqual(["east", "west", "north"]);
   });
 
   it("getConditionValues returns an empty array when value is undefined", () => {
@@ -30,11 +26,9 @@ describe("Condition values helpers", () => {
   });
 
   it("createInCondition builds an In condition", () => {
-    const condition = createInCondition(
-      KnownConditionOperator.In,
-      ["east", "west"],
-      { dimensionName: "region" },
-    );
+    const condition = createInCondition(KnownConditionOperator.In, ["east", "west"], {
+      dimensionName: "region",
+    });
     expect(condition.operator).toBe(KnownConditionOperator.In);
     expect(condition.value).toBe("east^^west");
     expect(condition.dimensionName).toBe("region");
@@ -59,9 +53,9 @@ describe("Condition values helpers", () => {
   });
 
   it("createInCondition rejects items containing the separator", () => {
-    expect(() =>
-      createInCondition(KnownConditionOperator.In, ["ok", "bad^^value"]),
-    ).toThrow(/reserved '\^\^' separator/);
+    expect(() => createInCondition(KnownConditionOperator.In, ["ok", "bad^^value"])).toThrow(
+      /reserved '\^\^' separator/,
+    );
   });
 
   it("CONDITION_IN_VALUE_SEPARATOR is the wire separator", () => {

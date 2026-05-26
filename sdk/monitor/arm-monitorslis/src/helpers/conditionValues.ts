@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Condition, ConditionOperator, SamplingType, ScalarFunction } from "../models/models.js";
+import type {
+  Condition,
+  ConditionOperator,
+  SamplingType,
+  ScalarFunction,
+} from "../models/models.js";
 import { KnownConditionOperator } from "../models/models.js";
 
 /**
@@ -28,7 +33,10 @@ export function getConditionValues(condition: Pick<Condition, "value">): string[
  * wire for the {@link KnownConditionOperator.In} / {@link KnownConditionOperator.NotIn} operators.
  * Mutates the supplied `condition` in place and returns it for chaining.
  */
-export function setConditionValues<T extends { value: string }>(condition: T, values: readonly string[]): T {
+export function setConditionValues<T extends { value: string }>(
+  condition: T,
+  values: readonly string[],
+): T {
   condition.value = values.join(CONDITION_IN_VALUE_SEPARATOR);
   return condition;
 }
