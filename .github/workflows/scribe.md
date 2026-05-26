@@ -39,6 +39,7 @@ on:
           } catch (e) {
             core.warning(`Could not add in-progress label: ${e.message}`);
           }
+checkout: false
 labels: [docs-review-needed]
 if: github.event.label.name == 'docs-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:

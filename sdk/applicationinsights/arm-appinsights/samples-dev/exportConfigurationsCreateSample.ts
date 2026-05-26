@@ -1,27 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a Continuous Export configuration of an Application Insights component.
- *
- * @summary Create a Continuous Export configuration of an Application Insights component.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/ExportConfigurationsPost.json
- */
-
-import {
-  ApplicationInsightsComponentExportRequest,
-  ApplicationInsightsManagementClient,
-} from "@azure/arm-appinsights";
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a Continuous Export configuration of an Application Insights component.
+ *
+ * @summary create a Continuous Export configuration of an Application Insights component.
+ * x-ms-original-file: 2015-05-01/ExportConfigurationsPost.json
+ */
 async function exportConfigurationPost(): Promise<void> {
-  const subscriptionId =
-    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
-  const resourceName = "my-component";
-  const exportProperties: ApplicationInsightsComponentExportRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
+  const result = await client.exportConfigurations.create("my-resource-group", "my-component", {
     destinationAccountId:
       "/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.ClassicStorage/storageAccounts/mystorageblob",
     destinationAddress:
@@ -34,17 +27,7 @@ async function exportConfigurationPost(): Promise<void> {
     notificationQueueUri: "",
     recordTypes:
       "Requests, Event, Exceptions, Metrics, PageViews, PageViewPerformance, Rdd, PerformanceCounters, Availability",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.exportConfigurations.create(
-    resourceGroupName,
-    resourceName,
-    exportProperties,
-  );
+  });
   console.log(result);
 }
 
