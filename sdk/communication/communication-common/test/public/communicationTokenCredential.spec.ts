@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureCommunicationTokenCredential } from "../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-
-declare function btoa(stringToEncode: string): string;
 
 const generateToken = (validForMinutes: number): string => {
   const expiresOn = (Date.now() + validForMinutes * 60 * 1000) / 1000;
   const tokenString = JSON.stringify({ exp: expiresOn });
-  const base64Token = isNodeLike ? Buffer.from(tokenString).toString("base64") : btoa(tokenString);
+  const base64Token = uint8ArrayToString(stringToUint8Array(tokenString, "utf-8"), "base64");
   return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${base64Token}.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs`;
 };
 

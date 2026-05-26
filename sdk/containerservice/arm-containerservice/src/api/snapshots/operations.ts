@@ -32,7 +32,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,7 +71,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+      apiVersion: context.apiVersion ?? "2026-03-02-preview",
     },
   );
 }
@@ -86,7 +86,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +126,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-02-preview",
+      apiVersion: context.apiVersion ?? "2026-03-02-preview",
     },
   );
 }
@@ -143,7 +143,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,11 +165,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a snapshot. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
@@ -193,7 +188,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -250,7 +245,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,7 +301,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

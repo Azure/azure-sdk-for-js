@@ -1,14 +1,14 @@
 {
   "entries": {
-    "actions/cache/restore@v5.0.4": {
+    "actions/cache/restore@v5.0.5": {
       "repo": "actions/cache/restore",
-      "version": "v5.0.4",
-      "sha": "668228422ae6a00e4ad889ee87cd7109ec5666a7"
+      "version": "v5.0.5",
+      "sha": "27d5ce7f107fe9357f9df03efb73ab90386fccae"
     },
-    "actions/cache/save@v5.0.4": {
+    "actions/cache/save@v5.0.5": {
       "repo": "actions/cache/save",
-      "version": "v5.0.4",
-      "sha": "668228422ae6a00e4ad889ee87cd7109ec5666a7"
+      "version": "v5.0.5",
+      "sha": "27d5ce7f107fe9357f9df03efb73ab90386fccae"
     },
     "actions/checkout@v6.0.2": {
       "repo": "actions/checkout",
@@ -25,25 +25,25 @@
       "version": "v8",
       "sha": "ed597411d8f924073f98dfc5c65a23a2325f34cd"
     },
-    "actions/upload-artifact@v7.0.0": {
+    "actions/github-script@v9.0.0": {
+      "repo": "actions/github-script",
+      "version": "v9.0.0",
+      "sha": "3a2844b7e9c422d3c10d287c895573f7108da1b3"
+    },
+    "actions/upload-artifact@v7.0.1": {
       "repo": "actions/upload-artifact",
-      "version": "v7.0.0",
-      "sha": "bbbca2ddaa5d8feaa63e36b76fdaad77386f024f"
+      "version": "v7.0.1",
+      "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
     },
-    "github/gh-aw-actions/setup@v0.67.1": {
+    "github/gh-aw-actions/setup@v0.72.1": {
       "repo": "github/gh-aw-actions/setup",
-      "version": "v0.67.1",
-      "sha": "80471a493be8c528dd27daf73cd644242a7965e0"
+      "version": "v0.72.1",
+      "sha": "bc56a0cad2f450c562810785ef38649c04db812a"
     },
-    "github/gh-aw-actions/setup@v0.67.3": {
-      "repo": "github/gh-aw-actions/setup",
-      "version": "v0.67.3",
-      "sha": "eef369c24101e76a5bf51579c26798b28f666813"
-    },
-    "github/gh-aw/actions/setup@v0.67.3": {
+    "github/gh-aw/actions/setup@v0.72.1": {
       "repo": "github/gh-aw/actions/setup",
-      "version": "v0.67.3",
-      "sha": "24800981d9dd277acad6d21fe34bc810a1303cff"
+      "version": "v0.72.1",
+      "sha": "489dbab88cc78e35506b5ccbf08a4037166824ac"
     }
   }
 }

@@ -16,7 +16,11 @@
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/communication/communication-messages-rest"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -32,7 +36,7 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -42,9 +46,9 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -59,7 +63,7 @@
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
-    "events": "^3.0.0",
+    "eventemitter3": "^5.0.1",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -78,11 +82,12 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest-rest/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest/README.md",
   "//metadata": {
     "constantPaths": [
       {
@@ -91,7 +96,6 @@
       }
     ]
   },
-  "browser": "./dist/browser/index.js",
   "//sampleConfiguration": {
     "productName": "Azure client library for Azure Communication Messages Services",
     "productSlugs": [
@@ -101,6 +105,7 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest"
   },
   "type": "module",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -120,6 +125,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
     }
   }
 }

@@ -3,28 +3,22 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the private link resources that need to be created for a Cosmos DB account.
+ * This sample demonstrates how to gets the private link resources that need to be created for a Cosmos DB account.
  *
- * @summary Gets the private link resources that need to be created for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/CosmosDBPrivateLinkResourceListGet.json
+ * @summary gets the private link resources that need to be created for a Cosmos DB account.
+ * x-ms-original-file: 2025-11-01-preview/CosmosDBPrivateLinkResourceListGet.json
  */
 async function getsPrivateEndpointConnection() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const accountName = "ddb1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.privateLinkResources.listByDatabaseAccount(
-    resourceGroupName,
-    accountName,
-  )) {
+  for await (const item of client.privateLinkResources.listByDatabaseAccount("rg1", "ddb1")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

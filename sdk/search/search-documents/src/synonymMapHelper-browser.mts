@@ -7,8 +7,8 @@ import type { SynonymMap } from "./serviceModels.js";
  * Helper method to create a SynonymMap object. This is a NodeJS only method.
  * Will throw an error for browser.
  *
- * @param _name - Name of the SynonymMap.
- * @param _filePath - Path of the file that contains the Synonyms (seperated by new lines)
+ * @param name - Name of the SynonymMap.
+ * @param filePath - Path of the file that contains the Synonyms (separated by new lines)
  * @returns SynonymMap object
  */
 export async function createSynonymMapFromFile(

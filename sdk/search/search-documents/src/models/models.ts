@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchIndexResponse } from "./azure/search/documents/indexes/models.js";
-import { searchIndexResponseArrayDeserializer } from "./azure/search/documents/indexes/models.js";
+import {
+  searchIndexResponseArrayDeserializer,
+  SearchIndexResponse,
+} from "./azure/search/documents/indexes/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -24,6 +26,6 @@ export function _listIndexesSelectedResultDeserializer(item: any): _ListIndexesS
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-11-01-preview API version. */
-  V20251101Preview = "2025-11-01-preview",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }

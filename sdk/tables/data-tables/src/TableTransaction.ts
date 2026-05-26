@@ -28,7 +28,7 @@ import {
 
 import type { TableClientLike } from "./utils/internalModels.js";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
-import { getTransactionHeaders } from "./utils/transactionHeaders.js";
+import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { tracingClient } from "./utils/tracing.js";
 

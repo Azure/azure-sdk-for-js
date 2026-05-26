@@ -3,29 +3,23 @@
 
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Updates the properties of an existing Azure Cosmos DB Fleet.
+ * This sample demonstrates how to updates the properties of an existing Azure Cosmos DB Fleet.
  *
- * @summary Updates the properties of an existing Azure Cosmos DB Fleet.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/preview/2025-11-01-preview/examples/fleet/CosmosDBFleetUpdate.json
+ * @summary updates the properties of an existing Azure Cosmos DB Fleet.
+ * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetUpdate.json
  */
-async function cosmosDbFleetUpdate() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
-  const fleetName = "fleet1";
-  const body = {};
-  const options = { body };
+async function cosmosDBFleetUpdate() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.fleet.update(resourceGroupName, fleetName, options);
+  const result = await client.fleet.update("rg1", "fleet1", { body: {} });
   console.log(result);
 }
 
 async function main() {
-  await cosmosDbFleetUpdate();
+  await cosmosDBFleetUpdate();
 }
 
 main().catch(console.error);

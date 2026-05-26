@@ -10,8 +10,6 @@
  * with Azure credentials and use it for a basic responses operation.
  *
  * See also https://platform.openai.com/docs/api-reference/responses/create
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";

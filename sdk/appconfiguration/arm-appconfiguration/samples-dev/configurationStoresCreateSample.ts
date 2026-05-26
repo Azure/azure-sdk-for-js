@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
  * @summary creates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreate.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreate.json
  */
 async function configurationStoresCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function configurationStoresCreate(): Promise<void> {
  * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
  * @summary creates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateWithAzureFrontDoor.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithAzureFrontDoor.json
  */
 async function configurationStoresCreateWithAzureFrontDoor(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function configurationStoresCreateWithAzureFrontDoor(): Promise<void> {
  * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
  * @summary creates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateWithDataPlaneProxy.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithDataPlaneProxy.json
  */
 async function configurationStoresCreateWithDataPlaneProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function configurationStoresCreateWithDataPlaneProxy(): Promise<void> {
  * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
  * @summary creates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateWithIdentity.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithIdentity.json
  */
 async function configurationStoresCreateWithIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -91,7 +91,7 @@ async function configurationStoresCreateWithIdentity(): Promise<void> {
  * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
  * @summary creates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateWithLocalAuthDisabled.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithLocalAuthDisabled.json
  */
 async function configurationStoresCreateWithLocalAuthDisabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -110,7 +110,7 @@ async function configurationStoresCreateWithLocalAuthDisabled(): Promise<void> {
  * This sample demonstrates how to creates a configuration store with the specified parameters.
  *
  * @summary creates a configuration store with the specified parameters.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresCreateWithTelemetry.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresCreateWithTelemetry.json
  */
 async function configurationStoresCreateWithTelemetry(): Promise<void> {
   const credential = new DefaultAzureCredential();

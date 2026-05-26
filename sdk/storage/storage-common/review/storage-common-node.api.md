@@ -7,8 +7,10 @@
 import type { CompatResponse } from '@azure/core-http-compat';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { Readable } from 'node:stream';
+import type { RequestBodyType } from '@azure/core-rest-pipeline';
 import type { RequestPolicy } from '@azure/core-http-compat';
 import type { RequestPolicyFactory } from '@azure/core-http-compat';
 import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
@@ -16,7 +18,10 @@ import type { RestError } from '@azure/core-rest-pipeline';
 import type { WebResourceLike } from '@azure/core-http-compat';
 
 // @public
-export class AnonymousCredential extends Credential_2 {
+export function allocBuffer(size: number): NodeBuffer;
+
+// @public
+export class AnonymousCredential extends Credential {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
 }
 
@@ -38,16 +43,21 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
 }
 
 // @public
+export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, length?: number): NodeBuffer;
+
+// @public
 export class BufferScheduler {
     constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
     do(): Promise<void>;
 }
 
 // @public
-abstract class Credential_2 implements RequestPolicyFactory {
+export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
+
+// @public
+export abstract class Credential implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
 }
-export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -58,8 +68,14 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 // @public
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
 
+// @public
+export function getBufferLength(buffer: NodeBuffer): number;
+
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
+
+// @public
+export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
@@ -71,6 +87,8 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
+
+export { Readable }
 
 // @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
@@ -146,7 +164,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential_2 {
+export class StorageSharedKeyCredential extends Credential {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -197,7 +215,7 @@ export interface StructuredMessageEncodingStreamOptions {
 
 // @public
 export interface UserDelegationKey {
-    signedDelegatedUserTenantId: string | undefined;
+    signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;

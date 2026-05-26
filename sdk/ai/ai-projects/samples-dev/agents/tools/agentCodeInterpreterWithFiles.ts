@@ -72,7 +72,7 @@ export async function main(): Promise<void> {
           "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     console.log(`Response completed (id: ${response.id})`);

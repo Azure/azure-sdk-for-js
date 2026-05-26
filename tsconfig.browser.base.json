@@ -15,6 +15,7 @@
   },
   "include": ["${configDir}/src", "${configDir}/test"],
   "exclude": [
+    "${configDir}/src/**/*-react-native.*",
     "${configDir}/test/**/node",
     "${configDir}/test/**/react-native",
     "${configDir}/test/stress",

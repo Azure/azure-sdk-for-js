@@ -101,9 +101,13 @@ stages:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
                       - download: current
+                      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+                        parameters:
+                          npmrcPath: $(Agent.TempDirectory)/doc-ms/.npmrc
+                          registryUrl: '$(PublicDevOpsRegistry)'
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
                         parameters:
-                          NpmConfigRegistry: $(PublicNpmRegistry)
+                          NpmConfigUserConfig: $(Agent.TempDirectory)/doc-ms/.npmrc
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -118,7 +122,7 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
-                          NpmConfigRegistry: $(PublicNpmRegistry)
+                          NpmConfigUserConfig: $(Agent.TempDirectory)/doc-ms/.npmrc
 
               - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO

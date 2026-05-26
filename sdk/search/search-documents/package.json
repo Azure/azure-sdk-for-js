@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.3.0-beta.2",
+  "version": "13.0.1",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -8,20 +8,21 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "tsc -p config/tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"generated/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "tsp-client update -d --emitter-options=\"ignore-nullable-on-optional=true\" && npm run format && npx dev-tool customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d --emitter-options=\"ignore-nullable-on-optional=true;wrap-non-model-return=false\" && npm run format && npx dev-tool customization apply --skip index.ts",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest --test-proxy-debug",
+    "test:node:preview": "cross-env TEST_PREVIEW=true dev-tool run test:vitest --test-proxy-debug",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -50,7 +51,11 @@
       }
     ]
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/search/search-documents"
+  },
   "keywords": [
     "azure",
     "cloud"
@@ -63,7 +68,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-util": "^1.12.0",
@@ -81,7 +86,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/openai": "1.0.0-beta.12",
+    "openai": "^6.16.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -90,6 +95,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "type-plus": "^7.6.2",
     "typescript": "catalog:",
@@ -342,6 +348,13 @@
         "types": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.d.ts",
         "default": "./dist/commonjs/models/azure/search/documents/knowledgeBases/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "react-native": "./src/*-react-native.mts",
+      "default": "./src/*.ts"
     }
   }
 }

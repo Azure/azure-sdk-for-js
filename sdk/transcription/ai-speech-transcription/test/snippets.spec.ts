@@ -70,14 +70,12 @@ describe("snippets", () => {
 
     for (const phrase of result.phrases) {
       console.log(`Phrase: ${phrase.text}`);
-      console.log(
-        `  Offset: ${phrase.offsetMilliseconds}ms | Duration: ${phrase.durationMilliseconds}ms`,
-      );
+      console.log(`  Offset: ${phrase.offsetInMs}ms | Duration: ${phrase.durationInMs}ms`);
       console.log(`  Confidence: ${phrase.confidence.toFixed(2)}`);
 
       // Access individual words in the phrase
       for (const word of phrase.words ?? []) {
-        console.log(`    Word: '${word.text}' | Offset: ${word.offsetMilliseconds}ms`);
+        console.log(`    Word: '${word.text}' | Offset: ${word.offsetInMs}ms`);
       }
     }
   });

@@ -11,7 +11,6 @@ import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
-  SelectArray,
   SuggestNarrowedModel,
 } from "../src/indexModels.js";
 
@@ -192,19 +191,6 @@ function testNarrowedModel() {
     ac,
     ad,
   ];
-}
-
-// @ts-expect-error
-function testSelectArray() {
-  const a: Equals<SelectArray<never>, readonly string[]> = "pass";
-  const b: Equals<SelectArray<"field1">, readonly "field1"[]> = "pass";
-  const c: Equals<SelectArray<"field1" | "field2">, readonly ("field1" | "field2")[]> = "pass";
-
-  // @ts-expect-error
-  const d: Equals<SelectArray<any>, readonly string[]> = "fail";
-  // @ts-expect-error
-  const e: Equals<SelectArray<unknown>, readonly string[]> = "fail";
-  return [a, b, c, d, e];
 }
 
 // @ts-expect-error
