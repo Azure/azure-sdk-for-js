@@ -322,7 +322,7 @@ export class WebPubSubClient {
       | "server-message"
       | "group-message"
       | "rejoin-group-failed",
-    listener: (arg: any) => any,
+    listener: (e: any) => void,
   ): void {
     this._emitter.on(event, listener);
   }
@@ -383,7 +383,7 @@ export class WebPubSubClient {
       | "server-message"
       | "group-message"
       | "rejoin-group-failed",
-    listener: (arg: any) => any,
+    listener: (e: any) => void,
   ): void {
     this._emitter.removeListener(event, listener);
   }
