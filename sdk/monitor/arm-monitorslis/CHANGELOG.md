@@ -7,7 +7,6 @@ Compared with version 1.0.0-beta.1
 
 - Added `Average` and `Count` values to `KnownSamplingType`.
 - Added public exports for `RestError` and `isRestError`.
-- Added the `getConditionValues`, `setConditionValues`, and `createInCondition` helpers (plus the `CONDITION_IN_VALUE_SEPARATOR` constant) that transparently join/split list values on the wire `^^` separator used by the `in` and `notin` operators.
 
 ### Breaking Changes
 

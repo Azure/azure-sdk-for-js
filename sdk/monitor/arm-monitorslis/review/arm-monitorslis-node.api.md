@@ -52,9 +52,6 @@ export interface Condition {
 }
 
 // @public
-export const CONDITION_IN_VALUE_SEPARATOR = "^^";
-
-// @public
 export type ConditionOperator = string;
 
 // @public
@@ -64,16 +61,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export function createInCondition(operator: ConditionOperator, values: readonly string[], options?: CreateInConditionOptions): Condition;
-
-// @public
-export interface CreateInConditionOptions {
-    dimensionName?: string;
-    samplingType?: SamplingType;
-    scalarFunction?: ScalarFunction;
-}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -106,9 +93,6 @@ export interface ExecutionState {
     message?: string;
     state: string;
 }
-
-// @public
-export function getConditionValues(condition: Pick<Condition, "value">): string[];
 
 export { isRestError }
 
@@ -285,11 +269,6 @@ export type SamplingType = string;
 
 // @public
 export type ScalarFunction = string;
-
-// @public
-export function setConditionValues<T extends {
-    value: string;
-}>(condition: T, values: readonly string[]): T;
 
 // @public
 export interface Signal {

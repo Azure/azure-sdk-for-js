@@ -73,10 +73,3 @@ export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
-export {
-  CONDITION_IN_VALUE_SEPARATOR,
-  getConditionValues,
-  setConditionValues,
-  createInCondition,
-} from "./helpers/conditionValues.js";
-export type { CreateInConditionOptions } from "./helpers/conditionValues.js";
