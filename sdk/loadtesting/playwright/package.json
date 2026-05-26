@@ -113,7 +113,8 @@
   "type": "module",
   "imports": {
     "#platform/*": {
-      "default": "./src/*.ts"
+      "default": "./src/*.ts",
+      "require": "./src/*-cjs.cts"
     }
   }
 }
