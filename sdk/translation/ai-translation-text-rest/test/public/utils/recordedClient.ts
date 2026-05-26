@@ -70,9 +70,6 @@ export async function startRecorder(context: TestInfo): Promise<Recorder> {
     request.headers.set("x-recording-id", (recorder as any).recordingId);
     request.body = JSON.stringify({
       ignoredQueryParameters: "api-version",
-      // Exclude headers automatically added by the browser fetch implementation
-      // that aren't present in recordings made from Node.js.
-      excludedHeaders: "Cache-Control,Pragma",
     });
     await httpClient.sendRequest(request);
   }
