@@ -20,6 +20,7 @@ description: 'Domain knowledge for @azure/search-documents. Covers architecture,
 - **`search()` uses custom POST pagination** — not standard `nextLink` GET paging. Uses `nextPageParameters` POST body with opaque Base64 continuation tokens.
 - **Date deserialization is strict** — only matches UTC ISO strings with 0-3 fractional seconds and `Z` suffix. Non-UTC strings are not auto-converted.
 - **`indexDocuments` 207 behavior** — partial success (HTTP 207) is thrown as an exception when `throwOnAnyFailure` is set. This is intentional.
+- **Generated client argument order ≠ public client argument order** — when wrapping new operations in `src/searchIndexClient.ts` / `src/searchClient.ts` etc., open the matching generated `searchIndexClient.ts` (under `src/searchIndex/` etc.) and verify the parameter order on the call. Subtle swaps silently target the wrong resource (e.g. `deleteKnowledgeSourceFile(fileId, name)` vs `(name, fileId)`), producing no error and a silently no-op'd request.
 
 ## Architecture
 
@@ -137,6 +138,14 @@ For a detailed example (wrong vs right), see [references/architecture.md](refere
 - **Test data:** `Hotel` interface in `test/public/utils/interfaces.ts`, mock embeddings in `mockEmbeddings.ts`.
 - **`test/snippets.spec.ts`** is NOT a real test — it contains doc snippet source code.
 - To run live tests, copy `sample.env` to `.env` and fill in values.
+- **Always register non-ENDPOINT env vars in `envSetupForPlayback`** in `test/public/utils/recordedClient.ts`. Any env var the tests read (e.g. `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME`) needs a stable placeholder value there, otherwise the recorder swaps the live value in record mode but exposes it raw in playback, producing body diffs.
+- **Recorder env-var sanitizer is value-based, not field-based** — every occurrence of an env var's value in a request body is replaced with the playback placeholder. If two distinct fields (e.g. `deploymentId` and `modelName`) happen to share the same string, both get sanitized to the same placeholder; the test must then either source both from the same env var or use distinct values that don't collide.
+- **File knowledge source tests require an MSI-enabled search service** — File KS ingestion calls Azure OpenAI under the search service's managed identity. The service returns HTTP 500 ("File upload processing failed. Please check the file format and try again.") even for valid files when the identity is missing or lacks the "Cognitive Services OpenAI User" role on the embedding account. The error message is misleading; the fix is identity/role, not file format.
+- **Test fixtures live under `test/public/node/preview/fixtures/`** — load with `readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "fixtures", name))` to keep tests reproducible without inlining binary buffers.
+
+### Asset Sync
+
+Recordings are stored under `.assets/<random>/js/sdk/search/search-documents/recordings/...` and tracked via `assets.json` (`AssetsRepo: Azure/azure-sdk-assets`). After recording locally, run `pnpm exec dev-tool test-proxy push` from the package directory to publish the recordings and bump `assets.json.Tag`. Commit the updated `assets.json` alongside the test source change.
 
 ## References
 
