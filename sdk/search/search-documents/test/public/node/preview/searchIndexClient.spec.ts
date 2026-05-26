@@ -207,7 +207,7 @@ describe("SearchIndexClient (Preview)", { timeout: 20_000 }, () => {
                 azureOpenAIParameters: {
                   deploymentId: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
                   resourceUrl: env.AZURE_OPENAI_ENDPOINT,
-                  modelName: "text-embedding-ada-002",
+                  modelName: env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
                 },
               },
             },
