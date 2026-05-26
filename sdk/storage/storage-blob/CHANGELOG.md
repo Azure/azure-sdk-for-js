@@ -4,12 +4,11 @@
 
 ### Features Added
 
-- Exposed `transactionalContentMD5` and `transactionalContentCrc64` on
-  `BlockBlobUploadOptions` so callers can supply transactional checksums to
-  `BlockBlobClient.upload()`. The values were already forwarded at runtime by
-  `setUploadChecksumParameters`; only the public typed surface was missing,
-  making them inconsistent with `BlockBlobStageBlockOptions`,
-  `AppendBlobAppendBlockOptions`, and `PageBlobUploadPagesOptions`.
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 
 ## 12.32.0-beta.1 (2026-03-05)
 

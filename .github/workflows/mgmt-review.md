@@ -39,6 +39,7 @@ on:
           } catch (e) {
             core.warning(`Could not add in-progress label: ${e.message}`);
           }
+checkout: false
 labels: [mgmt-review-needed]
 if: github.event.label.name == 'mgmt-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
@@ -59,7 +60,6 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
   bash: true
-  edit:
   cache-memory:
   repo-memory:
 safe-outputs:
@@ -72,13 +72,15 @@ safe-outputs:
     max: 10
     side: "RIGHT"
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
-  push-to-pull-request-branch:
-    max: 3
-    protected-files: allowed
-    allowed-files: ["sdk/", "eng/", "pnpm-lock.yaml"]
   submit-pull-request-review:
     max: 1
     footer: "if-body"
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  add-labels:
+    max: 1
+    target: "${{ github.event.pull_request.number || github.event.issue.number }}"
+  remove-labels:
+    max: 1
     target: "${{ github.event.pull_request.number || github.event.issue.number }}"
   messages:
     footer: "> ⚡ *Benchmarked by [{workflow_name}]({run_url})*"
@@ -208,7 +210,7 @@ Store a brief summary in `cache-memory` (PR number, package, outcome) so future 
   2. All CI check runs — list every check with `conclusion: failure` or `state: error`
   3. ADO pipeline results — check `state`/`conclusion` fields; for failures, fetch ADO logs via the REST API to get specific error details
 - For checks still `pending` or `in_progress`, note them as "⏳ still running" — do NOT skip them.
-- **Important**: Record each failure in a structured list before moving to Step 3. This list will be used for both auto-fix attempts and the final comment.
+- **Important**: Record each failure in a structured list before moving to Step 3. This list will be used to compose the final PR comment.
 
 #### CI Check Name → Failure Mapping
 
@@ -231,7 +233,7 @@ These are exact strings/patterns to search for in CI logs and PR status. They ar
 | `UnitTest FAILED` request url mismatch | Stale test recordings | You need to record new recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). Or you could simply skip tests with maintainer approval. | No |
 | `UnitTest FAILED` missing browser recordings | Missing browser recordings | You need to record browser recordings per [test guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#run-tests-in-record-mode). | No |
 | `Build FAILED` | Compilation failure | Fix compile errors | No |
-| `Check-format FAILED` | Code not formatted | Run `pnpm format` | Yes |
+| `Check-format FAILED` | Code not formatted | Run `cd <package-dir> && pnpm format` locally and push the result | No |
 | `verify-links` broken URL | Broken markdown links | Add URL to `eng/ignore-links.txt` | No |
 | PR `Merging is blocking` pnpm-lock conflict | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | No |
 | `ERR_PNPM_LOCKFILE_MISSING_DEPENDENCY` Broken lockfile | pnpm-lock.yaml conflict | Bot regenerates `pnpm-lock.yaml` and pushes the fix to the PR branch; if auto-fix fails, follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) | NO |
@@ -242,17 +244,7 @@ Besides above cases also:
 - Check [CI troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) for other failures
 - Provide general guidance if merging conflict exists
 
-### Step 3. Auto-fix failures if possible
-
-> **Time budget**: Spend at most **10 minutes** on all auto-fix attempts combined. If an auto-fix fails or takes too long, stop immediately and report it as a manual-fix item in Step 4. Never let auto-fix attempts prevent you from posting the complete failure report.
-
-For failures with `Auto Fix: Yes` from your Step 2 list, attempt fixes and push directly to the PR branch via `push-to-pull-request-branch`.
-
-#### 3a. Check-format failure
-
-Run `cd <package-dir> && pnpm format` then push via `push-to-pull-request-branch`.
-
-### Step 4. Post a comment
+### Step 3. Post a comment
 
 The comment must report **every** blocking item from your Step 2 list — not just the ones you attempted to auto-fix. This is the most important step.
 
@@ -264,14 +256,17 @@ Compose a single GitHub PR comment (not a review) with:
 - **Header**: `## Next Steps to Merge`
 - **Message**: `Only failed checks and required actions are listed below:`
 - Include **all** currently failing/blocking checks from your Step 2 list:
-  - Successfully auto-fixed: `- ✅ <Check name>: <reason>. Auto-fixed in commit <sha-link>.`
-  - Not auto-fixed (or auto-fix failed): `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).`
+  - Not fixed: `- ❌ <Check name>: <reason>. Action: <fix steps>. Review [ADO logs](<target_url from check API>).`
+  - For `Check-format FAILED` specifically, use this format:
+    ```
+    - ❌ Check-format: code not formatted. Action: Run the following command locally, then commit and push the result: `cd <package-dir> && pnpm format`. Review [ADO logs](<target_url>).
+    ```
   - pnpm-lock conflict (manual): `- 🔄 pnpm-lock conflict: <reason>. Follow the [conflict guide](...).`
   - Still running: `- ⏳ <Check name>: still running.`
   - **Note:** Always include the real ADO `target_url` link; never use placeholder URLs.
 - Keep concise (target <= 15 lines). If nothing blocks: `## PR is ready to merge`.
 
-Post via `add_comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
+Post via `add-comment` exactly once. Use `hide-older-comments: true` to avoid duplicates. Include marker `<!-- gh-aw-workflow-id: mgmt-review -->` in the body.
 
 ### Required Output Template
 
@@ -282,7 +277,6 @@ Use this exact shape and keep it short. The comment MUST include ALL blocking it
 Only failed checks and required actions are listed below.
 
 - ❌ <failed check name>: <short failure reason>. Action: <specific fix command or step>. Review [ADO logs](<real target_url from check API>).
-- ✅ <auto-fixed check name>: <short failure reason>. Auto-fixed in commit [`<sha>`](<commit-url>).
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) to fix this issue.
 - ⏳ <pending check name>: still running.
 ```

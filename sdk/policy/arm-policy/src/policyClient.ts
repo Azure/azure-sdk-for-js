@@ -18,7 +18,7 @@ import { _getPolicyTokensOperations } from "./classic/policyTokens/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { PolicyClientOptionalParams } from "./api/policyContext.js";
+export type { PolicyClientOptionalParams } from "./api/policyContext.js";
 
 export class PolicyClient {
   private _client: PolicyContext;
