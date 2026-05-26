@@ -10,6 +10,10 @@ export type {
   SerialConsoleOperations,
   SerialConsoleOperationsValueItem,
   SerialConsoleOperationsValueItemDisplay,
+  DisableSerialConsoleResult,
+  DisableSerialConsoleResultProperties,
+  EnableSerialConsoleResult,
+  EnableSerialConsoleResultProperties,
   SerialPort,
   SerialPortProperties,
   SerialPortState,
@@ -20,9 +24,5 @@ export type {
   CreatedByType,
   SerialPortListResult,
   SerialPortConnectResult,
-  DisableSerialConsoleResult,
-  DisableSerialConsoleResultProperties,
-  EnableSerialConsoleResult,
-  EnableSerialConsoleResultProperties,
 } from "./models.js";
 export { KnownCreatedByType, KnownVersions } from "./models.js";

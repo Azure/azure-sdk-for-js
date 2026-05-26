@@ -49,20 +49,6 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/serialConsoleOperationGroup": {
-      "browser": {
-        "types": "./dist/browser/api/serialConsoleOperationGroup/index.d.ts",
-        "default": "./dist/browser/api/serialConsoleOperationGroup/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/serialConsoleOperationGroup/index.d.ts",
-        "default": "./dist/esm/api/serialConsoleOperationGroup/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/serialConsoleOperationGroup/index.d.ts",
-        "default": "./dist/commonjs/api/serialConsoleOperationGroup/index.js"
-      }
-    },
     "./api/serialPorts": {
       "browser": {
         "types": "./dist/browser/api/serialPorts/index.d.ts",

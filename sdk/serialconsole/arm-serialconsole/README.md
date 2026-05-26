@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/serialconsole/arm-serialconsole)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-serialconsole)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-serialconsole)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-serialconsole?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/serialconsole/arm-serialconsole/samples)
 
 ## Getting started

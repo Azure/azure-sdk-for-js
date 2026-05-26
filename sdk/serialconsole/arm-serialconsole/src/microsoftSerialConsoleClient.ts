@@ -6,14 +6,25 @@ import {
   MicrosoftSerialConsoleClientOptionalParams,
   createMicrosoftSerialConsole,
 } from "./api/index.js";
-import { listOperations, getConsoleStatus } from "./api/operations.js";
-import { ListOperationsOptionalParams, GetConsoleStatusOptionalParams } from "./api/options.js";
 import {
-  SerialConsoleOperationGroupOperations,
-  _getSerialConsoleOperationGroupOperations,
-} from "./classic/serialConsoleOperationGroup/index.js";
+  enableConsole,
+  disableConsole,
+  listOperations,
+  getConsoleStatus,
+} from "./api/operations.js";
+import {
+  EnableConsoleOptionalParams,
+  DisableConsoleOptionalParams,
+  ListOperationsOptionalParams,
+  GetConsoleStatusOptionalParams,
+} from "./api/options.js";
 import { SerialPortsOperations, _getSerialPortsOperations } from "./classic/serialPorts/index.js";
-import { SerialConsoleStatus, SerialConsoleOperations } from "./models/models.js";
+import {
+  SerialConsoleStatus,
+  SerialConsoleOperations,
+  DisableSerialConsoleResult,
+  EnableSerialConsoleResult,
+} from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -54,8 +65,23 @@ export class MicrosoftSerialConsoleClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.serialConsoleOperationGroup = _getSerialConsoleOperationGroupOperations(this._client);
     this.serialPorts = _getSerialPortsOperations(this._client);
+  }
+
+  /** Enables the Serial Console service for all VMs and VM scale sets in the provided subscription */
+  enableConsole(
+    defaultParam: string,
+    options: EnableConsoleOptionalParams = { requestOptions: {} },
+  ): Promise<EnableSerialConsoleResult> {
+    return enableConsole(this._client, defaultParam, options);
+  }
+
+  /** Disables the Serial Console service for all VMs and VM scale sets in the provided subscription */
+  disableConsole(
+    defaultParam: string,
+    options: DisableConsoleOptionalParams = { requestOptions: {} },
+  ): Promise<DisableSerialConsoleResult> {
+    return disableConsole(this._client, defaultParam, options);
   }
 
   /** Gets a list of Serial Console API operations. */
@@ -73,8 +99,6 @@ export class MicrosoftSerialConsoleClient {
     return getConsoleStatus(this._client, defaultParam, options);
   }
 
-  /** The operation groups for serialConsoleOperationGroup */
-  public readonly serialConsoleOperationGroup: SerialConsoleOperationGroupOperations;
   /** The operation groups for serialPorts */
   public readonly serialPorts: SerialPortsOperations;
 }

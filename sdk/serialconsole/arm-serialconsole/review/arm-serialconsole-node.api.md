@@ -38,6 +38,10 @@ export interface CloudErrorBody {
 export type CreatedByType = string;
 
 // @public
+export interface DisableConsoleOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface DisableSerialConsoleResult {
     // (undocumented)
     properties?: DisableSerialConsoleResultProperties;
@@ -46,6 +50,10 @@ export interface DisableSerialConsoleResult {
 // @public
 export interface DisableSerialConsoleResultProperties {
     disabled?: boolean;
+}
+
+// @public
+export interface EnableConsoleOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -92,10 +100,11 @@ export interface ListOperationsOptionalParams extends OperationOptions {
 export class MicrosoftSerialConsoleClient {
     constructor(credential: TokenCredential, options?: MicrosoftSerialConsoleClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: MicrosoftSerialConsoleClientOptionalParams);
+    disableConsole(defaultParam: string, options?: DisableConsoleOptionalParams): Promise<DisableSerialConsoleResult>;
+    enableConsole(defaultParam: string, options?: EnableConsoleOptionalParams): Promise<EnableSerialConsoleResult>;
     getConsoleStatus(defaultParam: string, options?: GetConsoleStatusOptionalParams): Promise<SerialConsoleStatus>;
     listOperations(options?: ListOperationsOptionalParams): Promise<SerialConsoleOperations>;
     readonly pipeline: Pipeline;
-    readonly serialConsoleOperationGroup: SerialConsoleOperationGroupOperations;
     readonly serialPorts: SerialPortsOperations;
 }
 
@@ -118,20 +127,6 @@ export interface Resource {
 }
 
 export { RestError }
-
-// @public
-export interface SerialConsoleOperationGroupDisableConsoleOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SerialConsoleOperationGroupEnableConsoleOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SerialConsoleOperationGroupOperations {
-    disableConsole: (defaultParam: string, options?: SerialConsoleOperationGroupDisableConsoleOptionalParams) => Promise<DisableSerialConsoleResult>;
-    enableConsole: (defaultParam: string, options?: SerialConsoleOperationGroupEnableConsoleOptionalParams) => Promise<EnableSerialConsoleResult>;
-}
 
 // @public
 export interface SerialConsoleOperations {

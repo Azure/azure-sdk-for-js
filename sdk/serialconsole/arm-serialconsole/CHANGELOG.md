@@ -1,14 +1,11 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-05-19)
+## 3.0.0-beta.1 (2026-05-26)
 Compared with version 2.1.0
 
 ### Features Added
-  - Added operation group SerialConsoleOperationGroupOperations
   - Added Interface DisableSerialConsoleResultProperties
   - Added Interface EnableSerialConsoleResultProperties
-  - Added Interface SerialConsoleOperationGroupDisableConsoleOptionalParams
-  - Added Interface SerialConsoleOperationGroupEnableConsoleOptionalParams
   - Added Interface SerialConsoleStatusProperties
   - Added Interface SerialPortProperties
   - Added Interface SystemData
@@ -26,8 +23,6 @@ Compared with version 2.1.0
 
 ### Breaking Changes
   - Removed operation SerialPorts.delete
-  - Removed Interface DisableConsoleOptionalParams
-  - Removed Interface EnableConsoleOptionalParams
   - Removed Interface SerialPortsDeleteOptionalParams
   - Interface SerialConsoleStatus no longer has parameter disabled
 

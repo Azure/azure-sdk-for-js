@@ -14,7 +14,7 @@ async function enableSerialConsoleForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftSerialConsoleClient(credential, subscriptionId);
-  const result = await client.serialConsoleOperationGroup.enableConsole("default");
+  const result = await client.enableConsole("default");
   console.log(result);
 }
 

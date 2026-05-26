@@ -152,6 +152,60 @@ export function serialConsoleOperationsValueItemDisplayDeserializer(
   };
 }
 
+/** Returns whether or not Serial Console is disabled. */
+export interface DisableSerialConsoleResult {
+  properties?: DisableSerialConsoleResultProperties;
+}
+
+export function disableSerialConsoleResultDeserializer(item: any): DisableSerialConsoleResult {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : disableSerialConsoleResultPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** model interface DisableSerialConsoleResultProperties */
+export interface DisableSerialConsoleResultProperties {
+  /** Whether or not Serial Console is disabled. */
+  disabled?: boolean;
+}
+
+export function disableSerialConsoleResultPropertiesDeserializer(
+  item: any,
+): DisableSerialConsoleResultProperties {
+  return {
+    disabled: item["disabled"],
+  };
+}
+
+/** Returns whether or not Serial Console is disabled (enabled). */
+export interface EnableSerialConsoleResult {
+  properties?: EnableSerialConsoleResultProperties;
+}
+
+export function enableSerialConsoleResultDeserializer(item: any): EnableSerialConsoleResult {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : enableSerialConsoleResultPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** model interface EnableSerialConsoleResultProperties */
+export interface EnableSerialConsoleResultProperties {
+  /** Whether or not Serial Console is disabled. */
+  disabled?: boolean;
+}
+
+export function enableSerialConsoleResultPropertiesDeserializer(
+  item: any,
+): EnableSerialConsoleResultProperties {
+  return {
+    disabled: item["disabled"],
+  };
+}
+
 /** Represents the serial port of the parent resource. */
 export interface SerialPort extends ProxyResource {
   /** Specifies whether the port is enabled for a serial console connection. */
@@ -337,60 +391,6 @@ export interface SerialPortConnectResult {
 export function serialPortConnectResultDeserializer(item: any): SerialPortConnectResult {
   return {
     connectionString: item["connectionString"],
-  };
-}
-
-/** Returns whether or not Serial Console is disabled. */
-export interface DisableSerialConsoleResult {
-  properties?: DisableSerialConsoleResultProperties;
-}
-
-export function disableSerialConsoleResultDeserializer(item: any): DisableSerialConsoleResult {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : disableSerialConsoleResultPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** model interface DisableSerialConsoleResultProperties */
-export interface DisableSerialConsoleResultProperties {
-  /** Whether or not Serial Console is disabled. */
-  disabled?: boolean;
-}
-
-export function disableSerialConsoleResultPropertiesDeserializer(
-  item: any,
-): DisableSerialConsoleResultProperties {
-  return {
-    disabled: item["disabled"],
-  };
-}
-
-/** Returns whether or not Serial Console is disabled (enabled). */
-export interface EnableSerialConsoleResult {
-  properties?: EnableSerialConsoleResultProperties;
-}
-
-export function enableSerialConsoleResultDeserializer(item: any): EnableSerialConsoleResult {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : enableSerialConsoleResultPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** model interface EnableSerialConsoleResultProperties */
-export interface EnableSerialConsoleResultProperties {
-  /** Whether or not Serial Console is disabled. */
-  disabled?: boolean;
-}
-
-export function enableSerialConsoleResultPropertiesDeserializer(
-  item: any,
-): EnableSerialConsoleResultProperties {
-  return {
-    disabled: item["disabled"],
   };
 }
 

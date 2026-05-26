@@ -13,6 +13,10 @@ export type {
   SerialConsoleOperations,
   SerialConsoleOperationsValueItem,
   SerialConsoleOperationsValueItemDisplay,
+  DisableSerialConsoleResult,
+  DisableSerialConsoleResultProperties,
+  EnableSerialConsoleResult,
+  EnableSerialConsoleResultProperties,
   SerialPort,
   SerialPortProperties,
   SerialPortState,
@@ -23,21 +27,15 @@ export type {
   CreatedByType,
   SerialPortListResult,
   SerialPortConnectResult,
-  DisableSerialConsoleResult,
-  DisableSerialConsoleResultProperties,
-  EnableSerialConsoleResult,
-  EnableSerialConsoleResultProperties,
 } from "./models/index.js";
 export { KnownCreatedByType, KnownVersions } from "./models/index.js";
 export type {
   MicrosoftSerialConsoleClientOptionalParams,
+  EnableConsoleOptionalParams,
+  DisableConsoleOptionalParams,
   ListOperationsOptionalParams,
   GetConsoleStatusOptionalParams,
 } from "./api/index.js";
-export type {
-  SerialConsoleOperationGroupEnableConsoleOptionalParams,
-  SerialConsoleOperationGroupDisableConsoleOptionalParams,
-} from "./api/serialConsoleOperationGroup/index.js";
 export type {
   SerialPortsConnectOptionalParams,
   SerialPortsListBySubscriptionsOptionalParams,
@@ -45,10 +43,7 @@ export type {
   SerialPortsCreateOptionalParams,
   SerialPortsGetOptionalParams,
 } from "./api/serialPorts/index.js";
-export type {
-  SerialConsoleOperationGroupOperations,
-  SerialPortsOperations,
-} from "./classic/index.js";
+export type { SerialPortsOperations } from "./classic/index.js";
 export { AzureClouds };
 export type { AzureSupportedClouds };
 export { RestError, isRestError } from "@azure/core-rest-pipeline";

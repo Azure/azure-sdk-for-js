@@ -2,17 +2,17 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-serialconsole in some common scenarios.
 
-| **File Name**                                                                                         | **Description**                                                                                                                                           |
-| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [getConsoleStatusSample.js][getconsolestatussample]                                                   | gets whether or not Serial Console is disabled for a given subscription x-ms-original-file: 2024-07-01/SerialConsoleStatus.json                           |
-| [listOperationsSample.js][listoperationssample]                                                       | gets a list of Serial Console API operations. x-ms-original-file: 2024-07-01/GetOperationsExample.json                                                    |
-| [serialConsoleOperationGroupDisableConsoleSample.js][serialconsoleoperationgroupdisableconsolesample] | disables the Serial Console service for all VMs and VM scale sets in the provided subscription x-ms-original-file: 2024-07-01/DisableConsoleExamples.json |
-| [serialConsoleOperationGroupEnableConsoleSample.js][serialconsoleoperationgroupenableconsolesample]   | enables the Serial Console service for all VMs and VM scale sets in the provided subscription x-ms-original-file: 2024-07-01/EnableConsoleExamples.json   |
-| [serialPortsConnectSample.js][serialportsconnectsample]                                               | connect to serial port of the target resource x-ms-original-file: 2024-07-01/SerialPortConnectVM.json                                                     |
-| [serialPortsCreateSample.js][serialportscreatesample]                                                 | creates or updates a serial port x-ms-original-file: 2024-07-01/CreateSerialPort.json                                                                     |
-| [serialPortsGetSample.js][serialportsgetsample]                                                       | gets the configured settings for a serial port x-ms-original-file: 2024-07-01/GetSerialPort.json                                                          |
-| [serialPortsListBySubscriptionsSample.js][serialportslistbysubscriptionssample]                       | handles requests to list all SerialPort resources in a subscription. x-ms-original-file: 2024-07-01/ListSerialPortSubscription.json                       |
-| [serialPortsListSample.js][serialportslistsample]                                                     | lists all of the configured serial ports for a parent resource x-ms-original-file: 2024-07-01/ListSerialPort.json                                         |
+| **File Name**                                                                   | **Description**                                                                                                                                           |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [disableConsoleSample.js][disableconsolesample]                                 | disables the Serial Console service for all VMs and VM scale sets in the provided subscription x-ms-original-file: 2024-07-01/DisableConsoleExamples.json |
+| [enableConsoleSample.js][enableconsolesample]                                   | enables the Serial Console service for all VMs and VM scale sets in the provided subscription x-ms-original-file: 2024-07-01/EnableConsoleExamples.json   |
+| [getConsoleStatusSample.js][getconsolestatussample]                             | gets whether or not Serial Console is disabled for a given subscription x-ms-original-file: 2024-07-01/SerialConsoleStatus.json                           |
+| [listOperationsSample.js][listoperationssample]                                 | gets a list of Serial Console API operations. x-ms-original-file: 2024-07-01/GetOperationsExample.json                                                    |
+| [serialPortsConnectSample.js][serialportsconnectsample]                         | connect to serial port of the target resource x-ms-original-file: 2024-07-01/SerialPortConnectVM.json                                                     |
+| [serialPortsCreateSample.js][serialportscreatesample]                           | creates or updates a serial port x-ms-original-file: 2024-07-01/CreateSerialPort.json                                                                     |
+| [serialPortsGetSample.js][serialportsgetsample]                                 | gets the configured settings for a serial port x-ms-original-file: 2024-07-01/GetSerialPort.json                                                          |
+| [serialPortsListBySubscriptionsSample.js][serialportslistbysubscriptionssample] | handles requests to list all SerialPort resources in a subscription. x-ms-original-file: 2024-07-01/ListSerialPortSubscription.json                       |
+| [serialPortsListSample.js][serialportslistsample]                               | lists all of the configured serial ports for a parent resource x-ms-original-file: 2024-07-01/ListSerialPort.json                                         |
 
 ## Prerequisites
 
@@ -39,23 +39,23 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node getConsoleStatusSample.js
+node disableConsoleSample.js
 ```
 
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-node getConsoleStatusSample.js
+node disableConsoleSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[disableconsolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/disableConsoleSample.js
+[enableconsolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/enableConsoleSample.js
 [getconsolestatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/getConsoleStatusSample.js
 [listoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/listOperationsSample.js
-[serialconsoleoperationgroupdisableconsolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/serialConsoleOperationGroupDisableConsoleSample.js
-[serialconsoleoperationgroupenableconsolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/serialConsoleOperationGroupEnableConsoleSample.js
 [serialportsconnectsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/serialPortsConnectSample.js
 [serialportscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/serialPortsCreateSample.js
 [serialportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/serialconsole/arm-serialconsole/samples/v3-beta/javascript/serialPortsGetSample.js

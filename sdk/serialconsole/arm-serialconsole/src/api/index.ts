@@ -6,5 +6,10 @@ export type {
   MicrosoftSerialConsoleClientOptionalParams,
 } from "./microsoftSerialConsoleContext.js";
 export { createMicrosoftSerialConsole } from "./microsoftSerialConsoleContext.js";
-export { listOperations, getConsoleStatus } from "./operations.js";
-export type { ListOperationsOptionalParams, GetConsoleStatusOptionalParams } from "./options.js";
+export { enableConsole, disableConsole, listOperations, getConsoleStatus } from "./operations.js";
+export type {
+  EnableConsoleOptionalParams,
+  DisableConsoleOptionalParams,
+  ListOperationsOptionalParams,
+  GetConsoleStatusOptionalParams,
+} from "./options.js";
