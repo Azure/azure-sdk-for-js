@@ -27,6 +27,7 @@ import type {
   AzureStandardVoice,
   AzurePersonalVoice,
   AzureAvatarVoiceSyncVoice,
+  AzureRealtimeNativeVoice,
   Voice,
   RequestSession,
 } from "../../src/models/index.js";
@@ -43,6 +44,8 @@ import {
   azurePersonalVoiceDeserializer,
   azureAvatarVoiceSyncVoiceSerializer,
   azureAvatarVoiceSyncVoiceDeserializer,
+  azureRealtimeNativeVoiceSerializer,
+  azureRealtimeNativeVoiceDeserializer,
   voiceSerializer,
   voiceDeserializer,
   requestSessionSerializer,
@@ -54,6 +57,7 @@ import {
   KnownAvatarOutputProtocol,
   KnownOAIVoice,
   KnownAzureVoiceType,
+  KnownAzureRealtimeNativeVoiceName,
 } from "../../src/models/models.js";
 
 describe("Avatar and Voice Models - Serialization & Validation", () => {
@@ -844,6 +848,46 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
       expect(wire.type).toBe(KnownAzureVoiceType.AvatarVoiceSync);
       expect(wire.custom_lexicon_url).toBeUndefined();
       expect(wire.prefer_locales).toBeUndefined();
+    });
+  });
+
+  describe("AzureRealtimeNativeVoice (preview 2026-06-01)", () => {
+    it("serializes the preview native voice type", () => {
+      const voice: AzureRealtimeNativeVoice = {
+        type: "azure-realtime-native",
+        name: KnownAzureRealtimeNativeVoiceName.Ava,
+      };
+
+      const wire = azureRealtimeNativeVoiceSerializer(voice);
+
+      expect(wire).toEqual({
+        type: "azure-realtime-native",
+        name: "ava",
+      });
+    });
+
+    it("round-trips through the Voice union serializer", () => {
+      const voice: Voice = {
+        type: "azure-realtime-native",
+        name: KnownAzureRealtimeNativeVoiceName.Xiaoxiao,
+      };
+
+      const wire = voiceSerializer(voice);
+      const result = voiceDeserializer(wire);
+
+      expect(result).toEqual({
+        type: "azure-realtime-native",
+        name: "xiaoxiao",
+      });
+    });
+
+    it("deserializes the dedicated native voice model", () => {
+      const result = azureRealtimeNativeVoiceDeserializer({
+        type: "azure-realtime-native",
+        name: "andrew",
+      });
+
+      expect(result.name).toBe(KnownAzureRealtimeNativeVoiceName.Andrew);
     });
   });
 

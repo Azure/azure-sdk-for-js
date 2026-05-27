@@ -71,8 +71,8 @@ The service uses session configuration to control various aspects of voice inter
 
 - **Turn Detection**: Configure how the service detects when users start and stop speaking
 - **Audio Processing**: Enable noise suppression and echo cancellation
-- **Voice Selection**: Choose from standard Azure voices, high-definition voices, or custom voices
-- **Model Selection**: Select the AI model (GPT-Realtime, GPT-Realtime-Mini, Phi variants) that best fits your needs
+- **Voice Selection**: Choose from standard Azure voices, custom voices, avatar-sync voices, or preview Azure realtime native voices
+- **Model Selection**: Select the AI model (GPT-Realtime, GPT-Realtime-Mini, Azure-Realtime, Phi variants) that best fits your needs
 
 ### Models and Capabilities
 
@@ -82,6 +82,7 @@ The VoiceLive API supports multiple AI models with different capabilities:
 | -------------------- | -------------------------------------------- | --------------------------------- |
 | `gpt-realtime`       | Real-time audio processing model             | High-quality conversational AI    |
 | `gpt-realtime-mini`  | Lightweight real-time model                  | Fast, efficient interactions      |
+| `azure-realtime`     | Azure-native realtime model                 | Native voices and WebRTC scenarios |
 | `phi4-mm-realtime`   | Phi model with multimodal support            | Cost-effective voice applications |
 
 ### Conversational Enhancements
@@ -290,6 +291,19 @@ await session.updateSession({
   },
   inputAudioFormat: "pcm16",
   outputAudioFormat: "pcm16",
+});
+```
+
+For preview native voices on the `azure-realtime` model, use the dedicated voice type:
+
+```ts
+const session = await client.startSession("azure-realtime");
+
+await session.updateSession({
+  voice: {
+    type: "azure-realtime-native",
+    name: "ava",
+  },
 });
 ```
 
