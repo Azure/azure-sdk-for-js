@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ComputeLimitContext as Client } from "../index.js";
-import type {
-  Feature,
-  _FeatureListResult,
-  OperationStatusResult} from "../../models/models.js";
+import type { Feature, _FeatureListResult, OperationStatusResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   featureDeserializer,
@@ -13,11 +10,8 @@ import {
   featureEnableRequestSerializer,
   operationStatusResultDeserializer,
 } from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -26,13 +20,8 @@ import type {
   FeaturesListBySubscriptionLocationResourceOptionalParams,
   FeaturesGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _disableSend(

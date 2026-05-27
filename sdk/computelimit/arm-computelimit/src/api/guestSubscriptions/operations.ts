@@ -2,20 +2,15 @@
 // Licensed under the MIT License.
 
 import type { ComputeLimitContext as Client } from "../index.js";
-import type {
-  GuestSubscription,
-  _GuestSubscriptionListResult} from "../../models/models.js";
+import type { GuestSubscription, _GuestSubscriptionListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   guestSubscriptionSerializer,
   guestSubscriptionDeserializer,
   _guestSubscriptionListResultDeserializer,
 } from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
@@ -23,13 +18,8 @@ import type {
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listBySubscriptionLocationResourceSend(
   context: Client,
