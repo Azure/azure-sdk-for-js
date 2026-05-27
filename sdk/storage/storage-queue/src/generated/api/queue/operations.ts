@@ -184,9 +184,9 @@ export function _updateMessageSend(
           : {}),
         ...options.requestOptions?.headers,
       },
-      body: !options["queueMessage"]
-        ? options["queueMessage"]
-        : queueMessageXmlSerializer(options["queueMessage"]),
+      body: !options?.queueMessage
+        ? options?.queueMessage
+        : queueMessageXmlSerializer(options?.queueMessage),
     });
 }
 
@@ -770,9 +770,9 @@ export function _setAccessPolicySend(
           : {}),
         ...options.requestOptions?.headers,
       },
-      body: !options["queueAcl"]
-        ? options["queueAcl"]
-        : signedIdentifiersXmlSerializer(options["queueAcl"]),
+      body: !options?.queueAcl
+        ? options?.queueAcl
+        : signedIdentifiersXmlSerializer(options?.queueAcl),
     });
 }
 

@@ -53,3 +53,4 @@ export type {
   ServiceSetPropertiesOptionalParams,
 } from "./api/service/index.js";
 export type { QueueOperations, ServiceOperations } from "./classic/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
