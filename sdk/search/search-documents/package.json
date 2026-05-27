@@ -109,6 +109,12 @@
     ],
     "requiredResources": {
       "Azure Search Documents instance": "https://learn.microsoft.com/azure/search/search-create-service-portal"
+    },
+    "extraFiles": {
+      "./samples-dev/fixtures": [
+        "typescript/src/fixtures",
+        "javascript/fixtures"
+      ]
     }
   },
   "type": "module",
