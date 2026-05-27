@@ -163,25 +163,18 @@ The Azure Playwright reporter is included with the `@azure/playwright` package a
 Add both the HTML reporter and Azure Playwright reporter to your `playwright.service.config.ts`:
 
 ```typescript snippet:configure_reporters
-import { createAzurePlaywrightConfig } from "@azure/playwright";
-import { defineConfig } from "@playwright/test";
 import { DefaultAzureCredential } from "@azure/identity";
+import { defineConfig } from "@playwright/test";
+import { createAzurePlaywrightConfig } from "@azure/playwright";
 
 const credential = new DefaultAzureCredential();
-
-// Your existing playwright config
 const playwrightConfig = defineConfig({});
-
-const azureConfig = defineConfig(
-  playwrightConfig,
-  createAzurePlaywrightConfig(playwrightConfig, { credential }),
-  {
-    reporter: [
-      ["html", { open: "never" }], // HTML reporter must come first
-      ["@azure/playwright/reporter"], // Azure reporter uploads HTML report
-    ],
-  },
-);
+defineConfig(playwrightConfig, createAzurePlaywrightConfig(playwrightConfig, { credential }), {
+  reporter: [
+    ["html", { open: "never" }], // HTML reporter must come first
+    ["@azure/playwright/reporter"], // Azure reporter uploads HTML report
+  ],
+});
 ```
 
 #### 2. Prerequisites for Reporting
