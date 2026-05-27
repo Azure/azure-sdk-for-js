@@ -66,6 +66,11 @@ jobs:
       git clean -xdf
     displayName: "Reset workspace"
 
+  - template: /eng/common/pipelines/templates/steps/login-to-github.yml
+    parameters:
+      TokenOwners:
+        - azure
+
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'
     inputs:
@@ -74,7 +79,7 @@ jobs:
       arguments: >
         -RepoName azure-sdk-for-js
         -RepoOwner azure
-        -AuthToken "$(azuresdk-github-pat)"
+        -AuthToken "$(GH_TOKEN)"
       pwsh: true
 
   - script: |
