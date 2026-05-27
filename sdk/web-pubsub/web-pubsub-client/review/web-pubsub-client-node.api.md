@@ -122,18 +122,6 @@ export interface GroupStateItem {
 }
 
 // @public
-export interface GroupStreamHandler {
-    onComplete?: (args: OnGroupStreamEndArgs) => void;
-    onError?: (args: OnGroupStreamEndArgs) => void;
-    onMessage?: (args: OnGroupStreamDataArgs) => void;
-}
-
-// @public
-export interface GroupStreamSubscription {
-    close(): void;
-}
-
-// @public
 export interface GroupStateSnapshotMessage extends WebPubSubMessageBase {
     group: string;
     items: GroupStateItem[];
