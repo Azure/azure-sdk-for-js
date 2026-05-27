@@ -41,7 +41,6 @@ export type {
   UserMetricsModel,
   UserMetricsProperties,
   EndpointType,
-  HeatMapType,
 } from "./models.js";
 export {
   KnownEndpointStatus,

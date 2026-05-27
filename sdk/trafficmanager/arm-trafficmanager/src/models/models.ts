@@ -1164,8 +1164,6 @@ export function userMetricsPropertiesDeserializer(item: any): UserMetricsPropert
 
 /** Type of EndpointType */
 export type EndpointType = "AzureEndpoints" | "ExternalEndpoints" | "NestedEndpoints";
-/** Type of HeatMapType */
-export type HeatMapType = "default";
 
 /** The available API versions. */
 export enum KnownVersions {

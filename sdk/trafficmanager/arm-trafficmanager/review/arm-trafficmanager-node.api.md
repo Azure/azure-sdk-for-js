@@ -5,8 +5,10 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -179,7 +181,7 @@ export interface HeatMapModel extends ProxyResource {
 
 // @public
 export interface HeatMapOperations {
-    get: (resourceGroupName: string, profileName: string, heatMapType: HeatMapType, options?: HeatMapGetOptionalParams) => Promise<HeatMapModel>;
+    get: (resourceGroupName: string, profileName: string, options?: HeatMapGetOptionalParams) => Promise<HeatMapModel>;
 }
 
 // @public
@@ -190,8 +192,7 @@ export interface HeatMapProperties {
     trafficFlows?: TrafficFlow[];
 }
 
-// @public
-export type HeatMapType = "default";
+export { isRestError }
 
 // @public
 export enum KnownAllowedEndpointRecordType {
@@ -418,6 +419,8 @@ export interface Resource {
     name?: string;
     type?: string;
 }
+
+export { RestError }
 
 // @public
 export interface TrackedResource extends Resource {

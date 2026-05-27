@@ -4,7 +4,7 @@
 import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import { get } from "../../api/heatMap/operations.js";
 import { HeatMapGetOptionalParams } from "../../api/heatMap/options.js";
-import { HeatMapModel, HeatMapType } from "../../models/models.js";
+import { HeatMapModel } from "../../models/models.js";
 
 /** Interface representing a HeatMap operations. */
 export interface HeatMapOperations {
@@ -12,19 +12,14 @@ export interface HeatMapOperations {
   get: (
     resourceGroupName: string,
     profileName: string,
-    heatMapType: HeatMapType,
     options?: HeatMapGetOptionalParams,
   ) => Promise<HeatMapModel>;
 }
 
 function _getHeatMap(context: TrafficManagerManagementContext) {
   return {
-    get: (
-      resourceGroupName: string,
-      profileName: string,
-      heatMapType: HeatMapType,
-      options?: HeatMapGetOptionalParams,
-    ) => get(context, resourceGroupName, profileName, heatMapType, options),
+    get: (resourceGroupName: string, profileName: string, options?: HeatMapGetOptionalParams) =>
+      get(context, resourceGroupName, profileName, options),
   };
 }
 

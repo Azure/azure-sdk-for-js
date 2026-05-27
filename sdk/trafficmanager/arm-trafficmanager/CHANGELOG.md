@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-beta.1 (2026-05-08)
+## 6.2.0-beta.1 (2026-05-27)
 Compared with version 6.1.0
 
 ### Features Added
@@ -13,14 +13,10 @@ Compared with version 6.1.0
   - Added Interface UserMetricsProperties
   - Interface Profile has a new optional parameter recordType
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias HeatMapType
   - Added Type Alias RecordType
   - Added Enum AzureClouds
   - Added Enum KnownRecordType
   - Added Enum KnownVersions
-
-### Breaking Changes
-  - Operation HeatMap.get has a new signature
 
     
 ## 6.1.0 (2023-06-02)

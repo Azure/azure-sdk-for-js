@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-trafficmanager",
-  "version": "7.0.0-beta.1",
+  "version": "6.2.0-beta.1",
   "description": "A generated SDK for TrafficManagerManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -210,5 +210,11 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview"
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }

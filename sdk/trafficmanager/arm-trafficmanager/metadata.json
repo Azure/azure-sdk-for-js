@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Network": "2024-04-01-preview"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.53.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Network",
     "CrossLanguageDefinitionId": {
@@ -46,7 +46,6 @@
       "@azure/arm-trafficmanager!KnownTrafficViewEnrollmentStatus:enum": "Microsoft.Network.TrafficViewEnrollmentStatus",
       "@azure/arm-trafficmanager!KnownAllowedEndpointRecordType:enum": "Microsoft.Network.AllowedEndpointRecordType",
       "@azure/arm-trafficmanager!KnownRecordType:enum": "Microsoft.Network.RecordType",
-      "@azure/arm-trafficmanager!KnownHeatMapType:enum": "Microsoft.Network.HeatMapType",
       "@azure/arm-trafficmanager!KnownVersions:enum": "Microsoft.Network.Versions",
       "@azure/arm-trafficmanager!TrafficManagerUserMetricsKeysOperations#delete:member": "Microsoft.Network.UserMetricsModels.delete",
       "@azure/arm-trafficmanager!TrafficManagerUserMetricsKeysOperations#createOrUpdate:member": "Microsoft.Network.UserMetricsModels.createOrUpdate",

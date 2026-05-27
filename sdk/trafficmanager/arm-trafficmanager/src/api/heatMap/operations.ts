@@ -6,7 +6,6 @@ import {
   cloudErrorDeserializer,
   HeatMapModel,
   heatMapModelDeserializer,
-  HeatMapType,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { HeatMapGetOptionalParams } from "./options.js";
@@ -21,7 +20,6 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   profileName: string,
-  heatMapType: HeatMapType,
   options: HeatMapGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -30,7 +28,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       profileName: profileName,
-      heatMapType: heatMapType,
+      heatMapType: "default",
       "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
       topLeft: !options?.topLeft
         ? options?.topLeft
@@ -70,9 +68,8 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   profileName: string,
-  heatMapType: HeatMapType,
   options: HeatMapGetOptionalParams = { requestOptions: {} },
 ): Promise<HeatMapModel> {
-  const result = await _getSend(context, resourceGroupName, profileName, heatMapType, options);
+  const result = await _getSend(context, resourceGroupName, profileName, options);
   return _getDeserialize(result);
 }

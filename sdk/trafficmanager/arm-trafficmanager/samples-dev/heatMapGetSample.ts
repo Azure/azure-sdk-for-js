@@ -17,7 +17,6 @@ async function heatMapGETWithNullValues(): Promise<void> {
   const result = await client.heatMap.get(
     "azuresdkfornetautoresttrafficmanager1323",
     "azuresdkfornetautoresttrafficmanager3880",
-    "default",
   );
   console.log(result);
 }
@@ -35,7 +34,6 @@ async function heatMapGETWithTopLeftBotRight(): Promise<void> {
   const result = await client.heatMap.get(
     "azuresdkfornetautoresttrafficmanager1323",
     "azuresdkfornetautoresttrafficmanager3880",
-    "default",
     { topLeft: [10, 50.001], botRight: [-50.001, 80] },
   );
   console.log(result);
@@ -54,7 +52,6 @@ async function heatMapGET(): Promise<void> {
   const result = await client.heatMap.get(
     "azuresdkfornetautoresttrafficmanager1323",
     "azuresdkfornetautoresttrafficmanager3880",
-    "default",
   );
   console.log(result);
 }
