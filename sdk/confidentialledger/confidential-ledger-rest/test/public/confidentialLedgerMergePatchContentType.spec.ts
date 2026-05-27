@@ -17,9 +17,7 @@ function getMergePatchPolicy(ledgerEndpoint: string): PipelinePolicy {
   };
   const client = createClient(ledgerEndpoint, fakeCredential);
   const policies = client.pipeline.getOrderedPolicies();
-  const policy = policies.find(
-    (p) => p.name === "confidentialLedgerMergePatchContentTypePolicy",
-  );
+  const policy = policies.find((p) => p.name === "confidentialLedgerMergePatchContentTypePolicy");
   assert.ok(
     policy,
     "confidentialLedgerMergePatchContentTypePolicy should be present in the pipeline",
@@ -68,9 +66,7 @@ describe("Confidential Ledger Merge-Patch Content-Type Policy", () => {
     };
     const client = createClient(ledgerEndpoint, fakeCredential);
     const policies = client.pipeline.getOrderedPolicies();
-    const policy = policies.find(
-      (p) => p.name === "confidentialLedgerMergePatchContentTypePolicy",
-    );
+    const policy = policies.find((p) => p.name === "confidentialLedgerMergePatchContentTypePolicy");
     assert.ok(policy, "Policy should be present");
   });
 
@@ -302,11 +298,7 @@ describe("Confidential Ledger Merge-Patch Content-Type Policy", () => {
 
     await policy.sendRequest(request, next);
 
-    assert.equal(
-      capturedContentTypes[0],
-      JSON_CT,
-      "GET should preserve original Content-Type",
-    );
+    assert.equal(capturedContentTypes[0], JSON_CT, "GET should preserve original Content-Type");
   });
 
   it("should NOT change Content-Type for DELETE /app/users/{userId}", async () => {
@@ -321,11 +313,7 @@ describe("Confidential Ledger Merge-Patch Content-Type Policy", () => {
 
     await policy.sendRequest(request, next);
 
-    assert.equal(
-      capturedContentTypes[0],
-      JSON_CT,
-      "DELETE should preserve original Content-Type",
-    );
+    assert.equal(capturedContentTypes[0], JSON_CT, "DELETE should preserve original Content-Type");
   });
 
   it("should NOT change Content-Type for POST /app/users/{userId}", async () => {
@@ -341,11 +329,7 @@ describe("Confidential Ledger Merge-Patch Content-Type Policy", () => {
 
     await policy.sendRequest(request, next);
 
-    assert.equal(
-      capturedContentTypes[0],
-      JSON_CT,
-      "POST should preserve original Content-Type",
-    );
+    assert.equal(capturedContentTypes[0], JSON_CT, "POST should preserve original Content-Type");
   });
 
   it("should NOT change Content-Type for PUT /app/users/{userId}", async () => {
@@ -361,10 +345,6 @@ describe("Confidential Ledger Merge-Patch Content-Type Policy", () => {
 
     await policy.sendRequest(request, next);
 
-    assert.equal(
-      capturedContentTypes[0],
-      JSON_CT,
-      "PUT should preserve original Content-Type",
-    );
+    assert.equal(capturedContentTypes[0], JSON_CT, "PUT should preserve original Content-Type");
   });
 });
