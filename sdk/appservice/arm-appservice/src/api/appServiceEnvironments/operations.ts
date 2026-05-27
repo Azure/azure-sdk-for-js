@@ -65,8 +65,6 @@ import {
   _privateEndpointConnectionCollectionDeserializer,
   hostingEnvironmentDiagnosticsArrayDeserializer,
   operationArrayDeserializer,
-  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse,
-  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -220,7 +218,7 @@ export function _deletePrivateEndpointConnectionSend(
 
 export async function _deletePrivateEndpointConnectionDeserialize(
   result: PathUncheckedResponse,
-): Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -229,7 +227,7 @@ export async function _deletePrivateEndpointConnectionDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -241,10 +239,7 @@ export function deletePrivateEndpointConnection(
   options: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
-  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
-> {
+): PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionDeserialize,
@@ -263,10 +258,7 @@ export function deletePrivateEndpointConnection(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<
-    OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
-    AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
-  >;
+  ) as PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSend(
@@ -1030,7 +1022,7 @@ export function _deleteAseCustomDnsSuffixConfigurationSend(
 
 export async function _deleteAseCustomDnsSuffixConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1039,7 +1031,7 @@ export async function _deleteAseCustomDnsSuffixConfigurationDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Delete Custom Dns Suffix configuration of an App Service Environment */
@@ -1050,7 +1042,7 @@ export async function deleteAseCustomDnsSuffixConfiguration(
   options: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams = {
     requestOptions: {},
   },
-): Promise<AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _deleteAseCustomDnsSuffixConfigurationSend(
     context,
     resourceGroupName,

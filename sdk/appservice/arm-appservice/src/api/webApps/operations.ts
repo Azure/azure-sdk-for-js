@@ -232,14 +232,9 @@ import {
   WebAppsGetInstanceProcessDumpResponse,
   WebAppsListPublishingProfileXmlWithSecretsResponse,
   WebAppsStartWebSiteNetworkTraceResponse,
-  WebAppsUpdateMachineKeyResponse,
   WebAppsGetFunctionsAdminTokenResponse,
-  WebAppsCreateOneDeployOperationResponse,
-  WebAppsGetOneDeployStatusResponse,
   WebAppsGetContainerLogsZipResponse,
   WebAppsGetWebSiteContainerLogsResponse,
-  WebAppsDeletePrivateEndpointConnectionSlotResponse,
-  WebAppsDeletePrivateEndpointConnectionResponse,
   WebAppsListPublishingProfileXmlWithSecretsSlotResponse,
   WebAppsStartWebSiteNetworkTraceSlotResponse,
   WebAppsGetFunctionsAdminTokenSlotResponse,
@@ -16648,7 +16643,7 @@ export function _updateMachineKeySend(
 
 export async function _updateMachineKeyDeserialize(
   result: PathUncheckedResponse,
-): Promise<WebAppsUpdateMachineKeyResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -16657,7 +16652,7 @@ export async function _updateMachineKeyDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Updates the machine key of an app. */
@@ -16666,7 +16661,7 @@ export async function updateMachineKey(
   resourceGroupName: string,
   name: string,
   options: WebAppsUpdateMachineKeyOptionalParams = { requestOptions: {} },
-): Promise<WebAppsUpdateMachineKeyResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _updateMachineKeySend(context, resourceGroupName, name, options);
   return _updateMachineKeyDeserialize(result);
 }
@@ -17255,7 +17250,7 @@ export function _createOneDeployOperationSend(
 
 export async function _createOneDeployOperationDeserialize(
   result: PathUncheckedResponse,
-): Promise<WebAppsCreateOneDeployOperationResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -17264,7 +17259,7 @@ export async function _createOneDeployOperationDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Invoke the OneDeploy publish web app extension. */
@@ -17273,7 +17268,7 @@ export async function createOneDeployOperation(
   resourceGroupName: string,
   name: string,
   options: WebAppsCreateOneDeployOperationOptionalParams = { requestOptions: {} },
-): Promise<WebAppsCreateOneDeployOperationResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _createOneDeployOperationSend(context, resourceGroupName, name, options);
   return _createOneDeployOperationDeserialize(result);
 }
@@ -17304,7 +17299,7 @@ export function _getOneDeployStatusSend(
 
 export async function _getOneDeployStatusDeserialize(
   result: PathUncheckedResponse,
-): Promise<WebAppsGetOneDeployStatusResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -17313,7 +17308,7 @@ export async function _getOneDeployStatusDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
@@ -17322,7 +17317,7 @@ export async function getOneDeployStatus(
   resourceGroupName: string,
   name: string,
   options: WebAppsGetOneDeployStatusOptionalParams = { requestOptions: {} },
-): Promise<WebAppsGetOneDeployStatusResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _getOneDeployStatusSend(context, resourceGroupName, name, options);
   return _getOneDeployStatusDeserialize(result);
 }
@@ -20355,7 +20350,7 @@ export function _deletePrivateEndpointConnectionSlotSend(
 
 export async function _deletePrivateEndpointConnectionSlotDeserialize(
   result: PathUncheckedResponse,
-): Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -20364,7 +20359,7 @@ export async function _deletePrivateEndpointConnectionSlotDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -20375,10 +20370,7 @@ export function deletePrivateEndpointConnectionSlot(
   privateEndpointConnectionName: string,
   slot: string,
   options: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
-  WebAppsDeletePrivateEndpointConnectionSlotResponse
-> {
+): PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionSlotDeserialize,
@@ -20398,10 +20390,7 @@ export function deletePrivateEndpointConnectionSlot(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<
-    OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
-    WebAppsDeletePrivateEndpointConnectionSlotResponse
-  >;
+  ) as PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSlotSend(
@@ -20636,7 +20625,7 @@ export function _deletePrivateEndpointConnectionSend(
 
 export async function _deletePrivateEndpointConnectionDeserialize(
   result: PathUncheckedResponse,
-): Promise<WebAppsDeletePrivateEndpointConnectionResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -20645,7 +20634,7 @@ export async function _deletePrivateEndpointConnectionDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -20655,10 +20644,7 @@ export function deletePrivateEndpointConnection(
   name: string,
   privateEndpointConnectionName: string,
   options: WebAppsDeletePrivateEndpointConnectionOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
-  WebAppsDeletePrivateEndpointConnectionResponse
-> {
+): PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionDeserialize,
@@ -20677,10 +20663,7 @@ export function deletePrivateEndpointConnection(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<
-    OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
-    WebAppsDeletePrivateEndpointConnectionResponse
-  >;
+  ) as PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSend(

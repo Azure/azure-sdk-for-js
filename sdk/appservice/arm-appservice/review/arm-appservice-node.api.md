@@ -282,11 +282,6 @@ export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams ex
 export interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = {
-    body: any;
-};
-
 // @public
 export interface AppServiceEnvironmentsDeleteOptionalParams extends OperationOptions {
     forceDelete?: boolean;
@@ -297,11 +292,6 @@ export interface AppServiceEnvironmentsDeleteOptionalParams extends OperationOpt
 export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public (undocumented)
-export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse = {
-    body: any;
-};
 
 // @public
 export interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams extends OperationOptions {
@@ -464,9 +454,9 @@ export interface AppServiceEnvironmentsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>, AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>>;
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<Record<string, unknown>>;
     // @deprecated (undocumented)
     beginListChangeVnetAndWait: (resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsListChangeVnetOptionalParams) => PagedAsyncIterableIterator<Site>;
     // @deprecated (undocumented)
@@ -481,8 +471,8 @@ export interface AppServiceEnvironmentsOperations {
     createOrUpdateMultiRolePool: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
     createOrUpdateWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
     delete: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams) => Promise<AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse>;
-    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>, AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
+    deleteAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams) => Promise<Record<string, unknown>>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
     get: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetOptionalParams) => Promise<AppServiceEnvironmentResource>;
     getAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams) => Promise<CustomDnsSuffixConfiguration>;
     getAseV3NetworkingConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams) => Promise<AseV3NetworkingConfiguration>;
@@ -740,11 +730,6 @@ export interface AppServicePlansGetServerFarmRdpPasswordOptionalParams extends O
 export interface AppServicePlansGetServerFarmSkusOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type AppServicePlansGetServerFarmSkusResponse = {
-    body: any;
-};
-
 // @public
 export interface AppServicePlansGetVnetFromServerFarmOptionalParams extends OperationOptions {
 }
@@ -815,7 +800,7 @@ export interface AppServicePlansOperations {
     getRouteForVnet: (resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: AppServicePlansGetRouteForVnetOptionalParams) => Promise<VnetRoute[]>;
     getServerFarmInstanceDetails: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmInstanceDetailsOptionalParams) => Promise<ServerFarmInstanceDetails>;
     getServerFarmRdpPassword: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmRdpPasswordOptionalParams) => Promise<ServerFarmRdpDetails>;
-    getServerFarmSkus: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmSkusOptionalParams) => Promise<AppServicePlansGetServerFarmSkusResponse>;
+    getServerFarmSkus: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmSkusOptionalParams) => Promise<Record<string, unknown>>;
     getVnetFromServerFarm: (resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansGetVnetFromServerFarmOptionalParams) => Promise<VnetInfoResource>;
     getVnetGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: AppServicePlansGetVnetGatewayOptionalParams) => Promise<VnetGateway>;
     list: (options?: AppServicePlansListOptionalParams) => PagedAsyncIterableIterator<AppServicePlan>;
@@ -1520,7 +1505,7 @@ export interface ContentLink {
     readonly contentHash?: ContentHash;
     readonly contentSize?: number;
     readonly contentVersion?: string;
-    readonly metadata?: any;
+    readonly metadata?: Record<string, unknown>;
     uri?: string;
 }
 
@@ -1537,7 +1522,7 @@ export interface ContinuousWebJob extends ProxyResource {
     kind?: string;
     logUrl?: string;
     runCommand?: string;
-    settings?: Record<string, any>;
+    settings?: Record<string, Record<string, unknown>>;
     status?: ContinuousWebJobStatus;
     url?: string;
     usingSdk?: boolean;
@@ -1551,7 +1536,7 @@ export interface ContinuousWebJobProperties {
     extraInfoUrl?: string;
     logUrl?: string;
     runCommand?: string;
-    settings?: Record<string, any>;
+    settings?: Record<string, Record<string, unknown>>;
     status?: ContinuousWebJobStatus;
     url?: string;
     usingSdk?: boolean;
@@ -2366,6 +2351,11 @@ export interface ErrorProperties {
 }
 
 // @public
+export interface ErrorResponse {
+    error?: ErrorProperties;
+}
+
+// @public
 export interface Experiments {
     rampUpRules?: RampUpRule[];
 }
@@ -2375,7 +2365,7 @@ export interface Expression {
     error?: AzureResourceErrorInfo;
     subexpressions?: Expression[];
     text?: string;
-    value?: any;
+    value?: Record<string, unknown>;
 }
 
 // @public
@@ -2530,7 +2520,7 @@ export interface FunctionAppStackProperties {
 
 // @public
 export interface FunctionEnvelope extends ProxyResource {
-    config?: any;
+    config?: Record<string, unknown>;
     configHref?: string;
     files?: Record<string, string>;
     functionAppId?: string;
@@ -2548,7 +2538,7 @@ export interface FunctionEnvelope extends ProxyResource {
 
 // @public
 export interface FunctionEnvelopeProperties {
-    config?: any;
+    config?: Record<string, unknown>;
     configHref?: string;
     files?: Record<string, string>;
     functionAppId?: string;
@@ -3002,7 +2992,7 @@ export type KeyType = string;
 export interface KeyValuePairStringObject {
     // (undocumented)
     readonly key?: string;
-    readonly value?: any;
+    readonly value?: Record<string, unknown>;
 }
 
 // @public
@@ -3956,14 +3946,14 @@ export interface Operation {
 
 // @public
 export interface OperationResult extends OperationResultProperties {
-    readonly inputs?: any;
+    readonly inputs?: Record<string, unknown>;
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: any;
+    readonly outputs?: Record<string, unknown>;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: Record<string, unknown>;
     readonly trackingId?: string;
 }
 
@@ -3972,7 +3962,7 @@ export interface OperationResultProperties {
     code?: string;
     correlation?: RunActionCorrelation;
     endTime?: Date;
-    error?: any;
+    error?: Record<string, unknown>;
     startTime?: Date;
     status?: WorkflowStatus;
 }
@@ -4744,7 +4734,7 @@ export interface RepetitionIndex {
 
 // @public
 interface Request_2 {
-    headers?: any;
+    headers?: Record<string, unknown>;
     method?: string;
     uri?: string;
 }
@@ -4885,7 +4875,7 @@ export type ResourceScopeType = string;
 // @public
 interface Response_2 {
     bodyLink?: ContentLink;
-    headers?: any;
+    headers?: Record<string, unknown>;
     statusCode?: number;
 }
 export { Response_2 as Response }
@@ -4958,7 +4948,7 @@ export interface RetryHistory {
     clientRequestId?: string;
     code?: string;
     endTime?: Date;
-    error?: WorkflowErrorResponse;
+    error?: ErrorResponse;
     serviceRequestId?: string;
     startTime?: Date;
 }
@@ -5955,7 +5945,7 @@ export type SslState = "Disabled" | "SniEnabled" | "IpBasedEnabled";
 // @public
 export interface StackMajorVersion {
     applicationInsights?: boolean;
-    appSettingsDictionary?: Record<string, any>;
+    appSettingsDictionary?: Record<string, Record<string, unknown>>;
     displayVersion?: string;
     isDefault?: boolean;
     isDeprecated?: boolean;
@@ -5963,7 +5953,7 @@ export interface StackMajorVersion {
     isPreview?: boolean;
     minorVersions?: StackMinorVersion[];
     runtimeVersion?: string;
-    siteConfigPropertiesDictionary?: Record<string, any>;
+    siteConfigPropertiesDictionary?: Record<string, Record<string, unknown>>;
 }
 
 // @public
@@ -6281,11 +6271,6 @@ export interface StaticSitesDeletePrivateEndpointConnectionOptionalParams extend
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
-export type StaticSitesDeletePrivateEndpointConnectionResponse = {
-    body: any;
-};
-
 // @public
 export interface StaticSitesDeleteStaticSiteBuildOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
@@ -6500,9 +6485,9 @@ export interface StaticSitesOperations {
     // @deprecated (undocumented)
     beginCreateZipDeploymentForStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>, StaticSitesDeletePrivateEndpointConnectionResponse>>;
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<StaticSitesDeletePrivateEndpointConnectionResponse>;
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<Record<string, unknown>>;
     // @deprecated (undocumented)
     beginDeleteStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -6561,7 +6546,7 @@ export interface StaticSitesOperations {
     createZipDeploymentForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams) => Promise<void>;
     deleteDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesDeleteDatabaseConnectionOptionalParams) => Promise<void>;
-    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>, StaticSitesDeletePrivateEndpointConnectionResponse>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
     deleteStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -6976,7 +6961,7 @@ export interface TriggeredWebJob extends ProxyResource {
     publicNetworkAccess?: string;
     runCommand?: string;
     schedulerLogsUrl?: string;
-    settings?: Record<string, any>;
+    settings?: Record<string, Record<string, unknown>>;
     storageAccountRequired?: boolean;
     url?: string;
     usingSdk?: boolean;
@@ -6992,7 +6977,7 @@ export interface TriggeredWebJobProperties {
     publicNetworkAccess?: string;
     runCommand?: string;
     schedulerLogsUrl?: string;
-    settings?: Record<string, any>;
+    settings?: Record<string, Record<string, unknown>>;
     storageAccountRequired?: boolean;
     url?: string;
     usingSdk?: boolean;
@@ -7411,11 +7396,6 @@ export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends Operat
 export interface WebAppsCreateOneDeployOperationOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type WebAppsCreateOneDeployOperationResponse = {
-    body: any;
-};
-
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends OperationOptions {
 }
@@ -7639,20 +7619,10 @@ export interface WebAppsDeletePrivateEndpointConnectionOptionalParams extends Op
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
-export type WebAppsDeletePrivateEndpointConnectionResponse = {
-    body: any;
-};
-
 // @public
 export interface WebAppsDeletePrivateEndpointConnectionSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public (undocumented)
-export type WebAppsDeletePrivateEndpointConnectionSlotResponse = {
-    body: any;
-};
 
 // @public
 export interface WebAppsDeleteProcessOptionalParams extends OperationOptions {
@@ -8051,11 +8021,6 @@ export interface WebAppsGetNetworkTracesV2OptionalParams extends OperationOption
 // @public
 export interface WebAppsGetOneDeployStatusOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export type WebAppsGetOneDeployStatusResponse = {
-    body: any;
-};
 
 // @public
 export interface WebAppsGetOptionalParams extends OperationOptions {
@@ -8827,13 +8792,13 @@ export interface WebAppsOperations {
     // @deprecated (undocumented)
     beginCreateOrUpdateSourceControlSlotAndWait: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams) => Promise<SiteSourceControl>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionResponse>, WebAppsDeletePrivateEndpointConnectionResponse>>;
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<WebAppsDeletePrivateEndpointConnectionResponse>;
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<Record<string, unknown>>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>, WebAppsDeletePrivateEndpointConnectionSlotResponse>>;
+    beginDeletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
     // @deprecated (undocumented)
-    beginDeletePrivateEndpointConnectionSlotAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse>;
+    beginDeletePrivateEndpointConnectionSlotAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<Record<string, unknown>>;
     // @deprecated (undocumented)
     beginGetProductionSiteDeploymentStatus: (resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
     // @deprecated (undocumented)
@@ -8930,7 +8895,7 @@ export interface WebAppsOperations {
     createInstanceMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
     createMSDeployOperation: (resourceGroupName: string, name: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
     createMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
-    createOneDeployOperation: (resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams) => Promise<WebAppsCreateOneDeployOperationResponse>;
+    createOneDeployOperation: (resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams) => Promise<Record<string, unknown>>;
     createOrUpdate: (resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Site>, Site>;
     createOrUpdateConfiguration: (resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams) => Promise<SiteConfigResource>;
     createOrUpdateConfigurationSlot: (resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams) => Promise<SiteConfigResource>;
@@ -8984,8 +8949,8 @@ export interface WebAppsOperations {
     deleteInstanceProcessSlot: (resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsDeleteInstanceProcessSlotOptionalParams) => Promise<void>;
     deletePremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsDeletePremierAddOnOptionalParams) => Promise<void>;
     deletePremierAddOnSlot: (resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsDeletePremierAddOnSlotOptionalParams) => Promise<void>;
-    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionResponse>, WebAppsDeletePrivateEndpointConnectionResponse>;
-    deletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => PollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>, WebAppsDeletePrivateEndpointConnectionSlotResponse>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
+    deletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
     deleteProcess: (resourceGroupName: string, name: string, processId: string, options?: WebAppsDeleteProcessOptionalParams) => Promise<void>;
     deleteProcessSlot: (resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsDeleteProcessSlotOptionalParams) => Promise<void>;
     deletePublicCertificate: (resourceGroupName: string, name: string, publicCertificateName: string, options?: WebAppsDeletePublicCertificateOptionalParams) => Promise<void>;
@@ -9075,7 +9040,7 @@ export interface WebAppsOperations {
     getNetworkTracesSlot: (resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams) => Promise<NetworkTrace[]>;
     getNetworkTracesSlotV2: (resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams) => Promise<NetworkTrace[]>;
     getNetworkTracesV2: (resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams) => Promise<NetworkTrace[]>;
-    getOneDeployStatus: (resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams) => Promise<WebAppsGetOneDeployStatusResponse>;
+    getOneDeployStatus: (resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams) => Promise<Record<string, unknown>>;
     getPremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams) => Promise<PremierAddOn>;
     getPremierAddOnSlot: (resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams) => Promise<PremierAddOn>;
     getPrivateAccess: (resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams) => Promise<PrivateAccess>;
@@ -9307,7 +9272,7 @@ export interface WebAppsOperations {
     updateFtpAllowedSlot: (resourceGroupName: string, name: string, slot: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateFtpAllowedSlotOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
     updateHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: HybridConnection, options?: WebAppsUpdateHybridConnectionOptionalParams) => Promise<HybridConnection>;
     updateHybridConnectionSlot: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, connectionEnvelope: HybridConnection, options?: WebAppsUpdateHybridConnectionSlotOptionalParams) => Promise<HybridConnection>;
-    updateMachineKey: (resourceGroupName: string, name: string, options?: WebAppsUpdateMachineKeyOptionalParams) => Promise<WebAppsUpdateMachineKeyResponse>;
+    updateMachineKey: (resourceGroupName: string, name: string, options?: WebAppsUpdateMachineKeyOptionalParams) => Promise<Record<string, unknown>>;
     updateMetadata: (resourceGroupName: string, name: string, metadata: StringDictionary, options?: WebAppsUpdateMetadataOptionalParams) => Promise<StringDictionary>;
     updateMetadataSlot: (resourceGroupName: string, name: string, slot: string, metadata: StringDictionary, options?: WebAppsUpdateMetadataSlotOptionalParams) => Promise<StringDictionary>;
     updatePremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: PremierAddOnPatchResource, options?: WebAppsUpdatePremierAddOnOptionalParams) => Promise<PremierAddOn>;
@@ -9424,16 +9389,22 @@ export interface WebAppsStartContinuousWebJobSlotOptionalParams extends Operatio
 
 // @public
 export interface WebAppsStartNetworkTraceOptionalParams extends OperationOptions {
+    // (undocumented)
     durationInSeconds?: number;
+    // (undocumented)
     maxFrameLength?: number;
+    // (undocumented)
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface WebAppsStartNetworkTraceSlotOptionalParams extends OperationOptions {
+    // (undocumented)
     durationInSeconds?: number;
+    // (undocumented)
     maxFrameLength?: number;
+    // (undocumented)
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
@@ -9448,16 +9419,22 @@ export interface WebAppsStartSlotOptionalParams extends OperationOptions {
 
 // @public
 export interface WebAppsStartWebSiteNetworkTraceOperationOptionalParams extends OperationOptions {
+    // (undocumented)
     durationInSeconds?: number;
+    // (undocumented)
     maxFrameLength?: number;
+    // (undocumented)
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams extends OperationOptions {
+    // (undocumented)
     durationInSeconds?: number;
+    // (undocumented)
     maxFrameLength?: number;
+    // (undocumented)
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
@@ -9661,11 +9638,6 @@ export interface WebAppsUpdateHybridConnectionSlotOptionalParams extends Operati
 export interface WebAppsUpdateMachineKeyOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export type WebAppsUpdateMachineKeyResponse = {
-    body: any;
-};
-
 // @public
 export interface WebAppsUpdateMetadataOptionalParams extends OperationOptions {
 }
@@ -9756,7 +9728,7 @@ export interface WebJob extends ProxyResource {
     extraInfoUrl?: string;
     kind?: string;
     runCommand?: string;
-    settings?: Record<string, any>;
+    settings?: Record<string, Record<string, unknown>>;
     url?: string;
     usingSdk?: boolean;
     webJobType?: WebJobType;
@@ -9767,7 +9739,7 @@ export interface WebJobProperties {
     error?: string;
     extraInfoUrl?: string;
     runCommand?: string;
-    settings?: Record<string, any>;
+    settings?: Record<string, Record<string, unknown>>;
     url?: string;
     usingSdk?: boolean;
     webJobType?: WebJobType;
@@ -9897,7 +9869,7 @@ export interface Workflow extends WorkflowResource {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: any;
+    definition?: Record<string, unknown>;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     identity?: ManagedServiceIdentity;
     integrationAccount?: ResourceReference;
@@ -9912,8 +9884,8 @@ export interface Workflow extends WorkflowResource {
 
 // @public
 export interface WorkflowArtifacts {
-    appSettings?: any;
-    files?: Record<string, any>;
+    appSettings?: Record<string, unknown>;
+    files?: Record<string, Record<string, unknown>>;
     filesToDelete?: string[];
 }
 
@@ -9926,14 +9898,9 @@ export interface WorkflowEnvelope extends ProxyResource {
 
 // @public
 export interface WorkflowEnvelopeProperties {
-    files?: Record<string, any>;
+    files?: Record<string, Record<string, unknown>>;
     flowState?: WorkflowState;
     health?: WorkflowHealth;
-}
-
-// @public
-export interface WorkflowErrorResponse {
-    error?: ErrorProperties;
 }
 
 // @public
@@ -9947,15 +9914,15 @@ export type WorkflowHealthState = "NotSpecified" | "Healthy" | "Unhealthy" | "Un
 
 // @public
 export interface WorkflowOutputParameter extends WorkflowParameter {
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
 }
 
 // @public
 export interface WorkflowParameter {
     description?: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     type?: ParameterType;
-    value?: any;
+    value?: Record<string, unknown>;
 }
 
 // @public
@@ -9964,7 +9931,7 @@ export interface WorkflowProperties {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: any;
+    definition?: Record<string, unknown>;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
     integrationServiceEnvironment?: ResourceReference;
@@ -9994,7 +9961,7 @@ export interface WorkflowRun extends ProxyResource {
     correlation?: Correlation;
     readonly correlationId?: string;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
     readonly outputs?: Record<string, WorkflowOutputParameter>;
     readonly response?: WorkflowRunTrigger;
     readonly startTime?: Date;
@@ -10009,13 +9976,13 @@ export interface WorkflowRunAction extends ProxyResource {
     readonly code?: string;
     correlation?: RunActionCorrelation;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
     readonly inputsLink?: ContentLink;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: Record<string, unknown>;
     readonly trackingId?: string;
 }
 
@@ -10024,13 +9991,13 @@ export interface WorkflowRunActionProperties {
     readonly code?: string;
     correlation?: RunActionCorrelation;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
     readonly inputsLink?: ContentLink;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: Record<string, unknown>;
     readonly trackingId?: string;
 }
 
@@ -10039,18 +10006,18 @@ export interface WorkflowRunActionRepetitionDefinition extends TrackedResource {
     code?: string;
     correlation?: RunActionCorrelation;
     endTime?: Date;
-    error?: any;
-    readonly inputs?: any;
+    error?: Record<string, unknown>;
+    readonly inputs?: Record<string, unknown>;
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: any;
+    readonly outputs?: Record<string, unknown>;
     readonly outputsLink?: ContentLink;
     repetitionIndexes?: RepetitionIndex[];
     retryHistory?: RetryHistory[];
     startTime?: Date;
     status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: Record<string, unknown>;
     readonly trackingId?: string;
 }
 
@@ -10133,7 +10100,7 @@ export interface WorkflowRunProperties {
     correlation?: Correlation;
     readonly correlationId?: string;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
     readonly outputs?: Record<string, WorkflowOutputParameter>;
     readonly response?: WorkflowRunTrigger;
     readonly startTime?: Date;
@@ -10169,16 +10136,16 @@ export interface WorkflowRunTrigger {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: any;
-    readonly inputs?: any;
+    readonly error?: Record<string, unknown>;
+    readonly inputs?: Record<string, unknown>;
     readonly inputsLink?: ContentLink;
     readonly name?: string;
-    readonly outputs?: any;
+    readonly outputs?: Record<string, unknown>;
     readonly outputsLink?: ContentLink;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: any;
+    readonly trackedProperties?: Record<string, unknown>;
     readonly trackingId?: string;
 }
 
@@ -10265,7 +10232,7 @@ export interface WorkflowTriggerHistory extends ProxyResource {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
     readonly fired?: boolean;
     readonly inputsLink?: ContentLink;
     readonly outputsLink?: ContentLink;
@@ -10281,7 +10248,7 @@ export interface WorkflowTriggerHistoryProperties {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: any;
+    readonly error?: Record<string, unknown>;
     readonly fired?: boolean;
     readonly inputsLink?: ContentLink;
     readonly outputsLink?: ContentLink;
@@ -10369,7 +10336,7 @@ export interface WorkflowVersion extends TrackedResource {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: any;
+    definition?: Record<string, unknown>;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
     parameters?: Record<string, WorkflowParameter>;
@@ -10385,7 +10352,7 @@ export interface WorkflowVersionProperties {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: any;
+    definition?: Record<string, unknown>;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
     parameters?: Record<string, WorkflowParameter>;
@@ -10412,7 +10379,7 @@ export interface WorkflowVersionsOperations {
 
 // Warnings were encountered during analysis:
 //
-// src/models/models.ts:26090:3 - (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
+// src/models/models.ts:26082:3 - (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

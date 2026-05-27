@@ -180,7 +180,6 @@ import {
   StaticSiteLinkedBackendARMResource,
   StaticSitesWorkflowPreviewRequest,
   StaticSitesWorkflowPreview,
-  StaticSitesDeletePrivateEndpointConnectionResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -976,29 +975,21 @@ export interface StaticSitesOperations {
     name: string,
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<
-    OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
-    StaticSitesDeletePrivateEndpointConnectionResponse
-  >;
+  ) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnection: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
-      StaticSitesDeletePrivateEndpointConnectionResponse
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnectionAndWait: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<StaticSitesDeletePrivateEndpointConnectionResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,

@@ -801,11 +801,8 @@ export interface WebAppsStopOptionalParams extends OperationOptions {}
 export interface WebAppsStartNetworkTraceOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
-  /** The maximum frame length in bytes (Optional). */
   maxFrameLength?: number;
-  /** The Blob URL to store capture file. */
   sasUrl?: string;
 }
 
@@ -893,11 +890,8 @@ export interface WebAppsStopWebSiteNetworkTraceOptionalParams extends OperationO
 export interface WebAppsStartWebSiteNetworkTraceOperationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
-  /** The maximum frame length in bytes (Optional). */
   maxFrameLength?: number;
-  /** The Blob URL to store capture file. */
   sasUrl?: string;
 }
 
@@ -1202,11 +1196,8 @@ export interface WebAppsStopSlotOptionalParams extends OperationOptions {}
 export interface WebAppsStartNetworkTraceSlotOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
-  /** The maximum frame length in bytes (Optional). */
   maxFrameLength?: number;
-  /** The Blob URL to store capture file. */
   sasUrl?: string;
 }
 
@@ -1294,11 +1285,8 @@ export interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams extends Operat
 export interface WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
-  /** The maximum frame length in bytes (Optional). */
   maxFrameLength?: number;
-  /** The Blob URL to store capture file. */
   sasUrl?: string;
 }
 

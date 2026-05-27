@@ -11545,9 +11545,9 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
 /** The workflow filter. */
 export interface WorkflowArtifacts {
   /** Application settings of the workflow. */
-  appSettings?: any;
+  appSettings?: Record<string, unknown>;
   /** Files of the app. */
-  files?: Record<string, any>;
+  files?: Record<string, Record<string, unknown>>;
   /** Files of the app to delete. */
   filesToDelete?: string[];
 }
@@ -11593,7 +11593,7 @@ export function workflowEnvelopeDeserializer(item: any): WorkflowEnvelope {
 /** Additional workflow properties. */
 export interface WorkflowEnvelopeProperties {
   /** Gets or sets the files. */
-  files?: Record<string, any>;
+  files?: Record<string, Record<string, unknown>>;
   /** Gets or sets the state of the workflow. */
   flowState?: WorkflowState;
   /** Gets or sets workflow health. */
@@ -14357,7 +14357,7 @@ export interface ContinuousWebJob extends ProxyResource {
   /** Using SDK? */
   usingSdk?: boolean;
   /** Job settings. */
-  settings?: Record<string, any>;
+  settings?: Record<string, Record<string, unknown>>;
 }
 
 export function continuousWebJobDeserializer(item: any): ContinuousWebJob {
@@ -14396,7 +14396,7 @@ export interface ContinuousWebJobProperties {
   /** Using SDK? */
   usingSdk?: boolean;
   /** Job settings. */
-  settings?: Record<string, any>;
+  settings?: Record<string, Record<string, unknown>>;
 }
 
 export function continuousWebJobPropertiesDeserializer(item: any): ContinuousWebJobProperties {
@@ -14979,7 +14979,7 @@ export interface FunctionEnvelope extends ProxyResource {
   /** Function URI. */
   href?: string;
   /** Config information. */
-  config?: any;
+  config?: Record<string, unknown>;
   /** File list. */
   files?: Record<string, string>;
   /** Test data used when testing via the Azure Portal. */
@@ -15047,7 +15047,7 @@ export interface FunctionEnvelopeProperties {
   /** Function URI. */
   href?: string;
   /** Config information. */
-  config?: any;
+  config?: Record<string, unknown>;
   /** File list. */
   files?: Record<string, string>;
   /** Test data used when testing via the Azure Portal. */
@@ -17063,7 +17063,7 @@ export interface TriggeredWebJob extends ProxyResource {
   /** Checks if Customer provided storage account is required */
   storageAccountRequired?: boolean;
   /** Job settings. */
-  settings?: Record<string, any>;
+  settings?: Record<string, Record<string, unknown>>;
 }
 
 export function triggeredWebJobDeserializer(item: any): TriggeredWebJob {
@@ -17106,7 +17106,7 @@ export interface TriggeredWebJobProperties {
   /** Checks if Customer provided storage account is required */
   storageAccountRequired?: boolean;
   /** Job settings. */
-  settings?: Record<string, any>;
+  settings?: Record<string, Record<string, unknown>>;
 }
 
 export function triggeredWebJobPropertiesDeserializer(item: any): TriggeredWebJobProperties {
@@ -17279,7 +17279,7 @@ export interface WebJob extends ProxyResource {
   /** Using SDK? */
   usingSdk?: boolean;
   /** Job settings. */
-  settings?: Record<string, any>;
+  settings?: Record<string, Record<string, unknown>>;
 }
 
 export function webJobDeserializer(item: any): WebJob {
@@ -17312,7 +17312,7 @@ export interface WebJobProperties {
   /** Using SDK? */
   usingSdk?: boolean;
   /** Job settings. */
-  settings?: Record<string, any>;
+  settings?: Record<string, Record<string, unknown>>;
 }
 
 export function webJobPropertiesDeserializer(item: any): WebJobProperties {
@@ -18443,7 +18443,7 @@ export function keyValuePairStringObjectArrayDeserializer(
 export interface KeyValuePairStringObject {
   readonly key?: string;
   /** Any object */
-  readonly value?: any;
+  readonly value?: Record<string, unknown>;
 }
 
 export function keyValuePairStringObjectDeserializer(item: any): KeyValuePairStringObject {
@@ -19584,7 +19584,7 @@ export interface WorkflowRun extends ProxyResource {
   /** Gets the code. */
   readonly code?: string;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the correlation id. */
   readonly correlationId?: string;
   /** The run correlation. */
@@ -19626,7 +19626,7 @@ export interface WorkflowRunProperties {
   /** Gets the code. */
   readonly code?: string;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the correlation id. */
   readonly correlationId?: string;
   /** The run correlation. */
@@ -19756,11 +19756,11 @@ export interface WorkflowRunTrigger {
   /** Gets the name. */
   readonly name?: string;
   /** Gets the inputs. */
-  readonly inputs?: any;
+  readonly inputs?: Record<string, unknown>;
   /** Gets the link to inputs. */
   readonly inputsLink?: ContentLink;
   /** Gets the outputs. */
-  readonly outputs?: any;
+  readonly outputs?: Record<string, unknown>;
   /** Gets the link to outputs. */
   readonly outputsLink?: ContentLink;
   /** Gets the scheduled time. */
@@ -19778,9 +19778,9 @@ export interface WorkflowRunTrigger {
   /** Gets the status. */
   readonly status?: WorkflowStatus;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the tracked properties. */
-  readonly trackedProperties?: any;
+  readonly trackedProperties?: Record<string, unknown>;
 }
 
 export function workflowRunTriggerDeserializer(item: any): WorkflowRunTrigger {
@@ -19819,7 +19819,7 @@ export interface ContentLink {
   /** The content hash. */
   readonly contentHash?: ContentHash;
   /** The metadata. */
-  readonly metadata?: any;
+  readonly metadata?: Record<string, unknown>;
 }
 
 export function contentLinkDeserializer(item: any): ContentLink {
@@ -19862,7 +19862,7 @@ export function workflowOutputParameterRecordDeserializer(
 /** The workflow output parameter. */
 export interface WorkflowOutputParameter extends WorkflowParameter {
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
 }
 
 export function workflowOutputParameterDeserializer(item: any): WorkflowOutputParameter {
@@ -19880,9 +19880,9 @@ export interface WorkflowParameter {
   /** The type. */
   type?: ParameterType;
   /** The value. */
-  value?: any;
+  value?: Record<string, unknown>;
   /** The metadata. */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
   /** The description. */
   description?: string;
 }
@@ -19945,12 +19945,12 @@ export enum KnownParameterType {
 export type ParameterType = string;
 
 /** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
-export interface WorkflowErrorResponse {
+export interface ErrorResponse {
   /** The error properties. */
   error?: ErrorProperties;
 }
 
-export function workflowErrorResponseDeserializer(item: any): WorkflowErrorResponse {
+export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
     error: !item["error"] ? item["error"] : errorPropertiesDeserializer(item["error"]),
   };
@@ -20003,7 +20003,7 @@ export interface WorkflowRunAction extends ProxyResource {
   /** Gets the code. */
   readonly code?: string;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the tracking id. */
   readonly trackingId?: string;
   /** The correlation properties. */
@@ -20013,7 +20013,7 @@ export interface WorkflowRunAction extends ProxyResource {
   /** Gets the link to outputs. */
   readonly outputsLink?: ContentLink;
   /** Gets the tracked properties. */
-  readonly trackedProperties?: any;
+  readonly trackedProperties?: Record<string, unknown>;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
 }
@@ -20043,7 +20043,7 @@ export interface WorkflowRunActionProperties {
   /** Gets the code. */
   readonly code?: string;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the tracking id. */
   readonly trackingId?: string;
   /** The correlation properties. */
@@ -20053,7 +20053,7 @@ export interface WorkflowRunActionProperties {
   /** Gets the link to outputs. */
   readonly outputsLink?: ContentLink;
   /** Gets the tracked properties. */
-  readonly trackedProperties?: any;
+  readonly trackedProperties?: Record<string, unknown>;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
 }
@@ -20119,7 +20119,7 @@ export interface RetryHistory {
   /** Gets the service request Id. */
   serviceRequestId?: string;
   /** Gets the error response. */
-  error?: WorkflowErrorResponse;
+  error?: ErrorResponse;
 }
 
 export function retryHistoryDeserializer(item: any): RetryHistory {
@@ -20129,7 +20129,7 @@ export function retryHistoryDeserializer(item: any): RetryHistory {
     code: item["code"],
     clientRequestId: item["clientRequestId"],
     serviceRequestId: item["serviceRequestId"],
-    error: !item["error"] ? item["error"] : workflowErrorResponseDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorResponseDeserializer(item["error"]),
   };
 }
 
@@ -20175,7 +20175,7 @@ export function workflowRunActionArrayDeserializer(result: Array<WorkflowRunActi
 
 /** The expression traces. */
 export interface _ExpressionTraces {
-  value?: any;
+  value?: Record<string, unknown>;
   inputs?: ExpressionRoot[];
   /** The link used to get the next page of recommendations. */
   nextLink?: string;
@@ -20218,7 +20218,7 @@ export interface Expression {
   /** The text. */
   text?: string;
   /** Anything */
-  value?: any;
+  value?: Record<string, unknown>;
   /** The sub expressions. */
   subexpressions?: Expression[];
   /** The azure resource error info. */
@@ -20285,15 +20285,15 @@ export interface WorkflowRunActionRepetitionDefinition extends TrackedResource {
   /** Gets the tracking id. */
   readonly trackingId?: string;
   /** Gets the inputs. */
-  readonly inputs?: any;
+  readonly inputs?: Record<string, unknown>;
   /** Gets the link to inputs. */
   readonly inputsLink?: ContentLink;
   /** Gets the outputs. */
-  readonly outputs?: any;
+  readonly outputs?: Record<string, unknown>;
   /** Gets the link to outputs. */
   readonly outputsLink?: ContentLink;
   /** Gets the tracked properties. */
-  readonly trackedProperties?: any;
+  readonly trackedProperties?: Record<string, unknown>;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
   iterationCount?: number;
@@ -20308,7 +20308,7 @@ export interface WorkflowRunActionRepetitionDefinition extends TrackedResource {
   /** The workflow scope repetition code. */
   code?: string;
   /** Anything */
-  error?: any;
+  error?: Record<string, unknown>;
   /** The repetition indexes. */
   repetitionIndexes?: RepetitionIndex[];
 }
@@ -20395,15 +20395,15 @@ export interface OperationResult extends OperationResultProperties {
   /** Gets the tracking id. */
   readonly trackingId?: string;
   /** Gets the inputs. */
-  readonly inputs?: any;
+  readonly inputs?: Record<string, unknown>;
   /** Gets the link to inputs. */
   readonly inputsLink?: ContentLink;
   /** Gets the outputs. */
-  readonly outputs?: any;
+  readonly outputs?: Record<string, unknown>;
   /** Gets the link to outputs. */
   readonly outputsLink?: ContentLink;
   /** Gets the tracked properties. */
-  readonly trackedProperties?: any;
+  readonly trackedProperties?: Record<string, unknown>;
   /** Gets the retry histories. */
   retryHistory?: RetryHistory[];
   iterationCount?: number;
@@ -20449,7 +20449,7 @@ export interface OperationResultProperties {
   /** The workflow scope repetition code. */
   code?: string;
   /** Anything */
-  error?: any;
+  error?: Record<string, unknown>;
 }
 
 export function operationResultPropertiesDeserializer(item: any): OperationResultProperties {
@@ -20894,7 +20894,7 @@ export interface WorkflowTriggerHistory extends ProxyResource {
   /** Gets the code. */
   readonly code?: string;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the tracking id. */
   readonly trackingId?: string;
   /** The run correlation. */
@@ -20936,7 +20936,7 @@ export interface WorkflowTriggerHistoryProperties {
   /** Gets the code. */
   readonly code?: string;
   /** Gets the error. */
-  readonly error?: any;
+  readonly error?: Record<string, unknown>;
   /** Gets the tracking id. */
   readonly trackingId?: string;
   /** The run correlation. */
@@ -21024,7 +21024,7 @@ export interface WorkflowVersion extends TrackedResource {
   /** The integration account. */
   integrationAccount?: ResourceReference;
   /** The definition. */
-  definition?: any;
+  definition?: Record<string, unknown>;
   /** The parameters. */
   parameters?: Record<string, WorkflowParameter>;
 }
@@ -21070,7 +21070,7 @@ export interface WorkflowVersionProperties {
   /** The integration account. */
   integrationAccount?: ResourceReference;
   /** The definition. */
-  definition?: any;
+  definition?: Record<string, unknown>;
   /** The parameters. */
   parameters?: Record<string, WorkflowParameter>;
 }
@@ -21925,14 +21925,14 @@ export interface StackMajorVersion {
    * </appSettings>
    * Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack name
    */
-  appSettingsDictionary?: Record<string, any>;
+  appSettingsDictionary?: Record<string, Record<string, unknown>>;
   /**
    * <siteConfigProperties>
    * <siteConfigProperty name="Use32BitWorkerProcess" value="false" />
    * </siteConfigProperties>
    * Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0
    */
-  siteConfigPropertiesDictionary?: Record<string, any>;
+  siteConfigPropertiesDictionary?: Record<string, Record<string, unknown>>;
 }
 
 export function stackMajorVersionDeserializer(item: any): StackMajorVersion {
@@ -22674,7 +22674,7 @@ export interface Workflow extends WorkflowResource {
   /** The integration service environment. */
   integrationServiceEnvironment?: ResourceReference;
   /** The definition. */
-  definition?: any;
+  definition?: Record<string, unknown>;
   /** The parameters. */
   parameters?: Record<string, WorkflowParameter>;
   /** The workflow kind. */
@@ -22728,7 +22728,7 @@ export interface WorkflowProperties {
   /** The integration service environment. */
   integrationServiceEnvironment?: ResourceReference;
   /** The definition. */
-  definition?: any;
+  definition?: Record<string, unknown>;
   /** The parameters. */
   parameters?: Record<string, WorkflowParameter>;
   /** The workflow kind. */
@@ -22842,7 +22842,7 @@ export function requestHistoryPropertiesDeserializer(item: any): RequestHistoryP
 /** A request. */
 export interface Request {
   /** A list of all the headers attached to the request. */
-  headers?: any;
+  headers?: Record<string, unknown>;
   /** The destination for the request. */
   uri?: string;
   /** The HTTP method used for the request. */
@@ -22860,7 +22860,7 @@ export function requestDeserializer(item: any): Request {
 /** A response. */
 export interface Response {
   /** A list of all the headers attached to the response. */
-  headers?: any;
+  headers?: Record<string, unknown>;
   /** The status code of the response. */
   statusCode?: number;
   /** Details on the location of the body content. */
@@ -25976,8 +25976,6 @@ export function _workflowPropertiesSerializer(item: Workflow): any {
   };
 }
 
-export type AppServicePlansGetServerFarmSkusResponse = { body: any };
-
 export type WebAppsGetProcessDumpSlotResponse = {
   /**
    * BROWSER ONLY
@@ -26065,13 +26063,7 @@ export type WebAppsListPublishingProfileXmlWithSecretsResponse = {
 
 export type WebAppsStartWebSiteNetworkTraceResponse = { body: string };
 
-export type WebAppsUpdateMachineKeyResponse = { body: any };
-
 export type WebAppsGetFunctionsAdminTokenResponse = { body: string };
-
-export type WebAppsCreateOneDeployOperationResponse = { body: any };
-
-export type WebAppsGetOneDeployStatusResponse = { body: any };
 
 export type WebAppsGetContainerLogsZipResponse = {
   /**
@@ -26106,10 +26098,6 @@ export type WebAppsGetWebSiteContainerLogsResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
-
-export type WebAppsDeletePrivateEndpointConnectionSlotResponse = { body: any };
-
-export type WebAppsDeletePrivateEndpointConnectionResponse = { body: any };
 
 export type WebAppsListPublishingProfileXmlWithSecretsSlotResponse = {
   /**
@@ -26165,9 +26153,3 @@ export type WebAppsGetWebSiteContainerLogsSlotResponse = {
    */
   readableStreamBody?: NodeReadableStream;
 };
-
-export type StaticSitesDeletePrivateEndpointConnectionResponse = { body: any };
-
-export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse = { body: any };
-
-export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = { body: any };

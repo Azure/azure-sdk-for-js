@@ -513,7 +513,7 @@
       "@azure/arm-appservice!ContentHash:interface": "Microsoft.Web.ContentHash",
       "@azure/arm-appservice!WorkflowOutputParameter:interface": "Microsoft.Web.WorkflowOutputParameter",
       "@azure/arm-appservice!WorkflowParameter:interface": "Microsoft.Web.WorkflowParameter",
-      "@azure/arm-appservice!WorkflowErrorResponse:interface": "Microsoft.Web.ErrorResponse",
+      "@azure/arm-appservice!ErrorResponse:interface": "Microsoft.Web.ErrorResponse",
       "@azure/arm-appservice!ErrorProperties:interface": "Microsoft.Web.ErrorProperties",
       "@azure/arm-appservice!WorkflowRunListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-appservice!WorkflowRunAction:interface": "Microsoft.Web.WorkflowRunAction",

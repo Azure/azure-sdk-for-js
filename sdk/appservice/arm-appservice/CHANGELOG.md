@@ -218,7 +218,6 @@
   - Added Interface WebJobProperties
   - Added Interface WebSiteInstanceStatusProperties
   - Added Interface WorkerPool
-  - Added Interface WorkflowErrorResponse
   - Added Interface WorkflowProperties
   - Added Interface WorkflowRunActionProperties
   - Added Interface WorkflowRunProperties
@@ -347,7 +346,6 @@
   - Removed Interface DiagnosticDetectorCollection
   - Removed Interface EnvironmentVar
   - Removed Interface ErrorPage
-  - Removed Interface ErrorResponse
   - Removed Interface ExpressionTraces
   - Removed Interface FunctionAppStackCollection
   - Removed Interface FunctionEnvelopeCollection
@@ -440,16 +438,7 @@
   - Parameter location of interface RequestHistory is now required
   - Parameter location of interface WorkflowRunActionRepetitionDefinition is now required
   - Parameter location of interface WorkflowVersion is now required
-  - Type alias "AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse" has been changed
-  - Type alias "AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse" has been changed
-  - Type alias "AppServicePlansGetServerFarmSkusResponse" has been changed
-  - Type alias "StaticSitesDeletePrivateEndpointConnectionResponse" has been changed
   - Type alias "TriggeredWebJobStatus" has been changed
-  - Type alias "WebAppsCreateOneDeployOperationResponse" has been changed
-  - Type alias "WebAppsDeletePrivateEndpointConnectionResponse" has been changed
-  - Type alias "WebAppsDeletePrivateEndpointConnectionSlotResponse" has been changed
-  - Type alias "WebAppsGetOneDeployStatusResponse" has been changed
-  - Type alias "WebAppsUpdateMachineKeyResponse" has been changed
 
 ## 18.0.0 (2025-11-18)
 The App Service has been divided into three separate services: App Service, Domain Registration, and Certificate Registration. APIs for Domain Registration are available in the @azure/arm-domainregistration package, and APIs for Certificate Registration are provided in the @azure/arm-certificateregistration package.

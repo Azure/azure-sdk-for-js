@@ -123,8 +123,6 @@ import {
   CsmUsageQuota,
   AddressResponse,
   RemotePrivateEndpointConnectionARMResource,
-  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse,
-  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -144,29 +142,21 @@ export interface AppServiceEnvironmentsOperations {
     name: string,
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<
-    OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
-    AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
-  >;
+  ) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnection: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
-      AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnectionAndWait: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -289,7 +279,7 @@ export interface AppServiceEnvironmentsOperations {
     resourceGroupName: string,
     name: string,
     options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams,
-  ) => Promise<AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Update Custom Dns Suffix configuration of an App Service Environment */
   updateAseCustomDnsSuffixConfiguration: (
     resourceGroupName: string,

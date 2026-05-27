@@ -3,7 +3,7 @@
 
 import { WebSiteManagementContext as Client } from "../index.js";
 import {
-  workflowErrorResponseDeserializer,
+  errorResponseDeserializer,
   RequestHistory,
   requestHistoryDeserializer,
   _RequestHistoryListResult,
@@ -63,7 +63,7 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -139,7 +139,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

@@ -3,7 +3,7 @@
 
 import { WebSiteManagementContext as Client } from "../index.js";
 import {
-  workflowErrorResponseDeserializer,
+  errorResponseDeserializer,
   RegenerateActionParameter,
   regenerateActionParameterSerializer,
   Workflow,
@@ -53,7 +53,7 @@ export async function _validateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -115,7 +115,7 @@ export async function _regenerateAccessKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

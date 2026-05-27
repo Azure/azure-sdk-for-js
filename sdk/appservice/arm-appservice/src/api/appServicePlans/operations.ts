@@ -45,7 +45,6 @@ import {
   HybridConnectionLimits,
   hybridConnectionLimitsDeserializer,
   vnetInfoResourceArrayDeserializer,
-  AppServicePlansGetServerFarmSkusResponse,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -1062,7 +1061,7 @@ export function _getServerFarmSkusSend(
 
 export async function _getServerFarmSkusDeserialize(
   result: PathUncheckedResponse,
-): Promise<AppServicePlansGetServerFarmSkusResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1071,7 +1070,7 @@ export async function _getServerFarmSkusDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Gets all selectable SKUs for a given App Service Plan */
@@ -1080,7 +1079,7 @@ export async function getServerFarmSkus(
   resourceGroupName: string,
   name: string,
   options: AppServicePlansGetServerFarmSkusOptionalParams = { requestOptions: {} },
-): Promise<AppServicePlansGetServerFarmSkusResponse> {
+): Promise<Record<string, unknown>> {
   const result = await _getServerFarmSkusSend(context, resourceGroupName, name, options);
   return _getServerFarmSkusDeserialize(result);
 }

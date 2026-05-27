@@ -76,7 +76,6 @@ import {
   staticSitesWorkflowPreviewRequestSerializer,
   StaticSitesWorkflowPreview,
   staticSitesWorkflowPreviewDeserializer,
-  StaticSitesDeletePrivateEndpointConnectionResponse,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -4571,7 +4570,7 @@ export function _deletePrivateEndpointConnectionSend(
 
 export async function _deletePrivateEndpointConnectionDeserialize(
   result: PathUncheckedResponse,
-): Promise<StaticSitesDeletePrivateEndpointConnectionResponse> {
+): Promise<Record<string, unknown>> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -4580,7 +4579,7 @@ export async function _deletePrivateEndpointConnectionDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return result.body;
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -4590,10 +4589,7 @@ export function deletePrivateEndpointConnection(
   name: string,
   privateEndpointConnectionName: string,
   options: StaticSitesDeletePrivateEndpointConnectionOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
-  StaticSitesDeletePrivateEndpointConnectionResponse
-> {
+): PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionDeserialize,
@@ -4612,10 +4608,7 @@ export function deletePrivateEndpointConnection(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<
-    OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
-    StaticSitesDeletePrivateEndpointConnectionResponse
-  >;
+  ) as PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSend(

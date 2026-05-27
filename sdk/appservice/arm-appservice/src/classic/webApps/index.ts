@@ -915,14 +915,9 @@ import {
   WebAppsGetInstanceProcessDumpResponse,
   WebAppsListPublishingProfileXmlWithSecretsResponse,
   WebAppsStartWebSiteNetworkTraceResponse,
-  WebAppsUpdateMachineKeyResponse,
   WebAppsGetFunctionsAdminTokenResponse,
-  WebAppsCreateOneDeployOperationResponse,
-  WebAppsGetOneDeployStatusResponse,
   WebAppsGetContainerLogsZipResponse,
   WebAppsGetWebSiteContainerLogsResponse,
-  WebAppsDeletePrivateEndpointConnectionSlotResponse,
-  WebAppsDeletePrivateEndpointConnectionResponse,
   WebAppsListPublishingProfileXmlWithSecretsSlotResponse,
   WebAppsStartWebSiteNetworkTraceSlotResponse,
   WebAppsGetFunctionsAdminTokenSlotResponse,
@@ -3279,7 +3274,7 @@ export interface WebAppsOperations {
     resourceGroupName: string,
     name: string,
     options?: WebAppsUpdateMachineKeyOptionalParams,
-  ) => Promise<WebAppsUpdateMachineKeyResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for This is to allow calling via powershell and ARM template. */
   listSyncFunctionTriggers: (
     resourceGroupName: string,
@@ -3356,13 +3351,13 @@ export interface WebAppsOperations {
     resourceGroupName: string,
     name: string,
     options?: WebAppsCreateOneDeployOperationOptionalParams,
-  ) => Promise<WebAppsCreateOneDeployOperationResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
   getOneDeployStatus: (
     resourceGroupName: string,
     name: string,
     options?: WebAppsGetOneDeployStatusOptionalParams,
-  ) => Promise<WebAppsGetOneDeployStatusResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   discoverBackup: (
     resourceGroupName: string,
@@ -3777,10 +3772,7 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
-  ) => PollerLike<
-    OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
-    WebAppsDeletePrivateEndpointConnectionSlotResponse
-  >;
+  ) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
   /** @deprecated use deletePrivateEndpointConnectionSlot instead */
   beginDeletePrivateEndpointConnectionSlot: (
     resourceGroupName: string,
@@ -3788,12 +3780,7 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
-      WebAppsDeletePrivateEndpointConnectionSlotResponse
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
   /** @deprecated use deletePrivateEndpointConnectionSlot instead */
   beginDeletePrivateEndpointConnectionSlotAndWait: (
     resourceGroupName: string,
@@ -3801,7 +3788,7 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
-  ) => Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnectionSlot: (
     resourceGroupName: string,
@@ -3857,29 +3844,21 @@ export interface WebAppsOperations {
     name: string,
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<
-    OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
-    WebAppsDeletePrivateEndpointConnectionResponse
-  >;
+  ) => PollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnection: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
-      WebAppsDeletePrivateEndpointConnectionResponse
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<Record<string, unknown>>, Record<string, unknown>>>;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnectionAndWait: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<WebAppsDeletePrivateEndpointConnectionResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,

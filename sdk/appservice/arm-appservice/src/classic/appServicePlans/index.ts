@@ -81,7 +81,6 @@ import {
   AppServicePlanPatchResource,
   HybridConnectionKey,
   HybridConnectionLimits,
-  AppServicePlansGetServerFarmSkusResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -216,7 +215,7 @@ export interface AppServicePlansOperations {
     resourceGroupName: string,
     name: string,
     options?: AppServicePlansGetServerFarmSkusOptionalParams,
-  ) => Promise<AppServicePlansGetServerFarmSkusResponse>;
+  ) => Promise<Record<string, unknown>>;
   /** Description for Get all apps associated with an App Service plan. */
   listWebApps: (
     resourceGroupName: string,

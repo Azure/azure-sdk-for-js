@@ -3,7 +3,7 @@
 
 import { WebSiteManagementContext as Client } from "../index.js";
 import {
-  workflowErrorResponseDeserializer,
+  errorResponseDeserializer,
   WorkflowTrigger,
   workflowTriggerDeserializer,
   _WorkflowTriggerListResult,
@@ -68,7 +68,7 @@ export async function _getSchemaJsonDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -125,7 +125,7 @@ export async function _runDeserialize(result: PathUncheckedResponse): Promise<vo
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -186,7 +186,7 @@ export async function _listCallbackUrlDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -248,7 +248,7 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -305,7 +305,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

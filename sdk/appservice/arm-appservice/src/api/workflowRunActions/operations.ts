@@ -3,7 +3,7 @@
 
 import { WebSiteManagementContext as Client } from "../index.js";
 import {
-  workflowErrorResponseDeserializer,
+  errorResponseDeserializer,
   WorkflowRunAction,
   workflowRunActionDeserializer,
   _WorkflowRunActionListResult,
@@ -65,7 +65,7 @@ export async function _listExpressionTracesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -141,7 +141,7 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -201,7 +201,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Wo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = workflowErrorResponseDeserializer(result.body);
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
