@@ -30,18 +30,14 @@ export function createAzureSdkInstrumentation(options?: AzureSdkInstrumentationO
 // @public
 export const logger: AzureLogger;
 
-// @public (undocumented)
+// @public
 export class OpenTelemetryInstrumenter implements Instrumenter {
-    // (undocumented)
     createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
-    // (undocumented)
     parseTraceparentHeader(traceparentHeader: string): TracingContext;
-    // (undocumented)
     startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
-    // (undocumented)
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(tracingContext: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
 }
 
