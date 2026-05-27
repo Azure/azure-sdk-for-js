@@ -4,11 +4,32 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -23,26 +44,17 @@ export interface CustomLocation extends TrackedResource {
     identity?: Identity;
     namespace?: string;
     provisioningState?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface CustomLocationFindTargetResourceGroupProperties {
-    labels?: {
-        [propertyName: string]: string;
-    };
+    labels?: Record<string, string>;
 }
 
 // @public
 export interface CustomLocationFindTargetResourceGroupResult {
     readonly matchedResourceSyncRule?: string;
     readonly targetResourceGroup?: string;
-}
-
-// @public
-export interface CustomLocationListResult {
-    readonly nextLink?: string;
-    readonly value?: CustomLocation[];
 }
 
 // @public
@@ -57,9 +69,22 @@ export interface CustomLocationOperation {
 }
 
 // @public
-export interface CustomLocationOperationsList {
-    nextLink?: string;
-    value: CustomLocationOperation[];
+export interface CustomLocationOperationValueDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface CustomLocationProperties {
+    authentication?: CustomLocationPropertiesAuthentication;
+    clusterExtensionIds?: string[];
+    displayName?: string;
+    hostResourceId?: string;
+    hostType?: HostType;
+    namespace?: string;
+    provisioningState?: string;
 }
 
 // @public
@@ -69,150 +94,91 @@ export interface CustomLocationPropertiesAuthentication {
 }
 
 // @public
-export interface CustomLocations {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CustomLocationsCreateOrUpdateResponse>, CustomLocationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams): Promise<CustomLocationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams): Promise<void>;
-    findTargetResourceGroup(resourceGroupName: string, resourceName: string, parameters: CustomLocationFindTargetResourceGroupProperties, options?: CustomLocationsFindTargetResourceGroupOptionalParams): Promise<CustomLocationsFindTargetResourceGroupResponse>;
-    get(resourceGroupName: string, resourceName: string, options?: CustomLocationsGetOptionalParams): Promise<CustomLocationsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CustomLocationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CustomLocation>;
-    listBySubscription(options?: CustomLocationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CustomLocation>;
-    listEnabledResourceTypes(resourceGroupName: string, resourceName: string, options?: CustomLocationsListEnabledResourceTypesOptionalParams): PagedAsyncIterableIterator<EnabledResourceType>;
-    listOperations(options?: CustomLocationsListOperationsOptionalParams): PagedAsyncIterableIterator<CustomLocationOperation>;
-    update(resourceGroupName: string, resourceName: string, options?: CustomLocationsUpdateOptionalParams): Promise<CustomLocationsUpdateResponse>;
-}
-
-// @public
-export interface CustomLocationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CustomLocationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CustomLocationsCreateOrUpdateResponse = CustomLocation;
-
-// @public
-export interface CustomLocationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CustomLocationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CustomLocationsFindTargetResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CustomLocationsFindTargetResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CustomLocationsFindTargetResourceGroupResponse = CustomLocationFindTargetResourceGroupResult;
-
-// @public
-export interface CustomLocationsGetOptionalParams extends coreClient.OperationOptions {
+export interface CustomLocationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CustomLocationsGetResponse = CustomLocation;
-
-// @public
-export interface CustomLocationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface CustomLocationsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CustomLocationsListByResourceGroupNextResponse = CustomLocationListResult;
-
-// @public
-export interface CustomLocationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CustomLocationsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CustomLocationsListByResourceGroupResponse = CustomLocationListResult;
-
-// @public
-export interface CustomLocationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface CustomLocationsListEnabledResourceTypesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CustomLocationsListBySubscriptionNextResponse = CustomLocationListResult;
-
-// @public
-export interface CustomLocationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface CustomLocationsListOperationsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type CustomLocationsListBySubscriptionResponse = CustomLocationListResult;
-
-// @public
-export interface CustomLocationsListEnabledResourceTypesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CustomLocationsListEnabledResourceTypesNextResponse = EnabledResourceTypesListResult;
-
-// @public
-export interface CustomLocationsListEnabledResourceTypesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CustomLocationsListEnabledResourceTypesResponse = EnabledResourceTypesListResult;
-
-// @public
-export interface CustomLocationsListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CustomLocationsListOperationsNextResponse = CustomLocationOperationsList;
-
-// @public
-export interface CustomLocationsListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CustomLocationsListOperationsResponse = CustomLocationOperationsList;
 
 // @public (undocumented)
-export class CustomLocationsManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CustomLocationsManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    customLocations: CustomLocations;
-    // (undocumented)
-    resourceSyncRules: ResourceSyncRules;
-    // (undocumented)
-    subscriptionId: string;
+export class CustomLocationsManagementClient {
+    constructor(credential: TokenCredential, options?: CustomLocationsManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: CustomLocationsManagementClientOptionalParams);
+    readonly customLocations: CustomLocationsOperations;
+    readonly pipeline: Pipeline;
+    readonly resourceSyncRules: ResourceSyncRulesOperations;
 }
 
 // @public
-export interface CustomLocationsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface CustomLocationsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface CustomLocationsUpdateOptionalParams extends coreClient.OperationOptions {
-    authentication?: CustomLocationPropertiesAuthentication;
-    clusterExtensionIds?: string[];
-    displayName?: string;
-    hostResourceId?: string;
-    hostType?: HostType;
-    identity?: Identity;
-    namespace?: string;
-    provisioningState?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface CustomLocationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CustomLocation>, CustomLocation>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams) => Promise<CustomLocation>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CustomLocation>, CustomLocation>;
+    delete: (resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    findTargetResourceGroup: (resourceGroupName: string, resourceName: string, parameters: CustomLocationFindTargetResourceGroupProperties, options?: CustomLocationsFindTargetResourceGroupOptionalParams) => Promise<CustomLocationFindTargetResourceGroupResult>;
+    get: (resourceGroupName: string, resourceName: string, options?: CustomLocationsGetOptionalParams) => Promise<CustomLocation>;
+    listByResourceGroup: (resourceGroupName: string, options?: CustomLocationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CustomLocation>;
+    listBySubscription: (options?: CustomLocationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CustomLocation>;
+    listEnabledResourceTypes: (resourceGroupName: string, resourceName: string, options?: CustomLocationsListEnabledResourceTypesOptionalParams) => PagedAsyncIterableIterator<EnabledResourceType>;
+    listOperations: (options?: CustomLocationsListOperationsOptionalParams) => PagedAsyncIterableIterator<CustomLocationOperation>;
+    update: (resourceGroupName: string, resourceName: string, parameters: PatchableCustomLocations, options?: CustomLocationsUpdateOptionalParams) => Promise<CustomLocation>;
 }
 
 // @public
-export type CustomLocationsUpdateResponse = CustomLocation;
+export interface CustomLocationsUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface EnabledResourceType extends ProxyResource {
     clusterExtensionId?: string;
     extensionType?: string;
     readonly systemData?: SystemData;
+    typesMetadata?: EnabledResourceTypePropertiesTypesMetadataItem[];
+}
+
+// @public
+export interface EnabledResourceTypeProperties {
+    clusterExtensionId?: string;
+    extensionType?: string;
     typesMetadata?: EnabledResourceTypePropertiesTypesMetadataItem[];
 }
 
@@ -224,14 +190,8 @@ export interface EnabledResourceTypePropertiesTypesMetadataItem {
 }
 
 // @public
-export interface EnabledResourceTypesListResult {
-    readonly nextLink?: string;
-    readonly value?: EnabledResourceType[];
-}
-
-// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -250,9 +210,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export type HostType = string;
 
 // @public
@@ -261,6 +218,8 @@ export interface Identity {
     readonly tenantId?: string;
     type?: ResourceIdentityType;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownCreatedByType {
@@ -282,10 +241,27 @@ export enum KnownResourceIdentityType {
 }
 
 // @public
+export enum KnownVersions {
+    V20210831Preview = "2021-08-31-preview"
+}
+
+// @public
 export interface MatchExpressionsProperties {
     key?: string;
     operator?: string;
     values?: string[];
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -298,9 +274,7 @@ export interface PatchableCustomLocations {
     identity?: Identity;
     namespace?: string;
     provisioningState?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -308,9 +282,7 @@ export interface PatchableResourceSyncRule {
     priority?: number;
     readonly provisioningState?: string;
     selector?: ResourceSyncRulePropertiesSelector;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     targetResourceGroup?: string;
 }
 
@@ -322,6 +294,7 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -333,83 +306,95 @@ export interface ResourceSyncRule extends TrackedResource {
     priority?: number;
     readonly provisioningState?: string;
     selector?: ResourceSyncRulePropertiesSelector;
-    readonly systemData?: SystemData;
     targetResourceGroup?: string;
 }
 
 // @public
-export interface ResourceSyncRuleListResult {
-    readonly nextLink?: string;
-    readonly value?: ResourceSyncRule[];
+export interface ResourceSyncRuleProperties {
+    priority?: number;
+    readonly provisioningState?: string;
+    selector?: ResourceSyncRulePropertiesSelector;
+    targetResourceGroup?: string;
 }
 
 // @public
 export interface ResourceSyncRulePropertiesSelector {
     matchExpressions?: MatchExpressionsProperties[];
-    matchLabels?: {
-        [propertyName: string]: string;
-    };
+    matchLabels?: Record<string, string>;
 }
 
 // @public
-export interface ResourceSyncRules {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>, ResourceSyncRulesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams): Promise<ResourceSyncRulesCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ResourceSyncRulesUpdateResponse>, ResourceSyncRulesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesUpdateOptionalParams): Promise<ResourceSyncRulesUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesGetOptionalParams): Promise<ResourceSyncRulesGetResponse>;
-    listByCustomLocationID(resourceGroupName: string, resourceName: string, options?: ResourceSyncRulesListByCustomLocationIDOptionalParams): PagedAsyncIterableIterator<ResourceSyncRule>;
-}
-
-// @public
-export interface ResourceSyncRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ResourceSyncRulesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourceSyncRulesCreateOrUpdateResponse = ResourceSyncRule;
-
-// @public
-export interface ResourceSyncRulesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ResourceSyncRulesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ResourceSyncRulesGetOptionalParams extends coreClient.OperationOptions {
+export interface ResourceSyncRulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceSyncRulesGetResponse = ResourceSyncRule;
-
-// @public
-export interface ResourceSyncRulesListByCustomLocationIDNextOptionalParams extends coreClient.OperationOptions {
+export interface ResourceSyncRulesListByCustomLocationIDOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceSyncRulesListByCustomLocationIDNextResponse = ResourceSyncRuleListResult;
-
-// @public
-export interface ResourceSyncRulesListByCustomLocationIDOptionalParams extends coreClient.OperationOptions {
+export interface ResourceSyncRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams) => Promise<ResourceSyncRule>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, childResourceName: string, parameters: PatchableResourceSyncRule, options?: ResourceSyncRulesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, childResourceName: string, parameters: PatchableResourceSyncRule, options?: ResourceSyncRulesUpdateOptionalParams) => Promise<ResourceSyncRule>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
+    delete: (resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesGetOptionalParams) => Promise<ResourceSyncRule>;
+    listByCustomLocationID: (resourceGroupName: string, resourceName: string, options?: ResourceSyncRulesListByCustomLocationIDOptionalParams) => PagedAsyncIterableIterator<ResourceSyncRule>;
+    update: (resourceGroupName: string, resourceName: string, childResourceName: string, parameters: PatchableResourceSyncRule, options?: ResourceSyncRulesUpdateOptionalParams) => PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
 }
 
 // @public
-export type ResourceSyncRulesListByCustomLocationIDResponse = ResourceSyncRuleListResult;
+export interface ResourceSyncRulesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+export { RestError }
 
 // @public
-export interface ResourceSyncRulesUpdateOptionalParams extends coreClient.OperationOptions {
-    priority?: number;
-    resumeFrom?: string;
-    selector?: ResourceSyncRulePropertiesSelector;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    targetResourceGroup?: string;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CustomLocationsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ResourceSyncRulesUpdateResponse = ResourceSyncRule;
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SystemData {
@@ -424,9 +409,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -1,20 +1,42 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2026-05-27)
+Compared with version 1.0.0-beta.3
 
 ### Features Added
+  - Added operation CustomLocationsOperations.createOrUpdate
+  - Added operation CustomLocationsOperations.delete
+  - Added operation ResourceSyncRulesOperations.createOrUpdate
+  - Added operation ResourceSyncRulesOperations.update
+  - Added Interface CustomLocationOperationValueDisplay
+  - Added Interface CustomLocationProperties
+  - Added Interface EnabledResourceTypeProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ResourceSyncRuleProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.4 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
+  - Operation CustomLocations.update has a new signature
+  - Operation ResourceSyncRules.beginUpdate has a new signature
+  - Operation ResourceSyncRules.beginUpdateAndWait has a new signature
+  - Removed Interface CustomLocationOperationsList
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter authentication
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter clusterExtensionIds
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter displayName
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter hostResourceId
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter hostType
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter identity
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter namespace
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter provisioningState
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter tags
 
 ## 1.0.0-beta.3 (2023-01-10)
 
