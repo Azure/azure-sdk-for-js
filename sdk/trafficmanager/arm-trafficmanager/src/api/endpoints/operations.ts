@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 import type { TrafficManagerManagementContext as Client } from "../index.js";
-import type {
-  Endpoint,
-  DeleteOperationResult,
-  EndpointType} from "../../models/models.js";
+import type { Endpoint, DeleteOperationResult, EndpointType } from "../../models/models.js";
 import {
   endpointSerializer,
   endpointDeserializer,
   cloudErrorDeserializer,
-  deleteOperationResultDeserializer
+  deleteOperationResultDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -19,13 +16,8 @@ import type {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,

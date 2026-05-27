@@ -3,26 +3,19 @@
 
 import type {
   TrafficManagerManagementContext,
-  TrafficManagerManagementClientOptionalParams} from "./api/index.js";
-import {
-  createTrafficManagerManagement,
+  TrafficManagerManagementClientOptionalParams,
 } from "./api/index.js";
-import type { EndpointsOperations} from "./classic/endpoints/index.js";
+import { createTrafficManagerManagement } from "./api/index.js";
+import type { EndpointsOperations } from "./classic/endpoints/index.js";
 import { _getEndpointsOperations } from "./classic/endpoints/index.js";
-import type {
-  GeographicHierarchiesOperations} from "./classic/geographicHierarchies/index.js";
-import {
-  _getGeographicHierarchiesOperations,
-} from "./classic/geographicHierarchies/index.js";
-import type { HeatMapOperations} from "./classic/heatMap/index.js";
+import type { GeographicHierarchiesOperations } from "./classic/geographicHierarchies/index.js";
+import { _getGeographicHierarchiesOperations } from "./classic/geographicHierarchies/index.js";
+import type { HeatMapOperations } from "./classic/heatMap/index.js";
 import { _getHeatMapOperations } from "./classic/heatMap/index.js";
-import type { ProfilesOperations} from "./classic/profiles/index.js";
+import type { ProfilesOperations } from "./classic/profiles/index.js";
 import { _getProfilesOperations } from "./classic/profiles/index.js";
-import type {
-  TrafficManagerUserMetricsKeysOperations} from "./classic/trafficManagerUserMetricsKeys/index.js";
-import {
-  _getTrafficManagerUserMetricsKeysOperations,
-} from "./classic/trafficManagerUserMetricsKeys/index.js";
+import type { TrafficManagerUserMetricsKeysOperations } from "./classic/trafficManagerUserMetricsKeys/index.js";
+import { _getTrafficManagerUserMetricsKeysOperations } from "./classic/trafficManagerUserMetricsKeys/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 

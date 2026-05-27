@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import type { TrafficManagerManagementContext as Client } from "../index.js";
-import type {
-  DeleteOperationResult,
-  UserMetricsModel} from "../../models/models.js";
+import type { DeleteOperationResult, UserMetricsModel } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   deleteOperationResultDeserializer,
@@ -16,13 +14,8 @@ import type {
   TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   TrafficManagerUserMetricsKeysGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _$deleteSend(
   context: Client,

@@ -2,21 +2,12 @@
 // Licensed under the MIT License.
 
 import type { TrafficManagerManagementContext as Client } from "../index.js";
-import type {
-  HeatMapModel} from "../../models/models.js";
-import {
-  cloudErrorDeserializer,
-  heatMapModelDeserializer,
-} from "../../models/models.js";
+import type { HeatMapModel } from "../../models/models.js";
+import { cloudErrorDeserializer, heatMapModelDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { HeatMapGetOptionalParams } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
