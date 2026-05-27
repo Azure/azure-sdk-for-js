@@ -874,7 +874,7 @@
 # PRLabel: %Mgmt
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
