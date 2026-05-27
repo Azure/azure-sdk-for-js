@@ -296,7 +296,13 @@ await session.updateSession({
 
 For preview native voices on the `azure-realtime` model, use the dedicated voice type:
 
-```ts
+```ts snippet:ReadmeSampleRealtimeNativeVoice
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
 const session = await client.startSession("azure-realtime");
 
 await session.updateSession({
