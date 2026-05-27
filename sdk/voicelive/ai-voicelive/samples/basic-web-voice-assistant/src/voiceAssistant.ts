@@ -1,6 +1,6 @@
 // Main Voice Assistant implementation using Voice Live SDK
-import { 
-  VoiceLiveClient, 
+import {
+  VoiceLiveClient,
   VoiceLiveSession,
   type VoiceLiveSessionHandlers,
   type VoiceLiveSubscription,
@@ -8,21 +8,23 @@ import {
   type DisconnectedEventArgs,
   type ErrorEventArgs,
   type ConnectionContext,
-  type SessionContext
-} from '@azure/ai-voicelive';
-import { AzureKeyCredential } from '@azure/core-auth';
-import type { TokenCredential, KeyCredential } from '@azure/core-auth';
-import * as speechSDK from 'microsoft-cognitiveservices-speech-sdk';
-import { SimpleAudioCapture } from './audioCapture.js';
+  type SessionContext,
+} from "@azure/ai-voicelive";
+import { AzureKeyCredential } from "@azure/core-auth";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import * as speechSDK from "microsoft-cognitiveservices-speech-sdk";
+import { SimpleAudioCapture } from "./audioCapture.js";
 
 // Note: DefaultAzureCredential would come from @azure/identity package
 // For this demo, we'll create a mock implementation
 class MockDefaultAzureCredential implements TokenCredential {
   async getToken(): Promise<{ token: string; expiresOnTimestamp: number } | null> {
-    console.warn('Mock DefaultAzureCredential used - implement proper Azure authentication for production');
+    console.warn(
+      "Mock DefaultAzureCredential used - implement proper Azure authentication for production",
+    );
     return {
-      token: 'mock-token-for-demo',
-      expiresOnTimestamp: Date.now() + 3600000 // 1 hour from now
+      token: "mock-token-for-demo",
+      expiresOnTimestamp: Date.now() + 3600000, // 1 hour from now
     };
   }
 }
@@ -65,7 +67,15 @@ export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
   onAssistantStatusChange: (status: string) => void;
   onConversationMessage: (message: { role: string; content: string; timestamp: Date }) => void;
-  onConversationMessageUpdate: (message: { role: string; content: string; timestamp: Date; messageId?: string; isStreaming?: boolean; paWords?: PaWord[]; latencyInfo?: LatencyInfo }) => void;
+  onConversationMessageUpdate: (message: {
+    role: string;
+    content: string;
+    timestamp: Date;
+    messageId?: string;
+    isStreaming?: boolean;
+    paWords?: PaWord[];
+    latencyInfo?: LatencyInfo;
+  }) => void;
   onEventReceived: (event: { type: string; data: any; timestamp: Date }) => void;
   onError: (error: string) => void;
   onAudioLevel: (level: number) => void;
@@ -103,28 +113,28 @@ export class VoiceAssistant {
   private isConversationActive = false;
   private currentResponseId?: string;
   private audioContext?: AudioContext;
-  
+
   // Track ongoing text responses for proper conversation display
-  private currentAssistantMessage = '';
+  private currentAssistantMessage = "";
   private messageStartTime?: Date;
   private currentAssistantMessageId?: string;
   // Track whether the current response contained a function call (for tool-only response handling)
   private currentResponseHadFunctionCall = false;
-  
+
   // Track ongoing transcription for user speech
-  private currentUserTranscription = '';
+  private currentUserTranscription = "";
   private userSpeechStartTime?: Date;
-  
+
   // Audio playback queue management
   private audioQueue: AudioBuffer[] = [];
   private isPlayingAudio = false;
   private nextAudioStartTime = 0;
   private currentAudioSources: AudioBufferSourceNode[] = [];
-  
+
   private speechConfig?: speechSDK.SpeechConfig;
-  private recognitionLanguage = 'en-US';  // PA feature just supports English for now.
-  private silenceTimeout = 1500;  // silenceDurationInMs for VAD & Speech_SegmentationSilenceTimeoutMs
-  private prefixPadding = 1000;   // prefixPaddingInMs for VAD
+  private recognitionLanguage = "en-US"; // PA feature just supports English for now.
+  private silenceTimeout = 1500; // silenceDurationInMs for VAD & Speech_SegmentationSilenceTimeoutMs
+  private prefixPadding = 1000; // prefixPaddingInMs for VAD
   private enablePronunciationAssessment = false;
   private enableLatencyTracking = false;
   private paWithReferenceText = true;
@@ -443,7 +453,7 @@ export class VoiceAssistant {
     Tool call: set_reference_text({ reference_text: "The children were playing." })
   `;
   private audioTimeline = { totalBytes: 0 };
-  
+
   constructor() {
     this.audioCapture = new SimpleAudioCapture();
   }
@@ -467,7 +477,7 @@ export class VoiceAssistant {
         this.silenceTimeout = 500;
       }
 
-      this.callbacks?.onConnectionStatusChange('connecting');
+      this.callbacks?.onConnectionStatusChange("connecting");
 
       // Create appropriate credential based on configuration
       this.credential = this.createCredential(config);
@@ -477,52 +487,57 @@ export class VoiceAssistant {
         connectionTimeoutInMs: 30000,
       };
 
-      console.log(`🔑 Using credential type: ${config.useTokenCredential ? 'TokenCredential' : 'API Key'}`);
-      console.log('⚡ Using fail-fast connection policy - any disconnection will terminate session');
+      console.log(
+        `🔑 Using credential type: ${config.useTokenCredential ? "TokenCredential" : "API Key"}`,
+      );
+      console.log(
+        "⚡ Using fail-fast connection policy - any disconnection will terminate session",
+      );
 
       if (config.debugMode !== false) {
-        console.log('🐛 Debug mode enabled - set AZURE_LOG_LEVEL=verbose (or call setLogLevel("verbose") from @azure/logger) to see detailed SDK logs');
-        console.log('🔍 Check Network tab for WebSocket messages');
-        console.log('📡 Watch Events panel for real-time SDK events');
+        console.log(
+          '🐛 Debug mode enabled - set AZURE_LOG_LEVEL=verbose (or call setLogLevel("verbose") from @azure/logger) to see detailed SDK logs',
+        );
+        console.log("🔍 Check Network tab for WebSocket messages");
+        console.log("📡 Watch Events panel for real-time SDK events");
       }
 
       // Create Voice Live client. `apiVersion` defaults to the latest known
       // version; override only to pin a specific version.
       this.client = new VoiceLiveClient(config.endpoint, this.credential, {
-        defaultSessionOptions: sessionOptions
+        defaultSessionOptions: sessionOptions,
       });
 
       // Create and connect a session with model
-      this.session = await this.client.startSession('gpt-4.1', sessionOptions);
-      
+      this.session = await this.client.startSession("gpt-4.1", sessionOptions);
+
       // Setup handler-based event subscription (Azure SDK pattern)
       this.subscription = this.session.subscribe(this.createEventHandlers());
 
       // Configure session
       await this.configureSession(config);
-      
+
       // Setup Speech config for PA (only when PA is enabled)
       if (this.enablePronunciationAssessment) {
         this.speechConfig = speechSDK.SpeechConfig.fromEndpoint(
           new URL(config.endpoint),
-          this.credential
+          this.credential,
         );
         this.speechConfig.setProperty(
           speechSDK.PropertyId.Speech_SegmentationSilenceTimeoutMs,
-          this.silenceTimeout.toString()
+          this.silenceTimeout.toString(),
         );
-        if (this.recognitionLanguage !== 'auto') {
+        if (this.recognitionLanguage !== "auto") {
           this.speechConfig.speechRecognitionLanguage = this.recognitionLanguage;
         }
       }
-      
+
       this.isConnected = true;
-      this.callbacks?.onConnectionStatusChange('connected');
-      
-      console.log('Connected to Voice Live service via session');
-      
+      this.callbacks?.onConnectionStatusChange("connected");
+
+      console.log("Connected to Voice Live service via session");
     } catch (error) {
-      this.callbacks?.onConnectionStatusChange('disconnected');
+      this.callbacks?.onConnectionStatusChange("disconnected");
       this.callbacks?.onError(`Connection failed: ${error}`);
       throw error;
     }
@@ -531,14 +546,14 @@ export class VoiceAssistant {
   private createCredential(config: VoiceAssistantConfig): TokenCredential | KeyCredential {
     if (config.useTokenCredential) {
       // Use Azure Default Credential (for production scenarios)
-      console.log('🔑 Using Azure Default Credential (token-based authentication)');
+      console.log("🔑 Using Azure Default Credential (token-based authentication)");
       return new MockDefaultAzureCredential();
     }
     // Use API Key (for development/simple scenarios)
     if (!config.apiKey) {
-      throw new Error('API key is required when not using token credential');
+      throw new Error("API key is required when not using token credential");
     }
-    console.log('🗝️ Using API Key authentication');
+    console.log("🗝️ Using API Key authentication");
     return new AzureKeyCredential(config.apiKey);
   }
 
@@ -559,7 +574,7 @@ export class VoiceAssistant {
       }
 
       this.isConnected = false;
-      this.callbacks?.onConnectionStatusChange('disconnected');
+      this.callbacks?.onConnectionStatusChange("disconnected");
 
       this.audioTimeline.totalBytes = 0;
       this.audioChunks = [];
@@ -568,8 +583,7 @@ export class VoiceAssistant {
       this.paStreamingPushStream = undefined;
       this.paStreamingWriteReady = Promise.resolve();
 
-      console.log('Disconnected from Voice Live service');
-
+      console.log("Disconnected from Voice Live service");
     } catch (error) {
       this.callbacks?.onError(`Disconnect failed: ${error}`);
     }
@@ -578,46 +592,46 @@ export class VoiceAssistant {
   private createEventHandlers(): VoiceLiveSessionHandlers {
     return {
       onConnected: async (args: ConnectedEventArgs, context: ConnectionContext) => {
-        console.log('🔔 Connected:', args);
+        console.log("🔔 Connected:", args);
         this.callbacks?.onEventReceived({
-          type: 'connected',
+          type: "connected",
           data: args,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       },
 
       onDisconnected: async (args: DisconnectedEventArgs, context: ConnectionContext) => {
-        console.log('🔔 Disconnected:', args);
+        console.log("🔔 Disconnected:", args);
         this.isConnected = false;
-        this.callbacks?.onConnectionStatusChange('disconnected');
+        this.callbacks?.onConnectionStatusChange("disconnected");
         this.callbacks?.onEventReceived({
-          type: 'disconnected',
+          type: "disconnected",
           data: args,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       },
 
       onError: async (args: ErrorEventArgs, context: ConnectionContext) => {
-        console.log('🔔 Error:', args);
+        console.log("🔔 Error:", args);
         this.callbacks?.onError(`Service error: ${args.error.message}`);
         this.callbacks?.onEventReceived({
-          type: 'error',
+          type: "error",
           data: args,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       },
 
       onResponseCreated: async (event, context: SessionContext) => {
-        console.log('🔔 Response Created:', event);
+        console.log("🔔 Response Created:", event);
 
         // If this is a new response while another is in progress, it's likely due to barge-in
         if (this.currentResponseId && this.currentResponseId !== event.response.id) {
-          console.log('🛑 New response started - previous response interrupted (likely barge-in)');
+          console.log("🛑 New response started - previous response interrupted (likely barge-in)");
           this.clearAudioQueue();
         }
 
         this.currentResponseId = event.response.id;
-        this.currentAssistantMessage = ''; // Reset for new response
+        this.currentAssistantMessage = ""; // Reset for new response
         this.currentResponseHadFunctionCall = false; // Reset function call tracking
         this.messageStartTime = new Date();
         this.currentAssistantMessageId = `response_${event.response.id}_${Date.now()}`;
@@ -627,27 +641,27 @@ export class VoiceAssistant {
 
         // Don't create UI message here — wait for the first content delta.
         // This avoids showing an empty message for function-call-only responses.
-        
-        this.callbacks?.onAssistantStatusChange('thinking');
+
+        this.callbacks?.onAssistantStatusChange("thinking");
         this.callbacks?.onEventReceived({
-          type: 'response.created',
+          type: "response.created",
           data: event,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       },
 
       onResponseDone: async (event, context: SessionContext) => {
-        console.log('🔔 Response Done:', event);
-        console.log('🔔 Final accumulated message:', this.currentAssistantMessage);
-        
+        console.log("🔔 Response Done:", event);
+        console.log("🔔 Final accumulated message:", this.currentAssistantMessage);
+
         // Finalize the streaming message
         if (this.currentAssistantMessageId && this.currentAssistantMessage.trim()) {
           this.callbacks?.onConversationMessageUpdate({
-            role: 'assistant',
+            role: "assistant",
             content: this.currentAssistantMessage.trim(),
             timestamp: this.messageStartTime || new Date(),
             messageId: this.currentAssistantMessageId,
-            isStreaming: false // Mark as complete
+            isStreaming: false, // Mark as complete
           });
         }
 
@@ -655,54 +669,59 @@ export class VoiceAssistant {
         // the model needs a follow-up response.create to continue generating output.
         // This handles the Read Along initial greeting where the model calls
         // set_reference_text first without producing audio.
-        const needsFollowUp = this.currentResponseHadFunctionCall && !this.currentAssistantMessage.trim();
+        const needsFollowUp =
+          this.currentResponseHadFunctionCall && !this.currentAssistantMessage.trim();
 
         // Reset for next response
-        this.currentAssistantMessage = '';
+        this.currentAssistantMessage = "";
         this.messageStartTime = undefined;
         this.currentAssistantMessageId = undefined;
         this.currentResponseHadFunctionCall = false;
-        
-        this.callbacks?.onAssistantStatusChange('listening');
+
+        this.callbacks?.onAssistantStatusChange("listening");
         this.callbacks?.onEventReceived({
-          type: 'response.done',
+          type: "response.done",
           data: event,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
 
         if (needsFollowUp) {
-          console.log('🔄 Response had function call but no content — sending follow-up response.create');
+          console.log(
+            "🔄 Response had function call but no content — sending follow-up response.create",
+          );
           this.session?.sendEvent({
-            type: 'response.create'
+            type: "response.create",
           });
         }
       },
 
       onInputAudioBufferSpeechStarted: async (event, context: SessionContext) => {
-        console.log('🔔 Speech Started:', event);
-        this.currentUserTranscription = ''; // Reset transcription
+        console.log("🔔 Speech Started:", event);
+        this.currentUserTranscription = ""; // Reset transcription
         this.userSpeechStartTime = new Date();
 
         // BARGE-IN: If audio is currently playing, stop it immediately
         if (this.isPlayingAudio) {
-          console.log('🛑 BARGE-IN: User started speaking during agent response - stopping audio playback');
+          console.log(
+            "🛑 BARGE-IN: User started speaking during agent response - stopping audio playback",
+          );
           this.clearAudioQueue();
-          this.callbacks?.onAssistantStatusChange('interrupted');
-          
+          this.callbacks?.onAssistantStatusChange("interrupted");
+
           // Add barge-in indicator to conversation
           this.callbacks?.onConversationMessageUpdate({
-            role: 'system',
-            content: '[Conversation interrupted by user]',
+            role: "system",
+            content: "[Conversation interrupted by user]",
             timestamp: new Date(),
-            messageId: 'barge_in_' + Date.now(),
-            isStreaming: false
+            messageId: "barge_in_" + Date.now(),
+            isStreaming: false,
           });
         }
 
         // Create per-turn context with audio start timestamp for ALL modes.
         // This ensures each turn owns its own audio range and avoids cross-turn interference.
         this.activeTurnContext = { audioStartMillis: event.audioStartInMs };
-        
+
         // Start streaming PA immediately for non-reference-text mode
         if (this.enablePronunciationAssessment && !this.paWithReferenceText) {
           // Record PA start time for latency tracking (streaming mode starts PA at speech start)
@@ -712,28 +731,30 @@ export class VoiceAssistant {
           // Consume currentReferenceText (Read Along scenario) for this turn, then clear it
           const refText = this.currentReferenceText;
           this.currentReferenceText = undefined;
-          console.log('📖 Reference text for read-along:', refText);
+          console.log("📖 Reference text for read-along:", refText);
           this.startStreamingPA(this.activeTurnContext, refText);
         }
 
-        this.callbacks?.onAssistantStatusChange('listening (speech detected)');
+        this.callbacks?.onAssistantStatusChange("listening (speech detected)");
         this.callbacks?.onEventReceived({
-          type: 'speech.started',
+          type: "speech.started",
           data: event,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       },
 
       onInputAudioBufferSpeechStopped: async (event, context: SessionContext) => {
-        console.log('🔔 Speech Stopped:', event);
-        this.callbacks?.onAssistantStatusChange('processing');
+        console.log("🔔 Speech Stopped:", event);
+        this.callbacks?.onAssistantStatusChange("processing");
+
+        const turnCtx = this.getTurnContextAwaitingSpeechStop();
 
         // Update the existing turn context with audio end timestamp and speech end time.
         // TurnContext was created at speechStarted — no need to overwrite it here.
-        if (this.activeTurnContext) {
-          this.activeTurnContext.audioEndMillis = event.audioEndInMs;
+        if (turnCtx) {
+          turnCtx.audioEndMillis = event.audioEndInMs;
           if (this.enableLatencyTracking) {
-            this.activeTurnContext.speechEndTime = performance.now();
+            turnCtx.speechEndTime = performance.now();
           }
         }
 
@@ -746,21 +767,34 @@ export class VoiceAssistant {
         }
 
         this.callbacks?.onEventReceived({
-          type: 'speech.stopped',
+          type: "speech.stopped",
           data: event,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       },
 
       onInputAudioBufferCommitted: async (event, context: SessionContext) => {
         // In streaming PA mode, audio is pushed directly to the recognizer
-        if (this.paStreamingActive) return;
+        if (this.paStreamingActive) {
+          if (this.enablePronunciationAssessment && this.activeTurnContext) {
+            this.pendingTurnContexts.push(this.activeTurnContext);
+            this.activeTurnContext = undefined;
+          }
+          return;
+        }
 
         // Extract and prepare audio for PA using per-turn timestamps
-        if (this.enablePronunciationAssessment && this.activeTurnContext && !this.activeTurnContext.preparedAudio) {
+        if (
+          this.enablePronunciationAssessment &&
+          this.activeTurnContext &&
+          !this.activeTurnContext.preparedAudio
+        ) {
           const { audioStartMillis, audioEndMillis } = this.activeTurnContext;
           if (audioStartMillis != null && audioEndMillis != null) {
-            this.activeTurnContext.preparedAudio = this.extractAndPrepareAudio(audioStartMillis, audioEndMillis);
+            this.activeTurnContext.preparedAudio = this.extractAndPrepareAudio(
+              audioStartMillis,
+              audioEndMillis,
+            );
           }
         }
 
@@ -774,31 +808,31 @@ export class VoiceAssistant {
 
       // Handle actual text responses from the assistant
       onResponseTextDelta: async (event, context: SessionContext) => {
-        console.log('🔔 Response Text Delta:', event.delta);
-        console.log('🔔 Current message so far:', this.currentAssistantMessage);
-        
+        console.log("🔔 Response Text Delta:", event.delta);
+        console.log("🔔 Current message so far:", this.currentAssistantMessage);
+
         // Accumulate text deltas for complete response
         this.currentAssistantMessage += event.delta;
 
         // Stream the update to the conversation UI in real-time
         if (this.currentAssistantMessageId) {
           this.callbacks?.onConversationMessageUpdate({
-            role: 'assistant',
+            role: "assistant",
             content: this.currentAssistantMessage,
             timestamp: this.messageStartTime || new Date(),
             messageId: this.currentAssistantMessageId,
-            isStreaming: true
+            isStreaming: true,
           });
         }
 
-        console.log('🔔 Updated message:', this.currentAssistantMessage);
+        console.log("🔔 Updated message:", this.currentAssistantMessage);
       },
 
       // Handle audio transcript (what the assistant said as text)
       onResponseAudioTranscriptDelta: async (event, context: SessionContext) => {
-        console.log('🔔 Audio Transcript Delta:', event.delta);
-        console.log('🔔 Current transcript so far:', this.currentAssistantMessage);
-        
+        console.log("🔔 Audio Transcript Delta:", event.delta);
+        console.log("🔔 Current transcript so far:", this.currentAssistantMessage);
+
         // Accumulate audio transcript deltas
         this.currentAssistantMessage += event.delta;
 
@@ -806,47 +840,53 @@ export class VoiceAssistant {
         // onConversationMessageUpdate with a new messageId creates the UI element on first call
         if (this.currentAssistantMessageId) {
           this.callbacks?.onConversationMessageUpdate({
-            role: 'assistant',
+            role: "assistant",
             content: this.currentAssistantMessage,
             timestamp: this.messageStartTime || new Date(),
             messageId: this.currentAssistantMessageId,
-            isStreaming: true
+            isStreaming: true,
           });
         }
 
-        console.log('🔔 Updated transcript:', this.currentAssistantMessage);
+        console.log("🔔 Updated transcript:", this.currentAssistantMessage);
       },
 
       // Handle user transcription deltas
       onConversationItemInputAudioTranscriptionDelta: async (event, context: SessionContext) => {
-        console.log('🔔 User Transcription Delta:', event.delta);
+        console.log("🔔 User Transcription Delta:", event.delta);
         this.currentUserTranscription += event.delta;
       },
 
       // Handle completed user transcription
-      onConversationItemInputAudioTranscriptionCompleted: async (event, context: SessionContext) => {
-        console.log('🔔 User Transcription Completed:', event.transcript);
+      onConversationItemInputAudioTranscriptionCompleted: async (
+        event,
+        context: SessionContext,
+      ) => {
+        console.log("🔔 User Transcription Completed:", event.transcript);
 
-        const userText = event.transcript || this.currentUserTranscription || '[Audio input]';
+        const userText = event.transcript || this.currentUserTranscription || "[Audio input]";
         const userMsgTimestamp = this.userSpeechStartTime || new Date();
         const userMsgId = `user_${Date.now()}`;
-        // In paWithReferenceText mode, dequeue the prepared turn context (FIFO)
-        // to correctly match audio data with its transcription, even when turns interleave.
-        const turnCtx: TurnContext = (this.enablePronunciationAssessment && this.paWithReferenceText && this.pendingTurnContexts.length > 0)
-          ? this.pendingTurnContexts.shift()!
-          : (this.activeTurnContext || {});
+        // Dequeue the prepared turn context (FIFO) to correctly match audio data
+        // with its transcription, even when turns interleave across PA modes.
+        const turnCtx: TurnContext =
+          this.enablePronunciationAssessment && this.pendingTurnContexts.length > 0
+            ? this.pendingTurnContexts.shift()!
+            : this.activeTurnContext || {};
         turnCtx.userText = userText;
         turnCtx.userMessageTimestamp = userMsgTimestamp;
         turnCtx.userMessageId = userMsgId;
-        this.activeTurnContext = turnCtx;
-        
+        if (!this.activeTurnContext) {
+          this.activeTurnContext = turnCtx;
+        }
+
         // Add the complete user transcription to conversation
         this.callbacks?.onConversationMessageUpdate({
-          role: 'user',
+          role: "user",
           content: userText,
           timestamp: userMsgTimestamp,
           messageId: userMsgId,
-          isStreaming: false
+          isStreaming: false,
         });
 
         if (!this.enablePronunciationAssessment) {
@@ -858,9 +898,7 @@ export class VoiceAssistant {
           }
 
           // Reset transcription tracking
-          this.currentUserTranscription = '';
-          this.userSpeechStartTime = undefined;
-          this.activeTurnContext = undefined;
+          this.clearSpeechTrackingForTurn(turnCtx);
           return;
         }
 
@@ -868,12 +906,16 @@ export class VoiceAssistant {
           turnCtx.paStartTime = performance.now();
         }
         const [isSuccess, paResult] = this.paWithReferenceText
-          ? await this.runPAForTurn(turnCtx, event.transcript || this.currentUserTranscription || '', true)
-          : await (turnCtx.paPromise || this.runPAForTurn(turnCtx, '', false));
+          ? await this.runPAForTurn(
+              turnCtx,
+              event.transcript || this.currentUserTranscription || "",
+              true,
+            )
+          : await (turnCtx.paPromise || this.runPAForTurn(turnCtx, "", false));
         if (this.enableLatencyTracking) {
           turnCtx.paEndTime = performance.now();
         }
-        console.log('📝 PA Result:', paResult);
+        console.log("📝 PA Result:", paResult);
 
         // Parse PA result and collect structured per-word info.
         // Avoid building any HTML string here — the UI layer renders DOM safely.
@@ -884,62 +926,64 @@ export class VoiceAssistant {
               const nBest = paArr[0]?.NBest?.[0];
               const words: any[] = nBest?.Words || [];
               if (words.length > 0) {
-                turnCtx.paWords = words.map((w: any): PaWord => ({
-                  word: typeof w.Word === 'string' ? w.Word : String(w.Word ?? ''),
-                  score: w.PronunciationAssessment?.AccuracyScore ?? 100,
-                  errorType: w.PronunciationAssessment?.ErrorType || 'None'
-                }));
+                turnCtx.paWords = words.map(
+                  (w: any): PaWord => ({
+                    word: typeof w.Word === "string" ? w.Word : String(w.Word ?? ""),
+                    score: w.PronunciationAssessment?.AccuracyScore ?? 100,
+                    errorType: w.PronunciationAssessment?.ErrorType || "None",
+                  }),
+                );
               }
             }
           } catch (e) {
-            console.warn('Failed to parse PA result for display:', e);
+            console.warn("Failed to parse PA result for display:", e);
           }
         }
-        
+
         this.publishTurnMessage(turnCtx);
 
         // Save turn context for TTS first chunk latency tracking
         if (this.enableLatencyTracking) {
           this.pendingLatencyTurn = turnCtx;
         }
-        
+
         this.session?.sendEvent({
-          type: 'response.create',
-          additionalInstructions: `This is the pronunciation assessment result for above user speech: '${paResult}'`
+          type: "response.create",
+          additionalInstructions: `This is the pronunciation assessment result for above user speech: '${paResult}'`,
         });
 
-        this.currentUserTranscription = '';
-        this.userSpeechStartTime = undefined;
-        this.activeTurnContext = undefined;
+        this.clearSpeechTrackingForTurn(turnCtx);
       },
 
       // Handle failed user transcription
       onConversationItemInputAudioTranscriptionFailed: async (event, context: SessionContext) => {
-        console.log('🔔 User Transcription Failed:', event);
-        
+        console.log("🔔 User Transcription Failed:", event);
+        const failedTurnCtx =
+          this.enablePronunciationAssessment && this.pendingTurnContexts.length > 0
+            ? this.pendingTurnContexts.shift()
+            : this.activeTurnContext;
+
         // Add failed transcription indicator
         this.callbacks?.onConversationMessage({
-          role: 'user',
-          content: '[Audio input - transcription unavailable]',
-          timestamp: this.userSpeechStartTime || new Date()
+          role: "user",
+          content: "[Audio input - transcription unavailable]",
+          timestamp: this.userSpeechStartTime || new Date(),
         });
 
-        // Discard the corresponding queued turn context (if any)
-        if (this.enablePronunciationAssessment && this.paWithReferenceText && this.pendingTurnContexts.length > 0) {
-          this.pendingTurnContexts.shift();
-        }
-
         // Reset transcription tracking
-        this.currentUserTranscription = '';
-        this.userSpeechStartTime = undefined;
-        this.activeTurnContext = undefined;
+        this.clearSpeechTrackingForTurn(failedTurnCtx);
       },
 
       onResponseAudioDelta: async (event, context: SessionContext) => {
-        console.log('🔔 Audio Received:', event.delta?.byteLength, 'bytes');
+        console.log("🔔 Audio Received:", event.delta?.byteLength, "bytes");
 
         // Capture TTS first chunk time for latency tracking
-        if (this.enableLatencyTracking && this.pendingLatencyTurn && event.delta && event.delta.byteLength > 0) {
+        if (
+          this.enableLatencyTracking &&
+          this.pendingLatencyTurn &&
+          event.delta &&
+          event.delta.byteLength > 0
+        ) {
           const turn = this.pendingLatencyTurn;
           turn.ttsFirstChunkTime = performance.now();
           this.pendingLatencyTurn = undefined;
@@ -947,23 +991,23 @@ export class VoiceAssistant {
           const latencyInfo = this.buildLatencyInfo(turn);
           if (turn.userMessageId) {
             this.callbacks?.onConversationMessageUpdate({
-              role: 'user',
-              content: turn.userText || '',
+              role: "user",
+              content: turn.userText || "",
               timestamp: turn.userMessageTimestamp || new Date(),
               messageId: turn.userMessageId,
               isStreaming: false,
               paWords: turn.paWords,
-              latencyInfo
+              latencyInfo,
             });
           }
         }
-        
+
         // Add debugging for audio format
         if (event.delta && event.delta.byteLength > 0) {
-          console.log('🔊 Audio chunk details:', {
+          console.log("🔊 Audio chunk details:", {
             byteLength: event.delta.byteLength,
             samples: event.delta.byteLength / 2,
-            durationMs: (event.delta.byteLength / 2 / 24000) * 1000
+            durationMs: (event.delta.byteLength / 2 / 24000) * 1000,
           });
 
           // Handle streaming audio
@@ -972,13 +1016,13 @@ export class VoiceAssistant {
           view.set(event.delta);
           await this.playAudioChunk(audioBuffer);
         } else {
-          console.warn('🔊 Empty or invalid audio chunk received');
+          console.warn("🔊 Empty or invalid audio chunk received");
         }
       },
 
       // Handle function call completion (e.g., set_reference_text from Read Along scenario)
       onResponseFunctionCallArgumentsDone: async (event, context: SessionContext) => {
-        if (event.name === 'set_reference_text') {
+        if (event.name === "set_reference_text") {
           try {
             const args = JSON.parse(event.arguments);
             const referenceText = args.reference_text;
@@ -986,13 +1030,13 @@ export class VoiceAssistant {
               this.currentReferenceText = referenceText;
 
               this.callbacks?.onEventReceived({
-                type: 'set_reference_text',
+                type: "set_reference_text",
                 data: { referenceText },
-                timestamp: new Date()
+                timestamp: new Date(),
               });
             }
           } catch (e) {
-            console.warn('Failed to parse set_reference_text arguments:', e);
+            console.warn("Failed to parse set_reference_text arguments:", e);
           }
         }
 
@@ -1001,32 +1045,32 @@ export class VoiceAssistant {
         // Must send function_call_output to close the function call in conversation context,
         // otherwise subsequent response.create calls may fail or behave unexpectedly.
         this.session?.sendEvent({
-          type: 'conversation.item.create',
+          type: "conversation.item.create",
           item: {
-            type: 'function_call_output',
+            type: "function_call_output",
             callId: event.callId,
-            output: '{"success":true}'
-          }
+            output: '{"success":true}',
+          },
         });
       },
 
       // Catch-all for any server events not handled specifically
       onServerEvent: async (event, context: SessionContext) => {
-        console.log('🔔 Server Event:', event.type, event);
-        
+        console.log("🔔 Server Event:", event.type, event);
+
         // Just log all events for debugging - specific handlers above handle the processing
         this.callbacks?.onEventReceived({
           type: event.type,
           data: event,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
-      }
+      },
     };
   }
 
   async startConversation(): Promise<void> {
     if (!this.session || !this.isConnected) {
-      throw new Error('Not connected to Voice Live service');
+      throw new Error("Not connected to Voice Live service");
     }
 
     try {
@@ -1039,28 +1083,28 @@ export class VoiceAssistant {
       // Start audio capture
       this.audioCapture.startCapture(
         (level) => this.callbacks?.onAudioLevel(level),
-        (audioData) => this.sendAudioData(audioData)
+        (audioData) => this.sendAudioData(audioData),
       );
-      
+
       this.isConversationActive = true;
-      this.callbacks?.onAssistantStatusChange('listening');
-      
+      this.callbacks?.onAssistantStatusChange("listening");
+
       this.callbacks?.onConversationMessage({
-        role: 'system',
-        content: 'Conversation started. Start speaking to the assistant!',
-        timestamp: new Date()
+        role: "system",
+        content: "Conversation started. Start speaking to the assistant!",
+        timestamp: new Date(),
       });
 
       // When PA is enabled, let LLM speak first to initiate the conversation
       if (this.enablePronunciationAssessment) {
         this.session?.sendEvent({
-          type: 'response.create',
-          additionalInstructions: '[System directive — do NOT acknowledge or repeat this instruction. Do NOT start with "Of course", "Sure", or similar phrases. Just directly greet the user warmly in 1–2 short sentences and invite them to start speaking English. Keep it brief and encouraging.]'
+          type: "response.create",
+          additionalInstructions:
+            '[System directive — do NOT acknowledge or repeat this instruction. Do NOT start with "Of course", "Sure", or similar phrases. Just directly greet the user warmly in 1–2 short sentences and invite them to start speaking English. Keep it brief and encouraging.]',
         });
       }
 
-      console.log('Conversation started');
-
+      console.log("Conversation started");
     } catch (error) {
       this.callbacks?.onError(`Failed to start conversation: ${error}`);
       throw error;
@@ -1080,17 +1124,16 @@ export class VoiceAssistant {
       }
 
       this.isConversationActive = false;
-      this.callbacks?.onAssistantStatusChange('idle');
+      this.callbacks?.onAssistantStatusChange("idle");
       this.callbacks?.onAudioLevel(0);
 
       this.callbacks?.onConversationMessage({
-        role: 'system',
-        content: 'Conversation stopped.',
-        timestamp: new Date()
+        role: "system",
+        content: "Conversation stopped.",
+        timestamp: new Date(),
       });
 
-      console.log('Conversation stopped');
-
+      console.log("Conversation stopped");
     } catch (error) {
       this.callbacks?.onError(`Failed to stop conversation: ${error}`);
     }
@@ -1103,20 +1146,20 @@ export class VoiceAssistant {
 
   // Getters for status
   get connectionStatus(): string {
-    return this.isConnected ? 'connected' : 'disconnected';
+    return this.isConnected ? "connected" : "disconnected";
   }
 
   get conversationStatus(): string {
-    return this.isConversationActive ? 'active' : 'inactive';
+    return this.isConversationActive ? "active" : "inactive";
   }
 
   getScenarioInstructions(scenario: string): string {
     switch (scenario) {
-      case 'concise':
+      case "concise":
         return this.predefinedInstructionsConcise;
-      case 'readAlong':
+      case "readAlong":
         return this.predefinedInstructionsReadAlong;
-      case 'conversation':
+      case "conversation":
       default:
         return this.predefinedInstructions;
     }
@@ -1129,68 +1172,70 @@ export class VoiceAssistant {
     const voice = this.createVoiceObject(config.voice);
 
     const sessionConfig: any = {
-      modalities: ['audio', 'text'],
+      modalities: ["audio", "text"],
       instructions: config.instructions,
       voice,
-      inputAudioFormat: 'pcm16',
-      outputAudioFormat: 'pcm16',
+      inputAudioFormat: "pcm16",
+      outputAudioFormat: "pcm16",
       inputAudioTranscription: this.enablePronunciationAssessment
         ? {
             // "azure-speech" | "mai-transcribe-1" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize"
             model: "azure-speech",
             // Language cannot be configured for mai-transcribe-1 model
-            language: this.recognitionLanguage
+            language: this.recognitionLanguage,
           }
         : undefined,
       turnDetection: {
-        type: 'server_vad',
+        type: "server_vad",
         threshold: 0.5,
         prefixPaddingInMs: this.prefixPadding,
         silenceDurationInMs: this.silenceTimeout,
-        ...(this.enablePronunciationAssessment ? { createResponse: false } : {})
-      }
+        ...(this.enablePronunciationAssessment ? { createResponse: false } : {}),
+      },
     };
 
     // Only register set_reference_text tool when PA is enabled and Read Along scenario is selected
-    if (this.enablePronunciationAssessment && config.paScenario === 'readAlong') {
+    if (this.enablePronunciationAssessment && config.paScenario === "readAlong") {
       sessionConfig.tools = [
         {
-          type: 'function' as const,
-          name: 'set_reference_text',
-          description: 'Set the reference text (English sentence) for pronunciation assessment when leading read-along exercises. Call this every time you provide a sentence for the user to read aloud.',
+          type: "function" as const,
+          name: "set_reference_text",
+          description:
+            "Set the reference text (English sentence) for pronunciation assessment when leading read-along exercises. Call this every time you provide a sentence for the user to read aloud.",
           parameters: {
-            type: 'object',
+            type: "object",
             properties: {
               reference_text: {
-                type: 'string',
-                description: 'The English sentence for the user to read aloud. Should contain only the sentence text without quotes or prefixes.'
-              }
+                type: "string",
+                description:
+                  "The English sentence for the user to read aloud. Should contain only the sentence text without quotes or prefixes.",
+              },
             },
-            required: ['reference_text']
-          }
-        }
+            required: ["reference_text"],
+          },
+        },
       ];
     }
 
     await this.session.updateSession(sessionConfig);
-    console.log('Session configured successfully');
+    console.log("Session configured successfully");
   }
 
   private createVoiceObject(voiceName: string): any {
     // Check if it's an OpenAI voice (simple names like 'alloy', 'echo', etc.)
-    const openAIVoices = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse'];
+    const openAIVoices = ["alloy", "echo", "shimmer", "ash", "ballad", "coral", "sage", "verse"];
 
     if (openAIVoices.includes(voiceName.toLowerCase())) {
       return {
-        type: 'openai',
-        name: voiceName.toLowerCase()
+        type: "openai",
+        name: voiceName.toLowerCase(),
       };
     }
 
     // Assume it's an Azure voice (contains locale patterns like en-US)
     return {
-      type: 'azure-standard',
-      name: voiceName
+      type: "azure-standard",
+      name: voiceName,
     };
   }
 
@@ -1211,19 +1256,23 @@ export class VoiceAssistant {
         const stream = this.paStreamingPushStream;
         this.paStreamingWriteReady = this.paStreamingWriteReady.then(() => {
           if (audioBytes.byteLength > 0 && this.paStreamingActive) {
-            stream.write(audioBytes.buffer.slice(audioBytes.byteOffset, audioBytes.byteOffset + audioBytes.byteLength));
+            stream.write(
+              audioBytes.buffer.slice(
+                audioBytes.byteOffset,
+                audioBytes.byteOffset + audioBytes.byteLength,
+              ),
+            );
           }
         });
       }
-      
     } catch (error) {
-      console.error('Failed to send audio data:', error);
+      console.error("Failed to send audio data:", error);
     }
   }
 
   private async playAudioChunk(audioData: ArrayBuffer): Promise<void> {
     if (!this.audioContext) {
-      console.warn('AudioContext not available for audio playback');
+      console.warn("AudioContext not available for audio playback");
       return;
     }
 
@@ -1233,23 +1282,23 @@ export class VoiceAssistant {
       const numberOfChannels = 1; // Mono audio
       const byteLength = audioData.byteLength;
       const numberOfSamples = byteLength / 2; // 16-bit = 2 bytes per sample
-      
+
       if (numberOfSamples === 0) {
-        console.warn('Empty audio chunk received');
+        console.warn("Empty audio chunk received");
         return;
       }
-      
+
       // Create AudioBuffer for the PCM data
       const audioBuffer = this.audioContext.createBuffer(
         numberOfChannels,
         numberOfSamples,
-        sampleRate
+        sampleRate,
       );
-      
+
       // Convert Int16 PCM data to Float32 for Web Audio API
       const pcm16Data = new Int16Array(audioData);
       const float32Data = audioBuffer.getChannelData(0);
-      
+
       for (let i = 0; i < numberOfSamples; i++) {
         // Convert from Int16 (-32768 to 32767) to Float32 (-1.0 to 1.0)
         float32Data[i] = pcm16Data[i] / 32768.0;
@@ -1257,16 +1306,17 @@ export class VoiceAssistant {
 
       // Add to audio queue instead of playing immediately
       this.audioQueue.push(audioBuffer);
-      
-      console.log(`🔊 Queued audio chunk: ${numberOfSamples} samples, ${byteLength} bytes (queue length: ${this.audioQueue.length})`);
+
+      console.log(
+        `🔊 Queued audio chunk: ${numberOfSamples} samples, ${byteLength} bytes (queue length: ${this.audioQueue.length})`,
+      );
 
       // Start playing if not already playing
       if (!this.isPlayingAudio) {
         this.startAudioPlayback();
       }
-      
     } catch (error) {
-      console.error('Failed to process audio chunk:', error);
+      console.error("Failed to process audio chunk:", error);
     }
   }
 
@@ -1277,17 +1327,17 @@ export class VoiceAssistant {
 
     this.isPlayingAudio = true;
     this.nextAudioStartTime = this.audioContext.currentTime;
-    this.callbacks?.onAssistantStatusChange('speaking');
+    this.callbacks?.onAssistantStatusChange("speaking");
 
-    console.log('🔊 Starting sequential audio playback');
+    console.log("🔊 Starting sequential audio playback");
     this.playNextAudioChunk();
   }
 
   private playNextAudioChunk(): void {
     if (!this.audioContext || this.audioQueue.length === 0) {
       this.isPlayingAudio = false;
-      this.callbacks?.onAssistantStatusChange('listening');
-      console.log('🔊 Audio playback completed');
+      this.callbacks?.onAssistantStatusChange("listening");
+      console.log("🔊 Audio playback completed");
       return;
     }
 
@@ -1301,13 +1351,15 @@ export class VoiceAssistant {
 
     // Schedule this chunk to start exactly when the previous one ends
     source.start(this.nextAudioStartTime);
-    
+
     // Calculate when this chunk will end
     const chunkDuration = audioBuffer.length / audioBuffer.sampleRate;
     this.nextAudioStartTime += chunkDuration;
 
-    console.log(`🔊 Playing chunk (duration: ${(chunkDuration * 1000).toFixed(1)}ms, queue remaining: ${this.audioQueue.length})`);
-    
+    console.log(
+      `🔊 Playing chunk (duration: ${(chunkDuration * 1000).toFixed(1)}ms, queue remaining: ${this.audioQueue.length})`,
+    );
+
     // Schedule the next chunk to play when this one ends
     source.onended = () => {
       // Remove this source from tracking
@@ -1341,13 +1393,13 @@ export class VoiceAssistant {
       this.nextAudioStartTime = this.audioContext.currentTime;
     }
 
-    console.log('🛑 Audio queue cleared and all sources stopped (barge-in or response change)');
+    console.log("🛑 Audio queue cleared and all sources stopped (barge-in or response change)");
   }
 
   private async runPAForTurn(
     turnCtx: TurnContext,
     referenceText: string,
-    useReferenceText: boolean
+    useReferenceText: boolean,
   ): Promise<[boolean, string]> {
     const audio = turnCtx.preparedAudio;
     const result = await this.startPAWithStream(referenceText, audio, useReferenceText);
@@ -1363,26 +1415,29 @@ export class VoiceAssistant {
    */
   private startStreamingPA(turnCtx: TurnContext, referenceText?: string): void {
     if (!this.speechConfig) {
-      console.error('PA streaming: SpeechConfig not initialized');
+      console.error("PA streaming: SpeechConfig not initialized");
       return;
     }
 
     const useRef = !!referenceText;
     if (useRef) {
-      console.log('📖 Streaming PA with reference text:', referenceText);
+      console.log("📖 Streaming PA with reference text:", referenceText);
     }
 
     // Create push stream with 24kHz PCM16 mono format (matching Voice Live input)
     const inputSampleRate = this.audioCapture.currentSampleRate || 24000;
     const pushStream = speechSDK.AudioInputStream.createPushStream(
-      speechSDK.AudioStreamFormat.getWaveFormatPCM(inputSampleRate, 16, 1)
+      speechSDK.AudioStreamFormat.getWaveFormatPCM(inputSampleRate, 16, 1),
     );
     this.paStreamingPushStream = pushStream;
     this.paStreamingActive = true;
     this.paStreamingWriteReady = Promise.resolve();
 
     // Push already-cached audio (from audioStartMillis to now) first
-    this.paStreamingWriteReady = this.pushCachedAudioToStream(pushStream, turnCtx.audioStartMillis!);
+    this.paStreamingWriteReady = this.pushCachedAudioToStream(
+      pushStream,
+      turnCtx.audioStartMillis!,
+    );
 
     // Set up recognizer
     const audioConfig = speechSDK.AudioConfig.fromStreamInput(pushStream);
@@ -1390,36 +1445,39 @@ export class VoiceAssistant {
     try {
       reco = new speechSDK.SpeechRecognizer(this.speechConfig, audioConfig);
     } catch (e) {
-      console.error('Error setting up streaming PA recognizer:', e);
+      console.error("Error setting up streaming PA recognizer:", e);
       this.paStreamingActive = false;
       this.paStreamingPushStream = undefined;
       return;
     }
 
     const paConfig = new speechSDK.PronunciationAssessmentConfig(
-      useRef ? referenceText! : '',
+      useRef ? referenceText! : "",
       speechSDK.PronunciationAssessmentGradingSystem.HundredMark,
       speechSDK.PronunciationAssessmentGranularity.Phoneme,
-      useRef
+      useRef,
     );
     paConfig.enableProsodyAssessment = true;
     paConfig.applyTo(reco);
 
     const PAResults: string[] = [];
+    const currentPushStream = pushStream;
 
     turnCtx.paPromise = new Promise<[boolean, string]>((resolve) => {
       let finished = false;
       const safeResolve = (result: [boolean, string]) => {
         if (finished) return;
         finished = true;
-        this.paStreamingActive = false;
-        this.paStreamingPushStream = undefined;
+        if (this.paStreamingPushStream === currentPushStream) {
+          this.paStreamingActive = false;
+          this.paStreamingPushStream = undefined;
+        }
         resolve(result);
       };
 
       reco.recognized = (_s, e) => {
         const json = e.result.properties.getProperty(
-          speechSDK.PropertyId.SpeechServiceResponse_JsonResult
+          speechSDK.PropertyId.SpeechServiceResponse_JsonResult,
         );
         if (json) PAResults.push(json);
       };
@@ -1430,7 +1488,7 @@ export class VoiceAssistant {
         if (referenceText) {
           this.markErrorTypesByDiff(PAResults, referenceText);
         }
-        safeResolve([true, `[${PAResults.join(',')}]`]);
+        safeResolve([true, `[${PAResults.join(",")}]`]);
       };
 
       reco.canceled = (_s, e) => {
@@ -1438,13 +1496,13 @@ export class VoiceAssistant {
         reco.close();
         if (e.errorCode !== speechSDK.CancellationErrorCode.NoError) {
           console.error(`PA streaming canceled: ${e.errorDetails}`);
-          safeResolve([false, '']);
+          safeResolve([false, ""]);
         } else {
           // EndOfStream or other non-error cancellation — resolve with partial results
           if (referenceText) {
             this.markErrorTypesByDiff(PAResults, referenceText);
           }
-          safeResolve([true, `[${PAResults.join(',')}]`]);
+          safeResolve([true, `[${PAResults.join(",")}]`]);
         }
       };
 
@@ -1456,8 +1514,11 @@ export class VoiceAssistant {
    * Push cached audio chunks (from audioStartMillis to current position)
    * to the streaming PA push stream.
    */
-  private async pushCachedAudioToStream(pushStream: speechSDK.PushAudioInputStream, audioStartMillis: number): Promise<void> {
-    const bytesPerMs = (this.audioCapture.currentSampleRate || 24000) * 2 / 1000;
+  private async pushCachedAudioToStream(
+    pushStream: speechSDK.PushAudioInputStream,
+    audioStartMillis: number,
+  ): Promise<void> {
+    const bytesPerMs = ((this.audioCapture.currentSampleRate || 24000) * 2) / 1000;
     const startByte = Math.floor(audioStartMillis * bytesPerMs);
 
     for (const c of this.audioChunks) {
@@ -1470,7 +1531,11 @@ export class VoiceAssistant {
     }
   }
 
-  private startPAWithStream(referenceText: string, audioChunksToAssess: ArrayBuffer | undefined, useReferenceText: boolean): Promise<[boolean, string]> {
+  private startPAWithStream(
+    referenceText: string,
+    audioChunksToAssess: ArrayBuffer | undefined,
+    useReferenceText: boolean,
+  ): Promise<[boolean, string]> {
     return new Promise((resolve) => {
       let finished = false;
       const safeResolve = (result: [boolean, string]) => {
@@ -1480,59 +1545,59 @@ export class VoiceAssistant {
       };
 
       if (!this.speechConfig) {
-        console.error('Pronunciation assessment failed: SpeechConfig not initialized.');
+        console.error("Pronunciation assessment failed: SpeechConfig not initialized.");
         this.callbacks?.onConversationMessageUpdate({
-          role: 'error',
-          content: 'Pronunciation assessment failed: SpeechConfig not initialized.',
+          role: "error",
+          content: "Pronunciation assessment failed: SpeechConfig not initialized.",
           timestamp: new Date(),
-          isStreaming: false
+          isStreaming: false,
         });
-        safeResolve([false, '']);
+        safeResolve([false, ""]);
         return;
       }
-      
+
       if (!audioChunksToAssess || audioChunksToAssess.byteLength === 0) {
-        console.warn('No audio chunks available for pronunciation assessment.');
+        console.warn("No audio chunks available for pronunciation assessment.");
         this.callbacks?.onConversationMessageUpdate({
-          role: 'error',
-          content: 'No audio chunks available for pronunciation assessment.',
+          role: "error",
+          content: "No audio chunks available for pronunciation assessment.",
           timestamp: new Date(),
-          isStreaming: false
+          isStreaming: false,
         });
-        safeResolve([false, '']);
+        safeResolve([false, ""]);
         return;
       }
 
       const inputSampleRate = this.audioCapture.currentSampleRate || 24000;
       const pushStream = speechSDK.AudioInputStream.createPushStream(
-        speechSDK.AudioStreamFormat.getWaveFormatPCM(inputSampleRate, 16, 1)
+        speechSDK.AudioStreamFormat.getWaveFormatPCM(inputSampleRate, 16, 1),
       );
       pushStream.write(audioChunksToAssess);
       pushStream.close();
 
       const audioConfig = speechSDK.AudioConfig.fromStreamInput(pushStream);
-      
+
       let reco: speechSDK.SpeechRecognizer;
       try {
         reco = new speechSDK.SpeechRecognizer(this.speechConfig, audioConfig);
       } catch (e) {
-        const msg = 'Error setting up pronunciation assessment:' + e;
+        const msg = "Error setting up pronunciation assessment:" + e;
         console.error(msg);
         this.callbacks?.onConversationMessageUpdate({
-          role: 'error',
+          role: "error",
           content: msg,
           timestamp: new Date(),
-          isStreaming: false
+          isStreaming: false,
         });
-        safeResolve([false, '']);
+        safeResolve([false, ""]);
         return;
       }
 
       const paConfig = new speechSDK.PronunciationAssessmentConfig(
-        useReferenceText ? referenceText : '',
+        useReferenceText ? referenceText : "",
         speechSDK.PronunciationAssessmentGradingSystem.HundredMark,
         speechSDK.PronunciationAssessmentGranularity.Phoneme,
-        useReferenceText
+        useReferenceText,
       );
       paConfig.enableProsodyAssessment = true;
       paConfig.applyTo(reco);
@@ -1541,8 +1606,8 @@ export class VoiceAssistant {
 
       reco.recognized = (_s, e) => {
         const json = e.result.properties.getProperty(
-            speechSDK.PropertyId.SpeechServiceResponse_JsonResult
-          );
+          speechSDK.PropertyId.SpeechServiceResponse_JsonResult,
+        );
         if (json) {
           PAResults.push(json);
         }
@@ -1554,7 +1619,7 @@ export class VoiceAssistant {
         if (useReferenceText && referenceText) {
           this.markErrorTypesByDiff(PAResults, referenceText);
         }
-        safeResolve([true, `[${PAResults.join(',')}]`]);
+        safeResolve([true, `[${PAResults.join(",")}]`]);
       };
 
       reco.canceled = (_s, e) => {
@@ -1562,13 +1627,13 @@ export class VoiceAssistant {
         reco.close();
         if (e.errorCode !== speechSDK.CancellationErrorCode.NoError) {
           console.error(`PA Canceled: ${e.errorDetails}`);
-          safeResolve([false, '']);
+          safeResolve([false, ""]);
         } else {
           // EndOfStream or other non-error cancellation — resolve with partial results
           if (useReferenceText && referenceText) {
             this.markErrorTypesByDiff(PAResults, referenceText);
           }
-          safeResolve([true, `[${PAResults.join(',')}]`]);
+          safeResolve([true, `[${PAResults.join(",")}]`]);
         }
       };
 
@@ -1599,13 +1664,13 @@ export class VoiceAssistant {
    */
   private extractAndPrepareAudio(startMillis: number, endMillis: number): ArrayBuffer | undefined {
     if (endMillis < startMillis) {
-      console.warn('Invalid audio timestamps for extraction.');
+      console.warn("Invalid audio timestamps for extraction.");
       return undefined;
     }
 
-    const bytesPerMs = this.audioCapture.currentSampleRate! * 2 / 1000;
+    const bytesPerMs = (this.audioCapture.currentSampleRate! * 2) / 1000;
     const startByte = Math.floor(startMillis * bytesPerMs);
-    const endByte   = Math.ceil(endMillis * bytesPerMs);
+    const endByte = Math.ceil(endMillis * bytesPerMs);
 
     const slices: Uint8Array[] = [];
     let totalBytes = 0;
@@ -1615,14 +1680,14 @@ export class VoiceAssistant {
       if (c.startByte >= endByte) break;
 
       const sliceStart = Math.max(startByte, c.startByte) - c.startByte;
-      const sliceEnd   = Math.min(endByte, c.endByte) - c.startByte;
+      const sliceEnd = Math.min(endByte, c.endByte) - c.startByte;
       const slice = c.bytes.slice(sliceStart, sliceEnd);
       slices.push(slice);
       totalBytes += slice.byteLength;
     }
 
     // Trim chunks that are fully before this extraction range
-    this.audioChunks = this.audioChunks.filter(c => c.endByte > endByte);
+    this.audioChunks = this.audioChunks.filter((c) => c.endByte > endByte);
 
     if (totalBytes === 0) return undefined;
 
@@ -1636,6 +1701,32 @@ export class VoiceAssistant {
     return buffer;
   }
 
+  private clearSpeechTrackingForTurn(turnCtx?: TurnContext): void {
+    if (this.activeTurnContext && turnCtx && this.activeTurnContext !== turnCtx) {
+      return;
+    }
+
+    this.currentUserTranscription = "";
+    this.userSpeechStartTime = undefined;
+    if (!turnCtx || this.activeTurnContext === turnCtx) {
+      this.activeTurnContext = undefined;
+    }
+  }
+
+  private getTurnContextAwaitingSpeechStop(): TurnContext | undefined {
+    if (this.activeTurnContext && this.activeTurnContext.audioEndMillis == null) {
+      return this.activeTurnContext;
+    }
+
+    for (let index = this.pendingTurnContexts.length - 1; index >= 0; index--) {
+      if (this.pendingTurnContexts[index].audioEndMillis == null) {
+        return this.pendingTurnContexts[index];
+      }
+    }
+
+    return undefined;
+  }
+
   /**
    * Use SequenceMatcher to compare reference words with recognized words,
    * and mark error types: Insertion (extra words spoken) and Omission (words missed).
@@ -1643,10 +1734,13 @@ export class VoiceAssistant {
   private markErrorTypesByDiff(PAResults: string[], referenceText: string): void {
     if (!referenceText || PAResults.length === 0) return;
 
-    const referenceWords = referenceText.trim().split(/\s+/).filter(w => w.length > 0);
+    const referenceWords = referenceText
+      .trim()
+      .split(/\s+/)
+      .filter((w) => w.length > 0);
     if (referenceWords.length === 0) return;
 
-    const normalize = (w: string) => w.toLowerCase().replace(/[^\w]/g, '');
+    const normalize = (w: string) => w.toLowerCase().replace(/[^\w]/g, "");
     const refWordsNorm = referenceWords.map(normalize);
 
     // Collect all recognized words across all PA result segments
@@ -1676,9 +1770,9 @@ export class VoiceAssistant {
 
     if (allRecognizedWords.length === 0 && refWordsNorm.length > 0) {
       // All reference words are omissions
-      const omissionWords = referenceWords.map(w => ({
+      const omissionWords = referenceWords.map((w) => ({
         Word: w,
-        PronunciationAssessment: { AccuracyScore: 0, ErrorType: 'Omission' }
+        PronunciationAssessment: { AccuracyScore: 0, ErrorType: "Omission" },
       }));
       if (parsedResults[0]?.NBest?.[0]) {
         parsedResults[0].NBest[0].Words = omissionWords;
@@ -1694,40 +1788,40 @@ export class VoiceAssistant {
     const newWords: any[] = [];
     for (const [tag, i1, i2, j1, j2] of opcodes) {
       switch (tag) {
-        case 'equal':
+        case "equal":
           for (let j = j1; j < j2; j++) {
             newWords.push(allRecognizedWords[j]);
           }
           break;
-        case 'delete':
+        case "delete":
           // Reference words not spoken → Omission
           for (let ri = i1; ri < i2; ri++) {
             newWords.push({
               Word: referenceWords[ri],
-              PronunciationAssessment: { AccuracyScore: 0, ErrorType: 'Omission' }
+              PronunciationAssessment: { AccuracyScore: 0, ErrorType: "Omission" },
             });
           }
           break;
-        case 'insert':
+        case "insert":
           // Recognized words not in reference → Insertion
           for (let j = j1; j < j2; j++) {
             const w = { ...allRecognizedWords[j] };
-            w.PronunciationAssessment = { ...w.PronunciationAssessment, ErrorType: 'Insertion' };
+            w.PronunciationAssessment = { ...w.PronunciationAssessment, ErrorType: "Insertion" };
             newWords.push(w);
           }
           break;
-        case 'replace':
+        case "replace":
           // Reference words → Omission
           for (let ri = i1; ri < i2; ri++) {
             newWords.push({
               Word: referenceWords[ri],
-              PronunciationAssessment: { AccuracyScore: 0, ErrorType: 'Omission' }
+              PronunciationAssessment: { AccuracyScore: 0, ErrorType: "Omission" },
             });
           }
           // Recognized words → Insertion
           for (let j = j1; j < j2; j++) {
             const w = { ...allRecognizedWords[j] };
-            w.PronunciationAssessment = { ...w.PronunciationAssessment, ErrorType: 'Insertion' };
+            w.PronunciationAssessment = { ...w.PronunciationAssessment, ErrorType: "Insertion" };
             newWords.push(w);
           }
           break;
@@ -1755,15 +1849,15 @@ export class VoiceAssistant {
     const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
     for (let i = 1; i <= m; i++) {
       for (let j = 1; j <= n; j++) {
-        dp[i][j] = a[i - 1] === b[j - 1]
-          ? dp[i - 1][j - 1] + 1
-          : Math.max(dp[i - 1][j], dp[i][j - 1]);
+        dp[i][j] =
+          a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
       }
     }
 
     // Backtrack to find matching pairs
     const matches: [number, number][] = [];
-    let i = m, j = n;
+    let i = m,
+      j = n;
     while (i > 0 && j > 0) {
       if (a[i - 1] === b[j - 1]) {
         matches.push([i - 1, j - 1]);
@@ -1779,30 +1873,31 @@ export class VoiceAssistant {
 
     // Convert matching pairs into opcodes
     const opcodes: [string, number, number, number, number][] = [];
-    let ai = 0, bj = 0;
+    let ai = 0,
+      bj = 0;
 
     for (const [mi, mj] of matches) {
       if (ai < mi || bj < mj) {
         if (ai < mi && bj < mj) {
-          opcodes.push(['replace', ai, mi, bj, mj]);
+          opcodes.push(["replace", ai, mi, bj, mj]);
         } else if (ai < mi) {
-          opcodes.push(['delete', ai, mi, bj, bj]);
+          opcodes.push(["delete", ai, mi, bj, bj]);
         } else {
-          opcodes.push(['insert', ai, ai, bj, mj]);
+          opcodes.push(["insert", ai, ai, bj, mj]);
         }
       }
-      opcodes.push(['equal', mi, mi + 1, mj, mj + 1]);
+      opcodes.push(["equal", mi, mi + 1, mj, mj + 1]);
       ai = mi + 1;
       bj = mj + 1;
     }
 
     if (ai < m || bj < n) {
       if (ai < m && bj < n) {
-        opcodes.push(['replace', ai, m, bj, n]);
+        opcodes.push(["replace", ai, m, bj, n]);
       } else if (ai < m) {
-        opcodes.push(['delete', ai, m, bj, bj]);
+        opcodes.push(["delete", ai, m, bj, bj]);
       } else {
-        opcodes.push(['insert', ai, ai, bj, n]);
+        opcodes.push(["insert", ai, ai, bj, n]);
       }
     }
 
@@ -1815,13 +1910,13 @@ export class VoiceAssistant {
     }
     const latencyInfo = this.enableLatencyTracking ? this.buildLatencyInfo(ctx) : undefined;
     this.callbacks?.onConversationMessageUpdate({
-      role: 'user',
+      role: "user",
       content: ctx.userText,
       timestamp: ctx.userMessageTimestamp,
       messageId: ctx.userMessageId,
       isStreaming: false,
       paWords: ctx.paWords,
-      latencyInfo
+      latencyInfo,
     });
   }
 
@@ -1838,7 +1933,7 @@ export class VoiceAssistant {
       speechEndToPaStart: s && paStart ? paStart - s : null,
       paStartToPaEnd: paStart && paEnd ? paEnd - paStart : null,
       paEndToTtsFirstChunk: paEnd && tts ? tts - paEnd : null,
-      speechEndToTtsFirstChunk: s && tts ? tts - s : null
+      speechEndToTtsFirstChunk: s && tts ? tts - s : null,
     };
   }
 }
