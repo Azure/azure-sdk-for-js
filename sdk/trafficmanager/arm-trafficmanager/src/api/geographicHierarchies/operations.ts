@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementContext as Client } from "../index.js";
+import type { TrafficManagerManagementContext as Client } from "../index.js";
+import type {
+  TrafficManagerGeographicHierarchy} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  TrafficManagerGeographicHierarchy,
   trafficManagerGeographicHierarchyDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { GeographicHierarchiesGetDefaultOptionalParams } from "./options.js";
-import {
+import type { GeographicHierarchiesGetDefaultOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

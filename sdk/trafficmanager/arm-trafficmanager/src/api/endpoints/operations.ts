@@ -1,26 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementContext as Client } from "../index.js";
-import {
+import type { TrafficManagerManagementContext as Client } from "../index.js";
+import type {
   Endpoint,
+  DeleteOperationResult,
+  EndpointType} from "../../models/models.js";
+import {
   endpointSerializer,
   endpointDeserializer,
   cloudErrorDeserializer,
-  DeleteOperationResult,
-  deleteOperationResultDeserializer,
-  EndpointType,
+  deleteOperationResultDeserializer
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   EndpointsDeleteOptionalParams,
   EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

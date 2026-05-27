@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
+import type { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import {
   checkTrafficManagerNameAvailabilityV2,
   checkTrafficManagerRelativeDnsNameAvailability,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/profiles/operations.js";
-import {
+import type {
   ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
@@ -22,13 +22,13 @@ import {
   ProfilesCreateOrUpdateOptionalParams,
   ProfilesGetOptionalParams,
 } from "../../api/profiles/options.js";
-import {
+import type {
   DeleteOperationResult,
   Profile,
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   TrafficManagerNameAvailability,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Profiles operations. */
 export interface ProfilesOperations {

@@ -1,24 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TrafficManagerManagementContext,
-  TrafficManagerManagementClientOptionalParams,
+  TrafficManagerManagementClientOptionalParams} from "./api/index.js";
+import {
   createTrafficManagerManagement,
 } from "./api/index.js";
-import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
+import type { EndpointsOperations} from "./classic/endpoints/index.js";
+import { _getEndpointsOperations } from "./classic/endpoints/index.js";
+import type {
+  GeographicHierarchiesOperations} from "./classic/geographicHierarchies/index.js";
 import {
-  GeographicHierarchiesOperations,
   _getGeographicHierarchiesOperations,
 } from "./classic/geographicHierarchies/index.js";
-import { HeatMapOperations, _getHeatMapOperations } from "./classic/heatMap/index.js";
-import { ProfilesOperations, _getProfilesOperations } from "./classic/profiles/index.js";
+import type { HeatMapOperations} from "./classic/heatMap/index.js";
+import { _getHeatMapOperations } from "./classic/heatMap/index.js";
+import type { ProfilesOperations} from "./classic/profiles/index.js";
+import { _getProfilesOperations } from "./classic/profiles/index.js";
+import type {
+  TrafficManagerUserMetricsKeysOperations} from "./classic/trafficManagerUserMetricsKeys/index.js";
 import {
-  TrafficManagerUserMetricsKeysOperations,
   _getTrafficManagerUserMetricsKeysOperations,
 } from "./classic/trafficManagerUserMetricsKeys/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { TrafficManagerManagementClientOptionalParams } from "./api/trafficManagerManagementContext.js";
 

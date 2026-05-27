@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementContext as Client } from "../index.js";
+import type { TrafficManagerManagementContext as Client } from "../index.js";
+import type {
+  DeleteOperationResult,
+  Profile,
+  _ProfileListResult,
+  CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+  TrafficManagerNameAvailability} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  DeleteOperationResult,
   deleteOperationResultDeserializer,
-  Profile,
   profileSerializer,
   profileDeserializer,
-  _ProfileListResult,
   _profileListResultDeserializer,
-  CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   checkTrafficManagerRelativeDnsNameAvailabilityParametersSerializer,
-  TrafficManagerNameAvailability,
   trafficManagerNameAvailabilityDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
@@ -31,9 +33,10 @@ import {
   ProfilesCreateOrUpdateOptionalParams,
   ProfilesGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

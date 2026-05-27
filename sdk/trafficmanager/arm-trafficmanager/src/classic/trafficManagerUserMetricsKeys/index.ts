@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
+import type { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import {
   $delete,
   createOrUpdate,
   get,
 } from "../../api/trafficManagerUserMetricsKeys/operations.js";
-import {
+import type {
   TrafficManagerUserMetricsKeysDeleteOptionalParams,
   TrafficManagerUserMetricsKeysCreateOrUpdateOptionalParams,
   TrafficManagerUserMetricsKeysGetOptionalParams,
 } from "../../api/trafficManagerUserMetricsKeys/options.js";
-import { DeleteOperationResult, UserMetricsModel } from "../../models/models.js";
+import type { DeleteOperationResult, UserMetricsModel } from "../../models/models.js";
 
 /** Interface representing a TrafficManagerUserMetricsKeys operations. */
 export interface TrafficManagerUserMetricsKeysOperations {
