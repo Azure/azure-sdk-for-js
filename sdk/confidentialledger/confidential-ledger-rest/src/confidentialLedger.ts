@@ -36,7 +36,7 @@ export default function createClient(
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
       : `${userAgentInfo}`;
-  options = {
+  const updatedOptions = {
     ...options,
     userAgentOptions: {
       userAgentPrefix,
@@ -48,7 +48,7 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? ["https://confidential-ledger.azure.com/.default"],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as ConfidentialLedgerClient;
+  const client = getClient(endpointUrl, credentials, updatedOptions) as ConfidentialLedgerClient;
 
   // Replace the default redirect policy with one that preserves headers (including
   // Authorization) on redirects, but ONLY for targets that remain within the trust
@@ -302,13 +302,13 @@ function isTrustedRedirectTarget(target: URL, ledgerHostname: string, ledgerPort
 /**
  * Regex matching the path portion of user management endpoints that require
  * the "application/merge-patch+json" content type on PATCH requests.
- * Matches /app/users/{userId} and /app/ledgerUsers/{userId}.
+ * Matches /app/users/\{userId\} and /app/ledgerUsers/\{userId\}.
  */
 const usersPatchPathRe = /\/app\/(?:users|ledgerUsers)\/[^/?#]+\/?$/i;
 
 /**
  * Pipeline policy that ensures PATCH requests to user management endpoints
- * (/app/users/{userId} and /app/ledgerUsers/{userId}) use the
+ * (/app/users/\{userId\} and /app/ledgerUsers/\{userId\}) use the
  * "application/merge-patch+json" content type required by the service.
  *
  * The generated parameter types declare contentType as optional, so when
