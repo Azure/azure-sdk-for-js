@@ -115,7 +115,8 @@ export const UploadConstants = {
 
 export const BrowserSessionSourceType = {
   PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
-};
+  OTHERS: "Others",
+} as const;
 
 export const StorageUriValidationConstants = {
   AllowedProtocol: "https:",

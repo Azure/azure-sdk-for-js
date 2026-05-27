@@ -4,6 +4,11 @@
 
 ### Features Added
 
+- Added a `sourceType` option to `createAzurePlaywrightConfig` and `getConnectOptions`
+  that sets the `sourceType` query parameter on the remote browser WebSocket
+  endpoint. Supported values are `PlaywrightWorkspacesTestRun` (default) and
+  `Others`. Defaults remain unchanged for existing callers.
+
 ### Breaking Changes
 
 ### Bugs Fixed
