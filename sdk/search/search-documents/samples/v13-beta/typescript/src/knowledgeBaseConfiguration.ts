@@ -106,7 +106,9 @@ async function main(): Promise<void> {
     console.log(`Created knowledge base ${created.name}`);
     console.log(`  retrievalInstructions:   ${created.retrievalInstructions ?? "<none>"}`);
     console.log(`  answerInstructions:      ${created.answerInstructions ?? "<none>"}`);
-    console.log(`  retrievalReasoningEffort: ${created.retrievalReasoningEffort?.kind ?? "<none>"}`);
+    console.log(
+      `  retrievalReasoningEffort: ${created.retrievalReasoningEffort?.kind ?? "<none>"}`,
+    );
     console.log(`  outputMode:              ${created.outputMode ?? "<none>"}`);
     console.log(`  models:                  ${created.models?.length ?? 0}`);
 

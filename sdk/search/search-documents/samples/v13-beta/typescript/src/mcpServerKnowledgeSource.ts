@@ -8,23 +8,13 @@
  * (MCP), invoking one or more tools exposed by that server and folding
  * the parsed results back into the knowledge base response.
  *
- * The sample shows two authentication shapes:
- *   - `foundryConnection`  — authenticate via an Azure AI Foundry
- *     connection identifier.
- *   - `storedHeaders`      — authenticate using HTTP headers stored on
- *     the search service.
- *
- * Only the `foundryConnection` variant is created against the service in
- * this sample, because the `storedHeaders` shape is shown purely to
- * illustrate the construction of the request object — running it
- * requires real header values.
+ * Authentication is configured via stored HTTP headers, which the
+ * search service attaches to every request it issues to the MCP
+ * endpoint (for example an API key or a tenant identifier).
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type {
-  McpServerKnowledgeSource,
-  McpServerStoredHeadersAuthentication,
-} from "@azure/search-documents";
+import type { McpServerKnowledgeSource } from "@azure/search-documents";
 import {
   KnownMcpServerOutputParsingKind,
   KnownMcpServerToolInclusionMode,
@@ -35,8 +25,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.ENDPOINT || "";
-const foundryConnectionId = process.env.MCP_FOUNDRY_CONNECTION_ID || "";
-const mcpServerUrl = process.env.MCP_SERVER_URL || "https://contoso.example.com/mcp";
+const mcpServerUrl = process.env.MCP_SERVER_URL || "";
+const mcpApiKey = process.env.MCP_API_KEY || "";
 
 const KNOWLEDGE_SOURCE_NAME = "example-mcp-server-knowledge-source-sample";
 
@@ -49,17 +39,24 @@ async function main(): Promise<void> {
 
   const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
 
-  // Build an MCP server knowledge source authenticated via a Foundry connection.
+  // Build an MCP server knowledge source authenticated via stored HTTP
+  // headers. The search service attaches these headers to every MCP
+  // request — use them to carry API keys, tenant identifiers, or other
+  // bearer-style secrets accepted by the MCP endpoint.
   const mcpKnowledgeSource: McpServerKnowledgeSource = {
     name: KNOWLEDGE_SOURCE_NAME,
     kind: "mcpServer",
     description: "MCP server knowledge source that delegates retrieval to a remote MCP endpoint.",
     mcpServerParameters: {
-      serverURL: mcpServerUrl,
+      serverURL: mcpServerUrl || "https://contoso.example.com/mcp",
       authentication: {
-        kind: "foundryConnection",
-        foundryConnectionParameters: {
-          connectionId: foundryConnectionId || "<your-foundry-connection-id>",
+        kind: "storedHeaders",
+        storedHeadersParameters: {
+          headers: {
+            additionalProperties: {
+              "x-api-key": mcpApiKey || "<your-api-key>",
+            },
+          },
         },
       },
       tools: [
@@ -83,25 +80,10 @@ async function main(): Promise<void> {
     },
   };
 
-  // Illustrative-only: the stored-headers auth variant for sites that
-  // require custom HTTP headers (e.g. an API key) on every MCP request.
-  const storedHeadersAuthExample: McpServerStoredHeadersAuthentication = {
-    kind: "storedHeaders",
-    storedHeadersParameters: {
-      headers: {
-        additionalProperties: {
-          "x-api-key": "<your-api-key>",
-          "x-tenant-id": "<your-tenant-id>",
-        },
-      },
-    },
-  };
-  console.log(`storedHeaders auth shape (illustrative): ${storedHeadersAuthExample.kind}`);
-
-  if (!foundryConnectionId) {
+  if (!mcpServerUrl || !mcpApiKey) {
     console.log(
-      "Skipping live create: set MCP_FOUNDRY_CONNECTION_ID (and optionally MCP_SERVER_URL) " +
-        "to provision the MCP server knowledge source against the service.",
+      "Skipping live create: set MCP_SERVER_URL and MCP_API_KEY to provision the MCP " +
+        "server knowledge source against the service.",
     );
     return;
   }
