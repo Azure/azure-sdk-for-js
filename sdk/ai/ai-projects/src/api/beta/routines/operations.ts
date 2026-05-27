@@ -243,7 +243,13 @@ export async function _listDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultRoutineDeserializer(result.body);
+  const body = result.body;
+  return {
+    data: (body["value"] ?? body["data"] ?? []).map((item: any) => routineDeserializer(item)),
+    first_id: body["first_id"],
+    last_id: body["last_id"],
+    has_more: body["has_more"] ?? false,
+  };
 }
 
 /** List routines. */
@@ -256,7 +262,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+    },
   );
 }
 

@@ -45,6 +45,9 @@
 - Added `BlobReferenceSasCredential` model type (renamed from spec-level `SasCredential`).
 - Added `AgentEndpointConfig` model type (renamed from `AgentEndpoint`; `AgentEndpoint` is retained as a deprecated alias).
 - Added `ToolboxSearchPreviewTool` as a new agent tool kind (`"toolbox_search_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `force` option to `project.agents.delete` and `project.agents.deleteVersion` for force-deleting hosted agents with active sessions.
+- Added `project.beta.routines` operations for creating, updating, listing, enabling, disabling, and deleting routines.
+- Added convenience `create` method on `project.beta.models` that wraps pendingUpload, file upload, and async creation with polling into a single call.
 
 ### Bugs Fixed
 

@@ -6376,7 +6376,7 @@ export interface SasCredential {
 export function blobReferenceSasCredentialDeserializer(item: any): SasCredential {
   return {
     sasUri: item["sasUri"],
-    type: item["type"],
+    type: item["credentialType"] ?? item["type"],
   };
 }
 
@@ -10242,7 +10242,7 @@ export function _agentsPagedResultRoutineDeserializer(item: any): _AgentsPagedRe
 }
 
 export function routineArrayDeserializer(result: Array<Routine>): any[] {
-  return result.map((item) => {
+  return (result ?? []).map((item) => {
     return routineDeserializer(item);
   });
 }
@@ -12155,10 +12155,10 @@ export interface ModelPendingUploadResponse {
 
 export function modelPendingUploadResponseDeserializer(item: any): ModelPendingUploadResponse {
   return {
-    blobReference: blobReferenceDeserializer(item["blobReference"]),
-    pendingUploadId: item["pendingUploadId"],
+    blobReference: blobReferenceDeserializer(item["blobReferenceForConsumption"] ?? item["blobReference"]),
+    pendingUploadId: item["temporaryDataReferenceId"] ?? item["pendingUploadId"],
     version: item["version"],
-    pendingUploadType: item["pendingUploadType"],
+    pendingUploadType: item["temporaryDataReferenceType"] ?? item["pendingUploadType"] ?? "TemporaryBlobReference",
   };
 }
 

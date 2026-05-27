@@ -26,6 +26,8 @@ resources in your Microsoft Foundry Project. Use it to:
 * **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
 * **Manage toolboxes (preview)** for grouping tools into reusable collections, using the `.beta.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
+* **Manage routines (preview)** for scheduling and dispatching automated workflows, using the `.beta.routines` operations.
+* **Manage model versions (preview)** for creating, updating, and managing custom model versions, using the `.beta.models` operations.
 * **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
 `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
 * **Run Red Team scans (preview)** to identify risks associated with your generative AI application, using the `.beta.redTeams` operations.
@@ -133,7 +135,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 ## Examples
 
@@ -1193,13 +1195,12 @@ The `.beta.agents` operations let you manage agent sessions and session files fo
 import { VersionRefIndicator } from "@azure/ai-projects";
 
 const agentName = "MyBetaAgent";
-const isolationKey = "sample-isolation-key";
 // Create a session for the agent
 const versionIndicator: VersionRefIndicator = {
   type: "version_ref",
   agent_version: "1.0",
 };
-const session = await project.beta.agents.createSession(agentName, isolationKey, versionIndicator);
+const session = await project.beta.agents.createSession(agentName, versionIndicator);
 console.log(`Session created: ${session.agent_session_id}`);
 // Upload a file to the session sandbox
 const filePath = "/sandbox/hello.txt";

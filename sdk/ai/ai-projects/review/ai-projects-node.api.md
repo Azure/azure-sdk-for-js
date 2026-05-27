@@ -918,6 +918,16 @@ export interface BetaModelsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface BetaModelsCreateOptions extends OperationOptions {
+    baseModel?: string;
+    description?: string;
+    pollingInterval?: number;
+    pollingTimeout?: number;
+    tags?: Record<string, string>;
+    weightType?: FoundryModelWeightType;
+}
+
+// @public
 export interface BetaModelsDeleteOptionalParams extends OperationOptions {
 }
 
@@ -939,10 +949,7 @@ export interface BetaModelsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaModelsOperations {
-    create: (name: string, version: string, body: ModelVersion, options?: BetaModelsCreateOptionalParams) => Promise<{
-        location?: string;
-        operationResult?: string | null;
-    }>;
+    create: (name: string, version: string, source: string, options?: BetaModelsCreateOptions) => Promise<ModelVersion>;
     delete: (name: string, version: string, options?: BetaModelsDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: BetaModelsGetOptionalParams) => Promise<ModelVersion>;
     getCredentials: (name: string, version: string, body: ModelCredentialRequest, options?: BetaModelsGetCredentialsOptionalParams) => Promise<DatasetCredential>;

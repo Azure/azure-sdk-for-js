@@ -665,6 +665,7 @@ export type {
   BetaInsightsOperations,
   BetaMemoryStoresOperations,
   BetaModelsOperations,
+  BetaModelsCreateOptions,
   BetaRedTeamsOperations,
   BetaRoutinesOperations,
   BetaSchedulesOperations,

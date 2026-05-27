@@ -5,17 +5,17 @@ import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
-  create,
+  createFromSource,
   update,
   $delete,
   get,
   list,
   listVersions,
 } from "../../../api/beta/models/operations.js";
+import type { BetaModelsCreateFromSourceOptions } from "../../../api/beta/models/options.js";
 import type {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateOptionalParams,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
   BetaModelsGetOptionalParams,
@@ -31,6 +31,8 @@ import type {
   ModelCredentialRequest,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+
+export type { BetaModelsCreateFromSourceOptions as BetaModelsCreateOptions };
 
 /** Interface representing a BetaModels operations. */
 export interface BetaModelsOperations {
@@ -48,16 +50,13 @@ export interface BetaModelsOperations {
     body: ModelPendingUploadRequest,
     options?: BetaModelsPendingUploadOptionalParams,
   ) => Promise<ModelPendingUploadResponse>;
-  /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
+  /** Upload local model files and register a model version. Wraps pendingUpload, file upload, async creation, and polling into a single call. */
   create: (
     name: string,
     version: string,
-    body: ModelVersion,
-    options?: BetaModelsCreateOptionalParams,
-  ) => Promise<{
-    location?: string;
-    operationResult?: string | null;
-  }>;
+    source: string,
+    options?: BetaModelsCreateFromSourceOptions,
+  ) => Promise<ModelVersion>;
   /** Update an existing ModelVersion with the given version id */
   update: (
     name: string,
@@ -103,9 +102,9 @@ function _getBetaModels(context: AIProjectContext) {
     create: (
       name: string,
       version: string,
-      body: ModelVersion,
-      options?: BetaModelsCreateOptionalParams,
-    ) => create(context, name, version, body, options),
+      source: string,
+      options?: BetaModelsCreateFromSourceOptions,
+    ) => createFromSource(context, name, version, source, options),
     update: (
       name: string,
       body: UpdateModelVersionRequest,
