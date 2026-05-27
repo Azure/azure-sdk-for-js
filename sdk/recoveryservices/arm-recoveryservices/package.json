@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-recoveryservices",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "A generated SDK for RecoveryServicesClient.",
   "engines": {
     "node": ">=20.0.0"

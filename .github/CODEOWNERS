@@ -523,7 +523,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databoundaries/arm-databoundaries/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -534,9 +534,6 @@
 
 # PRLabel: %Mgmt
 /sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao @JialinHuang803
-
-# PRLabel: %Mgmt
-/sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao @JialinHuang803
@@ -748,7 +745,7 @@
 # PRLabel: %Mgmt
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1027,7 +1024,7 @@
 # PRLabel: %Mgmt
 /sdk/vmwarecloudsimple/arm-vmwarecloudsimple/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resources-subscriptions/arm-resources-subscriptions/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
