@@ -47,7 +47,7 @@ async function main() {
   //   contentRecording:           OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT (default: false)
   //   traceContextPropagation:    AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION (default: true)
   //   experimental:               AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING (default: false)
-  enableGenAITracing({ contentRecording: true, traceContextPropagation: true, experimental: true });
+  enableGenAITracing({ contentRecording: false, traceContextPropagation: true, experimental: true });
 
   const tracer = trace.getTracer("AgentBasicWithAzureMonitorTracing");
   const scenario = "agentBasicWithAzureMonitorTracing";
