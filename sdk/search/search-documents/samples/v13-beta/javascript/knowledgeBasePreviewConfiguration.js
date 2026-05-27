@@ -2,40 +2,41 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the `KnowledgeBase`-level configuration options
- * added in `13.1.0-beta.1`. The sample creates a knowledge base with:
- *   - `retrievalInstructions`: prompt-style guidance used while
- *     planning the retrieval.
- *   - `answerInstructions`: prompt-style guidance used while
- *     synthesizing the final answer.
- *   - `retrievalReasoningEffort`: discriminated-union control over how
- *     much reasoning the planner applies.
- *   - `outputMode`: shape of the retrieval response
- *     (`extractiveData` vs `answerSynthesis`).
- *   - `models`: Azure OpenAI chat-completion model used for query
- *     planning / answer synthesis.
- *   - `corsOptions`: CORS configuration for browser callers.
+ * @summary Demonstrates the preview-only configuration knobs for a
+ * `KnowledgeBase` introduced by the 2026-05-01-preview data plane:
+ *   - `corsOptions` to allow browser callers.
+ *   - KB-level retrieval defaults: `retrievalInstructions`,
+ *     `answerInstructions`, `retrievalReasoningEffort`, `outputMode`.
+ *   - `models` pointing at one of the new GPT-5.x deployments
+ *     (e.g. `gpt-5.4` or `gpt-5.4-mini`).
+ *   - At least one knowledge source attached with preview-relevant
+ *     default behavior (`enableFreshness: true`).
  *
- * The sample then patches the knowledge base via `createOrUpdate` to
- * show that the same configuration fields can be modified after
- * creation.
+ * The sample creates the KB, prints back the persisted defaults, then
+ * patches a couple of the defaults via `createOrUpdate`.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KnownKnowledgeRetrievalOutputMode, SearchIndexClient } = require("@azure/search-documents");
+const {
+  KnownAzureOpenAIModelName,
+  KnownKnowledgeRetrievalOutputMode,
+  SearchIndexClient,
+} = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
 const azureOpenAIEndpoint = process.env.AZURE_OPENAI_ENDPOINT || "";
-const azureOpenAIChatDeployment = process.env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME || "gpt-4o-mini";
+// Default to a GPT-5.x deployment; override via environment when needed.
+const azureOpenAIChatDeployment =
+  process.env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME || KnownAzureOpenAIModelName.Gpt54Mini;
 
-const INDEX_NAME = "example-index-for-kb-config-sample";
-const KNOWLEDGE_SOURCE_NAME = "example-ks-for-kb-config-sample";
-const KNOWLEDGE_BASE_NAME = "example-knowledge-base-config-sample";
+const INDEX_NAME = "example-index-for-kb-preview-config-sample";
+const KNOWLEDGE_SOURCE_NAME = "example-ks-for-kb-preview-config-sample";
+const KNOWLEDGE_BASE_NAME = "example-knowledge-base-preview-config-sample";
 
 async function main() {
-  console.log(`Running Knowledge Base Configuration Sample....`);
+  console.log(`Running Knowledge Base Preview Configuration Sample....`);
   if (!endpoint) {
     console.log("Be sure to set a valid ENDPOINT with proper authorization.");
     return;
@@ -43,7 +44,6 @@ async function main() {
 
   const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
 
-  // Set up an index + knowledge source so the knowledge base has a source to reference.
   await client.createIndex({
     name: INDEX_NAME,
     fields: [
@@ -58,8 +58,7 @@ async function main() {
   };
   await client.createKnowledgeSource(searchIndexKnowledgeSource);
 
-  // Optional Azure OpenAI chat-completion model for query planning /
-  // answer synthesis. Only attached if AZURE_OPENAI_ENDPOINT is set.
+  // Use a new GPT-5.x deployment for query planning / answer synthesis.
   const models = azureOpenAIEndpoint
     ? [
         {
@@ -75,18 +74,18 @@ async function main() {
 
   const knowledgeBase = {
     name: KNOWLEDGE_BASE_NAME,
-    description: "Knowledge base demonstrating configuration options.",
-    knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME }],
-    // Prompt-style guidance applied while the planner forms sub-queries.
+    description: "Knowledge base demonstrating preview-only configuration knobs.",
+    // Reference the KS with preview-relevant defaults. `enableFreshness`
+    // tells the KB to apply the KS's freshness policy at retrieval time.
+    knowledgeSources: [{ name: KNOWLEDGE_SOURCE_NAME, enableFreshness: true }],
+    // KB-level retrieval defaults — these apply unless the retrieve
+    // request overrides them.
     retrievalInstructions:
-      "Only return content that is directly relevant to the user's question. " +
+      "Only return content directly relevant to the user's question. " +
       "Prefer recent documents over older ones when both are equally relevant.",
-    // Prompt-style guidance applied while the answer is synthesized.
     answerInstructions:
       "Always cite the source title. Refuse to answer if no supporting passage is found.",
-    // Reasoning effort is a discriminated union — pass an object with a `kind` field.
     retrievalReasoningEffort: { kind: "medium" },
-    // Response shape: raw passages (`extractiveData`) vs synthesized text (`answerSynthesis`).
     outputMode: KnownKnowledgeRetrievalOutputMode.AnswerSynthesis,
     models,
     corsOptions: {
@@ -98,21 +97,24 @@ async function main() {
   try {
     const created = await client.createKnowledgeBase(knowledgeBase);
     console.log(`Created knowledge base ${created.name}`);
-    console.log(`  retrievalInstructions:   ${created.retrievalInstructions ?? "<none>"}`);
-    console.log(`  answerInstructions:      ${created.answerInstructions ?? "<none>"}`);
+    console.log(`  models[0].modelName:      ${models?.[0]?.azureOpenAIParameters?.modelName}`);
+    console.log(`  retrievalInstructions:    ${created.retrievalInstructions ?? "<none>"}`);
+    console.log(`  answerInstructions:       ${created.answerInstructions ?? "<none>"}`);
     console.log(
       `  retrievalReasoningEffort: ${created.retrievalReasoningEffort?.kind ?? "<none>"}`,
     );
-    console.log(`  outputMode:              ${created.outputMode ?? "<none>"}`);
-    console.log(`  models:                  ${created.models?.length ?? 0}`);
+    console.log(`  outputMode:               ${created.outputMode ?? "<none>"}`);
+    console.log(
+      `  knowledgeSources[0]:      ${created.knowledgeSources[0]?.name} ` +
+        `(enableFreshness=${created.knowledgeSources[0]?.enableFreshness ?? false})`,
+    );
 
-    // Patch a couple of configuration fields. `createOrUpdate` requires
-    // the full resource shape; here we re-use the just-created instance.
+    // Patch a couple of KB-level defaults.
     created.outputMode = KnownKnowledgeRetrievalOutputMode.ExtractiveData;
     created.retrievalReasoningEffort = { kind: "low" };
     const updated = await client.createOrUpdateKnowledgeBase(KNOWLEDGE_BASE_NAME, created);
     console.log(
-      `Updated knowledge base outputMode=${updated.outputMode}, ` +
+      `Updated KB defaults: outputMode=${updated.outputMode}, ` +
         `retrievalReasoningEffort=${updated.retrievalReasoningEffort?.kind}`,
     );
   } finally {
