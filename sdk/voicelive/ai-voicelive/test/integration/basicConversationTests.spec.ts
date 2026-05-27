@@ -986,8 +986,8 @@ describe.runIf(isLiveMode())("Basic Conversation Tests", () => {
         turnDetection: {
           type: KnownTurnDetectionType.ServerVad,
           threshold: 0.5,
-          prefixPaddingMs: 300,
-          silenceDurationMs: 500,
+          prefixPaddingInMs: 300,
+          silenceDurationInMs: 500,
         } as ServerVad,
       };
 

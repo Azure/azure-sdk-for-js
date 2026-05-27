@@ -3521,7 +3521,7 @@ export function conversationItemBaseSerializer(_item: ConversationItemBase): any
 }
 
 /** The response resource. */
-export interface Response {
+export interface VoiceLiveResponse {
   /** The unique ID of the response. */
   id?: string;
   /** The object type, must be `realtime.response`. */
@@ -3578,7 +3578,7 @@ export interface Response {
   metadata?: Record<string, string>;
 }
 
-export function responseDeserializer(item: any): Response {
+export function voiceLiveResponseDeserializer(item: any): VoiceLiveResponse {
   return {
     id: item["id"],
     object: item["object"],
@@ -5394,9 +5394,9 @@ export function transcriptionPhraseArrayDeserializer(result: Array<Transcription
 /** A transcribed phrase with timing information. */
 export interface TranscriptionPhrase {
   /** Offset from the start of the audio in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** Duration of the phrase in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
   /** The transcribed text of the phrase. */
   text: string;
   /** The individual words in the phrase with timing information. */
@@ -5409,8 +5409,8 @@ export interface TranscriptionPhrase {
 
 export function transcriptionPhraseDeserializer(item: any): TranscriptionPhrase {
   return {
-    offsetMilliseconds: item["offset_milliseconds"],
-    durationMilliseconds: item["duration_milliseconds"],
+    offsetInMs: item["offset_milliseconds"],
+    durationInMs: item["duration_milliseconds"],
     text: item["text"],
     words: !item["words"] ? item["words"] : transcriptionWordArrayDeserializer(item["words"]),
     locale: item["locale"],
@@ -5429,16 +5429,16 @@ export interface TranscriptionWord {
   /** The transcribed word text. */
   text: string;
   /** Offset from the start of the audio in milliseconds. */
-  offsetMilliseconds: number;
+  offsetInMs: number;
   /** Duration of the word in milliseconds. */
-  durationMilliseconds: number;
+  durationInMs: number;
 }
 
 export function transcriptionWordDeserializer(item: any): TranscriptionWord {
   return {
     text: item["text"],
-    offsetMilliseconds: item["offset_milliseconds"],
-    durationMilliseconds: item["duration_milliseconds"],
+    offsetInMs: item["offset_milliseconds"],
+    durationInMs: item["duration_milliseconds"],
   };
 }
 
@@ -5532,14 +5532,14 @@ export function serverEventConversationItemDeletedDeserializer(
 export interface ServerEventResponseCreated extends ServerEvent {
   /** The event type, must be `response.created`. */
   type: "response.created";
-  response: Response;
+  response: VoiceLiveResponse;
 }
 
 export function serverEventResponseCreatedDeserializer(item: any): ServerEventResponseCreated {
   return {
     type: item["type"],
     eventId: item["event_id"],
-    response: responseDeserializer(item["response"]),
+    response: voiceLiveResponseDeserializer(item["response"]),
   };
 }
 
@@ -5551,14 +5551,14 @@ export function serverEventResponseCreatedDeserializer(item: any): ServerEventRe
 export interface ServerEventResponseDone extends ServerEvent {
   /** The event type, must be `response.done`. */
   type: "response.done";
-  response: Response;
+  response: VoiceLiveResponse;
 }
 
 export function serverEventResponseDoneDeserializer(item: any): ServerEventResponseDone {
   return {
     type: item["type"],
     eventId: item["event_id"],
-    response: responseDeserializer(item["response"]),
+    response: voiceLiveResponseDeserializer(item["response"]),
   };
 }
 
