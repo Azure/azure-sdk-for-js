@@ -4042,18 +4042,18 @@ export function contentPartUnionDeserializer(item: any): ContentPartUnion {
 /** Input image content part. */
 export interface RequestImageContentPart extends ContentPart {
   type: "input_image";
-  url?: string;
+  imageUrl?: string;
   detail?: RequestImageContentPartDetail;
 }
 
 export function requestImageContentPartSerializer(item: RequestImageContentPart): any {
-  return { type: item["type"], url: item["url"], detail: item["detail"] };
+  return { type: item["type"], image_url: item["imageUrl"], detail: item["detail"] };
 }
 
 export function requestImageContentPartDeserializer(item: any): RequestImageContentPart {
   return {
     type: item["type"],
-    url: item["url"],
+    imageUrl: item["image_url"],
     detail: item["detail"],
   };
 }

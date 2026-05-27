@@ -9,10 +9,11 @@
 - Added `ServerEventResponseInvocationDelta` for passthrough hosted-agent invocation SSE payloads.
 - Added output-audio playback lifecycle events: `ServerEventOutputAudioBufferStarted` and `ServerEventOutputAudioBufferStopped`.
 - Added `KnownEchoCancellationReferenceSource` / `EchoCancellationReferenceSource` to configure echo-cancellation reference input.
-- Added `image_url` wire mapping support for `Background.imageUrl` and `RequestImageContentPart.imageUrl`.
+- Added `image_url` wire mapping support for `Background.imageUrl`.
 
 ### Breaking Changes
 
+- Renamed `RequestImageContentPart.url` to `RequestImageContentPart.imageUrl` to align the SDK model with the `image_url` wire shape used by `2026-06-01-preview`.
 - API version updated from `2026-04-10` to `2026-06-01-preview`.
 
 ## 1.0.0 (2026-05-21)

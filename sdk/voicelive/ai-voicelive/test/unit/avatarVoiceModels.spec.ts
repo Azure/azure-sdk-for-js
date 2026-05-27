@@ -49,6 +49,8 @@ import {
   voiceSerializer,
   voiceDeserializer,
   requestSessionSerializer,
+  requestImageContentPartSerializer,
+  requestImageContentPartDeserializer,
   serverEventSessionAvatarSwitchToSpeakingDeserializer,
   serverEventSessionAvatarSwitchToIdleDeserializer,
   serverEventResponseVideoDeltaDeserializer,
@@ -888,6 +890,36 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
       });
 
       expect(result.name).toBe(KnownAzureRealtimeNativeVoiceName.Andrew);
+    });
+  });
+
+  describe("RequestImageContentPart (preview 2026-06-01)", () => {
+    it("serializes imageUrl to image_url", () => {
+      const serialized = requestImageContentPartSerializer({
+        type: "input_image",
+        imageUrl: "https://example.com/image.png",
+        detail: "high",
+      });
+
+      expect(serialized).toEqual({
+        type: "input_image",
+        image_url: "https://example.com/image.png",
+        detail: "high",
+      });
+    });
+
+    it("deserializes image_url to imageUrl", () => {
+      const deserialized = requestImageContentPartDeserializer({
+        type: "input_image",
+        image_url: "https://example.com/image.png",
+        detail: "low",
+      });
+
+      expect(deserialized).toEqual({
+        type: "input_image",
+        imageUrl: "https://example.com/image.png",
+        detail: "low",
+      });
     });
   });
 
