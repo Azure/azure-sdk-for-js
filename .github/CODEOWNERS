@@ -523,7 +523,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databoundaries/arm-databoundaries/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

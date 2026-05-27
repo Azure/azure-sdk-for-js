@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-quota",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A generated SDK for AzureQuotaExtensionAPI.",
   "engines": {
     "node": ">=20.0.0"

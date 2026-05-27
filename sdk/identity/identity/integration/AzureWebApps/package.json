@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
     "@azure/identity": "dev",
