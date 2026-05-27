@@ -21,7 +21,6 @@ Compared with version 6.1.0
 
 ### Breaking Changes
   - Operation HeatMap.get has a new signature
-  - Removed function `getContinuationToken`. If you were importing this helper, update your code to use the continuation token support exposed by the paged async iterator returned from list operations (via `byPage({ continuationToken })`), or read and persist continuation tokens directly from the service response instead of relying on this helper.
 
     
 ## 6.1.0 (2023-06-02)
