@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listWorkflows,
   getWorkflow,
@@ -420,7 +420,7 @@ import {
   getSlot,
   listSlots,
 } from "../../api/webApps/operations.js";
-import type {
+import {
   WebAppsListWorkflowsOptionalParams,
   WebAppsGetWorkflowOptionalParams,
   WebAppsListInstanceWorkflowsSlotOptionalParams,
@@ -838,7 +838,7 @@ import type {
   WebAppsGetSlotOptionalParams,
   WebAppsListSlotsOptionalParams,
 } from "../../api/webApps/options.js";
-import type {
+import {
   Identifier,
   User,
   Site,
@@ -921,16 +921,17 @@ import type {
   WebAppsGetOneDeployStatusResponse,
   WebAppsGetContainerLogsZipResponse,
   WebAppsGetWebSiteContainerLogsResponse,
+  WebAppsDeletePrivateEndpointConnectionSlotResponse,
+  WebAppsDeletePrivateEndpointConnectionResponse,
   WebAppsListPublishingProfileXmlWithSecretsSlotResponse,
   WebAppsStartWebSiteNetworkTraceSlotResponse,
   WebAppsGetFunctionsAdminTokenSlotResponse,
   WebAppsGetContainerLogsZipSlotResponse,
   WebAppsGetWebSiteContainerLogsSlotResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebApps operations. */
 export interface WebAppsOperations {
@@ -2997,19 +2998,19 @@ export interface WebAppsOperations {
     resourceGroupName: string,
     name: string,
     options?: WebAppsStartNetworkTraceOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
   /** @deprecated use startNetworkTrace instead */
   beginStartNetworkTrace: (
     resourceGroupName: string,
     name: string,
     options?: WebAppsStartNetworkTraceOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>>;
   /** @deprecated use startNetworkTrace instead */
   beginStartNetworkTraceAndWait: (
     resourceGroupName: string,
     name: string,
     options?: WebAppsStartNetworkTraceOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<NetworkTrace[]>;
   /** Description for Starts an app (or deployment slot, if specified). */
   start: (
     resourceGroupName: string,
@@ -3200,19 +3201,19 @@ export interface WebAppsOperations {
     resourceGroupName: string,
     name: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
   /** @deprecated use startWebSiteNetworkTraceOperation instead */
   beginStartWebSiteNetworkTraceOperation: (
     resourceGroupName: string,
     name: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>>;
   /** @deprecated use startWebSiteNetworkTraceOperation instead */
   beginStartWebSiteNetworkTraceOperationAndWait: (
     resourceGroupName: string,
     name: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<NetworkTrace[]>;
   /** Description for Start capturing network packets for the site (To be deprecated). */
   startWebSiteNetworkTrace: (
     resourceGroupName: string,
@@ -3519,11 +3520,6 @@ export interface WebAppsOperations {
   /** Description for Get all apps for a subscription. */
   list: (options?: WebAppsListOptionalParams) => PagedAsyncIterableIterator<Site>;
   /** Description for Deletes a web, mobile, or API app, or one of the deployment slots. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,
@@ -3781,7 +3777,10 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
+    WebAppsDeletePrivateEndpointConnectionSlotResponse
+  >;
   /** @deprecated use deletePrivateEndpointConnectionSlot instead */
   beginDeletePrivateEndpointConnectionSlot: (
     resourceGroupName: string,
@@ -3789,7 +3788,12 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
+      WebAppsDeletePrivateEndpointConnectionSlotResponse
+    >
+  >;
   /** @deprecated use deletePrivateEndpointConnectionSlot instead */
   beginDeletePrivateEndpointConnectionSlotAndWait: (
     resourceGroupName: string,
@@ -3797,7 +3801,7 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnectionSlot: (
     resourceGroupName: string,
@@ -3853,21 +3857,29 @@ export interface WebAppsOperations {
     name: string,
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
+    WebAppsDeletePrivateEndpointConnectionResponse
+  >;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnection: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
+      WebAppsDeletePrivateEndpointConnectionResponse
+    >
+  >;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnectionAndWait: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<WebAppsDeletePrivateEndpointConnectionResponse>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -3962,21 +3974,21 @@ export interface WebAppsOperations {
     name: string,
     slot: string,
     options?: WebAppsStartNetworkTraceSlotOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
   /** @deprecated use startNetworkTraceSlot instead */
   beginStartNetworkTraceSlot: (
     resourceGroupName: string,
     name: string,
     slot: string,
     options?: WebAppsStartNetworkTraceSlotOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>>;
   /** @deprecated use startNetworkTraceSlot instead */
   beginStartNetworkTraceSlotAndWait: (
     resourceGroupName: string,
     name: string,
     slot: string,
     options?: WebAppsStartNetworkTraceSlotOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<NetworkTrace[]>;
   /** Description for Starts an app (or deployment slot, if specified). */
   startSlot: (
     resourceGroupName: string,
@@ -4196,21 +4208,21 @@ export interface WebAppsOperations {
     name: string,
     slot: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
   /** @deprecated use startWebSiteNetworkTraceOperationSlot instead */
   beginStartWebSiteNetworkTraceOperationSlot: (
     resourceGroupName: string,
     name: string,
     slot: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>>;
   /** @deprecated use startWebSiteNetworkTraceOperationSlot instead */
   beginStartWebSiteNetworkTraceOperationSlotAndWait: (
     resourceGroupName: string,
     name: string,
     slot: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<NetworkTrace[]>;
   /** Description for Start capturing network packets for the site (To be deprecated). */
   startWebSiteNetworkTraceSlot: (
     resourceGroupName: string,

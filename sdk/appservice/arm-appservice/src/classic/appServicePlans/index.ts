@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listRoutesForVnet,
   deleteVnetRoute,
@@ -34,7 +34,7 @@ import {
   recycleManagedInstanceWorker,
   getServerFarmRdpPassword,
 } from "../../api/appServicePlans/operations.js";
-import type {
+import {
   AppServicePlansListRoutesForVnetOptionalParams,
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
@@ -66,7 +66,7 @@ import type {
   AppServicePlansRecycleManagedInstanceWorkerOptionalParams,
   AppServicePlansGetServerFarmRdpPasswordOptionalParams,
 } from "../../api/appServicePlans/options.js";
-import type {
+import {
   Capability,
   Site,
   Operation,
@@ -83,10 +83,9 @@ import type {
   HybridConnectionLimits,
   AppServicePlansGetServerFarmSkusResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServicePlans operations. */
 export interface AppServicePlansOperations {
@@ -250,11 +249,6 @@ export interface AppServicePlansOperations {
     options?: AppServicePlansListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AppServicePlan>;
   /** Description for Delete an App Service plan. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,

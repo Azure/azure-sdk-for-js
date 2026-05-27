@@ -1,59 +1,59 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  Capability,
-  _WebAppCollection,
-  Site,
-  Operation,
-  _AppServicePlanCollection,
-  AppServicePlan,
-  _CsmUsageQuotaCollection,
-  CsmUsageQuota,
-  HybridConnection,
-  VnetInfoResource,
-  VnetRoute,
-  VnetGateway,
-  ServerFarmRdpDetails,
-  ServerFarmInstanceDetails,
-  AppServicePlanPatchResource,
-  _HybridConnectionCollection,
-  HybridConnectionKey,
-  _ResourceCollection,
-  HybridConnectionLimits,
-  AppServicePlansGetServerFarmSkusResponse,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   defaultErrorResponseDeserializer,
   capabilityArrayDeserializer,
+  Capability,
+  _WebAppCollection,
   _webAppCollectionDeserializer,
+  Site,
+  Operation,
   operationDeserializer,
+  _AppServicePlanCollection,
   _appServicePlanCollectionDeserializer,
+  AppServicePlan,
   appServicePlanSerializer,
   appServicePlanDeserializer,
+  _CsmUsageQuotaCollection,
   _csmUsageQuotaCollectionDeserializer,
+  CsmUsageQuota,
+  HybridConnection,
   hybridConnectionDeserializer,
+  VnetInfoResource,
   vnetInfoResourceDeserializer,
   vnetRouteArrayDeserializer,
+  VnetRoute,
   vnetRouteSerializer,
   vnetRouteDeserializer,
+  VnetGateway,
   vnetGatewaySerializer,
   vnetGatewayDeserializer,
+  ServerFarmRdpDetails,
   serverFarmRdpDetailsDeserializer,
+  ServerFarmInstanceDetails,
   serverFarmInstanceDetailsDeserializer,
+  AppServicePlanPatchResource,
   appServicePlanPatchResourceSerializer,
+  _HybridConnectionCollection,
   _hybridConnectionCollectionDeserializer,
+  HybridConnectionKey,
   hybridConnectionKeyDeserializer,
+  _ResourceCollection,
   _resourceCollectionDeserializer,
+  HybridConnectionLimits,
   hybridConnectionLimitsDeserializer,
   vnetInfoResourceArrayDeserializer,
+  AppServicePlansGetServerFarmSkusResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AppServicePlansListRoutesForVnetOptionalParams,
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
@@ -85,9 +85,13 @@ import type {
   AppServicePlansRecycleManagedInstanceWorkerOptionalParams,
   AppServicePlansGetServerFarmRdpPasswordOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listRoutesForVnetSend(
   context: Client,
@@ -938,7 +942,7 @@ export function _rebootWorkerSend(
   options: AppServicePlansRebootWorkerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/serverfarms/{name}/workers/{workerName}/reboot{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/workers/{workerName}/reboot{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -1420,11 +1424,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Description for Delete an App Service plan. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
@@ -1649,7 +1648,7 @@ export function _recycleManagedInstanceWorkerSend(
   options: AppServicePlansRecycleManagedInstanceWorkerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/serverfarms/{name}/workers/{workerName}/recycleinstance{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/workers/{workerName}/recycleinstance{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,

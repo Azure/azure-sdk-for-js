@@ -1,34 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  WorkflowTrigger,
-  _WorkflowTriggerListResult,
-  WorkflowTriggerCallbackUrl,
-  JsonSchema,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   workflowErrorResponseDeserializer,
+  WorkflowTrigger,
   workflowTriggerDeserializer,
+  _WorkflowTriggerListResult,
   _workflowTriggerListResultDeserializer,
+  WorkflowTriggerCallbackUrl,
   workflowTriggerCallbackUrlDeserializer,
+  JsonSchema,
   jsonSchemaDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   WorkflowTriggersGetSchemaJsonOptionalParams,
   WorkflowTriggersRunOptionalParams,
   WorkflowTriggersListCallbackUrlOptionalParams,
   WorkflowTriggersListOptionalParams,
   WorkflowTriggersGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSchemaJsonSend(
   context: Client,

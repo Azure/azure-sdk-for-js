@@ -1,36 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  DetectorResponse,
-  _DetectorResponseCollection,
-  DiagnosticCategory,
-  _DiagnosticCategoryCollection,
-  AnalysisDefinition,
-  _DiagnosticAnalysisCollection,
-  DiagnosticAnalysis,
-  DetectorDefinitionResource,
-  _DiagnosticDetectorCollection,
-  DiagnosticDetectorResponse,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   defaultErrorResponseDeserializer,
+  DetectorResponse,
   detectorResponseDeserializer,
+  _DetectorResponseCollection,
   _detectorResponseCollectionDeserializer,
+  DiagnosticCategory,
   diagnosticCategoryDeserializer,
+  _DiagnosticCategoryCollection,
   _diagnosticCategoryCollectionDeserializer,
+  AnalysisDefinition,
   analysisDefinitionDeserializer,
+  _DiagnosticAnalysisCollection,
   _diagnosticAnalysisCollectionDeserializer,
+  DiagnosticAnalysis,
   diagnosticAnalysisDeserializer,
+  DetectorDefinitionResource,
   detectorDefinitionResourceDeserializer,
+  _DiagnosticDetectorCollection,
   _diagnosticDetectorCollectionDeserializer,
+  DiagnosticDetectorResponse,
   diagnosticDetectorResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DiagnosticsExecuteSiteDetectorSlotOptionalParams,
   DiagnosticsListSiteDetectorsSlotOptionalParams,
   DiagnosticsGetSiteDetectorSlotOptionalParams,
@@ -54,8 +54,12 @@ import type {
   DiagnosticsListSiteDetectorResponsesOptionalParams,
   DiagnosticsGetSiteDetectorResponseOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _executeSiteDetectorSlotSend(
   context: Client,

@@ -644,11 +644,15 @@ export type {
   WebAppsGetOneDeployStatusResponse,
   WebAppsGetContainerLogsZipResponse,
   WebAppsGetWebSiteContainerLogsResponse,
+  WebAppsDeletePrivateEndpointConnectionSlotResponse,
+  WebAppsDeletePrivateEndpointConnectionResponse,
   WebAppsListPublishingProfileXmlWithSecretsSlotResponse,
   WebAppsStartWebSiteNetworkTraceSlotResponse,
   WebAppsGetFunctionsAdminTokenSlotResponse,
   WebAppsGetContainerLogsZipSlotResponse,
   WebAppsGetWebSiteContainerLogsSlotResponse,
+  StaticSitesDeletePrivateEndpointConnectionResponse,
+  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse,
   AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
 } from "./models.js";
 export {

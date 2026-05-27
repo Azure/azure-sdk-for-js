@@ -1,106 +1,231 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
+import { WebSiteManagementContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
+import {
+  defaultErrorResponseDeserializer,
   Identifier,
+  identifierSerializer,
+  identifierDeserializer,
   _IdentifierCollection,
+  _identifierCollectionDeserializer,
   User,
+  userDeserializer,
   _WebAppCollection,
+  _webAppCollectionDeserializer,
   Site,
+  siteSerializer,
+  siteDeserializer,
   PushSettings,
+  pushSettingsSerializer,
+  pushSettingsDeserializer,
   Operation,
+  operationDeserializer,
   PrivateLinkResourcesWrapper,
+  privateLinkResourcesWrapperDeserializer,
   _CsmUsageQuotaCollection,
+  _csmUsageQuotaCollectionDeserializer,
   CsmUsageQuota,
   RemotePrivateEndpointConnectionARMResource,
+  remotePrivateEndpointConnectionARMResourceSerializer,
+  remotePrivateEndpointConnectionARMResourceDeserializer,
   _PrivateEndpointConnectionCollection,
+  _privateEndpointConnectionCollectionDeserializer,
   StringDictionary,
+  stringDictionarySerializer,
+  stringDictionaryDeserializer,
   SitePatchResource,
+  sitePatchResourceSerializer,
   CustomHostnameAnalysisResult,
+  customHostnameAnalysisResultDeserializer,
   CsmSlotEntity,
+  csmSlotEntitySerializer,
   BackupRequest,
+  backupRequestSerializer,
+  backupRequestDeserializer,
   BackupItem,
+  backupItemDeserializer,
   SiteAuthSettings,
+  siteAuthSettingsSerializer,
+  siteAuthSettingsDeserializer,
   AzureStoragePropertyDictionaryResource,
+  azureStoragePropertyDictionaryResourceSerializer,
+  azureStoragePropertyDictionaryResourceDeserializer,
   ConnectionStringDictionary,
+  connectionStringDictionarySerializer,
+  connectionStringDictionaryDeserializer,
   RestoreRequest,
+  restoreRequestSerializer,
+  restoreRequestDeserializer,
   HostKeys,
+  hostKeysDeserializer,
   KeyInfo,
+  keyInfoSerializer,
+  keyInfoDeserializer,
   HybridConnection,
+  hybridConnectionSerializer,
+  hybridConnectionDeserializer,
   RelayServiceConnectionEntity,
+  relayServiceConnectionEntitySerializer,
+  relayServiceConnectionEntityDeserializer,
   SiteCloneability,
+  siteCloneabilityDeserializer,
   _BackupItemCollection,
+  _backupItemCollectionDeserializer,
   FunctionSecrets,
+  functionSecretsDeserializer,
   NetworkTrace,
   _PerfMonCounterCollection,
+  _perfMonCounterCollectionDeserializer,
   PerfMonResponse,
   SitePhpErrorLogFlag,
+  sitePhpErrorLogFlagDeserializer,
   PremierAddOn,
+  premierAddOnSerializer,
+  premierAddOnDeserializer,
   CsmPublishingProfileOptions,
+  csmPublishingProfileOptionsSerializer,
   DeletedAppRestoreRequest,
+  deletedAppRestoreRequestSerializer,
   SnapshotRestoreRequest,
+  snapshotRestoreRequestSerializer,
   _SlotDifferenceCollection,
+  _slotDifferenceCollectionDeserializer,
   SlotDifference,
   _SnapshotCollection,
+  _snapshotCollectionDeserializer,
   Snapshot,
+  workflowArtifactsSerializer,
   WorkflowEnvelope,
+  workflowEnvelopeDeserializer,
   VnetInfoResource,
+  vnetInfoResourceSerializer,
+  vnetInfoResourceDeserializer,
   VnetGateway,
+  vnetGatewaySerializer,
+  vnetGatewayDeserializer,
   StorageMigrationOptions,
+  storageMigrationOptionsSerializer,
   StorageMigrationResponse,
+  storageMigrationResponseDeserializer,
   MigrateMySqlRequest,
+  migrateMySqlRequestSerializer,
   CsmPublishingCredentialsPoliciesEntity,
+  csmPublishingCredentialsPoliciesEntitySerializer,
+  csmPublishingCredentialsPoliciesEntityDeserializer,
   _PublishingCredentialsPoliciesCollection,
+  _publishingCredentialsPoliciesCollectionDeserializer,
   SiteAuthSettingsV2,
+  siteAuthSettingsV2Serializer,
+  siteAuthSettingsV2Deserializer,
   ApiKVReference,
+  apiKVReferenceDeserializer,
   _ApiKVReferenceCollection,
+  _apiKVReferenceCollectionDeserializer,
   SiteLogsConfig,
+  siteLogsConfigSerializer,
+  siteLogsConfigDeserializer,
   SlotConfigNamesResource,
+  slotConfigNamesResourceSerializer,
+  slotConfigNamesResourceDeserializer,
   SiteConfigResource,
+  siteConfigResourceSerializer,
+  siteConfigResourceDeserializer,
   _SiteConfigurationSnapshotInfoCollection,
+  _siteConfigurationSnapshotInfoCollectionDeserializer,
   SiteConfigurationSnapshotInfo,
   _SiteConfigResourceCollection,
+  _siteConfigResourceCollectionDeserializer,
   ContinuousWebJob,
+  continuousWebJobDeserializer,
   _ContinuousWebJobCollection,
+  _continuousWebJobCollectionDeserializer,
   CsmDeploymentStatus,
+  csmDeploymentStatusDeserializer,
   _CsmDeploymentStatusCollection,
+  _csmDeploymentStatusCollectionDeserializer,
   Deployment,
+  deploymentSerializer,
+  deploymentDeserializer,
   _DeploymentCollection,
+  _deploymentCollectionDeserializer,
   MSDeployStatus,
+  msDeployStatusDeserializer,
   MSDeploy,
+  msDeploySerializer,
   MSDeployLog,
+  msDeployLogDeserializer,
   FunctionEnvelope,
+  functionEnvelopeSerializer,
+  functionEnvelopeDeserializer,
   _FunctionEnvelopeCollection,
+  _functionEnvelopeCollectionDeserializer,
   HostNameBinding,
+  hostNameBindingSerializer,
+  hostNameBindingDeserializer,
   _HostNameBindingCollection,
+  _hostNameBindingCollectionDeserializer,
   WebSiteInstanceStatus,
+  webSiteInstanceStatusDeserializer,
   _WebAppInstanceStatusCollection,
+  _webAppInstanceStatusCollectionDeserializer,
   ProcessInfo,
+  processInfoDeserializer,
   ProcessThreadInfo,
   ProcessModuleInfo,
+  processModuleInfoDeserializer,
   _ProcessInfoCollection,
+  _processInfoCollectionDeserializer,
   _ProcessThreadInfoCollection,
+  _processThreadInfoCollectionDeserializer,
   _ProcessModuleInfoCollection,
+  _processModuleInfoCollectionDeserializer,
   MigrateMySqlStatus,
+  migrateMySqlStatusDeserializer,
   SwiftVirtualNetwork,
+  swiftVirtualNetworkSerializer,
+  swiftVirtualNetworkDeserializer,
   NetworkFeatures,
+  networkFeaturesDeserializer,
   PremierAddOnPatchResource,
+  premierAddOnPatchResourceSerializer,
   PrivateAccess,
+  privateAccessSerializer,
+  privateAccessDeserializer,
   PublicCertificate,
+  publicCertificateSerializer,
+  publicCertificateDeserializer,
   _PublicCertificateCollection,
+  _publicCertificateCollectionDeserializer,
   SiteContainer,
+  siteContainerSerializer,
+  siteContainerDeserializer,
   _SiteContainerCollection,
+  _siteContainerCollectionDeserializer,
   SiteExtensionInfo,
+  siteExtensionInfoDeserializer,
   _SiteExtensionInfoCollection,
+  _siteExtensionInfoCollectionDeserializer,
   SiteSourceControl,
+  siteSourceControlSerializer,
+  siteSourceControlDeserializer,
   TriggeredWebJob,
+  triggeredWebJobDeserializer,
   _TriggeredWebJobCollection,
+  _triggeredWebJobCollectionDeserializer,
   TriggeredJobHistory,
+  triggeredJobHistoryDeserializer,
   _TriggeredJobHistoryCollection,
+  _triggeredJobHistoryCollectionDeserializer,
   WebJob,
+  webJobDeserializer,
   _WebJobCollection,
+  _webJobCollectionDeserializer,
   _WorkflowEnvelopeCollection,
+  _workflowEnvelopeCollectionDeserializer,
+  vnetInfoResourceArrayDeserializer,
+  networkTraceArrayDeserializer,
   WebAppsGetProcessDumpSlotResponse,
   WebAppsGetInstanceProcessDumpSlotResponse,
   WebAppsGetProcessDumpResponse,
@@ -113,6 +238,8 @@ import type {
   WebAppsGetOneDeployStatusResponse,
   WebAppsGetContainerLogsZipResponse,
   WebAppsGetWebSiteContainerLogsResponse,
+  WebAppsDeletePrivateEndpointConnectionSlotResponse,
+  WebAppsDeletePrivateEndpointConnectionResponse,
   WebAppsListPublishingProfileXmlWithSecretsSlotResponse,
   WebAppsStartWebSiteNetworkTraceSlotResponse,
   WebAppsGetFunctionsAdminTokenSlotResponse,
@@ -120,138 +247,12 @@ import type {
   WebAppsGetWebSiteContainerLogsSlotResponse,
 } from "../../models/models.js";
 import {
-  defaultErrorResponseDeserializer,
-  identifierSerializer,
-  identifierDeserializer,
-  _identifierCollectionDeserializer,
-  userDeserializer,
-  _webAppCollectionDeserializer,
-  siteSerializer,
-  siteDeserializer,
-  pushSettingsSerializer,
-  pushSettingsDeserializer,
-  operationDeserializer,
-  privateLinkResourcesWrapperDeserializer,
-  _csmUsageQuotaCollectionDeserializer,
-  remotePrivateEndpointConnectionARMResourceSerializer,
-  remotePrivateEndpointConnectionARMResourceDeserializer,
-  _privateEndpointConnectionCollectionDeserializer,
-  stringDictionarySerializer,
-  stringDictionaryDeserializer,
-  sitePatchResourceSerializer,
-  customHostnameAnalysisResultDeserializer,
-  csmSlotEntitySerializer,
-  backupRequestSerializer,
-  backupRequestDeserializer,
-  backupItemDeserializer,
-  siteAuthSettingsSerializer,
-  siteAuthSettingsDeserializer,
-  azureStoragePropertyDictionaryResourceSerializer,
-  azureStoragePropertyDictionaryResourceDeserializer,
-  connectionStringDictionarySerializer,
-  connectionStringDictionaryDeserializer,
-  restoreRequestSerializer,
-  restoreRequestDeserializer,
-  hostKeysDeserializer,
-  keyInfoSerializer,
-  keyInfoDeserializer,
-  hybridConnectionSerializer,
-  hybridConnectionDeserializer,
-  relayServiceConnectionEntitySerializer,
-  relayServiceConnectionEntityDeserializer,
-  siteCloneabilityDeserializer,
-  _backupItemCollectionDeserializer,
-  functionSecretsDeserializer,
-  _perfMonCounterCollectionDeserializer,
-  sitePhpErrorLogFlagDeserializer,
-  premierAddOnSerializer,
-  premierAddOnDeserializer,
-  csmPublishingProfileOptionsSerializer,
-  deletedAppRestoreRequestSerializer,
-  snapshotRestoreRequestSerializer,
-  _slotDifferenceCollectionDeserializer,
-  _snapshotCollectionDeserializer,
-  workflowArtifactsSerializer,
-  workflowEnvelopeDeserializer,
-  vnetInfoResourceSerializer,
-  vnetInfoResourceDeserializer,
-  vnetGatewaySerializer,
-  vnetGatewayDeserializer,
-  storageMigrationOptionsSerializer,
-  storageMigrationResponseDeserializer,
-  migrateMySqlRequestSerializer,
-  csmPublishingCredentialsPoliciesEntitySerializer,
-  csmPublishingCredentialsPoliciesEntityDeserializer,
-  _publishingCredentialsPoliciesCollectionDeserializer,
-  siteAuthSettingsV2Serializer,
-  siteAuthSettingsV2Deserializer,
-  apiKVReferenceDeserializer,
-  _apiKVReferenceCollectionDeserializer,
-  siteLogsConfigSerializer,
-  siteLogsConfigDeserializer,
-  slotConfigNamesResourceSerializer,
-  slotConfigNamesResourceDeserializer,
-  siteConfigResourceSerializer,
-  siteConfigResourceDeserializer,
-  _siteConfigurationSnapshotInfoCollectionDeserializer,
-  _siteConfigResourceCollectionDeserializer,
-  continuousWebJobDeserializer,
-  _continuousWebJobCollectionDeserializer,
-  csmDeploymentStatusDeserializer,
-  _csmDeploymentStatusCollectionDeserializer,
-  deploymentSerializer,
-  deploymentDeserializer,
-  _deploymentCollectionDeserializer,
-  msDeployStatusDeserializer,
-  msDeploySerializer,
-  msDeployLogDeserializer,
-  functionEnvelopeSerializer,
-  functionEnvelopeDeserializer,
-  _functionEnvelopeCollectionDeserializer,
-  hostNameBindingSerializer,
-  hostNameBindingDeserializer,
-  _hostNameBindingCollectionDeserializer,
-  webSiteInstanceStatusDeserializer,
-  _webAppInstanceStatusCollectionDeserializer,
-  processInfoDeserializer,
-  processModuleInfoDeserializer,
-  _processInfoCollectionDeserializer,
-  _processThreadInfoCollectionDeserializer,
-  _processModuleInfoCollectionDeserializer,
-  migrateMySqlStatusDeserializer,
-  swiftVirtualNetworkSerializer,
-  swiftVirtualNetworkDeserializer,
-  networkFeaturesDeserializer,
-  premierAddOnPatchResourceSerializer,
-  privateAccessSerializer,
-  privateAccessDeserializer,
-  publicCertificateSerializer,
-  publicCertificateDeserializer,
-  _publicCertificateCollectionDeserializer,
-  siteContainerSerializer,
-  siteContainerDeserializer,
-  _siteContainerCollectionDeserializer,
-  siteExtensionInfoDeserializer,
-  _siteExtensionInfoCollectionDeserializer,
-  siteSourceControlSerializer,
-  siteSourceControlDeserializer,
-  triggeredWebJobDeserializer,
-  _triggeredWebJobCollectionDeserializer,
-  triggeredJobHistoryDeserializer,
-  _triggeredJobHistoryCollectionDeserializer,
-  webJobDeserializer,
-  _webJobCollectionDeserializer,
-  _workflowEnvelopeCollectionDeserializer,
-  vnetInfoResourceArrayDeserializer,
-  networkTraceArrayDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   WebAppsListWorkflowsOptionalParams,
   WebAppsGetWorkflowOptionalParams,
   WebAppsListInstanceWorkflowsSlotOptionalParams,
@@ -669,9 +670,13 @@ import type {
   WebAppsGetSlotOptionalParams,
   WebAppsListSlotsOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listWorkflowsSend(
   context: Client,
@@ -5750,7 +5755,7 @@ export function _getProcessDumpSlotSend(
 }
 
 export async function _getProcessDumpSlotDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & WebAppsGetProcessDumpSlotResponse,
 ): Promise<WebAppsGetProcessDumpSlotResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
@@ -5760,7 +5765,7 @@ export async function _getProcessDumpSlotDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
@@ -5780,7 +5785,7 @@ export async function getProcessDumpSlot(
     slot,
     options,
   );
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getProcessDumpSlotDeserialize(result);
 }
 
@@ -6063,7 +6068,7 @@ export function _getInstanceProcessDumpSlotSend(
 }
 
 export async function _getInstanceProcessDumpSlotDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & WebAppsGetInstanceProcessDumpSlotResponse,
 ): Promise<WebAppsGetInstanceProcessDumpSlotResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
@@ -6073,7 +6078,7 @@ export async function _getInstanceProcessDumpSlotDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
@@ -6095,7 +6100,7 @@ export async function getInstanceProcessDumpSlot(
     instanceId,
     options,
   );
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getInstanceProcessDumpSlotDeserialize(result);
 }
 
@@ -6373,7 +6378,7 @@ export function _getProcessDumpSend(
 }
 
 export async function _getProcessDumpDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & WebAppsGetProcessDumpResponse,
 ): Promise<WebAppsGetProcessDumpResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
@@ -6383,7 +6388,7 @@ export async function _getProcessDumpDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
@@ -6401,7 +6406,7 @@ export async function getProcessDump(
     processId,
     options,
   );
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getProcessDumpDeserialize(result);
 }
 
@@ -6653,7 +6658,7 @@ export function _getInstanceProcessDumpSend(
 }
 
 export async function _getInstanceProcessDumpDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & WebAppsGetInstanceProcessDumpResponse,
 ): Promise<WebAppsGetInstanceProcessDumpResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
@@ -6663,7 +6668,7 @@ export async function _getInstanceProcessDumpDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
@@ -6683,7 +6688,7 @@ export async function getInstanceProcessDump(
     instanceId,
     options,
   );
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _getInstanceProcessDumpDeserialize(result);
 }
 
@@ -8692,7 +8697,7 @@ export function _deleteFunctionSecretSend(
   options: WebAppsDeleteFunctionSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/functions/{functionName}/keys/{keyName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/keys/{keyName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -8752,7 +8757,7 @@ export function _createOrUpdateFunctionSecretSend(
   options: WebAppsCreateOrUpdateFunctionSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/functions/{functionName}/keys/{keyName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/keys/{keyName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -14925,9 +14930,9 @@ export function _deployWorkflowArtifactsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["workflowArtifacts"]
-      ? options["workflowArtifacts"]
-      : workflowArtifactsSerializer(options["workflowArtifacts"]),
+    body: !options?.workflowArtifacts
+      ? options?.workflowArtifacts
+      : workflowArtifactsSerializer(options?.workflowArtifacts),
   });
 }
 
@@ -15216,7 +15221,9 @@ export function _startNetworkTraceSend(
   });
 }
 
-export async function _startNetworkTraceDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _startNetworkTraceDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkTrace[]> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -15225,7 +15232,7 @@ export async function _startNetworkTraceDeserialize(result: PathUncheckedRespons
     throw error;
   }
 
-  return;
+  return networkTraceArrayDeserializer(result.body);
 }
 
 /** Description for Start capturing network packets for the site. */
@@ -15234,14 +15241,14 @@ export function startNetworkTrace(
   resourceGroupName: string,
   name: string,
   options: WebAppsStartNetworkTraceOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]> {
   return getLongRunningPoller(context, _startNetworkTraceDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startNetworkTraceSend(context, resourceGroupName, name, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2025-05-01",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
 }
 
 export function _startSend(
@@ -15811,7 +15818,7 @@ export function _listPublishingProfileXmlWithSecretsSend(
 }
 
 export async function _listPublishingProfileXmlWithSecretsDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & WebAppsListPublishingProfileXmlWithSecretsResponse,
 ): Promise<WebAppsListPublishingProfileXmlWithSecretsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
@@ -15821,7 +15828,7 @@ export async function _listPublishingProfileXmlWithSecretsDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Description for Gets the publishing profile for an app (or deployment slot, if specified). */
@@ -15839,7 +15846,7 @@ export async function listPublishingProfileXmlWithSecrets(
     publishingProfileOptions,
     options,
   );
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _listPublishingProfileXmlWithSecretsDeserialize(result);
 }
 
@@ -16104,7 +16111,7 @@ export function _getNetworkTracesV2Send(
   options: WebAppsGetNetworkTracesV2OptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/networkTraces/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTraces/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -16162,7 +16169,7 @@ export function _getNetworkTraceOperationV2Send(
   options: WebAppsGetNetworkTraceOperationV2OptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/networkTraces/current/operationresults/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTraces/current/operationresults/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -16220,7 +16227,7 @@ export function _getNetworkTracesSend(
   options: WebAppsGetNetworkTracesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/networkTrace/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -16345,7 +16352,7 @@ export function _startWebSiteNetworkTraceOperationSend(
 
 export async function _startWebSiteNetworkTraceOperationDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<NetworkTrace[]> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -16354,7 +16361,7 @@ export async function _startWebSiteNetworkTraceOperationDeserialize(
     throw error;
   }
 
-  return;
+  return networkTraceArrayDeserializer(result.body);
 }
 
 /** Description for Start capturing network packets for the site. */
@@ -16363,7 +16370,7 @@ export function startWebSiteNetworkTraceOperation(
   resourceGroupName: string,
   name: string,
   options: WebAppsStartWebSiteNetworkTraceOperationOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]> {
   return getLongRunningPoller(
     context,
     _startWebSiteNetworkTraceOperationDeserialize,
@@ -16376,7 +16383,7 @@ export function startWebSiteNetworkTraceOperation(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<OperationState<void>, void>;
+  ) as PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
 }
 
 export function _startWebSiteNetworkTraceSend(
@@ -16439,7 +16446,7 @@ export function _getNetworkTraceOperationSend(
   options: WebAppsGetNetworkTraceOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/networkTrace/operationresults/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/operationresults/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -16923,7 +16930,7 @@ export function _deleteHostSecretSend(
   options: WebAppsDeleteHostSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -16981,7 +16988,7 @@ export function _createOrUpdateHostSecretSend(
   options: WebAppsCreateOrUpdateHostSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -18570,11 +18577,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Description for Deletes a web, mobile, or API app, or one of the deployment slots. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
@@ -20353,7 +20355,7 @@ export function _deletePrivateEndpointConnectionSlotSend(
 
 export async function _deletePrivateEndpointConnectionSlotDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -20362,7 +20364,7 @@ export async function _deletePrivateEndpointConnectionSlotDeserialize(
     throw error;
   }
 
-  return;
+  return { body: result.body };
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -20373,7 +20375,10 @@ export function deletePrivateEndpointConnectionSlot(
   privateEndpointConnectionName: string,
   slot: string,
   options: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
+  WebAppsDeletePrivateEndpointConnectionSlotResponse
+> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionSlotDeserialize,
@@ -20393,7 +20398,10 @@ export function deletePrivateEndpointConnectionSlot(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<OperationState<void>, void>;
+  ) as PollerLike<
+    OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>,
+    WebAppsDeletePrivateEndpointConnectionSlotResponse
+  >;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSlotSend(
@@ -20628,7 +20636,7 @@ export function _deletePrivateEndpointConnectionSend(
 
 export async function _deletePrivateEndpointConnectionDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<WebAppsDeletePrivateEndpointConnectionResponse> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -20637,7 +20645,7 @@ export async function _deletePrivateEndpointConnectionDeserialize(
     throw error;
   }
 
-  return;
+  return { body: result.body };
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -20647,7 +20655,10 @@ export function deletePrivateEndpointConnection(
   name: string,
   privateEndpointConnectionName: string,
   options: WebAppsDeletePrivateEndpointConnectionOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
+  WebAppsDeletePrivateEndpointConnectionResponse
+> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionDeserialize,
@@ -20666,7 +20677,10 @@ export function deletePrivateEndpointConnection(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<OperationState<void>, void>;
+  ) as PollerLike<
+    OperationState<WebAppsDeletePrivateEndpointConnectionResponse>,
+    WebAppsDeletePrivateEndpointConnectionResponse
+  >;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSend(
@@ -20888,9 +20902,9 @@ export function _deployWorkflowArtifactsSlotSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["workflowArtifacts"]
-      ? options["workflowArtifacts"]
-      : workflowArtifactsSerializer(options["workflowArtifacts"]),
+    body: !options?.workflowArtifacts
+      ? options?.workflowArtifacts
+      : workflowArtifactsSerializer(options?.workflowArtifacts),
   });
 }
 
@@ -21213,7 +21227,7 @@ export function _startNetworkTraceSlotSend(
 
 export async function _startNetworkTraceSlotDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<NetworkTrace[]> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -21222,7 +21236,7 @@ export async function _startNetworkTraceSlotDeserialize(
     throw error;
   }
 
-  return;
+  return networkTraceArrayDeserializer(result.body);
 }
 
 /** Description for Start capturing network packets for the site. */
@@ -21232,7 +21246,7 @@ export function startNetworkTraceSlot(
   name: string,
   slot: string,
   options: WebAppsStartNetworkTraceSlotOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]> {
   return getLongRunningPoller(context, _startNetworkTraceSlotDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -21240,7 +21254,7 @@ export function startNetworkTraceSlot(
       _startNetworkTraceSlotSend(context, resourceGroupName, name, slot, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2025-05-01",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
 }
 
 export function _startSlotSend(
@@ -21859,7 +21873,7 @@ export function _listPublishingProfileXmlWithSecretsSlotSend(
 }
 
 export async function _listPublishingProfileXmlWithSecretsSlotDeserialize(
-  result: PathUncheckedResponse,
+  result: PathUncheckedResponse & WebAppsListPublishingProfileXmlWithSecretsSlotResponse,
 ): Promise<WebAppsListPublishingProfileXmlWithSecretsSlotResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
@@ -21869,7 +21883,7 @@ export async function _listPublishingProfileXmlWithSecretsSlotDeserialize(
     throw error;
   }
 
-  return { body: result.body };
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
 /** Description for Gets the publishing profile for an app (or deployment slot, if specified). */
@@ -21889,7 +21903,7 @@ export async function listPublishingProfileXmlWithSecretsSlot(
     publishingProfileOptions,
     options,
   );
-  const result = await getBinaryResponse(streamableMethod);
+  const result = await getBinaryStreamResponse(streamableMethod);
   return _listPublishingProfileXmlWithSecretsSlotDeserialize(result);
 }
 
@@ -22183,7 +22197,7 @@ export function _getNetworkTracesSlotV2Send(
   options: WebAppsGetNetworkTracesSlotV2OptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/slots/{slot}/networkTraces/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTraces/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -22245,7 +22259,7 @@ export function _getNetworkTraceOperationSlotV2Send(
   options: WebAppsGetNetworkTraceOperationSlotV2OptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/slots/{slot}/networkTraces/current/operationresults/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTraces/current/operationresults/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -22307,7 +22321,7 @@ export function _getNetworkTracesSlotSend(
   options: WebAppsGetNetworkTracesSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/slots/{slot}/networkTrace/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -22446,7 +22460,7 @@ export function _startWebSiteNetworkTraceOperationSlotSend(
 
 export async function _startWebSiteNetworkTraceOperationSlotDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<NetworkTrace[]> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -22455,7 +22469,7 @@ export async function _startWebSiteNetworkTraceOperationSlotDeserialize(
     throw error;
   }
 
-  return;
+  return networkTraceArrayDeserializer(result.body);
 }
 
 /** Description for Start capturing network packets for the site. */
@@ -22465,7 +22479,7 @@ export function startWebSiteNetworkTraceOperationSlot(
   name: string,
   slot: string,
   options: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]> {
   return getLongRunningPoller(
     context,
     _startWebSiteNetworkTraceOperationSlotDeserialize,
@@ -22478,7 +22492,7 @@ export function startWebSiteNetworkTraceOperationSlot(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<OperationState<void>, void>;
+  ) as PollerLike<OperationState<NetworkTrace[]>, NetworkTrace[]>;
 }
 
 export function _startWebSiteNetworkTraceSlotSend(
@@ -22551,7 +22565,7 @@ export function _getNetworkTraceOperationSlotSend(
   options: WebAppsGetNetworkTraceOperationSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/slots/{slot}/networkTrace/operationresults/{operationId}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/operationresults/{operationId}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -22897,7 +22911,7 @@ export function _deleteHostSecretSlotSend(
   options: WebAppsDeleteHostSecretSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/slots/{slot}/host/default/{keyType}/{keyName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/{keyType}/{keyName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -22961,7 +22975,7 @@ export function _createOrUpdateHostSecretSlotSend(
   options: WebAppsCreateOrUpdateHostSecretSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/sites/{name}/slots/{slot}/host/default/{keyType}/{keyName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/{keyType}/{keyName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,

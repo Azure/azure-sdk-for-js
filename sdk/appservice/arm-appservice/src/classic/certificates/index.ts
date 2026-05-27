@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/certificates/operations.js";
-import type {
+import {
   CertificatesListOptionalParams,
   CertificatesListByResourceGroupOptionalParams,
   CertificatesDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesGetOptionalParams,
 } from "../../api/certificates/options.js";
-import type { Certificate, CertificatePatchResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Certificate, CertificatePatchResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Certificates operations. */
 export interface CertificatesOperations {
@@ -31,11 +31,6 @@ export interface CertificatesOperations {
     options?: CertificatesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Certificate>;
   /** Description for Delete a certificate. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listPrivateEndpointConnectionList,
   deletePrivateEndpointConnection,
@@ -52,7 +52,7 @@ import {
   createOrUpdateWorkerPool,
   getWorkerPool,
 } from "../../api/appServiceEnvironments/operations.js";
-import type {
+import {
   AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
@@ -102,7 +102,7 @@ import type {
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsGetWorkerPoolOptionalParams,
 } from "../../api/appServiceEnvironments/options.js";
-import type {
+import {
   VirtualNetworkProfile,
   CustomDnsSuffixConfiguration,
   AseV3NetworkingConfiguration,
@@ -123,12 +123,12 @@ import type {
   CsmUsageQuota,
   AddressResponse,
   RemotePrivateEndpointConnectionARMResource,
+  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse,
   AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServiceEnvironments operations. */
 export interface AppServiceEnvironmentsOperations {
@@ -144,21 +144,29 @@ export interface AppServiceEnvironmentsOperations {
     name: string,
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
+    AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
+  >;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnection: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
+      AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
+    >
+  >;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnectionAndWait: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -440,11 +448,6 @@ export interface AppServiceEnvironmentsOperations {
     options?: AppServiceEnvironmentsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
   /** Description for Delete an App Service Environment. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,

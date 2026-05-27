@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ProviderOsTypeSelected, ProviderStackOsType } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { ProviderOsTypeSelected, ProviderStackOsType } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ProviderListAvailableStacksOnPremOptionalParams extends OperationOptions {

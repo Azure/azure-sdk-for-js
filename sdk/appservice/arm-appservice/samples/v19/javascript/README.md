@@ -651,6 +651,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workflowversionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice/samples/v19/javascript/workflowVersionsListSample.js
 [workflowsregenerateaccesskeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice/samples/v19/javascript/workflowsRegenerateAccessKeySample.js
 [workflowsvalidatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice/samples/v19/javascript/workflowsValidateSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appservice?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appservice
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice/README.md

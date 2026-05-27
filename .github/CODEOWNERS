@@ -370,7 +370,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/appservice/arm-appservice/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

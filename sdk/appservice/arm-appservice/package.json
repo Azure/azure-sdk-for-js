@@ -16,6 +16,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -29,10 +33,6 @@
       "browser": {
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
       },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
@@ -48,10 +48,6 @@
         "types": "./dist/browser/api/getUsagesInLocation/index.d.ts",
         "default": "./dist/browser/api/getUsagesInLocation/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/getUsagesInLocation/index.d.ts",
-        "default": "./dist/react-native/api/getUsagesInLocation/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/getUsagesInLocation/index.d.ts",
         "default": "./dist/esm/api/getUsagesInLocation/index.js"
@@ -65,10 +61,6 @@
       "browser": {
         "types": "./dist/browser/api/workflowRunActionRepetitionsRequestHistories/index.d.ts",
         "default": "./dist/browser/api/workflowRunActionRepetitionsRequestHistories/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowRunActionRepetitionsRequestHistories/index.d.ts",
-        "default": "./dist/react-native/api/workflowRunActionRepetitionsRequestHistories/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workflowRunActionRepetitionsRequestHistories/index.d.ts",
@@ -84,10 +76,6 @@
         "types": "./dist/browser/api/workflowRunActionRepetitions/index.d.ts",
         "default": "./dist/browser/api/workflowRunActionRepetitions/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowRunActionRepetitions/index.d.ts",
-        "default": "./dist/react-native/api/workflowRunActionRepetitions/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/workflowRunActionRepetitions/index.d.ts",
         "default": "./dist/esm/api/workflowRunActionRepetitions/index.js"
@@ -101,10 +89,6 @@
       "browser": {
         "types": "./dist/browser/api/workflows/index.d.ts",
         "default": "./dist/browser/api/workflows/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workflows/index.d.ts",
-        "default": "./dist/react-native/api/workflows/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workflows/index.d.ts",
@@ -120,10 +104,6 @@
         "types": "./dist/browser/api/resourceHealthMetadata/index.d.ts",
         "default": "./dist/browser/api/resourceHealthMetadata/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/resourceHealthMetadata/index.d.ts",
-        "default": "./dist/react-native/api/resourceHealthMetadata/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/resourceHealthMetadata/index.d.ts",
         "default": "./dist/esm/api/resourceHealthMetadata/index.js"
@@ -137,10 +117,6 @@
       "browser": {
         "types": "./dist/browser/api/deletedWebApps/index.d.ts",
         "default": "./dist/browser/api/deletedWebApps/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/deletedWebApps/index.d.ts",
-        "default": "./dist/react-native/api/deletedWebApps/index.js"
       },
       "import": {
         "types": "./dist/esm/api/deletedWebApps/index.d.ts",
@@ -156,10 +132,6 @@
         "types": "./dist/browser/api/provider/index.d.ts",
         "default": "./dist/browser/api/provider/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/provider/index.d.ts",
-        "default": "./dist/react-native/api/provider/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/provider/index.d.ts",
         "default": "./dist/esm/api/provider/index.js"
@@ -173,10 +145,6 @@
       "browser": {
         "types": "./dist/browser/api/workflowVersions/index.d.ts",
         "default": "./dist/browser/api/workflowVersions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowVersions/index.d.ts",
-        "default": "./dist/react-native/api/workflowVersions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workflowVersions/index.d.ts",
@@ -192,10 +160,6 @@
         "types": "./dist/browser/api/workflowTriggerHistories/index.d.ts",
         "default": "./dist/browser/api/workflowTriggerHistories/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowTriggerHistories/index.d.ts",
-        "default": "./dist/react-native/api/workflowTriggerHistories/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/workflowTriggerHistories/index.d.ts",
         "default": "./dist/esm/api/workflowTriggerHistories/index.js"
@@ -209,10 +173,6 @@
       "browser": {
         "types": "./dist/browser/api/workflowTriggers/index.d.ts",
         "default": "./dist/browser/api/workflowTriggers/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowTriggers/index.d.ts",
-        "default": "./dist/react-native/api/workflowTriggers/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workflowTriggers/index.d.ts",
@@ -228,10 +188,6 @@
         "types": "./dist/browser/api/workflowRunActionScopeRepetitions/index.d.ts",
         "default": "./dist/browser/api/workflowRunActionScopeRepetitions/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowRunActionScopeRepetitions/index.d.ts",
-        "default": "./dist/react-native/api/workflowRunActionScopeRepetitions/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/workflowRunActionScopeRepetitions/index.d.ts",
         "default": "./dist/esm/api/workflowRunActionScopeRepetitions/index.js"
@@ -245,10 +201,6 @@
       "browser": {
         "types": "./dist/browser/api/workflowRunActions/index.d.ts",
         "default": "./dist/browser/api/workflowRunActions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowRunActions/index.d.ts",
-        "default": "./dist/react-native/api/workflowRunActions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/workflowRunActions/index.d.ts",
@@ -264,10 +216,6 @@
         "types": "./dist/browser/api/workflowRuns/index.d.ts",
         "default": "./dist/browser/api/workflowRuns/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/workflowRuns/index.d.ts",
-        "default": "./dist/react-native/api/workflowRuns/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/workflowRuns/index.d.ts",
         "default": "./dist/esm/api/workflowRuns/index.js"
@@ -281,10 +229,6 @@
       "browser": {
         "types": "./dist/browser/api/kubeEnvironments/index.d.ts",
         "default": "./dist/browser/api/kubeEnvironments/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/kubeEnvironments/index.d.ts",
-        "default": "./dist/react-native/api/kubeEnvironments/index.js"
       },
       "import": {
         "types": "./dist/esm/api/kubeEnvironments/index.d.ts",
@@ -300,10 +244,6 @@
         "types": "./dist/browser/api/diagnostics/index.d.ts",
         "default": "./dist/browser/api/diagnostics/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/diagnostics/index.d.ts",
-        "default": "./dist/react-native/api/diagnostics/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/diagnostics/index.d.ts",
         "default": "./dist/esm/api/diagnostics/index.js"
@@ -317,10 +257,6 @@
       "browser": {
         "types": "./dist/browser/api/global/index.d.ts",
         "default": "./dist/browser/api/global/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/global/index.d.ts",
-        "default": "./dist/react-native/api/global/index.js"
       },
       "import": {
         "types": "./dist/esm/api/global/index.d.ts",
@@ -336,10 +272,6 @@
         "types": "./dist/browser/api/siteCertificates/index.d.ts",
         "default": "./dist/browser/api/siteCertificates/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/siteCertificates/index.d.ts",
-        "default": "./dist/react-native/api/siteCertificates/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/siteCertificates/index.d.ts",
         "default": "./dist/esm/api/siteCertificates/index.js"
@@ -353,10 +285,6 @@
       "browser": {
         "types": "./dist/browser/api/certificates/index.d.ts",
         "default": "./dist/browser/api/certificates/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/certificates/index.d.ts",
-        "default": "./dist/react-native/api/certificates/index.js"
       },
       "import": {
         "types": "./dist/esm/api/certificates/index.d.ts",
@@ -372,10 +300,6 @@
         "types": "./dist/browser/api/appServicePlans/index.d.ts",
         "default": "./dist/browser/api/appServicePlans/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/appServicePlans/index.d.ts",
-        "default": "./dist/react-native/api/appServicePlans/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/appServicePlans/index.d.ts",
         "default": "./dist/esm/api/appServicePlans/index.js"
@@ -389,10 +313,6 @@
       "browser": {
         "types": "./dist/browser/api/webApps/index.d.ts",
         "default": "./dist/browser/api/webApps/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/webApps/index.d.ts",
-        "default": "./dist/react-native/api/webApps/index.js"
       },
       "import": {
         "types": "./dist/esm/api/webApps/index.d.ts",
@@ -408,10 +328,6 @@
         "types": "./dist/browser/api/staticSites/index.d.ts",
         "default": "./dist/browser/api/staticSites/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/staticSites/index.d.ts",
-        "default": "./dist/react-native/api/staticSites/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/staticSites/index.d.ts",
         "default": "./dist/esm/api/staticSites/index.js"
@@ -425,10 +341,6 @@
       "browser": {
         "types": "./dist/browser/api/recommendations/index.d.ts",
         "default": "./dist/browser/api/recommendations/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/recommendations/index.d.ts",
-        "default": "./dist/react-native/api/recommendations/index.js"
       },
       "import": {
         "types": "./dist/esm/api/recommendations/index.d.ts",
@@ -444,10 +356,6 @@
         "types": "./dist/browser/api/appServiceEnvironments/index.d.ts",
         "default": "./dist/browser/api/appServiceEnvironments/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/appServiceEnvironments/index.d.ts",
-        "default": "./dist/react-native/api/appServiceEnvironments/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/appServiceEnvironments/index.d.ts",
         "default": "./dist/esm/api/appServiceEnvironments/index.js"
@@ -461,10 +369,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
@@ -560,7 +464,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appservice?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appservice"
   },
   "imports": {
     "#platform/*": {

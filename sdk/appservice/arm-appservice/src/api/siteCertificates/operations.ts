@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  Certificate,
-  CertificatePatchResource,
-  _CertificateCollection,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   defaultErrorResponseDeserializer,
+  Certificate,
   certificateSerializer,
   certificateDeserializer,
+  CertificatePatchResource,
   certificatePatchResourceSerializer,
+  _CertificateCollection,
   _certificateCollectionDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   SiteCertificatesListSlotOptionalParams,
   SiteCertificatesDeleteSlotOptionalParams,
   SiteCertificatesUpdateSlotOptionalParams,
@@ -29,8 +29,12 @@ import type {
   SiteCertificatesCreateOrUpdateOptionalParams,
   SiteCertificatesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSlotSend(
   context: Client,
@@ -428,11 +432,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a certificate from the site. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,

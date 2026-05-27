@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/kubeEnvironments/operations.js";
-import type {
+import {
   KubeEnvironmentsListBySubscriptionOptionalParams,
   KubeEnvironmentsListByResourceGroupOptionalParams,
   KubeEnvironmentsDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   KubeEnvironmentsCreateOrUpdateOptionalParams,
   KubeEnvironmentsGetOptionalParams,
 } from "../../api/kubeEnvironments/options.js";
-import type { KubeEnvironment, KubeEnvironmentPatchResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { KubeEnvironment, KubeEnvironmentPatchResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a KubeEnvironments operations. */
 export interface KubeEnvironmentsOperations {
@@ -36,11 +35,6 @@ export interface KubeEnvironmentsOperations {
     options?: KubeEnvironmentsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<KubeEnvironment>;
   /** Description for Delete a Kubernetes Environment. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,

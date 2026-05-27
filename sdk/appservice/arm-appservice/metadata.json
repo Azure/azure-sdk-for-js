@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Web": "2025-05-01"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.53.3",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Web",
     "CrossLanguageDefinitionId": {

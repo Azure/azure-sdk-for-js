@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
@@ -637,8 +638,8 @@ export type UpgradeAvailability = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -664,8 +665,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -5506,8 +5507,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -6740,8 +6741,8 @@ export interface ArmIdWrapper {
   readonly id?: string;
 }
 
-export function armIdWrapperSerializer(item: ArmIdWrapper): any {
-  return item;
+export function armIdWrapperSerializer(_item: ArmIdWrapper): any {
+  return {};
 }
 
 export function armIdWrapperDeserializer(item: any): ArmIdWrapper {
@@ -17172,7 +17173,7 @@ export function triggeredJobRunDeserializer(item: any): TriggeredJobRun {
 }
 
 /** Job status. */
-export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
+export type TriggeredWebJobStatus = "Success" | "Failed" | "Error" | "Aborted" | "Running";
 
 /** Collection of Kudu continuous web job information elements. */
 export interface _TriggeredWebJobCollection {
@@ -25977,15 +25978,90 @@ export function _workflowPropertiesSerializer(item: Workflow): any {
 
 export type AppServicePlansGetServerFarmSkusResponse = { body: any };
 
-export type WebAppsGetProcessDumpSlotResponse = { body: Uint8Array };
+export type WebAppsGetProcessDumpSlotResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
 
-export type WebAppsGetInstanceProcessDumpSlotResponse = { body: Uint8Array };
+export type WebAppsGetInstanceProcessDumpSlotResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
 
-export type WebAppsGetProcessDumpResponse = { body: Uint8Array };
+export type WebAppsGetProcessDumpResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
 
-export type WebAppsGetInstanceProcessDumpResponse = { body: Uint8Array };
+export type WebAppsGetInstanceProcessDumpResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
 
-export type WebAppsListPublishingProfileXmlWithSecretsResponse = { body: Uint8Array };
+export type WebAppsListPublishingProfileXmlWithSecretsResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
 
 export type WebAppsStartWebSiteNetworkTraceResponse = { body: string };
 
@@ -26011,7 +26087,7 @@ export type WebAppsGetContainerLogsZipResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 export type WebAppsGetWebSiteContainerLogsResponse = {
@@ -26028,10 +26104,29 @@ export type WebAppsGetWebSiteContainerLogsResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
-export type WebAppsListPublishingProfileXmlWithSecretsSlotResponse = { body: Uint8Array };
+export type WebAppsDeletePrivateEndpointConnectionSlotResponse = { body: any };
+
+export type WebAppsDeletePrivateEndpointConnectionResponse = { body: any };
+
+export type WebAppsListPublishingProfileXmlWithSecretsSlotResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
 
 export type WebAppsStartWebSiteNetworkTraceSlotResponse = { body: string };
 
@@ -26051,7 +26146,7 @@ export type WebAppsGetContainerLogsZipSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
 
 export type WebAppsGetWebSiteContainerLogsSlotResponse = {
@@ -26068,7 +26163,11 @@ export type WebAppsGetWebSiteContainerLogsSlotResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
+
+export type StaticSitesDeletePrivateEndpointConnectionResponse = { body: any };
+
+export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse = { body: any };
 
 export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = { body: any };

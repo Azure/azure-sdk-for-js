@@ -1,6 +1,6 @@
 # Release History
 
-## 19.0.0 (2026-03-31)
+## 19.0.0 (2026-05-27)
 
 ### Features Added
   - Added operation group GlobalOperations
@@ -306,20 +306,10 @@
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Operation AppServiceEnvironments.beginDeletePrivateEndpointConnectionAndWait has a new signature
-  - Operation StaticSites.beginDeletePrivateEndpointConnectionAndWait has a new signature
-  - Operation WebApps.beginDeletePrivateEndpointConnectionAndWait has a new signature
-  - Operation WebApps.beginDeletePrivateEndpointConnectionSlotAndWait has a new signature
-  - Operation WebApps.beginStartNetworkTraceAndWait has a new signature
-  - Operation WebApps.beginStartNetworkTraceSlotAndWait has a new signature
-  - Operation WebApps.beginStartWebSiteNetworkTraceOperationAndWait has a new signature
-  - Operation WebApps.beginStartWebSiteNetworkTraceOperationSlotAndWait has a new signature
-  - Operation WebApps.getInstanceProcessDump has a new signature
-  - Operation WebApps.getInstanceProcessDumpSlot has a new signature
-  - Operation WebApps.getProcessDump has a new signature
-  - Operation WebApps.getProcessDumpSlot has a new signature
-  - Operation WebApps.listPublishingProfileXmlWithSecrets has a new signature
-  - Operation WebApps.listPublishingProfileXmlWithSecretsSlot has a new signature
+  - Operation WebApps.getTriggeredWebJob has a new signature
+  - Operation WebApps.getTriggeredWebJobHistory has a new signature
+  - Operation WebApps.getTriggeredWebJobHistorySlot has a new signature
+  - Operation WebApps.getTriggeredWebJobSlot has a new signature
   - Removed Interface ApiKVReferenceCollection
   - Removed Interface ApplicationStackCollection
   - Removed Interface AppServiceEnvironmentCollection
@@ -451,15 +441,14 @@
   - Parameter location of interface WorkflowRunActionRepetitionDefinition is now required
   - Parameter location of interface WorkflowVersion is now required
   - Type alias "AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse" has been changed
+  - Type alias "AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse" has been changed
   - Type alias "AppServicePlansGetServerFarmSkusResponse" has been changed
+  - Type alias "StaticSitesDeletePrivateEndpointConnectionResponse" has been changed
+  - Type alias "TriggeredWebJobStatus" has been changed
   - Type alias "WebAppsCreateOneDeployOperationResponse" has been changed
-  - Type alias "WebAppsGetInstanceProcessDumpResponse" has been changed
-  - Type alias "WebAppsGetInstanceProcessDumpSlotResponse" has been changed
+  - Type alias "WebAppsDeletePrivateEndpointConnectionResponse" has been changed
+  - Type alias "WebAppsDeletePrivateEndpointConnectionSlotResponse" has been changed
   - Type alias "WebAppsGetOneDeployStatusResponse" has been changed
-  - Type alias "WebAppsGetProcessDumpResponse" has been changed
-  - Type alias "WebAppsGetProcessDumpSlotResponse" has been changed
-  - Type alias "WebAppsListPublishingProfileXmlWithSecretsResponse" has been changed
-  - Type alias "WebAppsListPublishingProfileXmlWithSecretsSlotResponse" has been changed
   - Type alias "WebAppsUpdateMachineKeyResponse" has been changed
 
 ## 18.0.0 (2025-11-18)

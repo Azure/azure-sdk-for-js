@@ -1,79 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
+import { WebSiteManagementContext as Client } from "../index.js";
+import {
+  defaultErrorResponseDeserializer,
   VirtualNetworkProfile,
+  virtualNetworkProfileSerializer,
   CustomDnsSuffixConfiguration,
+  customDnsSuffixConfigurationSerializer,
+  customDnsSuffixConfigurationDeserializer,
   AseV3NetworkingConfiguration,
+  aseV3NetworkingConfigurationSerializer,
+  aseV3NetworkingConfigurationDeserializer,
   WorkerPoolResource,
+  workerPoolResourceSerializer,
+  workerPoolResourceDeserializer,
   _WorkerPoolCollection,
+  _workerPoolCollectionDeserializer,
   _ResourceMetricDefinitionCollection,
+  _resourceMetricDefinitionCollectionDeserializer,
   ResourceMetricDefinition,
   _SkuInfoCollection,
+  _skuInfoCollectionDeserializer,
   SkuInfo,
   _UsageCollection,
+  _usageCollectionDeserializer,
   Usage,
   AppServiceEnvironmentResource,
+  appServiceEnvironmentResourceSerializer,
+  appServiceEnvironmentResourceDeserializer,
   AppServiceEnvironmentPatchResource,
+  appServiceEnvironmentPatchResourceSerializer,
   _AppServiceEnvironmentCollection,
+  _appServiceEnvironmentCollectionDeserializer,
   _StampCapacityCollection,
+  _stampCapacityCollectionDeserializer,
   StampCapacity,
   _WebAppCollection,
+  _webAppCollectionDeserializer,
   Site,
   HostingEnvironmentDiagnostics,
+  hostingEnvironmentDiagnosticsDeserializer,
   _InboundEnvironmentEndpointCollection,
+  _inboundEnvironmentEndpointCollectionDeserializer,
   InboundEnvironmentEndpoint,
   Operation,
   _OutboundEnvironmentEndpointCollection,
+  _outboundEnvironmentEndpointCollectionDeserializer,
   OutboundEnvironmentEndpoint,
   PrivateLinkResourcesWrapper,
+  privateLinkResourcesWrapperDeserializer,
   _AppServicePlanCollection,
+  _appServicePlanCollectionDeserializer,
   AppServicePlan,
   _CsmUsageQuotaCollection,
+  _csmUsageQuotaCollectionDeserializer,
   CsmUsageQuota,
   AddressResponse,
-  RemotePrivateEndpointConnectionARMResource,
-  _PrivateEndpointConnectionCollection,
-  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
-} from "../../models/models.js";
-import {
-  defaultErrorResponseDeserializer,
-  virtualNetworkProfileSerializer,
-  customDnsSuffixConfigurationSerializer,
-  customDnsSuffixConfigurationDeserializer,
-  aseV3NetworkingConfigurationSerializer,
-  aseV3NetworkingConfigurationDeserializer,
-  workerPoolResourceSerializer,
-  workerPoolResourceDeserializer,
-  _workerPoolCollectionDeserializer,
-  _resourceMetricDefinitionCollectionDeserializer,
-  _skuInfoCollectionDeserializer,
-  _usageCollectionDeserializer,
-  appServiceEnvironmentResourceSerializer,
-  appServiceEnvironmentResourceDeserializer,
-  appServiceEnvironmentPatchResourceSerializer,
-  _appServiceEnvironmentCollectionDeserializer,
-  _stampCapacityCollectionDeserializer,
-  _webAppCollectionDeserializer,
-  hostingEnvironmentDiagnosticsDeserializer,
-  _inboundEnvironmentEndpointCollectionDeserializer,
-  _outboundEnvironmentEndpointCollectionDeserializer,
-  privateLinkResourcesWrapperDeserializer,
-  _appServicePlanCollectionDeserializer,
-  _csmUsageQuotaCollectionDeserializer,
   addressResponseDeserializer,
+  RemotePrivateEndpointConnectionARMResource,
   remotePrivateEndpointConnectionARMResourceSerializer,
   remotePrivateEndpointConnectionARMResourceDeserializer,
+  _PrivateEndpointConnectionCollection,
   _privateEndpointConnectionCollectionDeserializer,
   hostingEnvironmentDiagnosticsArrayDeserializer,
   operationArrayDeserializer,
+  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
@@ -123,9 +124,13 @@ import type {
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsGetWorkerPoolOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listPrivateEndpointConnectionListSend(
   context: Client,
@@ -215,7 +220,7 @@ export function _deletePrivateEndpointConnectionSend(
 
 export async function _deletePrivateEndpointConnectionDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -224,7 +229,7 @@ export async function _deletePrivateEndpointConnectionDeserialize(
     throw error;
   }
 
-  return;
+  return { body: result.body };
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -236,7 +241,10 @@ export function deletePrivateEndpointConnection(
   options: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
+  AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
+> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionDeserialize,
@@ -255,7 +263,10 @@ export function deletePrivateEndpointConnection(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<OperationState<void>, void>;
+  ) as PollerLike<
+    OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>,
+    AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse
+  >;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSend(
@@ -580,7 +591,7 @@ export function _listMultiRolePoolInstanceMetricDefinitionsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metricdefinitions{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metricdefinitions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -1887,7 +1898,7 @@ export function _getDiagnosticsItemSend(
   options: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/hostingEnvironments/{name}/diagnostics/{diagnosticsName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics/{diagnosticsName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -2246,11 +2257,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Description for Delete an App Service Environment. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -2626,7 +2632,7 @@ export function _listWorkerPoolInstanceMetricDefinitionsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metricdefinitions{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metricdefinitions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,

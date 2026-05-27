@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   previewWorkflow,
   validateBackendForBuild,
@@ -79,7 +79,7 @@ import {
   approveOrRejectPrivateEndpointConnection,
   getPrivateEndpointConnection,
 } from "../../api/staticSites/operations.js";
-import type {
+import {
   StaticSitesPreviewWorkflowOptionalParams,
   StaticSitesValidateBackendForBuildOptionalParams,
   StaticSitesListLinkedBackendsForBuildOptionalParams,
@@ -156,7 +156,7 @@ import type {
   StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
   StaticSitesGetPrivateEndpointConnectionOptionalParams,
 } from "../../api/staticSites/options.js";
-import type {
+import {
   PrivateLinkResourcesWrapper,
   RemotePrivateEndpointConnectionARMResource,
   StaticSiteARMResource,
@@ -180,11 +180,11 @@ import type {
   StaticSiteLinkedBackendARMResource,
   StaticSitesWorkflowPreviewRequest,
   StaticSitesWorkflowPreview,
+  StaticSitesDeletePrivateEndpointConnectionResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StaticSites operations. */
 export interface StaticSitesOperations {
@@ -976,21 +976,29 @@ export interface StaticSitesOperations {
     name: string,
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
+    StaticSitesDeletePrivateEndpointConnectionResponse
+  >;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnection: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
+      StaticSitesDeletePrivateEndpointConnectionResponse
+    >
+  >;
   /** @deprecated use deletePrivateEndpointConnection instead */
   beginDeletePrivateEndpointConnectionAndWait: (
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<StaticSitesDeletePrivateEndpointConnectionResponse>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,

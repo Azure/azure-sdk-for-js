@@ -14,7 +14,13 @@ async function deleteAPrivateEndpointConnectionForASite() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  await client.webApps.deletePrivateEndpointConnectionSlot("rg", "testSite", "connection", "stage");
+  const result = await client.webApps.deletePrivateEndpointConnectionSlot(
+    "rg",
+    "testSite",
+    "connection",
+    "stage",
+  );
+  console.log(result);
 }
 
 async function main() {

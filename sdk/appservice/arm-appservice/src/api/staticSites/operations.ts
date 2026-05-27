@@ -1,89 +1,90 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  PrivateLinkResourcesWrapper,
-  RemotePrivateEndpointConnectionARMResource,
-  _PrivateEndpointConnectionCollection,
-  StaticSiteARMResource,
-  StaticSitePatchResource,
-  _StaticSiteCollection,
-  _StaticSiteUserCollection,
-  StaticSiteUserARMResource,
-  StringDictionary,
-  StaticSiteUserInvitationRequestResource,
-  StaticSiteUserInvitationResponseResource,
-  _StaticSiteFunctionOverviewCollection,
-  StaticSiteFunctionOverviewARMResource,
-  StringList,
-  StaticSiteResetPropertiesARMResource,
-  _DatabaseConnectionCollection,
-  DatabaseConnection,
-  StaticSiteZipDeploymentARMResource,
-  StaticSiteBuildARMResource,
-  _StaticSiteBuildCollection,
-  DatabaseConnectionPatchRequest,
-  StaticSiteUserProvidedFunctionAppARMResource,
-  _StaticSiteUserProvidedFunctionAppsCollection,
-  StaticSiteBasicAuthPropertiesARMResource,
-  BasicAuthName,
-  _StaticSiteBasicAuthPropertiesCollection,
-  StaticSiteCustomDomainOverviewARMResource,
-  StaticSiteCustomDomainRequestPropertiesARMResource,
-  _StaticSiteCustomDomainOverviewCollection,
-  StaticSiteLinkedBackendARMResource,
-  _StaticSiteLinkedBackendsCollection,
-  StaticSitesWorkflowPreviewRequest,
-  StaticSitesWorkflowPreview,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   defaultErrorResponseDeserializer,
+  PrivateLinkResourcesWrapper,
   privateLinkResourcesWrapperDeserializer,
+  RemotePrivateEndpointConnectionARMResource,
   remotePrivateEndpointConnectionARMResourceSerializer,
   remotePrivateEndpointConnectionARMResourceDeserializer,
+  _PrivateEndpointConnectionCollection,
   _privateEndpointConnectionCollectionDeserializer,
+  StaticSiteARMResource,
   staticSiteARMResourceSerializer,
   staticSiteARMResourceDeserializer,
+  StaticSitePatchResource,
   staticSitePatchResourceSerializer,
+  _StaticSiteCollection,
   _staticSiteCollectionDeserializer,
+  _StaticSiteUserCollection,
   _staticSiteUserCollectionDeserializer,
+  StaticSiteUserARMResource,
   staticSiteUserARMResourceSerializer,
   staticSiteUserARMResourceDeserializer,
+  StringDictionary,
   stringDictionarySerializer,
   stringDictionaryDeserializer,
+  StaticSiteUserInvitationRequestResource,
   staticSiteUserInvitationRequestResourceSerializer,
+  StaticSiteUserInvitationResponseResource,
   staticSiteUserInvitationResponseResourceDeserializer,
+  _StaticSiteFunctionOverviewCollection,
   _staticSiteFunctionOverviewCollectionDeserializer,
+  StaticSiteFunctionOverviewARMResource,
+  StringList,
   stringListDeserializer,
+  StaticSiteResetPropertiesARMResource,
   staticSiteResetPropertiesARMResourceSerializer,
+  _DatabaseConnectionCollection,
   _databaseConnectionCollectionDeserializer,
+  DatabaseConnection,
   databaseConnectionSerializer,
   databaseConnectionDeserializer,
+  StaticSiteZipDeploymentARMResource,
   staticSiteZipDeploymentARMResourceSerializer,
+  StaticSiteBuildARMResource,
   staticSiteBuildARMResourceDeserializer,
+  _StaticSiteBuildCollection,
   _staticSiteBuildCollectionDeserializer,
+  DatabaseConnectionPatchRequest,
   databaseConnectionPatchRequestSerializer,
+  StaticSiteUserProvidedFunctionAppARMResource,
   staticSiteUserProvidedFunctionAppARMResourceSerializer,
   staticSiteUserProvidedFunctionAppARMResourceDeserializer,
+  _StaticSiteUserProvidedFunctionAppsCollection,
   _staticSiteUserProvidedFunctionAppsCollectionDeserializer,
+  StaticSiteBasicAuthPropertiesARMResource,
   staticSiteBasicAuthPropertiesARMResourceSerializer,
   staticSiteBasicAuthPropertiesARMResourceDeserializer,
+  BasicAuthName,
+  _StaticSiteBasicAuthPropertiesCollection,
   _staticSiteBasicAuthPropertiesCollectionDeserializer,
+  StaticSiteCustomDomainOverviewARMResource,
   staticSiteCustomDomainOverviewARMResourceDeserializer,
+  StaticSiteCustomDomainRequestPropertiesARMResource,
   staticSiteCustomDomainRequestPropertiesARMResourceSerializer,
+  _StaticSiteCustomDomainOverviewCollection,
   _staticSiteCustomDomainOverviewCollectionDeserializer,
+  StaticSiteLinkedBackendARMResource,
   staticSiteLinkedBackendARMResourceSerializer,
   staticSiteLinkedBackendARMResourceDeserializer,
+  _StaticSiteLinkedBackendsCollection,
   _staticSiteLinkedBackendsCollectionDeserializer,
+  StaticSitesWorkflowPreviewRequest,
   staticSitesWorkflowPreviewRequestSerializer,
+  StaticSitesWorkflowPreview,
   staticSitesWorkflowPreviewDeserializer,
+  StaticSitesDeletePrivateEndpointConnectionResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StaticSitesPreviewWorkflowOptionalParams,
   StaticSitesValidateBackendForBuildOptionalParams,
   StaticSitesListLinkedBackendsForBuildOptionalParams,
@@ -160,9 +161,13 @@ import type {
   StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
   StaticSitesGetPrivateEndpointConnectionOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _previewWorkflowSend(
   context: Client,
@@ -4051,7 +4056,7 @@ export function _deleteStaticSiteUserSend(
   options: StaticSitesDeleteStaticSiteUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -4109,7 +4114,7 @@ export function _listStaticSiteUsersSend(
   options: StaticSitesListStaticSiteUsersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Web/staticSites/{name}/authproviders/{authprovider}/listUsers{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/listUsers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -4566,7 +4571,7 @@ export function _deletePrivateEndpointConnectionSend(
 
 export async function _deletePrivateEndpointConnectionDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
+): Promise<StaticSitesDeletePrivateEndpointConnectionResponse> {
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -4575,7 +4580,7 @@ export async function _deletePrivateEndpointConnectionDeserialize(
     throw error;
   }
 
-  return;
+  return { body: result.body };
 }
 
 /** Description for Deletes a private endpoint connection */
@@ -4585,7 +4590,10 @@ export function deletePrivateEndpointConnection(
   name: string,
   privateEndpointConnectionName: string,
   options: StaticSitesDeletePrivateEndpointConnectionOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
+  StaticSitesDeletePrivateEndpointConnectionResponse
+> {
   return getLongRunningPoller(
     context,
     _deletePrivateEndpointConnectionDeserialize,
@@ -4604,7 +4612,10 @@ export function deletePrivateEndpointConnection(
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
-  ) as PollerLike<OperationState<void>, void>;
+  ) as PollerLike<
+    OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
+    StaticSitesDeletePrivateEndpointConnectionResponse
+  >;
 }
 
 export function _approveOrRejectPrivateEndpointConnectionSend(

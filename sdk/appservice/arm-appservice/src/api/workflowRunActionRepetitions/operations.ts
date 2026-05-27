@@ -1,29 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  _ExpressionTraces,
-  ExpressionRoot,
-  WorkflowRunActionRepetitionDefinition,
-  _WorkflowRunActionRepetitionDefinitionCollection,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   workflowErrorResponseDeserializer,
+  _ExpressionTraces,
   _expressionTracesDeserializer,
+  ExpressionRoot,
+  WorkflowRunActionRepetitionDefinition,
   workflowRunActionRepetitionDefinitionDeserializer,
+  _WorkflowRunActionRepetitionDefinitionCollection,
   _workflowRunActionRepetitionDefinitionCollectionDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   WorkflowRunActionRepetitionsListOptionalParams,
   WorkflowRunActionRepetitionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listExpressionTracesSend(
   context: Client,
