@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "module": "commonjs",
+    "module": "NodeNext",
     "lib": [
       "ES2022",
       "DOM"
@@ -12,8 +12,21 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node10",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@azure/ai-projects": [
+        "../../../dist/esm/index.d.ts",
+        "./node_modules/@azure/ai-projects/dist/esm/index.d.ts"
+      ],
+      "openai": [
+        "./node_modules/openai/index.d.mts"
+      ],
+      "openai/*": [
+        "./node_modules/openai/*.d.mts"
+      ]
+    },
     "esModuleInterop": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "resolveJsonModule": true
   },
