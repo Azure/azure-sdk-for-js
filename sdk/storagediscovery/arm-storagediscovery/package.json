@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-storagediscovery",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for StorageDiscoveryClient.",
   "engines": {
     "node": ">=20.0.0"

@@ -1,61 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
+  OnGroupStreamArgs,
+  GroupStreamHandler,
+  GroupStreamOptions,
   OnGroupStreamDataArgs,
   OnGroupStreamEndArgs,
-  OnGroupStreamOptions,
-  GroupStreamHandler,
-  GroupStreamSubscription,
 } from "./models/index.js";
 import type { GroupDataMessage, StreamDataError } from "./models/messages.js";
 
-interface InboundStreamOptions {
-  ttlInMs: number;
-  handleFromStart: boolean;
-}
+const DEFAULT_TTL_IN_MS = 300000;
+const DEFAULT_HANDLE_FROM_START = false;
+
+/**
+ * Factory invoked once for every newly observed inbound stream. The returned
+ * `GroupStreamHandler` is bound to that single stream's lifecycle.
+ */
+export type GroupStreamFactory = (args: OnGroupStreamArgs) => GroupStreamHandler;
+
+/**
+ * Provides the current set of registered factories. Read at message-processing
+ * time so on/off mutations between fragments are observed immediately.
+ */
+export type GetGroupStreamFactoriesFn = () => readonly GroupStreamFactory[];
 
 export class InboundStreamSession {
-  private readonly _subscriptionsByGroup: Map<string, Set<InboundStreamSubscription>>;
-  // One active handler per (subscription, group, streamId).
-  private readonly _activeHandlers: Map<string, ActiveStreamHandler>;
+  private readonly _getFactories: GetGroupStreamFactoriesFn;
+  private readonly _ttlInMs: number;
+  private readonly _handleFromStart: boolean;
+
+  // Active streams keyed by `${group}|${streamId}`.
+  private readonly _activeStreams: Map<string, ActiveStream>;
   private readonly _activeTimeouts: Map<string, ReturnType<typeof setTimeout>>;
+  // Tracks streamIds skipped by handleFromStart=true, keyed by `${group}|${streamId}`.
+  private readonly _ignored: Set<string>;
 
-  constructor() {
-    this._subscriptionsByGroup = new Map<string, Set<InboundStreamSubscription>>();
-    this._activeHandlers = new Map<string, ActiveStreamHandler>();
+  constructor(getFactories: GetGroupStreamFactoriesFn, options?: GroupStreamOptions) {
+    this._getFactories = getFactories;
+    this._ttlInMs = options?.ttlInMs ?? DEFAULT_TTL_IN_MS;
+    this._handleFromStart = options?.handleFromStart ?? DEFAULT_HANDLE_FROM_START;
+    this._activeStreams = new Map<string, ActiveStream>();
     this._activeTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
-  }
-
-  public subscribe(
-    groupName: string,
-    handlerFactory: (streamId: string) => GroupStreamHandler,
-    options?: OnGroupStreamOptions,
-  ): GroupStreamSubscription {
-    const subscription = new InboundStreamSubscription(
-      randomUUID(),
-      groupName,
-      {
-        ttlInMs: options?.ttlInMs ?? 300000,
-        handleFromStart: options?.handleFromStart ?? false,
-      },
-      handlerFactory,
-    );
-
-    let groupSubscriptions = this._subscriptionsByGroup.get(groupName);
-    if (groupSubscriptions == null) {
-      groupSubscriptions = new Set<InboundStreamSubscription>();
-      this._subscriptionsByGroup.set(groupName, groupSubscriptions);
-    }
-    groupSubscriptions.add(subscription);
-
-    return {
-      close: () => {
-        this._removeSubscription(subscription);
-      },
-    };
+    this._ignored = new Set<string>();
   }
 
   public clearActiveHandlers(): void {
@@ -63,7 +51,8 @@ export class InboundStreamSession {
       clearTimeout(timeout);
     });
     this._activeTimeouts.clear();
-    this._activeHandlers.clear();
+    this._activeStreams.clear();
+    this._ignored.clear();
   }
 
   public handleGroupMessage(message: GroupDataMessage): void {
@@ -72,152 +61,148 @@ export class InboundStreamSession {
       return;
     }
 
-    const subscriptions = this._subscriptionsByGroup.get(message.group);
-    if (subscriptions == null || subscriptions.size === 0) {
+    const factories = this._getFactories();
+    if (factories.length === 0) {
+      // No factory registered, do not allocate per-stream state.
       return;
     }
 
-    subscriptions.forEach((subscription) => {
-      // For handleFromStart=true, if we first observe a mid-stream fragment,
-      // ignore that streamId until its terminal frame arrives.
-      if (subscription.ignoredStreamIds.has(stream.streamId)) {
-        if (stream.endOfStream) {
-          subscription.ignoredStreamIds.delete(stream.streamId);
+    const key = this._buildKey(message.group, stream.streamId);
+
+    // For handleFromStart=true, if we first observe a mid-stream fragment,
+    // ignore that streamId until its terminal frame arrives.
+    if (this._ignored.has(key)) {
+      if (stream.endOfStream) {
+        this._ignored.delete(key);
+      }
+      return;
+    }
+
+    let active = this._activeStreams.get(key);
+    if (active == null) {
+      if (this._handleFromStart && stream.streamSequenceId !== 1) {
+        if (!stream.endOfStream) {
+          this._ignored.add(key);
         }
         return;
       }
 
-      const key = this._buildHandlerKey(subscription.id, message.group, stream.streamId);
-      let activeHandler = this._activeHandlers.get(key);
-      if (activeHandler == null) {
-        if (subscription.options.handleFromStart && stream.streamSequenceId !== 1) {
-          if (!stream.endOfStream) {
-            subscription.ignoredStreamIds.add(stream.streamId);
-          }
-          return;
-        }
-
-        const handler = subscription.handlerFactory(stream.streamId);
-        // A subscription can attach to many streamIds; each streamId gets its own active handler state.
-        activeHandler = new ActiveStreamHandler(
-          key,
-          stream.streamId,
-          message.group,
-          handler,
-          subscription.options.ttlInMs,
-        );
-        this._activeHandlers.set(key, activeHandler);
-      }
-
-      this._resetActiveTimeout(activeHandler);
-
-      const shouldEmitMessage = !stream.endOfStream || this._hasStreamPayload(message);
-      if (shouldEmitMessage) {
-        const onMessageArgs: OnGroupStreamDataArgs = {
-          group: message.group,
-          fromUserId: message.fromUserId,
-          sequenceId: message.sequenceId,
-          dataType: message.dataType,
-          data: message.data,
-          stream,
-        };
-        this._invokeOnMessage(activeHandler, onMessageArgs);
-      }
-
-      if (stream.endOfStream) {
-        const terminalArgs: OnGroupStreamEndArgs = {
-          streamId: stream.streamId,
-          group: message.group,
-          error: stream.error,
-        };
-        if (stream.error != null) {
-          this._invokeOnError(activeHandler, stream.error, terminalArgs);
-        } else {
-          this._invokeOnComplete(activeHandler, terminalArgs);
-        }
-        this._clearActiveTimeout(key);
-        this._activeHandlers.delete(key);
-      }
-    });
-  }
-
-  private _removeSubscription(subscription: InboundStreamSubscription): void {
-    const subscriptions = this._subscriptionsByGroup.get(subscription.groupName);
-    if (subscriptions != null) {
-      subscriptions.delete(subscription);
-      if (subscriptions.size === 0) {
-        this._subscriptionsByGroup.delete(subscription.groupName);
-      }
+      const streamView: OnGroupStreamArgs = {
+        group: message.group,
+        streamId: stream.streamId,
+      };
+      const handlers = this._invokeFactories(factories, streamView);
+      active = {
+        key,
+        group: message.group,
+        streamId: stream.streamId,
+        ttlInMs: this._ttlInMs,
+        handlers,
+      };
+      this._activeStreams.set(key, active);
     }
 
-    const prefix = `${subscription.id}|`;
-    const keysToRemove: string[] = [];
-    // Handler keys are prefixed by subscription id, so one prefix scan removes
-    // all active stream states created by this subscription.
-    this._activeHandlers.forEach((_, key) => {
-      if (key.startsWith(prefix)) {
-        keysToRemove.push(key);
-      }
-    });
+    this._resetActiveTimeout(active);
 
-    keysToRemove.forEach((key) => {
+    const shouldEmitMessage = !stream.endOfStream || this._hasStreamPayload(message);
+    if (shouldEmitMessage) {
+      const onMessageArgs: OnGroupStreamDataArgs = {
+        group: message.group,
+        fromUserId: message.fromUserId,
+        sequenceId: message.sequenceId,
+        dataType: message.dataType,
+        data: message.data,
+        stream,
+      };
+      this._fireMessage(active.handlers, onMessageArgs);
+    }
+
+    if (stream.endOfStream) {
+      const terminalArgs: OnGroupStreamEndArgs = {
+        streamId: stream.streamId,
+        group: message.group,
+        error: stream.error,
+      };
+      if (stream.error != null) {
+        this._fireError(active.handlers, terminalArgs);
+      } else {
+        this._fireComplete(active.handlers, terminalArgs);
+      }
       this._clearActiveTimeout(key);
-      this._activeHandlers.delete(key);
-    });
-  }
-
-  private _buildHandlerKey(subscriptionId: string, groupName: string, streamId: string): string {
-    return `${subscriptionId}|${groupName}|${streamId}`;
-  }
-
-  private _invokeOnMessage(active: ActiveStreamHandler, args: OnGroupStreamDataArgs): void {
-    try {
-      active.handler.onMessage?.(args);
-    } catch (err) {
-      logger.warning("Stream handler onMessage failed.", err);
+      this._activeStreams.delete(key);
     }
   }
 
-  private _invokeOnComplete(active: ActiveStreamHandler, args: OnGroupStreamEndArgs): void {
-    try {
-      active.handler.onComplete?.(args);
-    } catch (err) {
-      logger.warning("Stream handler onComplete failed.", err);
+  private _invokeFactories(
+    factories: readonly GroupStreamFactory[],
+    streamView: OnGroupStreamArgs,
+  ): GroupStreamHandler[] {
+    const handlers: GroupStreamHandler[] = [];
+    for (const factory of factories) {
+      try {
+        handlers.push(factory(streamView));
+      } catch (err) {
+        logger.warning("group-stream factory threw.", err);
+      }
+    }
+    return handlers;
+  }
+
+  private _fireMessage(handlers: GroupStreamHandler[], args: OnGroupStreamDataArgs): void {
+    for (const handler of handlers) {
+      if (handler.onMessage == null) continue;
+      try {
+        handler.onMessage(args);
+      } catch (err) {
+        logger.warning("group-stream onMessage handler failed.", err);
+      }
     }
   }
 
-  private _invokeOnError(
-    active: ActiveStreamHandler,
-    error: StreamDataError,
-    args?: OnGroupStreamEndArgs,
-  ): void {
-    try {
-      active.handler.onError?.(
-        args ?? {
-          streamId: active.streamId,
-          group: active.group,
-          error,
-        },
-      );
-    } catch (err) {
-      logger.warning("Stream handler onError failed.", err);
+  private _fireComplete(handlers: GroupStreamHandler[], args: OnGroupStreamEndArgs): void {
+    for (const handler of handlers) {
+      if (handler.onComplete == null) continue;
+      try {
+        handler.onComplete(args);
+      } catch (err) {
+        logger.warning("group-stream onComplete handler failed.", err);
+      }
     }
   }
 
-  private _resetActiveTimeout(active: ActiveStreamHandler): void {
+  private _fireError(handlers: GroupStreamHandler[], args: OnGroupStreamEndArgs): void {
+    for (const handler of handlers) {
+      if (handler.onError == null) continue;
+      try {
+        handler.onError(args);
+      } catch (err) {
+        logger.warning("group-stream onError handler failed.", err);
+      }
+    }
+  }
+
+  private _buildKey(groupName: string, streamId: string): string {
+    return `${groupName}|${streamId}`;
+  }
+
+  private _resetActiveTimeout(active: ActiveStream): void {
     this._clearActiveTimeout(active.key);
     const timeout = setTimeout(() => {
-      const current = this._activeHandlers.get(active.key);
+      const current = this._activeStreams.get(active.key);
       if (current == null || current !== active) {
         return;
       }
 
       const timeoutError: StreamDataError = {
         name: "IdleTimeout",
-        message: "Stream handler idle timeout: no data received within ttlInMs in client registry.",
+        message: "Stream idle timeout: no data received within ttlInMs in client registry.",
       };
-      this._invokeOnError(current, timeoutError);
-      this._activeHandlers.delete(active.key);
+      this._fireError(current.handlers, {
+        streamId: current.streamId,
+        group: current.group,
+        error: timeoutError,
+      });
+      this._activeStreams.delete(active.key);
       this._clearActiveTimeout(active.key);
     }, active.ttlInMs);
 
@@ -257,51 +242,10 @@ export class InboundStreamSession {
   }
 }
 
-class InboundStreamSubscription {
-  public readonly id: string;
-  public readonly groupName: string;
-  public readonly options: InboundStreamOptions;
-  public readonly handlerFactory: (streamId: string) => GroupStreamHandler;
-  // Tracks streamIds currently skipped by handleFromStart=true.
-  public readonly ignoredStreamIds: Set<string>;
-
-  constructor(
-    id: string,
-    groupName: string,
-    options: InboundStreamOptions,
-    handlerFactory: (streamId: string) => GroupStreamHandler,
-  ) {
-    this.id = id;
-    this.groupName = groupName;
-    this.options = options;
-    this.handlerFactory = handlerFactory;
-    this.ignoredStreamIds = new Set<string>();
-  }
-}
-
-class ActiveStreamHandler {
-  // Composite key: `${subscriptionId}|${groupName}|${streamId}`.
-  public readonly key: string;
-  public readonly streamId: string;
-  public readonly group: string;
-  public readonly handler: GroupStreamHandler;
-  private readonly _ttlInMs: number;
-
-  constructor(
-    key: string,
-    streamId: string,
-    group: string,
-    handler: GroupStreamHandler,
-    ttlInMs: number,
-  ) {
-    this.key = key;
-    this.streamId = streamId;
-    this.group = group;
-    this.handler = handler;
-    this._ttlInMs = ttlInMs;
-  }
-
-  public get ttlInMs(): number {
-    return this._ttlInMs;
-  }
+interface ActiveStream {
+  readonly key: string;
+  readonly group: string;
+  readonly streamId: string;
+  readonly ttlInMs: number;
+  readonly handlers: GroupStreamHandler[];
 }
