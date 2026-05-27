@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeLimitContext } from "../../api/computeLimitContext.js";
+import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
 import {
   disable,
   enable,
   listBySubscriptionLocationResource,
   get,
 } from "../../api/features/operations.js";
-import {
+import type {
   FeaturesDisableOptionalParams,
   FeaturesEnableOptionalParams,
   FeaturesListBySubscriptionLocationResourceOptionalParams,
   FeaturesGetOptionalParams,
 } from "../../api/features/options.js";
-import { Feature, OperationStatusResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Feature, OperationStatusResult } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Features operations. */
 export interface FeaturesOperations {

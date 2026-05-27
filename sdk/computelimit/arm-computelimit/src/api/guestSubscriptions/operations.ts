@@ -1,29 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeLimitContext as Client } from "../index.js";
+import type { ComputeLimitContext as Client } from "../index.js";
+import type {
+  GuestSubscription,
+  _GuestSubscriptionListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  GuestSubscription,
   guestSubscriptionSerializer,
   guestSubscriptionDeserializer,
-  _GuestSubscriptionListResult,
   _guestSubscriptionListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
   GuestSubscriptionsDeleteOptionalParams,
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
