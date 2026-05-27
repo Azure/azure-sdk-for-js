@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.2 (2026-05-27)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Enum KnownSamplingType has a new value Average
+  - Enum KnownSamplingType has a new value Count
+
+### Breaking Changes
+  - Enum KnownSamplingType no longer has value Avg
+
 ## 1.0.0-beta.1 (2026-04-22)
 
 ### Features Added
