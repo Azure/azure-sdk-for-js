@@ -1,17 +1,19 @@
-import { describe, it, assert } from "vitest";
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import { describe, it } from "vitest";
+import { createAzurePlaywrightConfig } from "../src/index.js";
+import { defineConfig } from "@playwright/test";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("snippets", () => {
   it("configure_reporters", () => {
     // <snippet_configure_reporters>
-    import { getServiceConfig, PlaywrightReporter } from "@azure/playwright";
-    import { defineConfig } from "@playwright/test";
-    import { DefaultAzureCredential } from "@azure/identity";
+    const playwrightConfig = defineConfig({});
 
-    export default defineConfig(
-      getServiceConfig({
+    defineConfig(
+      playwrightConfig,
+      createAzurePlaywrightConfig(playwrightConfig, {
         // Your existing configuration
         credential: new DefaultAzureCredential(),
       }),

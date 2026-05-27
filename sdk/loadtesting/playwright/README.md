@@ -163,16 +163,15 @@ The Azure Playwright reporter is included with the `@azure/playwright` package a
 Add both the HTML reporter and Azure Playwright reporter to your `playwright.service.config.ts`:
 
 ```typescript snippet:configure_reporters
-import { getServiceConfig, PlaywrightReporter } from "@azure/playwright";
 import { defineConfig } from "@playwright/test";
+import { createAzurePlaywrightConfig } from "@azure/playwright";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // <snippet_configure_reporters>
-import { getServiceConfig, PlaywrightReporter } from "@azure/playwright";
-import { defineConfig } from "@playwright/test";
-import { DefaultAzureCredential } from "@azure/identity";
-export default defineConfig(
-  getServiceConfig({
+const playwrightConfig = defineConfig({});
+defineConfig(
+  playwrightConfig,
+  createAzurePlaywrightConfig(playwrightConfig, {
     // Your existing configuration
     credential: new DefaultAzureCredential(),
   }),
