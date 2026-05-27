@@ -265,7 +265,7 @@
 # ServiceOwners: @trrwilson
 
 # PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/    @maorleger
+/sdk/instrumentation/    @maorleger @minhanh-phan
 
 # AzureSdkOwners: @maorleger
 # ServiceLabel: %OpenTelemetryInstrumentation

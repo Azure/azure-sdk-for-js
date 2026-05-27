@@ -3,3 +3,4 @@
 
 export * from "./logger.js";
 export * from "./instrumentation.js";
+export { OpenTelemetryInstrumenter } from "./instrumenter.js";
