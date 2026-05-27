@@ -24,9 +24,9 @@ import type {
   ServiceListFileSystemsSegmentResponse,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
-  DataLakeClientOptions,
   DataLakeClientConfig,
   DataLakeGetUserDelegationKeyParameters,
+  DataLakeServiceClientOptions,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import {
@@ -80,7 +80,7 @@ export class DataLakeServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeServiceClientOptions,
   ): DataLakeServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -126,7 +126,7 @@ export class DataLakeServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeServiceClientOptions,
   );
 
   /**
@@ -149,7 +149,7 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeServiceClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);
