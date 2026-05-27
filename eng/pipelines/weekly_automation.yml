@@ -69,7 +69,7 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/login-to-github.yml
     parameters:
       TokenOwners:
-        - azure
+        - Azure
 
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'
