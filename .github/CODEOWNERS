@@ -892,7 +892,7 @@
 # PRLabel: %Mgmt
 /sdk/resourceconnector/arm-resourceconnector/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/resourcehealth/arm-resourcehealth/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
