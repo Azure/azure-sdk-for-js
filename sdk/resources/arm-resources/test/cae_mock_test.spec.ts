@@ -1,7 +1,10 @@
-import { TokenCredential } from "@azure/core-auth";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { TokenCredential } from "@azure/core-auth";
 import { ResourceManagementClient } from "../src/resourceManagementClient.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { OperationRequest } from "@azure/core-client";
+import type { OperationRequest } from "@azure/core-client";
 import { describe, it, assert } from "vitest";
 
 describe("Mock test for CAE with ResourceManagementClient", () => {
@@ -45,7 +48,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
 
     const result = await client.operations.list();
     const items = [];
-    for await (let item of result) {
+    for await (const item of result) {
       items.push(item);
     }
     assert.equal(items.length, 0);
@@ -87,7 +90,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     try {
       const result = await client.operations.list();
       const items = [];
-      for await (let item of result) {
+      for await (const item of result) {
         items.push(item);
       }
       assert.fail("Should not reach here and throw 401 exception");
