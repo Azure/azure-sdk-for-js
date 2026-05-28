@@ -1,36 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type {
   DetectorResponse,
-  detectorResponseDeserializer,
   _DetectorResponseCollection,
-  _detectorResponseCollectionDeserializer,
   DiagnosticCategory,
-  diagnosticCategoryDeserializer,
   _DiagnosticCategoryCollection,
-  _diagnosticCategoryCollectionDeserializer,
   AnalysisDefinition,
-  analysisDefinitionDeserializer,
   _DiagnosticAnalysisCollection,
-  _diagnosticAnalysisCollectionDeserializer,
   DiagnosticAnalysis,
-  diagnosticAnalysisDeserializer,
   DetectorDefinitionResource,
-  detectorDefinitionResourceDeserializer,
   _DiagnosticDetectorCollection,
-  _diagnosticDetectorCollectionDeserializer,
   DiagnosticDetectorResponse,
-  diagnosticDetectorResponseDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defaultErrorResponseDeserializer,
+  detectorResponseDeserializer,
+  _detectorResponseCollectionDeserializer,
+  diagnosticCategoryDeserializer,
+  _diagnosticCategoryCollectionDeserializer,
+  analysisDefinitionDeserializer,
+  _diagnosticAnalysisCollectionDeserializer,
+  diagnosticAnalysisDeserializer,
+  detectorDefinitionResourceDeserializer,
+  _diagnosticDetectorCollectionDeserializer,
+  diagnosticDetectorResponseDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DiagnosticsExecuteSiteDetectorSlotOptionalParams,
   DiagnosticsListSiteDetectorsSlotOptionalParams,
   DiagnosticsGetSiteDetectorSlotOptionalParams,
@@ -54,12 +54,8 @@ import {
   DiagnosticsListSiteDetectorResponsesOptionalParams,
   DiagnosticsGetSiteDetectorResponseOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _executeSiteDetectorSlotSend(
   context: Client,

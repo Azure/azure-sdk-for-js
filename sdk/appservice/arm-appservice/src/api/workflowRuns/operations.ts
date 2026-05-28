@@ -1,30 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type { WorkflowRun, _WorkflowRunListResult } from "../../models/models.js";
 import {
-  WorkflowRun,
   workflowRunDeserializer,
   errorResponseDeserializer,
-  _WorkflowRunListResult,
   _workflowRunListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   WorkflowRunsCancelOptionalParams,
   WorkflowRunsListOptionalParams,
   WorkflowRunsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _cancelSend(
   context: Client,

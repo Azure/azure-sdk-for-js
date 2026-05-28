@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listPrivateEndpointConnectionList,
   deletePrivateEndpointConnection,
@@ -52,7 +52,7 @@ import {
   createOrUpdateWorkerPool,
   getWorkerPool,
 } from "../../api/appServiceEnvironments/operations.js";
-import {
+import type {
   AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
@@ -102,7 +102,7 @@ import {
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsGetWorkerPoolOptionalParams,
 } from "../../api/appServiceEnvironments/options.js";
-import {
+import type {
   VirtualNetworkProfile,
   CustomDnsSuffixConfiguration,
   AseV3NetworkingConfiguration,
@@ -124,9 +124,10 @@ import {
   AddressResponse,
   RemotePrivateEndpointConnectionARMResource,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServiceEnvironments operations. */
 export interface AppServiceEnvironmentsOperations {
@@ -609,7 +610,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       privateEndpointConnectionName: string,
       options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
     ) => {
-      return await deletePrivateEndpointConnection(
+      return deletePrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -657,7 +658,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
       options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
     ) => {
-      return await approveOrRejectPrivateEndpointConnection(
+      return approveOrRejectPrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -747,7 +748,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       multiRolePoolEnvelope: WorkerPoolResource,
       options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
     ) => {
-      return await createOrUpdateMultiRolePool(
+      return createOrUpdateMultiRolePool(
         context,
         resourceGroupName,
         name,
@@ -884,7 +885,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsUpgradeOptionalParams,
     ) => {
-      return await upgrade(context, resourceGroupName, name, options);
+      return upgrade(context, resourceGroupName, name, options);
     },
     testUpgradeAvailableNotification: (
       resourceGroupName: string,
@@ -950,7 +951,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsDeleteOptionalParams,
     ) => {
-      return await $delete(context, resourceGroupName, name, options);
+      return $delete(context, resourceGroupName, name, options);
     },
     update: (
       resourceGroupName: string,
@@ -986,13 +987,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
       options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
     ) => {
-      return await createOrUpdate(
-        context,
-        resourceGroupName,
-        name,
-        hostingEnvironmentEnvelope,
-        options,
-      );
+      return createOrUpdate(context, resourceGroupName, name, hostingEnvironmentEnvelope, options);
     },
     get: (
       resourceGroupName: string,
@@ -1092,7 +1087,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       workerPoolEnvelope: WorkerPoolResource,
       options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
     ) => {
-      return await createOrUpdateWorkerPool(
+      return createOrUpdateWorkerPool(
         context,
         resourceGroupName,
         name,

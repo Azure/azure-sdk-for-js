@@ -1,33 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type {
   WorkflowRunAction,
-  workflowRunActionDeserializer,
   _WorkflowRunActionListResult,
-  _workflowRunActionListResultDeserializer,
   _ExpressionTraces,
-  _expressionTracesDeserializer,
   ExpressionRoot,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  workflowRunActionDeserializer,
+  _workflowRunActionListResultDeserializer,
+  _expressionTracesDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   WorkflowRunActionsListExpressionTracesOptionalParams,
   WorkflowRunActionsListOptionalParams,
   WorkflowRunActionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listExpressionTracesSend(
   context: Client,

@@ -1,63 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "./index.js";
-import {
+import type { WebSiteManagementContext as Client } from "./index.js";
+import type {
   CsmMoveResourceEnvelope,
-  csmMoveResourceEnvelopeSerializer,
-  defaultErrorResponseDeserializer,
   ValidateRequest,
-  validateRequestSerializer,
   ValidateResponse,
-  validateResponseDeserializer,
   DeploymentLocations,
-  deploymentLocationsDeserializer,
   GeoRegion,
   _AseRegionCollection,
-  _aseRegionCollectionDeserializer,
   AseRegion,
   _BillingMeterCollection,
-  _billingMeterCollectionDeserializer,
   BillingMeter,
   CheckNameResourceTypes,
   ResourceNameAvailability,
-  resourceNameAvailabilityDeserializer,
   _CustomHostnameSitesCollection,
-  _customHostnameSitesCollectionDeserializer,
   CustomHostnameSites,
   Identifier,
   _GeoRegionCollection,
-  _geoRegionCollectionDeserializer,
   NameIdentifier,
-  nameIdentifierSerializer,
   _IdentifierCollection,
-  _identifierCollectionDeserializer,
   DnlResourceNameAvailability,
-  dnlResourceNameAvailabilityDeserializer,
   _PremierAddOnOfferCollection,
-  _premierAddOnOfferCollectionDeserializer,
   PremierAddOnOffer,
   SkuInfos,
-  skuInfosDeserializer,
   VnetParameters,
-  vnetParametersSerializer,
   VnetValidationFailureDetails,
-  vnetValidationFailureDetailsDeserializer,
   User,
-  userSerializer,
-  userDeserializer,
   SourceControl,
-  sourceControlSerializer,
-  sourceControlDeserializer,
   _SourceControlCollection,
-  _sourceControlCollectionDeserializer,
 } from "../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+  csmMoveResourceEnvelopeSerializer,
+  defaultErrorResponseDeserializer,
+  validateRequestSerializer,
+  validateResponseDeserializer,
+  deploymentLocationsDeserializer,
+  _aseRegionCollectionDeserializer,
+  _billingMeterCollectionDeserializer,
+  resourceNameAvailabilityDeserializer,
+  _customHostnameSitesCollectionDeserializer,
+  _geoRegionCollectionDeserializer,
+  nameIdentifierSerializer,
+  _identifierCollectionDeserializer,
+  dnlResourceNameAvailabilityDeserializer,
+  _premierAddOnOfferCollectionDeserializer,
+  skuInfosDeserializer,
+  vnetParametersSerializer,
+  vnetValidationFailureDetailsDeserializer,
+  userSerializer,
+  userDeserializer,
+  sourceControlSerializer,
+  sourceControlDeserializer,
+  _sourceControlCollectionDeserializer,
+} from "../models/models.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   ListSourceControlsOptionalParams,
   UpdateSourceControlOptionalParams,
   GetSourceControlOptionalParams,
@@ -78,12 +78,8 @@ import {
   ValidateOptionalParams,
   ValidateMoveOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSourceControlsSend(
   context: Client,

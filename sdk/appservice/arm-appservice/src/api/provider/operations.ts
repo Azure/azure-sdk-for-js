@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type {
   _CsmOperationCollection,
-  _csmOperationCollectionDeserializer,
   CsmOperationDescription,
   _ApplicationStackCollection,
-  _applicationStackCollectionDeserializer,
   ApplicationStackResource,
   _FunctionAppStackCollection,
-  _functionAppStackCollectionDeserializer,
   FunctionAppStack,
   _WebAppStackCollection,
-  _webAppStackCollectionDeserializer,
   WebAppStack,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defaultErrorResponseDeserializer,
+  _csmOperationCollectionDeserializer,
+  _applicationStackCollectionDeserializer,
+  _functionAppStackCollectionDeserializer,
+  _webAppStackCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ProviderListAvailableStacksOnPremOptionalParams,
   ProviderListWebAppStacksOptionalParams,
   ProviderListWebAppStacksForLocationOptionalParams,
@@ -31,12 +31,8 @@ import {
   ProviderListAvailableStacksOptionalParams,
   ProviderListOperationsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listAvailableStacksOnPremSend(
   context: Client,

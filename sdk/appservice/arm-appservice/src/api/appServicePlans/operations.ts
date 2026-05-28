@@ -1,58 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type {
+  Capability,
+  _WebAppCollection,
+  Site,
+  Operation,
+  _AppServicePlanCollection,
+  AppServicePlan,
+  _CsmUsageQuotaCollection,
+  CsmUsageQuota,
+  HybridConnection,
+  VnetInfoResource,
+  VnetRoute,
+  VnetGateway,
+  ServerFarmRdpDetails,
+  ServerFarmInstanceDetails,
+  AppServicePlanPatchResource,
+  _HybridConnectionCollection,
+  HybridConnectionKey,
+  _ResourceCollection,
+  HybridConnectionLimits,
+} from "../../models/models.js";
 import {
   defaultErrorResponseDeserializer,
   capabilityArrayDeserializer,
-  Capability,
-  _WebAppCollection,
   _webAppCollectionDeserializer,
-  Site,
-  Operation,
   operationDeserializer,
-  _AppServicePlanCollection,
   _appServicePlanCollectionDeserializer,
-  AppServicePlan,
   appServicePlanSerializer,
   appServicePlanDeserializer,
-  _CsmUsageQuotaCollection,
   _csmUsageQuotaCollectionDeserializer,
-  CsmUsageQuota,
-  HybridConnection,
   hybridConnectionDeserializer,
-  VnetInfoResource,
   vnetInfoResourceDeserializer,
   vnetRouteArrayDeserializer,
-  VnetRoute,
   vnetRouteSerializer,
   vnetRouteDeserializer,
-  VnetGateway,
   vnetGatewaySerializer,
   vnetGatewayDeserializer,
-  ServerFarmRdpDetails,
   serverFarmRdpDetailsDeserializer,
-  ServerFarmInstanceDetails,
   serverFarmInstanceDetailsDeserializer,
-  AppServicePlanPatchResource,
   appServicePlanPatchResourceSerializer,
-  _HybridConnectionCollection,
   _hybridConnectionCollectionDeserializer,
-  HybridConnectionKey,
   hybridConnectionKeyDeserializer,
-  _ResourceCollection,
   _resourceCollectionDeserializer,
-  HybridConnectionLimits,
   hybridConnectionLimitsDeserializer,
   vnetInfoResourceArrayDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AppServicePlansListRoutesForVnetOptionalParams,
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
@@ -84,13 +84,9 @@ import {
   AppServicePlansRecycleManagedInstanceWorkerOptionalParams,
   AppServicePlansGetServerFarmRdpPasswordOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listRoutesForVnetSend(
   context: Client,

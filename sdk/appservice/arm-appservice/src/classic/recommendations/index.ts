@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   disableRecommendationForSubscription,
   resetAllFilters,
@@ -19,7 +19,7 @@ import {
   disableRecommendationForSite,
   getRuleDetailsByWebApp,
 } from "../../api/recommendations/operations.js";
-import {
+import type {
   RecommendationsDisableRecommendationForSubscriptionOptionalParams,
   RecommendationsResetAllFiltersOptionalParams,
   RecommendationsListOptionalParams,
@@ -36,8 +36,8 @@ import {
   RecommendationsDisableRecommendationForSiteOptionalParams,
   RecommendationsGetRuleDetailsByWebAppOptionalParams,
 } from "../../api/recommendations/options.js";
-import { RecommendationRule, Recommendation } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RecommendationRule, Recommendation } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Recommendations operations. */
 export interface RecommendationsOperations {

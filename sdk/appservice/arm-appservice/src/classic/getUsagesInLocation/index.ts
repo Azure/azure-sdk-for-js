@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import { list } from "../../api/getUsagesInLocation/operations.js";
-import { GetUsagesInLocationListOptionalParams } from "../../api/getUsagesInLocation/options.js";
-import { CsmUsageQuota } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GetUsagesInLocationListOptionalParams } from "../../api/getUsagesInLocation/options.js";
+import type { CsmUsageQuota } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GetUsagesInLocation operations. */
 export interface GetUsagesInLocationOperations {

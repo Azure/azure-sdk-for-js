@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   list,
   listByLocation,
   getDeletedWebAppByLocation,
 } from "../../api/deletedWebApps/operations.js";
-import {
+import type {
   DeletedWebAppsListOptionalParams,
   DeletedWebAppsListByLocationOptionalParams,
   DeletedWebAppsGetDeletedWebAppByLocationOptionalParams,
 } from "../../api/deletedWebApps/options.js";
-import { DeletedSite } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeletedSite } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeletedWebApps operations. */
 export interface DeletedWebAppsOperations {

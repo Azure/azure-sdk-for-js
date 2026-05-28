@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/certificates/operations.js";
-import {
+import type {
   CertificatesListOptionalParams,
   CertificatesListByResourceGroupOptionalParams,
   CertificatesDeleteOptionalParams,
@@ -18,8 +18,8 @@ import {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesGetOptionalParams,
 } from "../../api/certificates/options.js";
-import { Certificate, CertificatePatchResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Certificate, CertificatePatchResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Certificates operations. */
 export interface CertificatesOperations {

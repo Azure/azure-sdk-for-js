@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type { Snapshot, DeletedSite } from "../../models/models.js";
 import {
   defaultErrorResponseDeserializer,
   snapshotArrayDeserializer,
-  Snapshot,
-  DeletedSite,
   deletedSiteDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
   GlobalGetDeletedWebAppSnapshotsOptionalParams,
   GlobalGetDeletedWebAppOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSubscriptionOperationWithAsyncResponseSend(
   context: Client,

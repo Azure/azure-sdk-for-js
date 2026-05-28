@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listAvailableStacksOnPrem,
   listWebAppStacks,
@@ -11,7 +11,7 @@ import {
   listAvailableStacks,
   listOperations,
 } from "../../api/provider/operations.js";
-import {
+import type {
   ProviderListAvailableStacksOnPremOptionalParams,
   ProviderListWebAppStacksOptionalParams,
   ProviderListWebAppStacksForLocationOptionalParams,
@@ -20,13 +20,13 @@ import {
   ProviderListAvailableStacksOptionalParams,
   ProviderListOperationsOptionalParams,
 } from "../../api/provider/options.js";
-import {
+import type {
   CsmOperationDescription,
   ApplicationStackResource,
   FunctionAppStack,
   WebAppStack,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Provider operations. */
 export interface ProviderOperations {

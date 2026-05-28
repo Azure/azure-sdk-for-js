@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type {
   Certificate,
-  certificateSerializer,
-  certificateDeserializer,
   CertificatePatchResource,
-  certificatePatchResourceSerializer,
   _CertificateCollection,
-  _certificateCollectionDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defaultErrorResponseDeserializer,
+  certificateSerializer,
+  certificateDeserializer,
+  certificatePatchResourceSerializer,
+  _certificateCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SiteCertificatesListSlotOptionalParams,
   SiteCertificatesDeleteSlotOptionalParams,
   SiteCertificatesUpdateSlotOptionalParams,
@@ -29,12 +29,8 @@ import {
   SiteCertificatesCreateOrUpdateOptionalParams,
   SiteCertificatesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSlotSend(
   context: Client,

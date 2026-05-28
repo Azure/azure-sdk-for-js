@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listRoutesForVnet,
   deleteVnetRoute,
@@ -34,7 +34,7 @@ import {
   recycleManagedInstanceWorker,
   getServerFarmRdpPassword,
 } from "../../api/appServicePlans/operations.js";
-import {
+import type {
   AppServicePlansListRoutesForVnetOptionalParams,
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
@@ -66,7 +66,7 @@ import {
   AppServicePlansRecycleManagedInstanceWorkerOptionalParams,
   AppServicePlansGetServerFarmRdpPasswordOptionalParams,
 } from "../../api/appServicePlans/options.js";
-import {
+import type {
   Capability,
   Site,
   Operation,
@@ -82,9 +82,10 @@ import {
   HybridConnectionKey,
   HybridConnectionLimits,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServicePlans operations. */
 export interface AppServicePlansOperations {
@@ -507,7 +508,7 @@ function _getAppServicePlans(context: WebSiteManagementContext) {
       appServicePlan: AppServicePlan,
       options?: AppServicePlansCreateOrUpdateOptionalParams,
     ) => {
-      return await createOrUpdate(context, resourceGroupName, name, appServicePlan, options);
+      return createOrUpdate(context, resourceGroupName, name, appServicePlan, options);
     },
     get: (resourceGroupName: string, name: string, options?: AppServicePlansGetOptionalParams) =>
       get(context, resourceGroupName, name, options),

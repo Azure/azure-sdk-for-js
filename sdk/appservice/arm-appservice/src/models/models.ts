@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 

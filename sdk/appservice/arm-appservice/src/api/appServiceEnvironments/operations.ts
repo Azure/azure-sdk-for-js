@@ -1,78 +1,78 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { WebSiteManagementContext as Client } from "../index.js";
+import type {
   VirtualNetworkProfile,
-  virtualNetworkProfileSerializer,
   CustomDnsSuffixConfiguration,
-  customDnsSuffixConfigurationSerializer,
-  customDnsSuffixConfigurationDeserializer,
   AseV3NetworkingConfiguration,
-  aseV3NetworkingConfigurationSerializer,
-  aseV3NetworkingConfigurationDeserializer,
   WorkerPoolResource,
-  workerPoolResourceSerializer,
-  workerPoolResourceDeserializer,
   _WorkerPoolCollection,
-  _workerPoolCollectionDeserializer,
   _ResourceMetricDefinitionCollection,
-  _resourceMetricDefinitionCollectionDeserializer,
   ResourceMetricDefinition,
   _SkuInfoCollection,
-  _skuInfoCollectionDeserializer,
   SkuInfo,
   _UsageCollection,
-  _usageCollectionDeserializer,
   Usage,
   AppServiceEnvironmentResource,
-  appServiceEnvironmentResourceSerializer,
-  appServiceEnvironmentResourceDeserializer,
   AppServiceEnvironmentPatchResource,
-  appServiceEnvironmentPatchResourceSerializer,
   _AppServiceEnvironmentCollection,
-  _appServiceEnvironmentCollectionDeserializer,
   _StampCapacityCollection,
-  _stampCapacityCollectionDeserializer,
   StampCapacity,
   _WebAppCollection,
-  _webAppCollectionDeserializer,
   Site,
   HostingEnvironmentDiagnostics,
-  hostingEnvironmentDiagnosticsDeserializer,
   _InboundEnvironmentEndpointCollection,
-  _inboundEnvironmentEndpointCollectionDeserializer,
   InboundEnvironmentEndpoint,
   Operation,
   _OutboundEnvironmentEndpointCollection,
-  _outboundEnvironmentEndpointCollectionDeserializer,
   OutboundEnvironmentEndpoint,
   PrivateLinkResourcesWrapper,
-  privateLinkResourcesWrapperDeserializer,
   _AppServicePlanCollection,
-  _appServicePlanCollectionDeserializer,
   AppServicePlan,
   _CsmUsageQuotaCollection,
-  _csmUsageQuotaCollectionDeserializer,
   CsmUsageQuota,
   AddressResponse,
-  addressResponseDeserializer,
   RemotePrivateEndpointConnectionARMResource,
+  _PrivateEndpointConnectionCollection,
+} from "../../models/models.js";
+import {
+  defaultErrorResponseDeserializer,
+  virtualNetworkProfileSerializer,
+  customDnsSuffixConfigurationSerializer,
+  customDnsSuffixConfigurationDeserializer,
+  aseV3NetworkingConfigurationSerializer,
+  aseV3NetworkingConfigurationDeserializer,
+  workerPoolResourceSerializer,
+  workerPoolResourceDeserializer,
+  _workerPoolCollectionDeserializer,
+  _resourceMetricDefinitionCollectionDeserializer,
+  _skuInfoCollectionDeserializer,
+  _usageCollectionDeserializer,
+  appServiceEnvironmentResourceSerializer,
+  appServiceEnvironmentResourceDeserializer,
+  appServiceEnvironmentPatchResourceSerializer,
+  _appServiceEnvironmentCollectionDeserializer,
+  _stampCapacityCollectionDeserializer,
+  _webAppCollectionDeserializer,
+  hostingEnvironmentDiagnosticsDeserializer,
+  _inboundEnvironmentEndpointCollectionDeserializer,
+  _outboundEnvironmentEndpointCollectionDeserializer,
+  privateLinkResourcesWrapperDeserializer,
+  _appServicePlanCollectionDeserializer,
+  _csmUsageQuotaCollectionDeserializer,
+  addressResponseDeserializer,
   remotePrivateEndpointConnectionARMResourceSerializer,
   remotePrivateEndpointConnectionARMResourceDeserializer,
-  _PrivateEndpointConnectionCollection,
   _privateEndpointConnectionCollectionDeserializer,
   hostingEnvironmentDiagnosticsArrayDeserializer,
   operationArrayDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
@@ -122,13 +122,9 @@ import {
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsGetWorkerPoolOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listPrivateEndpointConnectionListSend(
   context: Client,

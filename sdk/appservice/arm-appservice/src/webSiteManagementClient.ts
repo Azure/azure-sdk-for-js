@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   WebSiteManagementContext,
   WebSiteManagementClientOptionalParams,
-  createWebSiteManagement,
 } from "./api/index.js";
+import { createWebSiteManagement } from "./api/index.js";
 import {
   listSourceControls,
   updateSourceControl,
@@ -27,7 +27,7 @@ import {
   validate,
   validateMove,
 } from "./api/operations.js";
-import {
+import type {
   ListSourceControlsOptionalParams,
   UpdateSourceControlOptionalParams,
   GetSourceControlOptionalParams,
@@ -48,81 +48,53 @@ import {
   ValidateOptionalParams,
   ValidateMoveOptionalParams,
 } from "./api/options.js";
-import {
-  AppServiceEnvironmentsOperations,
-  _getAppServiceEnvironmentsOperations,
-} from "./classic/appServiceEnvironments/index.js";
-import {
-  AppServicePlansOperations,
-  _getAppServicePlansOperations,
-} from "./classic/appServicePlans/index.js";
-import {
-  CertificatesOperations,
-  _getCertificatesOperations,
-} from "./classic/certificates/index.js";
-import {
-  DeletedWebAppsOperations,
-  _getDeletedWebAppsOperations,
-} from "./classic/deletedWebApps/index.js";
-import { DiagnosticsOperations, _getDiagnosticsOperations } from "./classic/diagnostics/index.js";
-import {
-  GetUsagesInLocationOperations,
-  _getGetUsagesInLocationOperations,
-} from "./classic/getUsagesInLocation/index.js";
-import { GlobalOperations, _getGlobalOperations } from "./classic/global/index.js";
-import {
-  KubeEnvironmentsOperations,
-  _getKubeEnvironmentsOperations,
-} from "./classic/kubeEnvironments/index.js";
-import { ProviderOperations, _getProviderOperations } from "./classic/provider/index.js";
-import {
-  RecommendationsOperations,
-  _getRecommendationsOperations,
-} from "./classic/recommendations/index.js";
-import {
-  ResourceHealthMetadataOperations,
-  _getResourceHealthMetadataOperations,
-} from "./classic/resourceHealthMetadata/index.js";
-import {
-  SiteCertificatesOperations,
-  _getSiteCertificatesOperations,
-} from "./classic/siteCertificates/index.js";
-import { StaticSitesOperations, _getStaticSitesOperations } from "./classic/staticSites/index.js";
-import { WebAppsOperations, _getWebAppsOperations } from "./classic/webApps/index.js";
-import {
-  WorkflowRunActionRepetitionsOperations,
-  _getWorkflowRunActionRepetitionsOperations,
-} from "./classic/workflowRunActionRepetitions/index.js";
-import {
-  WorkflowRunActionRepetitionsRequestHistoriesOperations,
-  _getWorkflowRunActionRepetitionsRequestHistoriesOperations,
-} from "./classic/workflowRunActionRepetitionsRequestHistories/index.js";
-import {
-  WorkflowRunActionScopeRepetitionsOperations,
-  _getWorkflowRunActionScopeRepetitionsOperations,
-} from "./classic/workflowRunActionScopeRepetitions/index.js";
-import {
-  WorkflowRunActionsOperations,
-  _getWorkflowRunActionsOperations,
-} from "./classic/workflowRunActions/index.js";
-import {
-  WorkflowRunsOperations,
-  _getWorkflowRunsOperations,
-} from "./classic/workflowRuns/index.js";
-import {
-  WorkflowTriggerHistoriesOperations,
-  _getWorkflowTriggerHistoriesOperations,
-} from "./classic/workflowTriggerHistories/index.js";
-import {
-  WorkflowTriggersOperations,
-  _getWorkflowTriggersOperations,
-} from "./classic/workflowTriggers/index.js";
-import {
-  WorkflowVersionsOperations,
-  _getWorkflowVersionsOperations,
-} from "./classic/workflowVersions/index.js";
-import { WorkflowsOperations, _getWorkflowsOperations } from "./classic/workflows/index.js";
-import {
+import type { AppServiceEnvironmentsOperations } from "./classic/appServiceEnvironments/index.js";
+import { _getAppServiceEnvironmentsOperations } from "./classic/appServiceEnvironments/index.js";
+import type { AppServicePlansOperations } from "./classic/appServicePlans/index.js";
+import { _getAppServicePlansOperations } from "./classic/appServicePlans/index.js";
+import type { CertificatesOperations } from "./classic/certificates/index.js";
+import { _getCertificatesOperations } from "./classic/certificates/index.js";
+import type { DeletedWebAppsOperations } from "./classic/deletedWebApps/index.js";
+import { _getDeletedWebAppsOperations } from "./classic/deletedWebApps/index.js";
+import type { DiagnosticsOperations } from "./classic/diagnostics/index.js";
+import { _getDiagnosticsOperations } from "./classic/diagnostics/index.js";
+import type { GetUsagesInLocationOperations } from "./classic/getUsagesInLocation/index.js";
+import { _getGetUsagesInLocationOperations } from "./classic/getUsagesInLocation/index.js";
+import type { GlobalOperations } from "./classic/global/index.js";
+import { _getGlobalOperations } from "./classic/global/index.js";
+import type { KubeEnvironmentsOperations } from "./classic/kubeEnvironments/index.js";
+import { _getKubeEnvironmentsOperations } from "./classic/kubeEnvironments/index.js";
+import type { ProviderOperations } from "./classic/provider/index.js";
+import { _getProviderOperations } from "./classic/provider/index.js";
+import type { RecommendationsOperations } from "./classic/recommendations/index.js";
+import { _getRecommendationsOperations } from "./classic/recommendations/index.js";
+import type { ResourceHealthMetadataOperations } from "./classic/resourceHealthMetadata/index.js";
+import { _getResourceHealthMetadataOperations } from "./classic/resourceHealthMetadata/index.js";
+import type { SiteCertificatesOperations } from "./classic/siteCertificates/index.js";
+import { _getSiteCertificatesOperations } from "./classic/siteCertificates/index.js";
+import type { StaticSitesOperations } from "./classic/staticSites/index.js";
+import { _getStaticSitesOperations } from "./classic/staticSites/index.js";
+import type { WebAppsOperations } from "./classic/webApps/index.js";
+import { _getWebAppsOperations } from "./classic/webApps/index.js";
+import type { WorkflowRunActionRepetitionsOperations } from "./classic/workflowRunActionRepetitions/index.js";
+import { _getWorkflowRunActionRepetitionsOperations } from "./classic/workflowRunActionRepetitions/index.js";
+import type { WorkflowRunActionRepetitionsRequestHistoriesOperations } from "./classic/workflowRunActionRepetitionsRequestHistories/index.js";
+import { _getWorkflowRunActionRepetitionsRequestHistoriesOperations } from "./classic/workflowRunActionRepetitionsRequestHistories/index.js";
+import type { WorkflowRunActionScopeRepetitionsOperations } from "./classic/workflowRunActionScopeRepetitions/index.js";
+import { _getWorkflowRunActionScopeRepetitionsOperations } from "./classic/workflowRunActionScopeRepetitions/index.js";
+import type { WorkflowRunActionsOperations } from "./classic/workflowRunActions/index.js";
+import { _getWorkflowRunActionsOperations } from "./classic/workflowRunActions/index.js";
+import type { WorkflowRunsOperations } from "./classic/workflowRuns/index.js";
+import { _getWorkflowRunsOperations } from "./classic/workflowRuns/index.js";
+import type { WorkflowTriggerHistoriesOperations } from "./classic/workflowTriggerHistories/index.js";
+import { _getWorkflowTriggerHistoriesOperations } from "./classic/workflowTriggerHistories/index.js";
+import type { WorkflowTriggersOperations } from "./classic/workflowTriggers/index.js";
+import { _getWorkflowTriggersOperations } from "./classic/workflowTriggers/index.js";
+import type { WorkflowVersionsOperations } from "./classic/workflowVersions/index.js";
+import { _getWorkflowVersionsOperations } from "./classic/workflowVersions/index.js";
+import type { WorkflowsOperations } from "./classic/workflows/index.js";
+import { _getWorkflowsOperations } from "./classic/workflows/index.js";
+import type {
   CsmMoveResourceEnvelope,
   ValidateRequest,
   ValidateResponse,
@@ -143,9 +115,9 @@ import {
   User,
   SourceControl,
 } from "./models/models.js";
-import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { WebSiteManagementClientOptionalParams } from "./api/webSiteManagementContext.js";
 

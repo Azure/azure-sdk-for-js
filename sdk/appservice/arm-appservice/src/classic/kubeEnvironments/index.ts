@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/kubeEnvironments/operations.js";
-import {
+import type {
   KubeEnvironmentsListBySubscriptionOptionalParams,
   KubeEnvironmentsListByResourceGroupOptionalParams,
   KubeEnvironmentsDeleteOptionalParams,
@@ -18,10 +18,11 @@ import {
   KubeEnvironmentsCreateOrUpdateOptionalParams,
   KubeEnvironmentsGetOptionalParams,
 } from "../../api/kubeEnvironments/options.js";
-import { KubeEnvironment, KubeEnvironmentPatchResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { KubeEnvironment, KubeEnvironmentPatchResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a KubeEnvironments operations. */
 export interface KubeEnvironmentsOperations {
@@ -115,7 +116,7 @@ function _getKubeEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: KubeEnvironmentsDeleteOptionalParams,
     ) => {
-      return await $delete(context, resourceGroupName, name, options);
+      return $delete(context, resourceGroupName, name, options);
     },
     update: (
       resourceGroupName: string,
@@ -151,13 +152,7 @@ function _getKubeEnvironments(context: WebSiteManagementContext) {
       kubeEnvironmentEnvelope: KubeEnvironment,
       options?: KubeEnvironmentsCreateOrUpdateOptionalParams,
     ) => {
-      return await createOrUpdate(
-        context,
-        resourceGroupName,
-        name,
-        kubeEnvironmentEnvelope,
-        options,
-      );
+      return createOrUpdate(context, resourceGroupName, name, kubeEnvironmentEnvelope, options);
     },
     get: (resourceGroupName: string, name: string, options?: KubeEnvironmentsGetOptionalParams) =>
       get(context, resourceGroupName, name, options),

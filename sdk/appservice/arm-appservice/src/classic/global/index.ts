@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   getSubscriptionOperationWithAsyncResponse,
   getDeletedWebAppSnapshots,
   getDeletedWebApp,
 } from "../../api/global/operations.js";
-import {
+import type {
   GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
   GlobalGetDeletedWebAppSnapshotsOptionalParams,
   GlobalGetDeletedWebAppOptionalParams,
 } from "../../api/global/options.js";
-import { Snapshot, DeletedSite } from "../../models/models.js";
+import type { Snapshot, DeletedSite } from "../../models/models.js";
 
 /** Interface representing a Global operations. */
 export interface GlobalOperations {

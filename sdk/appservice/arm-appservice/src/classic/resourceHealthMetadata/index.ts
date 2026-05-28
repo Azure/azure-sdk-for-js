@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listByResourceGroup,
   list,
@@ -10,7 +10,7 @@ import {
   listBySite,
   getBySite,
 } from "../../api/resourceHealthMetadata/operations.js";
-import {
+import type {
   ResourceHealthMetadataListByResourceGroupOptionalParams,
   ResourceHealthMetadataListOptionalParams,
   ResourceHealthMetadataListBySiteSlotOptionalParams,
@@ -18,8 +18,8 @@ import {
   ResourceHealthMetadataListBySiteOptionalParams,
   ResourceHealthMetadataGetBySiteOptionalParams,
 } from "../../api/resourceHealthMetadata/options.js";
-import { ResourceHealthMetadata } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ResourceHealthMetadata } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceHealthMetadata operations. */
 export interface ResourceHealthMetadataOperations {
