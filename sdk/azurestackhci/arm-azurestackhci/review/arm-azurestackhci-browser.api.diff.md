@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -687,9 +687,9 @@
+@@ -557,9 +557,9 @@
      sdnIntegration?: SdnIntegration;
      secrets?: EceDeploymentSecrets[];
      secretsLocation?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export type DeploymentMode = string;
-@@ -3356,14 +3356,15 @@
+@@ -2444,14 +2444,15 @@
      steps?: Step[];
  }
  
@@ -33,7 +33,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 +export { Storage_2 as Storage }
  
  // @public
- export interface StorageConfiguration {
-     partitionSize?: string;
+ export interface StorageS2DConfig {
+     overprovisioningRatio?: OverprovisioningRatio;
 
 ```

@@ -1,36 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureStackHCIContext as Client } from "../index.js";
-import type {
-  Cluster,
-  ClusterPatch,
-  _ClusterList,
-  SecretsLocationsChangeRequest,
-  UploadCertificateRequest,
-  ClusterIdentityResponse,
-  SoftwareAssuranceChangeRequest,
-  LogCollectionRequest,
-  RemoteSupportRequest,
-} from "../../models/models.js";
+import { AzureStackHCIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  Cluster,
   clusterSerializer,
   clusterDeserializer,
+  ClusterPatch,
   clusterPatchSerializer,
+  _ClusterList,
   _clusterListDeserializer,
+  SecretsLocationsChangeRequest,
   secretsLocationsChangeRequestSerializer,
+  UploadCertificateRequest,
   uploadCertificateRequestSerializer,
+  ClusterIdentityResponse,
   clusterIdentityResponseDeserializer,
+  SoftwareAssuranceChangeRequest,
   softwareAssuranceChangeRequestSerializer,
+  LogCollectionRequest,
   logCollectionRequestSerializer,
+  RemoteSupportRequest,
   remoteSupportRequestSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ClustersConfigureRemoteSupportOptionalParams,
   ClustersTriggerLogCollectionOptionalParams,
   ClustersExtendSoftwareAssuranceBenefitOptionalParams,
@@ -44,9 +44,13 @@ import type {
   ClustersCreateOptionalParams,
   ClustersGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _configureRemoteSupportSend(
   context: Client,
@@ -78,7 +82,7 @@ export function _configureRemoteSupportSend(
 export async function _configureRemoteSupportDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Cluster> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -97,7 +101,7 @@ export function configureRemoteSupport(
   remoteSupportRequest: RemoteSupportRequest,
   options: ClustersConfigureRemoteSupportOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Cluster>, Cluster> {
-  return getLongRunningPoller(context, _configureRemoteSupportDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _configureRemoteSupportDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -143,7 +147,7 @@ export function _triggerLogCollectionSend(
 export async function _triggerLogCollectionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Cluster> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -162,7 +166,7 @@ export function triggerLogCollection(
   logCollectionRequest: LogCollectionRequest,
   options: ClustersTriggerLogCollectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Cluster>, Cluster> {
-  return getLongRunningPoller(context, _triggerLogCollectionDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _triggerLogCollectionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -208,7 +212,7 @@ export function _extendSoftwareAssuranceBenefitSend(
 export async function _extendSoftwareAssuranceBenefitDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Cluster> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -230,7 +234,7 @@ export function extendSoftwareAssuranceBenefit(
   return getLongRunningPoller(
     context,
     _extendSoftwareAssuranceBenefitDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -394,7 +398,7 @@ export function _updateSecretsLocationsSend(
 export async function _updateSecretsLocationsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Cluster> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -413,7 +417,7 @@ export function updateSecretsLocations(
   body: SecretsLocationsChangeRequest,
   options: ClustersUpdateSecretsLocationsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Cluster>, Cluster> {
-  return getLongRunningPoller(context, _updateSecretsLocationsDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _updateSecretsLocationsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
