@@ -208,21 +208,21 @@ export interface GuestConfigurationAssignmentsListOptionalParams extends Operati
 }
 
 // @public
+export interface GuestConfigurationAssignmentsListRGListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GuestConfigurationAssignmentsListSubscriptionListOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface GuestConfigurationAssignmentsOperations {
     createOrUpdate: (guestConfigurationAssignmentName: string, resourceGroupName: string, vmName: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsCreateOrUpdateOptionalParams) => Promise<GuestConfigurationAssignment>;
     delete: (resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, guestConfigurationAssignmentName: string, vmName: string, options?: GuestConfigurationAssignmentsGetOptionalParams) => Promise<GuestConfigurationAssignment>;
     list: (resourceGroupName: string, vmName: string, options?: GuestConfigurationAssignmentsListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-    rGList: (resourceGroupName: string, options?: GuestConfigurationAssignmentsRGListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-    subscriptionList: (options?: GuestConfigurationAssignmentsSubscriptionListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-}
-
-// @public
-export interface GuestConfigurationAssignmentsRGListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GuestConfigurationAssignmentsSubscriptionListOptionalParams extends OperationOptions {
+    listRGList: (resourceGroupName: string, options?: GuestConfigurationAssignmentsListRGListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
+    listSubscriptionList: (options?: GuestConfigurationAssignmentsListSubscriptionListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
 }
 
 // @public

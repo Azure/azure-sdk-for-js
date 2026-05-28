@@ -16,8 +16,8 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  GuestConfigurationAssignmentsRGListOptionalParams,
-  GuestConfigurationAssignmentsSubscriptionListOptionalParams,
+  GuestConfigurationAssignmentsListRGListOptionalParams,
+  GuestConfigurationAssignmentsListSubscriptionListOptionalParams,
   GuestConfigurationAssignmentsListOptionalParams,
   GuestConfigurationAssignmentsDeleteOptionalParams,
   GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,
@@ -30,10 +30,10 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _rGListSend(
+export function _listRGListSend(
   context: Client,
   resourceGroupName: string,
-  options: GuestConfigurationAssignmentsRGListOptionalParams = { requestOptions: {} },
+  options: GuestConfigurationAssignmentsListRGListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments{?api%2Dversion}",
@@ -52,7 +52,7 @@ export function _rGListSend(
   });
 }
 
-export async function _rGListDeserialize(
+export async function _listRGListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_GuestConfigurationAssignmentList> {
   const expectedStatuses = ["200", "204"];
@@ -67,23 +67,23 @@ export async function _rGListDeserialize(
 }
 
 /** List all guest configuration assignments for a resource group. */
-export function rGList(
+export function listRGList(
   context: Client,
   resourceGroupName: string,
-  options: GuestConfigurationAssignmentsRGListOptionalParams = { requestOptions: {} },
+  options: GuestConfigurationAssignmentsListRGListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<GuestConfigurationAssignment> {
   return buildPagedAsyncIterator(
     context,
-    () => _rGListSend(context, resourceGroupName, options),
-    _rGListDeserialize,
+    () => _listRGListSend(context, resourceGroupName, options),
+    _listRGListDeserialize,
     ["200", "204"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-04-05" },
   );
 }
 
-export function _subscriptionListSend(
+export function _listSubscriptionListSend(
   context: Client,
-  options: GuestConfigurationAssignmentsSubscriptionListOptionalParams = { requestOptions: {} },
+  options: GuestConfigurationAssignmentsListSubscriptionListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments{?api%2Dversion}",
@@ -101,7 +101,7 @@ export function _subscriptionListSend(
   });
 }
 
-export async function _subscriptionListDeserialize(
+export async function _listSubscriptionListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_GuestConfigurationAssignmentList> {
   const expectedStatuses = ["200", "204"];
@@ -116,14 +116,14 @@ export async function _subscriptionListDeserialize(
 }
 
 /** List all guest configuration assignments for a subscription. */
-export function subscriptionList(
+export function listSubscriptionList(
   context: Client,
-  options: GuestConfigurationAssignmentsSubscriptionListOptionalParams = { requestOptions: {} },
+  options: GuestConfigurationAssignmentsListSubscriptionListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<GuestConfigurationAssignment> {
   return buildPagedAsyncIterator(
     context,
-    () => _subscriptionListSend(context, options),
-    _subscriptionListDeserialize,
+    () => _listSubscriptionListSend(context, options),
+    _listSubscriptionListDeserialize,
     ["200", "204"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-04-05" },
   );

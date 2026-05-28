@@ -1,10 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { rGList, subscriptionList, list, $delete, createOrUpdate, get } from "./operations.js";
+export {
+  listRGList,
+  listSubscriptionList,
+  list,
+  $delete,
+  createOrUpdate,
+  get,
+} from "./operations.js";
 export type {
-  GuestConfigurationAssignmentsRGListOptionalParams,
-  GuestConfigurationAssignmentsSubscriptionListOptionalParams,
+  GuestConfigurationAssignmentsListRGListOptionalParams,
+  GuestConfigurationAssignmentsListSubscriptionListOptionalParams,
   GuestConfigurationAssignmentsListOptionalParams,
   GuestConfigurationAssignmentsDeleteOptionalParams,
   GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,

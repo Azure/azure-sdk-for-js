@@ -4,8 +4,8 @@
 Compared with version 1.0.0-beta.1
 
 ### Features Added
-  - Added operation GuestConfigurationAssignmentsOperations.rGList
-  - Added operation GuestConfigurationAssignmentsOperations.subscriptionList
+  - Added Interface GuestConfigurationAssignmentsListRGListOptionalParams
+  - Added Interface GuestConfigurationAssignmentsListSubscriptionListOptionalParams
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Interface GuestConfigurationAssignmentReportList has a new optional parameter nextLink
@@ -16,10 +16,10 @@ Compared with version 1.0.0-beta.1
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation GuestConfigurationAssignments.listRGList
-  - Removed operation GuestConfigurationAssignments.listSubscriptionList
   - Removed Interface ErrorResponseError
   - Removed Interface GuestConfigurationAssignmentList
+  - Removed Interface GuestConfigurationAssignmentsRGListOptionalParams
+  - Removed Interface GuestConfigurationAssignmentsSubscriptionListOptionalParams
   - Removed Interface OperationList
   - Removed Interface Resource
   - Interface Operation no longer has parameter properties

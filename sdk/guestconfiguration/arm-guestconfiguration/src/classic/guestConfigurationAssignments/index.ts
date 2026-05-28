@@ -3,16 +3,16 @@
 
 import { GuestConfigurationContext } from "../../api/guestConfigurationContext.js";
 import {
-  rGList,
-  subscriptionList,
+  listRGList,
+  listSubscriptionList,
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/guestConfigurationAssignments/operations.js";
 import {
-  GuestConfigurationAssignmentsRGListOptionalParams,
-  GuestConfigurationAssignmentsSubscriptionListOptionalParams,
+  GuestConfigurationAssignmentsListRGListOptionalParams,
+  GuestConfigurationAssignmentsListSubscriptionListOptionalParams,
   GuestConfigurationAssignmentsListOptionalParams,
   GuestConfigurationAssignmentsDeleteOptionalParams,
   GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,
@@ -24,13 +24,13 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a GuestConfigurationAssignments operations. */
 export interface GuestConfigurationAssignmentsOperations {
   /** List all guest configuration assignments for a resource group. */
-  rGList: (
+  listRGList: (
     resourceGroupName: string,
-    options?: GuestConfigurationAssignmentsRGListOptionalParams,
+    options?: GuestConfigurationAssignmentsListRGListOptionalParams,
   ) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
   /** List all guest configuration assignments for a subscription. */
-  subscriptionList: (
-    options?: GuestConfigurationAssignmentsSubscriptionListOptionalParams,
+  listSubscriptionList: (
+    options?: GuestConfigurationAssignmentsListSubscriptionListOptionalParams,
   ) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
   /** List all guest configuration assignments for a virtual machine. */
   list: (
@@ -64,12 +64,13 @@ export interface GuestConfigurationAssignmentsOperations {
 
 function _getGuestConfigurationAssignments(context: GuestConfigurationContext) {
   return {
-    rGList: (
+    listRGList: (
       resourceGroupName: string,
-      options?: GuestConfigurationAssignmentsRGListOptionalParams,
-    ) => rGList(context, resourceGroupName, options),
-    subscriptionList: (options?: GuestConfigurationAssignmentsSubscriptionListOptionalParams) =>
-      subscriptionList(context, options),
+      options?: GuestConfigurationAssignmentsListRGListOptionalParams,
+    ) => listRGList(context, resourceGroupName, options),
+    listSubscriptionList: (
+      options?: GuestConfigurationAssignmentsListSubscriptionListOptionalParams,
+    ) => listSubscriptionList(context, options),
     list: (
       resourceGroupName: string,
       vmName: string,

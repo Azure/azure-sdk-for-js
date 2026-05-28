@@ -62,8 +62,8 @@ export type {
   GuestConfigurationAssignmentReportsVmssListOptionalParams,
 } from "./api/guestConfigurationAssignmentReportsVmss/index.js";
 export type {
-  GuestConfigurationAssignmentsRGListOptionalParams,
-  GuestConfigurationAssignmentsSubscriptionListOptionalParams,
+  GuestConfigurationAssignmentsListRGListOptionalParams,
+  GuestConfigurationAssignmentsListSubscriptionListOptionalParams,
   GuestConfigurationAssignmentsListOptionalParams,
   GuestConfigurationAssignmentsDeleteOptionalParams,
   GuestConfigurationAssignmentsCreateOrUpdateOptionalParams,

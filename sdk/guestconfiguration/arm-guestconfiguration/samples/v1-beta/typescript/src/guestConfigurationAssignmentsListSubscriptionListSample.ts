@@ -5,17 +5,17 @@ import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list all guest configuration assignments for a resource group.
+ * This sample demonstrates how to list all guest configuration assignments for a subscription.
  *
- * @summary list all guest configuration assignments for a resource group.
- * x-ms-original-file: 2024-04-05/listRGGuestConfigurationAssignments.json
+ * @summary list all guest configuration assignments for a subscription.
+ * x-ms-original-file: 2024-04-05/listSubGuestConfigurationAssignments.json
  */
-async function listAllGuestConfigurationAssignmentsForAResourceGroup(): Promise<void> {
+async function listAllGuestConfigurationAssignmentsForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "mySubscriptionId";
   const client = new GuestConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.guestConfigurationAssignments.rGList("myResourceGroupName")) {
+  for await (const item of client.guestConfigurationAssignments.listSubscriptionList()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listAllGuestConfigurationAssignmentsForAResourceGroup(): Promise<
 }
 
 async function main(): Promise<void> {
-  await listAllGuestConfigurationAssignmentsForAResourceGroup();
+  await listAllGuestConfigurationAssignmentsForASubscription();
 }
 
 main().catch(console.error);

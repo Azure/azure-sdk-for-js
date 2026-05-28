@@ -4,10 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentsRGListOptionalParams extends OperationOptions {}
+export interface GuestConfigurationAssignmentsListRGListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GuestConfigurationAssignmentsSubscriptionListOptionalParams extends OperationOptions {}
+export interface GuestConfigurationAssignmentsListSubscriptionListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GuestConfigurationAssignmentsListOptionalParams extends OperationOptions {}
