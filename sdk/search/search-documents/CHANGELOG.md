@@ -1,6 +1,6 @@
 # Release History
 
-## 13.1.0-beta.1 (Unreleased)
+## 13.1.0-beta.1 (2026-06-01)
 
 ### Features Added
 
