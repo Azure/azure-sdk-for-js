@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
-} from "./keyVaultContext.js";
+export type { KeyVaultContext, KeyVaultClientOptionalParams } from "./keyVaultContext.js";
+export { createKeyVault } from "./keyVaultContext.js";
 export {
   getSettings,
   getSetting,
@@ -19,7 +16,7 @@ export {
   fullBackup,
   fullBackupStatus,
 } from "./operations.js";
-export {
+export type {
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,
