@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Allow user-facing `microsoft.gen_ai.main_agent.*` span attributes (`name`, `id`, `version`, `conversation_id`) to flow through to `customDimensions` on Application Insights envelopes. Previously these were dropped by the generic `microsoft.*` attribute filter, which prevented Microsoft OpenTelemetry distros from surfacing main-agent propagation metadata on `chat` and `execute_tool` child spans.
+- Allow `microsoft.gen_ai.main_agent.*` span attributes (`name`, `id`, `version`, `conversation_id`) to flow through to `customDimensions`.
 
 ### Other Changes
 

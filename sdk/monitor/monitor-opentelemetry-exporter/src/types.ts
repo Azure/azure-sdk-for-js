@@ -231,10 +231,8 @@ export const httpSemanticValues = [
 export const internalMicrosoftAttributes = ["_MS.ProcessedByMetricExtractors"];
 
 /**
- * Microsoft-namespaced span attributes that SHOULD be emitted to
- * customDimensions even though the generic `microsoft.*` filter would
- * otherwise drop them. These are user-facing GenAI propagation attributes
- * surfaced by the Microsoft OpenTelemetry distros (JS / Python).
+ * Microsoft-namespaced span attributes that are allowed through to
+ * customDimensions despite the generic `microsoft.*` filter.
  * @internal
  */
 export const allowedMicrosoftAttributes = [
