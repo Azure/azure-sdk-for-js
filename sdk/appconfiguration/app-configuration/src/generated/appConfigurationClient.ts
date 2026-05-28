@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  AzureAppConfigurationContext,
-  AzureAppConfigurationClientOptionalParams,
-  createAzureAppConfiguration,
+  AppConfigurationContext,
+  AppConfigurationClientOptionalParams,
+  createAppConfiguration,
 } from "./api/index.js";
 import {
   checkRevisions,
@@ -65,10 +65,10 @@ import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { AzureAppConfigurationClientOptionalParams } from "./api/azureAppConfigurationContext.js";
+export type { AppConfigurationClientOptionalParams } from "./api/appConfigurationContext.js";
 
-export class AzureAppConfigurationClient {
-  private _client: AzureAppConfigurationContext;
+export class AppConfigurationClient {
+  private _client: AppConfigurationContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -76,13 +76,13 @@ export class AzureAppConfigurationClient {
   constructor(
     endpointParam: string,
     credential: KeyCredential | TokenCredential,
-    options: AzureAppConfigurationClientOptionalParams = {},
+    options: AppConfigurationClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureAppConfiguration(endpointParam, credential, {
+    this._client = createAppConfiguration(endpointParam, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
