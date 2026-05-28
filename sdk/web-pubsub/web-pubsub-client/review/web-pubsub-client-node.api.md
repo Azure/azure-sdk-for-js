@@ -118,7 +118,7 @@ export interface GroupStateItem {
     connectionId: string;
     state?: Record<string, string>;
     updatedAt: number;
-    userId: string;
+    userId?: string;
 }
 
 // @public

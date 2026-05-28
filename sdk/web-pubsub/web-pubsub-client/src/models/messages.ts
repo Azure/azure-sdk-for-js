@@ -742,9 +742,9 @@ export interface GroupStateItem {
    */
   connectionId: string;
   /**
-   * The user id
+   * The user id. Absent for anonymous connections.
    */
-  userId: string;
+  userId?: string;
   /**
    * The state dictionary. Absent when the state has been cleared.
    */
