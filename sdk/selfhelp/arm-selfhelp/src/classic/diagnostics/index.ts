@@ -8,6 +8,7 @@ import {
   DiagnosticsGetOptionalParams,
 } from "../../api/diagnostics/options.js";
 import { DiagnosticResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Diagnostics operations. */
@@ -18,6 +19,18 @@ export interface DiagnosticsOperations {
     diagnosticsResourceName: string,
     options?: DiagnosticsCreateOptionalParams,
   ) => PollerLike<OperationState<DiagnosticResource>, DiagnosticResource>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    scope: string,
+    diagnosticsResourceName: string,
+    options?: DiagnosticsCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<DiagnosticResource>, DiagnosticResource>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    scope: string,
+    diagnosticsResourceName: string,
+    options?: DiagnosticsCreateOptionalParams,
+  ) => Promise<DiagnosticResource>;
   /** Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic. */
   get: (
     scope: string,
@@ -33,6 +46,22 @@ function _getDiagnostics(context: HelpRPContext) {
       diagnosticsResourceName: string,
       options?: DiagnosticsCreateOptionalParams,
     ) => create(context, scope, diagnosticsResourceName, options),
+    beginCreate: async (
+      scope: string,
+      diagnosticsResourceName: string,
+      options?: DiagnosticsCreateOptionalParams,
+    ) => {
+      const poller = create(context, scope, diagnosticsResourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      scope: string,
+      diagnosticsResourceName: string,
+      options?: DiagnosticsCreateOptionalParams,
+    ) => {
+      return await create(context, scope, diagnosticsResourceName, options);
+    },
     get: (scope: string, diagnosticsResourceName: string, options?: DiagnosticsGetOptionalParams) =>
       get(context, scope, diagnosticsResourceName, options),
   };

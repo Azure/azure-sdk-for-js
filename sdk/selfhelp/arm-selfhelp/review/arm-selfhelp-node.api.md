@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
@@ -137,6 +138,10 @@ export interface DiagnosticsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DiagnosticsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<DiagnosticResource>, DiagnosticResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams) => Promise<DiagnosticResource>;
     create: (scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams) => PollerLike<OperationState<DiagnosticResource>, DiagnosticResource>;
     get: (scope: string, diagnosticsResourceName: string, options?: DiagnosticsGetOptionalParams) => Promise<DiagnosticResource>;
 }
@@ -579,6 +584,28 @@ export interface SectionSelfHelp {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SimplifiedSolutionsCreateOptionalParams extends OperationOptions {
     simplifiedSolutionsRequestBody?: SimplifiedSolutionsResource;
     updateIntervalInMs?: number;
@@ -590,6 +617,10 @@ export interface SimplifiedSolutionsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SimplifiedSolutionsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SimplifiedSolutionsResource>, SimplifiedSolutionsResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams) => Promise<SimplifiedSolutionsResource>;
     create: (scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams) => PollerLike<OperationState<SimplifiedSolutionsResource>, SimplifiedSolutionsResource>;
     get: (scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsGetOptionalParams) => Promise<SimplifiedSolutionsResource>;
 }
@@ -649,6 +680,14 @@ export interface SolutionNlpMetadataResource extends ProxyResource {
 
 // @public
 export interface SolutionOperations {
+    // @deprecated (undocumented)
+    beginCreate: (scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams) => Promise<SimplePollerLike<OperationState<SolutionResource>, SolutionResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams) => Promise<SolutionResource>;
+    // @deprecated (undocumented)
+    beginUpdate: (scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SolutionResource>, SolutionResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams) => Promise<SolutionResource>;
     create: (scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams) => PollerLike<OperationState<SolutionResource>, SolutionResource>;
     get: (scope: string, solutionResourceName: string, options?: SolutionGetOptionalParams) => Promise<SolutionResource>;
     update: (scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams) => PollerLike<OperationState<SolutionResource>, SolutionResource>;

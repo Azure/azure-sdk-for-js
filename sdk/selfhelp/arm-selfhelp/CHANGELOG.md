@@ -36,6 +36,7 @@ Compared with version 1.0.0
   - Added Interface SearchResult
   - Added Interface Section
   - Added Interface SectionSelfHelp
+  - Added Interface SimplePollerLike
   - Added Interface SimplifiedSolutionsCreateOptionalParams
   - Added Interface SimplifiedSolutionsGetOptionalParams
   - Added Interface SimplifiedSolutionsResource
@@ -105,8 +106,6 @@ Compared with version 1.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Diagnostics.beginCreate
-  - Removed operation Diagnostics.beginCreateAndWait
   - Removed operation Diagnostics.checkNameAvailability
   - Operation DiscoverySolution.list has a new signature
   - Removed Interface DiagnosticsCheckNameAvailabilityOptionalParams

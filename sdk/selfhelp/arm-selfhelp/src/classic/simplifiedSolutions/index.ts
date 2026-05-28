@@ -8,6 +8,7 @@ import {
   SimplifiedSolutionsGetOptionalParams,
 } from "../../api/simplifiedSolutions/options.js";
 import { SimplifiedSolutionsResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SimplifiedSolutions operations. */
@@ -18,6 +19,20 @@ export interface SimplifiedSolutionsOperations {
     simplifiedSolutionsResourceName: string,
     options?: SimplifiedSolutionsCreateOptionalParams,
   ) => PollerLike<OperationState<SimplifiedSolutionsResource>, SimplifiedSolutionsResource>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    scope: string,
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsCreateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<SimplifiedSolutionsResource>, SimplifiedSolutionsResource>
+  >;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    scope: string,
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsCreateOptionalParams,
+  ) => Promise<SimplifiedSolutionsResource>;
   /** Get the simplified Solutions using the applicable solutionResourceName while creating the simplified Solutions. */
   get: (
     scope: string,
@@ -33,6 +48,22 @@ function _getSimplifiedSolutions(context: HelpRPContext) {
       simplifiedSolutionsResourceName: string,
       options?: SimplifiedSolutionsCreateOptionalParams,
     ) => create(context, scope, simplifiedSolutionsResourceName, options),
+    beginCreate: async (
+      scope: string,
+      simplifiedSolutionsResourceName: string,
+      options?: SimplifiedSolutionsCreateOptionalParams,
+    ) => {
+      const poller = create(context, scope, simplifiedSolutionsResourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      scope: string,
+      simplifiedSolutionsResourceName: string,
+      options?: SimplifiedSolutionsCreateOptionalParams,
+    ) => {
+      return await create(context, scope, simplifiedSolutionsResourceName, options);
+    },
     get: (
       scope: string,
       simplifiedSolutionsResourceName: string,

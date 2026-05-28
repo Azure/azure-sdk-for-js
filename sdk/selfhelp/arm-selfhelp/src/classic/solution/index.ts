@@ -10,6 +10,7 @@ import {
   SolutionGetOptionalParams,
 } from "../../api/solution/options.js";
 import { SolutionResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Solution operations. */
@@ -26,12 +27,36 @@ export interface SolutionOperations {
     solutionResourceName: string,
     options?: SolutionUpdateOptionalParams,
   ) => PollerLike<OperationState<SolutionResource>, SolutionResource>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    scope: string,
+    solutionResourceName: string,
+    options?: SolutionUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SolutionResource>, SolutionResource>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    scope: string,
+    solutionResourceName: string,
+    options?: SolutionUpdateOptionalParams,
+  ) => Promise<SolutionResource>;
   /** Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of self-help resources that have been thoughtfully curated by Azure engineers to aid customers in resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged into unified solutions tailored to address a specific support problem area. */
   create: (
     scope: string,
     solutionResourceName: string,
     options?: SolutionCreateOptionalParams,
   ) => PollerLike<OperationState<SolutionResource>, SolutionResource>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    scope: string,
+    solutionResourceName: string,
+    options?: SolutionCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SolutionResource>, SolutionResource>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    scope: string,
+    solutionResourceName: string,
+    options?: SolutionCreateOptionalParams,
+  ) => Promise<SolutionResource>;
   /** Get the solution using the applicable solutionResourceName while creating the solution. */
   get: (
     scope: string,
@@ -46,8 +71,40 @@ function _getSolution(context: HelpRPContext) {
       warmUp(context, scope, solutionResourceName, options),
     update: (scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams) =>
       update(context, scope, solutionResourceName, options),
+    beginUpdate: async (
+      scope: string,
+      solutionResourceName: string,
+      options?: SolutionUpdateOptionalParams,
+    ) => {
+      const poller = update(context, scope, solutionResourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      scope: string,
+      solutionResourceName: string,
+      options?: SolutionUpdateOptionalParams,
+    ) => {
+      return await update(context, scope, solutionResourceName, options);
+    },
     create: (scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams) =>
       create(context, scope, solutionResourceName, options),
+    beginCreate: async (
+      scope: string,
+      solutionResourceName: string,
+      options?: SolutionCreateOptionalParams,
+    ) => {
+      const poller = create(context, scope, solutionResourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      scope: string,
+      solutionResourceName: string,
+      options?: SolutionCreateOptionalParams,
+    ) => {
+      return await create(context, scope, solutionResourceName, options);
+    },
     get: (scope: string, solutionResourceName: string, options?: SolutionGetOptionalParams) =>
       get(context, scope, solutionResourceName, options),
   };
