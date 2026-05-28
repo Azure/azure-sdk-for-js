@@ -376,7 +376,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.Echsm : KnownKeyTypes.EC;
+    const keyType = options?.hsm ? KnownKeyTypes.ECHSM : KnownKeyTypes.EC;
     return this.createKey(name, keyType, options);
   }
 
@@ -406,7 +406,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.Rsahsm : KnownKeyTypes.RSA;
+    const keyType = options?.hsm ? KnownKeyTypes.RSAHSM : KnownKeyTypes.RSA;
     return this.createKey(name, keyType, options);
   }
 

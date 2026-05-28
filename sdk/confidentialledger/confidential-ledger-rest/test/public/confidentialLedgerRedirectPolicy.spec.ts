@@ -56,7 +56,7 @@ describe("Confidential Ledger Redirect Policy", () => {
 
     const redirectResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        location: "https://test-ledger-primary.confidential-ledger.azure.com/app/transactions",
+        location: "https://node-primary.test-ledger.confidential-ledger.azure.com/app/transactions",
       }),
       request,
       status: 307,
@@ -82,7 +82,7 @@ describe("Confidential Ledger Redirect Policy", () => {
     assert.equal(redirectedRequest.headers.get("Authorization"), "Bearer fake-token");
     assert.equal(
       redirectedRequest.url,
-      "https://test-ledger-primary.confidential-ledger.azure.com/app/transactions",
+      "https://node-primary.test-ledger.confidential-ledger.azure.com/app/transactions",
     );
     // Method should remain POST for 307
     assert.equal(redirectedRequest.method, "POST");
@@ -103,7 +103,7 @@ describe("Confidential Ledger Redirect Policy", () => {
 
     const redirectResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        location: "https://test-ledger-primary.confidential-ledger.azure.com/app/transactions",
+        location: "https://node-primary.test-ledger.confidential-ledger.azure.com/app/transactions",
       }),
       request,
       status: 307,
@@ -137,7 +137,9 @@ describe("Confidential Ledger Redirect Policy", () => {
     });
 
     const redirectResponse: PipelineResponse = {
-      headers: createHttpHeaders({ location: "https://other.example.com/redirect" }),
+      headers: createHttpHeaders({
+        location: "https://node-primary.test-ledger.confidential-ledger.azure.com/redirect",
+      }),
       request,
       status: 300,
     };
@@ -168,7 +170,9 @@ describe("Confidential Ledger Redirect Policy", () => {
     });
 
     const redirectResponse: PipelineResponse = {
-      headers: createHttpHeaders({ location: "https://other.example.com/new-location" }),
+      headers: createHttpHeaders({
+        location: "https://node-primary.test-ledger.confidential-ledger.azure.com/new-location",
+      }),
       request,
       status: 301,
     };
@@ -226,7 +230,9 @@ describe("Confidential Ledger Redirect Policy", () => {
     });
 
     const redirectResponse: PipelineResponse = {
-      headers: createHttpHeaders({ location: "https://other.example.com/result" }),
+      headers: createHttpHeaders({
+        location: "https://node-primary.test-ledger.confidential-ledger.azure.com/result",
+      }),
       request,
       status: 303,
     };
@@ -288,7 +294,7 @@ describe("Confidential Ledger Redirect Policy", () => {
 
     const redirect1: PipelineResponse = {
       headers: createHttpHeaders({
-        location: "https://node-1.confidential-ledger.azure.com/app/transactions",
+        location: "https://node-1.test-ledger.confidential-ledger.azure.com/app/transactions",
       }),
       request,
       status: 307,
@@ -296,7 +302,7 @@ describe("Confidential Ledger Redirect Policy", () => {
 
     const redirect2: PipelineResponse = {
       headers: createHttpHeaders({
-        location: "https://node-2.confidential-ledger.azure.com/app/transactions",
+        location: "https://node-2.test-ledger.confidential-ledger.azure.com/app/transactions",
       }),
       request,
       status: 307,
@@ -326,7 +332,7 @@ describe("Confidential Ledger Redirect Policy", () => {
     // the URL reflects the final redirect target
     assert.equal(
       next.mock.calls[2][0].url,
-      "https://node-2.confidential-ledger.azure.com/app/transactions",
+      "https://node-2.test-ledger.confidential-ledger.azure.com/app/transactions",
     );
   });
 
@@ -339,7 +345,9 @@ describe("Confidential Ledger Redirect Policy", () => {
     });
 
     const redirectResponse: PipelineResponse = {
-      headers: createHttpHeaders({ location: "https://other.example.com/redirect" }),
+      headers: createHttpHeaders({
+        location: "https://node-primary.test-ledger.confidential-ledger.azure.com/loop-redirect",
+      }),
       request,
       status: 300,
     };

@@ -430,11 +430,11 @@ export enum KnownKeyOperations {
 // @public
 export enum KnownKeyTypes {
     EC = "EC",
-    Echsm = "EC-HSM",
+    ECHSM = "EC-HSM",
     Oct = "oct",
     OctHSM = "oct-HSM",
     RSA = "RSA",
-    Rsahsm = "RSA-HSM"
+    RSAHSM = "RSA-HSM"
 }
 
 // @public

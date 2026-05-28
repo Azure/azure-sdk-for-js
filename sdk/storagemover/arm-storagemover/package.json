@@ -58,6 +58,10 @@
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/arm-authorization": "workspace:^",
+    "@azure/arm-network": "workspace:^",
+    "@azure/arm-resources": "catalog:arm",
+    "@azure/arm-storage": "catalog:arm",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
@@ -87,9 +91,8 @@
     "lint:fix": "echo skipped",
     "pack": "pnpm pack 2>&1",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "test:browser": "dev-tool run test:vitest --browser",
+    "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
@@ -103,6 +106,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -110,10 +117,6 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
-      },
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
       }
     },
     "./api": {
