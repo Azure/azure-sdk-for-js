@@ -83,17 +83,16 @@ describe("mysql test", () => {
   });
 
   it("servers update test", async () => {
-    const res1 = await client.servers.get("czwjstest",
-      "czwtestserver");
+    const res1 = await client.servers.get("czwjstest", "czwtestserver");
     console.log("Public Network Access:", res1.network!.publicNetworkAccess);
 
     const res = await client.servers.beginUpdateAndWait(
       "czwjstest",
       "czwtestserver",
       {
-       network:{
-        publicNetworkAccess:"Disabled"
-       }
+        network: {
+          publicNetworkAccess: "Disabled",
+        },
       },
       testPollingOptions,
     );
@@ -102,14 +101,11 @@ describe("mysql test", () => {
   });
 
   it("servers get test", async () => {
-    const res = await client.servers.get("czwjstest",
-      "czwtestserver");
+    const res = await client.servers.get("czwjstest", "czwtestserver");
     assert.equal(res.name, "czwtestserver");
     console.log("Public Network Access:", res.network!.publicNetworkAccess);
-
   });
 
-  
   it("configurations beginCreateOrUpdateAndWait test", async () => {
     const res = await client.configurations.beginCreateOrUpdateAndWait(
       "czwjstest",
