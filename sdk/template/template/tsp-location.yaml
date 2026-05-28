@@ -1,3 +1,4 @@
 directory: specification/widget/data-plane/WidgetAnalytics
-commit: ef166dcba5eca12026b6b0cdebec6b866ea7ca92
+commit: ef142225c5a1580fe4216841704b609bd7432f96
 repo: Azure/azure-rest-api-specs
+additionalDirectories: 
