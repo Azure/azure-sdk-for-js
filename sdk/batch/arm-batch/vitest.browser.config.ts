@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import viteConfig from "../../../vitest.browser.shared.config.ts";
+import viteConfig from "../../../eng/vitestconfigs/browser.config.ts";
 import { defineConfig, mergeConfig } from "vitest/config";
 
 export default mergeConfig(

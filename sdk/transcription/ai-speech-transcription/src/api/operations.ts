@@ -8,14 +8,14 @@ import {
   transcriptionResultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { TranscribeOptionalParams } from "./options.js";
+import type { TranscribeOptions } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _transcribeSend(
   context: Client,
   body: TranscriptionContent,
-  options: TranscribeOptionalParams = { requestOptions: {} },
+  options: TranscribeOptions = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/transcriptions:transcribe{?api%2Dversion}",
@@ -49,7 +49,7 @@ export async function _transcribeDeserialize(
 export async function transcribe(
   context: Client,
   body: TranscriptionContent,
-  options: TranscribeOptionalParams = { requestOptions: {} },
+  options: TranscribeOptions = { requestOptions: {} },
 ): Promise<TranscriptionResult> {
   const result = await _transcribeSend(context, body, options);
   return _transcribeDeserialize(result);
