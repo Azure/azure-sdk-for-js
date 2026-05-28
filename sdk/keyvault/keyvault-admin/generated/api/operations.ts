@@ -27,6 +27,8 @@ import {
   SettingsListResult,
   settingsListResultDeserializer,
 } from "../models/models.js";
+import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
@@ -40,8 +42,6 @@ import {
   FullBackupOptionalParams,
   FullBackupStatusOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -57,19 +57,18 @@ export function _getSettingsSend(
   const path = expandUrlTemplate(
     "/settings{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSettingsDeserialize(
@@ -79,6 +78,7 @@ export async function _getSettingsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -103,19 +103,18 @@ export function _getSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSettingDeserialize(result: PathUncheckedResponse): Promise<Setting> {
@@ -123,6 +122,7 @@ export async function _getSettingDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -149,21 +149,20 @@ export function _updateSettingSend(
     "/settings/{setting-name}{?api%2Dversion}",
     {
       "setting-name": settingName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: updateSettingRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateSettingRequestSerializer(parameters),
+    });
 }
 
 export async function _updateSettingDeserialize(result: PathUncheckedResponse): Promise<Setting> {
@@ -171,6 +170,7 @@ export async function _updateSettingDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -198,30 +198,30 @@ export function _selectiveKeyRestoreOperationSend(
     "/keys/{keyName}/restore{?api%2Dversion}",
     {
       keyName: keyName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: selectiveKeyRestoreOperationParametersSerializer(restoreBlobDetails),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: selectiveKeyRestoreOperationParametersSerializer(restoreBlobDetails),
+    });
 }
 
 export async function _selectiveKeyRestoreOperationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SelectiveKeyRestoreOperation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -235,13 +235,19 @@ export function selectiveKeyRestoreOperation(
   restoreBlobDetails: SelectiveKeyRestoreOperationParameters,
   options: SelectiveKeyRestoreOperationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation> {
-  return getLongRunningPoller(context, _selectiveKeyRestoreOperationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _selectiveKeyRestoreOperationSend(context, keyName, restoreBlobDetails, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>;
+  return getLongRunningPoller(
+    context,
+    _selectiveKeyRestoreOperationDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _selectiveKeyRestoreOperationSend(context, keyName, restoreBlobDetails, options),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-07-01",
+    },
+  ) as PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>;
 }
 
 export function _selectiveKeyRestoreStatusSend(
@@ -253,19 +259,18 @@ export function _selectiveKeyRestoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _selectiveKeyRestoreStatusDeserialize(
@@ -275,6 +280,7 @@ export async function _selectiveKeyRestoreStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -299,30 +305,30 @@ export function _preFullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/prerestore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: preRestoreOperationParametersSerializer(preRestoreOperationParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: preRestoreOperationParametersSerializer(preRestoreOperationParameters),
+    });
 }
 
 export async function _preFullRestoreOperationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RestoreOperation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -335,12 +341,13 @@ export function preFullRestoreOperation(
   preRestoreOperationParameters: PreRestoreOperationParameters,
   options: PreFullRestoreOperationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
-  return getLongRunningPoller(context, _preFullRestoreOperationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _preFullRestoreOperationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _preFullRestoreOperationSend(context, preRestoreOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -352,30 +359,30 @@ export function _fullRestoreOperationSend(
   const path = expandUrlTemplate(
     "/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: restoreOperationParametersSerializer(restoreBlobDetails),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: restoreOperationParametersSerializer(restoreBlobDetails),
+    });
 }
 
 export async function _fullRestoreOperationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RestoreOperation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -388,11 +395,12 @@ export function fullRestoreOperation(
   restoreBlobDetails: RestoreOperationParameters,
   options: FullRestoreOperationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
-  return getLongRunningPoller(context, _fullRestoreOperationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _fullRestoreOperationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullRestoreOperationSend(context, restoreBlobDetails, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
@@ -405,19 +413,18 @@ export function _restoreStatusSend(
     "/restore/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _restoreStatusDeserialize(
@@ -427,6 +434,7 @@ export async function _restoreStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -451,30 +459,30 @@ export function _preFullBackupSend(
   const path = expandUrlTemplate(
     "/prebackup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: preBackupOperationParametersSerializer(preBackupOperationParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: preBackupOperationParametersSerializer(preBackupOperationParameters),
+    });
 }
 
 export async function _preFullBackupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<FullBackupOperation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -487,11 +495,12 @@ export function preFullBackup(
   preBackupOperationParameters: PreBackupOperationParameters,
   options: PreFullBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FullBackupOperation>, FullBackupOperation> {
-  return getLongRunningPoller(context, _preFullBackupDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _preFullBackupDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _preFullBackupSend(context, preBackupOperationParameters, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -503,30 +512,30 @@ export function _fullBackupSend(
   const path = expandUrlTemplate(
     "/backup{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: sasTokenParameterSerializer(azureStorageBlobContainerUri),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sasTokenParameterSerializer(azureStorageBlobContainerUri),
+    });
 }
 
 export async function _fullBackupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<FullBackupOperation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -539,11 +548,12 @@ export function fullBackup(
   azureStorageBlobContainerUri: SASTokenParameter,
   options: FullBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FullBackupOperation>, FullBackupOperation> {
-  return getLongRunningPoller(context, _fullBackupDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _fullBackupDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _fullBackupSend(context, azureStorageBlobContainerUri, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
 }
 
@@ -556,19 +566,18 @@ export function _fullBackupStatusSend(
     "/backup/{jobId}/pending{?api%2Dversion}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _fullBackupStatusDeserialize(
@@ -578,6 +587,7 @@ export async function _fullBackupStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = keyVaultErrorDeserializer(result.body);
+
     throw error;
   }
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { list, get, createOrUpdate, $delete } from "./operations.js";
-export {
+export type {
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsGetOptionalParams,
   RoleDefinitionsCreateOrUpdateOptionalParams,
