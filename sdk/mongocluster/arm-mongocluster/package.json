@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-mongocluster",
-  "version": "1.1.0",
+  "version": "1.2.0-beta.1",
   "description": "A generated SDK for MongoClusterManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -87,7 +87,6 @@
     "test:browser": "dev-tool run test:vitest --browser",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -246,9 +245,10 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "imports": {
-    "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "default": "./src/*.ts"
+    "#platform/*.js": {
+      "browser": "./src/*-browser.mjs",
+      "react-native": "./src/*-react-native.mjs",
+      "default": "./src/*.js"
     }
   }
 }

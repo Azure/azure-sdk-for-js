@@ -1,38 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update existing rule or create new rule if it doesn't exist
- *
- * @summary Update existing rule or create new rule if it doesn't exist
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/AlertsSuppressionRules/PutAlertsSuppressionRule_example.json
- */
-
-import type { AlertsSuppressionRule } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update existing rule or create new rule if it doesn't exist
+ *
+ * @summary update existing rule or create new rule if it doesn't exist
+ * x-ms-original-file: 2019-01-01-preview/AlertsSuppressionRules/PutAlertsSuppressionRule_example.json
+ */
 async function updateOrCreateSuppressionRuleForSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const alertsSuppressionRuleName = "dismissIpAnomalyAlerts";
-  const alertsSuppressionRule: AlertsSuppressionRule = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const client = new SecurityCenter(credential, subscriptionId);
+  const result = await client.alertsSuppressionRules.update("dismissIpAnomalyAlerts", {
     alertType: "IpAnomaly",
     comment: "Test VM",
     expirationDateUtc: new Date("2019-12-01T19:50:47.083633Z"),
     reason: "FalsePositive",
     state: "Enabled",
     suppressionAlertsScope: {
-      allOf: [{ field: "entities.ip.address" }, { field: "entities.process.commandline" }],
+      allOf: [
+        {
+          field: "entities.ip.address",
+          additionalProperties: {
+            in: ["104.215.95.187", "52.164.206.56"],
+          },
+        },
+        {
+          field: "entities.process.commandline",
+          additionalProperties: {
+            contains: "POWERSHELL.EXE",
+          },
+        },
+      ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.alertsSuppressionRules.update(
-    alertsSuppressionRuleName,
-    alertsSuppressionRule,
-  );
+  });
   console.log(result);
 }
 

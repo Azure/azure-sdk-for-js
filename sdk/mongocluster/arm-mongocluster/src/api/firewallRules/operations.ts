@@ -27,9 +27,7 @@ export function _listByMongoClusterSend(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: FirewallRulesListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: FirewallRulesListByMongoClusterOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules{?api%2Dversion}",
@@ -37,7 +35,7 @@ export function _listByMongoClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,10 +43,7 @@ export function _listByMongoClusterSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -59,6 +54,7 @@ export async function _listByMongoClusterDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -70,16 +66,18 @@ export function listByMongoCluster(
   context: Client,
   resourceGroupName: string,
   mongoClusterName: string,
-  options: FirewallRulesListByMongoClusterOptionalParams = {
-    requestOptions: {},
-  },
+  options: FirewallRulesListByMongoClusterOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<FirewallRule> {
   return buildPagedAsyncIterator(
     context,
     () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _listByMongoClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    },
   );
 }
 
@@ -97,7 +95,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,6 +109,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -118,11 +117,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a mongo cluster firewall rule. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -136,6 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,10 +158,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: firewallRuleSerializer(resource),
   });
 }
@@ -178,6 +170,7 @@ export async function _createOrUpdateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -206,6 +199,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-02-01-preview",
   }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
@@ -223,7 +217,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,10 +225,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -243,6 +234,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
