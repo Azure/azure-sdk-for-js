@@ -256,7 +256,7 @@ class NodeHttpClient implements HttpClient {
         if (typeof body === "string" || Buffer.isBuffer(body)) {
           req.end(body);
         } else if (isArrayBuffer(body)) {
-          req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
+          req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer, body.byteOffset, body.byteLength) : Buffer.from(body));
         } else {
           logger.error("Unrecognized body type", body);
           reject(new RestError("Unrecognized body type"));
